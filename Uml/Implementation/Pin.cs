@@ -19,7 +19,6 @@
 // </copyright>
 // -------------------------------------------------------------------------------------------------
 
-
 namespace Implementation.Actions
 {
     using Uml.CommonStructure;
