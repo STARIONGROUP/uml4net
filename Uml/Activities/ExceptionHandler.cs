@@ -21,10 +21,33 @@
 
 namespace Uml.Activities
 {
+    using System.Collections.Generic;
+    using Uml.Classification;
+    using Uml.CommonStructure;
+
     /// <summary>
     /// An <see cref="ExceptionHandler"/> is an <see cref="Element"/> that specifies a handlerBody <see cref="ExecutableNode"/> to execute in case the specified exception occurs during the execution of the protected <see cref="ExecutableNode"/>.
     /// </summary>
-    public interface ExceptionHandler
+    public interface ExceptionHandler : Element
     {
+        /// <summary>
+        /// An <see cref="ObjectNode"/> within the handlerBody. When the <see cref="ExceptionHandler"/> catches an exception, the exception token is placed on this <see cref="ObjectNode"/>, causing the handlerBody to execute.
+        /// </summary>
+        ObjectNode ExceptionInput { get; set; }
+
+        /// <summary>
+        /// The <see cref="Classifier"/>s whose instances the <see cref="ExceptionHandler"/> catches as exceptions. If an exception occurs whose type is any exceptionType, the <see cref="ExceptionHandler"/> catches the exception and executes the handlerBody.
+        /// </summary>
+        List<Classifier> ExceptionType { get; set; }
+
+        /// <summary>
+        /// An <see cref="ExecutableNode"/> that is executed if the <see cref="ExceptionHandler"/> catches an exception.
+        /// </summary>
+        ExecutableNode HandlerBody { get; set; }
+
+        /// <summary>
+        /// The <see cref="ExecutableNode"/> protected by the <see cref="ExceptionHandler"/>. If an exception propagates out of the protectedNode and has a type matching one of the exceptionTypes, then it is caught by this <see cref="ExceptionHandler"/>.
+        /// </summary>
+        ExecutableNode ProtectedNode { get; set; }
     }
 }
