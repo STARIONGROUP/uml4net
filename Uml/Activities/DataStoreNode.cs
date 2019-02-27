@@ -24,7 +24,7 @@ namespace Uml.Activities
     /// <summary>
     /// A <see cref="DataStoreNode"/> is a <see cref="CentralBufferNode"/> for persistent data.
     /// </summary>
-    public interface DataStoreNode
+    public interface DataStoreNode : CentralBufferNode
     {
     }
 }
