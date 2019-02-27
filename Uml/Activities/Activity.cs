@@ -21,10 +21,53 @@
 
 namespace Uml.Activities
 {
+    using Uml.Actions;
+    using Uml.Assembler;
+    using Uml.CommonBehavior;
+
     /// <summary>
     /// An <see cref="Activity"/> is the specification of parameterized Behavior as the coordinated sequencing of subordinate units.
     /// </summary>
-    public interface Activity
+    public interface Activity : Behavior
     {
+        /// <summary>
+        /// ActivityEdges expressing flow between the nodes of the Activity.
+        /// </summary>
+        OwnerList<ActivityEdge> Edge { get; set; }
+
+        /// <summary>
+        /// Top-level ActivityGroups in the Activity.
+        /// </summary>
+        OwnerList<ActivityGroup> Group { get; set; }
+
+        /// <summary>
+        /// If true, this Activity must not make any changes to objects. The default is false (an Activity may make nonlocal changes). (This is an assertion, not an executable property. It may be used by an execution engine to optimize model execution. If the assertion is violated by the Activity, then the model is ill-formed.) 
+        /// </summary>
+        bool IsReadOnly { get; set;  }
+
+        /// <summary>
+        /// If true, all invocations of the Activity are handled by the same execution.
+        /// </summary>
+        bool IsSingleExecution { get; set; }
+
+        /// <summary>
+        /// ActivityNodes coordinated by the Activity.
+        /// </summary>
+        OwnerList<ActivityNode> Node { get; set; }
+
+        /// <summary>
+        /// Top-level ActivityPartitions in the Activity.
+        /// </summary>
+        OwnerList<ActivityPartition> Partition { get; set; }
+
+        /// <summary>
+        /// Top-level ActivityPartitions in the Activity.
+        /// </summary>
+        OwnerList<StructuredActivityNode> StructuredNode { get; set; }
+
+        /// <summary>
+        /// Top-level Variables defined by the Activity.
+        /// </summary>
+        OwnerList<Variable> Variable { get; set; }
     }
 }
