@@ -19,12 +19,51 @@
 // </copyright>
 // -------------------------------------------------------------------------------------------------
 
+using Uml.Assembler;
+using Uml.CommonStructure;
+
 namespace Uml.Activities
 {
+    using System.Collections.Generic;
+
     /// <summary>
     /// An <see cref="ActivityPartition"/> is a kind of <see cref="ActivityGroup"/> for identifying <see cref="ActivityNode"/>s that have some characteristic in common.
     /// </summary>
-    public interface ActivityPartition
+    public interface ActivityPartition : ActivityGroup
     {
+        /// <summary>
+        /// <see cref="ActivityEdge"/>s immediately contained in the <see cref="ActivityPartition"/>.
+        /// </summary>
+        List<ActivityEdge> Edge { get; set; }
+
+        /// <summary>
+        /// Indicates whether the <see cref="ActivityPartition"/> groups other <see cref="ActivityPartition"/>s along a dimension.
+        /// </summary>
+        bool IsDimension { get; set; }
+
+        /// <summary>
+        /// Indicates whether the <see cref="ActivityPartition"/> represents an entity to which the partitioning structure does not apply.
+        /// </summary>
+        bool IsExternal { get; set; }
+
+        /// <summary>
+        /// <see cref="ActivityNode"/>s immediately contained in the <see cref="ActivityPartition"/>.
+        /// </summary>
+        List<ActivityNode> Node { get; set; }
+
+        /// <summary>
+        /// An <see cref="Element"/> represented by the functionality modeled within the <see cref="ActivityPartition"/>.
+        /// </summary>
+        Element Represents { get; set; }
+
+        /// <summary>
+        /// Other <see cref="ActivityPartition"/>s immediately contained in this <see cref="ActivityPartition"/> (as its subgroups).
+        /// </summary>
+        OwnerList<ActivityPartition> Subpartition { get; set; }
+
+        /// <summary>
+        /// Other <see cref="ActivityPartition"/>s immediately containing this <see cref="ActivityPartition"/> (as its superGroups).
+        /// </summary>
+        ActivityPartition SuperPartition { get; set; }
     }
 }
