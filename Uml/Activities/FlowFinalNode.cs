@@ -24,7 +24,7 @@ namespace Uml.Activities
     /// <summary>
     /// A <see cref="FlowFinalNode"/> is a <see cref="FinalNode"/> that terminates a flow by consuming the tokens offered to it.
     /// </summary>
-    public interface FlowFinalNode
+    public interface FlowFinalNode : FinalNode
     {
     }
 }
