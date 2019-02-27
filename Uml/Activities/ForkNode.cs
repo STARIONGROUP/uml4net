@@ -24,7 +24,7 @@ namespace Uml.Activities
     /// <summary>
     /// A <see cref="ForkNode"/> is a <see cref="ControlNode"/> that splits a flow into multiple concurrent flows.
     /// </summary>
-    public interface ForkNode
+    public interface ForkNode : ControlNode
     {
     }
 }
