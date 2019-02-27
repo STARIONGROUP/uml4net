@@ -65,7 +65,5 @@ namespace Uml.Activities
         /// Derived property
         /// </remarks>
         IEnumerable<ActivityGroup> SuperGroup { get; }
-
-
     }
 }
