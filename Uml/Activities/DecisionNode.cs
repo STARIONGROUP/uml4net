@@ -21,10 +21,21 @@
 
 namespace Uml.Activities
 {
+    using Uml.CommonBehavior;
+
     /// <summary>
     /// A <see cref="DecisionNode"/> is a <see cref="ControlNode"/> that chooses between outgoing <see cref="ActivityEdge"/>s for the routing of tokens.
     /// </summary>
-    public interface DecisionNode
+    public interface DecisionNode : ControlNode
     {
+        /// <summary>
+        /// A Behavior that is executed to provide an input to guard ValueSpecifications on ActivityEdges outgoing from the DecisionNode.
+        /// </summary>
+        Behavior DecisionInput { get; set; }
+        
+        /// <summary>
+        /// An additional <see cref="ActivityEdge"/> incoming to the DecisionNode that provides a decision input value for the guards <see cref="ValueSpecification"/>s on <see cref="ActivityEdge"/>s outgoing from the <see cref="DecisionNode"/>.
+        /// </summary>
+        ObjectFlow DecisionInputFlow { get; set; }
     }
 }
