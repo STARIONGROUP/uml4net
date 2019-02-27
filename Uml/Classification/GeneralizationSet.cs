@@ -21,10 +21,32 @@
 
 namespace Uml.Classification
 {
+    using System.Collections.Generic;
+    using Uml.CommonStructure;
+
     /// <summary>
-    /// 
+    /// A <see cref="GeneralizationSet"/> is a <see cref="PackageableElement"/> whose instances represent sets of <see cref="Generalization"/> relationships.
     /// </summary>
-    public interface GeneralizationSet
+    public interface GeneralizationSet : PackageableElement
     {
+        /// <summary>
+        /// Designates the instances of <see cref="Generalization"/> that are members of this <see cref="GeneralizationSet"/>.
+        /// </summary>
+        List<Generalization> Generalization { get; set; }
+
+        /// <summary>
+        /// Indicates (via the associated Generalizations) whether or not the set of specific <see cref="Classifier"/>s are covering for a particular general classifier. When isCovering is true, every instance of a particular general <see cref="Classifier"/> is also an instance of at least one of its specific <see cref="Classifier"/>s for the <see cref="GeneralizationSet"/>. When isCovering is false, there are one or more instances of the particular general <see cref="Classifier"/> that are not instances of at least one of its specific <see cref="Classifier"/>s defined for the <see cref="GeneralizationSet"/>.
+        /// </summary>
+        bool IsCovering { get; set; }
+
+        /// <summary>
+        /// Indicates whether or not the set of specific Classifiers in a <see cref="Generalization"/> relationship have instance in common. If isDisjoint is true, the specific <see cref="Classifier"/>s for a particular <see cref="GeneralizationSet"/> have no members in common; that is, their intersection is empty. If isDisjoint is false, the specific <see cref="Classifier"/>s in a particular <see cref="GeneralizationSet"/> have one or more members in common; that is, their intersection is not empty.
+        /// </summary>
+        bool IsDisjoint { get; set; }
+
+        /// <summary>
+        /// Designates the <see cref="Classifier"/> that is defined as the power type for the associated <see cref="GeneralizationSet"/>, if there is one.
+        /// </summary>
+        Classifier PowerType { get; set; }
     }
 }

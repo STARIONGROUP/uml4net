@@ -21,10 +21,27 @@
 
 namespace Uml.Classification
 {
+    using System.Collections.Generic;
+    using Uml.CommonStructure;
+
     /// <summary>
-    /// 
+    /// A RedefinableTemplateSignature supports the addition of formal template parameters in a specialization of a template classifier.
     /// </summary>
-    public interface RedefinableTemplateSignature
+    public interface RedefinableTemplateSignature : RedefinableElement, TemplateSignature
     {
+        /// <summary>
+        /// The Classifier that owns this <see cref="RedefinableTemplateSignature"/>.
+        /// </summary>
+        Classifier Classifier { get; set; }
+
+        /// <summary>
+        /// The signatures extended by this <see cref="RedefinableTemplateSignature"/>.
+        /// </summary>
+        List<RedefinableTemplateSignature> ExtendedSignature { get; set; }
+
+        /// <summary>
+        /// The formal template parameters of the extended signatures.
+        /// </summary>
+        IEnumerable<TemplateParameter> InheritedParameter { get; }
     }
 }

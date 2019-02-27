@@ -21,10 +21,16 @@
 
 namespace Uml.Classification
 {
+    using Uml.CommonStructure;
+
     /// <summary>
-    /// 
+    /// An <see cref="OperationTemplateParameter"/> exposes an Operation as a formal parameter for a template.
     /// </summary>
-    public interface OperationTemplateParameter
+    public interface OperationTemplateParameter : TemplateParameter
     {
+        /// <summary>
+        /// The <see cref="Operation"/> exposed by this <see cref="OperationTemplateParameter"/>.
+        /// </summary>
+        Operation ParameteredElement { get; set; }
     }
 }

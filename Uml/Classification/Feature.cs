@@ -22,9 +22,21 @@
 namespace Uml.Classification
 {
     /// <summary>
-    /// 
+    /// A <see cref="Feature"/> declares a behavioral or structural characteristic of <see cref="Classifier"/>s.
     /// </summary>
-    public interface Feature
+    public interface Feature : RedefinableElement
     {
+        /// <summary>
+        /// The <see cref="Classifier"/>s that have this <see cref="Feature"/> as a feature.
+        /// </summary>
+        /// <remarks>
+        /// Derived property
+        /// </remarks>
+        Classifier FeaturingClassifier { get; }
+
+        /// <summary>
+        /// Specifies whether this Feature characterizes individual instances classified by the Classifier (false) or the Classifier itself (true).
+        /// </summary>
+        bool IsStatic { get; set; }
     }
 }

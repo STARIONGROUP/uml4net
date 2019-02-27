@@ -21,10 +21,28 @@
 
 namespace Uml.Classification
 {
+    using Uml.Assembler;
+    using Uml.CommonStructure;
+    using Uml.Values;
+
     /// <summary>
-    /// 
+    /// A Slot designates that an entity modeled by an InstanceSpecification has a value or values for a specific StructuralFeature.
     /// </summary>
-    public interface Slot
+    public interface Slot : Element
     {
+        /// <summary>
+        /// The StructuralFeature that specifies the values that may be held by the Slot.
+        /// </summary>
+        StructuralFeature DefiningFeature { get; set; }
+
+        /// <summary>
+        /// The InstanceSpecification that owns this Slot.
+        /// </summary>
+        InstanceSpecification OwningInstance { get; set; }
+
+        /// <summary>
+        /// The value or values held by the Slot.
+        /// </summary>
+        OwnerList<ValueSpecification> Value { get; set; }
     }
 }

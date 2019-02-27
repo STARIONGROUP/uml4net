@@ -21,10 +21,27 @@
 
 namespace Uml.Classification
 {
+    using System.Collections.Generic;
+    using Uml.CommonStructure;
+
     /// <summary>
-    /// 
+    /// A <see cref="ClassifierTemplateParameter"/> exposes a <see cref="Classifier"/> as a formal template parameter.
     /// </summary>
-    public interface ClassifierTemplateParameter
+    public interface ClassifierTemplateParameter : TemplateParameter
     {
+        /// <summary>
+        /// Constrains the required relationship between an actual parameter and the parameteredElement for this formal parameter.
+        /// </summary>
+        bool AllowSubstitutable { get; set; }
+
+        /// <summary>
+        /// The classifiers that constrain the argument that can be used for the parameter. If the allowSubstitutable attribute is true, then any <see cref="Classifier"/> that is compatible with this constraining <see cref="Classifier"/> can be substituted; otherwise, it must be either this <see cref="Classifier"/> or one of its specializations. If this property is empty, there are no constraints on the <see cref="Classifier"/> that can be used as an argument.
+        /// </summary>
+        List<Classifier> ConstrainingClassifier { get; set; }
+
+        /// <summary>
+        /// The Classifier exposed by this ClassifierTemplateParameter.
+        /// </summary>
+        Classifier ParameteredElement { get; set; }
     }
 }

@@ -21,10 +21,30 @@
 
 namespace Uml.Classification
 {
+    using System.Collections.Generic;
+    using Uml.CommonStructure;
+
     /// <summary>
-    /// 
+    /// A RedefinableElement is an element that, when defined in the context of a Classifier, can be redefined more specifically or differently in the context of another Classifier that specializes (directly or indirectly) the context Classifier.
     /// </summary>
-    public interface RedefinableElement
+    public interface RedefinableElement : NamedElement
     {
+        /// <summary>
+        /// Indicates whether it is possible to further redefine a RedefinableElement. If the value is true, then it is not possible to further redefine the RedefinableElement.
+        /// </summary>
+        bool IsLeaf { get; set; }
+
+        /// <summary>
+        /// The RedefinableElement that is being redefined by this element.
+        /// </summary>
+        /// <remarks>
+        /// Derived property.
+        /// </remarks>
+        IEnumerable<RedefinableElement> RedefinedElement { get; }
+
+        /// <summary>
+        /// The contexts that this element may be redefined from.
+        /// </summary>
+        IEnumerable<Classifier> RedefinitionContext { get; }
     }
 }

@@ -28,5 +28,14 @@ namespace Uml.Classification
     /// </summary>
     public interface Substitution : Realization
     {
+        /// <summary>
+        /// The contract with which the substituting classifier complies.
+        /// </summary>
+        Classifier Contract { get; set; }
+
+        /// <summary>
+        /// Instances of the substituting classifier are runtime substitutable where instances of the contract classifier are expected.
+        /// </summary>
+        Classifier SubstitutingClassifier { get; set; }        
     }
 }

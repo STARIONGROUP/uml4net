@@ -21,10 +21,12 @@
 
 namespace Uml.Classification
 {
+    using Uml.Actions;
+
     /// <summary>
-    /// 
+    /// An <see cref="InstanceValue"/> is a <see cref="ValueSpecification"/> that identifies an instance.
     /// </summary>
-    public interface InstanceValue
+    public interface InstanceValue : ValueSpecificationAction
     {
     }
 }
