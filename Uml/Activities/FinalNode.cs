@@ -24,7 +24,7 @@ namespace Uml.Activities
     /// <summary>
     /// A <see cref="FinalNode"/> is an abstract <see cref="ControlNode"/> at which a flow in an <see cref="Activity"/> stops.
     /// </summary>
-    public interface FinalNode
+    public interface FinalNode : ControlNode
     {
     }
 }
