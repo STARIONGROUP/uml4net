@@ -24,7 +24,7 @@ namespace Uml.Activities
     /// <summary>
     /// An <see cref="InitialNode"/> is a <see cref="ControlNode"/> that offers a single control token when initially enabled.
     /// </summary>
-    public interface InitialNode
+    public interface InitialNode : ControlNode
     {
     }
 }
