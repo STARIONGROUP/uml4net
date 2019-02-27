@@ -21,10 +21,23 @@
 
 namespace Uml.Activities
 {
+    using Uml.Actions;
+    using Uml.CommonStructure;
+    using Uml.StructuredClassifiers;
+
     /// <summary>
     /// A <see cref="Variable"/> is a <see cref="ConnectableElement"/> that may store values during the execution of an <see cref="Activity"/>. Reading and writing the values of a Variable provides an alternative means for passing data than the use of <see cref="ObjectFlow"/>s. A Variable may be owned directly by an <see cref="Activity"/>, in which case it is accessible from anywhere within that activity, or it may be owned by a <see cref="StructuredActivityNode"/>, in which case it is only accessible within that node.
     /// </summary>
-    public interface Variable
+    public interface Variable : ConnectableElement, MultiplicityElement 
     {
+        /// <summary>
+        /// An Activity that owns the Variable.
+        /// </summary>
+        Activity ActivityScope { get; set; }
+
+        /// <summary>
+        /// A StructuredActivityNode that owns the Variable.
+        /// </summary>
+        StructuredActivityNode Scope { get; set; }
     }
 }
