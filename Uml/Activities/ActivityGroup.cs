@@ -21,10 +21,51 @@
 
 namespace Uml.Activities
 {
+    using System.Collections.Generic;
+    using Uml.CommonStructure;
+
     /// <summary>
     /// <see cref="ActivityGroup"/> is an abstract class for defining sets of <see cref="ActivityNode"/>s and <see cref="ActivityEdge"/>s in an <see cref="Activity"/>.
     /// </summary>
-    public interface ActivityGroup
+    public interface ActivityGroup : NamedElement
     {
+        /// <summary>
+        /// <see cref="ActivityEdge"/>s immediately contained in the <see cref="ActivityGroup"/>.
+        /// </summary>
+        /// <remarks>
+        /// Derived property
+        /// </remarks>
+        IEnumerable<ActivityEdge> ContainedEdge { get; }
+
+        /// <summary>
+        /// <see cref="ActivityNode"/>s immediately contained in the <see cref="ActivityGroup"/>.
+        /// </summary>
+        /// <remarks>
+        /// Derived property
+        /// </remarks>
+        IEnumerable<ActivityNode> ContainedNode { get; }
+
+        /// <summary>
+        /// The <see cref="Activity"/> containing the <see cref="ActivityGroup"/>, if it is directly owned by an <see cref="Activity"/>.
+        /// </summary>
+        Activity InActivity { get; set; } 
+
+        /// <summary>
+        /// Other <see cref="ActivityGroup"/>s immediately contained in this <see cref="ActivityGroup"/>.
+        /// </summary>
+        /// <remarks>
+        /// Derived property
+        /// </remarks>
+        IEnumerable<ActivityGroup> Subgroup { get; }
+
+        /// <summary>
+        /// The <see cref="ActivityGroup"/> immediately containing this <see cref="ActivityGroup"/>, if it is directly owned by another <see cref="ActivityGroup"/>.
+        /// </summary>
+        /// <remarks>
+        /// Derived property
+        /// </remarks>
+        IEnumerable<ActivityGroup> SuperGroup { get; }
+
+
     }
 }
