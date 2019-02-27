@@ -21,10 +21,13 @@
 
 namespace Uml.Activities
 {
+    using Uml.Classification;
+
     /// <summary>
-    /// An <see cref="ActivityParameterNode"/> is an ObjectNode for accepting values from the input <see cref="Parameter"/>s or providing values to the output <see cref="Parameter"/>s of an <see cref="Activity"/>.
+    /// An <see cref="ActivityParameterNode"/> is an <see cref="ObjectNode"/> for accepting values from the input <see cref="Parameter"/>s or providing values to the output <see cref="Parameter"/>s of an <see cref="Activity"/>.
     /// </summary>
-    public interface ActivityParameterNode
+    public interface ActivityParameterNode : ObjectNode
     {
+        Parameter Parameter { get; set; }
     }
 }
