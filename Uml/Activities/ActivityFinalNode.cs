@@ -24,7 +24,7 @@ namespace Uml.Activities
     /// <summary>
     /// An <see cref="ActivityFinalNode"/> is a <see cref="FinalNode"/> that terminates the execution of its owning <see cref="Activity"/> or <see cref="StructuredActivityNode"/>.
     /// </summary>
-    public interface ActivityFinalNode
+    public interface ActivityFinalNode : FinalNode
     {
     }
 }
