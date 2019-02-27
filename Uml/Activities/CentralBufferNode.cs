@@ -24,7 +24,7 @@ namespace Uml.Activities
     /// <summary>
     /// A <see cref="CentralBufferNode"/> is an <see cref="ObjectNode"/> for managing flows from multiple sources and targets.
     /// </summary>
-    public interface CentralBufferNode
+    public interface CentralBufferNode : ObjectNode
     {
     }
 }
