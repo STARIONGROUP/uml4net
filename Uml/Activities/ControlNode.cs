@@ -24,7 +24,7 @@ namespace Uml.Activities
     /// <summary>
     /// A <see cref="ControlNode"/> is an abstract <see cref="ActivityNode"/> that coordinates flows in an <see cref="Activity"/>.
     /// </summary>
-    public interface ControlNode
+    public interface ControlNode : ActivityNode
     {
     }
 }
