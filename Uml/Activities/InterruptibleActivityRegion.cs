@@ -21,10 +21,21 @@
 
 namespace Uml.Activities
 {
+    using System.Collections.Generic;
+
     /// <summary>
     /// An <see cref="InterruptibleActivityRegion"/> is an <see cref="ActivityGroup"/> that supports the termination of tokens flowing in the portions of an activity within it.
     /// </summary>
-    public interface InterruptibleActivityRegion
+    public interface InterruptibleActivityRegion : ActivityGroup
     {
+        /// <summary>
+        /// The <see cref="ActivityEdge"/>s leaving the <see cref="InterruptibleActivityRegion"/> on which a traversing token will result in the termination of other tokens flowing in the <see cref="InterruptibleActivityRegion"/>.
+        /// </summary>
+        List<ActivityEdge> InterruptingEdge { get; set; }
+
+        /// <summary>
+        /// <see cref="ActivityNode"/>s immediately contained in the <see cref="InterruptibleActivityRegion"/>.
+        /// </summary>
+        List<ActivityNode> Node { get; set; }
     }
 }
