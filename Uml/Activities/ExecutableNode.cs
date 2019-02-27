@@ -21,10 +21,16 @@
 
 namespace Uml.Activities
 {
+    using Uml.Assembler;
+
     /// <summary>
     /// An <see cref="ExecutableNode"/> is an abstract class for <see cref="ActivityNode"/>s whose execution may be controlled using <see cref="ControlFlow"/>s and to which <see cref="ExceptionHandler"/>s may be attached.
     /// </summary>
-    public interface ExecutableNode
+    public interface ExecutableNode : ActivityNode
     {
+        /// <summary>
+        /// A set of <see cref="ExceptionHandler"/>s that are examined if an exception propagates out of the <see cref="ExceptionNode"/>.
+        /// </summary>
+        OwnerList<ExceptionHandler> Handler { get; set; }
     }
 }
