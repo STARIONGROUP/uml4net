@@ -21,10 +21,36 @@
 
 namespace Uml.CommonStructure
 {
+    using Uml.Assembler;
+
     /// <summary>
     /// A <see cref="TemplateParameter"/> exposes a <see cref="ParameterableElement"/> as a formal parameter of a template.
     /// </summary>
-    public interface TemplateParameter
+    public interface TemplateParameter : Element
     {
+        /// <summary>
+        /// The <see cref="ParameterableElement"/> that is the default for this formal <see cref="TemplateParameter"/>.
+        /// </summary>
+        ParameterableElement Default { get; set; }
+
+        /// <summary>
+        /// The <see cref="ParameterableElement"/> that is owned by this <see cref="TemplateParameter"/> for the purpose of providing a default.
+        /// </summary>
+        OwnerList<ParameterableElement> OwnedDefault { get; set; }
+
+        /// <summary>
+        /// The <see cref="ParameterableElement"/> that is owned by this <see cref="TemplateParameter"/> for the purpose of exposing it as the parameteredElement.
+        /// </summary>
+        OwnerList<ParameterableElement> OwnedParameteredElement { get; set; }
+
+        /// <summary>
+        /// The <see cref="ParameterableElement"/> exposed by this <see cref="TemplateParameter"/>.
+        /// </summary>
+        ParameterableElement ParameterableElement { get; set; }
+
+        /// <summary>
+        /// The <see cref="TemplateSignature"/> that owns this <see cref="TemplateParameter"/>.
+        /// </summary>
+        TemplateSignature Signature { get; set; }
     }
 }

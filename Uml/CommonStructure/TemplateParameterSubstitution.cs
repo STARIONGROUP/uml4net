@@ -21,10 +21,31 @@
 
 namespace Uml.CommonStructure
 {
+    using Uml.Assembler;
+
     /// <summary>
     /// A <see cref="TemplateParameterSubstitution"/> relates the actual parameter to a formal <see cref="TemplateParameter"/> as part of a template binding.
     /// </summary>
-    public interface TemplateParameterSubstitution
+    public interface TemplateParameterSubstitution : Element
     {
+        /// <summary>
+        /// The <see cref="ParameterableElement"/> that is the actual parameter for this <see cref="TemplateParameterSubstitution"/>.
+        /// </summary>
+        ParameterableElement Actual { get; set; }
+
+        /// <summary>
+        /// The formal <see cref="TemplateParameter"/> that is associated with this <see cref="TemplateParameterSubstitution"/>.
+        /// </summary>
+        TemplateParameter Formal { get; set; }
+
+        /// <summary>
+        /// The <see cref="ParameterableElement"/> that is owned by this <see cref="TemplateParameterSubstitution"/> as its actual parameter.
+        /// </summary>
+        OwnerList<ParameterableElement>  OwnedActual { get; set; }
+
+        /// <summary>
+        /// The <see cref="TemplateBinding"/> that owns this <see cref="TemplateParameterSubstitution"/>.
+        /// </summary>
+        TemplateBinding TemplateBinding { get; set; }
     }
 }

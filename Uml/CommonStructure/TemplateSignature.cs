@@ -19,12 +19,30 @@
 // </copyright>
 // -------------------------------------------------------------------------------------------------
 
+using System.Collections.Generic;
+
 namespace Uml.CommonStructure
 {
+    using Uml.Assembler;
+
     /// <summary>
     /// A Template Signature bundles the set of formal <see cref="TemplateParameter"/>s for a template.
     /// </summary>
-    public interface TemplateSignature
+    public interface TemplateSignature : Element
     {
+        /// <summary>
+        /// The formal parameters that are owned by this <see cref="TemplateSignature"/>.
+        /// </summary>
+        OwnerList<TemplateParameter>  OwnedParameter { get; set; }
+
+        /// <summary>
+        /// The ordered set of all formal TemplateParameters for this TemplateSignature.
+        /// </summary>
+        List<TemplateParameter> Parameter { get; set; }
+
+        /// <summary>
+        /// The <see cref="TemplateableElement"/> that owns this <see cref="TemplateSignature"/>.
+        /// </summary>
+        TemplateableElement Template { get; set; }
     }
 }

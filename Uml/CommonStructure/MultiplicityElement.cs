@@ -21,10 +21,47 @@
 
 namespace Uml.CommonStructure
 {
+    using Uml.Values;
+
     /// <summary>
     /// A multiplicity is a definition of an inclusive interval of non-negative integers beginning with a lower bound and ending with a (possibly infinite) upper bound. A MultiplicityElement embeds this information to specify the allowable cardinalities for an instantiation of the Element.
     /// </summary>
-    public interface MultiplicityElement
+    public interface MultiplicityElement : Element
     {
+        /// <summary>
+        /// For a multivalued multiplicity, this attribute specifies whether the values in an instantiation of this <see cref="MultiplicityElement"/> are sequentially ordered.
+        /// </summary>
+        bool IsOrdered { get; set; }
+
+        /// <summary>
+        /// For a multivalued multiplicity, this attributes specifies whether the values in an instantiation of this <see cref="MultiplicityElement"/> are unique.
+        /// </summary>
+        bool IsUnique { get; set; }
+        
+        /// <summary>
+        /// The lower bound of the multiplicity interval.
+        /// </summary>
+        /// <remarks>
+        /// Derived property.
+        /// </remarks>
+        int Lower { get; }
+
+        /// <summary>
+        /// The specification of the lower bound for this multiplicity.
+        /// </summary>
+        ValueSpecification LowerValue { get; set; }
+
+        /// <summary>
+        /// The upper bound of the multiplicity interval.
+        /// </summary>
+        /// <remarks>
+        /// Derived property.
+        /// </remarks>
+        int Upper { get; }
+        
+        /// <summary>
+        /// The specification of the upper bound for this multiplicity.
+        /// </summary>
+        ValueSpecification UperValue { get; set; }
     }
 }

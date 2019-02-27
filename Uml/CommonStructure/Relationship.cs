@@ -19,12 +19,21 @@
 // </copyright>
 // -------------------------------------------------------------------------------------------------
 
+using System.Collections.Generic;
+
 namespace Uml.CommonStructure
 {
     /// <summary>
     /// <see cref="Relationship"/> is an abstract concept that specifies some kind of relationship between <see cref="Element"/>s.
     /// </summary>
-    public interface Relationship
+    public interface Relationship : Element
     {
+        /// <summary>
+        /// Specifies the elements related by the <see cref="Relationship"/>.
+        /// </summary>
+        /// <remarks>
+        /// Derived property.
+        /// </remarks>
+        IEnumerable<Element> RelatedElement { get; }
     }
 }

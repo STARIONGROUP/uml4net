@@ -21,10 +21,21 @@
 
 namespace Uml.CommonStructure
 {
+    using Uml.Assembler;
+
     /// <summary>
-    /// A <see cref="TemplateableElement"/> is an Element that can optionally be defined as a template and bound to other templates.
+    /// A <see cref="TemplateableElement"/> is an <see cref="Element"/> that can optionally be defined as a template and bound to other templates.
     /// </summary>
-    public interface TemplateableElement
+    public interface TemplateableElement : Element
     {
+        /// <summary>
+        /// The optional <see cref="TemplateSignature"/> specifying the formal <see cref="TemplateParameter"/>s for this <see cref="TemplateableElement"/>. If a <see cref="TemplateableElement"/> has a <see cref="TemplateSignature"/>, then it is a template.
+        /// </summary>
+        OwnerList<TemplateSignature> OwnedTemplateSignature { get; set; }
+
+        /// <summary>
+        /// The optional <see cref="TemplateBinding"/>s from this <see cref="TemplateableElement"/> to one or more templates.
+        /// </summary>
+        OwnerList<TemplateBinding> TemplateBinding { get; set; }
     }
 }

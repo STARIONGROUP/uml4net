@@ -24,7 +24,11 @@ namespace Uml.CommonStructure
     /// <summary>
     /// A <see cref="TypedElement"/> is a <see cref="NamedElement"/> that may have a <see cref="Type"/> specified for it.
     /// </summary>
-    public interface TypedElement
+    public interface TypedElement : NamedElement
     {
+        /// <summary>
+        /// The type of the <see cref="TypedElement"/>.
+        /// </summary>
+        Type Type { get; set; }
     }
 }

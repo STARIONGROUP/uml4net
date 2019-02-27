@@ -21,10 +21,21 @@
 
 namespace Uml.CommonStructure
 {
+    using System.Collections.Generic;
+
     /// <summary>
     /// A <see cref="Comment"/> is a textual annotation that can be attached to a set of <see cref="Element"/>s.
     /// </summary>
-    public interface Comment
+    public interface Comment : Element
     {
+        /// <summary>
+        /// References the <see cref="Element"/>(s) being commented.
+        /// </summary>
+        List<Element> AnnotatedElement { get; set; }
+
+        /// <summary>
+        /// Specifies a string that is the comment.
+        /// </summary>
+        string Body { get; set; }
     }
 }

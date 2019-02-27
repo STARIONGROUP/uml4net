@@ -21,10 +21,27 @@
 
 namespace Uml.CommonStructure
 {
+    using System.Collections.Generic;
+    using Uml.Values;
+
     /// <summary>
     /// A <see cref="Constraint"/> is a condition or restriction expressed in natural language text or in a machine readable language for the purpose of declaring some of the semantics of an <see cref="Element"/> or set of <see cref="Element"/>s.
     /// </summary>
-    public interface Constraint
+    public interface Constraint : PackageableElement
     {
+        /// <summary>
+        /// The ordered set of Elements referenced by this <see cref="Constraint"/>.
+        /// </summary>
+        List<Element> ConstrainedElement { get; set; }
+
+        /// <summary>
+        /// Specifies the Namespace that owns the Constraint.
+        /// </summary>
+        Namespace Context { get; set; }
+
+        /// <summary>
+        /// A condition that must be true when evaluated in order for the <see cref="Constraint"/> to be satisfied.
+        /// </summary>
+        ValueSpecification  Specification { get; set; }
     }
 }

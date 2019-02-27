@@ -21,10 +21,16 @@
 
 namespace Uml.CommonStructure
 {
+    using Uml.Packages;
+
     /// <summary>
     /// A Type constrains the values represented by a TypedElement.
     /// </summary>
-    public interface Type
+    public interface Type : PackageableElement
     {
+        /// <summary>
+        /// Specifies the owning <see cref="Package"/> of this <see cref="Type"/>, if any.
+        /// </summary>
+        Package Package { get; set; }
     }
 }

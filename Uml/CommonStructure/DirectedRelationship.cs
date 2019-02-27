@@ -21,10 +21,21 @@
 
 namespace Uml.CommonStructure
 {
+    using System.Collections.Generic;
+
     /// <summary>
     /// A <see cref="DirectedRelationship"/> represents a relationship between a collection of source model Elements and a collection of target model <see cref="Element"/>s.
     /// </summary>
-    public interface DirectedRelationship
+    public interface DirectedRelationship : Relationship
     {
+        /// <summary>
+        /// Specifies the source Element(s) of the <see cref="DirectedRelationship"/>.
+        /// </summary>
+        List<Element> Source { get; set; }
+
+        /// <summary>
+        /// Specifies the target Element(s) of the DirectedRelationship.
+        /// </summary>
+        List<Element> Target { get; set; }
     }
 }

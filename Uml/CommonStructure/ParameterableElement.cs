@@ -24,7 +24,16 @@ namespace Uml.CommonStructure
     /// <summary>
     /// A <see cref="ParameterableElement"/> is an <see cref="Element"/> that can be exposed as a formal <see cref="TemplateParameter"/> for a template, or specified as an actual parameter in a binding of a template.
     /// </summary>
-    public interface ParameterableElement
+    public interface ParameterableElement : Element
     {
+        /// <summary>
+        /// The formal <see cref="TemplateParameter"/> that owns this <see cref="ParameterableElement"/>.
+        /// </summary>
+        TemplateParameter OwningTemplateParameter { get; set; }
+
+        /// <summary>
+        /// The <see cref="TemplateParameter"/> that exposes this <see cref="ParameterableElement"/> as a formal parameter.
+        /// </summary>
+        TemplateParameter TemplateParameter { get; set; }
     }
 }

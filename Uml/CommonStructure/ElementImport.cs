@@ -24,7 +24,26 @@ namespace Uml.CommonStructure
     /// <summary>
     /// An <see cref="ElementImport"/> identifies a <see cref="NamedElement"/> in a <see cref="Namespace"/> other than the one that owns that <see cref="NamedElement"/> and allows the <see cref="NamedElement"/> to be referenced using an unqualified name in the Namespace owning the <see cref="ElementImport"/>.
     /// </summary>
-    public interface ElementImport
+    public interface ElementImport : DirectedRelationship
     {
+        /// <summary>
+        /// Specifies the name that should be added to the importing Namespace in lieu of the name of the imported PackagableElement. The alias must not clash with any other member in the importing Namespace. By default, no alias is used.
+        /// </summary>
+        string Alias { get; set; }
+
+        /// <summary>
+        /// Specifies the <see cref="PackageableElement"/> whose name is to be added to a <see cref="Namespace"/>.
+        /// </summary>
+        PackageableElement ImportedElement { get; set; }
+
+        /// <summary>
+        /// Specifies the <see cref="Namespace"/> that imports a <see cref="PackageableElement"/> from another <see cref="Namespace"/>.
+        /// </summary>
+        Namespace ImportingNamespace { get; set; }
+
+        /// <summary>
+        /// Specifies the visibility of the imported <see cref="PackageableElement"/> within the importingNamespace, i.e., whether the  importedElement will in turn be visible to other <see cref="Namespaces"/>. If the <see cref="ElementImport"/> is public, the importedElement will be visible outside the importingNamespace while, if the <see cref="ElementImport"/> is private, it will not.
+        /// </summary>
+        VisibilityKind Visibility { get; set; }
     }
 }

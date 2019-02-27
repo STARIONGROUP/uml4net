@@ -24,7 +24,11 @@ namespace Uml.CommonStructure
     /// <summary>
     /// A <see cref="PackageableElement"/> is a <see cref="NamedElement"/> that may be owned directly by a <see cref="Package"/>. A <see cref="PackageableElement"/> is also able to serve as the parameteredElement of a <see cref="TemplateParameter"/>.
     /// </summary>
-    public interface PackageableElement
+    public interface PackageableElement : ParameterableElement, NamedElement
     {
+        /// <summary>
+        /// A <see cref="PackageableElement"/> must have a visibility specified if it is owned by a <see cref="Namespace"/>. The default visibility is public.
+        /// </summary>
+        VisibilityKind Visibility { get; set; }
     }
 }

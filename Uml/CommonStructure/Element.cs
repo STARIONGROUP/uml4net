@@ -21,6 +21,9 @@
 
 namespace Uml.CommonStructure
 {
+    using System.Collections.Generic;
+    using Uml.Assembler;
+
     /// <summary>
     /// An <see cref="Element"/> is a constituent of a model. As such, it has the capability of owning other <see cref="Element"/>s.
     /// </summary>
@@ -35,11 +38,24 @@ namespace Uml.CommonStructure
         string Id { get; }
 
         /// <summary>
+        /// The Comments owned by this <see cref="Element"/>.
+        /// </summary>
+        OwnerList<Comment> OwnedComment { get; set; }
+
+        /// <summary>
+        /// The <see cref="Element"/>s owned by this Element.
+        /// </summary>
+        /// <remarks>
+        /// Derived property
+        /// </remarks>
+        IEnumerable<Element> OwnedElement { get; set; }
+
+        /// <summary>
         /// Gets the <see cref="Element"/> that owns this <see cref="Element"/>.
         /// </summary>
         /// <remarks>
-        /// derived property
+        /// Derived property
         /// </remarks>
-        Element Owner { get; set; }
+        Element Owner { get; }
     }
 }

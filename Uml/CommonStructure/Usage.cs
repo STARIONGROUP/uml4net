@@ -24,7 +24,7 @@ namespace Uml.CommonStructure
     /// <summary>
     /// A <see cref="Usage"/> is a <see cref="Dependency"/> in which the client <see cref="Element"/> requires the supplier <see cref="Element"/> (or set of <see cref="Element"/>s) for its full implementation or operation.
     /// </summary>
-    public interface Usage
+    public interface Usage : Dependency
     {
     }
 }
