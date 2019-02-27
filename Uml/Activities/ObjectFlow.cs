@@ -21,10 +21,31 @@
 
 namespace Uml.Activities
 {
+    using Uml.CommonBehavior;
+
     /// <summary>
     /// An <see cref="ObjectFlow"/> is an <see cref="ActivityEdge"/> that is traversed by object tokens that may hold values. Object flows also support multicast/receive, token selection from object nodes, and transformation of tokens.
     /// </summary>
-    public interface ObjectFlow
+    public interface ObjectFlow : ActivityEdge
     {
+        /// <summary>
+        /// Indicates whether the objects in the <see cref="ObjectFlow"/> are passed by multicasting.
+        /// </summary>
+        bool IsMulticast { get; set; }
+
+        /// <summary>
+        /// Indicates whether the objects in the <see cref="ObjectFlow"/> are gathered from respondents to multicasting.
+        /// </summary>
+        bool IsMultireceive { get; set; }
+
+        /// <summary>
+        /// A <see cref="Behavior"/> used to select tokens from a source <see cref="ObjectNode"/>.
+        /// </summary>
+        Behavior Selection { get; set; }
+
+        /// <summary>
+        /// A <see cref="Behavior"/> used to change or replace object tokens flowing along the <see cref="ObjectFlow"/>.
+        /// </summary>
+        Behavior Transformation { get; set; }
     }
 }
