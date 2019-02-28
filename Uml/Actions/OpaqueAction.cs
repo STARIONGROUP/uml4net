@@ -15,16 +15,38 @@
 //   GNU General Public License for more details.
 //
 //   You should have received a copy of the GNU General Public License
-//   along with Foobar.  If not, see<http://www.gnu.org/licenses/>.
+//   along with uml-sharp.  If not, see<http://www.gnu.org/licenses/>.
 // </copyright>
 // -------------------------------------------------------------------------------------------------
 
 namespace Uml.Actions
 {
+    using System.Collections.Generic;
+    using Uml.Assembler;
+
     /// <summary>
     /// An <see cref="OpaqueAction"/> is an <see cref="Action"/> whose functionality is not specified within UML.
     /// </summary>
-    public interface OpaqueAction
+    public interface OpaqueAction : Action
     {
+        /// <summary>
+        /// Provides a textual specification of the functionality of the Action, in one or more languages other than UML.
+        /// </summary>
+        List<string> Body { get; set; }
+
+        /// <summary>
+        /// The InputPins providing inputs to the OpaqueAction.
+        /// </summary>
+        OwnerList<InputPin> InputValue { get; set; }
+
+        /// <summary>
+        /// If provided, a specification of the language used for each of the body Strings.
+        /// </summary>
+        List<string> Language { get; set; }
+
+        /// <summary>
+        /// The <see cref="OutputPin"/>s on which the <see cref="OpaqueAction"/> provides outputs.
+        /// </summary>
+        OwnerList<OutputPin> OutputValue { get; set; }
     }
 }

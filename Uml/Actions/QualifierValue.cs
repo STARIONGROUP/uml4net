@@ -15,16 +15,28 @@
 //   GNU General Public License for more details.
 //
 //   You should have received a copy of the GNU General Public License
-//   along with Foobar.  If not, see<http://www.gnu.org/licenses/>.
+//   along with uml-sharp.  If not, see<http://www.gnu.org/licenses/>.
 // </copyright>
 // -------------------------------------------------------------------------------------------------
 
 namespace Uml.Actions
 {
+    using Uml.Classification;
+    using Uml.CommonStructure;
+
     /// <summary>
     /// A <see cref="QualifierValue"/> is an <see cref="Element"/> that is used as part of <see cref="LinkEndData"/> to provide the value for a single qualifier of the end given by the <see cref="LinkEndData"/>.
     /// </summary>
-    public interface QualifierValue
+    public interface QualifierValue : Element
     {
+        /// <summary>
+        /// The qualifier Property for which the value is to be specified.
+        /// </summary>
+        Property Qualifier { get; set; }
+
+        /// <summary>
+        /// The <see cref="InputPin"/> from which the specified value for the qualifier is taken.
+        /// </summary>
+        InputPin Value { get; set; }
     }
 }

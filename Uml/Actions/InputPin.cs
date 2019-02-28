@@ -15,7 +15,7 @@
 //   GNU General Public License for more details.
 //
 //   You should have received a copy of the GNU General Public License
-//   along with Foobar.  If not, see<http://www.gnu.org/licenses/>.
+//   along with uml-sharp.  If not, see<http://www.gnu.org/licenses/>.
 // </copyright>
 // -------------------------------------------------------------------------------------------------
 
@@ -24,7 +24,7 @@ namespace Uml.Actions
     /// <summary>
     /// An <see cref="InputPin"/> is a <see cref="Pin"/> that holds input values to be consumed by an <see cref="Action"/>.
     /// </summary>
-    public interface InputPin
+    public interface InputPin : Pin
     {
     }
 }

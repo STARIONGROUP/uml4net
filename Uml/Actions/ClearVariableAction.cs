@@ -15,7 +15,7 @@
 //   GNU General Public License for more details.
 //
 //   You should have received a copy of the GNU General Public License
-//   along with Foobar.  If not, see<http://www.gnu.org/licenses/>.
+//   along with uml-sharp.  If not, see<http://www.gnu.org/licenses/>.
 // </copyright>
 // -------------------------------------------------------------------------------------------------
 
@@ -24,7 +24,7 @@ namespace Uml.Actions
     /// <summary>
     /// A <see cref="ClearVariableAction"/> is a <see cref="VariableAction"/> that removes all values of a <see cref="Variable"/>.
     /// </summary>
-    public interface ClearVariableAction
+    public interface ClearVariableAction : VariableAction
     {
     }
 }

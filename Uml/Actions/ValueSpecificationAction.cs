@@ -21,10 +21,22 @@
 
 namespace Uml.Actions
 {
+    using Uml.Assembler;
+    using Uml.Values;
+
     /// <summary>
-    /// A ValueSpecificationAction is an Action that evaluates a ValueSpecification and provides a result.
+    /// A <see cref="ValueSpecificationAction"/> is an <see cref="Action"/> that evaluates a <see cref="ValueSpecification"/> and provides a result.
     /// </summary>
     public interface ValueSpecificationAction
     {
+        /// <summary>
+        /// The <see cref="OutputPin"/> on which the result value is placed.
+        /// </summary>
+        OwnerList<OutputPin> Result { get; set; }
+
+        /// <summary>
+        /// The <see cref="ValueSpecification"/> to be evaluated.
+        /// </summary>
+        OwnerList<ValueSpecification> Value { get; set; }
     }
 }

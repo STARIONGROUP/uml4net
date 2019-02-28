@@ -15,16 +15,22 @@
 //   GNU General Public License for more details.
 //
 //   You should have received a copy of the GNU General Public License
-//   along with Foobar.  If not, see<http://www.gnu.org/licenses/>.
+//   along with uml-sharp.  If not, see<http://www.gnu.org/licenses/>.
 // </copyright>
 // -------------------------------------------------------------------------------------------------
 
 namespace Uml.Actions
 {
+    using Uml.Assembler;
+
     /// <summary>
     /// A <see cref="StartObjectBehaviorAction"/> is an <see cref="InvocationAction"/> that starts the execution either of a directly instantiated <see cref="Behavior"/> or of the classifierBehavior of an object. Argument values may be supplied for the input <see cref="Parameter"/>s of the <see cref="Behavior"/>. If the <see cref="Behavior"/> is invoked synchronously, then output values may be obtained for output <see cref="Parameter"/>s.
     /// </summary>
-    public interface StartObjectBehaviorAction
+    public interface StartObjectBehaviorAction : CallAction
     {
+        /// <summary>
+        /// An <see cref="InputPin"/> that holds the object that is either a <see cref="Behavior"/> to be started or has a classifierBehavior to be started.
+        /// </summary>
+        OwnerList<InputPin> Object { get; set; }
     }
 }

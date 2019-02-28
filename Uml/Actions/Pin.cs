@@ -15,16 +15,23 @@
 //   GNU General Public License for more details.
 //
 //   You should have received a copy of the GNU General Public License
-//   along with Foobar.  If not, see<http://www.gnu.org/licenses/>.
+//   along with uml-sharp.  If not, see<http://www.gnu.org/licenses/>.
 // </copyright>
 // -------------------------------------------------------------------------------------------------
 
 namespace Uml.Actions
 {
+    using Uml.Activities;
+    using Uml.CommonStructure;
+
     /// <summary>
     /// A <see cref="Pin"/> is an <see cref="ObjectNode"/> and <see cref="MultiplicityElement"/> that provides input values to an <see cref="Action"/> or accepts output values from an <see cref="Action"/>.
     /// </summary>
-    public interface Pin
+    public interface Pin : ObjectNode, MultiplicityElement
     {
+        /// <summary>
+        /// Indicates whether the <see cref="Pin"/> provides data to the <see cref="Action"/> or just controls how the <see cref="Action"/> executes.
+        /// </summary>
+        bool IsControl { get; set; }
     }
 }

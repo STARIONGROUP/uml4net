@@ -22,9 +22,9 @@
 namespace Uml.Actions
 {
     /// <summary>
-    /// WriteLinkAction is an abstract class for LinkActions that create and destroy links.
+    /// <see cref="WriteLinkAction"/> is an abstract class for <see cref="LinkAction"/>s that create and destroy links.
     /// </summary>
-    public interface WriteLinkAction
+    public interface WriteLinkAction : LinkAction
     {
     }
 }

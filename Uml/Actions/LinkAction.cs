@@ -15,16 +15,27 @@
 //   GNU General Public License for more details.
 //
 //   You should have received a copy of the GNU General Public License
-//   along with Foobar.  If not, see<http://www.gnu.org/licenses/>.
+//   along with uml-sharp.  If not, see<http://www.gnu.org/licenses/>.
 // </copyright>
 // -------------------------------------------------------------------------------------------------
 
 namespace Uml.Actions
 {
+    using Uml.Assembler;
+
     /// <summary>
     /// <see cref="LinkAction"/> is an abstract class for all <see cref="Action"/>s that identify the links to be acted on using <see cref="LinkEndData"/>.
     /// </summary>
-    public interface LinkAction
+    public interface LinkAction : Action
     {
+        /// <summary>
+        /// The LinkEndData identifying the values on the ends of the links acting on by this LinkAction.
+        /// </summary>
+        OwnerList<LinkEndData> EndData { get; set; }
+
+        /// <summary>
+        /// InputPins used by the LinkEndData of the LinkAction.
+        /// </summary>
+        OwnerList<InputPin> InputValue { get; set; }
     }
 }

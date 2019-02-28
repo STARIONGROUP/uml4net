@@ -15,16 +15,28 @@
 //   GNU General Public License for more details.
 //
 //   You should have received a copy of the GNU General Public License
-//   along with Foobar.  If not, see<http://www.gnu.org/licenses/>.
+//   along with uml-sharp.  If not, see<http://www.gnu.org/licenses/>.
 // </copyright>
 // -------------------------------------------------------------------------------------------------
 
 namespace Uml.Actions
 {
+    using Uml.Assembler;
+    using Uml.StructuredClassifiers;
+
     /// <summary>
     /// A <see cref="ClearAssociationAction"/> is an <see cref="Action"/> that destroys all links of an <see cref="Association"/> in which a particular object participates.
     /// </summary>
-    public interface ClearAssociationAction
+    public interface ClearAssociationAction : Action
     {
+        /// <summary>
+        /// The Association to be cleared.
+        /// </summary>
+        Association Association { get; set; }
+
+        /// <summary>
+        /// The InputPin that gives the object whose participation in the Association is to be cleared.
+        /// </summary>
+        OwnerList<InputPin> Object { get; set; }
     }
 }

@@ -15,16 +15,28 @@
 //   GNU General Public License for more details.
 //
 //   You should have received a copy of the GNU General Public License
-//   along with Foobar.  If not, see<http://www.gnu.org/licenses/>.
+//   along with uml-sharp.  If not, see<http://www.gnu.org/licenses/>.
 // </copyright>
 // -------------------------------------------------------------------------------------------------
 
 namespace Uml.Actions
 {
+    using Uml.Assembler;
+    using Uml.Classification;
+
     /// <summary>
     /// A <see cref="ReadExtentAction"/> is an <see cref="Action"/> that retrieves the current instances of a <see cref="Classifier"/>.
     /// </summary>
-    public interface ReadExtentAction
+    public interface ReadExtentAction : Action
     {
+        /// <summary>
+        /// The Classifier whose instances are to be retrieved.
+        /// </summary>
+        Classifier Classifier { get; set; }
+
+        /// <summary>
+        /// The OutputPin on which the Classifier instances are placed.
+        /// </summary>
+        OwnerList<OutputPin> Result { get; set; }
     }
 }

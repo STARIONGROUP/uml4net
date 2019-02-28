@@ -15,16 +15,24 @@
 //   GNU General Public License for more details.
 //
 //   You should have received a copy of the GNU General Public License
-//   along with Foobar.  If not, see<http://www.gnu.org/licenses/>.
+//   along with uml-sharp.  If not, see<http://www.gnu.org/licenses/>.
 // </copyright>
 // -------------------------------------------------------------------------------------------------
 
 namespace Uml.Actions
 {
+    using Uml.Assembler;
+
     /// <summary>
     /// An ActionInputPin is a kind of InputPin that executes an Action to determine the values to input to another Action.
     /// </summary>
-    public interface ActionInputPin
+    public interface ActionInputPin : InputPin
     {
+        /// <summary>
+        /// The <see cref="Action"/> used to provide the values of the <see cref="ActionInputPin"/>.
+        /// </summary>
+        OwnerList<Action> FromAction { get; set; }
+
+
     }
 }

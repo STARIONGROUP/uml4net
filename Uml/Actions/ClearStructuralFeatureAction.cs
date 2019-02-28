@@ -15,16 +15,22 @@
 //   GNU General Public License for more details.
 //
 //   You should have received a copy of the GNU General Public License
-//   along with Foobar.  If not, see<http://www.gnu.org/licenses/>.
+//   along with uml-sharp.  If not, see<http://www.gnu.org/licenses/>.
 // </copyright>
 // -------------------------------------------------------------------------------------------------
 
 namespace Uml.Actions
 {
+    using Uml.Assembler;
+
     /// <summary>
     /// A <see cref="ClearStructuralFeatureAction"/> is a <see cref="StructuralFeatureAction"/> that removes all values of a <see cref="StructuralFeature"/>.
     /// </summary>
-    public interface ClearStructuralFeatureAction
+    public interface ClearStructuralFeatureAction : StructuralFeatureAction
     {
+        /// <summary>
+        /// The OutputPin on which is put the input object as modified by the ClearStructuralFeatureAction.
+        /// </summary>
+        OwnerList<OutputPin> Result { get; set; }
     }
 }

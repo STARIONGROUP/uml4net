@@ -21,10 +21,16 @@
 
 namespace Uml.Actions
 {
+    using Uml.Assembler;    
+
     /// <summary>
     /// WriteVariableAction is an abstract class for VariableActions that change Variable values.
     /// </summary>
-    public interface WriteVariableAction
+    public interface WriteVariableAction : VariableAction
     {
+        /// <summary>
+        /// The InputPin that gives the value to be added or removed from the Variable.
+        /// </summary>
+        OwnerList<InputPin> Value { get; set; }
     }
 }

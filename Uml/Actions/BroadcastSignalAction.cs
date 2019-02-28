@@ -15,16 +15,22 @@
 //   GNU General Public License for more details.
 //
 //   You should have received a copy of the GNU General Public License
-//   along with Foobar.  If not, see<http://www.gnu.org/licenses/>.
+//   along with uml-sharp.  If not, see<http://www.gnu.org/licenses/>.
 // </copyright>
 // -------------------------------------------------------------------------------------------------
 
 namespace Uml.Actions
 {
+    using Uml.SimpleClassifiers;
+
     /// <summary>
     /// A <see cref="BroadcastSignalAction"/> is an <see cref="InvocationAction"/> that transmits a Signal instance to all the potential target objects in the system. Values from the argument <see cref="InputPin"/>s are used to provide values for the attributes of the <see cref="Signal"/>. The requestor continues execution immediately after the <see cref="Signal"/> instances are sent out and cannot receive reply values.
     /// </summary>
-    public interface BroadcastSignalAction
+    public interface BroadcastSignalAction : InvocationAction
     {
+        /// <summary>
+        /// The Signal whose instances are to be sent.
+        /// </summary>
+        Signal Signal { get; set; }
     }
 }

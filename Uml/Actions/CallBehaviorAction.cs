@@ -15,16 +15,22 @@
 //   GNU General Public License for more details.
 //
 //   You should have received a copy of the GNU General Public License
-//   along with Foobar.  If not, see<http://www.gnu.org/licenses/>.
+//   along with uml-sharp.  If not, see<http://www.gnu.org/licenses/>.
 // </copyright>
 // -------------------------------------------------------------------------------------------------
 
 namespace Uml.Actions
 {
+    using Uml.CommonBehavior;
+
     /// <summary>
     /// A <see cref="CallBehaviorAction"/> is a <see cref="CallAction"/> that invokes a <see cref="Behavior"/> directly. The argument values of the <see cref="CallBehaviorAction"/> are passed on the input <see cref="Parameter"/>s of the invoked <see cref="Behavior"/>. If the call is synchronous, the execution of the <see cref="CallBehaviorAction"/> waits until the execution of the invoked <see cref="Behavior"/> completes and the values of output <see cref="Parameter"/>s of the Behavior are placed on the result <see cref="OutputPin"/>s. If the call is asynchronous, the <see cref="CallBehaviorAction"/> completes immediately and no results values can be provided.
     /// </summary>
-    public interface CallBehaviorAction
+    public interface CallBehaviorAction : CallAction
     {
+        /// <summary>
+        /// The <see cref="Behavior"/> being invoked.
+        /// </summary>
+        Behavior Behavior { get; set; }
     }
 }

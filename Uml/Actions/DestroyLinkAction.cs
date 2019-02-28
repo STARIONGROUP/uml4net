@@ -15,16 +15,22 @@
 //   GNU General Public License for more details.
 //
 //   You should have received a copy of the GNU General Public License
-//   along with Foobar.  If not, see<http://www.gnu.org/licenses/>.
+//   along with uml-sharp.  If not, see<http://www.gnu.org/licenses/>.
 // </copyright>
 // -------------------------------------------------------------------------------------------------
 
 namespace Uml.Actions
 {
+    using Uml.Assembler;
+
     /// <summary>
     /// A <see cref="DestroyLinkAction"/> is a <see cref="WriteLinkAction"/> that destroys links (including link objects).
     /// </summary>
-    public interface DestroyLinkAction
+    public interface DestroyLinkAction : WriteLinkAction
     {
+        /// <summary>
+        /// The LinkEndData that the values of the Association ends for the links to be destroyed.
+        /// </summary>
+        OwnerList<LinkEndDestructionData> EndData { get; set; }
     }
 }

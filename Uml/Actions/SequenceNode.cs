@@ -15,16 +15,23 @@
 //   GNU General Public License for more details.
 //
 //   You should have received a copy of the GNU General Public License
-//   along with Foobar.  If not, see<http://www.gnu.org/licenses/>.
+//   along with uml-sharp.  If not, see<http://www.gnu.org/licenses/>.
 // </copyright>
 // -------------------------------------------------------------------------------------------------
 
 namespace Uml.Actions
 {
+    using Uml.Activities;
+    using Uml.Assembler;
+
     /// <summary>
     /// A <see cref="SequenceNode"/> is a <see cref="StructuredActivityNode"/> that executes a sequence of <see cref="ExecutableNodes"/> in order.
     /// </summary>
-    public interface SequenceNode
+    public interface SequenceNode : StructuredActivityNode
     {
+        /// <summary>
+        /// The ordered set of <see cref="ExecutableNode"/>s to be sequenced.
+        /// </summary>
+        OwnerList<ExecutableNode> ExecutableNode { get; set; }
     }
 }

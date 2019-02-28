@@ -15,16 +15,27 @@
 //   GNU General Public License for more details.
 //
 //   You should have received a copy of the GNU General Public License
-//   along with Foobar.  If not, see<http://www.gnu.org/licenses/>.
+//   along with uml-sharp.  If not, see<http://www.gnu.org/licenses/>.
 // </copyright>
 // -------------------------------------------------------------------------------------------------
 
 namespace Uml.Actions
 {
+    using Uml.Assembler;
+
     /// <summary>
     /// A <see cref="RemoveVariableValueAction"/> is a <see cref="WriteVariableAction"/> that removes values from a <see cref="Variable"/>s.
     /// </summary>
-    public interface RemoveVariableValueAction
+    public interface RemoveVariableValueAction : WriteVariableAction
     {
+        /// <summary>
+        /// Specifies whether to remove duplicates of the value in nonunique Variables.
+        /// </summary>
+        bool IsRemoveDuplicates { get; set; }
+
+        /// <summary>
+        /// An InputPin that provides the position of an existing value to remove in ordered, nonunique Variables. The type of the removeAt InputPin is UnlimitedNatural, but the value cannot be zero or unlimited.
+        /// </summary>
+        OwnerList<InputPin> RemoveAt { get; set; }
     }
 }

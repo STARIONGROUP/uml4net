@@ -15,16 +15,33 @@
 //   GNU General Public License for more details.
 //
 //   You should have received a copy of the GNU General Public License
-//   along with Foobar.  If not, see<http://www.gnu.org/licenses/>.
+//   along with uml-sharp.  If not, see<http://www.gnu.org/licenses/>.
 // </copyright>
 // -------------------------------------------------------------------------------------------------
 
 namespace Uml.Actions
 {
+    using Uml.Assembler;
+    using Uml.Classification;
+
     /// <summary>
     /// A <see cref="ReadLinkObjectEndAction"/> is an <see cref="Action"/> that retrieves an end object from a link object.
     /// </summary>
-    public interface ReadLinkObjectEndAction
+    public interface ReadLinkObjectEndAction : Action
     {
+        /// <summary>
+        /// The Association end to be read.
+        /// </summary>
+        Property End { get; set; }
+
+        /// <summary>
+        /// The input pin from which the link object is obtained.
+        /// </summary>
+        OwnerList<InputPin> Object { get; set; }
+
+        /// <summary>
+        /// The <see cref="OutputPin"/> where the result value is placed.
+        /// </summary>
+        OwnerList<OutputPin> Result { get; set; }
     }
 }

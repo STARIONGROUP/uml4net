@@ -21,10 +21,16 @@
 
 namespace Uml.Actions
 {
+    using Uml.Assembler;
+
     /// <summary>
     /// A <see cref="ReadVariableAction"/> is a <see cref="VariableAction"/> that retrieves the values of a <see cref="Variable"/>.
     /// </summary>
-    public interface ReadVariableAction
+    public interface ReadVariableAction : VariableAction
     {
+        /// <summary>
+        /// The <see cref="OutputPin"/> on which the context object is placed.
+        /// </summary>
+        OwnerList<OutputPin> Result { get; set; }
     }
 }

@@ -15,16 +15,27 @@
 //   GNU General Public License for more details.
 //
 //   You should have received a copy of the GNU General Public License
-//   along with Foobar.  If not, see<http://www.gnu.org/licenses/>.
+//   along with uml-sharp.  If not, see<http://www.gnu.org/licenses/>.
 // </copyright>
 // -------------------------------------------------------------------------------------------------
 
 namespace Uml.Actions
 {
+    using Uml.Assembler;
+
     /// <summary>
     /// An <see cref="AddStructuralFeatureValueAction"/> is a <see cref="WriteStructuralFeatureAction"/> for adding values to a <see cref="StructuralFeature"/>.
     /// </summary>
-    public interface AddStructuralFeatureValueAction
+    public interface AddStructuralFeatureValueAction : WriteStructuralFeatureAction
     {
+        /// <summary>
+        /// The InputPin that gives the position at which to insert the value in an ordered StructuralFeature. The type of the insertAt InputPin is UnlimitedNatural, but the value cannot be zero. It is omitted for unordered StructuralFeatures.
+        /// </summary>
+        OwnerList<InputPin> InsertAt { get; set; }
+
+        /// <summary>
+        /// Specifies whether existing values of the <see cref="StructuralFeature"/> should be removed before adding the new value.
+        /// </summary>
+        bool IsReplaceAll { get; set; }
     }
 }

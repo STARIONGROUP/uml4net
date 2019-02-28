@@ -15,16 +15,22 @@
 //   GNU General Public License for more details.
 //
 //   You should have received a copy of the GNU General Public License
-//   along with Foobar.  If not, see<http://www.gnu.org/licenses/>.
+//   along with uml-sharp.  If not, see<http://www.gnu.org/licenses/>.
 // </copyright>
 // -------------------------------------------------------------------------------------------------
 
 namespace Uml.Actions
 {
+    using Uml.Assembler;
+
     /// <summary>
     /// A <see cref="CreateLinkAction"/> is a <see cref="WriteLinkAction"/> for creating links.
     /// </summary>
-    public interface CreateLinkAction
+    public interface CreateLinkAction : WriteLinkAction
     {
+        /// <summary>
+        /// The LinkEndData that specifies the values to be placed on the Association ends for the new link.
+        /// </summary>
+        OwnerList<LinkEndCreationData> EndData { get; set; }
     }
 }

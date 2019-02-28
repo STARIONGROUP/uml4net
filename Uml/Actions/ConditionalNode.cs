@@ -15,16 +15,37 @@
 //   GNU General Public License for more details.
 //
 //   You should have received a copy of the GNU General Public License
-//   along with Foobar.  If not, see<http://www.gnu.org/licenses/>.
+//   along with uml-sharp.  If not, see<http://www.gnu.org/licenses/>.
 // </copyright>
 // -------------------------------------------------------------------------------------------------
 
 namespace Uml.Actions
 {
+    using Uml.Assembler;
+
     /// <summary>
     /// A <see cref="ConditionalNode"/> is a <see cref="StructuredActivityNode"/> that chooses one among some number of alternative collections of <see cref="ExecutableNode"/>s to execute.
     /// </summary>
-    public interface ConditionalNode
+    public interface ConditionalNode : StructuredActivityNode
     {
+        /// <summary>
+        /// The set of Clauses composing the ConditionalNode.
+        /// </summary>
+        OwnerList<Clause> Clause { get; set; }
+
+        /// <summary>
+        /// If true, the modeler asserts that the test for at least one Clause of the ConditionalNode will succeed.
+        /// </summary>
+        bool IsAssured { get; set; }
+
+        /// <summary>
+        /// If true, the modeler asserts that the test for at most one Clause of the ConditionalNode will succeed.
+        /// </summary>
+        bool IsDeterminate { get; set; }
+
+        /// <summary>
+        /// The OutputPins that onto which are moved values from the bodyOutputs of the Clause selected for execution.
+        /// </summary>
+        OwnerList<OutputPin> Result { get; set; }
     }
 }

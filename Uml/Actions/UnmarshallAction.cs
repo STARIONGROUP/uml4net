@@ -15,16 +15,33 @@
 //   GNU General Public License for more details.
 //
 //   You should have received a copy of the GNU General Public License
-//   along with Foobar.  If not, see<http://www.gnu.org/licenses/>.
+//   along with uml-sharp.  If not, see<http://www.gnu.org/licenses/>.
 // </copyright>
 // -------------------------------------------------------------------------------------------------
 
 namespace Uml.Actions
 {
+    using Uml.Assembler;
+    using Uml.Classification;
+
     /// <summary>
     /// An <see cref="UnmarshallAction"/> is an <see cref="Action"/> that retrieves the values of the <see cref="StructuralFeature"/>s of an object and places them on <see cref="OutputPin"/>s. 
     /// </summary>
-    public interface UnmarshallAction
+    public interface UnmarshallAction : Action
     {
+        /// <summary>
+        /// The <see cref="InputPin"/> that gives the object to be unmarshalled.
+        /// </summary>
+        OwnerList<InputPin> Object { get; set; }
+
+        /// <summary>
+        /// The <see cref="OutputPin"/>s on which are placed the values of the <see cref="StructuralFeature"/>s of the input object.
+        /// </summary>
+        OwnerList<OutputPin> Result { get; set; }
+
+        /// <summary>
+        /// The type of the object to be unmarshalled.
+        /// </summary>
+        Classifier UnmarshallType { get; set; }
     }
 }

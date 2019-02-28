@@ -15,16 +15,38 @@
 //   GNU General Public License for more details.
 //
 //   You should have received a copy of the GNU General Public License
-//   along with Foobar.  If not, see<http://www.gnu.org/licenses/>.
+//   along with uml-sharp.  If not, see<http://www.gnu.org/licenses/>.
 // </copyright>
 // -------------------------------------------------------------------------------------------------
 
 namespace Uml.Actions
 {
+    using Uml.Assembler;
+    using Uml.Classification;
+
     /// <summary>
-    /// A <see cref="ReadIsClassifiedObjectAction"/> is an Action that determines whether an object is classified by a given <see cref="Classifier"/>.
+    /// A <see cref="ReadIsClassifiedObjectAction"/> is an <see cref="Action"/> that determines whether an object is classified by a given <see cref="Classifier"/>.
     /// </summary>
-    public interface ReadIsClassifiedObjectAction
+    public interface ReadIsClassifiedObjectAction : Action
     {
+        /// <summary>
+        /// The Classifier against which the classification of the input object is tested.
+        /// </summary>
+        Classifier  Classifier { get; set; }
+
+        /// <summary>
+        /// Indicates whether the input object must be directly classified by the given <see cref="Classifier"/> or whether it may also be an instance of a specialization of the given <see cref="Classifier"/>.
+        /// </summary>
+        bool IsDirect { get; set; }
+
+        /// <summary>
+        /// The <see cref="InputPin"/> that holds the object whose classification is to be tested.
+        /// </summary>
+        OwnerList<InputPin> Object { get; set; }
+
+        /// <summary>
+        /// The <see cref="OutputPin"/> that holds the Boolean result of the test.
+        /// </summary>
+        OwnerList<OutputPin> Result { get; set; }
     }
 }

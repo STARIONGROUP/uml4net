@@ -15,16 +15,33 @@
 //   GNU General Public License for more details.
 //
 //   You should have received a copy of the GNU General Public License
-//   along with Foobar.  If not, see<http://www.gnu.org/licenses/>.
+//   along with uml-sharp.  If not, see<http://www.gnu.org/licenses/>.
 // </copyright>
 // -------------------------------------------------------------------------------------------------
 
 namespace Uml.Actions
 {
+    using Uml.Assembler;
+    using Uml.CommonBehavior;
+
     /// <summary>
     /// An AcceptEventAction is an Action that waits for the occurrence of one or more specific Events.
     /// </summary>
-    public interface AcceptEventAction
+    public interface AcceptEventAction : Action
     {
+        /// <summary>
+        /// Indicates whether there is a single <see cref="OutputPin"/> for a <see cref="SignalEvent"/> occurrence, or multiple <see cref="OutputPin"/>s for attribute values of the instance of the <see cref="Signal"/> associated with a <see cref="SignalEvent"/> occurrence.
+        /// </summary>
+        bool IsUnmarshall { get; set; }
+
+        /// <summary>
+        /// <see cref="OutputPin"/>s holding the values received from an <see cref="Event"/> occurrence.
+        /// </summary>
+        OwnerList<OutputPin> Result { get; set; }
+
+        /// <summary>
+        /// The <see cref="Trigger"/>s specifying the Events of which the <see cref="AcceptEventAction"/> waits for occurrences.
+        /// </summary>
+        OwnerList<Trigger> Trigger { get; set; }
     }
 }

@@ -15,16 +15,22 @@
 //   GNU General Public License for more details.
 //
 //   You should have received a copy of the GNU General Public License
-//   along with Foobar.  If not, see<http://www.gnu.org/licenses/>.
+//   along with uml-sharp.  If not, see<http://www.gnu.org/licenses/>.
 // </copyright>
 // -------------------------------------------------------------------------------------------------
 
 namespace Uml.Actions
 {
+    using Uml.Assembler;
+
     /// <summary>
     /// A <see cref="StartClassifierBehaviorAction"/> is an <see cref="Action"/> that starts the classifierBehavior of the input object.
     /// </summary>
-    public interface StartClassifierBehaviorAction
+    public interface StartClassifierBehaviorAction : Action
     {
+        /// <summary>
+        /// The <see cref="InputPin"/> that holds the object whose classifierBehavior is to be started.
+        /// </summary>
+        OwnerList<InputPin> Object { get; set; }
     }
 }

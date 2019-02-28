@@ -15,16 +15,23 @@
 //   GNU General Public License for more details.
 //
 //   You should have received a copy of the GNU General Public License
-//   along with Foobar.  If not, see<http://www.gnu.org/licenses/>.
+//   along with uml-sharp.  If not, see<http://www.gnu.org/licenses/>.
 // </copyright>
 // -------------------------------------------------------------------------------------------------
 
 namespace Uml.Actions
 {
+    using Uml.Assembler;
+    using Uml.Values;
+
     /// <summary>
     /// A <see cref="ValuePin"/> is an <see cref="InputPin"/> that provides a value by evaluating a <see cref="ValueSpecification"/>.
     /// </summary>
-    public interface ValuePin
+    public interface ValuePin : InputPin
     {
+        /// <summary>
+        /// The <see cref="ValueSpecification"/> that is evaluated to obtain the value that the <see cref="ValuePin"/> will provide.
+        /// </summary>
+        OwnerList<ValueSpecification> Value { get; set; }
     }
 }

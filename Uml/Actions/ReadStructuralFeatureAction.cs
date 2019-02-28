@@ -21,10 +21,16 @@
 
 namespace Uml.Actions
 {
+    using Uml.Assembler;
+
     /// <summary>
     /// A <see cref="ReadStructuralFeatureAction"/> is a <see cref="StructuralFeatureAction"/> that retrieves the values of a <see cref="StructuralFeature"/>.
     /// </summary>
-    public interface ReadStructuralFeatureAction
+    public interface ReadStructuralFeatureAction : StructuralFeatureAction
     {
+        /// <summary>
+        /// The <see cref="OutputPin"/> on which the context object is placed.
+        /// </summary>
+        OwnerList<OutputPin> Result { get; set; }
     }
 }

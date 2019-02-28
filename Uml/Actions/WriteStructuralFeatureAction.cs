@@ -21,10 +21,21 @@
 
 namespace Uml.Actions
 {
+    using Uml.Assembler;
+
     /// <summary>
-    /// WriteStructuralFeatureAction is an abstract class for StructuralFeatureActions that change StructuralFeature values.
+    /// <see cref="WriteStructuralFeatureAction"/> is an abstract class for <see cref="StructuralFeatureAction"/>s that change <see cref="StructuralFeature"/> values.
     /// </summary>
-    public interface WriteStructuralFeatureAction
+    public interface WriteStructuralFeatureAction : StructuralFeatureAction
     {
+        /// <summary>
+        /// The <see cref="OutputPin"/> on which is put the input object as modified by the <see cref="WriteStructuralFeatureAction"/>.
+        /// </summary>
+        OwnerList<OutputPin> Result { get; set; }
+
+        /// <summary>
+        /// The <see cref="InputPin"/> that provides the value to be added or removed from the <see cref="StructuralFeature"/>.
+        /// </summary>
+        OwnerList<InputPin> Value { get; set; }
     }
 }

@@ -15,7 +15,7 @@
 //   GNU General Public License for more details.
 //
 //   You should have received a copy of the GNU General Public License
-//   along with Foobar.  If not, see<http://www.gnu.org/licenses/>.
+//   along with uml-sharp.  If not, see<http://www.gnu.org/licenses/>.
 // </copyright>
 // -------------------------------------------------------------------------------------------------
 
@@ -24,7 +24,16 @@ namespace Uml.Actions
     /// <summary>
     /// <see cref="LinkEndDestructionData"/> is <see cref="LinkEndData"/> used to provide values for one end of a link to be destroyed by a <see cref="DestroyLinkAction"/>.
     /// </summary>
-    public interface LinkEndDestructionData
+    public interface LinkEndDestructionData : LinkEndData
     {
+        /// <summary>
+        /// The <see cref="InputPin"/> that provides the position of an existing link to be destroyed in an ordered, nonunique <see cref="Association"/> end. The type of the destroyAt <see cref="InputPin"/> is <see cref="UnlimitedNatural"/>, but the value cannot be zero or unlimited.
+        /// </summary>
+        InputPin DestroyAt { get; set; }
+
+        /// <summary>
+        /// Specifies whether to destroy duplicates of the value in nonunique <see cref="Association"/> ends.
+        /// </summary>
+        bool IsDestroyDuplicates { get; set; }
     }
 }

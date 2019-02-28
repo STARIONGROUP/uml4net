@@ -15,16 +15,27 @@
 //   GNU General Public License for more details.
 //
 //   You should have received a copy of the GNU General Public License
-//   along with Foobar.  If not, see<http://www.gnu.org/licenses/>.
+//   along with uml-sharp.  If not, see<http://www.gnu.org/licenses/>.
 // </copyright>
 // -------------------------------------------------------------------------------------------------
 
 namespace Uml.Actions
 {
+    using Uml.Assembler;
+
     /// <summary>
     /// <see cref="CallAction"/> is an abstract class for <see cref="Action"/>s that invoke a <see cref="Behavior"/> with given argument values and (if the invocation is synchronous) receive reply values.
     /// </summary>
-    public interface CallAction
+    public interface CallAction : InvocationAction
     {
+        /// <summary>
+        /// If true, the call is synchronous and the caller waits for completion of the invoked Behavior. If false, the call is asynchronous and the caller proceeds immediately and cannot receive return values.
+        /// </summary>
+        bool IsSynchronous { get; set; }
+
+        /// <summary>
+        /// The OutputPins on which the reply values from the invocation are placed (if the call is synchronous).
+        /// </summary>
+        OwnerList<OutputPin> Result { get; set; }
     }
 }

@@ -21,10 +21,16 @@
 
 namespace Uml.Actions
 {
+    using Uml.Activities;
+
     /// <summary>
     /// VariableAction is an abstract class for Actions that operate on a specified Variable.
     /// </summary>
-    public interface VariableAction
+    public interface VariableAction : Action
     {
+        /// <summary>
+        /// The Variable to be read or written.
+        /// </summary>
+        Variable Variable { get; set; }
     }
 }

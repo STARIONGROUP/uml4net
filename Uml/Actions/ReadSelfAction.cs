@@ -15,16 +15,22 @@
 //   GNU General Public License for more details.
 //
 //   You should have received a copy of the GNU General Public License
-//   along with Foobar.  If not, see<http://www.gnu.org/licenses/>.
+//   along with uml-sharp.  If not, see<http://www.gnu.org/licenses/>.
 // </copyright>
 // -------------------------------------------------------------------------------------------------
 
 namespace Uml.Actions
 {
+    using Uml.Assembler;
+
     /// <summary>
     /// A <see cref="ReadSelfAction"/> is an Action that retrieves the context object of the <see cref="Behavior"/> execution within which the <see cref="ReadSelfAction"/> execution is taking place.
     /// </summary>
-    public interface ReadSelfAction
+    public interface ReadSelfAction : Action
     {
+        /// <summary>
+        /// The <see cref="OutputPin"/> on which the context object is placed.
+        /// </summary>
+        OwnerList<OutputPin> Result { get; set; }
     }
 }

@@ -15,16 +15,22 @@
 //   GNU General Public License for more details.
 //
 //   You should have received a copy of the GNU General Public License
-//   along with Foobar.  If not, see<http://www.gnu.org/licenses/>.
+//   along with uml-sharp.  If not, see<http://www.gnu.org/licenses/>.
 // </copyright>
 // -------------------------------------------------------------------------------------------------
 
 namespace Uml.Actions
 {
+    using Uml.Assembler;
+
     /// <summary>
     /// A <see cref="RaiseExceptionAction"/> is an <see cref="Action"/> that causes an exception to occur. The input value becomes the exception object.
     /// </summary>
-    public interface RaiseExceptionAction
+    public interface RaiseExceptionAction : Action
     {
+        /// <summary>
+        /// An <see cref="InputPin"/> whose value becomes the exception object.
+        /// </summary>
+        OwnerList<InputPin> Exception { get; set; }
     }
 }

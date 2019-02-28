@@ -15,16 +15,28 @@
 //   GNU General Public License for more details.
 //
 //   You should have received a copy of the GNU General Public License
-//   along with Foobar.  If not, see<http://www.gnu.org/licenses/>.
+//   along with uml-sharp.  If not, see<http://www.gnu.org/licenses/>.
 // </copyright>
 // -------------------------------------------------------------------------------------------------
 
 namespace Uml.Actions
 {
+    using Uml.StructuredClassifiers;
+    using Uml.Assembler;
+
     /// <summary>
     /// <see cref="InvocationAction"/> is an abstract class for the various actions that request <see cref="Behavior"/> invocation.
     /// </summary>
-    public interface InvocationAction
+    public interface InvocationAction : Action
     {
+        /// <summary>
+        /// The InputPins that provide the argument values passed in the invocation request.
+        /// </summary>
+        OwnerList<InputPin> Argument { get; set; }
+
+        /// <summary>
+        /// For CallOperationActions, SendSignalActions, and SendObjectActions, an optional Port of the target object through which the invocation request is sent.
+        /// </summary>
+        Port OnPort { get; set; }
     }
 }

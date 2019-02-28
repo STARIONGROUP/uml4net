@@ -15,16 +15,28 @@
 //   GNU General Public License for more details.
 //
 //   You should have received a copy of the GNU General Public License
-//   along with Foobar.  If not, see<http://www.gnu.org/licenses/>.
+//   along with uml-sharp.  If not, see<http://www.gnu.org/licenses/>.
 // </copyright>
 // -------------------------------------------------------------------------------------------------
 
 namespace Uml.Actions
 {
+    using Uml.Assembler;
+    using Uml.Classification;
+
     /// <summary>
     /// A <see cref="CreateObjectAction"/> is an <see cref="Action"/> that creates an instance of the specified <see cref="Classifier"/>.
     /// </summary>
-    public interface CreateObjectAction
+    public interface CreateObjectAction : Action
     {
+        /// <summary>
+        /// The Classifier to be instantiated.
+        /// </summary>
+        Classifier  Classifier { get; set; }
+
+        /// <summary>
+        /// The OutputPin on which the newly created object is placed.
+        /// </summary>
+        OwnerList<OutputPin> Result { get; set; }
     }
 }
