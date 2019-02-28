@@ -21,10 +21,21 @@
 
 namespace Uml.UseCases
 {
+    using Uml.CommonStructure;
+
     /// <summary>
     /// An Include relationship specifies that a UseCase contains the behavior defined in another UseCase.
     /// </summary>
-    public interface Include
+    public interface Include : DirectedRelationship, NamedElement
     {
+        /// <summary>
+        /// The <see cref="UseCase"/> that is to be included.
+        /// </summary>
+        UseCase Addition { get; set; }
+
+        /// <summary>
+        /// The <see cref="UseCase"/> which includes the addition and owns the <see cref="Include"/> relationship.
+        /// </summary>
+        UseCase includingCase { get; set; }
     }
 }

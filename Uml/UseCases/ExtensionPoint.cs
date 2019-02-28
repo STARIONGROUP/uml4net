@@ -21,10 +21,16 @@
 
 namespace Uml.UseCases
 {
+    using Uml.Classification;
+
     /// <summary>
-    /// An ExtensionPoint identifies a point in the behavior of a UseCase where that behavior can be extended by the behavior of some other (extending) UseCase, as specified by an Extend relationship.
+    /// An <see cref="ExtensionPoint"/> identifies a point in the behavior of a <see cref="UseCase"/> where that behavior can be extended by the behavior of some other (extending) <see cref="UseCase"/>, as specified by an <see cref="Extend"/> relationship.
     /// </summary>
-    public interface ExtensionPoint
+    public interface ExtensionPoint : RedefinableElement
     {
+        /// <summary>
+        /// The <see cref="UseCase"/> that owns this <see cref="ExtensionPoint"/>.
+        /// </summary>
+        UseCase UseCase { get; set; }
     }
 }

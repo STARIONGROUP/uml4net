@@ -21,10 +21,13 @@
 
 namespace Uml.UseCases
 {
+    using Uml.SimpleClassifiers;
+
     /// <summary>
     /// An Actor specifies a role played by a user or any other system that interacts with the subject.
     /// </summary>
-    public interface Actor
+    public interface Actor : BehavioredClassifier
     {
+        
     }
 }

@@ -21,10 +21,33 @@
 
 namespace Uml.UseCases
 {
+    using Uml.Assembler;
+    using Uml.Classification;
+    using Uml.SimpleClassifiers;
+
     /// <summary>
-    /// A UseCase specifies a set of actions performed by its subjects, which yields an observable result that is of value for one or more Actors or other stakeholders of each subject.
+    /// A <see cref="UseCase"/> specifies a set of actions performed by its subjects, which yields an observable result that is of value for one or more Actors or other stakeholders of each subject.
     /// </summary>
-    public interface UseCase
+    public interface UseCase : BehavioredClassifier
     {
+        /// <summary>
+        /// The <see cref="Extend"/> relationships owned by this <see cref="UseCase"/>.
+        /// </summary>
+        OwnerList<Extend> Extend { get; set; }
+
+        /// <summary>
+        /// The <see cref="ExtensionPoint"/>s owned by this <see cref="UseCase"/>.
+        /// </summary>
+        OwnerList<ExtensionPoint> ExtensionPoint { get; set; }
+
+        /// <summary>
+        /// The <see cref="Include"/> relationships owned by this <see cref="UseCase"/>.
+        /// </summary>
+        OwnerList<Include> Include { get; set; }
+
+        /// <summary>
+        /// The subjects to which this <see cref="UseCase"/> applies. Each subject or its parts realize all the <see cref="UseCase"/>s that apply to it.
+        /// </summary>
+        Classifier Subject { get; set; }
     }
 }
