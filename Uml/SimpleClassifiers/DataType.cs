@@ -15,16 +15,28 @@
 //   GNU General Public License for more details.
 //
 //   You should have received a copy of the GNU General Public License
-//   along with Foobar.  If not, see<http://www.gnu.org/licenses/>.
+//   along with uml-sharp. If not, see<http://www.gnu.org/licenses/>.
 // </copyright>
 // -------------------------------------------------------------------------------------------------
 
 namespace Uml.SimpleClassifiers
 {
+    using Uml.Assembler;
+    using Uml.Classification;
+
     /// <summary>
     /// A DataType is a type whose instances are identified only by their value.
     /// </summary>
-    public interface DataType
+    public interface DataType : Classifier
     {
+        /// <summary>
+        /// The attributes owned by the <see cref="DataType"/>.
+        /// </summary>
+        OwnerList<Property> OwnedAttribute { get; set; }
+
+        /// <summary>
+        /// The <see cref="Operation"/>s owned by the <see cref="DataType"/>.
+        /// </summary>
+        OwnerList<Operation> OwnedAttribute { get; set; }
     }
 }

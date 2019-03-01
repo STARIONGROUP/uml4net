@@ -15,16 +15,30 @@
 //   GNU General Public License for more details.
 //
 //   You should have received a copy of the GNU General Public License
-//   along with Foobar.  If not, see<http://www.gnu.org/licenses/>.
+//   along with uml-sharp. If not, see<http://www.gnu.org/licenses/>.
 // </copyright>
 // -------------------------------------------------------------------------------------------------
 
 namespace Uml.SimpleClassifiers
 {
+    using Uml.Classification;
+
     /// <summary>
-    /// An EnumerationLiteral is a user-defined data value for an Enumeration.
+    /// An <see cref="EnumerationLiteral"/> is a user-defined data value for an <see cref="Enumeration"/>.
     /// </summary>
-    public interface EnumerationLiteral
+    public interface EnumerationLiteral : InstanceSpecification
     {
+        /// <summary>
+        /// The classifier of this <see cref="EnumerationLiteral"/> derived to be equal to its <see cref="Enumeration"/>.
+        /// </summary>
+        /// <remarks>
+        /// Derived property.
+        /// </remarks>
+        Enumeration Classifier { get; }
+
+        /// <summary>
+        /// The <see cref="Enumeration"/> that this <see cref="EnumerationLiteral"/> is a member of.
+        /// </summary>
+        Enumeration  Enumeration { get; set; }
     }
 }

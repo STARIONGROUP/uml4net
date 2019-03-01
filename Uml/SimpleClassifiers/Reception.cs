@@ -15,16 +15,22 @@
 //   GNU General Public License for more details.
 //
 //   You should have received a copy of the GNU General Public License
-//   along with Foobar.  If not, see<http://www.gnu.org/licenses/>.
+//   along with uml-sharp. If not, see<http://www.gnu.org/licenses/>.
 // </copyright>
 // -------------------------------------------------------------------------------------------------
 
 namespace Uml.SimpleClassifiers
 {
+    using Uml.Classification;
+
     /// <summary>
     /// A Reception is a declaration stating that a Classifier is prepared to react to the receipt of a Signal.
     /// </summary>
-    public interface Reception
+    public interface Reception : BehavioralFeature
     {
+        /// <summary>
+        /// The <see cref="Signal"/> that this <see cref="Reception"/> handles.
+        /// </summary>
+        Signal Signal { get; set; }
     }
 }

@@ -15,16 +15,22 @@
 //   GNU General Public License for more details.
 //
 //   You should have received a copy of the GNU General Public License
-//   along with Foobar.  If not, see<http://www.gnu.org/licenses/>.
+//   along with uml-sharp. If not, see<http://www.gnu.org/licenses/>.
 // </copyright>
 // -------------------------------------------------------------------------------------------------
 
 namespace Uml.SimpleClassifiers
 {
+    using Uml.Assembler;
+
     /// <summary>
-    /// An Enumeration is a DataType whose values are enumerated in the model as EnumerationLiterals.
+    /// An Enumeration is a <see cref="DataType"/> whose values are enumerated in the model as <see cref="EnumerationLiteral"/>s.
     /// </summary>
-    public interface Enumeration
+    public interface Enumeration : DataType
     {
+        /// <summary>
+        /// The ordered set of literals owned by this <see cref="Enumeration"/>.
+        /// </summary>
+        OwnerList<EnumerationLiteral> OwnedLiteral { get; set }
     }
 }

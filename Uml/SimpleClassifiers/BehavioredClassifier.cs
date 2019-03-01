@@ -15,16 +15,34 @@
 //   GNU General Public License for more details.
 //
 //   You should have received a copy of the GNU General Public License
-//   along with Foobar.  If not, see<http://www.gnu.org/licenses/>.
+//   along with uml-sharp. If not, see<http://www.gnu.org/licenses/>.
 // </copyright>
 // -------------------------------------------------------------------------------------------------
 
 namespace Uml.SimpleClassifiers
 {
+    using Uml.Assembler;
+    using Uml.Classification;
+    using Uml.CommonBehavior;
+
     /// <summary>
-    /// A <see cref="BehavioredClassifier"/> may have InterfaceRealizations, and owns a set of Behaviors one of which may specify the behavior of the BehavioredClassifier itself.
+    /// A <see cref="BehavioredClassifier"/> may have <see cref="InterfaceRealization"/>s, and owns a set of Behaviors one of which may specify the behavior of the <see cref="BehavioredClassifier"/> itself.
     /// </summary>
-    public interface BehavioredClassifier
+    public interface BehavioredClassifier : Classifier
     {
+        /// <summary>
+        /// A <see cref="Behavior"/> that specifies the behavior of the <see cref="BehavioredClassifier"/> itself.
+        /// </summary>
+        Behavior ClassifierBehavior { get; set; }
+
+        /// <summary>
+        /// The set of <see cref="InterfaceRealization"/>s owned by the <see cref="BehavioredClassifier"/>. Interface realizations reference the <see cref="Interface"/>s of which the <see cref="BehavioredClassifier"/> is an implementation.
+        /// </summary>
+        InterfaceRealization InterfaceRealization { get; set; }
+
+        /// <summary>
+        /// Behaviors owned by a <see cref="BehavioredClassifier"/>.
+        /// </summary>
+        OwnerList<Behavior> OwnedBehavior { get; set; }
     }
 }

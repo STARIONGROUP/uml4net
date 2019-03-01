@@ -15,16 +15,27 @@
 //   GNU General Public License for more details.
 //
 //   You should have received a copy of the GNU General Public License
-//   along with Foobar.  If not, see<http://www.gnu.org/licenses/>.
+//   along with uml-sharp. If not, see<http://www.gnu.org/licenses/>.
 // </copyright>
 // -------------------------------------------------------------------------------------------------
 
 namespace Uml.SimpleClassifiers
 {
+    using Uml.CommonStructure;
+
     /// <summary>
-    /// An InterfaceRealization is a specialized realization relationship between a BehavioredClassifier and an Interface. This relationship signifies that the realizing BehavioredClassifier conforms to the contract specified by the Interface.
+    /// An InterfaceRealization is a specialized realization relationship between a <see cref="BehavioredClassifier"/> and an Interface. This relationship signifies that the realizing BehavioredClassifier conforms to the contract specified by the Interface.
     /// </summary>
-    public interface InterfaceRealization
+    public interface InterfaceRealization : Realization
     {
+        /// <summary>
+        /// References the <see cref="Interface"/> specifying the conformance contract.
+        /// </summary>
+        Interface Contract { get; set; }
+
+        /// <summary>
+        /// References the <see cref="BehavioredClassifier"/> that owns this InterfaceRealization, i.e., the <see cref="BehavioredClassifier"/> that realizes the Interface to which it refers.
+        /// </summary>
+        BehavioredClassifier ImplementingClassifier { get; set; }
     }
 }

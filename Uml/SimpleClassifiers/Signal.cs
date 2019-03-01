@@ -15,16 +15,23 @@
 //   GNU General Public License for more details.
 //
 //   You should have received a copy of the GNU General Public License
-//   along with Foobar.  If not, see<http://www.gnu.org/licenses/>.
+//   along with uml-sharp. If not, see<http://www.gnu.org/licenses/>.
 // </copyright>
 // -------------------------------------------------------------------------------------------------
 
 namespace Uml.SimpleClassifiers
 {
+    using Uml.Assembler;
+    using Uml.Classification;
+
     /// <summary>
     /// A Signal is a specification of a kind of communication between objects in which a reaction is asynchronously triggered in the receiver without a reply.
     /// </summary>
-    public interface Signal
+    public interface Signal : Classifier
     {
+        /// <summary>
+        /// The attributes owned by the <see cref="Signal"/>.
+        /// </summary>
+        OwnerList<Property> OwnedAttribute { get; set; }
     }
 }
