@@ -15,13 +15,16 @@
 //   GNU General Public License for more details.
 //
 //   You should have received a copy of the GNU General Public License
-//   along with Foobar.  If not, see<http://www.gnu.org/licenses/>.
+//   along with uml-sharp. If not, see<http://www.gnu.org/licenses/>.
 // </copyright>
 // -------------------------------------------------------------------------------------------------
 
 namespace Uml.Interactions
 {
-    public interface PartDecomposition
+    /// <summary>
+    /// A <see cref="PartDecomposition"/> is a description of the internal <see cref="Interaction"/>s of one <see cref="Lifeline"/> relative to an <see cref="Interaction"/>.
+    /// </summary>
+    public interface PartDecomposition : InteractionUse
     {
     }
 }

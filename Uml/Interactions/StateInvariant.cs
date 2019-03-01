@@ -15,13 +15,30 @@
 //   GNU General Public License for more details.
 //
 //   You should have received a copy of the GNU General Public License
-//   along with Foobar.  If not, see<http://www.gnu.org/licenses/>.
+//   along with uml-sharp. If not, see<http://www.gnu.org/licenses/>.
 // </copyright>
 // -------------------------------------------------------------------------------------------------
 
 namespace Uml.Interactions
 {
-    public interface StateInvariant
+    using Uml.Assembler;
+    using Uml.Activities;
+    using Uml.CommonStructure;
+    using Uml.StateMachines;
+
+    /// <summary>
+    /// A <see cref="StateInvariant"/> is a runtime constraint on the participants of the <see cref="Interaction"/>. It may be used to specify a variety of different kinds of <see cref="Constraint"/>s, such as values of Attributes or <see cref="Variable"/>s, internal or external <see cref="State"/>s, and so on. A <see cref="StateInvariant"/> is an <see cref="InteractionFragment"/> and it is placed on a <see cref="Lifeline"/>.
+    /// </summary>
+    public interface StateInvariant : InteractionFragment
     {
+        /// <summary>
+        /// References the <see cref="Lifeline"/> on which the <see cref="StateInvariant"/> appears.
+        /// </summary>
+        Lifeline Covered { get; set; }
+
+        /// <summary>
+        /// A Constraint that should hold at runtime for this StateInvariant.
+        /// </summary>
+        OwnerList<Constraint> Invariant { get; set; }
     }
 }

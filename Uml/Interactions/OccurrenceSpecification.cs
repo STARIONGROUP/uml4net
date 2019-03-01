@@ -15,13 +15,32 @@
 //   GNU General Public License for more details.
 //
 //   You should have received a copy of the GNU General Public License
-//   along with Foobar.  If not, see<http://www.gnu.org/licenses/>.
+//   along with uml-sharp. If not, see<http://www.gnu.org/licenses/>.
 // </copyright>
 // -------------------------------------------------------------------------------------------------
 
 namespace Uml.Interactions
 {
-    public interface OccurrenceSpecification
+    using System.Collections.Generic;
+
+    /// <summary>
+    /// An <see cref="OccurrenceSpecification"/> is the basic semantic unit of <see cref="Interaction"/>s. The sequences of occurrences specified by them are the meanings of <see cref="Interaction"/>s.
+    /// </summary>
+    public interface OccurrenceSpecification : InteractionFragment
     {
+        /// <summary>
+        /// References the <see cref="Lifeline"/> on which the <see cref="OccurrenceSpecification"/> appears.
+        /// </summary>
+        Lifeline Covered { get; set; }
+
+        /// <summary>
+        /// References the <see cref="GeneralOrdering"/>s that specify EventOcurrences that must occur after this <see cref="OccurrenceSpecification"/>.
+        /// </summary>
+        List<GeneralOrdering> ToAfter { get; set; }
+
+        /// <summary>
+        /// References the <see cref="GeneralOrdering"/>s that specify EventOcurrences that must occur before this <see cref="OccurrenceSpecification"/>.
+        /// </summary>
+        List<GeneralOrdering> ToBefore { get; set; }
     }
 }

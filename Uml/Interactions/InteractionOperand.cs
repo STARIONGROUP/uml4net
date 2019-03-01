@@ -15,13 +15,28 @@
 //   GNU General Public License for more details.
 //
 //   You should have received a copy of the GNU General Public License
-//   along with Foobar.  If not, see<http://www.gnu.org/licenses/>.
+//   along with uml-sharp. If not, see<http://www.gnu.org/licenses/>.
 // </copyright>
 // -------------------------------------------------------------------------------------------------
 
 namespace Uml.Interactions
 {
-    public interface InteractionOperand
+    using Uml.Assembler;
+    using Uml.CommonStructure;
+
+    /// <summary>
+    /// An <see cref="InteractionOperand"/> is contained in a <see cref="CombinedFragment"/>. An <see cref="InteractionOperand"/> represents one operand of the expression given by the enclosing <see cref="CombinedFragment"/>.
+    /// </summary>
+    public interface InteractionOperand : InteractionFragment, Namespace
     {
+        /// <summary>
+        /// The fragments of the operand.
+        /// </summary>
+        OwnerList<InteractionFragment> Fragment { get; set; }
+
+        /// <summary>
+        /// Constraint of the operand.
+        /// </summary>
+        OwnerList<InteractionConstraint> Guard { get; set; }
     }
 }

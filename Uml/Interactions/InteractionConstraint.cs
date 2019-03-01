@@ -15,13 +15,29 @@
 //   GNU General Public License for more details.
 //
 //   You should have received a copy of the GNU General Public License
-//   along with Foobar.  If not, see<http://www.gnu.org/licenses/>.
+//   along with uml-sharp. If not, see<http://www.gnu.org/licenses/>.
 // </copyright>
 // -------------------------------------------------------------------------------------------------
 
 namespace Uml.Interactions
 {
-    public interface InteractionConstraint
+    using Uml.Assembler;
+    using Uml.CommonStructure;
+    using Uml.Values;
+
+    /// <summary>
+    /// An <see cref="InteractionConstraint"/> is a Boolean expression that guards an operand in a <see cref="CombinedFragment"/>.
+    /// </summary>
+    public interface InteractionConstraint : Constraint
     {
+        /// <summary>
+        /// The maximum number of iterations of a loop
+        /// </summary>
+        OwnerList<ValueSpecification> Maxint { get; set; }
+
+        /// <summary>
+        /// The minimum number of iterations of a loop
+        /// </summary>
+        OwnerList<ValueSpecification> Minint { get; set; }
     }
 }

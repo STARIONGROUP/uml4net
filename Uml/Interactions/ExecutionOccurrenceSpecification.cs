@@ -15,13 +15,20 @@
 //   GNU General Public License for more details.
 //
 //   You should have received a copy of the GNU General Public License
-//   along with Foobar.  If not, see<http://www.gnu.org/licenses/>.
+//   along with uml-sharp. If not, see<http://www.gnu.org/licenses/>.
 // </copyright>
 // -------------------------------------------------------------------------------------------------
 
 namespace Uml.Interactions
 {
-    public interface ExecutionOccurrenceSpecification
+    /// <summary>
+    /// An <see cref="ExecutionOccurrenceSpecification"/> represents moments in time at which <see cref="Action"/>s or <see cref="Behavior"/>s start or finish.
+    /// </summary>
+    public interface ExecutionOccurrenceSpecification : OccurrenceSpecification
     {
+        /// <summary>
+        /// References the execution specification describing the execution that is started or finished at this execution event.
+        /// </summary>
+        ExecutionSpecification Execution { get; set; }
     }
 }

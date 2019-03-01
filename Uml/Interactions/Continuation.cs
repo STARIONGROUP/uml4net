@@ -15,13 +15,20 @@
 //   GNU General Public License for more details.
 //
 //   You should have received a copy of the GNU General Public License
-//   along with Foobar.  If not, see<http://www.gnu.org/licenses/>.
+//   along with uml-sharp. If not, see<http://www.gnu.org/licenses/>.
 // </copyright>
 // -------------------------------------------------------------------------------------------------
 
 namespace Uml.Interactions
 {
-    public interface Continuation
+    /// <summary>
+    /// A <see cref="Continuation"/> is a syntactic way to define continuations of different branches of an alternative CombinedFragment. Continuations are intuitively similar to labels representing intermediate points in a flow of control.
+    /// </summary>
+    public interface Continuation : InteractionFragment
     {
+        /// <summary>
+        /// True: when the <see cref="Continuation"/> is at the end of the enclosing <see cref="InteractionFragment"/> and False when it is in the beginning.
+        /// </summary>
+        bool Setting { get;set; }
     }
 }

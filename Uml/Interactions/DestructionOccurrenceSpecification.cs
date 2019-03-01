@@ -15,13 +15,16 @@
 //   GNU General Public License for more details.
 //
 //   You should have received a copy of the GNU General Public License
-//   along with Foobar.  If not, see<http://www.gnu.org/licenses/>.
+//   along with uml-sharp.  If not, see<http://www.gnu.org/licenses/>.
 // </copyright>
 // -------------------------------------------------------------------------------------------------
 
 namespace Uml.Interactions
 {
-    public interface DestructionOccurrenceSpecification
+    /// <summary>
+    /// A <see cref="DestructionOccurenceSpecification"/> models the destruction of an object.
+    /// </summary>
+    public interface DestructionOccurrenceSpecification : MessageOccurrenceSpecification
     {
     }
 }

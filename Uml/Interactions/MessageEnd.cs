@@ -15,13 +15,22 @@
 //   GNU General Public License for more details.
 //
 //   You should have received a copy of the GNU General Public License
-//   along with Foobar.  If not, see<http://www.gnu.org/licenses/>.
+//   along with uml-sharp. If not, see<http://www.gnu.org/licenses/>.
 // </copyright>
 // -------------------------------------------------------------------------------------------------
 
 namespace Uml.Interactions
 {
-    public interface MessageEnd
+    using Uml.CommonStructure;
+
+    /// <summary>
+    /// <see cref="MessageEnd"/> is an abstract specialization of <see cref="NamedElement"/> that represents what can occur at the end of a <see cref="Message"/>.
+    /// </summary>
+    public interface MessageEnd : NamedElement
     {
+        /// <summary>
+        /// References a <see cref="Message"/>.
+        /// </summary>
+        Message Message { get; set; }
     }
 }

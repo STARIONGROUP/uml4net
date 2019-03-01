@@ -15,13 +15,23 @@
 //   GNU General Public License for more details.
 //
 //   You should have received a copy of the GNU General Public License
-//   along with Foobar.  If not, see<http://www.gnu.org/licenses/>.
+//   along with uml-sharp. If not, see<http://www.gnu.org/licenses/>.
 // </copyright>
 // -------------------------------------------------------------------------------------------------
 
 namespace Uml.Interactions
 {
-    public interface ConsiderIgnoreFragment
+    using System.Collections.Generic;
+    using Uml.CommonStructure;
+
+    /// <summary>
+    /// A ConsiderIgnoreFragment is a kind of CombinedFragment that is used for the consider and ignore cases, which require lists of pertinent Messages to be specified.
+    /// </summary>
+    public interface ConsiderIgnoreFragment : CombinedFragment
     {
+        /// <summary>
+        /// The set of messages that apply to this fragment.
+        /// </summary>
+        List<NamedElement> Message { get; set; }
     }
 }

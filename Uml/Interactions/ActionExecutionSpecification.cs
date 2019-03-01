@@ -15,13 +15,22 @@
 //   GNU General Public License for more details.
 //
 //   You should have received a copy of the GNU General Public License
-//   along with Foobar.  If not, see<http://www.gnu.org/licenses/>.
+//   along with uml-sharp. If not, see<http://www.gnu.org/licenses/>.
 // </copyright>
 // -------------------------------------------------------------------------------------------------
 
 namespace Uml.Interactions
 {
-    public interface ActionExecutionSpecification
+    using Uml.Actions;
+
+    /// <summary>
+    /// An <see cref="ActionExecutionSpecification"/> is a kind of <see cref="ExecutionSpecification"/> representing the execution of an <see cref="Action"/>.
+    /// </summary>
+    public interface ActionExecutionSpecification : Action
     {
+        /// <summary>
+        /// Action whose execution is occurring.
+        /// </summary>
+        Action Action { get;set; }
     }
 }

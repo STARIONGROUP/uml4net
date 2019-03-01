@@ -15,13 +15,16 @@
 //   GNU General Public License for more details.
 //
 //   You should have received a copy of the GNU General Public License
-//   along with Foobar.  If not, see<http://www.gnu.org/licenses/>.
+//   along with uml-sharp. If not, see<http://www.gnu.org/licenses/>.
 // </copyright>
 // -------------------------------------------------------------------------------------------------
 
 namespace Uml.Interactions
 {
-    public interface Gate
+    /// <summary>
+    /// A <see cref="Gate"/> is a <see cref="MessageEnd"/> which serves as a connection point for relating a <see cref="Message"/> which has a <see cref="MessageEnd"/> (sendEvent / receiveEvent) outside an <see cref="InteractionFragment"/> with another <see cref="Message"/> which has a <see cref="MessageEnd"/> (receiveEvent / sendEvent)  inside that <see cref="InteractionFragment"/>.
+    /// </summary>
+    public interface Gate : MessageEnd
     {
     }
 }

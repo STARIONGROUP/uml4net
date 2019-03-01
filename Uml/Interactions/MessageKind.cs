@@ -15,7 +15,7 @@
 //   GNU General Public License for more details.
 //
 //   You should have received a copy of the GNU General Public License
-//   along with Foobar.  If not, see<http://www.gnu.org/licenses/>.
+//   along with uml-sharp. If not, see<http://www.gnu.org/licenses/>.
 // </copyright>
 // -------------------------------------------------------------------------------------------------
 
@@ -26,12 +26,24 @@ namespace Uml.Interactions
     /// </summary>
     public enum MessageKind
     {
-        complete,
+        /// <summary>
+        /// sendEvent and receiveEvent are present
+        /// </summary>
+        Complete,
 
-        lost,
+        /// <summary>
+        /// sendEvent present and receiveEvent absent
+        /// </summary>
+        Lost,
 
-        found,
+        /// <summary>
+        /// sendEvent absent and receiveEvent present
+        /// </summary>
+        Found,
 
-        unknown
+        /// <summary>
+        /// sendEvent and receiveEvent absent (should not appear)
+        /// </summary>
+        Unknown
     }
 }

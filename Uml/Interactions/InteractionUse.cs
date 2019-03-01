@@ -15,13 +15,44 @@
 //   GNU General Public License for more details.
 //
 //   You should have received a copy of the GNU General Public License
-//   along with Foobar.  If not, see<http://www.gnu.org/licenses/>.
+//   along with uml-sharp. If not, see<http://www.gnu.org/licenses/>.
 // </copyright>
 // -------------------------------------------------------------------------------------------------
 
 namespace Uml.Interactions
 {
-    public interface InteractionUse
+    using Uml.Assembler;
+    using Uml.Classification;
+    using Uml.Values;
+
+    /// <summary>
+    /// An <see cref="InteractionUse"/> refers to an <see cref="Interaction"/>. The <see cref="InteractionUse"/> is a shorthand for copying the contents of the referenced <see cref="Interaction"/> where the <see cref="InteractionUse"/> is. To be accurate the copying must take into account substituting parameters with arguments and connect the formal <see cref="Gate"/>s with the actual ones.
+    /// </summary>
+    public interface InteractionUse : InteractionFragment
     {
+        /// <summary>
+        /// The actual gates of the <see cref="InteractionUse"/>.
+        /// </summary>
+        OwnerList<Gate> ActualGate { get; set; }
+
+        /// <summary>
+        /// The actual arguments of the <see cref="Interaction"/>.
+        /// </summary>
+        OwnerList<ValueSpecification> Argument { get; set; }
+
+        /// <summary>
+        /// Refers to the Interaction that defines its meaning.
+        /// </summary>
+        Interaction RefersTo { get; set; }
+
+        /// <summary>
+        /// The value of the executed <see cref="Interaction"/>.
+        /// </summary>
+        OwnerList<ValueSpecification> ReturnValue { get; set; }
+
+        /// <summary>
+        /// The recipient of the return value.
+        /// </summary>
+        Property ReturnValueRecipient { get; set; }
     }
 }
