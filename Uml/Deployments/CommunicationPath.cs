@@ -15,16 +15,18 @@
 //   GNU General Public License for more details.
 //
 //   You should have received a copy of the GNU General Public License
-//   along with Foobar.  If not, see<http://www.gnu.org/licenses/>.
+//   along with uml-sharp. If not, see<http://www.gnu.org/licenses/>.
 // </copyright>
 // -------------------------------------------------------------------------------------------------
 
 namespace Uml.Deployments
 {
+    using Uml.StructuredClassifiers;
+
     /// <summary>
     /// A communication path is an association between two deployment targets, through which they are able to exchange signals and messages.
     /// </summary>
-    public interface CommunicationPath
+    public interface CommunicationPath : Association
     {
     }
 }

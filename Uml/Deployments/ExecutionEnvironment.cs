@@ -15,7 +15,7 @@
 //   GNU General Public License for more details.
 //
 //   You should have received a copy of the GNU General Public License
-//   along with Foobar.  If not, see<http://www.gnu.org/licenses/>.
+//   along with uml-sharp. If not, see<http://www.gnu.org/licenses/>.
 // </copyright>
 // -------------------------------------------------------------------------------------------------
 
@@ -24,7 +24,7 @@ namespace Uml.Deployments
     /// <summary>
     /// An execution environment is a node that offers an execution environment for specific types of components that are deployed on it in the form of executable artifacts.
     /// </summary>
-    public interface ExecutionEnvironment
+    public interface ExecutionEnvironment : Node
     {
     }
 }

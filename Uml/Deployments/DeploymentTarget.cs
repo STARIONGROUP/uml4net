@@ -15,16 +15,32 @@
 //   GNU General Public License for more details.
 //
 //   You should have received a copy of the GNU General Public License
-//   along with Foobar.  If not, see<http://www.gnu.org/licenses/>.
+//   along with uml-sharp. If not, see<http://www.gnu.org/licenses/>.
 // </copyright>
 // -------------------------------------------------------------------------------------------------
 
 namespace Uml.Deployments
 {
+    using System.Collections.Generic;
+    using Uml.Assembler;
+    using Uml.CommonStructure;
+
     /// <summary>
     /// A deployment target is the location for a deployed artifact.
     /// </summary>
-    public interface DeploymentTarget
+    public interface DeploymentTarget : NamedElement
     {
+        /// <summary>
+        /// The set of elements that are manifested in an <see cref="Artifact"/> that is involved in <see cref="Deployment"/> to a <see cref="DeploymentTarget"/>.
+        /// </summary>
+        /// <remarks>
+        /// Derived property.
+        /// </remarks>
+        IEnumerable<PackageableElement> DeployedElement { get; set; }
+
+        /// <summary>
+        /// The set of Deployments for a <see cref="DeploymentTarget"/>.
+        /// </summary>
+        OwnerList<Deployment> Deployment { get; set; }
     }
 }

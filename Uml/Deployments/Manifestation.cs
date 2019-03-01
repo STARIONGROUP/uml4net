@@ -15,16 +15,22 @@
 //   GNU General Public License for more details.
 //
 //   You should have received a copy of the GNU General Public License
-//   along with Foobar.  If not, see<http://www.gnu.org/licenses/>.
+//   along with uml-sharp. If not, see<http://www.gnu.org/licenses/>.
 // </copyright>
 // -------------------------------------------------------------------------------------------------
 
 namespace Uml.Deployments
 {
+    using Uml.CommonStructure;
+
     /// <summary>
     /// A manifestation is the concrete physical rendering of one or more model elements by an artifact.
     /// </summary>
-    public interface Manifestation
+    public interface Manifestation : Abstraction
     {
+        /// <summary>
+        /// The model element that is utilized in the manifestation in an Artifact.
+        /// </summary>
+        PackageableElement UtilizedElement { get; set; }
     }
 }
