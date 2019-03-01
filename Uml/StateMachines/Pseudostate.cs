@@ -15,16 +15,30 @@
 //   GNU General Public License for more details.
 //
 //   You should have received a copy of the GNU General Public License
-//   along with Foobar.  If not, see<http://www.gnu.org/licenses/>.
+//   along with uml-sharp. If not, see<http://www.gnu.org/licenses/>.
 // </copyright>
 // -------------------------------------------------------------------------------------------------
 
 namespace Uml.StateMachines
 {
     /// <summary>
-    /// A Pseudostate is an abstraction that encompasses different types of transient Vertices in the StateMachine graph. A StateMachine instance never comes to rest in a Pseudostate, instead, it will exit and enter the Pseudostate within a single run-to-completion step.
+    /// A <see cref="Pseudostate"/> is an abstraction that encompasses different types of transient Vertices in the StateMachine graph. A StateMachine instance never comes to rest in a Pseudostate, instead, it will exit and enter the Pseudostate within a single run-to-completion step.
     /// </summary>
-    public interface Pseudostate
+    public interface Pseudostate : Vertex
     {
+        /// <summary>
+        /// Determines the precise type of the <see cref="Pseudostate"/> and can be one of: entryPoint, exitPoint, initial, deepHistory, shallowHistory, join, fork, junction, terminate or choice.
+        /// </summary>
+        PseudostateKind Kind { get; set; }
+
+        /// <summary>
+        /// The <see cref="State"/> that owns this <see cref="Pseudostate"/> and in which it appears.
+        /// </summary>
+        State State { get; set; }
+
+        /// <summary>
+        /// The StateMachine in which this <see cref="Pseudostate"/> is defined. This only applies to <see cref="Pseudostate"/>s of the kind entryPoint or exitPoint.
+        /// </summary>
+        StateMachine StateMachine { get; set; }
     }
 }

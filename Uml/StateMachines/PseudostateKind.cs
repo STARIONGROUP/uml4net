@@ -15,35 +15,35 @@
 //   GNU General Public License for more details.
 //
 //   You should have received a copy of the GNU General Public License
-//   along with Foobar.  If not, see<http://www.gnu.org/licenses/>.
+//   along with uml-sharp. If not, see<http://www.gnu.org/licenses/>.
 // </copyright>
 // -------------------------------------------------------------------------------------------------
 
 namespace Uml.StateMachines
 {
     /// <summary>
-    /// PseudostateKind is an Enumeration type that is used to differentiate various kinds of Pseudostates.
+    /// <see cref="PseudostateKind"/> is an Enumeration type that is used to differentiate various kinds of <see cref="Pseudostate"/>s.
     /// </summary>
     public enum PseudostateKind
     {
-        initial,
+        Initial,
+        
+        DeepHistory,
+        
+        ShallowHistory,
 
-        deepHistory,
+        Join,
+        
+        Fork,
+        
+        Junction,
+        
+        Choice,
 
-        shallowHistory,
-
-        join,
-
-        fork,
-
-        junction,
-
-        choice,
-
-        entryPoint,
-
-        exitPoint,
-
-        terminate
+        EntryPoint,
+        
+        ExitPoint,
+        
+        Terminate
     }
 }

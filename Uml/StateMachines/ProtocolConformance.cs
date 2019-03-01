@@ -1,5 +1,5 @@
 ﻿// -------------------------------------------------------------------------------------------------
-// <copyright file="TransitionKind.cs" company="RHEA System S.A.">
+// <copyright file="ProtocolConformance.cs" company="RHEA System S.A.">
 //   Copyright (c) 2018-2019 RHEA System S.A.
 //
 //   This file is part of uml-sharp
@@ -21,24 +21,21 @@
 
 namespace Uml.StateMachines
 {
+    using Uml.CommonStructure;
+
     /// <summary>
-    /// TransitionKind is an Enumeration type used to differentiate the various kinds of Transitions.
+    /// A ProtocolStateMachine can be redefined into a more specific ProtocolStateMachine or into behavioral StateMachine. ProtocolConformance declares that the specific ProtocolStateMachine specifies a protocol that conforms to the general ProtocolStateMachine or that the specific behavioral StateMachine abides by the protocol of the general ProtocolStateMachine.
     /// </summary>
-    public enum TransitionKind
+    public interface ProtocolConformance : DirectedRelationship
     {
         /// <summary>
-        /// Implies that the Transition, if triggered, occurs without exiting or entering the source State (i.e., it does not cause a state change). This means that the entry or exit condition of the source State will not be invoked. An internal Transition can be taken even if the SateMachine is in one or more Regions nested within the associated State.
+        /// Specifies the <see cref="ProtocolStateMachine"/> to which the specific <see cref="ProtocolStateMachine"/> conforms.
         /// </summary>
-        Internal,
+        ProtocolStateMachine GeneralMachine { get; set; }
 
         /// <summary>
-        /// Implies that the Transition, if triggered, will not exit the composite (source) State, but it will exit and re-enter any state within the composite State that is in the current state configuration.
+        /// Specifies the <see cref="ProtocolStateMachine"/> which conforms to the general <see cref="ProtocolStateMachine"/>.
         /// </summary>
-        Local,
-
-        /// <summary>
-        /// Implies that the Transition, if triggered, will exit the composite (source) State.
-        /// </summary>
-        External
+        ProtocolStateMachine SpecificMachine { get; set; }
     }
 }

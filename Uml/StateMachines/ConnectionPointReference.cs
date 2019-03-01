@@ -15,7 +15,7 @@
 //   GNU General Public License for more details.
 //
 //   You should have received a copy of the GNU General Public License
-//   along with Foobar.  If not, see<http://www.gnu.org/licenses/>.
+//   along with uml-sharp. If not, see<http://www.gnu.org/licenses/>.
 // </copyright>
 // -------------------------------------------------------------------------------------------------
 
@@ -24,7 +24,21 @@ namespace Uml.StateMachines
     /// <summary>
     /// A ConnectionPointReference represents a usage (as part of a submachine State) of an entry/exit point Pseudostate defined in the StateMachine referenced by the submachine State.
     /// </summary>
-    public interface ConnectionPointReference
+    public interface ConnectionPointReference : Vertex
     {
+        /// <summary>
+        /// The entryPoint <see cref="Pseudostate"/>s corresponding to this connection point.
+        /// </summary>
+        Pseudostate Entry { get; set; }
+
+        /// <summary>
+        /// The exitPoints kind <see cref="Pseudostate"/>s corresponding to this connection point.
+        /// </summary>
+        Pseudostate Exit { get; set; }
+
+        /// <summary>
+        /// The <see cref="State"/> in which the <see cref="ConnectionPointReference"/> is defined.
+        /// </summary>
+        State State { get;set; }
     }
 }
