@@ -15,16 +15,28 @@
 //   GNU General Public License for more details.
 //
 //   You should have received a copy of the GNU General Public License
-//   along with Foobar.  If not, see<http://www.gnu.org/licenses/>.
+//   along with uml-sharp. If not, see<http://www.gnu.org/licenses/>.
 // </copyright>
 // -------------------------------------------------------------------------------------------------
 
 namespace Uml.CommonBehavior
 {
+    using Uml.Assembler;
+    using Uml.Values;
+
     /// <summary>
     /// A <see cref="TimeEvent"/> is an <see cref="Event"/> that occurs at a specific point in time.
     /// </summary>
-    public interface TimeEvent
+    public interface TimeEvent : Event
     {
+        /// <summary>
+        /// Specifies whether the <see cref="TimeEvent"/> is specified as an absolute or relative time.
+        /// </summary>
+        bool IsRelative { get; set; }
+
+        /// <summary>
+        /// Specifies the time of the <see cref="Specifies the time of the TimeEvent."/>.
+        /// </summary>
+        OwnerList<TimeExpression> When { get; set; }
     }
 }

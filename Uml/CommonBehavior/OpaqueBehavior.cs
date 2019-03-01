@@ -15,16 +15,27 @@
 //   GNU General Public License for more details.
 //
 //   You should have received a copy of the GNU General Public License
-//   along with Foobar.  If not, see<http://www.gnu.org/licenses/>.
+//   along with uml-sharp. If not, see<http://www.gnu.org/licenses/>.
 // </copyright>
 // -------------------------------------------------------------------------------------------------
 
 namespace Uml.CommonBehavior
 {
+    using System.Collections.Generic;
+
     /// <summary>
     /// An <see cref="OpaqueBehavior"/> is a <see cref="Behavior"/> whose specification is given in a textual language other than UML.
     /// </summary>
-    public interface OpaqueBehavior
+    public interface OpaqueBehavior : Behavior
     {
+        /// <summary>
+        /// Specifies the behavior in one or more languages.
+        /// </summary>
+        List<string> Body { get; set; }
+
+        /// <summary>
+        /// Languages the body strings use in the same order as the body strings.
+        /// </summary>
+        List<string> Language { get; set; }
     }
 }

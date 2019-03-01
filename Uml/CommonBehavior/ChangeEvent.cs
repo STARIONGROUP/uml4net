@@ -15,16 +15,23 @@
 //   GNU General Public License for more details.
 //
 //   You should have received a copy of the GNU General Public License
-//   along with Foobar.  If not, see<http://www.gnu.org/licenses/>.
+//   along with uml-sharp. If not, see<http://www.gnu.org/licenses/>.
 // </copyright>
 // -------------------------------------------------------------------------------------------------
 
 namespace Uml.CommonBehavior
 {
+    using Uml.Assembler;
+    using Uml.Values;
+
     /// <summary>
     /// A <see cref="ChangeEvent"/> models a change in the system configuration that makes a condition true.
     /// </summary>
-    public interface ChangeEvent
+    public interface ChangeEvent : Event
     {
+        /// <summary>
+        /// A Boolean-valued <see cref="ValueSpecification"/> that will result in a <see cref="ChangeEvent"/> whenever its value changes from false to true.
+        /// </summary>
+        OwnerList<ValueSpecification> ChangeExpression { get; set; }
     }
 }

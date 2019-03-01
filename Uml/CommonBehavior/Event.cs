@@ -15,16 +15,18 @@
 //   GNU General Public License for more details.
 //
 //   You should have received a copy of the GNU General Public License
-//   along with Foobar.  If not, see<http://www.gnu.org/licenses/>.
+//   along with uml-sharp. If not, see<http://www.gnu.org/licenses/>.
 // </copyright>
 // -------------------------------------------------------------------------------------------------
 
 namespace Uml.CommonBehavior
 {
+    using Uml.CommonStructure;
+
     /// <summary>
     /// An <see cref="Event"/> is the specification of some occurrence that may potentially trigger effects by an object.
     /// </summary>
-    public interface Event
+    public interface Event : PackageableElement
     {
     }
 }

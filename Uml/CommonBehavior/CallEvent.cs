@@ -15,16 +15,22 @@
 //   GNU General Public License for more details.
 //
 //   You should have received a copy of the GNU General Public License
-//   along with Foobar.  If not, see<http://www.gnu.org/licenses/>.
+//   along with uml-sharp. If not, see<http://www.gnu.org/licenses/>.
 // </copyright>
 // -------------------------------------------------------------------------------------------------
 
 namespace Uml.CommonBehavior
 {
+    using Uml.Classification;
+
     /// <summary>
     /// A <see cref="CallEvent"/> models the receipt by an object of a message invoking a call of an <see cref="Operation"/>.
     /// </summary>
-    public interface CallEvent
+    public interface CallEvent : MessageEvent
     {
+        /// <summary>
+        /// Designates the <see cref="Operation"/> whose invocation raised the <see cref="CalEvent"/>.
+        /// </summary>
+        Operation Operation { get; set; }
     }
 }
