@@ -15,16 +15,29 @@
 //   GNU General Public License for more details.
 //
 //   You should have received a copy of the GNU General Public License
-//   along with Foobar.  If not, see<http://www.gnu.org/licenses/>.
+//   along with uml-sharp. If not, see<http://www.gnu.org/licenses/>.
 // </copyright>
 // -------------------------------------------------------------------------------------------------
 
 namespace Uml.StructuredClassifiers
 {
+    using Uml.Assembler;
+    using Uml.Classification;
+    using Uml.CommonStructure;
+
     /// <summary>
-    /// A CollaborationUse is used to specify the application of a pattern specified by a Collaboration to a specific situation.
+    /// A CollaborationUse is used to specify the application of a pattern specified by a <see cref="Collaboration"/> to a specific situation.
     /// </summary>
-    public interface CollaborationUse
+    public interface CollaborationUse : NamedElement
     {
+        /// <summary>
+        /// A mapping between features of the <see cref="Collaboration"/> and features of the owning <see cref="Classifier"/>. This mapping indicates which <see cref="ConnectableElement"/> of the <see cref="Classifier"/> plays which role(s) in the <see cref="Collaboration"/>. A <see cref="ConnectableElement"/> may be bound to multiple roles in the same <see cref="CollaborationUse"/> (that is, it may play multiple roles).
+        /// </summary>
+        OwnerList<Dependency> RoleBinding { get; set; }
+
+        /// <summary>
+        /// The <see cref="Collaboration"/> which is used in this <see cref="CollaborationUse"/>. The <see cref="Collaboration"/> defines the cooperation between its roles which are mapped to <see cref="ConnectableElement"/>s relating to the <see cref="Classifier"/> owning the <see cref="CollaborationUse"/>.
+        /// </summary>
+        Collaboration Type { get; set; }
     }
 }

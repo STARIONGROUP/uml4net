@@ -15,16 +15,29 @@
 //   GNU General Public License for more details.
 //
 //   You should have received a copy of the GNU General Public License
-//   along with Foobar.  If not, see<http://www.gnu.org/licenses/>.
+//   along with uml-sharp. If not, see<http://www.gnu.org/licenses/>.
 // </copyright>
 // -------------------------------------------------------------------------------------------------
 
 namespace Uml.StructuredClassifiers
 {
+    using System.Collections.Generic;
+    using Uml.Classification;
+    using Uml.CommonStructure;
+
     /// <summary>
-    /// Realization is specialized to (optionally) define the Classifiers that realize the contract offered by a Component in terms of its provided and required Interfaces. The Component forms an abstraction from these various Classifiers.
+    /// <see cref="Realization"/> is specialized to (optionally) define the <see cref="Classifier"/>s that realize the contract offered by a <see cref="Component"/> in terms of its provided and required <see cref="Interface"/>s. The <see cref="Component"/> forms an abstraction from these various <see cref="Classifier"/>s.
     /// </summary>
-    public interface ComponentRealization
+    public interface ComponentRealization : Realization
     {
+        /// <summary>
+        /// The <see cref="Component"/> that owns this <see cref="ComponentRealization"/> and which is implemented by its realizing <see cref="Classifier"/>s.
+        /// </summary>
+        Component Abstraction { get; set; }
+
+        /// <summary>
+        /// The <see cref="Classifier"/>s that are involved in the implementation of the <see cref="Component"/> that owns this <see cref="Realization"/>.
+        /// </summary>
+        List<Classifier> RealizingClassifier { get; set; }
     }
 }

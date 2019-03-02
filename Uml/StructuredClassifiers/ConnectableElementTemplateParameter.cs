@@ -15,16 +15,22 @@
 //   GNU General Public License for more details.
 //
 //   You should have received a copy of the GNU General Public License
-//   along with Foobar.  If not, see<http://www.gnu.org/licenses/>.
+//   along with uml-sharp. If not, see<http://www.gnu.org/licenses/>.
 // </copyright>
 // -------------------------------------------------------------------------------------------------
 
 namespace Uml.StructuredClassifiers
 {
+    using Uml.CommonStructure;
+
     /// <summary>
-    /// A ConnectableElementTemplateParameter exposes a ConnectableElement as a formal parameter for a template.
+    /// A <see cref="ConnectableElementTemplateParameter"/> exposes a <see cref="ConnectableElement"/> as a formal parameter for a template.
     /// </summary>
-    public interface ConnectableElementTemplateParameter
+    public interface ConnectableElementTemplateParameter : TemplateParameter
     {
+        /// <summary>
+        /// The <see cref="ConnectableElement"/> for this <see cref="ConnectableElementTemplateParameter"/>.
+        /// </summary>
+        ConnectableElement ParameteredElement { get; set; }
     }
 }

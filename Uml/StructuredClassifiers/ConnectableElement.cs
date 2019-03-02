@@ -15,16 +15,31 @@
 //   GNU General Public License for more details.
 //
 //   You should have received a copy of the GNU General Public License
-//   along with Foobar.  If not, see<http://www.gnu.org/licenses/>.
+//   along with uml-sharp. If not, see<http://www.gnu.org/licenses/>.
 // </copyright>
 // -------------------------------------------------------------------------------------------------
 
 namespace Uml.StructuredClassifiers
 {
+    using System.Collections.Generic;
+    using Uml.CommonStructure;
+
     /// <summary>
-    /// ConnectableElement is an abstract metaclass representing a set of instances that play roles of a StructuredClassifier. ConnectableElements may be joined by attached Connectors and specify configurations of linked instances to be created within an instance of the containing StructuredClassifier.
+    /// <see cref="ConnectableElement"/> is an abstract metaclass representing a set of instances that play roles of a <see cref="StructuredClassifier"/>. <see cref="ConnectableElement"/>s may be joined by attached <see cref="Connector"/>s and specify configurations of linked instances to be created within an instance of the containing <see cref="StructuredClassifier"/>.
     /// </summary>
-    public interface ConnectableElement
+    public interface ConnectableElement : TypedElement, ParameterableElement
     {
+        /// <summary>
+        /// A set of <see cref="ConnectorEnd"/>s that attach to this <see cref="ConnectableElement"/>.
+        /// </summary>
+        /// <remarks>
+        /// Derived property.
+        /// </remarks>
+        IEnumerable<ConnectorEnd> End { get; set; }
+
+        /// <summary>
+        /// The <see cref="ConnectableElementTemplateParameter"/> for this <see cref="ConnectableElement"/> parameter.
+        /// </summary>
+        ConnectableElementTemplateParameter TemplateParameter { get; set; }
     }
 }

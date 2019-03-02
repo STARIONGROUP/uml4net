@@ -15,16 +15,23 @@
 //   GNU General Public License for more details.
 //
 //   You should have received a copy of the GNU General Public License
-//   along with Foobar.  If not, see<http://www.gnu.org/licenses/>.
+//   along with uml-sharp. If not, see<http://www.gnu.org/licenses/>.
 // </copyright>
 // -------------------------------------------------------------------------------------------------
 
 namespace Uml.StructuredClassifiers
 {
+    using System.Collections.Generic;
+    using Uml.SimpleClassifiers;
+
     /// <summary>
     /// A Collaboration describes a structure of collaborating elements (roles), each performing a specialized function, which collectively accomplish some desired functionality. 
     /// </summary>
-    public interface Collaboration
+    public interface Collaboration : StructuredClassifier, BehavioredClassifier
     {
+        /// <summary>
+        /// Represents the participants in the <see cref="Collaboration"/>.
+        /// </summary>
+        List<ConnectableElement> CollaborationRole { get; set; }
     }
 }

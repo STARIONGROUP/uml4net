@@ -15,16 +15,48 @@
 //   GNU General Public License for more details.
 //
 //   You should have received a copy of the GNU General Public License
-//   along with Foobar.  If not, see<http://www.gnu.org/licenses/>.
+//   along with uml-sharp. If not, see<http://www.gnu.org/licenses/>.
 // </copyright>
 // -------------------------------------------------------------------------------------------------
 
 namespace Uml.StructuredClassifiers
 {
+    using System.Collections.Generic;
+    using Uml.Assembler;
+    using Uml.Classification;
+    using Uml.CommonStructure;
+
     /// <summary>
     /// A link is a tuple of values that refer to typed objects.  An Association classifies a set of links, each of which is an instance of the Association.  Each value in the link refers to an instance of the type of the corresponding end of the Association.
     /// </summary>
-    public interface Association
+    public interface Association : Relationship, Classifier
     {
+        /// <summary>
+        /// The <see cref="Classifier"/>s that are used as types of the ends of the <see cref="Association"/>.
+        /// </summary>
+        /// <remarks>
+        /// Derived property.
+        /// </remarks>
+        IEnumerable<Type> EndType { get; }
+
+        /// <summary>
+        /// Specifies whether the <see cref="Association"/> is derived from other model elements such as other <see cref="Association"/>s.
+        /// </summary>
+        bool IsDerived { get; set; }
+
+        /// <summary>
+        /// Each end represents participation of instances of the <see cref="Classifier"/> connected to the end in links of the <see cref="Association"/>.
+        /// </summary>
+        List<Property> MemberEnd { get; set; }
+
+        /// <summary>
+        /// The navigable ends that are owned by the <see cref="Association"/> itself.
+        /// </summary>
+        List<Property> NavigableOwnedEnd { get; set; }
+
+        /// <summary>
+        /// The ends that are owned by the <see cref="Association"/> itself.
+        /// </summary>
+        OwnerList<Property> OwnedEnd { get; set; }
     }
 }

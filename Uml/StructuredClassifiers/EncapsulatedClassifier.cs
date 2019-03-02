@@ -15,16 +15,22 @@
 //   GNU General Public License for more details.
 //
 //   You should have received a copy of the GNU General Public License
-//   along with Foobar.  If not, see<http://www.gnu.org/licenses/>.
+//   along with uml-sharp. If not, see<http://www.gnu.org/licenses/>.
 // </copyright>
 // -------------------------------------------------------------------------------------------------
 
 namespace Uml.StructuredClassifiers
 {
+    using System.Collections.Generic;
+
     /// <summary>
-    /// An EncapsulatedClassifier may own Ports to specify typed interaction points.
+    /// An <see cref="EncapsulatedClassifier"/> may own <see cref="Port"/>s to specify typed interaction points.
     /// </summary>
-    public interface EncapsulatedClassifier
+    public interface EncapsulatedClassifier : StructuredClassifier
     {
+        /// <summary>
+        /// The <see cref="Port"/>s owned by the <see cref="EncapsulatedClassifier"/>.
+        /// </summary>
+        IEnumerable<Port> OwnedPort { get; }
     }
 }
