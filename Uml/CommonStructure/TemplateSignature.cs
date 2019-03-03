@@ -36,7 +36,7 @@ namespace Uml.CommonStructure
         OwnerList<TemplateParameter>  OwnedParameter { get; set; }
 
         /// <summary>
-        /// The ordered set of all formal TemplateParameters for this TemplateSignature.
+        /// The ordered set of all formal <see cref="TemplateParameter"/>s for this <see cref="TemplateSignature"/>.
         /// </summary>
         List<TemplateParameter> Parameter { get; set; }
 
