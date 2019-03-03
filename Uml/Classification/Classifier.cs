@@ -38,7 +38,7 @@ namespace Uml.Classification
         /// <remarks>
         /// Derived property.
         /// </remarks>
-        IEnumerable<Property> Attribute { get; }
+        IEnumerable<Property> Attribute();
 
         /// <summary>
         /// The <see cref="CollaborationUse"/>s owned by the <see cref="Classifier"/>.
@@ -51,7 +51,7 @@ namespace Uml.Classification
         /// <remarks>
         /// Derived property.
         /// </remarks>
-        IEnumerable<Feature> Feature { get; }
+        IEnumerable<Feature> Feature();
 
         /// <summary>
         /// The generalizing <see cref="Classifier"/>s for this <see cref="Classifier"/>.
@@ -59,7 +59,7 @@ namespace Uml.Classification
         /// <remarks>
         /// Derived property.
         /// </remarks>
-        IEnumerable<Classifier> General { get; }
+        IEnumerable<Classifier> General();
 
         /// <summary>
         /// The Generalization relationships for this <see cref="Classifier"/>. These Generalizations navigate to more general <see cref="Classifier"/>s in the generalization hierarchy.
@@ -72,7 +72,7 @@ namespace Uml.Classification
         /// <remarks>
         /// Derived property.
         /// </remarks>
-        IEnumerable<NamedElement> InheritedMember { get; }
+        IEnumerable<NamedElement> InheritedMember();
 
         /// <summary>
         /// If true, the <see cref="Classifier"/> can only be instantiated by instantiating one of its specializations. An abstract <see cref="Classifier"/> is intended to be used by other <see cref="Classifier"/>s e.g., as the target of <see cref="Association"/>s or <see cref="Generalization"/>s.

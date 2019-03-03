@@ -46,7 +46,7 @@ namespace Uml.StructuredClassifiers
         /// <remarks>
         /// Derived property.
         /// </remarks>
-        IEnumerable<Property> Part { get; }
+        IEnumerable<Property> Part();
 
         /// <summary>
         /// The roles that instances may play in this <see cref="StructuredClassifier"/>.
@@ -54,6 +54,6 @@ namespace Uml.StructuredClassifiers
         /// <remarks>
         /// Derived property.
         /// </remarks>
-        IEnumerable<ConnectableElement> Role { get; }
+        IEnumerable<ConnectableElement> Role();
     }
 }

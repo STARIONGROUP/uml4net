@@ -76,6 +76,6 @@ namespace Uml.StructuredClassifiers
         /// <remarks>
         /// Derived property.
         /// </remarks>
-        IEnumerable<Class> SuperClass { get; }
+        IEnumerable<Class> SuperClass();
     }
 }

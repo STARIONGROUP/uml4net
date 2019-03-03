@@ -31,6 +31,9 @@ namespace Uml.StructuredClassifiers
         /// <summary>
         /// The <see cref="Port"/>s owned by the <see cref="EncapsulatedClassifier"/>.
         /// </summary>
-        IEnumerable<Port> OwnedPort { get; }
+        /// <remarks>
+        /// Derived property.
+        /// </remarks>
+        IEnumerable<Port> OwnedPort();
     }
 }

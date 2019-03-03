@@ -19,7 +19,6 @@
 // </copyright>
 // -------------------------------------------------------------------------------------------------
 
-
 namespace Uml.CommonBehavior
 {
     using System.Collections.Generic;
@@ -40,7 +39,7 @@ namespace Uml.CommonBehavior
         /// <remarks>
         /// Derived property.
         /// </remarks>
-        BehavioredClassifier Context { get; }
+        BehavioredClassifier Context();
 
         /// <summary>
         /// Tells whether the <see cref="Behavior"/> can be invoked while it is still executing from a previous invocation.

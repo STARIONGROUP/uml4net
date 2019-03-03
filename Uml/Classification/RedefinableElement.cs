@@ -40,11 +40,14 @@ namespace Uml.Classification
         /// <remarks>
         /// Derived property.
         /// </remarks>
-        IEnumerable<RedefinableElement> RedefinedElement { get; }
+        IEnumerable<RedefinableElement> RedefinedElement();
 
         /// <summary>
         /// The contexts that this element may be redefined from.
         /// </summary>
-        IEnumerable<Classifier> RedefinitionContext { get; }
+        /// <remarks>
+        /// Derived property.
+        /// </remarks>
+        IEnumerable<Classifier> RedefinitionContext();
     }
 }

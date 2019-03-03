@@ -45,7 +45,7 @@ namespace Uml.CommonStructure
         /// <remarks>
         /// Derived Property.
         /// </remarks>
-        IEnumerable<NamedElement> Member { get; }
+        IEnumerable<NamedElement> Member();
 
         /// <summary>
         /// A collection of <see cref="NamedElement"/>s owned by the <see cref="Namespace"/>.
@@ -53,7 +53,7 @@ namespace Uml.CommonStructure
         /// <remarks>
         /// Derived Property.
         /// </remarks>
-        IEnumerable<NamedElement> OwnedMember { get; }
+        IEnumerable<NamedElement> OwnedMember();
 
         /// <summary>
         /// Specifies a set of <see cref="Constraint"/>s owned by this <see cref="Namespace"/>.
