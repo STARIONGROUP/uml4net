@@ -21,6 +21,8 @@
 
 namespace Uml.CommonStructure
 {
+    using Uml.Assembler;
+
     /// <summary>
     /// A <see cref="TemplateBinding"/> is a <see cref="DirectedRelationship"/> between a <see cref="TemplateableElement"/> and a template. A <see cref="TemplateBinding"/> specifies the <see cref="TemplateParameterSubstitution"/>s of actual parameters for the formal parameters of the template.
     /// </summary>
@@ -34,7 +36,7 @@ namespace Uml.CommonStructure
         /// <summary>
         /// The <see cref="TemplateParameterSubstitution"/>s owned by this <see cref="TemplateBinding"/>.
         /// </summary>
-        TemplateParameterSubstitution ParameterSubstitution { get; set; }
+        OwnerList<TemplateParameterSubstitution>  ParameterSubstitution { get; set; }
 
         /// <summary>
         /// The <see cref="TemplateSignature"/> for the template that is the target of this <see cref="TemplateBinding"/>.

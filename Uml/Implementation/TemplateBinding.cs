@@ -19,15 +19,74 @@
 // </copyright>
 // -------------------------------------------------------------------------------------------------
 
-
 namespace Implementation.CommonStructure
 {
+    using Uml.Assembler;
+    using System.Collections.Generic;
     using Uml.CommonStructure;
 
     /// <summary>
     /// A <see cref="TemplateBinding"/> is a <see cref="DirectedRelationship"/> between a <see cref="TemplateableElement"/> and a template. A <see cref="TemplateBinding"/> specifies the <see cref="TemplateParameterSubstitution"/>s of actual parameters for the formal parameters of the template.
     /// </summary>
-    internal class TemplateBinding : Element, Uml.CommonStructure.TemplateBinding
+    internal class TemplateBinding : Implementation.CommonStructure.Element, Uml.CommonStructure.TemplateBinding
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TemplateBinding"/> class.
+        /// </summary>
+        /// <param name="id">
+        /// The unique identifier of the <see cref="TemplateBinding"/>
+        /// </param>
+        public TemplateBinding(string id) : base(id)
+        {
+            this.ParameterSubstitution = new OwnerList<Uml.CommonStructure.TemplateParameterSubstitution>(this);
+        }
+
+        /// <summary>
+        /// Specifies the elements related by the <see cref="TemplateBinding"/>.
+        /// </summary>
+        /// <remarks>
+        /// Derived property.
+        /// </remarks>
+        public IEnumerable<Uml.CommonStructure.Element> RelatedElement()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        /// <summary>
+        /// Specifies the source Element(s) of the <see cref="TemplateBinding"/>.
+        /// </summary>
+        /// <remarks>
+        /// Derived property.
+        /// </remarks>
+        public IEnumerable<Uml.CommonStructure.Element> Source()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        /// <summary>
+        /// Specifies the target Element(s) of the <see cref="TemplateBinding"/>.
+        /// </summary>
+        /// <remarks>
+        /// Derived property.
+        /// </remarks>
+        public IEnumerable<Uml.CommonStructure.Element> Target()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        /// <summary>
+        /// The <see cref="TemplateableElement"/> that is bound by this <see cref="TemplateBinding"/>.
+        /// </summary>
+        public TemplateableElement BoundElement { get; set; }
+
+        /// <summary>
+        /// The <see cref="TemplateableElement"/> that is bound by this <see cref="TemplateBinding"/>.
+        /// </summary>
+        public OwnerList<Uml.CommonStructure.TemplateParameterSubstitution> ParameterSubstitution { get; set; }
+
+        /// <summary>
+        /// The <see cref="TemplateSignature"/> for the template that is the target of this <see cref="TemplateBinding"/>.
+        /// </summary>
+        public Uml.CommonStructure.TemplateSignature Signature { get; set; }
     }
 }
