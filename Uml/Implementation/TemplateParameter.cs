@@ -21,12 +21,49 @@
 
 namespace Implementation.CommonStructure
 {
+    using Uml.Assembler;
     using Uml.CommonStructure;
 
     /// <summary>
     /// A <see cref="TemplateParameter"/> exposes a <see cref="ParameterableElement"/> as a formal parameter of a template.
     /// </summary>
-    internal class TemplateParameter : Element, Uml.CommonStructure.TemplateParameter
+    internal class TemplateParameter : Implementation.CommonStructure.Element, Uml.CommonStructure.TemplateParameter
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TemplateParameter"/> class.
+        /// </summary>
+        /// <param name="id">
+        /// The unique identifier of the <see cref="TemplateParameter"/>
+        /// </param>
+        public TemplateParameter(string id) : base(id)
+        {
+            this.OwnedDefault = new OwnerList<ParameterableElement>(this);
+            this.OwnedParameteredElement = new OwnerList<ParameterableElement>(this);
+        }
+
+        /// <summary>
+        /// The <see cref="ParameterableElement"/> that is the default for this formal <see cref="TemplateParameter"/>.
+        /// </summary>
+        public ParameterableElement Default { get; set; }
+
+        /// <summary>
+        /// The <see cref="ParameterableElement"/> that is owned by this <see cref="TemplateParameter"/> for the purpose of providing a default.
+        /// </summary>
+        public OwnerList<ParameterableElement> OwnedDefault { get; set; }
+
+        /// <summary>
+        /// The <see cref="ParameterableElement"/> that is owned by this <see cref="TemplateParameter"/> for the purpose of exposing it as the parameteredElement.
+        /// </summary>
+        public OwnerList<ParameterableElement> OwnedParameteredElement { get; set; }
+
+        /// <summary>
+        /// The <see cref="ParameterableElement"/> exposed by this <see cref="TemplateParameter"/>.
+        /// </summary>
+        public ParameterableElement ParameterableElement { get; set; }
+
+        /// <summary>
+        /// The <see cref="TemplateSignature"/> that owns this <see cref="TemplateParameter"/>.
+        /// </summary>
+        public Uml.CommonStructure.TemplateSignature Signature { get; set; }
     }
 }
