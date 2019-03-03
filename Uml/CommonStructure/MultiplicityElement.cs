@@ -57,7 +57,7 @@ namespace Uml.CommonStructure
         /// <remarks>
         /// Derived property.
         /// </remarks>
-        int Upper { get; }
+        string Upper { get; }
         
         /// <summary>
         /// The specification of the upper bound for this multiplicity.

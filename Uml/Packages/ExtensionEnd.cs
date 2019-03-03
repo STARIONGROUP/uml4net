@@ -35,7 +35,7 @@ namespace Uml.Packages
         /// <remarks>
         /// Derived property.
         /// </remarks>
-        int lower { get; }
+        int Lower { get; }
 
         /// <summary>
         /// References the type of the <see cref="ExtensionEnd"/>. Note that this association restricts the possible types of an ExtensionEnd to only be <see cref="Stereotype"/>s.

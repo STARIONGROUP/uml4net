@@ -79,7 +79,7 @@ namespace Uml.Classification
         /// <remarks>
         /// Derived property.
         /// </remarks>
-        int lower { get;  }
+        int Lower { get;  }
 
         /// <summary>
         /// The parameters owned by this <see cref="Operation"/>.

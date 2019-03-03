@@ -29,6 +29,6 @@ namespace Uml.Values
         /// <summary>
         /// The specified UnlimitedNatural value.
         /// </summary>
-        int Value { get; set; }
+        string Value { get; set; }
     }
 }

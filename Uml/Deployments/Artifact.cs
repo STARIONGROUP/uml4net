@@ -33,7 +33,7 @@ namespace Uml.Deployments
         /// <summary>
         /// A concrete name that is used to refer to the <see cref="Artifact"/> in a physical context. Example: file system name, universal resource locator.
         /// </summary>
-        string fileName { get; set; }
+        string FileName { get; set; }
 
         /// <summary>
         /// The set of model elements that are manifested in the Artifact. That is, these model elements are utilized in the construction (or generation) of the artifact.
