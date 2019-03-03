@@ -36,7 +36,7 @@ namespace Uml.CommonStructure
         /// <remarks>
         /// Derived property.
         /// </remarks>
-        IEnumerable<Dependency> ClientDependency { get; }
+        IEnumerable<Dependency> ClientDependency();
 
         /// <summary>
         /// The name of the <see cref="NamedElement"/>.
@@ -54,15 +54,15 @@ namespace Uml.CommonStructure
         /// <remarks>
         /// Derived property.
         /// </remarks>
-        Namespace Namespace { get; }
+        Namespace Namespace();
 
         /// <summary>
-        /// A name that allows the NamedElement to be identified within a hierarchy of nested Namespaces. It is constructed from the names of the containing Namespaces starting at the root of the hierarchy and ending with the name of the NamedElement itself.
+        /// A name that allows the <see cref="NamedElement"/> to be identified within a hierarchy of nested <see cref="Namespace"/>s. It is constructed from the names of the containing <see cref="Namespace"/>s starting at the root of the hierarchy and ending with the name of the <see cref="NamedElement"/> itself.
         /// </summary>
         /// <remarks>
         /// Derived property.
         /// </remarks>
-        string QualifiedName { get; }
+        string QualifiedName();
 
         /// <summary>
         /// Determines whether and how the <see cref="NamedElement"/> is visible outside its owning <see cref="Namespace"/>.

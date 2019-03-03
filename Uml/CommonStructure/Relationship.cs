@@ -19,10 +19,10 @@
 // </copyright>
 // -------------------------------------------------------------------------------------------------
 
-using System.Collections.Generic;
-
 namespace Uml.CommonStructure
 {
+    using System.Collections.Generic;
+
     /// <summary>
     /// <see cref="Relationship"/> is an abstract concept that specifies some kind of relationship between <see cref="Element"/>s.
     /// </summary>
@@ -34,6 +34,6 @@ namespace Uml.CommonStructure
         /// <remarks>
         /// Derived property.
         /// </remarks>
-        IEnumerable<Element> RelatedElement { get; }
+        IEnumerable<Element> RelatedElement();
     }
 }

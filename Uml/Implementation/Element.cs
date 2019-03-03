@@ -23,39 +23,58 @@ namespace Uml.Implementation
 {
     using System.Collections.Generic;
     using Uml.Assembler;
+    using Uml.CommonStructure;
 
     /// <summary>
     /// An <see cref="Element"/> is a constituent of a model. As such, it has the capability of owning other <see cref="Element"/>s.
     /// </summary>
-    public abstract class Element : Uml.CommonStructure.Element
+    internal abstract class Element : Uml.CommonStructure.Element
     {
+        /// <summary>
+        /// Initializes a new instance of <see cref="Element"/>
+        /// </summary>
+        /// <param name="id">
+        /// The unique identifier of the <see cref="Element"/>
+        /// </param>
+        protected Element(string id)
+        {
+            this.Id = id;
+            this.OwnedComment = new OwnerList<Comment>(this);
+        }
+        
         /// <summary>
         /// Gets the unique Id of the <see cref="Element"/>
         /// </summary>
         /// <remarks>
         /// The Id is not specified in UML
         /// </remarks>
-        public string Id { get; internal set; }
+        public string Id { get; private set; }
+
+        /// <summary>
+        /// The Comments owned by this <see cref="Element"/>.
+        /// </summary>
+        public OwnerList<Comment> OwnedComment { get; set; }
+
+        /// <summary>
+        /// The <see cref="Element"/>s owned by this Element.
+        /// </summary>
+        /// <remarks>
+        /// Derived property
+        /// </remarks>
+        public IEnumerable<CommonStructure.Element> OwnedElement()
+        {
+            throw new System.NotImplementedException();
+        }
 
         /// <summary>
         /// Gets the <see cref="Element"/> that owns this <see cref="Element"/>.
         /// </summary>
         /// <remarks>
-        /// derived property
+        /// Derived property
         /// </remarks>
-        public Uml.CommonStructure.Element Owner { get; set; }
-
-        //// <summary>
-        /// Gets the Comments owned by this Element.
-        /// </summary>
-        //public OwnerList<Comment> OwnedComment { get; private set; }
-
-        /// <summary>
-        /// Gets the <see cref="Element"/>s owned by this <see cref="Element"/>.
-        /// </summary>
-        /// <remarks>
-        /// derived property
-        /// </remarks>
-        public abstract List<Element> OwnedElement { get; }
+        public CommonStructure.Element Owner()
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

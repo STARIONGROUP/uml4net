@@ -29,12 +29,12 @@ namespace Uml.CommonStructure
     public interface Dependency : DirectedRelationship, PackageableElement
     {
         /// <summary>
-        /// The Element(s) dependent on the supplier Element(s). In some cases (such as a trace Abstraction) the assignment of direction (that is, the designation of the client Element) is at the discretion of the modeler and is a stipulation.
+        /// The <see cref="Element"/>(s) dependent on the supplier <see cref="Element"/>(s). In some cases (such as a trace Abstraction) the assignment of direction (that is, the designation of the client Element) is at the discretion of the modeler and is a stipulation.
         /// </summary>
         List<NamedElement> Client { get; set; }
 
         /// <summary>
-        /// The Element(s) on which the client Element(s) depend in some respect. The modeler may stipulate a sense of Dependency direction suitable for their domain.
+        /// The <see cref="Element"/>(s) on which the client <see cref="Element"/>(s) depend in some respect. The modeler may stipulate a sense of Dependency direction suitable for their domain.
         /// </summary>
         List<NamedElement> Supplier { get; set; }
     }

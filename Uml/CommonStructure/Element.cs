@@ -48,7 +48,7 @@ namespace Uml.CommonStructure
         /// <remarks>
         /// Derived property
         /// </remarks>
-        IEnumerable<Element> OwnedElement { get; set; }
+        IEnumerable<Element> OwnedElement();
 
         /// <summary>
         /// Gets the <see cref="Element"/> that owns this <see cref="Element"/>.
@@ -56,6 +56,6 @@ namespace Uml.CommonStructure
         /// <remarks>
         /// Derived property
         /// </remarks>
-        Element Owner { get; }
+        Element Owner();
     }
 }

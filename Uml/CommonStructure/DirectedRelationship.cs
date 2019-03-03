@@ -34,7 +34,7 @@ namespace Uml.CommonStructure
         List<Element> Source { get; set; }
 
         /// <summary>
-        /// Specifies the target Element(s) of the DirectedRelationship.
+        /// Specifies the target Element(s) of the <see cref="DirectedRelationship"/>.
         /// </summary>
         List<Element> Target { get; set; }
     }

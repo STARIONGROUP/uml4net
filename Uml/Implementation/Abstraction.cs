@@ -21,12 +21,124 @@
 
 namespace Implementation.CommonStructure
 {
+    using System.Collections.Generic;
     using Uml.CommonStructure;
-
+    using Uml.Assembler;
+    using Uml.Values;
+    
     /// <summary>
     /// An <see cref="Abstraction"/> is a <see cref="Relationship"/> that relates two <see cref="Element"/>s or sets of <see cref="Element"/>s that represent the same concept at different levels of abstraction or from different viewpoints.
     /// </summary>
-    internal class Abstraction : Element, Uml.CommonStructure.Abstraction
+    internal class Abstraction : Uml.Implementation.Element, Uml.CommonStructure.Abstraction
     {
+        /// <summary>
+        /// Initializes a new instance of <see cref="Abstraction"/>
+        /// </summary>
+        /// <param name="id">
+        /// The unique identifier of the <see cref="Abstraction"/>
+        /// </param>
+        protected Abstraction(string id) : base(id)
+        {
+            this.Source = new List<Element>();
+            this.Target = new List<Element>();
+            this.NameExpression = new OwnerList<StringExpression>(this);
+            this.Client = new List<Uml.CommonStructure.NamedElement>();
+            this.Supplier = new List<Uml.CommonStructure.NamedElement>();
+            this.Mapping = new OwnerList<OpaqueExpression>(this);
+        }
+
+        /// <summary>
+        /// Specifies the elements related by the <see cref="Abstraction"/>.
+        /// </summary>
+        /// <remarks>
+        /// Derived property.
+        /// </remarks>
+        public IEnumerable<Element> RelatedElement()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        /// <summary>
+        /// Specifies the source Element(s) of the <see cref="Abstraction"/>.
+        /// </summary>
+        public List<Element> Source { get; set; }
+        
+        /// <summary>
+        /// Specifies the target Element(s) of the <see cref="Abstraction"/>.
+        /// </summary>
+        public List<Element> Target { get; set; }
+
+        /// <summary>
+        /// The formal <see cref="TemplateParameter"/> that owns this <see cref="Abstraction"/>.
+        /// </summary>
+        public Uml.CommonStructure.TemplateParameter OwningTemplateParameter { get; set; }
+        
+        /// <summary>
+        /// The <see cref="TemplateParameter"/> that exposes this <see cref="Abstraction"/> as a formal parameter.
+        /// </summary>
+        public Uml.CommonStructure.TemplateParameter TemplateParameter { get; set; }
+        
+        /// <summary>
+        /// Indicates the Dependencies that reference this <see cref="Abstraction"/> as a client.
+        /// </summary>
+        /// <remarks>
+        /// Derived property.
+        /// </remarks>
+        IEnumerable<Uml.CommonStructure.Dependency> Uml.CommonStructure.NamedElement.ClientDependency()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        /// <summary>
+        /// The name of the <see cref="Abstraction"/>.
+        /// </summary>
+        public string Name { get; set; }
+
+        /// <summary>
+        /// The <see cref="StringExpression"/> used to define the name of this <see cref="Abstraction"/>.
+        /// </summary>
+        public OwnerList<StringExpression> NameExpression { get; set; }
+
+        /// <summary>
+        /// Specifies the <see cref="Namespace"/> that owns the <see cref="Abstraction"/>.
+        /// </summary>
+        /// <remarks>
+        /// Derived property.
+        /// </remarks>
+        public Uml.CommonStructure.Namespace Namespace()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        /// <summary>
+        /// A name that allows the NamedElement to be identified within a hierarchy of nested Namespaces. It is constructed from the names of the containing Namespaces starting at the root of the hierarchy and ending with the name of the NamedElement itself.
+        /// </summary>
+        /// <remarks>
+        /// Derived property.
+        /// </remarks>
+        public string QualifiedName()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        /// <summary>
+        /// Determines whether and how the <see cref="Abstraction"/> is visible outside its owning <see cref="Namespace"/>.
+        /// </summary>
+        public VisibilityKind Visibility { get; set; }
+
+        /// <summary>
+        /// The <see cref="Element"/>(s) dependent on the supplier <see cref="Element"/>(s). In some cases (such as a trace Abstraction) the assignment of direction (that is, the designation of the client Element) is at the discretion of the modeler and is a stipulation.
+        /// </summary>
+        public List<Uml.CommonStructure.NamedElement> Client { get; set; }
+        
+        /// <summary>
+        /// The <see cref="Element"/>(s) on which the client <see cref="Element"/>(s) depend in some respect. The modeler may stipulate a sense of Dependency direction suitable for their domain.
+        /// </summary>
+        public List<Uml.CommonStructure.NamedElement> Supplier { get; set; }
+        
+        /// <summary>
+        /// An <see cref="OpaqueExpression"/> that states the abstraction relationship between the supplier(s) and the client(s). In some cases, such as derivation, it is usually formal and unidirectional; in other cases, such as trace, it is usually informal and bidirectional. The mapping expression is optional and may be omitted if the precise relationship between the Elements is not specified.
+        /// </summary>
+        public OwnerList<OpaqueExpression> Mapping { get; set; }
     }
 }
