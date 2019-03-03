@@ -21,6 +21,7 @@
 
 namespace Uml.CommonStructure
 {
+    using Uml.Assembler;
     using System.Collections.Generic;
     using Uml.Values;
 
@@ -42,6 +43,6 @@ namespace Uml.CommonStructure
         /// <summary>
         /// A condition that must be true when evaluated in order for the <see cref="Constraint"/> to be satisfied.
         /// </summary>
-        ValueSpecification  Specification { get; set; }
+        OwnerList<ValueSpecification> Specification { get; set; }
     }
 }
