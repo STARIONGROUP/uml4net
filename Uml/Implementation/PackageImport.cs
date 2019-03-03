@@ -21,12 +21,71 @@
 
 namespace Implementation.CommonStructure
 {
+    using System.Collections.Generic;
     using Uml.CommonStructure;
+    using Uml.Packages;    
 
     /// <summary>
     /// A <see cref="PackageImport"/> is a <see cref="Relationship"/> that imports all the non-private members of a <see cref="Package"/> into the Namespace owning the <see cref="PackageImport"/>, so that those <see cref="Element"/>s may be referred to by their unqualified names in the importingNamespace.
     /// </summary>
-    internal class PackageImport : Element, Uml.CommonStructure.PackageImport
+    internal class PackageImport : Uml.Implementation.Element, Uml.CommonStructure.PackageImport
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PackageImport"/> class.
+        /// </summary>
+        /// <param name="id">
+        /// The unique identifier of the <see cref="PackageImport"/>
+        /// </param>
+        public PackageImport(string id) : base(id)
+        {
+        }
+
+        /// <summary>
+        /// Specifies the elements related by the <see cref="PackageImport"/>.
+        /// </summary>
+        /// <remarks>
+        /// Derived property.
+        /// </remarks>
+        public IEnumerable<Element> RelatedElement()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        /// <summary>
+        /// Specifies the source Element(s) of the <see cref="PackageImport"/>.
+        /// </summary>
+        /// <remarks>
+        /// Derived property.
+        /// </remarks>
+        public IEnumerable<Element> Source()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        /// <summary>
+        /// Specifies the target Element(s) of the <see cref="PackageImport"/>.
+        /// </summary>
+        /// <remarks>
+        /// Derived property.
+        /// </remarks>
+        public IEnumerable<Element> Target()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        /// <summary>
+        /// Specifies the <see cref="Package"/> whose members are imported into a <see cref="Namespace"/>.
+        /// </summary>
+        public Package ImportedPackage { get; set; }
+
+        /// <summary>
+        /// Specifies the <see cref="Namespace"/> that imports the members from a <see cref="Package"/>.
+        /// </summary>
+        public Namespace ImportingNamespace { get; set; }
+
+        /// <summary>
+        /// Specifies the visibility of the imported <see cref="PackageableElement"/>s within the importingNamespace, i.e., whether imported <see cref="Element"/>s will in turn be visible to other <see cref="Namespace"/>s. If the <see cref="PackageImport"/> is public, the imported Elements will be visible outside the importingNamespace, while, if the <see cref="PackageImport"/> is private, they will not.
+        /// </summary>
+        public VisibilityKind Visibility { get; set; }
     }
 }
