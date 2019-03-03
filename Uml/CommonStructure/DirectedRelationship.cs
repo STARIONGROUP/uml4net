@@ -31,11 +31,17 @@ namespace Uml.CommonStructure
         /// <summary>
         /// Specifies the source Element(s) of the <see cref="DirectedRelationship"/>.
         /// </summary>
-        List<Element> Source { get; set; }
+        /// <remarks>
+        /// Derived property.
+        /// </remarks>
+        IEnumerable<Element> Source();
 
         /// <summary>
         /// Specifies the target Element(s) of the <see cref="DirectedRelationship"/>.
         /// </summary>
-        List<Element> Target { get; set; }
+        /// <remarks>
+        /// Derived property.
+        /// </remarks>
+        IEnumerable<Element> Target();
     }
 }

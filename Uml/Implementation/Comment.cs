@@ -33,7 +33,7 @@ namespace Implementation.CommonStructure
         /// Initializes a new instance of the <see cref="Comment"/> class.
         /// </summary>
         /// <param name="id">
-        /// The unique identifier of the <see cref="Abstraction"/>
+        /// The unique identifier of the <see cref="Comment"/>
         /// </param>
         public Comment(string id) : base(id)
         {

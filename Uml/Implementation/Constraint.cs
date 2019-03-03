@@ -32,10 +32,10 @@ namespace Implementation.CommonStructure
     internal class Constraint : Uml.Implementation.Element, Uml.CommonStructure.Constraint
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="Comment"/> class.
+        /// Initializes a new instance of the <see cref="Constraint"/> class.
         /// </summary>
         /// <param name="id">
-        /// The unique identifier of the <see cref="Abstraction"/>
+        /// The unique identifier of the <see cref="Constraint"/>
         /// </param>
         public Constraint(string id) : base(id)
         {
