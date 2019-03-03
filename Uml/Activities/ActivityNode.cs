@@ -19,11 +19,10 @@
 // </copyright>
 // -------------------------------------------------------------------------------------------------
 
-using Uml.Actions;
-
 namespace Uml.Activities
 {
     using System.Collections.Generic;
+    using Uml.Actions;
     using Uml.Classification;
 
     /// <summary>

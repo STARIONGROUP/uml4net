@@ -28,7 +28,7 @@ namespace Implementation.CommonStructure
     /// <summary>
     /// An <see cref="Element"/> is a constituent of a model. As such, it has the capability of owning other <see cref="Element"/>s.
     /// </summary>
-    public abstract class Element : Uml.CommonStructure.Element
+    internal abstract class Element : Uml.CommonStructure.Element
     {
         /// <summary>
         /// Initializes a new instance of <see cref="Element"/>

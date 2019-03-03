@@ -27,7 +27,7 @@ namespace Implementation.Activities
     /// <summary>
     /// An <see cref="ExceptionHandler"/> is an <see cref="Element"/> that specifies a handlerBody <see cref="ExecutableNode"/> to execute in case the specified exception occurs during the execution of the protected <see cref="ExecutableNode"/>.
     /// </summary>
-    public class ExceptionHandler : Implementation.CommonStructure.Element //, Uml.Activities.ExceptionHandler
+    internal class ExceptionHandler : Implementation.CommonStructure.Element //, Uml.Activities.ExceptionHandler
     {
         public ExceptionHandler(string id) : base(id)
         {

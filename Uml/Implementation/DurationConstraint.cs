@@ -26,7 +26,7 @@ namespace Implementation.Values
     /// <summary>
     /// A DurationConstraint is a Constraint that refers to a DurationInterval.
     /// </summary>
-    public class DurationConstraint : Implementation.CommonStructure.Element //, Uml.Values.DurationConstraint
+    internal class DurationConstraint : Implementation.CommonStructure.Element //, Uml.Values.DurationConstraint
     {
         public DurationConstraint(string id) : base(id)
         {

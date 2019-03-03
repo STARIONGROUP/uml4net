@@ -19,10 +19,9 @@
 // </copyright>
 // -------------------------------------------------------------------------------------------------
 
-using System.Collections.Generic;
-
 namespace Uml.CommonStructure
 {
+    using System.Collections.Generic;
     using Uml.Assembler;
 
     /// <summary>

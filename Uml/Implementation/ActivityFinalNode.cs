@@ -32,7 +32,7 @@ namespace Implementation.Activities
     /// <summary>
     /// An <see cref="ActivityFinalNode"/> is a <see cref="FinalNode"/> that terminates the execution of its owning <see cref="Activity"/> or <see cref="StructuredActivityNode"/>.
     /// </summary>
-    internal class ActivityFinalNode : Implementation.CommonStructure.Element, Uml.Activities.ActivityFinalNode
+    internal class ActivityFinalNode : Implementation.CommonStructure.Element //, Uml.Activities.ActivityFinalNode
     {
         /// <summary>
         /// Initializes a new instance of <see cref="ActivityFinalNode"/>
@@ -43,43 +43,5 @@ namespace Implementation.Activities
         public ActivityFinalNode(string id) : base(id)
         {
         }
-
-        public IEnumerable<Dependency> ClientDependency()
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public string Name { get; set; }
-        public OwnerList<StringExpression> NameExpression { get; set; }
-        public Namespace Namespace()
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public string QualifiedName()
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public VisibilityKind Visibility { get; set; }
-        public bool IsLeaf { get; set; }
-        public IEnumerable<RedefinableElement> RedefinedElement()
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public IEnumerable<Classifier> RedefinitionContext()
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public Uml.Activities.Activity Activity { get; set; }
-        public IEnumerable<ActivityGroup> InGroup { get; }
-        public List<Uml.Activities.InterruptibleActivityRegion> InInterruptibleRegion { get; set; }
-        public List<Uml.Activities.ActivityPartition> InPartition { get; set; }
-        public StructuredActivityNode InStructuredNode { get; set; }
-        public List<ActivityEdge> Incoming { get; set; }
-        public List<ActivityEdge> Outgoing { get; set; }
-        public List<ActivityNode> RedefinedNode { get; set; }
     }
 }
