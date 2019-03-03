@@ -26,7 +26,16 @@ namespace Implementation.UseCases
     /// <summary>
     /// An Actor specifies a role played by a user or any other system that interacts with the subject.
     /// </summary>
-    internal class Actor : Element, Uml.UseCases.Actor
+    internal class Actor : Implementation.CommonStructure.Element //, Uml.UseCases.Actor
     {
+        /// <summary>
+        /// Initializes a new instance of <see cref="Actor"/>
+        /// </summary>
+        /// <param name="id">
+        /// The unique identifier of the <see cref="Actor"/>
+        /// </param>        
+        public Actor(string id) : base(id)
+        {
+        }
     }
 }

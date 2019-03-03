@@ -53,12 +53,12 @@ namespace Uml.Actions
         /// <summary>
         /// A list of <see cref="OutputPin"/>s that hold the values of the loop variables during an execution of the loop. When the test fails, the values are moved to the result <see cref="OutputPin"/>s of the loop.
         /// </summary>
-        OwnerList<OutputPin> LoopVariable { get; set }
+        OwnerList<OutputPin> LoopVariable { get; set; }
 
         /// <summary>
         /// A list of <see cref="OutputPin"/>s that receive the loopVariable values after the last iteration of the loop and constitute the output of the <see cref="LoopNode"/>.
         /// </summary>
-        OwnerList<OutputPin> Result { get; set }
+        OwnerList<OutputPin> Result { get; set; }
 
         /// <summary>
         /// The set of <see cref="ExecutableNode"/>s executed before the first iteration of the loop, in order to initialize values or perform other setup computations.

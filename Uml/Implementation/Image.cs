@@ -26,7 +26,10 @@ namespace Implementation.Packages
     /// <summary>
     /// Physical definition of a graphical image.
     /// </summary>
-    internal class Image : Element, Uml.Packages.Image
+    internal class Image : Implementation.CommonStructure.Element //, Uml.Packages.Image
     {
+        public Image(string id) : base(id)
+        {
+        }
     }
 }

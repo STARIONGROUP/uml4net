@@ -26,7 +26,16 @@ namespace Implementation.CommonBehavior
     /// <summary>
     /// A <see cref="ChangeEvent"/> models a change in the system configuration that makes a condition true.
     /// </summary>
-    internal class ChangeEvent : Element, Uml.CommonBehavior.ChangeEvent
+    internal class ChangeEvent : Implementation.CommonStructure.Element //, Uml.CommonBehavior.ChangeEvent
     {
+        /// <summary>
+        /// Initializes a new instance of <see cref="ChangeEvent"/>
+        /// </summary>
+        /// <param name="id">
+        /// The unique identifier of the <see cref="ChangeEvent"/>
+        /// </param>        
+        public ChangeEvent(string id) : base(id)
+        {
+        }
     }
 }

@@ -26,7 +26,10 @@ namespace Implementation.Values
     /// <summary>
     /// A LiteralInteger is a specification of an Integer value.
     /// </summary>
-    internal class LiteralInteger : Element, Uml.Values.LiteralInteger
+    internal class LiteralInteger : Implementation.CommonStructure.Element //, Uml.Values.LiteralInteger
     {
+        public LiteralInteger(string id) : base(id)
+        {
+        }
     }
 }

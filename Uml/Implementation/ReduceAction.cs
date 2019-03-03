@@ -26,7 +26,10 @@ namespace Implementation.Actions
     /// <summary>
     /// A <see cref="ReduceAction"/> is an <see cref="Action"/> that reduces a collection to a single value by repeatedly combining the elements of the collection using a reducer <see cref="Behavior"/>.
     /// </summary>
-    internal class ReduceAction : Element, Uml.Actions.ReduceAction
+    internal class ReduceAction : Implementation.CommonStructure.Element //, Uml.Actions.ReduceAction
     {
+        public ReduceAction(string id) : base(id)
+        {
+        }
     }
 }

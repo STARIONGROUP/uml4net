@@ -26,7 +26,10 @@ namespace Implementation.CommonBehavior
     /// <summary>
     /// An <see cref="OpaqueBehavior"/> is a <see cref="Behavior"/> whose specification is given in a textual language other than UML.
     /// </summary>
-    internal class OpaqueBehavior : Element, Uml.CommonBehavior.OpaqueBehavior
+    internal class OpaqueBehavior : Implementation.CommonStructure.Element //, Uml.CommonBehavior.OpaqueBehavior
     {
+        public OpaqueBehavior(string id) : base(id)
+        {
+        }
     }
 }

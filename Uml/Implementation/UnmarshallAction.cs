@@ -26,7 +26,10 @@ namespace Implementation.Actions
     /// <summary>
     /// An <see cref="UnmarshallAction"/> is an <see cref="Action"/> that retrieves the values of the <see cref="StructuralFeature"/>s of an object and places them on <see cref="OutputPin"/>s. 
     /// </summary>
-    internal class UnmarshallAction : Element, Uml.Actions.UnmarshallAction
+    internal class UnmarshallAction : Implementation.CommonStructure.Element //, Uml.Actions.UnmarshallAction
     {
+        public UnmarshallAction(string id) : base(id)
+        {
+        }
     }
 }

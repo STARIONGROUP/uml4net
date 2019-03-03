@@ -26,7 +26,10 @@ namespace Implementation.Activities
     /// <summary>
     /// An <see cref="ActivityParameterNode"/> is an ObjectNode for accepting values from the input <see cref="Parameter"/>s or providing values to the output <see cref="Parameter"/>s of an <see cref="Activity"/>.
     /// </summary>
-    internal class ActivityParameterNode : Element, Uml.Activities.ActivityParameterNode
+    internal class ActivityParameterNode : Implementation.CommonStructure.Element //, Uml.Activities.ActivityParameterNode
     {
+        public ActivityParameterNode(string id) : base(id)
+        {
+        }
     }
 }

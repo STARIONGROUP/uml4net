@@ -23,7 +23,10 @@ namespace Implementation.Interactions
 {
     using Uml.CommonStructure;
 
-    internal class StateInvariant : Element, Uml.Interactions.StateInvariant
+    internal class StateInvariant : Implementation.CommonStructure.Element //, Uml.Interactions.StateInvariant
     {
+        public StateInvariant(string id) : base(id)
+        {
+        }
     }
 }

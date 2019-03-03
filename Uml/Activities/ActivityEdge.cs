@@ -27,7 +27,7 @@ namespace Uml.Activities
     using Uml.Values;
 
     /// <summary>
-    /// An ActivityEdge is an abstract class for directed connections between two ActivityNodes.
+    /// An <see cref="ActivityEdge"/> is an abstract class for directed connections between two <see cref="ActivityNode"/>s.
     /// </summary>
     public interface ActivityEdge : RedefinableElement
     {

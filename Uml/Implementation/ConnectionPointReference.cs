@@ -26,7 +26,16 @@ namespace Implementation.StateMachines
     /// <summary>
     /// A ConnectionPointReference represents a usage (as part of a submachine State) of an entry/exit point Pseudostate defined in the StateMachine referenced by the submachine State.
     /// </summary>
-    internal class ConnectionPointReference : Element, Uml.StateMachines.ConnectionPointReference
+    internal class ConnectionPointReference : Implementation.CommonStructure.Element //, Uml.StateMachines.ConnectionPointReference
     {
+        /// <summary>
+        /// Initializes a new instance of <see cref="ConnectionPointReference"/>
+        /// </summary>
+        /// <param name="id">
+        /// The unique identifier of the <see cref="ConnectionPointReference"/>
+        /// </param>        
+        public ConnectionPointReference(string id) : base(id)
+        {
+        }
     }
 }

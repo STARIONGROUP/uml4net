@@ -26,7 +26,10 @@ namespace Implementation.Actions
     /// <summary>
     /// An <see cref="ExpansionRegion"/> is a <see cref="StructuredActivityNode"/> that executes its content multiple times corresponding to elements of input collection(s).
     /// </summary>
-    internal class ExpansionRegion : Element, Uml.Actions.ExpansionRegion
+    internal class ExpansionRegion : Implementation.CommonStructure.Element //, Uml.Actions.ExpansionRegion
     {
+        public ExpansionRegion(string id) : base(id)
+        {
+        }
     }
 }

@@ -26,7 +26,10 @@ namespace Implementation.CommonBehavior
     /// <summary>
     /// A <see cref="Trigger"/> specifies a specific point  at which an <see cref="Event"/> occurrence may trigger an effect in a <see cref="Behavior"/>. A <see cref="Trigger"/> may be qualified by the <see cref="Port"/> on which the Event occurred.
     /// </summary>
-    internal class Trigger : Element, Uml.CommonBehavior.Trigger
+    internal class Trigger : Implementation.CommonStructure.Element //, Uml.CommonBehavior.Trigger
     {
+        public Trigger(string id) : base(id)
+        {
+        }
     }
 }

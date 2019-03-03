@@ -26,7 +26,10 @@ namespace Implementation.Values
     /// <summary>
     /// A LiteralNull specifies the lack of a value.
     /// </summary>
-    internal class LiteralNull : Element, Uml.Values.LiteralNull
+    internal class LiteralNull : Implementation.CommonStructure.Element //, Uml.Values.LiteralNull
     {
+        public LiteralNull(string id) : base(id)
+        {
+        }
     }
 }

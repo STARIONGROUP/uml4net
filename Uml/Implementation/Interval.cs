@@ -26,7 +26,10 @@ namespace Implementation.Values
     /// <summary>
     /// An Interval defines the range between two ValueSpecifications.
     /// </summary>
-    internal class Interval : Element, Uml.Values.Interval
+    internal class Interval : Implementation.CommonStructure.Element //, Uml.Values.Interval
     {
+        public Interval(string id) : base(id)
+        {
+        }
     }
 }

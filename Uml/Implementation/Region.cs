@@ -26,7 +26,10 @@ namespace Implementation.StateMachines
     /// <summary>
     /// A Region is a top-level part of a StateMachine or a composite State, that serves as a container for the Vertices and Transitions of the StateMachine. A StateMachine or composite State may contain multiple Regions representing behaviors that may occur in parallel.
     /// </summary>
-    internal class Region : Element, Uml.StateMachines.Region
+    internal class Region : Implementation.CommonStructure.Element //, Uml.StateMachines.Region
     {
+        public Region(string id) : base(id)
+        {
+        }
     }
 }

@@ -26,7 +26,10 @@ namespace Implementation.Actions
     /// <summary>
     /// A <see cref="CreateObjectAction"/> is an <see cref="Action"/> that creates an instance of the specified <see cref="Classifier"/>.
     /// </summary>
-    internal class CreateObjectAction : Element, Uml.Actions.CreateObjectAction
+    internal class CreateObjectAction : Implementation.CommonStructure.Element //, Uml.Actions.CreateObjectAction
     {
+        public CreateObjectAction(string id) : base(id)
+        {
+        }
     }
 }

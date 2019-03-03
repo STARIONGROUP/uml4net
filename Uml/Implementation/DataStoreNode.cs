@@ -26,7 +26,10 @@ namespace Implementation.Activities
     /// <summary>
     /// A <see cref="DataStoreNode"/> is a <see cref="CentralBufferNode"/> for persistent data.
     /// </summary>
-    internal class DataStoreNode : Element, Uml.Activities.DataStoreNode
+    internal class DataStoreNode : Implementation.CommonStructure.Element //, Uml.Activities.DataStoreNode
     {
+        public DataStoreNode(string id) : base(id)
+        {
+        }
     }
 }

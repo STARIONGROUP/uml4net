@@ -26,7 +26,10 @@ namespace Implementation.Actions
     /// <summary>
     /// A <see cref="ValuePin"/> is an <see cref="InputPin"/> that provides a value by evaluating a <see cref="ValueSpecification"/>.
     /// </summary>
-    internal class ValuePin : Element, Uml.Actions.ValuePin
+    internal class ValuePin : Implementation.CommonStructure.Element //, Uml.Actions.ValuePin
     {
+        public ValuePin(string id) : base(id)
+        {
+        }
     }
 }

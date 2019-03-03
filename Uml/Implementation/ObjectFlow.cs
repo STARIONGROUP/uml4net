@@ -26,7 +26,10 @@ namespace Implementation.Activities
     /// <summary>
     /// An <see cref="ObjectFlow"/> is an <see cref="ActivityEdge"/> that is traversed by object tokens that may hold values. Object flows also support multicast/receive, token selection from object nodes, and transformation of tokens.
     /// </summary>
-    internal class ObjectFlow : Element, Uml.Activities.ObjectFlow
+    internal class ObjectFlow : Implementation.CommonStructure.Element //, Uml.Activities.ObjectFlow
     {
+        public ObjectFlow(string id) : base(id)
+        {
+        }
     }
 }

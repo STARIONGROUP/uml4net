@@ -26,7 +26,10 @@ namespace Implementation.Values
     /// <summary>
     /// An OpaqueExpression is a ValueSpecification that specifies the computation of a collection of values either in terms of a UML Behavior or based on a textual statement in a language other than UML
     /// </summary>
-    internal class OpaqueExpression : Element, Uml.Values.OpaqueExpression
+    internal class OpaqueExpression : Implementation.CommonStructure.Element //, Uml.Values.OpaqueExpression
     {
+        public OpaqueExpression(string id) : base(id)
+        {
+        }
     }
 }

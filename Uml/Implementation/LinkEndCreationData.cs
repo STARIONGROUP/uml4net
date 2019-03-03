@@ -26,7 +26,10 @@ namespace Implementation.Actions
     /// <summary>
     /// <see cref="LinkEndCreationData"/> is <see cref="LinkEndData"/> used to provide values for one end of a link to be created by a <see cref="CreateLinkAction"/>.
     /// </summary>
-    internal class LinkEndCreationData : Element, Uml.Actions.LinkEndCreationData
+    internal class LinkEndCreationData : Implementation.CommonStructure.Element //, Uml.Actions.LinkEndCreationData
     {
+        public LinkEndCreationData(string id) : base(id)
+        {
+        }
     }
 }

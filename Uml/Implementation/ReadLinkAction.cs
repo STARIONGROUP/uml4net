@@ -26,7 +26,10 @@ namespace Implementation.Actions
     /// <summary>
     /// A <see cref="ReadLinkAction"/> is a <see cref="LinkAction"/> that navigates across an <see cref="Association"/> to retrieve the objects on one end.
     /// </summary>
-    internal class ReadLinkAction : Element, Uml.Actions.ReadLinkAction
+    internal class ReadLinkAction : Implementation.CommonStructure.Element //, Uml.Actions.ReadLinkAction
     {
+        public ReadLinkAction(string id) : base(id)
+        {
+        }
     }
 }

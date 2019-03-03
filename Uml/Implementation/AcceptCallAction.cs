@@ -26,7 +26,16 @@ namespace Implementation.Actions
     /// <summary>
     /// An AcceptCallAction is an AcceptEventAction that handles the receipt of a synchronous call request. In addition to the values from the Operation input parameters, the Action produces an output that is needed later to supply the information to the ReplyAction necessary to return control to the caller. An AcceptCallAction is for synchronous calls. If it is used to handle an asynchronous call, execution of the subsequent ReplyAction will complete immediately with no effect.
     /// </summary>
-    internal class AcceptCallAction : Element, Uml.Actions.AcceptCallAction
+    internal class AcceptCallAction : Implementation.CommonStructure.Element //, Uml.Actions.AcceptCallAction
     {
+        /// <summary>
+        /// Initializes a new instance of <see cref="AcceptCallAction"/>
+        /// </summary>
+        /// <param name="id">
+        /// The unique identifier of the <see cref="AcceptCallAction"/>
+        /// </param>
+        protected AcceptCallAction(string id) : base(id)
+        {
+        }
     }
 }

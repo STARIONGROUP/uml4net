@@ -26,7 +26,10 @@ namespace Implementation.UseCases
     /// <summary>
     /// An ExtensionPoint identifies a point in the behavior of a UseCase where that behavior can be extended by the behavior of some other (extending) UseCase, as specified by an Extend relationship.
     /// </summary>
-    internal class ExtensionPoint : Element, Uml.UseCases.ExtensionPoint
+    internal class ExtensionPoint : Implementation.CommonStructure.Element //, Uml.UseCases.ExtensionPoint
     {
+        public ExtensionPoint(string id) : base(id)
+        {
+        }
     }
 }

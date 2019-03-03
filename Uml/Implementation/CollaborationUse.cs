@@ -26,7 +26,16 @@ namespace Implementation.StructuredClassifiers
     /// <summary>
     /// A CollaborationUse is used to specify the application of a pattern specified by a Collaboration to a specific situation.
     /// </summary>
-    internal class CollaborationUse : Element, Uml.StructuredClassifiers.CollaborationUse
+    internal class CollaborationUse : Implementation.CommonStructure.Element //, Uml.StructuredClassifiers.CollaborationUse
     {
+        /// <summary>
+        /// Initializes a new instance of <see cref="CollaborationUse"/>
+        /// </summary>
+        /// <param name="id">
+        /// The unique identifier of the <see cref="CollaborationUse"/>
+        /// </param>        
+        public CollaborationUse(string id) : base(id)
+        {
+        }
     }
 }

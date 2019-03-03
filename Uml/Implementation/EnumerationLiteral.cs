@@ -26,7 +26,10 @@ namespace Implementation.SimpleClassifiers
     /// <summary>
     /// An EnumerationLiteral is a user-defined data value for an Enumeration.
     /// </summary>
-    internal class EnumerationLiteral : Element, Uml.SimpleClassifiers.EnumerationLiteral
+    internal class EnumerationLiteral : Implementation.CommonStructure.Element //, Uml.SimpleClassifiers.EnumerationLiteral
     {
+        public EnumerationLiteral(string id) : base(id)
+        {
+        }
     }
 }

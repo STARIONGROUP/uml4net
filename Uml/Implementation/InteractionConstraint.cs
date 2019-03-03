@@ -23,7 +23,10 @@ namespace Implementation.Interactions
 {
     using Uml.CommonStructure;
 
-    internal class InteractionConstraint : Element, Uml.Interactions.InteractionConstraint
+    internal class InteractionConstraint : Implementation.CommonStructure.Element //, Uml.Interactions.InteractionConstraint
     {
+        public InteractionConstraint(string id) : base(id)
+        {
+        }
     }
 }

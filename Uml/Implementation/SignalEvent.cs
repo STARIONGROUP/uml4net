@@ -26,7 +26,10 @@ namespace Implementation.CommonBehavior
     /// <summary>
     /// A <see cref="SignalEvent"/> represents the receipt of an asynchronous <see cref="Signal"/> instance.
     /// </summary>
-    internal class SignalEvent : Element, Uml.CommonBehavior.SignalEvent
+    internal class SignalEvent : Implementation.CommonStructure.Element //, Uml.CommonBehavior.SignalEvent
     {
+        public SignalEvent(string id) : base(id)
+        {
+        }
     }
 }

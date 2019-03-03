@@ -23,7 +23,16 @@ namespace Implementation.Interactions
 {
     using Uml.CommonStructure;
 
-    internal class ActionExecutionSpecification : Element, Uml.Interactions.ActionExecutionSpecification
+    internal class ActionExecutionSpecification : Implementation.CommonStructure.Element //, Uml.Interactions.ActionExecutionSpecification
     {
+        /// <summary>
+        /// Initializes a new instance of <see cref="ActionExecutionSpecification"/>
+        /// </summary>
+        /// <param name="id">
+        /// The unique identifier of the <see cref="ActionExecutionSpecification"/>
+        /// </param>
+        protected ActionExecutionSpecification(string id) : base(id)
+        {
+        }
     }
 }

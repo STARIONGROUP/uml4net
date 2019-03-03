@@ -26,7 +26,10 @@ namespace Implementation.Activities
     /// <summary>
     /// An <see cref="InterruptibleActivityRegion"/> is an <see cref="ActivityGroup"/> that supports the termination of tokens flowing in the portions of an activity within it.
     /// </summary>
-    internal class InterruptibleActivityRegion : Element, Uml.Activities.InterruptibleActivityRegion
+    internal class InterruptibleActivityRegion : Implementation.CommonStructure.Element //, Uml.Activities.InterruptibleActivityRegion
     {
+        public InterruptibleActivityRegion(string id) : base(id)
+        {
+        }
     }
 }

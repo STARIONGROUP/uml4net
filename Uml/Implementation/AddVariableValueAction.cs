@@ -26,7 +26,16 @@ namespace Implementation.Actions
     /// <summary>
     /// An <see cref="AddVariableValueAction"/> is a <see cref="WriteVariableAction"/> for adding values to a Variable.
     /// </summary>
-    internal class AddVariableValueAction : Element, Uml.Actions.AddVariableValueAction
+    internal class AddVariableValueAction : Implementation.CommonStructure.Element //, Uml.Actions.AddVariableValueAction
     {
+        /// <summary>
+        /// Initializes a new instance of <see cref="AddVariableValueAction"/>
+        /// </summary>
+        /// <param name="id">
+        /// The unique identifier of the <see cref="AddVariableValueAction"/>
+        /// </param>        
+        public AddVariableValueAction(string id) : base(id)
+        {
+        }
     }
 }

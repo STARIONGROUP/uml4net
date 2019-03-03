@@ -26,7 +26,10 @@ namespace Implementation.Deployments
     /// <summary>
     /// An execution environment is a node that offers an execution environment for specific types of components that are deployed on it in the form of executable artifacts.
     /// </summary>
-    internal class ExecutionEnvironment : Element, Uml.Deployments.ExecutionEnvironment
+    internal class ExecutionEnvironment : Implementation.CommonStructure.Element //, Uml.Deployments.ExecutionEnvironment
     {
+        public ExecutionEnvironment(string id) : base(id)
+        {
+        }
     }
 }

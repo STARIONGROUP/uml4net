@@ -26,7 +26,10 @@ namespace Implementation.Actions
     /// <summary>
     /// <see cref="LinkEndData"/> is an <see cref="Element"/> that identifies on end of a link to be read or written by a <see cref="LinkAction"/>. As a link (that is not a link object) cannot be passed as a runtime value to or from an <see cref="Action"/>, it is instead identified by its end objects and qualifier values, if any. A <see cref="LinkEndData"/> instance provides these values for a single <see cref="Association"/> end.
     /// </summary>
-    internal class LinkEndData : Element, Uml.Actions.LinkEndData
+    internal class LinkEndData : Implementation.CommonStructure.Element //, Uml.Actions.LinkEndData
     {
+        public LinkEndData(string id) : base(id)
+        {
+        }
     }
 }

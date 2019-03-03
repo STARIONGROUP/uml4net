@@ -31,6 +31,6 @@ namespace Uml.SimpleClassifiers
         /// <summary>
         /// The ordered set of literals owned by this <see cref="Enumeration"/>.
         /// </summary>
-        OwnerList<EnumerationLiteral> OwnedLiteral { get; set }
+        OwnerList<EnumerationLiteral> OwnedLiteral { get; set; }
     }
 }

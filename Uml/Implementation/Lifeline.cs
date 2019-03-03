@@ -23,7 +23,10 @@ namespace Implementation.Interactions
 {
     using Uml.CommonStructure;
 
-    internal class Lifeline : Element, Uml.Interactions.Lifeline
+    internal class Lifeline : Implementation.CommonStructure.Element //, Uml.Interactions.Lifeline
     {
+        public Lifeline(string id) : base(id)
+        {
+        }
     }
 }

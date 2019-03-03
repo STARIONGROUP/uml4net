@@ -26,7 +26,10 @@ namespace Implementation.Actions
     /// <summary>
     /// A <see cref="DestroyLinkAction"/> is a <see cref="WriteLinkAction"/> that destroys links (including link objects).
     /// </summary>
-    internal class DestroyLinkAction : Element, Uml.Actions.DestroyLinkAction
+    internal class DestroyLinkAction : Implementation.CommonStructure.Element //, Uml.Actions.DestroyLinkAction
     {
+        public DestroyLinkAction(string id) : base(id)
+        {
+        }
     }
 }

@@ -26,7 +26,16 @@ namespace Implementation.StructuredClassifiers
     /// <summary>
     /// A Component represents a modular part of a system that encapsulates its contents and whose manifestation is replaceable within its environment.  
     /// </summary>
-    internal class Component : Element, Uml.StructuredClassifiers.Component
+    internal class Component : Implementation.CommonStructure.Element //, Uml.StructuredClassifiers.Component
     {
+        /// <summary>
+        /// Initializes a new instance of <see cref="Component"/>
+        /// </summary>
+        /// <param name="id">
+        /// The unique identifier of the <see cref="Component"/>
+        /// </param>        
+        public Component(string id) : base(id)
+        {
+        }
     }
 }

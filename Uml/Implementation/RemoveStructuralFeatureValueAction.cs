@@ -26,7 +26,10 @@ namespace Implementation.Actions
     /// <summary>
     /// A <see cref="RemoveStructuralFeatureValueAction"/> is a <see cref="WriteStructuralFeatureAction"/> that removes values from a <see cref="StructuralFeature"/>.
     /// </summary>
-    internal class RemoveStructuralFeatureValueAction : Element, Uml.Actions.RemoveStructuralFeatureValueAction
+    internal class RemoveStructuralFeatureValueAction : Implementation.CommonStructure.Element //, Uml.Actions.RemoveStructuralFeatureValueAction
     {
+        public RemoveStructuralFeatureValueAction(string id) : base(id)
+        {
+        }
     }
 }

@@ -26,7 +26,10 @@ namespace Implementation.Actions
     /// <summary>
     /// A <see cref="ReadVariableAction"/> is a <see cref="VariableAction"/> that retrieves the values of a <see cref="Variable"/>.
     /// </summary>
-    internal class ReadVariableAction : Element, Uml.Actions.ReadVariableAction
+    internal class ReadVariableAction : Implementation.CommonStructure.Element //, Uml.Actions.ReadVariableAction
     {
+        public ReadVariableAction(string id) : base(id)
+        {
+        }
     }
 }

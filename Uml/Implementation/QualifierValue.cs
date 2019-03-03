@@ -26,7 +26,10 @@ namespace Implementation.Actions
     /// <summary>
     /// A <see cref="QualifierValue"/> is an <see cref="Element"/> that is used as part of <see cref="LinkEndData"/> to provide the value for a single qualifier of the end given by the <see cref="LinkEndData"/>.
     /// </summary>
-    internal class QualifierValue : Element, Uml.Actions.QualifierValue
+    internal class QualifierValue : Implementation.CommonStructure.Element //, Uml.Actions.QualifierValue
     {
+        public QualifierValue(string id) : base(id)
+        {
+        }
     }
 }

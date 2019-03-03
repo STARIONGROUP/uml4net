@@ -26,7 +26,16 @@ namespace Implementation.Activities
     /// <summary>
     /// A <see cref="CentralBufferNode"/> is an <see cref="ObjectNode"/> for managing flows from multiple sources and targets.
     /// </summary>
-    internal class CentralBufferNode : Element, Uml.Activities.CentralBufferNode
+    internal class CentralBufferNode : Implementation.CommonStructure.Element //, Uml.Activities.CentralBufferNode
     {
+        /// <summary>
+        /// Initializes a new instance of <see cref="CentralBufferNode"/>
+        /// </summary>
+        /// <param name="id">
+        /// The unique identifier of the <see cref="CentralBufferNode"/>
+        /// </param>        
+        public CentralBufferNode(string id) : base(id)
+        {
+        }
     }
 }

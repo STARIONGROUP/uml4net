@@ -26,7 +26,10 @@ namespace Implementation.SimpleClassifiers
     /// <summary>
     /// Interfaces declare coherent services that are implemented by BehavioredClassifiers that implement the Interfaces via InterfaceRealizations.
     /// </summary>
-    internal class Interface : Element, Uml.SimpleClassifiers.Interface
+    internal class Interface : Implementation.CommonStructure.Element //, Uml.SimpleClassifiers.Interface
     {
+        public Interface(string id) : base(id)
+        {
+        }
     }
 }

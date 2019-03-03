@@ -23,7 +23,10 @@ namespace Implementation.Interactions
 {
     using Uml.CommonStructure;
 
-    internal class Message : Element, Uml.Interactions.Message
+    internal class Message : Implementation.CommonStructure.Element //, Uml.Interactions.Message
     {
+        public Message(string id) : base(id)
+        {
+        }
     }
 }

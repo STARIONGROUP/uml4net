@@ -26,7 +26,10 @@ namespace Implementation.Activities
     /// <summary>
     /// A <see cref="Variable"/> is a <see cref="ConnectableElement"/> that may store values during the execution of an <see cref="Activity"/>. Reading and writing the values of a Variable provides an alternative means for passing data than the use of <see cref="ObjectFlow"/>s. A Variable may be owned directly by an <see cref="Activity"/>, in which case it is accessible from anywhere within that activity, or it may be owned by a <see cref="StructuredActivityNode"/>, in which case it is only accessible within that node.
     /// </summary>
-    internal class Variable : Element, Uml.Activities.Variable
+    internal class Variable : Implementation.CommonStructure.Element //, Uml.Activities.Variable
     {
+        public Variable(string id) : base(id)
+        {
+        }
     }
 }

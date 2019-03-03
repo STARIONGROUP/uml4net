@@ -26,7 +26,10 @@ namespace Implementation.Values
     /// <summary>
     /// A TimeInterval defines the range between two TimeExpressions.
     /// </summary>
-    internal class TimeInterval : Element, Uml.Values.TimeInterval
+    internal class TimeInterval : Implementation.CommonStructure.Element //, Uml.Values.TimeInterval
     {
+        public TimeInterval(string id) : base(id)
+        {
+        }
     }
 }

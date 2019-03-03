@@ -18,6 +18,7 @@
 //   along with uml-sharp. If not, see<http://www.gnu.org/licenses/>.
 // </copyright>
 // -------------------------------------------------------------------------------------------------
+
 namespace Implementation.StructuredClassifiers
 {
     using Uml.CommonStructure;
@@ -25,7 +26,16 @@ namespace Implementation.StructuredClassifiers
     /// <summary>
     /// A Class classifies a set of objects and specifies the features that characterize the structure and behavior of those objects.  A Class may have an internal structure and Ports.
     /// </summary>
-    internal class Class : Element, Uml.StructuredClassifiers.Class
+    internal class Class : Implementation.CommonStructure.Element //, Uml.StructuredClassifiers.Class
     {
+        /// <summary>
+        /// Initializes a new instance of <see cref="Class"/>
+        /// </summary>
+        /// <param name="id">
+        /// The unique identifier of the <see cref="Class"/>
+        /// </param>        
+        public Class(string id) : base(id)
+        {
+        }
     }
 }

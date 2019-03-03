@@ -26,7 +26,10 @@ namespace Implementation.Values
     /// <summary>
     /// A TimeConstraint is a Constraint that refers to a TimeInterval.
     /// </summary>
-    internal class TimeConstraint : Element, Uml.Values.TimeConstraint
+    internal class TimeConstraint : Implementation.CommonStructure.Element //, Uml.Values.TimeConstraint
     {
+        public TimeConstraint(string id) : base(id)
+        {
+        }
     }
 }

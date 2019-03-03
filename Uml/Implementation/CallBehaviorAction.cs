@@ -26,7 +26,16 @@ namespace Implementation.Actions
     /// <summary>
     /// A <see cref="CallBehaviorAction"/> is a <see cref="CallAction"/> that invokes a <see cref="Behavior"/> directly. The argument values of the <see cref="CallBehaviorAction"/> are passed on the input <see cref="Parameter"/>s of the invoked <see cref="Behavior"/>. If the call is synchronous, the execution of the <see cref="CallBehaviorAction"/> waits until the execution of the invoked <see cref="Behavior"/> completes and the values of output <see cref="Parameter"/>s of the Behavior are placed on the result <see cref="OutputPin"/>s. If the call is asynchronous, the <see cref="CallBehaviorAction"/> completes immediately and no results values can be provided.
     /// </summary>
-    internal class CallBehaviorAction : Element, Uml.Actions.CallBehaviorAction
+    internal class CallBehaviorAction : Implementation.CommonStructure.Element //, Uml.Actions.CallBehaviorAction
     {
+        /// <summary>
+        /// Initializes a new instance of <see cref="CallBehaviorAction"/>
+        /// </summary>
+        /// <param name="id">
+        /// The unique identifier of the <see cref="CallBehaviorAction"/>
+        /// </param>        
+        public CallBehaviorAction(string id) : base(id)
+        {
+        }
     }
 }

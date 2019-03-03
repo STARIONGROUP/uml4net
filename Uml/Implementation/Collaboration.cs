@@ -26,7 +26,16 @@ namespace Implementation.StructuredClassifiers
     /// <summary>
     /// A Collaboration describes a structure of collaborating elements (roles), each performing a specialized function, which collectively accomplish some desired functionality. 
     /// </summary>
-    internal class Collaboration : Element, Uml.StructuredClassifiers.Collaboration
+    internal class Collaboration : Implementation.CommonStructure.Element //, Uml.StructuredClassifiers.Collaboration
     {
+        /// <summary>
+        /// Initializes a new instance of <see cref="Collaboration"/>
+        /// </summary>
+        /// <param name="id">
+        /// The unique identifier of the <see cref="Collaboration"/>
+        /// </param>        
+        public Collaboration(string id) : base(id)
+        {
+        }
     }
 }

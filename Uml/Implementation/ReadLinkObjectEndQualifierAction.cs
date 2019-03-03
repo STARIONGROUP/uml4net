@@ -26,7 +26,10 @@ namespace Implementation.Actions
     /// <summary>
     /// A <see cref="ReadLinkObjectEndQualifierAction"/> is an <see cref="Action"/> that retrieves a qualifier end value from a link object.
     /// </summary>
-    internal class ReadLinkObjectEndQualifierAction : Element, Uml.Actions.ReadLinkObjectEndQualifierAction
+    internal class ReadLinkObjectEndQualifierAction : Implementation.CommonStructure.Element //, Uml.Actions.ReadLinkObjectEndQualifierAction
     {
+        public ReadLinkObjectEndQualifierAction(string id) : base(id)
+        {
+        }
     }
 }

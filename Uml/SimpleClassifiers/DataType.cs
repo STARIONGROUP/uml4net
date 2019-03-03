@@ -37,6 +37,6 @@ namespace Uml.SimpleClassifiers
         /// <summary>
         /// The <see cref="Operation"/>s owned by the <see cref="DataType"/>.
         /// </summary>
-        OwnerList<Operation> OwnedAttribute { get; set; }
+        OwnerList<Operation> OwnedOperation { get; set; }
     }
 }

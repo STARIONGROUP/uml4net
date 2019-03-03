@@ -26,7 +26,16 @@ namespace Implementation.Actions
     /// <summary>
     /// A <see cref="BroadcastSignalAction"/> is an <see cref="InvocationAction"/> that transmits a Signal instance to all the potential target objects in the system. Values from the argument <see cref="InputPin"/>s are used to provide values for the attributes of the <see cref="Signal"/>. The requestor continues execution immediately after the <see cref="Signal"/> instances are sent out and cannot receive reply values.
     /// </summary>
-    internal class BroadcastSignalAction : Element, Uml.Actions.BroadcastSignalAction
+    internal class BroadcastSignalAction : Implementation.CommonStructure.Element //, Uml.Actions.BroadcastSignalAction
     {
+        /// <summary>
+        /// Initializes a new instance of <see cref="BroadcastSignalAction"/>
+        /// </summary>
+        /// <param name="id">
+        /// The unique identifier of the <see cref="BroadcastSignalAction"/>
+        /// </param>        
+        public BroadcastSignalAction(string id) : base(id)
+        {
+        }
     }
 }

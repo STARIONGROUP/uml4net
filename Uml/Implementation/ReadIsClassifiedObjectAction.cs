@@ -26,7 +26,10 @@ namespace Implementation.Actions
     /// <summary>
     /// A <see cref="ReadIsClassifiedObjectAction"/> is an Action that determines whether an object is classified by a given <see cref="Classifier"/>.
     /// </summary>
-    internal class ReadIsClassifiedObjectAction : Element, Uml.Actions.ReadIsClassifiedObjectAction
+    internal class ReadIsClassifiedObjectAction : Implementation.CommonStructure.Element //, Uml.Actions.ReadIsClassifiedObjectAction
     {
+        public ReadIsClassifiedObjectAction(string id) : base(id)
+        {
+        }
     }
 }

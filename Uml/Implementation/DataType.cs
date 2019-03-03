@@ -26,7 +26,10 @@ namespace Implementation.SimpleClassifiers
     /// <summary>
     /// A DataType is a type whose instances are identified only by their value.
     /// </summary>
-    internal class DataType : Element, Uml.SimpleClassifiers.DataType
+    internal class DataType : Implementation.CommonStructure.Element //, Uml.SimpleClassifiers.DataType
     {
+        public DataType(string id) : base(id)
+        {
+        }
     }
 }

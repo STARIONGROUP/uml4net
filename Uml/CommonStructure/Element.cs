@@ -56,6 +56,6 @@ namespace Uml.CommonStructure
         /// <remarks>
         /// Derived property
         /// </remarks>
-        Element Owner();
+        Uml.CommonStructure.Element Owner { get;  }
     }
 }

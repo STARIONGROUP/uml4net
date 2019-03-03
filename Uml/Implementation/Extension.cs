@@ -26,7 +26,10 @@ namespace Implementation.Packages
     /// <summary>
     /// An extension is used to indicate that the properties of a metaclass are extended through a stereotype, and gives the ability to flexibly add (and later remove) stereotypes to classes.
     /// </summary>
-    internal class Extension : Element, Uml.Packages.Extension
+    internal class Extension : Implementation.CommonStructure.Element //, Uml.Packages.Extension
     {
+        public Extension(string id) : base(id)
+        {
+        }
     }
 }

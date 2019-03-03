@@ -26,7 +26,10 @@ namespace Implementation.Packages
     /// <summary>
     /// A profile defines limited extensions to a reference metamodel with the purpose of adapting the metamodel to a specific platform or domain.
     /// </summary>
-    internal class Profile : Element, Uml.Packages.Profile
+    internal class Profile : Implementation.CommonStructure.Element //, Uml.Packages.Profile
     {
+        public Profile(string id) : base(id)
+        {
+        }
     }
 }

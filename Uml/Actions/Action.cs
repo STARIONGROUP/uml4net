@@ -19,14 +19,13 @@
 // </copyright>
 // -------------------------------------------------------------------------------------------------
 
-using Uml.CommonStructure;
-
 namespace Uml.Actions
 {
     using System.Collections.Generic;
     using Uml.Assembler;
     using Uml.Activities;
     using Uml.Classification;
+    using Uml.CommonStructure;
 
     /// <summary>
     /// An Action is the fundamental unit of executable functionality. The execution of an Action represents some transformation or processing in the modeled system. Actions provide the ExecutableNodes within Activities and may also be used within Interactions.

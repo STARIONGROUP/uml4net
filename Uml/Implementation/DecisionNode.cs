@@ -26,7 +26,10 @@ namespace Implementation.Activities
     /// <summary>
     /// A <see cref="DecisionNode"/> is a <see cref="ControlNode"/> that chooses between outgoing <see cref="ActivityEdge"/>s for the routing of tokens.
     /// </summary>
-    internal class DecisionNode : Element, Uml.Activities.DecisionNode
+    internal class DecisionNode : Implementation.CommonStructure.Element //, Uml.Activities.DecisionNode
     {
+        public DecisionNode(string id) : base(id)
+        {
+        }
     }
 }

@@ -26,7 +26,10 @@ namespace Implementation.Actions
     /// <summary>
     /// A <see cref="SequenceNode"/> is a <see cref="StructuredActivityNode"/> that executes a sequence of <see cref="ExecutableNodes"/> in order.
     /// </summary>
-    internal class SequenceNode : Element, Uml.Actions.SequenceNode
+    internal class SequenceNode : Implementation.CommonStructure.Element //, Uml.Actions.SequenceNode
     {
+        public SequenceNode(string id) : base(id)
+        {
+        }
     }
 }

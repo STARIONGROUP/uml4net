@@ -47,6 +47,44 @@ namespace Implementation.Activities
         /// </param>
         public Activity(string id) : base(id)
         {
+            this.NameExpression = new OwnerList<StringExpression>(this);
+
+            this.ElementImport = new OwnerList<ElementImport>(this);
+            this.OwnedRule = new OwnerList<Constraint>(this);
+            this.PackageImport = new OwnerList<PackageImport>(this);
+            this.UseCase = new List<UseCase>();
+            this.Substitution = new OwnerList<Substitution>(this);
+            this.CollaborationUse = new OwnerList<CollaborationUse>(this);
+            this.Generalization = new OwnerList<Generalization>(this);
+            this.NestedClassifier = new OwnerList<Classifier>(this);
+
+            // todo: figure out what to do here
+            //Classifier.OwnedTemplateSignature
+
+            this.OwnedUseCase = new OwnerList<UseCase>(this);
+            this.PowertypeExtent = new List<GeneralizationSet>();
+            this.RedefinedClassifier = new OwnerList<Classifier>(this);
+
+            // todo: figure out what to do here
+            //TemplateableElement.OwnedTemplateSignature
+
+            this.TemplateBinding = new OwnerList<TemplateBinding>(this);
+            this.OwnedBehavior = new OwnerList<Behavior>(this);
+            this.OwnedAttribute = new OwnerList<Property>(this);
+            this.OwnedOperation = new OwnerList<Operation>(this);
+            this.OwnedReception = new OwnerList<Reception>(this);
+            this.OwnedConnector = new OwnerList<Connector>(this);
+            this.OwnedParameter = new OwnerList<Parameter>(this);
+            this.OwnedParameterSet = new OwnerList<ParameterSet>(this);
+            this.PostCondition = new OwnerList<Constraint>(this);
+            this.PreCondition = new OwnerList<Constraint>(this);
+            this.RedefinedBehavior = new List<Behavior>();
+            this.Edge = new OwnerList<ActivityEdge>(this);
+            this.Group = new OwnerList<ActivityGroup>(this);
+            this.Node = new OwnerList<ActivityNode>(this);
+            this.Partition = new OwnerList<Uml.Activities.ActivityPartition>(this);
+            this.StructuredNode = new OwnerList<StructuredActivityNode>(this);
+            this.Variable = new OwnerList<Uml.Activities.Variable>(this);
         }
 
         
@@ -80,7 +118,10 @@ namespace Implementation.Activities
         public OwnerList<ElementImport> ElementImport { get; set; }
 
         
-        public IEnumerable<PackageableElement> ImportedMember { get; set; }
+        public IEnumerable<PackageableElement> ImportedMember()
+        {
+            throw new System.NotImplementedException();
+        }
 
         
         public IEnumerable<NamedElement> Member()
@@ -148,7 +189,10 @@ namespace Implementation.Activities
             throw new System.NotImplementedException();
         }
 
-        public IEnumerable<Extension> Extension { get; set; }
+        public IEnumerable<Extension> Extension ()
+        {
+            throw new System.NotImplementedException();
+        }
         
         public bool IsAbstract { get; set; }
         

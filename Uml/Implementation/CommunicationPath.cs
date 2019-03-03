@@ -26,7 +26,16 @@ namespace Implementation.Deployments
     /// <summary>
     /// A communication path is an association between two deployment targets, through which they are able to exchange signals and messages.
     /// </summary>
-    internal class CommunicationPath : Element, Uml.Deployments.CommunicationPath
+    internal class CommunicationPath : Implementation.CommonStructure.Element //, Uml.Deployments.CommunicationPath
     {
+        /// <summary>
+        /// Initializes a new instance of <see cref="CommunicationPath"/>
+        /// </summary>
+        /// <param name="id">
+        /// The unique identifier of the <see cref="CommunicationPath"/>
+        /// </param>        
+        public CommunicationPath(string id) : base(id)
+        {
+        }
     }
 }

@@ -21,12 +21,23 @@
 
 namespace Implementation.Actions
 {
+    using Uml.Actions;
+    using Uml.Classification;
     using Uml.CommonStructure;
 
     /// <summary>
     /// An <see cref="AddStructuralFeatureValueAction"/> is a <see cref="WriteStructuralFeatureAction"/> for adding values to a <see cref="StructuralFeature"/>.
     /// </summary>
-    internal class AddStructuralFeatureValueAction : Element, Uml.Actions.AddStructuralFeatureValueAction
+    internal class AddStructuralFeatureValueAction : Implementation.CommonStructure.Element //, Uml.Actions.AddStructuralFeatureValueAction
     {
+        /// <summary>
+        /// Initializes a new instance of <see cref="AddStructuralFeatureValueAction"/>
+        /// </summary>
+        /// <param name="id">
+        /// The unique identifier of the <see cref="AddStructuralFeatureValueAction"/>
+        /// </param>        
+        public AddStructuralFeatureValueAction(string id) : base(id)
+        {
+        }
     }
 }

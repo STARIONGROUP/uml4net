@@ -26,7 +26,10 @@ namespace Implementation.Values
     /// <summary>
     /// An IntervalConstraint is a Constraint that is specified by an Interval.
     /// </summary>
-    internal class IntervalConstraint : Element, Uml.Values.IntervalConstraint
+    internal class IntervalConstraint : Implementation.CommonStructure.Element //, Uml.Values.IntervalConstraint
     {
+        public IntervalConstraint(string id) : base(id)
+        {
+        }
     }
 }

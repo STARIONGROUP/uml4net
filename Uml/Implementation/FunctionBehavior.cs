@@ -26,7 +26,10 @@ namespace Implementation.CommonBehavior
     /// <summary>
     /// A <see cref="FunctionBehavior"/> is an <see cref="OpaqueBehavior"/> that does not access or modify any objects or other external data.
     /// </summary>
-    internal class FunctionBehavior : Element, Uml.CommonBehavior.FunctionBehavior
+    internal class FunctionBehavior : Implementation.CommonStructure.Element //, Uml.CommonBehavior.FunctionBehavior
     {
+        public FunctionBehavior(string id) : base(id)
+        {
+        }
     }
 }

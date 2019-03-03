@@ -26,7 +26,10 @@ namespace Implementation.Activities
     /// <summary>
     /// An <see cref="InitialNode"/> is a <see cref="ControlNode"/> that offers a single control token when initially enabled.
     /// </summary>
-    internal class InitialNode : Element, Uml.Activities.InitialNode
+    internal class InitialNode : Implementation.CommonStructure.Element //, Uml.Activities.InitialNode
     {
+        public InitialNode(string id) : base(id)
+        {
+        }
     }
 }

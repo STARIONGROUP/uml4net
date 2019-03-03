@@ -37,7 +37,10 @@ namespace Uml.CommonStructure
         /// <summary>
         /// References the <see cref="PackageableElement"/>s that are members of this <see cref="Namespace"/> as a result of either <see cref="PackageImport"/>s or <see cref="ElementImport"/>s.
         /// </summary>
-        IEnumerable<PackageableElement> ImportedMember { get; set; }
+        /// <remarks>
+        /// Derived Property.
+        /// </remarks>
+        IEnumerable<PackageableElement> ImportedMember();
 
         /// <summary>
         /// A collection of <see cref="NamedElement"/>s identifiable within the <see cref="Namespace"/>, either by being owned or by being introduced by importing or inheritance.

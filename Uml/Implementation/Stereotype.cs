@@ -26,7 +26,10 @@ namespace Implementation.Packages
     /// <summary>
     /// A stereotype defines how an existing metaclass may be extended, and enables the use of platform or domain specific terminology or notation in place of, or in addition to, the ones used for the extended metaclass.
     /// </summary>
-    internal class Stereotype : Element, Uml.Packages.Stereotype
+    internal class Stereotype : Implementation.CommonStructure.Element //, Uml.Packages.Stereotype
     {
+        public Stereotype(string id) : base(id)
+        {
+        }
     }
 }

@@ -26,7 +26,10 @@ namespace Implementation.SimpleClassifiers
     /// <summary>
     /// A Signal is a specification of a kind of communication between objects in which a reaction is asynchronously triggered in the receiver without a reply.
     /// </summary>
-    internal class Signal : Element, Uml.SimpleClassifiers.Signal
+    internal class Signal : Implementation.CommonStructure.Element //, Uml.SimpleClassifiers.Signal
     {
+        public Signal(string id) : base(id)
+        {
+        }
     }
 }

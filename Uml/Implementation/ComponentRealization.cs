@@ -26,7 +26,16 @@ namespace Implementation.StructuredClassifiers
     /// <summary>
     /// Realization is specialized to (optionally) define the Classifiers that realize the contract offered by a Component in terms of its provided and required Interfaces. The Component forms an abstraction from these various Classifiers.
     /// </summary>
-    internal class ComponentRealization : Element, Uml.StructuredClassifiers.ComponentRealization
+    internal class ComponentRealization : Implementation.CommonStructure.Element //, Uml.StructuredClassifiers.ComponentRealization
     {
+        /// <summary>
+        /// Initializes a new instance of <see cref="ComponentRealization"/>
+        /// </summary>
+        /// <param name="id">
+        /// The unique identifier of the <see cref="ComponentRealization"/>
+        /// </param>        
+        public ComponentRealization(string id) : base(id)
+        {
+        }
     }
 }

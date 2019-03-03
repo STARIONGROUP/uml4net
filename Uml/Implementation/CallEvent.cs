@@ -26,7 +26,16 @@ namespace Implementation.CommonBehavior
     /// <summary>
     /// A <see cref="CallEvent"/> models the receipt by an object of a message invoking a call of an <see cref="Operation"/>.
     /// </summary>
-    internal class CallEvent : Element, Uml.CommonBehavior.CallEvent
+    internal class CallEvent : Implementation.CommonStructure.Element //, Uml.CommonBehavior.CallEvent
     {
+        /// <summary>
+        /// Initializes a new instance of <see cref="CallEvent"/>
+        /// </summary>
+        /// <param name="id">
+        /// The unique identifier of the <see cref="CallEvent"/>
+        /// </param>        
+        public CallEvent(string id) : base(id)
+        {
+        }
     }
 }

@@ -26,7 +26,10 @@ namespace Implementation.Deployments
     /// <summary>
     /// A Node is computational resource upon which artifacts may be deployed for execution. Nodes can be interconnected through communication paths to define network structures.
     /// </summary>
-    internal class Node : Element, Uml.Deployments.Node
+    internal class Node : Implementation.CommonStructure.Element //, Uml.Deployments.Node
     {
+        public Node(string id) : base(id)
+        {
+        }
     }
 }

@@ -26,7 +26,10 @@ namespace Implementation.Activities
     /// <summary>
     /// A <see cref="FlowFinalNode"/> is a <see cref="FinalNode"/> that terminates a flow by consuming the tokens offered to it.
     /// </summary>
-    internal class FlowFinalNode : Element, Uml.Activities.FlowFinalNode
+    internal class FlowFinalNode : Implementation.CommonStructure.Element //, Uml.Activities.FlowFinalNode
     {
+        public FlowFinalNode(string id) : base(id)
+        {
+        }
     }
 }

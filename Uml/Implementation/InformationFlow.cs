@@ -26,7 +26,10 @@ namespace Implementation.InformationFlows
     /// <summary>
     /// InformationFlows describe circulation of information through a system in a general manner. They do not specify the nature of the information, mechanisms by which it is conveyed, sequences of exchange or any control conditions. During more detailed modeling, representation and realization links may be added to specify which model elements implement an InformationFlow and to show how information is conveyed.  InformationFlows require some kind of “information channel” for unidirectional transmission of information items from sources to targets.  They specify the information channel’s realizations, if any, and identify the information that flows along them.  Information moving along the information channel may be represented by abstract InformationItems and by concrete Classifiers.
     /// </summary>
-    internal class InformationFlow : Element, Uml.InformationFlows.InformationFlow
+    internal class InformationFlow : Implementation.CommonStructure.Element //, Uml.InformationFlows.InformationFlow
     {
+        public InformationFlow(string id) : base(id)
+        {
+        }
     }
 }

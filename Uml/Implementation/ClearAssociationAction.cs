@@ -26,7 +26,16 @@ namespace Implementation.Actions
     /// <summary>
     /// A <see cref="ClearAssociationAction"/> is an <see cref="Action"/> that destroys all links of an <see cref="Association"/> in which a particular object participates.
     /// </summary>
-    internal class ClearAssociationAction : Element, Uml.Actions.ClearAssociationAction
+    internal class ClearAssociationAction : Implementation.CommonStructure.Element //, Uml.Actions.ClearAssociationAction
     {
+        /// <summary>
+        /// Initializes a new instance of <see cref="ClearAssociationAction"/>
+        /// </summary>
+        /// <param name="id">
+        /// The unique identifier of the <see cref="ClearAssociationAction"/>
+        /// </param>        
+        public ClearAssociationAction(string id) : base(id)
+        {
+        }
     }
 }

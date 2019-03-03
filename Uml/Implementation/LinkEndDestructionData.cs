@@ -26,7 +26,10 @@ namespace Implementation.Actions
     /// <summary>
     /// <see cref="LinkEndDestructionData"/> is <see cref="LinkEndData"/> used to provide values for one end of a link to be destroyed by a <see cref="DestroyLinkAction"/>.
     /// </summary>
-    internal class LinkEndDestructionData : Element, Uml.Actions.LinkEndDestructionData
+    internal class LinkEndDestructionData : Implementation.CommonStructure.Element //, Uml.Actions.LinkEndDestructionData
     {
+        public LinkEndDestructionData(string id) : base(id)
+        {
+        }
     }
 }

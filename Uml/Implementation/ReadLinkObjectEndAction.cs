@@ -26,7 +26,10 @@ namespace Implementation.Actions
     /// <summary>
     /// A <see cref="ReadLinkObjectEndAction"/> is an <see cref="Action"/> that retrieves an end object from a link object.
     /// </summary>
-    internal class ReadLinkObjectEndAction : Element, Uml.Actions.ReadLinkObjectEndAction
+    internal class ReadLinkObjectEndAction : Implementation.CommonStructure.Element //, Uml.Actions.ReadLinkObjectEndAction
     {
+        public ReadLinkObjectEndAction(string id) : base(id)
+        {
+        }
     }
 }

@@ -26,7 +26,16 @@ namespace Implementation.Actions
     /// <summary>
     /// A <see cref="ConditionalNode"/> is a <see cref="StructuredActivityNode"/> that chooses one among some number of alternative collections of <see cref="ExecutableNode"/>s to execute.
     /// </summary>
-    internal class ConditionalNode : Element, Uml.Actions.ConditionalNode
+    internal class ConditionalNode : Implementation.CommonStructure.Element //, Uml.Actions.ConditionalNode
     {
+        /// <summary>
+        /// Initializes a new instance of <see cref="ConditionalNode"/>
+        /// </summary>
+        /// <param name="id">
+        /// The unique identifier of the <see cref="ConditionalNode"/>
+        /// </param>        
+        public ConditionalNode(string id) : base(id)
+        {
+        }
     }
 }

@@ -27,7 +27,10 @@ namespace Implementation.Packages
     /// An extension end is used to tie an extension to a stereotype when extending a metaclass.
     /// The default multiplicity of an extension end is 0..1.
     /// </summary>
-    internal class ExtensionEnd : Element, Uml.Packages.ExtensionEnd
+    internal class ExtensionEnd : Implementation.CommonStructure.Element //, Uml.Packages.ExtensionEnd
     {
+        public ExtensionEnd(string id) : base(id)
+        {
+        }
     }
 }

@@ -23,7 +23,10 @@ namespace Implementation.Interactions
 {
     using Uml.CommonStructure;
 
-    internal class GeneralOrdering : Element, Uml.Interactions.GeneralOrdering
+    internal class GeneralOrdering : Implementation.CommonStructure.Element //, Uml.Interactions.GeneralOrdering
     {
+        public GeneralOrdering(string id) : base(id)
+        {
+        }
     }
 }

@@ -28,7 +28,7 @@ namespace Implementation.CommonStructure
     /// <summary>
     /// An <see cref="Element"/> is a constituent of a model. As such, it has the capability of owning other <see cref="Element"/>s.
     /// </summary>
-    internal abstract class Element : Uml.CommonStructure.Element
+    public abstract class Element : Uml.CommonStructure.Element
     {
         /// <summary>
         /// Initializes a new instance of <see cref="Element"/>
@@ -69,12 +69,6 @@ namespace Implementation.CommonStructure
         /// <summary>
         /// Gets the <see cref="Element"/> that owns this <see cref="Element"/>.
         /// </summary>
-        /// <remarks>
-        /// Derived property
-        /// </remarks>
-        public Uml.CommonStructure.Element Owner()
-        {
-            throw new System.NotImplementedException();
-        }
+        public Uml.CommonStructure.Element Owner { get; internal set; }
     }
 }

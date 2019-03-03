@@ -26,7 +26,16 @@ namespace Implementation.Actions
     /// <summary>
     /// A <see cref="CallOperationAction"/> is a <see cref="CallAction"/> that transmits an <see cref="Operation"/> call request to the target object, where it may cause the invocation of associated <see cref="Behavior"/>. The argument values of the <see cref="CallOperationAction"/> are passed on the input Parameters of the <see cref="Operation"/>. If call is synchronous, the execution of the <see cref="CallOperationAction"/> waits until the execution of the invoked <see cref="Operation"/> completes and the values of output <see cref="Parameter"/>s of the <see cref="Operation"/> are placed on the result <see cref="OutputPin"/>s. If the call is asynchronous, the <see cref="CallOperationAction"/> completes immediately and no results values can be provided.
     /// </summary>
-    internal class CallOperationAction : Element, Uml.Actions.CallOperationAction
+    internal class CallOperationAction : Implementation.CommonStructure.Element //, Uml.Actions.CallOperationAction
     {
+        /// <summary>
+        /// Initializes a new instance of <see cref="CallOperationAction"/>
+        /// </summary>
+        /// <param name="id">
+        /// The unique identifier of the <see cref="CallOperationAction"/>
+        /// </param>        
+        public CallOperationAction(string id) : base(id)
+        {
+        }
     }
 }

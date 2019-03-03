@@ -26,7 +26,10 @@ namespace Implementation.StateMachines
     /// <summary>
     /// StateMachines can be used to express event-driven behaviors of parts of a system. Behavior is modeled as a traversal of a graph of Vertices interconnected by one or more joined Transition arcs that are triggered by the dispatching of successive Event occurrences. During this traversal, the StateMachine may execute a sequence of Behaviors associated with various elements of the StateMachine.
     /// </summary>
-    internal class StateMachine : Element, Uml.StateMachines.StateMachine
+    internal class StateMachine : Implementation.CommonStructure.Element //, Uml.StateMachines.StateMachine
     {
+        public StateMachine(string id) : base(id)
+        {
+        }
     }
 }

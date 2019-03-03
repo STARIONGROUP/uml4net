@@ -27,7 +27,16 @@ namespace Implementation.Deployments
     /// An artifact is the specification of a physical piece of information that is used or produced by a software development process, or by deployment and operation of a system. Examples of artifacts include model files, source files, scripts, and binary executable files, a table in a database system, a development deliverable, or a word-processing document, a mail message.
     /// An artifact is the source of a deployment to a node.
     /// </summary>
-    internal class Artifact : Element, Uml.Deployments.Artifact
+    internal class Artifact : Implementation.CommonStructure.Element //, Uml.Deployments.Artifact
     {
+        /// <summary>
+        /// Initializes a new instance of <see cref="Artifact"/>
+        /// </summary>
+        /// <param name="id">
+        /// The unique identifier of the <see cref="Artifact"/>
+        /// </param>        
+        public Artifact(string id) : base(id)
+        {
+        }
     }
 }

@@ -26,7 +26,10 @@ namespace Implementation.Actions
     /// <summary>
     /// A <see cref="StructuredActivityNode"/> is an <see cref="Action"/> that is also an <see cref="ActivityGroup"/> and whose behavior is specified by the <see cref="ActivityNode"/>s and <see cref="ActivityEdge"/>s it so contains. Unlike other kinds of <see cref="ActivityGroup"/>, a <see cref="StructuredActivityNode"/> owns the <see cref="ActivityNode"/>s and <see cref="ActivityEdge"/>s it contains, and so a node or edge can only be directly contained in one <see cref="StructuredActivityNode"/>, though <see cref="StructuredActivityNode"/>s may be nested.
     /// </summary>
-    internal class StructuredActivityNode : Element, Uml.Actions.StructuredActivityNode
+    internal class StructuredActivityNode : Implementation.CommonStructure.Element //, Uml.Actions.StructuredActivityNode
     {
+        public StructuredActivityNode(string id) : base(id)
+        {
+        }
     }
 }

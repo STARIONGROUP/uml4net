@@ -27,7 +27,10 @@ namespace Implementation.Deployments
     /// A deployment is the allocation of an artifact or artifact instance to a deployment target.
     /// A component deployment is the deployment of one or more artifacts or artifact instances to a deployment target, optionally parameterized by a deployment specification.Examples are executables and configuration files.
     /// </summary>
-    internal class Deployment : Element, Uml.Deployments.Deployment
+    internal class Deployment : Implementation.CommonStructure.Element //, Uml.Deployments.Deployment
     {
+        public Deployment(string id) : base(id)
+        {
+        }
     }
 }

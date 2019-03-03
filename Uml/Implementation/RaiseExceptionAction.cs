@@ -26,7 +26,10 @@ namespace Implementation.Actions
     /// <summary>
     /// A <see cref="RaiseExceptionAction"/> is an <see cref="Action"/> that causes an exception to occur. The input value becomes the exception object.
     /// </summary>
-    internal class RaiseExceptionAction : Element, Uml.Actions.RaiseExceptionAction
+    internal class RaiseExceptionAction : Implementation.CommonStructure.Element //, Uml.Actions.RaiseExceptionAction
     {
+        public RaiseExceptionAction(string id) : base(id)
+        {
+        }
     }
 }

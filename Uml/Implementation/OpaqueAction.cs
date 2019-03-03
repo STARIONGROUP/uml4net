@@ -26,7 +26,10 @@ namespace Implementation.Actions
     /// <summary>
     /// An <see cref="OpaqueAction"/> is an <see cref="Action"/> whose functionality is not specified within UML.
     /// </summary>
-    internal class OpaqueAction : Element, Uml.Actions.OpaqueAction
+    internal class OpaqueAction : Implementation.CommonStructure.Element //, Uml.Actions.OpaqueAction
     {
+        public OpaqueAction(string id) : base(id)
+        {
+        }
     }
 }

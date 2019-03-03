@@ -26,7 +26,10 @@ namespace Implementation.InformationFlows
     /// <summary>
     /// InformationItems represent many kinds of information that can flow from sources to targets in very abstract ways.  They represent the kinds of information that may move within a system, but do not elaborate details of the transferred information.  Details of transferred information are the province of other Classifiers that may ultimately define InformationItems.  Consequently, InformationItems cannot be instantiated and do not themselves have features, generalizations, or associations. An important use of InformationItems is to represent information during early design stages, possibly before the detailed modeling decisions that will ultimately define them have been made. Another purpose of InformationItems is to abstract portions of complex models in less precise, but perhaps more general and communicable, ways. 
     /// </summary>
-    internal class InformationItem : Element, Uml.InformationFlows.InformationItem
+    internal class InformationItem : Implementation.CommonStructure.Element //, Uml.InformationFlows.InformationItem
     {
+        public InformationItem(string id) : base(id)
+        {
+        }
     }
 }

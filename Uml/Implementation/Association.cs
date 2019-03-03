@@ -26,7 +26,16 @@ namespace Implementation.StructuredClassifiers
     /// <summary>
     /// A link is a tuple of values that refer to typed objects.  An Association classifies a set of links, each of which is an instance of the Association.  Each value in the link refers to an instance of the type of the corresponding end of the Association.
     /// </summary>
-    internal class Association : Element, Uml.StructuredClassifiers.Association
+    internal class Association : Implementation.CommonStructure.Element //, Uml.StructuredClassifiers.Association
     {
+        /// <summary>
+        /// Initializes a new instance of <see cref="Association"/>
+        /// </summary>
+        /// <param name="id">
+        /// The unique identifier of the <see cref="Association"/>
+        /// </param>        
+        public Association(string id) : base(id)
+        {
+        }
     }
 }

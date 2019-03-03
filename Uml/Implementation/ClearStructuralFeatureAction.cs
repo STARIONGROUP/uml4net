@@ -26,7 +26,16 @@ namespace Implementation.Actions
     /// <summary>
     /// A <see cref="ClearStructuralFeatureAction"/> is a <see cref="StructuralFeatureAction"/> that removes all values of a <see cref="StructuralFeature"/>.
     /// </summary>
-    internal class ClearStructuralFeatureAction : Element, Uml.Actions.ClearStructuralFeatureAction
+    internal class ClearStructuralFeatureAction : Implementation.CommonStructure.Element //, Uml.Actions.ClearStructuralFeatureAction
     {
+        /// <summary>
+        /// Initializes a new instance of <see cref="ClearStructuralFeatureAction"/>
+        /// </summary>
+        /// <param name="id">
+        /// The unique identifier of the <see cref="ClearStructuralFeatureAction"/>
+        /// </param>        
+        public ClearStructuralFeatureAction(string id) : base(id)
+        {
+        }
     }
 }

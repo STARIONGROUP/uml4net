@@ -26,7 +26,10 @@ namespace Implementation.Actions
     /// <summary>
     /// A <see cref="CreateLinkObjectAction"/> is a <see cref="CreateLinkAction"/> for creating link objects (<see cref="AssociationClasse"/> instances).
     /// </summary>
-    internal class CreateLinkObjectAction : Element, Uml.Actions.CreateLinkObjectAction
+    internal class CreateLinkObjectAction : Implementation.CommonStructure.Element //, Uml.Actions.CreateLinkObjectAction
     {
+        public CreateLinkObjectAction(string id) : base(id)
+        {
+        }
     }
 }

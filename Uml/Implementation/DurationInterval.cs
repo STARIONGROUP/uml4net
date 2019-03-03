@@ -26,7 +26,10 @@ namespace Implementation.Values
     /// <summary>
     /// A DurationInterval defines the range between two Durations.
     /// </summary>
-    internal class DurationInterval : Element, Uml.Values.DurationInterval
+    internal class DurationInterval : Implementation.CommonStructure.Element //, Uml.Values.DurationInterval
     {
+        public DurationInterval(string id) : base(id)
+        {
+        }
     }
 }

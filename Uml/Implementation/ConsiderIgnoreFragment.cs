@@ -23,7 +23,10 @@ namespace Implementation.Interactions
 {
     using Uml.CommonStructure;
 
-    internal class ConsiderIgnoreFragment : Element, Uml.Interactions.ConsiderIgnoreFragment
+    internal class ConsiderIgnoreFragment : Implementation.CommonStructure.Element //, Uml.Interactions.ConsiderIgnoreFragment
     {
+        public ConsiderIgnoreFragment(string id) : base(id)
+        {
+        }
     }
 }

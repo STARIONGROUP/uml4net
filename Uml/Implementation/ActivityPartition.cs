@@ -26,7 +26,16 @@ namespace Implementation.Activities
     /// <summary>
     /// An <see cref="ActivityPartition"/> is a kind of <see cref="ActivityGroup"/> for identifying <see cref="ActivityNode"/>s that have some characteristic in common.
     /// </summary>
-    internal class ActivityPartition : Element, Uml.Activities.ActivityPartition
+    internal class ActivityPartition : Implementation.CommonStructure.Element //, Uml.Activities.ActivityPartition
     {
+        /// <summary>
+        /// Initializes a new instance of <see cref="ActivityPartition"/>
+        /// </summary>
+        /// <param name="id">
+        /// The unique identifier of the <see cref="ActivityPartition"/>
+        /// </param>        
+        public ActivityPartition(string id) : base(id)
+        {
+        }
     }
 }

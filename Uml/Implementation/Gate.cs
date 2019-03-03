@@ -23,7 +23,10 @@ namespace Implementation.Interactions
 {
     using Uml.CommonStructure;
 
-    internal class Gate : Element, Uml.Interactions.Gate
+    internal class Gate : Implementation.CommonStructure.Element //, Uml.Interactions.Gate
     {
+        public Gate(string id) : base(id)
+        {
+        }
     }
 }

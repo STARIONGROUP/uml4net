@@ -26,7 +26,10 @@ namespace Implementation.Actions
     /// <summary>
     /// A <see cref="SendSignalAction"/> is an <see cref="InvocationAction"/> that creates a <see cref="Signal"/> instance and transmits it to the target object. Values from the argument <see cref="InputPin"/>s are used to provide values for the attributes of the <see cref="Signal"/>. The requestor continues execution immediately after the <see cref="Signal"/> instance is sent out and cannot receive reply values.
     /// </summary>
-    internal class SendSignalAction : Element, Uml.Actions.SendSignalAction
+    internal class SendSignalAction : Implementation.CommonStructure.Element //, Uml.Actions.SendSignalAction
     {
+        public SendSignalAction(string id) : base(id)
+        {
+        }
     }
 }

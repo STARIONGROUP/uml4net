@@ -26,7 +26,10 @@ namespace Implementation.Values
     /// <summary>
     /// A LiteralReal is a specification of a Real value.
     /// </summary>
-    internal class LiteralReal : Element, Uml.Values.LiteralReal
+    internal class LiteralReal : Implementation.CommonStructure.Element //, Uml.Values.LiteralReal
     {
+        public LiteralReal(string id) : base(id)
+        {
+        }
     }
 }

@@ -26,7 +26,10 @@ namespace Implementation.Actions
     /// <summary>
     /// An <see cref="InputPin"/> is a <see cref="Pin"/> that holds input values to be consumed by an <see cref="Action"/>.
     /// </summary>
-    internal class InputPin : Element, Uml.Actions.InputPin
+    internal class InputPin : Implementation.CommonStructure.Element //, Uml.Actions.InputPin
     {
+        public InputPin(string id) : base(id)
+        {
+        }
     }
 }

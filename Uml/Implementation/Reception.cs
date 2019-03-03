@@ -26,7 +26,10 @@ namespace Implementation.SimpleClassifiers
     /// <summary>
     /// A Reception is a declaration stating that a Classifier is prepared to react to the receipt of a Signal.
     /// </summary>
-    internal class Reception : Element, Uml.SimpleClassifiers.Reception
+    internal class Reception : Implementation.CommonStructure.Element //, Uml.SimpleClassifiers.Reception
     {
+        public Reception(string id) : base(id)
+        {
+        }
     }
 }

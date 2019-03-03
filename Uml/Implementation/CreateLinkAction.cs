@@ -26,7 +26,10 @@ namespace Implementation.Actions
     /// <summary>
     /// A <see cref="CreateLinkAction"/> is a <see cref="WriteLinkAction"/> for creating links.
     /// </summary>
-    internal class CreateLinkAction : Element, Uml.Actions.CreateLinkAction
+    internal class CreateLinkAction : Implementation.CommonStructure.Element //, Uml.Actions.CreateLinkAction
     {
+        public CreateLinkAction(string id) : base(id)
+        {
+        }
     }
 }

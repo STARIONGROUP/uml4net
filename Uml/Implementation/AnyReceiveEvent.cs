@@ -26,7 +26,16 @@ namespace Implementation.CommonBehavior
     /// <summary>
     /// A trigger for an <see cref="AnyReceiveEvent"/> is triggered by the receipt of any message that is not explicitly handled by any related trigger.
     /// </summary>
-    internal class AnyReceiveEvent : Element, Uml.CommonBehavior.AnyReceiveEvent
+    internal class AnyReceiveEvent : Implementation.CommonStructure.Element //, Uml.CommonBehavior.AnyReceiveEvent
     {
+        /// <summary>
+        /// Initializes a new instance of <see cref="AnyReceiveEvent"/>
+        /// </summary>
+        /// <param name="id">
+        /// The unique identifier of the <see cref="AnyReceiveEvent"/>
+        /// </param>        
+        public AnyReceiveEvent(string id) : base(id)
+        {
+        }
     }
 }

@@ -23,7 +23,10 @@ namespace Implementation.Interactions
 {
     using Uml.CommonStructure;
 
-    internal class MessageOccurrenceSpecification : Element, Uml.Interactions.MessageOccurrenceSpecification
+    internal class MessageOccurrenceSpecification : Implementation.CommonStructure.Element //, Uml.Interactions.MessageOccurrenceSpecification
     {
+        public MessageOccurrenceSpecification(string id) : base(id)
+        {
+        }
     }
 }

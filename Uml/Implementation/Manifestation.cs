@@ -26,7 +26,10 @@ namespace Implementation.Deployments
     /// <summary>
     /// A manifestation is the concrete physical rendering of one or more model elements by an artifact.
     /// </summary>
-    internal class Manifestation : Element, Uml.Deployments.Manifestation
+    internal class Manifestation : Implementation.CommonStructure.Element //, Uml.Deployments.Manifestation
     {
+        public Manifestation(string id) : base(id)
+        {
+        }
     }
 }

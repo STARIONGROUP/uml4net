@@ -26,7 +26,10 @@ namespace Implementation.StructuredClassifiers
     /// <summary>
     /// A Connector specifies links that enables communication between two or more instances. In contrast to Associations, which specify links between any instance of the associated Classifiers, Connectors specify links between instances playing the connected parts only.
     /// </summary>
-    internal class Connector : Element, Uml.StructuredClassifiers.Connector
+    internal class Connector : Implementation.CommonStructure.Element //, Uml.StructuredClassifiers.Connector
     {
+        public Connector(string id) : base(id)
+        {
+        }
     }
 }

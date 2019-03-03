@@ -26,7 +26,16 @@ namespace Implementation.Actions
     /// <summary>
     /// A <see cref="Clause"/> is an <see cref="Element"/> that represents a single branch of a <see cref="ConditionalNode"/>, including a test and a body section. The body section is executed only if (but not necessarily if) the test section evaluates to true.
     /// </summary>
-    internal class Clause : Element, Uml.Actions.Clause
+    internal class Clause : Implementation.CommonStructure.Element //, Uml.Actions.Clause
     {
+        /// <summary>
+        /// Initializes a new instance of <see cref="Clause"/>
+        /// </summary>
+        /// <param name="id">
+        /// The unique identifier of the <see cref="Clause"/>
+        /// </param>        
+        public Clause(string id) : base(id)
+        {
+        }
     }
 }

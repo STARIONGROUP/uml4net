@@ -26,7 +26,10 @@ namespace Implementation.Values
     /// <summary>
     /// A Duration is a ValueSpecification that specifies the temporal distance between two time instants.
     /// </summary>
-    internal class Duration : Element, Uml.Values.Duration
+    internal class Duration : Implementation.CommonStructure.Element //, Uml.Values.Duration
     {
+        public Duration(string id) : base(id)
+        {
+        }
     }
 }

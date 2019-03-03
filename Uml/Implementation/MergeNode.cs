@@ -26,7 +26,10 @@ namespace Implementation.Activities
     /// <summary>
     /// A merge node is a control node that brings together multiple alternate flows. It is not used to synchronize concurrent flows but to accept one among several alternate flows.
     /// </summary>
-    internal class MergeNode : Element, Uml.Activities.MergeNode
+    internal class MergeNode : Implementation.CommonStructure.Element //, Uml.Activities.MergeNode
     {
+        public MergeNode(string id) : base(id)
+        {
+        }
     }
 }

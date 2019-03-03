@@ -26,7 +26,10 @@ namespace Implementation.Activities
     /// <summary>
     /// A <see cref="JoinNode"/> is a <see cref="ControlNode"/> that synchronizes multiple flows.
     /// </summary>
-    internal class JoinNode : Element, Uml.Activities.JoinNode
+    internal class JoinNode : Implementation.CommonStructure.Element //, Uml.Activities.JoinNode
     {
+        public JoinNode(string id) : base(id)
+        {
+        }
     }
 }

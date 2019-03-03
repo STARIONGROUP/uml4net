@@ -26,7 +26,10 @@ namespace Implementation.StateMachines
     /// <summary>
     /// A State models a situation during which some (usually implicit) invariant condition holds.
     /// </summary>
-    internal class State : Element, Uml.StateMachines.State
+    internal class State : Implementation.CommonStructure.Element //, Uml.StateMachines.State
     {
+        public State(string id) : base(id)
+        {
+        }
     }
 }

@@ -62,11 +62,18 @@ namespace Uml.Assembler
         /// <param name="element">the new <see cref="Element"/> to add</param>
         public new void Add(T element)
         {
-            element.Owner = this.owner;
+            var elementImplementation = element as Implementation.CommonStructure.Element;
+
+            if (elementImplementation == null)
+            {
+                throw new InvalidCastException();
+            }
+
+            elementImplementation.Owner = this.owner;
             
             if (this.Contains(element))
             {
-                throw new InvalidOperationException(string.Format("The added item already exists {0}.", element.Id));
+                throw new InvalidOperationException($"The added item already exists {element.Id}.");
             }
 
             base.Add(element);
@@ -80,7 +87,14 @@ namespace Uml.Assembler
         {
             foreach (var element in elements)
             {
-                element.Owner = this.owner;
+                var elementImplementation = element as Implementation.CommonStructure.Element;
+
+                if (elementImplementation == null)
+                {
+                    throw new InvalidCastException();
+                }
+
+                elementImplementation.Owner = this.owner;
                 base.Add(element);
             }
         }
@@ -123,7 +137,14 @@ namespace Uml.Assembler
                     throw new InvalidOperationException(string.Format("The added item already exists {0}.", value.Id));
                 }
 
-                value.Owner = this.owner;
+                var elementImplementation = value as Implementation.CommonStructure.Element;
+
+                if (elementImplementation == null)
+                {
+                    throw new InvalidCastException();
+                }
+
+                elementImplementation.Owner = this.owner;
                 base[index] = value;
             }
         }

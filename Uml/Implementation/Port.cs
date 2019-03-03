@@ -26,7 +26,10 @@ namespace Implementation.StructuredClassifiers
     /// <summary>
     /// A Port is a property of an EncapsulatedClassifier that specifies a distinct interaction point between that EncapsulatedClassifier and its environment or between the (behavior of the) EncapsulatedClassifier and its internal parts. Ports are connected to Properties of the EncapsulatedClassifier by Connectors through which requests can be made to invoke BehavioralFeatures. A Port may specify the services an EncapsulatedClassifier provides (offers) to its environment as well as the services that an EncapsulatedClassifier expects (requires) of its environment.  A Port may have an associated ProtocolStateMachine.
     /// </summary>
-    internal class Port : Element, Uml.StructuredClassifiers.Port
+    internal class Port : Implementation.CommonStructure.Element //, Uml.StructuredClassifiers.Port
     {
+        public Port(string id) : base(id)
+        {
+        }
     }
 }

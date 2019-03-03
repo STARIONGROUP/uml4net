@@ -26,7 +26,10 @@ namespace Implementation.CommonBehavior
     /// <summary>
     /// A <see cref="TimeEvent"/> is an <see cref="Event"/> that occurs at a specific point in time.
     /// </summary>
-    internal class TimeEvent : Element, Uml.CommonBehavior.TimeEvent
+    internal class TimeEvent : Implementation.CommonStructure.Element //, Uml.CommonBehavior.TimeEvent
     {
+        public TimeEvent(string id) : base(id)
+        {
+        }
     }
 }

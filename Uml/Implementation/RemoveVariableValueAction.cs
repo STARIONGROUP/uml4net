@@ -26,7 +26,10 @@ namespace Implementation.Actions
     /// <summary>
     /// A <see cref="RemoveVariableValueAction"/> is a <see cref="WriteVariableAction"/> that removes values from a <see cref="Variable"/>s.
     /// </summary>
-    internal class RemoveVariableValueAction : Element, Uml.Actions.RemoveVariableValueAction
+    internal class RemoveVariableValueAction : Implementation.CommonStructure.Element //, Uml.Actions.RemoveVariableValueAction
     {
+        public RemoveVariableValueAction(string id) : base(id)
+        {
+        }
     }
 }

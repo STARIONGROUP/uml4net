@@ -26,7 +26,10 @@ namespace Implementation.StateMachines
     /// <summary>
     /// A Pseudostate is an abstraction that encompasses different types of transient Vertices in the StateMachine graph. A StateMachine instance never comes to rest in a Pseudostate, instead, it will exit and enter the Pseudostate within a single run-to-completion step.
     /// </summary>
-    internal class Pseudostate : Element, Uml.StateMachines.Pseudostate
+    internal class Pseudostate : Implementation.CommonStructure.Element //, Uml.StateMachines.Pseudostate
     {
+        public Pseudostate(string id) : base(id)
+        {
+        }
     }
 }

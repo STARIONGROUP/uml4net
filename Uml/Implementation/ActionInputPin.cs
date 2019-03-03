@@ -26,7 +26,16 @@ namespace Implementation.Actions
     /// <summary>
     /// An ActionInputPin is a kind of InputPin that executes an Action to determine the values to input to another Action.
     /// </summary>
-    internal class ActionInputPin : Element, Uml.Actions.ActionInputPin
+    internal class ActionInputPin : Implementation.CommonStructure.Element //, Uml.Actions.ActionInputPin
     {
+        /// <summary>
+        /// Initializes a new instance of <see cref="ActionInputPin"/>
+        /// </summary>
+        /// <param name="id">
+        /// The unique identifier of the <see cref="ActionExecuActionInputPintionSpecification"/>
+        /// </param>
+        protected ActionInputPin(string id) : base(id)
+        {
+        }
     }
 }

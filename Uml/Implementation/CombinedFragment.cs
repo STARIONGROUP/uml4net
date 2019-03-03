@@ -23,7 +23,16 @@ namespace Implementation.Interactions
 {
     using Uml.CommonStructure;
 
-    internal class CombinedFragment : Element, Uml.Interactions.CombinedFragment
+    internal class CombinedFragment : Implementation.CommonStructure.Element //, Uml.Interactions.CombinedFragment
     {
+        /// <summary>
+        /// Initializes a new instance of <see cref="CombinedFragment"/>
+        /// </summary>
+        /// <param name="id">
+        /// The unique identifier of the <see cref="CombinedFragment"/>
+        /// </param>        
+        public CombinedFragment(string id) : base(id)
+        {
+        }
     }
 }

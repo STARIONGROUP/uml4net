@@ -26,7 +26,10 @@ namespace Implementation.Packages
     /// <summary>
     /// A profile application is used to show which profiles have been applied to a package.
     /// </summary>
-    internal class ProfileApplication : Element, Uml.Packages.ProfileApplication
+    internal class ProfileApplication : Implementation.CommonStructure.Element //, Uml.Packages.ProfileApplication
     {
+        public ProfileApplication(string id) : base(id)
+        {
+        }
     }
 }

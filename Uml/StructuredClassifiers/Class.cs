@@ -38,7 +38,7 @@ namespace Uml.StructuredClassifiers
         /// <remarks>
         /// Derived property.
         /// </remarks>
-        IEnumerable<Extension> Extension { get; set; }
+        IEnumerable<Extension> Extension();
 
         /// <summary>
         /// If true, the <see cref="Class"/> does not provide a complete declaration and cannot be instantiated. An abstract <see cref="Class"/> is typically used as a target of <see cref="Association"/>s or <see cref="Generalization"/>s.

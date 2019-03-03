@@ -23,7 +23,10 @@ namespace Implementation.Interactions
 {
     using Uml.CommonStructure;
 
-    internal class DestructionOccurrenceSpecification : Element, Uml.Interactions.DestructionOccurrenceSpecification
+    internal class DestructionOccurrenceSpecification : Implementation.CommonStructure.Element //, Uml.Interactions.DestructionOccurrenceSpecification
     {
+        public DestructionOccurrenceSpecification(string id) : base(id)
+        {
+        }
     }
 }

@@ -26,7 +26,10 @@ namespace Implementation.Actions
     /// <summary>
     /// A <see cref="ReadStructuralFeatureAction"/> is a <see cref="StructuralFeatureAction"/> that retrieves the values of a <see cref="StructuralFeature"/>.
     /// </summary>
-    internal class ReadStructuralFeatureAction : Element, Uml.Actions.ReadStructuralFeatureAction
+    internal class ReadStructuralFeatureAction : Implementation.CommonStructure.Element //, Uml.Actions.ReadStructuralFeatureAction
     {
+        public ReadStructuralFeatureAction(string id) : base(id)
+        {
+        }
     }
 }

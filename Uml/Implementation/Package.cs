@@ -28,7 +28,10 @@ namespace Implementation.Packages
     /// Package specializes TemplateableElement and PackageableElement specializes ParameterableElement to specify that a package can be used as a template and a PackageableElement as a template parameter.
     /// A package is used to group elements, and provides a namespace for the grouped elements.
     /// </summary>
-    internal class Package : Element, Uml.Packages.Package
+    internal class Package : Implementation.CommonStructure.Element //, Uml.Packages.Package
     {
+        public Package(string id) : base(id)
+        {
+        }
     }
 }

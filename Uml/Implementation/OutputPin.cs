@@ -26,7 +26,10 @@ namespace Implementation.Actions
     /// <summary>
     /// An <see cref="OutputPin"/> is a Pin that holds output values produced by an <see cref="Action"/>.
     /// </summary>
-    internal class OutputPin : Element, Uml.Actions.OutputPin
+    internal class OutputPin : Implementation.CommonStructure.Element //, Uml.Actions.OutputPin
     {
+        public OutputPin(string id) : base(id)
+        {
+        }
     }
 }

@@ -26,7 +26,10 @@ namespace Implementation.SimpleClassifiers
     /// <summary>
     /// A PrimitiveType defines a predefined DataType, without any substructure. A PrimitiveType may have an algebra and operations defined outside of UML, for example, mathematically.
     /// </summary>
-    internal class PrimitiveType : Element, Uml.SimpleClassifiers.PrimitiveType
+    internal class PrimitiveType : Implementation.CommonStructure.Element //, Uml.SimpleClassifiers.PrimitiveType
     {
+        public PrimitiveType(string id) : base(id)
+        {
+        }
     }
 }

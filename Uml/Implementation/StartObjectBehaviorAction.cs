@@ -26,7 +26,10 @@ namespace Implementation.Actions
     /// <summary>
     /// A <see cref="StartObjectBehaviorAction"/> is an <see cref="InvocationAction"/> that starts the execution either of a directly instantiated <see cref="Behavior"/> or of the classifierBehavior of an object. Argument values may be supplied for the input <see cref="Parameter"/>s of the <see cref="Behavior"/>. If the <see cref="Behavior"/> is invoked synchronously, then output values may be obtained for output <see cref="Parameter"/>s.
     /// </summary>
-    internal class StartObjectBehaviorAction : Element, Uml.Actions.StartObjectBehaviorAction
+    internal class StartObjectBehaviorAction : Implementation.CommonStructure.Element //, Uml.Actions.StartObjectBehaviorAction
     {
+        public StartObjectBehaviorAction(string id) : base(id)
+        {
+        }
     }
 }

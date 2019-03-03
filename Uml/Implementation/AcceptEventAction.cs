@@ -26,7 +26,16 @@ namespace Implementation.Actions
     /// <summary>
     /// An AcceptEventAction is an Action that waits for the occurrence of one or more specific Events.
     /// </summary>
-    internal class AcceptEventAction : Element, Uml.Actions.AcceptEventAction
+    internal class AcceptEventAction : Implementation.CommonStructure.Element //, Uml.Actions.AcceptEventAction
     {
+        /// <summary>
+        /// Initializes a new instance of <see cref="AcceptEventAction"/>
+        /// </summary>
+        /// <param name="id">
+        /// The unique identifier of the <see cref="AcceptEventAction"/>
+        /// </param>
+        protected AcceptEventAction(string id) : base(id)
+        {
+        }
     }
 }

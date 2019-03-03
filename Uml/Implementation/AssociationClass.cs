@@ -26,7 +26,16 @@ namespace Implementation.StructuredClassifiers
     /// <summary>
     /// A model element that has both Association and Class properties. An AssociationClass can be seen as an Association that also has Class properties, or as a Class that also has Association properties. It not only connects a set of Classifiers but also defines a set of Features that belong to the Association itself and not to any of the associated Classifiers.
     /// </summary>
-    internal class AssociationClass : Element, Uml.StructuredClassifiers.AssociationClass
+    internal class AssociationClass : Implementation.CommonStructure.Element //, Uml.StructuredClassifiers.AssociationClass
     {
+        /// <summary>
+        /// Initializes a new instance of <see cref="AssociationClass"/>
+        /// </summary>
+        /// <param name="id">
+        /// The unique identifier of the <see cref="AssociationClass"/>
+        /// </param>        
+        public AssociationClass(string id) : base(id)
+        {
+        }
     }
 }

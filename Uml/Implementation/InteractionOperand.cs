@@ -23,7 +23,10 @@ namespace Implementation.Interactions
 {
     using Uml.CommonStructure;
 
-    internal class InteractionOperand : Element, Uml.Interactions.InteractionOperand
+    internal class InteractionOperand : Implementation.CommonStructure.Element //, Uml.Interactions.InteractionOperand
     {
+        public InteractionOperand(string id) : base(id)
+        {
+        }
     }
 }

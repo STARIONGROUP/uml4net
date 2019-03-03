@@ -26,7 +26,16 @@ namespace Implementation.Actions
     /// <summary>
     /// A <see cref="ClearVariableAction"/> is a <see cref="VariableAction"/> that removes all values of a <see cref="Variable"/>.
     /// </summary>
-    internal class ClearVariableAction : Element, Uml.Actions.ClearVariableAction
+    internal class ClearVariableAction : Implementation.CommonStructure.Element //, Uml.Actions.ClearVariableAction
     {
+        /// <summary>
+        /// Initializes a new instance of <see cref="ClearVariableAction"/>
+        /// </summary>
+        /// <param name="id">
+        /// The unique identifier of the <see cref="ClearVariableAction"/>
+        /// </param>        
+        public ClearVariableAction(string id) : base(id)
+        {
+        }
     }
 }

@@ -26,7 +26,10 @@ namespace Implementation.Actions
     /// <summary>
     /// A <see cref="StartClassifierBehaviorAction"/> is an <see cref="Action"/> that starts the classifierBehavior of the input object.
     /// </summary>
-    internal class StartClassifierBehaviorAction : Element, Uml.Actions.StartClassifierBehaviorAction
+    internal class StartClassifierBehaviorAction : Implementation.CommonStructure.Element //, Uml.Actions.StartClassifierBehaviorAction
     {
+        public StartClassifierBehaviorAction(string id) : base(id)
+        {
+        }
     }
 }

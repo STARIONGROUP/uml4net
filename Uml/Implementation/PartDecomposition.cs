@@ -23,7 +23,10 @@ namespace Implementation.Interactions
 {
     using Uml.CommonStructure;
 
-    internal class PartDecomposition : Element, Uml.Interactions.PartDecomposition
+    internal class PartDecomposition : Implementation.CommonStructure.Element //, Uml.Interactions.PartDecomposition
     {
+        public PartDecomposition(string id) : base(id)
+        {
+        }
     }
 }

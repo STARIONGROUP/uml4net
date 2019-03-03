@@ -26,7 +26,16 @@ namespace Implementation.StructuredClassifiers
     /// <summary>
     /// A ConnectableElementTemplateParameter exposes a ConnectableElement as a formal parameter for a template.
     /// </summary>
-    internal class ConnectableElementTemplateParameter : Element, Uml.StructuredClassifiers.ConnectableElementTemplateParameter
+    internal class ConnectableElementTemplateParameter : Implementation.CommonStructure.Element //, Uml.StructuredClassifiers.ConnectableElementTemplateParameter
     {
+        /// <summary>
+        /// Initializes a new instance of <see cref="ConnectableElementTemplateParameter"/>
+        /// </summary>
+        /// <param name="id">
+        /// The unique identifier of the <see cref="ConnectableElementTemplateParameter"/>
+        /// </param>        
+        public ConnectableElementTemplateParameter(string id) : base(id)
+        {
+        }
     }
 }

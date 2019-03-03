@@ -26,7 +26,10 @@ namespace Implementation.Values
     /// <summary>
     /// A LiteralString is a specification of a String value.
     /// </summary>
-    internal class LiteralString : Element, Uml.Values.LiteralString
+    internal class LiteralString : Implementation.CommonStructure.Element //, Uml.Values.LiteralString
     {
+        public LiteralString(string id) : base(id)
+        {
+        }
     }
 }

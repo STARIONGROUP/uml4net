@@ -26,7 +26,10 @@ namespace Implementation.Actions
     /// <summary>
     /// A <see cref="ReclassifyObjectAction"/> is an <see cref="Action"/> that changes the <see cref="Classifiers"/> that classify an object.
     /// </summary>
-    internal class ReclassifyObjectAction : Element, Uml.Actions.ReclassifyObjectAction
+    internal class ReclassifyObjectAction : Implementation.CommonStructure.Element //, Uml.Actions.ReclassifyObjectAction
     {
+        public ReclassifyObjectAction(string id) : base(id)
+        {
+        }
     }
 }

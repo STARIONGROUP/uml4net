@@ -26,7 +26,10 @@ namespace Implementation.Activities
     /// <summary>
     /// A <see cref="ControlFlow"/> is an <see cref="ActivityEdge"/> traversed by control tokens or object tokens of control type, which are use to control the execution of <see cref="ExecutableNode"/>s.
     /// </summary>
-    internal class ControlFlow : Element, Uml.Activities.ControlFlow
+    internal class ControlFlow : Implementation.CommonStructure.Element //, Uml.Activities.ControlFlow
     {
+        public ControlFlow(string id) : base(id)
+        {
+        }
     }
 }

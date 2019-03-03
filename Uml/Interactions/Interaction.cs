@@ -33,7 +33,7 @@ namespace Uml.Interactions
         /// <summary>
         /// <see cref="Action"/>s owned by the <see cref="Interaction"/>.
         /// </summary>
-        OwnerList<Action> Action { get; ; set; }
+        OwnerList<Uml.Actions.Action> Action { get; set; }
 
         /// <summary>
         /// Specifies the gates that form the message interface between this <see cref="Interaction"/> and any <see cref="InteractionUse"/>s which reference it.

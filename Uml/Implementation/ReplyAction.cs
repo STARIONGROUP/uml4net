@@ -26,7 +26,10 @@ namespace Implementation.Actions
     /// <summary>
     /// A <see cref="ReplyAction"/> is an <see cref="Action"/> that accepts a set of reply values and a value containing return information produced by a previous <see cref="AcceptCallAction"/>. The <see cref="ReplyAction"/> returns the values to the caller of the previous call, completing execution of the call.
     /// </summary>
-    internal class ReplyAction : Element, Uml.Actions.ReplyAction
+    internal class ReplyAction : Implementation.CommonStructure.Element //, Uml.Actions.ReplyAction
     {
+        public ReplyAction(string id) : base(id)
+        {
+        }
     }
 }

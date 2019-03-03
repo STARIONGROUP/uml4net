@@ -26,7 +26,10 @@ namespace Implementation.StructuredClassifiers
     /// <summary>
     /// A ConnectorEnd is an endpoint of a Connector, which attaches the Connector to a ConnectableElement.
     /// </summary>
-    internal class ConnectorEnd : Element, Uml.StructuredClassifiers.ConnectorEnd
+    internal class ConnectorEnd : Implementation.CommonStructure.Element //, Uml.StructuredClassifiers.ConnectorEnd
     {
+        public ConnectorEnd(string id) : base(id)
+        {
+        }
     }
 }

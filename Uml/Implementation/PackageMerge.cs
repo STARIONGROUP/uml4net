@@ -26,7 +26,10 @@ namespace Implementation.Packages
     /// <summary>
     /// A package merge defines how the contents of one package are extended by the contents of another package.
     /// </summary>
-    internal class PackageMerge : Element, Uml.Packages.PackageMerge
+    internal class PackageMerge : Implementation.CommonStructure.Element //, Uml.Packages.PackageMerge
     {
+        public PackageMerge(string id) : base(id)
+        {
+        }
     }
 }

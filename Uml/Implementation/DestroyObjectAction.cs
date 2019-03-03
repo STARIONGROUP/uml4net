@@ -26,7 +26,10 @@ namespace Implementation.Actions
     /// <summary>
     /// A <see cref="DestroyObjectAction"/> is an <see cref="Action"/> that destroys objects.
     /// </summary>
-    internal class DestroyObjectAction : Element, Uml.Actions.DestroyObjectAction
+    internal class DestroyObjectAction : Implementation.CommonStructure.Element //, Uml.Actions.DestroyObjectAction
     {
+        public DestroyObjectAction(string id) : base(id)
+        {
+        }
     }
 }

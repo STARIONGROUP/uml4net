@@ -26,7 +26,10 @@ namespace Implementation.Actions
     /// <summary>
     /// A <see cref="TestIdentityAction"/> is an <see cref="Action"/> that tests if two values are identical objects.
     /// </summary>
-    internal class TestIdentityAction : Element, Uml.Actions.TestIdentityAction
+    internal class TestIdentityAction : Implementation.CommonStructure.Element //, Uml.Actions.TestIdentityAction
     {
+        public TestIdentityAction(string id) : base(id)
+        {
+        }
     }
 }

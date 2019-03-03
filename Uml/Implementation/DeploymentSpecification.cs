@@ -26,7 +26,10 @@ namespace Implementation.Deployments
     /// <summary>
     /// A deployment specification specifies a set of properties that determine execution parameters of a component artifact that is deployed on a node. A deployment specification can be aimed at a specific type of container. An artifact that reifies or implements deployment specification properties is a deployment descriptor.
     /// </summary>
-    internal class DeploymentSpecification : Element, Uml.Deployments.DeploymentSpecification
+    internal class DeploymentSpecification : Implementation.CommonStructure.Element //, Uml.Deployments.DeploymentSpecification
     {
+        public DeploymentSpecification(string id) : base(id)
+        {
+        }
     }
 }

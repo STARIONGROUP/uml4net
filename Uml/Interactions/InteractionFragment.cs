@@ -23,11 +23,12 @@ namespace Uml.Interactions
 {
     using System.Collections.Generic;
     using Uml.Assembler;
+    using Uml.CommonStructure;
 
     /// <summary>
     /// <see cref="InteractionFragment"/> is an abstract notion of the most general interaction unit. An <see cref="InteractionFragment"/> is a piece of an <see cref="Interaction"/>. Each <see cref="InteractionFragment"/> is conceptually like an <see cref="Interaction"/> by itself.
     /// </summary>
-    public interface InteractionFragment
+    public interface InteractionFragment : NamedElement
     {
         /// <summary>
         /// References the <see cref="Lifeline"/>s that the <see cref="InteractionFragment"/> involves.

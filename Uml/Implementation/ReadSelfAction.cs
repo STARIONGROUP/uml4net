@@ -26,7 +26,10 @@ namespace Implementation.Actions
     /// <summary>
     /// A <see cref="ReadSelfAction"/> is an Action that retrieves the context object of the <see cref="Behavior"/> execution within which the <see cref="ReadSelfAction"/> execution is taking place.
     /// </summary>
-    internal class ReadSelfAction : Element, Uml.Actions.ReadSelfAction
+    internal class ReadSelfAction : Implementation.CommonStructure.Element //, Uml.Actions.ReadSelfAction
     {
+        public ReadSelfAction(string id) : base(id)
+        {
+        }
     }
 }

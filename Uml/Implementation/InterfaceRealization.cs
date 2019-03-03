@@ -26,7 +26,10 @@ namespace Implementation.SimpleClassifiers
     /// <summary>
     /// An InterfaceRealization is a specialized realization relationship between a BehavioredClassifier and an Interface. This relationship signifies that the realizing BehavioredClassifier conforms to the contract specified by the Interface.
     /// </summary>
-    internal class InterfaceRealization : Element, Uml.SimpleClassifiers.InterfaceRealization
+    internal class InterfaceRealization : Implementation.CommonStructure.Element //, Uml.SimpleClassifiers.InterfaceRealization
     {
+        public InterfaceRealization(string id) : base(id)
+        {
+        }
     }
 }

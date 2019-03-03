@@ -26,7 +26,10 @@ namespace Implementation.Actions
     /// <summary>
     /// A ValueSpecificationAction is an Action that evaluates a ValueSpecification and provides a result.
     /// </summary>
-    internal class ValueSpecificationAction : Element, Uml.Actions.ValueSpecificationAction
+    internal class ValueSpecificationAction : Implementation.CommonStructure.Element //, Uml.Actions.ValueSpecificationAction
     {
+        public ValueSpecificationAction(string id) : base(id)
+        {
+        }
     }
 }

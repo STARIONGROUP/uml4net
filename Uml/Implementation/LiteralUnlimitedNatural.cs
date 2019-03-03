@@ -26,7 +26,10 @@ namespace Implementation.Values
     /// <summary>
     /// A LiteralUnlimitedNatural is a specification of an UnlimitedNatural number.
     /// </summary>
-    internal class LiteralUnlimitedNatural : Element, Uml.Values.LiteralUnlimitedNatural
+    internal class LiteralUnlimitedNatural : Implementation.CommonStructure.Element //, Uml.Values.LiteralUnlimitedNatural
     {
+        public LiteralUnlimitedNatural(string id) : base(id)
+        {
+        }
     }
 }

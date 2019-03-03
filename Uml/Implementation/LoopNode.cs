@@ -26,7 +26,10 @@ namespace Implementation.Actions
     /// <summary>
     /// A <see cref="LoopNode"/> is a <see cref="StructuredActivityNode"/> that represents an iterative loop with setup, test, and body sections.
     /// </summary>
-    internal class LoopNode : Element, Uml.Actions.LoopNode
+    internal class LoopNode : Implementation.CommonStructure.Element //, Uml.Actions.LoopNode
     {
+        public LoopNode(string id) : base(id)
+        {
+        }
     }
 }

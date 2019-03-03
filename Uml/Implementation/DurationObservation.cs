@@ -26,7 +26,10 @@ namespace Implementation.Values
     /// <summary>
     /// A DurationObservation is a reference to a duration during an execution. It points out the NamedElement(s) in the model to observe and whether the observations are when this NamedElement is entered or when it is exited.
     /// </summary>
-    internal class DurationObservation : Element, Uml.Values.DurationObservation
+    internal class DurationObservation : Implementation.CommonStructure.Element //, Uml.Values.DurationObservation
     {
+        public DurationObservation(string id) : base(id)
+        {
+        }
     }
 }

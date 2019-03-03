@@ -26,7 +26,10 @@ namespace Implementation.UseCases
     /// <summary>
     /// An Include relationship specifies that a UseCase contains the behavior defined in another UseCase.
     /// </summary>
-    internal class Include : Element, Uml.UseCases.Include
+    internal class Include : Implementation.CommonStructure.Element //, Uml.UseCases.Include
     {
+        public Include(string id) : base(id)
+        {
+        }
     }
 }

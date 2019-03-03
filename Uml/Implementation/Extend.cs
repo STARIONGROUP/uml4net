@@ -26,7 +26,10 @@ namespace Implementation.UseCases
     /// <summary>
     /// A relationship from an extending UseCase to an extended UseCase that specifies how and when the behavior defined in the extending UseCase can be inserted into the behavior defined in the extended UseCase.
     /// </summary>
-    internal class Extend : Element, Uml.UseCases.Extend
+    internal class Extend : Implementation.CommonStructure.Element //, Uml.UseCases.Extend
     {
+        public Extend(string id) : base(id)
+        {
+        }
     }
 }

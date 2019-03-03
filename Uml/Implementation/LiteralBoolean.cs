@@ -26,7 +26,10 @@ namespace Implementation.Values
     /// <summary>
     /// A LiteralBoolean is a specification of a Boolean value.
     /// </summary>
-    internal class LiteralBoolean : Element, Uml.Values.LiteralBoolean
+    internal class LiteralBoolean : Implementation.CommonStructure.Element //, Uml.Values.LiteralBoolean
     {
+        public LiteralBoolean(string id) : base(id)
+        {
+        }
     }
 }

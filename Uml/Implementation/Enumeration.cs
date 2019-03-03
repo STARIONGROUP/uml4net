@@ -26,7 +26,10 @@ namespace Implementation.SimpleClassifiers
     /// <summary>
     /// An Enumeration is a DataType whose values are enumerated in the model as EnumerationLiterals.
     /// </summary>
-    internal class Enumeration : Element, Uml.SimpleClassifiers.Enumeration
+    internal class Enumeration : Implementation.CommonStructure.Element //, Uml.SimpleClassifiers.Enumeration
     {
+        public Enumeration(string id) : base(id)
+        {
+        }
     }
 }

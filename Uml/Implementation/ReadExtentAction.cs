@@ -26,7 +26,10 @@ namespace Implementation.Actions
     /// <summary>
     /// A <see cref="ReadExtentAction"/> is an <see cref="Action"/> that retrieves the current instances of a <see cref="Classifier"/>.
     /// </summary>
-    internal class ReadExtentAction : Element, Uml.Actions.ReadExtentAction
+    internal class ReadExtentAction : Implementation.CommonStructure.Element //, Uml.Actions.ReadExtentAction
     {
+        public ReadExtentAction(string id) : base(id)
+        {
+        }
     }
 }

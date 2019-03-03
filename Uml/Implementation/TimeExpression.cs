@@ -26,7 +26,10 @@ namespace Implementation.Values
     /// <summary>
     /// A TimeExpression is a ValueSpecification that represents a time value.
     /// </summary>
-    internal class TimeExpression : Element, Uml.Values.TimeExpression
+    internal class TimeExpression : Implementation.CommonStructure.Element //, Uml.Values.TimeExpression
     {
+        public TimeExpression(string id) : base(id)
+        {
+        }
     }
 }

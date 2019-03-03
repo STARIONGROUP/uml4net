@@ -26,7 +26,10 @@ namespace Implementation.Activities
     /// <summary>
     /// A <see cref="ForkNode"/> is a <see cref="ControlNode"/> that splits a flow into multiple concurrent flows.
     /// </summary>
-    internal class ForkNode : Element, Uml.Activities.ForkNode
+    internal class ForkNode : Implementation.CommonStructure.Element //, Uml.Activities.ForkNode
     {
+        public ForkNode(string id) : base(id)
+        {
+        }
     }
 }

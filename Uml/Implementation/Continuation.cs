@@ -23,7 +23,10 @@ namespace Implementation.Interactions
 {
     using Uml.CommonStructure;
 
-    internal class Continuation : Element, Uml.Interactions.Continuation
+    internal class Continuation : Implementation.CommonStructure.Element //, Uml.Interactions.Continuation
     {
+        public Continuation(string id) : base(id)
+        {
+        }
     }
 }
