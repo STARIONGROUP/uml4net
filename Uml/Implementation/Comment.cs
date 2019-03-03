@@ -21,12 +21,33 @@
 
 namespace Implementation.CommonStructure
 {
+    using System.Collections.Generic;
     using Uml.CommonStructure;
 
     /// <summary>
     /// A <see cref="Comment"/> is a textual annotation that can be attached to a set of <see cref="Element"/>s.
     /// </summary>
-    internal class Comment : Element, Uml.CommonStructure.Comment
+    internal class Comment : Uml.Implementation.Element, Uml.CommonStructure.Comment
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Comment"/> class.
+        /// </summary>
+        /// <param name="id">
+        /// The unique identifier of the <see cref="Abstraction"/>
+        /// </param>
+        public Comment(string id) : base(id)
+        {
+            this.AnnotatedElement = new List<Element>();
+        }
+
+        /// <summary>
+        /// References the <see cref="Element"/>(s) being commented.
+        /// </summary>
+        public List<Element> AnnotatedElement { get; set; }
+
+        /// <summary>
+        /// Specifies a string that is the comment.
+        /// </summary>
+        public string Body { get; set; }
     }
 }
