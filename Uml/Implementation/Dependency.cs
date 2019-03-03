@@ -29,7 +29,7 @@ namespace Implementation.CommonStructure
     /// <summary>
     /// A <see cref="Dependency"/> is a <see cref="Relationship"/> that signifies that a single model <see cref="Element"/> or a set of model <see cref="Element"/>s requires other model <see cref="Element"/>s for their specification or implementation. This means that the complete semantics of the client <see cref="Element"/>(s) are either semantically or structurally dependent on the definition of the supplier <see cref="Element"/>(s).
     /// </summary>
-    internal class Dependency : Uml.Implementation.Element, Uml.CommonStructure.Dependency
+    internal class Dependency : Implementation.CommonStructure.Element, Uml.CommonStructure.Dependency
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Dependency"/> class.
@@ -50,7 +50,7 @@ namespace Implementation.CommonStructure
         /// <remarks>
         /// Derived property.
         /// </remarks>
-        public IEnumerable<Element> RelatedElement()
+        public IEnumerable<Uml.CommonStructure.Element> RelatedElement()
         {
             throw new System.NotImplementedException();
         }
@@ -61,7 +61,7 @@ namespace Implementation.CommonStructure
         /// <remarks>
         /// Derived property.
         /// </remarks>
-        public IEnumerable<Element> Source()
+        public IEnumerable<Uml.CommonStructure.Element> Source()
         {
             throw new System.NotImplementedException();
         }
@@ -72,7 +72,7 @@ namespace Implementation.CommonStructure
         /// <remarks>
         /// Derived property.
         /// </remarks>
-        public IEnumerable<Element> Target()
+        public IEnumerable<Uml.CommonStructure.Element> Target()
         {
             throw new System.NotImplementedException();
         }
@@ -107,7 +107,7 @@ namespace Implementation.CommonStructure
         /// The <see cref="StringExpression"/> used to define the name of this <see cref="NamedElement"/>.
         /// </summary>
         public OwnerList<StringExpression> NameExpression { get; set; }
-        
+
         /// <summary>
         /// Specifies the <see cref="Namespace"/> that owns the <see cref="NamedElement"/>.
         /// </summary>
@@ -139,7 +139,7 @@ namespace Implementation.CommonStructure
         /// The <see cref="Element"/>(s) dependent on the supplier <see cref="Element"/>(s). In some cases (such as a trace Abstraction) the assignment of direction (that is, the designation of the client Element) is at the discretion of the modeler and is a stipulation.
         /// </summary>
         public List<Uml.CommonStructure.NamedElement> Client { get; set; }
-        
+
         /// <summary>
         /// The <see cref="Element"/>(s) on which the client <see cref="Element"/>(s) depend in some respect. The modeler may stipulate a sense of Dependency direction suitable for their domain.
         /// </summary>

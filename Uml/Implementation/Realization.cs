@@ -21,12 +21,19 @@
 
 namespace Implementation.CommonStructure
 {
-    using Uml.CommonStructure;
-
     /// <summary>
     /// <see cref="Realization"/> is a specialized <see cref="Abstraction"/> relationship between two sets of model <see cref="Element"/>s, one representing a specification (the supplier) and the other represents an implementation of the latter (the client). Realization can be used to model stepwise refinement, optimizations, transformations, templates, model synthesis, framework composition, etc.
     /// </summary>
-    internal class Realization : Element, Uml.CommonStructure.Realization
+    internal class Realization : Implementation.CommonStructure.Abstraction, Uml.CommonStructure.Realization
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Realization"/> class.
+        /// </summary>
+        /// <param name="id">
+        /// The unique identifier of the <see cref="Realization"/>
+        /// </param>
+        public Realization(string id) : base(id)
+        {
+        }
     }
 }

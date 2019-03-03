@@ -29,7 +29,7 @@ namespace Implementation.CommonStructure
     /// <summary>
     /// An <see cref="Abstraction"/> is a <see cref="Relationship"/> that relates two <see cref="Element"/>s or sets of <see cref="Element"/>s that represent the same concept at different levels of abstraction or from different viewpoints.
     /// </summary>
-    internal class Abstraction : Uml.Implementation.Element, Uml.CommonStructure.Abstraction
+    internal class Abstraction : Implementation.CommonStructure.Element, Uml.CommonStructure.Abstraction
     {
         /// <summary>
         /// Initializes a new instance of <see cref="Abstraction"/>
@@ -39,8 +39,6 @@ namespace Implementation.CommonStructure
         /// </param>
         protected Abstraction(string id) : base(id)
         {
-            this.Source = new List<Element>();
-            this.Target = new List<Element>();
             this.NameExpression = new OwnerList<StringExpression>(this);
             this.Client = new List<Uml.CommonStructure.NamedElement>();
             this.Supplier = new List<Uml.CommonStructure.NamedElement>();
@@ -53,20 +51,32 @@ namespace Implementation.CommonStructure
         /// <remarks>
         /// Derived property.
         /// </remarks>
-        public IEnumerable<Element> RelatedElement()
+        public IEnumerable<Uml.CommonStructure.Element> RelatedElement()
+        {
+            throw new System.NotImplementedException();
+        }
+       
+        /// <summary>
+        /// Specifies the source Element(s) of the <see cref="Abstraction"/>.
+        /// </summary>
+        /// <remarks>
+        /// Derived property.
+        /// </remarks>
+        public IEnumerable<Uml.CommonStructure.Element> Source()
         {
             throw new System.NotImplementedException();
         }
 
         /// <summary>
-        /// Specifies the source Element(s) of the <see cref="Abstraction"/>.
-        /// </summary>
-        public List<Element> Source { get; set; }
-        
-        /// <summary>
         /// Specifies the target Element(s) of the <see cref="Abstraction"/>.
         /// </summary>
-        public List<Element> Target { get; set; }
+        /// <remarks>
+        /// Derived property.
+        /// </remarks>
+        public IEnumerable<Uml.CommonStructure.Element> Target()
+        {
+            throw new System.NotImplementedException();
+        }
 
         /// <summary>
         /// The formal <see cref="TemplateParameter"/> that owns this <see cref="Abstraction"/>.
@@ -127,12 +137,12 @@ namespace Implementation.CommonStructure
         public VisibilityKind Visibility { get; set; }
 
         /// <summary>
-        /// The <see cref="Element"/>(s) dependent on the supplier <see cref="Element"/>(s). In some cases (such as a trace Abstraction) the assignment of direction (that is, the designation of the client Element) is at the discretion of the modeler and is a stipulation.
+        /// The <see cref="Uml.CommonStructure.Element"/>(s) dependent on the supplier <see cref="Uml.CommonStructure.Element"/>(s). In some cases (such as a trace Abstraction) the assignment of direction (that is, the designation of the client Element) is at the discretion of the modeler and is a stipulation.
         /// </summary>
         public List<Uml.CommonStructure.NamedElement> Client { get; set; }
         
         /// <summary>
-        /// The <see cref="Element"/>(s) on which the client <see cref="Element"/>(s) depend in some respect. The modeler may stipulate a sense of Dependency direction suitable for their domain.
+        /// The <see cref="Uml.CommonStructure.Element"/>(s) on which the client <see cref="Element"/>(s) depend in some respect. The modeler may stipulate a sense of Dependency direction suitable for their domain.
         /// </summary>
         public List<Uml.CommonStructure.NamedElement> Supplier { get; set; }
         

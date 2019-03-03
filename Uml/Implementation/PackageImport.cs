@@ -28,7 +28,7 @@ namespace Implementation.CommonStructure
     /// <summary>
     /// A <see cref="PackageImport"/> is a <see cref="Relationship"/> that imports all the non-private members of a <see cref="Package"/> into the Namespace owning the <see cref="PackageImport"/>, so that those <see cref="Element"/>s may be referred to by their unqualified names in the importingNamespace.
     /// </summary>
-    internal class PackageImport : Uml.Implementation.Element, Uml.CommonStructure.PackageImport
+    internal class PackageImport : Implementation.CommonStructure.Element, Uml.CommonStructure.PackageImport
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="PackageImport"/> class.
@@ -46,7 +46,7 @@ namespace Implementation.CommonStructure
         /// <remarks>
         /// Derived property.
         /// </remarks>
-        public IEnumerable<Element> RelatedElement()
+        public IEnumerable<Uml.CommonStructure.Element> RelatedElement()
         {
             throw new System.NotImplementedException();
         }
@@ -57,7 +57,7 @@ namespace Implementation.CommonStructure
         /// <remarks>
         /// Derived property.
         /// </remarks>
-        public IEnumerable<Element> Source()
+        public IEnumerable<Uml.CommonStructure.Element> Source()
         {
             throw new System.NotImplementedException();
         }
@@ -68,7 +68,7 @@ namespace Implementation.CommonStructure
         /// <remarks>
         /// Derived property.
         /// </remarks>
-        public IEnumerable<Element> Target()
+        public IEnumerable<Uml.CommonStructure.Element> Target()
         {
             throw new System.NotImplementedException();
         }

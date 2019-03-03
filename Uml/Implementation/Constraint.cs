@@ -29,7 +29,7 @@ namespace Implementation.CommonStructure
     /// <summary>
     /// A <see cref="Constraint"/> is a condition or restriction expressed in natural language text or in a machine readable language for the purpose of declaring some of the semantics of an <see cref="Element"/> or set of <see cref="Element"/>s.
     /// </summary>
-    internal class Constraint : Uml.Implementation.Element, Uml.CommonStructure.Constraint
+    internal class Constraint :Implementation.CommonStructure.Element, Uml.CommonStructure.Constraint
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Constraint"/> class.
@@ -40,7 +40,7 @@ namespace Implementation.CommonStructure
         public Constraint(string id) : base(id)
         {
             this.NameExpression = new OwnerList<StringExpression>(this);
-            this.ConstrainedElement = new List<Element>();
+            this.ConstrainedElement = new List<Uml.CommonStructure.Element>();
             this.Specification = new OwnerList<ValueSpecification>(this);
         }
 
@@ -101,12 +101,12 @@ namespace Implementation.CommonStructure
         /// Determines whether and how the <see cref="Constraint"/> is visible outside its owning <see cref="Namespace"/>.
         /// </summary>
         public VisibilityKind Visibility { get; set; }
-        
+
         /// <summary>
         /// The ordered set of Elements referenced by this <see cref="Constraint"/>.
         /// </summary>
-        public List<Element> ConstrainedElement { get; set; }
-        
+        public List<Uml.CommonStructure.Element> ConstrainedElement { get; set; }
+
         /// <summary>
         /// Specifies the Namespace that owns the Constraint.
         /// </summary>

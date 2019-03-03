@@ -19,7 +19,7 @@
 // </copyright>
 // -------------------------------------------------------------------------------------------------
 
-namespace Uml.Implementation
+namespace Implementation.CommonStructure
 {
     using System.Collections.Generic;
     using Uml.Assembler;
@@ -39,7 +39,7 @@ namespace Uml.Implementation
         protected Element(string id)
         {
             this.Id = id;
-            this.OwnedComment = new OwnerList<Comment>(this);
+            this.OwnedComment = new OwnerList<Uml.CommonStructure.Comment>(this);
         }
         
         /// <summary>
@@ -53,7 +53,7 @@ namespace Uml.Implementation
         /// <summary>
         /// The Comments owned by this <see cref="Element"/>.
         /// </summary>
-        public OwnerList<Comment> OwnedComment { get; set; }
+        public OwnerList<Uml.CommonStructure.Comment> OwnedComment { get; set; }
 
         /// <summary>
         /// The <see cref="Element"/>s owned by this Element.
@@ -61,7 +61,7 @@ namespace Uml.Implementation
         /// <remarks>
         /// Derived property
         /// </remarks>
-        public IEnumerable<CommonStructure.Element> OwnedElement()
+        public IEnumerable<Uml.CommonStructure.Element> OwnedElement()
         {
             throw new System.NotImplementedException();
         }
@@ -72,7 +72,7 @@ namespace Uml.Implementation
         /// <remarks>
         /// Derived property
         /// </remarks>
-        public CommonStructure.Element Owner()
+        public Uml.CommonStructure.Element Owner()
         {
             throw new System.NotImplementedException();
         }

@@ -27,7 +27,7 @@ namespace Implementation.CommonStructure
     /// <summary>
     /// An <see cref="ElementImport"/> identifies a <see cref="NamedElement"/> in a <see cref="Namespace"/> other than the one that owns that <see cref="NamedElement"/> and allows the <see cref="NamedElement"/> to be referenced using an unqualified name in the Namespace owning the <see cref="ElementImport"/>.
     /// </summary>
-    internal class ElementImport : Uml.Implementation.Element, Uml.CommonStructure.ElementImport
+    internal class ElementImport : Implementation.CommonStructure.Element, Uml.CommonStructure.ElementImport
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ElementImport"/> class.
@@ -45,7 +45,7 @@ namespace Implementation.CommonStructure
         /// <remarks>
         /// Derived property.
         /// </remarks>
-        public IEnumerable<Element> RelatedElement()
+        public IEnumerable<Uml.CommonStructure.Element> RelatedElement()
         {
             throw new System.NotImplementedException();
         }
@@ -56,7 +56,7 @@ namespace Implementation.CommonStructure
         /// <remarks>
         /// Derived property.
         /// </remarks>
-        public IEnumerable<Element> Source()
+        public IEnumerable<Uml.CommonStructure.Element> Source()
         {
             throw new System.NotImplementedException();
         }
@@ -67,7 +67,7 @@ namespace Implementation.CommonStructure
         /// <remarks>
         /// Derived property.
         /// </remarks>
-        public IEnumerable<Element> Target()
+        public IEnumerable<Uml.CommonStructure.Element> Target()
         {
             throw new System.NotImplementedException();
         }
