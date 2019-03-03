@@ -15,16 +15,28 @@
 //   GNU General Public License for more details.
 //
 //   You should have received a copy of the GNU General Public License
-//   along with Foobar.  If not, see<http://www.gnu.org/licenses/>.
+//   along with uml-sharp. If not, see<http://www.gnu.org/licenses/>.
 // </copyright>
 // -------------------------------------------------------------------------------------------------
 
 namespace Uml.Values
 {
+    using System.Collections.Generic;
+    using Uml.Assembler;
+
     /// <summary>
-    /// A Duration is a ValueSpecification that specifies the temporal distance between two time instants.
+    /// A <see cref="Duration"/> is a <see cref="ValueSpecification"/> that specifies the temporal distance between two time instants.
     /// </summary>
-    public interface Duration
+    public interface Duration : ValueSpecification
     {
+        /// <summary>
+        /// A <see cref="Duration"/> is a <see cref="ValueSpecification"/> that specifies the temporal distance between two time instants.
+        /// </summary>
+        OwnerList<ValueSpecification> Expr { get; set; }
+
+        /// <summary>
+        /// Refers to the <see cref="Observation"/>s that are involved in the computation of the <see cref="Duration"/> value
+        /// </summary>
+        List<Observation> Observation { get; set; }
     }
 }

@@ -15,7 +15,7 @@
 //   GNU General Public License for more details.
 //
 //   You should have received a copy of the GNU General Public License
-//   along with Foobar.  If not, see<http://www.gnu.org/licenses/>.
+//   along with uml-sharp. If not, see<http://www.gnu.org/licenses/>.
 // </copyright>
 // -------------------------------------------------------------------------------------------------
 
@@ -24,7 +24,11 @@ namespace Uml.Values
     /// <summary>
     /// A LiteralInteger is a specification of an Integer value.
     /// </summary>
-    public interface LiteralInteger
+    public interface LiteralInteger : LiteralSpecification
     {
+        /// <summary>
+        /// The specified Integer value.
+        /// </summary>
+        int Value { get; set; }
     }
 }

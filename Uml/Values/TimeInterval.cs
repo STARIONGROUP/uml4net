@@ -15,16 +15,25 @@
 //   GNU General Public License for more details.
 //
 //   You should have received a copy of the GNU General Public License
-//   along with Foobar.  If not, see<http://www.gnu.org/licenses/>.
+//   along with uml-sharp. If not, see<http://www.gnu.org/licenses/>.
 // </copyright>
 // -------------------------------------------------------------------------------------------------
 
 namespace Uml.Values
 {
     /// <summary>
-    /// A TimeInterval defines the range between two TimeExpressions.
+    /// A <see cref="TimeInterval"/> defines the range between two <see cref="TimeExpression"/>s.
     /// </summary>
-    public interface TimeInterval
+    public interface TimeInterval : Interval
     {
+        /// <summary>
+        /// Refers to the <see cref="TimeExpression"/> denoting the maximum value of the range.
+        /// </summary>
+        TimeExpression Max { get; set; }
+
+        /// <summary>
+        /// Refers to the <see cref="TimeExpression"/> denoting the minimum value of the range.
+        /// </summary>
+        TimeExpression Min { get; set; }
     }
 }

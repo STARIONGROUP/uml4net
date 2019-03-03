@@ -15,16 +15,23 @@
 //   GNU General Public License for more details.
 //
 //   You should have received a copy of the GNU General Public License
-//   along with Foobar.  If not, see<http://www.gnu.org/licenses/>.
+//   along with uml-sharp. If not, see<http://www.gnu.org/licenses/>.
 // </copyright>
 // -------------------------------------------------------------------------------------------------
 
 namespace Uml.Values
 {
+    using Uml.Assembler;
+    using Uml.CommonStructure;
+
     /// <summary>
     /// An IntervalConstraint is a Constraint that is specified by an Interval.
     /// </summary>
-    public interface IntervalConstraint
+    public interface IntervalConstraint : Constraint
     {
+        /// <summary>
+        /// The Interval that specifies the condition of the IntervalConstraint.
+        /// </summary>
+        OwnerList<Interval> Specification { get; set; }
     }
 }

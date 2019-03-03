@@ -15,7 +15,7 @@
 //   GNU General Public License for more details.
 //
 //   You should have received a copy of the GNU General Public License
-//   along with Foobar.  If not, see<http://www.gnu.org/licenses/>.
+//   along with uml-sharp. If not, see<http://www.gnu.org/licenses/>.
 // </copyright>
 // -------------------------------------------------------------------------------------------------
 
@@ -24,7 +24,11 @@ namespace Uml.Values
     /// <summary>
     /// A LiteralBoolean is a specification of a Boolean value.
     /// </summary>
-    public interface LiteralBoolean
+    public interface LiteralBoolean : LiteralSpecification
     {
+        /// <summary>
+        /// The specified Boolean value.
+        /// </summary>
+        bool Value { get; set; }
     }
 }

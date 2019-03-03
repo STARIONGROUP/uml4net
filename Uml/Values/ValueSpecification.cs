@@ -15,16 +15,18 @@
 //   GNU General Public License for more details.
 //
 //   You should have received a copy of the GNU General Public License
-//   along with Foobar.  If not, see<http://www.gnu.org/licenses/>.
+//   along with uml-sharp. If not, see<http://www.gnu.org/licenses/>.
 // </copyright>
 // -------------------------------------------------------------------------------------------------
 
 namespace Uml.Values
 {
+    using Uml.CommonStructure;
+
     /// <summary>
-    /// A ValueSpecification is the specification of a (possibly empty) set of values. A ValueSpecification is a ParameterableElement that may be exposed as a formal TemplateParameter and provided as the actual parameter in the binding of a template.
+    /// A <see cref="ValueSpecification"/> is the specification of a (possibly empty) set of values. A <see cref="ValueSpecification"/> is a <see cref="ParameterableElement"/> that may be exposed as a formal <see cref="TemplateParameter"/> and provided as the actual parameter in the binding of a template.
     /// </summary>
-    public interface ValueSpecification
+    public interface ValueSpecification : TypedElement, PackageableElement
     {
     }
 }

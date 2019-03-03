@@ -15,16 +15,25 @@
 //   GNU General Public License for more details.
 //
 //   You should have received a copy of the GNU General Public License
-//   along with Foobar.  If not, see<http://www.gnu.org/licenses/>.
+//   along with uml-sharp. If not, see<http://www.gnu.org/licenses/>.
 // </copyright>
 // -------------------------------------------------------------------------------------------------
 
 namespace Uml.Values
 {
     /// <summary>
-    /// A DurationInterval defines the range between two Durations.
+    /// A <see cref="DurationInterval"/> defines the range between two <see cref="Duration"/>s.
     /// </summary>
-    public interface DurationInterval
+    public interface DurationInterval : Interval
     {
+        /// <summary>
+        /// Refers to the <see cref="Duration"/> denoting the maximum value of the range.
+        /// </summary>
+        Duration Max { get; set; }
+
+        /// <summary>
+        /// Refers to the <see cref="Duration"/> denoting the minimum value of the range.
+        /// </summary>
+        Duration Min { get; set; }
     }
 }

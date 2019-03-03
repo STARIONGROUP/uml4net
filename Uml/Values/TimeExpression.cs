@@ -15,16 +15,28 @@
 //   GNU General Public License for more details.
 //
 //   You should have received a copy of the GNU General Public License
-//   along with Foobar.  If not, see<http://www.gnu.org/licenses/>.
+//   along with uml-sharp. If not, see<http://www.gnu.org/licenses/>.
 // </copyright>
 // -------------------------------------------------------------------------------------------------
 
 namespace Uml.Values
 {
+    using System.Collections.Generic;
+    using Uml.Assembler;
+
     /// <summary>
-    /// A TimeExpression is a ValueSpecification that represents a time value.
+    /// A <see cref="TimeExpression"/> is a <see cref="ValueSpecification"/> that represents a time value.
     /// </summary>
-    public interface TimeExpression
+    public interface TimeExpression : ValueSpecification
     {
+        /// <summary>
+        /// /// A <see cref="ValueSpecification"/> that evaluates to the value of the <see cref="TimeExpression"/>.
+        /// </summary>
+        OwnerList<ValueSpecification> Expr { get; set; }
+
+        /// <summary>
+        /// Refers to the <see cref="Observation"/>s that are involved in the computation of the <see cref="TimeExpression"/> value.
+        /// </summary>
+        List<Observation> Observation { get; set; }
     }
 }

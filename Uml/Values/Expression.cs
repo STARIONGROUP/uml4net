@@ -15,16 +15,27 @@
 //   GNU General Public License for more details.
 //
 //   You should have received a copy of the GNU General Public License
-//   along with Foobar.  If not, see<http://www.gnu.org/licenses/>.
+//   along with uml-sharp. If not, see<http://www.gnu.org/licenses/>.
 // </copyright>
 // -------------------------------------------------------------------------------------------------
 
 namespace Uml.Values
 {
+    using Uml.Assembler;
+
     /// <summary>
     /// An Expression represents a node in an expression tree, which may be non-terminal or terminal. It defines a symbol, and has a possibly empty sequence of operands that are ValueSpecifications. It denotes a (possibly empty) set of values when evaluated in a context.
     /// </summary>
-    public interface Expression
+    public interface Expression : ValueSpecification
     {
+        /// <summary>
+        /// Specifies a sequence of operand <see cref="ValueSpecification"/>s.
+        /// </summary>
+        OwnerList<ValueSpecification> Operand { get; set; }
+
+        /// <summary>
+        /// The symbol associated with this node in the expression tree.
+        /// </summary>
+        string Symbol { get; set; }
     }
 }

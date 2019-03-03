@@ -15,7 +15,7 @@
 //   GNU General Public License for more details.
 //
 //   You should have received a copy of the GNU General Public License
-//   along with Foobar.  If not, see<http://www.gnu.org/licenses/>.
+//   along with uml-sharp. If not, see<http://www.gnu.org/licenses/>.
 // </copyright>
 // -------------------------------------------------------------------------------------------------
 
@@ -24,7 +24,11 @@ namespace Uml.Values
     /// <summary>
     /// A LiteralUnlimitedNatural is a specification of an UnlimitedNatural number.
     /// </summary>
-    public interface LiteralUnlimitedNatural
+    public interface LiteralUnlimitedNatural : LiteralSpecification
     {
+        /// <summary>
+        /// The specified UnlimitedNatural value.
+        /// </summary>
+        int Value { get; set; }
     }
 }

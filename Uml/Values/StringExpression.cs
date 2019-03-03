@@ -15,16 +15,28 @@
 //   GNU General Public License for more details.
 //
 //   You should have received a copy of the GNU General Public License
-//   along with Foobar.  If not, see<http://www.gnu.org/licenses/>.
+//   along with uml-sharp. If not, see<http://www.gnu.org/licenses/>.
 // </copyright>
 // -------------------------------------------------------------------------------------------------
 
 namespace Uml.Values
 {
+    using Uml.Assembler;
+    using Uml.CommonStructure;
+
     /// <summary>
     /// A StringExpression is an Expression that specifies a String value that is derived by concatenating a sequence of operands with String values or a sequence of subExpressions, some of which might be template parameters.
     /// </summary>
-    public interface StringExpression
+    public interface StringExpression : TemplateableElement, Expression
     {
+        /// <summary>
+        /// The <see cref="StringExpression"/> of which this <see cref="StringExpression"/> is a subExpression.
+        /// </summary>
+        StringExpression OwningExpression { get; set; }
+
+        /// <summary>
+        /// The <see cref="StringExpression"/>s that constitute this <see cref="StringExpression"/>.
+        /// </summary>
+        OwnerList<StringExpression> SubExpression { get; set; }
     }
 }
