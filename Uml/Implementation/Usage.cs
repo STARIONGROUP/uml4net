@@ -21,12 +21,19 @@
 
 namespace Implementation.CommonStructure
 {
-    using Uml.CommonStructure;
-
     /// <summary>
     /// A <see cref="Usage"/> is a <see cref="Dependency"/> in which the client <see cref="Element"/> requires the supplier <see cref="Element"/> (or set of <see cref="Element"/>s) for its full implementation or operation.
     /// </summary>
-    internal class Usage : Element, Uml.CommonStructure.Usage
+    internal class Usage : Implementation.CommonStructure.Dependency, Uml.CommonStructure.Usage
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Usage"/> class.
+        /// </summary>
+        /// <param name="id">
+        /// The unique identifier of the <see cref="Usage"/>
+        /// </param>
+        public Usage(string id) : base(id)
+        {
+        }
     }
 }

@@ -21,12 +21,40 @@
 
 namespace Implementation.CommonStructure
 {
+    using System.Collections.Generic;
+    using Uml.Assembler;
     using Uml.CommonStructure;
 
     /// <summary>
     /// A Template Signature bundles the set of formal <see cref="TemplateParameter"/>s for a template.
     /// </summary>
-    internal class TemplateSignature : Element, Uml.CommonStructure.TemplateSignature
+    internal class TemplateSignature : Implementation.CommonStructure.Element, Uml.CommonStructure.TemplateSignature
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TemplateSignature"/> class.
+        /// </summary>
+        /// <param name="id">
+        /// The unique identifier of the <see cref="TemplateSignature"/>
+        /// </param>
+        public TemplateSignature(string id) : base(id)
+        {
+            this.OwnedParameter = new OwnerList<Uml.CommonStructure.TemplateParameter>(this);
+            this.Parameter = new List<Uml.CommonStructure.TemplateParameter>();
+        }
+
+        /// <summary>
+        /// The formal parameters that are owned by this <see cref="TemplateSignature"/>.
+        /// </summary>
+        public OwnerList<Uml.CommonStructure.TemplateParameter> OwnedParameter { get; set; }
+
+        /// <summary>
+        /// The ordered set of all formal <see cref="TemplateParameter"/>s for this <see cref="TemplateSignature"/>.
+        /// </summary>
+        public List<Uml.CommonStructure.TemplateParameter> Parameter { get; set; }
+
+        /// <summary>
+        /// The <see cref="TemplateableElement"/> that owns this <see cref="TemplateSignature"/>.
+        /// </summary>
+        public TemplateableElement Template { get; set; }
     }
 }
