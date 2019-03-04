@@ -22,10 +22,12 @@
 namespace Uml.CommonStructure
 {
     using System.Collections.Generic;
+    using Uml.Attributes;
 
     /// <summary>
     /// A <see cref="Dependency"/> is a <see cref="Relationship"/> that signifies that a single model <see cref="Element"/> or a set of model <see cref="Element"/>s requires other model <see cref="Element"/>s for their specification or implementation. This means that the complete semantics of the client <see cref="Element"/>(s) are either semantically or structurally dependent on the definition of the supplier <see cref="Element"/>(s).
     /// </summary>
+    [Class(IsAbstract = false, IsActive = false)]
     public interface Dependency : DirectedRelationship, PackageableElement
     {
         /// <summary>

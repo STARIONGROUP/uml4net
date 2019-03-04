@@ -22,10 +22,12 @@
 namespace Uml.CommonStructure
 {
     using System.Collections.Generic;
+    using Uml.Attributes;
 
     /// <summary>
     /// <see cref="Relationship"/> is an abstract concept that specifies some kind of relationship between <see cref="Element"/>s.
     /// </summary>
+    [Class(IsAbstract = true, IsActive = false)]
     public interface Relationship : Element
     {
         /// <summary>

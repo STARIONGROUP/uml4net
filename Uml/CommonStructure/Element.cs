@@ -23,10 +23,12 @@ namespace Uml.CommonStructure
 {
     using System.Collections.Generic;
     using Uml.Assembler;
+    using Uml.Attributes;
 
     /// <summary>
     /// An <see cref="Element"/> is a constituent of a model. As such, it has the capability of owning other <see cref="Element"/>s.
     /// </summary>
+    [Class(IsAbstract = true, IsActive = false)]
     public interface Element
     {
         /// <summary>

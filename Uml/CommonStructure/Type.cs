@@ -22,10 +22,12 @@
 namespace Uml.CommonStructure
 {
     using Uml.Packages;
+    using Uml.Attributes;
 
     /// <summary>
     /// A Type constrains the values represented by a <see cref="TypedElement"/>.
     /// </summary>
+    [Class(IsAbstract = true, IsActive = false)]
     public interface Type : PackageableElement
     {
         /// <summary>

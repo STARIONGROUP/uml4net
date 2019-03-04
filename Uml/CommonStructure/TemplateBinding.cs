@@ -22,10 +22,12 @@
 namespace Uml.CommonStructure
 {
     using Uml.Assembler;
+    using Uml.Attributes;
 
     /// <summary>
     /// A <see cref="TemplateBinding"/> is a <see cref="DirectedRelationship"/> between a <see cref="TemplateableElement"/> and a template. A <see cref="TemplateBinding"/> specifies the <see cref="TemplateParameterSubstitution"/>s of actual parameters for the formal parameters of the template.
     /// </summary>
+    [Class(IsAbstract = false, IsActive = false)]
     public interface TemplateBinding : DirectedRelationship
     {
         /// <summary>

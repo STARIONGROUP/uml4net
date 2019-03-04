@@ -21,9 +21,12 @@
 
 namespace Uml.CommonStructure
 {
+    using Uml.Attributes;
+
     /// <summary>
     /// A <see cref="TypedElement"/> is a <see cref="NamedElement"/> that may have a <see cref="Type"/> specified for it.
     /// </summary>
+    [Class(IsAbstract = true, IsActive = false)]
     public interface TypedElement : NamedElement
     {
         /// <summary>

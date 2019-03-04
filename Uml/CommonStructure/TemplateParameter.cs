@@ -22,10 +22,12 @@
 namespace Uml.CommonStructure
 {
     using Uml.Assembler;
+    using Uml.Attributes;
 
     /// <summary>
     /// A <see cref="TemplateParameter"/> exposes a <see cref="ParameterableElement"/> as a formal parameter of a template.
     /// </summary>
+    [Class(IsAbstract = false, IsActive = false)]
     public interface TemplateParameter : Element
     {
         /// <summary>

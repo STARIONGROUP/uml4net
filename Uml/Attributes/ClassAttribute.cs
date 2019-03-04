@@ -1,5 +1,5 @@
 ﻿// -------------------------------------------------------------------------------------------------
-// <copyright file="Comment.cs" company="RHEA System S.A.">
+// <copyright file="ClassAttribute.cs" company="RHEA System S.A.">
 //   Copyright (c) 2018-2019 RHEA System S.A.
 //
 //   This file is part of uml-sharp
@@ -19,25 +19,37 @@
 // </copyright>
 // -------------------------------------------------------------------------------------------------
 
-namespace Uml.CommonStructure
+namespace Uml.Attributes
 {
-    using System.Collections.Generic;
-    using Uml.Attributes;
+    using System;
 
     /// <summary>
-    /// A <see cref="Comment"/> is a textual annotation that can be attached to a set of <see cref="Element"/>s.
+    /// The purpose of this <see cref="Attribute"/> is to decorate classes and interfaces to make Uml properties explicit
     /// </summary>
-    [Class(IsAbstract = false, IsActive = false)]
-    public interface Comment : Element
+    [System.AttributeUsage(System.AttributeTargets.Class | System.AttributeTargets.Interface,AllowMultiple = false)]
+    public class ClassAttribute : Attribute
     {
         /// <summary>
-        /// References the <see cref="Element"/>(s) being commented.
+        /// Initializes a new instance of the <see cref="ClassAttribute"/> attribute
         /// </summary>
-        List<Element> AnnotatedElement { get; set; }
+        /// <param name="isAbstract">
+        /// a value indicating whether the decorated class is abstract
+        /// </param>
+        /// <param name="isActive">
+        /// a value indicating whether the decorated class is active
+        /// </param>
+        public ClassAttribute()
+        {
+        }
 
         /// <summary>
-        /// Specifies a string that is the comment.
+        /// Gets a value indicating whether the decorated class is abstract
         /// </summary>
-        string Body { get; set; }
+        public bool IsAbstract { get; set; }
+
+        /// <summary>
+        /// Gets a value indicating whether the decorated class is active
+        /// </summary>
+        public bool IsActive { get; set; }
     }
 }

@@ -22,11 +22,13 @@
 namespace Uml.CommonStructure
 {
     using Uml.Assembler;
+    using Uml.Attributes;
     using Uml.Values;
 
     /// <summary>
     /// An <see cref="Abstraction"/> is a <see cref="Relationship"/> that relates two <see cref="Element"/>s or sets of <see cref="Element"/>s that represent the same concept at different levels of abstraction or from different viewpoints.
     /// </summary>
+    [Class(IsAbstract = false, IsActive = false)]
     public interface Abstraction : Dependency
     {
         /// <summary>

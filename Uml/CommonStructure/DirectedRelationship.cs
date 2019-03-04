@@ -22,10 +22,12 @@
 namespace Uml.CommonStructure
 {
     using System.Collections.Generic;
+    using Uml.Attributes;
 
     /// <summary>
     /// A <see cref="DirectedRelationship"/> represents a relationship between a collection of source model Elements and a collection of target model <see cref="Element"/>s.
     /// </summary>
+    [Class(IsAbstract = true, IsActive = false)]
     public interface DirectedRelationship : Relationship
     {
         /// <summary>

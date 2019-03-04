@@ -21,9 +21,12 @@
 
 namespace Uml.CommonStructure
 {
+    using Uml.Attributes;
+
     /// <summary>
     /// An <see cref="ElementImport"/> identifies a <see cref="NamedElement"/> in a <see cref="Namespace"/> other than the one that owns that <see cref="NamedElement"/> and allows the <see cref="NamedElement"/> to be referenced using an unqualified name in the Namespace owning the <see cref="ElementImport"/>.
     /// </summary>
+    [Class(IsAbstract = false, IsActive = false)]
     public interface ElementImport : DirectedRelationship
     {
         /// <summary>

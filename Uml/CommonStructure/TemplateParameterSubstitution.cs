@@ -22,10 +22,12 @@
 namespace Uml.CommonStructure
 {
     using Uml.Assembler;
+    using Uml.Attributes;
 
     /// <summary>
     /// A <see cref="TemplateParameterSubstitution"/> relates the actual parameter to a formal <see cref="TemplateParameter"/> as part of a template binding.
     /// </summary>
+    [Class(IsAbstract = false, IsActive = false)]
     public interface TemplateParameterSubstitution : Element
     {
         /// <summary>

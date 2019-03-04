@@ -23,10 +23,12 @@ namespace Uml.CommonStructure
 {
     using System.Collections.Generic;
     using Uml.Assembler;
+    using Uml.Attributes;
 
     /// <summary>
     /// A <see cref="Namespace"/> is an <see cref="Element"/> in a model that owns and/or imports a set of <see cref="NamedElement"/>s that can be identified by name.
     /// </summary>
+    [Class(IsAbstract = true, IsActive = false)]
     public interface Namespace : NamedElement
     {
         /// <summary>

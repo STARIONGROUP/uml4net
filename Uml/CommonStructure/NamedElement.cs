@@ -23,11 +23,13 @@ namespace Uml.CommonStructure
 {
     using System.Collections.Generic;
     using Uml.Assembler;
+    using Uml.Attributes;
     using Uml.Values;
 
     /// <summary>
     /// A <see cref="NamedElement"/> is an <see cref="Element"/> in a model that may have a name. The name may be given directly and/or via the use of a <see cref="StringExpression"/>.
     /// </summary>
+    [Class(IsAbstract = true, IsActive = false)]
     public interface NamedElement : Element
     {
         /// <summary>

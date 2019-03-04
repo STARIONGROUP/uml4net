@@ -22,10 +22,12 @@
 namespace Uml.CommonStructure
 {
     using Uml.Assembler;
+    using Uml.Attributes;
 
     /// <summary>
     /// A <see cref="TemplateableElement"/> is an <see cref="Element"/> that can optionally be defined as a template and bound to other templates.
     /// </summary>
+    [Class(IsAbstract = true, IsActive = false)]
     public interface TemplateableElement : Element
     {
         /// <summary>

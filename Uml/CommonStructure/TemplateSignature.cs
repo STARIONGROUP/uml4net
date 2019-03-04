@@ -23,10 +23,12 @@ namespace Uml.CommonStructure
 {
     using System.Collections.Generic;
     using Uml.Assembler;
+    using Uml.Attributes;
 
     /// <summary>
     /// A Template Signature bundles the set of formal <see cref="TemplateParameter"/>s for a template.
     /// </summary>
+    [Class(IsAbstract = false, IsActive = false)]
     public interface TemplateSignature : Element
     {
         /// <summary>

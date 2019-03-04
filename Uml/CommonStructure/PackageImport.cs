@@ -21,11 +21,13 @@
 
 namespace Uml.CommonStructure
 {
+    using Uml.Attributes;
     using Uml.Packages;
 
     /// <summary>
     /// A <see cref="PackageImport"/> is a <see cref="Relationship"/> that imports all the non-private members of a <see cref="Package"/> into the Namespace owning the <see cref="PackageImport"/>, so that those <see cref="Element"/>s may be referred to by their unqualified names in the importingNamespace.
     /// </summary>
+    [Class(IsAbstract = false, IsActive = false)]
     public interface PackageImport : DirectedRelationship
     {
         /// <summary>
