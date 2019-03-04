@@ -37,7 +37,7 @@ namespace Uml.StructuredClassifiers
         /// <remarks>
         /// Derived property.
         /// </remarks>
-        IEnumerable<Type> EndType { get; }
+        IEnumerable<Type> EndType();
 
         /// <summary>
         /// Specifies whether the <see cref="Association"/> is derived from other model elements such as other <see cref="Association"/>s.
