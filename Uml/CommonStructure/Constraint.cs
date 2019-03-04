@@ -38,11 +38,17 @@ namespace Uml.CommonStructure
         /// <summary>
         /// Specifies the Namespace that owns the Constraint.
         /// </summary>
+        /// <remarks>
+        /// Subsets <see cref="NamedElement.Namespace"/>
+        /// </remarks>
         Namespace Context { get; set; }
 
         /// <summary>
         /// A condition that must be true when evaluated in order for the <see cref="Constraint"/> to be satisfied.
         /// </summary>
+        /// <remarks>
+        /// Subsets <see cref="Element.OwnedElement"/>
+        /// </remarks>
         OwnerList<ValueSpecification> Specification { get; set; }
     }
 }

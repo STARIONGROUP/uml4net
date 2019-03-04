@@ -32,7 +32,10 @@ namespace Uml.CommonStructure
         /// <summary>
         /// The formal parameters that are owned by this <see cref="TemplateSignature"/>.
         /// </summary>
-        OwnerList<TemplateParameter>  OwnedParameter { get; set; }
+        /// <remarks>
+        /// Subsets <see cref="Element.OwnedElement"/>
+        /// </remarks>
+        OwnerList<TemplateParameter> OwnedParameter { get; set; }
 
         /// <summary>
         /// The ordered set of all formal <see cref="TemplateParameter"/>s for this <see cref="TemplateSignature"/>.
@@ -42,6 +45,9 @@ namespace Uml.CommonStructure
         /// <summary>
         /// The <see cref="TemplateableElement"/> that owns this <see cref="TemplateSignature"/>.
         /// </summary>
+        /// <remarks>
+        /// Subsets <see cref="Element.Owner"/>
+        /// </remarks>
         TemplateableElement Template { get; set; }
     }
 }

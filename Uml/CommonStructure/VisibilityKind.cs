@@ -29,21 +29,21 @@ namespace Uml.CommonStructure
         /// <summary>
         /// A <see cref="NamedElement"/> with public visibility is visible to all elements that can access the contents of the <see cref="Namespace"/> that owns it.
         /// </summary>
-        @public,
+        Public,
 
         /// <summary>
         /// A NamedE<see cref="NamedElement"/>lement with private visibility is only visible inside the <see cref="Namespace"/> that owns it.
         /// </summary>
-        @private,
+        Private,
 
         /// <summary>
         /// A <see cref="NamedElement"/> with protected visibility is visible to <see cref="Element"/>s that have a generalization relationship to the <see cref="Namespace"/> that owns it.
         /// </summary>
-        @protected,
+        Protected,
 
         /// <summary>
         /// A <see cref="NamedElement"/> with package visibility is visible to all <see cref="Element"/>s within the nearest enclosing <see cref="Package"/> (given that other owning Elements have proper visibility). Outside the nearest enclosing Package, a <see cref="NamedElement"/> marked as having package visibility is not visible.  Only <see cref="NamedElement"/>s that are not owned by <see cref="Package"/>s can be marked as having package visibility. 
         /// </summary>
-        @package
+        Package
     }
 }

@@ -21,6 +21,7 @@
 
 namespace Implementation.CommonStructure
 {
+    using System;
     using System.Collections.Generic;
     using Uml.Assembler;
     using Uml.CommonStructure;
@@ -52,7 +53,7 @@ namespace Implementation.CommonStructure
         /// </remarks>
         public IEnumerable<Uml.CommonStructure.Element> RelatedElement()
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -74,13 +75,20 @@ namespace Implementation.CommonStructure
         /// </remarks>
         public IEnumerable<Uml.CommonStructure.Element> Target()
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         /// <summary>
         /// The formal <see cref="TemplateParameter"/> that owns this <see cref="Dependency"/>.
         /// </summary>
-        public Uml.CommonStructure.TemplateParameter OwningTemplateParameter { get; set; }
+        /// <remarks>
+        /// Subsets <see cref="Element.Owner"/>.
+        /// </remarks>
+        public Uml.CommonStructure.TemplateParameter OwningTemplateParameter
+        {
+            get => throw new NotImplementedException();
+            set => throw new NotImplementedException();
+        }
 
         /// <summary>
         /// The <see cref="TemplateParameter"/> that exposes this <see cref="Dependency"/> as a formal parameter.
@@ -95,7 +103,7 @@ namespace Implementation.CommonStructure
         /// </remarks>
         public IEnumerable<Uml.CommonStructure.Dependency> ClientDependency()
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -116,7 +124,7 @@ namespace Implementation.CommonStructure
         /// </remarks>
         public Uml.CommonStructure.Namespace Namespace()
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -127,7 +135,7 @@ namespace Implementation.CommonStructure
         /// </remarks>
         public string QualifiedName()
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -138,11 +146,25 @@ namespace Implementation.CommonStructure
         /// <summary>
         /// The <see cref="Element"/>(s) dependent on the supplier <see cref="Element"/>(s). In some cases (such as a trace Abstraction) the assignment of direction (that is, the designation of the client Element) is at the discretion of the modeler and is a stipulation.
         /// </summary>
-        public List<Uml.CommonStructure.NamedElement> Client { get; set; }
+        /// <remarks>
+        /// Subsets <see cref="DirectedRelationship.Source"/>
+        /// </remarks>
+        public List<Uml.CommonStructure.NamedElement> Client
+        {
+            get => throw new NotImplementedException(); 
+            set => throw new NotImplementedException();
+        }
 
         /// <summary>
         /// The <see cref="Element"/>(s) on which the client <see cref="Element"/>(s) depend in some respect. The modeler may stipulate a sense of Dependency direction suitable for their domain.
         /// </summary>
-        public List<Uml.CommonStructure.NamedElement> Supplier { get; set; }
+        /// /// <remarks>
+        /// Subsets <see cref="DirectedRelationship.Target"/>
+        /// </remarks>
+        public List<Uml.CommonStructure.NamedElement> Supplier
+        {
+            get => throw new NotImplementedException(); 
+            set => throw new NotImplementedException();
+        }
     }
 }

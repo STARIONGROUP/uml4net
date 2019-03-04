@@ -31,11 +31,17 @@ namespace Uml.CommonStructure
         /// <summary>
         /// The <see cref="Element"/>(s) dependent on the supplier <see cref="Element"/>(s). In some cases (such as a trace Abstraction) the assignment of direction (that is, the designation of the client Element) is at the discretion of the modeler and is a stipulation.
         /// </summary>
+        /// <remarks>
+        /// Subsets <see cref="DirectedRelationship.Source"/>
+        /// </remarks>
         List<NamedElement> Client { get; set; }
 
         /// <summary>
         /// The <see cref="Element"/>(s) on which the client <see cref="Element"/>(s) depend in some respect. The modeler may stipulate a sense of Dependency direction suitable for their domain.
         /// </summary>
+        /// <remarks>
+        /// Subsets <see cref="DirectedRelationship.Target"/>
+        /// </remarks>
         List<NamedElement> Supplier { get; set; }
     }
 }

@@ -34,11 +34,17 @@ namespace Uml.CommonStructure
         /// <summary>
         /// Specifies the <see cref="PackageableElement"/> whose name is to be added to a <see cref="Namespace"/>.
         /// </summary>
+        /// <remarks>
+        /// Subsets <see cref="DirectedRelationship.Target"/>
+        /// </remarks>
         PackageableElement ImportedElement { get; set; }
 
         /// <summary>
         /// Specifies the <see cref="Namespace"/> that imports a <see cref="PackageableElement"/> from another <see cref="Namespace"/>.
         /// </summary>
+        /// <remarks>
+        /// Subsets <see cref="DirectedRelationship.Source"/>
+        /// </remarks>
         Namespace ImportingNamespace { get; set; }
 
         /// <summary>

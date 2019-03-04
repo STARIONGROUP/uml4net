@@ -41,11 +41,17 @@ namespace Uml.CommonStructure
         /// <summary>
         /// The <see cref="ParameterableElement"/> that is owned by this <see cref="TemplateParameterSubstitution"/> as its actual parameter.
         /// </summary>
-        OwnerList<ParameterableElement>  OwnedActual { get; set; }
+        /// <remarks>
+        /// Subsets <see cref="Element.OwnedElement"/>
+        /// </remarks>
+        OwnerList<ParameterableElement> OwnedActual { get; set; }
 
         /// <summary>
         /// The <see cref="TemplateBinding"/> that owns this <see cref="TemplateParameterSubstitution"/>.
         /// </summary>
+        /// <remarks>
+        /// Subsets <see cref="Element.Owner"/>
+        /// </remarks>
         TemplateBinding TemplateBinding { get; set; }
     }
 }

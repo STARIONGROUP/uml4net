@@ -19,6 +19,8 @@
 // </copyright>
 // -------------------------------------------------------------------------------------------------
 
+using System;
+
 namespace Implementation.CommonStructure
 {
     using System.Collections.Generic;
@@ -139,16 +141,37 @@ namespace Implementation.CommonStructure
         /// <summary>
         /// The <see cref="Uml.CommonStructure.Element"/>(s) dependent on the supplier <see cref="Uml.CommonStructure.Element"/>(s). In some cases (such as a trace Abstraction) the assignment of direction (that is, the designation of the client Element) is at the discretion of the modeler and is a stipulation.
         /// </summary>
-        public List<Uml.CommonStructure.NamedElement> Client { get; set; }
+        /// <remarks>
+        /// Subsets <see cref="DirectedRelationship.Source"/>
+        /// </remarks>
+        public List<Uml.CommonStructure.NamedElement> Client
+        { 
+            get => throw new NotImplementedException();
+            set => throw new NotImplementedException();
+        }
         
         /// <summary>
         /// The <see cref="Uml.CommonStructure.Element"/>(s) on which the client <see cref="Element"/>(s) depend in some respect. The modeler may stipulate a sense of Dependency direction suitable for their domain.
         /// </summary>
-        public List<Uml.CommonStructure.NamedElement> Supplier { get; set; }
+        /// <remarks>
+        /// Subsets <see cref="DirectedRelationship.Target"/>
+        /// </remarks>
+        public List<Uml.CommonStructure.NamedElement> Supplier
+        { 
+            get => throw new NotImplementedException();
+            set => throw new NotImplementedException();
+        }
         
         /// <summary>
         /// An <see cref="OpaqueExpression"/> that states the abstraction relationship between the supplier(s) and the client(s). In some cases, such as derivation, it is usually formal and unidirectional; in other cases, such as trace, it is usually informal and bidirectional. The mapping expression is optional and may be omitted if the precise relationship between the Elements is not specified.
         /// </summary>
-        public OwnerList<OpaqueExpression> Mapping { get; set; }
+        /// <remarks>
+        /// Subsets <see cref="Element.OwnedElement"/>
+        /// </remarks>
+        public OwnerList<OpaqueExpression> Mapping 
+        { 
+            get => throw new NotImplementedException();
+            set => throw new NotImplementedException();
+        }
     }
 }

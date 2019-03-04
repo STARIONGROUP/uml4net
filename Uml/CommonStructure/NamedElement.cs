@@ -46,6 +46,9 @@ namespace Uml.CommonStructure
         /// <summary>
         /// The <see cref="StringExpression"/> used to define the name of this <see cref="NamedElement"/>.
         /// </summary>
+        /// <remarks>
+        /// Subsets <see cref="Element.OwnedElement"/>.
+        /// </remarks>
         OwnerList<StringExpression> NameExpression { get; set; }
 
         /// <summary>

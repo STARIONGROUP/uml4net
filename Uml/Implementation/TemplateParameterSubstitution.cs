@@ -19,6 +19,8 @@
 // </copyright>
 // -------------------------------------------------------------------------------------------------
 
+using System;
+
 namespace Implementation.CommonStructure
 {
     using Uml.Assembler;
@@ -53,11 +55,21 @@ namespace Implementation.CommonStructure
         /// <summary>
         /// The <see cref="ParameterableElement"/> that is owned by this <see cref="TemplateParameterSubstitution"/> as its actual parameter.
         /// </summary>
+        /// <remarks>
+        /// Subsets <see cref="Element.OwnedElement"/>
+        /// </remarks>
         public OwnerList<ParameterableElement> OwnedActual { get; set; }
 
         /// <summary>
         /// The <see cref="TemplateBinding"/> that owns this <see cref="TemplateParameterSubstitution"/>.
         /// </summary>
-        public Uml.CommonStructure.TemplateBinding TemplateBinding { get; set; }
+        /// <remarks>
+        /// Subsets <see cref="Element.Owner"/>
+        /// </remarks>
+        public Uml.CommonStructure.TemplateBinding TemplateBinding
+        {
+            get => throw new NotImplementedException();
+            set => throw new NotImplementedException();
+        }
     }
 }

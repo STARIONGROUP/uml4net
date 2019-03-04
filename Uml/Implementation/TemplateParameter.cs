@@ -21,6 +21,7 @@
 
 namespace Implementation.CommonStructure
 {
+    using System;
     using Uml.Assembler;
     using Uml.CommonStructure;
 
@@ -49,12 +50,26 @@ namespace Implementation.CommonStructure
         /// <summary>
         /// The <see cref="ParameterableElement"/> that is owned by this <see cref="TemplateParameter"/> for the purpose of providing a default.
         /// </summary>
-        public OwnerList<ParameterableElement> OwnedDefault { get; set; }
+        /// <remarks>
+        /// Subsets <see cref="Element.OwnedElement"/>
+        /// </remarks>
+        public OwnerList<ParameterableElement> OwnedDefault
+        {
+            get => throw new NotImplementedException(); 
+            set => throw new NotImplementedException();
+        }
 
         /// <summary>
         /// The <see cref="ParameterableElement"/> that is owned by this <see cref="TemplateParameter"/> for the purpose of exposing it as the parameteredElement.
         /// </summary>
-        public OwnerList<ParameterableElement> OwnedParameteredElement { get; set; }
+        /// <remarks>
+        /// Subsets <see cref="Element.OwnedElement"/>
+        /// </remarks>
+        public OwnerList<ParameterableElement> OwnedParameteredElement
+        {
+            get => throw new NotImplementedException(); 
+            set => throw new NotImplementedException();
+        }
 
         /// <summary>
         /// The <see cref="ParameterableElement"/> exposed by this <see cref="TemplateParameter"/>.
@@ -64,6 +79,13 @@ namespace Implementation.CommonStructure
         /// <summary>
         /// The <see cref="TemplateSignature"/> that owns this <see cref="TemplateParameter"/>.
         /// </summary>
-        public Uml.CommonStructure.TemplateSignature Signature { get; set; }
+        /// <remarks>
+        /// Subsets <see cref="Element.Owner"/>
+        /// </remarks>
+        public Uml.CommonStructure.TemplateSignature Signature
+        {
+            get => throw new NotImplementedException(); 
+            set => throw new NotImplementedException();
+        }
     }
 }

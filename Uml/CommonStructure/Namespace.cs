@@ -32,6 +32,9 @@ namespace Uml.CommonStructure
         /// <summary>
         /// References the ElementImports owned by the Namespace.
         /// </summary>
+        /// <remarks>
+        /// Subsets <see cref="Element.OwnedElement"/>
+        /// </remarks>
         OwnerList<ElementImport> ElementImport { get; set; }
 
         /// <summary>
@@ -61,11 +64,17 @@ namespace Uml.CommonStructure
         /// <summary>
         /// Specifies a set of <see cref="Constraint"/>s owned by this <see cref="Namespace"/>.
         /// </summary>
+        /// <remarks>
+        /// Subsets <see cref="Namespace.OwnedMember"/>
+        /// </remarks>
         OwnerList<Constraint> OwnedRule { get; set; }
 
         /// <summary>
         /// References the <see cref="PackageImport"/>s owned by the <see cref="Namespace"/>.
         /// </summary>
+        /// <remarks>
+        /// Subsets <see cref="Element.OwnedElement"/>
+        /// </remarks>
         OwnerList<PackageImport> PackageImport { get; set; }
     }
 }

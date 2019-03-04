@@ -36,11 +36,17 @@ namespace Uml.CommonStructure
         /// <summary>
         /// The <see cref="ParameterableElement"/> that is owned by this <see cref="TemplateParameter"/> for the purpose of providing a default.
         /// </summary>
+        /// <remarks>
+        /// Subsets <see cref="Element.OwnedElement"/>
+        /// </remarks>
         OwnerList<ParameterableElement> OwnedDefault { get; set; }
 
         /// <summary>
         /// The <see cref="ParameterableElement"/> that is owned by this <see cref="TemplateParameter"/> for the purpose of exposing it as the parameteredElement.
         /// </summary>
+        /// <remarks>
+        /// Subsets <see cref="Element.OwnedElement"/>
+        /// </remarks>
         OwnerList<ParameterableElement> OwnedParameteredElement { get; set; }
 
         /// <summary>
@@ -51,6 +57,9 @@ namespace Uml.CommonStructure
         /// <summary>
         /// The <see cref="TemplateSignature"/> that owns this <see cref="TemplateParameter"/>.
         /// </summary>
+        /// <remarks>
+        /// Subsets <see cref="Element.Owner"/>
+        /// </remarks>
         TemplateSignature Signature { get; set; }
     }
 }

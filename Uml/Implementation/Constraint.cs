@@ -19,6 +19,8 @@
 // </copyright>
 // -------------------------------------------------------------------------------------------------
 
+using System;
+
 namespace Implementation.CommonStructure
 {
     using System.Collections.Generic;
@@ -110,11 +112,25 @@ namespace Implementation.CommonStructure
         /// <summary>
         /// Specifies the Namespace that owns the Constraint.
         /// </summary>
-        public Uml.CommonStructure.Namespace Context { get; set; }
+        /// <remarks>
+        /// Subsets <see cref="NamedElement.Namespace"/>
+        /// </remarks>
+        public Uml.CommonStructure.Namespace Context
+        {
+            get => throw new NotImplementedException();
+            set => throw new NotImplementedException();
+        }
         
         /// <summary>
         /// A condition that must be true when evaluated in order for the <see cref="Constraint"/> to be satisfied.
         /// </summary>
-        public OwnerList<ValueSpecification> Specification { get; set; }
+        /// <remarks>
+        /// Subsets <see cref="Element.OwnedElement"/>
+        /// </remarks>
+        public OwnerList<ValueSpecification> Specification
+        {
+            get => throw new NotImplementedException();
+            set => throw new NotImplementedException();
+        }
     }
 }

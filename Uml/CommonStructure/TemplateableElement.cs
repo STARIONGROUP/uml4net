@@ -31,11 +31,17 @@ namespace Uml.CommonStructure
         /// <summary>
         /// The optional <see cref="TemplateSignature"/> specifying the formal <see cref="TemplateParameter"/>s for this <see cref="TemplateableElement"/>. If a <see cref="TemplateableElement"/> has a <see cref="TemplateSignature"/>, then it is a template.
         /// </summary>
+        /// <remarks>
+        /// Subsets <see cref="Element.OwnedElement"/>
+        /// </remarks>
         OwnerList<TemplateSignature> OwnedTemplateSignature { get; set; }
 
         /// <summary>
         /// The optional <see cref="TemplateBinding"/>s from this <see cref="TemplateableElement"/> to one or more templates.
         /// </summary>
+        /// <remarks>
+        /// Subsets <see cref="Element.OwnedElement"/>
+        /// </remarks>
         OwnerList<TemplateBinding> TemplateBinding { get; set; }
     }
 }

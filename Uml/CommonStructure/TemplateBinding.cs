@@ -31,16 +31,25 @@ namespace Uml.CommonStructure
         /// <summary>
         /// The <see cref="TemplateableElement"/> that is bound by this <see cref="TemplateBinding"/>.
         /// </summary>
+        /// <remarks>
+        /// Subsets <see cref="DirectedRelationship.Source"/>
+        /// </remarks>
         TemplateableElement BoundElement { get; set; }
 
         /// <summary>
         /// The <see cref="TemplateParameterSubstitution"/>s owned by this <see cref="TemplateBinding"/>.
         /// </summary>
+        /// <remarks>
+        /// Subsets <see cref="Element.OwnedElement"/>
+        /// </remarks>
         OwnerList<TemplateParameterSubstitution>  ParameterSubstitution { get; set; }
 
         /// <summary>
         /// The <see cref="TemplateSignature"/> for the template that is the target of this <see cref="TemplateBinding"/>.
         /// </summary>
+        /// <remarks>
+        /// Subsets <see cref="DirectedRelationship.Target"/>
+        /// </remarks>
         TemplateSignature Signature { get; set; }
     }
 }

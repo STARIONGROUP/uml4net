@@ -21,6 +21,7 @@
 
 namespace Implementation.CommonStructure
 {
+    using System;
     using System.Collections.Generic;
     using Uml.Assembler;
     using Uml.CommonStructure;
@@ -45,7 +46,14 @@ namespace Implementation.CommonStructure
         /// <summary>
         /// The formal parameters that are owned by this <see cref="TemplateSignature"/>.
         /// </summary>
-        public OwnerList<Uml.CommonStructure.TemplateParameter> OwnedParameter { get; set; }
+        /// <remarks>
+        /// Subsets <see cref="Element.OwnedElement"/>
+        /// </remarks>
+        public OwnerList<Uml.CommonStructure.TemplateParameter> OwnedParameter
+        {
+            get => throw new NotImplementedException();
+            set => throw new NotImplementedException();
+        }
 
         /// <summary>
         /// The ordered set of all formal <see cref="TemplateParameter"/>s for this <see cref="TemplateSignature"/>.
@@ -55,6 +63,9 @@ namespace Implementation.CommonStructure
         /// <summary>
         /// The <see cref="TemplateableElement"/> that owns this <see cref="TemplateSignature"/>.
         /// </summary>
+        /// <remarks>
+        /// Subsets <see cref="Element.Owner"/>
+        /// </remarks>
         public TemplateableElement Template { get; set; }
     }
 }

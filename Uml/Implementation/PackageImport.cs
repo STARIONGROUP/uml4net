@@ -21,6 +21,7 @@
 
 namespace Implementation.CommonStructure
 {
+    using System;
     using System.Collections.Generic;
     using Uml.CommonStructure;
     using Uml.Packages;    
@@ -48,7 +49,7 @@ namespace Implementation.CommonStructure
         /// </remarks>
         public IEnumerable<Uml.CommonStructure.Element> RelatedElement()
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -59,7 +60,7 @@ namespace Implementation.CommonStructure
         /// </remarks>
         public IEnumerable<Uml.CommonStructure.Element> Source()
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -70,18 +71,32 @@ namespace Implementation.CommonStructure
         /// </remarks>
         public IEnumerable<Uml.CommonStructure.Element> Target()
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         /// <summary>
         /// Specifies the <see cref="Package"/> whose members are imported into a <see cref="Namespace"/>.
         /// </summary>
-        public Package ImportedPackage { get; set; }
+        /// <remarks>
+        /// Subsets <see cref="DirectedRelationship.Target"/>
+        /// </remarks>
+        public Package ImportedPackage
+        { 
+            get => throw new NotImplementedException();
+            set => throw new NotImplementedException();
+        }
 
         /// <summary>
         /// Specifies the <see cref="Namespace"/> that imports the members from a <see cref="Package"/>.
         /// </summary>
-        public Namespace ImportingNamespace { get; set; }
+        /// <remarks>
+        /// Subsets <see cref="DirectedRelationship.Source"/>
+        /// </remarks>
+        public Namespace ImportingNamespace
+        { 
+            get => throw new NotImplementedException();
+            set => throw new NotImplementedException();
+        }
 
         /// <summary>
         /// Specifies the visibility of the imported <see cref="PackageableElement"/>s within the importingNamespace, i.e., whether imported <see cref="Element"/>s will in turn be visible to other <see cref="Namespace"/>s. If the <see cref="PackageImport"/> is public, the imported Elements will be visible outside the importingNamespace, while, if the <see cref="PackageImport"/> is private, they will not.

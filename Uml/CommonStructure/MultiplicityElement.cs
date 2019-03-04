@@ -19,6 +19,8 @@
 // </copyright>
 // -------------------------------------------------------------------------------------------------
 
+using Uml.Assembler;
+
 namespace Uml.CommonStructure
 {
     using Uml.Values;
@@ -37,19 +39,22 @@ namespace Uml.CommonStructure
         /// For a multivalued multiplicity, this attributes specifies whether the values in an instantiation of this <see cref="MultiplicityElement"/> are unique.
         /// </summary>
         bool IsUnique { get; set; }
-        
+
         /// <summary>
         /// The lower bound of the multiplicity interval.
         /// </summary>
         /// <remarks>
         /// Derived property.
         /// </remarks>
-        int Lower { get; }
+        int Lower();
 
         /// <summary>
         /// The specification of the lower bound for this multiplicity.
         /// </summary>
-        ValueSpecification LowerValue { get; set; }
+        /// <remarks>
+        /// Subsets <see cref="Element.OwnedElement"/>
+        /// </remarks>
+        OwnerList<ValueSpecification> LowerValue { get; set; }
 
         /// <summary>
         /// The upper bound of the multiplicity interval.
@@ -57,11 +62,14 @@ namespace Uml.CommonStructure
         /// <remarks>
         /// Derived property.
         /// </remarks>
-        string Upper { get; }
+        string Upper();
         
         /// <summary>
         /// The specification of the upper bound for this multiplicity.
         /// </summary>
-        ValueSpecification UperValue { get; set; }
+        /// <remarks>
+        /// Subsets <see cref="Element.OwnedElement"/>
+        /// </remarks>
+        OwnerList<ValueSpecification> UperValue { get; set; }
     }
 }

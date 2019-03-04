@@ -29,6 +29,9 @@ namespace Uml.CommonStructure
         /// <summary>
         /// The formal <see cref="TemplateParameter"/> that owns this <see cref="ParameterableElement"/>.
         /// </summary>
+        /// <remarks>
+        /// Subsets <see cref="Element.Owner"/>.
+        /// </remarks>
         TemplateParameter OwningTemplateParameter { get; set; }
 
         /// <summary>

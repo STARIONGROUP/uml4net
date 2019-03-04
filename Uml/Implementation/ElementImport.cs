@@ -21,6 +21,7 @@
 
 namespace Implementation.CommonStructure
 {
+    using System;
     using System.Collections.Generic;
     using Uml.CommonStructure;
 
@@ -69,7 +70,7 @@ namespace Implementation.CommonStructure
         /// </remarks>
         public IEnumerable<Uml.CommonStructure.Element> Target()
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -80,12 +81,26 @@ namespace Implementation.CommonStructure
         /// <summary>
         /// Specifies the <see cref="PackageableElement"/> whose name is to be added to a <see cref="Namespace"/>.
         /// </summary>
-        public Uml.CommonStructure.PackageableElement ImportedElement { get; set; }
+        /// <remarks>
+        /// Subsets <see cref="DirectedRelationship.Target"/>
+        /// </remarks>
+        public Uml.CommonStructure.PackageableElement ImportedElement 
+        { 
+            get => throw new NotImplementedException();
+            set => throw new NotImplementedException();
+        }
         
         /// <summary>
         /// Specifies the <see cref="Namespace"/> that imports a <see cref="PackageableElement"/> from another <see cref="Namespace"/>.
         /// </summary>
-        public Uml.CommonStructure.Namespace ImportingNamespace { get; set; }
+        /// <remarks>
+        /// Subsets <see cref="DirectedRelationship.Source"/>
+        /// </remarks>
+        public Uml.CommonStructure.Namespace ImportingNamespace
+        { 
+            get => throw new NotImplementedException();
+            set => throw new NotImplementedException();
+        }
 
         /// <summary>
         /// Specifies the visibility of the imported <see cref="PackageableElement"/> within the importingNamespace, i.e., whether the  importedElement will in turn be visible to other <see cref="Namespaces"/>. If the <see cref="ElementImport"/> is public, the importedElement will be visible outside the importingNamespace while, if the <see cref="ElementImport"/> is private, it will not.

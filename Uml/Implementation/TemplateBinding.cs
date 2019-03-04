@@ -21,8 +21,9 @@
 
 namespace Implementation.CommonStructure
 {
-    using Uml.Assembler;
+    using System;
     using System.Collections.Generic;
+    using Uml.Assembler;    
     using Uml.CommonStructure;
 
     /// <summary>
@@ -49,7 +50,7 @@ namespace Implementation.CommonStructure
         /// </remarks>
         public IEnumerable<Uml.CommonStructure.Element> RelatedElement()
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -60,7 +61,7 @@ namespace Implementation.CommonStructure
         /// </remarks>
         public IEnumerable<Uml.CommonStructure.Element> Source()
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -71,22 +72,43 @@ namespace Implementation.CommonStructure
         /// </remarks>
         public IEnumerable<Uml.CommonStructure.Element> Target()
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         /// <summary>
         /// The <see cref="TemplateableElement"/> that is bound by this <see cref="TemplateBinding"/>.
         /// </summary>
-        public TemplateableElement BoundElement { get; set; }
+        /// <remarks>
+        /// Subsets <see cref="DirectedRelationship.Source"/>
+        /// </remarks>
+        public TemplateableElement BoundElement
+        {
+            get => throw new NotImplementedException(); 
+            set => throw new NotImplementedException();
+        }
 
         /// <summary>
         /// The <see cref="TemplateableElement"/> that is bound by this <see cref="TemplateBinding"/>.
         /// </summary>
-        public OwnerList<Uml.CommonStructure.TemplateParameterSubstitution> ParameterSubstitution { get; set; }
+        /// <remarks>
+        /// Subsets <see cref="Element.OwnedElement"/>
+        /// </remarks>
+        public OwnerList<Uml.CommonStructure.TemplateParameterSubstitution> ParameterSubstitution
+        {
+            get => throw new NotImplementedException(); 
+            set => throw new NotImplementedException();
+        }
 
         /// <summary>
         /// The <see cref="TemplateSignature"/> for the template that is the target of this <see cref="TemplateBinding"/>.
         /// </summary>
-        public Uml.CommonStructure.TemplateSignature Signature { get; set; }
+        /// <remarks>
+        /// Subsets <see cref="DirectedRelationship.Target"/>
+        /// </remarks>
+        public Uml.CommonStructure.TemplateSignature Signature
+        {
+            get => throw new NotImplementedException(); 
+            set => throw new NotImplementedException();
+        }
     }
 }

@@ -31,11 +31,17 @@ namespace Uml.CommonStructure
         /// <summary>
         /// Specifies the <see cref="Package"/> whose members are imported into a <see cref="Namespace"/>.
         /// </summary>
+        /// <remarks>
+        /// Subsets <see cref="DirectedRelationship.Target"/>
+        /// </remarks>
         Package ImportedPackage { get; set; }
 
         /// <summary>
         /// Specifies the <see cref="Namespace"/> that imports the members from a <see cref="Package"/>.
         /// </summary>
+        /// <remarks>
+        /// Subsets <see cref="DirectedRelationship.Source"/>
+        /// </remarks>
         Namespace ImportingNamespace { get; set; }
 
         /// <summary>
