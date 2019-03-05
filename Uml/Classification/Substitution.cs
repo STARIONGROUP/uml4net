@@ -21,21 +21,27 @@
 
 namespace Uml.Classification
 {
+    using Uml.Attributes;
     using Uml.CommonStructure;
-
+    
     /// <summary>
     /// A substitution is a relationship between two classifiers signifying that the substituting classifier complies with the contract specified by the contract classifier. This implies that instances of the substituting classifier are runtime substitutable where instances of the contract classifier are expected.
     /// </summary>
+    [Class(IsAbstract = false, IsActive = false, Specializations = "")]
     public interface Substitution : Realization
     {
         /// <summary>
         /// The contract with which the substituting classifier complies.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 1, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "Dependency.Supplier", RedefinedProperty = "")]
         Classifier Contract { get; set; }
 
         /// <summary>
         /// Instances of the substituting classifier are runtime substitutable where instances of the contract classifier are expected.
         /// </summary>
-        Classifier SubstitutingClassifier { get; set; }        
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 1, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "Dependency.Client|Element.Owner", RedefinedProperty = "")]
+        Classifier SubstitutingClassifier { get; set; }
     }
 }
