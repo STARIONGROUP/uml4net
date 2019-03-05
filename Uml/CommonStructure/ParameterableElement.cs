@@ -22,24 +22,26 @@
 namespace Uml.CommonStructure
 {
     using Uml.Attributes;
+    using Uml.Classification;
 
     /// <summary>
     /// A <see cref="ParameterableElement"/> is an <see cref="Element"/> that can be exposed as a formal <see cref="TemplateParameter"/> for a template, or specified as an actual parameter in a binding of a template.
     /// </summary>
-    [Class(IsAbstract = true, IsActive = false)]
+    [Class(IsAbstract = true, IsActive = false, Specializations = "PackageableElement|ConnectableElement|Operation")]
     public interface ParameterableElement : Element
     {
         /// <summary>
         /// The formal <see cref="TemplateParameter"/> that owns this <see cref="ParameterableElement"/>.
         /// </summary>
-        /// <remarks>
-        /// Subsets <see cref="Element.Owner"/>.
-        /// </remarks>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 0, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "ParameterableElement.TemplateParameter|Element.Owner,", RedefinedProperty = "")]
         TemplateParameter OwningTemplateParameter { get; set; }
 
         /// <summary>
         /// The <see cref="TemplateParameter"/> that exposes this <see cref="ParameterableElement"/> as a formal parameter.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 0, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "", RedefinedProperty = "")]
         TemplateParameter TemplateParameter { get; set; }
     }
 }

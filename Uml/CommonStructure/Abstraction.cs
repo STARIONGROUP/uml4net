@@ -23,20 +23,20 @@ namespace Uml.CommonStructure
 {
     using Uml.Assembler;
     using Uml.Attributes;
+    using Uml.Classification;
     using Uml.Values;
 
     /// <summary>
     /// An <see cref="Abstraction"/> is a <see cref="Relationship"/> that relates two <see cref="Element"/>s or sets of <see cref="Element"/>s that represent the same concept at different levels of abstraction or from different viewpoints.
     /// </summary>
-    [Class(IsAbstract = false, IsActive = false)]
+    [Class(IsAbstract = false, IsActive = false, Specializations = "Realization|Manifestation")]
     public interface Abstraction : Dependency
     {
         /// <summary>
         /// An <see cref="OpaqueExpression"/> that states the abstraction relationship between the supplier(s) and the client(s). In some cases, such as derivation, it is usually formal and unidirectional; in other cases, such as trace, it is usually informal and bidirectional. The mapping expression is optional and may be omitted if the precise relationship between the Elements is not specified.
         /// </summary>
-        /// <remarks>
-        /// Subsets <see cref="Element.OwnedElement"/>
-        /// </remarks>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 0, Upper = "*")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.Composite, SubsettedProperty = "Element.OwnedElement", RedefinedProperty = "")]
         OwnerList<OpaqueExpression> Mapping { get; set; }
     }
 }

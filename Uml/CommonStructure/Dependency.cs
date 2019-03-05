@@ -23,11 +23,12 @@ namespace Uml.CommonStructure
 {
     using System.Collections.Generic;
     using Uml.Attributes;
+    using Uml.Classification;
 
     /// <summary>
     /// A <see cref="Dependency"/> is a <see cref="Relationship"/> that signifies that a single model <see cref="Element"/> or a set of model <see cref="Element"/>s requires other model <see cref="Element"/>s for their specification or implementation. This means that the complete semantics of the client <see cref="Element"/>(s) are either semantically or structurally dependent on the definition of the supplier <see cref="Element"/>(s).
     /// </summary>
-    [Class(IsAbstract = false, IsActive = false)]
+    [Class(IsAbstract = false, IsActive = false, Specializations = "Abstraction|Usage|Deployment")]
     public interface Dependency : DirectedRelationship, PackageableElement
     {
         /// <summary>
@@ -36,6 +37,8 @@ namespace Uml.CommonStructure
         /// <remarks>
         /// Subsets <see cref="DirectedRelationship.Source"/>
         /// </remarks>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 1, Upper = "*")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "DirectedRelationship.Source", RedefinedProperty = "")]
         List<NamedElement> Client { get; set; }
 
         /// <summary>
@@ -44,6 +47,8 @@ namespace Uml.CommonStructure
         /// <remarks>
         /// Subsets <see cref="DirectedRelationship.Target"/>
         /// </remarks>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 1, Upper = "*")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "DirectedRelationship.Target", RedefinedProperty = "")]
         List<NamedElement> Supplier { get; set; }
     }
 }

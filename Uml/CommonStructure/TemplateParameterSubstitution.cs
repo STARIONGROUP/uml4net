@@ -23,37 +23,40 @@ namespace Uml.CommonStructure
 {
     using Uml.Assembler;
     using Uml.Attributes;
+    using Uml.Classification;
 
     /// <summary>
     /// A <see cref="TemplateParameterSubstitution"/> relates the actual parameter to a formal <see cref="TemplateParameter"/> as part of a template binding.
     /// </summary>
-    [Class(IsAbstract = false, IsActive = false)]
+    [Class(IsAbstract = false, IsActive = false, Specializations = "")]
     public interface TemplateParameterSubstitution : Element
     {
         /// <summary>
         /// The <see cref="ParameterableElement"/> that is the actual parameter for this <see cref="TemplateParameterSubstitution"/>.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 1, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "", RedefinedProperty = "")]
         ParameterableElement Actual { get; set; }
 
         /// <summary>
         /// The formal <see cref="TemplateParameter"/> that is associated with this <see cref="TemplateParameterSubstitution"/>.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 1, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "", RedefinedProperty = "")]
         TemplateParameter Formal { get; set; }
 
         /// <summary>
         /// The <see cref="ParameterableElement"/> that is owned by this <see cref="TemplateParameterSubstitution"/> as its actual parameter.
         /// </summary>
-        /// <remarks>
-        /// Subsets <see cref="Element.OwnedElement"/>
-        /// </remarks>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 0, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.Composite, SubsettedProperty = "Element.OwnedElement|TemplateParameterSubstitution.Actual}", RedefinedProperty = "")]
         OwnerList<ParameterableElement> OwnedActual { get; set; }
 
         /// <summary>
         /// The <see cref="TemplateBinding"/> that owns this <see cref="TemplateParameterSubstitution"/>.
         /// </summary>
-        /// <remarks>
-        /// Subsets <see cref="Element.Owner"/>
-        /// </remarks>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 1, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "Element.Owner", RedefinedProperty = "")]
         TemplateBinding TemplateBinding { get; set; }
     }
 }

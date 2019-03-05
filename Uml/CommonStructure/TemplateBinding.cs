@@ -23,35 +23,33 @@ namespace Uml.CommonStructure
 {
     using Uml.Assembler;
     using Uml.Attributes;
+    using Uml.Classification;
 
     /// <summary>
     /// A <see cref="TemplateBinding"/> is a <see cref="DirectedRelationship"/> between a <see cref="TemplateableElement"/> and a template. A <see cref="TemplateBinding"/> specifies the <see cref="TemplateParameterSubstitution"/>s of actual parameters for the formal parameters of the template.
     /// </summary>
-    [Class(IsAbstract = false, IsActive = false)]
+    [Class(IsAbstract = false, IsActive = false, Specializations = "")]
     public interface TemplateBinding : DirectedRelationship
     {
         /// <summary>
         /// The <see cref="TemplateableElement"/> that is bound by this <see cref="TemplateBinding"/>.
         /// </summary>
-        /// <remarks>
-        /// Subsets <see cref="DirectedRelationship.Source"/>
-        /// </remarks>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 1, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "DirectedRelationship.Source|Element.Owner", RedefinedProperty = "")]
         TemplateableElement BoundElement { get; set; }
 
         /// <summary>
         /// The <see cref="TemplateParameterSubstitution"/>s owned by this <see cref="TemplateBinding"/>.
         /// </summary>
-        /// <remarks>
-        /// Subsets <see cref="Element.OwnedElement"/>
-        /// </remarks>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 1, Upper = "*")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.Composite, SubsettedProperty = "Element.OwnedElement", RedefinedProperty = "")]
         OwnerList<TemplateParameterSubstitution>  ParameterSubstitution { get; set; }
 
         /// <summary>
         /// The <see cref="TemplateSignature"/> for the template that is the target of this <see cref="TemplateBinding"/>.
         /// </summary>
-        /// <remarks>
-        /// Subsets <see cref="DirectedRelationship.Target"/>
-        /// </remarks>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 1, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "DirectedRelationship.Target", RedefinedProperty = "")]
         TemplateSignature Signature { get; set; }
     }
 }

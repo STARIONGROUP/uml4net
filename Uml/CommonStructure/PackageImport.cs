@@ -22,20 +22,20 @@
 namespace Uml.CommonStructure
 {
     using Uml.Attributes;
+    using Uml.Classification;
     using Uml.Packages;
 
     /// <summary>
     /// A <see cref="PackageImport"/> is a <see cref="Relationship"/> that imports all the non-private members of a <see cref="Package"/> into the Namespace owning the <see cref="PackageImport"/>, so that those <see cref="Element"/>s may be referred to by their unqualified names in the importingNamespace.
     /// </summary>
-    [Class(IsAbstract = false, IsActive = false)]
+    [Class(IsAbstract = false, IsActive = false, Specializations = "")]
     public interface PackageImport : DirectedRelationship
     {
         /// <summary>
         /// Specifies the <see cref="Package"/> whose members are imported into a <see cref="Namespace"/>.
         /// </summary>
-        /// <remarks>
-        /// Subsets <see cref="DirectedRelationship.Target"/>
-        /// </remarks>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 1, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "DirectedRelationship.Target", RedefinedProperty = "")]
         Package ImportedPackage { get; set; }
 
         /// <summary>
@@ -44,11 +44,15 @@ namespace Uml.CommonStructure
         /// <remarks>
         /// Subsets <see cref="DirectedRelationship.Source"/>
         /// </remarks>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 1, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "DirectedRelationship.Source|Element.Owner", RedefinedProperty = "")]
         Namespace ImportingNamespace { get; set; }
 
         /// <summary>
         /// Specifies the visibility of the imported <see cref="PackageableElement"/>s within the importingNamespace, i.e., whether imported <see cref="Element"/>s will in turn be visible to other <see cref="Namespace"/>s. If the <see cref="PackageImport"/> is public, the imported Elements will be visible outside the importingNamespace, while, if the <see cref="PackageImport"/> is private, they will not.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 1, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "", RedefinedProperty = "")]
         VisibilityKind Visibility { get; set; }
     }
 }

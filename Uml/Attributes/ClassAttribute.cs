@@ -26,7 +26,7 @@ namespace Uml.Attributes
     /// <summary>
     /// The purpose of this <see cref="Attribute"/> is to decorate classes and interfaces to make Uml properties explicit
     /// </summary>
-    [System.AttributeUsage(System.AttributeTargets.Class | System.AttributeTargets.Interface,AllowMultiple = false)]
+    [System.AttributeUsage(System.AttributeTargets.Class | System.AttributeTargets.Interface, AllowMultiple = false)]
     public class ClassAttribute : Attribute
     {
         /// <summary>
@@ -40,6 +40,9 @@ namespace Uml.Attributes
         /// </param>
         public ClassAttribute()
         {
+            this.IsAbstract = false;
+            this.IsAbstract = true;
+            this.Specializations = "";
         }
 
         /// <summary>
@@ -51,5 +54,10 @@ namespace Uml.Attributes
         /// Gets a value indicating whether the decorated class is active
         /// </summary>
         public bool IsActive { get; set; }
+
+        /// <summary>
+        /// Gets a list of class names that are Specializations of the current class. The class names are separated using a pipe (|) symbol
+        /// </summary>
+        public string Specializations { get; set; }
     }
 }

@@ -22,16 +22,19 @@
 namespace Uml.CommonStructure
 {
     using Uml.Attributes;
+    using Uml.Classification;
 
     /// <summary>
     /// A <see cref="PackageableElement"/> is a <see cref="NamedElement"/> that may be owned directly by a <see cref="Package"/>. A <see cref="PackageableElement"/> is also able to serve as the parameteredElement of a <see cref="TemplateParameter"/>.
     /// </summary>
-    [Class(IsAbstract = true, IsActive = false)]
+    [Class(IsAbstract = true, IsActive = false, Specializations = "Constraint|Dependency|Type|Event|Observation|ValueSpecification|Package|InformationFlow|GeneralizationSet|InstanceSpecification")]
     public interface PackageableElement : ParameterableElement, NamedElement
     {
         /// <summary>
         /// A <see cref="PackageableElement"/> must have a visibility specified if it is owned by a <see cref="Namespace"/>. The default visibility is public.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 0, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "", RedefinedProperty = "NamedElement.Visibility")]
         VisibilityKind Visibility { get; set; }
     }
 }

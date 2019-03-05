@@ -24,19 +24,19 @@ namespace Uml.CommonStructure
     using System.Collections.Generic;
     using Uml.Assembler;
     using Uml.Attributes;
+    using Uml.Classification;
 
     /// <summary>
     /// A <see cref="Namespace"/> is an <see cref="Element"/> in a model that owns and/or imports a set of <see cref="NamedElement"/>s that can be identified by name.
     /// </summary>
-    [Class(IsAbstract = true, IsActive = false)]
+    [Class(IsAbstract = true, IsActive = false, Specializations = "Region|State|Transition|Package|InteractionOperand|BehavioralFeature|Classifier|StructuredActivityNode")]
     public interface Namespace : NamedElement
     {
         /// <summary>
-        /// References the ElementImports owned by the Namespace.
+        /// References the <see cref="ElementImport"/>s owned by the <see cref="Namespace"/>.
         /// </summary>
-        /// <remarks>
-        /// Subsets <see cref="Element.OwnedElement"/>
-        /// </remarks>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 0, Upper = "*")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.Composite, SubsettedProperty = "Element.OwnedElement", RedefinedProperty = "")]
         OwnerList<ElementImport> ElementImport { get; set; }
 
         /// <summary>
@@ -45,38 +45,36 @@ namespace Uml.CommonStructure
         /// <remarks>
         /// Derived Property.
         /// </remarks>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 0, Upper = "*")]
+        [Property(IsDerived = true, IsDerivedUnion = false, IsReadOnly = true, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "Namespace.Member", RedefinedProperty = "")]
         IEnumerable<PackageableElement> ImportedMember();
 
         /// <summary>
         /// A collection of <see cref="NamedElement"/>s identifiable within the <see cref="Namespace"/>, either by being owned or by being introduced by importing or inheritance.
         /// </summary>
-        /// <remarks>
-        /// Derived Property.
-        /// </remarks>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 0, Upper = "*")]
+        [Property(IsDerived = true, IsDerivedUnion = true, IsReadOnly = true, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "", RedefinedProperty = "")]
         IEnumerable<NamedElement> Member();
 
         /// <summary>
         /// A collection of <see cref="NamedElement"/>s owned by the <see cref="Namespace"/>.
         /// </summary>
-        /// <remarks>
-        /// Derived Property.
-        /// </remarks>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 0, Upper = "*")]
+        [Property(IsDerived = true, IsDerivedUnion = true, IsReadOnly = true, IsStatic = false, Aggregation = AggregationKind.Composite, SubsettedProperty = "Namespace.Member|Element.OwnedElement", RedefinedProperty = "")]
         IEnumerable<NamedElement> OwnedMember();
 
         /// <summary>
         /// Specifies a set of <see cref="Constraint"/>s owned by this <see cref="Namespace"/>.
         /// </summary>
-        /// <remarks>
-        /// Subsets <see cref="Namespace.OwnedMember"/>
-        /// </remarks>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 0, Upper = "*")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.Composite, SubsettedProperty = "Namespace.OwnedMember", RedefinedProperty = "")]
         OwnerList<Constraint> OwnedRule { get; set; }
 
         /// <summary>
         /// References the <see cref="PackageImport"/>s owned by the <see cref="Namespace"/>.
-        /// </summary>
-        /// <remarks>
-        /// Subsets <see cref="Element.OwnedElement"/>
-        /// </remarks>
+        /// </summary>        
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 0, Upper = "*")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.Composite, SubsettedProperty = "Element.OwnedElement", RedefinedProperty = "")]
         OwnerList<PackageImport> PackageImport { get; set; }
     }
 }

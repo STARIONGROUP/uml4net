@@ -24,11 +24,12 @@ namespace Uml.CommonStructure
     using System.Collections.Generic;
     using Uml.Assembler;
     using Uml.Attributes;
+    using Uml.Classification;
 
     /// <summary>
     /// An <see cref="Element"/> is a constituent of a model. As such, it has the capability of owning other <see cref="Element"/>s.
     /// </summary>
-    [Class(IsAbstract = true, IsActive = false)]
+    [Class(IsAbstract = true, IsActive = false, Specializations = "Comment, MultiplicityElement|NamedElement|ParameterableElement|Relationship|TemplateableElement|TemplateParameter|TemplateParameterSubstitution|TemplateSignature|ExceptionHandler|Image|Slot|Clause|LinkEndData|QualifierValue")]
     public interface Element
     {
         /// <summary>
@@ -42,22 +43,22 @@ namespace Uml.CommonStructure
         /// <summary>
         /// The Comments owned by this <see cref="Element"/>.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 0, Upper = "*")]
+        [Property(IsDerived = true, IsDerivedUnion = true, IsReadOnly = true, IsStatic = false, Aggregation = AggregationKind.Composite, SubsettedProperty = "Element.OwnedElement", RedefinedProperty = "")]
         OwnerList<Comment> OwnedComment { get; set; }
 
         /// <summary>
         /// The <see cref="Element"/>s owned by this Element.
         /// </summary>
-        /// <remarks>
-        /// Derived property
-        /// </remarks>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 0, Upper = "*")]
+        [Property(IsDerived = true, IsDerivedUnion = true, IsReadOnly = true, IsStatic = false, Aggregation = AggregationKind.Composite, SubsettedProperty = "", RedefinedProperty = "")]
         IEnumerable<Element> OwnedElement();
 
         /// <summary>
         /// Gets the <see cref="Element"/> that owns this <see cref="Element"/>.
         /// </summary>
-        /// <remarks>
-        /// Derived property
-        /// </remarks>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 0, Upper = "1")]
+        [Property(IsDerived = true, IsDerivedUnion = true, IsReadOnly = true, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "", RedefinedProperty = "")]
         Uml.CommonStructure.Element Owner { get;  }
     }
 }

@@ -22,11 +22,12 @@
 namespace Uml.CommonStructure
 {
     using Uml.Attributes;
+    using Uml.Classification;
 
     /// <summary>
     /// A <see cref="Usage"/> is a <see cref="Dependency"/> in which the client <see cref="Element"/> requires the supplier <see cref="Element"/> (or set of <see cref="Element"/>s) for its full implementation or operation.
     /// </summary>
-    [Class(IsAbstract = false, IsActive = false)]
+    [Class(IsAbstract = false, IsActive = false, Specializations = "")]
     public interface Usage : Dependency
     {
     }

@@ -23,27 +23,26 @@ namespace Uml.CommonStructure
 {
     using System.Collections.Generic;
     using Uml.Attributes;
+    using Uml.Classification;
 
     /// <summary>
     /// A <see cref="DirectedRelationship"/> represents a relationship between a collection of source model Elements and a collection of target model <see cref="Element"/>s.
     /// </summary>
-    [Class(IsAbstract = true, IsActive = false)]
+    [Class(IsAbstract = true, IsActive = false, Specializations = "Dependency|ElementImport|PackageImport|TemplateBinding|Extend|Include|ProtocolConformance|PackageMerge|ProfileApplication|InformationFlow|Generalization")]
     public interface DirectedRelationship : Relationship
     {
         /// <summary>
         /// Specifies the source Element(s) of the <see cref="DirectedRelationship"/>.
         /// </summary>
-        /// <remarks>
-        /// Derived property.
-        /// </remarks>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 1, Upper = "*")]
+        [Property(IsDerived = true, IsDerivedUnion = true, IsReadOnly = true, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "Relationship.RelatedElement", RedefinedProperty = "")]
         IEnumerable<Element> Source();
 
         /// <summary>
         /// Specifies the target Element(s) of the <see cref="DirectedRelationship"/>.
         /// </summary>
-        /// <remarks>
-        /// Derived property.
-        /// </remarks>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 1, Upper = "*")]
+        [Property(IsDerived = true, IsDerivedUnion = true, IsReadOnly = true, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "Relationship.RelatedElement", RedefinedProperty = "")]
         IEnumerable<Element> Target();
     }
 }

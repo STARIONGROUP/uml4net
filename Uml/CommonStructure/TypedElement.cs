@@ -22,16 +22,19 @@
 namespace Uml.CommonStructure
 {
     using Uml.Attributes;
+    using Uml.Classification;
 
     /// <summary>
     /// A <see cref="TypedElement"/> is a <see cref="NamedElement"/> that may have a <see cref="Type"/> specified for it.
     /// </summary>
-    [Class(IsAbstract = true, IsActive = false)]
+    [Class(IsAbstract = true, IsActive = false, Specializations = "ObjectNode|ValueSpecification|ConnectableElement|StructuralFeature")]
     public interface TypedElement : NamedElement
     {
         /// <summary>
         /// The type of the <see cref="TypedElement"/>.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 0, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "", RedefinedProperty = "")]
         Type Type { get; set; }
     }
 }

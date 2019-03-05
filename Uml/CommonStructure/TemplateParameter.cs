@@ -23,45 +23,47 @@ namespace Uml.CommonStructure
 {
     using Uml.Assembler;
     using Uml.Attributes;
+    using Uml.Classification;
 
     /// <summary>
     /// A <see cref="TemplateParameter"/> exposes a <see cref="ParameterableElement"/> as a formal parameter of a template.
     /// </summary>
-    [Class(IsAbstract = false, IsActive = false)]
+    [Class(IsAbstract = false, IsActive = false, Specializations = "ConnectableElementTemplateParameter|ClassifierTemplateParameter|OperationTemplateParameter")]
     public interface TemplateParameter : Element
     {
         /// <summary>
         /// The <see cref="ParameterableElement"/> that is the default for this formal <see cref="TemplateParameter"/>.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 0, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "", RedefinedProperty = "")]
         ParameterableElement Default { get; set; }
 
         /// <summary>
         /// The <see cref="ParameterableElement"/> that is owned by this <see cref="TemplateParameter"/> for the purpose of providing a default.
         /// </summary>
-        /// <remarks>
-        /// Subsets <see cref="Element.OwnedElement"/>
-        /// </remarks>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 0, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.Composite, SubsettedProperty = "Element.OwnedElement|TemplateParameter.Default", RedefinedProperty = "")]
         OwnerList<ParameterableElement> OwnedDefault { get; set; }
 
         /// <summary>
         /// The <see cref="ParameterableElement"/> that is owned by this <see cref="TemplateParameter"/> for the purpose of exposing it as the parameteredElement.
         /// </summary>
-        /// <remarks>
-        /// Subsets <see cref="Element.OwnedElement"/>
-        /// </remarks>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 0, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.Composite, SubsettedProperty = "Element.OwnedElement|TemplateParameter.ParameteredElement", RedefinedProperty = "")]
         OwnerList<ParameterableElement> OwnedParameteredElement { get; set; }
 
         /// <summary>
         /// The <see cref="ParameterableElement"/> exposed by this <see cref="TemplateParameter"/>.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 1, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "", RedefinedProperty = "")]
         ParameterableElement ParameterableElement { get; set; }
 
         /// <summary>
         /// The <see cref="TemplateSignature"/> that owns this <see cref="TemplateParameter"/>.
         /// </summary>
-        /// <remarks>
-        /// Subsets <see cref="Element.Owner"/>
-        /// </remarks>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 1, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "Element.Owner", RedefinedProperty = "")]
         TemplateSignature Signature { get; set; }
     }
 }

@@ -23,6 +23,7 @@ namespace Uml.CommonStructure
 {
     using System.Collections.Generic;
     using Uml.Attributes;
+    using Uml.Classification;
 
     /// <summary>
     /// A <see cref="Comment"/> is a textual annotation that can be attached to a set of <see cref="Element"/>s.
@@ -33,11 +34,15 @@ namespace Uml.CommonStructure
         /// <summary>
         /// References the <see cref="Element"/>(s) being commented.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 0, Upper = "*")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "", RedefinedProperty = "")]
         List<Element> AnnotatedElement { get; set; }
 
         /// <summary>
         /// Specifies a string that is the comment.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 0, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "", RedefinedProperty = "")]
         string Body { get; set; }
     }
 }

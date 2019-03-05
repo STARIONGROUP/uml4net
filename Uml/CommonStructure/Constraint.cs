@@ -21,36 +21,37 @@
 
 namespace Uml.CommonStructure
 {
+    using System.Collections.Generic;
     using Uml.Assembler;
     using Uml.Attributes;
-    using System.Collections.Generic;
+    using Uml.Classification;    
     using Uml.Values;
 
     /// <summary>
     /// A <see cref="Constraint"/> is a condition or restriction expressed in natural language text or in a machine readable language for the purpose of declaring some of the semantics of an <see cref="Element"/> or set of <see cref="Element"/>s.
     /// </summary>
-    [Class(IsAbstract = false, IsActive = false)]
+    [Class(IsAbstract = false, IsActive = false, Specializations = "IntervalConstraint|InteractionConstraint")]
     public interface Constraint : PackageableElement
     {
         /// <summary>
         /// The ordered set of Elements referenced by this <see cref="Constraint"/>.
         /// </summary>
+        [MultiplicityElement(IsOrdered = true, IsUnique = true, Lower = 0, Upper = "*")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "", RedefinedProperty = "")]
         List<Element> ConstrainedElement { get; set; }
 
         /// <summary>
         /// Specifies the Namespace that owns the Constraint.
         /// </summary>
-        /// <remarks>
-        /// Subsets <see cref="NamedElement.Namespace"/>
-        /// </remarks>
+        [MultiplicityElement(IsOrdered = true, IsUnique = true, Lower = 0, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "NamedElement.Namespace", RedefinedProperty = "")]
         Namespace Context { get; set; }
 
         /// <summary>
         /// A condition that must be true when evaluated in order for the <see cref="Constraint"/> to be satisfied.
         /// </summary>
-        /// <remarks>
-        /// Subsets <see cref="Element.OwnedElement"/>
-        /// </remarks>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 1, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.Composite, SubsettedProperty = "Element.OwnedElement", RedefinedProperty = "")]
         OwnerList<ValueSpecification> Specification { get; set; }
     }
 }

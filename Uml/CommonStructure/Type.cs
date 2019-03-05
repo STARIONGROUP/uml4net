@@ -23,16 +23,19 @@ namespace Uml.CommonStructure
 {
     using Uml.Packages;
     using Uml.Attributes;
+    using Uml.Classification;
 
     /// <summary>
     /// A Type constrains the values represented by a <see cref="TypedElement"/>.
     /// </summary>
-    [Class(IsAbstract = true, IsActive = false)]
+    [Class(IsAbstract = true, IsActive = false, Specializations = "Classifier")]
     public interface Type : PackageableElement
     {
         /// <summary>
         /// Specifies the owning <see cref="Package"/> of this <see cref="Type"/>, if any.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 0, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "", RedefinedProperty = "")]
         Package Package { get; set; }
     }
 }

@@ -23,27 +23,26 @@ namespace Uml.CommonStructure
 {
     using Uml.Assembler;
     using Uml.Attributes;
+    using Uml.Classification;
 
     /// <summary>
     /// A <see cref="TemplateableElement"/> is an <see cref="Element"/> that can optionally be defined as a template and bound to other templates.
     /// </summary>
-    [Class(IsAbstract = true, IsActive = false)]
+    [Class(IsAbstract = true, IsActive = false, Specializations = "StringExpression|Package|Classifier|Operation")]
     public interface TemplateableElement : Element
     {
         /// <summary>
         /// The optional <see cref="TemplateSignature"/> specifying the formal <see cref="TemplateParameter"/>s for this <see cref="TemplateableElement"/>. If a <see cref="TemplateableElement"/> has a <see cref="TemplateSignature"/>, then it is a template.
         /// </summary>
-        /// <remarks>
-        /// Subsets <see cref="Element.OwnedElement"/>
-        /// </remarks>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 0, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "Element.OwnedElement", RedefinedProperty = "")]
         OwnerList<TemplateSignature> OwnedTemplateSignature { get; set; }
 
         /// <summary>
         /// The optional <see cref="TemplateBinding"/>s from this <see cref="TemplateableElement"/> to one or more templates.
         /// </summary>
-        /// <remarks>
-        /// Subsets <see cref="Element.OwnedElement"/>
-        /// </remarks>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 1, Upper = "*")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.Composite, SubsettedProperty = "Element.OwnedElement", RedefinedProperty = "")]
         OwnerList<TemplateBinding> TemplateBinding { get; set; }
     }
 }

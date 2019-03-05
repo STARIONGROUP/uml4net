@@ -23,19 +23,19 @@ namespace Uml.CommonStructure
 {
     using System.Collections.Generic;
     using Uml.Attributes;
+    using Uml.Classification;
 
     /// <summary>
     /// <see cref="Relationship"/> is an abstract concept that specifies some kind of relationship between <see cref="Element"/>s.
     /// </summary>
-    [Class(IsAbstract = true, IsActive = false)]
+    [Class(IsAbstract = true, IsActive = false, Specializations = "DirectedRelationship|Association")]
     public interface Relationship : Element
     {
         /// <summary>
         /// Specifies the elements related by the <see cref="Relationship"/>.
         /// </summary>
-        /// <remarks>
-        /// Derived property.
-        /// </remarks>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 1, Upper = "*")]
+        [Property(IsDerived = true, IsDerivedUnion = true, IsReadOnly = true, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "", RedefinedProperty = "")]
         IEnumerable<Element> RelatedElement();
     }
 }

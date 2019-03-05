@@ -26,7 +26,7 @@ namespace Uml.CommonStructure
     /// <summary>
     /// <see cref="Realization"/> is a specialized <see cref="Abstraction"/> relationship between two sets of model <see cref="Element"/>s, one representing a specification (the supplier) and the other represents an implementation of the latter (the client). Realization can be used to model stepwise refinement, optimizations, transformations, templates, model synthesis, framework composition, etc.
     /// </summary>
-    [Class(IsAbstract = false, IsActive = false)]
+    [Class(IsAbstract = false, IsActive = false, Specializations = "ComponentRealization|InterfaceRealization|Substitution")]
     public interface Realization : Abstraction
     {
     }
