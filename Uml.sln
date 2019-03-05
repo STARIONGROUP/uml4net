@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.26430.16
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Uml", "Uml\Uml.csproj", "{258AB6F2-D417-4D6D-8385-F608236EA65B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Uml.Tests", "Uml.Tests\Uml.Tests.csproj", "{EF11BEBF-BDA5-4875-93A6-7F83C75FF83F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{258AB6F2-D417-4D6D-8385-F608236EA65B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{258AB6F2-D417-4D6D-8385-F608236EA65B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{258AB6F2-D417-4D6D-8385-F608236EA65B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EF11BEBF-BDA5-4875-93A6-7F83C75FF83F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EF11BEBF-BDA5-4875-93A6-7F83C75FF83F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EF11BEBF-BDA5-4875-93A6-7F83C75FF83F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EF11BEBF-BDA5-4875-93A6-7F83C75FF83F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

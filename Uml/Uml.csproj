@@ -10,6 +10,8 @@
     <Authors>Sam Gerené, Alex Vorobiev</Authors>
     <PackageId>uml4net</PackageId>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <RepositoryType>Git</RepositoryType>
+    <RepositoryUrl>https://github.com/RHEAGROUP/uml4net</RepositoryUrl>
   </PropertyGroup>
 
 </Project>
