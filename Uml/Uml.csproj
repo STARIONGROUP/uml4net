@@ -7,7 +7,7 @@
     <Version>0.1.0</Version>
     <Description>A C# implementation of the UML 2.5.1 model</Description>
     <Copyright>Copyright © RHEA System S.A.</Copyright>
-    <Authors>Sam, Alex</Authors>
+    <Authors>Sam Gerené, Alex Vorobiev</Authors>
     <PackageId>uml4net</PackageId>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
   </PropertyGroup>
