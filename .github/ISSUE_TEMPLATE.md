@@ -1,7 +1,7 @@
 ### Prerequisites
 
 - [ ] I have written a descriptive issue title
-- [ ] I have verified that I am running the latest version of the CDP4-SDK
+- [ ] I have verified that I am running the latest version of the uml4net
 - [ ] I have searched [open](https://github.com/RHEAGROUP/uml4net/issues) and [closed](https://github.com/RHEAGROUP/uml4net/issues?q=is%3Aissue+is%3Aclosed) issues to ensure it has not already been reported
 
 ### Description
