@@ -19,5 +19,5 @@ test:
     except:
       - AppVeyorExclusion
 after_test:
-  - OpenCover.Console.exe -register:user -target:"C:/Program Files/dotnet/dotnet.exe" -targetargs:test -filter:"+[Uml*]* +[Implementation*]* -[Uml.Tests*]*" -output:".\uml_coverage.xml" -oldstyle
+  - OpenCover.Console.exe -register:user -target:"C:/Program Files/dotnet/dotnet.exe" -targetargs:"test /p:DebugType=full" -filter:"+[Uml*]* +[Implementation*]* -[Uml.Tests*]*" -output:".\uml_coverage.xml" -oldstyle -log:Warn
   - codecov -f "uml_coverage.xml" -t e3c3528a-7d37-4d0d-a9f6-59c3d9b6cc0e
