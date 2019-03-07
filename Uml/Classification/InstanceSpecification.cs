@@ -23,6 +23,7 @@ namespace Uml.Classification
 {
     using System.Collections.Generic;
     using Uml.Assembler;
+    using Uml.Attributes;
     using Uml.CommonStructure;
     using Uml.Deployments;
     using Uml.Values;
@@ -30,21 +31,28 @@ namespace Uml.Classification
     /// <summary>
     /// An InstanceSpecification is a model element that represents an instance in a modeled system. An InstanceSpecification can act as a DeploymentTarget in a Deployment relationship, in the case that it represents an instance of a Node. It can also act as a DeployedArtifact, if it represents an instance of an <see cref="Artifact"/>.
     /// </summary>
+    [Class(IsAbstract = false, IsActive = false, Specializations = "EnumerationLiteral")]
     public interface InstanceSpecification : DeploymentTarget, PackageableElement, DeployedArtifact
     {
         /// <summary>
         /// The <see cref="Classifier"/> or <see cref="Classifier"/>s of the represented instance. If multiple <see cref="Classifier"/>s are specified, the instance is classified by all of them.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 0, Upper = "*")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "", RedefinedProperty = "")]
         List<Classifier> Classifier { get; set; }
 
         /// <summary>
         /// A Slot giving the value or values of a <see cref="StructuralFeature"/> of the instance. An <see cref="InstanceSpecification"/> can have one Slot per <see cref="StructuralFeature"/> of its <see cref="Classifier"/>s, including inherited features. It is not necessary to model a Slot for every <see cref="StructuralFeature"/>, in which case the <see cref="InstanceSpecification"/> is a partial description.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 0, Upper = "*")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.Composite, SubsettedProperty = "Element.OwnedElement", RedefinedProperty = "")]
         OwnerList<Slot> Slot { get; set; }
 
         /// <summary>
         /// A specification of how to compute, derive, or construct the instance.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 0, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.Composite, SubsettedProperty = "Element.OwnedElement", RedefinedProperty = "")]
         OwnerList<ValueSpecification> Specification { get; set; }
     }
 }

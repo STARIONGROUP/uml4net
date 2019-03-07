@@ -22,26 +22,34 @@
 namespace Uml.Classification
 {
     using System.Collections.Generic;
+    using Uml.Attributes;
     using Uml.CommonStructure;
 
     /// <summary>
     /// A RedefinableTemplateSignature supports the addition of formal template parameters in a specialization of a template classifier.
     /// </summary>
+    [Class(IsAbstract = false, IsActive = false, Specializations = "")]
     public interface RedefinableTemplateSignature : RedefinableElement, TemplateSignature
     {
         /// <summary>
         /// The Classifier that owns this <see cref="RedefinableTemplateSignature"/>.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 1, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "RedefinableElement.RedefinitionContext", RedefinedProperty = "TemplateSignature.Template")]
         Classifier Classifier { get; set; }
 
         /// <summary>
         /// The signatures extended by this <see cref="RedefinableTemplateSignature"/>.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 0, Upper = "*")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "RedefinableElement.RedefinedElement", RedefinedProperty = "")]
         List<RedefinableTemplateSignature> ExtendedSignature { get; set; }
 
         /// <summary>
         /// The formal template parameters of the extended signatures.
         /// </summary>
-        IEnumerable<TemplateParameter> InheritedParameter { get; }
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 0, Upper = "*")]
+        [Property(IsDerived = true, IsDerivedUnion = false, IsReadOnly = true, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "TemplateSignature.Parameter", RedefinedProperty = "")]
+        IEnumerable<TemplateParameter> InheritedParameter();
     }
 }

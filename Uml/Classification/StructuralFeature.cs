@@ -21,16 +21,20 @@
 
 namespace Uml.Classification
 {
+    using Uml.Attributes;
     using Uml.CommonStructure;
-
+    
     /// <summary>
     /// A StructuralFeature is a typed feature of a Classifier that specifies the structure of instances of the Classifier.
     /// </summary>
+    [Class(IsAbstract = true, IsActive = false, Specializations = "")]
     public interface StructuralFeature : MultiplicityElement, TypedElement, Feature
     {
         /// <summary>
         /// If isReadOnly is true, the StructuralFeature may not be written to after initialization.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 1, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "", RedefinedProperty = "")]
         bool IsReadOnly { get; set; }
     }
 }

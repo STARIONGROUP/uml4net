@@ -22,31 +22,41 @@
 namespace Uml.Classification
 {
     using System.Collections.Generic;
+    using Uml.Attributes;
     using Uml.CommonStructure;
 
     /// <summary>
     /// A Generalization is a taxonomic relationship between a more general Classifier and a more specific Classifier. Each instance of the specific Classifier is also an instance of the general Classifier. The specific Classifier inherits the features of the more general Classifier. A Generalization is owned by the specific Classifier.
     /// </summary>
+    [Class(IsAbstract = false, IsActive = false, Specializations = "")]
     public interface Generalization : DirectedRelationship
     {
         /// <summary>
         /// The general classifier in the Generalization relationship.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 1, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "DirectedRelationship.Target", RedefinedProperty = "")]
         Classifier General { get; set; }
 
         /// <summary>
         /// Represents a set of instances of <see cref="Generalization"/>. A <see cref="Generalization"/> may appear in many <see cref="GeneralizationSet"/>s.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 0, Upper = "*")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "", RedefinedProperty = "")]
         List<GeneralizationSet> GeneralizationSet { get; set; }
 
         /// <summary>
         /// Indicates whether the specific <see cref="Classifier"/> can be used wherever the general <see cref="Classifier"/> can be used. If true, the execution traces of the specific <see cref="Classifier"/> shall be a superset of the execution traces of the general <see cref="Classifier"/>. If false, there is no such constraint on execution traces. If unset, the modeler has not stated whether there is such a constraint or not.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 0, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "", RedefinedProperty = "")]
         bool IsSubstitutable { get; set; }
 
         /// <summary>
         /// The specializing <see cref="Classifier"/> in the <see cref="Generalization"/> relationship.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 1, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "DirectedRelationship.Source|Element.Owner", RedefinedProperty = "")]
         Classifier Specific { get; set; }
     }
 }

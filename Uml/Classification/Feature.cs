@@ -21,22 +21,26 @@
 
 namespace Uml.Classification
 {
+    using Uml.Attributes;
+
     /// <summary>
     /// A <see cref="Feature"/> declares a behavioral or structural characteristic of <see cref="Classifier"/>s.
     /// </summary>
+    [Class(IsAbstract = true, IsActive = false, Specializations = "BehavioralFeature|StructuralFeature|Connector")]
     public interface Feature : RedefinableElement
     {
         /// <summary>
         /// The <see cref="Classifier"/>s that have this <see cref="Feature"/> as a feature.
         /// </summary>
-        /// <remarks>
-        /// Derived property
-        /// </remarks>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 0, Upper = "1")]
+        [Property(IsDerived = true, IsDerivedUnion = true, IsReadOnly = true, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "", RedefinedProperty = "")]
         Classifier FeaturingClassifier { get; }
 
         /// <summary>
         /// Specifies whether this Feature characterizes individual instances classified by the Classifier (false) or the Classifier itself (true).
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 1, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "", RedefinedProperty = "")]
         bool IsStatic { get; set; }
     }
 }

@@ -22,11 +22,19 @@
 namespace Uml.Classification
 {
     using Uml.Actions;
+    using Uml.Attributes;
 
     /// <summary>
     /// An <see cref="InstanceValue"/> is a <see cref="ValueSpecification"/> that identifies an instance.
     /// </summary>
+    [Class(IsAbstract = false, IsActive = false, Specializations = "")]
     public interface InstanceValue : ValueSpecificationAction
     {
+        /// <summary>
+        /// The <see cref="InstanceSpecification"/> that represents the specified value.
+        /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 1, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "", RedefinedProperty = "")]
+        InstanceSpecification Instance { get; set; }
     }
 }
