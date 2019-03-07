@@ -21,16 +21,20 @@
 
 namespace Uml.Classification
 {
+    using Uml.Attributes;
     using Uml.CommonStructure;
 
     /// <summary>
-    /// An <see cref="OperationTemplateParameter"/> exposes an Operation as a formal parameter for a template.
+    /// An <see cref="OperationTemplateParameter"/> exposes an <see cref="Operation"/> as a formal parameter for a template.
     /// </summary>
+    [Class(IsAbstract = false, IsActive = false, Specializations = "")]
     public interface OperationTemplateParameter : TemplateParameter
     {
         /// <summary>
         /// The <see cref="Operation"/> exposed by this <see cref="OperationTemplateParameter"/>.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 1, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "", RedefinedProperty = "TemplateParameter.ParameteredElement")]
         Operation ParameteredElement { get; set; }
     }
 }

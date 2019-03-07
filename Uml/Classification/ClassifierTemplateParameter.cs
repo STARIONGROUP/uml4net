@@ -22,26 +22,34 @@
 namespace Uml.Classification
 {
     using System.Collections.Generic;
+    using Uml.Attributes;
     using Uml.CommonStructure;
 
     /// <summary>
     /// A <see cref="ClassifierTemplateParameter"/> exposes a <see cref="Classifier"/> as a formal template parameter.
     /// </summary>
+    [Class(IsAbstract = false, IsActive = false, Specializations = "")]
     public interface ClassifierTemplateParameter : TemplateParameter
     {
         /// <summary>
         /// Constrains the required relationship between an actual parameter and the parameteredElement for this formal parameter.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 1, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "", RedefinedProperty = "")]
         bool AllowSubstitutable { get; set; }
 
         /// <summary>
         /// The classifiers that constrain the argument that can be used for the parameter. If the allowSubstitutable attribute is true, then any <see cref="Classifier"/> that is compatible with this constraining <see cref="Classifier"/> can be substituted; otherwise, it must be either this <see cref="Classifier"/> or one of its specializations. If this property is empty, there are no constraints on the <see cref="Classifier"/> that can be used as an argument.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 0, Upper = "*")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "", RedefinedProperty = "")]
         List<Classifier> ConstrainingClassifier { get; set; }
 
         /// <summary>
-        /// The Classifier exposed by this ClassifierTemplateParameter.
+        /// The Classifier exposed by this <see cref="ClassifierTemplateParameter"/>.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 1, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "", RedefinedProperty = "TemplateParameter.ParameteredElement")]
         Classifier ParameteredElement { get; set; }
     }
 }

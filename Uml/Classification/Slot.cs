@@ -22,27 +22,35 @@
 namespace Uml.Classification
 {
     using Uml.Assembler;
+    using Uml.Attributes;
     using Uml.CommonStructure;
     using Uml.Values;
 
     /// <summary>
     /// A Slot designates that an entity modeled by an InstanceSpecification has a value or values for a specific StructuralFeature.
     /// </summary>
+    [Class(IsAbstract = false, IsActive = false, Specializations = "")]
     public interface Slot : Element
     {
         /// <summary>
         /// The StructuralFeature that specifies the values that may be held by the Slot.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 1, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "", RedefinedProperty = "")]
         StructuralFeature DefiningFeature { get; set; }
 
         /// <summary>
         /// The InstanceSpecification that owns this Slot.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 1, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "Element.Owner", RedefinedProperty = "")]
         InstanceSpecification OwningInstance { get; set; }
 
         /// <summary>
         /// The value or values held by the Slot.
         /// </summary>
+        [MultiplicityElement(IsOrdered = true, IsUnique = true, Lower = 0, Upper = "*")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.Composite, SubsettedProperty = "Element.OwnedElement", RedefinedProperty = "")]
         OwnerList<ValueSpecification> Value { get; set; }
     }
 }
