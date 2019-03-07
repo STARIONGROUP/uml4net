@@ -5,8 +5,6 @@
     <Company>RHEA System S.A.</Company>
     <Title>UML for dot net</Title>
     <Version>0.1.0</Version>
-    <AssemblyVersion>0.1.0</AssemblyVersion>
-    <FileVersion>0.1.0</FileVersion>
     <Description>A C# implementation of the UML 2.5.1 model</Description>
     <Copyright>Copyright © RHEA System S.A.</Copyright>
     <Authors>Sam Gerené, Alex Vorobiev</Authors>
@@ -15,9 +13,6 @@
     <RepositoryType>Git</RepositoryType>
     <RepositoryUrl>https://github.com/RHEAGROUP/uml4net</RepositoryUrl>
     <DebugType>full</DebugType>
-    <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
-    <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
-    <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
   </PropertyGroup>
 
 </Project>
