@@ -1,0 +1,28 @@
+uml4net is a C# library for reading UML models.
+Copyright (C) 2019 RHEA System S.A.
+
+uml4net is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+uml4net is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with uml4net. If not, see<http://www.gnu.org/licenses/>.
+
+Additional permission under GNU GPL version 3 section 7
+
+If you modify this Program, or any covered work, by linking or combining it with Microsoft.NET.Test.Sdk (or a modified version of that library), containing parts covered by the terms of the MICROSOFT SOFTWARE LICENSE TERMS (https://www.microsoft.com/web/webpi/eula/net_library_eula_enu.htm), the licensors of this Program grant you additional permission to convey the resulting work.
+
+If you modify this Program, or any covered work, by linking or combining it with Newtonsoft.Json (or a modified version of that library), containing parts covered by the terms of MIT License, the licensors of this Program grant you additional permission to convey the resulting work.
+
+If you modify this Program, or any covered work, by linking or combining it with NUnit (or a modified version of that library), containing parts covered by the terms 
+of MIT License, the licensors of this Program grant you additional permission to convey the resulting work.
+
+If you modify this Program, or any covered work, by linking or combining it with NUnit.Console (or a modified version of that library), containing parts covered by the terms of MIT License, the licensors of this Program grant you additional permission to convey the resulting work.
+
+If you modify this Program, or any covered work, by linking or combining it with NUnit3TestAdapter (or a modified version of that library), containing parts covered by the terms of MIT License, the licensors of this Program grant you additional permission to convey the resulting work.
