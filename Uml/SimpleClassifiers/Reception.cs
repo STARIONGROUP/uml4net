@@ -21,16 +21,20 @@
 
 namespace Uml.SimpleClassifiers
 {
+    using Uml.Attributes;
     using Uml.Classification;
 
     /// <summary>
     /// A Reception is a declaration stating that a Classifier is prepared to react to the receipt of a Signal.
     /// </summary>
+    [Class(IsAbstract = false, IsActive = false, Specializations = "")]
     public interface Reception : BehavioralFeature
     {
         /// <summary>
         /// The <see cref="Signal"/> that this <see cref="Reception"/> handles.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 1, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "", RedefinedProperty = "")]
         Signal Signal { get; set; }
     }
 }

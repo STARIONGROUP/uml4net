@@ -21,21 +21,28 @@
 
 namespace Uml.SimpleClassifiers
 {
+    using Uml.Attributes;
+    using Uml.Classification;
     using Uml.CommonStructure;
 
     /// <summary>
     /// An InterfaceRealization is a specialized realization relationship between a <see cref="BehavioredClassifier"/> and an Interface. This relationship signifies that the realizing BehavioredClassifier conforms to the contract specified by the Interface.
     /// </summary>
+    [Class(IsAbstract = false, IsActive = false, Specializations = "")]
     public interface InterfaceRealization : Realization
     {
         /// <summary>
         /// References the <see cref="Interface"/> specifying the conformance contract.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 1, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "Dependency.Supplier", RedefinedProperty = "")]
         Interface Contract { get; set; }
 
         /// <summary>
         /// References the <see cref="BehavioredClassifier"/> that owns this InterfaceRealization, i.e., the <see cref="BehavioredClassifier"/> that realizes the Interface to which it refers.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 1, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "Dependency.Client|Element.Owner", RedefinedProperty = "")]
         BehavioredClassifier ImplementingClassifier { get; set; }
     }
 }

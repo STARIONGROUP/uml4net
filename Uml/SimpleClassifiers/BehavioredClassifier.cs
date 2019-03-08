@@ -22,27 +22,35 @@
 namespace Uml.SimpleClassifiers
 {
     using Uml.Assembler;
+    using Uml.Attributes;
     using Uml.Classification;
     using Uml.CommonBehavior;
 
     /// <summary>
     /// A <see cref="BehavioredClassifier"/> may have <see cref="InterfaceRealization"/>s, and owns a set of Behaviors one of which may specify the behavior of the <see cref="BehavioredClassifier"/> itself.
     /// </summary>
+    [Class(IsAbstract = true, IsActive = false, Specializations = "Actor|UseCase|Class|Collaboration")]
     public interface BehavioredClassifier : Classifier
     {
         /// <summary>
         /// A <see cref="Behavior"/> that specifies the behavior of the <see cref="BehavioredClassifier"/> itself.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 0, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "BehavioredClassifier.OwnedBehavior", RedefinedProperty = "")]
         Behavior ClassifierBehavior { get; set; }
 
         /// <summary>
         /// The set of <see cref="InterfaceRealization"/>s owned by the <see cref="BehavioredClassifier"/>. Interface realizations reference the <see cref="Interface"/>s of which the <see cref="BehavioredClassifier"/> is an implementation.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 0, Upper = "*")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.Composite, SubsettedProperty = "Element.OwnedElement|NamedElement.ClientDependency", RedefinedProperty = "")]
         InterfaceRealization InterfaceRealization { get; set; }
 
         /// <summary>
         /// Behaviors owned by a <see cref="BehavioredClassifier"/>.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 0, Upper = "*")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.Composite, SubsettedProperty = "Namespace.OwnedMember", RedefinedProperty = "")]
         OwnerList<Behavior> OwnedBehavior { get; set; }
     }
 }

@@ -21,9 +21,12 @@
 
 namespace Uml.SimpleClassifiers
 {
+    using Uml.Attributes;
+
     /// <summary>
-    /// A PrimitiveType defines a predefined DataType, without any substructure. A PrimitiveType may have an algebra and operations defined outside of UML, for example, mathematically.
+    /// A <see cref="PrimitiveType"/> defines a predefined <see cref="DataType"/>, without any substructure. A <see cref="PrimitiveType"/> may have an algebra and operations defined outside of UML, for example, mathematically.
     /// </summary>
+    [Class(IsAbstract = false, IsActive = false, Specializations = "")]
     public interface PrimitiveType : DataType
     {
     }

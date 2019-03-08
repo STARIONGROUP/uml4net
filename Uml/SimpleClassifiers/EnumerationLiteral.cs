@@ -21,24 +21,27 @@
 
 namespace Uml.SimpleClassifiers
 {
+    using Uml.Attributes;
     using Uml.Classification;
 
     /// <summary>
     /// An <see cref="EnumerationLiteral"/> is a user-defined data value for an <see cref="Enumeration"/>.
     /// </summary>
+    [Class(IsAbstract = false, IsActive = false, Specializations = "")]
     public interface EnumerationLiteral : InstanceSpecification
     {
         /// <summary>
         /// The classifier of this <see cref="EnumerationLiteral"/> derived to be equal to its <see cref="Enumeration"/>.
         /// </summary>
-        /// <remarks>
-        /// Derived property.
-        /// </remarks>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 1, Upper = "1")]
+        [Property(IsDerived = true, IsDerivedUnion = false, IsReadOnly = true, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "", RedefinedProperty = "InstanceSpecification.Classifier")]
         Enumeration Classifier { get; }
 
         /// <summary>
         /// The <see cref="Enumeration"/> that this <see cref="EnumerationLiteral"/> is a member of.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 1, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "NamedElement.Namespace", RedefinedProperty = "")]
         Enumeration  Enumeration { get; set; }
     }
 }
