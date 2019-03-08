@@ -22,21 +22,27 @@
 namespace Uml.SimpleClassifiers
 {
     using Uml.Assembler;
+    using Uml.Attributes;
     using Uml.Classification;
 
     /// <summary>
     /// A DataType is a type whose instances are identified only by their value.
     /// </summary>
+    [Class(IsAbstract = false, IsActive = false, Specializations = "Enumeration|PrimitiveType")]
     public interface DataType : Classifier
     {
         /// <summary>
         /// The attributes owned by the <see cref="DataType"/>.
         /// </summary>
+        [MultiplicityElement(IsOrdered = true, IsUnique = true, Lower = 0, Upper = "*")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "Classifier.Attribute|Namespace.OwnedMember", RedefinedProperty = "")]
         OwnerList<Property> OwnedAttribute { get; set; }
 
         /// <summary>
         /// The <see cref="Operation"/>s owned by the <see cref="DataType"/>.
         /// </summary>
+        [MultiplicityElement(IsOrdered = true, IsUnique = true, Lower = 0, Upper = "*")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.Composite, SubsettedProperty = "Classifier.Feature|Namespace.OwnedMember", RedefinedProperty = "")]
         OwnerList<Operation> OwnedOperation { get; set; }
     }
 }

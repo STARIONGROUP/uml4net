@@ -23,42 +23,56 @@ namespace Uml.SimpleClassifiers
 {
     using System.Collections.Generic;
     using Uml.Assembler;
+    using Uml.Attributes;
     using Uml.Classification;
     using Uml.StateMachines;
 
     /// <summary>
     /// Interfaces declare coherent services that are implemented by <see cref="BehavioredClassifier"/>s that implement the <see cref="Interface"/>s via <see cref="InterfaceRealization"/>s.
     /// </summary>
+    [Class(IsAbstract = false, IsActive = false, Specializations = "")]
     public interface Interface : Classifier
     {
         /// <summary>
         /// References all the Classifiers that are defined (nested) within the Interface.
         /// </summary>
+        [MultiplicityElement(IsOrdered = true, IsUnique = true, Lower = 0, Upper = "*")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.Composite, SubsettedProperty = "Namespace.OwnedMember", RedefinedProperty = "")]
         OwnerList<Classifier> NestedClassifier { get; set; }
 
         /// <summary>
         /// The attributes (i.e., the Properties) owned by the <see cref="Interface"/>.
         /// </summary>
+        [MultiplicityElement(IsOrdered = true, IsUnique = true, Lower = 0, Upper = "*")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.Composite, SubsettedProperty = "Classifier.Attribute|Namespace.OwnedMember", RedefinedProperty = "")]
         OwnerList<Property> OwnedAttribute { get; set; }
 
         /// <summary>
         /// The <see cref="Operation"/>s owned by the <see cref="Interface"/>.
         /// </summary>
+        [MultiplicityElement(IsOrdered = true, IsUnique = true, Lower = 0, Upper = "*")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.Composite, SubsettedProperty = "Classifier.Feature|Namespace.OwnedMember", RedefinedProperty = "")]
         OwnerList<Operation> OwnedOperation { get; set; }
 
         /// <summary>
         /// <see cref="Reception"/>s that objects providing this <see cref="Interface"/> are willing to accept.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 0, Upper = "*")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.Composite, SubsettedProperty = "Classifier.Feature|Namespace.OwnedMember", RedefinedProperty = "")]
         OwnerList<Reception> OwnedReception { get; set; }
 
         /// <summary>
         /// References a <see cref="ProtocolStateMachine"/> specifying the legal sequences of the invocation of the <see cref="BehavioralFeature"/>s described in the <see cref="Interface"/>.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 0, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.Composite, SubsettedProperty = "Namespace.OwnedMember", RedefinedProperty = "")]
         OwnerList<ProtocolStateMachine> Protocol { get; set; }
 
         /// <summary>
         /// References all the <see cref="Interface"/>s redefined by this <see cref="Interface"/>.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 0, Upper = "*")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "Classifier.RedefinedClassifier", RedefinedProperty = "")]
         List<Interface> RedefinedInterface { get; set; }
     }
 }

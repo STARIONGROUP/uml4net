@@ -22,15 +22,20 @@
 namespace Uml.SimpleClassifiers
 {
     using Uml.Assembler;
+    using Uml.Attributes;
+    using Uml.Classification;
 
     /// <summary>
     /// An Enumeration is a <see cref="DataType"/> whose values are enumerated in the model as <see cref="EnumerationLiteral"/>s.
     /// </summary>
+    [Class(IsAbstract = false, IsActive = false, Specializations = "")]
     public interface Enumeration : DataType
     {
         /// <summary>
         /// The ordered set of literals owned by this <see cref="Enumeration"/>.
         /// </summary>
+        [MultiplicityElement(IsOrdered = true, IsUnique = true, Lower = 0, Upper = "*")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.Composite, SubsettedProperty = "Namespace.OwnedMember", RedefinedProperty = "")]
         OwnerList<EnumerationLiteral> OwnedLiteral { get; set; }
     }
 }
