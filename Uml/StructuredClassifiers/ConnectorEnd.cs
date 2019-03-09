@@ -21,30 +21,35 @@
 
 namespace Uml.StructuredClassifiers
 {
+    using Uml.Attributes;
     using Uml.Classification;
     using Uml.CommonStructure;
 
     /// <summary>
     /// A <see cref="ConnectorEnd"/> is an endpoint of a <see cref="Connector"/>, which attaches the <see cref="Connector"/> to a <see cref="ConnectableElement"/>.
     /// </summary>
+    [Class(IsAbstract = false, IsActive = false, Specializations = "")]
     public interface ConnectorEnd : MultiplicityElement
     {
         /// <summary>
         /// A derived property referencing the corresponding end on the <see cref="Association"/> which types the Connector owing this <see cref="ConnectorEnd"/>, if any. It is derived by selecting the end at the same place in the ordering of <see cref="Association"/> ends as this <see cref="ConnectorEnd"/>.
         /// </summary>
-        /// <remarks>
-        /// Derived property.
-        /// </remarks>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 0, Upper = "1")]
+        [Property(IsDerived = true, IsDerivedUnion = false, IsReadOnly = true, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "", RedefinedProperty = "")]
         Property DefiningEnd { get; }
 
         /// <summary>
         /// Indicates the role of the internal structure of a <see cref="Classifier"/> with the <see cref="Port"/> to which the <see cref="ConnectorEnd"/> is attached.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 0, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "", RedefinedProperty = "")]
         Property PartWithPort { get; set; }
 
         /// <summary>
         /// The <see cref="ConnectableElement"/> attached at this <see cref="ConnectorEnd"/>. When an instance of the containing <see cref="Classifier"/> is created, a link may (depending on the multiplicities) be created to an instance of the <see cref="Classifier"/> that types this <see cref="ConnectableElement"/>.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 1, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "", RedefinedProperty = "")]
         ConnectableElement Role { get; set; }
       }
 }

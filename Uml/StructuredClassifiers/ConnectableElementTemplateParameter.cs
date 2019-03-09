@@ -21,16 +21,21 @@
 
 namespace Uml.StructuredClassifiers
 {
+    using Uml.Attributes;
+    using Uml.Classification;
     using Uml.CommonStructure;
 
     /// <summary>
     /// A <see cref="ConnectableElementTemplateParameter"/> exposes a <see cref="ConnectableElement"/> as a formal parameter for a template.
     /// </summary>
+    [Class(IsAbstract = false, IsActive = false, Specializations = "")]
     public interface ConnectableElementTemplateParameter : TemplateParameter
     {
         /// <summary>
         /// The <see cref="ConnectableElement"/> for this <see cref="ConnectableElementTemplateParameter"/>.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 1, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "", RedefinedProperty = "TemplateParameter.ParameteredElement")]
         ConnectableElement ParameteredElement { get; set; }
     }
 }
