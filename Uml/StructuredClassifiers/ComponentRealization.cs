@@ -22,22 +22,28 @@
 namespace Uml.StructuredClassifiers
 {
     using System.Collections.Generic;
+    using Uml.Attributes;
     using Uml.Classification;
     using Uml.CommonStructure;
 
     /// <summary>
     /// <see cref="Realization"/> is specialized to (optionally) define the <see cref="Classifier"/>s that realize the contract offered by a <see cref="Component"/> in terms of its provided and required <see cref="Interface"/>s. The <see cref="Component"/> forms an abstraction from these various <see cref="Classifier"/>s.
     /// </summary>
+    [Class(IsAbstract = false, IsActive = false, Specializations = "")]
     public interface ComponentRealization : Realization
     {
         /// <summary>
         /// The <see cref="Component"/> that owns this <see cref="ComponentRealization"/> and which is implemented by its realizing <see cref="Classifier"/>s.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 0, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "Dependency.Supplier|Element.Owner", RedefinedProperty = "")]
         Component Abstraction { get; set; }
 
         /// <summary>
         /// The <see cref="Classifier"/>s that are involved in the implementation of the <see cref="Component"/> that owns this <see cref="Realization"/>.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 1, Upper = "*")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "Dependency.Client", RedefinedProperty = "")]
         List<Classifier> RealizingClassifier { get; set; }
     }
 }

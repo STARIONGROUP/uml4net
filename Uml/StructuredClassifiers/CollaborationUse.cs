@@ -22,22 +22,28 @@
 namespace Uml.StructuredClassifiers
 {
     using Uml.Assembler;
+    using Uml.Attributes;
     using Uml.Classification;
     using Uml.CommonStructure;
 
     /// <summary>
     /// A CollaborationUse is used to specify the application of a pattern specified by a <see cref="Collaboration"/> to a specific situation.
     /// </summary>
+    [Class(IsAbstract = false, IsActive = false, Specializations = "")]
     public interface CollaborationUse : NamedElement
     {
         /// <summary>
         /// A mapping between features of the <see cref="Collaboration"/> and features of the owning <see cref="Classifier"/>. This mapping indicates which <see cref="ConnectableElement"/> of the <see cref="Classifier"/> plays which role(s) in the <see cref="Collaboration"/>. A <see cref="ConnectableElement"/> may be bound to multiple roles in the same <see cref="CollaborationUse"/> (that is, it may play multiple roles).
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 0, Upper = "*")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.Composite, SubsettedProperty = "Element.OwnedElement", RedefinedProperty = "")]
         OwnerList<Dependency> RoleBinding { get; set; }
 
         /// <summary>
         /// The <see cref="Collaboration"/> which is used in this <see cref="CollaborationUse"/>. The <see cref="Collaboration"/> defines the cooperation between its roles which are mapped to <see cref="ConnectableElement"/>s relating to the <see cref="Classifier"/> owning the <see cref="CollaborationUse"/>.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 1, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "", RedefinedProperty = "")]
         Collaboration Type { get; set; }
     }
 }

@@ -22,18 +22,20 @@
 namespace Uml.StructuredClassifiers
 {
     using System.Collections.Generic;
+    using Uml.Attributes;
+    using Uml.Classification;
 
     /// <summary>
     /// An <see cref="EncapsulatedClassifier"/> may own <see cref="Port"/>s to specify typed interaction points.
     /// </summary>
+    [Class(IsAbstract = true, IsActive = false, Specializations = "Class")]
     public interface EncapsulatedClassifier : StructuredClassifier
     {
         /// <summary>
         /// The <see cref="Port"/>s owned by the <see cref="EncapsulatedClassifier"/>.
         /// </summary>
-        /// <remarks>
-        /// Derived property.
-        /// </remarks>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 0, Upper = "*")]
+        [Property(IsDerived = true, IsDerivedUnion = false, IsReadOnly = true, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "StructuredClassifier.OwnedAttribute", RedefinedProperty = "")]
         IEnumerable<Port> OwnedPort();
     }
 }

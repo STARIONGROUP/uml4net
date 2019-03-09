@@ -22,24 +22,28 @@
 namespace Uml.StructuredClassifiers
 {
     using System.Collections.Generic;
+    using Uml.Attributes;
+    using Uml.Classification;
     using Uml.CommonStructure;
 
     /// <summary>
     /// <see cref="ConnectableElement"/> is an abstract metaclass representing a set of instances that play roles of a <see cref="StructuredClassifier"/>. <see cref="ConnectableElement"/>s may be joined by attached <see cref="Connector"/>s and specify configurations of linked instances to be created within an instance of the containing <see cref="StructuredClassifier"/>.
     /// </summary>
+    [Class(IsAbstract = true, IsActive = false, Specializations = "Variable|Parameter|Property")]
     public interface ConnectableElement : TypedElement, ParameterableElement
     {
         /// <summary>
         /// A set of <see cref="ConnectorEnd"/>s that attach to this <see cref="ConnectableElement"/>.
         /// </summary>
-        /// <remarks>
-        /// Derived property.
-        /// </remarks>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 0, Upper = "*")]
+        [Property(IsDerived = true, IsDerivedUnion = false, IsReadOnly = true, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "", RedefinedProperty = "")]
         IEnumerable<ConnectorEnd> End { get; set; }
 
         /// <summary>
         /// The <see cref="ConnectableElementTemplateParameter"/> for this <see cref="ConnectableElement"/> parameter.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 0, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "", RedefinedProperty = "ParameterableElement.TemplateParameter")]
         ConnectableElementTemplateParameter TemplateParameter { get; set; }
     }
 }

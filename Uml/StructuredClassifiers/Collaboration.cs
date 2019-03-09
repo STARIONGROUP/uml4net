@@ -22,16 +22,21 @@
 namespace Uml.StructuredClassifiers
 {
     using System.Collections.Generic;
+    using Uml.Attributes;
+    using Uml.Classification;
     using Uml.SimpleClassifiers;
 
     /// <summary>
     /// A Collaboration describes a structure of collaborating elements (roles), each performing a specialized function, which collectively accomplish some desired functionality. 
     /// </summary>
+    [Class(IsAbstract = false, IsActive = false, Specializations = "")]
     public interface Collaboration : StructuredClassifier, BehavioredClassifier
     {
         /// <summary>
         /// Represents the participants in the <see cref="Collaboration"/>.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 0, Upper = "*")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "StructuredClassifier.Role", RedefinedProperty = "")]
         List<ConnectableElement> CollaborationRole { get; set; }
     }
 }

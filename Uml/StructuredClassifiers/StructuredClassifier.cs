@@ -23,37 +23,41 @@ namespace Uml.StructuredClassifiers
 {
     using System.Collections.Generic;
     using Uml.Assembler;
+    using Uml.Attributes;
     using Uml.Classification;
 
     /// <summary>
     /// StructuredClassifiers may contain an internal structure of connected elements each of which plays a role in the overall Behavior modeled by the StructuredClassifier.
     /// </summary>
+    [Class(IsAbstract = true, IsActive = false, Specializations = "Collaboration|EncapsulatedClassifier")]
     public interface StructuredClassifier : Classifier
     {
         /// <summary>
         /// The Properties owned by the <see cref="StructuredClassifier"/>.
         /// </summary>
+        [MultiplicityElement(IsOrdered = true, IsUnique = true, Lower = 0, Upper = "*")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.Composite, SubsettedProperty = "Classifier.Attribute|StructuredClassifier.Role|Namespace.OwnedMember", RedefinedProperty = "")]
         OwnerList<Property> OwnedAttribute { get; set; }
 
         /// <summary>
         /// The connectors owned by the <see cref="StructuredClassifier"/>.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 0, Upper = "*")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.Composite, SubsettedProperty = "Classifier.Feature|Namespace.OwnedMember", RedefinedProperty = "")]
         OwnerList<Connector> OwnedConnector { get; set; }
 
         /// <summary>
         /// The Properties specifying instances that the <see cref="StructuredClassifier"/> owns by composition. This collection is derived, selecting those owned Properties where isComposite is true.
         /// </summary>
-        /// <remarks>
-        /// Derived property.
-        /// </remarks>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 0, Upper = "*")]
+        [Property(IsDerived = true, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "", RedefinedProperty = "")]
         IEnumerable<Property> Part();
 
         /// <summary>
         /// The roles that instances may play in this <see cref="StructuredClassifier"/>.
         /// </summary>
-        /// <remarks>
-        /// Derived property.
-        /// </remarks>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 0, Upper = "*")]
+        [Property(IsDerived = true, IsDerivedUnion = true, IsReadOnly = true, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "Namespace.Member", RedefinedProperty = "")]
         IEnumerable<ConnectableElement> Role();
     }
 }

@@ -23,6 +23,7 @@ namespace Uml.StructuredClassifiers
 {
     using System.Collections.Generic;
     using Uml.Assembler;
+    using Uml.Attributes;
     using Uml.Classification;
     using Uml.Packages;
     using Uml.SimpleClassifiers;
@@ -30,52 +31,63 @@ namespace Uml.StructuredClassifiers
     /// <summary>
     /// A Class classifies a set of objects and specifies the features that characterize the structure and behavior of those objects.  A Class may have an internal structure and Ports.
     /// </summary>
+    [Class(IsAbstract = false, IsActive = false, Specializations = "AssociationClass|Component|Behavior|Stereotype|Node")]
     public interface Class : BehavioredClassifier, EncapsulatedClassifier
     {
         /// <summary>
         /// This property is used when the <see cref="Class"/> is acting as a metaclass. It references the <see cref="Extension"/>s that specify additional properties of the metaclass. The property is derived from the Extensions whose memberEnds are typed by the <see cref="Class"/>.
         /// </summary>
-        /// <remarks>
-        /// Derived property.
-        /// </remarks>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 0, Upper = "*")]
+        [Property(IsDerived = true, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "", RedefinedProperty = "")]
         IEnumerable<Extension> Extension();
 
         /// <summary>
         /// If true, the <see cref="Class"/> does not provide a complete declaration and cannot be instantiated. An abstract <see cref="Class"/> is typically used as a target of <see cref="Association"/>s or <see cref="Generalization"/>s.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 1, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "", RedefinedProperty = "Classifier.IsAbstract")]
         bool IsAbstract { get; set; }
 
         /// <summary>
         /// Determines whether an object specified by this <see cref="Class"/> is active or not. If true, then the owning <see cref="Class"/> is referred to as an active <see cref="Class"/>. If false, then such a <see cref="Class"/> is referred to as a passive <see cref="Class"/>.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 1, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "", RedefinedProperty = "")]
         bool IsActive { get; set; }
 
         /// <summary>
         /// The <see cref="Classifier"/>s owned by the <see cref="Class"/> that are not ownedBehaviors.
         /// </summary>
+        [MultiplicityElement(IsOrdered = true, IsUnique = true, Lower = 0, Upper = "*")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.Composite, SubsettedProperty = "Namespace.OwnedMember", RedefinedProperty = "")]
         OwnerList<Classifier> NestedClassifier { get; set; }
 
         /// <summary>
         /// The attributes (i.e., the Properties) owned by the <see cref="Class"/>.
         /// </summary>
+        [MultiplicityElement(IsOrdered = true, IsUnique = true, Lower = 0, Upper = "*")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.Composite, SubsettedProperty = "Classifier.Attribute|Namespace.OwnedMember", RedefinedProperty = "StructuredClassifier.OwnedAttribute")]
         OwnerList<Property> OwnedAttribute { get; set; }
 
         /// <summary>
         /// The <see cref="Operation"/>s owned by the <see cref="Class"/>.
         /// </summary>
+        [MultiplicityElement(IsOrdered = true, IsUnique = true, Lower = 0, Upper = "*")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.Composite, SubsettedProperty = "Classifier.Feature|Namespace.OwnedMember", RedefinedProperty = "")]
         OwnerList<Operation> OwnedOperation { get; set; }
 
         /// <summary>
         /// The <see cref="Reception"/>s owned by the <see cref="Class"/>.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 0, Upper = "*")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.Composite, SubsettedProperty = "Classifier.Feature|Namespace.OwnedMember", RedefinedProperty = "")]
         OwnerList<Reception> OwnedReception { get; set; }
 
         /// <summary>
         /// The superclasses of a <see cref="Class"/>, derived from its <see cref="Generalization"/>s.
         /// </summary>
-        /// <remarks>
-        /// Derived property.
-        /// </remarks>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 0, Upper = "*")]
+        [Property(IsDerived = true, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "", RedefinedProperty = "Classifier.General")]
         IEnumerable<Class> SuperClass();
     }
 }
