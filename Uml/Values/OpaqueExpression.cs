@@ -22,35 +22,42 @@
 namespace Uml.Values
 {
     using System.Collections.Generic;
+    using Uml.Attributes;
     using Uml.Classification;
     using Uml.CommonBehavior;
 
     /// <summary>
-    /// An OpaqueExpression is a ValueSpecification that specifies the computation of a collection of values either in terms of a UML Behavior or based on a textual statement in a language other than UML
+    /// An <see cref="OpaqueExpression"/> is a <see cref="ValueSpecification"/> that specifies the computation of a collection of values either in terms of a UML <see cref="Behavior"/> or based on a textual statement in a language other than UML
     /// </summary>
+    [Class(IsAbstract = false, IsActive = false, Specializations = "")]
     public interface OpaqueExpression : ValueSpecification
     {
         /// <summary>
-        /// Specifies the behavior of the OpaqueExpression as a UML Behavior.
+        /// Specifies the behavior of the <see cref="OpaqueExpression"/> as a UML Behavior.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 0, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "", RedefinedProperty = "")]
         Behavior Behavior { get; set; }
 
         /// <summary>
-        /// A textual definition of the behavior of the OpaqueExpression, possibly in multiple languages.
+        /// A textual definition of the behavior of the <see cref="OpaqueExpression"/>, possibly in multiple languages.
         /// </summary>
+        [MultiplicityElement(IsOrdered = true, IsUnique = true, Lower = 0, Upper = "*")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "", RedefinedProperty = "")]
         List<string> Body { get; set; }
 
         /// <summary>
-        /// Specifies the languages used to express the textual bodies of the OpaqueExpression.  Languages are matched to body Strings by order. The interpretation of the body depends on the languages. If the languages are unspecified, they may be implicit from the expression body or the context.
+        /// Specifies the languages used to express the textual bodies of the <see cref="OpaqueExpression"/>. Languages are matched to body Strings by order. The interpretation of the body depends on the languages. If the languages are unspecified, they may be implicit from the expression body or the context.
         /// </summary>
+        [MultiplicityElement(IsOrdered = true, IsUnique = true, Lower = 0, Upper = "*")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "", RedefinedProperty = "")]
         List<string> Language { get; set; }
         
         /// <summary>
-        /// If an OpaqueExpression is specified using a UML Behavior, then this refers to the single required return Parameter of that Behavior. When the Behavior completes execution, the values on this Parameter give the result of evaluating the OpaqueExpression.
+        /// If an <see cref="OpaqueExpression is"/> specified using a UML Behavior, then this refers to the single required return <see cref="Parameter"/> of that <see cref="Behavior"/>. When the <see cref="Behavior"/> completes execution, the values on this <see cref="Parameter"/> give the result of evaluating the <see cref="OpaqueExpression"/>.
         /// </summary>
-        /// <remarks>
-        /// Derived property.
-        /// </remarks>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 0, Upper = "1")]
+        [Property(IsDerived = true, IsDerivedUnion = false, IsReadOnly = true, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "", RedefinedProperty = "")]
         Parameter Result { get; }
     }
 }

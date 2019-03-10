@@ -21,14 +21,20 @@
 
 namespace Uml.Values
 {
+    using Uml.Attributes;
+    using Uml.Classification;
+
     /// <summary>
-    /// A LiteralString is a specification of a String value.
+    /// A <see cref="LiteralString"/> is a specification of a String value.
     /// </summary>
+    [Class(IsAbstract = false, IsActive = false, Specializations = "")]
     public interface LiteralString : LiteralSpecification
     {
         /// <summary>
         /// The specified String value.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 0, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "", RedefinedProperty = "")]
         string Value { get; set; }
     }
 }

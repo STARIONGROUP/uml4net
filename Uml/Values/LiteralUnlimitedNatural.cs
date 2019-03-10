@@ -21,14 +21,20 @@
 
 namespace Uml.Values
 {
+    using Uml.Attributes;
+    using Uml.Classification;
+
     /// <summary>
-    /// A LiteralUnlimitedNatural is a specification of an UnlimitedNatural number.
+    /// A <see cref="LiteralUnlimitedNatural"/> is a specification of an UnlimitedNatural number.
     /// </summary>
+    [Class(IsAbstract = false, IsActive = false, Specializations = "")]
     public interface LiteralUnlimitedNatural : LiteralSpecification
     {
         /// <summary>
         /// The specified UnlimitedNatural value.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 1, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "", RedefinedProperty = "")]
         string Value { get; set; }
     }
 }

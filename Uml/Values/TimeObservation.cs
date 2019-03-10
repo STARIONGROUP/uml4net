@@ -21,21 +21,28 @@
 
 namespace Uml.Values
 {
+    using Uml.Attributes;
+    using Uml.Classification;
     using Uml.CommonStructure;
 
     /// <summary>
     /// A <see cref="TimeObservation"/> is a reference to a time instant during an execution. It points out the <see cref="NamedElement"/> in the model to observe and whether the observation is when this <see cref="NamedElement"/> is entered or when it is exited.
     /// </summary>
+    [Class(IsAbstract = false, IsActive = false, Specializations = "")]
     public interface TimeObservation : Observation
     {
         /// <summary>
         /// The <see cref="TimeObservation"/> is determined by the entering or exiting of the event <see cref="Element"/> during execution.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 1, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "", RedefinedProperty = "")]
         NamedElement Event { get; set; }
 
         /// <summary>
         /// The value of firstEvent is related to the event. If firstEvent is true, then the corresponding observation event is the first time instant the execution enters the event <see cref="Element"/>. If firstEvent is false, then the corresponding observation event is the time instant the execution exits the event <see cref="Element"/>.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 1, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "", RedefinedProperty = "")]
         bool FirstEvent { get; set; }
     }
 }

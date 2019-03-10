@@ -22,10 +22,13 @@
 namespace Uml.Values
 {
     using Uml.CommonStructure;
+    using Uml.Attributes;
+    using Uml.Classification;
 
     /// <summary>
     /// A <see cref="ValueSpecification"/> is the specification of a (possibly empty) set of values. A <see cref="ValueSpecification"/> is a <see cref="ParameterableElement"/> that may be exposed as a formal <see cref="TemplateParameter"/> and provided as the actual parameter in the binding of a template.
     /// </summary>
+    [Class(IsAbstract = true, IsActive = false, Specializations = "Duration|Expression|Interval|LiteralSpecification|OpaqueExpression|TimeExpression|InstanceValue")]
     public interface ValueSpecification : TypedElement, PackageableElement
     {
     }

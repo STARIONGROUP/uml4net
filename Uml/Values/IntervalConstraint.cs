@@ -22,16 +22,21 @@
 namespace Uml.Values
 {
     using Uml.Assembler;
+    using Uml.Attributes;
+    using Uml.Classification;
     using Uml.CommonStructure;
 
     /// <summary>
-    /// An IntervalConstraint is a Constraint that is specified by an Interval.
+    /// An <see cref="IntervalConstraint"/> is a <see cref="Constraint"/> that is specified by an <see cref="Interval"/>.
     /// </summary>
+    [Class(IsAbstract = false, IsActive = false, Specializations = "DurationConstraint|TimeConstraint")]
     public interface IntervalConstraint : Constraint
     {
         /// <summary>
-        /// The Interval that specifies the condition of the IntervalConstraint.
+        /// The <see cref="Interval"/> that specifies the condition of the <see cref="IntervalConstraint"/>.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 1, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.Composite, SubsettedProperty = "", RedefinedProperty = "Constraint.Specification")]
         OwnerList<Interval> Specification { get; set; }
     }
 }

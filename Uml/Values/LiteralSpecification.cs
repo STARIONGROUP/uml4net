@@ -21,9 +21,12 @@
 
 namespace Uml.Values
 {
+    using Uml.Attributes;
+    
     /// <summary>
-    /// A LiteralSpecification identifies a literal constant being modeled.
+    /// A <see cref="LiteralSpecification"/> identifies a literal constant being modeled.
     /// </summary>
+    [Class(IsAbstract = true, IsActive = false, Specializations = "LiteralBoolean|LiteralInteger|LiteralNull|LiteralReal|LiteralString|LiteralUnlimitedNatural")]
     public interface LiteralSpecification : ValueSpecification
     {
     }

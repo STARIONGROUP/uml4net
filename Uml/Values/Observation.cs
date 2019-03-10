@@ -22,10 +22,12 @@
 namespace Uml.Values
 {
     using Uml.CommonStructure;
-
+    using Uml.Attributes;
+    
     /// <summary>
-    /// Observation specifies a value determined by observing an event or events that occur relative to other model Elements.
+    /// <see cref="Observation"/> specifies a value determined by observing an event or events that occur relative to other model <see cref="Element"/>s.
     /// </summary>
+    [Class(IsAbstract = true, IsActive = false, Specializations = "DurationObservation|TimeObservation")]
     public interface Observation : PackageableElement
     {
     }

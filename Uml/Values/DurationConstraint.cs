@@ -23,20 +23,27 @@ namespace Uml.Values
 {
     using System.Collections.Generic;
     using Uml.Assembler;
+    using Uml.Attributes;
+    using Uml.Classification;
 
     /// <summary>
     /// A DurationConstraint is a Constraint that refers to a DurationInterval.
     /// </summary>
+    [Class(IsAbstract = false, IsActive = false, Specializations = "")]
     public interface DurationConstraint : IntervalConstraint
     {
         /// <summary>
         /// The value of firstEvent[i] is related to constrainedElement[i] (where i is 1 or 2). If firstEvent[i] is true, then the corresponding observation event is the first time instant the execution enters constrainedElement[i]. If firstEvent[i] is false, then the corresponding observation event is the last time instant the execution is within constrainedElement[i].
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 0, Upper = "2")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "", RedefinedProperty = "")]
         List<string> FirstEvent { get; set; }
 
         /// <summary>
         /// The <see cref="DurationInterval"/> constraining the duration.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 1, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.Composite, SubsettedProperty = "", RedefinedProperty = "IntervalConstraint.Specification")]
         OwnerList<DurationInterval> Specification { get; set; }
     }
 }

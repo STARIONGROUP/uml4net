@@ -23,20 +23,27 @@ namespace Uml.Values
 {
     using System.Collections.Generic;
     using Uml.Assembler;
-
+    using Uml.Attributes;
+    using Uml.Classification;
+    
     /// <summary>
     /// A <see cref="Duration"/> is a <see cref="ValueSpecification"/> that specifies the temporal distance between two time instants.
     /// </summary>
+    [Class(IsAbstract = false, IsActive = false, Specializations = "")]
     public interface Duration : ValueSpecification
     {
         /// <summary>
         /// A <see cref="Duration"/> is a <see cref="ValueSpecification"/> that specifies the temporal distance between two time instants.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 0, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.Composite, SubsettedProperty = "Element.OwnedElement", RedefinedProperty = "")]
         OwnerList<ValueSpecification> Expr { get; set; }
 
         /// <summary>
         /// Refers to the <see cref="Observation"/>s that are involved in the computation of the <see cref="Duration"/> value
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 0, Upper = "*")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "", RedefinedProperty = "")]
         List<Observation> Observation { get; set; }
     }
 }
