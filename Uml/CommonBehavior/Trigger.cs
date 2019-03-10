@@ -22,22 +22,29 @@
 namespace Uml.CommonBehavior
 {
     using System.Collections.Generic;
+    using Uml.Attributes;
+    using Uml.Classification;
     using Uml.CommonStructure;
     using Uml.StructuredClassifiers;
 
     /// <summary>
     /// A <see cref="Trigger"/> specifies a specific point  at which an <see cref="Event"/> occurrence may trigger an effect in a <see cref="Behavior"/>. A <see cref="Trigger"/> may be qualified by the <see cref="Port"/> on which the Event occurred.
     /// </summary>
+    [Class(IsAbstract = false, IsActive = false, Specializations = "")]
     public interface Trigger : NamedElement
     {
         /// <summary>
         /// The <see cref="Event"/> that detected by the <see cref="Trigger"/>.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 1, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "", RedefinedProperty = "")]
         Event Event { get; set; }
 
         /// <summary>
         /// A optional <see cref="Port"/> of through which the given effect is detected.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 0, Upper = "*")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "", RedefinedProperty = "")]
         List<Port> Port { get; set; }
     }
 }

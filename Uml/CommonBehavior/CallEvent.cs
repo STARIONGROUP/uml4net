@@ -21,16 +21,20 @@
 
 namespace Uml.CommonBehavior
 {
+    using Uml.Attributes;
     using Uml.Classification;
 
     /// <summary>
     /// A <see cref="CallEvent"/> models the receipt by an object of a message invoking a call of an <see cref="Operation"/>.
     /// </summary>
+    [Class(IsAbstract = false, IsActive = false, Specializations = "")]
     public interface CallEvent : MessageEvent
     {
         /// <summary>
         /// Designates the <see cref="Operation"/> whose invocation raised the <see cref="CalEvent"/>.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 1, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "", RedefinedProperty = "")]
         Operation Operation { get; set; }
     }
 }

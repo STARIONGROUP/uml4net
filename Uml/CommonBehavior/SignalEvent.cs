@@ -21,16 +21,21 @@
 
 namespace Uml.CommonBehavior
 {
+    using Uml.Attributes;
+    using Uml.Classification;
     using Uml.SimpleClassifiers;
 
     /// <summary>
     /// A <see cref="SignalEvent"/> represents the receipt of an asynchronous <see cref="Signal"/> instance.
     /// </summary>
+    [Class(IsAbstract = false, IsActive = false, Specializations = "")]
     public interface SignalEvent : MessageEvent
     {
         /// <summary>
-        /// The specific Signal that is associated with this <see cref="SignalEvent"/>.
+        /// The specific <see cref="Signal"/> that is associated with this <see cref="SignalEvent"/>.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 1, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "", RedefinedProperty = "")]
         Signal Signal { get; set; }
     }
 }

@@ -22,20 +22,27 @@
 namespace Uml.CommonBehavior
 {
     using System.Collections.Generic;
+    using Uml.Attributes;
+    using Uml.Classification;
 
     /// <summary>
     /// An <see cref="OpaqueBehavior"/> is a <see cref="Behavior"/> whose specification is given in a textual language other than UML.
     /// </summary>
+    [Class(IsAbstract = false, IsActive = false, Specializations = "FunctionBehavior")]
     public interface OpaqueBehavior : Behavior
     {
         /// <summary>
         /// Specifies the behavior in one or more languages.
         /// </summary>
+        [MultiplicityElement(IsOrdered = true, IsUnique = true, Lower = 0, Upper = "*")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "", RedefinedProperty = "")]
         List<string> Body { get; set; }
 
         /// <summary>
         /// Languages the body strings use in the same order as the body strings.
         /// </summary>
+        [MultiplicityElement(IsOrdered = true, IsUnique = true, Lower = 0, Upper = "*")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "", RedefinedProperty = "")]
         List<string> Language { get; set; }
     }
 }
