@@ -21,9 +21,12 @@
 
 namespace Uml.CommonBehavior
 {
+    using Uml.Attributes;
+    
     /// <summary>
     /// A <see cref="FunctionBehavior"/> is an <see cref="OpaqueBehavior"/> that does not access or modify any objects or other external data.
     /// </summary>
+    [Class(IsAbstract = false, IsActive = false, Specializations = "")]
     public interface FunctionBehavior : OpaqueBehavior
     {
     }

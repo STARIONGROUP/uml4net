@@ -21,9 +21,12 @@
 
 namespace Uml.CommonBehavior
 {
+    using Uml.Attributes;
+    
     /// <summary>
     /// A <see cref="MessageEvent"/> specifies the receipt by an object of either an <see cref="Operation"/> call or a <see cref="Signal"/> instance.
     /// </summary>
+    [Class(IsAbstract = true, IsActive = false, Specializations = "AnyReceiveEvent|CallEvent|SignalEvent")]
     public interface MessageEvent : Event
     {
     }

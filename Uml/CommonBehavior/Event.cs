@@ -21,11 +21,13 @@
 
 namespace Uml.CommonBehavior
 {
+    using Uml.Attributes;
     using Uml.CommonStructure;
 
     /// <summary>
     /// An <see cref="Event"/> is the specification of some occurrence that may potentially trigger effects by an object.
     /// </summary>
+    [Class(IsAbstract = true, IsActive = false, Specializations = "ChangeEvent|MessageEvent|TimeEvent")]
     public interface Event : PackageableElement
     {
     }
