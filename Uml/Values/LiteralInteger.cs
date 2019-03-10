@@ -21,14 +21,20 @@
 
 namespace Uml.Values
 {
+    using Uml.Attributes;
+    using Uml.Classification;
+
     /// <summary>
-    /// A LiteralInteger is a specification of an Integer value.
+    /// A <see cref="LiteralInteger"/> is a specification of an Integer value.
     /// </summary>
+    [Class(IsAbstract = false, IsActive = false, Specializations = "")]
     public interface LiteralInteger : LiteralSpecification
     {
         /// <summary>
         /// The specified Integer value.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 1, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "", RedefinedProperty = "")]
         int Value { get; set; }
     }
 }

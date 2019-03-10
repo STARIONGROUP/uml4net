@@ -22,21 +22,28 @@
 namespace Uml.Values
 {
     using Uml.Assembler;
+    using Uml.Attributes;
+    using Uml.Classification;
     using Uml.CommonStructure;
 
     /// <summary>
-    /// A StringExpression is an Expression that specifies a String value that is derived by concatenating a sequence of operands with String values or a sequence of subExpressions, some of which might be template parameters.
+    /// A <see cref="StringExpression"/> is an <see cref="Expression"/> that specifies a String value that is derived by concatenating a sequence of operands with String values or a sequence of subExpressions, some of which might be template parameters.
     /// </summary>
+    [Class(IsAbstract = false, IsActive = false, Specializations = "")]
     public interface StringExpression : TemplateableElement, Expression
     {
         /// <summary>
         /// The <see cref="StringExpression"/> of which this <see cref="StringExpression"/> is a subExpression.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 0, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "Element.Owner", RedefinedProperty = "")]
         StringExpression OwningExpression { get; set; }
 
         /// <summary>
         /// The <see cref="StringExpression"/>s that constitute this <see cref="StringExpression"/>.
         /// </summary>
+        [MultiplicityElement(IsOrdered = true, IsUnique = true, Lower = 0, Upper = "*")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.Composite, SubsettedProperty = "Element.OwnedElement", RedefinedProperty = "")]
         OwnerList<StringExpression> SubExpression { get; set; }
     }
 }

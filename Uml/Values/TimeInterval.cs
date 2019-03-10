@@ -21,19 +21,27 @@
 
 namespace Uml.Values
 {
+    using Uml.Attributes;
+    using Uml.Classification;
+
     /// <summary>
     /// A <see cref="TimeInterval"/> defines the range between two <see cref="TimeExpression"/>s.
     /// </summary>
+    [Class(IsAbstract = false, IsActive = false, Specializations = "")]
     public interface TimeInterval : Interval
     {
         /// <summary>
         /// Refers to the <see cref="TimeExpression"/> denoting the maximum value of the range.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 1, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "", RedefinedProperty = "")]
         TimeExpression Max { get; set; }
 
         /// <summary>
         /// Refers to the <see cref="TimeExpression"/> denoting the minimum value of the range.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 1, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "", RedefinedProperty = "")]
         TimeExpression Min { get; set; }
     }
 }

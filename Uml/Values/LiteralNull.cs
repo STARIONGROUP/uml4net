@@ -21,9 +21,12 @@
 
 namespace Uml.Values
 {
+    using Uml.Attributes;
+
     /// <summary>
-    /// A LiteralNull specifies the lack of a value.
+    /// A <see cref="LiteralNull"/> specifies the lack of a value.
     /// </summary>
+    [Class(IsAbstract = false, IsActive = false, Specializations = "")]
     public interface LiteralNull : LiteralSpecification
     {
     }

@@ -22,20 +22,27 @@
 namespace Uml.Values
 {
     using Uml.Assembler;
+    using Uml.Attributes;
+    using Uml.Classification;
 
     /// <summary>
     /// A <see cref="TimeConstraint"/> is a <see cref="Constraint"/> that refers to a <see cref="TimeInterval"/>.
     /// </summary>
+    [Class(IsAbstract = false, IsActive = false, Specializations = "")]
     public interface TimeConstraint : IntervalConstraint
     {
         /// <summary>
         /// The value of firstEvent is related to the constrainedElement. If firstEvent is true, then the corresponding observation event is the first time instant the execution enters the constrainedElement. If firstEvent is false, then the corresponding observation event is the last time instant the execution is within the constrainedElement.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 0, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "", RedefinedProperty = "")]
         bool FirstEvent { get; set; }
 
         /// <summary>
         /// The <see cref="TimeInterval"/> constraining the duration.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 1, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "", RedefinedProperty = "IntervalConstraint.Specification")]
         OwnerList<TimeInterval> Specification { get; set; }
     }
 }

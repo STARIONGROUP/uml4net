@@ -21,14 +21,20 @@
 
 namespace Uml.Values
 {
+    using Uml.Attributes;
+    using Uml.Classification;
+
     /// <summary>
-    /// A LiteralBoolean is a specification of a Boolean value.
+    /// A <see cref="LiteralBoolean"/> is a specification of a Boolean value.
     /// </summary>
+    [Class(IsAbstract = false, IsActive = false, Specializations = "")]
     public interface LiteralBoolean : LiteralSpecification
     {
         /// <summary>
         /// The specified Boolean value.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 1, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "", RedefinedProperty = "")]
         bool Value { get; set; }
     }
 }

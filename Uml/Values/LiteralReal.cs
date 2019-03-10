@@ -21,14 +21,20 @@
 
 namespace Uml.Values
 {
+    using Uml.Attributes;
+    using Uml.Classification;
+
     /// <summary>
-    /// A LiteralReal is a specification of a Real value.
+    /// A <see cref="LiteralReal"/> is a specification of a Real value.
     /// </summary>
+    [Class(IsAbstract = false, IsActive = false, Specializations = "")]
     public interface LiteralReal : LiteralSpecification
     {
         /// <summary>
         /// The specified Real value.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 1, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "", RedefinedProperty = "")]
         double Value { get; set; }
     }
 }

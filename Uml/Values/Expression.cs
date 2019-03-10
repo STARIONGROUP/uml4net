@@ -22,20 +22,27 @@
 namespace Uml.Values
 {
     using Uml.Assembler;
-
+    using Uml.Attributes;
+    using Uml.Classification;
+    
     /// <summary>
     /// An Expression represents a node in an expression tree, which may be non-terminal or terminal. It defines a symbol, and has a possibly empty sequence of operands that are ValueSpecifications. It denotes a (possibly empty) set of values when evaluated in a context.
     /// </summary>
+    [Class(IsAbstract = false, IsActive = false, Specializations = "StringExpression")]
     public interface Expression : ValueSpecification
     {
         /// <summary>
         /// Specifies a sequence of operand <see cref="ValueSpecification"/>s.
         /// </summary>
+        [MultiplicityElement(IsOrdered = true, IsUnique = true, Lower = 0, Upper = "*")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.Composite, SubsettedProperty = "Element.OwnedElement", RedefinedProperty = "")]
         OwnerList<ValueSpecification> Operand { get; set; }
 
         /// <summary>
         /// The symbol associated with this node in the expression tree.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 0, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "", RedefinedProperty = "")]
         string Symbol { get; set; }
     }
 }

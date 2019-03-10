@@ -21,19 +21,27 @@
 
 namespace Uml.Values
 {
+    using Uml.Attributes;
+    using Uml.Classification;
+
     /// <summary>
     /// An Interval defines the range between two ValueSpecifications.
     /// </summary>
+    [Class(IsAbstract = false, IsActive = false, Specializations = "DurationInterval|TimeInterval")]
     public interface Interval : ValueSpecification
     {
         /// <summary>
         /// Refers to the ValueSpecification denoting the maximum value of the range.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 1, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "", RedefinedProperty = "")]
         ValueSpecification Max { get; set; }
 
         /// <summary>
         /// Refers to the ValueSpecification denoting the minimum value of the range.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 1, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "", RedefinedProperty = "")]
         ValueSpecification Min { get; set; }
     }
 }
