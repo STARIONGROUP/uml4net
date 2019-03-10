@@ -21,14 +21,20 @@
 
 namespace Uml.Packages
 {
+    using Uml.Attributes;
+    using Uml.Classification;
+    
     /// <summary>
     /// A model captures a view of a physical system. It is an abstraction of the physical system, with a certain purpose. This purpose determines what is to be included in the model and what is irrelevant. Thus the model completely describes those aspects of the physical system that are relevant to the purpose of the model, at the appropriate level of detail.
     /// </summary>
+    [Class(IsAbstract = false, IsActive = false, Specializations = "")]
     public interface Model : Package
     {
         /// <summary>
         /// The name of the viewpoint that is expressed by a model (this name may refer to a profile definition).
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 0, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "", RedefinedProperty = "")]
         string Viewpoint { get; set; }
     }
 }

@@ -21,25 +21,28 @@
 
 namespace Uml.Packages
 {
+    using Uml.Attributes;
     using Uml.Classification;
-
+    
     /// <summary>
     /// An extension end is used to tie an extension to a stereotype when extending a metaclass.
     /// The default multiplicity of an extension end is 0..1.
     /// </summary>
+    [Class(IsAbstract = false, IsActive = false, Specializations = "")]
     public interface ExtensionEnd : Property
     {
         /// <summary>
         /// This redefinition changes the default multiplicity of association ends, since model elements are usually extended by 0 or 1 instance of the extension stereotype.
-        /// </summary>
-        /// <remarks>
-        /// Derived property.
-        /// </remarks>
+        /// </summary>        
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 0, Upper = "1")]
+        [Property(IsDerived = true, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "", RedefinedProperty = "")]
         int Lower { get; }
 
         /// <summary>
         /// References the type of the <see cref="ExtensionEnd"/>. Note that this association restricts the possible types of an ExtensionEnd to only be <see cref="Stereotype"/>s.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 1, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "", RedefinedProperty = "TypedElement.Type")]
         Stereotype Type { get; set; }
     }
 }

@@ -22,32 +22,35 @@
 namespace Uml.Packages
 {
     using Uml.Assembler;
+    using Uml.Attributes;
+    using Uml.Classification;
     using Uml.StructuredClassifiers;
 
     /// <summary>
     /// An extension is used to indicate that the properties of a metaclass are extended through a stereotype, and gives the ability to flexibly add (and later remove) stereotypes to classes.
     /// </summary>
+    [Class(IsAbstract = false, IsActive = false, Specializations = "")]
     public interface Extension : Association
     {
         /// <summary>
         /// Indicates whether an instance of the extending stereotype must be created when an instance of the extended class is created. The attribute value is derived from the value of the lower property of the ExtensionEnd referenced by Extension::ownedEnd; a lower value of 1 means that isRequired is true, but otherwise it is false. Since the default value of ExtensionEnd::lower is 0, the default value of isRequired is false.
         /// </summary>
-        /// <remarks>
-        /// Derived property.
-        /// </remarks>
-        bool isRequired { get; }
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 1, Upper = "1")]
+        [Property(IsDerived = true, IsDerivedUnion = false, IsReadOnly = true, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "", RedefinedProperty = "")]
+        bool IsRequired { get; }
 
         /// <summary>
         /// References the <see cref="Class"/> that is extended through an <see cref="Extension"/>. The property is derived from the type of the memberEnd that is not the ownedEnd.
         /// </summary>
-        /// <remarks>
-        /// Derived property.
-        /// </remarks>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 1, Upper = "1")]
+        [Property(IsDerived = true, IsDerivedUnion = false, IsReadOnly = true, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "", RedefinedProperty = "")]
         Class MetaClass { get; }
 
         /// <summary>
         /// References the end of the extension that is typed by a Stereotype.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 1, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.Composite, SubsettedProperty = "", RedefinedProperty = "Association.OwnedEnd")]
         OwnerList<ExtensionEnd> OwnedEnd { get; set; }
     }
 }

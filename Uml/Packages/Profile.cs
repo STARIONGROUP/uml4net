@@ -22,21 +22,28 @@
 namespace Uml.Packages
 {
     using Uml.Assembler;
+    using Uml.Attributes;
+    using Uml.Classification;
     using Uml.CommonStructure;
 
     /// <summary>
     /// A profile defines limited extensions to a reference metamodel with the purpose of adapting the metamodel to a specific platform or domain.
     /// </summary>
+    [Class(IsAbstract = false, IsActive = false, Specializations = "")]
     public interface Profile : Package
     {
         /// <summary>
         /// References a metaclass that may be extended.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 0, Upper = "*")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.Composite, SubsettedProperty = "Namespace.ElementImport", RedefinedProperty = "")]
         OwnerList<ElementImport> MetaclassReference { get; set; }
 
         /// <summary>
         /// References a package containing (directly or indirectly) metaclasses that may be extended.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 0, Upper = "*")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.Composite, SubsettedProperty = "Namespace.PackageImport", RedefinedProperty = "")]
         OwnerList<PackageImport> MetamodelReference { get; set; }
     }
 }
