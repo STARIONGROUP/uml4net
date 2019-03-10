@@ -21,26 +21,35 @@
 
 namespace Uml.Packages
 {
+    using Uml.Attributes;
+    using Uml.Classification;
     using Uml.CommonStructure;
 
     /// <summary>
     /// A profile application is used to show which profiles have been applied to a package.
     /// </summary>
+    [Class(IsAbstract = false, IsActive = false, Specializations = "")]
     public interface ProfileApplication : DirectedRelationship
     {
         /// <summary>
         /// References the <see cref="Profile"/>s that are applied to a <see cref="Package"/> through this <see cref="ProfileApplication"/>.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 1, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "DirectedRelationship.Target", RedefinedProperty = "")]
         Profile AppliedProfile { get; set; }
 
         /// <summary>
         /// The package that owns the profile application.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 1, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "DirectedRelationship.Source|Element.Owner", RedefinedProperty = "")]
         Package ApplyingPackage { get; set; }
 
         /// <summary>
         /// Specifies that the <see cref="Profile"/> filtering rules for the metaclasses of the referenced metamodel shall be strictly applied.
         /// </summary>
-        bool isStrict { get; set; }
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 1, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "", RedefinedProperty = "")]
+        bool IsStrict { get; set; }
     }
 }

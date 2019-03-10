@@ -21,21 +21,28 @@
 
 namespace Uml.Packages
 {
+    using Uml.Attributes;
+    using Uml.Classification;
     using Uml.CommonStructure;
 
     /// <summary>
     /// A package merge defines how the contents of one package are extended by the contents of another package.
     /// </summary>
+    [Class(IsAbstract = false, IsActive = false, Specializations = "")]
     public interface PackageMerge : DirectedRelationship
     {
         /// <summary>
         /// References the <see cref="Package"/> that is to be merged with the receiving package of the <see cref="PackageMerge"/>.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 1, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "DirectedRelationship.Target", RedefinedProperty = "")]
         Package MergedPackage { get; set; }
 
         /// <summary>
         /// References the Package that is being extended with the contents of the merged package of the <see cref="PackageMerge"/>.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 1, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "DirectedRelationship.Source|Element.Owner", RedefinedProperty = "")]
         Package ReceivingPackage { get; set; }
     }
 }
