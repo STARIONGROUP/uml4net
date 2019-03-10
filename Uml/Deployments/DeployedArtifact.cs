@@ -21,11 +21,13 @@
 
 namespace Uml.Deployments
 {
+    using Uml.Attributes;
     using Uml.CommonStructure;
 
     /// <summary>
     /// A deployed artifact is an artifact or artifact instance that has been deployed to a deployment target.
     /// </summary>
+    [Class(IsAbstract = true, IsActive = false, Specializations = "Artifact|InstanceSpecification")]
     public interface DeployedArtifact : NamedElement
     {
     }

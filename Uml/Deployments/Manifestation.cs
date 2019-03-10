@@ -21,16 +21,21 @@
 
 namespace Uml.Deployments
 {
+    using Uml.Attributes;
+    using Uml.Classification;
     using Uml.CommonStructure;
 
     /// <summary>
     /// A manifestation is the concrete physical rendering of one or more model elements by an artifact.
     /// </summary>
+    [Class(IsAbstract = false, IsActive = false, Specializations = "")]
     public interface Manifestation : Abstraction
     {
         /// <summary>
         /// The model element that is utilized in the manifestation in an Artifact.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 1, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "Dependency.Supplier", RedefinedProperty = "")]
         PackageableElement UtilizedElement { get; set; }
     }
 }

@@ -22,16 +22,21 @@
 namespace Uml.Deployments
 {
     using Uml.Assembler;
+    using Uml.Attributes;
+    using Uml.Classification;
     using Uml.StructuredClassifiers;
 
     /// <summary>
-    /// A Node is computational resource upon which artifacts may be deployed for execution. Nodes can be interconnected through communication paths to define network structures.
+    /// A <see cref="Node"/> is computational resource upon which artifacts may be deployed for execution. <see cref="Node"/>s can be interconnected through communication paths to define network structures.
     /// </summary>
+    [Class(IsAbstract = false, IsActive = false, Specializations = "Device|ExecutionEnvironment")]
     public interface Node : Class, DeploymentTarget
     {
         /// <summary>
         /// The Nodes that are defined (nested) within the Node.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 0, Upper = "*")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.Composite, SubsettedProperty = "Namespace.OwnedMember", RedefinedProperty = "")]
         OwnerList<Node> NestedNode { get; set; }
     }
 }

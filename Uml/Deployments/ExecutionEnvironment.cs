@@ -21,9 +21,12 @@
 
 namespace Uml.Deployments
 {
+    using Uml.Attributes;
+    
     /// <summary>
     /// An execution environment is a node that offers an execution environment for specific types of components that are deployed on it in the form of executable artifacts.
     /// </summary>
+    [Class(IsAbstract = false, IsActive = false, Specializations = "")]
     public interface ExecutionEnvironment : Node
     {
     }

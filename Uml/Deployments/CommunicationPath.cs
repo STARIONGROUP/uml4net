@@ -21,11 +21,13 @@
 
 namespace Uml.Deployments
 {
+    using Uml.Attributes;
     using Uml.StructuredClassifiers;
 
     /// <summary>
     /// A communication path is an association between two deployment targets, through which they are able to exchange signals and messages.
     /// </summary>
+    [Class(IsAbstract = false, IsActive = false, Specializations = "")]
     public interface CommunicationPath : Association
     {
     }
