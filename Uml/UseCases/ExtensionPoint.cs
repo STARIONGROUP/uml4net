@@ -21,16 +21,20 @@
 
 namespace Uml.UseCases
 {
+    using Uml.Attributes;
     using Uml.Classification;
 
     /// <summary>
     /// An <see cref="ExtensionPoint"/> identifies a point in the behavior of a <see cref="UseCase"/> where that behavior can be extended by the behavior of some other (extending) <see cref="UseCase"/>, as specified by an <see cref="Extend"/> relationship.
     /// </summary>
+    [Class(IsAbstract = false, IsActive = false, Specializations = "")]
     public interface ExtensionPoint : RedefinableElement
     {
         /// <summary>
         /// The <see cref="UseCase"/> that owns this <see cref="ExtensionPoint"/>.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 1, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "NamedElement.Namespace", RedefinedProperty = "")]
         UseCase UseCase { get; set; }
     }
 }
