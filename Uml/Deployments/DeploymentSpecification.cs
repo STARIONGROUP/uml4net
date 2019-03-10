@@ -21,24 +21,34 @@
 
 namespace Uml.Deployments
 {
+    using Uml.Attributes;
+    using Uml.Classification;
+
     /// <summary>
     /// A deployment specification specifies a set of properties that determine execution parameters of a component artifact that is deployed on a node. A deployment specification can be aimed at a specific type of container. An artifact that reifies or implements deployment specification properties is a deployment descriptor.
     /// </summary>
+    [Class(IsAbstract = false, IsActive = false, Specializations = "")]
     public interface DeploymentSpecification : Artifact
     {
         /// <summary>
         /// The deployment with which the <see cref="DeploymentSpecification"/> is associated.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 0, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "Element.Owner", RedefinedProperty = "")]
         Deployment Deployment { get; set; }
 
         /// <summary>
         /// The location where an <see cref="Artifact"/> is deployed onto a Node. This is typically a 'directory' or 'memory address.'
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 0, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "", RedefinedProperty = "")]
         string DeploymentLocation { get; set; }
 
         /// <summary>
         /// The location where a component <see cref="Artifact"/> executes. This may be a local or remote location.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 0, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "", RedefinedProperty = "")]
         string ExecutionLocation { get; set; }
     }
 }

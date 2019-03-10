@@ -22,37 +22,49 @@
 namespace Uml.Deployments
 {
     using Uml.Assembler;
+    using Uml.Attributes;
     using Uml.Classification;
 
     /// <summary>
     /// An artifact is the specification of a physical piece of information that is used or produced by a software development process, or by deployment and operation of a system. Examples of artifacts include model files, source files, scripts, and binary executable files, a table in a database system, a development deliverable, or a word-processing document, a mail message.
     /// An artifact is the source of a deployment to a node.
     /// </summary>
+    [Class(IsAbstract = false, IsActive = false, Specializations = "DeploymentSpecification")]
     public interface Artifact : Classifier, DeployedArtifact
     {
         /// <summary>
         /// A concrete name that is used to refer to the <see cref="Artifact"/> in a physical context. Example: file system name, universal resource locator.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 0, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "", RedefinedProperty = "")]
         string FileName { get; set; }
 
         /// <summary>
         /// The set of model elements that are manifested in the Artifact. That is, these model elements are utilized in the construction (or generation) of the artifact.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 0, Upper = "*")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.Composite, SubsettedProperty = "Element.OwnedElement|NamedElement.ClientDependency", RedefinedProperty = "")]
         OwnerList<Manifestation> Manifestation { get; set; }
 
         /// <summary>
         /// The <see cref="Artifact"/>s that are defined (nested) within the <see cref="Artifact"/>. The association is a specialization of the ownedMember association from Namespace to <see cref="NamedElement"/>.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 0, Upper = "*")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.Composite, SubsettedProperty = "Namespace.OwnedMember", RedefinedProperty = "")]
         OwnerList<Artifact> NestedArtifact { get; set; }
 
         /// <summary>
         /// The attributes or association ends defined for the <see cref="Artifact"/>. The association is a specialization of the ownedMember association.
         /// </summary>
+        [MultiplicityElement(IsOrdered = true, IsUnique = true, Lower = 0, Upper = "*")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.Composite, SubsettedProperty = "Namespace.OwnedMember", RedefinedProperty = "")]
         OwnerList<Property> OwnedAttribute { get; set; }
 
         /// <summary>
         /// The <see cref="Operation"/>s defined for the <see cref="Artifact"/>. The association is a specialization of the ownedMember association.
         /// </summary>
+        [MultiplicityElement(IsOrdered = true, IsUnique = true, Lower = 0, Upper = "*")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.Composite, SubsettedProperty = "Classifier.Feature|Namespace.OwnedMember", RedefinedProperty = "")]
         OwnerList<Operation> OwnedOperation { get; set; }
     }
 }

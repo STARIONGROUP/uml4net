@@ -23,24 +23,28 @@ namespace Uml.Deployments
 {
     using System.Collections.Generic;
     using Uml.Assembler;
+    using Uml.Attributes;
+    using Uml.Classification;
     using Uml.CommonStructure;
 
     /// <summary>
     /// A deployment target is the location for a deployed artifact.
     /// </summary>
+    [Class(IsAbstract = true, IsActive = false, Specializations = "Node|InstanceSpecification|Property")]
     public interface DeploymentTarget : NamedElement
     {
         /// <summary>
         /// The set of elements that are manifested in an <see cref="Artifact"/> that is involved in <see cref="Deployment"/> to a <see cref="DeploymentTarget"/>.
         /// </summary>
-        /// <remarks>
-        /// Derived property.
-        /// </remarks>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 0, Upper = "*")]
+        [Property(IsDerived = true, IsDerivedUnion = false, IsReadOnly = true, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "", RedefinedProperty = "")]
         IEnumerable<PackageableElement> DeployedElement { get; set; }
 
         /// <summary>
         /// The set of Deployments for a <see cref="DeploymentTarget"/>.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 0, Upper = "*")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.Composite, SubsettedProperty = "Element.OwnedElement|NamedElement.ClientDependency", RedefinedProperty = "")]
         OwnerList<Deployment> Deployment { get; set; }
     }
 }
