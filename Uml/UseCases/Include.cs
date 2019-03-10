@@ -21,21 +21,28 @@
 
 namespace Uml.UseCases
 {
+    using Uml.Attributes;
+    using Uml.Classification;
     using Uml.CommonStructure;
 
     /// <summary>
-    /// An Include relationship specifies that a UseCase contains the behavior defined in another UseCase.
+    /// An <see cref="Include"/> relationship specifies that a <see cref="UseCase"/> contains the behavior defined in another <see cref="UseCase"/>.
     /// </summary>
+    [Class(IsAbstract = false, IsActive = false, Specializations = "")]
     public interface Include : DirectedRelationship, NamedElement
     {
         /// <summary>
         /// The <see cref="UseCase"/> that is to be included.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 1, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "DirectedRelationship.Target", RedefinedProperty = "")]
         UseCase Addition { get; set; }
 
         /// <summary>
         /// The <see cref="UseCase"/> which includes the addition and owns the <see cref="Include"/> relationship.
         /// </summary>
-        UseCase includingCase { get; set; }
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 1, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "NamedElement.Namespace|DirectedRelationship.Source", RedefinedProperty = "")]
+        UseCase IncludingCase { get; set; }
     }
 }

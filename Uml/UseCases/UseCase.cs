@@ -22,32 +22,42 @@
 namespace Uml.UseCases
 {
     using Uml.Assembler;
+    using Uml.Attributes;
     using Uml.Classification;
     using Uml.SimpleClassifiers;
 
     /// <summary>
     /// A <see cref="UseCase"/> specifies a set of actions performed by its subjects, which yields an observable result that is of value for one or more Actors or other stakeholders of each subject.
     /// </summary>
+    [Class(IsAbstract = false, IsActive = false, Specializations = "")]
     public interface UseCase : BehavioredClassifier
     {
         /// <summary>
         /// The <see cref="Extend"/> relationships owned by this <see cref="UseCase"/>.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 0, Upper = "*")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.Composite, SubsettedProperty = "Namespace.OwnedMember", RedefinedProperty = "")]
         OwnerList<Extend> Extend { get; set; }
 
         /// <summary>
         /// The <see cref="ExtensionPoint"/>s owned by this <see cref="UseCase"/>.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 0, Upper = "*")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.Composite, SubsettedProperty = "Namespace.OwnedMember", RedefinedProperty = "")]
         OwnerList<ExtensionPoint> ExtensionPoint { get; set; }
 
         /// <summary>
         /// The <see cref="Include"/> relationships owned by this <see cref="UseCase"/>.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 0, Upper = "*")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.Composite, SubsettedProperty = "Namespace.OwnedMember", RedefinedProperty = "")]
         OwnerList<Include> Include { get; set; }
 
         /// <summary>
         /// The subjects to which this <see cref="UseCase"/> applies. Each subject or its parts realize all the <see cref="UseCase"/>s that apply to it.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 0, Upper = "*")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "", RedefinedProperty = "")]
         Classifier Subject { get; set; }
     }
 }
