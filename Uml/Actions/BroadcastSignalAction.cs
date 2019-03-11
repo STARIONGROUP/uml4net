@@ -21,16 +21,21 @@
 
 namespace Uml.Actions
 {
+    using Uml.Attributes;
+    using Uml.Classification;
     using Uml.SimpleClassifiers;
 
     /// <summary>
     /// A <see cref="BroadcastSignalAction"/> is an <see cref="InvocationAction"/> that transmits a Signal instance to all the potential target objects in the system. Values from the argument <see cref="InputPin"/>s are used to provide values for the attributes of the <see cref="Signal"/>. The requestor continues execution immediately after the <see cref="Signal"/> instances are sent out and cannot receive reply values.
     /// </summary>
+    [Class(IsAbstract = false, IsActive = false, Specializations = "")]
     public interface BroadcastSignalAction : InvocationAction
     {
         /// <summary>
-        /// The Signal whose instances are to be sent.
+        /// The <see cref="Signal"/> whose instances are to be sent.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 1, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "", RedefinedProperty = "")]
         Signal Signal { get; set; }
     }
 }

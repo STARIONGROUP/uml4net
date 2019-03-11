@@ -21,19 +21,27 @@
 
 namespace Uml.Actions
 {
+    using Uml.Attributes;
+    using Uml.Classification;
+
     /// <summary>
     /// <see cref="LinkEndCreationData"/> is <see cref="LinkEndData"/> used to provide values for one end of a link to be created by a <see cref="CreateLinkAction"/>.
     /// </summary>
+    [Class(IsAbstract = false, IsActive = false, Specializations = "")]
     public interface LinkEndCreationData : LinkEndData
     {
         /// <summary>
-        /// For ordered Association ends, the InputPin that provides the position where the new link should be inserted or where an existing link should be moved to. The type of the insertAt InputPin is UnlimitedNatural, but the input cannot be zero. It is omitted for Association ends that are not ordered.
+        /// For ordered Association ends, the <see cref="InputPin"/> that provides the position where the new link should be inserted or where an existing link should be moved to. The type of the insertAt <see cref="InputPin"/> is UnlimitedNatural, but the input cannot be zero. It is omitted for Association ends that are not ordered.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 0, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "", RedefinedProperty = "")]
         InputPin InsertAt { get; set; }
 
         /// <summary>
         /// Specifies whether the existing links emanating from the object on this end should be destroyed before creating a new link.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 1, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "", RedefinedProperty = "")]
         bool IsReplaceAll { get; set; }
     }
 }

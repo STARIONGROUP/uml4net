@@ -22,21 +22,27 @@
 namespace Uml.Actions
 {
     using Uml.Assembler;
+    using Uml.Attributes;
     using Uml.Classification;
 
     /// <summary>
     /// A <see cref="ReadExtentAction"/> is an <see cref="Action"/> that retrieves the current instances of a <see cref="Classifier"/>.
     /// </summary>
+    [Class(IsAbstract = false, IsActive = false, Specializations = "")]
     public interface ReadExtentAction : Action
     {
         /// <summary>
-        /// The Classifier whose instances are to be retrieved.
+        /// The <see cref="Classifier"/> whose instances are to be retrieved.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 1, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "", RedefinedProperty = "")]
         Classifier Classifier { get; set; }
 
         /// <summary>
-        /// The OutputPin on which the Classifier instances are placed.
+        /// The <see cref="OutputPin"/> on which the <see cref="Classifier"/> instances are placed.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 1, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.Composite, SubsettedProperty = "Action.Output", RedefinedProperty = "")]
         OwnerList<OutputPin> Result { get; set; }
     }
 }

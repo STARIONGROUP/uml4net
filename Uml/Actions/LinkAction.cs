@@ -22,20 +22,27 @@
 namespace Uml.Actions
 {
     using Uml.Assembler;
+    using Uml.Attributes;
+    using Uml.Classification;
 
     /// <summary>
     /// <see cref="LinkAction"/> is an abstract class for all <see cref="Action"/>s that identify the links to be acted on using <see cref="LinkEndData"/>.
     /// </summary>
+    [Class(IsAbstract = true, IsActive = false, Specializations = "WriteLinkAction|ReadLinkAction")]
     public interface LinkAction : Action
     {
         /// <summary>
-        /// The LinkEndData identifying the values on the ends of the links acting on by this LinkAction.
+        /// The <see cref="LinkEndData"/> identifying the values on the ends of the links acting on by this <see cref="LinkAction"/>.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 2, Upper = "*")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.Composite, SubsettedProperty = "Element.OwnedElement", RedefinedProperty = "")]
         OwnerList<LinkEndData> EndData { get; set; }
 
         /// <summary>
-        /// InputPins used by the LinkEndData of the LinkAction.
+        /// <see cref="InputPin"/>s used by the <see cref="LinkEndData"/> of the <see cref="LinkAction"/>.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 1, Upper = "*")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.Composite, SubsettedProperty = "Action.Input", RedefinedProperty = "")]
         OwnerList<InputPin> InputValue { get; set; }
     }
 }

@@ -22,15 +22,20 @@
 namespace Uml.Actions
 {
     using Uml.Activities;
+    using Uml.Attributes;
+    using Uml.Classification;
 
     /// <summary>
-    /// VariableAction is an abstract class for Actions that operate on a specified Variable.
+    /// <see cref="VariableAction"/> is an abstract class for Actions that operate on a specified Variable.
     /// </summary>
+    [Class(IsAbstract = true, IsActive = false, Specializations = "WriteVariableAction|ClearVariableAction|ReadVariableAction")]
     public interface VariableAction : Action
     {
         /// <summary>
-        /// The Variable to be read or written.
+        /// The <see cref="Variable"/> to be read or written.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 1, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "", RedefinedProperty = "")]
         Variable Variable { get; set; }
     }
 }

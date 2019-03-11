@@ -22,26 +22,34 @@
 namespace Uml.Actions
 {
     using Uml.Assembler;
+    using Uml.Attributes;
     using Uml.Classification;
 
     /// <summary>
     /// A <see cref="ReadLinkObjectEndQualifierAction"/> is an <see cref="Action"/> that retrieves a qualifier end value from a link object.
     /// </summary>
+    [Class(IsAbstract = false, IsActive = false, Specializations = "")]
     public interface ReadLinkObjectEndQualifierAction : Action
     {
         /// <summary>
         /// The <see cref="InputPin"/> from which the link object is obtained.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 1, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.Composite, SubsettedProperty = "Action.Input", RedefinedProperty = "")]
         OwnerList<InputPin> Object { get; set; }
 
         /// <summary>
-        /// The qualifier Property to be read.
+        /// The qualifier <see cref="Property"/> to be read.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 1, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "", RedefinedProperty = "")]
         Property Qualifier { get; set; }
 
         /// <summary>
         /// The <see cref="OutputPin"/> where the result value is placed.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 1, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.Composite, SubsettedProperty = "Action.Output", RedefinedProperty = "")]
         OwnerList<OutputPin> Result { get; set; }
     }
 }

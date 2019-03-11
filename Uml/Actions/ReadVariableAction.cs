@@ -22,15 +22,20 @@
 namespace Uml.Actions
 {
     using Uml.Assembler;
+    using Uml.Attributes;
+    using Uml.Classification;
 
     /// <summary>
     /// A <see cref="ReadVariableAction"/> is a <see cref="VariableAction"/> that retrieves the values of a <see cref="Variable"/>.
     /// </summary>
+    [Class(IsAbstract = false, IsActive = false, Specializations = "")]
     public interface ReadVariableAction : VariableAction
     {
         /// <summary>
         /// The <see cref="OutputPin"/> on which the context object is placed.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 1, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.Composite, SubsettedProperty = "Action.Output", RedefinedProperty = "")]
         OwnerList<OutputPin> Result { get; set; }
     }
 }

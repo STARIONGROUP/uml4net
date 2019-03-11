@@ -22,20 +22,27 @@
 namespace Uml.Actions
 {
     using Uml.Assembler;
+    using Uml.Attributes;
+    using Uml.Classification;
 
     /// <summary>
     /// An <see cref="AddStructuralFeatureValueAction"/> is a <see cref="WriteStructuralFeatureAction"/> for adding values to a <see cref="StructuralFeature"/>.
     /// </summary>
+    [Class(IsAbstract = false, IsActive = false, Specializations = "")]
     public interface AddStructuralFeatureValueAction : WriteStructuralFeatureAction
     {
         /// <summary>
-        /// The InputPin that gives the position at which to insert the value in an ordered StructuralFeature. The type of the insertAt InputPin is UnlimitedNatural, but the value cannot be zero. It is omitted for unordered StructuralFeatures.
+        /// The <see cref="InputPin"/> that gives the position at which to insert the value in an ordered <see cref="StructuralFeature"/>. The type of the insertAt <see cref="InputPin"/> is UnlimitedNatural, but the value cannot be zero. It is omitted for unordered <see cref="StructuralFeature"/>s.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 0, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.Composite, SubsettedProperty = "Action.Input", RedefinedProperty = "")]
         OwnerList<InputPin> InsertAt { get; set; }
 
         /// <summary>
         /// Specifies whether existing values of the <see cref="StructuralFeature"/> should be removed before adding the new value.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 1, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "", RedefinedProperty = "")]
         bool IsReplaceAll { get; set; }
     }
 }

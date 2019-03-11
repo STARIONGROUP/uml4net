@@ -22,15 +22,20 @@
 namespace Uml.Actions
 {
     using Uml.Assembler;
+    using Uml.Attributes;
+    using Uml.Classification;
 
     /// <summary>
     /// A <see cref="ReadStructuralFeatureAction"/> is a <see cref="StructuralFeatureAction"/> that retrieves the values of a <see cref="StructuralFeature"/>.
     /// </summary>
+    [Class(IsAbstract = false, IsActive = false, Specializations = "")]
     public interface ReadStructuralFeatureAction : StructuralFeatureAction
     {
         /// <summary>
         /// The <see cref="OutputPin"/> on which the context object is placed.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 1, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.Composite, SubsettedProperty = "Action.Output", RedefinedProperty = "")]
         OwnerList<OutputPin> Result { get; set; }
     }
 }

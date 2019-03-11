@@ -22,16 +22,21 @@
 namespace Uml.Actions
 {
     using Uml.Activities;
+    using Uml.Attributes;
+    using Uml.Classification;
     using Uml.CommonStructure;
 
     /// <summary>
     /// A <see cref="Pin"/> is an <see cref="ObjectNode"/> and <see cref="MultiplicityElement"/> that provides input values to an <see cref="Action"/> or accepts output values from an <see cref="Action"/>.
     /// </summary>
+    [Class(IsAbstract = true, IsActive = false, Specializations = "InputPin|OutputPin")]
     public interface Pin : ObjectNode, MultiplicityElement
     {
         /// <summary>
         /// Indicates whether the <see cref="Pin"/> provides data to the <see cref="Action"/> or just controls how the <see cref="Action"/> executes.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 1, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "", RedefinedProperty = "")]
         bool IsControl { get; set; }
     }
 }

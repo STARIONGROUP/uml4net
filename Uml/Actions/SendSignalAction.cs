@@ -22,21 +22,28 @@
 namespace Uml.Actions
 {
     using Uml.Assembler;
+    using Uml.Attributes;
+    using Uml.Classification;
     using Uml.SimpleClassifiers;
 
     /// <summary>
     /// A <see cref="SendSignalAction"/> is an <see cref="InvocationAction"/> that creates a <see cref="Signal"/> instance and transmits it to the target object. Values from the argument <see cref="InputPin"/>s are used to provide values for the attributes of the <see cref="Signal"/>. The requestor continues execution immediately after the <see cref="Signal"/> instance is sent out and cannot receive reply values.
     /// </summary>
+    [Class(IsAbstract = false, IsActive = false, Specializations = "")]
     public interface SendSignalAction : InvocationAction
     {
         /// <summary>
         /// The <see cref="Signal"/> whose instance is transmitted to the target.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 1, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "", RedefinedProperty = "")]
         Signal Signal { get; set; }
 
         /// <summary>
-        /// The InputPin that provides the target object to which the Signal instance is sent.
+        /// The <see cref="InputPin"/> that provides the target object to which the Signal instance is sent.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 1, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.Composite, SubsettedProperty = "Action.Input", RedefinedProperty = "")]
         OwnerList<InputPin> Target { get; set; }
     }
 }

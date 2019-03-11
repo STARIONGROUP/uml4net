@@ -23,20 +23,27 @@ namespace Uml.Actions
 {
     using Uml.StructuredClassifiers;
     using Uml.Assembler;
+    using Uml.Attributes;
+    using Uml.Classification;
 
     /// <summary>
     /// <see cref="InvocationAction"/> is an abstract class for the various actions that request <see cref="Behavior"/> invocation.
     /// </summary>
+    [Class(IsAbstract = true, IsActive = false, Specializations = "BroadcastSignalAction|CallAction|SendObjectAction|SendSignalAction")]
     public interface InvocationAction : Action
     {
         /// <summary>
-        /// The InputPins that provide the argument values passed in the invocation request.
+        /// The <see cref="InputPin"/>s that provide the argument values passed in the invocation request.
         /// </summary>
+        [MultiplicityElement(IsOrdered = true, IsUnique = true, Lower = 0, Upper = "*")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.Composite, SubsettedProperty = "Action.Input", RedefinedProperty = "")]
         OwnerList<InputPin> Argument { get; set; }
 
         /// <summary>
-        /// For CallOperationActions, SendSignalActions, and SendObjectActions, an optional Port of the target object through which the invocation request is sent.
+        /// For <see cref="CallOperationAction"/>s, <see cref="SendSignalAction"/>s, and <see cref="SendObjectAction"/>s, an optional <see cref="Port"/> of the target object through which the invocation request is sent.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 0, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "", RedefinedProperty = "")]
         Port OnPort { get; set; }
     }
 }

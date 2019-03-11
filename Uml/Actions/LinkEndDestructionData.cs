@@ -21,19 +21,28 @@
 
 namespace Uml.Actions
 {
+    using Uml.Attributes;
+    using Uml.Classification;
+    using Uml.StructuredClassifiers;
+
     /// <summary>
     /// <see cref="LinkEndDestructionData"/> is <see cref="LinkEndData"/> used to provide values for one end of a link to be destroyed by a <see cref="DestroyLinkAction"/>.
     /// </summary>
+    [Class(IsAbstract = false, IsActive = false, Specializations = "")]
     public interface LinkEndDestructionData : LinkEndData
     {
         /// <summary>
-        /// The <see cref="InputPin"/> that provides the position of an existing link to be destroyed in an ordered, nonunique <see cref="Association"/> end. The type of the destroyAt <see cref="InputPin"/> is <see cref="UnlimitedNatural"/>, but the value cannot be zero or unlimited.
+        /// The <see cref="InputPin"/> that provides the position of an existing link to be destroyed in an ordered, nonunique <see cref="Association"/> end. The type of the destroyAt <see cref="InputPin"/> is UnlimitedNatural, but the value cannot be zero or unlimited.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 0, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "", RedefinedProperty = "")]
         InputPin DestroyAt { get; set; }
 
         /// <summary>
         /// Specifies whether to destroy duplicates of the value in nonunique <see cref="Association"/> ends.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 1, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "", RedefinedProperty = "")]
         bool IsDestroyDuplicates { get; set; }
     }
 }

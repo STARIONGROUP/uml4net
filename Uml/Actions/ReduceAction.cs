@@ -22,31 +22,42 @@
 namespace Uml.Actions
 {
     using Uml.Assembler;
+    using Uml.Attributes;
+    using Uml.Classification;
     using Uml.CommonBehavior;
 
     /// <summary>
     /// A <see cref="ReduceAction"/> is an <see cref="Action"/> that reduces a collection to a single value by repeatedly combining the elements of the collection using a reducer <see cref="Behavior"/>.
     /// </summary>
+    [Class(IsAbstract = false, IsActive = false, Specializations = "")]
     public interface ReduceAction : Action
     {
         /// <summary>
         /// The <see cref="InputPin"/> that provides the collection to be reduced.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 1, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.Composite, SubsettedProperty = "Action.Input", RedefinedProperty = "")]
         OwnerList<InputPin> Collection { get; set; }
 
         /// <summary>
         /// Indicates whether the order of the input collection should determine the order in which the reducer <see cref="Behavior"/> is applied to its elements.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 1, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "", RedefinedProperty = "")]
         bool IsOrdered { get; set; }
 
         /// <summary>
         /// A <see cref="Behavior"/> that is repreatedly applied to two elements of the input collection to produce a value that is of the same type as elements of the collection.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 1, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "", RedefinedProperty = "")]
         Behavior Reducer { get; set; }
 
         /// <summary>
         /// The output pin on which the result value is placed.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 1, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.Composite, SubsettedProperty = "Action.Output", RedefinedProperty = "")]
         OwnerList<OutputPin> Result { get; set; }
     }
 }

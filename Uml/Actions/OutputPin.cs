@@ -21,9 +21,12 @@
 
 namespace Uml.Actions
 {
+    using Uml.Attributes;
+
     /// <summary>
     /// An <see cref="OutputPin"/> is a Pin that holds output values produced by an <see cref="Action"/>.
     /// </summary>
+    [Class(IsAbstract = false, IsActive = false, Specializations = "")]
     public interface OutputPin : Pin
     {
     }

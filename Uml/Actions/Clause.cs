@@ -23,41 +23,56 @@ namespace Uml.Actions
 {
     using System.Collections.Generic;
     using Uml.Activities;
+    using Uml.Attributes;
+    using Uml.Classification;
     using Uml.CommonStructure;
 
     /// <summary>
     /// A <see cref="Clause"/> is an <see cref="Element"/> that represents a single branch of a <see cref="ConditionalNode"/>, including a test and a body section. The body section is executed only if (but not necessarily if) the test section evaluates to true.
     /// </summary>
+    [Class(IsAbstract = false, IsActive = false, Specializations = "")]
     public interface Clause : Element
     {
         /// <summary>
-        /// The set of ExecutableNodes that are executed if the test evaluates to true and the Clause is chosen over other Clauses within the ConditionalNode that also have tests that evaluate to true.
+        /// The set of <see cref="ExecutableNode"/>s that are executed if the test evaluates to true and the <see cref="Clause"/> is chosen over other <see cref="Clause"/>s within the <see cref="ConditionalNode"/> that also have tests that evaluate to true.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 0, Upper = "*")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "", RedefinedProperty = "")]
         List<ExecutableNode> Body { get; set; }
 
         /// <summary>
-        /// The OutputPins on Actions within the body section whose values are moved to the result OutputPins of the containing ConditionalNode after execution of the body.
+        /// The <see cref="OutputPin"/>s on <see cref="Action"/>s within the body section whose values are moved to the result <see cref="OutputPin"/>s of the containing <see cref="ConditionalNode"/> after execution of the body.
         /// </summary>
+        [MultiplicityElement(IsOrdered = true, IsUnique = true, Lower = 0, Upper = "*")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "", RedefinedProperty = "")]
         List<OutputPin> BodyOutput { get; set; }
 
         /// <summary>
-        /// An OutputPin on an Action in the test section whose Boolean value determines the result of the test.
+        /// An <see cref="OutputPin"/> on an <see cref="Action"/> in the test section whose Boolean value determines the result of the test.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 1, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "", RedefinedProperty = "")]
         OutputPin Decider { get; set; }
 
         /// <summary>
-        /// A set of Clauses whose tests must all evaluate to false before this Clause can evaluate its test.
+        /// A set of <see cref="Clause"/>s whose tests must all evaluate to false before this <see cref="Clause"/> can evaluate its test.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 0, Upper = "*")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "", RedefinedProperty = "")]
         List<Clause> PredecessorClause { get; set; }
 
         /// <summary>
-        /// A set of Clauses that may not evaluate their tests unless the test for this Clause evaluates to false.
+        /// A set of <see cref="Clause"/>s that may not evaluate their tests unless the test for this <see cref="Clause"/> evaluates to false.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 0, Upper = "*")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "", RedefinedProperty = "")]
         List<Clause> SuccessorClause { get; set; }
 
         /// <summary>
-        /// The set of ExecutableNodes that are executed in order to provide a test result for the Clause.
+        /// The set of <see cref="ExecutableNode"/>s that are executed in order to provide a test result for the <see cref="Clause"/>.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 1, Upper = "*")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "", RedefinedProperty = "")]
         List<ExecutableNode> Test { get; set; }
     }
 }

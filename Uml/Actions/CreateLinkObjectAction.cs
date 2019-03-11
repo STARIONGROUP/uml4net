@@ -22,15 +22,21 @@
 namespace Uml.Actions
 {
     using Uml.Assembler;
+    using Uml.Attributes;
+    using Uml.Classification;
+    using Uml.StructuredClassifiers;
 
     /// <summary>
-    /// A <see cref="CreateLinkObjectAction"/> is a <see cref="CreateLinkAction"/> for creating link objects (<see cref="AssociationClasse"/> instances).
+    /// A <see cref="CreateLinkObjectAction"/> is a <see cref="CreateLinkAction"/> for creating link objects (<see cref="AssociationClass"/> instances).
     /// </summary>
+    [Class(IsAbstract = false, IsActive = false, Specializations = "")]
     public interface CreateLinkObjectAction : CreateLinkAction
     {
         /// <summary>
         /// The output pin on which the newly created link object is placed.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 1, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.Composite, SubsettedProperty = "Action.Output", RedefinedProperty = "")]
         OwnerList<OutputPin> Result { get; set; }
     }
 }

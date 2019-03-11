@@ -22,15 +22,21 @@
 namespace Uml.Actions
 {
     using Uml.Assembler;
+    using Uml.Attributes;
+    using Uml.Classification;
+    using Uml.StructuredClassifiers;
 
     /// <summary>
     /// A <see cref="DestroyLinkAction"/> is a <see cref="WriteLinkAction"/> that destroys links (including link objects).
     /// </summary>
+    [Class(IsAbstract = false, IsActive = false, Specializations = "")]
     public interface DestroyLinkAction : WriteLinkAction
     {
         /// <summary>
-        /// The LinkEndData that the values of the Association ends for the links to be destroyed.
+        /// The <see cref="LinkEndData"/> that the values of the <see cref="Association"/> ends for the links to be destroyed.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 2, Upper = "*")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.Composite, SubsettedProperty = "", RedefinedProperty = "LinkAction.EndData")]
         OwnerList<LinkEndDestructionData> EndData { get; set; }
     }
 }

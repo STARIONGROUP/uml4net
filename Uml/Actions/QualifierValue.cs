@@ -21,22 +21,28 @@
 
 namespace Uml.Actions
 {
+    using Uml.Attributes;
     using Uml.Classification;
     using Uml.CommonStructure;
 
     /// <summary>
     /// A <see cref="QualifierValue"/> is an <see cref="Element"/> that is used as part of <see cref="LinkEndData"/> to provide the value for a single qualifier of the end given by the <see cref="LinkEndData"/>.
     /// </summary>
+    [Class(IsAbstract = false, IsActive = false, Specializations = "")]
     public interface QualifierValue : Element
     {
         /// <summary>
-        /// The qualifier Property for which the value is to be specified.
+        /// The qualifier <see cref="Property"/> for which the value is to be specified.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 1, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "", RedefinedProperty = "")]
         Property Qualifier { get; set; }
 
         /// <summary>
         /// The <see cref="InputPin"/> from which the specified value for the qualifier is taken.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 1, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "", RedefinedProperty = "")]
         InputPin Value { get; set; }
     }
 }

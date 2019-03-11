@@ -22,26 +22,35 @@
 namespace Uml.Actions
 {
     using Uml.Assembler;
+    using Uml.Attributes;
+    using Uml.Classification;
     using Uml.CommonBehavior;
 
     /// <summary>
     /// A <see cref="ReplyAction"/> is an <see cref="Action"/> that accepts a set of reply values and a value containing return information produced by a previous <see cref="AcceptCallAction"/>. The <see cref="ReplyAction"/> returns the values to the caller of the previous call, completing execution of the call.
     /// </summary>
+    [Class(IsAbstract = false, IsActive = false, Specializations = "")]
     public interface ReplyAction : Action
     {
         /// <summary>
         /// The <see cref="Trigger"/> specifying the <see cref="Operation"/> whose call is being replied to.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 1, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "", RedefinedProperty = "")]
         Trigger ReplyToCall { get; set; }
 
         /// <summary>
-        /// A list of <see cref="InputPin"/>s providing the values for the output (inout, out, and return) Parameters of the Operation. These values are returned to the caller.
+        /// A list of <see cref="InputPin"/>s providing the values for the output (inout, out, and return) <see cref="Parameter"/>s of the <see cref="Operation"/>. These values are returned to the caller.
         /// </summary>
+        [MultiplicityElement(IsOrdered = true, IsUnique = true, Lower = 0, Upper = "*")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.Composite, SubsettedProperty = "Action.Input", RedefinedProperty = "")]
         OwnerList<InputPin> ReplyValue { get; set; }
 
         /// <summary>
-        /// An InputPin that holds the return information value produced by an earlier AcceptCallAction.
+        /// An <see cref="InputPin"/> that holds the return information value produced by an earlier <see cref="AcceptCallAction"/>.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 1, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.Composite, SubsettedProperty = "Action.Input", RedefinedProperty = "")]
         OwnerList<InputPin> ReturnInformation { get; set; }
     }
 }

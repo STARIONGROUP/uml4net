@@ -22,21 +22,27 @@
 namespace Uml.Actions
 {
     using Uml.Assembler;
+    using Uml.Attributes;
     using Uml.Classification;
 
     /// <summary>
     /// <see cref="StructuralFeatureAction"/> is an abstract class for all <see cref="Action"/>s that operate on <see cref="StructuralFeature"/>s.
     /// </summary>
+    [Class(IsAbstract = true, IsActive = false, Specializations = "WriteStructuralFeatureAction|ClearStructuralFeatureAction|ReadStructuralFeatureAction")]
     public interface StructuralFeatureAction : Action
     {
         /// <summary>
         /// The <see cref="InputPin"/> from which the object whose <see cref="StructuralFeature"/> is to be read or written is obtained.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 1, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.Composite, SubsettedProperty = "Action.Input", RedefinedProperty = "")]
         OwnerList<InputPin> Object { get; set; }
 
         /// <summary>
         /// The <see cref="StructuralFeature"/> to be read or written.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 1, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "", RedefinedProperty = "")]
         StructuralFeature StructuralFeature { get; set; } 
     }
 }

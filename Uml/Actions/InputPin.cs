@@ -21,9 +21,12 @@
 
 namespace Uml.Actions
 {
+    using Uml.Attributes;
+    
     /// <summary>
     /// An <see cref="InputPin"/> is a <see cref="Pin"/> that holds input values to be consumed by an <see cref="Action"/>.
     /// </summary>
+    [Class(IsAbstract = false, IsActive = false, Specializations = "ActionInputPin|ValuePin")]
     public interface InputPin : Pin
     {
     }
