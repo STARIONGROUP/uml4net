@@ -21,24 +21,34 @@
 
 namespace Uml.StateMachines
 {
+    using Uml.Attributes;
+    using Uml.Classification;
+
     /// <summary>
-    /// A <see cref="Pseudostate"/> is an abstraction that encompasses different types of transient Vertices in the StateMachine graph. A StateMachine instance never comes to rest in a Pseudostate, instead, it will exit and enter the Pseudostate within a single run-to-completion step.
+    /// A <see cref="Pseudostate"/> is an abstraction that encompasses different types of transient Vertices in the <see cref="StateMachine"/> graph. A <see cref="StateMachine"/> instance never comes to rest in a <see cref="Pseudostate"/>, instead, it will exit and enter the <see cref="Pseudostate"/> within a single run-to-completion step.
     /// </summary>
+    [Class(IsAbstract = false, IsActive = false, Specializations = "")]
     public interface Pseudostate : Vertex
     {
         /// <summary>
         /// Determines the precise type of the <see cref="Pseudostate"/> and can be one of: entryPoint, exitPoint, initial, deepHistory, shallowHistory, join, fork, junction, terminate or choice.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 1, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "", RedefinedProperty = "")]
         PseudostateKind Kind { get; set; }
 
         /// <summary>
         /// The <see cref="State"/> that owns this <see cref="Pseudostate"/> and in which it appears.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 0, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "NamedElement.Namespace", RedefinedProperty = "")]
         State State { get; set; }
 
         /// <summary>
         /// The StateMachine in which this <see cref="Pseudostate"/> is defined. This only applies to <see cref="Pseudostate"/>s of the kind entryPoint or exitPoint.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 0, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "NamedElement.Namespace", RedefinedProperty = "")]
         StateMachine StateMachine { get; set; }
     }
 }

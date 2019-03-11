@@ -23,31 +23,42 @@ namespace Uml.StateMachines
 {
     using System.Collections.Generic;
     using Uml.Assembler;
+    using Uml.Attributes;
+    using Uml.Classification;
     using Uml.CommonBehavior;
 
     /// <summary>
     /// <see cref="StateMachine"/>s can be used to express event-driven behaviors of parts of a system. <see cref="Behavior"/> is modeled as a traversal of a graph of Vertices interconnected by one or more joined <see cref="Transition"/> arcs that are triggered by the dispatching of successive Event occurrences. During this traversal, the <see cref="StateMachine"/> may execute a sequence of <see cref="Behavior"/>s associated with various elements of the <see cref="StateMachine"/>.
     /// </summary>
+    [Class(IsAbstract = false, IsActive = false, Specializations = "ProtocolStateMachine")]
     public interface StateMachine : Behavior
     {
         /// <summary>
         /// The connection points defined for this <see cref="StateMachine"/>. They represent the interface of the <see cref="StateMachine"/> when used as part of submachine <see cref="State"/>
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 0, Upper = "*")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.Composite, SubsettedProperty = "Namespace.OwnedMember", RedefinedProperty = "")]
         OwnerList<Pseudostate> ConnectionPoint { get; set; }
 
         /// <summary>
         /// The <see cref="StateMachine"/>s of which this is an extension.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 0, Upper = "*")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "", RedefinedProperty = "Behavior.RedefinedBehavior")]
         List<StateMachine> ExtendedStateMachine { get; set; }
 
         /// <summary>
         /// The <see cref="Region"/>s owned directly by the <see cref="StateMachine"/>.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 1, Upper = "*")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.Composite, SubsettedProperty = "Namespace.OwnedMember", RedefinedProperty = "")]
         OwnerList<Region> Region { get; set; }
 
         /// <summary>
         /// References the submachine(s) in case of a submachine State. Multiple machines are referenced in case of a concurrent <see cref="State"/>.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 0, Upper = "*")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "", RedefinedProperty = "")]
         List<State> SubmachineState { get; set; }
     }
 }

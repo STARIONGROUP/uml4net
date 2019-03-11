@@ -21,14 +21,20 @@
 
 namespace Uml.StateMachines
 {
+    using Uml.Attributes;
+    using Uml.Classification;
+    
     /// <summary>
     /// A <see cref="ProtocolStateMachine"/> is always defined in the context of a Classifier. It specifies which BehavioralFeatures of the Classifier can be called in which State and under which conditions, thus specifying the allowed invocation sequences on the Classifier's BehavioralFeatures. A ProtocolStateMachine specifies the possible and permitted Transitions on the instances of its context Classifier, together with the BehavioralFeatures that carry the Transitions. In this manner, an instance lifecycle can be specified for a Classifier, by defining the order in which the BehavioralFeatures can be activated and the States through which an instance progresses during its existence.
     /// </summary>
+    [Class(IsAbstract = false, IsActive = false, Specializations = "")]
     public interface ProtocolStateMachine : StateMachine
     {
         /// <summary>
         /// Conformance between <see cref="ProtocolStateMachine"/> 
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 0, Upper = "*")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.Composite, SubsettedProperty = "Element.OwnedElement", RedefinedProperty = "")]
         ProtocolConformance Conformance { get; set; }
     }
 }

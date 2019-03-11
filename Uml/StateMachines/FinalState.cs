@@ -21,9 +21,12 @@
 
 namespace Uml.StateMachines
 {
+    using Uml.Attributes;
+    
     /// <summary>
-    /// A special kind of State, which, when entered, signifies that the enclosing Region has completed. If the enclosing Region is directly contained in a StateMachine and all other Regions in that StateMachine also are completed, then it means that the entire StateMachine behavior is completed.
+    /// A special kind of State, which, when entered, signifies that the enclosing <see cref="Region"/> has completed. If the enclosing Region is directly contained in a <see cref="StateMachine"/> and all other <see cref="Region"/>s in that <see cref="StateMachine"/> also are completed, then it means that the entire <see cref="StateMachine"/> behavior is completed.
     /// </summary>
+    [Class(IsAbstract = false, IsActive = false, Specializations = "")]
     public interface FinalState : State
     {
     }

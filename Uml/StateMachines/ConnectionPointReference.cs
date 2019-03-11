@@ -21,24 +21,34 @@
 
 namespace Uml.StateMachines
 {
+    using Uml.Attributes;
+    using Uml.Classification;
+
     /// <summary>
     /// A ConnectionPointReference represents a usage (as part of a submachine State) of an entry/exit point Pseudostate defined in the StateMachine referenced by the submachine State.
     /// </summary>
+    [Class(IsAbstract = false, IsActive = false, Specializations = "")]
     public interface ConnectionPointReference : Vertex
     {
         /// <summary>
         /// The entryPoint <see cref="Pseudostate"/>s corresponding to this connection point.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 0, Upper = "*")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "", RedefinedProperty = "")]
         Pseudostate Entry { get; set; }
 
         /// <summary>
         /// The exitPoints kind <see cref="Pseudostate"/>s corresponding to this connection point.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 0, Upper = "*")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "", RedefinedProperty = "")]
         Pseudostate Exit { get; set; }
 
         /// <summary>
         /// The <see cref="State"/> in which the <see cref="ConnectionPointReference"/> is defined.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 0, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "NamedElement.Namespace", RedefinedProperty = "")]
         State State { get;set; }
     }
 }
