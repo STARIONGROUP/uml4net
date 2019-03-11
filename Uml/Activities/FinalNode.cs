@@ -21,9 +21,12 @@
 
 namespace Uml.Activities
 {
+    using Uml.Attributes;
+
     /// <summary>
     /// A <see cref="FinalNode"/> is an abstract <see cref="ControlNode"/> at which a flow in an <see cref="Activity"/> stops.
     /// </summary>
+    [Class(IsAbstract = true, IsActive = false, Specializations = "ActivityFinalNode|FlowFinalNode")]
     public interface FinalNode : ControlNode
     {
     }

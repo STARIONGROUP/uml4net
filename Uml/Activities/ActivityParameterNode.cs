@@ -21,13 +21,20 @@
 
 namespace Uml.Activities
 {
+    using Uml.Attributes;
     using Uml.Classification;
 
     /// <summary>
     /// An <see cref="ActivityParameterNode"/> is an <see cref="ObjectNode"/> for accepting values from the input <see cref="Parameter"/>s or providing values to the output <see cref="Parameter"/>s of an <see cref="Activity"/>.
     /// </summary>
+    [Class(IsAbstract = false, IsActive = false, Specializations = "")]
     public interface ActivityParameterNode : ObjectNode
     {
+        /// <summary>
+        /// The <see cref="Parameter"/> for which the <see cref="ActivityParameterNode"/> will be accepting or providing values.
+        /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 1, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "", RedefinedProperty = "")]
         Parameter Parameter { get; set; }
     }
 }

@@ -21,31 +21,42 @@
 
 namespace Uml.Activities
 {
+    using Uml.Attributes;
+    using Uml.Classification;
     using Uml.CommonBehavior;
 
     /// <summary>
     /// An <see cref="ObjectFlow"/> is an <see cref="ActivityEdge"/> that is traversed by object tokens that may hold values. Object flows also support multicast/receive, token selection from object nodes, and transformation of tokens.
     /// </summary>
+    [Class(IsAbstract = false, IsActive = false, Specializations = "")]
     public interface ObjectFlow : ActivityEdge
     {
         /// <summary>
         /// Indicates whether the objects in the <see cref="ObjectFlow"/> are passed by multicasting.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 1, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "", RedefinedProperty = "")]
         bool IsMulticast { get; set; }
 
         /// <summary>
         /// Indicates whether the objects in the <see cref="ObjectFlow"/> are gathered from respondents to multicasting.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 0, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "", RedefinedProperty = "")]
         bool IsMultireceive { get; set; }
 
         /// <summary>
         /// A <see cref="Behavior"/> used to select tokens from a source <see cref="ObjectNode"/>.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 0, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "", RedefinedProperty = "")]
         Behavior Selection { get; set; }
 
         /// <summary>
         /// A <see cref="Behavior"/> used to change or replace object tokens flowing along the <see cref="ObjectFlow"/>.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 1, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "", RedefinedProperty = "")]
         Behavior Transformation { get; set; }
     }
 }

@@ -21,21 +21,29 @@
 
 namespace Uml.Activities
 {
+    using Uml.Attributes;
     using Uml.CommonBehavior;
+    using Uml.Classification;
+    using Uml.Values;
 
     /// <summary>
     /// A <see cref="DecisionNode"/> is a <see cref="ControlNode"/> that chooses between outgoing <see cref="ActivityEdge"/>s for the routing of tokens.
     /// </summary>
+    [Class(IsAbstract = false, IsActive = false, Specializations = "")]
     public interface DecisionNode : ControlNode
     {
         /// <summary>
-        /// A Behavior that is executed to provide an input to guard ValueSpecifications on ActivityEdges outgoing from the DecisionNode.
+        /// A <see cref="Behavior"/> that is executed to provide an input to guard <see cref="ValueSpecification"/>s on <see cref="ActivityEdge"/>s outgoing from the <see cref="DecisionNode"/>.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 0, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "", RedefinedProperty = "")]
         Behavior DecisionInput { get; set; }
         
         /// <summary>
-        /// An additional <see cref="ActivityEdge"/> incoming to the DecisionNode that provides a decision input value for the guards <see cref="ValueSpecification"/>s on <see cref="ActivityEdge"/>s outgoing from the <see cref="DecisionNode"/>.
+        /// An additional <see cref="ActivityEdge"/> incoming to the <see cref="DecisionNode"/> that provides a decision input value for the guards <see cref="ValueSpecification"/>s on <see cref="ActivityEdge"/>s outgoing from the <see cref="DecisionNode"/>.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 0, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "", RedefinedProperty = "")]
         ObjectFlow DecisionInputFlow { get; set; }
     }
 }

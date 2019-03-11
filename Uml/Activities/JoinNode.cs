@@ -22,21 +22,28 @@
 namespace Uml.Activities
 {
     using Uml.Assembler;
+    using Uml.Attributes;
+    using Uml.Classification;
     using Uml.Values;
 
     /// <summary>
     /// A <see cref="JoinNode"/> is a <see cref="ControlNode"/> that synchronizes multiple flows.
     /// </summary>
+    [Class(IsAbstract = false, IsActive = false, Specializations = "")]
     public interface JoinNode : ControlNode
     {
         /// <summary>
         /// Indicates whether incoming tokens having objects with the same identity are combined into one by the <see cref="JoinNode"/>.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 1, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "", RedefinedProperty = "")]
         bool IsCombineDuplicate { get; set; }
 
         /// <summary>
         /// A <see cref="ValueSpecification"/> giving the condition under which the <see cref="JoinNode"/> will offer a token on its outgoing <see cref="ActivityEdge"/>. If no joinSpec is specified, then the <see cref="JoinNode"/> will offer an outgoing token if tokens are offered on all of its incoming <see cref="ActivityEdge"/>s (an "and" condition).
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 0, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.Composite, SubsettedProperty = "Element.OwnedElement", RedefinedProperty = "")]
         OwnerList<ValueSpecification> JoinSpec { get; set; }
     }
 }

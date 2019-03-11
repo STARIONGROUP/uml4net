@@ -23,54 +23,69 @@ namespace Uml.Activities
 {
     using System.Collections.Generic;
     using Uml.Actions;
+    using Uml.Attributes;
     using Uml.Classification;
 
     /// <summary>
     /// <see cref="ActivityNode"/> is an abstract class for points in the flow of an <see cref="Activity"/> connected by <see cref="ActivityEdge"/>s.
     /// </summary>
+    [Class(IsAbstract = true, IsActive = false, Specializations = "ControlNode|ExecutableNode|ObjectNode")]
     public interface ActivityNode : RedefinableElement
     {
         /// <summary>
         /// The <see cref="Activity"/> containing the <see cref="ActivityNode"/>, if it is directly owned by an <see cref="Activity"/>.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 0, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "Element.Owner", RedefinedProperty = "")]
         Activity Activity { get; set; }
 
         /// <summary>
         /// <see cref="ActivityGroup"/>s containing the <see cref="ActivityNode"/>.
         /// </summary>
-        /// <remarks>
-        /// Redefined property.
-        /// </remarks>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 0, Upper = "*")]
+        [Property(IsDerived = true, IsDerivedUnion = true, IsReadOnly = true, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "", RedefinedProperty = "")]
         IEnumerable<ActivityGroup> InGroup { get; }
 
         /// <summary>
         /// <see cref="InterruptibleActivityRegion"/>s containing the <see cref="ActivityNode"/>.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 0, Upper = "*")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "ActivityNode.InGroup", RedefinedProperty = "")]
         List<InterruptibleActivityRegion> InInterruptibleRegion { get; set; }
 
         /// <summary>
         /// <see cref="ActivityPartition"/>s containing the <see cref="ActivityNode"/>.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 0, Upper = "*")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "ActivityNode.InGroup", RedefinedProperty = "")]
         List<ActivityPartition> InPartition { get; set; }
 
         /// <summary>
         /// The <see cref="StructuredActivityNode"/> containing the <see cref="ActvityNode"/>, if it is directly owned by a <see cref="StructuredActivityNode"/>.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 0, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "Element.Owner|ActivityNode.InGroup", RedefinedProperty = "")]
         StructuredActivityNode InStructuredNode { get; set; }
 
         /// <summary>
         /// <see cref="ActivityEdge"/>s that have the <see cref="ActivityNode"/> as their target.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 0, Upper = "*")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "", RedefinedProperty = "")]
         List<ActivityEdge> Incoming { get; set; }
 
         /// <summary>
         /// <see cref="ActivityEdge"/>s that have the <see cref="ActivityNode"/> as their source.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 0, Upper = "*")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "", RedefinedProperty = "")]
         List<ActivityEdge> Outgoing { get; set; }
 
         /// <summary>
         /// <see cref="ActivityNode"/>s from a generalization of the <see cref="Activity"/> containing this <see cref="ActivityNode"/> that are redefined by this <see cref="ActivityNode"/>.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 0, Upper = "*")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "RedefinableElement.RedefinedElement", RedefinedProperty = "")]
         List<ActivityNode> RedefinedNode { get; set; }
     }
 }

@@ -21,9 +21,12 @@
 
 namespace Uml.Activities
 {
+    using Uml.Attributes;
+
     /// <summary>
     /// A <see cref="DataStoreNode"/> is a <see cref="CentralBufferNode"/> for persistent data.
     /// </summary>
+    [Class(IsAbstract = false, IsActive = false, Specializations = "")]
     public interface DataStoreNode : CentralBufferNode
     {
     }

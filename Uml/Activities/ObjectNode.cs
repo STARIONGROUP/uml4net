@@ -23,6 +23,8 @@ namespace Uml.Activities
 {
     using System.Collections.Generic;    
     using Uml.Assembler;
+    using Uml.Attributes;
+    using Uml.Classification;
     using Uml.CommonBehavior;
     using Uml.CommonStructure;
     using Uml.StateMachines;
@@ -31,31 +33,42 @@ namespace Uml.Activities
     /// <summary>
     /// An <see cref="ObjectNode"/> is an abstract <see cref="ActivityNode"/> that may hold tokens within the object flow in an <see cref="Activity"/>. <see cref="ObjectNode"/>s also support token selection, limitation on the number of tokens held, specification of the state required for tokens being held, and carrying control values.
     /// </summary>
+    [Class(IsAbstract = true, IsActive = false, Specializations = "ActivityParameterNode|CentralBufferNode|ExpansionNode|Pin")]
     public interface ObjectNode : TypedElement, ActivityNode
     {
         /// <summary>
         /// The <see cref="State"/>s required to be associated with the values held by tokens on this <see cref="ObjectNode"/>.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 0, Upper = "*")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "", RedefinedProperty = "")]
         List<State> InState { get; set; }
 
         /// <summary>
         /// Indicates whether the type of the <see cref="ObjectNode"/> is to be treated as representing control values that may traverse <see cref="ControlFlow"/>s.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 1, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "", RedefinedProperty = "")]
         bool IsControlType { get; set; }
 
         /// <summary>
         /// Indicates how the tokens held by the <see cref="ObjectNode"/> are ordered for selection to traverse <see cref="ActivityEdge"/>s outgoing from the <see cref="ObjectNode"/>.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 1, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "", RedefinedProperty = "")]
         ObjectNodeOrderingKind Ordering { get; set; }
 
         /// <summary>
         /// A <see cref="Behavior"/> used to select tokens to be offered on outgoing <see cref="ActivityEdge"/>s.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 0, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "", RedefinedProperty = "")]
         Behavior Selection { get; set; }
 
         /// <summary>
         /// The maximum number of tokens that may be held by this <see cref="ObjectNode"/>. Tokens cannot flow into the <see cref="ObjectNode"/> if the upperBound is reached. If no upperBound is specified, then there is no limit on how many tokens the <see cref="ObjectNode"/> can hold.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 0, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.Composite, SubsettedProperty = "Element.OwnedElement", RedefinedProperty = "")]
         OwnerList<ValueSpecification> UpperBound { get; set; }
     }
 }

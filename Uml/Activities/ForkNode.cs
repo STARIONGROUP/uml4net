@@ -21,9 +21,12 @@
 
 namespace Uml.Activities
 {
+    using Uml.Attributes;
+
     /// <summary>
     /// A <see cref="ForkNode"/> is a <see cref="ControlNode"/> that splits a flow into multiple concurrent flows.
     /// </summary>
+    [Class(IsAbstract = false, IsActive = false, Specializations = "")]
     public interface ForkNode : ControlNode
     {
     }

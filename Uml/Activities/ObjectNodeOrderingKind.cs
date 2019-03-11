@@ -29,12 +29,12 @@ namespace Uml.Activities
         /// <summary>
         /// Indicates that tokens are unordered.
         /// </summary>
-        unordered,
+        Unordered,
 
         /// <summary>
         /// Indicates that tokens are ordered.
         /// </summary>
-        ordered,
+        Ordered,
 
         /// <summary>
         /// Indicates that tokens are queued in a last in, first out manner.

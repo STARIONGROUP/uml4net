@@ -21,9 +21,12 @@
 
 namespace Uml.Activities
 {
+    using Uml.Attributes;
+
     /// <summary>
     /// A <see cref="ControlNode"/> is an abstract <see cref="ActivityNode"/> that coordinates flows in an <see cref="Activity"/>.
     /// </summary>
+    [Class(IsAbstract = true, IsActive = false, Specializations = "DecisionNode|FinalNode|ForkNode|InitialNode|JoinNode|MergeNode")]
     public interface ControlNode : ActivityNode
     {
     }

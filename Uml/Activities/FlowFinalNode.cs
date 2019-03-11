@@ -21,9 +21,12 @@
 
 namespace Uml.Activities
 {
+    using Uml.Attributes;
+
     /// <summary>
     /// A <see cref="FlowFinalNode"/> is a <see cref="FinalNode"/> that terminates a flow by consuming the tokens offered to it.
     /// </summary>
+    [Class(IsAbstract = false, IsActive = false, Specializations = "")]
     public interface FlowFinalNode : FinalNode
     {
     }

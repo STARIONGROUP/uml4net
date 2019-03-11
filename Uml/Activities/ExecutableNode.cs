@@ -22,15 +22,20 @@
 namespace Uml.Activities
 {
     using Uml.Assembler;
+    using Uml.Attributes;
+    using Uml.Classification;
 
     /// <summary>
     /// An <see cref="ExecutableNode"/> is an abstract class for <see cref="ActivityNode"/>s whose execution may be controlled using <see cref="ControlFlow"/>s and to which <see cref="ExceptionHandler"/>s may be attached.
     /// </summary>
+    [Class(IsAbstract = true, IsActive = false, Specializations = "Action")]
     public interface ExecutableNode : ActivityNode
     {
         /// <summary>
         /// A set of <see cref="ExceptionHandler"/>s that are examined if an exception propagates out of the <see cref="ExceptionNode"/>.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 0, Upper = "*")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.Composite, SubsettedProperty = "Element.OwnedElement", RedefinedProperty = "")]
         OwnerList<ExceptionHandler> Handler { get; set; }
     }
 }

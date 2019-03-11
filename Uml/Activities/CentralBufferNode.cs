@@ -21,9 +21,12 @@
 
 namespace Uml.Activities
 {
+    using Uml.Attributes;
+    
     /// <summary>
     /// A <see cref="CentralBufferNode"/> is an <see cref="ObjectNode"/> for managing flows from multiple sources and targets.
     /// </summary>
+    [Class(IsAbstract = false, IsActive = false, Specializations = "DataStoreNode")]
     public interface CentralBufferNode : ObjectNode
     {
     }

@@ -22,20 +22,27 @@
 namespace Uml.Activities
 {
     using System.Collections.Generic;
+    using Uml.Attributes;
+    using Uml.Classification;
 
     /// <summary>
     /// An <see cref="InterruptibleActivityRegion"/> is an <see cref="ActivityGroup"/> that supports the termination of tokens flowing in the portions of an activity within it.
     /// </summary>
+    [Class(IsAbstract = false, IsActive = false, Specializations = "")]
     public interface InterruptibleActivityRegion : ActivityGroup
     {
         /// <summary>
         /// The <see cref="ActivityEdge"/>s leaving the <see cref="InterruptibleActivityRegion"/> on which a traversing token will result in the termination of other tokens flowing in the <see cref="InterruptibleActivityRegion"/>.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 0, Upper = "*")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "", RedefinedProperty = "")]
         List<ActivityEdge> InterruptingEdge { get; set; }
 
         /// <summary>
         /// <see cref="ActivityNode"/>s immediately contained in the <see cref="InterruptibleActivityRegion"/>.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 0, Upper = "*")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "ActivityGroup.ContainedNode", RedefinedProperty = "")]
         List<ActivityNode> Node { get; set; }
     }
 }

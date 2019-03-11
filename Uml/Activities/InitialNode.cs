@@ -21,9 +21,12 @@
 
 namespace Uml.Activities
 {
+    using Uml.Attributes;
+
     /// <summary>
     /// An <see cref="InitialNode"/> is a <see cref="ControlNode"/> that offers a single control token when initially enabled.
     /// </summary>
+    [Class(IsAbstract = false, IsActive = false, Specializations = "")]
     public interface InitialNode : ControlNode
     {
     }
