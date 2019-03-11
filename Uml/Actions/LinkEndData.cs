@@ -22,27 +22,36 @@
 namespace Uml.Actions
 {
     using Uml.Assembler;
+    using Uml.Attributes;
     using Uml.Classification;
     using Uml.CommonStructure;
+    using Uml.StructuredClassifiers;
 
     /// <summary>
     /// <see cref="LinkEndData"/> is an <see cref="Element"/> that identifies on end of a link to be read or written by a <see cref="LinkAction"/>. As a link (that is not a link object) cannot be passed as a runtime value to or from an <see cref="Action"/>, it is instead identified by its end objects and qualifier values, if any. A <see cref="LinkEndData"/> instance provides these values for a single <see cref="Association"/> end.
     /// </summary>
+    [Class(IsAbstract = false, IsActive = false, Specializations = "LinkEndCreationData|LinkEndDestructionData")]
     public interface LinkEndData : Element
     {
         /// <summary>
-        /// The Association end for which this LinkEndData specifies values.
+        /// The <see cref="Association"/> end for which this <see cref="LinkEndData"/> specifies values.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 1, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "", RedefinedProperty = "")]
         Property End { get; set; }
 
         /// <summary>
-        /// A set of QualifierValues used to provide values for the qualifiers of the end.
+        /// A set of <see cref="QualifierValue"/>s used to provide values for the qualifiers of the end.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 0, Upper = "*")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.Composite, SubsettedProperty = "Element.OwnedElement", RedefinedProperty = "")]
         OwnerList<QualifierValue> Qualifier { get; set; }
 
         /// <summary>
-        /// The InputPin that provides the specified value for the given end. This InputPin is omitted if the LinkEndData specifies the "open" end for a ReadLinkAction.
+        /// The <see cref="InputPin"/> that provides the specified value for the given end. This <see cref="InputPin"/> is omitted if the <see cref="LinkEndData"/> specifies the "open" end for a <see cref="ReadLinkAction"/>.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 0, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "", RedefinedProperty = "")]
         InputPin Value { get; set; }
     }
 }

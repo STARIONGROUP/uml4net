@@ -21,21 +21,29 @@
 
 namespace Uml.Actions
 {
+    using Uml.Activities;
     using Uml.Assembler;
+    using Uml.Attributes;
+    using Uml.Classification;
 
     /// <summary>
     /// A <see cref="RemoveVariableValueAction"/> is a <see cref="WriteVariableAction"/> that removes values from a <see cref="Variable"/>s.
     /// </summary>
+    [Class(IsAbstract = false, IsActive = false, Specializations = "")]
     public interface RemoveVariableValueAction : WriteVariableAction
     {
         /// <summary>
-        /// Specifies whether to remove duplicates of the value in nonunique Variables.
+        /// Specifies whether to remove duplicates of the value in nonunique <see cref="Variable"/>s.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 1, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "", RedefinedProperty = "")]
         bool IsRemoveDuplicates { get; set; }
 
         /// <summary>
-        /// An InputPin that provides the position of an existing value to remove in ordered, nonunique Variables. The type of the removeAt InputPin is UnlimitedNatural, but the value cannot be zero or unlimited.
+        /// An <see cref="InputPin"/> that provides the position of an existing value to remove in ordered, nonunique Variables. The type of the removeAt <see cref="InputPin"/> is UnlimitedNatural, but the value cannot be zero or unlimited.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 0, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.Composite, SubsettedProperty = "Action.Input", RedefinedProperty = "")]
         OwnerList<InputPin> RemoveAt { get; set; }
     }
 }

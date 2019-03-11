@@ -21,21 +21,29 @@
 
 namespace Uml.Actions
 {
+    using Uml.Activities;
     using Uml.Assembler;
+    using Uml.Attributes;
+    using Uml.Classification;
 
     /// <summary>
     /// An <see cref="AddVariableValueAction"/> is a <see cref="WriteVariableAction"/> for adding values to a Variable.
     /// </summary>
+    [Class(IsAbstract = false, IsActive = false, Specializations = "")]
     public interface AddVariableValueAction : WriteVariableAction
     {
         /// <summary>
-        /// The <see cref="InputPin"/> that gives the position at which to insert a new value or move an existing value in ordered Variables. The type of the insertAt InputPin is UnlimitedNatural, but the value cannot be zero. It is omitted for unordered Variables.
+        /// The <see cref="InputPin"/> that gives the position at which to insert a new value or move an existing value in ordered Variables. The type of the insertAt <see cref="InputPin"/> is UnlimitedNatural, but the value cannot be zero. It is omitted for unordered Variables.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 0, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.Composite, SubsettedProperty = "Action.Input", RedefinedProperty = "")]
         OwnerList<InputPin> InsertAt { get; set; }
 
         /// <summary>
         /// Specifies whether existing values of the <see cref="Variable"/> should be removed before adding the new value.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 1, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "", RedefinedProperty = "")]
         bool IsReplaceAll { get; set; }
     }
 }

@@ -22,21 +22,28 @@
 namespace Uml.Actions
 {
     using Uml.Assembler;
+    using Uml.Attributes;
+    using Uml.Classification;
     using Uml.StructuredClassifiers;
 
     /// <summary>
     /// A <see cref="ClearAssociationAction"/> is an <see cref="Action"/> that destroys all links of an <see cref="Association"/> in which a particular object participates.
     /// </summary>
+    [Class(IsAbstract = false, IsActive = false, Specializations = "")]
     public interface ClearAssociationAction : Action
     {
         /// <summary>
-        /// The Association to be cleared.
+        /// The <see cref="Association"/> to be cleared.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 1, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "", RedefinedProperty = "")]
         Association Association { get; set; }
 
         /// <summary>
-        /// The InputPin that gives the object whose participation in the Association is to be cleared.
+        /// The <see cref="InputPin"/> that gives the object whose participation in the <see cref="Association"/> is to be cleared.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 1, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.Composite, SubsettedProperty = "Action.Input", RedefinedProperty = "")]
         OwnerList<InputPin> Object { get; set; }
     }
 }

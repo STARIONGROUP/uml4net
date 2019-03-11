@@ -22,26 +22,35 @@
 namespace Uml.Actions
 {
     using Uml.Assembler;
+    using Uml.Attributes;
+    using Uml.Classification;
     using Uml.CommonBehavior;
 
     /// <summary>
     /// An AcceptEventAction is an Action that waits for the occurrence of one or more specific Events.
     /// </summary>
+    [Class(IsAbstract = false, IsActive = false, Specializations = "")]
     public interface AcceptEventAction : Action
     {
         /// <summary>
         /// Indicates whether there is a single <see cref="OutputPin"/> for a <see cref="SignalEvent"/> occurrence, or multiple <see cref="OutputPin"/>s for attribute values of the instance of the <see cref="Signal"/> associated with a <see cref="SignalEvent"/> occurrence.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 1, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "", RedefinedProperty = "")]
         bool IsUnmarshall { get; set; }
 
         /// <summary>
         /// <see cref="OutputPin"/>s holding the values received from an <see cref="Event"/> occurrence.
         /// </summary>
+        [MultiplicityElement(IsOrdered = true, IsUnique = true, Lower = 0, Upper = "*")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.Composite, SubsettedProperty = "Action.Output", RedefinedProperty = "")]
         OwnerList<OutputPin> Result { get; set; }
 
         /// <summary>
         /// The <see cref="Trigger"/>s specifying the Events of which the <see cref="AcceptEventAction"/> waits for occurrences.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 1, Upper = "*")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.Composite, SubsettedProperty = "Element.OwnedElement", RedefinedProperty = "")]
         OwnerList<Trigger> Trigger { get; set; }
     }
 }

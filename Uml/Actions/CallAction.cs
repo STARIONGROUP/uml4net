@@ -22,20 +22,27 @@
 namespace Uml.Actions
 {
     using Uml.Assembler;
-
+    using Uml.Attributes;
+    using Uml.Classification;
+    
     /// <summary>
     /// <see cref="CallAction"/> is an abstract class for <see cref="Action"/>s that invoke a <see cref="Behavior"/> with given argument values and (if the invocation is synchronous) receive reply values.
     /// </summary>
+    [Class(IsAbstract = true, IsActive = false, Specializations = "CallBehaviorAction|CallOperationAction|StartObjectBehaviorAction")]
     public interface CallAction : InvocationAction
     {
         /// <summary>
-        /// If true, the call is synchronous and the caller waits for completion of the invoked Behavior. If false, the call is asynchronous and the caller proceeds immediately and cannot receive return values.
+        /// If true, the call is synchronous and the caller waits for completion of the invoked <see cref="Behavior"/>. If false, the call is asynchronous and the caller proceeds immediately and cannot receive return values.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 1, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "", RedefinedProperty = "")]
         bool IsSynchronous { get; set; }
 
         /// <summary>
-        /// The OutputPins on which the reply values from the invocation are placed (if the call is synchronous).
+        /// The <see cref="OutputPin"/>s on which the reply values from the invocation are placed (if the call is synchronous).
         /// </summary>
+        [MultiplicityElement(IsOrdered = true, IsUnique = true, Lower = 0, Upper = "*")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.Composite, SubsettedProperty = "Action.Output", RedefinedProperty = "")]
         OwnerList<OutputPin> Result { get; set; }
     }
 }

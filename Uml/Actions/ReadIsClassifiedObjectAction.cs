@@ -22,31 +22,41 @@
 namespace Uml.Actions
 {
     using Uml.Assembler;
+    using Uml.Attributes;
     using Uml.Classification;
 
     /// <summary>
     /// A <see cref="ReadIsClassifiedObjectAction"/> is an <see cref="Action"/> that determines whether an object is classified by a given <see cref="Classifier"/>.
     /// </summary>
+    [Class(IsAbstract = false, IsActive = false, Specializations = "")]
     public interface ReadIsClassifiedObjectAction : Action
     {
         /// <summary>
-        /// The Classifier against which the classification of the input object is tested.
+        /// The <see cref="Classifier"/> against which the classification of the input object is tested.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 1, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "", RedefinedProperty = "")]
         Classifier  Classifier { get; set; }
 
         /// <summary>
         /// Indicates whether the input object must be directly classified by the given <see cref="Classifier"/> or whether it may also be an instance of a specialization of the given <see cref="Classifier"/>.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 1, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "", RedefinedProperty = "")]
         bool IsDirect { get; set; }
 
         /// <summary>
         /// The <see cref="InputPin"/> that holds the object whose classification is to be tested.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 1, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.Composite, SubsettedProperty = "Action.Input", RedefinedProperty = "")]
         OwnerList<InputPin> Object { get; set; }
 
         /// <summary>
         /// The <see cref="OutputPin"/> that holds the Boolean result of the test.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 1, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.Composite, SubsettedProperty = "Action.Output", RedefinedProperty = "")]
         OwnerList<OutputPin> Result { get; set; }
     }
 }

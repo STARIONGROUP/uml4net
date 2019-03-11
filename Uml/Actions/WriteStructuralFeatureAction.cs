@@ -22,20 +22,27 @@
 namespace Uml.Actions
 {
     using Uml.Assembler;
+    using Uml.Attributes;
+    using Uml.Classification;
 
     /// <summary>
     /// <see cref="WriteStructuralFeatureAction"/> is an abstract class for <see cref="StructuralFeatureAction"/>s that change <see cref="StructuralFeature"/> values.
     /// </summary>
+    [Class(IsAbstract = true, IsActive = false, Specializations = "AddStructuralFeatureValueAction|RemoveStructuralFeatureValueAction")]
     public interface WriteStructuralFeatureAction : StructuralFeatureAction
     {
         /// <summary>
         /// The <see cref="OutputPin"/> on which is put the input object as modified by the <see cref="WriteStructuralFeatureAction"/>.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 0, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.Composite, SubsettedProperty = "Action.Output", RedefinedProperty = "")]
         OwnerList<OutputPin> Result { get; set; }
 
         /// <summary>
         /// The <see cref="InputPin"/> that provides the value to be added or removed from the <see cref="StructuralFeature"/>.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 0, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.Composite, SubsettedProperty = "Action.Input", RedefinedProperty = "")]
         OwnerList<InputPin> Value { get; set; }
     }
 }

@@ -22,20 +22,27 @@
 namespace Uml.Actions
 {
     using Uml.Activities;
+    using Uml.Attributes;
+    using Uml.Classification;
 
     /// <summary>
     /// An <see cref="ExpansionNode"/> is an <see cref="ObjectNode"/> used to indicate a collection input or output for an <see cref="ExpansionRegion"/>. A collection input of an <see cref="ExpansionRegion"/> contains a collection that is broken into its individual elements inside the region, whose content is executed once per element. A collection output of an <see cref="ExpansionRegion"/> combines individual elements produced by the execution of the region into a collection for use outside the region.
     /// </summary>
+    [Class(IsAbstract = false, IsActive = false, Specializations = "")]
     public interface ExpansionNode : ObjectNode
     {
         /// <summary>
-        /// The ExpansionRegion for which the ExpansionNode is an input.
+        /// The <see cref="ExpansionRegion"/> for which the <see cref="ExpansionNode"/> is an input.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 0, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "", RedefinedProperty = "")]
         ExpansionRegion RegionAsInput { get; set; }
 
         /// <summary>
-        /// The ExpansionRegion for which the ExpansionNode is an output.
+        /// The <see cref="ExpansionRegion"/> for which the <see cref="ExpansionNode"/> is an output.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 0, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "", RedefinedProperty = "")]
         ExpansionRegion RegionAsOutput { get; set; }
     }
 }

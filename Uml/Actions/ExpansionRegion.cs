@@ -22,25 +22,34 @@
 namespace Uml.Actions
 {
     using System.Collections.Generic;
+    using Uml.Attributes;
+    using Uml.Classification;
 
     /// <summary>
     /// An <see cref="ExpansionRegion"/> is a <see cref="StructuredActivityNode"/> that executes its content multiple times corresponding to elements of input collection(s).
     /// </summary>
+    [Class(IsAbstract = false, IsActive = false, Specializations = "")]
     public interface ExpansionRegion : StructuredActivityNode
     {
         /// <summary>
-        /// The ExpansionNodes that hold the input collections for the ExpansionRegion.
+        /// The <see cref="ExpansionNode"/>s that hold the input collections for the <see cref="ExpansionRegion"/>.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 1, Upper = "*")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "", RedefinedProperty = "")]
         List<ExpansionNode> InputElement { get; set; }
 
         /// <summary>
-        /// The mode in which the ExpansionRegion executes its contents. If parallel, executions are concurrent. If iterative, executions are sequential. If stream, a stream of values flows into a single execution.
+        /// The mode in which the <see cref="ExpansionRegion"/> executes its contents. If parallel, executions are concurrent. If iterative, executions are sequential. If stream, a stream of values flows into a single execution.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 1, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "", RedefinedProperty = "")]
         ExpansionKind Mode { get; set; }
 
         /// <summary>
-        /// The ExpansionNodes that form the output collections of the ExpansionRegion.
+        /// The <see cref="ExpansionNode"/>s that form the output collections of the <see cref="ExpansionRegion"/>.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 0, Upper = "*")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "", RedefinedProperty = "")]
         List<ExpansionNode> OutputElement { get; set; }
     }
 }

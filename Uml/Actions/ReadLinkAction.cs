@@ -22,15 +22,20 @@
 namespace Uml.Actions
 {
     using Uml.Assembler;
+    using Uml.Attributes;
+    using Uml.Classification;
 
     /// <summary>
     /// A <see cref="ReadLinkAction"/> is a <see cref="LinkAction"/> that navigates across an <see cref="Association"/> to retrieve the objects on one end.
     /// </summary>
+    [Class(IsAbstract = false, IsActive = false, Specializations = "")]
     public interface ReadLinkAction : LinkAction
     {
         /// <summary>
         /// The <see cref="OutputPin"/> on which the objects retrieved from the "open" end of those links whose values on other ends are given by the endData.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 1, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.Composite, SubsettedProperty = "Action.Output", RedefinedProperty = "")]
         OwnerList<OutputPin> Result { get; set; }
     }
 }

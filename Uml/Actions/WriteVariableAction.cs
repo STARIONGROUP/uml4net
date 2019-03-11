@@ -21,16 +21,21 @@
 
 namespace Uml.Actions
 {
-    using Uml.Assembler;    
+    using Uml.Assembler;
+    using Uml.Attributes;
+    using Uml.Classification;
 
     /// <summary>
-    /// WriteVariableAction is an abstract class for VariableActions that change Variable values.
+    /// <see cref="WriteVariableAction"/> is an abstract class for <see cref="VariableAction"/>s that change Variable values.
     /// </summary>
+    [Class(IsAbstract = true, IsActive = false, Specializations = "AddVariableValueAction|RemoveVariableValueAction")]
     public interface WriteVariableAction : VariableAction
     {
         /// <summary>
-        /// The InputPin that gives the value to be added or removed from the Variable.
+        /// The <see cref="InputPin"/> that gives the value to be added or removed from the Variable.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 0, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.Composite, SubsettedProperty = "Action.Input", RedefinedProperty = "")]
         OwnerList<InputPin> Value { get; set; }
     }
 }

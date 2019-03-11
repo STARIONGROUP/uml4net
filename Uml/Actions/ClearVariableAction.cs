@@ -21,9 +21,12 @@
 
 namespace Uml.Actions
 {
+    using Uml.Attributes;
+    
     /// <summary>
     /// A <see cref="ClearVariableAction"/> is a <see cref="VariableAction"/> that removes all values of a <see cref="Variable"/>.
     /// </summary>
+    [Class(IsAbstract = false, IsActive = false, Specializations = "")]
     public interface ClearVariableAction : VariableAction
     {
     }

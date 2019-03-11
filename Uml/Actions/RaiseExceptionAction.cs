@@ -22,15 +22,20 @@
 namespace Uml.Actions
 {
     using Uml.Assembler;
+    using Uml.Attributes;
+    using Uml.Classification;
 
     /// <summary>
     /// A <see cref="RaiseExceptionAction"/> is an <see cref="Action"/> that causes an exception to occur. The input value becomes the exception object.
     /// </summary>
+    [Class(IsAbstract = false, IsActive = false, Specializations = "")]
     public interface RaiseExceptionAction : Action
     {
         /// <summary>
         /// An <see cref="InputPin"/> whose value becomes the exception object.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 1, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.Composite, SubsettedProperty = "Action.Input", RedefinedProperty = "")]
         OwnerList<InputPin> Exception { get; set; }
     }
 }

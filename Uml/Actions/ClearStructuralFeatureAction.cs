@@ -22,15 +22,20 @@
 namespace Uml.Actions
 {
     using Uml.Assembler;
+    using Uml.Attributes;
+    using Uml.Classification;
 
     /// <summary>
     /// A <see cref="ClearStructuralFeatureAction"/> is a <see cref="StructuralFeatureAction"/> that removes all values of a <see cref="StructuralFeature"/>.
     /// </summary>
+    [Class(IsAbstract = false, IsActive = false, Specializations = "")]
     public interface ClearStructuralFeatureAction : StructuralFeatureAction
     {
         /// <summary>
-        /// The OutputPin on which is put the input object as modified by the ClearStructuralFeatureAction.
+        /// The <see cref="OutputPin"/> on which is put the input object as modified by the <see cref="ClearStructuralFeatureAction"/>.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 0, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.Composite, SubsettedProperty = "Action.Output", RedefinedProperty = "")]
         OwnerList<OutputPin> Result { get; set; }
     }
 }

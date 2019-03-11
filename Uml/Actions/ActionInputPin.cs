@@ -22,17 +22,20 @@
 namespace Uml.Actions
 {
     using Uml.Assembler;
+    using Uml.Attributes;
+    using Uml.Classification;
 
     /// <summary>
-    /// An ActionInputPin is a kind of InputPin that executes an Action to determine the values to input to another Action.
+    /// An <see cref="ActionInputPin"/> is a kind of <see cref="InputPin"/> that executes an <see cref="Action"/> to determine the values to input to another <see cref="Action"/>.
     /// </summary>
+    [Class(IsAbstract = false, IsActive = false, Specializations = "")]
     public interface ActionInputPin : InputPin
     {
         /// <summary>
         /// The <see cref="Action"/> used to provide the values of the <see cref="ActionInputPin"/>.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 1, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.Composite, SubsettedProperty = "Element.OwnedElement", RedefinedProperty = "")]
         OwnerList<Action> FromAction { get; set; }
-
-
     }
 }

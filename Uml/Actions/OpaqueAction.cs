@@ -23,30 +23,41 @@ namespace Uml.Actions
 {
     using System.Collections.Generic;
     using Uml.Assembler;
+    using Uml.Attributes;
+    using Uml.Classification;
 
     /// <summary>
     /// An <see cref="OpaqueAction"/> is an <see cref="Action"/> whose functionality is not specified within UML.
     /// </summary>
+    [Class(IsAbstract = false, IsActive = false, Specializations = "")]
     public interface OpaqueAction : Action
     {
         /// <summary>
         /// Provides a textual specification of the functionality of the Action, in one or more languages other than UML.
         /// </summary>
+        [MultiplicityElement(IsOrdered = true, IsUnique = true, Lower = 0, Upper = "*")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "", RedefinedProperty = "")]
         List<string> Body { get; set; }
 
         /// <summary>
-        /// The InputPins providing inputs to the OpaqueAction.
+        /// The <see cref="InputPin"/>s providing inputs to the <see cref="OpaqueAction"/>.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 0, Upper = "*")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.Composite, SubsettedProperty = "Action.Input", RedefinedProperty = "")]
         OwnerList<InputPin> InputValue { get; set; }
 
         /// <summary>
         /// If provided, a specification of the language used for each of the body Strings.
         /// </summary>
+        [MultiplicityElement(IsOrdered = true, IsUnique = true, Lower = 0, Upper = "*")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "", RedefinedProperty = "")]
         List<string> Language { get; set; }
 
         /// <summary>
         /// The <see cref="OutputPin"/>s on which the <see cref="OpaqueAction"/> provides outputs.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 0, Upper = "*")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.Composite, SubsettedProperty = "Action.Output", RedefinedProperty = "")]
         OwnerList<OutputPin> OutputValue { get; set; }
     }
 }

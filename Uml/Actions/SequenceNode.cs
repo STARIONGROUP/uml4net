@@ -23,15 +23,20 @@ namespace Uml.Actions
 {
     using Uml.Activities;
     using Uml.Assembler;
+    using Uml.Attributes;
+    using Uml.Classification;
 
     /// <summary>
     /// A <see cref="SequenceNode"/> is a <see cref="StructuredActivityNode"/> that executes a sequence of <see cref="ExecutableNodes"/> in order.
     /// </summary>
+    [Class(IsAbstract = false, IsActive = false, Specializations = "")]
     public interface SequenceNode : StructuredActivityNode
     {
         /// <summary>
         /// The ordered set of <see cref="ExecutableNode"/>s to be sequenced.
         /// </summary>
+        [MultiplicityElement(IsOrdered = true, IsUnique = true, Lower = 0, Upper = "*")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.Composite, SubsettedProperty = "", RedefinedProperty = "StructuredActivityNode.Node")]
         OwnerList<ExecutableNode> ExecutableNode { get; set; }
     }
 }
