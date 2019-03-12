@@ -22,25 +22,34 @@
 namespace Uml.Interactions
 {
     using System.Collections.Generic;
+    using Uml.Attributes;
+    using Uml.Classification;
 
     /// <summary>
     /// An <see cref="OccurrenceSpecification"/> is the basic semantic unit of <see cref="Interaction"/>s. The sequences of occurrences specified by them are the meanings of <see cref="Interaction"/>s.
     /// </summary>
+    [Class(IsAbstract = false, IsActive = false, Specializations = "ExecutionOccurrenceSpecification|MessageOccurrenceSpecification")]
     public interface OccurrenceSpecification : InteractionFragment
     {
         /// <summary>
         /// References the <see cref="Lifeline"/> on which the <see cref="OccurrenceSpecification"/> appears.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 1, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "", RedefinedProperty = "InteractionFragment.Covered")]
         Lifeline Covered { get; set; }
 
         /// <summary>
         /// References the <see cref="GeneralOrdering"/>s that specify EventOcurrences that must occur after this <see cref="OccurrenceSpecification"/>.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 0, Upper = "*")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "", RedefinedProperty = "")]
         List<GeneralOrdering> ToAfter { get; set; }
 
         /// <summary>
         /// References the <see cref="GeneralOrdering"/>s that specify EventOcurrences that must occur before this <see cref="OccurrenceSpecification"/>.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 0, Upper = "*")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "", RedefinedProperty = "")]
         List<GeneralOrdering> ToBefore { get; set; }
     }
 }

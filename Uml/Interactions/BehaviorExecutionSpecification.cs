@@ -21,16 +21,21 @@
 
 namespace Uml.Interactions
 {
+    using Uml.Attributes;
+    using Uml.Classification;
     using Uml.CommonBehavior;
-
+    
     /// <summary>
     /// A <see cref="BehaviorExecutionSpecification"/> is a kind of <see cref="ExecutionSpecification"/> representing the execution of a <see cref="Behavior"/>.
     /// </summary>
+    [Class(IsAbstract = false, IsActive = false, Specializations = "")]
     public interface BehaviorExecutionSpecification : ExecutionSpecification
     {
         /// <summary>
         /// <see cref="Behavior"/> whose execution is occurring.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 0, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "", RedefinedProperty = "")]
         Behavior Behavior { get; set; }
     }
 }

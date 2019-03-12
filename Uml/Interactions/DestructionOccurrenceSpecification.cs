@@ -21,9 +21,12 @@
 
 namespace Uml.Interactions
 {
+    using Uml.Attributes;
+
     /// <summary>
     /// A <see cref="DestructionOccurenceSpecification"/> models the destruction of an object.
     /// </summary>
+    [Class(IsAbstract = false, IsActive = false, Specializations = "")]
     public interface DestructionOccurrenceSpecification : MessageOccurrenceSpecification
     {
     }

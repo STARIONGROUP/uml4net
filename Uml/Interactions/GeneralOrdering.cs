@@ -21,21 +21,28 @@
 
 namespace Uml.Interactions
 {
+    using Uml.Attributes;
+    using Uml.Classification;
     using Uml.CommonStructure;
 
     /// <summary>
     /// A <see cref="GeneralOrdering"/> represents a binary relation between two <see cref="OccurrenceSpecification"/>s, to describe that one <see cref="OccurrenceSpecification"/> must occur before the other in a valid trace. This mechanism provides the ability to define partial orders of <see cref="OccurrenceSpecification"/>s that may otherwise not have a specified order.
     /// </summary>
+    [Class(IsAbstract = false, IsActive = false, Specializations = "")]
     public interface GeneralOrdering : NamedElement
     {
         /// <summary>
         /// The <see cref="OccurrenceSpecification"/> referenced comes after the <see cref="OccurrenceSpecification"/> referenced by before.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 1, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "", RedefinedProperty = "")]
         OccurrenceSpecification After { get; set; }
 
         /// <summary>
         /// The <see cref="OccurrenceSpecification"/> referenced comes before the <see cref="OccurrenceSpecification"/> referenced by after.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 1, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "", RedefinedProperty = "")]
         OccurrenceSpecification Before { get; set; }
     }
 }

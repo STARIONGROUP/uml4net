@@ -21,8 +21,10 @@
 
 namespace Uml.Interactions
 {
-    using Uml.Assembler;
     using System.Collections.Generic;
+    using Uml.Assembler;
+    using Uml.Attributes;
+    using Uml.Classification;
     using Uml.CommonStructure;
     using Uml.StructuredClassifiers;
     using Uml.Values;
@@ -30,31 +32,42 @@ namespace Uml.Interactions
     /// <summary>
     /// A <see cref="Lifeline"/> represents an individual participant in the Interaction. While parts and structural features may have multiplicity greater than 1, <see cref="Lifeline"/>s represent only one interacting entity.
     /// </summary>
+    [Class(IsAbstract = false, IsActive = false, Specializations = "")]
     public interface Lifeline : NamedElement
     {
         /// <summary>
         /// References the <see cref="InteractionFragment"/> s in which this <see cref="Lifeline"/> takes part.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 0, Upper = "*")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "", RedefinedProperty = "")]
         List<InteractionFragment> CoveredBy { get; set; }
 
         /// <summary>
         /// References the <see cref="Interaction"/> that represents the decomposition.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 0, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "", RedefinedProperty = "")]
         PartDecomposition DecomposedAs { get; set; }
 
         /// <summary>
         /// References the <see cref="Interaction"/> enclosing this <see cref="Lifeline"/>.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 1, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "NamedElement.Namespace", RedefinedProperty = "")]
         Interaction Interaction { get; set; }
 
         /// <summary>
         /// References the <see cref="ConnectableElement"/> within the classifier that contains the enclosing interaction.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 0, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "", RedefinedProperty = "")]
         ConnectableElement Represents { get; set; }
 
         /// <summary>
         /// If the referenced <see cref="ConnectableElement"/> is multivalued, then this specifies the specific individual part within that set.
         /// </summary>
-        OwnerList<ValueSpecification> Sector { get; set; }
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 0, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.Composite, SubsettedProperty = "Element.OwnedElement", RedefinedProperty = "")]
+        OwnerList<ValueSpecification> Selector { get; set; }
     }
 }

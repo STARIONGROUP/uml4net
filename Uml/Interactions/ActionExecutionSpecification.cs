@@ -22,15 +22,20 @@
 namespace Uml.Interactions
 {
     using Uml.Actions;
+    using Uml.Attributes;
+    using Uml.Classification;
 
     /// <summary>
     /// An <see cref="ActionExecutionSpecification"/> is a kind of <see cref="ExecutionSpecification"/> representing the execution of an <see cref="Action"/>.
     /// </summary>
+    [Class(IsAbstract = false, IsActive = false, Specializations = "")]
     public interface ActionExecutionSpecification : Action
     {
         /// <summary>
-        /// Action whose execution is occurring.
+        /// <see cref="Action"/> whose execution is occurring.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 1, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "", RedefinedProperty = "")]
         Action Action { get;set; }
     }
 }

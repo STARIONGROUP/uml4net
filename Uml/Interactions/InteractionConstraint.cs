@@ -22,22 +22,29 @@
 namespace Uml.Interactions
 {
     using Uml.Assembler;
+    using Uml.Attributes;
+    using Uml.Classification;
     using Uml.CommonStructure;
     using Uml.Values;
 
     /// <summary>
     /// An <see cref="InteractionConstraint"/> is a Boolean expression that guards an operand in a <see cref="CombinedFragment"/>.
     /// </summary>
+    [Class(IsAbstract = false, IsActive = false, Specializations = "")]
     public interface InteractionConstraint : Constraint
     {
         /// <summary>
         /// The maximum number of iterations of a loop
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 0, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.Composite, SubsettedProperty = "Element.OwnedElement", RedefinedProperty = "")]
         OwnerList<ValueSpecification> Maxint { get; set; }
 
         /// <summary>
         /// The minimum number of iterations of a loop
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 0, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.Composite, SubsettedProperty = "Element.OwnedElement", RedefinedProperty = "")]
         OwnerList<ValueSpecification> Minint { get; set; }
     }
 }

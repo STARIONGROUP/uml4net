@@ -21,9 +21,12 @@
 
 namespace Uml.Interactions
 {
+    using Uml.Attributes;
+
     /// <summary>
     /// A <see cref="Gate"/> is a <see cref="MessageEnd"/> which serves as a connection point for relating a <see cref="Message"/> which has a <see cref="MessageEnd"/> (sendEvent / receiveEvent) outside an <see cref="InteractionFragment"/> with another <see cref="Message"/> which has a <see cref="MessageEnd"/> (receiveEvent / sendEvent)  inside that <see cref="InteractionFragment"/>.
     /// </summary>
+    [Class(IsAbstract = false, IsActive = false, Specializations = "")]
     public interface Gate : MessageEnd
     {
     }

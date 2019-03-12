@@ -21,16 +21,21 @@
 
 namespace Uml.Interactions
 {
+    using Uml.Attributes;
+    using Uml.Classification;
     using Uml.CommonStructure;
 
     /// <summary>
     /// <see cref="MessageEnd"/> is an abstract specialization of <see cref="NamedElement"/> that represents what can occur at the end of a <see cref="Message"/>.
     /// </summary>
+    [Class(IsAbstract = true, IsActive = false, Specializations = "Gate|MessageOccurrenceSpecification")]
     public interface MessageEnd : NamedElement
     {
         /// <summary>
         /// References a <see cref="Message"/>.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 0, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "", RedefinedProperty = "")]
         Message Message { get; set; }
     }
 }
