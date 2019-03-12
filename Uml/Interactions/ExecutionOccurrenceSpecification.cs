@@ -21,14 +21,20 @@
 
 namespace Uml.Interactions
 {
+    using Uml.Attributes;
+    using Uml.Classification;
+
     /// <summary>
     /// An <see cref="ExecutionOccurrenceSpecification"/> represents moments in time at which <see cref="Action"/>s or <see cref="Behavior"/>s start or finish.
     /// </summary>
+    [Class(IsAbstract = false, IsActive = false, Specializations = "")]
     public interface ExecutionOccurrenceSpecification : OccurrenceSpecification
     {
         /// <summary>
         /// References the execution specification describing the execution that is started or finished at this execution event.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 1, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "", RedefinedProperty = "")]
         ExecutionSpecification Execution { get; set; }
     }
 }

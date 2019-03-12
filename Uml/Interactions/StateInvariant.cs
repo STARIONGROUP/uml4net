@@ -23,22 +23,29 @@ namespace Uml.Interactions
 {
     using Uml.Assembler;
     using Uml.Activities;
+    using Uml.Attributes;
+    using Uml.Classification;
     using Uml.CommonStructure;
     using Uml.StateMachines;
 
     /// <summary>
     /// A <see cref="StateInvariant"/> is a runtime constraint on the participants of the <see cref="Interaction"/>. It may be used to specify a variety of different kinds of <see cref="Constraint"/>s, such as values of Attributes or <see cref="Variable"/>s, internal or external <see cref="State"/>s, and so on. A <see cref="StateInvariant"/> is an <see cref="InteractionFragment"/> and it is placed on a <see cref="Lifeline"/>.
     /// </summary>
+    [Class(IsAbstract = false, IsActive = false, Specializations = "")]
     public interface StateInvariant : InteractionFragment
     {
         /// <summary>
         /// References the <see cref="Lifeline"/> on which the <see cref="StateInvariant"/> appears.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 1, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "", RedefinedProperty = "InteractionFragment.Covered")]
         Lifeline Covered { get; set; }
 
         /// <summary>
-        /// A Constraint that should hold at runtime for this StateInvariant.
+        /// A <see cref="Constraint"/> that should hold at runtime for this <see cref="StateInvariant"/>.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 0, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.Composite, SubsettedProperty = "Element.OwnedElement", RedefinedProperty = "")]
         OwnerList<Constraint> Invariant { get; set; }
     }
 }

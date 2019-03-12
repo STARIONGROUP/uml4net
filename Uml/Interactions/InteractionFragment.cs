@@ -23,31 +23,42 @@ namespace Uml.Interactions
 {
     using System.Collections.Generic;
     using Uml.Assembler;
+    using Uml.Attributes;
+    using Uml.Classification;
     using Uml.CommonStructure;
 
     /// <summary>
     /// <see cref="InteractionFragment"/> is an abstract notion of the most general interaction unit. An <see cref="InteractionFragment"/> is a piece of an <see cref="Interaction"/>. Each <see cref="InteractionFragment"/> is conceptually like an <see cref="Interaction"/> by itself.
     /// </summary>
+    [Class(IsAbstract = true, IsActive = false, Specializations = "CombinedFragment|Continuation|ExecutionSpecification|Interaction|InteractionOperand|InteractionUse|OccurrenceSpecification|StateInvariant")]
     public interface InteractionFragment : NamedElement
     {
         /// <summary>
         /// References the <see cref="Lifeline"/>s that the <see cref="InteractionFragment"/> involves.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 0, Upper = "*")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "", RedefinedProperty = "")]
         List<Lifeline> Covered { get; set; }
 
         /// <summary>
         /// The <see cref="Interaction"/> enclosing this <see cref="InteractionFragment"/>.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 0, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "NamedElement.Namespace", RedefinedProperty = "")]
         Interaction EnclosingInteraction { get; set; }
 
         /// <summary>
         /// The operand enclosing this <see cref="InteractionFragment"/> (they may nest recursively).
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 0, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "NamedElement.Namespace", RedefinedProperty = "")]
         InteractionOperand EnclosingOperand { get; set; }
 
         /// <summary>
         /// The general ordering relationships contained in this fragment.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 0, Upper = "*")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.Composite, SubsettedProperty = "Element.OwnedElement", RedefinedProperty = "")]
         OwnerList<GeneralOrdering> GeneralOrdering { get; set; }
     }
 }

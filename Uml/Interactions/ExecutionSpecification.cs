@@ -22,21 +22,28 @@
 namespace Uml.Interactions
 {
     using Uml.Actions;
+    using Uml.Attributes;
+    using Uml.Classification;
     using Uml.CommonBehavior;
 
     /// <summary>
     /// An <see cref="ExecutionSpecification"/> is a specification of the execution of a unit of <see cref="Behavior"/> or <see cref="Action"/> within the <see cref="Lifeline"/>. The duration of an <see cref="ExecutionSpecification"/> is represented by two <see cref="OccurrenceSpecification"/>s, the start <see cref="OccurrenceSpecification"/> and the finish <see cref="OccurrenceSpecification"/>.
     /// </summary>
+    [Class(IsAbstract = true, IsActive = false, Specializations = "ActionExecutionSpecification|BehaviorExecutionSpecification")]
     public interface ExecutionSpecification : InteractionFragment
     {
         /// <summary>
         /// References the <see cref="OccurrenceSpecification"/> that designates the finish of the <see cref="Action"/> or <see cref="Behavior"/>.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 1, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "", RedefinedProperty = "")]
         OccurrenceSpecification Finish { get;set; }
 
         /// <summary>
         /// References the <see cref="OccurrenceSpecification"/> that designates the start of the <see cref="Action"/> or <see cref="Behavior"/>.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 1, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "", RedefinedProperty = "")]
         OccurrenceSpecification Start { get;set; }
     }
 }

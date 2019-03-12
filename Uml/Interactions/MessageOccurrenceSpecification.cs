@@ -22,12 +22,14 @@
 namespace Uml.Interactions
 {
     using Uml.Actions;
+    using Uml.Attributes;
     using Uml.Classification;
     using Uml.SimpleClassifiers;
 
     /// <summary>
     /// A <see cref="MessageOccurrenceSpecification"/> specifies the occurrence of <see cref="Message"/> events, such as sending and receiving of <see cref="Signal"/>s or invoking or receiving of <see cref="Operation"/> calls. A <see cref="MessageOccurrenceSpecification"/> is a kind of <see cref="MessageEnd"/>. <see cref="Message"/>s are generated either by synchronous <see cref="Operation"/> calls or asynchronous Signal sends. They are received by the execution of corresponding <see cref="AcceptEventAction"/>s.
     /// </summary>
+    [Class(IsAbstract = false, IsActive = false, Specializations = "DestructionOccurrenceSpecification")]
     public interface MessageOccurrenceSpecification : MessageEnd, OccurrenceSpecification
     {
     }

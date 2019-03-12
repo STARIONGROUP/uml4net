@@ -22,16 +22,21 @@
 namespace Uml.Interactions
 {
     using System.Collections.Generic;
+    using Uml.Attributes;
+    using Uml.Classification;
     using Uml.CommonStructure;
 
     /// <summary>
-    /// A ConsiderIgnoreFragment is a kind of CombinedFragment that is used for the consider and ignore cases, which require lists of pertinent Messages to be specified.
+    /// A <see cref="ConsiderIgnoreFragment"/> is a kind of <see cref="CombinedFragment"/> that is used for the consider and ignore cases, which require lists of pertinent Messages to be specified.
     /// </summary>
+    [Class(IsAbstract = false, IsActive = false, Specializations = "")]
     public interface ConsiderIgnoreFragment : CombinedFragment
     {
         /// <summary>
         /// The set of messages that apply to this fragment.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 0, Upper = "*")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "", RedefinedProperty = "")]
         List<NamedElement> Message { get; set; }
     }
 }

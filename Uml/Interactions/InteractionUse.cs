@@ -22,37 +22,49 @@
 namespace Uml.Interactions
 {
     using Uml.Assembler;
+    using Uml.Attributes;
     using Uml.Classification;
     using Uml.Values;
 
     /// <summary>
     /// An <see cref="InteractionUse"/> refers to an <see cref="Interaction"/>. The <see cref="InteractionUse"/> is a shorthand for copying the contents of the referenced <see cref="Interaction"/> where the <see cref="InteractionUse"/> is. To be accurate the copying must take into account substituting parameters with arguments and connect the formal <see cref="Gate"/>s with the actual ones.
     /// </summary>
+    [Class(IsAbstract = false, IsActive = false, Specializations = "PartDecomposition")]
     public interface InteractionUse : InteractionFragment
     {
         /// <summary>
         /// The actual gates of the <see cref="InteractionUse"/>.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 0, Upper = "*")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.Composite, SubsettedProperty = "Element.OwnedElement", RedefinedProperty = "")]
         OwnerList<Gate> ActualGate { get; set; }
 
         /// <summary>
         /// The actual arguments of the <see cref="Interaction"/>.
         /// </summary>
+        [MultiplicityElement(IsOrdered = true, IsUnique = true, Lower = 0, Upper = "*")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.Composite, SubsettedProperty = "Element.OwnedElement", RedefinedProperty = "")]
         OwnerList<ValueSpecification> Argument { get; set; }
 
         /// <summary>
         /// Refers to the Interaction that defines its meaning.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 1, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "", RedefinedProperty = "")]
         Interaction RefersTo { get; set; }
 
         /// <summary>
         /// The value of the executed <see cref="Interaction"/>.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 0, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.Composite, SubsettedProperty = "Element.OwnedElement", RedefinedProperty = "")]
         OwnerList<ValueSpecification> ReturnValue { get; set; }
 
         /// <summary>
         /// The recipient of the return value.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 0, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "", RedefinedProperty = "")]
         Property ReturnValueRecipient { get; set; }
     }
 }

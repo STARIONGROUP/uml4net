@@ -21,9 +21,12 @@
 
 namespace Uml.Interactions
 {
+    using Uml.Attributes;
+
     /// <summary>
     /// A <see cref="PartDecomposition"/> is a description of the internal <see cref="Interaction"/>s of one <see cref="Lifeline"/> relative to an <see cref="Interaction"/>.
     /// </summary>
+    [Class(IsAbstract = false, IsActive = false, Specializations = "")]
     public interface PartDecomposition : InteractionUse
     {
     }

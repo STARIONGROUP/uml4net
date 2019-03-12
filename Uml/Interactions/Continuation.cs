@@ -21,14 +21,20 @@
 
 namespace Uml.Interactions
 {
+    using Uml.Attributes;
+    using Uml.Classification;
+
     /// <summary>
     /// A <see cref="Continuation"/> is a syntactic way to define continuations of different branches of an alternative CombinedFragment. Continuations are intuitively similar to labels representing intermediate points in a flow of control.
     /// </summary>
+    [Class(IsAbstract = false, IsActive = false, Specializations = "")]
     public interface Continuation : InteractionFragment
     {
         /// <summary>
         /// True: when the <see cref="Continuation"/> is at the end of the enclosing <see cref="InteractionFragment"/> and False when it is in the beginning.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 1, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.None, SubsettedProperty = "", RedefinedProperty = "")]
         bool Setting { get;set; }
     }
 }

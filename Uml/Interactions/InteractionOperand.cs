@@ -22,21 +22,28 @@
 namespace Uml.Interactions
 {
     using Uml.Assembler;
+    using Uml.Attributes;
+    using Uml.Classification;
     using Uml.CommonStructure;
 
     /// <summary>
     /// An <see cref="InteractionOperand"/> is contained in a <see cref="CombinedFragment"/>. An <see cref="InteractionOperand"/> represents one operand of the expression given by the enclosing <see cref="CombinedFragment"/>.
     /// </summary>
+    [Class(IsAbstract = false, IsActive = false, Specializations = "")]
     public interface InteractionOperand : InteractionFragment, Namespace
     {
         /// <summary>
         /// The fragments of the operand.
         /// </summary>
+        [MultiplicityElement(IsOrdered = true, IsUnique = true, Lower = 0, Upper = "*")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.Composite, SubsettedProperty = "Namespace.OwnedMember", RedefinedProperty = "")]
         OwnerList<InteractionFragment> Fragment { get; set; }
 
         /// <summary>
         /// Constraint of the operand.
         /// </summary>
+        [MultiplicityElement(IsOrdered = false, IsUnique = true, Lower = 0, Upper = "1")]
+        [Property(IsDerived = false, IsDerivedUnion = false, IsReadOnly = false, IsStatic = false, Aggregation = AggregationKind.Composite, SubsettedProperty = "Element.OwnedElement", RedefinedProperty = "")]
         OwnerList<InteractionConstraint> Guard { get; set; }
     }
 }
