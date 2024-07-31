@@ -1,0 +1,43 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.10.35027.167
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "uml4net", "uml4net\uml4net.csproj", "{9004F43D-A59A-45B5-8511-985C27329A25}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "uml4net.Tests", "uml4net.Tests\uml4net.Tests.csproj", "{0A31A432-692B-4C74-90EC-D9424BCC2608}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Soluttion Items", "Soluttion Items", "{4B43DD11-63AD-4703-BBA0-C279CFCC465F}"
+	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
+		CODE_OF_CONDUCT.md = CODE_OF_CONDUCT.md
+		coverlet.runsettings = coverlet.runsettings
+		LICENSE = LICENSE
+		NOTICE = NOTICE
+		Nuget.Config = Nuget.Config
+		README.md = README.md
+		release.bat = release.bat
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9004F43D-A59A-45B5-8511-985C27329A25}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9004F43D-A59A-45B5-8511-985C27329A25}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9004F43D-A59A-45B5-8511-985C27329A25}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9004F43D-A59A-45B5-8511-985C27329A25}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0A31A432-692B-4C74-90EC-D9424BCC2608}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0A31A432-692B-4C74-90EC-D9424BCC2608}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0A31A432-692B-4C74-90EC-D9424BCC2608}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0A31A432-692B-4C74-90EC-D9424BCC2608}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {02E1AAD3-589F-4086-81C5-2CF7981F28E9}
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,35 @@
+﻿// -------------------------------------------------------------------------------------------------
+// <copyright file="ITransition.cs" company="Starion Group S.A.">
+//
+//   Copyright 2019-2024 Starion Group S.A.
+//
+//   Licensed under the Apache License, Version 2.0 (the "License");
+//   you may not use this file except in compliance with the License.
+//   You may obtain a copy of the License at
+//
+//       http://www.apache.org/licenses/LICENSE-2.0
+//
+//   Unless required by applicable law or agreed to in writing, softwareUseCases
+//   distributed under the License is distributed on an "AS IS" BASIS,
+//   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+//   See the License for the specific language governing permissions and
+//   limitations under the License.
+//
+// </copyright>
+// ------------------------------------------------------------------------------------------------
+
+namespace uml4net.POCO.StateMachines
+{
+    using uml4net.POCO.Classification;
+    using uml4net.POCO.CommonStructure;
+
+    /// <summary>
+    /// A Transition represents an arc between exactly one source Vertex and exactly one Target vertex
+    /// (the source and targets may be the same Vertex). It may form part of a compound transition,
+    /// which takes the StateMachine from one steady State configuration to another, representing the
+    /// full response of the StateMachine to an occurrence of an Event that triggered it.
+    /// </summary>
+    public interface ITransition : INamespace, IRedefinableElement
+    {
+    }
+}
