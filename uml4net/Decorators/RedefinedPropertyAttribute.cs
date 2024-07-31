@@ -1,5 +1,5 @@
 ﻿// -------------------------------------------------------------------------------------------------
-// <copyright file="ImplementsAttribute.cs" company="Starion Group S.A.">
+// <copyright file="RedefinedPropertyAttribute.cs" company="Starion Group S.A.">
 //
 //   Copyright 2019-2024 Starion Group S.A.
 //
@@ -21,26 +21,24 @@
 namespace uml4net.Decorators
 {
     using System;
-    
+
     /// <summary>
-    /// Attribute used to decorate properties with to indicicate which class.property
-    /// is being implemented
+    /// Attribute used to decorate properties when these are redefined properties
     /// </summary>
-    [AttributeUsage(AttributeTargets.Property, AllowMultiple = false)]
-    public class ImplementsAttribute : Attribute
+    [AttributeUsage(AttributeTargets.Property, AllowMultiple = true)]
+    public class RedefinedPropertyAttribute : Attribute
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="ImplementsAttribute"/> class.
+        /// Initializes a new instance of the <see cref="RedefinedPropertyAttribute"/> class.
         /// </summary>
-        public ImplementsAttribute(string implementation)
-        { 
-            this.Implementations = implementation;
+        public RedefinedPropertyAttribute(string propertyName) 
+        {
+            this.PropertyName = propertyName;
         }
 
         /// <summary>
-        /// Gets or sets the names of the propertries that are being implemented
-        /// ClassName.AttributeName or ClassName.OperationName
+        /// Gets or sets the name of the redefined property
         /// </summary>
-        public string Implementations { get; set; }
+        public string PropertyName { get; set; }
     }
 }

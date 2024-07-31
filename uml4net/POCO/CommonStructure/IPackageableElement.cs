@@ -20,11 +20,21 @@
 
 namespace uml4net.POCO.CommonStructure
 {
+    using uml4net.Decorators;
+
+    using uml4net.POCO.StructuredClassifiers;
+
     /// <summary>
     /// A PackageableElement is a NamedElement that may be owned directly by a Package. A PackageableElement is 
     /// also able to serve as the parameteredElement of a TemplateParameter.
     /// </summary>
     public interface IPackageableElement : IParameterableElement, INamedElement
     {
+        /// <summary>
+        /// A PackageableElement must have a visibility specified if it is owned by a Namespace. The default visibility is public.
+        /// </summary>
+        [Feature(aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1)]
+        [RedefinedProperty(propertyName: "NamedElement.Visibility")]
+        public new VisibilityKind Visibility { get; set; }
     }
 }
