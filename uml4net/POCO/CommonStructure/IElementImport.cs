@@ -20,6 +20,10 @@
 
 namespace uml4net.POCO.CommonStructure
 {
+    using uml4net.Decorators;
+
+    using uml4net.POCO.StructuredClassifiers;
+
     /// <summary>
     /// An ElementImport identifies a NamedElement in a Namespace other than the one that owns that 
     /// NamedElement and allows the NamedElement to be referenced using an unqualified name in the 
@@ -27,5 +31,35 @@ namespace uml4net.POCO.CommonStructure
     /// </summary>
     public interface IElementImport : IDirectedRelationship
     {
+        /// <summary>
+        /// Specifies the name that should be added to the importing Namespace in lieu of the name of 
+        /// the imported PackagableElement. The alias must not clash with any other member in the
+        /// importing Namespace. By default, no alias is used.
+        /// </summary>
+        [Feature(aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1)]
+        public string Alias { get; set; }
+
+        /// <summary>
+        /// Specifies the PackageableElement whose name is to be added to a Namespace.
+        /// </summary>
+        [Feature(aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1)]
+        [SubsettedProperty(propertyName: "DirectedRelationship.Target")]
+        public IPackageableElement ImportedElement { get; set; }
+
+        /// <summary>
+        /// Specifies the Namespace that imports a PackageableElement from another Namespace.
+        /// </summary>
+        [Feature(aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1)]
+        [SubsettedProperty(propertyName: "DirectedRelationship.Source")]
+        [SubsettedProperty(propertyName: "Element.Oowner")]
+        public INamespace importingNamespace { get; set; }
+
+        /// <summary>
+        /// Specifies the visibility of the imported PackageableElement within the importingNamespace, i.e., 
+        /// whether the  importedElement will in turn be visible to other Namespaces. If the ElementImport is public,
+        /// the importedElement will be visible outside the importingNamespace while, if the ElementImport is private, it will not.
+        /// </summary>
+        [Feature(aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1)]
+        public VisibilityKind Visibility { get; set; }
     }
 }

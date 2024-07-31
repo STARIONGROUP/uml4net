@@ -42,8 +42,9 @@ namespace uml4net.POCO.CommonStructure
         /// <summary>
         /// Specifies the Namespace that owns the Constraint.
         /// </summary>
-        [Feature(aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: true, subsets: "NamedElement::namespace")]
+        [Feature(aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: true)]
         [Implements(implementation: "IConstraint.Context")]
+        [SubsettedProperty(propertyName: "NamedElement.Namespace")]
         public INamespace Context { get; set; }
 
         /// <summary>

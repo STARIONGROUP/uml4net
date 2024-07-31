@@ -28,18 +28,18 @@ namespace uml4net.Decorators
     /// Attribute used to decorate properties with using the properties sourced from
     /// the UML meta-model.
     /// </summary>
+    [AttributeUsage(AttributeTargets.Property, AllowMultiple = false)]
     public class FeatureAttribute : Attribute
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="FeatureAttribute"/> class.
         /// </summary>
         /// <param name="aggregation"></param>
-        public FeatureAttribute(AggregationKind aggregation, int lowerValue, int upperValue, 
+        public FeatureAttribute(AggregationKind aggregation = AggregationKind.None, int lowerValue = 1, int upperValue = 1, 
             bool isOrdered = false,
             bool isReadOnly = false,
             bool isDerived = false,
-            bool isDerivedUnion = false,
-            string subsets = "")
+            bool isDerivedUnion = false)
         {
             this.Aggregation = aggregation;
             this.LowerValue = lowerValue;
@@ -48,7 +48,6 @@ namespace uml4net.Decorators
             this.IsReadOnly = isReadOnly;
             this.IsDerived = isDerived;
             this.IsDerivedUnion = isDerivedUnion;
-            this.Subsets = subsets;
         }
 
         /// <summary>
@@ -59,7 +58,7 @@ namespace uml4net.Decorators
         /// <summary>
         /// Gets or sets the lower value (lowerbound) of the property
         /// </summary>
-        public int LowerValue { get; set; } = 0;
+        public int LowerValue { get; set; } = 1;
 
         /// <summary>
         /// Gets or sets the upper value (upperbound) of the property
@@ -85,11 +84,5 @@ namespace uml4net.Decorators
         /// Gets or sets a value specifiying whether this is a derived union property
         /// </summary>
         public bool IsDerivedUnion { get; set; } = false;
-        
-        /// <summary>
-        /// Gets or sets the name of the subsetted property (using the superclass name and 
-        /// property name separated by :: e.g. Element::ownedElement)
-        /// </summary>
-        public string Subsets { get; set; } = string.Empty;
     }
 }

@@ -1,5 +1,5 @@
 ﻿// -------------------------------------------------------------------------------------------------
-// <copyright file="FeatureAttribute.cs" company="Starion Group S.A.">
+// <copyright file="SubsettedPropertyAttribute.cs" company="Starion Group S.A.">
 //
 //   Copyright 2019-2024 Starion Group S.A.
 //
@@ -21,27 +21,26 @@
 namespace uml4net.Decorators
 {
     using System;
-    using System.Collections.Generic;
 
     /// <summary>
-    /// Attribute used to decorate properties with to indicicate which class.property
-    /// is being implemented
+    /// Attribute used to decorate properties when these are subsetted properties
     /// </summary>
-    [AttributeUsage(AttributeTargets.Property, AllowMultiple = false)]
-    public class ImplementsAttribute : Attribute
+    [AttributeUsage(AttributeTargets.Property, AllowMultiple = true)]
+    public class SubsettedPropertyAttribute : Attribute
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="ImplementsAttribute"/> class.
+        /// Initializes a new instance of the <see cref="SubsettedPropertyAttribute"/> class.
         /// </summary>
-        public ImplementsAttribute(string implementation)
+        /// <param name="propertyName"></param>
+        public SubsettedPropertyAttribute(string propertyName)
         { 
-            this.Implementations = implementation;
+            this.PropertyName = propertyName;
         }
 
         /// <summary>
-        /// Gets or sets the names of the propertries that are being implemented
-        /// ClassName.AttributeName or ClassName.OperationName
+        /// Gets or sets the name of the subsetted property in the following form:
+        /// ClassName.PropertyName
         /// </summary>
-        public string Implementations { get; set; }
+        public string PropertyName { get; set; }
     }
 }

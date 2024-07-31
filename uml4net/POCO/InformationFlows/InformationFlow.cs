@@ -63,15 +63,17 @@ namespace uml4net.POCO.InformationFlows
         /// <summary>
         /// Specifies the source Element(s) of the DirectedRelationship.
         /// </summary>
-        [Feature(aggregation: AggregationKind.None, lowerValue: 1, upperValue: int.MaxValue, isReadOnly: true, isDerived: true, isDerivedUnion: true, subsets: "Relationship::relatedElement")]
+        [Feature(aggregation: AggregationKind.None, lowerValue: 1, upperValue: int.MaxValue, isReadOnly: true, isDerived: true, isDerivedUnion: true)]
         [Implements(implementation: "IDirectedRelationship.Source")]
+        [SubsettedProperty(propertyName: "Relationship.RelatedElement")]
         public List<IElement> Source { get; }
 
         /// <summary>
         /// Specifies the target Element(s) of the DirectedRelationship.
         /// </summary>
-        [Feature(aggregation: AggregationKind.None, lowerValue: 1, upperValue: int.MaxValue, isReadOnly: true, isDerived: true, isDerivedUnion: true, subsets: "Relationship::relatedElement")]
+        [Feature(aggregation: AggregationKind.None, lowerValue: 1, upperValue: int.MaxValue, isReadOnly: true, isDerived: true, isDerivedUnion: true)]
         [Implements(implementation: "IDirectedRelationship.Target")]
+        [SubsettedProperty(propertyName: "Relationship.RelatedElement")]
         public List<IElement> Target { get; }
     }
 }

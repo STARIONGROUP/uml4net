@@ -40,8 +40,9 @@ namespace uml4net.POCO.CommonStructure
         /// it is usually informal and bidirectional. The mapping expression is optional and may be omitted if the
         /// precise relationship between the Elements is not specified.
         /// </summary>
-        [Feature(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: 1, subsets: "Element::ownedElement")]
+        [Feature(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: 1)]
         [Implements(implementation: "IAbstraction.Mapping")]
+        [SubsettedProperty(propertyName: "Element.OwnedElement")]
         public IOpaqueExpression Mapping { get; set; }
 
         /// <summary>
@@ -68,15 +69,17 @@ namespace uml4net.POCO.CommonStructure
         /// <summary>
         /// Specifies the source Element(s) of the DirectedRelationship.
         /// </summary>
-        [Feature(aggregation: AggregationKind.None, lowerValue: 1, upperValue: int.MaxValue, isReadOnly: true, isDerived: true, isDerivedUnion: true, subsets: "Relationship::relatedElement")]
+        [Feature(aggregation: AggregationKind.None, lowerValue: 1, upperValue: int.MaxValue, isReadOnly: true, isDerived: true, isDerivedUnion: true)]
         [Implements(implementation: "IDirectedRelationship.Source")]
+        [SubsettedProperty(propertyName: "Relationship.RelatedElement")]
         public List<IElement> Source { get; }
 
         /// <summary>
         /// Specifies the target Element(s) of the DirectedRelationship.
         /// </summary>
-        [Feature(aggregation: AggregationKind.None, lowerValue: 1, upperValue: int.MaxValue, isReadOnly: true, isDerived: true, isDerivedUnion: true, subsets: "Relationship::relatedElement")]
+        [Feature(aggregation: AggregationKind.None, lowerValue: 1, upperValue: int.MaxValue, isReadOnly: true, isDerived: true, isDerivedUnion: true)]
         [Implements(implementation: "IDirectedRelationship.Target")]
+        [SubsettedProperty(propertyName: "Relationship.RelatedElement")]
         public List<IElement> Target { get; }
 
         /// <summary>
@@ -84,16 +87,18 @@ namespace uml4net.POCO.CommonStructure
         /// the assignment of direction (that is, the designation of the client Element) is at the discretion 
         /// of the modeler and is a stipulation.
         /// </summary>
-        [Feature(aggregation: AggregationKind.None, lowerValue: 1, upperValue: int.MaxValue, subsets: "DirectedRelationship::source")]
+        [Feature(aggregation: AggregationKind.None, lowerValue: 1, upperValue: int.MaxValue)]
         [Implements(implementation: "IDependency.Client")]
+        [SubsettedProperty(propertyName: "DirectedRelationship.Source")]
         public List<INamedElement> Client { get; set; }
 
         /// <summary>
         /// The Element(s) on which the client Element(s) depend in some respect. The modeler may stipulate
         /// a sense of Dependency direction suitable for their domain.
         /// </summary>
-        [Feature(aggregation: AggregationKind.None, lowerValue: 1, upperValue: int.MaxValue, subsets: "DirectedRelationship::target")]
+        [Feature(aggregation: AggregationKind.None, lowerValue: 1, upperValue: int.MaxValue)]
         [Implements(implementation: "IDependency.Supplier")]
+        [SubsettedProperty(propertyName: "DirectedRelationship.Target")]
         public List<INamedElement> Supplier { get; set; }
     }
 }
