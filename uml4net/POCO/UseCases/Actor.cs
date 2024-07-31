@@ -99,5 +99,47 @@ namespace uml4net.POCO.UseCases
         [Feature(aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1)]
         [Implements(implementation: "INamedElement.Visibility")]
         public VisibilityKind Visibility { get; set; }
+
+        /// <summary>
+        /// References the ElementImports owned by the Namespace.
+        /// </summary>
+        [Feature(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue)]
+        [SubsettedProperty(propertyName: "A_source_directedRelationship.directedRelationship")]
+        [SubsettedProperty(propertyName: "Element.OwnedElement")]
+        [Implements(implementation: "INamespace.ElementImport")]
+        public List<ElementImport> ElementImport { get; set; }
+
+        /// <summary>
+        /// References the PackageableElements that are members of this Namespace as a result of either PackageImports or ElementImports.
+        /// </summary>
+        [Feature(aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isReadOnly: true, isDerived: true)]
+        [SubsettedProperty(propertyName: "Namespace.Member")]
+        [Implements(implementation: "INamespace.ImportedMember")]
+        public List<IPackageableElement> ImportedMember { get; }
+
+        /// <summary>
+        /// A collection of NamedElements owned by the Namespace.
+        /// </summary>
+        [Feature(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isReadOnly: true, isDerived: true, isDerivedUnion: true)]
+        [SubsettedProperty(propertyName: "Element`.OwnedElement")]
+        [SubsettedProperty(propertyName: "Namespace.Member")]
+        [Implements(implementation: "INamespace.OwnedMember")]
+        public List<INamedElement> OwnedMember { get; }
+
+        /// <summary>
+        /// Specifies a set of Constraints owned by this Namespace.
+        /// </summary>
+        [Feature(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue)]
+        [SubsettedProperty(propertyName: "Namespace.OwnedMember")]
+        [Implements(implementation: "INamespace.OwnedRule")]
+        public List<IConstraint> OwnedRule { get; set; }
+
+        /// <summary>
+        /// References the PackageImports owned by the Namespace.
+        /// </summary>
+        [Feature(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue)]
+        [SubsettedProperty(propertyName: "Element`.OwnedElement")]
+        [Implements(implementation: "INamespace.PackageImport")]
+        public List<IPackageImport> PackageImport { get; set; }
     }
 }
