@@ -25,6 +25,7 @@ namespace uml4net.POCO.Actions
     using uml4net.POCO.CommonStructure;
 
     using uml4net.POCO.StructuredClassifiers;
+    using uml4net.POCO.Values;
 
     /// <summary>
     /// A ValuePin is an InputPin that provides a value by evaluating a ValueSpecification.
@@ -51,5 +52,49 @@ namespace uml4net.POCO.Actions
         [Feature(aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isReadOnly: true, isDerived: true, isDerivedUnion: true)]
         [Implements(implementation: "IElement.Owner")]
         public IElement Owner { get; }
+
+        /// <summary>
+        /// For a multivalued multiplicity, this attribute specifies whether the values in an instantiation
+        /// of this MultiplicityElement are sequentially ordered.
+        /// </summary>
+        [Feature(aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1)]
+        [Implements(implementation: "IMultiplicityElement.IsOrdered")]
+        public bool IsOrdered { get; set; }
+
+        /// <summary>
+        /// For a multivalued multiplicity, this attributes specifies whether the values in an instantiation
+        /// of this MultiplicityElement are unique.
+        /// </summary>
+        [Feature(aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1)]
+        [Implements(implementation: "IMultiplicityElement.IsUnique")]
+        public bool IsUnique { get; set; }
+
+        /// <summary>
+        /// The lower bound of the multiplicity interval.
+        /// </summary>
+        [Feature(aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isDerived: true)]
+        [Implements(implementation: "IMultiplicityElement.Lower")]
+        public int Lower { get; set; }
+
+        /// <summary>
+        /// The specification of the lower bound for this multiplicity.
+        /// </summary>
+        [Feature(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: 1, isDerived: true)]
+        [Implements(implementation: "IMultiplicityElement.LowerValue")]
+        public IValueSpecification LowerValue { get; set; }
+
+        /// <summary>
+        /// The upper bound of the multiplicity interval.
+        /// </summary>
+        [Feature(aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isDerived: true)]
+        [Implements(implementation: "IMultiplicityElement.Upper")]
+        public ILiteralUnlimitedNatural Upper { get; set; }
+
+        /// <summary>
+        /// The specification of the upper bound for this multiplicity.
+        /// </summary>
+        [Feature(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: 1, isDerived: true)]
+        [Implements(implementation: "IMultiplicityElement.UpperValue")]
+        public IValueSpecification UpperValue { get; set; }
     }
 }
