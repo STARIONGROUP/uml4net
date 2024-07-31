@@ -25,6 +25,7 @@ namespace uml4net.POCO.Classification
     using uml4net.POCO.CommonStructure;
 
     using uml4net.POCO.StructuredClassifiers;
+    using uml4net.POCO.Values;
 
     /// <summary>
     /// A RedefinableTemplateSignature supports the addition of formal template parameters in a specialization
@@ -52,5 +53,52 @@ namespace uml4net.POCO.Classification
         [Feature(aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isReadOnly: true, isDerived: true, isDerivedUnion: true)]
         [Implements(implementation: "IElement.Owner")]
         public IElement Owner { get; }
+
+        /// <summary>
+        /// Indicates the Dependencies that reference this NamedElement as a client."
+        /// </summary>
+        [Feature(aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isDerived: true)]
+        [SubsettedProperty(propertyName: "A_source_directedRelationship.DirectedRelationship")]
+        [Implements(implementation: "INamedElement.ClientDependency")]
+        public List<IDependency> ClientDependency { get; }
+
+        /// <summary>
+        /// The name of the NamedElement.
+        /// </summary>
+        [Feature(aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1)]
+        [Implements(implementation: "INamedElement.Name")]
+        public string Name { get; set; }
+
+        /// <summary>
+        /// The StringExpression used to define the name of this NamedElement.
+        /// </summary>
+        [Feature(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: 1)]
+        [SubsettedProperty(propertyName: "Element.OwnedElement")]
+        [Implements(implementation: "INamedElement.NameExpression")]
+        public IStringExpression NameExpression { get; set; }
+
+        /// <summary>
+        /// Specifies the Namespace that owns the NamedElement.
+        /// </summary>
+        [Feature(aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isReadOnly: true, isDerived: true, isDerivedUnion: true)]
+        [SubsettedProperty(propertyName: "A_member_memberNamespace.MemberNamespace")]
+        [SubsettedProperty(propertyName: "Element.Owner")]
+        [Implements(implementation: "INamedElement.Namespace")]
+        public INamespace Namespace { get; }
+
+        /// <summary>
+        /// A name that allows the NamedElement to be identified within a hierarchy of nested Namespaces. It is constructed from the names of 
+        /// the containing Namespaces starting at the root of the hierarchy and ending with the name of the NamedElement itself.
+        /// </summary>
+        [Feature(aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isReadOnly: true, isDerived: true)]
+        [Implements(implementation: "INamedElement.QualifiedName")]
+        public string QualifiedName { get; }
+
+        /// <summary>
+        /// Determines whether and how the NamedElement is visible outside its owning Namespace.
+        /// </summary>
+        [Feature(aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1)]
+        [Implements(implementation: "INamedElement.Visibility")]
+        public VisibilityKind Visibility { get; set; }
     }
 }
