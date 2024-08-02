@@ -5,7 +5,7 @@ VisualStudioVersion = 17.10.35027.167
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "uml4net", "uml4net\uml4net.csproj", "{9004F43D-A59A-45B5-8511-985C27329A25}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "uml4net.Tests", "uml4net.Tests\uml4net.Tests.csproj", "{0A31A432-692B-4C74-90EC-D9424BCC2608}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "uml4net.Tests", "uml4net.Tests\uml4net.Tests.csproj", "{0A31A432-692B-4C74-90EC-D9424BCC2608}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Soluttion Items", "Soluttion Items", "{4B43DD11-63AD-4703-BBA0-C279CFCC465F}"
 	ProjectSection(SolutionItems) = preProject
@@ -18,6 +18,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Soluttion Items", "Soluttio
 		README.md = README.md
 		release.bat = release.bat
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "uml4net.xmi", "uml4net.xmireader\uml4net.xmi.csproj", "{6C34F77D-734A-4983-B11C-7C166EE5E684}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "uml4net.xmi.Tests", "uml4net.xmi.Tests\uml4net.xmi.Tests.csproj", "{37EDC280-C79F-487A-8B34-8B6460E6EB0C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +37,14 @@ Global
 		{0A31A432-692B-4C74-90EC-D9424BCC2608}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0A31A432-692B-4C74-90EC-D9424BCC2608}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0A31A432-692B-4C74-90EC-D9424BCC2608}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6C34F77D-734A-4983-B11C-7C166EE5E684}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6C34F77D-734A-4983-B11C-7C166EE5E684}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6C34F77D-734A-4983-B11C-7C166EE5E684}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6C34F77D-734A-4983-B11C-7C166EE5E684}.Release|Any CPU.Build.0 = Release|Any CPU
+		{37EDC280-C79F-487A-8B34-8B6460E6EB0C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{37EDC280-C79F-487A-8B34-8B6460E6EB0C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{37EDC280-C79F-487A-8B34-8B6460E6EB0C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{37EDC280-C79F-487A-8B34-8B6460E6EB0C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
