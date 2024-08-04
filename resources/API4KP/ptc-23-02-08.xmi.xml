@@ -1,0 +1,713 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmi:XMI xmlns:uml="http://www.omg.org/spec/UML/20131001" xmlns:StandardProfile="http://www.omg.org/spec/UML/20131001/StandardProfile" xmlns:xmi="http://www.omg.org/spec/XMI/20131001">
+   <xmi:documentation xmi:type="xmi:Documentation">
+      <xmi:exporter>MagicDraw Clean XMI Exporter</xmi:exporter>
+      <xmi:exporterVersion>19.0 v9</xmi:exporterVersion>
+   </xmi:documentation>
+   <uml:Model xmi:type="uml:Model" xmi:id="_QfT7wBCBEeiFZscxSswqUg" name="API4KP" URI="https://www.omg.org/spec/API4KP">
+      <ownedComment xmi:type="uml:Comment" xmi:id="_18_1beta_8c90288_1415101994820_370998_4336" body="Author:M123110.&#xA;Created:8/17/2021 3:27 PM.&#xA;Title:.&#xA;Comment:.&#xA;">
+         <annotatedElement xmi:idref="_QfT7wBCBEeiFZscxSswqUg"/>
+      </ownedComment>
+      <packagedElement xmi:type="uml:Package" xmi:id="_49jGcLUXEeiKIMorV_uf5w" name="api4kp" URI="https://www.omg.org/spec/API4KP/20230201">
+         <packagedElement xmi:type="uml:Package" xmi:id="_A_ryMFRzEeiseY4eaZPeLw" name="services" URI="https://www.omg.org/spec/API4KP/20230201/services">
+            <packageImport xmi:type="uml:PackageImport" xmi:id="_Gy-nIOaaEei1sYSdg2PaUQ" importedPackage="_5L8RsFIGEeqm8uiQ2nAYTw"/>
+            <packageImport xmi:type="uml:PackageImport" xmi:id="_19_0_3_6330176_1676746487838_681528_5344" importedPackage="_opxDQLIUEeipguRxRn1Vyw"/>
+            <packagedElement xmi:type="uml:Enumeration" xmi:id="_52VIgHSiEeql-d8KLv4NSQ" name="CompositeStructType">
+               <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_8KDeoHSiEeql-d8KLv4NSQ" name="TREE"/>
+               <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_-eK2UHSiEeql-d8KLv4NSQ" name="SET"/>
+               <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="__r-tQHSiEeql-d8KLv4NSQ" name="GRAPH"/>
+               <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_hopVYEX8EeuiB7tNbeeCiw" name="NONE"/>
+            </packagedElement>
+            <packagedElement xmi:type="uml:DataType" xmi:id="_19_0_3_6330176_1646874097876_521764_5242" name="KnowledgeCarrier">
+               <ownedAttribute xmi:type="uml:Property" xmi:id="_Vmn3wGj9EeiLBIhuFaW6fQ" name="assetId" visibility="public" type="_19_0_3_6330176_1646112459107_407375_5040">
+                  <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_Vmn3wWj9EeiLBIhuFaW6fQ"/>
+               </ownedAttribute>
+               <ownedAttribute xmi:type="uml:Property" xmi:id="_MmRZcHSjEeql-d8KLv4NSQ" name="rootId" visibility="public" type="_19_0_3_6330176_1646112459107_407375_5040">
+                  <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_MmRZcXSjEeql-d8KLv4NSQ"/>
+               </ownedAttribute>
+               <ownedAttribute xmi:type="uml:Property" xmi:id="_ZR78QOeLEei1sYSdg2PaUQ" name="artifactId" visibility="public" type="_19_0_3_6330176_1646112459107_407375_5040">
+                  <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_ZR9KYOeLEei1sYSdg2PaUQ"/>
+               </ownedAttribute>
+               <ownedAttribute xmi:type="uml:Property" xmi:id="_6AkpQFuVEem6YbFuEO-B0Q" name="level" visibility="public" type="_19_0_3_6330176_1674625135437_737336_5110"/>
+               <ownedAttribute xmi:type="uml:Property" xmi:id="_1ZhsACFeEeqGysUIN9ztMg" name="href" visibility="public" type="_19_0_3_6330176_1676790687915_410798_5418">
+                  <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_1ZiTECFeEeqGysUIN9ztMg"/>
+               </ownedAttribute>
+               <ownedAttribute xmi:type="uml:Property" xmi:id="_ryAnAEH-EeqyxpMhMMIaHw" name="label" visibility="public">
+                  <type href="http://www.omg.org/spec/UML/20131001/PrimitiveTypes.xmi#String"/>
+                  <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_ryDDQEH-EeqyxpMhMMIaHw"/>
+               </ownedAttribute>
+               <ownedAttribute xmi:type="uml:Property" xmi:id="_C_ivwHSjEeql-d8KLv4NSQ" name="structType" visibility="public" type="_52VIgHSiEeql-d8KLv4NSQ">
+                  <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_C_ivwXSjEeql-d8KLv4NSQ"/>
+                  <defaultValue xmi:type="uml:InstanceValue" xmi:id="_19_0_3_6330176_1673535252219_762019_5749" instance="_hopVYEX8EeuiB7tNbeeCiw"/>
+               </ownedAttribute>
+               <ownedAttribute xmi:type="uml:Property" xmi:id="_19_0_3_6330176_1646874016436_685963_5232" name="components" visibility="public" type="_19_0_3_6330176_1646874097876_521764_5242">
+                  <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_19_0_3_6330176_1646874035301_744877_5235"/>
+                  <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_19_0_3_6330176_1646874035302_777080_5236" value="*"/>
+               </ownedAttribute>
+               <ownedAttribute xmi:type="uml:Property" xmi:id="_19_0_3_6330176_1646874038567_310484_5237" name="struct" visibility="public" type="_19_0_3_6330176_1646874097876_521764_5242">
+                  <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_19_0_3_6330176_1646874057073_54773_5240"/>
+               </ownedAttribute>
+               <ownedAttribute xmi:type="uml:Property" xmi:id="_19_0_3_6330176_1646890232300_203973_6074" name="expression" visibility="public" type="_19_0_3_6330176_1673039863236_973831_5010">
+                  <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_19_0_3_6330176_1646890241547_183373_6076"/>
+               </ownedAttribute>
+               <ownedAttribute xmi:type="uml:Property" xmi:id="_19_0_3_6330176_1646890246518_794007_6078" name="representation" visibility="public" type="_19_0_3_6330176_1673534971825_269651_5637"/>
+            </packagedElement>
+            <packagedElement xmi:type="uml:DataType" xmi:id="_19_0_3_6330176_1646874119261_488534_5292" name="KnowledgeBase">
+               <ownedAttribute xmi:type="uml:Property" xmi:id="_imyKYB_MEeqGysUIN9ztMg" name="kbaseId" visibility="public" type="_19_0_3_6330176_1646112459107_407375_5040"/>
+               <ownedAttribute xmi:type="uml:Property" xmi:id="_19_0_3_6330176_1646874140481_303952_5334" name="manifestation" visibility="public" type="_19_0_3_6330176_1646874097876_521764_5242">
+                  <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_19_0_3_6330176_1646874160550_768029_5336"/>
+               </ownedAttribute>
+               <ownedAttribute xmi:type="uml:Property" xmi:id="_19_0_3_6330176_1673539468320_938851_6026" name="kbaseRef" visibility="public" type="_19_0_3_6330176_1646445766811_123884_5099">
+                  <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_19_0_3_6330176_1673539488242_377193_6028"/>
+               </ownedAttribute>
+            </packagedElement>
+            <packagedElement xmi:type="uml:Package" xmi:id="_19_0_3_6330176_1673530622935_503105_5386" name="descriptors" URI="https://www.omg.org/spec/API4KP/20230201/services/descriptors">
+               <packageImport xmi:type="uml:PackageImport" xmi:id="_19_0_3_6330176_1676746501923_884866_5350" importedPackage="_opxDQLIUEeipguRxRn1Vyw"/>
+               <packageImport xmi:type="uml:PackageImport" xmi:id="_19_0_3_6330176_1676747955291_97993_5356" importedPackage="_5L8RsFIGEeqm8uiQ2nAYTw"/>
+               <packagedElement xmi:type="uml:DataType" xmi:id="_19_0_3_6330176_1646887737551_350437_5799" name="KnowledgeArtifactRepository">
+                  <ownedAttribute xmi:type="uml:Property" xmi:id="_19_0_3_6330176_1646886973724_145330_5726" name="servantId " visibility="public" type="_19_0_3_6330176_1646112459107_407375_5040"/>
+                  <ownedAttribute xmi:type="uml:Property" xmi:id="_19_0_3_6330176_1673530329511_765402_5307" name="description" visibility="public">
+                     <type href="http://www.omg.org/spec/UML/20131001/PrimitiveTypes.xmi#String"/>
+                     <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_19_0_3_6330176_1673530329511_368521_5309"/>
+                  </ownedAttribute>
+                  <ownedAttribute xmi:type="uml:Property" xmi:id="_19_0_3_6330176_1646886956242_79375_5721" name="kind" visibility="public" type="_19_0_3_6330176_1646452852844_546718_5483">
+                     <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_19_0_3_6330176_1646886967187_811288_5724"/>
+                     <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_19_0_3_6330176_1646886967187_991994_5725" value="*"/>
+                  </ownedAttribute>
+                  <ownedAttribute xmi:type="uml:Property" xmi:id="_jWLkcFR3EeiseY4eaZPeLw" name="href" visibility="public" type="_19_0_3_6330176_1676790687915_410798_5418">
+                     <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_jWLkcVR3EeiseY4eaZPeLw"/>
+                  </ownedAttribute>
+                  <ownedAttribute xmi:type="uml:Property" xmi:id="_AsWmcG36Eem69dDnPdJvOA" name="defaultRepository" visibility="public">
+                     <type href="http://www.omg.org/spec/UML/20131001/PrimitiveTypes.xmi#Boolean"/>
+                     <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_AsZCsG36Eem69dDnPdJvOA"/>
+                  </ownedAttribute>
+               </packagedElement>
+               <packagedElement xmi:type="uml:DataType" xmi:id="_19_0_3_6330176_1646887480879_550792_5731" name="KnowledgeAssetCatalog">
+                  <ownedAttribute xmi:type="uml:Property" xmi:id="_19_0_3_6330176_1673531199150_113579_5474" name="servantId" visibility="public" type="_19_0_3_6330176_1646112459107_407375_5040"/>
+                  <ownedAttribute xmi:type="uml:Property" xmi:id="_4mPLYGj0EeiLBIhuFaW6fQ" name="description" visibility="public">
+                     <type href="http://www.omg.org/spec/UML/20131001/PrimitiveTypes.xmi#String"/>
+                     <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_4mPLYWj0EeiLBIhuFaW6fQ"/>
+                  </ownedAttribute>
+                  <ownedAttribute xmi:type="uml:Property" xmi:id="_19_0_3_6330176_1673530190999_234884_5277" name="kind" visibility="public" type="_19_0_3_6330176_1646452852844_546718_5483">
+                     <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_19_0_3_6330176_1673530190999_722575_5279"/>
+                     <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_19_0_3_6330176_1673530190999_36341_5278" value="*"/>
+                  </ownedAttribute>
+                  <ownedAttribute xmi:type="uml:Property" xmi:id="_19_0_3_6330176_1673530142239_99191_5254" name="operators" visibility="public" type="_19_0_3_6330176_1646890066374_751254_6046">
+                     <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_19_0_3_6330176_1673530142240_406204_5256"/>
+                     <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_19_0_3_6330176_1673530142240_356105_5255" value="*"/>
+                  </ownedAttribute>
+                  <ownedAttribute xmi:type="uml:Property" xmi:id="_82_O4Gj0EeiLBIhuFaW6fQ" name="supportedAssetTypes" visibility="public" type="_19_0_3_6330176_1646452852844_546718_5483">
+                     <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_82_O4Wj0EeiLBIhuFaW6fQ"/>
+                     <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_82_18Gj0EeiLBIhuFaW6fQ" value="*"/>
+                  </ownedAttribute>
+                  <ownedAttribute xmi:type="uml:Property" xmi:id="_0Cq6kHNfEeql-d8KLv4NSQ" name="supportedAnnotations" visibility="public" type="_19_0_3_6330176_1646452852844_546718_5483">
+                     <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_0Ct94HNfEeql-d8KLv4NSQ"/>
+                     <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_0Ct94XNfEeql-d8KLv4NSQ" value="*"/>
+                  </ownedAttribute>
+                  <ownedAttribute xmi:type="uml:Property" xmi:id="_19_0_3_6330176_1673535944447_941247_5750" name="href" visibility="public" type="_19_0_3_6330176_1676790687915_410798_5418">
+                     <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_19_0_3_6330176_1673535944448_964177_5752"/>
+                  </ownedAttribute>
+               </packagedElement>
+               <packagedElement xmi:type="uml:DataType" xmi:id="_19_0_3_6330176_1646890066374_751254_6046" name="KnowledgeProcessingOperator">
+                  <ownedAttribute xmi:type="uml:Property" xmi:id="_LnSqUGBiEem6YbFuEO-B0Q" name="operatorId" visibility="public" type="_19_0_3_6330176_1646112459107_407375_5040"/>
+                  <ownedAttribute xmi:type="uml:Property" xmi:id="_19_0_3_6330176_1673530025017_241978_5250" name="description" visibility="public">
+                     <type href="http://www.omg.org/spec/UML/20131001/PrimitiveTypes.xmi#String"/>
+                     <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_19_0_3_6330176_1673530094212_55130_5252"/>
+                  </ownedAttribute>
+                  <ownedAttribute xmi:type="uml:Property" xmi:id="_t913kFkVEeiseY4eaZPeLw" name="methodId" visibility="public" type="_19_0_3_6330176_1646452852844_546718_5483">
+                     <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_t913kVkVEeiseY4eaZPeLw"/>
+                  </ownedAttribute>
+                  <ownedAttribute xmi:type="uml:Property" xmi:id="_19_0_3_6330176_1646890015544_282840_6042" name="operationKind" visibility="public" type="_19_0_3_6330176_1646452852844_546718_5483">
+                     <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_19_0_3_6330176_1646890034817_775455_6044"/>
+                  </ownedAttribute>
+                  <ownedAttribute xmi:type="uml:Property" xmi:id="_19_0_3_6330176_1673538365949_614908_5927" name="additionalParameters" visibility="public" type="_19_0_3_6330176_1646877952068_102311_5490">
+                     <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_19_0_3_6330176_1673538382309_721198_5929"/>
+                     <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_19_0_3_6330176_1673538382309_871610_5930" value="*"/>
+                  </ownedAttribute>
+               </packagedElement>
+               <packagedElement xmi:type="uml:DataType" xmi:id="_19_0_3_6330176_1646889058417_764581_5876" name="KnowledgeProcessingServiceManifest">
+                  <ownedAttribute xmi:type="uml:Property" xmi:id="_19_0_3_6330176_1673530210733_954470_5297" name="servantId" visibility="public" type="_19_0_3_6330176_1646112459107_407375_5040"/>
+                  <ownedAttribute xmi:type="uml:Property" xmi:id="_19_0_3_6330176_1673530355490_204403_5325" name="description" visibility="public">
+                     <type href="http://www.omg.org/spec/UML/20131001/PrimitiveTypes.xmi#String"/>
+                     <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_19_0_3_6330176_1673530355490_826266_5327"/>
+                  </ownedAttribute>
+                  <ownedAttribute xmi:type="uml:Property" xmi:id="_19_0_3_6330176_1673531648845_256943_5556" name="kind" visibility="public" type="_19_0_3_6330176_1646452852844_546718_5483">
+                     <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_19_0_3_6330176_1673531648845_729985_5558"/>
+                     <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_19_0_3_6330176_1673531648845_127033_5557" value="*"/>
+                  </ownedAttribute>
+                  <ownedAttribute xmi:type="uml:Property" xmi:id="_19_0_3_6330176_1646889267356_20448_6016" name="supportedAssetTypes" visibility="public" type="_19_0_3_6330176_1646452852844_546718_5483">
+                     <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_19_0_3_6330176_1646889288665_38936_6018"/>
+                     <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_19_0_3_6330176_1646889288665_353695_6019" value="*"/>
+                  </ownedAttribute>
+                  <ownedAttribute xmi:type="uml:Property" xmi:id="_19_0_3_6330176_1646889291093_112841_6020" name="supportedLanguages" visibility="public" type="_19_0_3_6330176_1646452852844_546718_5483">
+                     <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_19_0_3_6330176_1646889305429_563980_6022"/>
+                     <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_19_0_3_6330176_1646889305429_857985_6023" value="*"/>
+                  </ownedAttribute>
+                  <ownedAttribute xmi:type="uml:Property" xmi:id="_19_0_3_6330176_1673530175057_376948_5270" name="supportedOperators" visibility="public" type="_19_0_3_6330176_1646890066374_751254_6046">
+                     <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_19_0_3_6330176_1673530175058_800746_5272"/>
+                     <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_19_0_3_6330176_1673530175058_399167_5271" value="*"/>
+                  </ownedAttribute>
+                  <ownedAttribute xmi:type="uml:Property" xmi:id="_19_0_3_6330176_1673535952481_126327_5758" name="href" visibility="public" type="_19_0_3_6330176_1676790687915_410798_5418">
+                     <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_19_0_3_6330176_1673535952482_605770_5760"/>
+                  </ownedAttribute>
+               </packagedElement>
+               <packagedElement xmi:type="uml:DataType" xmi:id="_19_0_3_6330176_1646877952068_102311_5490" name="ParameterDefinition">
+                  <ownedAttribute xmi:type="uml:Property" xmi:id="_kFpW4WEjEem6YbFuEO-B0Q" name="name" visibility="public">
+                     <type href="http://www.omg.org/spec/UML/20131001/PrimitiveTypes.xmi#String"/>
+                  </ownedAttribute>
+                  <ownedAttribute xmi:type="uml:Property" xmi:id="_kFpW5GEjEem6YbFuEO-B0Q" name="type" visibility="public" type="_19_0_3_6330176_1676790682062_741142_5398"/>
+                  <ownedAttribute xmi:type="uml:Property" xmi:id="_kFpW52EjEem6YbFuEO-B0Q" name="definition" visibility="public">
+                     <type href="http://www.omg.org/spec/UML/20131001/PrimitiveTypes.xmi#String"/>
+                     <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_kFpW6GEjEem6YbFuEO-B0Q"/>
+                  </ownedAttribute>
+                  <ownedAttribute xmi:type="uml:Property" xmi:id="_kFpW6mEjEem6YbFuEO-B0Q" name="defaultValue" visibility="public" type="_19_0_3_6330176_1673529022984_692880_5129">
+                     <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_kFpW62EjEem6YbFuEO-B0Q"/>
+                  </ownedAttribute>
+                  <ownedAttribute xmi:type="uml:Property" xmi:id="_kFpW7WEjEem6YbFuEO-B0Q" name="required" visibility="public">
+                     <type href="http://www.omg.org/spec/UML/20131001/PrimitiveTypes.xmi#Boolean"/>
+                     <defaultValue xmi:type="uml:LiteralBoolean" xmi:id="_19_0_3_6330176_1646878014060_769649_5534"/>
+                  </ownedAttribute>
+               </packagedElement>
+            </packagedElement>
+            <packagedElement xmi:type="uml:DataType" xmi:id="_19_0_3_6330176_1646878428224_797733_5611" name="Issue">
+               <ownedAttribute xmi:type="uml:Property" xmi:id="_19_0_3_6330176_1673538253555_243134_5894" name="id" visibility="public">
+                  <type href="http://www.omg.org/spec/UML/20131001/PrimitiveTypes.xmi#String"/>
+               </ownedAttribute>
+               <ownedAttribute xmi:type="uml:Property" xmi:id="_19_0_3_6330176_1646878115565_477565_5545" name="instance" visibility="public" type="_19_0_3_6330176_1676790682062_741142_5398">
+                  <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_19_0_3_6330176_1646878125613_889767_5548"/>
+               </ownedAttribute>
+               <ownedAttribute xmi:type="uml:Property" xmi:id="_19_0_3_6330176_1646878088874_533325_5535" name="title" visibility="public">
+                  <type href="http://www.omg.org/spec/UML/20131001/PrimitiveTypes.xmi#String"/>
+                  <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_19_0_3_6330176_1646878096683_244863_5538"/>
+               </ownedAttribute>
+               <ownedAttribute xmi:type="uml:Property" xmi:id="_0Qv1sW1zEeq0hPDNwgeC4w" name="detail" visibility="public">
+                  <type href="http://www.omg.org/spec/UML/20131001/PrimitiveTypes.xmi#String"/>
+                  <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_0Qv1sm1zEeq0hPDNwgeC4w"/>
+               </ownedAttribute>
+               <ownedAttribute xmi:type="uml:Property" xmi:id="_19_0_3_6330176_1646878104552_463830_5540" name="type" visibility="public" type="_19_0_3_6330176_1676790682062_741142_5398"/>
+               <ownedAttribute xmi:type="uml:Property" xmi:id="_19_0_3_6330176_1646878127438_93699_5550" name="status" visibility="public">
+                  <type href="http://www.omg.org/spec/UML/20131001/PrimitiveTypes.xmi#Integer"/>
+                  <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_19_0_3_6330176_1646878138102_937066_5553"/>
+               </ownedAttribute>
+               <ownedAttribute xmi:type="uml:Property" xmi:id="_19_0_3_6330176_1646878211633_40289_5555" name="severity" visibility="public" type="_19_0_3_6330176_1646878242711_759009_5559">
+                  <defaultValue xmi:type="uml:InstanceValue" xmi:id="_19_0_3_6330176_1646878448796_193412_5659" instance="_19_0_3_6330176_1646878273022_114463_5583"/>
+               </ownedAttribute>
+               <ownedAttribute xmi:type="uml:Property" xmi:id="_19_0_3_6330176_1646878355472_273617_5595" name="cause" visibility="public" type="_19_0_3_6330176_1646878428224_797733_5611">
+                  <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_19_0_3_6330176_1646878364548_711099_5598"/>
+               </ownedAttribute>
+               <ownedAttribute xmi:type="uml:Property" xmi:id="_19_0_3_6330176_1646878367716_349877_5600" name="trace" visibility="public">
+                  <type href="http://www.omg.org/spec/UML/20131001/PrimitiveTypes.xmi#String"/>
+                  <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_19_0_3_6330176_1646878377248_195159_5603"/>
+                  <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_19_0_3_6330176_1646878377248_15644_5604" value="*"/>
+               </ownedAttribute>
+               <ownedAttribute xmi:type="uml:Property" xmi:id="_19_0_3_6330176_1646878381245_795832_5605" name="components" visibility="public" type="_19_0_3_6330176_1646878428224_797733_5611">
+                  <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_19_0_3_6330176_1646878392159_136472_5608"/>
+                  <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_19_0_3_6330176_1646878392159_364534_5609" value="*"/>
+               </ownedAttribute>
+            </packagedElement>
+            <packagedElement xmi:type="uml:Enumeration" xmi:id="_19_0_3_6330176_1646878242711_759009_5559" name="Severity">
+               <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_19_0_3_6330176_1646878264962_533615_5581" name="OK"/>
+               <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_19_0_3_6330176_1646878273022_114463_5583" name="INF"/>
+               <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_19_0_3_6330176_1646878277706_58926_5585" name="UNK"/>
+               <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_19_0_3_6330176_1646878284006_315931_5587" name="WRN"/>
+               <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_19_0_3_6330176_1646878287512_476278_5589" name="ERR"/>
+               <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_19_0_3_6330176_1646878295231_910912_5593" name="FATAL"/>
+            </packagedElement>
+            <packagedElement xmi:type="uml:DataType" xmi:id="_19_0_3_6330176_1673536324092_635324_5768" name="Answer">
+               <ownedAttribute xmi:type="uml:Property" xmi:id="_19_0_3_6330176_1673536352048_921651_5788" name="data" visibility="public" type="_19_0_3_6330176_1673039863236_973831_5010">
+                  <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_19_0_3_6330176_1673536412199_732648_5790"/>
+               </ownedAttribute>
+               <ownedAttribute xmi:type="uml:Property" xmi:id="_19_0_3_6330176_1673537007186_769566_5792" name="meta" visibility="public" type="_19_0_3_6330176_1646510157124_434092_5563">
+                  <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_19_0_3_6330176_1673537015231_637646_5795"/>
+               </ownedAttribute>
+               <ownedAttribute xmi:type="uml:Property" xmi:id="_19_0_3_6330176_1673537018906_805379_5797" name="links" visibility="public" type="_19_0_3_6330176_1673537452091_947177_5801">
+                  <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_19_0_3_6330176_1673537493338_512068_5823"/>
+               </ownedAttribute>
+               <ownedAttribute xmi:type="uml:Property" xmi:id="_19_0_3_6330176_1673538284724_229382_5899" name="errors" visibility="public" type="_19_0_3_6330176_1646878428224_797733_5611">
+                  <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_19_0_3_6330176_1673538296544_393806_5901"/>
+                  <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_19_0_3_6330176_1673538296544_450398_5902" value="*"/>
+               </ownedAttribute>
+            </packagedElement>
+            <packagedElement xmi:type="uml:DataType" xmi:id="_19_0_3_6330176_1673537452091_947177_5801" name="Links">
+               <ownedAttribute xmi:type="uml:Property" xmi:id="_19_0_3_6330176_1673537475963_803979_5821" name="self" visibility="public" type="_19_0_3_6330176_1676790687915_410798_5418">
+                  <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_19_0_3_6330176_1673537520133_550372_5825"/>
+               </ownedAttribute>
+               <ownedAttribute xmi:type="uml:Property" xmi:id="_19_0_3_6330176_1673537757080_39996_5852" name="related" visibility="public" type="_19_0_3_6330176_1673537751990_537455_5832">
+                  <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_19_0_3_6330176_1673537767447_879419_5854"/>
+                  <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_19_0_3_6330176_1673537767447_671014_5855" value="*"/>
+               </ownedAttribute>
+               <ownedAttribute xmi:type="uml:Property" xmi:id="_19_0_3_6330176_1673539071980_781907_5955" name="first" visibility="public" type="_19_0_3_6330176_1676790687915_410798_5418">
+                  <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_19_0_3_6330176_1673539077244_943864_5957"/>
+               </ownedAttribute>
+               <ownedAttribute xmi:type="uml:Property" xmi:id="_19_0_3_6330176_1673539080928_703612_5959" name="next" visibility="public" type="_19_0_3_6330176_1676790687915_410798_5418">
+                  <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_19_0_3_6330176_1673539086100_607138_5961"/>
+               </ownedAttribute>
+               <ownedAttribute xmi:type="uml:Property" xmi:id="_19_0_3_6330176_1673539100366_776393_5967" name="prev" visibility="public" type="_19_0_3_6330176_1676790687915_410798_5418">
+                  <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_19_0_3_6330176_1673539105340_24712_5969"/>
+               </ownedAttribute>
+               <ownedAttribute xmi:type="uml:Property" xmi:id="_19_0_3_6330176_1673539088035_473361_5963" name="last" visibility="public" type="_19_0_3_6330176_1676790687915_410798_5418">
+                  <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_19_0_3_6330176_1673539095955_235104_5965"/>
+               </ownedAttribute>
+            </packagedElement>
+            <packagedElement xmi:type="uml:DataType" xmi:id="_19_0_3_6330176_1673537751990_537455_5832" name="Link">
+               <ownedAttribute xmi:type="uml:Property" xmi:id="_19_0_3_6330176_1673537862176_842329_5856" name="href" visibility="public" type="_19_0_3_6330176_1676790687915_410798_5418"/>
+               <ownedAttribute xmi:type="uml:Property" xmi:id="_19_0_3_6330176_1673537877092_620406_5860" name="rel" visibility="public" type="_19_0_3_6330176_1676790682062_741142_5398">
+                  <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_19_0_3_6330176_1673537888267_381375_5863"/>
+               </ownedAttribute>
+               <ownedAttribute xmi:type="uml:Property" xmi:id="_19_0_3_6330176_1673537925105_607500_5865" name="title" visibility="public">
+                  <type href="http://www.omg.org/spec/UML/20131001/PrimitiveTypes.xmi#String"/>
+                  <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_19_0_3_6330176_1673537934200_57892_5867"/>
+               </ownedAttribute>
+               <ownedAttribute xmi:type="uml:Property" xmi:id="_19_0_3_6330176_1673537936528_367272_5869" name="hrefLang" visibility="public" type="_19_0_3_6330176_1673534971825_269651_5637">
+                  <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_19_0_3_6330176_1673537954736_512617_5871"/>
+               </ownedAttribute>
+               <ownedAttribute xmi:type="uml:Property" xmi:id="_19_0_3_6330176_1673537524010_568196_5827" name="describedBy" visibility="public" type="_19_0_3_6330176_1676790687915_410798_5418">
+                  <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_19_0_3_6330176_1673537534763_489210_5829"/>
+               </ownedAttribute>
+            </packagedElement>
+            <packagedElement xmi:type="uml:DataType" xmi:id="_19_0_3_6330176_1673528433624_968712_5008" name="QueryResults">
+               <ownedAttribute xmi:type="uml:Property" xmi:id="_19_0_3_6330176_1673528309061_81754_4978" name="vars" visibility="public">
+                  <type href="http://www.omg.org/spec/UML/20131001/PrimitiveTypes.xmi#String"/>
+                  <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_19_0_3_6330176_1673528324710_106754_4980"/>
+                  <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_19_0_3_6330176_1673528324711_505105_4981" value="*"/>
+               </ownedAttribute>
+               <ownedAttribute xmi:type="uml:Property" xmi:id="_19_0_3_6330176_1673528627626_121498_5062" name="link" visibility="public" type="_19_0_3_6330176_1676790682062_741142_5398">
+                  <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_19_0_3_6330176_1673528635620_133069_5064"/>
+                  <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_19_0_3_6330176_1673528635620_233942_5065" value="*"/>
+               </ownedAttribute>
+               <ownedAttribute xmi:type="uml:Property" xmi:id="_19_0_3_6330176_1673528545269_62093_5028" name="results" visibility="public" type="_19_0_3_6330176_1646510152581_192946_5543">
+                  <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_19_0_3_6330176_1673528569073_756984_5032"/>
+               </ownedAttribute>
+               <ownedAttribute xmi:type="uml:Property" xmi:id="_19_0_3_6330176_1673528547174_781508_5030" name="boolean" visibility="public">
+                  <type href="http://www.omg.org/spec/UML/20131001/PrimitiveTypes.xmi#Boolean"/>
+                  <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_19_0_3_6330176_1673528582169_556117_5034"/>
+               </ownedAttribute>
+            </packagedElement>
+            <packagedElement xmi:type="uml:DataType" xmi:id="_19_0_3_6330176_1646510152581_192946_5543" name="ResultSet">
+               <ownedAttribute xmi:type="uml:Property" xmi:id="_19_0_3_6330176_1646510169919_789525_5602" name="bindings" visibility="public" type="_19_0_3_6330176_1646510157124_434092_5563">
+                  <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_19_0_3_6330176_1646510209830_637662_5604"/>
+                  <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_19_0_3_6330176_1646510209831_135927_5605" value="*"/>
+               </ownedAttribute>
+            </packagedElement>
+            <packagedElement xmi:type="uml:DataType" xmi:id="_19_0_3_6330176_1673555474242_140016_6325" name="Event">
+               <ownedAttribute xmi:type="uml:Property" xmi:id="_19_0_3_6330176_1673555481214_711663_6345" name="id" visibility="public">
+                  <type href="http://www.omg.org/spec/UML/20131001/PrimitiveTypes.xmi#String"/>
+               </ownedAttribute>
+               <ownedAttribute xmi:type="uml:Property" xmi:id="_19_0_3_6330176_1673555493950_161895_6349" name="source" visibility="public" type="_19_0_3_6330176_1676790682062_741142_5398"/>
+               <ownedAttribute xmi:type="uml:Property" xmi:id="_19_0_3_6330176_1673555537757_546128_6353" name="type" visibility="public" type="_19_0_3_6330176_1646452852844_546718_5483"/>
+               <ownedAttribute xmi:type="uml:Property" xmi:id="_19_0_3_6330176_1673555576209_350733_6357" name="dataContentType" visibility="public" type="_19_0_3_6330176_1673534971825_269651_5637"/>
+               <ownedAttribute xmi:type="uml:Property" xmi:id="_19_0_3_6330176_1673555628874_902210_6359" name="subject" visibility="public" type="_19_0_3_6330176_1676790682062_741142_5398"/>
+               <ownedAttribute xmi:type="uml:Property" xmi:id="_19_0_3_6330176_1673555646669_701698_6363" name="dataSchema" visibility="public" type="_19_0_3_6330176_1676790682062_741142_5398">
+                  <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_19_0_3_6330176_1676827257952_95127_5116"/>
+               </ownedAttribute>
+               <ownedAttribute xmi:type="uml:Property" xmi:id="_19_0_3_6330176_1673555850779_351593_6365" name="time" visibility="public" type="_19_0_3_6330176_1676790627297_861930_5378"/>
+               <ownedAttribute xmi:type="uml:Property" xmi:id="_19_0_3_6330176_1673555906436_342873_6371" name="data" visibility="public" type="_19_0_3_6330176_1673039863236_973831_5010">
+                  <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_19_0_3_6330176_1673555917256_515871_6373"/>
+               </ownedAttribute>
+            </packagedElement>
+            <packagedElement xmi:type="uml:Enumeration" xmi:id="_19_0_3_6330176_1674625135437_737336_5110" name="Level">
+               <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_19_0_3_6330176_1674625379694_308864_5140" name="INTERNAL"/>
+               <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_19_0_3_6330176_1674625144086_233046_5132" name="ABSTRACT"/>
+               <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_19_0_3_6330176_1674625155624_635705_5134" name="CONCRETE"/>
+               <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_19_0_3_6330176_1674625158220_95098_5136" name="SERIALIZED"/>
+               <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_19_0_3_6330176_1674625162914_796664_5138" name="ENCODED"/>
+            </packagedElement>
+            <packagedElement xmi:type="uml:DataType" xmi:id="_19_0_3_6330176_1674674104753_694221_5251" name="AssetPayload">
+               <ownedAttribute xmi:type="uml:Property" xmi:id="_19_0_3_6330176_1674674188755_52163_5279" name="asset" visibility="public" type="_19_0_3_6330176_1646445766811_123884_5099"/>
+               <ownedAttribute xmi:type="uml:Property" xmi:id="_19_0_3_6330176_1674674141856_145330_5275" name="carrier" visibility="public" type="_19_0_3_6330176_1646874097876_521764_5242">
+                  <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_19_0_3_6330176_1674674175103_974957_5277"/>
+                  <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_19_0_3_6330176_1674674175103_611121_5278" value="*"/>
+               </ownedAttribute>
+               <ownedAttribute xmi:type="uml:Property" xmi:id="_19_0_3_6330176_1674674124382_818678_5271" name="surrogate" visibility="public" type="_19_0_3_6330176_1646874097876_521764_5242">
+                  <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_19_0_3_6330176_1674674141818_386360_5273"/>
+                  <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_19_0_3_6330176_1674674141818_192021_5274" value="*"/>
+               </ownedAttribute>
+            </packagedElement>
+         </packagedElement>
+         <packagedElement xmi:type="uml:Package" xmi:id="_opxDQLIUEeipguRxRn1Vyw" name="datatypes" URI="https://www.omg.org/spec/API4KP/20230201/datatypes">
+            <packagedElement xmi:type="uml:DataType" xmi:id="_19_0_3_6330176_1646510157124_434092_5563" name="Bindings">
+               <ownedAttribute xmi:type="uml:Property" xmi:id="_19_0_3_6330176_1676824931807_99346_5051" name="entries" visibility="public" type="_19_0_3_6330176_1676824921591_462709_5031">
+                  <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_19_0_3_6330176_1676824967396_668314_5053"/>
+                  <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_19_0_3_6330176_1676824967397_35870_5054" value="*"/>
+               </ownedAttribute>
+            </packagedElement>
+            <packagedElement xmi:type="uml:DataType" xmi:id="_19_0_3_6330176_1673039863236_973831_5010" name="Any"/>
+            <packagedElement xmi:type="uml:PrimitiveType" xmi:id="_19_0_3_6330176_1676790627297_861930_5378" name="DateTime"/>
+            <packagedElement xmi:type="uml:PrimitiveType" xmi:id="_19_0_3_6330176_1676790682062_741142_5398" name="URI"/>
+            <packagedElement xmi:type="uml:PrimitiveType" xmi:id="_19_0_3_6330176_1676790687915_410798_5418" name="URL"/>
+            <packagedElement xmi:type="uml:PrimitiveType" xmi:id="_19_0_3_6330176_1676790692106_583960_5438" name="UUID"/>
+            <packagedElement xmi:type="uml:DataType" xmi:id="_19_0_3_6330176_1676824921591_462709_5031" name="Entry">
+               <ownedAttribute xmi:type="uml:Property" xmi:id="_19_0_3_6330176_1676824975923_266409_5055" name="key" visibility="public">
+                  <type href="http://www.omg.org/spec/UML/20131001/PrimitiveTypes.xmi#String"/>
+               </ownedAttribute>
+               <ownedAttribute xmi:type="uml:Property" xmi:id="_19_0_3_6330176_1676824985556_747915_5059" name="value" visibility="public" type="_19_0_3_6330176_1673039863236_973831_5010"/>
+            </packagedElement>
+            <packagedElement xmi:type="uml:DataType" xmi:id="_19_0_3_6330176_1673529022984_692880_5129" name="TypedValue">
+               <ownedAttribute xmi:type="uml:Property" xmi:id="_19_0_3_6330176_1673528697501_704157_5069" name="value" visibility="public">
+                  <type href="http://www.omg.org/spec/UML/20131001/PrimitiveTypes.xmi#String"/>
+               </ownedAttribute>
+               <ownedAttribute xmi:type="uml:Property" xmi:id="_19_0_3_6330176_1673528689932_405651_5067" name="type" visibility="public">
+                  <type href="http://www.omg.org/spec/UML/20131001/PrimitiveTypes.xmi#String"/>
+                  <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_19_0_3_6330176_1673528713531_867285_5073"/>
+               </ownedAttribute>
+               <ownedAttribute xmi:type="uml:Property" xmi:id="_19_0_3_6330176_1673528703186_114274_5071" name="datatype" visibility="public">
+                  <type href="http://www.omg.org/spec/UML/20131001/PrimitiveTypes.xmi#String"/>
+                  <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_19_0_3_6330176_1673528766646_987357_5077"/>
+               </ownedAttribute>
+            </packagedElement>
+         </packagedElement>
+         <packagedElement xmi:type="uml:Package" xmi:id="_5L8RsFIGEeqm8uiQ2nAYTw" name="id" URI="https://www.omg.org/spec/API4KP/20230201/id">
+            <packageImport xmi:type="uml:PackageImport" xmi:id="_krX5wFxQEeqbM71j6oO8sw" importedPackage="_opxDQLIUEeipguRxRn1Vyw"/>
+            <packagedElement xmi:type="uml:DataType" xmi:id="_19_0_3_6330176_1646112459107_407375_5040" name="KeyIdentifier">
+               <ownedAttribute xmi:type="uml:Property" xmi:id="_19_0_3_6330176_1646112478075_557683_5060" name="uuid" visibility="public" type="_19_0_3_6330176_1676790692106_583960_5438"/>
+               <ownedAttribute xmi:type="uml:Property" xmi:id="_19_0_3_6330176_1646112484303_760051_5062" name="versionTag" visibility="public">
+                  <type href="http://www.omg.org/spec/UML/20131001/PrimitiveTypes.xmi#String"/>
+                  <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_19_0_3_6330176_1646112575331_771800_5070"/>
+               </ownedAttribute>
+               <ownedAttribute xmi:type="uml:Property" xmi:id="_19_0_3_6330176_1646112549072_741004_5064" name="versionHash" visibility="public" isDerived="true">
+                  <type href="http://www.omg.org/spec/UML/20131001/PrimitiveTypes.xmi#Integer"/>
+                  <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_19_0_3_6330176_1646112563126_597446_5066"/>
+               </ownedAttribute>
+            </packagedElement>
+            <packagedElement xmi:type="uml:DataType" xmi:id="_19_0_3_6330176_1646445766811_123884_5099" name="Pointer">
+               <ownedAttribute xmi:type="uml:Property" xmi:id="_19_0_3_6330176_1646445766812_713545_5100" name="tag" visibility="public">
+                  <type href="http://www.omg.org/spec/UML/20131001/PrimitiveTypes.xmi#String"/>
+               </ownedAttribute>
+               <ownedAttribute xmi:type="uml:Property" xmi:id="_19_0_3_6330176_1646445766812_233080_5101" name="versionTag" visibility="public">
+                  <type href="http://www.omg.org/spec/UML/20131001/PrimitiveTypes.xmi#String"/>
+                  <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_19_0_3_6330176_1646445766814_519919_5111"/>
+               </ownedAttribute>
+               <ownedAttribute xmi:type="uml:Property" xmi:id="_19_0_3_6330176_1646445766813_58718_5102" name="namespace" visibility="public" isReadOnly="true" type="_19_0_3_6330176_1676790682062_741142_5398"/>
+               <ownedAttribute xmi:type="uml:Property" xmi:id="_19_0_3_6330176_1646445766813_858061_5103" name="name" visibility="public">
+                  <type href="http://www.omg.org/spec/UML/20131001/PrimitiveTypes.xmi#String"/>
+                  <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_19_0_3_6330176_1646445766814_431912_5115"/>
+               </ownedAttribute>
+               <ownedAttribute xmi:type="uml:Property" xmi:id="_19_0_3_6330176_1646445766813_123950_5104" name="uuid" visibility="public" type="_19_0_3_6330176_1676790692106_583960_5438"/>
+               <ownedAttribute xmi:type="uml:Property" xmi:id="_19_0_3_6330176_1646445766813_532502_5105" name="resourceId" visibility="public" type="_19_0_3_6330176_1676790682062_741142_5398"/>
+               <ownedAttribute xmi:type="uml:Property" xmi:id="_19_0_3_6330176_1646445766813_360200_5106" name="versionId" visibility="public" type="_19_0_3_6330176_1676790682062_741142_5398">
+                  <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_19_0_3_6330176_1646445766814_851632_5117"/>
+               </ownedAttribute>
+               <ownedAttribute xmi:type="uml:Property" xmi:id="_19_0_3_6330176_1646445766813_813609_5107" name="lastModified" visibility="public" type="_19_0_3_6330176_1676790627297_861930_5378">
+                  <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_19_0_3_6330176_1674620416232_538961_5092"/>
+               </ownedAttribute>
+               <ownedAttribute xmi:type="uml:Property" xmi:id="_19_0_3_6330176_1673543927224_856603_6211" name="createdOn" visibility="public" type="_19_0_3_6330176_1676790627297_861930_5378">
+                  <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_19_0_3_6330176_1674620421330_86159_5094"/>
+               </ownedAttribute>
+               <ownedAttribute xmi:type="uml:Property" xmi:id="_5YlbAFIQEeqm8uiQ2nAYTw" name="description" visibility="public">
+                  <type href="http://www.omg.org/spec/UML/20131001/PrimitiveTypes.xmi#String"/>
+                  <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_5YlbAVIQEeqm8uiQ2nAYTw"/>
+               </ownedAttribute>
+               <ownedAttribute xmi:type="uml:Property" xmi:id="_hqRHcG6fEeqpL7Uxym_Nvw" name="type" visibility="public" type="_19_0_3_6330176_1646452852844_546718_5483">
+                  <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_jU5dQG6fEeqpL7Uxym_Nvw"/>
+                  <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_19_0_3_6330176_1646446005233_322558_5151" value="*"/>
+               </ownedAttribute>
+               <ownedAttribute xmi:type="uml:Property" xmi:id="_5LHKABriEeuewf_rIPg7Mw" name="mimeType" visibility="public" type="_19_0_3_6330176_1673534971825_269651_5637">
+                  <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_5LI_MBriEeuewf_rIPg7Mw"/>
+               </ownedAttribute>
+               <ownedAttribute xmi:type="uml:Property" xmi:id="__THJoFIZEeqm8uiQ2nAYTw" name="href" visibility="public" type="_19_0_3_6330176_1676790687915_410798_5418">
+                  <lowerValue xmi:type="uml:LiteralInteger" xmi:id="__THJoVIZEeqm8uiQ2nAYTw"/>
+               </ownedAttribute>
+            </packagedElement>
+            <packagedElement xmi:type="uml:DataType" xmi:id="_19_0_3_6330176_1646452684699_880706_5428" name="ConceptDescriptor">
+               <ownedAttribute xmi:type="uml:Property" xmi:id="_19_0_3_6330176_1646452684700_647059_5429" name="code" visibility="public">
+                  <type href="http://www.omg.org/spec/UML/20131001/PrimitiveTypes.xmi#String"/>
+                  <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_19_0_3_6330176_1646452684701_982813_5439" value="*"/>
+               </ownedAttribute>
+               <ownedAttribute xmi:type="uml:Property" xmi:id="_19_0_3_6330176_1646452684700_546083_5430" name="versionTag" visibility="public">
+                  <type href="http://www.omg.org/spec/UML/20131001/PrimitiveTypes.xmi#String"/>
+                  <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_19_0_3_6330176_1646452684702_636198_5442"/>
+               </ownedAttribute>
+               <ownedAttribute xmi:type="uml:Property" xmi:id="_19_0_3_6330176_1646452684700_495816_5431" name="codeSystem" visibility="public" type="_19_0_3_6330176_1676790682062_741142_5398"/>
+               <ownedAttribute xmi:type="uml:Property" xmi:id="_19_0_3_6330176_1646452684700_939458_5432" name="label" visibility="public">
+                  <type href="http://www.omg.org/spec/UML/20131001/PrimitiveTypes.xmi#String"/>
+                  <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_19_0_3_6330176_1646452684702_741888_5446"/>
+               </ownedAttribute>
+               <ownedAttribute xmi:type="uml:Property" xmi:id="_19_0_3_6330176_1646452684700_824946_5434" name="conceptId" visibility="public" type="_19_0_3_6330176_1676790682062_741142_5398"/>
+               <ownedAttribute xmi:type="uml:Property" xmi:id="_19_0_3_6330176_1646452684701_723022_5437" name="additionalLabels" visibility="public" type="_19_0_3_6330176_1646510157124_434092_5563">
+                  <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_19_0_3_6330176_1646452684703_732765_5450"/>
+               </ownedAttribute>
+               <ownedAttribute xmi:type="uml:Property" xmi:id="_19_0_3_6330176_1646452684701_506112_5438" name="referentId" visibility="public" type="_19_0_3_6330176_1676790682062_741142_5398">
+                  <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_19_0_3_6330176_1646452684703_279600_5452"/>
+               </ownedAttribute>
+               <ownedAttribute xmi:type="uml:Property" xmi:id="_19_0_3_6330176_1646453234609_134558_5514" name="ancestors" visibility="public" type="_19_0_3_6330176_1646452852844_546718_5483">
+                  <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_19_0_3_6330176_1646453254284_245293_5516"/>
+                  <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_19_0_3_6330176_1646453254284_376298_5517" value="*"/>
+               </ownedAttribute>
+               <ownedAttribute xmi:type="uml:Property" xmi:id="_19_0_3_6330176_1646453264963_650998_5518" name="parents" visibility="public" type="_19_0_3_6330176_1646452852844_546718_5483">
+                  <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_19_0_3_6330176_1646453275592_937172_5520"/>
+                  <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_19_0_3_6330176_1646453275592_398550_5521" value="*"/>
+               </ownedAttribute>
+               <ownedAttribute xmi:type="uml:Property" xmi:id="_19_0_3_6330176_1673550130910_802189_6244" name="children" visibility="public" type="_19_0_3_6330176_1646452852844_546718_5483">
+                  <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_19_0_3_6330176_1673550149844_374193_6246"/>
+                  <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_19_0_3_6330176_1673550149844_577855_6247" value="*"/>
+               </ownedAttribute>
+               <ownedAttribute xmi:type="uml:Property" xmi:id="_19_0_3_6330176_1676867357637_7932_5129" name="descendants" visibility="public" type="_19_0_3_6330176_1646452852844_546718_5483">
+                  <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_19_0_3_6330176_1676867370566_352732_5131"/>
+                  <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_19_0_3_6330176_1676867370566_62600_5132" value="*"/>
+               </ownedAttribute>
+            </packagedElement>
+            <packagedElement xmi:type="uml:DataType" xmi:id="_19_0_3_6330176_1646452852844_546718_5483" name="ControlledTerm">
+               <ownedAttribute xmi:type="uml:Property" xmi:id="_19_0_3_6330176_1646452862529_639860_5503" name="label" visibility="public">
+                  <type href="http://www.omg.org/spec/UML/20131001/PrimitiveTypes.xmi#String"/>
+                  <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_19_0_3_6330176_1646452913633_662855_5505"/>
+               </ownedAttribute>
+               <ownedAttribute xmi:type="uml:Property" xmi:id="_19_0_3_6330176_1646453007280_441549_5510" name="conceptId" visibility="public" type="_19_0_3_6330176_1676790682062_741142_5398"/>
+               <ownedAttribute xmi:type="uml:Property" xmi:id="_19_0_3_6330176_1673542544291_60005_6174" name="code" visibility="public" isDerived="true">
+                  <type href="http://www.omg.org/spec/UML/20131001/PrimitiveTypes.xmi#String"/>
+               </ownedAttribute>
+            </packagedElement>
+            <packagedElement xmi:type="uml:DataType" xmi:id="_19_0_3_6330176_1673540907248_944697_6118" name="VersionInfo">
+               <ownedAttribute xmi:type="uml:Property" xmi:id="_19_0_3_6330176_1673541251054_476109_6140" name="tag" visibility="public">
+                  <type href="http://www.omg.org/spec/UML/20131001/PrimitiveTypes.xmi#String"/>
+               </ownedAttribute>
+               <ownedAttribute xmi:type="uml:Property" xmi:id="_19_0_3_6330176_1673541242141_487462_6138" name="major" visibility="public" isDerived="true">
+                  <type href="http://www.omg.org/spec/UML/20131001/PrimitiveTypes.xmi#String"/>
+               </ownedAttribute>
+               <ownedAttribute xmi:type="uml:Property" xmi:id="_19_0_3_6330176_1673541274932_414302_6146" name="minor" visibility="public" isDerived="true">
+                  <type href="http://www.omg.org/spec/UML/20131001/PrimitiveTypes.xmi#String"/>
+               </ownedAttribute>
+               <ownedAttribute xmi:type="uml:Property" xmi:id="_19_0_3_6330176_1673541284311_449193_6150" name="patch" visibility="public" isDerived="true">
+                  <type href="http://www.omg.org/spec/UML/20131001/PrimitiveTypes.xmi#String"/>
+               </ownedAttribute>
+               <ownedAttribute xmi:type="uml:Property" xmi:id="_19_0_3_6330176_1673541299593_629048_6154" name="build" visibility="public" isDerived="true">
+                  <type href="http://www.omg.org/spec/UML/20131001/PrimitiveTypes.xmi#String"/>
+                  <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_19_0_3_6330176_1673541341417_597029_6156"/>
+               </ownedAttribute>
+               <ownedAttribute xmi:type="uml:Property" xmi:id="_19_0_3_6330176_1673541345002_393897_6158" name="pre" visibility="public" isDerived="true">
+                  <type href="http://www.omg.org/spec/UML/20131001/PrimitiveTypes.xmi#String"/>
+                  <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_19_0_3_6330176_1673541361590_427093_6160"/>
+               </ownedAttribute>
+            </packagedElement>
+            <packagedElement xmi:type="uml:DataType" xmi:id="_19_0_3_6330176_1673534971825_269651_5637" name="MIMECode">
+               <ownedAttribute xmi:type="uml:Property" xmi:id="_19_0_3_6330176_1673534995160_592885_5657" name="value" visibility="public">
+                  <type href="http://www.omg.org/spec/UML/20131001/PrimitiveTypes.xmi#String"/>
+               </ownedAttribute>
+               <ownedAttribute xmi:type="uml:Property" xmi:id="_19_0_3_6330176_1673535012268_736410_5662" name="formal" visibility="public">
+                  <type href="http://www.omg.org/spec/UML/20131001/PrimitiveTypes.xmi#Boolean"/>
+                  <defaultValue xmi:type="uml:LiteralBoolean" xmi:id="_19_0_3_6330176_1673535026807_53336_5664" value="true"/>
+               </ownedAttribute>
+            </packagedElement>
+            <packagedElement xmi:type="uml:Enumeration" xmi:id="_tWWy4Gq0EeqZ1Y0EaIvLIw" name="IdentifierKind">
+               <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_vgLmIGq0EeqZ1Y0EaIvLIw" name="OID"/>
+               <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_w1Im4Gq0EeqZ1Y0EaIvLIw" name="STRING"/>
+               <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_yaLSEGq0EeqZ1Y0EaIvLIw" name="UUID"/>
+               <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_19_0_3_6330176_1646110518702_903960_4970" name="DID"/>
+               <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_19_0_3_6330176_1646446225880_485142_5152" name="URI"/>
+               <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_19_0_3_6330176_1646446230919_276035_5154" name="IRI"/>
+            </packagedElement>
+            <packagedElement xmi:type="uml:DataType" xmi:id="_19_0_3_6330176_1674587155575_28659_5608" name="StructuredIdentifier">
+               <ownedAttribute xmi:type="uml:Property" xmi:id="_19_0_3_6330176_1674586796421_837566_5588" name="tag" visibility="public">
+                  <type href="http://www.omg.org/spec/UML/20131001/PrimitiveTypes.xmi#String"/>
+               </ownedAttribute>
+               <ownedAttribute xmi:type="uml:Property" xmi:id="_19_0_3_6330176_1674586948836_440054_5592" name="versionTag" visibility="public">
+                  <type href="http://www.omg.org/spec/UML/20131001/PrimitiveTypes.xmi#String"/>
+                  <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_19_0_3_6330176_1674586956989_14431_5594"/>
+               </ownedAttribute>
+               <ownedAttribute xmi:type="uml:Property" xmi:id="_19_0_3_6330176_1674587021403_463086_5596" name="namespace" visibility="public" type="_19_0_3_6330176_1676790682062_741142_5398">
+                  <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_19_0_3_6330176_1674587035010_24770_5598"/>
+               </ownedAttribute>
+               <ownedAttribute xmi:type="uml:Property" xmi:id="_19_0_3_6330176_1674587044219_152079_5600" name="label" visibility="public">
+                  <type href="http://www.omg.org/spec/UML/20131001/PrimitiveTypes.xmi#String"/>
+                  <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_19_0_3_6330176_1674587052862_858649_5602"/>
+               </ownedAttribute>
+               <ownedAttribute xmi:type="uml:Property" xmi:id="_19_0_3_6330176_1674587118910_247505_5604" name="format" visibility="public" type="_19_0_3_6330176_1676790682062_741142_5398">
+                  <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_19_0_3_6330176_1674587130084_601620_5606"/>
+               </ownedAttribute>
+            </packagedElement>
+         </packagedElement>
+         <packagedElement xmi:type="uml:DataType" xmi:id="_19_0_3_6330176_1646892856928_79308_6570" name="API4KPManifest">
+            <ownedAttribute xmi:type="uml:Property" xmi:id="_rjLBcLUWEeiKIMorV_uf5w" name="specVersion" visibility="public">
+               <type href="http://www.omg.org/spec/UML/20131001/PrimitiveTypes.xmi#String"/>
+               <defaultValue xmi:type="uml:LiteralString" xmi:id="_19_0_3_6330176_1676748378811_438438_5376" value="20230201"/>
+            </ownedAttribute>
+            <ownedAttribute xmi:type="uml:Property" xmi:id="_19_0_3_6330176_1673528930871_180295_5101" name="unnamed1" visibility="private"/>
+            <ownedAttribute xmi:type="uml:Property" xmi:id="_19_0_3_6330176_1673528944621_538744_5104" name="implementationName" visibility="public">
+               <type href="http://www.omg.org/spec/UML/20131001/PrimitiveTypes.xmi#String"/>
+               <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_19_0_3_6330176_1673528971201_321552_5106"/>
+            </ownedAttribute>
+         </packagedElement>
+         <packagedElement xmi:type="uml:Package" xmi:id="_RBzvYBiHEeqBIaJY4gQzpg" name="surrogate" URI="https://www.omg.org/spec/API4KP/20230201/surrogate">
+            <packageImport xmi:type="uml:PackageImport" xmi:id="_Q5DdEGq6EeqZFPB8Thcv8Q" importedPackage="_5L8RsFIGEeqm8uiQ2nAYTw"/>
+            <packageImport xmi:type="uml:PackageImport" xmi:id="_19_0_3_6330176_1676748059822_540191_5362" importedPackage="_opxDQLIUEeipguRxRn1Vyw"/>
+            <packagedElement xmi:type="uml:DataType" xmi:id="_19_0_3_6330176_1646891236199_716464_6090" name="KnowledgeAsset">
+               <ownedAttribute xmi:type="uml:Property" xmi:id="_npft_hiHEeqBIaJY4gQzpg" name="assetId" visibility="public" type="_19_0_3_6330176_1676790682062_741142_5398"/>
+               <ownedAttribute xmi:type="uml:Property" xmi:id="_npgVQhiHEeqBIaJY4gQzpg" name="secondaryId" visibility="public" type="_19_0_3_6330176_1674587155575_28659_5608">
+                  <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_npgVQxiHEeqBIaJY4gQzpg"/>
+                  <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_npgVRBiHEeqBIaJY4gQzpg" value="*"/>
+               </ownedAttribute>
+               <ownedAttribute xmi:type="uml:Property" xmi:id="_npft8hiHEeqBIaJY4gQzpg" name="formalType" visibility="public" type="_19_0_3_6330176_1646452852844_546718_5483">
+                  <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_npft8xiHEeqBIaJY4gQzpg"/>
+                  <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_npft9BiHEeqBIaJY4gQzpg" value="*"/>
+               </ownedAttribute>
+               <ownedAttribute xmi:type="uml:Property" xmi:id="_npft9RiHEeqBIaJY4gQzpg" name="formalCategory" visibility="public" isDerived="true" type="_19_0_3_6330176_1646452852844_546718_5483">
+                  <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_npft9hiHEeqBIaJY4gQzpg"/>
+                  <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_npft9xiHEeqBIaJY4gQzpg" value="*"/>
+               </ownedAttribute>
+               <ownedAttribute xmi:type="uml:Property" xmi:id="_npgVPBiHEeqBIaJY4gQzpg" name="label" visibility="public">
+                  <type href="http://www.omg.org/spec/UML/20131001/PrimitiveTypes.xmi#String"/>
+               </ownedAttribute>
+               <ownedAttribute xmi:type="uml:Property" xmi:id="_npgVPxiHEeqBIaJY4gQzpg" name="description" visibility="public">
+                  <type href="http://www.omg.org/spec/UML/20131001/PrimitiveTypes.xmi#String"/>
+                  <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_npgVQBiHEeqBIaJY4gQzpg"/>
+               </ownedAttribute>
+               <ownedAttribute xmi:type="uml:Property" xmi:id="_6OqPIG0yEeq0hPDNwgeC4w" name="memberOf" visibility="public" type="_19_0_3_6330176_1676790682062_741142_5398">
+                  <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_6OqPIW0yEeq0hPDNwgeC4w"/>
+                  <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_6OqPIm0yEeq0hPDNwgeC4w" value="*"/>
+               </ownedAttribute>
+               <ownedAttribute xmi:type="uml:Property" xmi:id="_19_0_3_6330176_1646891283424_284634_6122" name="annotation" visibility="public" type="_19_0_3_6330176_1646891438803_64436_6150">
+                  <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_19_0_3_6330176_1646891414686_695569_6148"/>
+                  <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_19_0_3_6330176_1646891414686_926477_6149" value="*"/>
+               </ownedAttribute>
+               <ownedAttribute xmi:type="uml:Property" xmi:id="_19_0_3_6330176_1646891822543_905976_6352" name="association" visibility="public" type="_19_0_3_6330176_1674627888702_599337_5186">
+                  <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_19_0_3_6330176_1646891832274_109611_6354"/>
+                  <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_19_0_3_6330176_1646891832275_321314_6355" value="*"/>
+               </ownedAttribute>
+               <ownedAttribute xmi:type="uml:Property" xmi:id="_19_0_3_6330176_1646892783248_612264_6560" name="carriers" visibility="public" type="_19_0_3_6330176_1646892418043_321194_6456">
+                  <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_19_0_3_6330176_1646892794389_2708_6562"/>
+                  <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_19_0_3_6330176_1646892794389_581394_6563" value="*"/>
+               </ownedAttribute>
+               <ownedAttribute xmi:type="uml:Property" xmi:id="_19_0_3_6330176_1646892795875_24194_6564" name="surrogates" visibility="public" type="_19_0_3_6330176_1646892418043_321194_6456">
+                  <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_19_0_3_6330176_1646892804034_94597_6566"/>
+                  <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_19_0_3_6330176_1646892804034_180509_6567" value="*"/>
+               </ownedAttribute>
+               <ownedAttribute xmi:type="uml:Property" xmi:id="_19_0_3_6330176_1674682293352_308683_5307" name="createdOn" visibility="public" type="_19_0_3_6330176_1676790627297_861930_5378">
+                  <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_19_0_3_6330176_1674682293359_241073_5310"/>
+               </ownedAttribute>
+            </packagedElement>
+            <packagedElement xmi:type="uml:DataType" xmi:id="_19_0_3_6330176_1646891438803_64436_6150" name="Annotation">
+               <ownedAttribute xmi:type="uml:Property" xmi:id="_4mu_sG2NEeq0hPDNwgeC4w" name="ref" visibility="public" type="_19_0_3_6330176_1646452852844_546718_5483"/>
+               <ownedAttribute xmi:type="uml:Property" xmi:id="_Ekcu4G2OEeq0hPDNwgeC4w" name="description" visibility="public">
+                  <type href="http://www.omg.org/spec/UML/20131001/PrimitiveTypes.xmi#String"/>
+                  <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_EkdV8G2OEeq0hPDNwgeC4w"/>
+               </ownedAttribute>
+               <ownedAttribute xmi:type="uml:Property" xmi:id="_19_0_3_6330176_1646892161455_656809_6385" name="rel:__TYPE__" visibility="public" type="_19_0_3_6330176_1646452852844_546718_5483">
+                  <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_19_0_3_6330176_1646892172492_51799_6387"/>
+               </ownedAttribute>
+               <ownedAttribute xmi:type="uml:Property" xmi:id="_19_0_3_6330176_1646892193946_25216_6389" name="rel" visibility="public" type="_19_0_3_6330176_1646452852844_546718_5483">
+                  <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_19_0_3_6330176_1646892204982_69674_6391"/>
+               </ownedAttribute>
+               <ownedAttribute xmi:type="uml:Property" xmi:id="_19_0_3_6330176_1673552623658_670100_6273" name="target" visibility="public" type="_19_0_3_6330176_1676790682062_741142_5398">
+                  <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_19_0_3_6330176_1673552632411_112180_6275"/>
+               </ownedAttribute>
+            </packagedElement>
+            <packagedElement xmi:type="uml:DataType" xmi:id="_19_0_3_6330176_1646892418043_321194_6456" name="KnowledgeArtifact">
+               <ownedAttribute xmi:type="uml:Property" xmi:id="_npgVCBiHEeqBIaJY4gQzpg" name="artifactId" visibility="public" type="_19_0_3_6330176_1676790682062_741142_5398"/>
+               <ownedAttribute xmi:type="uml:Property" xmi:id="_ITraEG3YEeq0hPDNwgeC4w" name="secondaryId" visibility="public" type="_19_0_3_6330176_1674587155575_28659_5608">
+                  <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_ITraEW3YEeq0hPDNwgeC4w"/>
+                  <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_ITraEm3YEeq0hPDNwgeC4w" value="*"/>
+               </ownedAttribute>
+               <ownedAttribute xmi:type="uml:Property" xmi:id="_npgVRRiHEeqBIaJY4gQzpg" name="title" visibility="public">
+                  <type href="http://www.omg.org/spec/UML/20131001/PrimitiveTypes.xmi#String"/>
+                  <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_npgVRhiHEeqBIaJY4gQzpg"/>
+                  <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_npgVRxiHEeqBIaJY4gQzpg" value="*"/>
+               </ownedAttribute>
+               <ownedAttribute xmi:type="uml:Property" xmi:id="_tm2yMG0TEeq0hPDNwgeC4w" name="description" visibility="public">
+                  <type href="http://www.omg.org/spec/UML/20131001/PrimitiveTypes.xmi#String"/>
+                  <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_tm3ZQG0TEeq0hPDNwgeC4w"/>
+               </ownedAttribute>
+               <ownedAttribute xmi:type="uml:Property" xmi:id="_npgVCxiHEeqBIaJY4gQzpg" name="locator" visibility="public" type="_19_0_3_6330176_1676790687915_410798_5418">
+                  <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_npgVDBiHEeqBIaJY4gQzpg"/>
+                  <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_npgVDRiHEeqBIaJY4gQzpg" value="*"/>
+               </ownedAttribute>
+               <ownedAttribute xmi:type="uml:Property" xmi:id="_npgVDhiHEeqBIaJY4gQzpg" name="expressionCategory" visibility="public" type="_19_0_3_6330176_1674694228232_458075_5863">
+                  <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_npgVDxiHEeqBIaJY4gQzpg"/>
+               </ownedAttribute>
+               <ownedAttribute xmi:type="uml:Property" xmi:id="_19_0_3_6330176_1646892703032_522151_6530" name="representation" visibility="public" type="_19_0_3_6330176_1646892547651_36647_6494"/>
+               <ownedAttribute xmi:type="uml:Property" xmi:id="_sOjNjxiHEeqBIaJY4gQzpg" name="createdOn" visibility="public" type="_19_0_3_6330176_1676790627297_861930_5378">
+                  <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_sOjNkBiHEeqBIaJY4gQzpg"/>
+               </ownedAttribute>
+               <ownedAttribute xmi:type="uml:Property" xmi:id="_19_0_3_6330176_1673553460376_686608_6289" name="lastModifiedOn" visibility="public" type="_19_0_3_6330176_1676790627297_861930_5378">
+                  <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_19_0_3_6330176_1673553470558_674876_6291"/>
+               </ownedAttribute>
+               <ownedAttribute xmi:type="uml:Property" xmi:id="_19_0_3_6330176_1674583175326_981874_5248" name="establishedOn" visibility="public" type="_19_0_3_6330176_1676790627297_861930_5378">
+                  <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_19_0_3_6330176_1674583191176_343980_5250"/>
+               </ownedAttribute>
+               <ownedAttribute xmi:type="uml:Property" xmi:id="_19_0_3_6330176_1674573668353_914628_5241" name="status" visibility="public" isDerived="true" type="_19_0_3_6330176_1674625545239_666189_5143"/>
+               <ownedAttribute xmi:type="uml:Property" xmi:id="_19_0_3_6330176_1674627309268_135686_5181" name="annotation" visibility="public" type="_19_0_3_6330176_1646891438803_64436_6150">
+                  <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_19_0_3_6330176_1674627309270_961586_5183"/>
+                  <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_19_0_3_6330176_1674627309270_958354_5182" value="*"/>
+               </ownedAttribute>
+               <ownedAttribute xmi:type="uml:Property" xmi:id="_19_0_3_6330176_1674628134720_166634_5226" name="association" visibility="public" type="_19_0_3_6330176_1674627888702_599337_5186">
+                  <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_19_0_3_6330176_1674628134720_444864_5228"/>
+               </ownedAttribute>
+               <ownedAttribute xmi:type="uml:Property" xmi:id="_19_0_3_6330176_1674628373905_464553_5244" name="memberOf" visibility="public" type="_19_0_3_6330176_1676790682062_741142_5398">
+                  <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_19_0_3_6330176_1674628394233_327985_5246"/>
+                  <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_19_0_3_6330176_1674628394233_935967_5247" value="*"/>
+               </ownedAttribute>
+            </packagedElement>
+            <packagedElement xmi:type="uml:DataType" xmi:id="_19_0_3_6330176_1646892547651_36647_6494" name="KnowledgeExpression">
+               <ownedAttribute xmi:type="uml:Property" xmi:id="_JdsCkVoAEei7wf-vECnVrw" name="language" visibility="public" type="_19_0_3_6330176_1646452852844_546718_5483"/>
+               <ownedAttribute xmi:type="uml:Property" xmi:id="_JdsCnVoAEei7wf-vECnVrw" name="lexicon" visibility="public" isUnique="false" type="_19_0_3_6330176_1646452852844_546718_5483">
+                  <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_JdsCnloAEei7wf-vECnVrw"/>
+                  <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_JdsCn1oAEei7wf-vECnVrw" value="*"/>
+               </ownedAttribute>
+               <ownedAttribute xmi:type="uml:Property" xmi:id="_JdsClFoAEei7wf-vECnVrw" name="profile" visibility="public" type="_19_0_3_6330176_1646452852844_546718_5483">
+                  <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_JdsClVoAEei7wf-vECnVrw"/>
+               </ownedAttribute>
+               <ownedAttribute xmi:type="uml:Property" xmi:id="_qJ9rIFyAEem6YbFuEO-B0Q" name="serialization" visibility="public" type="_19_0_3_6330176_1646452852844_546718_5483">
+                  <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_qJ-SMFyAEem6YbFuEO-B0Q"/>
+               </ownedAttribute>
+               <ownedAttribute xmi:type="uml:Property" xmi:id="_JdsCmloAEei7wf-vECnVrw" name="format" visibility="public" type="_19_0_3_6330176_1646452852844_546718_5483">
+                  <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_JdsCm1oAEei7wf-vECnVrw"/>
+               </ownedAttribute>
+               <ownedAttribute xmi:type="uml:Property" xmi:id="_zYTX0Gj9EeiLBIhuFaW6fQ" name="charset" visibility="public" type="_19_0_3_6330176_1646452852844_546718_5483">
+                  <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_zYTX0Wj9EeiLBIhuFaW6fQ"/>
+               </ownedAttribute>
+               <ownedAttribute xmi:type="uml:Property" xmi:id="_dsZPkGj-EeiLBIhuFaW6fQ" name="encoding" visibility="public" type="_19_0_3_6330176_1646452852844_546718_5483">
+                  <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_dsZPkWj-EeiLBIhuFaW6fQ"/>
+               </ownedAttribute>
+               <ownedAttribute xmi:type="uml:Property" xmi:id="_npgVAhiHEeqBIaJY4gQzpg" name="localization" visibility="public" type="_19_0_3_6330176_1646452852844_546718_5483">
+                  <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_npgVAxiHEeqBIaJY4gQzpg"/>
+                  <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_npgVBBiHEeqBIaJY4gQzpg" value="*"/>
+               </ownedAttribute>
+               <ownedAttribute xmi:type="uml:Property" xmi:id="_swoL0G12Eeq0hPDNwgeC4w" name="logic" visibility="public" type="_19_0_3_6330176_1646452852844_546718_5483">
+                  <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_swoL0W12Eeq0hPDNwgeC4w"/>
+               </ownedAttribute>
+               <ownedAttribute xmi:type="uml:Property" xmi:id="_ekXE8G13Eeq0hPDNwgeC4w" name="role" visibility="public" type="_19_0_3_6330176_1646452852844_546718_5483">
+                  <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_ekXE8W13Eeq0hPDNwgeC4w"/>
+               </ownedAttribute>
+               <ownedAttribute xmi:type="uml:Property" xmi:id="_19_0_3_6330176_1646892564506_470343_6526" name="subLanguage" visibility="public" type="_19_0_3_6330176_1646892547651_36647_6494">
+                  <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_19_0_3_6330176_1646892580261_852405_6528"/>
+                  <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_19_0_3_6330176_1646892580261_306357_6529" value="*"/>
+               </ownedAttribute>
+            </packagedElement>
+            <packagedElement xmi:type="uml:Enumeration" xmi:id="_19_0_3_6330176_1674625545239_666189_5143" name="PublicationStatus">
+               <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_19_0_3_6330176_1674625576616_598237_5171" name="ARCHIVED"/>
+               <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_19_0_3_6330176_1674625558092_225378_5165" name="PUBLISHED"/>
+               <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_19_0_3_6330176_1674625561377_621767_5167" name="PRE_PUBLISHED"/>
+               <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_19_0_3_6330176_1674625567203_491230_5169" name="DRAFT"/>
+               <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_19_0_3_6330176_1674625584033_703817_5173" name="UNPUBLISHED"/>
+            </packagedElement>
+            <packagedElement xmi:type="uml:DataType" xmi:id="_19_0_3_6330176_1674627888702_599337_5186" name="Related">
+               <ownedAttribute xmi:type="uml:Property" xmi:id="_19_0_3_6330176_1674627946063_678939_5206" name="rel" visibility="public" type="_19_0_3_6330176_1646452852844_546718_5483"/>
+               <ownedAttribute xmi:type="uml:Property" xmi:id="_19_0_3_6330176_1674627955144_988284_5210" name="ref" visibility="public" type="_19_0_3_6330176_1676790682062_741142_5398"/>
+               <ownedAttribute xmi:type="uml:Property" xmi:id="_19_0_3_6330176_1674627965420_857439_5214" name="name" visibility="public">
+                  <type href="http://www.omg.org/spec/UML/20131001/PrimitiveTypes.xmi#String"/>
+                  <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_19_0_3_6330176_1674627982331_597679_5216"/>
+               </ownedAttribute>
+               <ownedAttribute xmi:type="uml:Property" xmi:id="_19_0_3_6330176_1674627986288_652524_5218" name="refType" visibility="public" type="_19_0_3_6330176_1646452852844_546718_5483">
+                  <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_19_0_3_6330176_1674628052834_273981_5220"/>
+                  <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_19_0_3_6330176_1674628052834_768192_5221" value="*"/>
+               </ownedAttribute>
+               <ownedAttribute xmi:type="uml:Property" xmi:id="_19_0_3_6330176_1674628054349_312247_5222" name="refLang" visibility="public" type="_19_0_3_6330176_1673534971825_269651_5637">
+                  <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_19_0_3_6330176_1674628063754_697442_5224"/>
+               </ownedAttribute>
+            </packagedElement>
+            <packagedElement xmi:type="uml:Enumeration" xmi:id="_19_0_3_6330176_1674694228232_458075_5863" name="ArtifactCategory">
+               <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_19_0_3_6330176_1674694239730_139392_5885" name="COLLECTION"/>
+               <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_19_0_3_6330176_1674694246896_827589_5887" name="DATASET"/>
+               <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_19_0_3_6330176_1674694247680_134787_5889" name="EVENT"/>
+               <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_19_0_3_6330176_1674694248557_234727_5891" name="IMAGE"/>
+               <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_19_0_3_6330176_1674694249049_799185_5893" name="INTERACTIVE_RESOURCE"/>
+               <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_19_0_3_6330176_1674694550042_292288_5897" name="MOVING_IMAGE"/>
+               <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_19_0_3_6330176_1674694798635_335925_5940" name="PHYSICAL_OBJECT"/>
+               <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_19_0_3_6330176_1674694252527_197971_5895" name="SERVICE"/>
+               <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_19_0_3_6330176_1674694559651_738838_5899" name="SOFTWARE"/>
+               <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_19_0_3_6330176_1674694560320_42337_5901" name="SOUND"/>
+               <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_19_0_3_6330176_1674694807682_762784_5942" name="STILL_IMAGE"/>
+               <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_19_0_3_6330176_1674694579661_791330_5905" name="TEXT"/>
+            </packagedElement>
+         </packagedElement>
+      </packagedElement>
+   </uml:Model>
+</xmi:XMI>

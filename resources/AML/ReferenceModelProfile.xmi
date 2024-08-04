@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<xmi:XMI xmlns:xmi="http://www.omg.org/spec/XMI/20131001" xmlns:uml="http://www.omg.org/spec/UML/20131001">
+
+<uml:Model xmi:type="uml:Model" xmi:id="_18_0_2aa0151_1431653399834_122017_6249" name="Data">
+		
+		<packagedElement xmi:type="uml:Profile" xmi:id="_Data-ReferenceModelProfile" name="ReferenceModelProfile" URI="http://www.omg.org/spec/AML/20150501/ReferenceModelProfile.xmi">
+			<metamodelReference xmi:idref="_Data-ReferenceModelProfile-packageImport"/>
+			<ownedComment xmi:type="uml:Comment" xmi:id="_Data-ReferenceModelProfile-ownedComment" body="&lt;html&gt;&#xA;  &lt;head&gt;&#xA;&#x9;&#x9;&lt;style&gt;&#xA;&#x9;&#x9;&#x9;p {padding:0px; margin:0px;}&#xA;&#x9;&#x9;&lt;/style&gt;&#xA;&#x9;&lt;/head&gt;&#xA;  &lt;body&gt;&#xA;    &lt;p&gt;&#xA;&amp;#160;The Reference Model Profile (RMP) enables the specification of reference models, upon which archetypes can be based. &amp;#160;The RMP enables the identification of a root package that identifies the set of reference model elements (REM) that can be constrained by a collection of archetype model elements (AME) in an Archetype Library.&#xA;    &lt;/p&gt;&#xA;&#xA;    &lt;p&gt;&#xA;&amp;#160;&#xA;    &lt;/p&gt;&#xA;&#xA;    &lt;p&gt;&#xA;The RMP provides the ability to associate the &amp;quot;primitive data types&amp;quot; identified in an instance of a Constraint Model Profile with the corresponding (mapped) data types in the reference model. &amp;#160;It also allows properties in the target reference model to be identified as &amp;quot;unconstrainable&amp;quot;, because they carry &amp;quot;runtime&amp;quot; provenance and workflow information or because they carry &amp;quot;infrastructure&amp;quot; items such as archetype identifiers, etc.&#xA;&#xA;    &lt;/p&gt;&#xA;&#xA;&lt;/body&gt;&#xA;&lt;/html&gt;">
+				<annotatedElement xmi:idref="_Data-ReferenceModelProfile"/>
+			</ownedComment>
+			<elementImport xmi:type="uml:ElementImport" xmi:id="_Data-ReferenceModelProfile-elementImport">
+				<importedElement href="http://www.omg.org/spec/NIEM-UML/20120501/XmlPrimitiveTypes.xmi#XMLPrimitiveTypes">
+					
+				</importedElement>
+			</elementImport>
+			<packageImport xmi:type="uml:PackageImport" xmi:id="_Data-ReferenceModelProfile-packageImport">
+				<importedPackage href="http://www.omg.org/spec/UML/20131001/UML.xmi#_0">
+					
+				</importedPackage>
+			</packageImport>
+			<packagedElement xmi:type="uml:Stereotype" xmi:id="_Data-ReferenceModelProfile-Infrastructure" name="Infrastructure">
+				<ownedComment xmi:type="uml:Comment" xmi:id="_Data-ReferenceModelProfile-Infrastructure-ownedComment" body="&lt;html&gt;&#xA;  &lt;head&gt;&#xA;&#x9;&#x9;&lt;style&gt;&#xA;&#x9;&#x9;&#x9;p {padding:0px; margin:0px;}&#xA;&#x9;&#x9;&lt;/style&gt;&#xA;&#x9;&lt;/head&gt;&#xA;  &lt;body&gt;&#xA;    &lt;p&gt;&#xA;&lt;span style=&#34;font-size:10pt; font-family:Times New Roman;&#34;&gt;An &lt;/span&gt;&lt;span style=&#34;font-size:10pt; font-family:Times New Roman;&#34;&gt;«Infrastructure» &lt;/span&gt;&lt;span style=&#34;font-size:10pt; font-family:Times New Roman;&#34;&gt;Property models an Archetype implementation aspect such as a specific Archetype identifier. &amp;#160;Properties with an applied Infrastructure Stereotype cannot be constrained in&amp;#160;AML.&lt;/span&gt;&#xA;&#xA;    &lt;/p&gt;&#xA;&#xA;&lt;/body&gt;&#xA;&lt;/html&gt;">
+					<annotatedElement xmi:idref="_Data-ReferenceModelProfile-Infrastructure"/>
+				</ownedComment>
+				<ownedAttribute xmi:type="uml:Property" xmi:id="_Data-ReferenceModelProfile-Infrastructure-base_Property" name="base_Property" visibility="private" association="_Data-ReferenceModelProfile-packagedElement-2">
+					<type href="http://www.omg.org/spec/UML/20131001/UML.xmi#Property">
+						
+					</type>
+				</ownedAttribute>
+			</packagedElement>
+			<packagedElement xmi:type="uml:Extension" xmi:id="_Data-ReferenceModelProfile-packagedElement-2">
+				<memberEnd xmi:idref="_Data-ReferenceModelProfile-Infrastructure-base_Property"/>
+				<memberEnd xmi:idref="_Data-ReferenceModelProfile-packagedElement-2-extension_"/>
+				<navigableOwnedEnd xmi:idref="_Data-ReferenceModelProfile-packagedElement-2-extension_"/>
+				<ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="_Data-ReferenceModelProfile-packagedElement-2-extension_" name="extension_" visibility="private" aggregation="composite" type="_Data-ReferenceModelProfile-Infrastructure" association="_Data-ReferenceModelProfile-packagedElement-2">
+					<lowerValue xmi:type="uml:LiteralInteger" xmi:id="_Data-ReferenceModelProfile-packagedElement-2-extension_-lowerValue"/>
+					
+				</ownedEnd>
+			</packagedElement>
+			<packagedElement xmi:type="uml:Stereotype" xmi:id="_Data-ReferenceModelProfile-Runtime" name="Runtime">
+				<ownedComment xmi:type="uml:Comment" xmi:id="_Data-ReferenceModelProfile-Runtime-ownedComment" body="&lt;html&gt;&#xA;  &lt;head&gt;&#xA;&#x9;&#x9;&lt;style&gt;&#xA;&#x9;&#x9;&#x9;p {padding:0px; margin:0px;}&#xA;&#x9;&#x9;&lt;/style&gt;&#xA;&#x9;&lt;/head&gt;&#xA;  &lt;body&gt;&#xA;    &lt;p&gt;&#xA;&lt;span style=&#34;font-size:10pt; font-family:Times New Roman;&#34;&gt;A &lt;/span&gt;&lt;span style=&#34;font-size:10pt; font-family:Times New Roman;&#34;&gt;«Runtime» &lt;/span&gt;&lt;span style=&#34;font-size:10pt; font-family:Times New Roman;&#34;&gt;Property models&lt;/span&gt; a dynamic or &amp;quot;runtime&amp;quot; element such as a time stamp. &amp;#160;A Property with an applied Runtime Stereotype cannot be constrained using AML.&#xA;    &lt;/p&gt;&#xA;&#xA;    &lt;p&gt;&#xA;&amp;#160;&#xA;&#xA;    &lt;/p&gt;&#xA;&#xA;&lt;/body&gt;&#xA;&lt;/html&gt;">
+					<annotatedElement xmi:idref="_Data-ReferenceModelProfile-Runtime"/>
+				</ownedComment>
+				<ownedAttribute xmi:type="uml:Property" xmi:id="_Data-ReferenceModelProfile-Runtime-base_Property" name="base_Property" visibility="private" association="_Data-ReferenceModelProfile-packagedElement-4">
+					<type href="http://www.omg.org/spec/UML/20131001/UML.xmi#Property">
+						
+					</type>
+				</ownedAttribute>
+			</packagedElement>
+			<packagedElement xmi:type="uml:Extension" xmi:id="_Data-ReferenceModelProfile-packagedElement-4">
+				<memberEnd xmi:idref="_Data-ReferenceModelProfile-Runtime-base_Property"/>
+				<memberEnd xmi:idref="_Data-ReferenceModelProfile-packagedElement-4-extension_"/>
+				<navigableOwnedEnd xmi:idref="_Data-ReferenceModelProfile-packagedElement-4-extension_"/>
+				<ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="_Data-ReferenceModelProfile-packagedElement-4-extension_" name="extension_" visibility="private" aggregation="composite" type="_Data-ReferenceModelProfile-Runtime" association="_Data-ReferenceModelProfile-packagedElement-4">
+					<lowerValue xmi:type="uml:LiteralInteger" xmi:id="_Data-ReferenceModelProfile-packagedElement-4-extension_-lowerValue"/>
+					
+				</ownedEnd>
+			</packagedElement>
+			<packagedElement xmi:type="uml:Stereotype" xmi:id="_Data-ReferenceModelProfile-ReferenceModel" name="ReferenceModel">
+				
+				<ownedComment xmi:type="uml:Comment" xmi:id="_Data-ReferenceModelProfile-ReferenceModel-ownedComment" body="&lt;html&gt;&#xA;  &lt;head&gt;&#xA;&#x9;&#x9;&lt;style&gt;&#xA;&#x9;&#x9;&#x9;p {padding:0px; margin:0px;}&#xA;&#x9;&#x9;&lt;/style&gt;&#xA;&#x9;&lt;/head&gt;&#xA;  &lt;body&gt;&#xA;    &lt;p&gt;&#xA;&lt;span style=&#34;font-size:10pt; font-family:Times New Roman;&#34;&gt;A &lt;/span&gt;&lt;span style=&#34;font-size:10pt; font-family:Times New Roman;&#34;&gt;«ReferenceModel» Package &lt;/span&gt;&lt;span style=&#34;font-size:10pt; font-family:Times New Roman;&#34;&gt;defines the complex data types and structural patterns that can be constrained by a collection of Archetypes. &amp;#160;&amp;#160;A &lt;/span&gt;&lt;span style=&#34;font-size:10pt; font-family:Times New Roman;&#34;&gt;«ReferenceModel» Stereotype includes tag definitions for the&lt;/span&gt;&lt;span style=&#34;font-size:10pt; font-family:Times New Roman;&#34;&gt; publisher, namespace and version of a Reference Model in a form compatible with a modeling language such as [ADL].&lt;/span&gt;&#xA;    &lt;/p&gt;&#xA;&#xA;    &lt;p&gt;&#xA;&amp;#160;&#xA;    &lt;/p&gt;&#xA;&#xA;    &lt;p&gt;&#xA;&amp;#160;&#xA;&#xA;    &lt;/p&gt;&#xA;&#xA;&lt;/body&gt;&#xA;&lt;/html&gt;">
+					<annotatedElement xmi:idref="_Data-ReferenceModelProfile-ReferenceModel"/>
+				</ownedComment>
+				<ownedRule xmi:type="uml:Constraint" xmi:id="_Data-ReferenceModelProfile-ReferenceModel-[AOM]_ARCHETYPE_HRID_Invariant_Rm_publisher_validity" name="[AOM] ARCHETYPE_HRID:Invariant:Rm_publisher_validity">
+					<constrainedElement xmi:idref="_Data-ReferenceModelProfile-ReferenceModel"/>
+					<ownedComment xmi:type="uml:Comment" xmi:id="_Data-ReferenceModelProfile-ReferenceModel-[AOM]_ARCHETYPE_HRID_Invariant_Rm_publisher_validity-ownedComment" body="&lt;html&gt;&#xA;  &lt;head&gt;&#xA;&#x9;&#x9;&lt;style&gt;&#xA;&#x9;&#x9;&#x9;p {padding:0px; margin:0px;}&#xA;&#x9;&#x9;&lt;/style&gt;&#xA;&#x9;&lt;/head&gt;&#xA;  &lt;body&gt;&#xA;    &lt;p align=&#34;left&#34; style=&#34;margin-top:0px;margin-left:0.0px;margin-bottom:0px;&#34;&gt;&#xA;&lt;span style=&#34;font-weight:normal; color:#000000; font-family:TimesNewRomanPSMT; font-size:10pt;&#34;&gt;The [AOM] ARCHETYPE_HRID/rm_publisher must have a value. &amp;#160;This [AOM] Invariant maps to the AML Constraint that the &lt;/span&gt;&lt;span style=&#34;font-family:Times New Roman,serif; font-size:10pt;&#34;&gt;«ReferenceModel» &amp;#160;rmPublisher is required.&lt;/span&gt;&#xA;&#xA;    &lt;/p&gt;&#xA;&#xA;&lt;/body&gt;&#xA;&lt;/html&gt;">
+						<annotatedElement xmi:idref="_Data-ReferenceModelProfile-ReferenceModel-[AOM]_ARCHETYPE_HRID_Invariant_Rm_publisher_validity"/>
+					</ownedComment>
+					<specification xmi:type="uml:OpaqueExpression" xmi:id="_Data-ReferenceModelProfile-ReferenceModel-[AOM]_ARCHETYPE_HRID_Invariant_Rm_publisher_validity-specification">
+						<body>The requirement that there is a specified rmPublisher is enforced by the UML Semantic for the required tag rmPublisher.</body>
+						<language>English</language>
+					</specification>
+				</ownedRule>
+				<ownedAttribute xmi:type="uml:Property" xmi:id="_Data-ReferenceModelProfile-ReferenceModel-base_Package" name="base_Package" visibility="private" association="_Data-ReferenceModelProfile-packagedElement-6">
+					<type href="http://www.omg.org/spec/UML/20131001/UML.xmi#Package">
+						
+					</type>
+				</ownedAttribute>
+				<ownedAttribute xmi:type="uml:Property" xmi:id="_Data-ReferenceModelProfile-ReferenceModel-rmPublisher" name="rmPublisher" visibility="public">
+					<type href="http://www.omg.org/spec/UML/20131001/PrimitiveTypes.xmi#String">
+						
+					</type>
+					<ownedComment xmi:type="uml:Comment" xmi:id="_Data-ReferenceModelProfile-ReferenceModel-rmPublisher-ownedComment" body="&lt;html&gt;&#xA;  &lt;head&gt;&#xA;&#x9;&#x9;&lt;style&gt;&#xA;&#x9;&#x9;&#x9;p {padding:0px; margin:0px;}&#xA;&#x9;&#x9;&lt;/style&gt;&#xA;&#x9;&lt;/head&gt;&#xA;  &lt;body&gt;&#xA;    &lt;p&gt;&#xA;&lt;span style=&#34;font-size:10pt; font-family:Times New Roman;&#34;&gt;The value of this tag is the name of the Reference Model publisher. &amp;#160;This tag definition maps to the [AOM] ARCHETYPE_HRID/rm_publisher&lt;/span&gt;&lt;span style=&#34;font-family:Times New Roman; font-size:10pt;&#34;&gt;&lt;i&gt; &lt;/i&gt;&lt;/span&gt;&lt;span style=&#34;font-family:Times New Roman; font-size:10pt;&#34;&gt;attribute&lt;/span&gt;&lt;span style=&#34;font-family:Times New Roman; font-size:10pt;&#34;&gt;.&lt;/span&gt;&#xA;&#xA;    &lt;/p&gt;&#xA;&#xA;&lt;/body&gt;&#xA;&lt;/html&gt;">
+						<annotatedElement xmi:idref="_Data-ReferenceModelProfile-ReferenceModel-rmPublisher"/>
+					</ownedComment>
+					
+					
+				</ownedAttribute>
+				<ownedAttribute xmi:type="uml:Property" xmi:id="_Data-ReferenceModelProfile-ReferenceModel-rmNamespace" name="rmNamespace" visibility="public">
+					<type href="http://www.omg.org/spec/UML/20131001/PrimitiveTypes.xmi#String">
+						
+					</type>
+					<ownedComment xmi:type="uml:Comment" xmi:id="_Data-ReferenceModelProfile-ReferenceModel-rmNamespace-ownedComment" body="&lt;html&gt;&#xA;  &lt;head&gt;&#xA;&#x9;&#x9;&lt;style&gt;&#xA;&#x9;&#x9;&#x9;p {padding:0px; margin:0px;}&#xA;&#x9;&#x9;&lt;/style&gt;&#xA;&#x9;&lt;/head&gt;&#xA;  &lt;body&gt;&#xA;    &lt;p&gt;&#xA;&lt;span style=&#34;font-size:10pt; font-family:Times New Roman;&#34;&gt;The value of this tag is the&lt;/span&gt; reverse domain name of the namespace (for example, uk.gov.nhs). &amp;#160;This tag definition maps to the [AOM] ARCHETYPE_HRID/namespace attribute.&#xA;    &lt;/p&gt;&#xA;&#xA;    &lt;p&gt;&#xA;&amp;#160;&#xA;&#xA;    &lt;/p&gt;&#xA;&#xA;&lt;/body&gt;&#xA;&lt;/html&gt;">
+						<annotatedElement xmi:idref="_Data-ReferenceModelProfile-ReferenceModel-rmNamespace"/>
+					</ownedComment>
+					<lowerValue xmi:type="uml:LiteralInteger" xmi:id="_Data-ReferenceModelProfile-ReferenceModel-rmNamespace-lowerValue"/>
+					
+				</ownedAttribute>
+				<ownedAttribute xmi:type="uml:Property" xmi:id="_Data-ReferenceModelProfile-ReferenceModel-rmVersion" name="rmVersion" visibility="public">
+					<type href="http://www.omg.org/spec/UML/20131001/PrimitiveTypes.xmi#String">
+						
+					</type>
+					<ownedComment xmi:type="uml:Comment" xmi:id="_Data-ReferenceModelProfile-ReferenceModel-rmVersion-ownedComment" body="&lt;html&gt;&#xA;  &lt;head&gt;&#xA;&#x9;&#x9;&lt;style&gt;&#xA;&#x9;&#x9;&#x9;p {padding:0px; margin:0px;}&#xA;&#x9;&#x9;&lt;/style&gt;&#xA;&#x9;&lt;/head&gt;&#xA;  &lt;body&gt;&#xA;    &lt;p&gt;&#xA;&lt;span style=&#34;font-size:10pt; font-family:Times New Roman;&#34;&gt;The value of this tag is the version id of the reference model on which the archetype is based. The tag maps to the [AOM] ARCHETYPE/rm_release attribute.&lt;/span&gt;&#xA;&#xA;    &lt;/p&gt;&#xA;&#xA;&lt;/body&gt;&#xA;&lt;/html&gt;">
+						<annotatedElement xmi:idref="_Data-ReferenceModelProfile-ReferenceModel-rmVersion"/>
+					</ownedComment>
+					<lowerValue xmi:type="uml:LiteralInteger" xmi:id="_Data-ReferenceModelProfile-ReferenceModel-rmVersion-lowerValue"/>
+					
+				</ownedAttribute>
+			</packagedElement>
+			<packagedElement xmi:type="uml:Extension" xmi:id="_Data-ReferenceModelProfile-packagedElement-6">
+				<memberEnd xmi:idref="_Data-ReferenceModelProfile-ReferenceModel-base_Package"/>
+				<memberEnd xmi:idref="_Data-ReferenceModelProfile-packagedElement-6-extension_"/>
+				<navigableOwnedEnd xmi:idref="_Data-ReferenceModelProfile-packagedElement-6-extension_"/>
+				<ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="_Data-ReferenceModelProfile-packagedElement-6-extension_" name="extension_" visibility="private" aggregation="composite" type="_Data-ReferenceModelProfile-ReferenceModel" association="_Data-ReferenceModelProfile-packagedElement-6">
+					<lowerValue xmi:type="uml:LiteralInteger" xmi:id="_Data-ReferenceModelProfile-packagedElement-6-extension_-lowerValue"/>
+					
+				</ownedEnd>
+			</packagedElement>
+			<packagedElement xmi:type="uml:Stereotype" xmi:id="_Data-ReferenceModelProfile-MappedDataType" name="MappedDataType">
+				<ownedComment xmi:type="uml:Comment" xmi:id="_Data-ReferenceModelProfile-MappedDataType-ownedComment" body="&lt;html&gt;&#xA;  &lt;head&gt;&#xA;&#x9;&#x9;&lt;style&gt;&#xA;&#x9;&#x9;&#x9;p {padding:0px; margin:0px;}&#xA;&#x9;&#x9;&lt;/style&gt;&#xA;&#x9;&lt;/head&gt;&#xA;  &lt;body&gt;&#xA;    &lt;p&gt;&#xA;A &lt;span style=&#34;font-size:10pt; font-family:Times New Roman;&#34;&gt;«MappedDataType» Abstraction specifies the AML Primitive Type abstraction for a Reference Model Classifier&lt;/span&gt;. &amp;#160;&amp;#160;AML Primitive types are defined by the UML Type Library and/or the XML Primitive Type Library. &amp;#160;The client of the Abstraction is a Reference Model Classifier. &amp;#160;The supplier of the Abstraction is an AML Primitive type. &amp;#160;The mapping of the Abstraction defines the transformations between the Reference Model Classifier and its AML Primitive Type counterpart. &amp;#160;Note that AML primitive Archetype Constraints are defined with respect to AML Primitive Types even when the Type being constrained is a Reference Model Type.&#xA;    &lt;/p&gt;&#xA;&#xA;    &lt;p&gt;&#xA;&amp;#160;&#xA;&#xA;    &lt;/p&gt;&#xA;&#xA;&lt;/body&gt;&#xA;&lt;/html&gt;">
+					<annotatedElement xmi:idref="_Data-ReferenceModelProfile-MappedDataType"/>
+				</ownedComment>
+				<ownedRule xmi:type="uml:Constraint" xmi:id="_Data-ReferenceModelProfile-MappedDataType-isAMLDataType" name="isAMLDataType">
+					<ownedComment xmi:type="uml:Comment" xmi:id="_Data-ReferenceModelProfile-MappedDataType-isAMLDataType-ownedComment" body="&lt;html&gt;&#xA;  &lt;head&gt;&#xA;&#x9;&#x9;&lt;style&gt;&#xA;&#x9;&#x9;&#x9;p {padding:0px; margin:0px;}&#xA;&#x9;&#x9;&lt;/style&gt;&#xA;&#x9;&lt;/head&gt;&#xA;  &lt;body&gt;&#xA;    &lt;p&gt;&#xA;&lt;span style=&#34;font-family:Times New Roman; font-size:10pt;&#34;&gt;The supplier AML Primitive Type must be an AML Primitive Type defined in the UML Primitive Type or XML Primitive Type libraries.&lt;/span&gt;&#xA;&#xA;    &lt;/p&gt;&#xA;&#xA;&lt;/body&gt;&#xA;&lt;/html&gt;">
+						<annotatedElement xmi:idref="_Data-ReferenceModelProfile-MappedDataType-isAMLDataType"/>
+					</ownedComment>
+					<specification xmi:type="uml:OpaqueExpression" xmi:id="_Data-ReferenceModelProfile-MappedDataType-isAMLDataType-specification">
+						<body>self.base_Abstraction.supplier-&gt;exists(s|s.oclIsKindOf(PrimitiveType) and ((s.namespace.name='XMLPrimitiveTypes') or (s.namespace.name='PrimitiveTypes')))</body>
+						<language>OCL</language>
+					</specification>
+				</ownedRule>
+				<ownedAttribute xmi:type="uml:Property" xmi:id="_Data-ReferenceModelProfile-MappedDataType-base_Abstraction" name="base_Abstraction" visibility="private" association="_Data-ReferenceModelProfile-packagedElement-8">
+					<type href="http://www.omg.org/spec/UML/20131001/UML.xmi#Abstraction">
+						
+					</type>
+				</ownedAttribute>
+			</packagedElement>
+			<packagedElement xmi:type="uml:Extension" xmi:id="_Data-ReferenceModelProfile-packagedElement-8">
+				<memberEnd xmi:idref="_Data-ReferenceModelProfile-MappedDataType-base_Abstraction"/>
+				<memberEnd xmi:idref="_Data-ReferenceModelProfile-packagedElement-8-extension_MappedDataType"/>
+				<navigableOwnedEnd xmi:idref="_Data-ReferenceModelProfile-packagedElement-8-extension_MappedDataType"/>
+				<ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="_Data-ReferenceModelProfile-packagedElement-8-extension_MappedDataType" name="extension_MappedDataType" visibility="private" aggregation="composite" type="_Data-ReferenceModelProfile-MappedDataType" association="_Data-ReferenceModelProfile-packagedElement-8">
+					<lowerValue xmi:type="uml:LiteralInteger" xmi:id="_Data-ReferenceModelProfile-packagedElement-8-extension_MappedDataType-lowerValue"/>
+					
+				</ownedEnd>
+			</packagedElement>
+		</packagedElement>
+	</uml:Model>
+</xmi:XMI>
