@@ -68,6 +68,11 @@ namespace uml4net.xmi.Tests
 
             Assert.That(package.XmiId, Is.EqualTo("_0"));
             Assert.That(package.Name, Is.EqualTo("UML"));
+
+            Assert.That(package.PackageImport.Count, Is.EqualTo(15));
+
+            var packageImport = package.PackageImport.First();
+            Assert.That(packageImport.XmiId, Is.EqualTo("_packageImport.0"));
         }
 
         [Test]

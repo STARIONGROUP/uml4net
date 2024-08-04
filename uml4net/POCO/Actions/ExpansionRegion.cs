@@ -122,7 +122,7 @@ namespace uml4net.POCO.Actions
         /// A collection of NamedElements owned by the Namespace.
         /// </summary>
         [Feature(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isReadOnly: true, isDerived: true, isDerivedUnion: true)]
-        [SubsettedProperty(propertyName: "Element`.OwnedElement")]
+        [SubsettedProperty(propertyName: "Element.OwnedElement")]
         [SubsettedProperty(propertyName: "Namespace.Member")]
         [Implements(implementation: "INamespace.OwnedMember")]
         public List<INamedElement> OwnedMember { get; }
@@ -139,7 +139,7 @@ namespace uml4net.POCO.Actions
         /// References the PackageImports owned by the Namespace.
         /// </summary>
         [Feature(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue)]
-        [SubsettedProperty(propertyName: "Element`.OwnedElement")]
+        [SubsettedProperty(propertyName: "Element.OwnedElement")]
         [Implements(implementation: "INamespace.PackageImport")]
         public List<IPackageImport> PackageImport { get; set; }
     }

@@ -20,6 +20,7 @@
 
 namespace uml4net.xmi.CommonStructure
 {
+    using System;
     using System.Xml;
 
     using Microsoft.Extensions.Logging;
@@ -61,15 +62,36 @@ namespace uml4net.xmi.CommonStructure
         /// <summary>
         /// Reads the <see cref="IPackageImport"/> 
         /// </summary>
-        /// <param name="xmlreader">
-        /// the active xmlreader
+        /// <param name="xmlReader">
+        /// the active <see cref="XmlReader"/>>
         /// </param>
         /// <returns>
         /// an instance of <see cref="IPackageImport"/>
         /// </returns>
-        public IPackageImport Read(XmlReader xmlreader)
+        public IPackageImport Read(XmlReader xmlReader)
         { 
             var packageImport = new PackageImport();
+
+            if (xmlReader.MoveToContent() == XmlNodeType.Element)
+            {
+                packageImport.XmiId = xmlReader.GetAttribute("xmi:id");
+
+                var importedPackage = xmlReader.GetAttribute("importedPackage");
+                if (importedPackage != null)
+                {
+                    packageImport.ReferencePropertyValueIdentifies.Add("ImportedPackage", importedPackage);
+                }
+
+                // TODO: figure out an algorithm to interpret how to set the "importingNamespace" property
+                this.logger.LogInformation("TODO: figure out an algorithm to interpret how to set the \"importingNamespace\" property");
+                packageImport.ImportingNamespace = null;
+
+                string visibility = xmlReader.GetAttribute("visibility");
+                if (visibility != null)
+                {
+                    packageImport.Visibility = (VisibilityKind)Enum.Parse(typeof(VisibilityKind), visibility, true);
+                }
+            }
 
             return packageImport;
         }
