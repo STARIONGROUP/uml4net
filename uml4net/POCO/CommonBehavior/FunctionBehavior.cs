@@ -159,5 +159,23 @@ namespace uml4net.POCO.CommonBehavior
         [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1)]
         [Implements(implementation: "IParameterableElement.TemplateParameter")]
         public ITemplateParameter TemplateParameter { get; set; }
+
+        /// <summary>
+        /// The optional TemplateSignature specifying the formal TemplateParameters for this TemplateableElement.
+        /// If a TemplateableElement has a TemplateSignature, then it is a template.
+        /// </summary>
+        [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: 1)]
+        [Implements(implementation: "TemplateableElement.OwnedTemplateSignature")]
+        public ITemplateSignature OwnedTemplateSignature { get; set; }
+
+        /// <summary>
+        /// The optional TemplateSignature specifying the formal TemplateParameters for this TemplateableElement.
+        /// If a TemplateableElement has a TemplateSignature, then it is a template.
+        /// </summary>
+        [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue)]
+        [Implements(implementation: "TemplateableElement.TemplateBinding")]
+        [SubsettedProperty(propertyName: "Element.OwnedElement")]
+        [SubsettedProperty(propertyName: "A_source_directedRelationship.DirectedRelationship")]
+        public List<TemplateBinding> TemplateBinding { get; set; }
     }
 }

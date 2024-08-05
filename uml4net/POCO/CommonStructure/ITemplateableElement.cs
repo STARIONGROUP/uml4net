@@ -20,10 +20,30 @@
 
 namespace uml4net.POCO.CommonStructure
 {
+    using System.Collections.Generic;
+    using uml4net.Decorators;
+
+    using uml4net.POCO.StructuredClassifiers;
+
     /// <summary>
     /// A TemplateableElement is an Element that can optionally be defined as a template and bound to other templates.
     /// </summary>
     public interface ITemplateableElement : IElement
     {
+        /// <summary>
+        /// The optional TemplateSignature specifying the formal TemplateParameters for this TemplateableElement.
+        /// If a TemplateableElement has a TemplateSignature, then it is a template.
+        /// </summary>
+        [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: 1)]
+        public ITemplateSignature OwnedTemplateSignature { get; set; }
+
+        /// <summary>
+        /// The optional TemplateSignature specifying the formal TemplateParameters for this TemplateableElement.
+        /// If a TemplateableElement has a TemplateSignature, then it is a template.
+        /// </summary>
+        [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue)]
+        [SubsettedProperty(propertyName: "Element.OwnedElement")]
+        [SubsettedProperty(propertyName: "A_source_directedRelationship.DirectedRelationship")]
+        public List<TemplateBinding> TemplateBinding { get; set; }
     }
 }
