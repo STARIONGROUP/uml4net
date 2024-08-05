@@ -117,5 +117,12 @@ namespace uml4net.POCO.UseCases
         [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1)]
         [Implements(implementation: "INamedElement.Visibility")]
         public VisibilityKind Visibility { get; set; }
+
+        /// <summary>
+        /// Specifies the elements related by the Relationship.
+        /// </summary>
+        [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: int.MaxValue, isReadOnly: true, isDerived: true, isDerivedUnion: true)]
+        [Implements(implementation: "IRelationship.RelatedElement")]
+        public List<IElement> RelatedElement => throw new NotImplementedException();
     }
 }

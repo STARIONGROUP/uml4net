@@ -20,10 +20,19 @@
 
 namespace uml4net.POCO.CommonStructure
 {
+    using System.Collections.Generic;
+    using uml4net.Decorators;
+    using uml4net.POCO.StructuredClassifiers;
+
     /// <summary>
     /// Relationship is an abstract concept that specifies some kind of relationship between Elements.
     /// </summary>
     public interface IRelationship : IElement
     {
+        /// <summary>
+        /// Specifies the elements related by the Relationship.
+        /// </summary>
+        [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: int.MaxValue, isReadOnly:true, isDerived:true,isDerivedUnion:true)]
+        public List<IElement> RelatedElement { get; }
     }
 }

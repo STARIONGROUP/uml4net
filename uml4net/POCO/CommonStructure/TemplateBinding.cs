@@ -69,5 +69,12 @@ namespace uml4net.POCO.CommonStructure
         [Implements(implementation: "IDirectedRelationship.Target")]
         [SubsettedProperty(propertyName: "Relationship.RelatedElement")]
         public List<IElement> Target { get; }
+
+        /// <summary>
+        /// Specifies the elements related by the Relationship.
+        /// </summary>
+        [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: int.MaxValue, isReadOnly: true, isDerived: true, isDerivedUnion: true)]
+        [Implements(implementation: "IRelationship.RelatedElement")]
+        public List<IElement> RelatedElement => throw new NotImplementedException();
     }
 }

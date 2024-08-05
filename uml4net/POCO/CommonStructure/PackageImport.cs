@@ -108,5 +108,12 @@ namespace uml4net.POCO.CommonStructure
         [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, defaultValue: "VisibilityKind.Public")]
         [Implements(implementation: "IPackageImport.Visibility")]
         public VisibilityKind Visibility { get; set; } = VisibilityKind.Public;
+
+        /// <summary>
+        /// Specifies the elements related by the Relationship.
+        /// </summary>
+        [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: int.MaxValue, isReadOnly: true, isDerived: true, isDerivedUnion: true)]
+        [Implements(implementation: "IRelationship.RelatedElement")]
+        public List<IElement> RelatedElement => throw new NotImplementedException();
     }
 }
