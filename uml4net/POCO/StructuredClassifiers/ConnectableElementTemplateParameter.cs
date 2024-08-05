@@ -52,5 +52,47 @@ namespace uml4net.POCO.StructuredClassifiers
         [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isReadOnly: true, isDerived: true, isDerivedUnion: true)]
         [Implements(implementation: "IElement.Owner")]
         public IElement Owner => throw new NotImplementedException();
+
+        /// <summary>
+        /// The ParameterableElement that is the default for this formal TemplateParameter.
+        /// </summary>
+        [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1)]
+        [Implements(implementation: "ITemplateParameter.Default")]
+        public IParameterableElement Default { get; set; }
+
+        /// <summary>
+        /// The ParameterableElement that is owned by this TemplateParameter for the purpose of providing a default.
+        /// </summary>
+        [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: 1)]
+        [Implements(implementation: "ITemplateParameter.OwnedDefault")]
+        [SubsettedProperty(propertyName: "Element.OwnedElement")]
+        [SubsettedProperty(propertyName: "TemplateParameter.Default")]
+        public IParameterableElement OwnedDefault { get; set; }
+
+        /// <summary>
+        /// The ParameterableElement that is owned by this TemplateParameter for the purpose of exposing it as
+        /// the parameteredElement.
+        /// </summary>
+        [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: 1)]
+        [Implements(implementation: "ITemplateParameter.OwnedParameteredElement")]
+        [SubsettedProperty(propertyName: "Element.OwnedElement")]
+        [SubsettedProperty(propertyName: "TemplateParameter.ParameteredElement")]
+        public IParameterableElement OwnedParameteredElement { get; set; }
+
+        /// <summary>
+        /// The ParameterableElement exposed by this TemplateParameter.
+        /// </summary>
+        [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1)]
+        [Implements(implementation: "ITemplateParameter.ParameteredElement")]
+        public IParameterableElement ParameteredElement { get; set; }
+
+        /// <summary>
+        /// The TemplateSignature that owns this TemplateParameter.
+        /// </summary>
+        [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1)]
+        [Implements(implementation: "ITemplateParameter.Signature")]
+        [SubsettedProperty(propertyName: "A_parameter_templateSignature.TemplateSignature")]
+        [SubsettedProperty(propertyName: "Element.Owner")]
+        public ITemplateSignature Signature { get; set; }
     }
 }
