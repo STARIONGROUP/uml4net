@@ -144,5 +144,12 @@ namespace uml4net.POCO.Actions
         [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1)]
         [Implements(implementation: "INamedElement.Visibility")]
         public VisibilityKind Visibility { get; set; }
+
+        /// <summary>
+        /// The type of the TypedElement.
+        /// </summary>
+        [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1)]
+        [Implements(implementation: "ITypedElement.Type")]
+        public IType Type { get; set; }
     }
 }

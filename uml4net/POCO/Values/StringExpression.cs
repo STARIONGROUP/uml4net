@@ -135,5 +135,12 @@ namespace uml4net.POCO.Values
         [SubsettedProperty(propertyName: "Element.OwnedElement")]
         [SubsettedProperty(propertyName: "A_source_directedRelationship.DirectedRelationship")]
         public List<TemplateBinding> TemplateBinding { get; set; }
+
+        /// <summary>
+        /// The type of the TypedElement.
+        /// </summary>
+        [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1)]
+        [Implements(implementation: "ITypedElement.Type")]
+        public IType Type { get; set; }
     }
 }
