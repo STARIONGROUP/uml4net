@@ -36,7 +36,7 @@ namespace uml4net.POCO.CommonStructure
         /// it is usually informal and bidirectional. The mapping expression is optional and may be omitted if the
         /// precise relationship between the Elements is not specified.
         /// </summary>
-        [Feature(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: 1)]
+        [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: 1)]
         [SubsettedProperty(propertyName: "Element.OwnedElement")]
         public IOpaqueExpression Mapping { get; set; }
     }

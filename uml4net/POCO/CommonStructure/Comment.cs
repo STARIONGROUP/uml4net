@@ -34,35 +34,35 @@ namespace uml4net.POCO.CommonStructure
         /// <summary>
         /// References the Element(s) being commented.
         /// </summary>
-        [Feature(aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue)]
+        [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue)]
         [Implements(implementation: "IComment.AnnotatedElement")]
         public List<IElement> AnnotatedElement { get; set; }
 
         /// <summary>
         /// Specifies a string that is the comment.
         /// </summary>
-        [Feature(aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1)]
+        [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1)]
         [Implements(implementation: "IComment.Body")]
         public string Body { get; set; }
 
         /// <summary>
         /// The Comments owned by this Element.
         /// </summary>
-        [Feature(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue)]
+        [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue)]
         [Implements(implementation: "IElement.OwnedComment")]
         public List<IComment> OwnedComment { get; set; }
 
         /// <summary>
         /// The Elements owned by this Element
         /// </summary>
-        [Feature(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isReadOnly: true, isDerived: true, isDerivedUnion: true)]
+        [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isReadOnly: true, isDerived: true, isDerivedUnion: true)]
         [Implements(implementation: "IElement.OwnedElement")]
         public List<IElement> OwnedElement => throw new NotImplementedException();
 
         /// <summary>
         /// The Element that owns this Element.
         /// </summary>
-        [Feature(aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isReadOnly: true, isDerived: true, isDerivedUnion: true)]
+        [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isReadOnly: true, isDerived: true, isDerivedUnion: true)]
         [Implements(implementation: "IElement.Owner")]
         public IElement Owner => throw new NotImplementedException();
     }

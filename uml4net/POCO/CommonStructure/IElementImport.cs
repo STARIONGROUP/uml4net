@@ -36,20 +36,20 @@ namespace uml4net.POCO.CommonStructure
         /// the imported PackagableElement. The alias must not clash with any other member in the
         /// importing Namespace. By default, no alias is used.
         /// </summary>
-        [Feature(aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1)]
+        [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1)]
         public string Alias { get; set; }
 
         /// <summary>
         /// Specifies the PackageableElement whose name is to be added to a Namespace.
         /// </summary>
-        [Feature(aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1)]
+        [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1)]
         [SubsettedProperty(propertyName: "DirectedRelationship.Target")]
         public IPackageableElement ImportedElement { get; set; }
 
         /// <summary>
         /// Specifies the Namespace that imports a PackageableElement from another Namespace.
         /// </summary>
-        [Feature(aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1)]
+        [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1)]
         [SubsettedProperty(propertyName: "DirectedRelationship.Source")]
         [SubsettedProperty(propertyName: "Element.Oowner")]
         public INamespace importingNamespace { get; set; }
@@ -59,7 +59,7 @@ namespace uml4net.POCO.CommonStructure
         /// whether the  importedElement will in turn be visible to other Namespaces. If the ElementImport is public,
         /// the importedElement will be visible outside the importingNamespace while, if the ElementImport is private, it will not.
         /// </summary>
-        [Feature(aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1)]
+        [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1)]
         public VisibilityKind Visibility { get; set; }
     }
 }

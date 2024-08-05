@@ -20,6 +20,7 @@
 
 namespace uml4net.POCO.CommonStructure
 {
+    
     using System.Collections.Generic;
 
     using uml4net.Decorators;
@@ -33,19 +34,19 @@ namespace uml4net.POCO.CommonStructure
         /// <summary>
         /// The Comments owned by this Element.
         /// </summary>
-        [Feature(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue)]
+        [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue)]
         public List<IComment> OwnedComment { get; set; }
 
         /// <summary>
         /// The Elements owned by this Element
         /// </summary>
-        [Feature(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isReadOnly: true, isDerived: true, isDerivedUnion:true)]
+        [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isReadOnly: true, isDerived: true, isDerivedUnion:true)]
         public List<IElement> OwnedElement { get; }
 
         /// <summary>
         /// The Element that owns this Element.
         /// </summary>
-        [Feature(aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isReadOnly:true, isDerived:true, isDerivedUnion:true)]
+        [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isReadOnly:true, isDerived:true, isDerivedUnion:true)]
         public IElement Owner { get; }
     }
 }

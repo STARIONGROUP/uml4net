@@ -35,20 +35,20 @@ namespace uml4net.POCO.CommonStructure
         /// <summary>
         /// The ordered set of Elements referenced by this Constraint.
         /// </summary>
-        [Feature(aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: true)]
+        [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: true)]
         public List<IElement> ConstrainedElement { get; set; }
 
         /// <summary>
         /// Specifies the Namespace that owns the Constraint.
         /// </summary>
-        [Feature(aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: true)]
+        [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: true)]
         [SubsettedProperty(propertyName: "NamedElement.Namespace")]
         public INamespace Context { get; set; }
 
         /// <summary>
         /// A condition that must be true when evaluated in order for the Constraint to be satisfied.
         /// </summary>
-        [Feature(aggregation: AggregationKind.Composite, lowerValue: 1, upperValue: 1)]
+        [Property(aggregation: AggregationKind.Composite, lowerValue: 1, upperValue: 1)]
         public IValueSpecification Specification { get; set; }
     }
 }

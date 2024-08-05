@@ -32,13 +32,13 @@ namespace uml4net.POCO.CommonStructure
     {/// <summary>
         /// References the Element(s) being commented.
         /// </summary>
-        [Feature(aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue)]
+        [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue)]
         public List<IElement> AnnotatedElement { get; set; }
 
         /// <summary>
         /// Specifies a string that is the comment.
         /// </summary>
-        [Feature(aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1)]
+        [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1)]
         public string Body { get; set; }
         
     }

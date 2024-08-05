@@ -36,28 +36,28 @@ namespace uml4net.POCO.CommonStructure
         /// <summary>
         /// The Comments owned by this Element.
         /// </summary>
-        [Feature(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue)]
+        [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue)]
         [Implements(implementation: "IElement.OwnedComment")]
         public List<IComment> OwnedComment { get; set; }
 
         /// <summary>
         /// The Elements owned by this Element
         /// </summary>
-        [Feature(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isReadOnly: true, isDerived: true, isDerivedUnion: true)]
+        [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isReadOnly: true, isDerived: true, isDerivedUnion: true)]
         [Implements(implementation: "IElement.OwnedElement")]
         public List<IElement> OwnedElement => throw new NotImplementedException();
 
         /// <summary>
         /// The Element that owns this Element.
         /// </summary>
-        [Feature(aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isReadOnly: true, isDerived: true, isDerivedUnion: true)]
+        [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isReadOnly: true, isDerived: true, isDerivedUnion: true)]
         [Implements(implementation: "IElement.Owner")]
         public IElement Owner => throw new NotImplementedException();
 
         /// <summary>
         /// Specifies the source Element(s) of the DirectedRelationship.
         /// </summary>
-        [Feature(aggregation: AggregationKind.None, lowerValue: 1, upperValue: int.MaxValue, isReadOnly: true, isDerived: true, isDerivedUnion: true)]
+        [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: int.MaxValue, isReadOnly: true, isDerived: true, isDerivedUnion: true)]
         [Implements(implementation: "IDirectedRelationship.Source")]
         [SubsettedProperty(propertyName: "Relationship.RelatedElement")]
         public List<IElement> Source { get; }
@@ -65,7 +65,7 @@ namespace uml4net.POCO.CommonStructure
         /// <summary>
         /// Specifies the target Element(s) of the DirectedRelationship.
         /// </summary>
-        [Feature(aggregation: AggregationKind.None, lowerValue: 1, upperValue: int.MaxValue, isReadOnly: true, isDerived: true, isDerivedUnion: true)]
+        [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: int.MaxValue, isReadOnly: true, isDerived: true, isDerivedUnion: true)]
         [Implements(implementation: "IDirectedRelationship.Target")]
         [SubsettedProperty(propertyName: "Relationship.RelatedElement")]
         public List<IElement> Target { get; }
@@ -75,14 +75,14 @@ namespace uml4net.POCO.CommonStructure
         /// the imported PackagableElement. The alias must not clash with any other member in the
         /// importing Namespace. By default, no alias is used.
         /// </summary>
-        [Feature(aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1)]
+        [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1)]
         [Implements(implementation: "IElementImport.Alias1")]
         public string Alias { get; set; }
 
         /// <summary>
         /// Specifies the PackageableElement whose name is to be added to a Namespace.
         /// </summary>
-        [Feature(aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1)]
+        [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1)]
         [SubsettedProperty(propertyName: "DirectedRelationship.Target")]
         [Implements(implementation: "IElementImport.ImportedElement")]
         public IPackageableElement ImportedElement { get; set; }
@@ -90,7 +90,7 @@ namespace uml4net.POCO.CommonStructure
         /// <summary>
         /// Specifies the Namespace that imports a PackageableElement from another Namespace.
         /// </summary>
-        [Feature(aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1)]
+        [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1)]
         [SubsettedProperty(propertyName: "DirectedRelationship.Source")]
         [SubsettedProperty(propertyName: "Element.Oowner")]
         [Implements(implementation: "IElementImport.importingNamespace")]
@@ -101,7 +101,7 @@ namespace uml4net.POCO.CommonStructure
         /// whether the  importedElement will in turn be visible to other Namespaces. If the ElementImport is public,
         /// the importedElement will be visible outside the importingNamespace while, if the ElementImport is private, it will not.
         /// </summary>
-        [Feature(aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1)]
+        [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1)]
         [Implements(implementation: "IElementImport.Visibility")]
         public VisibilityKind Visibility { get; set; }
     }

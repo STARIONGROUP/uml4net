@@ -1,5 +1,5 @@
 ﻿// -------------------------------------------------------------------------------------------------
-// <copyright file="FeatureAttribute.cs" company="Starion Group S.A.">
+// <copyright file="PropertyAttribute.cs" company="Starion Group S.A.">
 //
 //   Copyright 2019-2024 Starion Group S.A.
 //
@@ -29,13 +29,13 @@ namespace uml4net.Decorators
     /// the UML meta-model.
     /// </summary>
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = false)]
-    public class FeatureAttribute : Attribute
+    public class PropertyAttribute : Attribute
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="FeatureAttribute"/> class.
         /// </summary>
         /// <param name="aggregation"></param>
-        public FeatureAttribute(AggregationKind aggregation = AggregationKind.None, int lowerValue = 1, int upperValue = 1, 
+        public PropertyAttribute(AggregationKind aggregation = AggregationKind.None, int lowerValue = 1, int upperValue = 1, 
             bool isOrdered = false,
             bool isReadOnly = false,
             bool isDerived = false,

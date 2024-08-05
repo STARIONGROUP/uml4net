@@ -46,14 +46,14 @@ namespace uml4net.POCO.CommonStructure
         /// <summary>
         /// Specifies the Package whose members are imported into a Namespace.
         /// </summary>
-        [Feature(aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1)]
+        [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1)]
         [SubsettedProperty(propertyName: "DirectedRelationship.Target")]
         public IPackage ImportedPackage { get; set; }
 
         /// <summary>
         /// Specifies the Namespace that imports the members from a Package.
         /// </summary>
-        [Feature(aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1)]
+        [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1)]
         [SubsettedProperty(propertyName: "DirectedRelationship.Source")]
         [SubsettedProperty(propertyName: "Element.Owner")]
         public INamespace ImportingNamespace { get; set; }
@@ -63,7 +63,7 @@ namespace uml4net.POCO.CommonStructure
         /// whether imported Elements will in turn be visible to other Namespaces. If the PackageImport is public, 
         /// the imported Elements will be visible outside the importingNamespace, while, if the PackageImport is private, they will not.
         /// </summary>
-        [Feature(aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1)]
+        [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1)]
         public VisibilityKind Visibility { get; set; }
     }
 }

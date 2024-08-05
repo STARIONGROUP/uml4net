@@ -36,38 +36,38 @@ namespace uml4net.POCO.CommonStructure
         /// For a multivalued multiplicity, this attribute specifies whether the values in an instantiation
         /// of this MultiplicityElement are sequentially ordered.
         /// </summary>
-        [Feature(aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1)]
+        [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1)]
         public bool IsOrdered { get; set; }
 
         /// <summary>
         /// For a multivalued multiplicity, this attributes specifies whether the values in an instantiation
         /// of this MultiplicityElement are unique.
         /// </summary>
-        [Feature(aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1)]
+        [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1)]
         public bool IsUnique { get; set; }
 
         /// <summary>
         /// The lower bound of the multiplicity interval.
         /// </summary>
-        [Feature(aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isDerived: true)]
+        [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isDerived: true)]
         public int Lower { get; set; }
 
         /// <summary>
         /// The specification of the lower bound for this multiplicity.
         /// </summary>
-        [Feature(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: 1, isDerived: true)]
+        [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: 1, isDerived: true)]
         public IValueSpecification LowerValue { get; set; }
 
         /// <summary>
         /// The upper bound of the multiplicity interval.
         /// </summary>
-        [Feature(aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isDerived: true)]
+        [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isDerived: true)]
         public ILiteralUnlimitedNatural Upper { get; set; }
 
         /// <summary>
         /// The specification of the upper bound for this multiplicity.
         /// </summary>
-        [Feature(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: 1, isDerived: true)]
+        [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: 1, isDerived: true)]
         public IValueSpecification UpperValue { get; set; }
     }
 }

@@ -37,7 +37,7 @@ namespace uml4net.POCO.CommonStructure
         /// the assignment of direction (that is, the designation of the client Element) is at the discretion 
         /// of the modeler and is a stipulation.
         /// </summary>
-        [Feature(aggregation: AggregationKind.None, lowerValue: 1, upperValue: int.MaxValue)]
+        [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: int.MaxValue)]
         [SubsettedProperty(propertyName: "DirectedRelationship.Source")]
         public List<INamedElement> Client { get; set; }
 
@@ -45,7 +45,7 @@ namespace uml4net.POCO.CommonStructure
         /// The Element(s) on which the client Element(s) depend in some respect. The modeler may stipulate
         /// a sense of Dependency direction suitable for their domain.
         /// </summary>
-        [Feature(aggregation: AggregationKind.None, lowerValue: 1, upperValue: int.MaxValue)]
+        [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: int.MaxValue)]
         [SubsettedProperty(propertyName: "DirectedRelationship.Target")]
         public List<INamedElement> Supplier { get; set; }
     }

@@ -33,7 +33,7 @@ namespace uml4net.POCO.CommonStructure
         /// <summary>
         /// A PackageableElement must have a visibility specified if it is owned by a Namespace. The default visibility is public.
         /// </summary>
-        [Feature(aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1)]
+        [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1)]
         [RedefinedProperty(propertyName: "NamedElement.Visibility")]
         public new VisibilityKind Visibility { get; set; }
     }
