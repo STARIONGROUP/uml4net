@@ -21,10 +21,10 @@
 namespace uml4net.POCO.CommonStructure
 {
     using System.Collections.Generic;
-    
+
     using uml4net.Decorators;
+    using uml4net.POCO.Classification;
     using uml4net.POCO.Packages;
-    using uml4net.POCO.StructuredClassifiers;
 
     /// <summary>
     /// A PackageImport is a Relationship that imports all the non-private members of a Package into the

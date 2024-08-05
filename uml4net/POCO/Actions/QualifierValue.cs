@@ -23,9 +23,8 @@ namespace uml4net.POCO.Actions
     using System;
     using System.Collections.Generic;
     using uml4net.Decorators;
+    using uml4net.POCO.Classification;
     using uml4net.POCO.CommonStructure;
-
-    using uml4net.POCO.StructuredClassifiers;
 
     /// <summary>
     /// A QualifierValue is an Element that is used as part of LinkEndData to provide 

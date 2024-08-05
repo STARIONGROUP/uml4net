@@ -20,6 +20,10 @@
 
 namespace uml4net.POCO.Classification
 {
+    using System.Collections.Generic;
+
+    using uml4net.Decorators;
+    using uml4net.POCO.CommonBehavior;
     using uml4net.POCO.CommonStructure;
 
     /// <summary>
@@ -29,5 +33,46 @@ namespace uml4net.POCO.Classification
     /// </summary>
     public interface IBehavioralFeature : IFeature, INamespace
     {
-    }
+        /// <summary>
+        /// Specifies the semantics of concurrent calls to the same passive instance (i.e., an instance originating
+        /// from a Class with isActive being false). Active instances control access to their own BehavioralFeatures.
+        /// </summary>
+        [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, defaultValue: "CallConcurrencyKind.Sequential")]
+        public CallConcurrencyKind Concurrency { get; set; }
+
+        /// <summary>
+        /// If true, then the BehavioralFeature does not have an implementation, and one must be supplied by a more 
+        /// specific Classifier. If false, the BehavioralFeature must have an implementation in the Classifier or 
+        /// one must be inherited.
+        /// </summary>
+        [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1)]
+        public bool IsAbstract { get; set; }
+
+        /// <summary>
+        /// A Behavior that implements the BehavioralFeature. There may be at most one Behavior for a particular pairing 
+        /// of a Classifier (as owner of the Behavior) and a BehavioralFeature (as specification of the Behavior).
+        /// </summary>
+        [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue)]
+        public List<IBehavior> Method { get; set; }
+
+        /// <summary>
+        /// The ordered set of formal Parameters of this BehavioralFeature.
+        /// </summary>
+        [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered:true)]
+        [SubsettedProperty(propertyName: "Namespace.OwnedMember")]
+        public List<IParameter> OwnedParameter { get; set; }
+
+        /// <summary>
+        /// The ParameterSets owned by this BehavioralFeature.
+        /// </summary>
+        [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue)]
+        [SubsettedProperty(propertyName: "Namespace.OwnedMember")]
+        public List<IParameterSet> OwnedParameterSet { get; set; }
+
+        /// <summary>
+        /// The Types representing exceptions that may be raised during an invocation of this BehavioralFeature.
+        /// </summary>
+        [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue)]
+        public List<IType> RaisedException { get; set; }
+     }
 }

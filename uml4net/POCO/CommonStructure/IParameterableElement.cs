@@ -21,8 +21,7 @@
 namespace uml4net.POCO.CommonStructure
 {
     using uml4net.Decorators;
-
-    using uml4net.POCO.StructuredClassifiers;
+    using uml4net.POCO.Classification;
 
     /// <summary>
     /// A ParameterableElement is an Element that can be exposed as a formal TemplateParameter for a template,

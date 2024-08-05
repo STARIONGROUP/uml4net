@@ -24,8 +24,8 @@ namespace uml4net.POCO.Values
     using System.Collections.Generic;
 
     using uml4net.Decorators;
+    using uml4net.POCO.Classification;
     using uml4net.POCO.CommonStructure;
-    using uml4net.POCO.StructuredClassifiers;
 
     /// <summary>
     /// A LiteralInteger is a specification of an Integer value.

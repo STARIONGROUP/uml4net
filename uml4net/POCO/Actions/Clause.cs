@@ -23,9 +23,8 @@ namespace uml4net.POCO.Actions
     using System;
     using System.Collections.Generic;
     using uml4net.Decorators;
+    using uml4net.POCO.Classification;
     using uml4net.POCO.CommonStructure;
-
-    using uml4net.POCO.StructuredClassifiers;
 
     /// <summary>
     /// A Clause is an Element that represents a single branch of a ConditionalNode, including a test 

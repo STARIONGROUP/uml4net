@@ -22,7 +22,7 @@ namespace uml4net.POCO.CommonStructure
 {
     using System.Collections.Generic;
     using uml4net.Decorators;
-    using uml4net.POCO.StructuredClassifiers;
+    using uml4net.POCO.Classification;
 
     /// <summary>
     /// A Namespace is an Element in a model that owns and/or imports a set of NamedElements that can be identified by name.

@@ -23,9 +23,8 @@ namespace uml4net.POCO.Actions
     using System;
     using System.Collections.Generic;
     using uml4net.Decorators;
+    using uml4net.POCO.Classification;
     using uml4net.POCO.CommonStructure;
-
-    using uml4net.POCO.StructuredClassifiers;
 
     /// <summary>
     /// LinkEndData is an Element that identifies on end of a link to be read or written by a LinkAction.

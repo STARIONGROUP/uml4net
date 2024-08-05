@@ -22,10 +22,9 @@ namespace uml4net.POCO.Classification
 {
     using System;
     using System.Collections.Generic;
-    
+
     using uml4net.Decorators;
     using uml4net.POCO.CommonStructure;
-    using uml4net.POCO.StructuredClassifiers;
     using uml4net.POCO.Values;
 
     /// <summary>
@@ -172,5 +171,22 @@ namespace uml4net.POCO.Classification
         [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: int.MaxValue, isReadOnly: true, isDerived: true, isDerivedUnion: true)]
         [Implements(implementation: "IRelationship.RelatedElement")]
         public List<IElement> RelatedElement => throw new NotImplementedException();
+
+        /// <summary>
+        /// The contract with which the substituting classifier complies.
+        /// </summary>
+        [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1)]
+        [Implements(implementation: "ISubstitution.Contract")]
+        public IClassifier Contract { get; set; }
+
+        /// <summary>
+        /// Instances of the substituting classifier are runtime substitutable where instances
+        /// of the contract classifier are expected.
+        /// </summary>
+        [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1)]
+        [Implements(implementation: "ISubstitution.SubstitutingClassifier")]
+        [SubsettedProperty(propertyName: "Dependency.Client")]
+        [SubsettedProperty(propertyName: "Element.Owner")]
+        public IClassifier SubstitutingClassifier { get; set; }
     }
 }

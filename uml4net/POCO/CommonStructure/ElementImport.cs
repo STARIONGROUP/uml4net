@@ -24,7 +24,7 @@ namespace uml4net.POCO.CommonStructure
     using System.Collections.Generic;
 
     using uml4net.Decorators;
-    using uml4net.POCO.StructuredClassifiers;
+    using uml4net.POCO.Classification;
 
     /// <summary>
     /// An ElementImport identifies a NamedElement in a Namespace other than the one that owns that 

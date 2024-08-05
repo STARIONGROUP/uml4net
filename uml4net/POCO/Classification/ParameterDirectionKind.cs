@@ -1,5 +1,5 @@
 ﻿// -------------------------------------------------------------------------------------------------
-// <copyright file="IRelationship.cs" company="Starion Group S.A.">
+// <copyright file="ParameterDirectionKind.cs" company="Starion Group S.A.">
 //
 //   Copyright 2019-2024 Starion Group S.A.
 //
@@ -18,21 +18,32 @@
 // </copyright>
 // ------------------------------------------------------------------------------------------------
 
-namespace uml4net.POCO.CommonStructure
+namespace uml4net.POCO.Classification
 {
-    using System.Collections.Generic;
-    using uml4net.Decorators;
-    using uml4net.POCO.Classification;
-
     /// <summary>
-    /// Relationship is an abstract concept that specifies some kind of relationship between Elements.
+    /// ParameterDirectionKind is an Enumeration that defines literals used to specify direction of parameters.
     /// </summary>
-    public interface IRelationship : IElement
+    public enum ParameterDirectionKind
     {
         /// <summary>
-        /// Specifies the elements related by the Relationship.
+        /// Indicates that Parameter values are passed in by the caller.
         /// </summary>
-        [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: int.MaxValue, isReadOnly:true, isDerived:true,isDerivedUnion:true)]
-        public List<IElement> RelatedElement { get; }
+        In,
+
+        /// <summary>
+        /// Indicates that Parameter values are passed in by the caller and (possibly different) values passed 
+        /// out to the caller.
+        /// </summary>
+        Inout,
+
+        /// <summary>
+        /// Indicates that Parameter values are passed out to the caller.
+        /// </summary>
+        Out,
+
+        /// <summary>
+        /// Indicates that Parameter values are passed as return values back to the caller.
+        /// </summary>
+        Return
     }
 }

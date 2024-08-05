@@ -24,9 +24,9 @@ namespace uml4net.POCO.StateMachines
     using System.Collections.Generic;
 
     using uml4net.Decorators;
+    using uml4net.POCO.Classification;
     using uml4net.POCO.CommonStructure;
     using uml4net.POCO.Packages;
-    using uml4net.POCO.StructuredClassifiers;
     using uml4net.POCO.Values;
 
     /// <summary>

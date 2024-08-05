@@ -25,8 +25,6 @@ namespace uml4net.POCO.Classification
     using uml4net.Decorators;
     using uml4net.POCO.CommonStructure;
 
-    using uml4net.POCO.StructuredClassifiers;
-
     /// <summary>
     /// A Generalization is a taxonomic relationship between a more general Classifier and a more specific
     /// Classifier. Each instance of the specific Classifier is also an instance of the general Classifier.

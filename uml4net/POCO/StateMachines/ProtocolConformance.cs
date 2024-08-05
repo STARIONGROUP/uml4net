@@ -24,8 +24,8 @@ namespace uml4net.POCO.StateMachines
     using System.Collections.Generic;
 
     using uml4net.Decorators;
+    using uml4net.POCO.Classification;
     using uml4net.POCO.CommonStructure;
-    using uml4net.POCO.StructuredClassifiers;
 
     /// <summary>
     /// A ProtocolStateMachine can be redefined into a more specific ProtocolStateMachine or into behavioral

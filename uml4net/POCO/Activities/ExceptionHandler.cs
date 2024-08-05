@@ -23,9 +23,8 @@ namespace uml4net.POCO.Activities
     using System;
     using System.Collections.Generic;
     using uml4net.Decorators;
+    using uml4net.POCO.Classification;
     using uml4net.POCO.CommonStructure;
-
-    using uml4net.POCO.StructuredClassifiers;
 
     /// <summary>
     /// An ExceptionHandler is an Element that specifies a handlerBody ExecutableNode to execute in case the 

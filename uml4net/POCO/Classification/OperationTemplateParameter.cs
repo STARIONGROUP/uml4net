@@ -25,7 +25,6 @@ namespace uml4net.POCO.Classification
 
     using uml4net.Decorators;
     using uml4net.POCO.CommonStructure;
-    using uml4net.POCO.StructuredClassifiers;
 
     /// <summary>
     /// An OperationTemplateParameter exposes an Operation as a formal parameter for a template.

@@ -1,5 +1,5 @@
 ﻿// -------------------------------------------------------------------------------------------------
-// <copyright file="Abstraction.cs" company="Starion Group S.A.">
+// <copyright file="ParameterEffectKind.cs" company="Starion Group S.A.">
 //
 //   Copyright 2019-2024 Starion Group S.A.
 //
@@ -18,27 +18,35 @@
 // </copyright>
 // ------------------------------------------------------------------------------------------------
 
-namespace uml4net.POCO.StructuredClassifiers
+namespace uml4net.POCO.Classification
 {
     /// <summary>
-    /// AggregationKind is an Enumeration for specifying the kind of aggregation of a Property.
+    /// ParameterEffectKind is an Enumeration that indicates the effect of a Behavior on values passed
+    /// in or out of its parameters.
     /// </summary>
-    public enum AggregationKind
+    public enum ParameterEffectKind
     {
         /// <summary>
-        /// Indicates that the Property has no aggregation.
+        /// Indicates that the behavior creates values.
         /// </summary>
-        None,
+        Create,
 
         /// <summary>
-        /// Indicates that the Property has shared aggregation.
+        /// Indicates objects that are values of the parameter have values of their properties, or links
+        /// in which they participate, or their classifiers retrieved during executions of the behavior.
         /// </summary>
-        Shared,
+        Read,
 
         /// <summary>
-        /// Indicates that the Property is aggregated compositely, i.e., the composite object
-        /// has responsibility for the existence and storage of the composed objects (parts).
+        /// Indicates objects that are values of the parameter have values of their properties, or links
+        /// in which they participate, or their classification changed during executions of the behavior.
         /// </summary>
-        Composite
+        Update,
+
+        /// <summary>
+        /// Indicates objects that are values of the parameter do not exist after executions of the
+        /// behavior are finished.
+        /// </summary>
+        Delete
     }
 }

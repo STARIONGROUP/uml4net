@@ -22,8 +22,7 @@ namespace uml4net.POCO.CommonStructure
 {
     using System.Collections.Generic;
     using uml4net.Decorators;
-
-    using uml4net.POCO.StructuredClassifiers;
+    using uml4net.POCO.Classification;
 
     /// <summary>
     /// A TemplateableElement is an Element that can optionally be defined as a template and bound to other templates.

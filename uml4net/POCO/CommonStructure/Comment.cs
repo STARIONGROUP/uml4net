@@ -24,7 +24,7 @@ namespace uml4net.POCO.CommonStructure
     using System.Collections.Generic;
 
     using uml4net.Decorators;
-    using uml4net.POCO.StructuredClassifiers;
+    using uml4net.POCO.Classification;
 
     /// <summary>
     /// A Comment is a textual annotation that can be attached to a set of Elements.

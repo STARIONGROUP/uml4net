@@ -20,6 +20,7 @@
 
 namespace uml4net.POCO.Classification
 {
+    using uml4net.Decorators;
     using uml4net.POCO.CommonStructure;
 
     /// <summary>
@@ -29,5 +30,19 @@ namespace uml4net.POCO.Classification
     /// </summary>
     public interface ISubstitution : IRealization
     {
+        /// <summary>
+        /// The contract with which the substituting classifier complies.
+        /// </summary>
+        [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1)]
+        public IClassifier Contract { get; set; }
+
+        /// <summary>
+        /// Instances of the substituting classifier are runtime substitutable where instances
+        /// of the contract classifier are expected.
+        /// </summary>
+        [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1)]
+        [SubsettedProperty(propertyName: "Dependency.Client")]
+        [SubsettedProperty(propertyName: "Element.Owner")]
+        public IClassifier SubstitutingClassifier { get; set; }
     }
 }

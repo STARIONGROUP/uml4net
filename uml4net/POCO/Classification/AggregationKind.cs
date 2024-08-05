@@ -1,5 +1,5 @@
 ﻿// -------------------------------------------------------------------------------------------------
-// <copyright file="IRelationship.cs" company="Starion Group S.A.">
+// <copyright file="Abstraction.cs" company="Starion Group S.A.">
 //
 //   Copyright 2019-2024 Starion Group S.A.
 //
@@ -18,21 +18,27 @@
 // </copyright>
 // ------------------------------------------------------------------------------------------------
 
-namespace uml4net.POCO.CommonStructure
+namespace uml4net.POCO.Classification
 {
-    using System.Collections.Generic;
-    using uml4net.Decorators;
-    using uml4net.POCO.Classification;
-
     /// <summary>
-    /// Relationship is an abstract concept that specifies some kind of relationship between Elements.
+    /// AggregationKind is an Enumeration for specifying the kind of aggregation of a Property.
     /// </summary>
-    public interface IRelationship : IElement
+    public enum AggregationKind
     {
         /// <summary>
-        /// Specifies the elements related by the Relationship.
+        /// Indicates that the Property has no aggregation.
         /// </summary>
-        [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: int.MaxValue, isReadOnly:true, isDerived:true,isDerivedUnion:true)]
-        public List<IElement> RelatedElement { get; }
+        None,
+
+        /// <summary>
+        /// Indicates that the Property has shared aggregation.
+        /// </summary>
+        Shared,
+
+        /// <summary>
+        /// Indicates that the Property is aggregated compositely, i.e., the composite object
+        /// has responsibility for the existence and storage of the composed objects (parts).
+        /// </summary>
+        Composite
     }
 }

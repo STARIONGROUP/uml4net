@@ -21,8 +21,7 @@
 namespace uml4net.Decorators
 {
     using System;
-
-    using uml4net.POCO.StructuredClassifiers;
+    using uml4net.POCO.Classification;
 
     /// <summary>
     /// Attribute used to decorate properties with using the properties sourced from
