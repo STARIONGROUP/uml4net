@@ -20,6 +20,11 @@
 
 namespace uml4net.POCO.CommonStructure
 {
+    using System.Collections.Generic;
+
+    using uml4net.Decorators;
+    using uml4net.POCO.StructuredClassifiers;
+
     /// <summary>
     /// A TemplateBinding is a DirectedRelationship between a TemplateableElement and a template. 
     /// A TemplateBinding specifies the TemplateParameterSubstitutions of actual parameters for the
@@ -27,5 +32,25 @@ namespace uml4net.POCO.CommonStructure
     /// </summary>
     public interface ITemplateBinding : IDirectedRelationship
     {
+        /// <summary>
+        /// The TemplateableElement that is bound by this TemplateBinding.
+        /// </summary>
+        [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1)]
+        [SubsettedProperty(propertyName: "DirectedRelationship.Source")]
+        [SubsettedProperty(propertyName: "Element.Owner")]
+        public ITemplateableElement BoundElement { get; set; }
+
+        /// <summary>
+        /// The TemplateParameterSubstitutions owned by this TemplateBinding.
+        /// </summary>
+        [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue)]
+        [SubsettedProperty(propertyName: "Element.OwnedElement")]
+        public List<ITemplateParameterSubstitution> ParameterSubstitution { get; set; }
+
+        /// <summary>
+        /// The TemplateSignature for the template that is the target of this TemplateBinding.
+        /// </summary>
+        [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1)]
+        public TemplateSignature Signature { get; set; }
     }
 }

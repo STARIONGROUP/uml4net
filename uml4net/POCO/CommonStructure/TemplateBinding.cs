@@ -76,5 +76,29 @@ namespace uml4net.POCO.CommonStructure
         [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: int.MaxValue, isReadOnly: true, isDerived: true, isDerivedUnion: true)]
         [Implements(implementation: "IRelationship.RelatedElement")]
         public List<IElement> RelatedElement => throw new NotImplementedException();
+
+        /// <summary>
+        /// The TemplateableElement that is bound by this TemplateBinding.
+        /// </summary>
+        [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1)]
+        [Implements(implementation: "ITemplateBinding.BoundElement")]
+        [SubsettedProperty(propertyName: "DirectedRelationship.Source")]
+        [SubsettedProperty(propertyName: "Element.Owner")]
+        public ITemplateableElement BoundElement { get; set; }
+
+        /// <summary>
+        /// The TemplateParameterSubstitutions owned by this TemplateBinding.
+        /// </summary>
+        [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue)]
+        [Implements(implementation: "ITemplateBinding.ParameterSubstitution")]
+        [SubsettedProperty(propertyName: "Element.OwnedElement")]
+        public List<ITemplateParameterSubstitution> ParameterSubstitution { get; set; }
+
+        /// <summary>
+        /// The TemplateSignature for the template that is the target of this TemplateBinding.
+        /// </summary>
+        [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1)]
+        [Implements(implementation: "ITemplateBinding.Signature")]
+        public TemplateSignature Signature { get; set; }
     }
 }
