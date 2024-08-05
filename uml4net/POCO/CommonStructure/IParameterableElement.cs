@@ -20,11 +20,29 @@
 
 namespace uml4net.POCO.CommonStructure
 {
+    using uml4net.Decorators;
+
+    using uml4net.POCO.StructuredClassifiers;
+
     /// <summary>
     /// A ParameterableElement is an Element that can be exposed as a formal TemplateParameter for a template,
     /// or specified as an actual parameter in a binding of a template.
     /// </summary>
     public interface IParameterableElement : IElement
     {
+        /// <summary>
+        /// The formal TemplateParameter that owns this ParameterableElement
+        /// </summary>
+        [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1)]
+        [SubsettedProperty(propertyName: "Element.Owner")]
+        [SubsettedProperty(propertyName: "ParameterableElement.TemplateParameter")]
+        public ITemplateParameter OwningTemplateParameter { get; set; }
+
+        /// <summary>
+        /// ParameterableElement-templateParameter-_ownedComment.0" body="The TemplateParameter that exposes this 
+        /// ParameterableElement as a formal parameter.
+        /// </summary>
+        [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1)]
+        public ITemplateParameter TemplateParameter { get; set; }
     }
 }

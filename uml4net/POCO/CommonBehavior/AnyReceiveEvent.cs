@@ -101,5 +101,22 @@ namespace uml4net.POCO.CommonBehavior
         [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1)]
         [Implements(implementation: "INamedElement.Visibility")]
         public VisibilityKind Visibility { get; set; }
+
+        /// <summary>
+        /// The formal TemplateParameter that owns this ParameterableElement
+        /// </summary>
+        [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1)]
+        [Implements(implementation: "IParameterableElement.OwningTemplateParameter")]
+        [SubsettedProperty(propertyName: "Element.Owner")]
+        [SubsettedProperty(propertyName: "ParameterableElement.TemplateParameter")]
+        public ITemplateParameter OwningTemplateParameter { get; set; }
+
+        /// <summary>
+        /// ParameterableElement-templateParameter-_ownedComment.0" body="The TemplateParameter that exposes this 
+        /// ParameterableElement as a formal parameter.
+        /// </summary>
+        [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1)]
+        [Implements(implementation: "IParameterableElement.TemplateParameter")]
+        public ITemplateParameter TemplateParameter { get; set; }
     }
 }

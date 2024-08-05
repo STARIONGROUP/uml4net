@@ -105,7 +105,7 @@ namespace uml4net.POCO.CommonStructure
         /// whether imported Elements will in turn be visible to other Namespaces. If the PackageImport is public, 
         /// the imported Elements will be visible outside the importingNamespace, while, if the PackageImport is private, they will not.
         /// </summary>
-        [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1)]
+        [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, defaultValue: "VisibilityKind.Public")]
         [Implements(implementation: "IPackageImport.Visibility")]
         public VisibilityKind Visibility { get; set; } = VisibilityKind.Public;
     }

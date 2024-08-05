@@ -39,7 +39,8 @@ namespace uml4net.Decorators
             bool isOrdered = false,
             bool isReadOnly = false,
             bool isDerived = false,
-            bool isDerivedUnion = false)
+            bool isDerivedUnion = false,
+            string defaultValue = null)
         {
             this.Aggregation = aggregation;
             this.LowerValue = lowerValue;
@@ -48,6 +49,7 @@ namespace uml4net.Decorators
             this.IsReadOnly = isReadOnly;
             this.IsDerived = isDerived;
             this.IsDerivedUnion = isDerivedUnion;
+            this.DefaultValue = defaultValue;
         }
 
         /// <summary>
@@ -84,5 +86,10 @@ namespace uml4net.Decorators
         /// Gets or sets a value specifiying whether this is a derived union property
         /// </summary>
         public bool IsDerivedUnion { get; set; } = false;
+
+        /// <summary>
+        /// Gets or sets the default value if any.
+        /// </summary>
+        public string DefaultValue { get; set; } = null;
     }
 }
