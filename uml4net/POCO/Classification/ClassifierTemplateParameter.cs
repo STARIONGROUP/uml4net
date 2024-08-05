@@ -20,6 +20,7 @@
 
 namespace uml4net.POCO.Classification
 {
+    using System;
     using System.Collections.Generic;
     using uml4net.Decorators;
     using uml4net.POCO.CommonStructure;
@@ -43,13 +44,13 @@ namespace uml4net.POCO.Classification
         /// </summary>
         [Feature(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isReadOnly: true, isDerived: true, isDerivedUnion: true)]
         [Implements(implementation: "IElement.OwnedElement")]
-        public List<IElement> OwnedElement { get; }
+        public List<IElement> OwnedElement => throw new NotImplementedException();
 
         /// <summary>
         /// The Element that owns this Element.
         /// </summary>
         [Feature(aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isReadOnly: true, isDerived: true, isDerivedUnion: true)]
         [Implements(implementation: "IElement.Owner")]
-        public IElement Owner { get; }
+        public IElement Owner => throw new NotImplementedException();
     }
 }

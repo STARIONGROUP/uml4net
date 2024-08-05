@@ -20,10 +20,11 @@
 
 namespace uml4net.POCO.InformationFlows
 {
+    using System;
     using System.Collections.Generic;
+
     using uml4net.Decorators;
     using uml4net.POCO.CommonStructure;
-
     using uml4net.POCO.StructuredClassifiers;
     using uml4net.POCO.Values;
 
@@ -52,14 +53,14 @@ namespace uml4net.POCO.InformationFlows
         /// </summary>
         [Feature(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isReadOnly: true, isDerived: true, isDerivedUnion: true)]
         [Implements(implementation: "IElement.OwnedElement")]
-        public List<IElement> OwnedElement { get; }
+        public List<IElement> OwnedElement => throw new NotImplementedException();
 
         /// <summary>
         /// The Element that owns this Element.
         /// </summary>
         [Feature(aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isReadOnly: true, isDerived: true, isDerivedUnion: true)]
         [Implements(implementation: "IElement.Owner")]
-        public IElement Owner { get; }
+        public IElement Owner => throw new NotImplementedException();
 
         /// <summary>
         /// Specifies the source Element(s) of the DirectedRelationship.
@@ -83,7 +84,7 @@ namespace uml4net.POCO.InformationFlows
         [Feature(aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isDerived: true)]
         [SubsettedProperty(propertyName: "A_source_directedRelationship.DirectedRelationship")]
         [Implements(implementation: "INamedElement.ClientDependency")]
-        public List<IDependency> ClientDependency { get; }
+        public List<IDependency> ClientDependency => throw new NotImplementedException();
 
         /// <summary>
         /// The name of the NamedElement.
@@ -107,7 +108,7 @@ namespace uml4net.POCO.InformationFlows
         [SubsettedProperty(propertyName: "A_member_memberNamespace.MemberNamespace")]
         [SubsettedProperty(propertyName: "Element.Owner")]
         [Implements(implementation: "INamedElement.Namespace")]
-        public INamespace Namespace { get; }
+        public INamespace Namespace => throw new NotImplementedException();
 
         /// <summary>
         /// A name that allows the NamedElement to be identified within a hierarchy of nested Namespaces. It is constructed from the names of 
@@ -115,7 +116,7 @@ namespace uml4net.POCO.InformationFlows
         /// </summary>
         [Feature(aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isReadOnly: true, isDerived: true)]
         [Implements(implementation: "INamedElement.QualifiedName")]
-        public string QualifiedName { get; }
+        public string QualifiedName => throw new NotImplementedException();
 
         /// <summary>
         /// Determines whether and how the NamedElement is visible outside its owning Namespace.

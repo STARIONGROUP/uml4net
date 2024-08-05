@@ -20,6 +20,7 @@
 
 namespace uml4net.POCO.CommonStructure
 {
+    using System;
     using System.Collections.Generic;
 
     using uml4net.Decorators;
@@ -44,14 +45,14 @@ namespace uml4net.POCO.CommonStructure
         /// </summary>
         [Feature(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isReadOnly: true, isDerived: true, isDerivedUnion: true)]
         [Implements(implementation: "IElement.OwnedElement")]
-        public List<IElement> OwnedElement { get; }
+        public List<IElement> OwnedElement => throw new NotImplementedException();
 
         /// <summary>
         /// The Element that owns this Element.
         /// </summary>
         [Feature(aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isReadOnly: true, isDerived: true, isDerivedUnion: true)]
         [Implements(implementation: "IElement.Owner")]
-        public IElement Owner { get; }
+        public IElement Owner => throw new NotImplementedException();
 
         /// <summary>
         /// Specifies the source Element(s) of the DirectedRelationship.
