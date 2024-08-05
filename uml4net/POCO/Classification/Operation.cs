@@ -170,7 +170,7 @@ namespace uml4net.POCO.Classification
         /// If a TemplateableElement has a TemplateSignature, then it is a template.
         /// </summary>
         [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: 1)]
-        [Implements(implementation: "TemplateableElement.OwnedTemplateSignature")]
+        [Implements(implementation: "ITemplateableElement.OwnedTemplateSignature")]
         public ITemplateSignature OwnedTemplateSignature { get; set; }
 
         /// <summary>
@@ -178,7 +178,7 @@ namespace uml4net.POCO.Classification
         /// If a TemplateableElement has a TemplateSignature, then it is a template.
         /// </summary>
         [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue)]
-        [Implements(implementation: "TemplateableElement.TemplateBinding")]
+        [Implements(implementation: "ITemplateableElement.TemplateBinding")]
         [SubsettedProperty(propertyName: "Element.OwnedElement")]
         [SubsettedProperty(propertyName: "A_source_directedRelationship.DirectedRelationship")]
         public List<TemplateBinding> TemplateBinding { get; set; }

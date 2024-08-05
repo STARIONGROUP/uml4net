@@ -25,6 +25,7 @@ namespace uml4net.POCO.SimpleClassifiers
 
     using uml4net.Decorators;
     using uml4net.POCO.CommonStructure;
+    using uml4net.POCO.Packages;
     using uml4net.POCO.StructuredClassifiers;
     using uml4net.POCO.Values;
 
@@ -165,7 +166,7 @@ namespace uml4net.POCO.SimpleClassifiers
         /// If a TemplateableElement has a TemplateSignature, then it is a template.
         /// </summary>
         [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: 1)]
-        [Implements(implementation: "TemplateableElement.OwnedTemplateSignature")]
+        [Implements(implementation: "ITemplateableElement.OwnedTemplateSignature")]
         public ITemplateSignature OwnedTemplateSignature { get; set; }
 
         /// <summary>
@@ -173,9 +174,17 @@ namespace uml4net.POCO.SimpleClassifiers
         /// If a TemplateableElement has a TemplateSignature, then it is a template.
         /// </summary>
         [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue)]
-        [Implements(implementation: "TemplateableElement.TemplateBinding")]
+        [Implements(implementation: "ITemplateableElement.TemplateBinding")]
         [SubsettedProperty(propertyName: "Element.OwnedElement")]
         [SubsettedProperty(propertyName: "A_source_directedRelationship.DirectedRelationship")]
         public List<TemplateBinding> TemplateBinding { get; set; }
+
+        /// <summary>
+        /// Specifies the owning Package of this Type, if any.
+        /// </summary>
+        [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1)]
+        [SubsettedProperty(propertyName: "A_packagedElement_owningPackage.OwningPackage")]
+        [Implements(implementation: "IType.Package")]
+        public IPackage Package { get; set; }
     }
 }

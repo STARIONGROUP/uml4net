@@ -20,10 +20,20 @@
 
 namespace uml4net.POCO.CommonStructure
 {
+    using uml4net.Decorators;
+    using uml4net.POCO.Packages;
+    using uml4net.POCO.StructuredClassifiers;
+
     /// <summary>
     /// A Type constrains the values represented by a TypedElement.
     /// </summary>
     public interface IType : IPackageableElement
     {
+        /// <summary>
+        /// Specifies the owning Package of this Type, if any.
+        /// </summary>
+        [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1)]
+        [SubsettedProperty(propertyName: "A_packagedElement_owningPackage.OwningPackage")]
+        public IPackage Package { get; set; }
     }
 }
