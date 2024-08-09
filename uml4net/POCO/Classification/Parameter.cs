@@ -168,5 +168,65 @@ namespace uml4net.POCO.Classification
         [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1)]
         [Implements(implementation: "ITypedElement.Type")]
         public IType Type { get; set; }
+
+        /// <summary>
+        /// A String that represents a value to be used when no argument is supplied for the Parameter.
+        /// </summary>
+        [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isDerived: true)]
+        [Implements("IParameter.Default")]
+        public string Default { get; }
+
+        /// <summary>
+        /// Specifies a ValueSpecification that represents a value to be used when no argument is supplied for the Parameter.
+        /// </summary>
+        [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: 1)]
+        [SubsettedProperty("Element-ownedElement")]
+        [Implements("IParameter.DefaultValue")]
+        public IValueSpecification DefaultValue { get; set; }
+
+        /// <summary>
+        /// Indicates whether a parameter is being sent into or out of a behavioral element.
+        /// </summary>
+        [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, defaultValue: "ParameterDirectionKind.In")]
+        [Implements("IParameter.Direction")]
+        public ParameterDirectionKind Direction { get; set; }
+
+        /// <summary>
+        /// Specifies the effect that executions of the owner of the Parameter have on 
+        /// objects passed in or out of the parameter.
+        /// </summary>
+        [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1)]
+        [Implements("IParameter.Effect")]
+        public ParameterEffectKind Effect { get; set; }
+
+        /// <summary>
+        /// Tells whether an output parameter may emit a value to the exclusion of the other outputs.
+        /// </summary>
+        [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, defaultValue: "false")]
+        [Implements("IParameter.IsException")]
+        public bool IsException { get; set; }
+
+        /// <summary>
+        /// Tells whether an input parameter may accept values while its behavior is executing,
+        /// or whether an output parameter may post values while the behavior is executing.
+        /// </summary>
+        [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, defaultValue: "false")]
+        [Implements("IParameter.IsStream")]
+        public bool IsStream { get; set; }
+
+        /// <summary>
+        /// The Operation owning this parameter.
+        /// </summary>
+        [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1)]
+        [SubsettedProperty("A_ownedParameter_ownerFormalParam-ownerFormalParam")]
+        [Implements("IParameter.Operation")]
+        public IOperation Operation { get; set; }
+
+        /// <summary>
+        /// The ParameterSets containing the parameter. See ParameterSet.
+        /// </summary>
+        [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1)]
+        [Implements("IParameter.ParameterSet")]
+        public List<IParameterSet> ParameterSet { get; set; }
     }
 }
