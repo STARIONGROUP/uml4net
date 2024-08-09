@@ -83,7 +83,8 @@ namespace uml4net.POCO.Classification
         /// </summary>
         [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1)]
         [Implements(implementation: "ITemplateParameter.ParameteredElement")]
-        public IParameterableElement ParameteredElement { get; set; }
+        [RedefinedByProperty("IOperation.ParameteredElement")]
+        IParameterableElement ITemplateParameter.ParameteredElement { get; set; }
 
         /// <summary>
         /// The TemplateSignature that owns this TemplateParameter.
@@ -93,5 +94,13 @@ namespace uml4net.POCO.Classification
         [SubsettedProperty(propertyName: "A_parameter_templateSignature.TemplateSignature")]
         [SubsettedProperty(propertyName: "Element.Owner")]
         public ITemplateSignature Signature { get; set; }
+
+        /// <summary>
+        /// The Operation exposed by this OperationTemplateParameter.
+        /// </summary>
+        [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1)]
+        [RedefinedProperty("TemplateParameter-parameteredElement")]
+        [Implements(implementation: "IOperationTemplateParameter.ParameteredElement")]
+        public IOperation ParameteredElement { get; set; }
     }
 }

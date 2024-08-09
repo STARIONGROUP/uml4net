@@ -20,6 +20,7 @@
 
 namespace uml4net.POCO.Classification
 {
+    using uml4net.Decorators;
     using uml4net.POCO.CommonStructure;
 
     /// <summary>
@@ -27,5 +28,11 @@ namespace uml4net.POCO.Classification
     /// </summary>
     public interface IOperationTemplateParameter : ITemplateParameter
     {
+        /// <summary>
+        /// The Operation exposed by this OperationTemplateParameter.
+        /// </summary>
+        [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1)]
+        [RedefinedProperty("TemplateParameter-parameteredElement")]
+        public new IOperation ParameteredElement { get; set; }
     }
 }
