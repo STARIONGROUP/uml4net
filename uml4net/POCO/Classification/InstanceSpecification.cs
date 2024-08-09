@@ -118,5 +118,31 @@ namespace uml4net.POCO.Classification
         [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1)]
         [Implements(implementation: "IParameterableElement.TemplateParameter")]
         public ITemplateParameter TemplateParameter { get; set; }
+
+        /// <summary>
+        /// The Classifier or Classifiers of the represented instance. If multiple Classifiers are 
+        /// specified, the instance is classified by all of them.
+        /// </summary>
+        [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue)]
+        [Implements("IInstanceSpecification.Classifier")]
+        public List<IClassifier> Classifier { get; set; } = new List<IClassifier>();
+
+        /// <summary>
+        /// A Slot giving the value or values of a StructuralFeature of the instance. An InstanceSpecification
+        /// can have one Slot per StructuralFeature of its Classifiers, including inherited features. 
+        /// It is not necessary to model a Slot for every StructuralFeature, in which case the 
+        /// InstanceSpecification is a partial description.
+        /// </summary>
+        [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue)]
+        [SubsettedProperty("Element-ownedElement")]
+        [Implements("IInstanceSpecification.Slot")]
+        public List<ISlot> Slot { get; set; } = new List<ISlot>();
+
+        /// <summary>
+        /// A specification of how to compute, derive, or construct the instance.
+        /// </summary>
+        [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: 1)]
+        [Implements("IInstanceSpecification.Specification")]
+        public IValueSpecification Specification { get; set; }
     }
 }

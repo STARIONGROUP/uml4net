@@ -20,8 +20,12 @@
 
 namespace uml4net.POCO.Classification
 {
+    using System.Collections.Generic;
+
+    using uml4net.Decorators;
     using uml4net.POCO.CommonStructure;
     using uml4net.POCO.Deployments;
+    using uml4net.POCO.Values;
 
     /// <summary>
     /// An InstanceSpecification is a model element that represents an instance in a modeled system. 
@@ -31,5 +35,27 @@ namespace uml4net.POCO.Classification
     /// </summary>
     public interface IInstanceSpecification : IDeploymentTarget, IPackageableElement, IDeployedArtifact
     {
+        /// <summary>
+        /// The Classifier or Classifiers of the represented instance. If multiple Classifiers are 
+        /// specified, the instance is classified by all of them.
+        /// </summary>
+        [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue)]
+        public List<IClassifier> Classifier { get; set; }
+
+        /// <summary>
+        /// A Slot giving the value or values of a StructuralFeature of the instance. An InstanceSpecification
+        /// can have one Slot per StructuralFeature of its Classifiers, including inherited features. 
+        /// It is not necessary to model a Slot for every StructuralFeature, in which case the 
+        /// InstanceSpecification is a partial description.
+        /// </summary>
+        [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue)]
+        [SubsettedProperty("Element-ownedElement")]
+        public List<ISlot> Slot { get; set; }
+
+        /// <summary>
+        /// A specification of how to compute, derive, or construct the instance.
+        /// </summary>
+        [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: 1)]
+        public IValueSpecification Specification { get; set; }
     }
 }
