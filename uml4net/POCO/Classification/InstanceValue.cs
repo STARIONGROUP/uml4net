@@ -123,5 +123,12 @@ namespace uml4net.POCO.Classification
         [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1)]
         [Implements(implementation: "ITypedElement.Type")]
         public IType Type { get; set; }
+
+        /// <summary>
+        /// The InstanceSpecification that represents the specified value.
+        /// </summary>
+        [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1)]
+        [Implements(implementation: "IInstanceValue.Instance")]
+        public IInstanceSpecification Instance { get; set; }
     }
 }

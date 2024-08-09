@@ -20,6 +20,7 @@
 
 namespace uml4net.POCO.Classification
 {
+    using uml4net.Decorators;
     using uml4net.POCO.Values;
 
     /// <summary>
@@ -27,5 +28,10 @@ namespace uml4net.POCO.Classification
     /// </summary>
     public interface IInstanceValue : IValueSpecification
     {
+        /// <summary>
+        /// The InstanceSpecification that represents the specified value.
+        /// </summary>
+        [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1)]
+        public IInstanceSpecification Instance { get; set; }
     }
 }
