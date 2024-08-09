@@ -20,10 +20,24 @@
 
 namespace uml4net.POCO.Classification
 {
+    using uml4net.Decorators;
+
     /// <summary>
     /// A Feature declares a behavioral or structural characteristic of Classifiers.
     /// </summary>
     public interface IFeature : IRedefinableElement
     {
+        /// <summary>
+        /// The Classifiers that have this Feature as a feature.
+        /// </summary>
+        [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isReadOnly:true, isDerived:true, isDerivedUnion:true)]
+        public IClassifier FeaturingClassifier { get; }
+
+        /// <summary>
+        /// Specifies whether this Feature characterizes individual instances classified by the Classifier (false)
+        /// or the Classifier itself (true).
+        /// </summary>
+        [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, defaultValue:"false")]
+        public bool IsStatic { get; set; }
     }
 }

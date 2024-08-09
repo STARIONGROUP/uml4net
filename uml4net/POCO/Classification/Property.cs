@@ -175,5 +175,20 @@ namespace uml4net.POCO.Classification
         [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1)]
         [Implements(implementation: "ITypedElement.Type")]
         public IType Type { get; set; }
+
+        /// <summary>
+        /// The Classifiers that have this Feature as a feature.
+        /// </summary>
+        [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isReadOnly: true, isDerived: true, isDerivedUnion: true)]
+        [Implements(implementation: "IFeature.FeaturingClassifier")]
+        public IClassifier FeaturingClassifier => throw new NotImplementedException();
+
+        /// <summary>
+        /// Specifies whether this Feature characterizes individual instances classified by the Classifier (false)
+        /// or the Classifier itself (true).
+        /// </summary>
+        [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, defaultValue: "false")]
+        [Implements(implementation: "IFeature.IsStatic")]
+        public bool IsStatic { get; set; } = false;
     }
 }
