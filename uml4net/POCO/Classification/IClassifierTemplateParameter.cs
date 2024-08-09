@@ -20,6 +20,9 @@
 
 namespace uml4net.POCO.Classification
 {
+    using System.Collections.Generic;
+
+    using uml4net.Decorators;
     using uml4net.POCO.CommonStructure;
 
     /// <summary>
@@ -27,5 +30,26 @@ namespace uml4net.POCO.Classification
     /// </summary>
     public interface IClassifierTemplateParameter : ITemplateParameter
     {
+        /// <summary>
+        /// Constrains the required relationship between an actual parameter and the parameteredElement for this formal parameter.
+        /// </summary>
+        [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, defaultValue: "true")]
+        public bool AllowSubstitutable { get; set; }
+
+        /// <summary>
+        /// The classifiers that constrain the argument that can be used for the parameter. If the allowSubstitutable attribute is true, 
+        /// then any Classifier that is compatible with this constraining Classifier can be substituted; otherwise, it must be either 
+        /// this Classifier or one of its specializations. If this property is empty, there are no constraints on the Classifier that 
+        /// can be used as an argument.
+        /// </summary>
+        [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue)]
+        public List<IClassifier> constrainingClassifier { get; set; }
+
+        /// <summary>
+        /// The Classifier exposed by this ClassifierTemplateParameter.
+        /// </summary>
+        [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1)]
+        [RedefinedProperty(propertyName: "TemplateParameter-parameteredElement")]
+        public new IClassifier ParameteredElement { get; set; }
     }
 }

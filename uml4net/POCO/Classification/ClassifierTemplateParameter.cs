@@ -82,7 +82,8 @@ namespace uml4net.POCO.Classification
         /// </summary>
         [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1)]
         [Implements(implementation: "ITemplateParameter.ParameteredElement")]
-        public IParameterableElement ParameteredElement { get; set; }
+        [RedefinedByProperty("IClassifierTemplateParameter.ParameteredElement")]
+        IParameterableElement ITemplateParameter.ParameteredElement { get; set; }
 
         /// <summary>
         /// The TemplateSignature that owns this TemplateParameter.
@@ -92,5 +93,30 @@ namespace uml4net.POCO.Classification
         [SubsettedProperty(propertyName: "A_parameter_templateSignature.TemplateSignature")]
         [SubsettedProperty(propertyName: "Element.Owner")]
         public ITemplateSignature Signature { get; set; }
+
+        /// <summary>
+        /// Constrains the required relationship between an actual parameter and the parameteredElement for this formal parameter.
+        /// </summary>
+        [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, defaultValue: "true")]
+        [Implements("IClassifierTemplateParameter.AllowSubstitutable")]
+        public bool AllowSubstitutable { get; set; } = true;
+
+        /// <summary>
+        /// The classifiers that constrain the argument that can be used for the parameter. If the allowSubstitutable attribute is true, 
+        /// then any Classifier that is compatible with this constraining Classifier can be substituted; otherwise, it must be either 
+        /// this Classifier or one of its specializations. If this property is empty, there are no constraints on the Classifier that 
+        /// can be used as an argument.
+        /// </summary>
+        [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue)]
+        [Implements("IClassifierTemplateParameter.constrainingClassifier")]
+        public List<IClassifier> constrainingClassifier { get; set; }
+
+        /// <summary>
+        /// The Classifier exposed by this ClassifierTemplateParameter.
+        /// </summary>
+        [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1)]
+        [RedefinedProperty(propertyName: "TemplateParameter-parameteredElement")]
+        [Implements("IClassifierTemplateParameter.ParameteredElement")]
+        public IClassifier ParameteredElement { get; set; }
     }
 }
