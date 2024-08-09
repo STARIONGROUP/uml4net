@@ -26,6 +26,8 @@ namespace uml4net.POCO.Classification
     using uml4net.Decorators;
     using uml4net.POCO.CommonBehavior;
     using uml4net.POCO.CommonStructure;
+    using uml4net.POCO.SimpleClassifiers;
+    using uml4net.POCO.StructuredClassifiers;
     using uml4net.POCO.Values;
 
     /// <summary>
@@ -163,7 +165,8 @@ namespace uml4net.POCO.Classification
         /// </summary>
         [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1)]
         [Implements(implementation: "IParameterableElement.TemplateParameter")]
-        public ITemplateParameter TemplateParameter { get; set; }
+        [RedefinedByProperty("IOperation.TemplateParameter")]
+        ITemplateParameter IParameterableElement.TemplateParameter { get; set; }
 
         /// <summary>
         /// The optional TemplateSignature specifying the formal TemplateParameters for this TemplateableElement.
@@ -214,7 +217,8 @@ namespace uml4net.POCO.Classification
         [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: true)]
         [Implements(implementation: "IBehavioralFeature.OwnedParameter")]
         [SubsettedProperty(propertyName: "Namespace.OwnedMember")]
-        public List<IParameter> OwnedParameter { get; set; }
+        [RedefinedByProperty("IOperation.OwnedParameter")]
+        List<IParameter> IBehavioralFeature.OwnedParameter { get; set; }
 
         /// <summary>
         /// The ParameterSets owned by this BehavioralFeature.
@@ -222,14 +226,16 @@ namespace uml4net.POCO.Classification
         [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue)]
         [Implements(implementation: "IBehavioralFeature.OwnedParameterSet")]
         [SubsettedProperty(propertyName: "Namespace.OwnedMember")]
-        public List<IParameterSet> OwnedParameterSet { get; set; }
+        [RedefinedByProperty("IOperation.RaisedException")]
+        List<IParameterSet> IBehavioralFeature.OwnedParameterSet { get; set; }
 
         /// <summary>
         /// The Types representing exceptions that may be raised during an invocation of this BehavioralFeature.
         /// </summary>
         [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue)]
         [Implements(implementation: "IBehavioralFeature.RaisedException")]
-        public List<IType> RaisedException { get; set; }
+        [RedefinedByProperty("IOperation.RaisedException")]
+        List<IType> IBehavioralFeature.RaisedException { get; set; }
 
         /// <summary>
         /// The Classifiers that have this Feature as a feature.
@@ -245,5 +251,139 @@ namespace uml4net.POCO.Classification
         [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, defaultValue: "false")]
         [Implements(implementation: "IFeature.IsStatic")]
         public bool IsStatic { get; set; } = false;
+
+        /// <summary>
+        /// An optional Constraint on the result values of an invocation of this Operation.
+        /// </summary>
+        [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: 1)]
+        [SubsettedProperty("Namespace-ownedRule")]
+        [Implements(implementation: "IOperation.BodyCondition")]
+        public IConstraint BodyCondition { get; set; }
+
+        /// <summary>
+        /// The Class that owns this operation, if any.
+        /// </summary>
+        [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1)]
+        [SubsettedProperty("Feature-featuringClassifier")]
+        [SubsettedProperty("NamedElement-namespace")]
+        [SubsettedProperty("RedefinableElement-redefinitionContext")]
+        [Implements(implementation: "IOperation.Class")]
+        public IClass Class { get; set; }
+
+        /// <summary>
+        /// The DataType that owns this Operation, if any.
+        /// </summary>
+        [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1)]
+        [SubsettedProperty("Feature-featuringClassifier")]
+        [SubsettedProperty("NamedElement-namespace")]
+        [SubsettedProperty("RedefinableElement-redefinitionContext")]
+        [Implements(implementation: "IOperation.DataType")]
+        public IDataType DataType { get; set; }
+
+        /// <summary>
+        /// The Interface that owns this Operation, if any.
+        /// </summary>
+        [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1)]
+        [SubsettedProperty("Feature-featuringClassifier")]
+        [SubsettedProperty("NamedElement-namespace")]
+        [SubsettedProperty("RedefinableElement-redefinitionContext")]
+        [Implements(implementation: "IOperation.Interface")]
+        public IInterface Interface { get; set; }
+
+        /// <summary>
+        /// Specifies whether the return parameter is ordered or not, if present.  
+        /// This information is derived from the return result for this Operation.
+        /// </summary>
+        [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isReadOnly: true, isDerived: true)]
+        [Implements(implementation: "IOperation.IsOrdered")]
+        public bool IsOrdered => throw new NotImplementedException();
+
+        /// <summary>
+        /// Specifies whether an execution of the BehavioralFeature leaves the state of the system unchanged
+        /// (isQuery=true) or whether side effects may occur (isQuery=false).
+        /// </summary>
+        [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, defaultValue: "false")]
+        [Implements(implementation: "IOperation.IsQuery")]
+        public bool IsQuery { get; set; }
+
+        /// <summary>
+        /// Specifies whether the return parameter is unique or not, if present. This information
+        /// is derived from the return result for this Operation.
+        /// </summary>
+        [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isReadOnly: true, isDerived: true)]
+        [Implements(implementation: "IOperation.IsUnique")]
+        public bool IsUnique => throw new NotImplementedException();
+
+        /// <summary>
+        /// Specifies the lower multiplicity of the return parameter, if present. This information is derived 
+        /// from the return result for this Operation.
+        /// </summary>
+        [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isReadOnly: true, isDerived: true)]
+        [Implements(implementation: "IOperation.Lower")]
+        public int Lower => throw new NotImplementedException();
+
+        /// <summary>
+        /// The parameters owned by this Operation.
+        /// </summary>
+        [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: true)]
+        [RedefinedByProperty("BehavioralFeature-ownedParameter")]
+        [Implements(implementation: "IOperation.OwnedParameter")]
+        public List<IParameter> OwnedParameter { get; set; }
+
+        /// <summary>
+        /// An optional set of Constraints specifying the state of the system when the Operation is completed.
+        /// </summary>
+        [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue)]
+        [SubsettedProperty("Namespace-ownedRule")]
+        [Implements(implementation: "IOperation.Postcondition")]
+        public List<IConstraint> Postcondition { get; set; }
+
+        /// <summary>
+        /// An optional set of Constraints on the state of the system when the Operation is invoked.
+        /// </summary>
+        [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue)]
+        [SubsettedProperty("Namespace-ownedRule")]
+        [Implements(implementation: "IOperation.Precondition")]
+        public List<IConstraint> Precondition { get; set; }
+
+        /// <summary>
+        /// The Types representing exceptions that may be raised during an invocation of this operation.
+        /// </summary>
+        [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue)]
+        [RedefinedProperty("BehavioralFeature-raisedException")]
+        [Implements(implementation: "IOperation.RaisedException")]
+        public List<IType> RaisedException { get; set; }
+
+        /// <summary>
+        /// The Operations that are redefined by this Operation.
+        /// </summary>
+        [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue)]
+        [RedefinedProperty("RedefinableElement-redefinedElement")]
+        [Implements(implementation: "IOperation.RedefinedOperation")]
+        public List<IOperation> RedefinedOperation { get; set; }
+
+        /// <summary>
+        /// The OperationTemplateParameter that exposes this element as a formal parameter.
+        /// </summary>
+        [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1)]
+        [RedefinedProperty("ParameterableElement-templateParameter")]
+        [Implements(implementation: "IOperation.TemplateParameter")]
+        public IOperationTemplateParameter TemplateParameter { get; set; }
+
+        /// <summary>
+        /// The return type of the operation, if present. This information is derived from
+        /// the return result for this Operation.
+        /// </summary>
+        [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isReadOnly: true, isDerived: true)]
+        [Implements(implementation: "IOperation.Type")]
+        public IType Type { get; }
+
+        /// <summary>
+        /// The upper multiplicity of the return parameter, if present. This information is derived 
+        /// from the return result for this Operation.
+        /// </summary>
+        [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isReadOnly: true, isDerived: true)]
+        [Implements(implementation: "IOperation.Upper")]
+        public int Upper { get; }
     }
 }
