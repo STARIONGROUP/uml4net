@@ -76,5 +76,37 @@ namespace uml4net.POCO.Classification
         [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: int.MaxValue, isReadOnly: true, isDerived: true, isDerivedUnion: true)]
         [Implements(implementation: "IRelationship.RelatedElement")]
         public List<IElement> RelatedElement => throw new NotImplementedException();
+
+        /// <summary>
+        /// The general classifier in the Generalization relationship.
+        /// </summary>
+        [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1)]
+        [SubsettedProperty("DirectedRelationship-target")]
+        [Implements(implementation: "IGeneralization.General")]
+        public IClassifier General { get; set; }
+
+        /// <summary>
+        /// Represents a set of instances of Generalization.  A Generalization may appear in many GeneralizationSets.
+        /// </summary>
+        [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue)]
+        [Implements(implementation: "IGeneralization.GeneralizationSet")]
+        public List<GeneralizationSet> GeneralizationSet { get; set; }
+
+        /// <summary>
+        /// Indicates whether the specific Classifier can be used wherever the general Classifier can be used. 
+        /// If true, the execution traces of the specific Classifier shall be a superset of the execution traces 
+        /// of the general Classifier. If false, there is no such constraint on execution traces. If unset, the 
+        /// modeler has not stated whether there is such a constraint or not.
+        /// </summary>
+        [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, defaultValue: "true")]
+        [Implements(implementation: "IGeneralization.IsSubstitutable")]
+        public bool IsSubstitutable { get; set; } = true;
+
+        /// <summary>
+        /// The specializing Classifier in the Generalization relationship.
+        /// </summary>
+        [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1)]
+        [Implements(implementation: "IGeneralization.Specific")]
+        public IClassifier Specific { get; set; }
     }
 }

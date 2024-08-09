@@ -20,6 +20,9 @@
 
 namespace uml4net.POCO.Classification
 {
+    using System.Collections.Generic;
+
+    using uml4net.Decorators;
     using uml4net.POCO.CommonStructure;
 
     /// <summary>
@@ -30,5 +33,32 @@ namespace uml4net.POCO.Classification
     /// </summary>
     public interface IGeneralization : IDirectedRelationship
     {
+        /// <summary>
+        /// The general classifier in the Generalization relationship.
+        /// </summary>
+        [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1)]
+        [SubsettedProperty("DirectedRelationship-target")]
+        public IClassifier General { get; set; }
+
+        /// <summary>
+        /// Represents a set of instances of Generalization.  A Generalization may appear in many GeneralizationSets.
+        /// </summary>
+        [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue)]
+        public List<GeneralizationSet> GeneralizationSet { get; set; }
+
+        /// <summary>
+        /// Indicates whether the specific Classifier can be used wherever the general Classifier can be used. 
+        /// If true, the execution traces of the specific Classifier shall be a superset of the execution traces 
+        /// of the general Classifier. If false, there is no such constraint on execution traces. If unset, the 
+        /// modeler has not stated whether there is such a constraint or not.
+        /// </summary>
+        [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, defaultValue:"true")]
+        public bool IsSubstitutable { get; set; }
+
+        /// <summary>
+        /// The specializing Classifier in the Generalization relationship.
+        /// </summary>
+        [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1)]
+        public IClassifier Specific { get; set; }
     }
 }
