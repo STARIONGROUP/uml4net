@@ -1,5 +1,5 @@
 ﻿// -------------------------------------------------------------------------------------------------
-// <copyright file="Port.cs" company="Starion Group S.A.">
+// <copyright file="ExtensionEnd.cs" company="Starion Group S.A.">
 //
 //   Copyright 2019-2024 Starion Group S.A.
 //
@@ -18,7 +18,7 @@
 // </copyright>
 // ------------------------------------------------------------------------------------------------
 
-namespace uml4net.POCO.StructuredClassifiers
+namespace uml4net.POCO.Packages
 {
     using System;
     using System.Collections.Generic;
@@ -27,105 +27,90 @@ namespace uml4net.POCO.StructuredClassifiers
     using uml4net.POCO.Classification;
     using uml4net.POCO.CommonStructure;
     using uml4net.POCO.SimpleClassifiers;
+    using uml4net.POCO.StructuredClassifiers;
     using uml4net.POCO.Values;
 
     /// <summary>
-    /// A Port is a property of an EncapsulatedClassifier that specifies a distinct interaction point between
-    /// that EncapsulatedClassifier and its environment or between the (behavior of the) EncapsulatedClassifier 
-    /// and its internal parts. Ports are connected to Properties of the EncapsulatedClassifier by Connectors 
-    /// through which requests can be made to invoke BehavioralFeatures. A Port may specify the services an 
-    /// EncapsulatedClassifier provides (offers) to its environment as well as the services that an EncapsulatedClassifier 
-    /// expects (requires) of its environment.  A Port may have an associated ProtocolStateMachine.
+    /// An extension end is used to tie an extension to a stereotype when extending a metaclass.
+    /// The default multiplicity of an extension end is 0..1.
     /// </summary>
-    public class Port : IPort
+    public class ExtensionEnd : IExtensionEnd
     {
         /// <summary>
         /// The Comments owned by this Element.
         /// </summary>
         [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue)]
-        [Implements(implementation: "IElement.OwnedComment")]
-        public List<IComment> OwnedComment { get; set; }
+        List<IComment> IElement.OwnedComment { get; set; }
 
         /// <summary>
         /// The Elements owned by this Element
         /// </summary>
         [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isReadOnly: true, isDerived: true, isDerivedUnion: true)]
-        [Implements(implementation: "IElement.OwnedElement")]
-        public List<IElement> OwnedElement => throw new NotImplementedException();
+        List<IElement> IElement.OwnedElement => throw new NotImplementedException();
 
         /// <summary>
         /// The Element that owns this Element.
         /// </summary>
         [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isReadOnly: true, isDerived: true, isDerivedUnion: true)]
-        [Implements(implementation: "IElement.Owner")]
-        public IElement Owner => throw new NotImplementedException();
+        IElement IElement.Owner => throw new NotImplementedException();
 
         /// <summary>
         /// For a multivalued multiplicity, this attribute specifies whether the values in an instantiation
         /// of this MultiplicityElement are sequentially ordered.
         /// </summary>
         [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1)]
-        [Implements(implementation: "IMultiplicityElement.IsOrdered")]
-        public bool IsOrdered { get; set; }
+        bool IMultiplicityElement.IsOrdered { get; set; }
 
         /// <summary>
         /// For a multivalued multiplicity, this attributes specifies whether the values in an instantiation
         /// of this MultiplicityElement are unique.
         /// </summary>
         [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1)]
-        [Implements(implementation: "IMultiplicityElement.IsUnique")]
-        public bool IsUnique { get; set; }
+        bool IMultiplicityElement.IsUnique { get; set; }
 
         /// <summary>
         /// The lower bound of the multiplicity interval.
         /// </summary>
         [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isDerived: true)]
-        [Implements(implementation: "IMultiplicityElement.Lower")]
-        public int Lower { get; set; }
+        int IMultiplicityElement.Lower { get; set; }
 
         /// <summary>
         /// The specification of the lower bound for this multiplicity.
         /// </summary>
         [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: 1, isDerived: true)]
-        [Implements(implementation: "IMultiplicityElement.LowerValue")]
-        public IValueSpecification LowerValue { get; set; }
+        IValueSpecification IMultiplicityElement.LowerValue { get; set; }
 
         /// <summary>
         /// The upper bound of the multiplicity interval.
         /// </summary>
         [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isDerived: true)]
-        [Implements(implementation: "IMultiplicityElement.Upper")]
-        public ILiteralUnlimitedNatural Upper { get; set; }
+        ILiteralUnlimitedNatural IMultiplicityElement.Upper { get; set; }
 
         /// <summary>
         /// The specification of the upper bound for this multiplicity.
         /// </summary>
         [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: 1, isDerived: true)]
-        [Implements(implementation: "IMultiplicityElement.UpperValue")]
-        public IValueSpecification UpperValue { get; set; }
+        IValueSpecification IMultiplicityElement.UpperValue { get; set; }
 
         /// <summary>
         /// Indicates the Dependencies that reference this NamedElement as a client."
         /// </summary>
         [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isDerived: true)]
         [SubsettedProperty(propertyName: "A_source_directedRelationship.DirectedRelationship")]
-        [Implements(implementation: "INamedElement.ClientDependency")]
-        public List<IDependency> ClientDependency => throw new NotImplementedException();
+        List<IDependency> INamedElement.ClientDependency => throw new NotImplementedException();
 
         /// <summary>
         /// The name of the NamedElement.
         /// </summary>
         [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1)]
-        [Implements(implementation: "INamedElement.Name")]
-        public string Name { get; set; }
+        string INamedElement.Name { get; set; }
 
         /// <summary>
         /// The StringExpression used to define the name of this NamedElement.
         /// </summary>
         [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: 1)]
         [SubsettedProperty(propertyName: "Element.OwnedElement")]
-        [Implements(implementation: "INamedElement.NameExpression")]
-        public IStringExpression NameExpression { get; set; }
+        IStringExpression INamedElement.NameExpression { get; set; }
 
         /// <summary>
         /// Specifies the Namespace that owns the NamedElement.
@@ -133,47 +118,41 @@ namespace uml4net.POCO.StructuredClassifiers
         [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isReadOnly: true, isDerived: true, isDerivedUnion: true)]
         [SubsettedProperty(propertyName: "A_member_memberNamespace.MemberNamespace")]
         [SubsettedProperty(propertyName: "Element.Owner")]
-        [Implements(implementation: "INamedElement.Namespace")]
-        public INamespace Namespace => throw new NotImplementedException();
+        INamespace INamedElement.Namespace => throw new NotImplementedException();
 
         /// <summary>
         /// A name that allows the NamedElement to be identified within a hierarchy of nested Namespaces. It is constructed from the names of 
         /// the containing Namespaces starting at the root of the hierarchy and ending with the name of the NamedElement itself.
         /// </summary>
         [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isReadOnly: true, isDerived: true)]
-        [Implements(implementation: "INamedElement.QualifiedName")]
-        public string QualifiedName => throw new NotImplementedException();
+        string INamedElement.QualifiedName => throw new NotImplementedException();
 
         /// <summary>
         /// Determines whether and how the NamedElement is visible outside its owning Namespace.
         /// </summary>
         [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1)]
-        [Implements(implementation: "INamedElement.Visibility")]
-        public VisibilityKind Visibility { get; set; }
+        VisibilityKind INamedElement.Visibility { get; set; }
 
         /// <summary>
         /// The formal TemplateParameter that owns this ParameterableElement
         /// </summary>
         [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1)]
-        [Implements(implementation: "IParameterableElement.OwningTemplateParameter")]
         [SubsettedProperty(propertyName: "Element.Owner")]
         [SubsettedProperty(propertyName: "ParameterableElement.TemplateParameter")]
-        public ITemplateParameter OwningTemplateParameter { get; set; }
+        ITemplateParameter IParameterableElement.OwningTemplateParameter { get; set; }
 
         /// <summary>
         /// ParameterableElement-templateParameter-_ownedComment.0" body="The TemplateParameter that exposes this 
         /// ParameterableElement as a formal parameter.
         /// </summary>
         [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1)]
-        [Implements(implementation: "IParameterableElement.TemplateParameter")]
-        public ITemplateParameter TemplateParameter { get; set; }
+        ITemplateParameter IParameterableElement.TemplateParameter { get; set; }
 
         /// <summary>
         /// The type of the TypedElement.
         /// </summary>
         [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1)]
-        [Implements(implementation: "ITypedElement.Type")]
-        public IType Type { get; set; }
+        IType ITypedElement.Type { get; set; }
 
         /// <summary>
         /// The Classifiers that have this Feature as a feature.

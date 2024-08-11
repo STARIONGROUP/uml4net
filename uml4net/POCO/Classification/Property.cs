@@ -25,6 +25,8 @@ namespace uml4net.POCO.Classification
 
     using uml4net.Decorators;
     using uml4net.POCO.CommonStructure;
+    using uml4net.POCO.SimpleClassifiers;
+    using uml4net.POCO.StructuredClassifiers;
     using uml4net.POCO.Values;
 
     /// <summary>
@@ -190,5 +192,127 @@ namespace uml4net.POCO.Classification
         [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, defaultValue: "false")]
         [Implements(implementation: "IFeature.IsStatic")]
         public bool IsStatic { get; set; } = false;
+
+        /// <summary>
+        /// Specifies the kind of aggregation that applies to the Property.
+        /// </summary>
+        [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, defaultValue: "AggregationKind.None")]
+        [Implements(implementation: "IProperty.Aggregation")]
+        public AggregationKind Aggregation { get; set; }
+
+        /// <summary>
+        /// The Association of which this Property is a member, if any.
+        /// </summary>
+        [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1)]
+        [SubsettedProperty("A_member_memberNamespace-memberNamespace")]
+        [Implements(implementation: "IProperty.Association")]
+        public IAssociation Association { get; set; }
+
+        /// <summary>
+        /// Designates the optional association end that owns a qualifier attribute.
+        /// </summary>
+        [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1)]
+        [SubsettedProperty("Element-owner")]
+        [Implements(implementation: "IProperty.AssociationEnd")]
+        public IProperty AssociationEnd { get; set; }
+
+        /// <summary>
+        /// The Class that owns this Property, if any.
+        /// </summary>
+        [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1)]
+        [SubsettedProperty("A_attribute_classifier-classifier")]
+        [SubsettedProperty("A_ownedAttribute_structuredClassifier-structuredClassifier")]
+        [SubsettedProperty("NamedElement-namespace")]
+        [Implements(implementation: "IProperty.Class")]
+        public IClass Class { get; set; }
+
+        /// <summary>
+        /// The DataType that owns this Property, if any.
+        /// </summary>
+        [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1)]
+        [SubsettedProperty("A_attribute_classifier-classifier")]
+        [SubsettedProperty("NamedElement-namespace")]
+        [Implements(implementation: "IProperty.DataType")]
+        public IDataType DataType { get; set; }
+
+        /// <summary>
+        /// A ValueSpecification that is evaluated to give a default value for the Property 
+        /// when an instance of the owning Classifier is instantiated.
+        /// </summary>
+        [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: 1)]
+        [SubsettedProperty("Element-ownedElement")]
+        [Implements(implementation: "IProperty.Default")]
+        public IValueSpecification Default { get; set; }
+
+        /// <summary>
+        /// If isComposite is true, the object containing the attribute is a container for the 
+        /// object or value contained in the attribute. This is a derived value, indicating 
+        /// whether the aggregation of the Property is composite or not.
+        /// </summary>
+        [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isDerived: true, defaultValue: "false")]
+        [Implements(implementation: "IProperty.IsComposite")]
+        public bool IsComposite { get; }
+
+        /// <summary>
+        /// Specifies whether the Property is derived, i.e., whether its value or values can be computed from other information.
+        /// </summary>
+        [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, defaultValue: "false")]
+        [Implements(implementation: "IProperty.IsDerived")]
+        public bool IsDerived { get; set; }
+
+        /// <summary>
+        /// Specifies whether the property is derived as the union of all of the Properties that are constrained to subset it.
+        /// </summary>
+        [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, defaultValue: "false")]
+        [Implements(implementation: "IProperty.IsDerivedUnion")]
+        public bool IsDerivedUnion { get; set; }
+
+        /// <summary>
+        /// True indicates this property can be used to uniquely identify an instance of the containing Class.
+        /// </summary>
+        [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, defaultValue: "false")]
+        [Implements(implementation: "IProperty.IsID")]
+        public bool IsID { get; set; }
+
+        /// <summary>
+        /// In the case where the Property is one end of a binary association this gives the other end.
+        /// </summary>
+        [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1)]
+        [Implements(implementation: "IProperty.Opposite")]
+        public IProperty Opposite { get; }
+
+        /// <summary>
+        /// The owning association of this property, if any.
+        /// </summary>
+        [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1)]
+        [SubsettedProperty("Feature-featuringClassifier")]
+        [SubsettedProperty("NamedElement-namespace")]
+        [SubsettedProperty("Property-association")]
+        [SubsettedProperty("RedefinableElement-redefinitionContext")]
+        [Implements(implementation: "IProperty.OwningAssociation")]
+        public IAssociation OwningAssociation { get; set; }
+
+        /// <summary>
+        /// An optional list of ordered qualifier attributes for the end.
+        /// </summary>
+        [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue)]
+        [SubsettedProperty("Element-ownedElement")]
+        [Implements(implementation: "IProperty.Qualifier")]
+        public List<IProperty> Qualifier { get; set; }
+
+        /// <summary>
+        /// The properties that are redefined by this property, if any.
+        /// </summary>
+        [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue)]
+        [SubsettedProperty("RedefinableElement-redefinedElement")]
+        [Implements(implementation: "IProperty.RedefinedProperty")]
+        public List<IProperty> RedefinedProperty { get; set; }
+
+        /// <summary>
+        /// The properties of which this Property is constrained to be a subset, if any.
+        /// </summary>
+        [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue)]
+        [Implements(implementation: "IProperty.SubsettedProperty")]
+        public List<IProperty> SubsettedProperty { get; set; }
     }
 }
