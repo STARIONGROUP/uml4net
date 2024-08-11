@@ -99,5 +99,23 @@ namespace uml4net.POCO.Classification
         [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1)]
         [Implements(implementation: "INamedElement.Visibility")]
         public VisibilityKind Visibility { get; set; }
+
+        /// <summary>
+        /// A constraint that should be satisfied for the owner of the Parameters in an input ParameterSet
+        /// to start execution using the values provided for those Parameters, or the owner of the Parameters
+        /// in an output ParameterSet to end execution providing the values for those Parameters, if all
+        /// preconditions and conditions on input ParameterSets were satisfied.
+        /// </summary>
+        [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue)]
+        [SubsettedProperty("Element-ownedElement")]
+        [Implements(implementation: "IParameterSet.Condition")]
+        public List<IConstraint> Condition { get; set; }
+
+        /// <summary>
+        /// Parameters in the ParameterSet.
+        /// </summary>
+        [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: int.MaxValue)]
+        [Implements(implementation: "IParameterSet.Parameter")]
+        public List<IParameter> Parameter { get; set; }
     }
 }

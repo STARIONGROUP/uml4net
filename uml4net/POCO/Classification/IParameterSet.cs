@@ -20,6 +20,9 @@
 
 namespace uml4net.POCO.Classification
 {
+    using System.Collections.Generic;
+
+    using uml4net.Decorators;
     using uml4net.POCO.CommonStructure;
 
     /// <summary>
@@ -27,5 +30,20 @@ namespace uml4net.POCO.Classification
     /// </summary>
     public interface IParameterSet : INamedElement
     {
+        /// <summary>
+        /// A constraint that should be satisfied for the owner of the Parameters in an input ParameterSet
+        /// to start execution using the values provided for those Parameters, or the owner of the Parameters
+        /// in an output ParameterSet to end execution providing the values for those Parameters, if all
+        /// preconditions and conditions on input ParameterSets were satisfied.
+        /// </summary>
+        [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue)]
+        [SubsettedProperty("Element-ownedElement")]
+        public List<IConstraint> Condition { get; set; }
+
+        /// <summary>
+        /// Parameters in the ParameterSet.
+        /// </summary>
+        [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: int.MaxValue)]
+        public List<IParameter> Parameter { get; set; }
     }
 }
