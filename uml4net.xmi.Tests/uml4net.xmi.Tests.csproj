@@ -13,15 +13,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Content Include="..\resources\PrimitiveTypes.xmi.xml" Link="TestData\PrimitiveTypes.xmi.xml">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </Content>
-      <Content Include="..\resources\UML.xmi.xml" Link="TestData\UML.xmi.xml">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </Content>
-    </ItemGroup>
-
-    <ItemGroup>
         <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="8.0.0" />
         <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.10.0" />
         <PackageReference Include="NUnit" Version="4.1.0" />
@@ -47,7 +38,13 @@
     </ItemGroup>
 
     <ItemGroup>
-      <None Include="..\resources\SysML.uml" Link="TestData\SysML.uml">
+        <Content Include="..\resources\UML\PrimitiveTypes.xmi.xml" Link="TestData\PrimitiveTypes.xmi.xml">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <Content Include="..\resources\UML\UML.xmi.xml" Link="TestData\UML.xmi.xml">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+      <None Include="..\resources\SySML2\SysML.uml" Link="TestData\SysML.uml">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
     </ItemGroup>
