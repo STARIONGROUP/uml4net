@@ -122,5 +122,30 @@ namespace uml4net.POCO.Classification
         [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isReadOnly: true, isDerived: true, isDerivedUnion: true)]
         [Implements(implementation: "IRedefinableElement.RedefinitionContext")]
         public IClassifier RedefinitionContext => throw new NotImplementedException();
+
+        /// <summary>
+        /// The Classifier that owns this RedefinableTemplateSignature.
+        /// </summary>
+        [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1)]
+        [RedefinedProperty("TemplateSignature-template")]
+        [SubsettedProperty("RedefinableElement-redefinitionContext")]
+        [Implements(implementation: "IRedefinableTemplateSignature.Classifier")]
+        public IClassifier Classifier { get; set; }
+
+        /// <summary>
+        /// The signatures extended by this RedefinableTemplateSignature.
+        /// </summary>
+        [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: int.MaxValue)]
+        [SubsettedProperty("RedefinableElement-redefinedElement")]
+        [Implements(implementation: "IRedefinableTemplateSignature.ExtendedSignature")]
+        public List<IRedefinableTemplateSignature> ExtendedSignature { get; set; }
+
+        /// <summary>
+        /// The formal template parameters of the extended signatures.
+        /// </summary>
+        [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: int.MaxValue, isReadOnly: true, isDerived: true)]
+        [SubsettedProperty("TemplateSignature-parameter")]
+        [Implements(implementation: "IRedefinableTemplateSignature.InheritedParameter")]
+        public ITemplateParameter InheritedParameter => throw new NotImplementedException();
     }
 }

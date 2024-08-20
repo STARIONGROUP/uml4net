@@ -20,6 +20,9 @@
 
 namespace uml4net.POCO.Classification
 {
+    using System.Collections.Generic;
+
+    using uml4net.Decorators;
     using uml4net.POCO.CommonStructure;
 
     /// <summary>
@@ -28,5 +31,26 @@ namespace uml4net.POCO.Classification
     /// </summary>
     public interface IRedefinableTemplateSignature : IRedefinableElement, ITemplateSignature
     {
+        /// <summary>
+        /// The Classifier that owns this RedefinableTemplateSignature.
+        /// </summary>
+        [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1)]
+        [RedefinedProperty("TemplateSignature-template")]
+        [SubsettedProperty("RedefinableElement-redefinitionContext")]
+        public IClassifier Classifier { get; set; }
+
+        /// <summary>
+        /// The signatures extended by this RedefinableTemplateSignature.
+        /// </summary>
+        [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: int.MaxValue)]
+        [SubsettedProperty("RedefinableElement-redefinedElement")]
+        public List<IRedefinableTemplateSignature> ExtendedSignature { get; set; }
+
+        /// <summary>
+        /// The formal template parameters of the extended signatures.
+        /// </summary>
+        [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: int.MaxValue, isReadOnly:true, isDerived:true)]
+        [SubsettedProperty("TemplateSignature-parameter")]
+        public ITemplateParameter InheritedParameter { get; }
     }
 }
