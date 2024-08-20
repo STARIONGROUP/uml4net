@@ -20,6 +20,7 @@
 
 namespace uml4net.POCO.Classification
 {
+    using uml4net.Decorators;
     using uml4net.POCO.CommonStructure;
 
     /// <summary>
@@ -29,5 +30,23 @@ namespace uml4net.POCO.Classification
     /// </summary>
     public interface IRedefinableElement : INamedElement
     {
+        /// <summary>
+        /// Indicates whether it is possible to further redefine a RedefinableElement. If the value is
+        /// true, then it is not possible to further redefine the RedefinableElement.
+        /// </summary>
+        [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, defaultValue: "false")]
+        public bool IsLeaf { get; set; }
+
+        /// <summary>
+        /// The RedefinableElement that is being redefined by this element.
+        /// </summary>
+        [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isReadOnly:true,isDerived:true, isDerivedUnion:true )]
+        public IRedefinableElement RedefinedElement { get;}
+
+        /// <summary>
+        /// The contexts that this element may be redefined from.
+        /// </summary>
+        [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isReadOnly: true, isDerived: true, isDerivedUnion: true)]
+        public IClassifier RedefinitionContext { get; }
     }
 }

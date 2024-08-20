@@ -107,5 +107,27 @@ namespace uml4net.POCO.Activities
         [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1)]
         [Implements(implementation: "ITypedElement.Type")]
         public IType Type { get; set; }
+
+        /// <summary>
+        /// Indicates whether it is possible to further redefine a RedefinableElement. If the value is
+        /// true, then it is not possible to further redefine the RedefinableElement.
+        /// </summary>
+        [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, defaultValue: "false")]
+        [Implements(implementation: "IRedefinableElement.IsLeaf")]
+        public bool IsLeaf { get; set; } = false;
+
+        /// <summary>
+        /// The RedefinableElement that is being redefined by this element.
+        /// </summary>
+        [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isReadOnly: true, isDerived: true, isDerivedUnion: true)]
+        [Implements(implementation: "IRedefinableElement.RedefinedElement")]
+        public IRedefinableElement RedefinedElement => throw new NotImplementedException();
+
+        /// <summary>
+        /// The contexts that this element may be redefined from.
+        /// </summary>
+        [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isReadOnly: true, isDerived: true, isDerivedUnion: true)]
+        [Implements(implementation: "IRedefinableElement.RedefinitionContext")]
+        public IClassifier RedefinitionContext => throw new NotImplementedException();
     }
 }
