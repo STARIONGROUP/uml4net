@@ -25,6 +25,7 @@ namespace uml4net.POCO.Classification
 
     using uml4net.Decorators;
     using uml4net.POCO.CommonStructure;
+    using uml4net.POCO.Values;
 
     /// <summary>
     /// A Slot designates that an entity modeled by an InstanceSpecification has a value or values 
@@ -52,5 +53,28 @@ namespace uml4net.POCO.Classification
         [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isReadOnly: true, isDerived: true, isDerivedUnion: true)]
         [Implements(implementation: "IElement.Owner")]
         public IElement Owner => throw new NotImplementedException();
+
+        /// <summary>
+        /// The StructuralFeature that specifies the values that may be held by the Slot.
+        /// </summary>
+        [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1)]
+        [Implements(implementation: "ISlot.DefiningFeature")]
+        public IStructuralFeature DefiningFeature { get; set; }
+
+        /// <summary>
+        /// The InstanceSpecification that owns this Slot.
+        /// </summary>
+        [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1)]
+        [SubsettedProperty("Element-owner")]
+        [Implements(implementation: "ISlot.OwningInstance")]
+        public IInstanceSpecification OwningInstance { get; set; }
+
+        /// <summary>
+        /// The value or values held by the Slot.
+        /// </summary>
+        [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: true)]
+        [SubsettedProperty("Element-ownedElement")]
+        [Implements(implementation: "ISlot.Value")]
+        public List<IValueSpecification> Value { get; set; }
     }
 }

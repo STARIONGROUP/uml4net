@@ -20,7 +20,11 @@
 
 namespace uml4net.POCO.Classification
 {
+    using System.Collections.Generic;
+
+    using uml4net.Decorators;
     using uml4net.POCO.CommonStructure;
+    using uml4net.POCO.Values;
 
     /// <summary>
     /// A Slot designates that an entity modeled by an InstanceSpecification has a value or values 
@@ -28,5 +32,24 @@ namespace uml4net.POCO.Classification
     /// </summary>
     public interface ISlot : IElement
     {
+        /// <summary>
+        /// The StructuralFeature that specifies the values that may be held by the Slot.
+        /// </summary>
+        [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1)]
+        public IStructuralFeature DefiningFeature { get; set; }
+
+        /// <summary>
+        /// The InstanceSpecification that owns this Slot.
+        /// </summary>
+        [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1)]
+        [SubsettedProperty("Element-owner")]
+        public IInstanceSpecification OwningInstance { get; set; }
+
+        /// <summary>
+        /// The value or values held by the Slot.
+        /// </summary>
+        [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered:true)]
+        [SubsettedProperty("Element-ownedElement")]
+        public List<IValueSpecification> Value { get; set; }
     }
 }
