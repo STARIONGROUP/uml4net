@@ -20,6 +20,7 @@
 
 namespace uml4net.POCO.Classification
 {
+    using uml4net.Decorators;
     using uml4net.POCO.CommonStructure;
 
     /// <summary>
@@ -27,5 +28,10 @@ namespace uml4net.POCO.Classification
     /// </summary>
     public interface IStructuralFeature : IMultiplicityElement, ITypedElement, IFeature
     {
+        /// <summary>
+        /// If isReadOnly is true, the StructuralFeature may not be written to after initialization.
+        /// </summary>
+        [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, defaultValue: "false")]
+        public bool IsReadOnly { get; set; }
     }
 }
