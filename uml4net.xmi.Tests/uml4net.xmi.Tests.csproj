@@ -34,10 +34,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="TestData\" />
-    </ItemGroup>
-
-    <ItemGroup>
         <Content Include="..\resources\UML\PrimitiveTypes.xmi.xml" Link="TestData\PrimitiveTypes.xmi.xml">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </Content>

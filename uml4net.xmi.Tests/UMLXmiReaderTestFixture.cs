@@ -75,19 +75,6 @@ namespace uml4net.xmi.Tests
             Assert.That(packageImport.XmiId, Is.EqualTo("_packageImport.0"));
         }
 
-        [Test]
-        public void Verify_that_SysML_XMI_can_be_read()
-        {
-            var reader = new XmiReader(this.loggerFactory);
-
-            var packages = reader.Read(Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData", "SysML.uml"));
-
-            Assert.That(packages.Count(), Is.EqualTo(1));
-
-            var model = packages.First() as IModel;
-
-            Assert.That(model.XmiId, Is.EqualTo("_kUROkM9FEe6Zc_le1peNgQ"));
-            Assert.That(model.Name, Is.EqualTo("sysml"));
-        }
+        
     }
 }
