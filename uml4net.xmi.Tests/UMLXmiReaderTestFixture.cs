@@ -1,5 +1,5 @@
 ﻿// -------------------------------------------------------------------------------------------------
-// <copyright file="XmiReaderTestFixture.cs" company="Starion Group S.A.">
+// <copyright file="UMLXmiReaderTestFixture.cs" company="Starion Group S.A.">
 //
 //   Copyright 2019-2024 Starion Group S.A.
 //
@@ -27,10 +27,8 @@ namespace uml4net.xmi.Tests
 
     using NUnit.Framework;
     
-    using uml4net.POCO.Packages;
-
     [TestFixture]
-    public class XmiReaderTestFixture
+    public class UMLXmiReaderTestFixture
     {
         private ILoggerFactory loggerFactory;
 
@@ -73,6 +71,8 @@ namespace uml4net.xmi.Tests
 
             var packageImport = package.PackageImport.First();
             Assert.That(packageImport.XmiId, Is.EqualTo("_packageImport.0"));
+
+
         }
 
         

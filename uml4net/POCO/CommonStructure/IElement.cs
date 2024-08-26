@@ -29,7 +29,7 @@ namespace uml4net.POCO.CommonStructure
     /// <summary>
     /// An Element is a constituent of a model. As such, it has the capability of owning other Elements.
     /// </summary>
-    public interface IElement
+    public interface IElement : IXmiElement
     {
         /// <summary>
         /// The Comments owned by this Element.

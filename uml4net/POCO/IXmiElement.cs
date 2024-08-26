@@ -1,5 +1,5 @@
 ﻿// -------------------------------------------------------------------------------------------------
-// <copyright file="IComment.cs" company="Starion Group S.A.">
+// <copyright file="IPackage.cs" company="Starion Group S.A.">
 //
 //   Copyright 2019-2024 Starion Group S.A.
 //
@@ -18,29 +18,27 @@
 // </copyright>
 // ------------------------------------------------------------------------------------------------
 
-namespace uml4net.POCO.CommonStructure
+namespace uml4net.POCO
 {
-    using System.Collections.Generic;
-
-    using uml4net.Decorators;
-    using uml4net.POCO.Classification;
-
     /// <summary>
-    /// A Comment is a textual annotation that can be attached to a set of Elements.
+    /// The <see cref="IXmiElement"/> captures the XMI properties of each element in the
+    /// XMI document
     /// </summary>
-    public interface IComment : IElement
-    { 
+    public interface IXmiElement
+    {
         /// <summary>
-        /// References the Element(s) being commented.
+        /// Gets or sets the unique identifier of the Element in the XMI document
         /// </summary>
-        [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue)]
-        public List<IElement> AnnotatedElement { get; set; }
+        public string XmiId { get; set; }
 
         /// <summary>
-        /// Specifies a string that is the comment.
+        /// Gets or sets the GUID unique identifier of the Element in the XMI document
         /// </summary>
-        [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1)]
-        public string Body { get; set; }
-        
+        public string XmiGuid { get; set; }
+
+        /// <summary>
+        /// Gets or sets the name of the xmi type
+        /// </summary>
+        public string XmiType { get; set; }
     }
 }
