@@ -58,7 +58,7 @@ namespace uml4net.POCO.StructuredClassifiers
         /// </summary>
         [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue)]
         [Implements(implementation: "IElement.OwnedComment")]
-        public List<IComment> OwnedComment { get; set; }
+        public List<IComment> OwnedComment { get; set; } = new List<IComment>();
 
         /// <summary>
         /// The Elements owned by this Element
@@ -128,7 +128,7 @@ namespace uml4net.POCO.StructuredClassifiers
         [SubsettedProperty(propertyName: "A_source_directedRelationship.directedRelationship")]
         [SubsettedProperty(propertyName: "Element.OwnedElement")]
         [Implements(implementation: "INamespace.ElementImport")]
-        public List<ElementImport> ElementImport { get; set; }
+        public List<IElementImport> ElementImport { get; set; } = new List<IElementImport>();
 
         /// <summary>
         /// References the PackageableElements that are members of this Namespace as a result of either PackageImports or ElementImports.

@@ -59,7 +59,7 @@ namespace uml4net.POCO.Interactions
         /// </summary>
         [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue)]
         [Implements(implementation: "IElement.OwnedComment")]
-        public List<IComment> OwnedComment { get; set; }
+        public List<IComment> OwnedComment { get; set; } = new List<IComment>();
 
         /// <summary>
         /// The Elements owned by this Element

@@ -34,11 +34,6 @@ namespace uml4net.POCO.CommonStructure
     public interface IPackageImport : IDirectedRelationship
     {
         /// <summary>
-        /// Gets or sets the unique identifier of the Element in the XMI document
-        /// </summary>
-        public string XmiId { get; set; }
-
-        /// <summary>
         /// Gets or sets a dictionary of reference properties and the associated unique identifiers
         /// </summary>
         public Dictionary<string, string> ReferencePropertyValueIdentifies { get; set; }

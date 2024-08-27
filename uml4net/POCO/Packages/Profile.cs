@@ -123,7 +123,7 @@ namespace uml4net.POCO.Packages
         [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue)]
         [SubsettedProperty(propertyName: "A_source_directedRelationship.directedRelationship")]
         [SubsettedProperty(propertyName: "Element.OwnedElement")]
-        List<ElementImport> INamespace.ElementImport { get; set; }
+        public List<IElementImport> ElementImport { get; set; } = new List<IElementImport>();
 
         /// <summary>
         /// References the PackageableElements that are members of this Namespace as a result of either PackageImports or ElementImports.
@@ -185,5 +185,72 @@ namespace uml4net.POCO.Packages
         [SubsettedProperty(propertyName: "Element.OwnedElement")]
         [SubsettedProperty(propertyName: "A_source_directedRelationship.DirectedRelationship")]
         List<TemplateBinding> ITemplateableElement.TemplateBinding { get; set; }
+
+        /// <summary>
+        /// Provides an identifier for the package that can be used for many purposes. A URI is the universally
+        /// unique identification of the package following the IETF URI specification, RFC 2396 http://www.ietf.org/rfc/rfc2396.txt
+        /// and it must comply with those syntax rules.
+        /// </summary>
+        [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1)]
+        [Implements("IPackage.URI")]
+        public string URI { get; set; }
+
+        /// <summary>
+        /// References the packaged elements that are Packages.
+        /// </summary>
+        [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isDerived: true)]
+        [SubsettedProperty("Package-packagedElement")]
+        [Implements("NestedPackage.URI")]
+        public List<IPackage> NestedPackage => throw new NotImplementedException();
+
+        /// <summary>
+        /// References the Package that owns this Package.
+        /// </summary>
+        [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1)]
+        [SubsettedProperty("A_packagedElement_owningPackage-owningPackage")]
+        [Implements("NestedPackage.NestingPackage")]
+        public IPackage NestingPackage { get; set; }
+
+        /// <summary>
+        /// References the Stereotypes that are owned by the Package.
+        /// </summary>
+        [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isReadOnly: true, isDerived: true)]
+        [SubsettedProperty("Package-packagedElement")]
+        [Implements("NestedPackage.OwnedStereotype")]
+        public IStereotype OwnedStereotype => throw new NotImplementedException();
+
+        /// <summary>
+        /// References the packaged elements that are Types.
+        /// </summary>
+        [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isDerived: true)]
+        [SubsettedProperty("A_ownedType_package")]
+        [Implements("NestedPackage.OwnedType")]
+        public List<IType> OwnedType => throw new NotImplementedException();
+
+        /// <summary>
+        /// References the PackageMerges that are owned by this Package.
+        /// </summary>
+        [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue)]
+        [SubsettedProperty("A_source_directedRelationship-directedRelationship")]
+        [SubsettedProperty("Element-ownedElement")]
+        [Implements("NestedPackage.PackageMerge")]
+        public List<IPackageMerge> PackageMerge { get; set; } = new List<IPackageMerge>();
+
+        /// <summary>
+        /// Specifies the packageable elements that are owned by this Package.
+        /// </summary>
+        [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue)]
+        [SubsettedProperty("Namespace-ownedMember")]
+        [Implements("NestedPackage.PackagedElement")]
+        public List<IPackageableElement> PackagedElement { get; set; } = new List<IPackageableElement>();
+
+        /// <summary>
+        /// References the ProfileApplications that indicate which profiles have been applied to the Package.
+        /// </summary>
+        [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue)]
+        [SubsettedProperty("A_source_directedRelationship-directedRelationship")]
+        [SubsettedProperty("Element-ownedElement")]
+        [Implements("NestedPackage.ProfileApplication")]
+        public List<IProfileApplication> ProfileApplication { get; set; } = new List<IProfileApplication>();
     }
 }

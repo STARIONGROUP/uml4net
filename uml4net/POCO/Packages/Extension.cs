@@ -115,7 +115,11 @@ namespace uml4net.POCO.Packages
         [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1)]
         [Implements("INamedElement.Visibility")]
         [RedefinedByProperty("IPackageableElement.Visibility")]
-        VisibilityKind INamedElement.Visibility { get; set; }
+        VisibilityKind INamedElement.Visibility
+        {
+            get => throw new NotSupportedException("This property has been redefined by IPackageableElement.Visibility and should not be used");
+            set => throw new NotSupportedException("This property has been redefined by IPackageableElement.Visibility and should not be used");
+        }
 
         /// <summary>
         /// A PackageableElement must have a visibility specified if it is owned by a Namespace. The default visibility is public.
@@ -132,7 +136,7 @@ namespace uml4net.POCO.Packages
         [SubsettedProperty(propertyName: "A_source_directedRelationship.directedRelationship")]
         [SubsettedProperty(propertyName: "Element.OwnedElement")]
         [Implements("INamespace.ElementImport")]
-        public List<ElementImport> ElementImport { get; set; }
+        public List<IElementImport> ElementImport { get; set; } = new List<IElementImport>();
 
         /// <summary>
         /// References the PackageableElements that are members of this Namespace as a result of either PackageImports or ElementImports.

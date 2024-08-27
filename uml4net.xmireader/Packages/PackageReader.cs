@@ -20,11 +20,13 @@
 
 namespace uml4net.xmi.Packages
 {
+    using System;
     using System.Xml;
 
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Logging.Abstractions;
 
+    using uml4net.POCO.CommonStructure;
     using uml4net.POCO.Packages;
     using uml4net.xmi.CommonStructure;
 
@@ -60,7 +62,7 @@ namespace uml4net.xmi.Packages
         /// <summary>
         /// Reads the <see cref="IPackage"/> object from its XML representation
         /// </summary>
-        /// <param name="xmlreader">
+        /// <param name="xmlReader">
         ///  an instance of <see cref="XmlReader"/>
         /// </param>
         /// <returns>
@@ -73,7 +75,24 @@ namespace uml4net.xmi.Packages
             if (xmlReader.MoveToContent() == XmlNodeType.Element)
             {
                 package.XmiId = xmlReader.GetAttribute("xmi:id");
+
+                var xmiType = xmlReader.GetAttribute("xmi:type");
+
+                if (xmiType != "uml:Package")
+                {
+                    // TODO come up with a better exception here
+                    throw new XmlException($"The XmiType should be: uml:Package while it is {xmiType}");
+                }
+
+                package.XmiType = xmlReader.GetAttribute("xmi:type");
+
                 package.Name = xmlReader.GetAttribute("name");
+
+                var visibility = xmlReader.GetAttribute("visibility");
+                if (!string.IsNullOrEmpty(visibility))
+                {
+                    package.Visibility = (VisibilityKind)Enum.Parse(typeof(VisibilityKind), visibility, true);
+                }
 
                 while (xmlReader.Read())
                 {
@@ -81,20 +100,39 @@ namespace uml4net.xmi.Packages
                     {
                         switch (xmlReader.LocalName)
                         {
+                            case "ownedComment":
+                                using (var ownedCommentXmlReader = xmlReader.ReadSubtree())
+                                {
+                                    this.logger.LogInformation("PackageReader.ownedComment not yet implemented");
+                                }
+                                break;
+                            case "elementImport":
+                                using (var elementImportXmlReader = xmlReader.ReadSubtree())
+                                {
+                                    this.logger.LogInformation("PackageReader.elementImport not yet implemented");
+                                }
+                                break;
+                            case "ownedRule":
+                                using (var ownedRuleXmlReader = xmlReader.ReadSubtree())
+                                {
+                                    this.logger.LogInformation("PackageReader.ownedRule not yet implemented");
+                                }
+                                break;
                             case "packageImport":
                                 using (var packageImportXmlReader = xmlReader.ReadSubtree())
                                 {
-                                    var packageImportReader = new PackageImportReader();
+                                    var packageImportReader = new PackageImportReader(this.loggerFactory);
                                     var packageImport = packageImportReader.Read(packageImportXmlReader);
                                     package.PackageImport.Add(packageImport);
                                 }
                                 break;
-                            case "packagedElement":
-                                using (var packagedElementXmlReader = xmlReader.ReadSubtree())
+                            case "templateBinding":
+                                using (var templateBindingXmlReader = xmlReader.ReadSubtree())
                                 {
-                                    this.logger.LogInformation("PackageReader.packagedElement not yet implemented");
+                                    this.logger.LogInformation("PackageReader.TemplateBinding not yet implemented");
                                 }
                                 break;
+
                         }
                     }
                 }

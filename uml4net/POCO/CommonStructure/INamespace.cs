@@ -35,7 +35,7 @@ namespace uml4net.POCO.CommonStructure
         [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue)]
         [SubsettedProperty(propertyName: "A_source_directedRelationship.directedRelationship")]
         [SubsettedProperty(propertyName: "Element.OwnedElement")]
-        public List<ElementImport> ElementImport { get; set; }
+        public List<IElementImport> ElementImport { get; set; }
 
         /// <summary>
         /// References the PackageableElements that are members of this Namespace as a result of either PackageImports or ElementImports.

@@ -73,6 +73,17 @@ namespace uml4net.xmi.Packages
             if (xmlReader.MoveToContent() == XmlNodeType.Element)
             {
                 model.XmiId = xmlReader.GetAttribute("xmi:id");
+
+                var xmiType = xmlReader.GetAttribute("xmi:type");
+
+                if (xmiType != "uml:Package")
+                {
+                    // TODO come up with a better exception here
+                    throw new XmlException($"The XmiType should be: uml:Model while it is {xmiType}");
+                }
+
+                model.XmiType = xmlReader.GetAttribute("xmi:type");
+
                 model.Name = xmlReader.GetAttribute("name");
 
                 while (xmlReader.Read())
@@ -85,7 +96,7 @@ namespace uml4net.xmi.Packages
                             case "packageImport":
                                 using (var packageImportXmlReader = xmlReader.ReadSubtree())
                                 {
-                                    var packageImportReader = new PackageImportReader();
+                                    var packageImportReader = new PackageImportReader(this.loggerFactory);
                                     var packageImport = packageImportReader.Read(packageImportXmlReader);
                                     model.PackageImport.Add(packageImport);
                                 }

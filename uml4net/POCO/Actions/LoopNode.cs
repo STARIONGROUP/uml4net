@@ -125,7 +125,7 @@ namespace uml4net.POCO.Actions
         [SubsettedProperty(propertyName: "A_source_directedRelationship.directedRelationship")]
         [SubsettedProperty(propertyName: "Element.OwnedElement")]
         [Implements(implementation: "INamespace.ElementImport")]
-        public List<ElementImport> ElementImport { get; set; }
+        public List<IElementImport> ElementImport { get; set; } = new List<IElementImport>();
 
         /// <summary>
         /// References the PackageableElements that are members of this Namespace as a result of either PackageImports or ElementImports.
