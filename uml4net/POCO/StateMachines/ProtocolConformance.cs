@@ -80,7 +80,7 @@ namespace uml4net.POCO.StateMachines
         [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: int.MaxValue, isReadOnly: true, isDerived: true, isDerivedUnion: true)]
         [Implements(implementation: "IDirectedRelationship.Source")]
         [SubsettedProperty(propertyName: "Relationship.RelatedElement")]
-        public List<IElement> Source { get; }
+        public List<IElement> Source => throw new NotImplementedException();
 
         /// <summary>
         /// Specifies the target Element(s) of the DirectedRelationship.
@@ -88,7 +88,7 @@ namespace uml4net.POCO.StateMachines
         [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: int.MaxValue, isReadOnly: true, isDerived: true, isDerivedUnion: true)]
         [Implements(implementation: "IDirectedRelationship.Target")]
         [SubsettedProperty(propertyName: "Relationship.RelatedElement")]
-        public List<IElement> Target { get; }
+        public List<IElement> Target => throw new NotImplementedException();
 
         /// <summary>
         /// Specifies the elements related by the Relationship.
