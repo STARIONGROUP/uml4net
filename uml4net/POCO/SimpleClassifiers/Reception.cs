@@ -160,7 +160,7 @@ namespace uml4net.POCO.SimpleClassifiers
         [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue)]
         [SubsettedProperty(propertyName: "Element.OwnedElement")]
         [Implements(implementation: "INamespace.PackageImport")]
-        public List<IPackageImport> PackageImport { get; set; }
+        public List<IPackageImport> PackageImport { get; set; } = new List<IPackageImport>();
 
         /// <summary>
         /// Specifies the semantics of concurrent calls to the same passive instance (i.e., an instance originating

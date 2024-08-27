@@ -170,7 +170,7 @@ namespace uml4net.POCO.InformationFlows
         [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue)]
         [SubsettedProperty(propertyName: "Element.OwnedElement")]
         [Implements(implementation: "INamespace.PackageImport")]
-        public List<IPackageImport> PackageImport { get; set; }
+        public List<IPackageImport> PackageImport { get; set; } = new List<IPackageImport>();
 
         /// <summary>
         /// The formal TemplateParameter that owns this ParameterableElement
