@@ -118,7 +118,7 @@ namespace uml4net.POCO.CommonStructure
         [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: int.MaxValue)]
         [Implements(implementation: "IDependency.Supplier")]
         [SubsettedProperty(propertyName: "DirectedRelationship.Target")]
-        public List<INamedElement> Supplier { get; set; }
+        public List<INamedElement> Supplier { get; set; } = new List<INamedElement>();
 
         /// <summary>
         /// Indicates the Dependencies that reference this NamedElement as a client."

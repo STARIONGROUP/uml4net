@@ -101,7 +101,7 @@ namespace uml4net.POCO.Classification
         [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: int.MaxValue)]
         [Implements(implementation: "IDependency.Supplier")]
         [SubsettedProperty(propertyName: "DirectedRelationship.Target")]
-        public List<INamedElement> Supplier { get; set; }
+        public List<INamedElement> Supplier { get; set; } = new List<INamedElement>();
 
         /// <summary>
         /// Specifies the source Element(s) of the DirectedRelationship.
