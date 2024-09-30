@@ -83,7 +83,7 @@ namespace uml4net.POCO.Values
         /// </summary>
         [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: true)]
         [Implements(implementation: "IConstraint.ConstrainedElement")]
-        public List<IElement> ConstrainedElement { get; set; }
+        public List<IElement> ConstrainedElement { get; set; } = new List<IElement>();
 
         /// <summary>
         /// Specifies the Namespace that owns the Constraint.

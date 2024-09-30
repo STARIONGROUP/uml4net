@@ -54,7 +54,7 @@ namespace uml4net.POCO.CommonStructure
         /// </summary>
         [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue)]
         [Implements(implementation: "IComment.AnnotatedElement")]
-        public List<IElement> AnnotatedElement { get; set; }
+        public List<IElement> AnnotatedElement { get; set; } = new List<IElement>();
 
         /// <summary>
         /// Specifies a string that is the comment.

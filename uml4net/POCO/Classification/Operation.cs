@@ -227,7 +227,7 @@ namespace uml4net.POCO.Classification
         /// </summary>
         [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue)]
         [Implements(implementation: "IBehavioralFeature.Method")]
-        public List<IBehavior> Method { get; set; }
+        public List<IBehavior> Method { get; set; } = new List<IBehavior>();
 
         /// <summary>
         /// The ordered set of formal Parameters of this BehavioralFeature.
@@ -346,7 +346,7 @@ namespace uml4net.POCO.Classification
         [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: true)]
         [RedefinedByProperty("BehavioralFeature-ownedParameter")]
         [Implements(implementation: "IOperation.OwnedParameter")]
-        public List<IParameter> OwnedParameter { get; set; }
+        public List<IParameter> OwnedParameter { get; set; } = new List<IParameter>();
 
         /// <summary>
         /// An optional set of Constraints specifying the state of the system when the Operation is completed.
@@ -370,7 +370,7 @@ namespace uml4net.POCO.Classification
         [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue)]
         [RedefinedProperty("BehavioralFeature-raisedException")]
         [Implements(implementation: "IOperation.RaisedException")]
-        public List<IType> RaisedException { get; set; }
+        public List<IType> RaisedException { get; set; } = new List<IType>();
 
         /// <summary>
         /// The Operations that are redefined by this Operation.

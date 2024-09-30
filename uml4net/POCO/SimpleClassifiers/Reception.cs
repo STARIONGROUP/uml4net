@@ -185,7 +185,7 @@ namespace uml4net.POCO.SimpleClassifiers
         /// </summary>
         [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue)]
         [Implements(implementation: "IBehavioralFeature.Method")]
-        public List<IBehavior> Method { get; set; }
+        public List<IBehavior> Method { get; set; } = new List<IBehavior>();
 
         /// <summary>
         /// The ordered set of formal Parameters of this BehavioralFeature.
@@ -193,7 +193,7 @@ namespace uml4net.POCO.SimpleClassifiers
         [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: true)]
         [Implements(implementation: "IBehavioralFeature.OwnedParameter")]
         [SubsettedProperty(propertyName: "Namespace.OwnedMember")]
-        public List<IParameter> OwnedParameter { get; set; }
+        public List<IParameter> OwnedParameter { get; set; } = new List<IParameter>();
 
         /// <summary>
         /// The ParameterSets owned by this BehavioralFeature.
@@ -201,14 +201,14 @@ namespace uml4net.POCO.SimpleClassifiers
         [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue)]
         [Implements(implementation: "IBehavioralFeature.OwnedParameterSet")]
         [SubsettedProperty(propertyName: "Namespace.OwnedMember")]
-        public List<IParameterSet> OwnedParameterSet { get; set; }
+        public List<IParameterSet> OwnedParameterSet { get; set; } = new List<IParameterSet>();
 
         /// <summary>
         /// The Types representing exceptions that may be raised during an invocation of this BehavioralFeature.
         /// </summary>
         [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue)]
         [Implements(implementation: "IBehavioralFeature.RaisedException")]
-        public List<IType> RaisedException { get; set; }
+        public List<IType> RaisedException { get; set; } = new List<IType>();
 
         /// <summary>
         /// The Classifiers that have this Feature as a feature.

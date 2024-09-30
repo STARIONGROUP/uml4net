@@ -91,7 +91,7 @@ namespace uml4net.POCO.Interactions
         /// </summary>
         [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: true)]
         [Implements(implementation: "IConstraint.ConstrainedElement")]
-        public List<IElement> ConstrainedElement { get; set; }
+        public List<IElement> ConstrainedElement { get; set; } = new List<IElement>();
 
         /// <summary>
         /// Indicates the Dependencies that reference this NamedElement as a client."
