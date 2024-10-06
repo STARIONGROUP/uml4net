@@ -254,5 +254,12 @@ namespace uml4net.POCO.Packages
         [SubsettedProperty("Element-ownedElement")]
         [Implements("NestedPackage.ProfileApplication")]
         public List<IProfileApplication> ProfileApplication { get; set; } = new List<IProfileApplication>();
+
+        /// <summary>
+        /// The name of the viewpoint that is expressed by a model (this name may refer to a profile definition).
+        /// </summary>
+        [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1)]
+        [Implements("Model.Viewpoint")]
+        public string Viewpoint { get; set; }
     }
 }

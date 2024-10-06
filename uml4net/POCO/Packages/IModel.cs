@@ -20,6 +20,10 @@
 
 namespace uml4net.POCO.Packages
 {
+    using uml4net.Decorators;
+
+    using uml4net.POCO.Classification;
+
     /// <summary>
     /// A model captures a view of a physical system. It is an abstraction of the physical system,
     /// with a certain purpose. This purpose determines what is to be included in the model and what
@@ -28,5 +32,10 @@ namespace uml4net.POCO.Packages
     /// </summary>
     public interface IModel : IPackage
     {
+        /// <summary>
+        /// The name of the viewpoint that is expressed by a model (this name may refer to a profile definition).
+        /// </summary>
+        [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1)]
+        public string Viewpoint { get; set; }
     }
 }
