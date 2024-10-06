@@ -86,5 +86,22 @@ namespace uml4net.POCO.Packages
         /// </summary>
         [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: int.MaxValue, isReadOnly: true, isDerived: true, isDerivedUnion: true)]
         List<IElement> IRelationship.RelatedElement => throw new NotImplementedException();
+
+        /// <summary>
+        /// References the Package that is to be merged with the receiving package of the PackageMerge.
+        /// </summary>
+        [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1)]
+        [SubsettedProperty("DirectedRelationship-target")]
+        [Implements("IPackageMerge.MergedPackage")]
+        public IPackage MergedPackage { get; set; }
+
+        /// <summary>
+        /// References the Package that is being extended with the contents of the merged package of the PackageMerge.
+        /// </summary>
+        [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1)]
+        [SubsettedProperty("DirectedRelationship-source")]
+        [SubsettedProperty("Element-owner")]
+        [Implements("IPackageMerge.ReceivingPackage")]
+        public IPackage ReceivingPackage { get; set; }
     }
 }

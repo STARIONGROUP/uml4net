@@ -20,6 +20,8 @@
 
 namespace uml4net.POCO.Packages
 {
+    using uml4net.Decorators;
+    using uml4net.POCO.Classification;
     using uml4net.POCO.CommonStructure;
 
     /// <summary>
@@ -27,5 +29,19 @@ namespace uml4net.POCO.Packages
     /// </summary>
     public interface IPackageMerge : IDirectedRelationship
     {
+        /// <summary>
+        /// References the Package that is to be merged with the receiving package of the PackageMerge.
+        /// </summary>
+        [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1)]
+        [SubsettedProperty("DirectedRelationship-target")]
+        public IPackage MergedPackage { get; set; }
+
+        /// <summary>
+        /// References the Package that is being extended with the contents of the merged package of the PackageMerge.
+        /// </summary>
+        [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1)]
+        [SubsettedProperty("DirectedRelationship-source")]
+        [SubsettedProperty("Element-owner")]
+        public IPackage ReceivingPackage { get; set; }
     }
 }
