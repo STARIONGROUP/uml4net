@@ -67,5 +67,33 @@ namespace uml4net.POCO.Packages
         /// </summary>
         [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isReadOnly: true, isDerived: true, isDerivedUnion: true)]
         IElement IElement.Owner => throw new NotImplementedException();
+
+
+        /// <summary>
+        /// This contains the serialization of the image according to the format. The value could represent a
+        /// bitmap, image such as a GIF file, or drawing 'instructions' using a standard such as Scalable
+        /// Vector Graphic (SVG) (which is XML based).
+        /// </summary>
+        [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1)]
+        [Implements(implementation: "IImage.Content")]
+        public string Content { get; set; }
+
+        /// <summary>
+        /// This indicates the format of the content, which is how the string content should be interpreted.
+        /// The following values are reserved: SVG, GIF, PNG, JPG, WMF, EMF, BMP. In addition the prefix 'MIME: '
+        /// is also reserved. This option can be used as an alternative to express the reserved values above,
+        /// for example &quot;SVG&quot; could instead be expressed as &quot;MIME: image/svg+xml&quot;.
+        /// </summary>
+        [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1)]
+        [Implements(implementation: "IImage.Format")]
+        public string Format { get; set; }
+
+        /// <summary>
+        /// This contains a location that can be used by a tool to locate the image as an alternative to embedding
+        /// it in the stereotype.
+        /// </summary>
+        [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1)]
+        [Implements(implementation: "IImage.Location")]
+        public string Location { get; set; }
     }
 }

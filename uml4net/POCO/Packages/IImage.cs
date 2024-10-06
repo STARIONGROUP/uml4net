@@ -20,6 +20,8 @@
 
 namespace uml4net.POCO.Packages
 {
+    using uml4net.Decorators;
+    using uml4net.POCO.Classification;
     using uml4net.POCO.CommonStructure;
 
     /// <summary>
@@ -27,5 +29,28 @@ namespace uml4net.POCO.Packages
     /// </summary>
     public interface IImage : IElement
     {
+        /// <summary>
+        /// This contains the serialization of the image according to the format. The value could represent a
+        /// bitmap, image such as a GIF file, or drawing 'instructions' using a standard such as Scalable
+        /// Vector Graphic (SVG) (which is XML based).
+        /// </summary>
+        [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1)]
+        public string Content { get; set; }
+
+        /// <summary>
+        /// This indicates the format of the content, which is how the string content should be interpreted.
+        /// The following values are reserved: SVG, GIF, PNG, JPG, WMF, EMF, BMP. In addition the prefix 'MIME: '
+        /// is also reserved. This option can be used as an alternative to express the reserved values above,
+        /// for example &quot;SVG&quot; could instead be expressed as &quot;MIME: image/svg+xml&quot;.
+        /// </summary>
+        [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1)]
+        public string Format { get; set; }
+
+        /// <summary>
+        /// This contains a location that can be used by a tool to locate the image as an alternative to embedding
+        /// it in the stereotype.
+        /// </summary>
+        [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1)]
+        public string Location { get; set; }
     }
 }
