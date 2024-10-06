@@ -20,6 +20,8 @@
 
 namespace uml4net.POCO.Packages
 {
+    using uml4net.Decorators;
+    using uml4net.POCO.Classification;
     using uml4net.POCO.CommonStructure;
 
     /// <summary>
@@ -27,5 +29,26 @@ namespace uml4net.POCO.Packages
     /// </summary>
     public interface IProfileApplication : IDirectedRelationship
     {
+        /// <summary>
+        /// References the Profiles that are applied to a Package through this ProfileApplication.
+        /// </summary>
+        [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1)]
+        [SubsettedProperty(propertyName: "DirectedRelationship-target")]
+        public IProfile AppliedProfile { get; set; }
+
+        /// <summary>
+        /// The package that owns the profile application.
+        /// </summary>
+        [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1)]
+        [SubsettedProperty(propertyName: "DirectedRelationship-source")]
+        [SubsettedProperty(propertyName: "Element-owner")]
+        public IPackage ApplyingPackage { get; set; }
+
+        /// <summary>
+        /// Specifies that the Profile filtering rules for the metaclasses of the referenced metamodel
+        /// shall be strictly applied.
+        /// </summary>
+        [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, defaultValue: "false")]
+        public bool IsStrict { get; set; }
     }
 }
