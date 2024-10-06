@@ -252,5 +252,21 @@ namespace uml4net.POCO.Packages
         [SubsettedProperty("Element-ownedElement")]
         [Implements("NestedPackage.ProfileApplication")]
         public List<IProfileApplication> ProfileApplication { get; set; } = new List<IProfileApplication>();
+
+        /// <summary>
+        /// References a metaclass that may be extended.
+        /// </summary>
+        [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue)]
+        [SubsettedProperty(propertyName: "Namespace-elementImport")]
+        [Implements("IProfile.MetaclassReference")]
+        public List<IElementImport> MetaclassReference { get; set; } = new List<IElementImport>();
+
+        /// <summary>
+        /// References a package containing (directly or indirectly) metaclasses that may be extended.
+        /// </summary>
+        [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue)]
+        [SubsettedProperty(propertyName: "Namespace-packageImport")]
+        [Implements("IProfile.MetamodelReference")]
+        public List<IPackageImport> MetamodelReference { get; set; } = new List<IPackageImport>();
     }
 }

@@ -20,11 +20,30 @@
 
 namespace uml4net.POCO.Packages
 {
+    using System.Collections.Generic;
+
+    using uml4net.Decorators;
+    using uml4net.POCO.Classification;
+    using uml4net.POCO.CommonStructure;
+
     /// <summary>
     /// A profile defines limited extensions to a reference metamodel with the purpose of adapting
     /// the metamodel to a specific platform or domain.
     /// </summary>
     public interface IProfile : IPackage
     {
+        /// <summary>
+        /// References a metaclass that may be extended.
+        /// </summary>
+        [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue)]
+        [SubsettedProperty(propertyName: "Namespace-elementImport")]
+        public List<IElementImport> MetaclassReference { get; set; }
+
+        /// <summary>
+        /// References a package containing (directly or indirectly) metaclasses that may be extended.
+        /// </summary>
+        [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue)]
+        [SubsettedProperty(propertyName: "Namespace-packageImport")]
+        public List<IPackageImport> MetamodelReference { get; set; }
     }
 }
