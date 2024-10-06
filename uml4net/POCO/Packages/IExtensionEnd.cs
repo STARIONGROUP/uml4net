@@ -20,6 +20,7 @@
 
 namespace uml4net.POCO.Packages
 {
+    using uml4net.Decorators;
     using uml4net.POCO.Classification;
 
     /// <summary>
@@ -28,5 +29,20 @@ namespace uml4net.POCO.Packages
     /// </summary>
     public interface IExtensionEnd : IProperty
     {
+        /// <summary>
+        /// This redefinition changes the default multiplicity of association ends, since model
+        /// elements are usually extended by 0 or 1 instance of the extension stereotype.
+        /// </summary>
+        [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isDerived: true)]
+        [RedefinedProperty(propertyName: "MultiplicityElement-lower")]
+        public new int Lower { get; }
+
+        /// <summary>
+        /// References the type of the ExtensionEnd. Note that this association restricts the possible
+        /// types of an ExtensionEnd to only be Stereotypes.
+        /// </summary>
+        [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1)]
+        [RedefinedProperty(propertyName: "ExtensionEnd-type")]
+        public new IStereotype Type { get; set; }
     }
 }

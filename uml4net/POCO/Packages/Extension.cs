@@ -379,7 +379,7 @@ namespace uml4net.POCO.Packages
         /// </summary>
         [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isReadOnly: true, isDerived: true)]
         [Implements(implementation: "IExtension.IsRequired")]
-        public bool IsRequired { get; }
+        public bool IsRequired => throw new NotImplementedException();
 
         /// <summary>
         /// References the Class that is extended through an Extension. The property is derived from the type of the
@@ -387,7 +387,7 @@ namespace uml4net.POCO.Packages
         /// </summary>
         [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isReadOnly: true, isDerived: true)]
         [Implements(implementation: "IExtension.Metaclass")]
-        public IClass Metaclass { get; }
+        public IClass Metaclass => throw new NotImplementedException();
 
         /// <summary>
         /// References the end of the extension that is typed by a Stereotype.

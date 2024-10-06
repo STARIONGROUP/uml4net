@@ -337,5 +337,21 @@ namespace uml4net.POCO.Packages
         [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, defaultValue: "false")]
         [Implements(implementation: "IStructuralFeature.IsReadOnly")]
         public bool IsReadOnly { get; set; } = false;
+
+        /// <summary>
+        /// This redefinition changes the default multiplicity of association ends, since model
+        /// elements are usually extended by 0 or 1 instance of the extension stereotype.
+        /// </summary>
+        [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isDerived: true)]
+        [RedefinedProperty(propertyName: "MultiplicityElement-lower")]
+        public int Lower => throw new NotImplementedException();
+
+        /// <summary>
+        /// References the type of the ExtensionEnd. Note that this association restricts the possible
+        /// types of an ExtensionEnd to only be Stereotypes.
+        /// </summary>
+        [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1)]
+        [RedefinedProperty(propertyName: "ExtensionEnd-type")]
+        public IStereotype Type { get; set; }
     }
 }
