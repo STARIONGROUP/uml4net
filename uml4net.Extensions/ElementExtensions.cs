@@ -18,8 +18,6 @@
 //  </copyright>
 //  ------------------------------------------------------------------------------------------------
 
-using uml4net.POCO.CommonStructure;
-
 namespace uml4net.Extensions
 {
     using System;
@@ -27,6 +25,8 @@ namespace uml4net.Extensions
     using System.Linq;
 
     using HtmlAgilityPack;
+
+    using uml4net.POCO.CommonStructure;
 
     /// <summary>
     /// Extension methods for <see cref="IElement"/> interface

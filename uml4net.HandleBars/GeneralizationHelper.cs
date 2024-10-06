@@ -22,6 +22,7 @@ namespace uml4net.HandleBars
 {
     using System;
     using System.Linq;
+
     using HandlebarsDotNet;
 
     using uml4net.POCO;

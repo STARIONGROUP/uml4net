@@ -25,7 +25,6 @@ namespace uml4net.HandleBars
 
     using HandlebarsDotNet;
 
-    using uml4net;
     using uml4net.Extensions;
 
     using uml4net.POCO.Classification;

@@ -26,7 +26,7 @@ namespace uml4net.CodeGenerator.Generators
 
     using System.IO;
 
-    using uml4net.CodeGenerator.Extensions;
+    using uml4net.Extensions;
 
     using uml4net.POCO.Packages;
     using uml4net.POCO.StructuredClassifiers;
@@ -179,10 +179,10 @@ namespace uml4net.CodeGenerator.Generators
         /// </summary>
         protected override void RegisterHelpers()
         {
-            //ECoreNetto.HandleBars.BooleanHelper.RegisterBooleanHelper(this.Handlebars);
-            //ECoreNetto.HandleBars.StringHelper.RegisterStringHelper(this.Handlebars);
-            //ECoreNetto.HandleBars.StructuralFeatureHelper.RegisterStructuralFeatureHelper(this.Handlebars);
-            //ECoreNetto.HandleBars.GeneralizationHelper.RegisterGeneralizationHelper(this.Handlebars);
+            uml4net.HandleBars.BooleanHelper.RegisterBooleanHelper(this.Handlebars);
+            uml4net.HandleBars.StringHelper.RegisterStringHelper(this.Handlebars);
+            uml4net.HandleBars.PropertyHelper.RegisterStructuralFeatureHelper(this.Handlebars);
+            uml4net.HandleBars.GeneralizationHelper.RegisterGeneralizationHelper(this.Handlebars);
 
             //this.Handlebars.RegisteredDocumentationHelper();
             //this.Handlebars.RegisterTypeNameHelper();
