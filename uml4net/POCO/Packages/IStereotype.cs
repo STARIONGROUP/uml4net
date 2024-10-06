@@ -20,6 +20,10 @@
 
 namespace uml4net.POCO.Packages
 {
+    using System.Collections.Generic;
+
+    using uml4net.Decorators;
+    using uml4net.POCO.Classification;
     using uml4net.POCO.StructuredClassifiers;
 
     /// <summary>
@@ -28,5 +32,18 @@ namespace uml4net.POCO.Packages
     /// </summary>
     public interface IStereotype : IClass
     {
+        /// <summary>
+        /// Stereotype can change the graphical appearance of the extended model element by using attached icons.
+        /// When this association is not null, it references the location of the icon content to be displayed within
+        /// diagrams presenting the extended model elements.
+        /// </summary>
+        [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue)]
+        public List<IImage> Icon { get; set; }
+
+        /// <summary>
+        /// The profile that directly or indirectly contains this stereotype.
+        /// </summary>
+        [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isReadOnly:true, isDerived:true)]
+        public IProfile Profile { get; }
     }
 }

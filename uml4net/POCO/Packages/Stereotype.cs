@@ -326,5 +326,21 @@ namespace uml4net.POCO.Packages
         [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isReadOnly: true, isDerived: true, isDerivedUnion: true)]
         [Implements(implementation: "IRedefinableElement.RedefinitionContext")]
         public IClassifier RedefinitionContext => throw new NotImplementedException();
+
+        /// <summary>
+        /// Stereotype can change the graphical appearance of the extended model element by using attached icons.
+        /// When this association is not null, it references the location of the icon content to be displayed within
+        /// diagrams presenting the extended model elements.
+        /// </summary>
+        [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue)]
+        [Implements(implementation: "IStereotype.Icon")]
+        public List<IImage> Icon { get; set; }
+
+        /// <summary>
+        /// The profile that directly or indirectly contains this stereotype.
+        /// </summary>
+        [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isReadOnly: true, isDerived: true)]
+        [Implements(implementation: "IStereotype.Profile")]
+        public IProfile Profile => throw new NotImplementedException();
     }
 }
