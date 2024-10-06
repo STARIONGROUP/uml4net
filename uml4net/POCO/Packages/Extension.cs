@@ -368,5 +368,33 @@ namespace uml4net.POCO.Packages
         [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isReadOnly: true, isDerived: true, isDerivedUnion: true)]
         [Implements(implementation: "IRedefinableElement.RedefinitionContext")]
         public IClassifier RedefinitionContext => throw new NotImplementedException();
+
+
+        /// <summary>
+        /// Indicates whether an instance of the extending stereotype must be created when an instance
+        /// of the extended class is created. The attribute value is derived from the value of the lower
+        /// property of the ExtensionEnd referenced by Extension::ownedEnd; a lower value of 1 means
+        /// that isRequired is true, but otherwise it is false. Since the default value of
+        /// ExtensionEnd::lower is 0, the default value of isRequired is false.
+        /// </summary>
+        [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isReadOnly: true, isDerived: true)]
+        [Implements(implementation: "IExtension.IsRequired")]
+        public bool IsRequired { get; }
+
+        /// <summary>
+        /// References the Class that is extended through an Extension. The property is derived from the type of the
+        /// memberEnd that is not the ownedEnd.
+        /// </summary>
+        [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isReadOnly: true, isDerived: true)]
+        [Implements(implementation: "IExtension.Metaclass")]
+        public IClass Metaclass { get; }
+
+        /// <summary>
+        /// References the end of the extension that is typed by a Stereotype.
+        /// </summary>
+        [Property(aggregation: AggregationKind.Composite, lowerValue: 1, upperValue: 1)]
+        [RedefinedProperty(propertyName: "Association-ownedEnd")]
+        [Implements(implementation: "IExtension.OwnedEnd")]
+        public IExtensionEnd OwnedEnd { get; set; }
     }
 }

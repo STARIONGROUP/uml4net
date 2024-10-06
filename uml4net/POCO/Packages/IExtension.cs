@@ -20,6 +20,8 @@
 
 namespace uml4net.POCO.Packages
 {
+    using uml4net.Decorators;
+    using uml4net.POCO.Classification;
     using uml4net.POCO.StructuredClassifiers;
 
     /// <summary>
@@ -28,5 +30,28 @@ namespace uml4net.POCO.Packages
     /// </summary>
     public interface IExtension : IAssociation
     {
+        /// <summary>
+        /// Indicates whether an instance of the extending stereotype must be created when an instance
+        /// of the extended class is created. The attribute value is derived from the value of the lower
+        /// property of the ExtensionEnd referenced by Extension::ownedEnd; a lower value of 1 means
+        /// that isRequired is true, but otherwise it is false. Since the default value of
+        /// ExtensionEnd::lower is 0, the default value of isRequired is false.
+        /// </summary>
+        [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isReadOnly: true, isDerived:true)]
+        public bool IsRequired { get; }
+
+        /// <summary>
+        /// References the Class that is extended through an Extension. The property is derived from the type of the
+        /// memberEnd that is not the ownedEnd.
+        /// </summary>
+        [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isReadOnly: true, isDerived: true)]
+        public IClass Metaclass { get; }
+
+        /// <summary>
+        /// References the end of the extension that is typed by a Stereotype.
+        /// </summary>
+        [Property(aggregation: AggregationKind.Composite, lowerValue: 1, upperValue: 1)]
+        [RedefinedProperty(propertyName: "Association-ownedEnd")]
+        public IExtensionEnd OwnedEnd { get; set; }
     }
 }
