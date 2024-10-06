@@ -38,8 +38,7 @@ namespace uml4net.POCO.CommonStructure
         public ITemplateParameter OwningTemplateParameter { get; set; }
 
         /// <summary>
-        /// ParameterableElement-templateParameter-_ownedComment.0" body="The TemplateParameter that exposes this 
-        /// ParameterableElement as a formal parameter.
+        /// The TemplateParameter that exposes this ParameterableElement as a formal parameter.
         /// </summary>
         [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1)]
         public ITemplateParameter TemplateParameter { get; set; }

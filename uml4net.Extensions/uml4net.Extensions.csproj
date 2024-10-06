@@ -4,7 +4,7 @@
         <TargetFramework>netstandard2.0</TargetFramework>
         <LangVersion>11.0</LangVersion>
         <Description>A .NET implementation of the OMG UML v2.5.1 specification.</Description>
-        <PackageId>uml4net.xmi</PackageId>
+        <PackageId>uml4net.Extensions</PackageId>
         <Company>Starion Group S.A.</Company>
         <Copyright>Copyright © Starion Group S.A.</Copyright>
         <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
@@ -19,8 +19,14 @@
         <None Include="..\README.md" Pack="true" PackagePath="\" />
     </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\uml4net.Extensions\uml4net.Extensions.csproj" />
-  </ItemGroup>
+    <ItemGroup>
+      <ProjectReference Include="..\uml4net\uml4net.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="ClosedXML" Version="0.104.1" />
+        <PackageReference Include="HtmlAgilityPack" Version="1.11.67" />
+        <PackageReference Include="System.Memory" Version="4.5.5" />
+    </ItemGroup>
 
 </Project>

@@ -8,7 +8,7 @@
       <Company>Starion Group S.A.</Company>
       <Copyright>Copyright © Starion Group S.A.</Copyright>
       <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
-      <RepositoryUrl>https://github.com/STARIONGROUP/SysML2.NET.git</RepositoryUrl>
+      <RepositoryUrl>https://github.com/STARIONGROUP/uml4net.git</RepositoryUrl>
       <RepositoryType>Git</RepositoryType>
       <Authors>Sam Gerené</Authors>
       <RequireLicenseAcceptance>true</RequireLicenseAcceptance>
@@ -17,10 +17,6 @@
 
     <ItemGroup>
         <None Include="..\README.md" Pack="true" PackagePath="\" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="Extensions\" />
     </ItemGroup>
 
     <ItemGroup>

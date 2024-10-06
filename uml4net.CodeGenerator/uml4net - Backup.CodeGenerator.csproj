@@ -1,0 +1,40 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <LangVersion>11.0</LangVersion>
+        <Version>0.14.0</Version>
+        <Description>A Library to generate UML code code.</Description>
+        <PackageId>uml4net.CodeGenerator</PackageId>
+        <Company>Starion Group S.A.</Company>
+        <Copyright>Copyright © Starion Group S.A.</Copyright>
+        <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+        <RepositoryUrl>https://github.com/STARIONGROUP/uml4net.git</RepositoryUrl>
+        <RepositoryType>Git</RepositoryType>
+        <Authors>Sam Gerene</Authors>
+        <ImplicitUsings>false</ImplicitUsings>
+        <Nullable>disable</Nullable>
+        <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
+        <IsPackable>false</IsPackable>
+        <PreserveCompilationContext>true</PreserveCompilationContext>
+        <SatelliteResourceLanguages>en-US</SatelliteResourceLanguages>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Handlebars.Net.Helpers" Version="2.4.5" />
+        <PackageReference Include="Microsoft.CodeAnalysis" Version="4.10.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Generators\" />
+      <Folder Include="Extensions\" />
+      <Folder Include="Templates\" />
+    </ItemGroup>
+
+</Project>
