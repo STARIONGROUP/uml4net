@@ -20,6 +20,10 @@
 
 namespace uml4net.POCO.StructuredClassifiers
 {
+    using System.Collections.Generic;
+
+    using uml4net.Decorators;
+    using uml4net.POCO.Classification;
     using uml4net.POCO.SimpleClassifiers;
 
     /// <summary>
@@ -28,5 +32,10 @@ namespace uml4net.POCO.StructuredClassifiers
     /// </summary>
     public interface ICollaboration : IStructuredClassifier, IBehavioredClassifier
     {
+        /// <summary>
+        /// Represents the participants in the Collaboration.
+        /// </summary>
+        [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue)]
+        public List<IConnectableElement> CollaborationRole { get; set; }
     }
 }

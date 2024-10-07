@@ -354,5 +354,12 @@ namespace uml4net.POCO.StructuredClassifiers
         [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isReadOnly: true, isDerived: true, isDerivedUnion: true)]
         [Implements(implementation: "IRedefinableElement.RedefinitionContext")]
         public IClassifier RedefinitionContext => throw new NotImplementedException();
+
+        /// <summary>
+        /// Represents the participants in the Collaboration.
+        /// </summary>
+        [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue)]
+        [Implements(implementation: "ICollaboration.CollaborationRole")]
+        public List<IConnectableElement> CollaborationRole { get; set; } = new();
     }
 }
