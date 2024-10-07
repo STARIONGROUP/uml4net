@@ -118,5 +118,25 @@ namespace uml4net.POCO.StructuredClassifiers
         [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1)]
         [Implements(implementation: "INamedElement.Visibility")]
         public VisibilityKind Visibility { get; set; }
+
+        /// <summary>
+        /// A mapping between features of the Collaboration and features of the owning Classifier.
+        /// This mapping indicates which ConnectableElement of the Classifier plays which role(s) in the
+        /// Collaboration. A ConnectableElement may be bound to multiple roles in the same CollaborationUse
+        /// (that is, it may play multiple roles).
+        /// </summary>
+        [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue)]
+        [SubsettedProperty("Element-ownedElement")]
+        [Implements(implementation: "ICollaborationUse.RoleBinding")]
+        public List<IDependency> RoleBinding { get; set; }
+
+        /// <summary>
+        /// The Collaboration which is used in this CollaborationUse. The Collaboration defines the cooperation
+        /// between its roles which are mapped to ConnectableElements relating to the Classifier owning the
+        /// CollaborationUse.
+        /// </summary>
+        [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1)]
+        [Implements(implementation: "ICollaborationUse.Type")]
+        public ICollaboration Type { get; set; }
     }
 }
