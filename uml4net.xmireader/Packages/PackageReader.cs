@@ -163,7 +163,10 @@ namespace uml4net.xmi.Packages
             switch (xmiType)
             {
                 case "uml:Association":
-                    this.logger.LogDebug("uml:Association not yet implements");
+                    using (var associationXmlReader = xmlReader.ReadSubtree())
+                    {
+                        this.logger.LogDebug("uml:Association not yet implements");
+                    }
                     break;
                 case "uml:Class":
                     using (var classXmlReader = xmlReader.ReadSubtree())
@@ -174,7 +177,10 @@ namespace uml4net.xmi.Packages
                     }
                     break;
                 case "uml:Enumeration":
-                    this.logger.LogDebug("uml:Enumeration not yet implements");
+                    using (var enumerationXmlReader = xmlReader.ReadSubtree())
+                    {
+                        this.logger.LogDebug("uml:Enumeration not yet implements");
+                    }
                     break;
                 case "uml:Package":
                     using (var packageXmlReader = xmlReader.ReadSubtree())
@@ -185,7 +191,10 @@ namespace uml4net.xmi.Packages
                     }
                     break;
                 case "uml:PrimitiveType":
-                    this.logger.LogDebug("uml:PrimitiveType not yet implements");
+                    using (var primitiveTypeXmlReader = xmlReader.ReadSubtree())
+                    {
+                        this.logger.LogDebug("uml:PrimitiveType not yet implements");
+                    }
                     break;
                 default:
                     throw new NotImplementedException(xmiType);
