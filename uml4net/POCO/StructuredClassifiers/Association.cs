@@ -362,5 +362,46 @@ namespace uml4net.POCO.StructuredClassifiers
         [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isReadOnly: true, isDerived: true, isDerivedUnion: true)]
         [Implements(implementation: "IRedefinableElement.RedefinitionContext")]
         public IClassifier RedefinitionContext => throw new NotImplementedException();
+
+        /// <summary>
+        /// The Classifiers that are used as types of the ends of the Association.
+        /// </summary>
+        [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: int.MaxValue, isReadOnly: true, isDerived: true)]
+        [Implements(implementation: "IAssociation.EndType")]
+        public List<IType> EndType => throw new NotImplementedException();
+
+        /// <summary>
+        /// Specifies whether the Association is derived from other model elements such as other Associations.
+        /// </summary>
+        [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, defaultValue: "false")]
+        [Implements(implementation: "IAssociation.IsDerived")]
+        public bool IsDerived { get; set; }
+
+        /// <summary>
+        /// Each end represents participation of instances of the Classifier connected to the end in links of the Association.
+        /// </summary>
+        [Property(aggregation: AggregationKind.None, lowerValue: 2, upperValue: int.MaxValue)]
+        [SubsettedProperty(propertyName: "Namespace-member")]
+        [Implements(implementation: "IAssociation.MemberEnd")]
+        public List<IProperty> MemberEnd { get; set; } = new();
+
+        /// <summary>
+        /// The navigable ends that are owned by the Association itself.
+        /// </summary>
+        [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue)]
+        [SubsettedProperty(propertyName: "Association-ownedEnd")]
+        [Implements(implementation: "IAssociation.NavigableOwnedEnd")]
+        public List<IProperty> NavigableOwnedEnd { get; set; } = new();
+
+        /// <summary>
+        /// The ends that are owned by the Association itself.
+        /// </summary>
+        [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: true)]
+        [SubsettedProperty(propertyName: "A_redefinitionContext_redefinableElement-redefinableElement")]
+        [SubsettedProperty(propertyName: "Association-memberEnd")]
+        [SubsettedProperty(propertyName: "Classifier-feature")]
+        [SubsettedProperty(propertyName: "Namespace-ownedMember")]
+        [Implements(implementation: "IAssociation.OwnedEnd")]
+        public List<IProperty> OwnedEnd { get; set; } = new();
     }
 }

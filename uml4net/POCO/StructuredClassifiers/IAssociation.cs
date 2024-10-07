@@ -20,6 +20,10 @@
 
 namespace uml4net.POCO.StructuredClassifiers
 {
+    using System.Collections.Generic;
+
+    using uml4net.Decorators;
+
     using uml4net.POCO.Classification;
     using uml4net.POCO.CommonStructure;
 
@@ -30,5 +34,40 @@ namespace uml4net.POCO.StructuredClassifiers
     /// </summary>
     public interface IAssociation  : IRelationship, IClassifier
     {
+        /// <summary>
+        /// The Classifiers that are used as types of the ends of the Association.
+        /// </summary>
+        [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: int.MaxValue, isReadOnly:true, isDerived:true)]
+        public List<IType> EndType { get; }
+
+        /// <summary>
+        /// Specifies whether the Association is derived from other model elements such as other Associations.
+        /// </summary>
+        [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, defaultValue:"false")]
+        public bool IsDerived { get; set; }
+
+        /// <summary>
+        /// Each end represents participation of instances of the Classifier connected to the end in links of the Association.
+        /// </summary>
+        [Property(aggregation: AggregationKind.None, lowerValue: 2, upperValue: int.MaxValue)]
+        [SubsettedProperty(propertyName: "Namespace-member")]
+        public List<IProperty> MemberEnd { get; set; }
+
+        /// <summary>
+        /// The navigable ends that are owned by the Association itself.
+        /// </summary>
+        [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue)]
+        [SubsettedProperty(propertyName: "Association-ownedEnd")]
+        public List<IProperty> NavigableOwnedEnd { get; set; }
+
+        /// <summary>
+        /// The ends that are owned by the Association itself.
+        /// </summary>
+        [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered:true)]
+        [SubsettedProperty(propertyName: "A_redefinitionContext_redefinableElement-redefinableElement")]
+        [SubsettedProperty(propertyName: "Association-memberEnd")]
+        [SubsettedProperty(propertyName: "Classifier-feature")]
+        [SubsettedProperty(propertyName: "Namespace-ownedMember")]
+        public List<IProperty> OwnedEnd { get; set; }
     }
 }
