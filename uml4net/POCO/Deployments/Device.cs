@@ -27,6 +27,7 @@ namespace uml4net.POCO.Deployments
     using uml4net.POCO.Classification;
     using uml4net.POCO.CommonStructure;
     using uml4net.POCO.Packages;
+    using uml4net.POCO.SimpleClassifiers;
     using uml4net.POCO.StructuredClassifiers;
     using uml4net.POCO.UseCases;
     using uml4net.POCO.Values;
@@ -268,7 +269,7 @@ namespace uml4net.POCO.Deployments
         /// </summary>
         [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, defaultValue: "false")]
         [Implements("IClassifier.IsAbstract")]
-        public bool IsAbstract { get; set; }
+        bool IClassifier.IsAbstract { get; set; }
 
         /// <summary>
         /// If true, the Classifier cannot be specialized.
@@ -355,5 +356,77 @@ namespace uml4net.POCO.Deployments
         [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isReadOnly: true, isDerived: true, isDerivedUnion: true)]
         [Implements(implementation: "IRedefinableElement.RedefinitionContext")]
         public IClassifier RedefinitionContext => throw new NotImplementedException();
+
+        /// <summary>
+        /// This property is used when the Class is acting as a metaclass. It references the Extensions that specify
+        /// additional properties of the metaclass. The property is derived from the Extensions whose memberEnds are
+        /// typed by the Class.
+        /// </summary>
+        [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isReadOnly: true, isDerived: true)]
+        [Implements(implementation: "IClass.Extension")]
+        public List<IExtension> Extension => throw new NotImplementedException();
+
+        /// <summary>
+        /// If true, the Class does not provide a complete declaration and cannot be instantiated. An abstract Class
+        /// is typically used as a target of Associations or Generalizations.
+        /// </summary>
+        [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, defaultValue: "false")]
+        [RedefinedProperty("Classifier-isAbstract")]
+        [Implements(implementation: "IClass.IsAbstract")]
+        public bool IsAbstract { get; set; }
+
+        /// <summary>
+        /// Determines whether an object specified by this Class is active or not. If true, then the owning Class is
+        /// referred to as an active Class. If false, then such a Class is referred to as a passive Class.
+        /// </summary>
+        [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, defaultValue: "false")]
+        [Implements(implementation: "IClass.IsActive")]
+        public bool IsActive { get; set; }
+
+        /// <summary>
+        /// The Classifiers owned by the Class that are not ownedBehaviors.
+        /// </summary>
+        [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue)]
+        [SubsettedProperty("A_redefinitionContext_redefinableElement-redefinableElement")]
+        [SubsettedProperty("Namespace-ownedMember")]
+        [Implements(implementation: "IClass.NestedClassifier")]
+        public List<IClassifier> NestedClassifier { get; set; } = new();
+
+        /// <summary>
+        /// The attributes (i.e., the Properties) owned by the Class.
+        /// </summary>
+        [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: true)]
+        [RedefinedProperty("StructuredClassifier-ownedAttribute")]
+        [SubsettedProperty("Classifier-attribute")]
+        [SubsettedProperty("Namespace-ownedMember")]
+        [Implements(implementation: "IClass.OwnedAttribute")]
+        public List<IProperty> OwnedAttribute { get; set; } = new();
+
+        /// <summary>
+        /// The Operations owned by the Class.
+        /// </summary>
+        [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: true)]
+        [SubsettedProperty("A_redefinitionContext_redefinableElement-redefinableElement")]
+        [SubsettedProperty("Classifier-feature")]
+        [SubsettedProperty("Namespace-ownedMember")]
+        [Implements(implementation: "IClass.OwnedOperation")]
+        public List<IOperation> OwnedOperation { get; set; } = new();
+
+        /// <summary>
+        /// The Receptions owned by the Class.
+        /// </summary>
+        [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue)]
+        [SubsettedProperty("Classifier-feature")]
+        [SubsettedProperty("Namespace-ownedMember")]
+        [Implements(implementation: "IClass.OwnedReception")]
+        public List<IReception> OwnedReception { get; set; } = new();
+
+        /// <summary>
+        /// The superclasses of a Class, derived from its Generalizations.
+        /// </summary>
+        [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isDerived: true)]
+        [RedefinedProperty("Class-superClass")]
+        [Implements(implementation: "IClass.SuperClass")]
+        public List<IClass> SuperClass => throw new NotImplementedException();
     }
 }
