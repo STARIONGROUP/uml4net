@@ -18,6 +18,9 @@
 // </copyright>
 // ------------------------------------------------------------------------------------------------
 
+using uml4net.POCO.Packages;
+using uml4net.POCO.StructuredClassifiers;
+
 namespace uml4net.xmi.Tests
 {
     using System.IO;
@@ -73,9 +76,12 @@ namespace uml4net.xmi.Tests
             var packageImport = package.PackageImport.First();
             Assert.That(packageImport.XmiId, Is.EqualTo("_packageImport.0"));
 
+            var activitiesPackage = package.PackagedElement.OfType<IPackage>().Single(x => x.Name == "Activities");
+
+            var activitiesPackageClasses = activitiesPackage.PackagedElement.OfType<IClass>();
+
+            Assert.That(activitiesPackageClasses.Count(), Is.EqualTo(24));
 
         }
-
-        
     }
 }

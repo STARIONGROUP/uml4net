@@ -28,7 +28,9 @@ namespace uml4net.xmi.Packages
 
     using uml4net.POCO.CommonStructure;
     using uml4net.POCO.Packages;
+
     using uml4net.xmi.CommonStructure;
+    using uml4net.xmi.StructuredClassifiers;
 
     /// <summary>
     /// The purpose of the <see cref="PackageReader"/> is to read an instance of <see cref="IPackage"/>
@@ -63,7 +65,7 @@ namespace uml4net.xmi.Packages
         /// Reads the <see cref="IPackage"/> object from its XML representation
         /// </summary>
         /// <param name="xmlReader">
-        ///  an instance of <see cref="XmlReader"/>
+        /// an instance of <see cref="XmlReader"/>
         /// </param>
         /// <returns>
         /// an instance of <see cref="IPackage"/>
@@ -132,13 +134,62 @@ namespace uml4net.xmi.Packages
                                     this.logger.LogInformation("PackageReader.TemplateBinding not yet implemented");
                                 }
                                 break;
-
+                            case "packagedElement":
+                                this.ReadPackagedElements(package, xmlReader);
+                                break;
+                            default:
+                                throw new NotImplementedException($"PackageReader: {xmlReader.LocalName}");
                         }
                     }
                 }
             }
 
             return package;
+        }
+
+        /// <summary>
+        /// Read the packaged elements
+        /// </summary>
+        /// <param name="package">
+        /// The <see cref="IPackage"/> that the nested packaged elements are added to
+        /// </param>
+        /// <param name="xmlReader">
+        /// an instance of <see cref="XmlReader"/>
+        /// </param>
+        private void ReadPackagedElements(IPackage package, XmlReader xmlReader)
+        {
+            var xmiType = xmlReader.GetAttribute("xmi:type");
+
+            switch (xmiType)
+            {
+                case "uml:Association":
+                    this.logger.LogDebug("uml:Association not yet implements");
+                    break;
+                case "uml:Class":
+                    using (var classXmlReader = xmlReader.ReadSubtree())
+                    {
+                        var classReader = new ClassReader();
+                        var packagedElement = classReader.Read(classXmlReader);
+                        package.PackagedElement.Add(packagedElement);
+                    }
+                    break;
+                case "uml:Enumeration":
+                    this.logger.LogDebug("uml:Enumeration not yet implements");
+                    break;
+                case "uml:Package":
+                    using (var packageXmlReader = xmlReader.ReadSubtree())
+                    {
+                        var packageReader = new PackageReader();
+                        var packagedElement = packageReader.Read(packageXmlReader);
+                        package.PackagedElement.Add(packagedElement);
+                    }
+                    break;
+                case "uml:PrimitiveType":
+                    this.logger.LogDebug("uml:PrimitiveType not yet implements");
+                    break;
+                default:
+                    throw new NotImplementedException(xmiType);
+            }
         }
     }
 }

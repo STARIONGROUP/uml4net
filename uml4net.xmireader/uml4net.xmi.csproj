@@ -23,4 +23,8 @@
     <ProjectReference Include="..\uml4net.Extensions\uml4net.Extensions.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="StructuredClassifiers\" />
+  </ItemGroup>
+
 </Project>

@@ -76,7 +76,7 @@ namespace uml4net.xmi.Packages
 
                 var xmiType = xmlReader.GetAttribute("xmi:type");
 
-                if (xmiType != "uml:Package")
+                if (xmiType != "uml:Model")
                 {
                     // TODO come up with a better exception here
                     throw new XmlException($"The XmiType should be: uml:Model while it is {xmiType}");

@@ -130,7 +130,7 @@ namespace uml4net.POCO.StructuredClassifiers
         [SubsettedProperty(propertyName: "A_source_directedRelationship.directedRelationship")]
         [SubsettedProperty(propertyName: "Element.OwnedElement")]
         [Implements(implementation: "INamespace.ElementImport")]
-        public List<IElementImport> ElementImport { get; set; } = new List<IElementImport>();
+        public List<IElementImport> ElementImport { get; set; } = new ();
 
         /// <summary>
         /// References the PackageableElements that are members of this Namespace as a result of either PackageImports or ElementImports.
@@ -138,7 +138,7 @@ namespace uml4net.POCO.StructuredClassifiers
         [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isReadOnly: true, isDerived: true)]
         [SubsettedProperty(propertyName: "Namespace.Member")]
         [Implements(implementation: "INamespace.ImportedMember")]
-        public List<IPackageableElement> ImportedMember { get; }
+        public List<IPackageableElement> ImportedMember => throw new NotImplementedException();
 
         /// <summary>
         /// A collection of NamedElements owned by the Namespace.
@@ -147,7 +147,7 @@ namespace uml4net.POCO.StructuredClassifiers
         [SubsettedProperty(propertyName: "Element.OwnedElement")]
         [SubsettedProperty(propertyName: "Namespace.Member")]
         [Implements(implementation: "INamespace.OwnedMember")]
-        public List<INamedElement> OwnedMember { get; }
+        public List<INamedElement> OwnedMember => throw new NotImplementedException();
 
         /// <summary>
         /// Specifies a set of Constraints owned by this Namespace.
@@ -163,7 +163,7 @@ namespace uml4net.POCO.StructuredClassifiers
         [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue)]
         [SubsettedProperty(propertyName: "Element.OwnedElement")]
         [Implements(implementation: "INamespace.PackageImport")]
-        public List<IPackageImport> PackageImport { get; set; } = new List<IPackageImport>();
+        public List<IPackageImport> PackageImport { get; set; } = new ();
 
         /// <summary>
         /// The formal TemplateParameter that owns this ParameterableElement
@@ -199,7 +199,7 @@ namespace uml4net.POCO.StructuredClassifiers
         [Implements(implementation: "ITemplateableElement.TemplateBinding")]
         [SubsettedProperty(propertyName: "Element.OwnedElement")]
         [SubsettedProperty(propertyName: "A_source_directedRelationship.DirectedRelationship")]
-        public List<TemplateBinding> TemplateBinding { get; set; }
+        public List<TemplateBinding> TemplateBinding { get; set; } = new();
 
         /// <summary>
         /// Specifies the owning Package of this Type, if any.
@@ -213,11 +213,12 @@ namespace uml4net.POCO.StructuredClassifiers
         /// All of the Properties that are direct (i.e., not inherited or imported) attributes
         /// of the Classifier.
         /// </summary>
-        [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: true, isReadOnly: true, isDerived: true, isDerivedUnion: true)]
+        [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: true,
+            isReadOnly: true, isDerived: true, isDerivedUnion: true)]
         [SubsettedProperty(propertyName: "A_redefinitionContext_redefinableElement.RedefinableElement")]
         [SubsettedProperty(propertyName: "Classifier.Feature")]
         [Implements("IClassifier.Attribute")]
-        public List<IProperty> Attribute { get; set; }
+        public List<IProperty> Attribute { get; set; } = new();
 
         /// <summary>
         /// The CollaborationUses owned by the Classifier.
@@ -225,7 +226,7 @@ namespace uml4net.POCO.StructuredClassifiers
         [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue)]
         [SubsettedProperty(propertyName: "Element-ownedElement")]
         [Implements("IClassifier.CollaborationUse")]
-        public List<ICollaborationUse> CollaborationUse { get; set; }
+        public List<ICollaborationUse> CollaborationUse { get; set; } = new();
 
         /// <summary>
         /// Specifies each Feature directly defined in the classifier. Note that there may be members of the 
@@ -251,7 +252,7 @@ namespace uml4net.POCO.StructuredClassifiers
         [SubsettedProperty(propertyName: "A_source_directedRelationship.DirectedRelationship")]
         [SubsettedProperty(propertyName: "Element-ownedElement")]
         [Implements("IClassifier.Generalization")]
-        public List<IGeneralization> Generalization { get; set; }
+        public List<IGeneralization> Generalization { get; set; } = new();
 
         /// <summary>
         /// All elements inherited by this Classifier from its general Classifiers.
@@ -292,14 +293,14 @@ namespace uml4net.POCO.StructuredClassifiers
         [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue)]
         [SubsettedProperty(propertyName: "Namespace-ownedMember")]
         [Implements("IClassifier.OwnedUseCase")]
-        public List<IUseCase> OwnedUseCase { get; set; }
+        public List<IUseCase> OwnedUseCase { get; set; } = new();
 
         /// <summary>
         /// The GeneralizationSet of which this Classifier is a power type.
         /// </summary>
         [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue)]
         [Implements("IClassifier.PowertypeExtent")]
-        public List<IGeneralizationSet> PowertypeExtent { get; set; }
+        public List<IGeneralizationSet> PowertypeExtent { get; set; } = new();
 
         /// <summary>
         /// The Classifiers redefined by this Classifier.
@@ -307,7 +308,7 @@ namespace uml4net.POCO.StructuredClassifiers
         [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue)]
         [SubsettedProperty(propertyName: "RedefinableElement-redefinedElement")]
         [Implements("IClassifier.RedefinedClassifier")]
-        public List<IClassifier> RedefinedClassifier { get; set; }
+        public List<IClassifier> RedefinedClassifier { get; set; } = new();
 
         /// <summary>
         /// A CollaborationUse which indicates the Collaboration that represents this Classifier.
@@ -324,7 +325,7 @@ namespace uml4net.POCO.StructuredClassifiers
         [SubsettedProperty(propertyName: "Element-ownedElement")]
         [SubsettedProperty(propertyName: "NamedElement-clientDependency")]
         [Implements("IClassifier.Substitution")]
-        public List<ISubstitution> Substitution { get; set; }
+        public List<ISubstitution> Substitution { get; set; } = new();
 
         /// <summary>
         /// TheClassifierTemplateParameter that exposes this element as a formal parameter.
