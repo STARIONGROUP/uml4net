@@ -356,5 +356,24 @@ namespace uml4net.POCO.SimpleClassifiers
         [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isReadOnly: true, isDerived: true, isDerivedUnion: true)]
         [Implements(implementation: "IRedefinableElement.RedefinitionContext")]
         public IClassifier RedefinitionContext => throw new NotImplementedException();
+
+        /// <summary>
+        /// The attributes owned by the DataType.
+        /// </summary>
+        [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: true)]
+        [SubsettedProperty("Classifier-attribute")]
+        [SubsettedProperty("Namespace-ownedMember")]
+        [Implements(implementation: "IDataType.OwnedAttribute")]
+        public List<IProperty> OwnedAttribute { get; set; } = new();
+
+        /// <summary>
+        /// The Operations owned by the DataType.
+        /// </summary>
+        [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: true)]
+        [SubsettedProperty("A_redefinitionContext_redefinableElement-redefinableElement")]
+        [SubsettedProperty("Classifier-feature")]
+        [SubsettedProperty("Namespace-ownedMember")]
+        [Implements(implementation: "IDataType.OwnedOperation")]
+        public List<IOperation> OwnedOperation { get; set; } = new();
     }
 }

@@ -20,6 +20,9 @@
 
 namespace uml4net.POCO.SimpleClassifiers
 {
+    using System.Collections.Generic;
+
+    using uml4net.Decorators;
     using uml4net.POCO.Classification;
 
     /// <summary>
@@ -27,5 +30,21 @@ namespace uml4net.POCO.SimpleClassifiers
     /// </summary>
     public interface IDataType : IClassifier
     {
+        /// <summary>
+        /// The attributes owned by the DataType.
+        /// </summary>
+        [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: true)]
+        [SubsettedProperty("Classifier-attribute")]
+        [SubsettedProperty("Namespace-ownedMember")]
+        public List<IProperty> OwnedAttribute { get; set; }
+
+        /// <summary>
+        /// The Operations owned by the DataType.
+        /// </summary>
+        [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: true)]
+        [SubsettedProperty("A_redefinitionContext_redefinableElement-redefinableElement")]
+        [SubsettedProperty("Classifier-feature")]
+        [SubsettedProperty("Namespace-ownedMember")]
+        public List<IOperation> OwnedOperation { get; set; }
     }
 }
