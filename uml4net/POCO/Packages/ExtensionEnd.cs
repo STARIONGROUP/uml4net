@@ -90,7 +90,7 @@ namespace uml4net.POCO.Packages
         /// The lower bound of the multiplicity interval.
         /// </summary>
         [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isDerived: true)]
-        int IMultiplicityElement.Lower { get; set; }
+        int IMultiplicityElement.Lower { get; }
 
         /// <summary>
         /// The specification of the lower bound for this multiplicity.
@@ -102,7 +102,7 @@ namespace uml4net.POCO.Packages
         /// The upper bound of the multiplicity interval.
         /// </summary>
         [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isDerived: true)]
-        ILiteralUnlimitedNatural IMultiplicityElement.Upper { get; set; }
+        ILiteralUnlimitedNatural IMultiplicityElement.Upper { get; }
 
         /// <summary>
         /// The specification of the upper bound for this multiplicity.

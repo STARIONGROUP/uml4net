@@ -102,7 +102,7 @@ namespace uml4net.POCO.Classification
         /// </summary>
         [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isDerived: true)]
         [Implements(implementation: "IMultiplicityElement.Lower")]
-        public int Lower { get; set; }
+        public int Lower => throw new NotImplementedException();
 
         /// <summary>
         /// The specification of the lower bound for this multiplicity.
@@ -116,7 +116,7 @@ namespace uml4net.POCO.Classification
         /// </summary>
         [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isDerived: true)]
         [Implements(implementation: "IMultiplicityElement.Upper")]
-        public ILiteralUnlimitedNatural Upper { get; set; }
+        public ILiteralUnlimitedNatural Upper => throw new NotImplementedException();
 
         /// <summary>
         /// The specification of the upper bound for this multiplicity.
@@ -216,7 +216,7 @@ namespace uml4net.POCO.Classification
         /// </summary>
         [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, defaultValue: "AggregationKind.None")]
         [Implements(implementation: "IProperty.Aggregation")]
-        public AggregationKind Aggregation { get; set; }
+        public AggregationKind Aggregation { get; set; } = AggregationKind.None;
 
         /// <summary>
         /// The Association of which this Property is a member, if any.
@@ -269,28 +269,28 @@ namespace uml4net.POCO.Classification
         /// </summary>
         [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isDerived: true, defaultValue: "false")]
         [Implements(implementation: "IProperty.IsComposite")]
-        public bool IsComposite { get; }
+        public bool IsComposite => throw new NotImplementedException();
 
         /// <summary>
         /// Specifies whether the Property is derived, i.e., whether its value or values can be computed from other information.
         /// </summary>
         [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, defaultValue: "false")]
         [Implements(implementation: "IProperty.IsDerived")]
-        public bool IsDerived { get; set; }
+        public bool IsDerived { get; set; } = false;
 
         /// <summary>
         /// Specifies whether the property is derived as the union of all of the Properties that are constrained to subset it.
         /// </summary>
         [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, defaultValue: "false")]
         [Implements(implementation: "IProperty.IsDerivedUnion")]
-        public bool IsDerivedUnion { get; set; }
+        public bool IsDerivedUnion { get; set; } = false;
 
         /// <summary>
         /// True indicates this property can be used to uniquely identify an instance of the containing Class.
         /// </summary>
         [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, defaultValue: "false")]
         [Implements(implementation: "IProperty.IsID")]
-        public bool IsID { get; set; }
+        public bool IsID { get; set; } = false;
 
         /// <summary>
         /// In the case where the Property is one end of a binary association this gives the other end.

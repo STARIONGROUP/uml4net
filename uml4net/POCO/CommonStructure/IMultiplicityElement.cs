@@ -49,7 +49,7 @@ namespace uml4net.POCO.CommonStructure
         /// The lower bound of the multiplicity interval.
         /// </summary>
         [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isDerived: true)]
-        public int Lower { get; set; }
+        public int Lower { get; }
 
         /// <summary>
         /// The specification of the lower bound for this multiplicity.
@@ -61,7 +61,7 @@ namespace uml4net.POCO.CommonStructure
         /// The upper bound of the multiplicity interval.
         /// </summary>
         [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isDerived: true)]
-        public ILiteralUnlimitedNatural Upper { get; set; }
+        public ILiteralUnlimitedNatural Upper { get; }
 
         /// <summary>
         /// The specification of the upper bound for this multiplicity.

@@ -120,7 +120,9 @@ namespace uml4net.xmi.StructuredClassifiers
                             case "ownedAttribute":
                                 using (var ownedAttributeXmlReader = xmlReader.ReadSubtree())
                                 {
-                                    this.logger.LogInformation("ClassReader.ownedAttribute not yet implemented");
+                                    var propertyReader = new PropertyReader(this.loggerFactory);
+                                    var property = propertyReader.Read(ownedAttributeXmlReader);
+                                    @class.OwnedAttribute.Add(property);
                                 }
                                 break;
                             case "ownedOperation":

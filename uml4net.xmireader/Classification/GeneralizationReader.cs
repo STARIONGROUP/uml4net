@@ -20,14 +20,12 @@
 
 namespace uml4net.xmi.Classification
 {
-    using System;
     using System.Xml;
 
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Logging.Abstractions;
 
     using uml4net.POCO.Classification;
-    using uml4net.POCO.Packages;
 
     /// <summary>
     /// The purpose of the <see cref="GeneralizationReader"/> is to read an instance of <see cref="IGeneralization"/>
@@ -59,13 +57,13 @@ namespace uml4net.xmi.Classification
         }
 
         /// <summary>
-        /// Reads the <see cref="IPackage"/> object from its XML representation
+        /// Reads the <see cref="IGeneralization"/> object from its XML representation
         /// </summary>
         /// <param name="xmlReader">
         /// an instance of <see cref="XmlReader"/>
         /// </param>
         /// <returns>
-        /// an instance of <see cref="IPackage"/>
+        /// an instance of <see cref="IGeneralization"/>
         /// </returns>
         public IGeneralization Read(XmlReader xmlReader)
         {
