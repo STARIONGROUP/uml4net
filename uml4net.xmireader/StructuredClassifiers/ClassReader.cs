@@ -30,6 +30,7 @@ namespace uml4net.xmi.StructuredClassifiers
     using uml4net.POCO.StructuredClassifiers;
     using uml4net.POCO.Packages;
 
+    using uml4net.xmi.Classification;
     using uml4net.xmi.CommonStructure;
     using uml4net.xmi.Packages;
     
@@ -131,7 +132,9 @@ namespace uml4net.xmi.StructuredClassifiers
                             case "generalization":
                                 using (var generalizationXmlReader = xmlReader.ReadSubtree())
                                 {
-                                    this.logger.LogInformation("ClassReader.generalization not yet implemented");
+                                    var generalizationReader = new GeneralizationReader(this.loggerFactory);
+                                    var generalization = generalizationReader.Read(generalizationXmlReader);
+                                    @class.Generalization.Add(generalization);
                                 }
                                 break;
                             default:

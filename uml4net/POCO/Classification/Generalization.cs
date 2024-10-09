@@ -52,6 +52,12 @@ namespace uml4net.POCO.Classification
         public string XmiType { get; set; }
 
         /// <summary>
+        /// Gets or sets a dictionary of reference properties and the associated unique identifiers
+        /// </summary>
+        [Implements(implementation: "IGeneralization.ReferencePropertyValueIdentifies")]
+        public Dictionary<string, string> ReferencePropertyValueIdentifies { get; set; } = new Dictionary<string, string>();
+
+        /// <summary>
         /// The Comments owned by this Element.
         /// </summary>
         [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue)]

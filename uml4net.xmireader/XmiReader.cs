@@ -20,11 +20,9 @@
 
 namespace uml4net.xmi
 {
-    using System;
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.IO;
-    using System.Runtime;
     using System.Xml;
 
     using Microsoft.Extensions.Logging;

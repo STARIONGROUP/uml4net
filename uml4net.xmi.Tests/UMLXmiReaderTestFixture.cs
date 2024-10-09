@@ -87,6 +87,8 @@ namespace uml4net.xmi.Tests
             var classOwnedComment = @class.OwnedComment.Single();
 
             Assert.That(classOwnedComment.Body, Is.EqualTo("A Class classifies a set of objects and specifies the features that characterize the structure and behavior of those objects.  A Class may have an internal structure and Ports.\r\n"));
+
+            Assert.That(@class.Generalization.Count, Is.EqualTo(2));
         }
     }
 }

@@ -22,6 +22,7 @@ namespace uml4net.xmi
 {
     using System.Collections.Generic;
     using System.IO;
+
     using uml4net.POCO.Packages;
 
     /// <summary>

@@ -1,5 +1,5 @@
 ﻿// -------------------------------------------------------------------------------------------------
-//  <copyright file="CommentReader.cs" company="Starion Group S.A.">
+//  <copyright file="GeneralizationReader.cs" company="Starion Group S.A.">
 // 
 //    Copyright 2019-2024 Starion Group S.A.
 // 
@@ -18,20 +18,22 @@
 //  </copyright>
 //  ------------------------------------------------------------------------------------------------
 
-namespace uml4net.xmi.CommonStructure
+namespace uml4net.xmi.Classification
 {
+    using System;
     using System.Xml;
 
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Logging.Abstractions;
 
-    using uml4net.POCO.CommonStructure;
+    using uml4net.POCO.Classification;
+    using uml4net.POCO.Packages;
 
     /// <summary>
-    /// The purpose of the <see cref="CommentReader"/> is to read an instance of <see cref="IComment"/>
+    /// The purpose of the <see cref="GeneralizationReader"/> is to read an instance of <see cref="IGeneralization"/>
     /// from the XMI document
     /// </summary>
-    public class CommentReader
+    public class GeneralizationReader
     {
         /// <summary>
         /// The (injected) <see cref="ILoggerFactory"/> used to setup logging
@@ -41,51 +43,61 @@ namespace uml4net.xmi.CommonStructure
         /// <summary>
         /// The <see cref="ILogger"/> used to log
         /// </summary>
-        private readonly ILogger<CommentReader> logger;
+        private readonly ILogger<GeneralizationReader> logger;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="CommentReader"/> class.
+        /// Initializes a new instance of the <see cref="GeneralizationReader"/> class.
         /// </summary>
         /// <param name="loggerFactory">
         /// The (injected) <see cref="ILoggerFactory"/> used to setup logging
         /// </param>
-        public CommentReader(ILoggerFactory loggerFactory = null)
+        public GeneralizationReader(ILoggerFactory loggerFactory = null)
         {
             this.loggerFactory = loggerFactory;
 
-            this.logger = this.loggerFactory == null ? NullLogger<CommentReader>.Instance : this.loggerFactory.CreateLogger<CommentReader>();
+            this.logger = this.loggerFactory == null ? NullLogger<GeneralizationReader>.Instance : this.loggerFactory.CreateLogger<GeneralizationReader>();
         }
 
         /// <summary>
-        /// Reads the <see cref="IComment"/> object from its XML representation
+        /// Reads the <see cref="IPackage"/> object from its XML representation
         /// </summary>
         /// <param name="xmlReader">
         /// an instance of <see cref="XmlReader"/>
         /// </param>
         /// <returns>
-        /// an instance of <see cref="IComment"/>
+        /// an instance of <see cref="IPackage"/>
         /// </returns>
-        public IComment Read(XmlReader xmlReader)
+        public IGeneralization Read(XmlReader xmlReader)
         {
-            IComment comment = new Comment();
+            IGeneralization generalization = new Generalization();
 
             if (xmlReader.MoveToContent() == XmlNodeType.Element)
             {
-                comment.XmiId = xmlReader.GetAttribute("xmi:id");
+                generalization.XmiId = xmlReader.GetAttribute("xmi:id");
 
                 var xmiType = xmlReader.GetAttribute("xmi:type");
 
-                if (xmiType != "uml:Comment")
+                if (xmiType != "uml:Generalization")
                 {
-                    throw new XmlException($"The XmiType should be: uml:Comment while it is {xmiType}");
+                    throw new XmlException($"The XmiType should be: uml:Generalization while it is {xmiType}");
                 }
 
-                comment.XmiType = xmlReader.GetAttribute("xmi:type");
+                generalization.XmiType = xmlReader.GetAttribute("xmi:type");
 
-                comment.Body = xmlReader.GetAttribute("body");
+                var isSubstitutable = xmlReader.GetAttribute("isSubstitutable");
+                if (!string.IsNullOrEmpty(isSubstitutable))
+                {
+                    generalization.IsSubstitutable = bool.Parse(isSubstitutable);
+                }
+
+                var general = xmlReader.GetAttribute("general");
+                if (!string.IsNullOrEmpty(general))
+                {
+                    generalization.ReferencePropertyValueIdentifies.Add("general", general);
+                }
             }
 
-            return comment;
+            return generalization;
         }
     }
 }
