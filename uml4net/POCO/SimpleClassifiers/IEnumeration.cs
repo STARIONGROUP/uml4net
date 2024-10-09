@@ -20,10 +20,21 @@
 
 namespace uml4net.POCO.SimpleClassifiers
 {
+    using System.Collections.Generic;
+    
+    using uml4net.Decorators;
+    using uml4net.POCO.Classification;
+
     /// <summary>
     /// An Enumeration is a DataType whose values are enumerated in the model as EnumerationLiterals.
     /// </summary>
     public interface IEnumeration : IDataType
     {
+        /// <summary>
+        /// The ordered set of literals owned by this Enumeration.
+        /// </summary>
+        [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue)]
+        [SubsettedProperty("Namespace-ownedMember")]
+        public List<IEnumerationLiteral> OwnedLiteral { get; set; }
     }
 }

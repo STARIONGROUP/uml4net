@@ -30,6 +30,7 @@ namespace uml4net.xmi.Packages
     using uml4net.POCO.Packages;
 
     using uml4net.xmi.CommonStructure;
+    using uml4net.xmi.SimpleClassifiers;
     using uml4net.xmi.StructuredClassifiers;
 
     /// <summary>
@@ -181,7 +182,9 @@ namespace uml4net.xmi.Packages
                 case "uml:Enumeration":
                     using (var enumerationXmlReader = xmlReader.ReadSubtree())
                     {
-                        this.logger.LogDebug("uml:Enumeration not yet implements");
+                        var enumerationReader = new EnumerationReader();
+                        var enumeration = enumerationReader.Read(enumerationXmlReader);
+                        package.PackagedElement.Add(enumeration);
                     }
                     break;
                 case "uml:Package":

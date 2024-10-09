@@ -20,6 +20,7 @@
 
 namespace uml4net.POCO.SimpleClassifiers
 {
+    using uml4net.Decorators;
     using uml4net.POCO.Classification;
 
     /// <summary>
@@ -27,5 +28,18 @@ namespace uml4net.POCO.SimpleClassifiers
     /// </summary>
     public interface IEnumerationLiteral : IInstanceSpecification
     {
+        /// <summary>
+        /// The classifier of this EnumerationLiteral derived to be equal to its Enumeration.
+        /// </summary>
+        [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isReadOnly:true, isDerived:true)]
+        [RedefinedProperty("InstanceSpecification-classifier")]
+        public new IEnumeration Classifier { get; }
+
+        /// <summary>
+        /// The Enumeration that this EnumerationLiteral is a member of.
+        /// </summary>
+        [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1)]
+        [SubsettedProperty("NamedElement-namespace")]
+        public IEnumeration Enumeration { get; set; }
     }
 }

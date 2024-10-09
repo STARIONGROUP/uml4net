@@ -28,8 +28,9 @@ namespace uml4net.xmi.Tests
     using NUnit.Framework;
 
     using uml4net.POCO.Packages;
+    using uml4net.POCO.SimpleClassifiers;
     using uml4net.POCO.StructuredClassifiers;
-
+    
     [TestFixture]
     public class UMLXmiReaderTestFixture
     {
@@ -89,6 +90,23 @@ namespace uml4net.xmi.Tests
             Assert.That(classOwnedComment.Body, Is.EqualTo("A Class classifies a set of objects and specifies the features that characterize the structure and behavior of those objects.  A Class may have an internal structure and Ports.\r\n"));
 
             Assert.That(@class.Generalization.Count, Is.EqualTo(2));
+
+            var structuredClassifiersPackageEnumerations = structuredClassifiersPackage.PackagedElement.OfType<IEnumeration>();
+
+            Assert.That(structuredClassifiersPackageEnumerations.Count, Is.EqualTo(1));
+
+            var connectorKindEnumeration = structuredClassifiersPackageEnumerations.Single();
+
+            Assert.That(connectorKindEnumeration.Name, Is.EqualTo("ConnectorKind"));
+            Assert.That(connectorKindEnumeration.OwnedComment.First().Body, Is.EqualTo("ConnectorKind is an enumeration that defines whether a Connector is an assembly or a delegation."));
+
+            Assert.That(connectorKindEnumeration.OwnedLiteral.Count, Is.EqualTo(2));
+
+            var connectorKindEnumerationEnumerationLiteralAssembly = connectorKindEnumeration.OwnedLiteral.First();
+
+            Assert.That(connectorKindEnumerationEnumerationLiteralAssembly.Name, Is.EqualTo("assembly"));
+            Assert.That(connectorKindEnumerationEnumerationLiteralAssembly.OwnedComment.First().Body, Is.EqualTo("Indicates that the Connector is an assembly Connector."));
+
         }
     }
 }

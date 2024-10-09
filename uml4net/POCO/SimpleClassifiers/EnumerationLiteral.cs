@@ -142,7 +142,7 @@ namespace uml4net.POCO.SimpleClassifiers
         /// </summary>
         [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue)]
         [Implements("IInstanceSpecification.Classifier")]
-        public List<IClassifier> Classifier { get; set; } = new List<IClassifier>();
+        List<IClassifier> IInstanceSpecification.Classifier { get; set; } = new List<IClassifier>();
 
         /// <summary>
         /// A Slot giving the value or values of a StructuralFeature of the instance. An InstanceSpecification
@@ -161,5 +161,21 @@ namespace uml4net.POCO.SimpleClassifiers
         [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: 1)]
         [Implements("IInstanceSpecification.Specification")]
         public IValueSpecification Specification { get; set; }
+
+        /// <summary>
+        /// The classifier of this EnumerationLiteral derived to be equal to its Enumeration.
+        /// </summary>
+        [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isReadOnly: true, isDerived: true)]
+        [RedefinedProperty("InstanceSpecification-classifier")]
+        [Implements("IEnumeration.Classifier")]
+        public IEnumeration Classifier => throw new NotImplementedException();
+
+        /// <summary>
+        /// The Enumeration that this EnumerationLiteral is a member of.
+        /// </summary>
+        [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1)]
+        [SubsettedProperty("NamedElement-namespace")]
+        [Implements("IEnumeration.Enumeration")]
+        public IEnumeration Enumeration { get; set; }
     }
 }
