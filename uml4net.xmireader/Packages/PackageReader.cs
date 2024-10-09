@@ -105,7 +105,9 @@ namespace uml4net.xmi.Packages
                             case "ownedComment":
                                 using (var ownedCommentXmlReader = xmlReader.ReadSubtree())
                                 {
-                                    this.logger.LogInformation("PackageReader.ownedComment not yet implemented");
+                                    var commentReader = new CommentReader(this.loggerFactory);
+                                    var comment = commentReader.Read(ownedCommentXmlReader);
+                                    package.OwnedComment.Add(comment);
                                 }
                                 break;
                             case "elementImport":

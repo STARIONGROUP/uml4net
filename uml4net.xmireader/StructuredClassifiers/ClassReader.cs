@@ -26,14 +26,13 @@ namespace uml4net.xmi.StructuredClassifiers
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Logging.Abstractions;
 
+    using uml4net.POCO.CommonStructure;
     using uml4net.POCO.StructuredClassifiers;
     using uml4net.POCO.Packages;
 
     using uml4net.xmi.CommonStructure;
     using uml4net.xmi.Packages;
-    using System.IO.Packaging;
-    using uml4net.POCO.CommonStructure;
-
+    
     /// <summary>
     /// The purpose of the <see cref="ClassReader"/> is to read an instance of <see cref="IClass"/>
     /// from the XMI document
@@ -106,7 +105,9 @@ namespace uml4net.xmi.StructuredClassifiers
                             case "ownedComment":
                                 using (var ownedCommentXmlReader = xmlReader.ReadSubtree())
                                 {
-                                    this.logger.LogInformation("ClassReader.ownedComment not yet implemented");
+                                    var commentReader = new CommentReader(this.loggerFactory);
+                                    var comment = commentReader.Read(ownedCommentXmlReader);
+                                    @class.OwnedComment.Add(comment);
                                 }
                                 break;
                             case "ownedRule":

@@ -27,8 +27,6 @@ namespace uml4net.xmi.CommonStructure
     using Microsoft.Extensions.Logging.Abstractions;
 
     using uml4net.POCO.CommonStructure;
-    using uml4net.POCO.Packages;
-    using uml4net.xmi.Packages;
 
     /// <summary>
     /// The purpose of the <see cref="PackageImportReader"/> is to read an instance of <see cref="IPackageImport"/>

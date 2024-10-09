@@ -18,9 +18,6 @@
 // </copyright>
 // ------------------------------------------------------------------------------------------------
 
-using uml4net.POCO.Packages;
-using uml4net.POCO.StructuredClassifiers;
-
 namespace uml4net.xmi.Tests
 {
     using System.IO;
@@ -29,7 +26,10 @@ namespace uml4net.xmi.Tests
     using Microsoft.Extensions.Logging;
 
     using NUnit.Framework;
-    
+
+    using uml4net.POCO.Packages;
+    using uml4net.POCO.StructuredClassifiers;
+
     [TestFixture]
     public class UMLXmiReaderTestFixture
     {
@@ -76,12 +76,17 @@ namespace uml4net.xmi.Tests
             var packageImport = package.PackageImport.First();
             Assert.That(packageImport.XmiId, Is.EqualTo("_packageImport.0"));
 
-            var activitiesPackage = package.PackagedElement.OfType<IPackage>().Single(x => x.Name == "Activities");
+            var structuredClassifiersPackage = package.PackagedElement.OfType<IPackage>().Single(x => x.Name == "StructuredClassifiers");
 
-            var activitiesPackageClasses = activitiesPackage.PackagedElement.OfType<IClass>();
+            var structuredClassifiersPackageClasses = structuredClassifiersPackage.PackagedElement.OfType<IClass>();
 
-            Assert.That(activitiesPackageClasses.Count(), Is.EqualTo(24));
+            Assert.That(structuredClassifiersPackageClasses.Count(), Is.EqualTo(14));
 
+            var @class = structuredClassifiersPackageClasses.Single(x => x.Name == "Class");
+
+            var classOwnedComment = @class.OwnedComment.Single();
+
+            Assert.That(classOwnedComment.Body, Is.EqualTo("A Class classifies a set of objects and specifies the features that characterize the structure and behavior of those objects.  A Class may have an internal structure and Ports.\r\n"));
         }
     }
 }
