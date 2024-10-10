@@ -26,7 +26,7 @@ namespace uml4net.xmi.Tests
     using Microsoft.Extensions.Logging;
 
     using NUnit.Framework;
-
+    using POCO.Values;
     using uml4net.POCO.Packages;
     using uml4net.POCO.SimpleClassifiers;
     using uml4net.POCO.StructuredClassifiers;
@@ -107,6 +107,14 @@ namespace uml4net.xmi.Tests
             Assert.That(connectorKindEnumerationEnumerationLiteralAssembly.Name, Is.EqualTo("assembly"));
             Assert.That(connectorKindEnumerationEnumerationLiteralAssembly.OwnedComment.First().Body, Is.EqualTo("Indicates that the Connector is an assembly Connector."));
 
+            var classOwnedRule = @class.OwnedRule.Single();
+
+            Assert.That(classOwnedRule.OwnedComment.Single().Body, Is.EqualTo("Only an active Class may own Receptions and have a classifierBehavior."));
+
+            var opaqueExpression = classOwnedRule.Specification as IOpaqueExpression;
+
+            Assert.That(opaqueExpression.Body.Single(), Is.EqualTo("not isActive implies (ownedReception->isEmpty() and classifierBehavior = null)"));
+            Assert.That(opaqueExpression.Language.Single(), Is.EqualTo("OCL"));
         }
     }
 }

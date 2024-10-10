@@ -49,6 +49,7 @@ namespace uml4net.POCO.CommonStructure
         /// A condition that must be true when evaluated in order for the Constraint to be satisfied.
         /// </summary>
         [Property(aggregation: AggregationKind.Composite, lowerValue: 1, upperValue: 1)]
+        [SubsettedProperty(propertyName: "Element-ownedElement")]
         public IValueSpecification Specification { get; set; }
     }
 }

@@ -56,7 +56,7 @@ namespace uml4net.POCO.CommonStructure
         /// </summary>
         [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: true)]
         [Implements(implementation: "IConstraint.ConstrainedElement")]
-        public List<IElement> ConstrainedElement { get; set; } = new List<IElement>();
+        public List<IElement> ConstrainedElement { get; set; } = new();
 
         /// <summary>
         /// Specifies the Namespace that owns the Constraint.
@@ -78,7 +78,7 @@ namespace uml4net.POCO.CommonStructure
         /// </summary>
         [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue)]
         [Implements(implementation: "IElement.OwnedComment")]
-        public List<IComment> OwnedComment { get; set; } = new List<IComment>();
+        public List<IComment> OwnedComment { get; set; } = new();
 
         /// <summary>
         /// The Elements owned by this Element

@@ -25,6 +25,7 @@ namespace uml4net.POCO.Values
 
     using uml4net.Decorators;
     using uml4net.POCO.Classification;
+    using uml4net.POCO.CommonBehavior;
     using uml4net.POCO.CommonStructure;
 
     /// <summary>
@@ -142,5 +143,37 @@ namespace uml4net.POCO.Values
         [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1)]
         [Implements(implementation: "ITypedElement.Type")]
         public IType Type { get; set; }
+
+        /// <summary>
+        /// Specifies the behavior of the OpaqueExpression as a UML Behavior.
+        /// </summary>
+        [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1)]
+        [Implements(implementation: "IOpaqueExpression.Behavior")]
+        public IBehavior Behavior { get; set; }
+
+        /// <summary>
+        /// A textual definition of the behavior of the OpaqueExpression, possibly in multiple languages.
+        /// </summary>
+        [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: true, isUnique: false)]
+        [Implements(implementation: "IOpaqueExpression.Body")]
+        public List<string> Body { get; set; } = new();
+
+        /// <summary>
+        /// Specifies the languages used to express the textual bodies of the OpaqueExpression.  Languages are matched
+        /// to body Strings by order. The interpretation of the body depends on the languages. If the languages are
+        /// unspecified, they may be implicit from the expression body or the context.
+        /// </summary>
+        [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: true, isUnique: false)]
+        [Implements(implementation: "IOpaqueExpression.Language")]
+        public List<string> Language { get; set; } = new();
+
+        /// <summary>
+        /// If an OpaqueExpression is specified using a UML Behavior, then this refers to the single required return Parameter of
+        /// that Behavior. When the Behavior completes execution, the values on this Parameter give the result of evaluating
+        /// the OpaqueExpression.
+        /// </summary>
+        [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isReadOnly: true, isDerived: true)]
+        [Implements(implementation: "IOpaqueExpression.Result")]
+        public IParameter Result => throw new NotImplementedException();
     }
 }

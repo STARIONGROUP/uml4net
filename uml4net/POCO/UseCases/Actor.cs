@@ -153,7 +153,7 @@ namespace uml4net.POCO.UseCases
         [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue)]
         [SubsettedProperty(propertyName: "Namespace.OwnedMember")]
         [Implements(implementation: "INamespace.OwnedRule")]
-        public List<IConstraint> OwnedRule { get; set; }
+        public List<IConstraint> OwnedRule { get; set; } = new();
 
         /// <summary>
         /// References the PackageImports owned by the Namespace.

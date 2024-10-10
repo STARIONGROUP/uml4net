@@ -39,6 +39,7 @@ namespace uml4net.Decorators
             bool isReadOnly = false,
             bool isDerived = false,
             bool isDerivedUnion = false,
+            bool isUnique = true,
             string defaultValue = null)
         {
             this.Aggregation = aggregation;
@@ -48,6 +49,7 @@ namespace uml4net.Decorators
             this.IsReadOnly = isReadOnly;
             this.IsDerived = isDerived;
             this.IsDerivedUnion = isDerivedUnion;
+            this.IsUnique = isUnique;
             this.DefaultValue = defaultValue;
         }
 
@@ -85,6 +87,11 @@ namespace uml4net.Decorators
         /// Gets or sets a value specifiying whether this is a derived union property
         /// </summary>
         public bool IsDerivedUnion { get; set; } = false;
+
+        /// <summary>
+        /// For a multivalued multiplicity, this attributes specifies whether the values in an instantiation of this MultiplicityElement are unique.
+        /// </summary>
+        public bool IsUnique { get; set; } = true;
 
         /// <summary>
         /// Gets or sets the default value if any.

@@ -114,7 +114,9 @@ namespace uml4net.xmi.StructuredClassifiers
                             case "ownedRule":
                                 using (var ownedRuleXmlReader = xmlReader.ReadSubtree())
                                 {
-                                    this.logger.LogInformation("ClassReader.ownedRule not yet implemented");
+                                    var constraintReader = new ConstraintReader(this.loggerFactory);
+                                    var constraint = constraintReader.Read(ownedRuleXmlReader);
+                                    @class.OwnedRule.Add(constraint);
                                 }
                                 break;
                             case "ownedAttribute":
