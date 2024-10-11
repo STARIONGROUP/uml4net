@@ -55,7 +55,7 @@ namespace uml4net.POCO.Values
         /// </summary>
         [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue)]
         [Implements(implementation: "IElement.OwnedComment")]
-        public List<IComment> OwnedComment { get; set; } = new List<IComment>();
+        public List<IComment> OwnedComment { get; set; } = new ();
 
         /// <summary>
         /// The Elements owned by this Element
@@ -141,5 +141,12 @@ namespace uml4net.POCO.Values
         [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1)]
         [Implements(implementation: "ITypedElement.Type")]
         public IType Type { get; set; }
+
+        /// <summary>
+        /// The specified Integer value.
+        /// </summary>
+        [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, defaultValue: "0")]
+        [Implements(implementation: "ILiteralInteger.Value")]
+        public int Value { get; set; } = 0;
     }
 }

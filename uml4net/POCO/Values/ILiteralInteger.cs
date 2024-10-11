@@ -20,10 +20,19 @@
 
 namespace uml4net.POCO.Values
 {
+    using uml4net.Decorators;
+
+    using uml4net.POCO.Classification;
+
     /// <summary>
     /// A LiteralInteger is a specification of an Integer value.
     /// </summary>
     public interface ILiteralInteger : ILiteralSpecification
     {
+        /// <summary>
+        /// The specified Integer value.
+        /// </summary>
+        [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, defaultValue:"0")]
+        public int Value { get; set; }
     }
 }

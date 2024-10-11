@@ -32,6 +32,7 @@ namespace uml4net.xmi.Classification
     using uml4net.POCO.SimpleClassifiers;
     using uml4net.POCO.StructuredClassifiers;
     using uml4net.xmi.CommonStructure;
+    using uml4net.xmi.Values;
 
     /// <summary>
     /// The purpose of the <see cref="PropertyReader"/> is to read an instance of <see cref="IProperty"/>
@@ -167,7 +168,9 @@ namespace uml4net.xmi.Classification
                             case "lowerValue":
                                 using (var lowerValueXmlReader = xmlReader.ReadSubtree())
                                 {
-                                    this.logger.LogDebug("property:lowerValue not yet implemented");
+                                    var literalIntegerReader = new LiteralIntegerReader(this.loggerFactory);
+                                    var literalInteger = literalIntegerReader.Read(lowerValueXmlReader);
+                                    property.LowerValue = literalInteger;
                                 }
                                 break;
                             case "upperValue":
