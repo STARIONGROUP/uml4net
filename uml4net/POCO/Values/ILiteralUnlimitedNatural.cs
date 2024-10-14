@@ -20,10 +20,19 @@
 
 namespace uml4net.POCO.Values
 {
+    using uml4net.Decorators;
+
+    using uml4net.POCO.Classification;
+
     /// <summary>
     /// A LiteralUnlimitedNatural is a specification of an UnlimitedNatural number.
     /// </summary>
     public interface ILiteralUnlimitedNatural : ILiteralSpecification
     {
+        /// <summary>
+        /// The specified UnlimitedNatural value.
+        /// </summary>
+        [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, defaultValue: "0")]
+        public int? Value { get; set; }
     }
 }

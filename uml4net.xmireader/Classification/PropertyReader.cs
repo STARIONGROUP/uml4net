@@ -176,7 +176,9 @@ namespace uml4net.xmi.Classification
                             case "upperValue":
                                 using (var upperValueXmlReader = xmlReader.ReadSubtree())
                                 {
-                                    this.logger.LogDebug("property:upperValue not yet implemented");
+                                    var literalUnlimitedNaturalReader = new LiteralUnlimitedNaturalReader(this.loggerFactory);
+                                    var literalUnlimitedNatural = literalUnlimitedNaturalReader.Read(upperValueXmlReader);
+                                    property.UpperValue = literalUnlimitedNatural;
                                 }
                                 break;
                             case "nameExpression":
