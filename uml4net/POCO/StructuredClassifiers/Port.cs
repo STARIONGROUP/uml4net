@@ -40,6 +40,18 @@ namespace uml4net.POCO.StructuredClassifiers
     public class Port : IPort
     {
         /// <summary>
+        /// Gets or sets a dictionary of reference properties and the associated unique identifiers
+        /// </summary>
+        [Implements(implementation: "IProperty.SingleValueReferencePropertyIdentifiers")]
+        public Dictionary<string, string> SingleValueReferencePropertyIdentifiers { get; set; } = new();
+
+        /// <summary>
+        /// Gets or sets a dictionary of multi valued reference properties and the associated unique identifiers
+        /// </summary>
+        [Implements(implementation: "IProperty.MultiValueReferencePropertyIdentifiers")]
+        public Dictionary<string, List<string>> MultiValueReferencePropertyIdentifiers { get; set; }
+
+        /// <summary>
         /// Gets or sets the unique identifier of the Element in the XMI document
         /// </summary>
         [Implements(implementation: "IXmiElement.XmiId")]

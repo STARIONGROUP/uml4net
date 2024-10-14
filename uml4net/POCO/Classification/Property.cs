@@ -43,6 +43,18 @@ namespace uml4net.POCO.Classification
     public class Property : IProperty
     {
         /// <summary>
+        /// Gets or sets a dictionary of single-valued reference properties and the associated unique identifiers
+        /// </summary>
+        [Implements(implementation: "IProperty.SingleValueReferencePropertyIdentifiers")]
+        public Dictionary<string, string> SingleValueReferencePropertyIdentifiers { get; set; } = new();
+
+        /// <summary>
+        /// Gets or sets a dictionary of multivalued reference properties and the associated unique identifiers
+        /// </summary>
+        [Implements(implementation: "IProperty.MultiValueReferencePropertyIdentifiers")]
+        public Dictionary<string, List<string>> MultiValueReferencePropertyIdentifiers { get; set; } = new();
+
+        /// <summary>
         /// Gets or sets the unique identifier of the Element in the XMI document
         /// </summary>
         [Implements(implementation: "IXmiElement.XmiId")]

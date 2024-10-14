@@ -21,6 +21,7 @@
 namespace uml4net.xmi.Classification
 {
     using System;
+    using System.Collections.Generic;
     using System.Xml;
 
     using Microsoft.Extensions.Logging;
@@ -151,6 +152,12 @@ namespace uml4net.xmi.Classification
                     property.Visibility = (VisibilityKind)Enum.Parse(typeof(VisibilityKind), visibility, true);
                 }
 
+                var type = xmlReader.GetAttribute("type");
+                if (!string.IsNullOrEmpty(type))
+                {
+                    property.SingleValueReferencePropertyIdentifiers.Add("type", type);
+                }
+
                 while (xmlReader.Read())
                 {
                     if (xmlReader.NodeType == XmlNodeType.Element)
@@ -190,13 +197,42 @@ namespace uml4net.xmi.Classification
                             case "subsettedProperty":
                                 using (var subsettedPropertyXmlReader = xmlReader.ReadSubtree())
                                 {
-                                    this.logger.LogDebug("property:subsettedProperty not yet implemented");
+                                    if (subsettedPropertyXmlReader.MoveToContent() == XmlNodeType.Element)
+                                    {
+                                        var reference = subsettedPropertyXmlReader.GetAttribute("xmi:idref");
+                                        if (!string.IsNullOrEmpty(reference))
+                                        {
+                                            if (property.MultiValueReferencePropertyIdentifiers.TryGetValue("subsettedProperty", out var references))
+                                            {
+                                                references.Add(reference);
+                                            }
+                                            else
+                                            {
+                                                property.MultiValueReferencePropertyIdentifiers.Add("subsettedProperty", new List<string> { reference });
+                                            }
+                                        }
+                                        else
+                                        {
+                                            throw new InvalidOperationException("subsettedProperty xml-attribute reference could not be read");
+                                        }
+                                    }
                                 }
                                 break;
                             case "type":
                                 using (var typeXmlReader = xmlReader.ReadSubtree())
                                 {
-                                    this.logger.LogDebug("property:typePropertyXmlReader not yet implemented");
+                                    if (typeXmlReader.MoveToContent() == XmlNodeType.Element)
+                                    {
+                                        var reference = typeXmlReader.GetAttribute("href");
+                                        if (!string.IsNullOrEmpty(reference))
+                                        {
+                                            property.SingleValueReferencePropertyIdentifiers.Add("type", reference);
+                                        }
+                                        else
+                                        {
+                                            throw new InvalidOperationException("type xml-attribute reference could not be read");
+                                        }
+                                    }
                                 }
                                 break;
                             case "defaultValue":

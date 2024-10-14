@@ -55,7 +55,7 @@ namespace uml4net.POCO.CommonStructure
         /// <summary>
         /// Gets or sets a dictionary of reference properties and the associated unique identifiers
         /// </summary>
-        [Implements(implementation: "IPackageImport.ReferencePropertyValueIdentifies")]
+        [Implements(implementation: "IPackageImport.ReferencePropertyValueIdentifiers")]
         public Dictionary<string, string> ReferencePropertyValueIdentifies { get; set; } = new Dictionary<string, string>();
 
         /// <summary>

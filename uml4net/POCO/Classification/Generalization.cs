@@ -54,7 +54,7 @@ namespace uml4net.POCO.Classification
         /// <summary>
         /// Gets or sets a dictionary of reference properties and the associated unique identifiers
         /// </summary>
-        [Implements(implementation: "IGeneralization.ReferencePropertyValueIdentifies")]
+        [Implements(implementation: "IGeneralization.ReferencePropertyValueIdentifiers")]
         public Dictionary<string, string> ReferencePropertyValueIdentifies { get; set; } = new Dictionary<string, string>();
 
         /// <summary>
