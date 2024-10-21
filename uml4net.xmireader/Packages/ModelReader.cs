@@ -60,7 +60,7 @@ namespace uml4net.xmi.Packages
         /// <summary>
         /// Reads the <see cref="IPackage"/> object from its XML representation
         /// </summary>
-        /// <param name="xmlreader">
+        /// <param name="xmlReader">
         ///  an instance of <see cref="XmlReader"/>
         /// </param>
         /// <returns>
@@ -76,9 +76,8 @@ namespace uml4net.xmi.Packages
 
                 var xmiType = xmlReader.GetAttribute("xmi:type");
 
-                if (xmiType != "uml:Model")
+                if (!string.IsNullOrEmpty(xmiType) && (xmiType != "uml:Model"))
                 {
-                    // TODO come up with a better exception here
                     throw new XmlException($"The XmiType should be: uml:Model while it is {xmiType}");
                 }
 
