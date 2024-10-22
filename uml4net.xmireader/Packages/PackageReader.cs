@@ -21,11 +21,13 @@
 namespace uml4net.xmi.Packages
 {
     using System;
+    using System.Collections.Generic;
     using System.Xml;
 
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Logging.Abstractions;
 
+    using uml4net.POCO;
     using uml4net.POCO.CommonStructure;
     using uml4net.POCO.Packages;
 
@@ -37,13 +39,8 @@ namespace uml4net.xmi.Packages
     /// The purpose of the <see cref="PackageReader"/> is to read an instance of <see cref="IPackage"/>
     /// from the XMI document
     /// </summary>
-    public class PackageReader
+    public class PackageReader : XmiElementReader
     {
-        /// <summary>
-        /// The (injected) <see cref="ILoggerFactory"/> used to setup logging
-        /// </summary>
-        private readonly ILoggerFactory loggerFactory;
-
         /// <summary>
         /// The <see cref="ILogger"/> used to log
         /// </summary>
@@ -52,13 +49,15 @@ namespace uml4net.xmi.Packages
         /// <summary>
         /// Initializes a new instance of the <see cref="PackageReader"/> class.
         /// </summary>
+        /// <param name="cache">
+        /// The cache in which each <see cref="IXmiElement"/>> is stored
+        /// </param>
         /// <param name="loggerFactory">
         /// The (injected) <see cref="ILoggerFactory"/> used to setup logging
         /// </param>
-        public PackageReader(ILoggerFactory loggerFactory = null)
+        public PackageReader(Dictionary<string, IXmiElement> cache, ILoggerFactory loggerFactory = null)
+            : base(cache, loggerFactory)
         {
-            this.loggerFactory = loggerFactory;
-
             this.logger = this.loggerFactory == null ? NullLogger<PackageReader>.Instance : this.loggerFactory.CreateLogger<PackageReader>();
         }
 
@@ -77,17 +76,18 @@ namespace uml4net.xmi.Packages
 
             if (xmlReader.MoveToContent() == XmlNodeType.Element)
             {
-                package.XmiId = xmlReader.GetAttribute("xmi:id");
-
                 var xmiType = xmlReader.GetAttribute("xmi:type");
 
                 if (xmiType != "uml:Package")
                 {
-                    // TODO come up with a better exception here
                     throw new XmlException($"The XmiType should be: uml:Package while it is {xmiType}");
                 }
 
-                package.XmiType = xmlReader.GetAttribute("xmi:type");
+                package.XmiType = xmiType;
+
+                package.XmiId = xmlReader.GetAttribute("xmi:id");
+
+                this.cache.Add(package.XmiId, package);
 
                 package.Name = xmlReader.GetAttribute("name");
 
@@ -106,7 +106,7 @@ namespace uml4net.xmi.Packages
                             case "ownedComment":
                                 using (var ownedCommentXmlReader = xmlReader.ReadSubtree())
                                 {
-                                    var commentReader = new CommentReader(this.loggerFactory);
+                                    var commentReader = new CommentReader(this.cache, this.loggerFactory);
                                     var comment = commentReader.Read(ownedCommentXmlReader);
                                     package.OwnedComment.Add(comment);
                                 }
@@ -126,7 +126,7 @@ namespace uml4net.xmi.Packages
                             case "packageImport":
                                 using (var packageImportXmlReader = xmlReader.ReadSubtree())
                                 {
-                                    var packageImportReader = new PackageImportReader(this.loggerFactory);
+                                    var packageImportReader = new PackageImportReader(this.cache, this.loggerFactory);
                                     var packageImport = packageImportReader.Read(packageImportXmlReader);
                                     package.PackageImport.Add(packageImport);
                                 }
@@ -174,7 +174,7 @@ namespace uml4net.xmi.Packages
                 case "uml:Class":
                     using (var classXmlReader = xmlReader.ReadSubtree())
                     {
-                        var classReader = new ClassReader();
+                        var classReader = new ClassReader(this.cache, this.loggerFactory);
                         var packagedElement = classReader.Read(classXmlReader);
                         package.PackagedElement.Add(packagedElement);
                     }
@@ -182,7 +182,7 @@ namespace uml4net.xmi.Packages
                 case "uml:Enumeration":
                     using (var enumerationXmlReader = xmlReader.ReadSubtree())
                     {
-                        var enumerationReader = new EnumerationReader();
+                        var enumerationReader = new EnumerationReader(this.cache, this.loggerFactory);
                         var enumeration = enumerationReader.Read(enumerationXmlReader);
                         package.PackagedElement.Add(enumeration);
                     }
@@ -190,7 +190,7 @@ namespace uml4net.xmi.Packages
                 case "uml:Package":
                     using (var packageXmlReader = xmlReader.ReadSubtree())
                     {
-                        var packageReader = new PackageReader();
+                        var packageReader = new PackageReader(this.cache, this.loggerFactory);
                         var packagedElement = packageReader.Read(packageXmlReader);
                         package.PackagedElement.Add(packagedElement);
                     }

@@ -27,11 +27,10 @@ namespace uml4net.xmi.Classification
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Logging.Abstractions;
 
+    using uml4net.POCO;
     using uml4net.POCO.Classification;
     using uml4net.POCO.CommonStructure;
-    using uml4net.POCO.Packages;
-    using uml4net.POCO.SimpleClassifiers;
-    using uml4net.POCO.StructuredClassifiers;
+    
     using uml4net.xmi.CommonStructure;
     using uml4net.xmi.Values;
 
@@ -39,13 +38,8 @@ namespace uml4net.xmi.Classification
     /// The purpose of the <see cref="PropertyReader"/> is to read an instance of <see cref="IProperty"/>
     /// from the XMI document
     /// </summary>
-    public class PropertyReader
+    public class PropertyReader : XmiElementReader
     {
-        /// <summary>
-        /// The (injected) <see cref="ILoggerFactory"/> used to setup logging
-        /// </summary>
-        private readonly ILoggerFactory loggerFactory;
-
         /// <summary>
         /// The <see cref="ILogger"/> used to log
         /// </summary>
@@ -54,13 +48,15 @@ namespace uml4net.xmi.Classification
         /// <summary>
         /// Initializes a new instance of the <see cref="PropertyReader"/> class.
         /// </summary>
+        /// <param name="cache">
+        /// The cache in which each <see cref="IXmiElement"/>> is stored
+        /// </param>
         /// <param name="loggerFactory">
         /// The (injected) <see cref="ILoggerFactory"/> used to setup logging
         /// </param>
-        public PropertyReader(ILoggerFactory loggerFactory = null)
+        public PropertyReader(Dictionary<string, IXmiElement> cache, ILoggerFactory loggerFactory = null)
+            : base(cache, loggerFactory)
         {
-            this.loggerFactory = loggerFactory;
-
             this.logger = this.loggerFactory == null ? NullLogger<PropertyReader>.Instance : this.loggerFactory.CreateLogger<PropertyReader>();
         }
 
@@ -79,8 +75,6 @@ namespace uml4net.xmi.Classification
 
             if (xmlReader.MoveToContent() == XmlNodeType.Element)
             {
-                property.XmiId = xmlReader.GetAttribute("xmi:id");
-
                 var xmiType = xmlReader.GetAttribute("xmi:type");
 
                 if (xmiType != "uml:Property")
@@ -88,7 +82,11 @@ namespace uml4net.xmi.Classification
                     throw new XmlException($"The XmiType should be: uml:Property while it is {xmiType}");
                 }
 
-                property.XmiType = xmlReader.GetAttribute("xmi:type");
+                property.XmiType = xmiType;
+
+                property.XmiId = xmlReader.GetAttribute("xmi:id");
+
+                this.cache.Add(property.XmiId, property);
 
                 property.Name = xmlReader.GetAttribute("name");
 
@@ -167,7 +165,7 @@ namespace uml4net.xmi.Classification
                             case "ownedComment":
                                 using (var ownedCommentXmlReader = xmlReader.ReadSubtree())
                                 {
-                                    var commentReader = new CommentReader(this.loggerFactory);
+                                    var commentReader = new CommentReader(this.cache, this.loggerFactory);
                                     var comment = commentReader.Read(ownedCommentXmlReader);
                                     property.OwnedComment.Add(comment);
                                 }
@@ -175,7 +173,7 @@ namespace uml4net.xmi.Classification
                             case "lowerValue":
                                 using (var lowerValueXmlReader = xmlReader.ReadSubtree())
                                 {
-                                    var literalIntegerReader = new LiteralIntegerReader(this.loggerFactory);
+                                    var literalIntegerReader = new LiteralIntegerReader(this.cache, this.loggerFactory);
                                     var literalInteger = literalIntegerReader.Read(lowerValueXmlReader);
                                     property.LowerValue = literalInteger;
                                 }
@@ -183,7 +181,7 @@ namespace uml4net.xmi.Classification
                             case "upperValue":
                                 using (var upperValueXmlReader = xmlReader.ReadSubtree())
                                 {
-                                    var literalUnlimitedNaturalReader = new LiteralUnlimitedNaturalReader(this.loggerFactory);
+                                    var literalUnlimitedNaturalReader = new LiteralUnlimitedNaturalReader(this.cache, this.loggerFactory);
                                     var literalUnlimitedNatural = literalUnlimitedNaturalReader.Read(upperValueXmlReader);
                                     property.UpperValue = literalUnlimitedNatural;
                                 }

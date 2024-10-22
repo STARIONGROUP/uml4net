@@ -34,26 +34,8 @@ namespace uml4net.POCO.UseCases
     /// A UseCase specifies a set of actions performed by its subjects, which yields an observable result
     /// that is of value for one or more Actors or other stakeholders of each subject.
     /// </summary>
-    public class UseCase : IUseCase
+    public class UseCase : XmiElement, IUseCase
     {
-        /// <summary>
-        /// Gets or sets the unique identifier of the Element in the XMI document
-        /// </summary>
-        [Implements(implementation: "IXmiElement.XmiId")]
-        public string XmiId { get; set; }
-
-        /// <summary>
-        /// Gets or sets the GUID unique identifier of the Element in the XMI document
-        /// </summary>
-        [Implements(implementation: "IXmiElement.XmiGuid")]
-        public string XmiGuid { get; set; }
-
-        /// <summary>
-        /// Gets or sets the name of the xmi type
-        /// </summary>
-        [Implements(implementation: "IXmiElement.XmiType")]
-        public string XmiType { get; set; }
-
         /// <summary>
         /// The Comments owned by this Element.
         /// </summary>

@@ -31,26 +31,8 @@ namespace uml4net.POCO.UseCases
     /// <summary>
     /// An Include relationship specifies that a UseCase contains the behavior defined in another UseCase.
     /// </summary>
-    public class Include : IInclude
+    public class Include : XmiElement, IInclude
     {
-        /// <summary>
-        /// Gets or sets the unique identifier of the Element in the XMI document
-        /// </summary>
-        [Implements(implementation: "IXmiElement.XmiId")]
-        public string XmiId { get; set; }
-
-        /// <summary>
-        /// Gets or sets the GUID unique identifier of the Element in the XMI document
-        /// </summary>
-        [Implements(implementation: "IXmiElement.XmiGuid")]
-        public string XmiGuid { get; set; }
-
-        /// <summary>
-        /// Gets or sets the name of the xmi type
-        /// </summary>
-        [Implements(implementation: "IXmiElement.XmiType")]
-        public string XmiType { get; set; }
-
         /// <summary>
         /// The Comments owned by this Element.
         /// </summary>

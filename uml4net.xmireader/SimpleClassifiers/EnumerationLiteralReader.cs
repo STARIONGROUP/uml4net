@@ -21,28 +21,23 @@
 namespace uml4net.xmi.SimpleClassifiers
 {
     using System;
+    using System.Collections.Generic;
     using System.Xml;
 
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Logging.Abstractions;
 
-    using uml4net.POCO.CommonStructure;
+    using uml4net.POCO;
     using uml4net.POCO.SimpleClassifiers;
-    using uml4net.POCO.StructuredClassifiers;
-    using uml4net.xmi.Classification;
+
     using uml4net.xmi.CommonStructure;
 
     /// <summary>
     /// The purpose of the <see cref="EnumerationLiteralReader"/> is to read an instance of <see cref="IEnumerationLiteral"/>
     /// from the XMI document
     /// </summary>
-    public class EnumerationLiteralReader
+    public class EnumerationLiteralReader : XmiElementReader
     {
-        /// <summary>
-        /// The (injected) <see cref="ILoggerFactory"/> used to setup logging
-        /// </summary>
-        private readonly ILoggerFactory loggerFactory;
-
         /// <summary>
         /// The <see cref="ILogger"/> used to log
         /// </summary>
@@ -51,13 +46,15 @@ namespace uml4net.xmi.SimpleClassifiers
         /// <summary>
         /// Initializes a new instance of the <see cref="EnumerationLiteralReader"/> class.
         /// </summary>
+        /// <param name="cache">
+        /// The cache in which each <see cref="IXmiElement"/>> is stored
+        /// </param>
         /// <param name="loggerFactory">
         /// The (injected) <see cref="ILoggerFactory"/> used to setup logging
         /// </param>
-        public EnumerationLiteralReader(ILoggerFactory loggerFactory = null)
+        public EnumerationLiteralReader(Dictionary<string, IXmiElement> cache, ILoggerFactory loggerFactory = null)
+            : base(cache, loggerFactory)
         {
-            this.loggerFactory = loggerFactory;
-
             this.logger = this.loggerFactory == null ? NullLogger<EnumerationLiteralReader>.Instance : this.loggerFactory.CreateLogger<EnumerationLiteralReader>();
         }
 
@@ -76,8 +73,6 @@ namespace uml4net.xmi.SimpleClassifiers
 
             if (xmlReader.MoveToContent() == XmlNodeType.Element)
             {
-                enumerationLiteral.XmiId = xmlReader.GetAttribute("xmi:id");
-
                 var xmiType = xmlReader.GetAttribute("xmi:type");
 
                 if (xmiType != "uml:EnumerationLiteral")
@@ -85,7 +80,11 @@ namespace uml4net.xmi.SimpleClassifiers
                     throw new XmlException($"The XmiType should be: uml:EnumerationLiteral while it is {xmiType}");
                 }
 
-                enumerationLiteral.XmiType = xmlReader.GetAttribute("xmi:type");
+                enumerationLiteral.XmiType = xmiType;
+
+                enumerationLiteral.XmiId = xmlReader.GetAttribute("xmi:id");
+
+                this.cache.Add(enumerationLiteral.XmiId, enumerationLiteral);
 
                 enumerationLiteral.Name = xmlReader.GetAttribute("name");
 
@@ -98,7 +97,7 @@ namespace uml4net.xmi.SimpleClassifiers
                             case "ownedComment":
                                 using (var ownedCommentXmlReader = xmlReader.ReadSubtree())
                                 {
-                                    var commentReader = new CommentReader(this.loggerFactory);
+                                    var commentReader = new CommentReader(this.cache, this.loggerFactory);
                                     var comment = commentReader.Read(ownedCommentXmlReader);
                                     enumerationLiteral.OwnedComment.Add(comment);
                                 }

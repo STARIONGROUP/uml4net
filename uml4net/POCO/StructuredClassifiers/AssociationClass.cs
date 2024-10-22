@@ -37,26 +37,8 @@ namespace uml4net.POCO.StructuredClassifiers
     /// It not only connects a set of Classifiers but also defines a set of Features that belong to the Association
     /// itself and not to any of the associated Classifiers.
     /// </summary>
-    public class AssociationClass : IAssociationClass
+    public class AssociationClass : XmiElement, IAssociationClass
     {
-        /// <summary>
-        /// Gets or sets the unique identifier of the Element in the XMI document
-        /// </summary>
-        [Implements(implementation: "IXmiElement.XmiId")]
-        public string XmiId { get; set; }
-
-        /// <summary>
-        /// Gets or sets the GUID unique identifier of the Element in the XMI document
-        /// </summary>
-        [Implements(implementation: "IXmiElement.XmiGuid")]
-        public string XmiGuid { get; set; }
-
-        /// <summary>
-        /// Gets or sets the name of the xmi type
-        /// </summary>
-        [Implements(implementation: "IXmiElement.XmiType")]
-        public string XmiType { get; set; }
-
         /// <summary>
         /// The Comments owned by this Element.
         /// </summary>

@@ -35,26 +35,8 @@ namespace uml4net.POCO.SimpleClassifiers
     /// A Signal is a specification of a kind of communication between objects in which a reaction is
     /// asynchronously triggered in the receiver without a reply.
     /// </summary>
-    public class Signal : ISignal
+    public class Signal : XmiElement, ISignal
     {
-        /// <summary>
-        /// Gets or sets the unique identifier of the Element in the XMI document
-        /// </summary>
-        [Implements(implementation: "IXmiElement.XmiId")]
-        public string XmiId { get; set; }
-
-        /// <summary>
-        /// Gets or sets the GUID unique identifier of the Element in the XMI document
-        /// </summary>
-        [Implements(implementation: "IXmiElement.XmiGuid")]
-        public string XmiGuid { get; set; }
-
-        /// <summary>
-        /// Gets or sets the name of the xmi type
-        /// </summary>
-        [Implements(implementation: "IXmiElement.XmiType")]
-        public string XmiType { get; set; }
-
         /// <summary>
         /// The Comments owned by this Element.
         /// </summary>

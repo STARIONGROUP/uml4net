@@ -23,12 +23,15 @@ namespace uml4net.xmi
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.IO;
+    using System.IO.Packaging;
     using System.Xml;
 
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Logging.Abstractions;
-
+    
+    using uml4net.POCO;
     using uml4net.POCO.Packages;
+    
     using uml4net.xmi.Packages;
 
     /// <summary>
@@ -48,6 +51,11 @@ namespace uml4net.xmi
         private readonly ILogger<XmiReader> logger;
 
         /// <summary>
+        /// The cache in which each <see cref="IXmiElement"/>> is stored
+        /// </summary>
+        private readonly Dictionary<string, IXmiElement> cache;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="XmiReader"/> class.
         /// </summary>
         /// <param name="loggerFactory">
@@ -58,6 +66,8 @@ namespace uml4net.xmi
             this.loggerFactory = loggerFactory;
 
             this.logger = this.loggerFactory == null ? NullLogger<XmiReader>.Instance : this.loggerFactory.CreateLogger<XmiReader>();
+
+            this.cache = new Dictionary<string, IXmiElement>();
         }
 
         /// <summary>
@@ -120,7 +130,7 @@ namespace uml4net.xmi
                             case "uml:Package":
                                 using (var packageXmlReader = xmlReader.ReadSubtree())
                                 {
-                                    var packageReader = new PackageReader();
+                                    var packageReader = new PackageReader(this.cache, this.loggerFactory);
                                     var package = packageReader.Read(packageXmlReader);
                                     packages.Add(package);
                                 }
@@ -128,7 +138,7 @@ namespace uml4net.xmi
                             case "uml:Model":
                                 using (var modelXmlReader = xmlReader.ReadSubtree())
                                 {
-                                    var modelReader = new ModelReader();
+                                    var modelReader = new ModelReader(this.cache, this.loggerFactory);
                                     var model = modelReader.Read(modelXmlReader);
                                     packages.Add(model);
                                 }

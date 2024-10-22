@@ -20,6 +20,8 @@
 
 namespace uml4net.POCO
 {
+    using System.Collections.Generic;
+
     /// <summary>
     /// The <see cref="IXmiElement"/> captures the XMI properties of each element in the
     /// XMI document
@@ -40,5 +42,15 @@ namespace uml4net.POCO
         /// Gets or sets the name of the xmi type
         /// </summary>
         public string XmiType { get; set; }
+
+        /// <summary>
+        /// Gets or sets a dictionary of single-valued reference properties and the associated unique identifiers
+        /// </summary>
+        public Dictionary<string, string> SingleValueReferencePropertyIdentifiers { get; set; }
+
+        /// <summary>
+        /// Gets or sets a dictionary of multivalued reference properties and the associated unique identifiers
+        /// </summary>
+        public Dictionary<string, List<string>> MultiValueReferencePropertyIdentifiers { get; set; }
     }
 }

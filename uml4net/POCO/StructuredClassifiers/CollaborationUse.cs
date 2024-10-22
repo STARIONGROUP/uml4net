@@ -31,26 +31,8 @@ namespace uml4net.POCO.StructuredClassifiers
     /// <summary>
     /// A CollaborationUse is used to specify the application of a pattern specified by a Collaboration to a specific situation.
     /// </summary>
-    public class CollaborationUse : ICollaborationUse
+    public class CollaborationUse : XmiElement, ICollaborationUse
     {
-        /// <summary>
-        /// Gets or sets the unique identifier of the Element in the XMI document
-        /// </summary>
-        [Implements(implementation: "IXmiElement.XmiId")]
-        public string XmiId { get; set; }
-
-        /// <summary>
-        /// Gets or sets the GUID unique identifier of the Element in the XMI document
-        /// </summary>
-        [Implements(implementation: "IXmiElement.XmiGuid")]
-        public string XmiGuid { get; set; }
-
-        /// <summary>
-        /// Gets or sets the name of the xmi type
-        /// </summary>
-        [Implements(implementation: "IXmiElement.XmiType")]
-        public string XmiType { get; set; }
-
         /// <summary>
         /// The Comments owned by this Element.
         /// </summary>

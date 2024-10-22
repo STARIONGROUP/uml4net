@@ -30,26 +30,8 @@ namespace uml4net.POCO.Classification
     /// <summary>
     /// A GeneralizationSet is a PackageableElement whose instances represent sets of Generalization relationships.
     /// </summary>
-    public class GeneralizationSet : IGeneralizationSet
+    public class GeneralizationSet : XmiElement, IGeneralizationSet
     {
-        /// <summary>
-        /// Gets or sets the unique identifier of the Element in the XMI document
-        /// </summary>
-        [Implements(implementation: "IXmiElement.XmiId")]
-        public string XmiId { get; set; }
-
-        /// <summary>
-        /// Gets or sets the GUID unique identifier of the Element in the XMI document
-        /// </summary>
-        [Implements(implementation: "IXmiElement.XmiGuid")]
-        public string XmiGuid { get; set; }
-
-        /// <summary>
-        /// Gets or sets the name of the xmi type
-        /// </summary>
-        [Implements(implementation: "IXmiElement.XmiType")]
-        public string XmiType { get; set; }
-
         /// <summary>
         /// The Comments owned by this Element.
         /// </summary>

@@ -21,28 +21,22 @@
 namespace uml4net.xmi.SimpleClassifiers
 {
     using System;
+    using System.Collections.Generic;
     using System.Xml;
 
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Logging.Abstractions;
 
-    using uml4net.POCO.CommonStructure;
+    using uml4net.POCO;
     using uml4net.POCO.SimpleClassifiers;
-    using uml4net.POCO.StructuredClassifiers;
-    using uml4net.xmi.Classification;
     using uml4net.xmi.CommonStructure;
 
     /// <summary>
     /// The purpose of the <see cref="EnumerationReader"/> is to read an instance of <see cref="IEnumeration"/>
     /// from the XMI document
     /// </summary>
-    public class EnumerationReader
+    public class EnumerationReader : XmiElementReader
     {
-        /// <summary>
-        /// The (injected) <see cref="ILoggerFactory"/> used to setup logging
-        /// </summary>
-        private readonly ILoggerFactory loggerFactory;
-
         /// <summary>
         /// The <see cref="ILogger"/> used to log
         /// </summary>
@@ -51,13 +45,15 @@ namespace uml4net.xmi.SimpleClassifiers
         /// <summary>
         /// Initializes a new instance of the <see cref="EnumerationReader"/> class.
         /// </summary>
+        /// <param name="cache">
+        /// The cache in which each <see cref="IXmiElement"/>> is stored
+        /// </param>
         /// <param name="loggerFactory">
         /// The (injected) <see cref="ILoggerFactory"/> used to setup logging
         /// </param>
-        public EnumerationReader(ILoggerFactory loggerFactory = null)
+        public EnumerationReader(Dictionary<string, IXmiElement> cache, ILoggerFactory loggerFactory = null)
+            : base(cache, loggerFactory)
         {
-            this.loggerFactory = loggerFactory;
-
             this.logger = this.loggerFactory == null ? NullLogger<EnumerationReader>.Instance : this.loggerFactory.CreateLogger<EnumerationReader>();
         }
 
@@ -76,8 +72,6 @@ namespace uml4net.xmi.SimpleClassifiers
 
             if (xmlReader.MoveToContent() == XmlNodeType.Element)
             {
-                enumeration.XmiId = xmlReader.GetAttribute("xmi:id");
-
                 var xmiType = xmlReader.GetAttribute("xmi:type");
 
                 if (xmiType != "uml:Enumeration")
@@ -85,7 +79,11 @@ namespace uml4net.xmi.SimpleClassifiers
                     throw new XmlException($"The XmiType should be: uml:Enumeration while it is {xmiType}");
                 }
 
-                enumeration.XmiType = xmlReader.GetAttribute("xmi:type");
+                enumeration.XmiType = xmiType;
+
+                enumeration.XmiId = xmlReader.GetAttribute("xmi:id");
+
+                this.cache.Add(enumeration.XmiId, enumeration);
 
                 enumeration.Name = xmlReader.GetAttribute("name");
 
@@ -98,7 +96,7 @@ namespace uml4net.xmi.SimpleClassifiers
                             case "ownedComment":
                                 using (var ownedCommentXmlReader = xmlReader.ReadSubtree())
                                 {
-                                    var commentReader = new CommentReader(this.loggerFactory);
+                                    var commentReader = new CommentReader(this.cache, this.loggerFactory);
                                     var comment = commentReader.Read(ownedCommentXmlReader);
                                     enumeration.OwnedComment.Add(comment);
                                 }
@@ -106,7 +104,7 @@ namespace uml4net.xmi.SimpleClassifiers
                             case "ownedLiteral":
                                 using (var ownedLiteralXmlReader = xmlReader.ReadSubtree())
                                 {
-                                    var enumerationLiteralReader = new EnumerationLiteralReader(this.loggerFactory);
+                                    var enumerationLiteralReader = new EnumerationLiteralReader(this.cache, this.loggerFactory);
                                     var enumerationLiteral = enumerationLiteralReader.Read(ownedLiteralXmlReader);
                                     enumeration.OwnedLiteral.Add(enumerationLiteral);
 

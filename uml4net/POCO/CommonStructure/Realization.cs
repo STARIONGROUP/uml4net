@@ -33,26 +33,8 @@ namespace uml4net.POCO.CommonStructure
     /// latter (the client). Realization can be used to model stepwise refinement, optimizations, 
     /// transformations, templates, model synthesis, framework composition, etc.
     /// </summary>
-    public class Realization : IRealization
+    public class Realization : XmiElement, IRealization
     {
-        /// <summary>
-        /// Gets or sets the unique identifier of the Element in the XMI document
-        /// </summary>
-        [Implements(implementation: "IXmiElement.XmiId")]
-        public string XmiId { get; set; }
-
-        /// <summary>
-        /// Gets or sets the GUID unique identifier of the Element in the XMI document
-        /// </summary>
-        [Implements(implementation: "IXmiElement.XmiGuid")]
-        public string XmiGuid { get; set; }
-
-        /// <summary>
-        /// Gets or sets the name of the xmi type
-        /// </summary>
-        [Implements(implementation: "IXmiElement.XmiType")]
-        public string XmiType { get; set; }
-
         /// <summary>
         /// An OpaqueExpression that states the abstraction relationship between the supplier(s) and the client(s). 
         /// In some cases, such as derivation, it is usually formal and unidirectional; in other cases, such as trace, 

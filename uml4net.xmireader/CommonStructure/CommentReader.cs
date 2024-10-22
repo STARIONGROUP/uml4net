@@ -20,24 +20,21 @@
 
 namespace uml4net.xmi.CommonStructure
 {
+    using System.Collections.Generic;
     using System.Xml;
 
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Logging.Abstractions;
 
+    using uml4net.POCO;
     using uml4net.POCO.CommonStructure;
 
     /// <summary>
     /// The purpose of the <see cref="CommentReader"/> is to read an instance of <see cref="IComment"/>
     /// from the XMI document
     /// </summary>
-    public class CommentReader
+    public class CommentReader : XmiElementReader
     {
-        /// <summary>
-        /// The (injected) <see cref="ILoggerFactory"/> used to setup logging
-        /// </summary>
-        private readonly ILoggerFactory loggerFactory;
-
         /// <summary>
         /// The <see cref="ILogger"/> used to log
         /// </summary>
@@ -46,13 +43,15 @@ namespace uml4net.xmi.CommonStructure
         /// <summary>
         /// Initializes a new instance of the <see cref="CommentReader"/> class.
         /// </summary>
+        /// <param name="cache">
+        /// The cache in which each <see cref="IXmiElement"/>> is stored
+        /// </param>
         /// <param name="loggerFactory">
         /// The (injected) <see cref="ILoggerFactory"/> used to setup logging
         /// </param>
-        public CommentReader(ILoggerFactory loggerFactory = null)
+        public CommentReader(Dictionary<string, IXmiElement> cache, ILoggerFactory loggerFactory = null)
+            : base(cache, loggerFactory)
         {
-            this.loggerFactory = loggerFactory;
-
             this.logger = this.loggerFactory == null ? NullLogger<CommentReader>.Instance : this.loggerFactory.CreateLogger<CommentReader>();
         }
 
@@ -71,8 +70,6 @@ namespace uml4net.xmi.CommonStructure
 
             if (xmlReader.MoveToContent() == XmlNodeType.Element)
             {
-                comment.XmiId = xmlReader.GetAttribute("xmi:id");
-
                 var xmiType = xmlReader.GetAttribute("xmi:type");
 
                 if (xmiType != "uml:Comment")
@@ -80,7 +77,11 @@ namespace uml4net.xmi.CommonStructure
                     throw new XmlException($"The XmiType should be: uml:Comment while it is {xmiType}");
                 }
 
-                comment.XmiType = xmlReader.GetAttribute("xmi:type");
+                comment.XmiType = xmiType;
+
+                comment.XmiId = xmlReader.GetAttribute("xmi:id");
+
+                this.cache.Add(comment.XmiId, comment);
 
                 comment.Body = xmlReader.GetAttribute("body");
             }

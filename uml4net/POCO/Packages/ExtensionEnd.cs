@@ -34,26 +34,8 @@ namespace uml4net.POCO.Packages
     /// An extension end is used to tie an extension to a stereotype when extending a metaclass.
     /// The default multiplicity of an extension end is 0..1.
     /// </summary>
-    public class ExtensionEnd : IExtensionEnd
+    public class ExtensionEnd : XmiElement, IExtensionEnd
     {
-        /// <summary>
-        /// Gets or sets a dictionary of reference properties and the associated unique identifiers
-        /// </summary>
-        [Implements(implementation: "IProperty.SingleValueReferencePropertyIdentifiers")]
-        public Dictionary<string, string> SingleValueReferencePropertyIdentifiers { get; set; } = new();
-
-        /// <summary>
-        /// Gets or sets a dictionary of multi valued reference properties and the associated unique identifiers
-        /// </summary>
-        [Implements(implementation: "IProperty.MultiValueReferencePropertyIdentifiers")]
-        public Dictionary<string, List<string>> MultiValueReferencePropertyIdentifiers { get; set; }
-
-        /// <summary>
-        /// Gets or sets the unique identifier of the Element in the XMI document
-        /// </summary>
-        [Implements(implementation: "IXmiElement.XmiId")]
-        public string XmiId { get; set; }
-
         /// <summary>
         /// Gets or sets the GUID unique identifier of the Element in the XMI document
         /// </summary>

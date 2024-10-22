@@ -32,26 +32,8 @@ namespace uml4net.POCO.CommonStructure
     /// Namespace owning the PackageImport, so that those Elements may be referred to by their unqualified 
     /// names in the importingNamespace.
     /// </summary>
-    public class PackageImport : IPackageImport
+    public class PackageImport : XmiElement, IPackageImport
     {
-        /// <summary>
-        /// Gets or sets the unique identifier of the Element in the XMI document
-        /// </summary>
-        [Implements(implementation: "IXmiElement.XmiId")]
-        public string XmiId { get; set; }
-
-        /// <summary>
-        /// Gets or sets the GUID unique identifier of the Element in the XMI document
-        /// </summary>
-        [Implements(implementation: "IXmiElement.XmiGuid")]
-        public string XmiGuid { get; set; }
-
-        /// <summary>
-        /// Gets or sets the name of the xmi type
-        /// </summary>
-        [Implements(implementation: "IXmiElement.XmiType")]
-        public string XmiType { get; set; }
-
         /// <summary>
         /// Gets or sets a dictionary of reference properties and the associated unique identifiers
         /// </summary>

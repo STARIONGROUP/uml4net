@@ -21,11 +21,13 @@
 namespace uml4net.xmi.StructuredClassifiers
 {
     using System;
+    using System.Collections.Generic;
     using System.Xml;
 
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Logging.Abstractions;
 
+    using uml4net.POCO;
     using uml4net.POCO.CommonStructure;
     using uml4net.POCO.StructuredClassifiers;
     using uml4net.POCO.Packages;
@@ -33,18 +35,13 @@ namespace uml4net.xmi.StructuredClassifiers
     using uml4net.xmi.Classification;
     using uml4net.xmi.CommonStructure;
     using uml4net.xmi.Packages;
-    
+
     /// <summary>
     /// The purpose of the <see cref="ClassReader"/> is to read an instance of <see cref="IClass"/>
     /// from the XMI document
     /// </summary>
-    public class ClassReader
+    public class ClassReader : XmiElementReader
     {
-        /// <summary>
-        /// The (injected) <see cref="ILoggerFactory"/> used to setup logging
-        /// </summary>
-        private readonly ILoggerFactory loggerFactory;
-
         /// <summary>
         /// The <see cref="ILogger"/> used to log
         /// </summary>
@@ -53,13 +50,15 @@ namespace uml4net.xmi.StructuredClassifiers
         /// <summary>
         /// Initializes a new instance of the <see cref="PackageReader"/> class.
         /// </summary>
+        /// <param name="cache">
+        /// The cache in which each <see cref="IXmiElement"/>> is stored
+        /// </param>
         /// <param name="loggerFactory">
         /// The (injected) <see cref="ILoggerFactory"/> used to setup logging
         /// </param>
-        public ClassReader(ILoggerFactory loggerFactory = null)
+        public ClassReader(Dictionary<string, IXmiElement> cache, ILoggerFactory loggerFactory = null)
+            : base(cache, loggerFactory)
         {
-            this.loggerFactory = loggerFactory;
-
             this.logger = this.loggerFactory == null ? NullLogger<ClassReader>.Instance : this.loggerFactory.CreateLogger<ClassReader>();
         }
 
@@ -78,8 +77,6 @@ namespace uml4net.xmi.StructuredClassifiers
 
             if (xmlReader.MoveToContent() == XmlNodeType.Element)
             {
-                @class.XmiId = xmlReader.GetAttribute("xmi:id");
-
                 var xmiType = xmlReader.GetAttribute("xmi:type");
 
                 if (xmiType != "uml:Class")
@@ -87,7 +84,11 @@ namespace uml4net.xmi.StructuredClassifiers
                     throw new XmlException($"The XmiType should be: uml:Class while it is {xmiType}");
                 }
 
-                @class.XmiType = xmlReader.GetAttribute("xmi:type");
+                @class.XmiType = xmiType;
+
+                @class.XmiId = xmlReader.GetAttribute("xmi:id");
+
+                this.cache.Add(@class.XmiId, @class);
 
                 @class.Name = xmlReader.GetAttribute("name");
 
@@ -106,7 +107,7 @@ namespace uml4net.xmi.StructuredClassifiers
                             case "ownedComment":
                                 using (var ownedCommentXmlReader = xmlReader.ReadSubtree())
                                 {
-                                    var commentReader = new CommentReader(this.loggerFactory);
+                                    var commentReader = new CommentReader(this.cache, this.loggerFactory);
                                     var comment = commentReader.Read(ownedCommentXmlReader);
                                     @class.OwnedComment.Add(comment);
                                 }
@@ -114,7 +115,7 @@ namespace uml4net.xmi.StructuredClassifiers
                             case "ownedRule":
                                 using (var ownedRuleXmlReader = xmlReader.ReadSubtree())
                                 {
-                                    var constraintReader = new ConstraintReader(this.loggerFactory);
+                                    var constraintReader = new ConstraintReader(this.cache, this.loggerFactory);
                                     var constraint = constraintReader.Read(ownedRuleXmlReader);
                                     @class.OwnedRule.Add(constraint);
                                 }
@@ -122,7 +123,7 @@ namespace uml4net.xmi.StructuredClassifiers
                             case "ownedAttribute":
                                 using (var ownedAttributeXmlReader = xmlReader.ReadSubtree())
                                 {
-                                    var propertyReader = new PropertyReader(this.loggerFactory);
+                                    var propertyReader = new PropertyReader(this.cache, this.loggerFactory);
                                     var property = propertyReader.Read(ownedAttributeXmlReader);
                                     @class.OwnedAttribute.Add(property);
                                 }
@@ -136,7 +137,7 @@ namespace uml4net.xmi.StructuredClassifiers
                             case "generalization":
                                 using (var generalizationXmlReader = xmlReader.ReadSubtree())
                                 {
-                                    var generalizationReader = new GeneralizationReader(this.loggerFactory);
+                                    var generalizationReader = new GeneralizationReader(this.cache, this.loggerFactory);
                                     var generalization = generalizationReader.Read(generalizationXmlReader);
                                     @class.Generalization.Add(generalization);
                                 }

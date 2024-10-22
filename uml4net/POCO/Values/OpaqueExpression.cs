@@ -32,26 +32,8 @@ namespace uml4net.POCO.Values
     /// An OpaqueExpression is a ValueSpecification that specifies the computation of a collection of values either in
     /// terms of a UML Behavior or based on a textual statement in a language other than UML
     /// </summary>
-    public class OpaqueExpression : IOpaqueExpression
+    public class OpaqueExpression : XmiElement, IOpaqueExpression
     {
-        /// <summary>
-        /// Gets or sets the unique identifier of the Element in the XMI document
-        /// </summary>
-        [Implements(implementation: "IXmiElement.XmiId")]
-        public string XmiId { get; set; }
-
-        /// <summary>
-        /// Gets or sets the GUID unique identifier of the Element in the XMI document
-        /// </summary>
-        [Implements(implementation: "IXmiElement.XmiGuid")]
-        public string XmiGuid { get; set; }
-
-        /// <summary>
-        /// Gets or sets the name of the xmi type
-        /// </summary>
-        [Implements(implementation: "IXmiElement.XmiType")]
-        public string XmiType { get; set; }
-
         /// <summary>
         /// The Comments owned by this Element.
         /// </summary>

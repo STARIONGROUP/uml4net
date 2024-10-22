@@ -21,11 +21,13 @@
 namespace uml4net.xmi.CommonStructure
 {
     using System;
+    using System.Collections.Generic;
     using System.Xml;
 
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Logging.Abstractions;
 
+    using uml4net.POCO;
     using uml4net.POCO.CommonStructure;
 
     using uml4net.xmi.Values;
@@ -34,13 +36,8 @@ namespace uml4net.xmi.CommonStructure
     /// The purpose of the <see cref="ConstraintReader"/> is to read an instance of <see cref="IConstraint"/>
     /// from the XMI document
     /// </summary>
-    public class ConstraintReader
+    public class ConstraintReader : XmiElementReader
     {
-        /// <summary>
-        /// The (injected) <see cref="ILoggerFactory"/> used to setup logging
-        /// </summary>
-        private readonly ILoggerFactory loggerFactory;
-
         /// <summary>
         /// The <see cref="ILogger"/> used to log
         /// </summary>
@@ -49,13 +46,15 @@ namespace uml4net.xmi.CommonStructure
         /// <summary>
         /// Initializes a new instance of the <see cref="ConstraintReader"/> class.
         /// </summary>
+        /// <param name="cache">
+        /// The cache in which each <see cref="IXmiElement"/>> is stored
+        /// </param>
         /// <param name="loggerFactory">
         /// The (injected) <see cref="ILoggerFactory"/> used to setup logging
         /// </param>
-        public ConstraintReader(ILoggerFactory loggerFactory = null)
+        public ConstraintReader(Dictionary<string, IXmiElement> cache, ILoggerFactory loggerFactory = null)
+            : base(cache, loggerFactory)
         {
-            this.loggerFactory = loggerFactory;
-
             this.logger = this.loggerFactory == null
                 ? NullLogger<ConstraintReader>.Instance
                 : this.loggerFactory.CreateLogger<ConstraintReader>();
@@ -76,8 +75,6 @@ namespace uml4net.xmi.CommonStructure
 
             if (xmlReader.MoveToContent() == XmlNodeType.Element)
             {
-                constraint.XmiId = xmlReader.GetAttribute("xmi:id");
-
                 var xmiType = xmlReader.GetAttribute("xmi:type");
 
                 if (xmiType != "uml:Constraint")
@@ -85,7 +82,11 @@ namespace uml4net.xmi.CommonStructure
                     throw new XmlException($"The XmiType should be: uml:Constraint while it is {xmiType}");
                 }
 
-                constraint.XmiType = xmlReader.GetAttribute("xmi:type");
+                constraint.XmiType = xmiType;
+
+                constraint.XmiId = xmlReader.GetAttribute("xmi:id");
+
+                this.cache.Add(constraint.XmiId, constraint);
 
                 while (xmlReader.Read())
                 {
@@ -99,7 +100,7 @@ namespace uml4net.xmi.CommonStructure
                             case "ownedComment":
                                 using (var ownedCommentXmlReader = xmlReader.ReadSubtree())
                                 {
-                                    var commentReader = new CommentReader(this.loggerFactory);
+                                    var commentReader = new CommentReader(this.cache, this.loggerFactory);
                                     var comment = commentReader.Read(ownedCommentXmlReader);
                                     constraint.OwnedComment.Add(comment);
                                 }
@@ -135,7 +136,7 @@ namespace uml4net.xmi.CommonStructure
                 case "uml:OpaqueExpression":
                     using (var opaqueExpressionXmlReader = xmlReader.ReadSubtree())
                     {
-                        var opaqueExpressionReader = new OpaqueExpressionReader(this.loggerFactory);
+                        var opaqueExpressionReader = new OpaqueExpressionReader(this.cache, this.loggerFactory);
                         var opaqueExpression = opaqueExpressionReader.Read(opaqueExpressionXmlReader);
                         constraint.Specification = opaqueExpression;
                     }

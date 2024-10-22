@@ -36,26 +36,8 @@ namespace uml4net.POCO.Deployments
     /// A device is a physical computational resource with processing capability upon which artifacts may
     /// be deployed for execution. Devices may be complex (i.e., they may consist of other devices).
     /// </summary>
-    public class Device : IDevice
+    public class Device : XmiElement, IDevice
     {
-        /// <summary>
-        /// Gets or sets the unique identifier of the Element in the XMI document
-        /// </summary>
-        [Implements(implementation: "IXmiElement.XmiId")]
-        public string XmiId { get; set; }
-
-        /// <summary>
-        /// Gets or sets the GUID unique identifier of the Element in the XMI document
-        /// </summary>
-        [Implements(implementation: "IXmiElement.XmiGuid")]
-        public string XmiGuid { get; set; }
-
-        /// <summary>
-        /// Gets or sets the name of the xmi type
-        /// </summary>
-        [Implements(implementation: "IXmiElement.XmiType")]
-        public string XmiType { get; set; }
-
         /// <summary>
         /// The Comments owned by this Element.
         /// </summary>

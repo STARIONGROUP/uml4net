@@ -20,24 +20,21 @@
 
 namespace uml4net.xmi.Classification
 {
+    using System.Collections.Generic;
     using System.Xml;
 
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Logging.Abstractions;
 
+    using uml4net.POCO;
     using uml4net.POCO.Classification;
 
     /// <summary>
     /// The purpose of the <see cref="GeneralizationReader"/> is to read an instance of <see cref="IGeneralization"/>
     /// from the XMI document
     /// </summary>
-    public class GeneralizationReader
+    public class GeneralizationReader : XmiElementReader
     {
-        /// <summary>
-        /// The (injected) <see cref="ILoggerFactory"/> used to setup logging
-        /// </summary>
-        private readonly ILoggerFactory loggerFactory;
-
         /// <summary>
         /// The <see cref="ILogger"/> used to log
         /// </summary>
@@ -46,13 +43,15 @@ namespace uml4net.xmi.Classification
         /// <summary>
         /// Initializes a new instance of the <see cref="GeneralizationReader"/> class.
         /// </summary>
+        /// <param name="cache">
+        /// The cache in which each <see cref="IXmiElement"/>> is stored
+        /// </param>
         /// <param name="loggerFactory">
         /// The (injected) <see cref="ILoggerFactory"/> used to setup logging
         /// </param>
-        public GeneralizationReader(ILoggerFactory loggerFactory = null)
+        public GeneralizationReader(Dictionary<string, IXmiElement> cache, ILoggerFactory loggerFactory = null) 
+            : base(cache, loggerFactory)
         {
-            this.loggerFactory = loggerFactory;
-
             this.logger = this.loggerFactory == null ? NullLogger<GeneralizationReader>.Instance : this.loggerFactory.CreateLogger<GeneralizationReader>();
         }
 
@@ -71,8 +70,6 @@ namespace uml4net.xmi.Classification
 
             if (xmlReader.MoveToContent() == XmlNodeType.Element)
             {
-                generalization.XmiId = xmlReader.GetAttribute("xmi:id");
-
                 var xmiType = xmlReader.GetAttribute("xmi:type");
 
                 if (xmiType != "uml:Generalization")
@@ -80,7 +77,11 @@ namespace uml4net.xmi.Classification
                     throw new XmlException($"The XmiType should be: uml:Generalization while it is {xmiType}");
                 }
 
-                generalization.XmiType = xmlReader.GetAttribute("xmi:type");
+                generalization.XmiType = xmiType;
+
+                generalization.XmiId = xmlReader.GetAttribute("xmi:id");
+
+                this.cache.Add(generalization.XmiId, generalization);
 
                 var isSubstitutable = xmlReader.GetAttribute("isSubstitutable");
                 if (!string.IsNullOrEmpty(isSubstitutable))

@@ -34,26 +34,8 @@ namespace uml4net.POCO.StateMachines
     /// which takes the StateMachine from one steady State configuration to another, representing the
     /// full response of the StateMachine to an occurrence of an Event that triggered it.
     /// </summary>
-    public class Transition : ITransition
+    public class Transition : XmiElement, ITransition
     {
-        /// <summary>
-        /// Gets or sets the unique identifier of the Element in the XMI document
-        /// </summary>
-        [Implements(implementation: "IXmiElement.XmiId")]
-        public string XmiId { get; set; }
-
-        /// <summary>
-        /// Gets or sets the GUID unique identifier of the Element in the XMI document
-        /// </summary>
-        [Implements(implementation: "IXmiElement.XmiGuid")]
-        public string XmiGuid { get; set; }
-
-        /// <summary>
-        /// Gets or sets the name of the xmi type
-        /// </summary>
-        [Implements(implementation: "IXmiElement.XmiType")]
-        public string XmiType { get; set; }
-
         /// <summary>
         /// The Comments owned by this Element.
         /// </summary>

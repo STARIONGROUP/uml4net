@@ -20,11 +20,13 @@
 
 namespace uml4net.xmi.Packages
 {
+    using System.Collections.Generic;
     using System.Xml;
 
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Logging.Abstractions;
-
+    
+    using uml4net.POCO;
     using uml4net.POCO.Packages;
     using uml4net.xmi.CommonStructure;
 
@@ -32,13 +34,8 @@ namespace uml4net.xmi.Packages
     /// The purpose of the <see cref="ModelReader"/> is to read an instance of <see cref="IModel"/>
     /// from the XMI document
     /// </summary>
-    public class ModelReader
+    public class ModelReader : XmiElementReader
     {
-        /// <summary>
-        /// The (injected) <see cref="ILoggerFactory"/> used to setup logging
-        /// </summary>
-        private readonly ILoggerFactory loggerFactory;
-
         /// <summary>
         /// The <see cref="ILogger"/> used to log
         /// </summary>
@@ -47,13 +44,15 @@ namespace uml4net.xmi.Packages
         /// <summary>
         /// Initializes a new instance of the <see cref="PackageReader"/> class.
         /// </summary>
+        /// <param name="cache">
+        /// The cache in which each <see cref="IXmiElement"/>> is stored
+        /// </param>
         /// <param name="loggerFactory">
         /// The (injected) <see cref="ILoggerFactory"/> used to setup logging
         /// </param>
-        public ModelReader(ILoggerFactory loggerFactory = null)
+        public ModelReader(Dictionary<string, IXmiElement> cache, ILoggerFactory loggerFactory = null)
+            : base(cache, loggerFactory)
         {
-            this.loggerFactory = loggerFactory;
-
             this.logger = this.loggerFactory == null ? NullLogger<ModelReader>.Instance : this.loggerFactory.CreateLogger<ModelReader>();
         }
 
@@ -72,16 +71,22 @@ namespace uml4net.xmi.Packages
 
             if (xmlReader.MoveToContent() == XmlNodeType.Element)
             {
-                model.XmiId = xmlReader.GetAttribute("xmi:id");
-
                 var xmiType = xmlReader.GetAttribute("xmi:type");
 
                 if (!string.IsNullOrEmpty(xmiType) && (xmiType != "uml:Model"))
                 {
                     throw new XmlException($"The XmiType should be: uml:Model while it is {xmiType}");
                 }
+                else
+                {
+                    xmiType = "uml:Model";
+                }
 
-                model.XmiType = xmlReader.GetAttribute("xmi:type");
+                model.XmiType = xmiType;
+
+                model.XmiId = xmlReader.GetAttribute("xmi:id");
+
+                this.cache.Add(model.XmiId, model);
 
                 model.Name = xmlReader.GetAttribute("name");
 
@@ -95,7 +100,7 @@ namespace uml4net.xmi.Packages
                             case "packageImport":
                                 using (var packageImportXmlReader = xmlReader.ReadSubtree())
                                 {
-                                    var packageImportReader = new PackageImportReader(this.loggerFactory);
+                                    var packageImportReader = new PackageImportReader(this.cache, this.loggerFactory);
                                     var packageImport = packageImportReader.Read(packageImportXmlReader);
                                     model.PackageImport.Add(packageImport);
                                 }

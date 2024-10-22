@@ -31,32 +31,14 @@ namespace uml4net.POCO.Actions
     /// <summary>
     /// An AcceptEventAction is an Action that waits for the occurrence of one or more specific Events.
     /// </summary>
-    public class AcceptEventAction : IAcceptEventAction
+    public class AcceptEventAction : XmiElement, IAcceptEventAction
     {
-        /// <summary>
-        /// Gets or sets the unique identifier of the Element in the XMI document
-        /// </summary>
-        [Implements(implementation: "IXmiElement.XmiId")]
-        public string XmiId { get; set; }
-
-        /// <summary>
-        /// Gets or sets the GUID unique identifier of the Element in the XMI document
-        /// </summary>
-        [Implements(implementation: "IXmiElement.XmiGuid")]
-        public string XmiGuid { get; set; }
-
-        /// <summary>
-        /// Gets or sets the name of the xmi type
-        /// </summary>
-        [Implements(implementation: "IXmiElement.XmiType")]
-        public string XmiType { get; set; }
-
         /// <summary>
         /// The Comments owned by this Element.
         /// </summary>
         [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue)]
         [Implements(implementation: "IElement.OwnedComment")]
-        public List<IComment> OwnedComment { get; set; } = new List<IComment>();
+        public List<IComment> OwnedComment { get; set; } = new();
 
         /// <summary>
         /// The Elements owned by this Element

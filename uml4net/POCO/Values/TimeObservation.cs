@@ -31,26 +31,8 @@ namespace uml4net.POCO.Values
     /// A TimeObservation is a reference to a time instant during an execution. It points out the NamedElement
     /// in the model to observe and whether the observation is when this NamedElement is entered or when it is exited.
     /// </summary>
-    public class TimeObservation : ITimeObservation
+    public class TimeObservation : XmiElement, ITimeObservation
     {
-        /// <summary>
-        /// Gets or sets the unique identifier of the Element in the XMI document
-        /// </summary>
-        [Implements(implementation: "IXmiElement.XmiId")]
-        public string XmiId { get; set; }
-
-        /// <summary>
-        /// Gets or sets the GUID unique identifier of the Element in the XMI document
-        /// </summary>
-        [Implements(implementation: "IXmiElement.XmiGuid")]
-        public string XmiGuid { get; set; }
-
-        /// <summary>
-        /// Gets or sets the name of the xmi type
-        /// </summary>
-        [Implements(implementation: "IXmiElement.XmiType")]
-        public string XmiType { get; set; }
-
         /// <summary>
         /// The Comments owned by this Element.
         /// </summary>

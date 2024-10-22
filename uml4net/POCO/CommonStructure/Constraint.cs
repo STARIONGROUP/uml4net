@@ -31,26 +31,8 @@ namespace uml4net.POCO.CommonStructure
     /// A Constraint is a condition or restriction expressed in natural language text or in a machine
     /// readable language for the purpose of declaring some of the semantics of an Element or set of Elements.
     /// </summary>
-    public class Constraint : IConstraint
+    public class Constraint : XmiElement, IConstraint
     {
-        /// <summary>
-        /// Gets or sets the unique identifier of the Element in the XMI document
-        /// </summary>
-        [Implements(implementation: "IXmiElement.XmiId")]
-        public string XmiId { get; set; }
-
-        /// <summary>
-        /// Gets or sets the GUID unique identifier of the Element in the XMI document
-        /// </summary>
-        [Implements(implementation: "IXmiElement.XmiGuid")]
-        public string XmiGuid { get; set; }
-
-        /// <summary>
-        /// Gets or sets the name of the xmi type
-        /// </summary>
-        [Implements(implementation: "IXmiElement.XmiType")]
-        public string XmiType { get; set; }
-
         /// <summary>
         /// The ordered set of Elements referenced by this Constraint.
         /// </summary>

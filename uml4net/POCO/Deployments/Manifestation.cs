@@ -31,26 +31,8 @@ namespace uml4net.POCO.Deployments
     /// <summary>
     /// A manifestation is the concrete physical rendering of one or more model elements by an artifact.
     /// </summary>
-    public class Manifestation : IManifestation
+    public class Manifestation : XmiElement, IManifestation
     {
-        /// <summary>
-        /// Gets or sets the unique identifier of the Element in the XMI document
-        /// </summary>
-        [Implements(implementation: "IXmiElement.XmiId")]
-        public string XmiId { get; set; }
-
-        /// <summary>
-        /// Gets or sets the GUID unique identifier of the Element in the XMI document
-        /// </summary>
-        [Implements(implementation: "IXmiElement.XmiGuid")]
-        public string XmiGuid { get; set; }
-
-        /// <summary>
-        /// Gets or sets the name of the xmi type
-        /// </summary>
-        [Implements(implementation: "IXmiElement.XmiType")]
-        public string XmiType { get; set; }
-
         /// <summary>
         /// An OpaqueExpression that states the abstraction relationship between the supplier(s) and the client(s). 
         /// In some cases, such as derivation, it is usually formal and unidirectional; in other cases, such as trace, 

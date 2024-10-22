@@ -22,6 +22,7 @@ namespace uml4net.POCO.Actions
 {
     using System;
     using System.Collections.Generic;
+
     using uml4net.Decorators;
     using uml4net.POCO.Classification;
     using uml4net.POCO.CommonStructure;
@@ -31,26 +32,8 @@ namespace uml4net.POCO.Actions
     /// An UnmarshallAction is an Action that retrieves the values of the StructuralFeatures of an
     /// object and places them on OutputPins.
     /// </summary>
-    public class UnmarshallAction  : IUnmarshallAction
+    public class UnmarshallAction  : XmiElement, IUnmarshallAction
     {
-        /// <summary>
-        /// Gets or sets the unique identifier of the Element in the XMI document
-        /// </summary>
-        [Implements(implementation: "IXmiElement.XmiId")]
-        public string XmiId { get; set; }
-
-        /// <summary>
-        /// Gets or sets the GUID unique identifier of the Element in the XMI document
-        /// </summary>
-        [Implements(implementation: "IXmiElement.XmiGuid")]
-        public string XmiGuid { get; set; }
-
-        /// <summary>
-        /// Gets or sets the name of the xmi type
-        /// </summary>
-        [Implements(implementation: "IXmiElement.XmiType")]
-        public string XmiType { get; set; }
-
         /// <summary>
         /// The Comments owned by this Element.
         /// </summary>

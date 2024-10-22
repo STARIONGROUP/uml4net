@@ -31,26 +31,8 @@ namespace uml4net.POCO.Values
     /// A DurationObservation is a reference to a duration during an execution. It points out the NamedElement(s)
     /// in the model to observe and whether the observations are when this NamedElement is entered or when it is exited.
     /// </summary>
-    public class DurationObservation : IDurationObservation
+    public class DurationObservation : XmiElement, IDurationObservation
     {
-        /// <summary>
-        /// Gets or sets the unique identifier of the Element in the XMI document
-        /// </summary>
-        [Implements(implementation: "IXmiElement.XmiId")]
-        public string XmiId { get; set; }
-
-        /// <summary>
-        /// Gets or sets the GUID unique identifier of the Element in the XMI document
-        /// </summary>
-        [Implements(implementation: "IXmiElement.XmiGuid")]
-        public string XmiGuid { get; set; }
-
-        /// <summary>
-        /// Gets or sets the name of the xmi type
-        /// </summary>
-        [Implements(implementation: "IXmiElement.XmiType")]
-        public string XmiType { get; set; }
-
         /// <summary>
         /// The Comments owned by this Element.
         /// </summary>

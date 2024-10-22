@@ -38,26 +38,8 @@ namespace uml4net.POCO.StateMachines
     /// arcs that are triggered by the dispatching of successive Event occurrences. During this traversal,
     /// the StateMachine may execute a sequence of Behaviors associated with various elements of the StateMachine.
     /// </summary>
-    public class StateMachine : IStateMachine
+    public class StateMachine : XmiElement, IStateMachine
     {
-        /// <summary>
-        /// Gets or sets the unique identifier of the Element in the XMI document
-        /// </summary>
-        [Implements(implementation: "IXmiElement.XmiId")]
-        public string XmiId { get; set; }
-
-        /// <summary>
-        /// Gets or sets the GUID unique identifier of the Element in the XMI document
-        /// </summary>
-        [Implements(implementation: "IXmiElement.XmiGuid")]
-        public string XmiGuid { get; set; }
-
-        /// <summary>
-        /// Gets or sets the name of the xmi type
-        /// </summary>
-        [Implements(implementation: "IXmiElement.XmiType")]
-        public string XmiType { get; set; }
-
         /// <summary>
         /// The Comments owned by this Element.
         /// </summary>

@@ -22,32 +22,15 @@ namespace uml4net.POCO.Classification
 {
     using System;
     using System.Collections.Generic;
+
     using uml4net.Decorators;
     using uml4net.POCO.CommonStructure;
 
     /// <summary>
     /// A ClassifierTemplateParameter exposes a Classifier as a formal template parameter.
     /// </summary>
-    public class ClassifierTemplateParameter : IClassifierTemplateParameter
+    public class ClassifierTemplateParameter : XmiElement, IClassifierTemplateParameter
     {
-        /// <summary>
-        /// Gets or sets the unique identifier of the Element in the XMI document
-        /// </summary>
-        [Implements(implementation: "IXmiElement.XmiId")]
-        public string XmiId { get; set; }
-
-        /// <summary>
-        /// Gets or sets the GUID unique identifier of the Element in the XMI document
-        /// </summary>
-        [Implements(implementation: "IXmiElement.XmiGuid")]
-        public string XmiGuid { get; set; }
-
-        /// <summary>
-        /// Gets or sets the name of the xmi type
-        /// </summary>
-        [Implements(implementation: "IXmiElement.XmiType")]
-        public string XmiType { get; set; }
-
         /// <summary>
         /// The Comments owned by this Element.
         /// </summary>

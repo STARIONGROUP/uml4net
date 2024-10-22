@@ -37,38 +37,8 @@ namespace uml4net.POCO.StructuredClassifiers
     /// EncapsulatedClassifier provides (offers) to its environment as well as the services that an EncapsulatedClassifier 
     /// expects (requires) of its environment.  A Port may have an associated ProtocolStateMachine.
     /// </summary>
-    public class Port : IPort
+    public class Port : XmiElement, IPort
     {
-        /// <summary>
-        /// Gets or sets a dictionary of reference properties and the associated unique identifiers
-        /// </summary>
-        [Implements(implementation: "IProperty.SingleValueReferencePropertyIdentifiers")]
-        public Dictionary<string, string> SingleValueReferencePropertyIdentifiers { get; set; } = new();
-
-        /// <summary>
-        /// Gets or sets a dictionary of multi valued reference properties and the associated unique identifiers
-        /// </summary>
-        [Implements(implementation: "IProperty.MultiValueReferencePropertyIdentifiers")]
-        public Dictionary<string, List<string>> MultiValueReferencePropertyIdentifiers { get; set; }
-
-        /// <summary>
-        /// Gets or sets the unique identifier of the Element in the XMI document
-        /// </summary>
-        [Implements(implementation: "IXmiElement.XmiId")]
-        public string XmiId { get; set; }
-
-        /// <summary>
-        /// Gets or sets the GUID unique identifier of the Element in the XMI document
-        /// </summary>
-        [Implements(implementation: "IXmiElement.XmiGuid")]
-        public string XmiGuid { get; set; }
-
-        /// <summary>
-        /// Gets or sets the name of the xmi type
-        /// </summary>
-        [Implements(implementation: "IXmiElement.XmiType")]
-        public string XmiType { get; set; }
-
         /// <summary>
         /// The Comments owned by this Element.
         /// </summary>

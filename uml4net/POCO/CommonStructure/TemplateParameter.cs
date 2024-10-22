@@ -29,26 +29,8 @@ namespace uml4net.POCO.CommonStructure
     /// <summary>
     /// A TemplateParameter exposes a ParameterableElement as a formal parameter of a template.
     /// </summary>
-    public class TemplateParameter : ITemplateParameter
+    public class TemplateParameter : XmiElement, ITemplateParameter
     {
-        /// <summary>
-        /// Gets or sets the unique identifier of the Element in the XMI document
-        /// </summary>
-        [Implements(implementation: "IXmiElement.XmiId")]
-        public string XmiId { get; set; }
-
-        /// <summary>
-        /// Gets or sets the GUID unique identifier of the Element in the XMI document
-        /// </summary>
-        [Implements(implementation: "IXmiElement.XmiGuid")]
-        public string XmiGuid { get; set; }
-
-        /// <summary>
-        /// Gets or sets the name of the xmi type
-        /// </summary>
-        [Implements(implementation: "IXmiElement.XmiType")]
-        public string XmiType { get; set; }
-
         /// <summary>
         /// The Comments owned by this Element.
         /// </summary>

@@ -22,6 +22,7 @@ namespace uml4net.POCO.Interactions
 {
     using System;
     using System.Collections.Generic;
+
     using uml4net.Decorators;
     using uml4net.POCO.Classification;
     using uml4net.POCO.CommonStructure;
@@ -31,26 +32,8 @@ namespace uml4net.POCO.Interactions
     /// A Lifeline represents an individual participant in the Interaction. While parts and structural
     /// features may have multiplicity greater than 1, Lifelines represent only one interacting entity.
     /// </summary>
-    public class Lifeline : ILifeline
+    public class Lifeline : XmiElement, ILifeline
     {
-        /// <summary>
-        /// Gets or sets the unique identifier of the Element in the XMI document
-        /// </summary>
-        [Implements(implementation: "IXmiElement.XmiId")]
-        public string XmiId { get; set; }
-
-        /// <summary>
-        /// Gets or sets the GUID unique identifier of the Element in the XMI document
-        /// </summary>
-        [Implements(implementation: "IXmiElement.XmiGuid")]
-        public string XmiGuid { get; set; }
-
-        /// <summary>
-        /// Gets or sets the name of the xmi type
-        /// </summary>
-        [Implements(implementation: "IXmiElement.XmiType")]
-        public string XmiType { get; set; }
-
         /// <summary>
         /// The Comments owned by this Element.
         /// </summary>

@@ -36,26 +36,8 @@ namespace uml4net.POCO.Deployments
     /// component artifact that is deployed on a node. A deployment specification can be aimed at a specific
     /// type of container. An artifact that reifies or implements deployment specification properties is a deployment descriptor.
     /// </summary>
-    public class DeploymentSpecification : IDeploymentSpecification
+    public class DeploymentSpecification : XmiElement, IDeploymentSpecification
     {
-        /// <summary>
-        /// Gets or sets the unique identifier of the Element in the XMI document
-        /// </summary>
-        [Implements(implementation: "IXmiElement.XmiId")]
-        public string XmiId { get; set; }
-
-        /// <summary>
-        /// Gets or sets the GUID unique identifier of the Element in the XMI document
-        /// </summary>
-        [Implements(implementation: "IXmiElement.XmiGuid")]
-        public string XmiGuid { get; set; }
-
-        /// <summary>
-        /// Gets or sets the name of the xmi type
-        /// </summary>
-        [Implements(implementation: "IXmiElement.XmiType")]
-        public string XmiType { get; set; }
-
         /// <summary>
         /// The Comments owned by this Element.
         /// </summary>

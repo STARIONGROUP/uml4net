@@ -35,26 +35,8 @@ namespace uml4net.POCO.Packages
     /// ParameterableElement to specify that a package can be used as a template and a PackageableElement
     /// as a template parameter. A package is used to group elements, and provides a namespace for the grouped elements.
     /// </summary>
-    public class Package : IPackage
+    public class Package : XmiElement, IPackage
     {
-        /// <summary>
-        /// Gets or sets the unique identifier of the Element in the XMI document
-        /// </summary>
-        [Implements(implementation: "IXmiElement.XmiId")]
-        public string XmiId { get; set; }
-
-        /// <summary>
-        /// Gets or sets the GUID unique identifier of the Element in the XMI document
-        /// </summary>
-        [Implements(implementation: "IXmiElement.XmiGuid")]
-        public string XmiGuid { get; set; }
-
-        /// <summary>
-        /// Gets or sets the name of the xmi type
-        /// </summary>
-        [Implements(implementation: "IXmiElement.XmiType")]
-        public string XmiType { get; set; }
-
         /// <summary>
         /// The Comments owned by this Element.
         /// </summary>

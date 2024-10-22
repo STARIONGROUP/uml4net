@@ -22,6 +22,7 @@ namespace uml4net.POCO.Actions
 {
     using System;
     using System.Collections.Generic;
+
     using uml4net.Decorators;
     using uml4net.POCO.Classification;
     using uml4net.POCO.CommonStructure;
@@ -31,26 +32,8 @@ namespace uml4net.POCO.Actions
     /// A ReduceAction is an Action that reduces a collection to a single value by repeatedly
     /// combining the elements of the collection using a reducer Behavior.
     /// </summary>
-    public class ReduceAction : IReduceAction
+    public class ReduceAction : XmiElement, IReduceAction
     {
-        /// <summary>
-        /// Gets or sets the unique identifier of the Element in the XMI document
-        /// </summary>
-        [Implements(implementation: "IXmiElement.XmiId")]
-        public string XmiId { get; set; }
-
-        /// <summary>
-        /// Gets or sets the GUID unique identifier of the Element in the XMI document
-        /// </summary>
-        [Implements(implementation: "IXmiElement.XmiGuid")]
-        public string XmiGuid { get; set; }
-
-        /// <summary>
-        /// Gets or sets the name of the xmi type
-        /// </summary>
-        [Implements(implementation: "IXmiElement.XmiType")]
-        public string XmiType { get; set; }
-
         /// <summary>
         /// The Comments owned by this Element.
         /// </summary>

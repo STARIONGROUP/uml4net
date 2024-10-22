@@ -33,26 +33,8 @@ namespace uml4net.POCO.StructuredClassifiers
     /// to Associations, which specify links between any instance of the associated Classifiers, 
     /// Connectors specify links between instances playing the connected parts only.
     /// </summary>
-    public class Connector : IConnector
+    public class Connector : XmiElement, IConnector
     {
-        /// <summary>
-        /// Gets or sets the unique identifier of the Element in the XMI document
-        /// </summary>
-        [Implements(implementation: "IXmiElement.XmiId")]
-        public string XmiId { get; set; }
-
-        /// <summary>
-        /// Gets or sets the GUID unique identifier of the Element in the XMI document
-        /// </summary>
-        [Implements(implementation: "IXmiElement.XmiGuid")]
-        public string XmiGuid { get; set; }
-
-        /// <summary>
-        /// Gets or sets the name of the xmi type
-        /// </summary>
-        [Implements(implementation: "IXmiElement.XmiType")]
-        public string XmiType { get; set; }
-
         /// <summary>
         /// The Comments owned by this Element.
         /// </summary>

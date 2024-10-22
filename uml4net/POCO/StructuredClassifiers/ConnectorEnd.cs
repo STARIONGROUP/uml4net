@@ -31,32 +31,14 @@ namespace uml4net.POCO.StructuredClassifiers
     /// <summary>
     /// A ConnectorEnd is an endpoint of a Connector, which attaches the Connector to a ConnectableElement.
     /// </summary>
-    public class ConnectorEnd : IConnectorEnd
+    public class ConnectorEnd : XmiElement, IConnectorEnd
     {
-        /// <summary>
-        /// Gets or sets the unique identifier of the Element in the XMI document
-        /// </summary>
-        [Implements(implementation: "IXmiElement.XmiId")]
-        public string XmiId { get; set; }
-
-        /// <summary>
-        /// Gets or sets the GUID unique identifier of the Element in the XMI document
-        /// </summary>
-        [Implements(implementation: "IXmiElement.XmiGuid")]
-        public string XmiGuid { get; set; }
-
-        /// <summary>
-        /// Gets or sets the name of the xmi type
-        /// </summary>
-        [Implements(implementation: "IXmiElement.XmiType")]
-        public string XmiType { get; set; }
-
         /// <summary>
         /// The Comments owned by this Element.
         /// </summary>
         [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue)]
         [Implements(implementation: "IElement.OwnedComment")]
-        public List<IComment> OwnedComment { get; set; } = new List<IComment>();
+        public List<IComment> OwnedComment { get; set; } = new();
 
         /// <summary>
         /// The Elements owned by this Element
