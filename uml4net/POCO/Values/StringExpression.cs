@@ -31,7 +31,7 @@ namespace uml4net.POCO.Values
     /// A StringExpression is an Expression that specifies a String value that is derived by concatenating a sequence
     /// of operands with String values or a sequence of subExpressions, some of which might be template parameters.
     /// </summary>
-    public class StringExpression : XmiElement, IStringExpression
+    public class StringExpression : XmiElement, IStringExpression, IReferenceable<IStringExpression>
     {
         /// <summary>
         /// The Comments owned by this Element.
@@ -76,6 +76,12 @@ namespace uml4net.POCO.Values
         [SubsettedProperty(propertyName: "Element.OwnedElement")]
         [Implements(implementation: "INamedElement.NameExpression")]
         public IStringExpression NameExpression { get; set; }
+
+        IStringExpression IReferenceable<IStringExpression>.Reference
+        {
+            get => this.NameExpression;
+            set => this.NameExpression = value;
+        }
 
         /// <summary>
         /// Specifies the Namespace that owns the NamedElement.

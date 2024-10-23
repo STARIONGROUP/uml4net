@@ -42,16 +42,6 @@ namespace uml4net.POCO.Classification
     public interface IProperty : IConnectableElement, IDeploymentTarget, IStructuralFeature
     {
         /// <summary>
-        /// Gets or sets a dictionary of single-valued reference properties and the associated unique identifiers
-        /// </summary>
-        public Dictionary<string, string> SingleValueReferencePropertyIdentifiers { get; set; }
-
-        /// <summary>
-        /// Gets or sets a dictionary of multivalued reference properties and the associated unique identifiers
-        /// </summary>
-        public Dictionary<string, List<string>> MultiValueReferencePropertyIdentifiers { get; set; }
-
-        /// <summary>
         /// Specifies the kind of aggregation that applies to the Property.
         /// </summary>
         [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, defaultValue: "AggregationKind.None")]
