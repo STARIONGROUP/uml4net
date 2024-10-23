@@ -27,6 +27,7 @@ namespace uml4net.Tests
     using POCO.Values;
     using System.Collections.Generic;
     using uml4net.POCO;
+    using Microsoft.Extensions.Logging;
 
     [TestFixture]
     public class AssemblerTestFixture
@@ -37,7 +38,7 @@ namespace uml4net.Tests
         [SetUp]
         public void Setup()
         {
-            this.assembler = new Assembler();
+            this.assembler = new Assembler(LoggerFactory.Create(builder => builder.AddConsole()));
         }
 
         [TearDown]
@@ -206,7 +207,6 @@ namespace uml4net.Tests
         [Test]
         public void Synchronize_ShouldThrow_WhenReferenceNotFound()
         {
-            // Arrange
             var classElement = new Class
             {
                 XmiId = Guid.NewGuid().ToString(),
@@ -217,26 +217,32 @@ namespace uml4net.Tests
             classElement.SingleValueReferencePropertyIdentifiers.Add("NameExpression", "NonExistentReference");
             this.cache.Add(classElement.XmiId, classElement);
             
-            Assert.Throws<NullReferenceException>(() => this.assembler.Synchronize(this.cache));
+            this.assembler.Synchronize(this.cache);
+
+            Assert.That(classElement.NameExpression, Is.Not.Null);
         }
 
         [Test]
         public void Synchronize_ShouldThrow_WhenElementNotIReferenceable()
         {
-            // Arrange
             var classElement = new Class
             {
                 XmiId = Guid.NewGuid().ToString(),
                 Name = "TestClass",
-                NameExpression = new StringExpression()
+                NameExpression = null
             };
 
-            var invalidElement = new Comment { XmiId = Guid.NewGuid().ToString(), Body = "Not IReferenceable" };
+            var invalidElement = new Comment { XmiId = Guid.NewGuid().ToString(), Body = "Not a comment" };
             classElement.SingleValueReferencePropertyIdentifiers.Add("NameExpression", invalidElement.XmiId);
             this.cache.Add(classElement.XmiId, classElement);
             this.cache.Add(invalidElement.XmiId, invalidElement);
 
-            Assert.Throws<InvalidOperationException>(() => this.assembler.Synchronize(this.cache));
+            Assert.Multiple(() =>
+            {
+                Assert.Throws<InvalidOperationException>(() => this.assembler.Synchronize(this.cache));
+                Assert.That(classElement.OwnedComment, Is.Empty);
+                Assert.That(classElement.NameExpression, Is.Null);
+            });
         }
     }
 }

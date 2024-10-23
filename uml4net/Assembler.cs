@@ -21,6 +21,7 @@
 namespace uml4net
 {
     using Decorators;
+    using Microsoft.Extensions.Logging;
     using System.Collections.Generic;
 
     using POCO.CommonStructure;
@@ -31,12 +32,34 @@ namespace uml4net
     using POCO;
     using POCO.Values;
     using System.Reflection;
+    using Microsoft.Extensions.Logging.Abstractions;
+    using System.Xml;
 
     /// <summary>
     /// The purpose of the Assembler is to convert a list of DTO's into an object graph
     /// </summary>
     public class Assembler
     {
+        /// <summary>
+        /// The (injected) <see cref="ILoggerFactory"/> used to setup logging
+        /// </summary>
+        private readonly ILoggerFactory loggerFactory;
+
+        /// <summary>
+        /// The <see cref="ILogger"/> used to log
+        /// </summary>
+        private readonly ILogger<Assembler> logger;
+
+        /// <summary>
+        /// Gets
+        /// </summary>
+        /// <param name="loggerFactory"></param>
+        public Assembler(ILoggerFactory loggerFactory)
+        {
+            this.loggerFactory = loggerFactory;
+            this.logger = this.loggerFactory == null ? NullLogger<Assembler>.Instance : this.loggerFactory.CreateLogger<Assembler>();
+        }
+
         /// <summary>
         /// Synchronizes the specified cache by assigning properties to elements.
         /// </summary>
@@ -62,10 +85,16 @@ namespace uml4net
             {
                 var referencedElement = this.GetReferencedElement(cache, property.Value, property.Key);
 
+                if (referencedElement is null)
+                {
+                    continue;
+                }
+
                 var targetProperty = this.FindPropertyWithAttribute(element, property.Key, referencedElement.GetType());
+                
                 if (targetProperty is null)
                 {
-                    throw new InvalidOperationException($"The target property {property.Key} was not found on {element.GetType().Name}");
+                    throw new InvalidOperationException($"The target property {property.Key} was not found on {element.GetType().Name} or the property type doesn't match the referenced element type");
                 }
 
                 targetProperty.SetValue(element, referencedElement);
@@ -102,15 +131,21 @@ namespace uml4net
         /// <param name="reference">The key to the reference in the cache.</param>
         /// <param name="key">The name of the property referring to the element.</param>
         /// <returns>The resolved IXmiElement from the cache.</returns>
-        /// <exception cref="NullReferenceException">Thrown if the reference is not found in the cache.</exception>
         private IXmiElement GetReferencedElement(IDictionary<string, IXmiElement> cache, string reference, string key)
         {
-            if (!cache.TryGetValue(reference, out var referencedElement))
+            if (reference.Contains('#'))
             {
-                throw new NullReferenceException($"The reference {key} to {reference} could not be found in the cache");
+                this.logger.LogWarning("Referencing external type is not yet supported");
+                return null;
             }
 
-            return referencedElement;
+            if (cache.TryGetValue(reference, out var referencedElement))
+            {
+                return referencedElement;
+            }
+
+            this.logger.LogWarning("The reference with the id [{reference}] to [{key}] was not found in the cache, probably because its type is not supported.", reference, key);
+            return null;
         }
 
         /// <summary>
@@ -124,7 +159,7 @@ namespace uml4net
         {
             return element.GetType().GetProperties()
                 .FirstOrDefault(x => Attribute.IsDefined(x, typeof(PropertyAttribute))
-                                     && x.Name.Equals(propertyName)
+                                     && x.Name.Equals(propertyName, StringComparison.InvariantCultureIgnoreCase)
                                      && (expectedType == null || x.PropertyType.IsAssignableFrom(expectedType)));
         }
 
@@ -147,7 +182,8 @@ namespace uml4net
             {
                 if (!cache.TryGetValue(propertyValue, out var referencedElement) || !expectedType.IsAssignableFrom(referencedElement.GetType()))
                 {
-                    throw new InvalidOperationException($"The reference {key} to {propertyValue} could not be found in the cache, or the type does not match");
+                    this.logger.LogWarning("The reference with the id [{key}] to [{propertyValue}] was not found in the cache, probably because its type is not supported.", key, propertyValue);
+                    continue;
                 }
 
                 resolvedReferences.Add(referencedElement);
