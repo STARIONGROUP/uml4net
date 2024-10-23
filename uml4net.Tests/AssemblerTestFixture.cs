@@ -46,9 +46,8 @@ namespace uml4net.Tests
             this.cache.Clear();
         }
 
-        [TestCase(true)]
-        [TestCase(false)]
-        public void Synchronize_ShouldSetSingleValueReference(bool useFullReflection)
+        [Test]
+        public void Synchronize_ShouldSetSingleValueReference()
         {
             // Arrange
             var classElement = new Class
@@ -66,16 +65,8 @@ namespace uml4net.Tests
 
             Assert.That(classElement.NameExpression, Is.Null);
             
-            // Act
-            if (useFullReflection)
-            {
-                this.assembler.SynchronizeUsingFullReflection(this.cache);
-            }
-            else
-            {
-                this.assembler.Synchronize(this.cache);
-            }
-
+            this.assembler.Synchronize(this.cache);
+            
             // Assert
             Assert.Multiple(() =>
             {
@@ -85,9 +76,8 @@ namespace uml4net.Tests
             });
         }
 
-        [TestCase(true)]
-        [TestCase(false)]
-        public void Synchronize_ShouldSetMultiValueReference(bool useFullReflection)
+        [Test]
+        public void Synchronize_ShouldSetMultiValueReference()
         {
             // Arrange
             var classElement = new Class
@@ -106,15 +96,7 @@ namespace uml4net.Tests
             this.cache.Add(comment1.XmiId, comment1);
             this.cache.Add(comment2.XmiId, comment2);
 
-            // Act
-            if (useFullReflection)
-            {
-                this.assembler.SynchronizeUsingFullReflection(this.cache);
-            }
-            else
-            {
-                this.assembler.Synchronize(this.cache);
-            }
+            this.assembler.Synchronize(this.cache);
 
             // Assert
             Assert.Multiple(() =>
@@ -125,9 +107,8 @@ namespace uml4net.Tests
             });
         }
 
-        [TestCase(true)]
-        [TestCase(false)]
-        public void Synchronize_ShouldSetSingleValueReferenceAndMultipleValuesReference(bool useFullReflection)
+        [Test]
+        public void Synchronize_ShouldSetSingleValueReferenceAndMultipleValuesReference()
         {
             // Arrange
             var classElement = new Class
@@ -153,15 +134,7 @@ namespace uml4net.Tests
             Assert.That(classElement.NameExpression, Is.Null);
             Assert.That(classElement.OwnedComment.Count, Is.Zero);
 
-            // Act
-            if (useFullReflection)
-            {
-                this.assembler.SynchronizeUsingFullReflection(this.cache);
-            }
-            else
-            {
-                this.assembler.Synchronize(this.cache);
-            }
+            this.assembler.Synchronize(this.cache);
 
             // Assert
             Assert.Multiple(() =>
@@ -175,9 +148,8 @@ namespace uml4net.Tests
             });
         }
 
-        [TestCase(true)]
-        [TestCase(false)]
-        public void Synchronize_ShouldSetExpectedReferenceToExpectedReference(bool useFullReflection)
+        [Test]
+        public void Synchronize_ShouldSetExpectedReferenceToExpectedReference()
         {
             // Arrange
             var classElement0 = new Class
@@ -214,15 +186,7 @@ namespace uml4net.Tests
             Assert.That(classElement0.OwnedComment.Count, Is.Zero);
             Assert.That(classElement1.OwnedComment.Count, Is.Zero);
 
-            // Act
-            if (useFullReflection)
-            {
-                this.assembler.SynchronizeUsingFullReflection(this.cache);
-            }
-            else
-            {
-                this.assembler.Synchronize(this.cache);
-            }
+            this.assembler.Synchronize(this.cache);
 
             // Assert
             Assert.Multiple(() =>
@@ -239,9 +203,8 @@ namespace uml4net.Tests
             });
         }
 
-        [TestCase(true)]
-        [TestCase(false)]
-        public void Synchronize_ShouldThrow_WhenReferenceNotFound(bool useFullReflection)
+        [Test]
+        public void Synchronize_ShouldThrow_WhenReferenceNotFound()
         {
             // Arrange
             var classElement = new Class
@@ -254,20 +217,11 @@ namespace uml4net.Tests
             classElement.SingleValueReferencePropertyIdentifiers.Add("NameExpression", "NonExistentReference");
             this.cache.Add(classElement.XmiId, classElement);
             
-            // Act & Assert
-            if (useFullReflection)
-            {
-                Assert.Throws<NullReferenceException>(() => this.assembler.SynchronizeUsingFullReflection(this.cache));
-            }
-            else
-            {
-                Assert.Throws<NullReferenceException>(() => this.assembler.Synchronize(this.cache));
-            }
+            Assert.Throws<NullReferenceException>(() => this.assembler.Synchronize(this.cache));
         }
 
-        [TestCase(true)]
-        [TestCase(false)]
-        public void Synchronize_ShouldThrow_WhenElementNotIReferenceable(bool useFullReflection)
+        [Test]
+        public void Synchronize_ShouldThrow_WhenElementNotIReferenceable()
         {
             // Arrange
             var classElement = new Class
@@ -282,15 +236,7 @@ namespace uml4net.Tests
             this.cache.Add(classElement.XmiId, classElement);
             this.cache.Add(invalidElement.XmiId, invalidElement);
 
-            // Act & Assert
-            if (useFullReflection)
-            {
-                Assert.Throws<InvalidOperationException>(() => this.assembler.SynchronizeUsingFullReflection(this.cache));
-            }
-            else
-            {
-                Assert.Throws<InvalidOperationException>(() => this.assembler.Synchronize(this.cache));
-            }
+            Assert.Throws<InvalidOperationException>(() => this.assembler.Synchronize(this.cache));
         }
     }
 }

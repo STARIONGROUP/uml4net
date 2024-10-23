@@ -35,7 +35,7 @@ namespace uml4net.POCO.StructuredClassifiers
     /// A Class classifies a set of objects and specifies the features that characterize the structure and behavior
     /// of those objects.  A Class may have an internal structure and Ports
     /// </summary>
-    public class Class : XmiElement, IClass, IReferenceable<List<IComment>>, IReferenceable<List<IElementImport>>, IReferenceable<IStringExpression>
+    public class Class : XmiElement, IClass
     {
         /// <summary>
         /// The Comments owned by this Element.
@@ -44,20 +44,6 @@ namespace uml4net.POCO.StructuredClassifiers
         [Implements(implementation: "IElement.OwnedComment")]
         public List<IComment> OwnedComment { get; set; } = new List<IComment>();
         
-        /// <summary>
-        /// Gets or sets the reference to the comments owned by this element.
-        /// </summary>
-        /// <remarks>
-        /// This property implements the <see cref="IReferenceable{T}"/> interface,
-        /// providing access to the owned comments through the <see cref="OwnedComment"/> property.
-        /// </remarks>
-        [ReferencedProperty("OwnedComment")]
-        List<IComment> IReferenceable<List<IComment>>.Reference
-        {
-            get => this.OwnedComment;
-            set => this.OwnedComment = value;
-        }
-
         /// <summary>
         /// The Elements owned by this Element
         /// </summary>
@@ -96,20 +82,6 @@ namespace uml4net.POCO.StructuredClassifiers
         public IStringExpression NameExpression { get; set; }
 
         /// <summary>
-        /// Gets or sets the reference to the NameExpression owned by this element.
-        /// </summary>
-        /// <remarks>
-        /// This property implements the <see cref="IReferenceable{T}"/> interface,
-        /// providing access to the owned comments through the <see cref="NameExpression"/> property.
-        /// </remarks>
-        [ReferencedProperty("NameExpression")]
-        IStringExpression IReferenceable<IStringExpression>.Reference
-        {
-            get => this.NameExpression;
-            set => this.NameExpression = value;
-        }
-
-        /// <summary>
         /// Specifies the Namespace that owns the NamedElement.
         /// </summary>
         [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isReadOnly: true, isDerived: true, isDerivedUnion: true)]
@@ -141,21 +113,7 @@ namespace uml4net.POCO.StructuredClassifiers
         [SubsettedProperty(propertyName: "Element.OwnedElement")]
         [Implements(implementation: "INamespace.ElementImport")]
         public List<IElementImport> ElementImport { get; set; } = new ();
-
-        /// <summary>
-        /// Gets or sets the reference to the ElementImport owned by this element.
-        /// </summary>
-        /// <remarks>
-        /// This property implements the <see cref="IReferenceable{T}"/> interface,
-        /// providing access to the owned comments through the <see cref="ElementImport"/> property.
-        /// </remarks>
-        [ReferencedProperty("ElementImport")]
-        List<IElementImport> IReferenceable<List<IElementImport>>.Reference
-        {
-            get => this.ElementImport;
-            set => this.ElementImport = value;
-        }
-
+        
         /// <summary>
         /// References the PackageableElements that are members of this Namespace as a result of either PackageImports or ElementImports.
         /// </summary>

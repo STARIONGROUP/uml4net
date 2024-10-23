@@ -27,9 +27,10 @@ namespace uml4net
     using System;
     using System.Collections;
     using System.Linq;
-    using uml4net.POCO.Classification;
-    using uml4net.POCO;
-    using uml4net.POCO.Values;
+    using POCO.Classification;
+    using POCO;
+    using POCO.Values;
+    using System.Reflection;
 
     /// <summary>
     /// The purpose of the Assembler is to convert a list of DTO's into an object graph
@@ -42,163 +43,117 @@ namespace uml4net
         /// <param name="cache">
         /// A dictionary containing the elements where the keys are their identifiers and the values are the corresponding <see cref="IXmiElement"/> instances.
         /// </param>
-        public void SynchronizeUsingFullReflection(Dictionary<string, IXmiElement> cache)
-        {
-            foreach (var element in cache.Values)
-            {
-                foreach (var property in element.SingleValueReferencePropertyIdentifiers)
-                {
-                    if (!cache.TryGetValue(property.Value, out var referencedElement))
-                    {
-                        throw new NullReferenceException($"The reference {property.Key} to {property.Value} could not be found in the cache");
-                    }
-
-                    var propertiesWithAttribute = element.GetType().GetProperties()
-                        .FirstOrDefault(x => Attribute.IsDefined(x, typeof(PropertyAttribute))
-                                             && x.Name.Equals(property.Key)
-                                             && x.PropertyType.IsAssignableFrom(referencedElement.GetType()));
-
-                    if (propertiesWithAttribute is null)
-                    {
-                        throw new InvalidOperationException($"The target property {property.Key} was not found on {element.GetType().Name}");
-                    }
-
-                    propertiesWithAttribute.SetValue(element, referencedElement);
-                }
-
-                foreach (var property in element.MultiValueReferencePropertyIdentifiers)
-                {
-                    var propertiesWithAttribute = element.GetType().GetProperties()
-                        .FirstOrDefault(x => Attribute.IsDefined(x, typeof(PropertyAttribute))
-                                             && x.Name.Equals(property.Key));
-
-                    var underlyingType = propertiesWithAttribute?.PropertyType.GetGenericArguments().FirstOrDefault();
-
-                    if (propertiesWithAttribute is null || underlyingType is null)
-                    {
-                        throw new NullReferenceException($"The target property {property.Key} was not found on {element.GetType().Name} or the type is null");
-                    }
-
-                    var resolvedReferences = new List<IXmiElement>();
-
-                    foreach (var propertyValue in property.Value)
-                    {
-                        if (!cache.TryGetValue(propertyValue, out var referencedElement) || !underlyingType.IsAssignableFrom(referencedElement.GetType()))
-                        {
-                            throw new InvalidOperationException($"The reference {property.Key} to {propertyValue} could not be found in the cache, Or the type does not match");
-                        }
-
-                        resolvedReferences.Add(referencedElement);
-                    }
-
-                    if (propertiesWithAttribute.GetValue(element) is not IList list)
-                    {
-                        continue;
-                    }
-
-                    foreach (var resolvedReference in resolvedReferences)
-                    {
-                        list.Add(resolvedReference);
-                    }
-                }
-            }
-        }
-
-        /// <summary>
-        /// Synchronizes the specified cache by assigning properties to elements.
-        /// </summary>
-        /// <param name="cache">
-        /// A dictionary containing the elements where the keys are their identifiers and the values are the corresponding <see cref="IXmiElement"/> instances.
-        /// </param>
         public void Synchronize(Dictionary<string, IXmiElement> cache)
         {
             foreach (var element in cache.Values)
             {
-                foreach (var property in element.SingleValueReferencePropertyIdentifiers)
+                this.ResolveReferences(element, cache);
+            }
+        }
+
+        /// <summary>
+        /// Resolves single and multi-value references for the given element using the provided cache.
+        /// </summary>
+        /// <param name="element">The element whose references are to be resolved.</param>
+        /// <param name="cache">The cache containing the referenced elements.</param>
+        public void ResolveReferences(IXmiElement element, IDictionary<string, IXmiElement> cache)
+        {
+            foreach (var property in element.SingleValueReferencePropertyIdentifiers)
+            {
+                var referencedElement = this.GetReferencedElement(cache, property.Value, property.Key);
+
+                var targetProperty = this.FindPropertyWithAttribute(element, property.Key, referencedElement.GetType());
+                if (targetProperty is null)
                 {
-                    this.AssignProperty(cache, property.Key, [ property.Value ], element);
+                    throw new InvalidOperationException($"The target property {property.Key} was not found on {element.GetType().Name}");
                 }
 
-                foreach (var property in element.MultiValueReferencePropertyIdentifiers)
+                targetProperty.SetValue(element, referencedElement);
+            }
+
+            foreach (var property in element.MultiValueReferencePropertyIdentifiers)
+            {
+                var targetProperty = this.FindPropertyWithAttribute(element, property.Key);
+                var underlyingType = targetProperty?.PropertyType.GetGenericArguments().FirstOrDefault();
+
+                if (targetProperty is null || underlyingType is null)
                 {
-                    this.AssignProperty(cache, property.Key, property.Value, element);
+                    throw new NullReferenceException($"The target property {property.Key} was not found on {element.GetType().Name} or the type is null");
+                }
+
+                var resolvedReferences = this.ResolveMultiValueReferences(cache, property.Value, property.Key, underlyingType);
+
+                if (targetProperty.GetValue(element) is not IList list)
+                {
+                    continue;
+                }
+
+                foreach (var resolvedReference in resolvedReferences)
+                {
+                    list.Add(resolvedReference);
                 }
             }
         }
 
         /// <summary>
-        /// Assigns the specified property values to the given element.
+        /// Retrieves a referenced element from the cache based on the reference key.
         /// </summary>
-        /// <param name="cache">
-        /// A dictionary containing the elements where the keys are their identifiers and the values are the corresponding <see cref="IXmiElement"/> instances.
-        /// </param>
-        /// <param name="propertyKey">
-        /// The key of the property being assigned.
-        /// </param>
-        /// <param name="propertyValues">
-        /// A list of values corresponding to the property to be assigned.
-        /// </param>
-        /// <param name="element">
-        /// The <see cref="IXmiElement"/> instance to which the property values are being assigned.
-        /// </param>
-        /// <exception cref="NullReferenceException">
-        /// Thrown when a reference cannot be found in the cache.
-        /// </exception>
+        /// <param name="cache">The cache containing the referenced elements.</param>
+        /// <param name="reference">The key to the reference in the cache.</param>
+        /// <param name="key">The name of the property referring to the element.</param>
+        /// <returns>The resolved IXmiElement from the cache.</returns>
+        /// <exception cref="NullReferenceException">Thrown if the reference is not found in the cache.</exception>
+        private IXmiElement GetReferencedElement(IDictionary<string, IXmiElement> cache, string reference, string key)
+        {
+            if (!cache.TryGetValue(reference, out var referencedElement))
+            {
+                throw new NullReferenceException($"The reference {key} to {reference} could not be found in the cache");
+            }
+
+            return referencedElement;
+        }
+
+        /// <summary>
+        /// Finds a property in the given element that has the <see cref="PropertyAttribute"/> and matches the specified property name and type.
+        /// </summary>
+        /// <param name="element">The element whose properties are to be searched.</param>
+        /// <param name="propertyName">The name of the property to find.</param>
+        /// <param name="expectedType">The expected type of the property. If null, type checking is skipped.</param>
+        /// <returns>The <see cref="PropertyInfo"/> of the found property, or null if no matching property is found.</returns>
+        private PropertyInfo? FindPropertyWithAttribute(IXmiElement element, string propertyName, Type? expectedType = null)
+        {
+            return element.GetType().GetProperties()
+                .FirstOrDefault(x => Attribute.IsDefined(x, typeof(PropertyAttribute))
+                                     && x.Name.Equals(propertyName)
+                                     && (expectedType == null || x.PropertyType.IsAssignableFrom(expectedType)));
+        }
+
+        /// <summary>
+        /// Resolves multiple references from the cache, ensuring that the types match the expected type.
+        /// </summary>
+        /// <param name="cache">The cache containing the referenced elements.</param>
+        /// <param name="propertyValues">The keys of the references to be resolved.</param>
+        /// <param name="key">The name of the property referring to the elements.</param>
+        /// <param name="expectedType">The expected type of the referenced elements.</param>
+        /// <returns>A list of resolved IXmiElement references.</returns>
         /// <exception cref="InvalidOperationException">
-        /// Thrown when the element does not implement a known <see cref="IReferenceable{T}"/> interface.
+        /// Thrown if a reference is not found in the cache or if the type of a referenced element does not match the expected type.
         /// </exception>
-        private void AssignProperty(Dictionary<string, IXmiElement> cache, string propertyKey, List<string> propertyValues, IXmiElement element)
+        private List<IXmiElement> ResolveMultiValueReferences(IDictionary<string, IXmiElement> cache, IEnumerable<string> propertyValues, string key, Type expectedType)
         {
             var resolvedReferences = new List<IXmiElement>();
 
             foreach (var propertyValue in propertyValues)
             {
-                if (!cache.TryGetValue(propertyValue, out var referencedElement))
+                if (!cache.TryGetValue(propertyValue, out var referencedElement) || !expectedType.IsAssignableFrom(referencedElement.GetType()))
                 {
-                    throw new NullReferenceException($"The reference {propertyKey} to {propertyValue} could not be found in the cache");
+                    throw new InvalidOperationException($"The reference {key} to {propertyValue} could not be found in the cache, or the type does not match");
                 }
 
                 resolvedReferences.Add(referencedElement);
             }
-            
-            switch (element)
-            {
-                case IReferenceable<IStringExpression> referenceableStringExpr when resolvedReferences.FirstOrDefault() is IStringExpression stringExpression
-                    && ReferencedPropertyAttribute.GetName(referenceableStringExpr) == propertyKey:
-                    referenceableStringExpr.Reference = stringExpression;
-                    break;
-                case IReferenceable<List<IComment>> referenceableComments when AnyResolvedReferenceMatch<IComment>(resolvedReferences, out var references)
-                                                                               && ReferencedPropertyAttribute.GetName(referenceableComments) == propertyKey:
-                    referenceableComments.Reference = references;
-                    break;
-                case IReferenceable<List<IElementImport>> referenceableElements when AnyResolvedReferenceMatch<IElementImport>(resolvedReferences, out var references)
-                                                                                     && ReferencedPropertyAttribute.GetName(referenceableElements) == propertyKey:
-                    referenceableElements.Reference = references;
-                    break;
-                default:
-                    throw new InvalidOperationException($"Element {element.GetType().Name} does not implement a known IReferenceable interface.");
-            }
-        }
 
-        /// <summary>
-        /// Determines if there are any resolved references that match the specified type.
-        /// </summary>
-        /// <typeparam name="T">
-        /// The type of references to match.
-        /// </typeparam>
-        /// <param name="resolvedReferences">
-        /// A list of resolved references.
-        /// </param>
-        /// <param name="references">
-        /// The matching references that were found.
-        /// </param>
-        /// <returns>
-        /// <c>true</c> if there are matching references; otherwise, <c>false</c>.
-        /// </returns>
-        private static bool AnyResolvedReferenceMatch<T>(List<IXmiElement> resolvedReferences, out List<T> references)
-        {
-            references = resolvedReferences.OfType<T>().ToList();
-            return references.Count > 0;
+            return resolvedReferences;
         }
     }
 }
