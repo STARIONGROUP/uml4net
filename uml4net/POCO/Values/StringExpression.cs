@@ -77,6 +77,13 @@ namespace uml4net.POCO.Values
         [Implements(implementation: "INamedElement.NameExpression")]
         public IStringExpression NameExpression { get; set; }
 
+        /// <summary>
+        /// Gets or sets the reference to the NameExpression owned by this element.
+        /// </summary>
+        /// <remarks>
+        /// This property implements the <see cref="IReferenceable{T}"/> interface,
+        /// providing access to the owned comments through the <see cref="NameExpression"/> property.
+        /// </remarks>
         IStringExpression IReferenceable<IStringExpression>.Reference
         {
             get => this.NameExpression;

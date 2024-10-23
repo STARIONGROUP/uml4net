@@ -48,14 +48,29 @@ namespace uml4net.Decorators
         {
             this.PropertyName = propertyName;
         }
-
+        /// <summary>
+        /// Retrieves the property name from the <see cref="ReferencedPropertyAttribute"/> of the specified <see cref="IReferenceable{T}"/> instance.
+        /// </summary>
+        /// <typeparam name="T">The type parameter of the referenced element.</typeparam>
+        /// <param name="instance">The instance of the <see cref="IReferenceable{T}"/> interface from which the property name is retrieved.</param>
+        /// <returns>The name of the referenced property specified in the <see cref="ReferencedPropertyAttribute"/>.</returns>
+        /// <exception cref="InvalidOperationException">Thrown if the referenced property cannot be found.</exception>
         public static string GetName<T>(IReferenceable<T> instance)
         {
             var memberInfo = GetExplicitInterfaceProperty(instance);
             var customAttribute = Attribute.GetCustomAttribute(memberInfo, typeof(ReferencedPropertyAttribute));
             return ((ReferencedPropertyAttribute)customAttribute).PropertyName;
         }
-        
+
+        /// <summary>
+        /// Retrieves the <see cref="PropertyInfo"/> of the explicit interface implementation for the <see cref="IReferenceable{T}.Reference"/> property.
+        /// </summary>
+        /// <typeparam name="T">The type parameter of the referenced element.</typeparam>
+        /// <param name="instance">The instance of the <see cref="IReferenceable{T}"/> interface to inspect.</param>
+        /// <returns>
+        /// The <see cref="PropertyInfo"/> of the <see cref="IReferenceable{T}.Reference"/> property.
+        /// </returns>
+        /// <exception cref="InvalidOperationException">Thrown if the explicit interface implementation of the Reference property is not found.</exception>
         public static PropertyInfo GetExplicitInterfaceProperty<T>(IReferenceable<T> instance)
         {
             var instanceType = instance.GetType();
