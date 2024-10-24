@@ -147,7 +147,11 @@ namespace uml4net.xmi
                     }
                 }
 
-                this.logger.LogTrace("xml read in {time}", sw.ElapsedMilliseconds);
+                var currentlyElapsedMilliseconds = sw.ElapsedMilliseconds;
+                this.logger.LogTrace("xml read in {time}", currentlyElapsedMilliseconds);
+
+                new Assembler(this.loggerFactory).Synchronize(this.cache);
+                this.logger.LogTrace("elements references synchronized in {time}", sw.ElapsedMilliseconds - currentlyElapsedMilliseconds);
                 sw.Stop();
 
                 return packages;

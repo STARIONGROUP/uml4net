@@ -46,12 +46,5 @@ namespace uml4net.POCO.Packages
         /// </summary>
         [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isReadOnly: true, isDerived: true)]
         public IClass Metaclass { get; }
-
-        /// <summary>
-        /// References the end of the extension that is typed by a Stereotype.
-        /// </summary>
-        [Property(aggregation: AggregationKind.Composite, lowerValue: 1, upperValue: 1)]
-        [RedefinedProperty(propertyName: "Association-ownedEnd")]
-        public IExtensionEnd OwnedEnd { get; set; }
     }
 }

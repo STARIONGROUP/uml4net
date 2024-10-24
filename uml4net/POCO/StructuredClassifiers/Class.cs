@@ -1,4 +1,4 @@
-﻿// -------------------------------------------------------------------------------------------------
+// -------------------------------------------------------------------------------------------------
 // <copyright file="Class.cs" company="Starion Group S.A.">
 //
 //   Copyright 2019-2024 Starion Group S.A.
@@ -43,7 +43,7 @@ namespace uml4net.POCO.StructuredClassifiers
         [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue)]
         [Implements(implementation: "IElement.OwnedComment")]
         public List<IComment> OwnedComment { get; set; } = new List<IComment>();
-
+        
         /// <summary>
         /// The Elements owned by this Element
         /// </summary>
@@ -113,7 +113,7 @@ namespace uml4net.POCO.StructuredClassifiers
         [SubsettedProperty(propertyName: "Element.OwnedElement")]
         [Implements(implementation: "INamespace.ElementImport")]
         public List<IElementImport> ElementImport { get; set; } = new ();
-
+        
         /// <summary>
         /// References the PackageableElements that are members of this Namespace as a result of either PackageImports or ElementImports.
         /// </summary>
