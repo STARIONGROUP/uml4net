@@ -23,20 +23,16 @@ namespace uml4net
     using Decorators;
     using Microsoft.Extensions.Logging;
     using System.Collections.Generic;
-
-    using POCO.CommonStructure;
     using System;
     using System.Collections;
     using System.Linq;
-    using POCO.Classification;
     using POCO;
-    using POCO.Values;
     using System.Reflection;
     using Microsoft.Extensions.Logging.Abstractions;
-    using System.Xml;
 
     /// <summary>
-    /// The purpose of the Assembler is to convert a list of DTO's into an object graph
+    /// The purpose of the Assembler is to resolve all the reference properties of the objects
+    /// after deserialization to construct a complete object graph
     /// </summary>
     public class Assembler
     {
