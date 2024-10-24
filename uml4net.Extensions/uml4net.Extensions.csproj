@@ -2,17 +2,29 @@
 
     <PropertyGroup>
         <TargetFramework>netstandard2.0</TargetFramework>
+        <Version>0.1.0</Version>
         <LangVersion>12.0</LangVersion>
-        <Description>A .NET implementation of the OMG UML v2.5.1 specification.</Description>
-        <PackageId>uml4net.Extensions</PackageId>
         <Company>Starion Group S.A.</Company>
         <Copyright>Copyright © Starion Group S.A.</Copyright>
+        <PackageId>uml4net.Extensions</PackageId>
+        <AssemblyTitle>uml4net.Extensions</AssemblyTitle>
+        <Title>uml4net.Extensions</Title>
+        <Description>A .NET implementation of the OMG UML v2.5.1 specification.</Description>
+        <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
         <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+        <IncludeSource>true</IncludeSource>
+        <IncludeSymbols>true</IncludeSymbols>
+        <PackageProjectUrl>https://uml4net.org</PackageProjectUrl>
         <RepositoryUrl>https://github.com/STARIONGROUP/uml4net.git</RepositoryUrl>
         <RepositoryType>Git</RepositoryType>
+        <NeutralLanguage>en-US</NeutralLanguage>
+        <SatelliteResourceLanguages>en-US</SatelliteResourceLanguages>
         <Authors>Sam Gerené; Nathanael Smiechowski</Authors>
-        <RequireLicenseAcceptance>true</RequireLicenseAcceptance>
         <PackageReadmeFile>README.md</PackageReadmeFile>
+        <PackageTags>Uml modeltopia</PackageTags>
+        <PackageReleaseNotes>
+            [Initial] release
+        </PackageReleaseNotes>
     </PropertyGroup>
 
     <ItemGroup>
@@ -25,7 +37,7 @@
 
     <ItemGroup>
         <PackageReference Include="ClosedXML" Version="0.104.1" />
-        <PackageReference Include="HtmlAgilityPack" Version="1.11.67" />
+        <PackageReference Include="HtmlAgilityPack" Version="1.11.68" />
         <PackageReference Include="System.Memory" Version="4.5.5" />
     </ItemGroup>
 

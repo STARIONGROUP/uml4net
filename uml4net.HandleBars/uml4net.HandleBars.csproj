@@ -2,29 +2,29 @@
 
     <PropertyGroup>
         <TargetFramework>netstandard2.0</TargetFramework>
+        <Version>0.1.0</Version>
         <LangVersion>12.0</LangVersion>
         <Company>Starion Group S.A.</Company>
         <Copyright>Copyright © Starion Group S.A.</Copyright>
-        <Title>uml4net.HandleBars</Title>
-        <Version>0.1.0</Version>
-        <Description>HandleBarHelpers for use in combination with the uml4net library to support HandleBarHelpers based code generation</Description>
         <PackageId>uml4net.HandleBars</PackageId>
-        <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-        <PackageProjectUrl>https://ecorenetto.org</PackageProjectUrl>
+        <AssemblyTitle>uml4net.HandleBars</AssemblyTitle>
+        <Title>uml4net.HandleBars</Title>
+        <Description>HandleBarHelpers for use in combination with the uml4net library to support HandleBarHelpers based code generation</Description>
+        <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>        
         <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
         <IncludeSource>true</IncludeSource>
         <IncludeSymbols>true</IncludeSymbols>
+        <PackageProjectUrl>https://uml4net.org</PackageProjectUrl>
         <RepositoryUrl>https://github.com/STARIONGROUP/uml4net.git</RepositoryUrl>
         <RepositoryType>Git</RepositoryType>
-        <AssemblyTitle>uml4net.HandleBars</AssemblyTitle>
         <NeutralLanguage>en-US</NeutralLanguage>
         <SatelliteResourceLanguages>en-US</SatelliteResourceLanguages>
         <Authors>Sam Gerene; Nathanael Smiechowski</Authors>
-        <PackageTags>Uml HandleBars</PackageTags>
-        <PackageReleaseNotes>
-            [Initial] 
-        </PackageReleaseNotes>
         <PackageReadmeFile>README.md</PackageReadmeFile>
+        <PackageTags>Uml modeltopia HandleBars</PackageTags>
+        <PackageReleaseNotes>
+            [Initial] release
+        </PackageReleaseNotes>
     </PropertyGroup>
 
     <ItemGroup>
@@ -36,7 +36,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Handlebars.Net.Helpers" Version="2.4.5" />
+        <PackageReference Include="Handlebars.Net.Helpers" Version="2.4.6" />
     </ItemGroup>
 
 </Project>
