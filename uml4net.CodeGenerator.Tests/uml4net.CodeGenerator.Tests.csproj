@@ -2,7 +2,6 @@
 
     <PropertyGroup>
         <TargetFramework>net8.0</TargetFramework>
-        <LangVersion>11.0</LangVersion>
         <Company>Starion Group S.A.</Company>
         <Authors>Sam Gerene</Authors>
         <Description>Nunit test suite for the uml4net.CodeGenerator</Description>
@@ -18,7 +17,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="ECoreNetto.Reporting" Version="5.2.0" />
         <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="8.0.0" />
         <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.11.1" />
         <PackageReference Include="NUnit" Version="4.2.2" />

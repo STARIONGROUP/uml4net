@@ -2,7 +2,7 @@
 
     <PropertyGroup>
         <TargetFramework>netstandard2.0</TargetFramework>
-        <LangVersion>11.0</LangVersion>
+        <LangVersion>12.0</LangVersion>
         <Company>Starion Group S.A.</Company>
         <Copyright>Copyright © Starion Group S.A.</Copyright>
         <Title>uml4net.HandleBars</Title>
@@ -19,7 +19,7 @@
         <AssemblyTitle>uml4net.HandleBars</AssemblyTitle>
         <NeutralLanguage>en-US</NeutralLanguage>
         <SatelliteResourceLanguages>en-US</SatelliteResourceLanguages>
-        <Authors>Sam Gerene</Authors>
+        <Authors>Sam Gerene; Nathanael Smiechowski</Authors>
         <PackageTags>Uml HandleBars</PackageTags>
         <PackageReleaseNotes>
             [Initial] 

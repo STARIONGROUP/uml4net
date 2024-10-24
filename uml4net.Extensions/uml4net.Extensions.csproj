@@ -2,7 +2,7 @@
 
     <PropertyGroup>
         <TargetFramework>netstandard2.0</TargetFramework>
-        <LangVersion>11.0</LangVersion>
+        <LangVersion>12.0</LangVersion>
         <Description>A .NET implementation of the OMG UML v2.5.1 specification.</Description>
         <PackageId>uml4net.Extensions</PackageId>
         <Company>Starion Group S.A.</Company>
@@ -10,7 +10,7 @@
         <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
         <RepositoryUrl>https://github.com/STARIONGROUP/uml4net.git</RepositoryUrl>
         <RepositoryType>Git</RepositoryType>
-        <Authors>Sam Gerené</Authors>
+        <Authors>Sam Gerené; Nathanael Smiechowski</Authors>
         <RequireLicenseAcceptance>true</RequireLicenseAcceptance>
         <PackageReadmeFile>README.md</PackageReadmeFile>
     </PropertyGroup>

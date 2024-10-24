@@ -10,7 +10,7 @@
       <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
       <RepositoryUrl>https://github.com/STARIONGROUP/uml4net.git</RepositoryUrl>
       <RepositoryType>Git</RepositoryType>
-      <Authors>Sam Gerené</Authors>
+      <Authors>Sam Gerené; Nathanael Smiechowski</Authors>
       <RequireLicenseAcceptance>true</RequireLicenseAcceptance>
       <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>

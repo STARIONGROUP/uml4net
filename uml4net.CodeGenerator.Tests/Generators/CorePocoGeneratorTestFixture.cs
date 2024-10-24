@@ -23,8 +23,6 @@ namespace uml4net.CodeGenerator.Tests.Generators
     using System.IO;
     using System.Threading.Tasks;
 
-    using ECoreNetto;
-
     using NUnit.Framework;
 
     using uml4net.CodeGenerator.Generators;
