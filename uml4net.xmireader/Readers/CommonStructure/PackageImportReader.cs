@@ -18,42 +18,35 @@
 // </copyright>
 // ------------------------------------------------------------------------------------------------
 
-namespace uml4net.xmi.CommonStructure
+namespace uml4net.xmi.Readers.CommonStructure
 {
+    using Cache;
     using System;
-    using System.Collections.Generic;
     using System.Xml;
 
     using Microsoft.Extensions.Logging;
-    using Microsoft.Extensions.Logging.Abstractions;
-
-    using uml4net.POCO;
+    using POCO;
     using uml4net.POCO.CommonStructure;
+    using Readers;
 
     /// <summary>
     /// The purpose of the <see cref="PackageImportReader"/> is to read an instance of <see cref="IPackageImport"/>
     /// from the XMI document
     /// </summary>
-    public class PackageImportReader : XmiElementReader
+    public class PackageImportReader : XmiElementReader<IPackageImport>, IXmiElementReader<IPackageImport>
     {
-        /// <summary>
-        /// The <see cref="ILogger"/> used to log
-        /// </summary>
-        private readonly ILogger<PackageImportReader> logger;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="PackageImportReader"/> class.
         /// </summary>
         /// <param name="cache">
         /// The cache in which each <see cref="IXmiElement"/>> is stored
         /// </param>
-        /// <param name="loggerFactory">
-        /// The (injected) <see cref="ILoggerFactory"/> used to setup logging
+        /// <param name="logger">
+        /// The <see cref="ILogger{T}"/>
         /// </param>
-        public PackageImportReader(Dictionary<string, IXmiElement> cache, ILoggerFactory loggerFactory = null)
-            : base(cache, loggerFactory)
+        public PackageImportReader(IXmiReaderCache cache, ILogger<PackageImportReader> logger)
+            : base(cache, logger)
         {
-            this.logger = this.loggerFactory == null ? NullLogger<PackageImportReader>.Instance : this.loggerFactory.CreateLogger<PackageImportReader>();
         }
 
         /// <summary>
@@ -65,8 +58,8 @@ namespace uml4net.xmi.CommonStructure
         /// <returns>
         /// an instance of <see cref="IPackageImport"/>
         /// </returns>
-        public IPackageImport Read(XmlReader xmlReader)
-        { 
+        public override IPackageImport Read(XmlReader xmlReader)
+        {
             var packageImport = new PackageImport();
 
             if (xmlReader.MoveToContent() == XmlNodeType.Element)
@@ -80,7 +73,7 @@ namespace uml4net.xmi.CommonStructure
                 }
 
                 // TODO: figure out an algorithm to interpret how to set the "importingNamespace" property
-                this.logger.LogInformation("TODO: figure out an algorithm to interpret how to set the \"importingNamespace\" property");
+                this.Logger.LogInformation("TODO: figure out an algorithm to interpret how to set the \"importingNamespace\" property");
                 packageImport.ImportingNamespace = null;
 
                 string visibility = xmlReader.GetAttribute("visibility");

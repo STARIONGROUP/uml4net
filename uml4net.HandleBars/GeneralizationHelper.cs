@@ -24,8 +24,6 @@ namespace uml4net.HandleBars
     using System.Linq;
 
     using HandlebarsDotNet;
-
-    using uml4net.POCO;
     using uml4net.POCO.StructuredClassifiers;
 
     /// <summary>

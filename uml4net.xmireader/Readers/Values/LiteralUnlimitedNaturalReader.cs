@@ -1,5 +1,5 @@
 ﻿// -------------------------------------------------------------------------------------------------
-//  <copyright file="OpaqueExpressionReader.cs" company="Starion Group S.A.">
+//  <copyright file="LiteralUnlimitedNaturalReader.cs" company="Starion Group S.A.">
 // 
 //    Copyright 2019-2024 Starion Group S.A.
 // 
@@ -18,7 +18,7 @@
 //  </copyright>
 //  ------------------------------------------------------------------------------------------------
 
-namespace uml4net.xmi.Values
+namespace uml4net.xmi.Readers.Values
 {
     using System;
     using System.Collections.Generic;
@@ -27,35 +27,31 @@ namespace uml4net.xmi.Values
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Logging.Abstractions;
 
-    using uml4net.POCO;
+    using POCO;
     using uml4net.POCO.CommonStructure;
     using uml4net.POCO.Values;
-    using uml4net.xmi.CommonStructure;
+    using Cache;
+    using Readers;
 
     /// <summary>
-    /// The purpose of the <see cref="OpaqueExpressionReader"/> is to read an instance of <see cref="IOpaqueExpression"/>
+    /// The purpose of the <see cref="LiteralUnlimitedNaturalReader"/> is to read an instance of <see cref="ILiteralUnlimitedNatural"/>
     /// from the XMI document
     /// </summary>
-    public class OpaqueExpressionReader : XmiElementReader
+    public class LiteralUnlimitedNaturalReader : XmiCommentedElementReader<ILiteralUnlimitedNatural>, IXmiElementReader<ILiteralUnlimitedNatural>
     {
         /// <summary>
-        /// The <see cref="ILogger"/> used to log
-        /// </summary>
-        private readonly ILogger<OpaqueExpressionReader> logger;
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="OpaqueExpressionReader"/> class.
+        /// Initializes a new instance of the <see cref="LiteralUnlimitedNaturalReader"/> class.
         /// </summary>
         /// <param name="cache">
         /// The cache in which each <see cref="IXmiElement"/>> is stored
         /// </param>
-        /// <param name="loggerFactory">
-        /// The (injected) <see cref="ILoggerFactory"/> used to setup logging
-        /// </param>
-        public OpaqueExpressionReader(Dictionary<string, IXmiElement> cache, ILoggerFactory loggerFactory = null)
-            : base(cache, loggerFactory)
+        /// <param name="logger">
+        /// The (injected) <see cref="ILogger{T}"/> used to setup logging
+        /// </param> 
+        /// <param name="commentReader">The <see cref="IXmiElementReader{T}"/> of <see cref="IComment"/></param>
+        public LiteralUnlimitedNaturalReader(IXmiReaderCache cache, ILogger<LiteralUnlimitedNaturalReader> logger, IXmiElementReader<IComment> commentReader)
+            : base(cache, logger, commentReader)
         {
-            this.logger = this.loggerFactory == null  ? NullLogger<OpaqueExpressionReader>.Instance  : this.loggerFactory.CreateLogger<OpaqueExpressionReader>();
         }
 
         /// <summary>
@@ -67,24 +63,35 @@ namespace uml4net.xmi.Values
         /// <returns>
         /// an instance of <see cref="IConstraint"/>
         /// </returns>
-        public IOpaqueExpression Read(XmlReader xmlReader)
+        public override ILiteralUnlimitedNatural Read(XmlReader xmlReader)
         {
-            IOpaqueExpression opaqueExpression = new OpaqueExpression();
+            ILiteralUnlimitedNatural literalUnlimitedNatural = new LiteralUnlimitedNatural();
 
             if (xmlReader.MoveToContent() == XmlNodeType.Element)
             {
                 var xmiType = xmlReader.GetAttribute("xmi:type");
 
-                if (xmiType != "uml:OpaqueExpression")
+                if (xmiType != "uml:LiteralUnlimitedNatural")
                 {
-                    throw new XmlException($"The XmiType should be: uml:OpaqueExpression while it is {xmiType}");
+                    throw new XmlException($"The XmiType should be: uml:LiteralUnlimitedNatural while it is {xmiType}");
                 }
 
-                opaqueExpression.XmiType = xmiType;
+                literalUnlimitedNatural.XmiType = xmiType;
 
-                opaqueExpression.XmiId = xmlReader.GetAttribute("xmi:id");
+                literalUnlimitedNatural.XmiId = xmlReader.GetAttribute("xmi:id");
 
-                this.cache.Add(opaqueExpression.XmiId, opaqueExpression);
+                this.Cache.Add(literalUnlimitedNatural.XmiId, literalUnlimitedNatural);
+
+                var value = xmlReader.GetAttribute("value");
+
+                if (value == "*")
+                {
+                    literalUnlimitedNatural.Value = int.MaxValue;
+                }
+                else if (!string.IsNullOrEmpty(value))
+                {
+                    literalUnlimitedNatural.Value = int.Parse(value);
+                }
 
                 while (xmlReader.Read())
                 {
@@ -92,28 +99,21 @@ namespace uml4net.xmi.Values
                     {
                         switch (xmlReader.LocalName)
                         {
-                            case "body":
-                                opaqueExpression.Body.Add(xmlReader.ReadElementContentAsString());
-                                break;
-                            case "language":
-                                opaqueExpression.Language.Add(xmlReader.ReadElementContentAsString());
-                                break;
                             case "ownedComment":
                                 using (var ownedCommentXmlReader = xmlReader.ReadSubtree())
                                 {
-                                    var commentReader = new CommentReader(this.cache, this.loggerFactory);
-                                    var comment = commentReader.Read(ownedCommentXmlReader);
-                                    opaqueExpression.OwnedComment.Add(comment);
+                                    var comment = this.CommentReader.Read(ownedCommentXmlReader);
+                                    literalUnlimitedNatural.OwnedComment.Add(comment);
                                 }
                                 break;
                             default:
-                                throw new NotImplementedException($"OpaqueExpressionReader: {xmlReader.LocalName}");
+                                throw new NotImplementedException($"LiteralIntegerReader: {xmlReader.LocalName}");
                         }
                     }
                 }
             }
 
-            return opaqueExpression;
+            return literalUnlimitedNatural;
         }
     }
 }

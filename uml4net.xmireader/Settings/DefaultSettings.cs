@@ -1,5 +1,5 @@
-// -------------------------------------------------------------------------------------------------
-//  <copyright file="CorePocoGeneratorTestFixture.cs" company="Starion Group S.A.">
+﻿// -------------------------------------------------------------------------------------------------
+//  <copyright file="DefaultSettings.cs" company="Starion Group S.A.">
 // 
 //    Copyright 2019-2024 Starion Group S.A.
 // 
@@ -18,13 +18,13 @@
 //  </copyright>
 //  ------------------------------------------------------------------------------------------------
 
-namespace uml4net.CodeGenerator.Tests.Generators
+namespace uml4net.xmi.Settings
 {
-    using NUnit.Framework;
-
-    [TestFixture]
-    public class CorePocoGeneratorTestFixture
+    public class DefaultSettings : IXmiReaderSettings
     {
-        
+        /// <summary>
+        /// Gets or sets the UML_PROFILES value, as a local file path to resolve pathmap references
+        /// </summary>
+        public string UmlProfilesDirectoryPath { get; set; } = "";
     }
 }

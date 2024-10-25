@@ -18,42 +18,53 @@
 //  </copyright>
 //  ------------------------------------------------------------------------------------------------
 
-namespace uml4net.xmi
+namespace uml4net.xmi.Readers
 {
-    using System.Collections.Generic;
-
+    using Cache;
     using Microsoft.Extensions.Logging;
-    
-    using uml4net.POCO;
+    using System.Xml;
+    using POCO;
 
     /// <summary>
     /// The abstract super class from which eadh XMI reader needs to derive
-    /// </summary>
-    public abstract class XmiElementReader
+    /// </summary> 
+    /// <typeparam name="TXmiElement">The type of the XMI element to be read.</typeparam>
+    public abstract class XmiElementReader<TXmiElement> where TXmiElement : IXmiElement
     {
         /// <summary>
-        /// The (injected) <see cref="ILoggerFactory"/> used to setup logging
+        /// The (injected) <see cref="ILogger"/> used to setup logging
         /// </summary>
-        protected readonly ILoggerFactory loggerFactory;
+        protected readonly ILogger<XmiElementReader<TXmiElement>> Logger;
 
         /// <summary>
-        /// The cache in which each <see cref="IXmiElement"/>> is stored
+        /// The (injected) <see cref="IXmiReaderCache"/> used to setup logging
         /// </summary>
-        protected readonly Dictionary<string, IXmiElement> cache;
+        protected readonly IXmiReaderCache Cache;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="XmiElementReader"/> class.
+        /// Initializes a new instance of the <see cref="XmiElementReader{T}"/> class.
         /// </summary>
         /// <param name="cache">
         /// The cache in which each <see cref="IXmiElement"/>> is stored
         /// </param>
-        /// <param name="loggerFactory">
-        /// The (injected) <see cref="ILoggerFactory"/> used to setup logging
+        /// <param name="logger">
+        /// The (injected) <see cref="ILogger{T}"/> used to setup logging
         /// </param>
-        protected XmiElementReader(Dictionary<string, IXmiElement> cache, ILoggerFactory loggerFactory = null)
+        protected XmiElementReader(IXmiReaderCache cache, ILogger<XmiElementReader<TXmiElement>> logger)
         {
-            this.cache = cache;
-            this.loggerFactory = loggerFactory;
+            this.Cache = cache;
+            this.Logger = logger;
         }
+
+        /// <summary>
+        /// Reads the <typeparamref name="TXmiElement"/> object from its XML representation
+        /// </summary>
+        /// <param name="xmlReader">
+        /// an instance of <see cref="XmlReader"/>
+        /// </param>
+        /// <returns>
+        /// an instance of <typeparamref name="TXmiElement"/>
+        /// </returns>
+        public abstract TXmiElement Read(XmlReader xmlReader);
     }
 }

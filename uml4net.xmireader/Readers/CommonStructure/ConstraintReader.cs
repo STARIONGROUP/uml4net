@@ -18,46 +18,45 @@
 //  </copyright>
 //  ------------------------------------------------------------------------------------------------
 
-namespace uml4net.xmi.CommonStructure
+namespace uml4net.xmi.Readers.CommonStructure
 {
+    using Cache;
     using System;
-    using System.Collections.Generic;
     using System.Xml;
 
     using Microsoft.Extensions.Logging;
-    using Microsoft.Extensions.Logging.Abstractions;
-
-    using uml4net.POCO;
+    using POCO.Values;
+    using POCO;
     using uml4net.POCO.CommonStructure;
 
-    using uml4net.xmi.Values;
+    using Readers;
 
     /// <summary>
     /// The purpose of the <see cref="ConstraintReader"/> is to read an instance of <see cref="IConstraint"/>
     /// from the XMI document
     /// </summary>
-    public class ConstraintReader : XmiElementReader
+    public class ConstraintReader : XmiCommentedElementReader<IConstraint>, IXmiElementReader<IConstraint>
     {
         /// <summary>
-        /// The <see cref="ILogger"/> used to log
+        /// The <see cref="IXmiElementReader{T}"/> of <see cref="IOpaqueExpression"/>
         /// </summary>
-        private readonly ILogger<ConstraintReader> logger;
+        private readonly IXmiElementReader<IOpaqueExpression> opaqueExpressionReader;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ConstraintReader"/> class.
         /// </summary>
         /// <param name="cache">
-        /// The cache in which each <see cref="IXmiElement"/>> is stored
+        /// The cache in which each <see cref="IXmiElement"/>> are stored
         /// </param>
-        /// <param name="loggerFactory">
-        /// The (injected) <see cref="ILoggerFactory"/> used to setup logging
+        /// <param name="logger">
+        /// The <see cref="ILogger{T}"/>
         /// </param>
-        public ConstraintReader(Dictionary<string, IXmiElement> cache, ILoggerFactory loggerFactory = null)
-            : base(cache, loggerFactory)
+        /// <param name="commentReader">The <see cref="IXmiElementReader{T}"/> of <see cref="IComment"/></param>
+        /// <param name="opaqueExpressionReader">The <see cref="IXmiElementReader{T}"/> of <see cref="IOpaqueExpression"/></param>
+        public ConstraintReader(IXmiReaderCache cache, ILogger<ConstraintReader> logger, IXmiElementReader<IComment> commentReader, IXmiElementReader<IOpaqueExpression> opaqueExpressionReader)
+            : base(cache, logger, commentReader)
         {
-            this.logger = this.loggerFactory == null
-                ? NullLogger<ConstraintReader>.Instance
-                : this.loggerFactory.CreateLogger<ConstraintReader>();
+            this.opaqueExpressionReader = opaqueExpressionReader;
         }
 
         /// <summary>
@@ -69,7 +68,7 @@ namespace uml4net.xmi.CommonStructure
         /// <returns>
         /// an instance of <see cref="IConstraint"/>
         /// </returns>
-        public IConstraint Read(XmlReader xmlReader)
+        public override IConstraint Read(XmlReader xmlReader)
         {
             IConstraint constraint = new Constraint();
 
@@ -86,7 +85,7 @@ namespace uml4net.xmi.CommonStructure
 
                 constraint.XmiId = xmlReader.GetAttribute("xmi:id");
 
-                this.cache.Add(constraint.XmiId, constraint);
+                this.Cache.Add(constraint.XmiId, constraint);
 
                 while (xmlReader.Read())
                 {
@@ -95,13 +94,12 @@ namespace uml4net.xmi.CommonStructure
                         switch (xmlReader.LocalName)
                         {
                             case "constrainedElement":
-                                this.logger.LogInformation("ConstraintReader.ownedRule not yet implemented");
+                                this.Logger.LogInformation("ConstraintReader.ownedRule not yet implemented");
                                 break;
                             case "ownedComment":
                                 using (var ownedCommentXmlReader = xmlReader.ReadSubtree())
                                 {
-                                    var commentReader = new CommentReader(this.cache, this.loggerFactory);
-                                    var comment = commentReader.Read(ownedCommentXmlReader);
+                                    var comment = this.CommentReader.Read(ownedCommentXmlReader);
                                     constraint.OwnedComment.Add(comment);
                                 }
                                 break;
@@ -136,8 +134,7 @@ namespace uml4net.xmi.CommonStructure
                 case "uml:OpaqueExpression":
                     using (var opaqueExpressionXmlReader = xmlReader.ReadSubtree())
                     {
-                        var opaqueExpressionReader = new OpaqueExpressionReader(this.cache, this.loggerFactory);
-                        var opaqueExpression = opaqueExpressionReader.Read(opaqueExpressionXmlReader);
+                        var opaqueExpression = this.opaqueExpressionReader.Read(opaqueExpressionXmlReader);
                         constraint.Specification = opaqueExpression;
                     }
                     break;

@@ -1,5 +1,5 @@
 ﻿// -------------------------------------------------------------------------------------------------
-//  <copyright file="EnumerationLiteralReader.cs" company="Starion Group S.A.">
+//  <copyright file="LiteralIntegerReader.cs" company="Starion Group S.A.">
 // 
 //    Copyright 2019-2024 Starion Group S.A.
 // 
@@ -18,8 +18,9 @@
 //  </copyright>
 //  ------------------------------------------------------------------------------------------------
 
-namespace uml4net.xmi.SimpleClassifiers
+namespace uml4net.xmi.Readers.Values
 {
+    using Cache;
     using System;
     using System.Collections.Generic;
     using System.Xml;
@@ -27,66 +28,65 @@ namespace uml4net.xmi.SimpleClassifiers
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Logging.Abstractions;
 
-    using uml4net.POCO;
-    using uml4net.POCO.SimpleClassifiers;
-
-    using uml4net.xmi.CommonStructure;
+    using POCO;
+    using uml4net.POCO.CommonStructure;
+    using uml4net.POCO.Values;
+    using Readers;
 
     /// <summary>
-    /// The purpose of the <see cref="EnumerationLiteralReader"/> is to read an instance of <see cref="IEnumerationLiteral"/>
+    /// The purpose of the <see cref="LiteralIntegerReader"/> is to read an instance of <see cref="ILiteralInteger"/>
     /// from the XMI document
     /// </summary>
-    public class EnumerationLiteralReader : XmiElementReader
+    public class LiteralIntegerReader : XmiCommentedElementReader<ILiteralInteger>, IXmiElementReader<ILiteralInteger>
     {
         /// <summary>
-        /// The <see cref="ILogger"/> used to log
-        /// </summary>
-        private readonly ILogger<EnumerationLiteralReader> logger;
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="EnumerationLiteralReader"/> class.
+        /// Initializes a new instance of the <see cref="LiteralIntegerReader"/> class.
         /// </summary>
         /// <param name="cache">
         /// The cache in which each <see cref="IXmiElement"/>> is stored
         /// </param>
-        /// <param name="loggerFactory">
-        /// The (injected) <see cref="ILoggerFactory"/> used to setup logging
+        /// <param name="logger">
+        /// The (injected) <see cref="ILogger{T}"/> used to setup logging
         /// </param>
-        public EnumerationLiteralReader(Dictionary<string, IXmiElement> cache, ILoggerFactory loggerFactory = null)
-            : base(cache, loggerFactory)
+        /// <param name="commentReader">The <see cref="IXmiElementReader{T}"/> of <see cref="IComment"/></param>
+        public LiteralIntegerReader(IXmiReaderCache cache, ILogger<LiteralIntegerReader> logger, IXmiElementReader<IComment> commentReader)
+            : base(cache, logger, commentReader)
         {
-            this.logger = this.loggerFactory == null ? NullLogger<EnumerationLiteralReader>.Instance : this.loggerFactory.CreateLogger<EnumerationLiteralReader>();
         }
 
         /// <summary>
-        /// Reads the <see cref="IEnumeration"/> object from its XML representation
+        /// Reads the <see cref="IConstraint"/> object from its XML representation
         /// </summary>
         /// <param name="xmlReader">
         /// an instance of <see cref="XmlReader"/>
         /// </param>
         /// <returns>
-        /// an instance of <see cref="IEnumeration"/>
+        /// an instance of <see cref="IConstraint"/>
         /// </returns>
-        public IEnumerationLiteral Read(XmlReader xmlReader)
+        public override ILiteralInteger Read(XmlReader xmlReader)
         {
-            IEnumerationLiteral enumerationLiteral = new EnumerationLiteral();
+            ILiteralInteger literalInteger = new LiteralInteger();
 
             if (xmlReader.MoveToContent() == XmlNodeType.Element)
             {
                 var xmiType = xmlReader.GetAttribute("xmi:type");
 
-                if (xmiType != "uml:EnumerationLiteral")
+                if (xmiType != "uml:LiteralInteger")
                 {
-                    throw new XmlException($"The XmiType should be: uml:EnumerationLiteral while it is {xmiType}");
+                    throw new XmlException($"The XmiType should be: uml:LiteralInteger while it is {xmiType}");
                 }
 
-                enumerationLiteral.XmiType = xmiType;
+                literalInteger.XmiType = xmiType;
 
-                enumerationLiteral.XmiId = xmlReader.GetAttribute("xmi:id");
+                literalInteger.XmiId = xmlReader.GetAttribute("xmi:id");
 
-                this.cache.Add(enumerationLiteral.XmiId, enumerationLiteral);
+                this.Cache.Add(literalInteger.XmiId, literalInteger);
 
-                enumerationLiteral.Name = xmlReader.GetAttribute("name");
+                var value = xmlReader.GetAttribute("value");
+                if (!string.IsNullOrEmpty(value))
+                {
+                    literalInteger.Value = int.Parse(value);
+                }
 
                 while (xmlReader.Read())
                 {
@@ -97,19 +97,18 @@ namespace uml4net.xmi.SimpleClassifiers
                             case "ownedComment":
                                 using (var ownedCommentXmlReader = xmlReader.ReadSubtree())
                                 {
-                                    var commentReader = new CommentReader(this.cache, this.loggerFactory);
-                                    var comment = commentReader.Read(ownedCommentXmlReader);
-                                    enumerationLiteral.OwnedComment.Add(comment);
+                                    var comment = this.CommentReader.Read(ownedCommentXmlReader);
+                                    literalInteger.OwnedComment.Add(comment);
                                 }
                                 break;
                             default:
-                                throw new NotImplementedException($"EnumerationLiteralReader: {xmlReader.LocalName}");
+                                throw new NotImplementedException($"LiteralIntegerReader: {xmlReader.LocalName}");
                         }
                     }
                 }
             }
 
-            return enumerationLiteral;
+            return literalInteger;
         }
     }
 }

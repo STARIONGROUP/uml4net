@@ -18,39 +18,40 @@
 // </copyright>
 // ------------------------------------------------------------------------------------------------
 
-namespace uml4net.xmi
+namespace uml4net.xmi.Readers
 {
+    using System;
     using System.Collections.Generic;
     using System.IO;
-
+    using System.Threading.Tasks;
     using uml4net.POCO.Packages;
 
     /// <summary>
     /// The purpose of the <see cref="IXmiReader"/> is to provide a means to read (deserialize)
     /// an UML 2.5.1 model from XMI
     /// </summary>
-    public interface IXmiReader
+    public interface IXmiReader : IDisposable
     {
         /// <summary>
-        /// reads the content of a UML XMI 2.5.1 file
+        /// Reads the content of a UML XMI 2.5.1 file asynchronously.
         /// </summary>
         /// <param name="fileUri">
-        /// the path to the XMI file
+        /// The URI of the XMI file to be read.
         /// </param>
         /// <returns>
-        /// An <see cref="IEnumerable{IPackage}"/>
+        /// An <see cref="IEnumerable{IPackage}"/> representing the deserialized packages from the XMI file.
         /// </returns>
-        IEnumerable<IPackage> Read(string fileUri);
-
+        Task<IEnumerable<IPackage>> ReadAsync(string fileUri);
+        
         /// <summary>
-        /// reads the content of a UML XMI 2.5.1 stream
+        /// Reads the content of a UML XMI 2.5.1 stream asynchronously.
         /// </summary>
         /// <param name="stream">
-        /// the <see cref="Stream"/> that contains the XMI content
+        /// The <see cref="Stream"/> that contains the XMI content to be read.
         /// </param>
         /// <returns>
-        /// An <see cref="IEnumerable{IPackage}"/>
+        /// An <see cref="IEnumerable{IPackage}"/> representing the deserialized packages from the XMI stream.
         /// </returns>
-        IEnumerable<IPackage> Read(Stream stream);
+        Task<IEnumerable<IPackage>> ReadAsync(Stream stream);
     }
 }

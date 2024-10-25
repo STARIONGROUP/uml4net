@@ -18,33 +18,47 @@
 // </copyright>
 // ------------------------------------------------------------------------------------------------
 
-namespace uml4net.xmi.Packages
+namespace uml4net.xmi.Readers.Packages
 {
+    using Cache;
     using System;
-    using System.Collections.Generic;
     using System.Xml;
 
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Logging.Abstractions;
-
-    using uml4net.POCO;
+    using POCO.SimpleClassifiers;
+    using POCO.StructuredClassifiers;
+    using POCO;
     using uml4net.POCO.CommonStructure;
     using uml4net.POCO.Packages;
 
-    using uml4net.xmi.CommonStructure;
-    using uml4net.xmi.SimpleClassifiers;
-    using uml4net.xmi.StructuredClassifiers;
+    using Readers;
 
     /// <summary>
     /// The purpose of the <see cref="PackageReader"/> is to read an instance of <see cref="IPackage"/>
     /// from the XMI document
     /// </summary>
-    public class PackageReader : XmiElementReader
+    public class PackageReader : XmiCommentedElementReader<IPackage>, IXmiElementReader<IPackage>
     {
         /// <summary>
-        /// The <see cref="ILogger"/> used to log
+        /// The <see cref="IXmiElementReader{T}"/> of <see cref="IComment"/>
         /// </summary>
-        private readonly ILogger<PackageReader> logger;
+        private readonly IXmiElementReader<IClass> classReader;
+
+        /// <summary>
+        /// The <see cref="IXmiElementReader{T}"/> of <see cref="IEnumeration"/>
+        /// </summary>
+        private readonly IXmiElementReader<IEnumeration> enumerationReader;
+
+        /// <summary>
+        /// The <see cref="IXmiElementReader{T}"/> of <see cref="IPackageImport"/>
+        /// </summary>
+        private readonly IXmiElementReader<IPackageImport> packageImportReader;
+
+        /// <summary>
+        /// The <see cref="IXmiElementReader{T}"/> of <see cref="IPrimitiveType"/>
+        /// </summary>
+        private readonly IXmiElementReader<IPrimitiveType> primitiveReader;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PackageReader"/> class.
@@ -52,13 +66,22 @@ namespace uml4net.xmi.Packages
         /// <param name="cache">
         /// The cache in which each <see cref="IXmiElement"/>> is stored
         /// </param>
-        /// <param name="loggerFactory">
-        /// The (injected) <see cref="ILoggerFactory"/> used to setup logging
+        /// <param name="logger">
+        /// The (injected) <see cref="ILogger{T}"/> used to setup logging
         /// </param>
-        public PackageReader(Dictionary<string, IXmiElement> cache, ILoggerFactory loggerFactory = null)
-            : base(cache, loggerFactory)
+        /// <param name="commentReader">The <see cref="IXmiElementReader{T}"/> of <see cref="IComment"/></param>
+        /// <param name="classReader">The <see cref="IXmiElementReader{T}"/> of <see cref="IClass"/></param>
+        /// <param name="enumerationReader">The <see cref="IXmiElementReader{T}"/> of <see cref="IEnumeration"/></param>
+        /// <param name="packageImportReader">The <see cref="IXmiElementReader{T}"/> of <see cref="IPackageImport"/></param>
+        /// <param name="primitiveReader">The <see cref="IXmiElementReader{T}"/> of <see cref="IPrimitiveType"/></param>
+        public PackageReader(IXmiReaderCache cache, ILogger<PackageReader> logger, IXmiElementReader<IComment> commentReader, IXmiElementReader<IClass> classReader,
+            IXmiElementReader<IEnumeration> enumerationReader, IXmiElementReader<IPackageImport> packageImportReader, IXmiElementReader<IPrimitiveType> primitiveReader)
+            : base(cache, logger, commentReader)
         {
-            this.logger = this.loggerFactory == null ? NullLogger<PackageReader>.Instance : this.loggerFactory.CreateLogger<PackageReader>();
+            this.classReader = classReader;
+            this.enumerationReader = enumerationReader;
+            this.packageImportReader = packageImportReader;
+            this.primitiveReader = primitiveReader;
         }
 
         /// <summary>
@@ -70,7 +93,7 @@ namespace uml4net.xmi.Packages
         /// <returns>
         /// an instance of <see cref="IPackage"/>
         /// </returns>
-        public IPackage Read(XmlReader xmlReader)
+        public override IPackage Read(XmlReader xmlReader)
         {
             IPackage package = new Package();
 
@@ -87,7 +110,7 @@ namespace uml4net.xmi.Packages
 
                 package.XmiId = xmlReader.GetAttribute("xmi:id");
 
-                this.cache.Add(package.XmiId, package);
+                this.Cache.Add(package.XmiId, package);
 
                 package.Name = xmlReader.GetAttribute("name");
 
@@ -106,35 +129,33 @@ namespace uml4net.xmi.Packages
                             case "ownedComment":
                                 using (var ownedCommentXmlReader = xmlReader.ReadSubtree())
                                 {
-                                    var commentReader = new CommentReader(this.cache, this.loggerFactory);
-                                    var comment = commentReader.Read(ownedCommentXmlReader);
+                                    var comment = this.CommentReader.Read(ownedCommentXmlReader);
                                     package.OwnedComment.Add(comment);
                                 }
                                 break;
                             case "elementImport":
                                 using (var elementImportXmlReader = xmlReader.ReadSubtree())
                                 {
-                                    this.logger.LogInformation("PackageReader.elementImport not yet implemented");
+                                    this.Logger.LogInformation("PackageReader.elementImport not yet implemented");
                                 }
                                 break;
                             case "ownedRule":
                                 using (var ownedRuleXmlReader = xmlReader.ReadSubtree())
                                 {
-                                    this.logger.LogInformation("PackageReader.ownedRule not yet implemented");
+                                    this.Logger.LogInformation("PackageReader.ownedRule not yet implemented");
                                 }
                                 break;
                             case "packageImport":
                                 using (var packageImportXmlReader = xmlReader.ReadSubtree())
                                 {
-                                    var packageImportReader = new PackageImportReader(this.cache, this.loggerFactory);
-                                    var packageImport = packageImportReader.Read(packageImportXmlReader);
+                                    var packageImport = this.packageImportReader.Read(packageImportXmlReader);
                                     package.PackageImport.Add(packageImport);
                                 }
                                 break;
                             case "templateBinding":
                                 using (var templateBindingXmlReader = xmlReader.ReadSubtree())
                                 {
-                                    this.logger.LogInformation("PackageReader.TemplateBinding not yet implemented");
+                                    this.Logger.LogInformation("PackageReader.TemplateBinding not yet implemented");
                                 }
                                 break;
                             case "packagedElement":
@@ -168,37 +189,35 @@ namespace uml4net.xmi.Packages
                 case "uml:Association":
                     using (var associationXmlReader = xmlReader.ReadSubtree())
                     {
-                        this.logger.LogDebug("uml:Association not yet implements");
+                        this.Logger.LogDebug("uml:Association not yet implements");
                     }
                     break;
                 case "uml:Class":
                     using (var classXmlReader = xmlReader.ReadSubtree())
                     {
-                        var classReader = new ClassReader(this.cache, this.loggerFactory);
-                        var packagedElement = classReader.Read(classXmlReader);
+                        var packagedElement = this.classReader.Read(classXmlReader);
                         package.PackagedElement.Add(packagedElement);
                     }
                     break;
                 case "uml:Enumeration":
                     using (var enumerationXmlReader = xmlReader.ReadSubtree())
                     {
-                        var enumerationReader = new EnumerationReader(this.cache, this.loggerFactory);
-                        var enumeration = enumerationReader.Read(enumerationXmlReader);
+                        var enumeration = this.enumerationReader.Read(enumerationXmlReader);
                         package.PackagedElement.Add(enumeration);
                     }
                     break;
                 case "uml:Package":
                     using (var packageXmlReader = xmlReader.ReadSubtree())
                     {
-                        var packageReader = new PackageReader(this.cache, this.loggerFactory);
-                        var packagedElement = packageReader.Read(packageXmlReader);
+                        var packagedElement = this.Read(packageXmlReader);
                         package.PackagedElement.Add(packagedElement);
                     }
                     break;
                 case "uml:PrimitiveType":
                     using (var primitiveTypeXmlReader = xmlReader.ReadSubtree())
                     {
-                        this.logger.LogDebug("uml:PrimitiveType not yet implements");
+                        var primitive = this.primitiveReader.Read(primitiveTypeXmlReader);
+                        package.PackagedElement.Add(primitive);
                     }
                     break;
                 default:

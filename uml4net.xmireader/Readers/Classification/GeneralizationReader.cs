@@ -18,41 +18,34 @@
 //  </copyright>
 //  ------------------------------------------------------------------------------------------------
 
-namespace uml4net.xmi.Classification
+namespace uml4net.xmi.Readers.Classification
 {
-    using System.Collections.Generic;
     using System.Xml;
 
     using Microsoft.Extensions.Logging;
-    using Microsoft.Extensions.Logging.Abstractions;
-
-    using uml4net.POCO;
+    using POCO;
     using uml4net.POCO.Classification;
+    using Cache;
+    using Readers;
 
     /// <summary>
     /// The purpose of the <see cref="GeneralizationReader"/> is to read an instance of <see cref="IGeneralization"/>
     /// from the XMI document
     /// </summary>
-    public class GeneralizationReader : XmiElementReader
+    public class GeneralizationReader : XmiElementReader<IGeneralization>, IXmiElementReader<IGeneralization>
     {
-        /// <summary>
-        /// The <see cref="ILogger"/> used to log
-        /// </summary>
-        private readonly ILogger<GeneralizationReader> logger;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="GeneralizationReader"/> class.
         /// </summary>
         /// <param name="cache">
         /// The cache in which each <see cref="IXmiElement"/>> is stored
         /// </param>
-        /// <param name="loggerFactory">
-        /// The (injected) <see cref="ILoggerFactory"/> used to setup logging
+        /// <param name="logger">
+        /// The <see cref="ILogger{T}"/>
         /// </param>
-        public GeneralizationReader(Dictionary<string, IXmiElement> cache, ILoggerFactory loggerFactory = null) 
-            : base(cache, loggerFactory)
+        public GeneralizationReader(IXmiReaderCache cache, ILogger<GeneralizationReader> logger)
+            : base(cache, logger)
         {
-            this.logger = this.loggerFactory == null ? NullLogger<GeneralizationReader>.Instance : this.loggerFactory.CreateLogger<GeneralizationReader>();
         }
 
         /// <summary>
@@ -64,7 +57,7 @@ namespace uml4net.xmi.Classification
         /// <returns>
         /// an instance of <see cref="IGeneralization"/>
         /// </returns>
-        public IGeneralization Read(XmlReader xmlReader)
+        public override IGeneralization Read(XmlReader xmlReader)
         {
             IGeneralization generalization = new Generalization();
 
@@ -81,7 +74,7 @@ namespace uml4net.xmi.Classification
 
                 generalization.XmiId = xmlReader.GetAttribute("xmi:id");
 
-                this.cache.Add(generalization.XmiId, generalization);
+                this.Cache.Add(generalization.XmiId, generalization);
 
                 var isSubstitutable = xmlReader.GetAttribute("isSubstitutable");
                 if (!string.IsNullOrEmpty(isSubstitutable))

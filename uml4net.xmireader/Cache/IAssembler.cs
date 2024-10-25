@@ -1,5 +1,5 @@
-// -------------------------------------------------------------------------------------------------
-//  <copyright file="CorePocoGeneratorTestFixture.cs" company="Starion Group S.A.">
+﻿// -------------------------------------------------------------------------------------------------
+//  <copyright file="IAssembler.cs" company="Starion Group S.A.">
 // 
 //    Copyright 2019-2024 Starion Group S.A.
 // 
@@ -18,13 +18,19 @@
 //  </copyright>
 //  ------------------------------------------------------------------------------------------------
 
-namespace uml4net.CodeGenerator.Tests.Generators
+namespace uml4net.xmi.Cache
 {
-    using NUnit.Framework;
+    using System.Collections.Generic;
+    using uml4net.POCO;
 
-    [TestFixture]
-    public class CorePocoGeneratorTestFixture
+    /// <summary>
+    /// The <see cref="IAssembler"/> is the interface definition for the <see cref="Assembler"/>
+    /// </summary>
+    public interface IAssembler
     {
-        
+        /// <summary>
+        /// Synchronizes the <see cref="IXmiReaderCache"/> by assigning properties to elements.
+        /// </summary>
+        void Synchronize();
     }
 }

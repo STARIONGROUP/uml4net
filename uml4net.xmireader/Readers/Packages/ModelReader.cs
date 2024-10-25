@@ -18,28 +18,27 @@
 // </copyright>
 // ------------------------------------------------------------------------------------------------
 
-namespace uml4net.xmi.Packages
+namespace uml4net.xmi.Readers.Packages
 {
-    using System.Collections.Generic;
+    using Cache;
     using System.Xml;
 
     using Microsoft.Extensions.Logging;
-    using Microsoft.Extensions.Logging.Abstractions;
-    
-    using uml4net.POCO;
+    using POCO.CommonStructure;
+    using POCO;
     using uml4net.POCO.Packages;
-    using uml4net.xmi.CommonStructure;
+    using Readers;
 
     /// <summary>
     /// The purpose of the <see cref="ModelReader"/> is to read an instance of <see cref="IModel"/>
     /// from the XMI document
     /// </summary>
-    public class ModelReader : XmiElementReader
+    public class ModelReader : XmiElementReader<IModel>, IXmiElementReader<IModel>
     {
         /// <summary>
-        /// The <see cref="ILogger"/> used to log
+        /// The <see cref="IXmiElementReader{T}"/> of <see cref="IPackageImport"/>
         /// </summary>
-        private readonly ILogger<ModelReader> logger;
+        private readonly IXmiElementReader<IPackageImport> packageImportReader;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PackageReader"/> class.
@@ -47,13 +46,14 @@ namespace uml4net.xmi.Packages
         /// <param name="cache">
         /// The cache in which each <see cref="IXmiElement"/>> is stored
         /// </param>
-        /// <param name="loggerFactory">
-        /// The (injected) <see cref="ILoggerFactory"/> used to setup logging
+        /// <param name="logger">
+        /// The (injected) <see cref="ILogger{T}"/> used to setup logging
         /// </param>
-        public ModelReader(Dictionary<string, IXmiElement> cache, ILoggerFactory loggerFactory = null)
-            : base(cache, loggerFactory)
+        /// <param name="packageImportReader">The <see cref="IXmiElementReader{T}"/> of <see cref="IPackageImport"/></param>
+        public ModelReader(IXmiReaderCache cache, ILogger<ModelReader> logger, IXmiElementReader<IPackageImport> packageImportReader)
+            : base(cache, logger)
         {
-            this.logger = this.loggerFactory == null ? NullLogger<ModelReader>.Instance : this.loggerFactory.CreateLogger<ModelReader>();
+            this.packageImportReader = packageImportReader;
         }
 
         /// <summary>
@@ -65,15 +65,15 @@ namespace uml4net.xmi.Packages
         /// <returns>
         /// an instance of <see cref="IPackage"/>
         /// </returns>
-        public IModel Read(XmlReader xmlReader)
-        { 
+        public override IModel Read(XmlReader xmlReader)
+        {
             IModel model = new Model();
 
             if (xmlReader.MoveToContent() == XmlNodeType.Element)
             {
                 var xmiType = xmlReader.GetAttribute("xmi:type");
 
-                if (!string.IsNullOrEmpty(xmiType) && (xmiType != "uml:Model"))
+                if (!string.IsNullOrEmpty(xmiType) && xmiType != "uml:Model")
                 {
                     throw new XmlException($"The XmiType should be: uml:Model while it is {xmiType}");
                 }
@@ -86,7 +86,7 @@ namespace uml4net.xmi.Packages
 
                 model.XmiId = xmlReader.GetAttribute("xmi:id");
 
-                this.cache.Add(model.XmiId, model);
+                this.Cache.Add(model.XmiId, model);
 
                 model.Name = xmlReader.GetAttribute("name");
 
@@ -100,15 +100,14 @@ namespace uml4net.xmi.Packages
                             case "packageImport":
                                 using (var packageImportXmlReader = xmlReader.ReadSubtree())
                                 {
-                                    var packageImportReader = new PackageImportReader(this.cache, this.loggerFactory);
-                                    var packageImport = packageImportReader.Read(packageImportXmlReader);
+                                    var packageImport = this.packageImportReader.Read(packageImportXmlReader);
                                     model.PackageImport.Add(packageImport);
                                 }
                                 break;
                             case "packagedElement":
                                 using (var packagedElementXmlReader = xmlReader.ReadSubtree())
                                 {
-                                    this.logger.LogInformation("ModelReader.packagedElement not yet implemented");
+                                    this.Logger.LogInformation("ModelReader.packagedElement not yet implemented");
                                 }
                                 break;
                         }

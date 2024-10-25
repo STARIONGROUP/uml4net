@@ -18,29 +18,28 @@
 //  </copyright>
 //  ------------------------------------------------------------------------------------------------
 
-namespace uml4net.xmi.SimpleClassifiers
+namespace uml4net.xmi.Readers.SimpleClassifiers
 {
     using System;
-    using System.Collections.Generic;
     using System.Xml;
 
     using Microsoft.Extensions.Logging;
-    using Microsoft.Extensions.Logging.Abstractions;
-
-    using uml4net.POCO;
+    using POCO;
+    using uml4net.POCO.CommonStructure;
     using uml4net.POCO.SimpleClassifiers;
-    using uml4net.xmi.CommonStructure;
+    using Cache;
+    using Readers;
 
     /// <summary>
     /// The purpose of the <see cref="EnumerationReader"/> is to read an instance of <see cref="IEnumeration"/>
     /// from the XMI document
     /// </summary>
-    public class EnumerationReader : XmiElementReader
+    public class EnumerationReader : XmiCommentedElementReader<IEnumeration>, IXmiElementReader<IEnumeration>
     {
         /// <summary>
-        /// The <see cref="ILogger"/> used to log
+        /// The <see cref="IXmiElementReader{T}"/> of <see cref="IEnumerationLiteral"/>
         /// </summary>
-        private readonly ILogger<EnumerationReader> logger;
+        private readonly IXmiElementReader<IEnumerationLiteral> enumerationLiteralReader;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="EnumerationReader"/> class.
@@ -48,13 +47,15 @@ namespace uml4net.xmi.SimpleClassifiers
         /// <param name="cache">
         /// The cache in which each <see cref="IXmiElement"/>> is stored
         /// </param>
-        /// <param name="loggerFactory">
-        /// The (injected) <see cref="ILoggerFactory"/> used to setup logging
+        /// <param name="logger">
+        /// The (injected) <see cref="ILogger{T}"/> used to setup logging
         /// </param>
-        public EnumerationReader(Dictionary<string, IXmiElement> cache, ILoggerFactory loggerFactory = null)
-            : base(cache, loggerFactory)
+        /// <param name="commentReader">The <see cref="IXmiElementReader{T}"/> of <see cref="IComment"/></param>
+        /// <param name="enumerationLiteralReader">The <see cref="IXmiElementReader{T}"/> of <see cref="IEnumerationLiteral"/></param>
+        public EnumerationReader(IXmiReaderCache cache, ILogger<EnumerationReader> logger, IXmiElementReader<IComment> commentReader, IXmiElementReader<IEnumerationLiteral> enumerationLiteralReader)
+            : base(cache, logger, commentReader)
         {
-            this.logger = this.loggerFactory == null ? NullLogger<EnumerationReader>.Instance : this.loggerFactory.CreateLogger<EnumerationReader>();
+            this.enumerationLiteralReader = enumerationLiteralReader;
         }
 
         /// <summary>
@@ -66,7 +67,7 @@ namespace uml4net.xmi.SimpleClassifiers
         /// <returns>
         /// an instance of <see cref="IEnumeration"/>
         /// </returns>
-        public IEnumeration Read(XmlReader xmlReader)
+        public override IEnumeration Read(XmlReader xmlReader)
         {
             IEnumeration enumeration = new Enumeration();
 
@@ -83,7 +84,7 @@ namespace uml4net.xmi.SimpleClassifiers
 
                 enumeration.XmiId = xmlReader.GetAttribute("xmi:id");
 
-                this.cache.Add(enumeration.XmiId, enumeration);
+                this.Cache.Add(enumeration.XmiId, enumeration);
 
                 enumeration.Name = xmlReader.GetAttribute("name");
 
@@ -96,19 +97,17 @@ namespace uml4net.xmi.SimpleClassifiers
                             case "ownedComment":
                                 using (var ownedCommentXmlReader = xmlReader.ReadSubtree())
                                 {
-                                    var commentReader = new CommentReader(this.cache, this.loggerFactory);
-                                    var comment = commentReader.Read(ownedCommentXmlReader);
+                                    var comment = this.CommentReader.Read(ownedCommentXmlReader);
                                     enumeration.OwnedComment.Add(comment);
                                 }
                                 break;
                             case "ownedLiteral":
                                 using (var ownedLiteralXmlReader = xmlReader.ReadSubtree())
                                 {
-                                    var enumerationLiteralReader = new EnumerationLiteralReader(this.cache, this.loggerFactory);
-                                    var enumerationLiteral = enumerationLiteralReader.Read(ownedLiteralXmlReader);
+                                    var enumerationLiteral = this.enumerationLiteralReader.Read(ownedLiteralXmlReader);
                                     enumeration.OwnedLiteral.Add(enumerationLiteral);
 
-                                    this.logger.LogInformation("ClassReader.ownedRule not yet implemented");
+                                    this.Logger.LogInformation("ClassReader.ownedRule not yet implemented");
                                 }
                                 break;
                             default:

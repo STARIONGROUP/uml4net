@@ -1,5 +1,5 @@
 ﻿// -------------------------------------------------------------------------------------------------
-//  <copyright file="LiteralIntegerReader.cs" company="Starion Group S.A.">
+//  <copyright file="OpaqueExpressionReader.cs" company="Starion Group S.A.">
 // 
 //    Copyright 2019-2024 Starion Group S.A.
 // 
@@ -18,7 +18,7 @@
 //  </copyright>
 //  ------------------------------------------------------------------------------------------------
 
-namespace uml4net.xmi.Values
+namespace uml4net.xmi.Readers.Values
 {
     using System;
     using System.Collections.Generic;
@@ -27,35 +27,31 @@ namespace uml4net.xmi.Values
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Logging.Abstractions;
 
-    using uml4net.POCO;
+    using POCO;
     using uml4net.POCO.CommonStructure;
     using uml4net.POCO.Values;
-    using uml4net.xmi.CommonStructure;
+    using Cache;
+    using Readers;
 
     /// <summary>
-    /// The purpose of the <see cref="LiteralIntegerReader"/> is to read an instance of <see cref="ILiteralInteger"/>
+    /// The purpose of the <see cref="OpaqueExpressionReader"/> is to read an instance of <see cref="IOpaqueExpression"/>
     /// from the XMI document
     /// </summary>
-    public class LiteralIntegerReader : XmiElementReader
+    public class OpaqueExpressionReader : XmiCommentedElementReader<IOpaqueExpression>, IXmiElementReader<IOpaqueExpression>
     {
         /// <summary>
-        /// The <see cref="ILogger"/> used to log
-        /// </summary>
-        private readonly ILogger<LiteralIntegerReader> logger;
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="LiteralIntegerReader"/> class.
+        /// Initializes a new instance of the <see cref="OpaqueExpressionReader"/> class.
         /// </summary>
         /// <param name="cache">
         /// The cache in which each <see cref="IXmiElement"/>> is stored
         /// </param>
-        /// <param name="loggerFactory">
-        /// The (injected) <see cref="ILoggerFactory"/> used to setup logging
-        /// </param>
-        public LiteralIntegerReader(Dictionary<string, IXmiElement> cache, ILoggerFactory loggerFactory = null)
-            : base(cache, loggerFactory)
+        /// <param name="logger">
+        /// The (injected) <see cref="ILogger{T}"/> used to setup logging
+        /// </param> 
+        /// <param name="commentReader">The <see cref="IXmiElementReader{T}"/> of <see cref="IComment"/></param>
+        public OpaqueExpressionReader(IXmiReaderCache cache, ILogger<OpaqueExpressionReader> logger, IXmiElementReader<IComment> commentReader)
+            : base(cache, logger, commentReader)
         {
-            this.logger = this.loggerFactory == null ? NullLogger<LiteralIntegerReader>.Instance : this.loggerFactory.CreateLogger<LiteralIntegerReader>();
         }
 
         /// <summary>
@@ -67,30 +63,24 @@ namespace uml4net.xmi.Values
         /// <returns>
         /// an instance of <see cref="IConstraint"/>
         /// </returns>
-        public ILiteralInteger Read(XmlReader xmlReader)
+        public override IOpaqueExpression Read(XmlReader xmlReader)
         {
-            ILiteralInteger literalInteger = new LiteralInteger();
+            IOpaqueExpression opaqueExpression = new OpaqueExpression();
 
             if (xmlReader.MoveToContent() == XmlNodeType.Element)
             {
                 var xmiType = xmlReader.GetAttribute("xmi:type");
 
-                if (xmiType != "uml:LiteralInteger")
+                if (xmiType != "uml:OpaqueExpression")
                 {
-                    throw new XmlException($"The XmiType should be: uml:LiteralInteger while it is {xmiType}");
+                    throw new XmlException($"The XmiType should be: uml:OpaqueExpression while it is {xmiType}");
                 }
 
-                literalInteger.XmiType = xmiType;
+                opaqueExpression.XmiType = xmiType;
 
-                literalInteger.XmiId = xmlReader.GetAttribute("xmi:id");
+                opaqueExpression.XmiId = xmlReader.GetAttribute("xmi:id");
 
-                this.cache.Add(literalInteger.XmiId, literalInteger);
-
-                var value = xmlReader.GetAttribute("value");
-                if (!string.IsNullOrEmpty(value))
-                {
-                    literalInteger.Value = int.Parse(value);
-                }
+                this.Cache.Add(opaqueExpression.XmiId, opaqueExpression);
 
                 while (xmlReader.Read())
                 {
@@ -98,22 +88,27 @@ namespace uml4net.xmi.Values
                     {
                         switch (xmlReader.LocalName)
                         {
+                            case "body":
+                                opaqueExpression.Body.Add(xmlReader.ReadElementContentAsString());
+                                break;
+                            case "language":
+                                opaqueExpression.Language.Add(xmlReader.ReadElementContentAsString());
+                                break;
                             case "ownedComment":
                                 using (var ownedCommentXmlReader = xmlReader.ReadSubtree())
                                 {
-                                    var commentReader = new CommentReader(this.cache, this.loggerFactory);
-                                    var comment = commentReader.Read(ownedCommentXmlReader);
-                                    literalInteger.OwnedComment.Add(comment);
+                                    var comment = this.CommentReader.Read(ownedCommentXmlReader);
+                                    opaqueExpression.OwnedComment.Add(comment);
                                 }
                                 break;
                             default:
-                                throw new NotImplementedException($"LiteralIntegerReader: {xmlReader.LocalName}");
+                                throw new NotImplementedException($"OpaqueExpressionReader: {xmlReader.LocalName}");
                         }
                     }
                 }
             }
 
-            return literalInteger;
+            return opaqueExpression;
         }
     }
 }

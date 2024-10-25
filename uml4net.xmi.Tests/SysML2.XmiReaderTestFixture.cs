@@ -26,8 +26,9 @@ namespace uml4net.xmi.Tests
     using Microsoft.Extensions.Logging;
 
     using NUnit.Framework;
-
+    using System.Threading.Tasks;
     using uml4net.POCO.Packages;
+    using uml4net.xmi;
 
     public class SysML2XmiReaderTestFixture
     {
@@ -40,11 +41,11 @@ namespace uml4net.xmi.Tests
         }
 
         [Test]
-        public void Verify_that_SysML_XMI_can_be_read()
+        public async Task Verify_that_SysML_XMI_can_be_read()
         {
-            var reader = new XmiReader(this.loggerFactory);
+            using var reader = XmiReaderBuilder.Create().WithLogger(this.loggerFactory).Build();
 
-            var packages = reader.Read(Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData", "SysML.uml"));
+            var packages = await reader.ReadAsync(Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData", "SysML.uml"));
 
             Assert.That(packages.Count(), Is.EqualTo(1));
 
