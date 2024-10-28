@@ -147,7 +147,7 @@ namespace uml4net.xmi.Cache
         private Stream ResolveRemoteResource(Uri uri, string context)
         {
             logger.LogWarning("The resource {resource} is a reference to a remote resource which is unsupported by the Uml4Net library. An attempt to load the resource locally will be made", context);
-            var localPath = Path.Combine(settings.RootDirectoryPath, Path.GetFileName(uri.AbsolutePath));
+            var localPath = Path.Combine(settings.LocalReferenceBasePath, Path.GetFileName(uri.AbsolutePath));
             
             return File.Exists(localPath) ? File.OpenRead(localPath) : null;
         }

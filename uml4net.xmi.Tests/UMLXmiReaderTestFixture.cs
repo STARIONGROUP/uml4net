@@ -67,7 +67,7 @@ namespace uml4net.xmi.Tests
             var rootPath = Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData");
 
             using var reader = XmiReaderBuilder.Create()
-                .UsingSettings(x => x.RootDirectoryPath = rootPath)
+                .UsingSettings(x => x.LocalReferenceBasePath = rootPath)
                 .WithLogger(this.loggerFactory)
                 .Build();
 
