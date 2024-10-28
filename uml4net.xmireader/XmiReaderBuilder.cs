@@ -20,6 +20,7 @@
 
 namespace uml4net.xmi
 {
+    using Autofac;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Logging;
     using Settings;
@@ -33,6 +34,12 @@ namespace uml4net.xmi
     public static class XmiReaderBuilder
     {
         /// <summary>
+        /// Delegate for configuring IXmiReaderSettings.
+        /// </summary>
+        /// <param name="settings">The settings instance to configure.</param>
+        public delegate void ConfigureXmiReaderSettings(IXmiReaderSettings settings);
+
+        /// <summary>
         /// Creates a new instance of <see cref="XmiReaderScope"/> used to configure services for an XMI reader.
         /// </summary>
         /// <returns>
@@ -44,16 +51,18 @@ namespace uml4net.xmi
         }
 
         /// <summary>
-        /// Configures the <see cref="XmiReaderScope"/> to use the provided <see cref="HttpClient"/>.
+        /// Configures the <see cref="XmiReaderScope"/> using a builder delegate to set properties of the <see cref="IXmiReaderSettings"/> instance.
         /// </summary>
         /// <param name="scope">The <see cref="XmiReaderScope"/> being configured.</param>
-        /// <param name="client">The <see cref="HttpClient"/> to be used by the XMI reader.</param>
+        /// <param name="configure">The delegate to configure the <see cref="IXmiReaderSettings"/>.</param>
         /// <returns>
         /// The configured <see cref="XmiReaderScope"/> instance.
         /// </returns>
-        public static XmiReaderScope UsingHttpClient(this XmiReaderScope scope, HttpClient client)
+        public static XmiReaderScope UsingSettings(this XmiReaderScope scope, ConfigureXmiReaderSettings configure)
         {
-            scope.ServiceCollection.AddScoped(_ => client);
+            var settings = new DefaultSettings();
+            configure(settings);
+            scope.ContainerBuilder.RegisterInstance(settings).As<IXmiReaderSettings>();
             return scope;
         }
 
@@ -67,7 +76,7 @@ namespace uml4net.xmi
         /// </returns>
         public static XmiReaderScope UsingSettings(this XmiReaderScope scope, IXmiReaderSettings settings)
         {
-            scope.ServiceCollection.AddScoped(_ => settings);
+            scope.ContainerBuilder.RegisterInstance(settings).As<IXmiReaderSettings>();
             return scope;
         }
 
@@ -81,7 +90,7 @@ namespace uml4net.xmi
         /// </returns>
         public static XmiReaderScope WithLogger(this XmiReaderScope scope, ILoggerFactory loggerFactory)
         {
-            scope.ServiceCollection.AddSingleton(loggerFactory);
+            scope.ContainerBuilder.RegisterInstance(loggerFactory).As<ILoggerFactory>().SingleInstance();
             return scope;
         }
 
@@ -95,7 +104,7 @@ namespace uml4net.xmi
         public static IXmiReader Build(this XmiReaderScope scope)
         {
             scope.CreateScope();
-            return scope.Scope.ServiceProvider.GetRequiredService<IXmiReader>();
+            return scope.Scope.Resolve<IXmiReader>();
         }
     }
 }

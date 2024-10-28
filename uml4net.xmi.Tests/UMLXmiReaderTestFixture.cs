@@ -26,7 +26,7 @@ namespace uml4net.xmi.Tests
     using Microsoft.Extensions.Logging;
 
     using NUnit.Framework;
-    using System.Threading.Tasks;
+    using NUnit.Framework.Constraints;
     using uml4net.POCO.Values;
     using uml4net.POCO.Packages;
     using uml4net.POCO.SimpleClassifiers;
@@ -45,13 +45,13 @@ namespace uml4net.xmi.Tests
         }
 
         [Test]
-        public async Task Verify_that_UML_PrimitiveTypes__XMI_can_be_read()
+        public void Verify_that_UML_PrimitiveTypes__XMI_can_be_read()
         {
             using var reader = XmiReaderBuilder.Create()
                 .WithLogger(this.loggerFactory)
                 .Build();
 
-            var packages = await reader.ReadAsync(Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData", "PrimitiveTypes.xmi.xml"));
+            var packages = reader.Read(Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData", "PrimitiveTypes.xmi"));
 
             Assert.That(packages.Count(), Is.EqualTo(1));
 
@@ -63,13 +63,16 @@ namespace uml4net.xmi.Tests
         }
 
         [Test]
-        public async Task Verify_that_UML_XMI_can_be_read()
+        public void Verify_that_UML_XMI_can_be_read()
         {
+            var rootPath = Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData");
+
             using var reader = XmiReaderBuilder.Create()
+                .UsingSettings(x => x.RootDirectoryPath = rootPath)
                 .WithLogger(this.loggerFactory)
                 .Build();
 
-            var packages = await reader.ReadAsync(Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData", "UML.xmi.xml"));
+            var packages = reader.Read(Path.Combine(rootPath, "UML.xmi"));
 
             Assert.That(packages.Count(), Is.EqualTo(1));
 
@@ -97,6 +100,8 @@ namespace uml4net.xmi.Tests
             Assert.That(classOwnedComment.Body, Is.EqualTo("A Class classifies a set of objects and specifies the features that characterize the structure and behavior of those objects.  A Class may have an internal structure and Ports.\r\n"));
 
             Assert.That(@class.Generalization.Count, Is.EqualTo(2));
+
+            Assert.That(@class.OwnedAttribute.Where(x => x.Name is "isActive" or "isAbstract").All(x => x.Type.Name == "Boolean"), Is.True);
 
             var structuredClassifiersPackageEnumerations = structuredClassifiersPackage.PackagedElement.OfType<IEnumeration>();
 

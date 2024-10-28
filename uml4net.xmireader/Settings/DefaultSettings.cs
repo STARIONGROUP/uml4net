@@ -20,11 +20,28 @@
 
 namespace uml4net.xmi.Settings
 {
+    /// <summary>
+    /// Represents the default settings for the XMI reader, including paths for UML profiles and the root directory.
+    /// </summary>
     public class DefaultSettings : IXmiReaderSettings
     {
         /// <summary>
-        /// Gets or sets the UML_PROFILES value, as a local file path to resolve pathmap references
+        /// Gets or sets the UML_PROFILES value, as a local file path to resolve pathmap references. Defaults to <see cref="RootDirectoryPath"/>
         /// </summary>
-        public string UmlProfilesDirectoryPath { get; set; } = "";
+        public string UmlProfilesDirectoryPath
+        {
+            get => this.umlProfilesDirectoryPath ?? this.RootDirectoryPath;
+            set => this.umlProfilesDirectoryPath = value;
+        }
+
+        /// <summary>
+        /// Gets or sets the root directory path.
+        /// </summary>
+        public string RootDirectoryPath { get; set; } = "";
+
+        /// <summary>
+        /// Backing field for the UmlProfilesDirectoryPath property.
+        /// </summary>
+        private string umlProfilesDirectoryPath;
     }
 }

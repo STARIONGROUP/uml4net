@@ -36,9 +36,9 @@ namespace uml4net.xmi.Readers.Packages
     public class ModelReader : XmiElementReader<IModel>, IXmiElementReader<IModel>
     {
         /// <summary>
-        /// The <see cref="IXmiElementReader{T}"/> of <see cref="IPackageImport"/>
+        /// Gets the INJECTED <see cref="IXmiElementReader{T}"/> of <see cref="IPackageImport"/>
         /// </summary>
-        private readonly IXmiElementReader<IPackageImport> packageImportReader;
+        public IXmiElementReader<IPackageImport> PackageImportReader { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PackageReader"/> class.
@@ -49,11 +49,9 @@ namespace uml4net.xmi.Readers.Packages
         /// <param name="logger">
         /// The (injected) <see cref="ILogger{T}"/> used to setup logging
         /// </param>
-        /// <param name="packageImportReader">The <see cref="IXmiElementReader{T}"/> of <see cref="IPackageImport"/></param>
-        public ModelReader(IXmiReaderCache cache, ILogger<ModelReader> logger, IXmiElementReader<IPackageImport> packageImportReader)
+        public ModelReader(IXmiReaderCache cache, ILogger<ModelReader> logger)
             : base(cache, logger)
         {
-            this.packageImportReader = packageImportReader;
         }
 
         /// <summary>
@@ -100,7 +98,7 @@ namespace uml4net.xmi.Readers.Packages
                             case "packageImport":
                                 using (var packageImportXmlReader = xmlReader.ReadSubtree())
                                 {
-                                    var packageImport = this.packageImportReader.Read(packageImportXmlReader);
+                                    var packageImport = this.PackageImportReader.Read(packageImportXmlReader);
                                     model.PackageImport.Add(packageImport);
                                 }
                                 break;

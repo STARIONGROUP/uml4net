@@ -31,7 +31,7 @@ namespace uml4net.xmi.Cache
         /// <summary>
         /// Asynchronously attempts to resolve external references and yields their context and stream.
         /// </summary>
-        /// <returns>An asynchronous enumerable of tuples containing the context and stream of resolved references.</returns>
-        IAsyncEnumerable<(string Context, Stream Stream)> TryResolve();
+        /// <returns>An enumerable of tuples containing the context and stream of resolved references.</returns>
+        IEnumerable<(string Context, Stream Stream)> TryResolve();
     }
 }

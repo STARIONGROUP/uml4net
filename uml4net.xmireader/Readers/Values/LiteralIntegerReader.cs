@@ -22,11 +22,9 @@ namespace uml4net.xmi.Readers.Values
 {
     using Cache;
     using System;
-    using System.Collections.Generic;
     using System.Xml;
 
     using Microsoft.Extensions.Logging;
-    using Microsoft.Extensions.Logging.Abstractions;
 
     using POCO;
     using uml4net.POCO.CommonStructure;
@@ -37,8 +35,13 @@ namespace uml4net.xmi.Readers.Values
     /// The purpose of the <see cref="LiteralIntegerReader"/> is to read an instance of <see cref="ILiteralInteger"/>
     /// from the XMI document
     /// </summary>
-    public class LiteralIntegerReader : XmiCommentedElementReader<ILiteralInteger>, IXmiElementReader<ILiteralInteger>
+    public class LiteralIntegerReader : XmiElementReader<ILiteralInteger>, IXmiElementReader<ILiteralInteger>
     {
+        /// <summary>
+        /// Gets the INJECTED <see cref="IXmiElementReader{T}"/> of <see cref="IComment"/>
+        /// </summary>
+        public IXmiElementReader<IComment> CommentReader { get; set; }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="LiteralIntegerReader"/> class.
         /// </summary>
@@ -48,9 +51,8 @@ namespace uml4net.xmi.Readers.Values
         /// <param name="logger">
         /// The (injected) <see cref="ILogger{T}"/> used to setup logging
         /// </param>
-        /// <param name="commentReader">The <see cref="IXmiElementReader{T}"/> of <see cref="IComment"/></param>
-        public LiteralIntegerReader(IXmiReaderCache cache, ILogger<LiteralIntegerReader> logger, IXmiElementReader<IComment> commentReader)
-            : base(cache, logger, commentReader)
+        public LiteralIntegerReader(IXmiReaderCache cache, ILogger<LiteralIntegerReader> logger)
+            : base(cache, logger)
         {
         }
 

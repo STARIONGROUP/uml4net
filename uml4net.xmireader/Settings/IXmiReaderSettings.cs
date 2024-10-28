@@ -18,8 +18,6 @@
 //  </copyright>
 //  ------------------------------------------------------------------------------------------------
 
-using uml4net.xmi.Readers;
-
 namespace uml4net.xmi.Settings
 {
     /// <summary>
@@ -31,5 +29,10 @@ namespace uml4net.xmi.Settings
         /// Gets or sets the UML_PROFILES value, as a local file path to resolve pathmap references
         /// </summary>
         string UmlProfilesDirectoryPath {get;set;}
+
+        /// <summary>
+        /// Gets or sets the root directory path.
+        /// </summary>
+        string RootDirectoryPath { get; set; }
     }
 }

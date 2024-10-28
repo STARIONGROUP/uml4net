@@ -135,12 +135,12 @@ namespace uml4net.xmi.Cache
         /// <param name="element">The XMI element to be added to the cache.</param>
         public void Add(string id, IXmiElement element)
         {
-            var result = this.Cache.TryAdd(id, element);
-
-            if (!result)
+            if (this.Cache.ContainsKey(id))
             {
                 logger.LogError("Failed to add element type [{element}] with id [{id}]", element.GetType().Name, id);
             }
+
+            this.Cache[id] = element;
         }
 
         /// <summary>
@@ -151,7 +151,7 @@ namespace uml4net.xmi.Cache
         /// <returns><c>true</c> if the context and resource ID were successfully resolved; otherwise, <c>false</c>.</returns>
         public bool TryResolveContext(string resourceKey, out (string Context, string ResourceId) resolvedContextAndResource)
         {
-            var referenceString = resourceKey.Split('#', StringSplitOptions.RemoveEmptyEntries);
+            var referenceString = resourceKey.Split(['#'], StringSplitOptions.RemoveEmptyEntries);
 
             if (referenceString.Length == 2)
             {

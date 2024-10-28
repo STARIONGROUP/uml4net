@@ -20,8 +20,8 @@
 
 namespace uml4net.xmi
 {
+    using Autofac;
     using Cache;
-    using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Logging;
     using POCO.Classification;
     using POCO.CommonStructure;
@@ -29,7 +29,6 @@ namespace uml4net.xmi
     using POCO.SimpleClassifiers;
     using POCO.StructuredClassifiers;
     using POCO.Values;
-    using System;
     using System.Net.Http;
     using Readers;
     using Readers.Classification;
@@ -39,6 +38,7 @@ namespace uml4net.xmi
     using Readers.StructuredClassifiers;
     using Readers.Values;
     using Settings;
+    using Microsoft.Extensions.DependencyInjection;
 
     /// <summary>
     /// Represents the scope for configuring and managing services used by the XMI reader.
@@ -46,27 +46,27 @@ namespace uml4net.xmi
     public class XmiReaderScope : IXmiReaderScope
     {
         /// <summary>
-        /// Gets the service collection where all service registrations are stored.
+        /// Gets the Autofac container builder for configuring services.
         /// </summary>
-        internal IServiceCollection ServiceCollection { get; } = new ServiceCollection();
+        internal ContainerBuilder ContainerBuilder { get; } = new();
 
         /// <summary>
-        /// Gets the service provider responsible for resolving services.
+        /// Gets the Autofac container for resolving services.
         /// </summary>
-        internal IServiceProvider ServiceProvider { get; private set; }
+        internal IContainer Container { get; private set; }
 
         /// <summary>
         /// Gets the service scope which provides a scoped lifetime for services.
         /// </summary>
-        internal IServiceScope Scope { get; private set; }
+        internal ILifetimeScope Scope { get; private set; }
 
         /// <summary>
         /// Builds the service provider and service scope from the configured service collection.
         /// </summary>
         internal void CreateScope()
         {
-            this.ServiceProvider = this.ServiceCollection.BuildServiceProvider();
-            this.Scope = this.ServiceProvider.CreateScope();
+            this.Container = this.ContainerBuilder.Build();
+            this.Scope = this.Container.BeginLifetimeScope();
         }
 
         /// <summary>
@@ -74,34 +74,33 @@ namespace uml4net.xmi
         /// </summary>
         internal XmiReaderScope()
         {
-            //Overridable services
-            this.ServiceCollection.AddScoped(_ => new HttpClient());
-            this.ServiceCollection.AddScoped<IXmiReaderSettings, DefaultSettings>();
-            this.ServiceCollection.AddSingleton(LoggerFactory.Create(builder => builder.AddConsole()));
+            // Overridable services
+            this.ContainerBuilder.RegisterType<HttpClient>().AsSelf();
+            this.ContainerBuilder.RegisterType<DefaultSettings>().As<IXmiReaderSettings>();
 
-            //Required services
-            this.ServiceCollection.AddScoped(typeof(ILogger<>), typeof(Logger<>));
-            this.ServiceCollection.AddScoped<IXmiReaderScope>(x => this);
-            this.ServiceCollection.AddScoped<IXmiReader, XmiReader>();
-            this.ServiceCollection.AddScoped<IAssembler, Assembler>();
-            this.ServiceCollection.AddScoped<IXmiReaderCache, XmiReaderCache>();
-            this.ServiceCollection.AddScoped<IExternalReferenceResolver, ExternalReferenceResolver>();
+            // Required services
+            this.ContainerBuilder.RegisterGeneric(typeof(Logger<>)).As(typeof(ILogger<>));
+            this.ContainerBuilder.RegisterInstance(this).As<IXmiReaderScope>().SingleInstance();
+            this.ContainerBuilder.RegisterType<XmiReader>().As<IXmiReader>();
+            this.ContainerBuilder.RegisterType<Assembler>().As<IAssembler>();
+            this.ContainerBuilder.RegisterType<XmiReaderCache>().As<IXmiReaderCache>().SingleInstance();
+            this.ContainerBuilder.RegisterType<ExternalReferenceResolver>().As<IExternalReferenceResolver>().SingleInstance();
 
-            //Readers
-            this.ServiceCollection.AddScoped<IXmiElementReader<IGeneralization>, GeneralizationReader>();
-            this.ServiceCollection.AddScoped<IXmiElementReader<IProperty>, PropertyReader>();
-            this.ServiceCollection.AddScoped<IXmiElementReader<IComment>, CommentReader>();
-            this.ServiceCollection.AddScoped<IXmiElementReader<IConstraint>, ConstraintReader>();
-            this.ServiceCollection.AddScoped<IXmiElementReader<IPackageImport>, PackageImportReader>();
-            this.ServiceCollection.AddScoped<IXmiElementReader<IModel>, ModelReader>();
-            this.ServiceCollection.AddScoped<IXmiElementReader<IPackage>, PackageReader>();
-            this.ServiceCollection.AddScoped<IXmiElementReader<IEnumerationLiteral>, EnumerationLiteralReader>();
-            this.ServiceCollection.AddScoped<IXmiElementReader<IEnumeration>, EnumerationReader>();
-            this.ServiceCollection.AddScoped<IXmiElementReader<IClass>, ClassReader>();
-            this.ServiceCollection.AddScoped<IXmiElementReader<ILiteralInteger>, LiteralIntegerReader>();
-            this.ServiceCollection.AddScoped<IXmiElementReader<ILiteralUnlimitedNatural>, LiteralUnlimitedNaturalReader>();
-            this.ServiceCollection.AddScoped<IXmiElementReader<IOpaqueExpression>, OpaqueExpressionReader>();
-            this.ServiceCollection.AddScoped<IXmiElementReader<IPrimitiveType>, PrimitiveTypeReader>();
+            // Readers
+            this.ContainerBuilder.RegisterType<GeneralizationReader>().As<IXmiElementReader<IGeneralization>>().PropertiesAutowired();
+            this.ContainerBuilder.RegisterType<PropertyReader>().As<IXmiElementReader<IProperty>>().PropertiesAutowired();
+            this.ContainerBuilder.RegisterType<CommentReader>().As<IXmiElementReader<IComment>>().PropertiesAutowired();
+            this.ContainerBuilder.RegisterType<ConstraintReader>().As<IXmiElementReader<IConstraint>>().PropertiesAutowired();
+            this.ContainerBuilder.RegisterType<PackageImportReader>().As<IXmiElementReader<IPackageImport>>().PropertiesAutowired();
+            this.ContainerBuilder.RegisterType<ModelReader>().As<IXmiElementReader<IModel>>().PropertiesAutowired();
+            this.ContainerBuilder.RegisterType<PackageReader>().As<IXmiElementReader<IPackage>>().PropertiesAutowired();
+            this.ContainerBuilder.RegisterType<EnumerationLiteralReader>().As<IXmiElementReader<IEnumerationLiteral>>().PropertiesAutowired();
+            this.ContainerBuilder.RegisterType<EnumerationReader>().As<IXmiElementReader<IEnumeration>>().PropertiesAutowired();
+            this.ContainerBuilder.RegisterType<ClassReader>().As<IXmiElementReader<IClass>>().PropertiesAutowired();
+            this.ContainerBuilder.RegisterType<LiteralIntegerReader>().As<IXmiElementReader<ILiteralInteger>>().PropertiesAutowired();
+            this.ContainerBuilder.RegisterType<LiteralUnlimitedNaturalReader>().As<IXmiElementReader<ILiteralUnlimitedNatural>>().PropertiesAutowired();
+            this.ContainerBuilder.RegisterType<OpaqueExpressionReader>().As<IXmiElementReader<IOpaqueExpression>>().PropertiesAutowired();
+            this.ContainerBuilder.RegisterType<PrimitiveTypeReader>().As<IXmiElementReader<IPrimitiveType>>().PropertiesAutowired();
         }
 
         /// <summary>
@@ -109,8 +108,7 @@ namespace uml4net.xmi
         /// </summary>
         public void Dispose()
         {
-            this.Scope.Dispose();
-            this.ServiceCollection.Clear();
+            this.Container?.Dispose();
         }
     }
 }

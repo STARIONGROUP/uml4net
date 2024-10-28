@@ -21,11 +21,9 @@
 namespace uml4net.xmi.Readers.Values
 {
     using System;
-    using System.Collections.Generic;
     using System.Xml;
 
     using Microsoft.Extensions.Logging;
-    using Microsoft.Extensions.Logging.Abstractions;
 
     using POCO;
     using uml4net.POCO.CommonStructure;
@@ -37,8 +35,13 @@ namespace uml4net.xmi.Readers.Values
     /// The purpose of the <see cref="LiteralUnlimitedNaturalReader"/> is to read an instance of <see cref="ILiteralUnlimitedNatural"/>
     /// from the XMI document
     /// </summary>
-    public class LiteralUnlimitedNaturalReader : XmiCommentedElementReader<ILiteralUnlimitedNatural>, IXmiElementReader<ILiteralUnlimitedNatural>
+    public class LiteralUnlimitedNaturalReader : XmiElementReader<ILiteralUnlimitedNatural>, IXmiElementReader<ILiteralUnlimitedNatural>
     {
+        /// <summary>
+        /// Gets the INJECTED <see cref="IXmiElementReader{T}"/> of <see cref="IComment"/>
+        /// </summary>
+        public IXmiElementReader<IComment> CommentReader { get; set; }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="LiteralUnlimitedNaturalReader"/> class.
         /// </summary>
@@ -47,10 +50,9 @@ namespace uml4net.xmi.Readers.Values
         /// </param>
         /// <param name="logger">
         /// The (injected) <see cref="ILogger{T}"/> used to setup logging
-        /// </param> 
-        /// <param name="commentReader">The <see cref="IXmiElementReader{T}"/> of <see cref="IComment"/></param>
-        public LiteralUnlimitedNaturalReader(IXmiReaderCache cache, ILogger<LiteralUnlimitedNaturalReader> logger, IXmiElementReader<IComment> commentReader)
-            : base(cache, logger, commentReader)
+        /// </param>
+        public LiteralUnlimitedNaturalReader(IXmiReaderCache cache, ILogger<LiteralUnlimitedNaturalReader> logger)
+            : base(cache, logger)
         {
         }
 

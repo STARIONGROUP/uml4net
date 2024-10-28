@@ -29,10 +29,19 @@ namespace uml4net.xmi.Readers.SimpleClassifiers
     using System.Xml;
     using System;
 
-    public class PrimitiveTypeReader : XmiCommentedElementReader<IPrimitiveType>, IXmiElementReader<IPrimitiveType>
+    /// <summary>
+    /// The purpose of the <see cref="PrimitiveTypeReader"/> is to read an instance of <see cref="IPrimitiveType"/>
+    /// from the XMI document
+    /// </summary>
+    public class PrimitiveTypeReader : XmiElementReader<IPrimitiveType>, IXmiElementReader<IPrimitiveType>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="EnumerationLiteralReader"/> class.
+        /// Gets the INJECTED <see cref="IXmiElementReader{T}"/> of <see cref="IComment"/>
+        /// </summary>
+        public IXmiElementReader<IComment> CommentReader { get; set; }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PrimitiveTypeReader"/> class.
         /// </summary>
         /// <param name="cache">
         /// The cache in which each <see cref="IXmiElement"/>> is stored
@@ -40,9 +49,8 @@ namespace uml4net.xmi.Readers.SimpleClassifiers
         /// <param name="logger">
         /// The (injected) <see cref="ILogger{T}"/> used to setup logging
         /// </param>
-        /// <param name="commentReader">The <see cref="IXmiElementReader{T}"/> of <see cref="IComment"/></param>
-        public PrimitiveTypeReader(IXmiReaderCache cache, ILogger<PrimitiveTypeReader> logger, IXmiElementReader<IComment> commentReader)
-            : base(cache, logger, commentReader)
+        public PrimitiveTypeReader(IXmiReaderCache cache, ILogger<PrimitiveTypeReader> logger)
+            : base(cache, logger)
         {
         }
 

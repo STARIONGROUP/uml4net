@@ -20,26 +20,30 @@
 
 namespace uml4net.xmi.Readers.SimpleClassifiers
 {
-    using System;
-    using System.Xml;
-
     using Microsoft.Extensions.Logging;
     using POCO;
     using uml4net.POCO.CommonStructure;
     using uml4net.POCO.SimpleClassifiers;
     using Cache;
     using Readers;
+    using System;
+    using System.Xml;
 
     /// <summary>
     /// The purpose of the <see cref="EnumerationReader"/> is to read an instance of <see cref="IEnumeration"/>
     /// from the XMI document
     /// </summary>
-    public class EnumerationReader : XmiCommentedElementReader<IEnumeration>, IXmiElementReader<IEnumeration>
+    public class EnumerationReader : XmiElementReader<IEnumeration>, IXmiElementReader<IEnumeration>
     {
         /// <summary>
-        /// The <see cref="IXmiElementReader{T}"/> of <see cref="IEnumerationLiteral"/>
+        /// Gets the INJECTED <see cref="IXmiElementReader{T}"/> of <see cref="IEnumerationLiteral"/>
         /// </summary>
-        private readonly IXmiElementReader<IEnumerationLiteral> enumerationLiteralReader;
+        public IXmiElementReader<IEnumerationLiteral> EnumerationLiteralReader { get; set; }
+
+        /// <summary>
+        /// Gets the INJECTED <see cref="IXmiElementReader{T}"/> of <see cref="IComment"/>
+        /// </summary>
+        public IXmiElementReader<IComment> CommentReader { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="EnumerationReader"/> class.
@@ -50,12 +54,9 @@ namespace uml4net.xmi.Readers.SimpleClassifiers
         /// <param name="logger">
         /// The (injected) <see cref="ILogger{T}"/> used to setup logging
         /// </param>
-        /// <param name="commentReader">The <see cref="IXmiElementReader{T}"/> of <see cref="IComment"/></param>
-        /// <param name="enumerationLiteralReader">The <see cref="IXmiElementReader{T}"/> of <see cref="IEnumerationLiteral"/></param>
-        public EnumerationReader(IXmiReaderCache cache, ILogger<EnumerationReader> logger, IXmiElementReader<IComment> commentReader, IXmiElementReader<IEnumerationLiteral> enumerationLiteralReader)
-            : base(cache, logger, commentReader)
+        public EnumerationReader(IXmiReaderCache cache, ILogger<EnumerationReader> logger)
+            : base(cache, logger)
         {
-            this.enumerationLiteralReader = enumerationLiteralReader;
         }
 
         /// <summary>
@@ -104,7 +105,7 @@ namespace uml4net.xmi.Readers.SimpleClassifiers
                             case "ownedLiteral":
                                 using (var ownedLiteralXmlReader = xmlReader.ReadSubtree())
                                 {
-                                    var enumerationLiteral = this.enumerationLiteralReader.Read(ownedLiteralXmlReader);
+                                    var enumerationLiteral = this.EnumerationLiteralReader.Read(ownedLiteralXmlReader);
                                     enumeration.OwnedLiteral.Add(enumerationLiteral);
 
                                     this.Logger.LogInformation("ClassReader.ownedRule not yet implemented");

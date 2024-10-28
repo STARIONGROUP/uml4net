@@ -25,7 +25,6 @@ namespace uml4net.xmi.Readers.Packages
     using System.Xml;
 
     using Microsoft.Extensions.Logging;
-    using Microsoft.Extensions.Logging.Abstractions;
     using POCO.SimpleClassifiers;
     using POCO.StructuredClassifiers;
     using POCO;
@@ -38,27 +37,32 @@ namespace uml4net.xmi.Readers.Packages
     /// The purpose of the <see cref="PackageReader"/> is to read an instance of <see cref="IPackage"/>
     /// from the XMI document
     /// </summary>
-    public class PackageReader : XmiCommentedElementReader<IPackage>, IXmiElementReader<IPackage>
+    public class PackageReader : XmiElementReader<IPackage>, IXmiElementReader<IPackage>
     {
         /// <summary>
-        /// The <see cref="IXmiElementReader{T}"/> of <see cref="IComment"/>
+        /// Gets the INJECTED <see cref="IXmiElementReader{T}"/> of <see cref="IComment"/>
         /// </summary>
-        private readonly IXmiElementReader<IClass> classReader;
+        public IXmiElementReader<IClass> ClassReader { get; set; }
 
         /// <summary>
-        /// The <see cref="IXmiElementReader{T}"/> of <see cref="IEnumeration"/>
+        /// Gets the INJECTED <see cref="IXmiElementReader{T}"/> of <see cref="IEnumeration"/>
         /// </summary>
-        private readonly IXmiElementReader<IEnumeration> enumerationReader;
+        public IXmiElementReader<IEnumeration> EnumerationReader { get; set; }
 
         /// <summary>
-        /// The <see cref="IXmiElementReader{T}"/> of <see cref="IPackageImport"/>
+        /// Gets the INJECTED <see cref="IXmiElementReader{T}"/> of <see cref="IPackageImport"/>
         /// </summary>
-        private readonly IXmiElementReader<IPackageImport> packageImportReader;
+        public IXmiElementReader<IPackageImport> PackageImportReader { get; set; }
 
         /// <summary>
-        /// The <see cref="IXmiElementReader{T}"/> of <see cref="IPrimitiveType"/>
+        /// Gets the INJECTED <see cref="IXmiElementReader{T}"/> of <see cref="IPrimitiveType"/>
         /// </summary>
-        private readonly IXmiElementReader<IPrimitiveType> primitiveReader;
+        public IXmiElementReader<IPrimitiveType> PrimitiveReader { get; set; }
+
+        /// <summary>
+        /// Gets the INJECTED <see cref="IXmiElementReader{T}"/> of <see cref="IComment"/>
+        /// </summary>
+        public IXmiElementReader<IComment> CommentReader { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PackageReader"/> class.
@@ -69,19 +73,9 @@ namespace uml4net.xmi.Readers.Packages
         /// <param name="logger">
         /// The (injected) <see cref="ILogger{T}"/> used to setup logging
         /// </param>
-        /// <param name="commentReader">The <see cref="IXmiElementReader{T}"/> of <see cref="IComment"/></param>
-        /// <param name="classReader">The <see cref="IXmiElementReader{T}"/> of <see cref="IClass"/></param>
-        /// <param name="enumerationReader">The <see cref="IXmiElementReader{T}"/> of <see cref="IEnumeration"/></param>
-        /// <param name="packageImportReader">The <see cref="IXmiElementReader{T}"/> of <see cref="IPackageImport"/></param>
-        /// <param name="primitiveReader">The <see cref="IXmiElementReader{T}"/> of <see cref="IPrimitiveType"/></param>
-        public PackageReader(IXmiReaderCache cache, ILogger<PackageReader> logger, IXmiElementReader<IComment> commentReader, IXmiElementReader<IClass> classReader,
-            IXmiElementReader<IEnumeration> enumerationReader, IXmiElementReader<IPackageImport> packageImportReader, IXmiElementReader<IPrimitiveType> primitiveReader)
-            : base(cache, logger, commentReader)
+        public PackageReader(IXmiReaderCache cache, ILogger<PackageReader> logger)
+            : base(cache, logger)
         {
-            this.classReader = classReader;
-            this.enumerationReader = enumerationReader;
-            this.packageImportReader = packageImportReader;
-            this.primitiveReader = primitiveReader;
         }
 
         /// <summary>
@@ -148,7 +142,7 @@ namespace uml4net.xmi.Readers.Packages
                             case "packageImport":
                                 using (var packageImportXmlReader = xmlReader.ReadSubtree())
                                 {
-                                    var packageImport = this.packageImportReader.Read(packageImportXmlReader);
+                                    var packageImport = this.PackageImportReader.Read(packageImportXmlReader);
                                     package.PackageImport.Add(packageImport);
                                 }
                                 break;
@@ -195,14 +189,14 @@ namespace uml4net.xmi.Readers.Packages
                 case "uml:Class":
                     using (var classXmlReader = xmlReader.ReadSubtree())
                     {
-                        var packagedElement = this.classReader.Read(classXmlReader);
+                        var packagedElement = this.ClassReader.Read(classXmlReader);
                         package.PackagedElement.Add(packagedElement);
                     }
                     break;
                 case "uml:Enumeration":
                     using (var enumerationXmlReader = xmlReader.ReadSubtree())
                     {
-                        var enumeration = this.enumerationReader.Read(enumerationXmlReader);
+                        var enumeration = this.EnumerationReader.Read(enumerationXmlReader);
                         package.PackagedElement.Add(enumeration);
                     }
                     break;
@@ -216,7 +210,7 @@ namespace uml4net.xmi.Readers.Packages
                 case "uml:PrimitiveType":
                     using (var primitiveTypeXmlReader = xmlReader.ReadSubtree())
                     {
-                        var primitive = this.primitiveReader.Read(primitiveTypeXmlReader);
+                        var primitive = this.PrimitiveReader.Read(primitiveTypeXmlReader);
                         package.PackagedElement.Add(primitive);
                     }
                     break;

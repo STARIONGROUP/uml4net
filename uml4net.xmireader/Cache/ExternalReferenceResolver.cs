@@ -26,29 +26,27 @@ namespace uml4net.xmi.Cache
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
-    using System.Net.Http;
-    using System.Threading.Tasks;
 
     /// <summary>
     /// Resolves external references for XMI elements using provided settings and cache.
     /// </summary>
     /// <param name="cache">The cache containing XMI reader information.</param>
-    /// <param name="httpClient">The HTTP client used for making requests to external resources.</param>
     /// <param name="settings">The settings for the XMI reader configuration.</param>
     /// <param name="logger">The logger for logging information and errors.</param>
-    public class ExternalReferenceResolver(IXmiReaderCache cache, HttpClient httpClient, IXmiReaderSettings settings, ILogger<ExternalReferenceResolver> logger)
+    public class ExternalReferenceResolver(IXmiReaderCache cache, IXmiReaderSettings settings, ILogger<ExternalReferenceResolver> logger)
         : IExternalReferenceResolver
     {
         /// <summary>
         /// Asynchronously attempts to resolve external references and yields their context and stream.
         /// </summary>
-        /// <returns>An asynchronous enumerable of tuples containing the context and stream of resolved references.</returns>
-        public async IAsyncEnumerable<(string Context, Stream Stream)> TryResolve()
+        /// <param>The current directory of the main resource</param>
+        /// <returns>An enumerable of tuples containing the context and stream of resolved references.</returns>
+        public IEnumerable<(string Context, Stream Stream)> TryResolve()
         {
             foreach (var identifier in cache.Cache.Values
                          .SelectMany(cacheEntry => cacheEntry.SingleValueReferencePropertyIdentifiers.Values))
             {
-                if(await this.TryResolve(identifier) is { Stream: { Length: >0 } } reference)
+                if(this.TryResolve(identifier, out var reference))
                 {
                     yield return reference;
                 }
@@ -59,97 +57,101 @@ namespace uml4net.xmi.Cache
             {
                 foreach (var identifier in identifiers)
                 {
-                    if (await this.TryResolve(identifier) is { Stream: { Length: > 0 } } reference)
+                    if (this.TryResolve(identifier, out var reference))
                     {
                         yield return reference;
                     }
                 }
             }
         }
-
         /// <summary>
-        /// Asynchronously attempts to resolve an external reference identified by the specified key.
+        /// Attempts to resolve an external reference identified by the specified key.
         /// </summary>
         /// <param name="key">The key representing the external reference to resolve.</param>
-        /// <returns>A task that represents the asynchronous operation, containing a tuple with the context and stream if resolved; otherwise, a default value.</returns>
-        private async Task<(string Context, Stream Stream)> TryResolve(string key)
+        /// <param name="result">
+        /// When this method returns, contains a tuple with the context and stream if the reference is resolved; 
+        /// otherwise, it is set to a default value.
+        /// </param>
+        /// <returns>
+        /// <c>true</c> if the external reference is successfully resolved; otherwise, <c>false</c>.
+        /// </returns>
+        private bool TryResolve(string key, out (string Context, Stream Stream) result)
         {
-            if (string.IsNullOrEmpty(key) || key.StartsWith('#') || !key.Contains('#') || 
-                !cache.TryResolveContext(key, out var resource))
+            result = default;
+
+            if (this.IsInvalidKey(key) || !cache.TryResolveContext(key, out var resource))
             {
                 logger.LogInformation("Invalid external resource key [{key}]", key);
-                return default;
+                return false;
             }
 
             if (cache.DoesContextExists(resource.Context, resource.ResourceId))
             {
                 logger.LogInformation("The resource {resource} was already parsed", resource.Context);
-                return default;
+                return false;
             }
-            
+
+            result.Context = resource.Context;
+
             try
             {
-                var stream = default(Stream);
-
-                if (Uri.TryCreate(key, UriKind.Absolute, out var uri))
-                {
-                    if (uri.Scheme == Uri.UriSchemeHttp || uri.Scheme == Uri.UriSchemeHttps)
-                    {
-                        stream = await this.FetchRemoteXmi(uri);
-                    }
-                    if (uri.Scheme == Uri.UriSchemeFile)
-                    {
-                        stream = File.OpenRead(uri.LocalPath);
-                    }
-                }
-                else if (key.StartsWith("pathmap://"))
-                {
-                    stream = this.ResolvePathmapResource(key);
-                }
-                else if (File.Exists(resource.Context))
-                {
-                    stream = File.OpenRead(resource.Context);
-                }
-                else
-                {
-                    logger.LogError("Unsupported external reference specified by {context}", resource.Context);
-                    return default;
-                }
-
-                return (resource.Context, stream);
+                result.Stream = this.ResolveStream(key, resource.Context);
+                return result.Stream?.Length > 0;
             }
             catch (Exception exception)
             {
-                logger.LogError(exception,"Error resolving key '{key}': {message}", key, exception.Message);
+                logger.LogError(exception, "Error resolving key '{key}': {message}", key, exception.Message);
+                return false;
             }
-
-            return default;
         }
 
         /// <summary>
-        /// Asynchronously fetches an XMI file from a remote URI.
+        /// Checks if the key is invalid for resolving.
         /// </summary>
-        /// <param name="uri">The URI of the remote XMI file to fetch.</param>
-        /// <returns>A task that represents the asynchronous operation, containing a stream of the fetched XMI file if successful; otherwise, <c>null</c>.</returns>
-        private async Task<Stream> FetchRemoteXmi(Uri uri)
-        {
-            try
-            {
-                var response = await httpClient.GetAsync(uri);
+        /// <param name="key">The key to check.</param>
+        /// <returns><c>true</c> if the key is invalid; otherwise, <c>false</c>.</returns>
+        private bool IsInvalidKey(string key) =>
+            string.IsNullOrEmpty(key) || key.StartsWith("#") || !key.Contains("#");
 
-                if (response.IsSuccessStatusCode)
+        /// <summary>
+        /// Resolves the appropriate stream based on the key and context.
+        /// </summary>
+        /// <param name="key">The key representing the resource location.</param>
+        /// <param name="context">The resource context path.</param>
+        /// <returns>The resolved <see cref="Stream"/> if found; otherwise, <c>null</c>.</returns>
+        private Stream ResolveStream(string key, string context)
+        {
+            if (Uri.TryCreate(key, UriKind.Absolute, out var uri))
+            {
+                if (uri.Scheme == Uri.UriSchemeHttp || uri.Scheme == Uri.UriSchemeHttps)
                 {
-                    return await response.Content.ReadAsStreamAsync();
+                    return this.ResolveRemoteResource(uri, context);
+                }
+                else if (uri.Scheme == Uri.UriSchemeFile && File.Exists(uri.LocalPath))
+                {
+                    return File.OpenRead(uri.LocalPath);
                 }
             }
-            catch (Exception exception)
-            {
-                logger.LogError(exception, "Error fetching remote XMI: {message}", exception.Message);
-            }
 
-            return default;
+            return key.StartsWith("pathmap://") ? this.ResolvePathmapResource(key) :
+                   File.Exists(context) ? File.OpenRead(context) :
+                   null;
         }
-        
+
+        /// <summary>
+        /// Attempts to resolve a remote resource by treating it as a local file.
+        /// </summary>
+        /// <param name="uri">The URI of the remote resource.</param>
+        /// <param name="context">The resource context.</param>
+        /// <returns>The <see cref="Stream"/> if the file exists locally; otherwise, <c>null</c>.</returns>
+        private Stream ResolveRemoteResource(Uri uri, string context)
+        {
+            logger.LogWarning("The resource {resource} is a reference to a remote resource which is unsupported by the Uml4Net library. An attempt to load the resource locally will be made", context);
+            var localPath = Path.Combine(settings.RootDirectoryPath, Path.GetFileName(uri.AbsolutePath));
+            
+            return File.Exists(localPath) ? File.OpenRead(localPath) : null;
+        }
+
         /// <summary>
         /// Resolves the file path of a resource identified by the specified key and returns a stream for it.
         /// </summary>

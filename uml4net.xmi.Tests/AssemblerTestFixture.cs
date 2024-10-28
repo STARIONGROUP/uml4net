@@ -24,8 +24,6 @@ namespace uml4net.xmi.Tests
     using Microsoft.Extensions.Logging;
     using NUnit.Framework;
     using System;
-    using System.Collections.Generic;
-    using uml4net.POCO;
     using uml4net.POCO.CommonStructure;
     using uml4net.POCO.StructuredClassifiers;
     using uml4net.POCO.Values;

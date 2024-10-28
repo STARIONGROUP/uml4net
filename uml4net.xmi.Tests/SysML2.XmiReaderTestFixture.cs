@@ -45,7 +45,7 @@ namespace uml4net.xmi.Tests
         {
             using var reader = XmiReaderBuilder.Create().WithLogger(this.loggerFactory).Build();
 
-            var packages = await reader.ReadAsync(Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData", "SysML.uml"));
+            var packages = reader.Read(Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData", "SysML.uml"));
 
             Assert.That(packages.Count(), Is.EqualTo(1));
 

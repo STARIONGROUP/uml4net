@@ -41,7 +41,7 @@ namespace uml4net.xmi.Readers
         /// <returns>
         /// An <see cref="IEnumerable{IPackage}"/> representing the deserialized packages from the XMI file.
         /// </returns>
-        Task<IEnumerable<IPackage>> ReadAsync(string fileUri);
+        IEnumerable<IPackage> Read(string fileUri);
         
         /// <summary>
         /// Reads the content of a UML XMI 2.5.1 stream asynchronously.
@@ -52,6 +52,6 @@ namespace uml4net.xmi.Readers
         /// <returns>
         /// An <see cref="IEnumerable{IPackage}"/> representing the deserialized packages from the XMI stream.
         /// </returns>
-        Task<IEnumerable<IPackage>> ReadAsync(Stream stream);
+        IEnumerable<IPackage> Read(Stream stream);
     }
 }

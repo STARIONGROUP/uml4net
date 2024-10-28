@@ -107,15 +107,15 @@ namespace uml4net.xmi.Readers
         /// <returns>
         /// An <see cref="IEnumerable{IPackage}"/> representing the deserialized packages from the XMI file.
         /// </returns>
-        public async Task<IEnumerable<IPackage>> ReadAsync(string fileUri)
+        public IEnumerable<IPackage> Read(string fileUri)
         {
-            await using var fileStream = File.OpenRead(fileUri);
+            using var fileStream = File.OpenRead(fileUri);
 
             var sw = Stopwatch.StartNew();
 
             this.logger.LogTrace("start deserializing from {path}", fileUri);
 
-            var result = await this.ReadAsync(fileStream);
+            var result = this.Read(fileStream);
 
             this.logger.LogTrace("File {path} deserialized in {time} [ms]", fileUri, sw.ElapsedMilliseconds);
 
@@ -131,9 +131,9 @@ namespace uml4net.xmi.Readers
         /// <returns>
         /// An <see cref="IEnumerable{IPackage}"/> representing the deserialized packages from the XMI stream.
         /// </returns>
-        public async Task<IEnumerable<IPackage>> ReadAsync(Stream stream)
+        public IEnumerable<IPackage> Read(Stream stream)
         {
-            return await this.Read(stream, true);
+            return this.Read(stream, true);
         }
 
         /// <summary>
@@ -148,9 +148,9 @@ namespace uml4net.xmi.Readers
         /// <returns>
         /// An <see cref="IEnumerable{IPackage}"/> representing the deserialized packages from the XMI stream.
         /// </returns>
-        private async Task<IEnumerable<IPackage>> Read(Stream stream, bool isRoot)
+        private IEnumerable<IPackage> Read(Stream stream, bool isRoot)
         {
-            var settings = new XmlReaderSettings() { Async = true };
+            var settings = new XmlReaderSettings();
 
             stream.Seek(0, SeekOrigin.Begin);
 
@@ -161,7 +161,7 @@ namespace uml4net.xmi.Readers
             {
                 this.logger.LogTrace("starting to read xml");
 
-                while (await xmlReader.ReadAsync())
+                while (xmlReader.Read())
                 {
                     if (xmlReader.NodeType == XmlNodeType.Element)
                     {
@@ -193,7 +193,7 @@ namespace uml4net.xmi.Readers
             this.logger.LogTrace("xml read in {time}", currentlyElapsedMilliseconds);
             sw.Stop();
 
-            await this.TryResolveExternalReferences();
+            this.TryResolveExternalReferences();
 
             if (isRoot)
             {
@@ -207,12 +207,11 @@ namespace uml4net.xmi.Readers
         /// <summary>
         /// Asynchronously resolves external references and updates the cache with the retrieved resources.
         /// </summary>
-        /// <returns>A task that represents the asynchronous operation.</returns>
-        private async Task TryResolveExternalReferences()
+        private void TryResolveExternalReferences()
         {
             var stopwatch = Stopwatch.StartNew();
 
-            await foreach (var (context, externalResource) in this.externalReferenceResolver.TryResolve())
+            foreach (var (context, externalResource) in this.externalReferenceResolver.TryResolve())
             {
                 this.cache.SwitchContext(context);
                 this.Read(externalResource, false);

@@ -35,12 +35,17 @@ namespace uml4net.xmi.Readers.CommonStructure
     /// The purpose of the <see cref="ConstraintReader"/> is to read an instance of <see cref="IConstraint"/>
     /// from the XMI document
     /// </summary>
-    public class ConstraintReader : XmiCommentedElementReader<IConstraint>, IXmiElementReader<IConstraint>
+    public class ConstraintReader : XmiElementReader<IConstraint>, IXmiElementReader<IConstraint>
     {
         /// <summary>
-        /// The <see cref="IXmiElementReader{T}"/> of <see cref="IOpaqueExpression"/>
+        /// Gets the INJECTED <see cref="IXmiElementReader{T}"/> of <see cref="IOpaqueExpression"/>
         /// </summary>
-        private readonly IXmiElementReader<IOpaqueExpression> opaqueExpressionReader;
+        public IXmiElementReader<IOpaqueExpression> OpaqueExpressionReader { get; set; }
+
+        /// <summary>
+        /// Gets the INJECTED <see cref="IXmiElementReader{T}"/> of <see cref="IComment"/>
+        /// </summary>
+        public IXmiElementReader<IComment> CommentReader { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ConstraintReader"/> class.
@@ -51,12 +56,9 @@ namespace uml4net.xmi.Readers.CommonStructure
         /// <param name="logger">
         /// The <see cref="ILogger{T}"/>
         /// </param>
-        /// <param name="commentReader">The <see cref="IXmiElementReader{T}"/> of <see cref="IComment"/></param>
-        /// <param name="opaqueExpressionReader">The <see cref="IXmiElementReader{T}"/> of <see cref="IOpaqueExpression"/></param>
-        public ConstraintReader(IXmiReaderCache cache, ILogger<ConstraintReader> logger, IXmiElementReader<IComment> commentReader, IXmiElementReader<IOpaqueExpression> opaqueExpressionReader)
-            : base(cache, logger, commentReader)
+        public ConstraintReader(IXmiReaderCache cache, ILogger<ConstraintReader> logger)
+            : base(cache, logger)
         {
-            this.opaqueExpressionReader = opaqueExpressionReader;
         }
 
         /// <summary>
@@ -134,7 +136,7 @@ namespace uml4net.xmi.Readers.CommonStructure
                 case "uml:OpaqueExpression":
                     using (var opaqueExpressionXmlReader = xmlReader.ReadSubtree())
                     {
-                        var opaqueExpression = this.opaqueExpressionReader.Read(opaqueExpressionXmlReader);
+                        var opaqueExpression = this.OpaqueExpressionReader.Read(opaqueExpressionXmlReader);
                         constraint.Specification = opaqueExpression;
                     }
                     break;

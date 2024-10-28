@@ -37,17 +37,22 @@ namespace uml4net.xmi.Readers.Classification
     /// The purpose of the <see cref="PropertyReader"/> is to read an instance of <see cref="IProperty"/>
     /// from the XMI document
     /// </summary>
-    public class PropertyReader : XmiCommentedElementReader<IProperty>, IXmiElementReader<IProperty>
+    public class PropertyReader : XmiElementReader<IProperty>, IXmiElementReader<IProperty>
     {
         /// <summary>
-        /// The <see cref="IXmiElementReader{T}"/> of <see cref="ILiteralInteger"/>
+        /// Gets the INJECTED <see cref="IXmiElementReader{T}"/> of <see cref="ILiteralInteger"/>
         /// </summary>
-        private readonly IXmiElementReader<ILiteralInteger> literalIntegerReader;
+        public IXmiElementReader<ILiteralInteger> LiteralIntegerReader { get; set; }
 
         /// <summary>
-        /// The <see cref="IXmiElementReader{T}"/> of <see cref="ILiteralUnlimitedNatural"/>
+        /// Gets the INJECTED <see cref="IXmiElementReader{T}"/> of <see cref="ILiteralUnlimitedNatural"/>
         /// </summary>
-        private readonly IXmiElementReader<ILiteralUnlimitedNatural> literalUnlimitedNaturalReader;
+        public IXmiElementReader<ILiteralUnlimitedNatural> LiteralUnlimitedNaturalReader { get; set; }
+
+        /// <summary>
+        /// Gets the INJECTED <see cref="IXmiElementReader{T}"/> of <see cref="IComment"/>
+        /// </summary>
+        public IXmiElementReader<IComment> CommentReader { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PropertyReader"/> class.
@@ -58,15 +63,9 @@ namespace uml4net.xmi.Readers.Classification
         /// <param name="logger">
         /// The (injected) <see cref="ILogger{T}"/> used to setup logging
         /// </param>
-        /// <param name="commentReader">The <see cref="IXmiElementReader{T}"/> of <see cref="IComment"/></param>
-        /// <param name="literalIntegerReader">The <see cref="IXmiElementReader{T}"/> of <see cref="ILiteralInteger"/></param>
-        /// <param name="literalUnlimitedNaturalReader">The <see cref="IXmiElementReader{T}"/> of <see cref="ILiteralUnlimitedNatural"/></param>
-        public PropertyReader(IXmiReaderCache cache, ILogger<PropertyReader> logger, IXmiElementReader<IComment> commentReader,
-            IXmiElementReader<ILiteralInteger> literalIntegerReader, IXmiElementReader<ILiteralUnlimitedNatural> literalUnlimitedNaturalReader)
-            : base(cache, logger, commentReader)
+        public PropertyReader(IXmiReaderCache cache, ILogger<PropertyReader> logger)
+            : base(cache, logger)
         {
-            this.literalIntegerReader = literalIntegerReader;
-            this.literalUnlimitedNaturalReader = literalUnlimitedNaturalReader;
         }
 
         /// <summary>
@@ -111,10 +110,10 @@ namespace uml4net.xmi.Readers.Classification
                     property.IsDerivedUnion = bool.Parse(isDerivedUnion);
                 }
 
-                var isID = xmlReader.GetAttribute("isID");
-                if (!string.IsNullOrEmpty(isID))
+                var isId = xmlReader.GetAttribute("isID");
+                if (!string.IsNullOrEmpty(isId))
                 {
-                    property.IsID = bool.Parse(isID);
+                    property.IsID = bool.Parse(isId);
                 }
 
                 var isLeaf = xmlReader.GetAttribute("isLeaf");
@@ -181,14 +180,14 @@ namespace uml4net.xmi.Readers.Classification
                             case "lowerValue":
                                 using (var lowerValueXmlReader = xmlReader.ReadSubtree())
                                 {
-                                    var literalInteger = this.literalIntegerReader.Read(lowerValueXmlReader);
+                                    var literalInteger = this.LiteralIntegerReader.Read(lowerValueXmlReader);
                                     property.LowerValue = literalInteger;
                                 }
                                 break;
                             case "upperValue":
                                 using (var upperValueXmlReader = xmlReader.ReadSubtree())
                                 {
-                                    var literalUnlimitedNatural = this.literalUnlimitedNaturalReader.Read(upperValueXmlReader);
+                                    var literalUnlimitedNatural = this.LiteralUnlimitedNaturalReader.Read(upperValueXmlReader);
                                     property.UpperValue = literalUnlimitedNatural;
                                 }
                                 break;

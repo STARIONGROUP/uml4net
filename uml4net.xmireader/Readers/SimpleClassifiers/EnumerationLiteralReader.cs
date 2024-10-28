@@ -35,8 +35,13 @@ namespace uml4net.xmi.Readers.SimpleClassifiers
     /// The purpose of the <see cref="EnumerationLiteralReader"/> is to read an instance of <see cref="IEnumerationLiteral"/>
     /// from the XMI document
     /// </summary>
-    public class EnumerationLiteralReader : XmiCommentedElementReader<IEnumerationLiteral>, IXmiElementReader<IEnumerationLiteral>
+    public class EnumerationLiteralReader : XmiElementReader<IEnumerationLiteral>, IXmiElementReader<IEnumerationLiteral>
     {
+        /// <summary>
+        /// Gets the INJECTED <see cref="IXmiElementReader{T}"/> of <see cref="IComment"/>
+        /// </summary>
+        public IXmiElementReader<IComment> CommentReader { get; set; }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="EnumerationLiteralReader"/> class.
         /// </summary>
@@ -46,9 +51,8 @@ namespace uml4net.xmi.Readers.SimpleClassifiers
         /// <param name="logger">
         /// The (injected) <see cref="ILogger{T}"/> used to setup logging
         /// </param>
-        /// <param name="commentReader">The <see cref="IXmiElementReader{T}"/> of <see cref="IComment"/></param>
-        public EnumerationLiteralReader(IXmiReaderCache cache, ILogger<EnumerationLiteralReader> logger, IXmiElementReader<IComment> commentReader)
-            : base(cache, logger, commentReader)
+        public EnumerationLiteralReader(IXmiReaderCache cache, ILogger<EnumerationLiteralReader> logger)
+            : base(cache, logger)
         {
         }
 
