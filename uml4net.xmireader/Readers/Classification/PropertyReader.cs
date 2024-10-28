@@ -18,32 +18,41 @@
 //  </copyright>
 //  ------------------------------------------------------------------------------------------------
 
-namespace uml4net.xmi.Classification
+namespace uml4net.xmi.Readers.Classification
 {
+    using Cache;
     using System;
     using System.Collections.Generic;
     using System.Xml;
 
     using Microsoft.Extensions.Logging;
-    using Microsoft.Extensions.Logging.Abstractions;
-
-    using uml4net.POCO;
+    using POCO.Values;
+    using POCO;
     using uml4net.POCO.Classification;
     using uml4net.POCO.CommonStructure;
-    
-    using uml4net.xmi.CommonStructure;
-    using uml4net.xmi.Values;
+
+    using Readers;
 
     /// <summary>
     /// The purpose of the <see cref="PropertyReader"/> is to read an instance of <see cref="IProperty"/>
     /// from the XMI document
     /// </summary>
-    public class PropertyReader : XmiElementReader
+    public class PropertyReader : XmiElementReader<IProperty>, IXmiElementReader<IProperty>
     {
         /// <summary>
-        /// The <see cref="ILogger"/> used to log
+        /// Gets the INJECTED <see cref="IXmiElementReader{T}"/> of <see cref="ILiteralInteger"/>
         /// </summary>
-        private readonly ILogger<PropertyReader> logger;
+        public IXmiElementReader<ILiteralInteger> LiteralIntegerReader { get; set; }
+
+        /// <summary>
+        /// Gets the INJECTED <see cref="IXmiElementReader{T}"/> of <see cref="ILiteralUnlimitedNatural"/>
+        /// </summary>
+        public IXmiElementReader<ILiteralUnlimitedNatural> LiteralUnlimitedNaturalReader { get; set; }
+
+        /// <summary>
+        /// Gets the INJECTED <see cref="IXmiElementReader{T}"/> of <see cref="IComment"/>
+        /// </summary>
+        public IXmiElementReader<IComment> CommentReader { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PropertyReader"/> class.
@@ -51,13 +60,12 @@ namespace uml4net.xmi.Classification
         /// <param name="cache">
         /// The cache in which each <see cref="IXmiElement"/>> is stored
         /// </param>
-        /// <param name="loggerFactory">
-        /// The (injected) <see cref="ILoggerFactory"/> used to setup logging
+        /// <param name="logger">
+        /// The (injected) <see cref="ILogger{T}"/> used to setup logging
         /// </param>
-        public PropertyReader(Dictionary<string, IXmiElement> cache, ILoggerFactory loggerFactory = null)
-            : base(cache, loggerFactory)
+        public PropertyReader(IXmiReaderCache cache, ILogger<PropertyReader> logger)
+            : base(cache, logger)
         {
-            this.logger = this.loggerFactory == null ? NullLogger<PropertyReader>.Instance : this.loggerFactory.CreateLogger<PropertyReader>();
         }
 
         /// <summary>
@@ -69,7 +77,7 @@ namespace uml4net.xmi.Classification
         /// <returns>
         /// an instance of <see cref="IProperty"/>
         /// </returns>
-        public IProperty Read(XmlReader xmlReader)
+        public override IProperty Read(XmlReader xmlReader)
         {
             IProperty property = new Property();
 
@@ -86,7 +94,7 @@ namespace uml4net.xmi.Classification
 
                 property.XmiId = xmlReader.GetAttribute("xmi:id");
 
-                this.cache.Add(property.XmiId, property);
+                this.Cache.Add(property.XmiId, property);
 
                 property.Name = xmlReader.GetAttribute("name");
 
@@ -102,10 +110,10 @@ namespace uml4net.xmi.Classification
                     property.IsDerivedUnion = bool.Parse(isDerivedUnion);
                 }
 
-                var isID = xmlReader.GetAttribute("isID");
-                if (!string.IsNullOrEmpty(isID))
+                var isId = xmlReader.GetAttribute("isID");
+                if (!string.IsNullOrEmpty(isId))
                 {
-                    property.IsID = bool.Parse(isID);
+                    property.IsID = bool.Parse(isId);
                 }
 
                 var isLeaf = xmlReader.GetAttribute("isLeaf");
@@ -141,7 +149,7 @@ namespace uml4net.xmi.Classification
                 var aggregation = xmlReader.GetAttribute("aggregation");
                 if (!string.IsNullOrEmpty(aggregation))
                 {
-                    property.Aggregation = (AggregationKind)Enum.Parse(typeof(AggregationKind), aggregation,true);
+                    property.Aggregation = (AggregationKind)Enum.Parse(typeof(AggregationKind), aggregation, true);
                 }
 
                 var visibility = xmlReader.GetAttribute("visibility");
@@ -165,31 +173,28 @@ namespace uml4net.xmi.Classification
                             case "ownedComment":
                                 using (var ownedCommentXmlReader = xmlReader.ReadSubtree())
                                 {
-                                    var commentReader = new CommentReader(this.cache, this.loggerFactory);
-                                    var comment = commentReader.Read(ownedCommentXmlReader);
+                                    var comment = this.CommentReader.Read(ownedCommentXmlReader);
                                     property.OwnedComment.Add(comment);
                                 }
                                 break;
                             case "lowerValue":
                                 using (var lowerValueXmlReader = xmlReader.ReadSubtree())
                                 {
-                                    var literalIntegerReader = new LiteralIntegerReader(this.cache, this.loggerFactory);
-                                    var literalInteger = literalIntegerReader.Read(lowerValueXmlReader);
+                                    var literalInteger = this.LiteralIntegerReader.Read(lowerValueXmlReader);
                                     property.LowerValue = literalInteger;
                                 }
                                 break;
                             case "upperValue":
                                 using (var upperValueXmlReader = xmlReader.ReadSubtree())
                                 {
-                                    var literalUnlimitedNaturalReader = new LiteralUnlimitedNaturalReader(this.cache, this.loggerFactory);
-                                    var literalUnlimitedNatural = literalUnlimitedNaturalReader.Read(upperValueXmlReader);
+                                    var literalUnlimitedNatural = this.LiteralUnlimitedNaturalReader.Read(upperValueXmlReader);
                                     property.UpperValue = literalUnlimitedNatural;
                                 }
                                 break;
                             case "nameExpression":
                                 using (var nameExpressionXmlReader = xmlReader.ReadSubtree())
                                 {
-                                    this.logger.LogDebug("property:nameExpression not yet implemented");
+                                    this.Logger.LogDebug("property:nameExpression not yet implemented");
                                 }
                                 break;
                             case "subsettedProperty":
@@ -236,13 +241,13 @@ namespace uml4net.xmi.Classification
                             case "defaultValue":
                                 using (var defaultValueXmlReader = xmlReader.ReadSubtree())
                                 {
-                                    this.logger.LogDebug("property:defaultValueXmlReader not yet implemented");
+                                    this.Logger.LogDebug("property:defaultValueXmlReader not yet implemented");
                                 }
                                 break;
                             case "redefinedProperty":
                                 using (var redefinedPropertyXmlReader = xmlReader.ReadSubtree())
                                 {
-                                    this.logger.LogDebug("property:redefinedProperty not yet implemented");
+                                    this.Logger.LogDebug("property:redefinedProperty not yet implemented");
                                 }
                                 break;
                             default:

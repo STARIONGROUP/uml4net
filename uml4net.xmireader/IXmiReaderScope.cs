@@ -1,5 +1,5 @@
-// -------------------------------------------------------------------------------------------------
-//  <copyright file="CorePocoGeneratorTestFixture.cs" company="Starion Group S.A.">
+﻿// -------------------------------------------------------------------------------------------------
+//  <copyright file="IXmiReaderScope.cs" company="Starion Group S.A.">
 // 
 //    Copyright 2019-2024 Starion Group S.A.
 // 
@@ -18,13 +18,12 @@
 //  </copyright>
 //  ------------------------------------------------------------------------------------------------
 
-namespace uml4net.CodeGenerator.Tests.Generators
+namespace uml4net.xmi
 {
-    using NUnit.Framework;
+    using System;
 
-    [TestFixture]
-    public class CorePocoGeneratorTestFixture
-    {
-        
-    }
+    /// <summary>
+    /// Represents a scope for managing the lifecycle of services used during the XMI reading process.
+    /// </summary>
+    public interface IXmiReaderScope : IDisposable;
 }

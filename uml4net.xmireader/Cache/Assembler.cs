@@ -18,55 +18,55 @@
 // </copyright>
 // ------------------------------------------------------------------------------------------------
 
-namespace uml4net
+namespace uml4net.xmi.Cache
 {
-    using Decorators;
     using Microsoft.Extensions.Logging;
-    using System.Collections.Generic;
     using System;
     using System.Collections;
+    using System.Collections.Generic;
     using System.Linq;
-    using POCO;
     using System.Reflection;
-    using Microsoft.Extensions.Logging.Abstractions;
+    using Decorators;
+    using POCO;
 
     /// <summary>
     /// The purpose of the Assembler is to resolve all the reference properties of the objects
     /// after deserialization to construct a complete object graph
     /// </summary>
-    public class Assembler
+    public class Assembler : IAssembler
     {
-        /// <summary>
-        /// The (injected) <see cref="ILoggerFactory"/> used to setup logging
-        /// </summary>
-        private readonly ILoggerFactory loggerFactory;
-
         /// <summary>
         /// The <see cref="ILogger"/> used to log
         /// </summary>
         private readonly ILogger<Assembler> logger;
 
         /// <summary>
-        /// Gets
+        /// The <see cref="IXmiReaderCache"/>
         /// </summary>
-        /// <param name="loggerFactory"></param>
-        public Assembler(ILoggerFactory loggerFactory)
+        private readonly IXmiReaderCache cache;
+
+        /// <summary>
+        /// Initializes a new <see cref="Assembler"/>
+        /// </summary>
+        /// <param name="logger">The <see cref="ILogger{T}"/></param>
+        /// <param name="cache">The <see cref="IXmiReaderCache"/></param>
+        public Assembler(ILogger<Assembler> logger, IXmiReaderCache cache)
         {
-            this.loggerFactory = loggerFactory;
-            this.logger = this.loggerFactory == null ? NullLogger<Assembler>.Instance : this.loggerFactory.CreateLogger<Assembler>();
+            this.logger = logger;
+            this.cache = cache;
         }
 
         /// <summary>
-        /// Synchronizes the specified cache by assigning properties to elements.
+        /// Synchronizes the <see cref="IXmiReaderCache"/> by assigning properties to elements.
         /// </summary>
-        /// <param name="cache">
-        /// A dictionary containing the elements where the keys are their identifiers and the values are the corresponding <see cref="IXmiElement"/> instances.
-        /// </param>
-        public void Synchronize(Dictionary<string, IXmiElement> cache)
+        public void Synchronize()
         {
-            foreach (var element in cache.Values)
+            foreach (var contextEntries in this.cache.GlobalCache)
             {
-                this.ResolveReferences(element, cache);
+                foreach (var element in contextEntries.Value)
+                {
+                    this.ResolveReferences(element.Value);
+                }
             }
         }
 
@@ -74,15 +74,13 @@ namespace uml4net
         /// Resolves single and multi-value references for the given element using the provided cache.
         /// </summary>
         /// <param name="element">The element whose references are to be resolved.</param>
-        /// <param name="cache">The cache containing the referenced elements.</param>
-        public void ResolveReferences(IXmiElement element, IDictionary<string, IXmiElement> cache)
+        public void ResolveReferences(IXmiElement element)
         {
             foreach (var property in element.SingleValueReferencePropertyIdentifiers)
             {
-                var referencedElement = this.GetReferencedElement(cache, property.Value, property.Key);
-
-                if (referencedElement is null)
+                if (!this.TryGetReferencedElement(property.Value, out var referencedElement))
                 {
+                    this.logger.LogWarning("The reference to [{reference}] for property [{key}] on element type [{element}] with id [{id}] was not found in the cache, probably because its type is not supported.", property.Value, property.Key, element.XmiType, element.XmiId);
                     continue;
                 }
 
@@ -106,7 +104,7 @@ namespace uml4net
                     throw new NullReferenceException($"The target property {property.Key} was not found on {element.GetType().Name} or the type is null");
                 }
 
-                var resolvedReferences = this.ResolveMultiValueReferences(cache, property.Value, property.Key, underlyingType);
+                var resolvedReferences = this.ResolveMultiValueReferences(property.Value, property.Key, underlyingType);
 
                 if (targetProperty.GetValue(element) is not IList list)
                 {
@@ -121,27 +119,16 @@ namespace uml4net
         }
 
         /// <summary>
-        /// Retrieves a referenced element from the cache based on the reference key.
+        /// Attempts to retrieve the referenced element associated with the specified reference ID key.
         /// </summary>
-        /// <param name="cache">The cache containing the referenced elements.</param>
-        /// <param name="reference">The key to the reference in the cache.</param>
-        /// <param name="key">The name of the property referring to the element.</param>
-        /// <returns>The resolved IXmiElement from the cache.</returns>
-        private IXmiElement GetReferencedElement(IDictionary<string, IXmiElement> cache, string reference, string key)
+        /// <param name="referenceIdKey">The key representing the reference ID.</param>
+        /// <param name="element">When this method returns, contains the referenced element if found; otherwise, <c>null</c>.</param>
+        /// <returns><c>true</c> if the referenced element was successfully retrieved; otherwise, <c>false</c>.</returns>
+        private bool TryGetReferencedElement(string referenceIdKey, out IXmiElement element)
         {
-            if (reference.Contains('#'))
-            {
-                this.logger.LogWarning("Referencing external type is not yet supported");
-                return null;
-            }
-
-            if (cache.TryGetValue(reference, out var referencedElement))
-            {
-                return referencedElement;
-            }
-
-            this.logger.LogWarning("The reference with the id [{reference}] to [{key}] was not found in the cache, probably because its type is not supported.", reference, key);
-            return null;
+            return this.cache.TryResolveContext(referenceIdKey, out var resolvedContextAndResource) 
+                ? this.cache.TryGetValue(resolvedContextAndResource.Context, resolvedContextAndResource.ResourceId, out element) 
+                : this.cache.Cache.TryGetValue(referenceIdKey, out element);
         }
 
         /// <summary>
@@ -151,7 +138,7 @@ namespace uml4net
         /// <param name="propertyName">The name of the property to find.</param>
         /// <param name="expectedType">The expected type of the property. If null, type checking is skipped.</param>
         /// <returns>The <see cref="PropertyInfo"/> of the found property, or null if no matching property is found.</returns>
-        private PropertyInfo? FindPropertyWithAttribute(IXmiElement element, string propertyName, Type? expectedType = null)
+        private PropertyInfo FindPropertyWithAttribute(IXmiElement element, string propertyName, Type? expectedType = null)
         {
             return element.GetType().GetProperties()
                 .FirstOrDefault(x => Attribute.IsDefined(x, typeof(PropertyAttribute))
@@ -170,13 +157,13 @@ namespace uml4net
         /// <exception cref="InvalidOperationException">
         /// Thrown if a reference is not found in the cache or if the type of a referenced element does not match the expected type.
         /// </exception>
-        private List<IXmiElement> ResolveMultiValueReferences(IDictionary<string, IXmiElement> cache, IEnumerable<string> propertyValues, string key, Type expectedType)
+        private List<IXmiElement> ResolveMultiValueReferences(IEnumerable<string> propertyValues, string key, Type expectedType)
         {
             var resolvedReferences = new List<IXmiElement>();
 
             foreach (var propertyValue in propertyValues)
             {
-                if (!cache.TryGetValue(propertyValue, out var referencedElement) || !expectedType.IsAssignableFrom(referencedElement.GetType()))
+                if (!this.TryGetReferencedElement(propertyValue, out var referencedElement) || !expectedType.IsAssignableFrom(referencedElement.GetType()))
                 {
                     this.logger.LogWarning("The reference with the id [{key}] to [{propertyValue}] was not found in the cache, probably because its type is not supported.", key, propertyValue);
                     continue;

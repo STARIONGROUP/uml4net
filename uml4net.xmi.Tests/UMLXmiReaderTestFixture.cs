@@ -26,12 +26,12 @@ namespace uml4net.xmi.Tests
     using Microsoft.Extensions.Logging;
 
     using NUnit.Framework;
-
     using uml4net.POCO.Values;
     using uml4net.POCO.Packages;
     using uml4net.POCO.SimpleClassifiers;
     using uml4net.POCO.StructuredClassifiers;
-    
+    using uml4net.xmi;
+
     [TestFixture]
     public class UMLXmiReaderTestFixture
     {
@@ -46,9 +46,11 @@ namespace uml4net.xmi.Tests
         [Test]
         public void Verify_that_UML_PrimitiveTypes__XMI_can_be_read()
         {
-            var reader = new XmiReader(this.loggerFactory);
+            using var reader = XmiReaderBuilder.Create()
+                .WithLogger(this.loggerFactory)
+                .Build();
 
-            var packages = reader.Read(Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData", "PrimitiveTypes.xmi.xml"));
+            var packages = reader.Read(Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData", "PrimitiveTypes.xmi"));
 
             Assert.That(packages.Count(), Is.EqualTo(1));
 
@@ -56,14 +58,20 @@ namespace uml4net.xmi.Tests
 
             Assert.That(package.XmiId, Is.EqualTo("_0"));
             Assert.That(package.Name, Is.EqualTo("PrimitiveTypes"));
+            Assert.That(package.PackagedElement.Count, Is.EqualTo(5));
         }
 
         [Test]
         public void Verify_that_UML_XMI_can_be_read()
         {
-            var reader = new XmiReader(this.loggerFactory);
+            var rootPath = Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData");
 
-            var packages = reader.Read(Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData", "UML.xmi.xml"));
+            using var reader = XmiReaderBuilder.Create()
+                .UsingSettings(x => x.LocalReferenceBasePath = rootPath)
+                .WithLogger(this.loggerFactory)
+                .Build();
+
+            var packages = reader.Read(Path.Combine(rootPath, "UML.xmi"));
 
             Assert.That(packages.Count(), Is.EqualTo(1));
 
@@ -91,6 +99,8 @@ namespace uml4net.xmi.Tests
             Assert.That(classOwnedComment.Body, Is.EqualTo("A Class classifies a set of objects and specifies the features that characterize the structure and behavior of those objects.  A Class may have an internal structure and Ports.\r\n"));
 
             Assert.That(@class.Generalization.Count, Is.EqualTo(2));
+
+            Assert.That(@class.OwnedAttribute.Where(x => x.Name is "isActive" or "isAbstract").All(x => x.Type.Name == "Boolean"), Is.True);
 
             var structuredClassifiersPackageEnumerations = structuredClassifiersPackage.PackagedElement.OfType<IEnumeration>();
 

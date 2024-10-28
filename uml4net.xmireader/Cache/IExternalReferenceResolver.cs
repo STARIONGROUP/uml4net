@@ -1,5 +1,5 @@
-// -------------------------------------------------------------------------------------------------
-//  <copyright file="CorePocoGeneratorTestFixture.cs" company="Starion Group S.A.">
+﻿// -------------------------------------------------------------------------------------------------
+//  <copyright file="IExternalReferenceResolver.cs" company="Starion Group S.A.">
 // 
 //    Copyright 2019-2024 Starion Group S.A.
 // 
@@ -18,13 +18,20 @@
 //  </copyright>
 //  ------------------------------------------------------------------------------------------------
 
-namespace uml4net.CodeGenerator.Tests.Generators
+namespace uml4net.xmi.Cache
 {
-    using NUnit.Framework;
+    using System.Collections.Generic;
+    using System.IO;
 
-    [TestFixture]
-    public class CorePocoGeneratorTestFixture
+    /// <summary>
+    /// Defines a contract for resolving external references associated with XMI elements.
+    /// </summary>
+    public interface IExternalReferenceResolver
     {
-        
+        /// <summary>
+        /// Asynchronously attempts to resolve external references and yields their context and stream.
+        /// </summary>
+        /// <returns>An enumerable of tuples containing the context and stream of resolved references.</returns>
+        IEnumerable<(string Context, Stream Stream)> TryResolve();
     }
 }

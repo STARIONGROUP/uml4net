@@ -18,41 +18,34 @@
 //  </copyright>
 //  ------------------------------------------------------------------------------------------------
 
-namespace uml4net.xmi.CommonStructure
+namespace uml4net.xmi.Readers.CommonStructure
 {
-    using System.Collections.Generic;
     using System.Xml;
 
     using Microsoft.Extensions.Logging;
-    using Microsoft.Extensions.Logging.Abstractions;
-
-    using uml4net.POCO;
+    using POCO;
     using uml4net.POCO.CommonStructure;
+    using Cache;
+    using Readers;
 
     /// <summary>
     /// The purpose of the <see cref="CommentReader"/> is to read an instance of <see cref="IComment"/>
     /// from the XMI document
     /// </summary>
-    public class CommentReader : XmiElementReader
+    public class CommentReader : XmiElementReader<IComment>, IXmiElementReader<IComment>
     {
-        /// <summary>
-        /// The <see cref="ILogger"/> used to log
-        /// </summary>
-        private readonly ILogger<CommentReader> logger;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="CommentReader"/> class.
         /// </summary>
         /// <param name="cache">
         /// The cache in which each <see cref="IXmiElement"/>> is stored
         /// </param>
-        /// <param name="loggerFactory">
-        /// The (injected) <see cref="ILoggerFactory"/> used to setup logging
+        /// <param name="logger">
+        /// The (injected) <see cref="ILogger{T}"/> used to setup logging
         /// </param>
-        public CommentReader(Dictionary<string, IXmiElement> cache, ILoggerFactory loggerFactory = null)
-            : base(cache, loggerFactory)
+        public CommentReader(IXmiReaderCache cache, ILogger<CommentReader> logger)
+            : base(cache, logger)
         {
-            this.logger = this.loggerFactory == null ? NullLogger<CommentReader>.Instance : this.loggerFactory.CreateLogger<CommentReader>();
         }
 
         /// <summary>
@@ -64,7 +57,7 @@ namespace uml4net.xmi.CommonStructure
         /// <returns>
         /// an instance of <see cref="IComment"/>
         /// </returns>
-        public IComment Read(XmlReader xmlReader)
+        public override IComment Read(XmlReader xmlReader)
         {
             IComment comment = new Comment();
 
@@ -81,7 +74,7 @@ namespace uml4net.xmi.CommonStructure
 
                 comment.XmiId = xmlReader.GetAttribute("xmi:id");
 
-                this.cache.Add(comment.XmiId, comment);
+                this.Cache.Add(comment.XmiId, comment);
 
                 comment.Body = xmlReader.GetAttribute("body");
             }

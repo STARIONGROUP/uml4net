@@ -18,30 +18,29 @@
 //  </copyright>
 //  ------------------------------------------------------------------------------------------------
 
-namespace uml4net.xmi.Values
+namespace uml4net.xmi.Readers.Values
 {
     using System;
-    using System.Collections.Generic;
     using System.Xml;
 
     using Microsoft.Extensions.Logging;
-    using Microsoft.Extensions.Logging.Abstractions;
 
-    using uml4net.POCO;
+    using POCO;
     using uml4net.POCO.CommonStructure;
     using uml4net.POCO.Values;
-    using uml4net.xmi.CommonStructure;
+    using Cache;
+    using Readers;
 
     /// <summary>
     /// The purpose of the <see cref="LiteralUnlimitedNaturalReader"/> is to read an instance of <see cref="ILiteralUnlimitedNatural"/>
     /// from the XMI document
     /// </summary>
-    public class LiteralUnlimitedNaturalReader : XmiElementReader
+    public class LiteralUnlimitedNaturalReader : XmiElementReader<ILiteralUnlimitedNatural>, IXmiElementReader<ILiteralUnlimitedNatural>
     {
         /// <summary>
-        /// The <see cref="ILogger"/> used to log
+        /// Gets the INJECTED <see cref="IXmiElementReader{T}"/> of <see cref="IComment"/>
         /// </summary>
-        private readonly ILogger<LiteralUnlimitedNaturalReader> logger;
+        public IXmiElementReader<IComment> CommentReader { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="LiteralUnlimitedNaturalReader"/> class.
@@ -49,13 +48,12 @@ namespace uml4net.xmi.Values
         /// <param name="cache">
         /// The cache in which each <see cref="IXmiElement"/>> is stored
         /// </param>
-        /// <param name="loggerFactory">
-        /// The (injected) <see cref="ILoggerFactory"/> used to setup logging
+        /// <param name="logger">
+        /// The (injected) <see cref="ILogger{T}"/> used to setup logging
         /// </param>
-        public LiteralUnlimitedNaturalReader(Dictionary<string, IXmiElement> cache, ILoggerFactory loggerFactory = null)
-            : base(cache, loggerFactory)
+        public LiteralUnlimitedNaturalReader(IXmiReaderCache cache, ILogger<LiteralUnlimitedNaturalReader> logger)
+            : base(cache, logger)
         {
-            this.logger = this.loggerFactory == null ? NullLogger<LiteralUnlimitedNaturalReader>.Instance : this.loggerFactory.CreateLogger<LiteralUnlimitedNaturalReader>();
         }
 
         /// <summary>
@@ -67,7 +65,7 @@ namespace uml4net.xmi.Values
         /// <returns>
         /// an instance of <see cref="IConstraint"/>
         /// </returns>
-        public ILiteralUnlimitedNatural Read(XmlReader xmlReader)
+        public override ILiteralUnlimitedNatural Read(XmlReader xmlReader)
         {
             ILiteralUnlimitedNatural literalUnlimitedNatural = new LiteralUnlimitedNatural();
 
@@ -84,7 +82,7 @@ namespace uml4net.xmi.Values
 
                 literalUnlimitedNatural.XmiId = xmlReader.GetAttribute("xmi:id");
 
-                this.cache.Add(literalUnlimitedNatural.XmiId, literalUnlimitedNatural);
+                this.Cache.Add(literalUnlimitedNatural.XmiId, literalUnlimitedNatural);
 
                 var value = xmlReader.GetAttribute("value");
 
@@ -106,8 +104,7 @@ namespace uml4net.xmi.Values
                             case "ownedComment":
                                 using (var ownedCommentXmlReader = xmlReader.ReadSubtree())
                                 {
-                                    var commentReader = new CommentReader(this.cache, this.loggerFactory);
-                                    var comment = commentReader.Read(ownedCommentXmlReader);
+                                    var comment = this.CommentReader.Read(ownedCommentXmlReader);
                                     literalUnlimitedNatural.OwnedComment.Add(comment);
                                 }
                                 break;

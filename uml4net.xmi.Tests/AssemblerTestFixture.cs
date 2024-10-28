@@ -18,33 +18,36 @@
 // </copyright>
 // ------------------------------------------------------------------------------------------------
 
-namespace uml4net.Tests
+namespace uml4net.xmi.Tests
 {
+    using Cache;
+    using Microsoft.Extensions.Logging;
     using NUnit.Framework;
     using System;
-    using POCO.CommonStructure;
-    using POCO.StructuredClassifiers;
-    using POCO.Values;
-    using System.Collections.Generic;
-    using uml4net.POCO;
-    using Microsoft.Extensions.Logging;
+    using uml4net.POCO.CommonStructure;
+    using uml4net.POCO.StructuredClassifiers;
+    using uml4net.POCO.Values;
 
     [TestFixture]
     public class AssemblerTestFixture
     {
         private Assembler assembler;
-        private readonly Dictionary<string, IXmiElement> cache = [];
+        private IXmiReaderCache cache;
 
         [SetUp]
         public void Setup()
         {
-            this.assembler = new Assembler(LoggerFactory.Create(builder => builder.AddConsole()));
+            var loggerFactory = LoggerFactory.Create(builder => builder.AddConsole());
+
+            this.cache = new XmiReaderCache(loggerFactory.CreateLogger<XmiReaderCache>());
+
+            this.assembler = new Assembler(loggerFactory.CreateLogger<Assembler>(), this.cache);
         }
 
         [TearDown]
         public void Teardown()
         {
-            this.cache.Clear();
+            this.cache.GlobalCache.Clear();
         }
 
         [Test]
@@ -66,7 +69,7 @@ namespace uml4net.Tests
 
             Assert.That(classElement.NameExpression, Is.Null);
             
-            this.assembler.Synchronize(this.cache);
+            this.assembler.Synchronize();
             
             // Assert
             Assert.Multiple(() =>
@@ -97,7 +100,7 @@ namespace uml4net.Tests
             this.cache.Add(comment1.XmiId, comment1);
             this.cache.Add(comment2.XmiId, comment2);
 
-            this.assembler.Synchronize(this.cache);
+            this.assembler.Synchronize();
 
             // Assert
             Assert.Multiple(() =>
@@ -135,7 +138,7 @@ namespace uml4net.Tests
             Assert.That(classElement.NameExpression, Is.Null);
             Assert.That(classElement.OwnedComment.Count, Is.Zero);
 
-            this.assembler.Synchronize(this.cache);
+            this.assembler.Synchronize();
 
             // Assert
             Assert.Multiple(() =>
@@ -187,12 +190,11 @@ namespace uml4net.Tests
             Assert.That(classElement0.OwnedComment.Count, Is.Zero);
             Assert.That(classElement1.OwnedComment.Count, Is.Zero);
 
-            this.assembler.Synchronize(this.cache);
+            this.assembler.Synchronize();
 
             // Assert
             Assert.Multiple(() =>
             {
-
                 Assert.That(classElement0.NameExpression, Is.SameAs(stringExpression));
                 Assert.That(classElement1.NameExpression, Is.Null);
                 Assert.That(classElement0.OwnedComment.Count, Is.EqualTo(1));
@@ -217,7 +219,7 @@ namespace uml4net.Tests
             classElement.SingleValueReferencePropertyIdentifiers.Add("NameExpression", "NonExistentReference");
             this.cache.Add(classElement.XmiId, classElement);
             
-            this.assembler.Synchronize(this.cache);
+            this.assembler.Synchronize();
 
             Assert.That(classElement.NameExpression, Is.Not.Null);
         }
@@ -239,7 +241,7 @@ namespace uml4net.Tests
 
             Assert.Multiple(() =>
             {
-                Assert.Throws<InvalidOperationException>(() => this.assembler.Synchronize(this.cache));
+                Assert.Throws<InvalidOperationException>(() => this.assembler.Synchronize());
                 Assert.That(classElement.OwnedComment, Is.Empty);
                 Assert.That(classElement.NameExpression, Is.Null);
             });
