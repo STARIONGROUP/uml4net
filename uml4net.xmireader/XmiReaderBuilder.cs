@@ -21,11 +21,8 @@
 namespace uml4net.xmi
 {
     using Autofac;
-    using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Logging;
     using Settings;
-    using System;
-    using System.Net.Http;
     using Readers;
 
     /// <summary>

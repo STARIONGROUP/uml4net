@@ -27,10 +27,7 @@ namespace uml4net.xmi.Readers
     using System.Xml;
 
     using Microsoft.Extensions.Logging;
-    using System.Threading.Tasks;
     using uml4net.POCO.Packages;
-
-    using uml4net;
     using xmi;
 
     /// <summary>
@@ -48,17 +45,7 @@ namespace uml4net.xmi.Readers
         /// The <see cref="ILogger"/> used to log
         /// </summary>
         private readonly ILogger<XmiReader> logger;
-
-        /// <summary>
-        /// The <see cref="IXmiElementReader{T}"/>of <see cref="IPackage"/>
-        /// </summary>
-        private readonly IXmiElementReader<IPackage> packageReader;
-
-        /// <summary>
-        /// The <see cref="IXmiElementReader{T}"/>of <see cref="IModel"/>
-        /// </summary>
-        private readonly IXmiElementReader<IModel> modelReader;
-
+        
         /// <summary>
         /// The <see cref="IExternalReferenceResolver"/>
         /// </summary>
@@ -75,6 +62,16 @@ namespace uml4net.xmi.Readers
         private readonly IXmiReaderCache cache;
 
         /// <summary>
+        /// The <see cref="IXmiElementReader{T}"/>of <see cref="IPackage"/>
+        /// </summary>
+        public IXmiElementReader<IPackage> PackageReader { get; set; }
+
+        /// <summary>
+        /// The <see cref="IXmiElementReader{T}"/>of <see cref="IModel"/>
+        /// </summary>
+        public IXmiElementReader<IModel> ModelReader { get; set; }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="XmiReader"/> class.
         /// </summary>
         /// <param name="assembler">The <see cref="IAssembler"/></param>
@@ -82,18 +79,14 @@ namespace uml4net.xmi.Readers
         /// <param name="logger">
         /// The (injected) <see cref="ILogger{T}"/> used to setup logging
         /// </param>
-        /// <param name="packageReader">The <see cref="IXmiElementReader{T}"/>of <see cref="IPackage"/></param>
-        /// <param name="modelReader">The <see cref="IXmiElementReader{T}"/>of <see cref="IModel"/></param>
         /// <param name="externalReferenceResolver">The <see cref="IExternalReferenceResolver"/></param>
         /// <param name="scope">The <see cref="IXmiReaderScope"/></param>
-        public XmiReader(IAssembler assembler, IXmiReaderCache cache, ILogger<XmiReader> logger, IXmiElementReader<IPackage> packageReader,
-            IXmiElementReader<IModel> modelReader, IExternalReferenceResolver externalReferenceResolver, IXmiReaderScope scope)
+        public XmiReader(IAssembler assembler, IXmiReaderCache cache, ILogger<XmiReader> logger,
+            IExternalReferenceResolver externalReferenceResolver, IXmiReaderScope scope)
         {
             this.assembler = assembler;
             this.cache = cache;
             this.logger = logger;
-            this.packageReader = packageReader;
-            this.modelReader = modelReader;
             this.externalReferenceResolver = externalReferenceResolver;
             this.scope = scope;
         }
@@ -171,7 +164,7 @@ namespace uml4net.xmi.Readers
                             case "uml:Package":
                                 using (var packageXmlReader = xmlReader.ReadSubtree())
                                 {
-                                    var package = this.packageReader.Read(packageXmlReader);
+                                    var package = this.PackageReader.Read(packageXmlReader);
                                     packages.Add(package);
                                 }
 
@@ -179,7 +172,7 @@ namespace uml4net.xmi.Readers
                             case "uml:Model":
                                 using (var modelXmlReader = xmlReader.ReadSubtree())
                                 {
-                                    var model = this.modelReader.Read(modelXmlReader);
+                                    var model = this.ModelReader.Read(modelXmlReader);
                                     packages.Add(model);
                                 }
 
@@ -217,7 +210,7 @@ namespace uml4net.xmi.Readers
                 this.Read(externalResource, false);
             }
 
-            this.logger.LogTrace("External eferences synchronized in {time}", stopwatch.ElapsedMilliseconds);
+            this.logger.LogTrace("External references synchronized in {time}", stopwatch.ElapsedMilliseconds);
             stopwatch.Stop();
         }
 

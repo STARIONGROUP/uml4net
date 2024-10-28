@@ -21,12 +21,9 @@
 namespace uml4net.xmi.Readers.Values
 {
     using System;
-    using System.Collections.Generic;
     using System.Xml;
 
     using Microsoft.Extensions.Logging;
-    using Microsoft.Extensions.Logging.Abstractions;
-
     using POCO;
     using uml4net.POCO.CommonStructure;
     using uml4net.POCO.Values;

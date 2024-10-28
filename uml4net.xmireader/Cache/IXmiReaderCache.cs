@@ -45,7 +45,7 @@ namespace uml4net.xmi.Cache
         Dictionary<string, IXmiElement> Cache { get; }
 
         /// <summary>
-        /// Switches the current context to a new XMI file or section, allowing elements to be stored 
+        /// Switches the current context to a new XMI file, allowing elements to be stored 
         /// under a distinct key in the cache. Initializes an empty dictionary in <see cref="XmiReaderCache.Cache"/> 
         /// for the specified context if it does not exist.
         /// </summary>

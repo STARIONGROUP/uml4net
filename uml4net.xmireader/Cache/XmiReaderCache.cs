@@ -116,7 +116,7 @@ namespace uml4net.xmi.Cache
         }
 
         /// <summary>
-        /// Switches the current context to a new XMI file or section, allowing elements to be stored 
+        /// Switches the current context to a new XMI file, allowing elements to be stored 
         /// under a distinct key in the cache. Initializes an empty dictionary in <see cref="Cache"/> 
         /// for the specified context if it does not exist.
         /// </summary>
@@ -138,6 +138,7 @@ namespace uml4net.xmi.Cache
             if (this.Cache.ContainsKey(id))
             {
                 logger.LogError("Failed to add element type [{element}] with id [{id}]", element.GetType().Name, id);
+                return;
             }
 
             this.Cache[id] = element;

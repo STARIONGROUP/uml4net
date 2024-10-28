@@ -28,7 +28,6 @@ namespace uml4net.xmi.Cache
     using System.Reflection;
     using Decorators;
     using POCO;
-    using DocumentFormat.OpenXml.InkML;
 
     /// <summary>
     /// The purpose of the Assembler is to resolve all the reference properties of the objects

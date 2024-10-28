@@ -24,7 +24,6 @@ namespace uml4net.xmi.Readers.CommonStructure
 
     using Microsoft.Extensions.Logging;
     using POCO;
-    using uml4net.POCO.Classification;
     using uml4net.POCO.CommonStructure;
     using Cache;
     using Readers;

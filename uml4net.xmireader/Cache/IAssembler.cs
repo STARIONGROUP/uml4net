@@ -20,9 +20,6 @@
 
 namespace uml4net.xmi.Cache
 {
-    using System.Collections.Generic;
-    using uml4net.POCO;
-
     /// <summary>
     /// The <see cref="IAssembler"/> is the interface definition for the <see cref="Assembler"/>
     /// </summary>

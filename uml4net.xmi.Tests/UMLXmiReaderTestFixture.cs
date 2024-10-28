@@ -26,7 +26,6 @@ namespace uml4net.xmi.Tests
     using Microsoft.Extensions.Logging;
 
     using NUnit.Framework;
-    using NUnit.Framework.Constraints;
     using uml4net.POCO.Values;
     using uml4net.POCO.Packages;
     using uml4net.POCO.SimpleClassifiers;

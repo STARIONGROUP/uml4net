@@ -23,7 +23,6 @@ namespace uml4net.xmi.Readers
     using System;
     using System.Collections.Generic;
     using System.IO;
-    using System.Threading.Tasks;
     using uml4net.POCO.Packages;
 
     /// <summary>

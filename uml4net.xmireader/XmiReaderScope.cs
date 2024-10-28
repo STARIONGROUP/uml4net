@@ -38,7 +38,6 @@ namespace uml4net.xmi
     using Readers.StructuredClassifiers;
     using Readers.Values;
     using Settings;
-    using Microsoft.Extensions.DependencyInjection;
 
     /// <summary>
     /// Represents the scope for configuring and managing services used by the XMI reader.
@@ -81,12 +80,12 @@ namespace uml4net.xmi
             // Required services
             this.ContainerBuilder.RegisterGeneric(typeof(Logger<>)).As(typeof(ILogger<>));
             this.ContainerBuilder.RegisterInstance(this).As<IXmiReaderScope>().SingleInstance();
-            this.ContainerBuilder.RegisterType<XmiReader>().As<IXmiReader>();
             this.ContainerBuilder.RegisterType<Assembler>().As<IAssembler>();
             this.ContainerBuilder.RegisterType<XmiReaderCache>().As<IXmiReaderCache>().SingleInstance();
             this.ContainerBuilder.RegisterType<ExternalReferenceResolver>().As<IExternalReferenceResolver>().SingleInstance();
 
             // Readers
+            this.ContainerBuilder.RegisterType<XmiReader>().As<IXmiReader>().PropertiesAutowired();
             this.ContainerBuilder.RegisterType<GeneralizationReader>().As<IXmiElementReader<IGeneralization>>().PropertiesAutowired();
             this.ContainerBuilder.RegisterType<PropertyReader>().As<IXmiElementReader<IProperty>>().PropertiesAutowired();
             this.ContainerBuilder.RegisterType<CommentReader>().As<IXmiElementReader<IComment>>().PropertiesAutowired();
