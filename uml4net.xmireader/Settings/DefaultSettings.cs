@@ -26,18 +26,18 @@ namespace uml4net.xmi.Settings
     public class DefaultSettings : IXmiReaderSettings
     {
         /// <summary>
-        /// Gets or sets the UML_PROFILES value, as a local file path to resolve pathmap references. Defaults to <see cref="RootDirectoryPath"/>
+        /// Gets or sets the UML_PROFILES value, as a local file path to resolve pathmap references. Defaults to <see cref="LocalReferenceBasePath"/>
         /// </summary>
         public string UmlProfilesDirectoryPath
         {
-            get => this.umlProfilesDirectoryPath ?? this.RootDirectoryPath;
+            get => this.umlProfilesDirectoryPath ?? this.LocalReferenceBasePath;
             set => this.umlProfilesDirectoryPath = value;
         }
 
         /// <summary>
-        /// Gets or sets the root directory path.
+        /// Gets or sets the base directory path used as the local root for resolving referenced XMI files.
         /// </summary>
-        public string RootDirectoryPath { get; set; } = "";
+        public string LocalReferenceBasePath { get; set; } = "";
 
         /// <summary>
         /// Backing field for the UmlProfilesDirectoryPath property.

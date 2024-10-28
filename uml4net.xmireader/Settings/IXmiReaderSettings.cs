@@ -21,7 +21,7 @@
 namespace uml4net.xmi.Settings
 {
     /// <summary>
-    /// The <see cref="IXmiReaderSettings"/> interface defines settings the <see cref="XmiReader"/> requires in order to properly read
+    /// The <see cref="IXmiReaderSettings"/> interface defines settings the <see cref="Readers.XmiReader"/> requires in order to properly read
     /// </summary>
     public interface IXmiReaderSettings
     {
@@ -31,8 +31,8 @@ namespace uml4net.xmi.Settings
         string UmlProfilesDirectoryPath {get;set;}
 
         /// <summary>
-        /// Gets or sets the root directory path.
+        /// Gets or sets the base directory path used as the local root for resolving referenced XMI files.
         /// </summary>
-        string RootDirectoryPath { get; set; }
+        string LocalReferenceBasePath { get; set; }
     }
 }
