@@ -22,7 +22,7 @@ namespace uml4net.POCO.StructuredClassifiers
 {
     using System;
     using System.Collections.Generic;
-
+    using System.Linq;
     using uml4net.Decorators;
     using uml4net.POCO.Classification;
     using uml4net.POCO.CommonStructure;
