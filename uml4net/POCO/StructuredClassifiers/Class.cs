@@ -409,6 +409,6 @@ namespace uml4net.POCO.StructuredClassifiers
         [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isDerived: true)]
         [RedefinedProperty("Class-superClass")]
         [Implements(implementation: "IClass.SuperClass")]
-        public List<IClass> SuperClass => throw new NotImplementedException();
+        public List<IClass> SuperClass => this.Generalization.Select(x => x.General).OfType<IClass>().ToList();
     }
 }

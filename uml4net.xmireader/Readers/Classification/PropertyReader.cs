@@ -178,18 +178,10 @@ namespace uml4net.xmi.Readers.Classification
                                 }
                                 break;
                             case "lowerValue":
-                                using (var lowerValueXmlReader = xmlReader.ReadSubtree())
-                                {
-                                    var literalInteger = this.LiteralIntegerReader.Read(lowerValueXmlReader);
-                                    property.LowerValue = literalInteger;
-                                }
+                                property.LowerValue = this.GetLowerOrUpperValue(xmlReader);
                                 break;
                             case "upperValue":
-                                using (var upperValueXmlReader = xmlReader.ReadSubtree())
-                                {
-                                    var literalUnlimitedNatural = this.LiteralUnlimitedNaturalReader.Read(upperValueXmlReader);
-                                    property.UpperValue = literalUnlimitedNatural;
-                                }
+                                property.UpperValue = this.GetLowerOrUpperValue(xmlReader);
                                 break;
                             case "nameExpression":
                                 using (var nameExpressionXmlReader = xmlReader.ReadSubtree())
@@ -231,6 +223,10 @@ namespace uml4net.xmi.Readers.Classification
                                         {
                                             property.SingleValueReferencePropertyIdentifiers.Add("type", reference);
                                         }
+                                        else if (typeXmlReader.GetAttribute("xmi:idref") is { Length: > 0 } idRef)
+                                        {
+                                            property.SingleValueReferencePropertyIdentifiers.Add("type", idRef);
+                                        }
                                         else
                                         {
                                             throw new InvalidOperationException("type xml-attribute reference could not be read");
@@ -258,6 +254,43 @@ namespace uml4net.xmi.Readers.Classification
             }
 
             return property;
+        }
+
+        /// <summary>
+        /// Retrieves the lower or upper value specification based on the type specified in the XML attribute "xmi:type".
+        /// </summary>
+        /// <param name="readSubtree">
+        /// An <see cref="XmlReader"/> positioned at the subtree containing the value specification.
+        /// </param>
+        /// <returns>
+        /// An <see cref="IValueSpecification"/> object representing either a literal integer or literal unlimited natural value,
+        /// depending on the "xmi:type" attribute in the XML.
+        /// </returns>
+        /// <exception cref="NotImplementedException">
+        /// Thrown when the "xmi:type" attribute contains an unrecognized type.
+        /// </exception>
+        private IValueSpecification GetLowerOrUpperValue(XmlReader readSubtree)
+        {
+            try
+            {
+                using var reader = readSubtree.ReadSubtree();
+
+                if (reader.MoveToContent() == XmlNodeType.Element)
+                {
+                    return reader.GetAttribute("xmi:type") switch
+                    {
+                        "uml:LiteralInteger" => this.LiteralIntegerReader.Read(reader),
+                        "uml:LiteralUnlimitedNatural" => this.LiteralUnlimitedNaturalReader.Read(reader),
+                        _ => throw new NotImplementedException($"PropertyReader: {reader.LocalName}")
+                    };
+                }
+            }
+            catch (Exception ex)
+            {
+                this.Logger.LogError(ex, "");
+            }
+
+            return default;
         }
     }
 }

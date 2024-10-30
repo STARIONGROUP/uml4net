@@ -156,7 +156,8 @@ namespace uml4net.xmi.Readers.Packages
                                 this.ReadPackagedElements(package, xmlReader);
                                 break;
                             default:
-                                throw new NotImplementedException($"PackageReader: {xmlReader.LocalName}");
+                                this.Logger.LogInformation("PackageReader. {type} not yet implemented", xmlReader.LocalName);
+                                break;
                         }
                     }
                 }
@@ -215,7 +216,8 @@ namespace uml4net.xmi.Readers.Packages
                     }
                     break;
                 default:
-                    throw new NotImplementedException(xmiType);
+                    this.Logger.LogDebug("Reading {type} not yet implemented", xmiType);
+                    break;
             }
         }
     }

@@ -20,6 +20,7 @@
 
 namespace uml4net.Extensions
 {
+    using POCO.Values;
     using System;
 
     using uml4net.POCO.Classification;
@@ -56,9 +57,14 @@ namespace uml4net.Extensions
         /// </returns>
         public static bool QueryIsEnumerable(this IProperty property)
         {
-            //return property.Upper is -1 or > 1;
+            var value = property.UpperValue switch
+            {
+                ILiteralUnlimitedNatural literalUnlimitedNatural => literalUnlimitedNatural.Value,
+                ILiteralInteger literalInteger => literalInteger.Value,
+                _ => null
+            };
 
-            throw new NotImplementedException();
+            return value is -1 or > 1;
         }
 
         /// <summary>
@@ -94,12 +100,7 @@ namespace uml4net.Extensions
         /// </returns>
         public static bool QueryStructuralFeatureNameEqualsEnclosingType(this IStructuralFeature structuralFeature, IClass @class)
         {
-            if (structuralFeature.Name.ToLower() == @class.Name.ToLower())
-            {
-                return true;
-            }
-
-            return false;
+            return string.Equals(structuralFeature.Name, @class.Name, StringComparison.CurrentCultureIgnoreCase);
         }
 
         /// <summary>
@@ -127,7 +128,7 @@ namespace uml4net.Extensions
         /// </returns>
         public static string QueryTypeName(this IProperty property)
         {
-            return property.Type.Name;
+            return property.Type?.Name;
         }
 
         /// <summary>

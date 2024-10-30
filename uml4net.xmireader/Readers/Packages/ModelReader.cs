@@ -41,6 +41,11 @@ namespace uml4net.xmi.Readers.Packages
         public IXmiElementReader<IPackageImport> PackageImportReader { get; set; }
 
         /// <summary>
+        /// Gets the INJECTED <see cref="IXmiElementReader{T}"/> of <see cref="IPackage"/>
+        /// </summary>
+        public IXmiElementReader<IPackage> PackageReader { get; set; }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="PackageReader"/> class.
         /// </summary>
         /// <param name="cache">
@@ -82,17 +87,15 @@ namespace uml4net.xmi.Readers.Packages
 
                 model.XmiType = xmiType;
 
-                model.XmiId = xmlReader.GetAttribute("xmi:id");
-
-                this.Cache.Add(model.XmiId, model);
-
                 model.Name = xmlReader.GetAttribute("name");
+
+                model.XmiId = xmlReader.GetAttribute("xmi:id") ?? model.Name;
+                this.Cache.Add(model.XmiId, model);
 
                 while (xmlReader.Read())
                 {
                     if (xmlReader.NodeType == XmlNodeType.Element)
                     {
-
                         switch (xmlReader.LocalName)
                         {
                             case "packageImport":
@@ -102,11 +105,13 @@ namespace uml4net.xmi.Readers.Packages
                                     model.PackageImport.Add(packageImport);
                                 }
                                 break;
-                            case "packagedElement":
-                                using (var packagedElementXmlReader = xmlReader.ReadSubtree())
+                            case "packagedElement" when xmlReader.GetAttribute("xmi:type") == "uml:Package":
+                                using (var packageXmlReader = xmlReader.ReadSubtree())
                                 {
-                                    this.Logger.LogInformation("ModelReader.packagedElement not yet implemented");
+                                    var package = this.PackageReader.Read(packageXmlReader);
+                                    model.PackagedElement.Add(package);
                                 }
+
                                 break;
                         }
                     }
