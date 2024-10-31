@@ -23,13 +23,17 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "uml4net.xmi", "uml4net.xmir
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "uml4net.xmi.Tests", "uml4net.xmi.Tests\uml4net.xmi.Tests.csproj", "{37EDC280-C79F-487A-8B34-8B6460E6EB0C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "uml4net.CodeGenerator", "uml4net.CodeGenerator\uml4net.CodeGenerator.csproj", "{05492B90-532B-41F2-A3F3-41969CA02406}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "uml4net.CodeGenerator", "uml4net.CodeGenerator\uml4net.CodeGenerator.csproj", "{05492B90-532B-41F2-A3F3-41969CA02406}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "uml4net.CodeGenerator.Tests", "uml4net.CodeGenerator.Tests\uml4net.CodeGenerator.Tests.csproj", "{325EF79A-369D-4A53-8FCE-11C5504D0EB8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "uml4net.CodeGenerator.Tests", "uml4net.CodeGenerator.Tests\uml4net.CodeGenerator.Tests.csproj", "{325EF79A-369D-4A53-8FCE-11C5504D0EB8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "uml4net.Extensions", "uml4net.Extensions\uml4net.Extensions.csproj", "{566C0321-9872-4F0D-AC2C-52B01EC72EFD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "uml4net.Extensions", "uml4net.Extensions\uml4net.Extensions.csproj", "{566C0321-9872-4F0D-AC2C-52B01EC72EFD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "uml4net.HandleBars", "uml4net.HandleBars\uml4net.HandleBars.csproj", "{EB0425EC-AD4D-4F3E-8EC7-56C8116202D3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "uml4net.HandleBars", "uml4net.HandleBars\uml4net.HandleBars.csproj", "{EB0425EC-AD4D-4F3E-8EC7-56C8116202D3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "uml4net.Reporting", "uml4net.Reporting\uml4net.Reporting.csproj", "{3909A732-2EBF-4690-B515-B0DF9A582B24}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "uml4net.Reporting.Tests", "uml4net.Reporting.Tests\uml4net.Reporting.Tests.csproj", "{DD0F5780-C9D1-43BC-AFAD-F56BA1A6CDCA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -69,6 +73,14 @@ Global
 		{EB0425EC-AD4D-4F3E-8EC7-56C8116202D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EB0425EC-AD4D-4F3E-8EC7-56C8116202D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EB0425EC-AD4D-4F3E-8EC7-56C8116202D3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3909A732-2EBF-4690-B515-B0DF9A582B24}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3909A732-2EBF-4690-B515-B0DF9A582B24}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3909A732-2EBF-4690-B515-B0DF9A582B24}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3909A732-2EBF-4690-B515-B0DF9A582B24}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DD0F5780-C9D1-43BC-AFAD-F56BA1A6CDCA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DD0F5780-C9D1-43BC-AFAD-F56BA1A6CDCA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DD0F5780-C9D1-43BC-AFAD-F56BA1A6CDCA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DD0F5780-C9D1-43BC-AFAD-F56BA1A6CDCA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
