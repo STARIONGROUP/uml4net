@@ -87,13 +87,13 @@ namespace uml4net.Extensions
         }
 
         /// <summary>
-        /// Queries whether the <see cref="Name"/> is equal to the name of the containing <see cref="IClass"/>
+        /// Queries whether the specified <see cref="IStructuralFeature.Name"/> is equal to the name of the containing <see cref="IClass"/>
         /// </summary>
         /// <param name="structuralFeature">
         /// The subject <see cref="IStructuralFeature"/>
         /// </param>
         /// <param name="class">
-        /// The containing <see cref="EClass"/>
+        /// The containing <see cref="IClass"/>
         /// </param>
         /// <returns>
         /// true when the <paramref name="structuralFeature"/> name equals the name of the containing <see cref="IClass"/>, false if not.
@@ -129,6 +129,20 @@ namespace uml4net.Extensions
         public static string QueryTypeName(this IProperty property)
         {
             return property.Type?.Name;
+        }
+
+        /// <summary>
+        /// Queries a value indicating whether the specified <see cref="IProperty"/> type is a value type or <see cref="string"/>
+        /// </summary>
+        /// <param name="property">
+        /// The subject <see cref="IProperty"/>
+        /// </param>
+        /// <returns>
+        /// A <see cref="bool"/>
+        /// </returns>
+        public static bool QueryIsValueProperty(this IProperty property)
+        {
+            return property.Type is IPrimitiveType or IEnumeration;
         }
 
         /// <summary>
