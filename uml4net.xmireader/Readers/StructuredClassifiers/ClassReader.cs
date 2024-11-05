@@ -1,4 +1,4 @@
-﻿// -------------------------------------------------------------------------------------------------
+// -------------------------------------------------------------------------------------------------
 //  <copyright file="ClassReader.cs" company="Starion Group S.A.">
 // 
 //    Copyright 2019-2024 Starion Group S.A.
@@ -104,6 +104,12 @@ namespace uml4net.xmi.Readers.StructuredClassifiers
 
                 @class.Name = xmlReader.GetAttribute("name");
 
+                var isAbstract = xmlReader.GetAttribute("isAbstract");
+                if (!string.IsNullOrEmpty(isAbstract))
+                {
+                    @class.IsAbstract = bool.Parse(isAbstract);
+                }
+                
                 var visibility = xmlReader.GetAttribute("visibility");
                 if (!string.IsNullOrEmpty(visibility))
                 {

@@ -1,4 +1,4 @@
-﻿// -------------------------------------------------------------------------------------------------
+// -------------------------------------------------------------------------------------------------
 // <copyright file="XmiReader.cs" company="Starion Group S.A.">
 //
 //   Copyright 2019-2024 Starion Group S.A.
@@ -150,7 +150,9 @@ namespace uml4net.xmi.Readers
             var sw = Stopwatch.StartNew();
             var packages = new List<IPackage>();
 
-            using (var xmlReader = XmlReader.Create(stream, settings))
+            using (var reader = new StreamReader(stream, detectEncodingFromByteOrderMarks: true))
+
+            using (var xmlReader = XmlReader.Create(reader, settings))
             {
                 this.logger.LogTrace("starting to read xml");
 

@@ -180,15 +180,45 @@ namespace uml4net.xmi.Readers.Classification
                             case "lowerValue":
                                 using (var lowerValueXmlReader = xmlReader.ReadSubtree())
                                 {
-                                    var literalInteger = this.LiteralIntegerReader.Read(lowerValueXmlReader);
-                                    property.LowerValue = literalInteger;
+                                    if (lowerValueXmlReader.MoveToContent() == XmlNodeType.Element)
+                                    {
+                                        var reference = lowerValueXmlReader.GetAttribute("xmi:type");
+                                        if (!string.IsNullOrEmpty(reference))
+                                        {
+                                            property.LowerValue = reference switch
+                                            {
+                                                "uml:LiteralInteger" => this.LiteralIntegerReader.Read(lowerValueXmlReader),
+                                                "uml:LiteralUnlimitedNatural" => this.LiteralUnlimitedNaturalReader.Read(lowerValueXmlReader),
+                                                _ => throw new InvalidOperationException($"lowerValueXmlReader: type {reference} is unsupported.")
+                                            };
+                                        }
+                                        else
+                                        {
+                                            throw new InvalidOperationException("lowerValue xmi:type reference could not be read");
+                                        }
+                                    }
                                 }
                                 break;
                             case "upperValue":
                                 using (var upperValueXmlReader = xmlReader.ReadSubtree())
                                 {
-                                    var literalUnlimitedNatural = this.LiteralUnlimitedNaturalReader.Read(upperValueXmlReader);
-                                    property.UpperValue = literalUnlimitedNatural;
+                                    if (upperValueXmlReader.MoveToContent() == XmlNodeType.Element)
+                                    {
+                                        var reference = upperValueXmlReader.GetAttribute("xmi:type");
+                                        if (!string.IsNullOrEmpty(reference))
+                                        {
+                                            property.UpperValue = reference switch
+                                            {
+                                                "uml:LiteralInteger" => this.LiteralIntegerReader.Read(upperValueXmlReader),
+                                                "uml:LiteralUnlimitedNatural" => this.LiteralUnlimitedNaturalReader.Read(upperValueXmlReader),
+                                                _ => throw new InvalidOperationException($"upperValueXmlReader: type {reference} is unsupported.")
+                                            };
+                                        }
+                                        else
+                                        {
+                                            throw new InvalidOperationException("upperValue xmi:type reference could not be read");
+                                        }
+                                    }
                                 }
                                 break;
                             case "nameExpression":
@@ -230,6 +260,10 @@ namespace uml4net.xmi.Readers.Classification
                                         if (!string.IsNullOrEmpty(reference))
                                         {
                                             property.SingleValueReferencePropertyIdentifiers.Add("type", reference);
+                                        }
+                                        else if (typeXmlReader.GetAttribute("xmi:idref") is { Length: > 0 } idRef)
+                                        {
+                                            property.SingleValueReferencePropertyIdentifiers.Add("type", idRef);
                                         }
                                         else
                                         {

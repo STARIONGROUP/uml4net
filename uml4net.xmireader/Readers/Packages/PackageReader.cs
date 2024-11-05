@@ -1,4 +1,4 @@
-﻿// -------------------------------------------------------------------------------------------------
+// -------------------------------------------------------------------------------------------------
 // <copyright file="PackageReader.cs" company="Starion Group S.A.">
 //
 //   Copyright 2019-2024 Starion Group S.A.
@@ -214,7 +214,19 @@ namespace uml4net.xmi.Readers.Packages
                         package.PackagedElement.Add(primitive);
                     }
                     break;
-                default:
+                case "uml:Interface":
+                    using (var interfaceXmlReader = xmlReader.ReadSubtree())
+                    {
+                        this.Logger.LogInformation("PackageReader.Interface not yet implemented");
+                    }
+                    break;
+                case "uml:Realization":
+                    using (var realizationXmlReader = xmlReader.ReadSubtree())
+                    {
+                        this.Logger.LogInformation("PackageReader.Realization not yet implemented");
+                    }
+                    break;
+                default: 
                     throw new NotImplementedException(xmiType);
             }
         }

@@ -22,7 +22,7 @@ namespace uml4net.POCO.StructuredClassifiers
 {
     using System;
     using System.Collections.Generic;
-
+    using System.Linq;
     using uml4net.Decorators;
     using uml4net.POCO.Classification;
     using uml4net.POCO.CommonStructure;
@@ -35,7 +35,7 @@ namespace uml4net.POCO.StructuredClassifiers
     /// A Class classifies a set of objects and specifies the features that characterize the structure and behavior
     /// of those objects.  A Class may have an internal structure and Ports
     /// </summary>
-    public class Class : XmiElement, IClass
+    public partial class Class : XmiElement, IClass
     {
         /// <summary>
         /// The Comments owned by this Element.
@@ -409,6 +409,6 @@ namespace uml4net.POCO.StructuredClassifiers
         [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isDerived: true)]
         [RedefinedProperty("Class-superClass")]
         [Implements(implementation: "IClass.SuperClass")]
-        public List<IClass> SuperClass => throw new NotImplementedException();
+        public List<IClass> SuperClass => this.QuerySuperClass();
     }
 }

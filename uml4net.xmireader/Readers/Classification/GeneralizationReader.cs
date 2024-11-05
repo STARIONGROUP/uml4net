@@ -85,7 +85,7 @@ namespace uml4net.xmi.Readers.Classification
                 var general = xmlReader.GetAttribute("general");
                 if (!string.IsNullOrEmpty(general))
                 {
-                    generalization.ReferencePropertyValueIdentifies.Add("general", general);
+                    generalization.SingleValueReferencePropertyIdentifiers.Add("general", general);
                 }
             }
 
