@@ -25,6 +25,7 @@ namespace uml4net.POCO.Packages
     using uml4net.Decorators;
     using uml4net.POCO.Classification;
     using uml4net.POCO.CommonStructure;
+    using Utils;
 
     /// <summary>
     /// A package can have one or more profile applications to indicate which profiles have been applied.
@@ -84,7 +85,7 @@ namespace uml4net.POCO.Packages
         /// </summary>
         [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue)]
         [SubsettedProperty("Namespace-ownedMember")]
-        public List<IPackageableElement> PackagedElement { get; set; }
+        public IContainerList<IPackageableElement> PackagedElement { get; set; }
 
         /// <summary>
         /// References the ProfileApplications that indicate which profiles have been applied to the Package.
@@ -92,7 +93,7 @@ namespace uml4net.POCO.Packages
         [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue)]
         [SubsettedProperty("A_source_directedRelationship-directedRelationship")]
         [SubsettedProperty("Element-ownedElement")]
-        public List<IProfileApplication> ProfileApplication { get; set; }
+        public IContainerList<IProfileApplication> ProfileApplication { get; set; }
     }
 }
 

@@ -1,4 +1,4 @@
-﻿// -------------------------------------------------------------------------------------------------
+// -------------------------------------------------------------------------------------------------
 // <copyright file="AcceptEventAction.cs" company="Starion Group S.A.">
 //
 //   Copyright 2019-2024 Starion Group S.A.
@@ -20,6 +20,10 @@
 
 namespace uml4net.POCO.Actions
 {
+    using Extensions;
+
+    using Utils; 
+ 
     using System;
     using System.Collections.Generic;
 
@@ -27,6 +31,7 @@ namespace uml4net.POCO.Actions
     using uml4net.POCO.Classification;
     using uml4net.POCO.CommonStructure;
     using uml4net.POCO.Values;
+    
 
     /// <summary>
     /// An AcceptEventAction is an Action that waits for the occurrence of one or more specific Events.
@@ -38,7 +43,16 @@ namespace uml4net.POCO.Actions
         /// </summary>
         [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue)]
         [Implements(implementation: "IElement.OwnedComment")]
-        public List<IComment> OwnedComment { get; set; } = new();
+        public IContainerList<IComment> OwnedComment
+        {
+            get => this.ownedComment ??= new ContainerList<IComment>(this);
+            set => this.ownedComment = value;
+        }
+
+        /// <summary>
+        /// Backing field for <see cref="OwnedComment"/>
+        /// </summary>
+        private IContainerList<IComment> ownedComment;
 
         /// <summary>
         /// The Elements owned by this Element
@@ -52,7 +66,12 @@ namespace uml4net.POCO.Actions
         /// </summary>
         [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isReadOnly: true, isDerived: true, isDerivedUnion: true)]
         [Implements(implementation: "IElement.Owner")]
-        public IElement Owner => throw new NotImplementedException();
+        public IElement Owner => this.QueryOwner();
+
+        /// <summary>
+        /// Gets or sets the container of this <see cref="IElement"/>
+        /// </summary>
+        public IElement Container { get; set; }
 
         /// <summary>
         /// Indicates the Dependencies that reference this NamedElement as a client."

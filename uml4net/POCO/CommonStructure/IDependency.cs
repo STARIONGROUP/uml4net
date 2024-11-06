@@ -23,6 +23,8 @@ namespace uml4net.POCO.CommonStructure
     using System.Collections.Generic;
     using uml4net.Decorators;
     using uml4net.POCO.Classification;
+    using Utils;
+
 
     /// <summary>
     /// A Dependency is a Relationship that signifies that a single model Element or a set of model
@@ -39,7 +41,7 @@ namespace uml4net.POCO.CommonStructure
         /// </summary>
         [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: int.MaxValue)]
         [SubsettedProperty(propertyName: "DirectedRelationship.Source")]
-        public List<INamedElement> Client { get; set; }
+        public IContainerList<INamedElement> Client { get; set; }
 
         /// <summary>
         /// The Element(s) on which the client Element(s) depend in some respect. The modeler may stipulate
@@ -47,6 +49,6 @@ namespace uml4net.POCO.CommonStructure
         /// </summary>
         [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: int.MaxValue)]
         [SubsettedProperty(propertyName: "DirectedRelationship.Target")]
-        public List<INamedElement> Supplier { get; set; }
+        public IContainerList<INamedElement> Supplier { get; set; }
     }
 }

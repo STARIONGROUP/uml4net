@@ -25,6 +25,8 @@ namespace uml4net.POCO.CommonStructure
 
     using uml4net.Decorators;
     using uml4net.POCO.Classification;
+    using Utils;
+
 
     /// <summary>
     /// An Element is a constituent of a model. As such, it has the capability of owning other Elements.
@@ -35,7 +37,7 @@ namespace uml4net.POCO.CommonStructure
         /// The Comments owned by this Element.
         /// </summary>
         [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue)]
-        public List<IComment> OwnedComment { get; set; }
+        public IContainerList<IComment> OwnedComment { get; set; }
 
         /// <summary>
         /// The Elements owned by this Element
@@ -46,7 +48,12 @@ namespace uml4net.POCO.CommonStructure
         /// <summary>
         /// The Element that owns this Element.
         /// </summary>
-        [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isReadOnly:true, isDerived:true, isDerivedUnion:true)]
+        [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isReadOnly: true, isDerived: true, isDerivedUnion: true)]
         public IElement Owner { get; }
+
+        /// <summary>
+        /// Gets or sets the container of this <see cref="IElement"/>
+        /// </summary>
+        public IElement Container { get; set; }
     }
 }

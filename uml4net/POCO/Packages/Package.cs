@@ -20,6 +20,10 @@
 
 namespace uml4net.POCO.Packages
 {
+    using Extensions;
+
+    using Utils; 
+ 
     using System;
     using System.Collections.Generic;
     
@@ -42,21 +46,35 @@ namespace uml4net.POCO.Packages
         /// </summary>
         [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue)]
         [Implements(implementation: "IElement.OwnedComment")]
-        public List<IComment> OwnedComment { get; set; } = new List<IComment>();
+        public IContainerList<IComment> OwnedComment
+        {
+            get => this.ownedComment ??= new ContainerList<IComment>(this);
+            set => this.ownedComment = value;
+        }
+
+        /// <summary>
+        /// Backing field for <see cref="OwnedComment"/>
+        /// </summary>
+        private IContainerList<IComment> ownedComment;
 
         /// <summary>
         /// The Elements owned by this Element
         /// </summary>
         [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isReadOnly: true, isDerived: true, isDerivedUnion: true)]
         [Implements(implementation: "IElement.OwnedElement")]
-        public List<IElement> OwnedElement => throw new NotImplementedException();
+        public List<IElement> OwnedElement { get; set; }
 
         /// <summary>
         /// The Element that owns this Element.
         /// </summary>
         [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isReadOnly: true, isDerived: true, isDerivedUnion: true)]
         [Implements(implementation: "IElement.Owner")]
-        public IElement Owner => throw new NotImplementedException();
+        public IElement Owner => this.QueryOwner();
+
+        /// <summary>
+        /// Gets or sets the container of this <see cref="IElement"/>
+        /// </summary>
+        public IElement Container { get; set; }
 
         /// <summary>
         /// Indicates the Dependencies that reference this NamedElement as a client."
@@ -125,7 +143,16 @@ namespace uml4net.POCO.Packages
         [SubsettedProperty(propertyName: "A_source_directedRelationship.directedRelationship")]
         [SubsettedProperty(propertyName: "Element.OwnedElement")]
         [Implements("INamespace.ElementImport")]
-        public List<IElementImport> ElementImport { get; set; } = new List<IElementImport>();
+        public IContainerList<IElementImport> ElementImport
+        {
+            get => this.elementImport ??= new ContainerList<IElementImport>(this);
+            set => this.elementImport = value;
+        }
+
+        /// <summary>
+        /// Backing field for <see cref="ElementImport"/>
+        /// </summary>
+        private IContainerList<IElementImport> elementImport;
 
         /// <summary>
         /// References the PackageableElements that are members of this Namespace as a result of either PackageImports or ElementImports.
@@ -158,7 +185,16 @@ namespace uml4net.POCO.Packages
         [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue)]
         [SubsettedProperty(propertyName: "Element.OwnedElement")]
         [Implements("INamespace.PackageImport")]
-        public List<IPackageImport> PackageImport { get; set; } = new List<IPackageImport>();
+        public IContainerList<IPackageImport> PackageImport
+        {
+            get => this.packageImport ??= new ContainerList<IPackageImport>(this);
+            set => this.packageImport = value;
+        }
+
+        /// <summary>
+        /// Backing field for <see cref="PackageImport"/>
+        /// </summary>
+        private IContainerList<IPackageImport> packageImport;
 
         /// <summary>
         /// The formal TemplateParameter that owns this ParameterableElement
@@ -219,7 +255,7 @@ namespace uml4net.POCO.Packages
         [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isDerived: true)]
         [SubsettedProperty("Package-packagedElement")]
         [Implements("NestedPackage.URI")]
-        public List<IPackage> NestedPackage => throw new NotImplementedException();
+        public List<IPackage> NestedPackage => this.QueryNestedPackage();
 
         /// <summary>
         /// References the Package that owns this Package.
@@ -260,7 +296,16 @@ namespace uml4net.POCO.Packages
         [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue)]
         [SubsettedProperty("Namespace-ownedMember")]
         [Implements("NestedPackage.PackagedElement")]
-        public List<IPackageableElement> PackagedElement { get; set; } = new List<IPackageableElement>();
+        public IContainerList<IPackageableElement> PackagedElement
+        {
+            get => this.packagedElement ??= new ContainerList<IPackageableElement>(this);
+            set => this.packagedElement = value;
+        }
+
+        /// <summary>
+        /// Backing field for <see cref="PackagedElement"/>
+        /// </summary>
+        private IContainerList<IPackageableElement> packagedElement;
 
         /// <summary>
         /// References the ProfileApplications that indicate which profiles have been applied to the Package.
@@ -269,6 +314,15 @@ namespace uml4net.POCO.Packages
         [SubsettedProperty("A_source_directedRelationship-directedRelationship")]
         [SubsettedProperty("Element-ownedElement")]
         [Implements("NestedPackage.ProfileApplication")]
-        public List<IProfileApplication> ProfileApplication { get; set; } = new List<IProfileApplication>();
+        public IContainerList<IProfileApplication> ProfileApplication
+        {
+            get => this.profileApplication ??= new ContainerList<IProfileApplication>(this);
+            set => this.profileApplication = value;
+        }
+
+        /// <summary>
+        /// Backing field for <see cref="ProfileApplication"/>
+        /// </summary>
+        private IContainerList<IProfileApplication> profileApplication;
     }
 }

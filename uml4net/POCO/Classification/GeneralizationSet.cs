@@ -20,6 +20,10 @@
 
 namespace uml4net.POCO.Classification
 {
+    using Extensions;
+
+    using Utils; 
+ 
     using System;
     using System.Collections.Generic;
 
@@ -37,7 +41,16 @@ namespace uml4net.POCO.Classification
         /// </summary>
         [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue)]
         [Implements(implementation: "IElement.OwnedComment")]
-        public List<IComment> OwnedComment { get; set; } = new List<IComment>();
+        public IContainerList<IComment> OwnedComment
+        {
+            get => this.ownedComment ??= new ContainerList<IComment>(this);
+            set => this.ownedComment = value;
+        }
+
+        /// <summary>
+        /// Backing field for <see cref="OwnedComment"/>
+        /// </summary>
+        private IContainerList<IComment> ownedComment;
 
         /// <summary>
         /// The Elements owned by this Element
@@ -51,7 +64,12 @@ namespace uml4net.POCO.Classification
         /// </summary>
         [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isReadOnly: true, isDerived: true, isDerivedUnion: true)]
         [Implements(implementation: "IElement.Owner")]
-        public IElement Owner => throw new NotImplementedException();
+        public IElement Owner => this.QueryOwner();
+
+        /// <summary>
+        /// Gets or sets the container of this <see cref="IElement"/>
+        /// </summary>
+        public IElement Container { get; set; }
 
         /// <summary>
         /// Indicates the Dependencies that reference this NamedElement as a client."
@@ -122,7 +140,16 @@ namespace uml4net.POCO.Classification
         /// </summary>
         [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue)]
         [Implements("IGeneralizationSet.Generalization")]
-        public List<IGeneralization> Generalization { get; set; }
+        public IContainerList<IGeneralization> Generalization
+        {
+            get => this.generalization ??= new ContainerList<IGeneralization>(this);
+            set => this.generalization = value;
+        }
+
+        /// <summary>
+        /// Backing field for <see cref="Generalization"/>
+        /// </summary>
+        private IContainerList<IGeneralization> generalization;
 
         /// <summary>
         /// Indicates (via the associated Generalizations) whether or not the set of specific Classifiers 

@@ -20,6 +20,10 @@
 
 namespace uml4net.POCO.CommonStructure
 {
+    using Extensions;
+
+    using Utils; 
+ 
     using System;
     using System.Collections.Generic;
 
@@ -51,7 +55,16 @@ namespace uml4net.POCO.CommonStructure
         /// </summary>
         [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue)]
         [Implements(implementation: "IElement.OwnedComment")]
-        public List<IComment> OwnedComment { get; set; } = new List<IComment>();
+        public IContainerList<IComment> OwnedComment
+        {
+            get => this.ownedComment ??= new ContainerList<IComment>(this);
+            set => this.ownedComment = value;
+        }
+
+        /// <summary>
+        /// Backing field for <see cref="OwnedComment"/>
+        /// </summary>
+        private IContainerList<IComment> ownedComment;
 
         /// <summary>
         /// The Elements owned by this Element
@@ -65,7 +78,12 @@ namespace uml4net.POCO.CommonStructure
         /// </summary>
         [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isReadOnly: true, isDerived: true, isDerivedUnion: true)]
         [Implements(implementation: "IElement.Owner")]
-        public IElement Owner => throw new NotImplementedException();
+        public IElement Owner => this.QueryOwner();
+
+        /// <summary>
+        /// Gets or sets the container of this <see cref="IElement"/>
+        /// </summary>
+        public IElement Container { get; set; }
 
         /// <summary>
         /// Specifies the source Element(s) of the DirectedRelationship.
@@ -91,7 +109,16 @@ namespace uml4net.POCO.CommonStructure
         [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: int.MaxValue)]
         [Implements(implementation: "IDependency.Client")]
         [SubsettedProperty(propertyName: "DirectedRelationship.Source")]
-        public List<INamedElement> Client { get; set; } = new List<INamedElement>();
+        public IContainerList<INamedElement> Client
+        {
+            get => this.client ??= new ContainerList<INamedElement>(this);
+            set => this.client= value;
+        }
+
+        /// <summary>
+        /// Backing field for <see cref="Client"/>
+        /// </summary>
+        private IContainerList<INamedElement> client;
 
         /// <summary>
         /// The Element(s) on which the client Element(s) depend in some respect. The modeler may stipulate
@@ -100,7 +127,16 @@ namespace uml4net.POCO.CommonStructure
         [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: int.MaxValue)]
         [Implements(implementation: "IDependency.Supplier")]
         [SubsettedProperty(propertyName: "DirectedRelationship.Target")]
-        public List<INamedElement> Supplier { get; set; } = new List<INamedElement>();
+        public IContainerList<INamedElement> Supplier
+        {
+            get => this.supplier ??= new ContainerList<INamedElement>(this);
+            set => this.supplier = value;
+        }
+
+        /// <summary>
+        /// Backing field for <see cref="Supplier"/>
+        /// </summary>
+        private IContainerList<INamedElement> supplier;
 
         /// <summary>
         /// Indicates the Dependencies that reference this NamedElement as a client."

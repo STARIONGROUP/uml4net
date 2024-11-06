@@ -20,6 +20,10 @@
 
 namespace uml4net.POCO.Actions
 {
+    using Extensions;
+
+    using Utils; 
+ 
     using System;
     using System.Collections.Generic;
 
@@ -27,6 +31,7 @@ namespace uml4net.POCO.Actions
     using uml4net.POCO.Classification;
     using uml4net.POCO.CommonStructure;
     using uml4net.POCO.Values;
+    
 
     /// <summary>
     /// An ExpansionRegion is a StructuredActivityNode that executes its content multiple times 
@@ -39,7 +44,16 @@ namespace uml4net.POCO.Actions
         /// </summary>
         [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue)]
         [Implements(implementation: "IElement.OwnedComment")]
-        public List<IComment> OwnedComment { get; set; }
+        public IContainerList<IComment> OwnedComment
+        {
+            get => this.ownedComment ??= new ContainerList<IComment>(this);
+            set => this.ownedComment = value;
+        }
+
+        /// <summary>
+        /// Backing field for <see cref="OwnedComment"/>
+        /// </summary>
+        private IContainerList<IComment> ownedComment;
 
         /// <summary>
         /// The Elements owned by this Element
@@ -53,7 +67,12 @@ namespace uml4net.POCO.Actions
         /// </summary>
         [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isReadOnly: true, isDerived: true, isDerivedUnion: true)]
         [Implements(implementation: "IElement.Owner")]
-        public IElement Owner => throw new NotImplementedException();
+        public IElement Owner => this.QueryOwner();
+
+        /// <summary>
+        /// Gets or sets the container of this <see cref="IElement"/>
+        /// </summary>
+        public IElement Container { get; set; }
 
         /// <summary>
         /// Indicates the Dependencies that reference this NamedElement as a client."
@@ -109,8 +128,16 @@ namespace uml4net.POCO.Actions
         [SubsettedProperty(propertyName: "A_source_directedRelationship.directedRelationship")]
         [SubsettedProperty(propertyName: "Element.OwnedElement")]
         [Implements(implementation: "INamespace.ElementImport")]
-        public List<IElementImport> ElementImport { get; set; } = new List<IElementImport>();
+        public IContainerList<IElementImport> ElementImport
+        {
+            get => this.elementImport ??= new ContainerList<IElementImport>(this);
+            set => this.elementImport = value;
+        }
 
+        /// <summary>
+        /// Backing field for <see cref="ElementImport"/>
+        /// </summary>
+        private IContainerList<IElementImport> elementImport;
         /// <summary>
         /// References the PackageableElements that are members of this Namespace as a result of either PackageImports or ElementImports.
         /// </summary>
@@ -142,7 +169,7 @@ namespace uml4net.POCO.Actions
         [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue)]
         [SubsettedProperty(propertyName: "Element.OwnedElement")]
         [Implements(implementation: "INamespace.PackageImport")]
-        public List<IPackageImport> PackageImport { get; set; } = new List<IPackageImport>();
+        public IContainerList<IPackageImport> PackageImport { get; set; }
 
         /// <summary>
         /// Indicates whether it is possible to further redefine a RedefinableElement. If the value is
@@ -165,5 +192,15 @@ namespace uml4net.POCO.Actions
         [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isReadOnly: true, isDerived: true, isDerivedUnion: true)]
         [Implements(implementation: "IRedefinableElement.RedefinitionContext")]
         public IClassifier RedefinitionContext => throw new NotImplementedException();
+        
+        /// <summary>
+        /// Initializes a new <see cref="ExpansionRegion"/>
+        /// </summary>
+        public ExpansionRegion()
+        {
+            this.OwnedComment = new ContainerList<IComment>(this);
+            this.PackageImport = new ContainerList<IPackageImport>(this);
+            this.ElementImport = new ContainerList<IElementImport>(this);
+        }
     }
 }

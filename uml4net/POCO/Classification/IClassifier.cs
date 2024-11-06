@@ -26,6 +26,7 @@ namespace uml4net.POCO.Classification
     using uml4net.POCO.CommonStructure;
     using uml4net.POCO.StructuredClassifiers;
     using uml4net.POCO.UseCases;
+    using Utils;
 
     /// <summary>
     /// A Classifier represents a classification of instances according to their Features.
@@ -69,7 +70,7 @@ namespace uml4net.POCO.Classification
         [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue)]
         [SubsettedProperty(propertyName: "A_source_directedRelationship.DirectedRelationship")]
         [SubsettedProperty(propertyName: "Element-ownedElement")]
-        public List<IGeneralization> Generalization { get; set; }
+        public IContainerList<IGeneralization> Generalization { get; set; }
 
         /// <summary>
         /// All elements inherited by this Classifier from its general Classifiers.

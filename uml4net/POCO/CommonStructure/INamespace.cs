@@ -23,6 +23,8 @@ namespace uml4net.POCO.CommonStructure
     using System.Collections.Generic;
     using uml4net.Decorators;
     using uml4net.POCO.Classification;
+    using Utils;
+
 
     /// <summary>
     /// A Namespace is an Element in a model that owns and/or imports a set of NamedElements that can be identified by name.
@@ -35,8 +37,7 @@ namespace uml4net.POCO.CommonStructure
         [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue)]
         [SubsettedProperty(propertyName: "A_source_directedRelationship.directedRelationship")]
         [SubsettedProperty(propertyName: "Element.OwnedElement")]
-        public List<IElementImport> ElementImport { get; set; }
-
+        public IContainerList<IElementImport> ElementImport { get; set; }
         /// <summary>
         /// References the PackageableElements that are members of this Namespace as a result of either PackageImports or ElementImports.
         /// </summary>
@@ -64,6 +65,6 @@ namespace uml4net.POCO.CommonStructure
         /// </summary>
         [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue)]
         [SubsettedProperty(propertyName: "Element.OwnedElement")]
-        public List<IPackageImport> PackageImport { get; set; }
+        public IContainerList<IPackageImport> PackageImport { get; set; }
     }
 }

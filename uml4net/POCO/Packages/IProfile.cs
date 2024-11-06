@@ -25,6 +25,7 @@ namespace uml4net.POCO.Packages
     using uml4net.Decorators;
     using uml4net.POCO.Classification;
     using uml4net.POCO.CommonStructure;
+    using Utils;
 
     /// <summary>
     /// A profile defines limited extensions to a reference metamodel with the purpose of adapting
@@ -37,13 +38,13 @@ namespace uml4net.POCO.Packages
         /// </summary>
         [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue)]
         [SubsettedProperty(propertyName: "Namespace-elementImport")]
-        public List<IElementImport> MetaclassReference { get; set; }
+        public IContainerList<IElementImport> MetaclassReference { get; set; }
 
         /// <summary>
         /// References a package containing (directly or indirectly) metaclasses that may be extended.
         /// </summary>
         [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue)]
         [SubsettedProperty(propertyName: "Namespace-packageImport")]
-        public List<IPackageImport> MetamodelReference { get; set; }
+        public IContainerList<IPackageImport> MetamodelReference { get; set; }
     }
 }

@@ -24,6 +24,7 @@ namespace uml4net.POCO.Classification
 
     using uml4net.Decorators;
     using uml4net.POCO.CommonStructure;
+    using Utils;
 
     /// <summary>
     /// A GeneralizationSet is a PackageableElement whose instances represent sets of Generalization relationships.
@@ -34,7 +35,7 @@ namespace uml4net.POCO.Classification
         /// Designates the instances of Generalization that are members of this GeneralizationSet.
         /// </summary>
         [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue)]
-        public List<IGeneralization> Generalization { get; set; }
+        public IContainerList<IGeneralization> Generalization { get; set; }
 
         /// <summary>
         /// Indicates (via the associated Generalizations) whether or not the set of specific Classifiers 

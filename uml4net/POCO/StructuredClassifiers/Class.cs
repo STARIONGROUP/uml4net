@@ -20,6 +20,10 @@
 
 namespace uml4net.POCO.StructuredClassifiers
 {
+    using Extensions;
+
+    using Utils; 
+ 
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -42,21 +46,35 @@ namespace uml4net.POCO.StructuredClassifiers
         /// </summary>
         [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue)]
         [Implements(implementation: "IElement.OwnedComment")]
-        public List<IComment> OwnedComment { get; set; } = new List<IComment>();
+        public IContainerList<IComment> OwnedComment
+        {
+            get => this.ownedComment ??= new ContainerList<IComment>(this);
+            set => this.ownedComment = value;
+        }
+
+        /// <summary>
+        /// Backing field for <see cref="OwnedComment"/>
+        /// </summary>
+        private IContainerList<IComment> ownedComment;
         
         /// <summary>
         /// The Elements owned by this Element
         /// </summary>
         [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isReadOnly: true, isDerived: true, isDerivedUnion: true)]
         [Implements(implementation: "IElement.OwnedElement")]
-        public List<IElement> OwnedElement => throw new NotImplementedException();
+        public List<IElement> OwnedElement { get; set; } = new List<IElement>();
 
         /// <summary>
         /// The Element that owns this Element.
         /// </summary>
         [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isReadOnly: true, isDerived: true, isDerivedUnion: true)]
         [Implements(implementation: "IElement.Owner")]
-        public IElement Owner => throw new NotImplementedException();
+        public IElement Owner => this.QueryOwner();
+
+        /// <summary>
+        /// Gets or sets the container of this <see cref="IElement"/>
+        /// </summary>
+        public IElement Container { get; set; }
 
         /// <summary>
         /// Indicates the Dependencies that reference this NamedElement as a client."
@@ -112,8 +130,16 @@ namespace uml4net.POCO.StructuredClassifiers
         [SubsettedProperty(propertyName: "A_source_directedRelationship.directedRelationship")]
         [SubsettedProperty(propertyName: "Element.OwnedElement")]
         [Implements(implementation: "INamespace.ElementImport")]
-        public List<IElementImport> ElementImport { get; set; } = new ();
-        
+        public IContainerList<IElementImport> ElementImport
+        {
+            get => this.elementImport ??= new ContainerList<IElementImport>(this);
+            set => this.elementImport = value;
+        }
+
+        /// <summary>
+        /// Backing field for <see cref="ElementImport"/>
+        /// </summary>
+        private IContainerList<IElementImport> elementImport;        
         /// <summary>
         /// References the PackageableElements that are members of this Namespace as a result of either PackageImports or ElementImports.
         /// </summary>
@@ -145,8 +171,16 @@ namespace uml4net.POCO.StructuredClassifiers
         [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue)]
         [SubsettedProperty(propertyName: "Element.OwnedElement")]
         [Implements(implementation: "INamespace.PackageImport")]
-        public List<IPackageImport> PackageImport { get; set; } = new ();
+        public IContainerList<IPackageImport> PackageImport
+        {
+            get => this.packageImport ??= new ContainerList<IPackageImport>(this);
+            set => this.packageImport = value;
+        }
 
+        /// <summary>
+        /// Backing field for <see cref="PackageImport"/>
+        /// </summary>
+        private IContainerList<IPackageImport> packageImport;
         /// <summary>
         /// The formal TemplateParameter that owns this ParameterableElement
         /// </summary>
@@ -234,7 +268,16 @@ namespace uml4net.POCO.StructuredClassifiers
         [SubsettedProperty(propertyName: "A_source_directedRelationship.DirectedRelationship")]
         [SubsettedProperty(propertyName: "Element-ownedElement")]
         [Implements("IClassifier.Generalization")]
-        public List<IGeneralization> Generalization { get; set; } = new();
+        public IContainerList<IGeneralization> Generalization
+        {
+            get => this.generalization ??= new ContainerList<IGeneralization>(this);
+            set => this.generalization = value;
+        }
+
+        /// <summary>
+        /// Backing field for <see cref="Generalization"/>
+        /// </summary>
+        private IContainerList<IGeneralization> generalization;
 
         /// <summary>
         /// All elements inherited by this Classifier from its general Classifiers.
