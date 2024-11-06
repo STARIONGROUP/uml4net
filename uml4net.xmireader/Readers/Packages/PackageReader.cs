@@ -1,4 +1,4 @@
-// -------------------------------------------------------------------------------------------------
+﻿// -------------------------------------------------------------------------------------------------
 // <copyright file="PackageReader.cs" company="Starion Group S.A.">
 //
 //   Copyright 2019-2024 Starion Group S.A.
@@ -63,6 +63,16 @@ namespace uml4net.xmi.Readers.Packages
         /// Gets the INJECTED <see cref="IXmiElementReader{T}"/> of <see cref="IComment"/>
         /// </summary>
         public IXmiElementReader<IComment> CommentReader { get; set; }
+
+        /// <summary>
+        /// Gets the INJECTED <see cref="IXmiElementReader{T}"/> of <see cref="IInterface"/>
+        /// </summary>
+        public IXmiElementReader<IInterface> InterfaceReader { get; set; }
+
+        /// <summary>
+        /// Gets the INJECTED <see cref="IXmiElementReader{T}"/> of <see cref="IRealization"/>
+        /// </summary>
+        public IXmiElementReader<IRealization> RealizationReader { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PackageReader"/> class.
@@ -166,7 +176,7 @@ namespace uml4net.xmi.Readers.Packages
         }
 
         /// <summary>
-        /// Read the packaged elements
+        /// Reads the packaged elements
         /// </summary>
         /// <param name="package">
         /// The <see cref="IPackage"/> that the nested packaged elements are added to
@@ -217,13 +227,15 @@ namespace uml4net.xmi.Readers.Packages
                 case "uml:Interface":
                     using (var interfaceXmlReader = xmlReader.ReadSubtree())
                     {
-                        this.Logger.LogInformation("PackageReader.Interface not yet implemented");
+                        var @interface = this.InterfaceReader.Read(interfaceXmlReader);
+                        package.PackagedElement.Add(@interface);
                     }
                     break;
                 case "uml:Realization":
                     using (var realizationXmlReader = xmlReader.ReadSubtree())
                     {
-                        this.Logger.LogInformation("PackageReader.Realization not yet implemented");
+                        var realization = this.RealizationReader.Read(realizationXmlReader);
+                        package.PackagedElement.Add(realization);
                     }
                     break;
                 default: 
