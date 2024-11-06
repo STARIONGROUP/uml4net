@@ -28,6 +28,10 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <None Include="..\README.md" Pack="true" PackagePath="\" />
+    </ItemGroup>
+
+    <ItemGroup>
         <Folder Include="Templates\" />
         <Folder Include="Resources\" />
         <Folder Include="Payload\" />
