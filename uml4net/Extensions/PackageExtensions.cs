@@ -1,4 +1,4 @@
-﻿// -------------------------------------------------------------------------------------------------
+// -------------------------------------------------------------------------------------------------
 //  <copyright file="ElementExtensions.cs" company="Starion Group S.A.">
 // 
 //    Copyright 2019-2024 Starion Group S.A.
@@ -31,11 +31,11 @@ namespace uml4net.Extensions
     public static class PackageExtensions
     {
         /// <summary>
-        /// Retrieves a read-only collection of nested <see cref="IPackage"/> elements contained within the specified <paramref name="package"/>.
+        /// Retrieves a collection of nested <see cref="IPackage"/> elements contained within the specified <paramref name="package"/>.
         /// </summary>
         /// <param name="package">The <see cref="IPackage"/> whose nested packages are to be retrieved.</param>
         /// <returns>
-        /// A <see cref="ReadOnlyCollection{T}"/> of <see cref="IPackage"/> elements representing the nested packages 
+        /// A <see cref="List{T}"/> of <see cref="IPackage"/> elements representing the nested packages 
         /// within the specified <paramref name="package"/>.
         /// </returns>
         public static List<IPackage> QueryNestedPackage(this IPackage package)

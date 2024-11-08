@@ -138,6 +138,7 @@ namespace uml4net.POCO.Actions
         /// Backing field for <see cref="ElementImport"/>
         /// </summary>
         private IContainerList<IElementImport> elementImport;
+
         /// <summary>
         /// References the PackageableElements that are members of this Namespace as a result of either PackageImports or ElementImports.
         /// </summary>
@@ -169,7 +170,16 @@ namespace uml4net.POCO.Actions
         [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue)]
         [SubsettedProperty(propertyName: "Element.OwnedElement")]
         [Implements(implementation: "INamespace.PackageImport")]
-        public IContainerList<IPackageImport> PackageImport { get; set; }
+        public IContainerList<IPackageImport> PackageImport
+        {
+            get => this.packageImport ??= new ContainerList<IPackageImport>(this);
+            set => this.packageImport = value;
+        }
+
+        /// <summary>
+        /// Backing field for <see cref="PackageImport"/>
+        /// </summary>
+        private IContainerList<IPackageImport> packageImport;
 
         /// <summary>
         /// Indicates whether it is possible to further redefine a RedefinableElement. If the value is
@@ -192,15 +202,5 @@ namespace uml4net.POCO.Actions
         [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isReadOnly: true, isDerived: true, isDerivedUnion: true)]
         [Implements(implementation: "IRedefinableElement.RedefinitionContext")]
         public IClassifier RedefinitionContext => throw new NotImplementedException();
-        
-        /// <summary>
-        /// Initializes a new <see cref="ExpansionRegion"/>
-        /// </summary>
-        public ExpansionRegion()
-        {
-            this.OwnedComment = new ContainerList<IComment>(this);
-            this.PackageImport = new ContainerList<IPackageImport>(this);
-            this.ElementImport = new ContainerList<IElementImport>(this);
-        }
     }
 }

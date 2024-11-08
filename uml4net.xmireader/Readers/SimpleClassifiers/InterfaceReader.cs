@@ -103,8 +103,13 @@ namespace uml4net.xmi.Readers.SimpleClassifiers
                 this.Cache.Add(@interface.XmiId, @interface);
 
                 @interface.Name = xmlReader.GetAttribute("name");
-                @interface.IsAbstract = bool.TryParse(xmlReader.GetAttribute("isAbstract"), out var isAbstract) && isAbstract;
-                
+
+                var isAbstract = xmlReader.GetAttribute("isAbstract");
+                if (!string.IsNullOrEmpty(isAbstract))
+                {
+                    @interface.IsAbstract = bool.Parse(isAbstract);
+                }
+
                 var visibility = xmlReader.GetAttribute("visibility");
                 if (!string.IsNullOrEmpty(visibility))
                 {
