@@ -87,8 +87,7 @@ namespace uml4net.xmi.Tests
             var classElement = new Class
             {
                 XmiId = Guid.NewGuid().ToString(),
-                Name = "TestClass",
-                OwnedComment = []
+                Name = "TestClass"
             };
 
             var comment1 = new Comment

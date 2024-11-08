@@ -25,8 +25,10 @@ namespace uml4net.Extensions
     using System.Linq;
 
     using HtmlAgilityPack;
-
+    using POCO.Packages;
+    using POCO.SimpleClassifiers;
     using uml4net.POCO.CommonStructure;
+    using uml4net.POCO.StructuredClassifiers;
 
     /// <summary>
     /// Extension methods for <see cref="IElement"/> interface
@@ -96,6 +98,64 @@ namespace uml4net.Extensions
             return string.Empty;
         }
 
+        /// <summary>
+        /// Retrieves the root <see cref="IPackage"/> in the hierarchy of the specified <paramref name="element"/>.
+        /// </summary>
+        /// <param name="element">The <see cref="IElement"/> to start the search from.</param>
+        /// <returns>
+        /// The root <see cref="IPackage"/> if found, or <c>null</c> if the element is not associated with any <see cref="IPackage"/> hierarchy.
+        /// </returns>
+        public static IPackage QueryRootPackage(this IElement element)
+        {
+            if (element.Owner is not IPackage owner)
+            {
+                return element as IPackage;
+            }
+
+            var lastPackageFound = owner;
+
+            while (owner != null)
+            {
+                lastPackageFound = owner;
+                owner = owner.Owner as IPackage;
+            }
+
+            return lastPackageFound;
+        }
+
+        /// <summary>
+        /// Queries and returns a collection of interfaces that are realized by the specified element.
+        /// </summary>
+        /// <param name="element">
+        /// The element for which to query realized interfaces. This element should have an owner of type <see cref="IPackage"/>.
+        /// </param>
+        /// <returns>
+        /// An <see cref="IEnumerable{T}"/> of <see cref="IInterface"/> instances representing the interfaces
+        /// realized by the specified element. If the element has no owner or no realizations, an empty enumeration is returned.
+        /// </returns>
+        public static IEnumerable<IInterface> QueryInterfaces(this IElement element)
+        {
+            if (element.Owner is not IPackage owner)
+            {
+                yield break;
+            }
+
+            var allPackages = element.QueryRootPackage().QueryPackages();
+
+            foreach (var package in allPackages)
+            {
+                foreach (var realization in package.PackagedElement.OfType<IRealization>()
+                             .Where(x => x.Client.Any(c => c.XmiId == element.XmiId)))
+                {
+                    foreach (var @interface in realization.Supplier.OfType<IInterface>())
+                    {
+                        yield return @interface;
+                    }
+                }
+            }
+            
+        }
+        
         /// <summary>
         /// removes the specified html tags from the <paramref name="html"/>
         /// </summary>

@@ -20,9 +20,13 @@
 
 namespace uml4net.POCO.SimpleClassifiers
 {
+    using Extensions;
+
+    using Utils; 
+ 
     using System;
     using System.Collections.Generic;
-
+    using System.Linq;
     using uml4net.Decorators;
     using uml4net.POCO.Classification;
     using uml4net.POCO.CommonStructure;
@@ -30,6 +34,7 @@ namespace uml4net.POCO.SimpleClassifiers
     using uml4net.POCO.StructuredClassifiers;
     using uml4net.POCO.UseCases;
     using uml4net.POCO.Values;
+    using uml4net.Utils;
 
     /// <summary>
     /// Interfaces declare coherent services that are implemented by BehavioredClassifiers
@@ -42,7 +47,16 @@ namespace uml4net.POCO.SimpleClassifiers
         /// </summary>
         [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue)]
         [Implements(implementation: "IElement.OwnedComment")]
-        public List<IComment> OwnedComment { get; set; } = new List<IComment>();
+        public IContainerList<IComment> OwnedComment
+        {
+            get => this.ownedComment ??= new ContainerList<IComment>(this);
+            set => this.ownedComment = value;
+        }
+
+        /// <summary>
+        /// Backing field for <see cref="IElement.OwnedComment"/>
+        /// </summary>
+        private IContainerList<IComment> ownedComment;
 
         /// <summary>
         /// The Elements owned by this Element
@@ -56,7 +70,12 @@ namespace uml4net.POCO.SimpleClassifiers
         /// </summary>
         [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isReadOnly: true, isDerived: true, isDerivedUnion: true)]
         [Implements(implementation: "IElement.Owner")]
-        public IElement Owner => throw new NotImplementedException();
+        public IElement Owner => this.QueryOwner();
+
+        /// <summary>
+        /// Gets or sets the container of this <see cref="IElement"/>
+        /// </summary>
+        public IElement Container { get; set; }
 
         /// <summary>
         /// Indicates the Dependencies that reference this NamedElement as a client."
@@ -112,8 +131,16 @@ namespace uml4net.POCO.SimpleClassifiers
         [SubsettedProperty(propertyName: "A_source_directedRelationship.directedRelationship")]
         [SubsettedProperty(propertyName: "Element.OwnedElement")]
         [Implements(implementation: "INamespace.ElementImport")]
-        public List<IElementImport> ElementImport { get; set; } = new List<IElementImport>();
+        public IContainerList<IElementImport> ElementImport
+        {
+            get => this.elementImport ??= new ContainerList<IElementImport>(this);
+            set => this.elementImport = value;
+        }
 
+        /// <summary>
+        /// Backing field for <see cref="ElementImport"/>
+        /// </summary>
+        private IContainerList<IElementImport> elementImport;
         /// <summary>
         /// References the PackageableElements that are members of this Namespace as a result of either PackageImports or ElementImports.
         /// </summary>
@@ -145,7 +172,16 @@ namespace uml4net.POCO.SimpleClassifiers
         [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue)]
         [SubsettedProperty(propertyName: "Element.OwnedElement")]
         [Implements(implementation: "INamespace.PackageImport")]
-        public List<IPackageImport> PackageImport { get; set; } = new List<IPackageImport>();
+        public IContainerList<IPackageImport> PackageImport
+        {
+            get => this.packageImport ??= new ContainerList<IPackageImport>(this);
+            set => this.packageImport = value;
+        }
+
+        /// <summary>
+        /// Backing field for <see cref="PackageImport"/>
+        /// </summary>
+        private IContainerList<IPackageImport> packageImport;
 
         /// <summary>
         /// The formal TemplateParameter that owns this ParameterableElement
@@ -200,7 +236,7 @@ namespace uml4net.POCO.SimpleClassifiers
         [SubsettedProperty(propertyName: "A_redefinitionContext_redefinableElement.RedefinableElement")]
         [SubsettedProperty(propertyName: "Classifier.Feature")]
         [Implements("IClassifier.Attribute")]
-        public List<IProperty> Attribute { get; set; }
+        public List<IProperty> Attribute { get; set; } = [];
 
         /// <summary>
         /// The CollaborationUses owned by the Classifier.
@@ -224,7 +260,7 @@ namespace uml4net.POCO.SimpleClassifiers
         /// </summary>
         [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isDerived: true)]
         [Implements("IClassifier.General")]
-        public List<IClassifier> General => throw new NotImplementedException();
+        public List<IClassifier> General => this.QueryGeneral();
 
         /// <summary>
         /// The Generalization relationships for this Classifier. These Generalizations navigate to more general 
@@ -234,7 +270,17 @@ namespace uml4net.POCO.SimpleClassifiers
         [SubsettedProperty(propertyName: "A_source_directedRelationship.DirectedRelationship")]
         [SubsettedProperty(propertyName: "Element-ownedElement")]
         [Implements("IClassifier.Generalization")]
-        public List<IGeneralization> Generalization { get; set; }
+        public IContainerList<IGeneralization> Generalization
+        {
+            get => this.generalization ??= new ContainerList<IGeneralization>(this);
+            set => this.generalization = value;
+        }
+
+        /// <summary>
+        /// Backing field for <see cref="Generalization"/>
+        /// </summary>
+        private IContainerList<IGeneralization> generalization;
+
 
         /// <summary>
         /// All elements inherited by this Classifier from its general Classifiers.

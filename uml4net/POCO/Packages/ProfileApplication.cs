@@ -20,6 +20,10 @@
 
 namespace uml4net.POCO.Packages
 {
+    using Extensions;
+
+    using Utils; 
+ 
     using System;
     using System.Collections.Generic;
     using uml4net.Decorators;
@@ -35,7 +39,16 @@ namespace uml4net.POCO.Packages
         /// The Comments owned by this Element.
         /// </summary>
         [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue)]
-        List<IComment> IElement.OwnedComment { get; set; }
+        IContainerList<IComment> IElement.OwnedComment
+        {
+            get => this.ownedComment ??= new ContainerList<IComment>(this);
+            set => this.ownedComment = value;
+        }
+
+        /// <summary>
+        /// Backing field for <see cref="IElement.OwnedComment"/>
+        /// </summary>
+        private IContainerList<IComment> ownedComment;
 
         /// <summary>
         /// The Elements owned by this Element
@@ -47,8 +60,13 @@ namespace uml4net.POCO.Packages
         /// The Element that owns this Element.
         /// </summary>
         [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isReadOnly: true, isDerived: true, isDerivedUnion: true)]
-        IElement IElement.Owner => throw new NotImplementedException();
-
+        IElement IElement.Owner => this.QueryOwner();
+        
+        /// <summary>
+        /// Gets or sets the container of this <see cref="IElement"/>
+        /// </summary>
+        public IElement Container { get; set; }
+        
         /// <summary>
         /// Specifies the source Element(s) of the DirectedRelationship.
         /// </summary>

@@ -22,7 +22,7 @@ namespace uml4net.Extensions
 {
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
-
+    using System.Linq;
     using uml4net.POCO.Packages;
 
     /// <summary>

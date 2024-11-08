@@ -1,4 +1,4 @@
-﻿// -------------------------------------------------------------------------------------------------
+// -------------------------------------------------------------------------------------------------
 //  <copyright file="XmiReaderBuilder.cs" company="Starion Group S.A.">
 // 
 //    Copyright 2019-2024 Starion Group S.A.
@@ -100,6 +100,8 @@ namespace uml4net.xmi
             this.ContainerBuilder.RegisterType<LiteralUnlimitedNaturalReader>().As<IXmiElementReader<ILiteralUnlimitedNatural>>().PropertiesAutowired();
             this.ContainerBuilder.RegisterType<OpaqueExpressionReader>().As<IXmiElementReader<IOpaqueExpression>>().PropertiesAutowired();
             this.ContainerBuilder.RegisterType<PrimitiveTypeReader>().As<IXmiElementReader<IPrimitiveType>>().PropertiesAutowired();
+            this.ContainerBuilder.RegisterType<InterfaceReader>().As<IXmiElementReader<IInterface>>().PropertiesAutowired();
+            this.ContainerBuilder.RegisterType<RealizationReader>().As<IXmiElementReader<IRealization>>().PropertiesAutowired();
         }
 
         /// <summary>
