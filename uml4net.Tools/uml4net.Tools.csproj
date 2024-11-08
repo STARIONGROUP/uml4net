@@ -12,10 +12,11 @@
         <Version>0.3.0</Version>
         <ImplicitUsings>disable</ImplicitUsings>
         <PackageReadmeFile>README.md</PackageReadmeFile>
+        <PackageTags>Uml XMI modeltopia</PackageTags>
         <NeutralLanguage>en-US</NeutralLanguage>
         <SatelliteResourceLanguages>en-US</SatelliteResourceLanguages>
         <PackageReleaseNotes>
-            [Update] 
+            [Initial] (non-functional) Release
         </PackageReleaseNotes>
     </PropertyGroup>
 
@@ -37,7 +38,8 @@
     </ItemGroup>
 
     <ItemGroup>
-      <EmbeddedResource Include="Resources\ascii-art.txt" />
+        <None Include="..\README.md" Pack="true" PackagePath="\" />
+        <EmbeddedResource Include="Resources\ascii-art.txt" />
     </ItemGroup>
 
     <ItemGroup>
@@ -49,10 +51,6 @@
 
     <ItemGroup Label="Transitive Dependency overrides">
         <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.1" />
-    </ItemGroup>
-
-    <ItemGroup>
-        <None Include="..\README.md" Pack="true" PackagePath="\" />
     </ItemGroup>
 
     <ItemGroup>
