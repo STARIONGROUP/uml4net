@@ -31,9 +31,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "uml4net.Extensions", "uml4n
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "uml4net.HandleBars", "uml4net.HandleBars\uml4net.HandleBars.csproj", "{EB0425EC-AD4D-4F3E-8EC7-56C8116202D3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "uml4net.Reporting", "uml4net.Reporting\uml4net.Reporting.csproj", "{3909A732-2EBF-4690-B515-B0DF9A582B24}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "uml4net.Reporting", "uml4net.Reporting\uml4net.Reporting.csproj", "{3909A732-2EBF-4690-B515-B0DF9A582B24}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "uml4net.Reporting.Tests", "uml4net.Reporting.Tests\uml4net.Reporting.Tests.csproj", "{DD0F5780-C9D1-43BC-AFAD-F56BA1A6CDCA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "uml4net.Reporting.Tests", "uml4net.Reporting.Tests\uml4net.Reporting.Tests.csproj", "{DD0F5780-C9D1-43BC-AFAD-F56BA1A6CDCA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "uml4net.Tools", "uml4net.Tools\uml4net.Tools.csproj", "{79A43C07-CED5-4258-8314-F15F042C0775}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "uml4net.Tools.Tests", "uml4net.Tools.Tests\uml4net.Tools.Tests.csproj", "{246A65BB-19C2-4725-BF27-210711118590}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -81,6 +85,14 @@ Global
 		{DD0F5780-C9D1-43BC-AFAD-F56BA1A6CDCA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DD0F5780-C9D1-43BC-AFAD-F56BA1A6CDCA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DD0F5780-C9D1-43BC-AFAD-F56BA1A6CDCA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{79A43C07-CED5-4258-8314-F15F042C0775}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{79A43C07-CED5-4258-8314-F15F042C0775}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{79A43C07-CED5-4258-8314-F15F042C0775}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{79A43C07-CED5-4258-8314-F15F042C0775}.Release|Any CPU.Build.0 = Release|Any CPU
+		{246A65BB-19C2-4725-BF27-210711118590}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{246A65BB-19C2-4725-BF27-210711118590}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{246A65BB-19C2-4725-BF27-210711118590}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{246A65BB-19C2-4725-BF27-210711118590}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

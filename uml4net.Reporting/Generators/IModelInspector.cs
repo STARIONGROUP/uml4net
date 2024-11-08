@@ -44,11 +44,11 @@ namespace uml4net.Reporting.Generators
         public string Inspect(IPackage package, bool recursive = false);
 
         /// <summary>
-        /// Inspect the provided <see cref="EClass"/> (by name) that is contained in the <see cref="EPackage"/>
+        /// Inspect the provided <see cref="IClass"/> (by name) that is contained in the <see cref="IPackage"/>
         /// and returns the variation of data-types, enums and multiplicity as an Analysis report
         /// </summary>
         /// <param name="package">
-        /// The <see cref="IPackage"/> that contains the <see cref="EClass"/> that
+        /// The <see cref="IPackage"/> that contains the <see cref="IClass"/> that
         /// is to be inspected
         /// </param>
         /// <param name="className">

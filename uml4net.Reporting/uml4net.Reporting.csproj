@@ -34,7 +34,6 @@
     <ItemGroup>
         <Folder Include="Templates\" />
         <Folder Include="Resources\" />
-        <Folder Include="Payload\" />
     </ItemGroup>
 
     <ItemGroup>
