@@ -1,6 +1,6 @@
 ## Introduction
 
-Uml4net is a suite of dotnet core libraries and tools that are used to deserialize (read) a UML version 2.5.1 model in XMI form. Uml4net is typically used to support opinionated template based code-generation and i a part of modeltopia. Uml4net porivdes a number of libraries that are described in the following sections.
+Uml4net is a suite of dotnet core libraries and tools that are used to deserialize (read) a UML version 2.5.1 model in XMI form. Uml4net is typically used to support opinionated template based code-generation and is a part of `modeltopia`. Uml4net porivdes a number of libraries that are described in the following sections.
 
 # uml4net
 
@@ -61,7 +61,7 @@ Development | ![Build Status](https://github.com/STARIONGROUP/uml4net/actions/wo
 
 ## UML Documentation
 
-The Object Management Gr1oup (OMG) is an international technology standards consortium. It was founded in 1989 with the goal of creating and maintaining vendor-neutral, interoperable, and portable standards for distributed computing. UML is one of the standards provided by OMG at http://www.omg.org/spec/UML/
+The Object Management Group (OMG) is an international technology standards consortium. It was founded in 1989 with the goal of creating and maintaining vendor-neutral, interoperable, and portable standards for distributed computing. UML is one of the standards provided by OMG at http://www.omg.org/spec/UML/
 
 # License
 
