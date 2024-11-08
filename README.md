@@ -10,6 +10,10 @@ The core library that contains all the class definitions as they appear in the U
 
 The **uml4net.Extensions** library provides extensions methods to the uml4net library to support code generation. This library is part of the uml4net ecosystem.
 
+# uml4net.xmi
+
+The **uml4net.xmi** library provides an XMI reader implementation to read UML XMI model files.
+
 # uml4net.HandleBars
 
 The **uml4net.HandleBars** library provides [HandleBars](https://github.com/Handlebars-Net/Handlebars.Net) helpers to support code generation. This library is part of the uml4net ecosystem.
