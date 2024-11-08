@@ -39,10 +39,12 @@ The **uml4net.Tools** commandline application is used to generate reports on the
 
 The package are available on Nuget at:
 
-  - uml4net: ![NuGet Version](https://img.shields.io/nuget/v/uml4net)
-  - uml4net.Extensions: ![NuGet Version](https://img.shields.io/nuget/v/uml4net.Extensions)
-  - uml4net.HandleBars: ![NuGet Version](https://img.shields.io/nuget/v/uml4net.HandleBars)
-  - uml4net.Tools: ![NuGet Version](https://img.shields.io/nuget/v/uml4net.Tools)
+  - [uml4net](https://www.nuget.org/packages/uml4net): ![NuGet Version](https://img.shields.io/nuget/v/uml4net)
+  - [uml4net.Extensions](https://www.nuget.org/packages/uml4net.Extensions): ![NuGet Version](https://img.shields.io/nuget/v/uml4net.Extensions)
+  - [uml4net.xmi](https://www.nuget.org/packages/uml4net.xmi): ![NuGet Version](https://img.shields.io/nuget/v/uml4net.xmi)
+  - [uml4net.HandleBars](https://www.nuget.org/packages/uml4net.HandleBars): ![NuGet Version](https://img.shields.io/nuget/v/uml4net.HandleBars)
+  - [uml4net.Reporting](https://www.nuget.org/packages/uml4net.Reporting): ![NuGet Version](https://img.shields.io/nuget/v/uml4net.Reporting)
+  - [uml4net.Tools](https://www.nuget.org/packages/uml4net.Tools): ![NuGet Version](https://img.shields.io/nuget/v/uml4net.Tools)
 
 ## Build Status
 
