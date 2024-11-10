@@ -107,12 +107,10 @@ namespace uml4net.xmi.Readers.SimpleClassifiers
                                 {
                                     var enumerationLiteral = this.EnumerationLiteralReader.Read(ownedLiteralXmlReader);
                                     enumeration.OwnedLiteral.Add(enumerationLiteral);
-
-                                    this.Logger.LogInformation("ClassReader.ownedRule not yet implemented");
                                 }
                                 break;
                             default:
-                                throw new NotImplementedException($"ClassReader: {xmlReader.LocalName}");
+                                throw new NotImplementedException($"EnumerationReader: {xmlReader.LocalName}");
                         }
                     }
                 }

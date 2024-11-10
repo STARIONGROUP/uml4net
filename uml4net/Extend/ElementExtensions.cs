@@ -1,4 +1,4 @@
-// -------------------------------------------------------------------------------------------------
+﻿// -------------------------------------------------------------------------------------------------
 //  <copyright file="ElementExtensions.cs" company="Starion Group S.A.">
 // 
 //    Copyright 2019-2024 Starion Group S.A.
@@ -18,27 +18,23 @@
 //  </copyright>
 //  ------------------------------------------------------------------------------------------------
 
-namespace uml4net.Extensions
+namespace uml4net.Extend
 {
-    using System.Collections.Generic;
-    using System.Collections.ObjectModel;
-    using System.Linq;
-    using uml4net.POCO.Packages;
-
+    using POCO.CommonStructure;
+    
     /// <summary>
-    /// Extension methods for <see cref="IPackage"/> interface
+    /// The <see cref="ElementExtensions"/> class provides extensions methods for the <see cref="IElement"/>
     /// </summary>
-    public static class PackageExtensions
+    public static class ElementExtensions
     {
         /// <summary>
-        /// Retrieves a collection of nested <see cref="IPackage"/> elements contained within the specified <paramref name="package"/>.
+        /// Gets the owning <see cref="IElement"/> that contains the specified <paramref name="element"/>.
         /// </summary>
-        /// <param name="package">The <see cref="IPackage"/> whose nested packages are to be retrieved.</param>
+        /// <param name="element">The <see cref="IElement"/> for which to retrieve the owner.</param>
         /// <returns>
-        /// A <see cref="List{T}"/> of <see cref="IPackage"/> elements representing the nested packages 
-        /// within the specified <paramref name="package"/>.
+        /// The <see cref="IElement"/> that acts as the container for the specified <paramref name="element"/>, 
+        /// or <c>null</c> if the element does not have a container.
         /// </returns>
-        public static List<IPackage> QueryNestedPackage(this IPackage package)
-            => package.PackagedElement.OfType<IPackage>().ToList();
+        public static IElement QueryOwner(this IElement element) => element.Container;
     }
 }

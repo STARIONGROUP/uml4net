@@ -20,14 +20,12 @@
 
 namespace uml4net.POCO.StructuredClassifiers
 {
-    using Extensions;
-
-    using Utils; 
- 
     using System;
     using System.Collections.Generic;
-    using System.Linq;
+
     using uml4net.Decorators;
+    using uml4net.Extend;
+    using uml4net.Utils;
     using uml4net.POCO.Classification;
     using uml4net.POCO.CommonStructure;
     using uml4net.POCO.Packages;
@@ -62,7 +60,7 @@ namespace uml4net.POCO.StructuredClassifiers
         /// </summary>
         [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isReadOnly: true, isDerived: true, isDerivedUnion: true)]
         [Implements(implementation: "IElement.OwnedElement")]
-        public List<IElement> OwnedElement { get; set; } = new List<IElement>();
+        public List<IElement> OwnedElement => throw new NotImplementedException();
 
         /// <summary>
         /// The Element that owns this Element.
@@ -140,6 +138,7 @@ namespace uml4net.POCO.StructuredClassifiers
         /// Backing field for <see cref="ElementImport"/>
         /// </summary>
         private IContainerList<IElementImport> elementImport;        
+
         /// <summary>
         /// References the PackageableElements that are members of this Namespace as a result of either PackageImports or ElementImports.
         /// </summary>
@@ -425,7 +424,16 @@ namespace uml4net.POCO.StructuredClassifiers
         [SubsettedProperty("Classifier-attribute")]
         [SubsettedProperty("Namespace-ownedMember")]
         [Implements(implementation: "IClass.OwnedAttribute")]
-        public List<IProperty> OwnedAttribute { get; set; } = new();
+        public IContainerList<IProperty> OwnedAttribute
+        {
+            get => this.ownedAttribute ??= new ContainerList<IProperty>(this);
+            set => this.ownedAttribute = value;
+        }
+
+        /// <summary>
+        /// Backing field for <see cref="OwnedAttribute"/>
+        /// </summary>
+        private IContainerList<IProperty> ownedAttribute;
 
         /// <summary>
         /// The Operations owned by the Class.

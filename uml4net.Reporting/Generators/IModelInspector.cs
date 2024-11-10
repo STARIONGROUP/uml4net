@@ -24,7 +24,7 @@ namespace uml4net.Reporting.Generators
 
     /// <summary>
     /// The purpose of the <see cref="IModelInspector"/> is to iterate through the model and report on the various kinds of
-    /// patters that exist in the ECore model that need to be taken into account for code-generation
+    /// patters that exist in the UML model that need to be taken into account for code-generation
     /// </summary>
     public interface IModelInspector : IReportGenerator
     {
@@ -67,7 +67,7 @@ namespace uml4net.Reporting.Generators
         /// The <see cref="IPackage"/> which needs to be inspected
         /// </param>
         /// <param name="recursive">
-        /// A value indicating whether the sub <see cref="EPackage"/>s need to be Analyzed as well
+        /// A value indicating whether the sub <see cref="IPackage"/>s need to be Analyzed as well
         /// </param>
         /// <returns>
         /// returns a report of the classes and properties that do not contain any documentation

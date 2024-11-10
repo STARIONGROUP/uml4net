@@ -20,14 +20,12 @@
 
 namespace uml4net.POCO.Classification
 {
-    using Extensions;
-
-    using Utils; 
- 
     using System;
     using System.Collections.Generic;
 
     using uml4net.Decorators;
+    using uml4net.Extend;
+    using uml4net.Utils;
     using uml4net.POCO.CommonStructure;
     using uml4net.POCO.SimpleClassifiers;
     using uml4net.POCO.StructuredClassifiers;
@@ -102,7 +100,7 @@ namespace uml4net.POCO.Classification
         /// </summary>
         [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isDerived: true)]
         [Implements(implementation: "IMultiplicityElement.Lower")]
-        public int Lower => throw new NotImplementedException();
+        public int Lower => this.QueryLower();
 
         /// <summary>
         /// The specification of the lower bound for this multiplicity.
@@ -116,7 +114,7 @@ namespace uml4net.POCO.Classification
         /// </summary>
         [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isDerived: true)]
         [Implements(implementation: "IMultiplicityElement.Upper")]
-        public ILiteralUnlimitedNatural Upper => throw new NotImplementedException();
+        public ILiteralUnlimitedNatural Upper => this.QueryUpper();
 
         /// <summary>
         /// The specification of the upper bound for this multiplicity.

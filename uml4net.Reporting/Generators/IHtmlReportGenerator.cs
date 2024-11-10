@@ -24,7 +24,7 @@ namespace uml4net.Reporting.Generators
 
     /// <summary>
     /// The purpose of the <see cref="IHtmlReportGenerator"/> is to generate an HTML report of an
-    /// Ecore Model
+    /// UML Model
     /// </summary>
     public interface IHtmlReportGenerator : IReportGenerator
     {
@@ -32,7 +32,7 @@ namespace uml4net.Reporting.Generators
         /// Generates a table that contains all classes, attributes and their documentation
         /// </summary>
         /// <param name="modelPath">
-        /// /// the path to the Ecore model of which the report is to be generated.
+        /// /// the path to the UML model of which the report is to be generated.
         /// </param>
         /// <returns>
         /// the content of an HTML report in a string

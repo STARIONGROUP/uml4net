@@ -26,6 +26,7 @@ namespace uml4net.xmi.Tests
     using Microsoft.Extensions.Logging;
 
     using NUnit.Framework;
+
     using uml4net.POCO.Values;
     using uml4net.POCO.Packages;
     using uml4net.POCO.SimpleClassifiers;
@@ -139,6 +140,12 @@ namespace uml4net.xmi.Tests
             var classLowerValue = (ILiteralInteger)classOwnedAttribute.LowerValue;
 
             Assert.That(classLowerValue.Value, Is.EqualTo(0));
+
+            var classificationPackage = package.PackagedElement.OfType<IPackage>().Single(x => x.Name == "Classification");
+
+            var aggregationKind = classificationPackage.PackagedElement.OfType<IEnumeration>().Single(x => x.Name == "AggregationKind");
+
+            Assert.That(aggregationKind.XmiId, Is.EqualTo("AggregationKind"));
         }
     }
 }

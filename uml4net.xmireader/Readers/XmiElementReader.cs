@@ -37,7 +37,7 @@ namespace uml4net.xmi.Readers
         protected readonly ILogger<XmiElementReader<TXmiElement>> Logger;
 
         /// <summary>
-        /// The (injected) <see cref="IXmiReaderCache"/> used to setup logging
+        /// The (injected) <see cref="IXmiReaderCache"/> used cache the <see cref="IXmiElement"/>s
         /// </summary>
         protected readonly IXmiReaderCache Cache;
 

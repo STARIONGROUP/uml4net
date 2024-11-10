@@ -24,6 +24,8 @@ namespace uml4net.xmi.Tests
     using Microsoft.Extensions.Logging;
     using NUnit.Framework;
     using System;
+    using POCO.Classification;
+    using POCO.SimpleClassifiers;
     using uml4net.POCO.CommonStructure;
     using uml4net.POCO.StructuredClassifiers;
     using uml4net.POCO.Values;
@@ -244,6 +246,31 @@ namespace uml4net.xmi.Tests
                 Assert.That(classElement.OwnedComment, Is.Empty);
                 Assert.That(classElement.NameExpression, Is.Null);
             });
+        }
+
+        [Test]
+        public void Synchronize_verify_that_type_is_set()
+        {
+            var property = new Property()
+            {
+                XmiId = "Property-aggregation",
+                Name = "aggregation"
+            };
+
+            property.SingleValueReferencePropertyIdentifiers.Add("type", "AggregationKind");
+
+            var enumeration = new Enumeration()
+            {
+                XmiId = "AggregationKind",
+                Name = "AggregationKind",
+            };
+
+            this.cache.Add(property.XmiId, property);
+            this.cache.Add(enumeration.XmiId, enumeration);
+
+            this.assembler.Synchronize();
+
+            Assert.That(property.Type, Is.EqualTo(enumeration));
         }
     }
 }

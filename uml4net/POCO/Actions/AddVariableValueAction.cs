@@ -20,19 +20,16 @@
 
 namespace uml4net.POCO.Actions
 {
-    using Extensions;
-
-    using Utils; 
- 
     using System;
     using System.Collections.Generic;
 
     using uml4net.Decorators;
+    using uml4net.Extend;
+    using uml4net.Utils;
     using uml4net.POCO.Classification;
     using uml4net.POCO.CommonStructure;
     using uml4net.POCO.Values;
     
-
     /// <summary>
     /// An AddVariableValueAction is a WriteVariableAction for adding values to a Variable.
     /// </summary>

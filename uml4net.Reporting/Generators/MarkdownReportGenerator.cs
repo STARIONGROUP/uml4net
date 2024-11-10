@@ -29,7 +29,7 @@ namespace uml4net.Reporting.Generators
 
     /// <summary>
     /// The purpose of the <see cref="MarkdownReportGenerator"/> is to generate a Markdown report of an
-    /// Ecore Model
+    /// UML Model
     /// </summary>
     public class MarkdownReportGenerator : HandleBarsReportGenerator, IMarkdownReportGenerator
     {
@@ -64,7 +64,7 @@ namespace uml4net.Reporting.Generators
         /// Generates a table that contains all classes, attributes and their documentation
         /// </summary>
         /// <param name="modelPath">
-        /// /// the path to the Ecore model of which the report is to be generated.
+        /// /// the path to the UML model of which the report is to be generated.
         /// </param>
         /// <returns>
         /// the content of an HTML report in a string
@@ -78,7 +78,7 @@ namespace uml4net.Reporting.Generators
         /// Generates a Markdown document with a table that contains all classes, attributes and their documentation
         /// </summary>
         /// <param name="modelPath">
-        /// the path to the Ecore model of which the report is to be generated.
+        /// the path to the UML model of which the report is to be generated.
         /// </param>
         /// <param name="outputPath">
         /// the path, including filename, where the output is to be generated.

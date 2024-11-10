@@ -20,16 +20,29 @@
 
 namespace uml4net.Reporting.Tests.Generators
 {
+    using System;
+    using System.IO;
+    using System.Linq;
     using Microsoft.Extensions.Logging;
 
     using NUnit.Framework;
-
+    using POCO.Packages;
+    using Reporting.Generators;
     using Serilog;
+    using xmi;
 
     [TestFixture]
     public class ModelInspectorTestFixture
     {
         private ILoggerFactory loggerFactory;
+
+        private ModelInspector modelInspector;
+
+        private string modelPath;
+
+        private FileInfo modelFileInfo;
+
+        private FileInfo reportFileInfo;
 
         [OneTimeSetUp]
         public void OneTimeSetUp()
@@ -43,6 +56,72 @@ namespace uml4net.Reporting.Tests.Generators
             {
                 builder.AddSerilog();
             });
+        }
+
+        [SetUp]
+        public void SetUp()
+        {
+            this.modelPath = Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData", "UML.xmi");
+            this.modelFileInfo = new FileInfo(modelPath);
+
+            var reportPath = Path.Combine(TestContext.CurrentContext.TestDirectory, "inspection-report.txt");
+            this.reportFileInfo = new FileInfo(reportPath);
+        }
+
+        [Test]
+        public void Verify_that_Inspection_report_can_be_executed()
+        {
+            var rootPath = Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData");
+
+            var reader = XmiReaderBuilder.Create()
+                .UsingSettings(x => x.LocalReferenceBasePath = rootPath)
+                .WithLogger(this.loggerFactory)
+                .Build();
+
+            var packages = reader.Read(Path.Combine(rootPath, "UML.xmi"));
+
+            var rootPackage = packages.Single();
+
+            this.modelInspector = new ModelInspector(this.loggerFactory);
+
+            var report = this.modelInspector.Inspect(rootPackage, true);
+
+            Log.Logger.Information(report);
+
+            Assert.That(report, Is.Not.Null.Or.Empty);
+        }
+
+        [Test]
+        public void Verify_that_Inspection_report_can_be_generated()
+        {
+            this.modelInspector = new ModelInspector(this.loggerFactory);
+
+            Assert.That(() => this.modelInspector.GenerateReport(this.modelFileInfo, this.reportFileInfo), Throws.Nothing);
+        }
+
+        [Test]
+        public void Verify_that_inspect_class_returns_expected_result()
+        {
+            var rootPath = Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData");
+
+            var reader = XmiReaderBuilder.Create()
+                .UsingSettings(x => x.LocalReferenceBasePath = rootPath)
+                .WithLogger(this.loggerFactory)
+                .Build();
+
+            var packages = reader.Read(Path.Combine(rootPath, "UML.xmi"));
+
+            var rootPackage = packages.Single();
+
+            var classificationPackage = rootPackage.PackagedElement.OfType<IPackage>().Single(x => x.Name == "Classification") ;
+
+            this.modelInspector = new ModelInspector(this.loggerFactory);
+
+            var inspectionReport = this.modelInspector.Inspect(classificationPackage, "Property");
+
+            Assert.That(inspectionReport, Is.Not.Empty);
+
+            Log.Logger.Information(inspectionReport);
         }
     }
 }

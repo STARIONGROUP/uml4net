@@ -43,7 +43,21 @@ namespace uml4net.Extensions
         /// </returns>
         public static bool QueryIsEnum(this IProperty property)
         {
-            return property.DataType is IEnumeration;
+            return property.Type is IEnumeration;
+        }
+
+        /// <summary>
+        /// Queries whether the type of the <see cref="IProperty"/> is an <see cref="IPrimitiveType"/>
+        /// </summary>
+        /// <param name="property">
+        /// The subject <see cref="IProperty"/>
+        /// </param>
+        /// <returns>
+        /// true of the type is a <see cref="IPrimitiveType"/>, false if not
+        /// </returns>
+        public static bool QueryIsPrimitiveType(this IProperty property)
+        {
+            return property.Type is IPrimitiveType;
         }
 
         /// <summary>
@@ -140,9 +154,27 @@ namespace uml4net.Extensions
         /// <returns>
         /// A <see cref="bool"/>
         /// </returns>
+        /// <remarks>
+        /// The <see cref="IPrimitiveType"/> and <see cref="IEnumeration"/> are concrete subtypes of the
+        /// concrete <see cref="IDataType"/> type
+        /// </remarks>
         public static bool QueryIsValueProperty(this IProperty property)
         {
-            return property.Type is IPrimitiveType or IEnumeration;
+            return property.Type is IDataType;
+        }
+
+        /// <summary>
+        /// Queries a value indicating whether the specified <see cref="IProperty"/> is a reference type
+        /// </summary>
+        /// <param name="property">
+        /// The subject <see cref="IProperty"/>
+        /// </param>
+        /// <returns>
+        /// A <see cref="bool"/>
+        /// </returns>
+        public static bool QueryIsReferenceProperty(this IProperty property)
+        {
+            return property.Type is not IDataType;
         }
 
         /// <summary>

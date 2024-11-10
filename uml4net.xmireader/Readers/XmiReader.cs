@@ -92,7 +92,7 @@ namespace uml4net.xmi.Readers
         }
 
         /// <summary>
-        /// Reads the content of a UML XMI 2.5.1 file asynchronously.
+        /// Reads the content of a UML XMI 2.5.1 file.
         /// </summary>
         /// <param name="fileUri">
         /// The URI of the XMI file to be read.
@@ -116,7 +116,7 @@ namespace uml4net.xmi.Readers
         }
 
         /// <summary>
-        /// Reads the content of a UML XMI 2.5.1 stream asynchronously.
+        /// Reads the content of a UML XMI 2.5.1 stream.
         /// </summary>
         /// <param name="stream">
         /// The <see cref="Stream"/> that contains the XMI content to be read.
@@ -130,7 +130,7 @@ namespace uml4net.xmi.Readers
         }
 
         /// <summary>
-        /// Reads the content of a UML XMI 2.5.1 stream asynchronously.
+        /// Reads the content of a UML XMI 2.5.1 stream.
         /// </summary>
         /// <param name="stream">
         /// The <see cref="Stream"/> that contains the XMI content to be read.

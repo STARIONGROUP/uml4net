@@ -38,16 +38,16 @@ namespace uml4net.Reporting.Payload
         /// initializes an instance of the <see cref="HandlebarsPayload"/> class.
         /// </summary>
         /// <param name="rootPackage">
-        /// The root <see cref="IPackage"/> of the ECore model
+        /// The root <see cref="IPackage"/> of the UML model
         /// </param>
         /// <param name="enums">
-        /// the <see cref="IEnumeration"/>s in the ECore model
+        /// the <see cref="IEnumeration"/>s in the UML model
         /// </param>
         /// <param name="dataTypes">
-        /// the <see cref="IDataType"/>s in the ECore model
+        /// the <see cref="IDataType"/>s in the UML model
         /// </param>
         /// <param name="classes">
-        /// the <see cref="IClass"/>es in the ECore model
+        /// the <see cref="IClass"/>es in the UML model
         /// </param>
         public HandlebarsPayload(IPackage rootPackage, IEnumerable<IEnumeration> enums, IEnumerable<IDataType> dataTypes, IEnumerable<IClass> classes)
         {

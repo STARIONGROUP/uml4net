@@ -38,4 +38,16 @@
       <ProjectReference Include="..\uml4net.Reporting\uml4net.Reporting.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+        <Content Include="..\resources\UML\PrimitiveTypes.xmi.xml" Link="TestData\PrimitiveTypes.xmi">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <Content Include="..\resources\UML\UML.xmi.xml" Link="TestData\UML.xmi">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <None Include="..\resources\SySML2\SysML.uml" Link="TestData\SysML.uml">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+    </ItemGroup>
+
 </Project>

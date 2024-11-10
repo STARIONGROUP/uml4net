@@ -26,6 +26,7 @@ namespace uml4net.POCO.StructuredClassifiers
     using uml4net.POCO.Classification;
     using uml4net.POCO.Packages;
     using uml4net.POCO.SimpleClassifiers;
+    using uml4net.Utils;
 
     /// <summary>
     /// A Class classifies a set of objects and specifies the features that characterize the structure and behavior
@@ -71,7 +72,7 @@ namespace uml4net.POCO.StructuredClassifiers
         [RedefinedProperty("StructuredClassifier-ownedAttribute")]
         [SubsettedProperty("Classifier-attribute")]
         [SubsettedProperty("Namespace-ownedMember")]
-        public List<IProperty> OwnedAttribute { get; set; }
+        public IContainerList<IProperty> OwnedAttribute { get; set; }
 
         /// <summary>
         /// The Operations owned by the Class.

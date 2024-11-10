@@ -1,5 +1,5 @@
 ﻿// -------------------------------------------------------------------------------------------------
-//  <copyright file="ElementExtensions.cs" company="Starion Group S.A.">
+//  <copyright file="ClassifierExtensions.cs" company="Starion Group S.A.">
 // 
 //    Copyright 2019-2024 Starion Group S.A.
 // 
@@ -18,31 +18,18 @@
 //  </copyright>
 //  ------------------------------------------------------------------------------------------------
 
-namespace uml4net.Extensions
+namespace uml4net.Extend
 {
-    using POCO.Classification;
-    using POCO.CommonStructure;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Xml.Linq;
 
-    using Utils;
+    using uml4net.POCO.Classification;
 
     /// <summary>
-    /// The <see cref="ElementExtensions"/> class provides extensions methods for the <see cref="IElement"/>
+    /// The <see cref="ClassifierExtensions"/> class provides extensions methods for the <see cref="IClassifier"/>
     /// </summary>
-    public static class ElementExtensions
+    public static class ClassifierExtensions
     {
-        /// <summary>
-        /// Gets the owning <see cref="IElement"/> that contains the specified <paramref name="element"/>.
-        /// </summary>
-        /// <param name="element">The <see cref="IElement"/> for which to retrieve the owner.</param>
-        /// <returns>
-        /// The <see cref="IElement"/> that acts as the container for the specified <paramref name="element"/>, 
-        /// or <c>null</c> if the element does not have a container.
-        /// </returns>
-        public static IElement QueryOwner(this IElement element) => element.Container;
-
         /// <summary>
         /// Gets the collection of <see cref="IClassifier"/>s that represent the generalizations of the specified <paramref name="element"/>.
         /// </summary>
@@ -51,7 +38,7 @@ namespace uml4net.Extensions
         /// A list of <see cref="IClassifier"/> objects that represent the generalizations of the specified <paramref name="element"/>. 
         /// If the element does not have any generalizations, an empty list will be returned.
         /// </returns>
-        public static List<IClassifier> QueryGeneral(this IClassifier element) 
+        public static List<IClassifier> QueryGeneral(this IClassifier element)
             => element.Generalization.Select(x => x.General).ToList();
     }
 }

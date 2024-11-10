@@ -22,7 +22,7 @@ namespace uml4net.Reporting.Generators
 {
     /// <summary>
     /// The purpose of the <see cref="IXlReportGenerator"/> is to generate reports of an
-    /// Ecore Model
+    /// UML Model
     /// </summary>
     public interface IXlReportGenerator : IReportGenerator
     {

@@ -36,7 +36,7 @@ namespace uml4net.Reporting.Generators
 
     /// <summary>
     /// The purpose of the <see cref="XlReportGenerator"/> is to generate reports of an
-    /// Ecore Model
+    /// UML Model
     /// </summary>
     public class XlReportGenerator : ReportGenerator, IXlReportGenerator
     {
@@ -71,7 +71,7 @@ namespace uml4net.Reporting.Generators
         /// Generates a table that contains all classes, attributes and their documentation
         /// </summary>
         /// <param name="modelPath">
-        /// the path to the Ecore model of which the report is to be generated.
+        /// the path to the UML model of which the report is to be generated.
         /// </param>
         /// <param name="outputPath">
         /// the path, including filename, where the output is to be generated.
@@ -143,19 +143,19 @@ namespace uml4net.Reporting.Generators
         }
 
         /// <summary>
-        /// Adds a worksheet to the workbook with EClass data
+        /// Adds a worksheet to the workbook with Class data
         /// </summary>
         /// <param name="workbook">
-        /// The target <see cref="XLWorkbook"/> to which the EClass worksheet is added
+        /// The target <see cref="XLWorkbook"/> to which the Class worksheet is added
         /// </param>
         /// <param name="packages">
-        /// The <see cref="IPackage"/>s that contain the EClass instances to report on
+        /// The <see cref="IPackage"/>s that contain the Class instances to report on
         /// </param>
         private void AddIClassSheet(XLWorkbook workbook, IEnumerable<IPackage> packages)
         {
             this.logger.LogDebug("Add IClass reports");
 
-            var classWorksheet = workbook.Worksheets.Add("EClass");
+            var classWorksheet = workbook.Worksheets.Add("Class");
 
             var dataTable = new DataTable();
 

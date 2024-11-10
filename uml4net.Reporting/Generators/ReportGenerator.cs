@@ -26,8 +26,10 @@ namespace uml4net.Reporting.Generators
     using Microsoft.Extensions.Logging.Abstractions;
 
     using System;
-    using System.Resources;
-    using POCO.Packages;
+    using System.Collections.Generic;
+   
+    using uml4net.POCO.Packages;
+    using uml4net.xmi;
 
     /// <summary>
     /// abstract class from which all report generators need to derive
@@ -68,5 +70,31 @@ namespace uml4net.Reporting.Generators
         /// Either stating that the extension is valid or not.
         /// </returns>
         public abstract Tuple<bool, string> IsValidReportExtension(FileInfo outputPath);
+
+        /// <summary>
+        /// Loads the root UML package from the provided model
+        /// </summary>
+        /// <param name="modelPath">
+        /// the path to the Uml model that is to be loaded
+        /// </param>
+        /// <param name="rootDirectory">
+        /// The base directory path used as the local root for resolving referenced XMI files.
+        /// </param>
+        /// <returns>
+        /// a list of <see cref="IPackage"/>s
+        /// </returns>
+        protected IEnumerable<IPackage> LoadPackages(FileInfo modelPath, DirectoryInfo rootDirectory)
+        {
+            this.logger.LogInformation("Loading UML model from {0}", modelPath.FullName);
+
+            using var reader = XmiReaderBuilder.Create()
+                .UsingSettings(x => x.LocalReferenceBasePath = rootDirectory.FullName)
+                .WithLogger(this.loggerFactory)
+                .Build();
+
+            var packages = reader.Read(modelPath.FullName);
+
+            return packages;
+        }
     }
 }

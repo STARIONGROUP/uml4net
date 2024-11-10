@@ -26,16 +26,19 @@ namespace uml4net.Reporting.Generators
     using System.IO;
     using System.Linq;
     using System.Text;
-    using Extensions;
+    
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Logging.Abstractions;
 
+    using uml4net.Extend;
+    using uml4net.Extensions;
+    using uml4net.POCO.Classification;
     using uml4net.POCO.Packages;
     using uml4net.POCO.StructuredClassifiers;
-
+    
     /// <summary>
     /// The purpose of the <see cref="ModelInspector"/> is to iterate through the model and report on the various kinds of
-    /// patters that exist in the ECore model that need to be taken into account for code-generation
+    /// patters that exist in the UML model that need to be taken into account for code-generation
     /// </summary>
     public class ModelInspector : ReportGenerator, IModelInspector
     {
@@ -50,7 +53,7 @@ namespace uml4net.Reporting.Generators
 
         private readonly List<string> valueTypes = new();
 
-        private readonly List<string> enums = new();
+        private readonly List<string> enumerations = new();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ModelInspector"/> class.
@@ -76,7 +79,7 @@ namespace uml4net.Reporting.Generators
 
         /// <summary>
         /// Inspect the content of the provided <see cref="IPackage"/> and returns the variation 
-        /// of data-types, enums and multiplicity as an Analysis report
+        /// of data-types, enumerations and multiplicity as an Analysis report
         /// </summary>
         /// <param name="package">
         /// The <see cref="IPackage"/> that needs to be inspected
@@ -89,7 +92,12 @@ namespace uml4net.Reporting.Generators
         /// </returns>
         public string Inspect(IPackage package, bool recursive = false)
         {
-            this.logger.LogInformation("Start UML Model Inspection at IPackage {0}:{1}", package.XmiId, package.Name);
+            this.logger.LogInformation("Start UML Model Inspection at Package {0}:{1}", package.XmiId, package.Name);
+
+            this.interestingClasses.Clear();
+            this.referenceTypes.Clear();
+            this.valueTypes.Clear();
+            this.enumerations.Clear();
 
             var sw = Stopwatch.StartNew();
 
@@ -113,13 +121,13 @@ namespace uml4net.Reporting.Generators
                 sb.AppendLine($"reference type: {referenceType}");
             }
 
-            this.logger.LogInformation("MULTIPLICITY RESULTS - Inspecting the Enums");
+            this.logger.LogInformation("MULTIPLICITY RESULTS - Inspecting the Enumerations");
 
-            var orderedEnums = this.enums.OrderBy(x => x);
+            var orderedEnumerations = this.enumerations.OrderBy(x => x);
 
-            foreach (var @enum in orderedEnums)
+            foreach (var enumeration in orderedEnumerations)
             {
-                sb.AppendLine($"enum type: {@enum}");
+                sb.AppendLine($"enumeration type: {enumeration}");
             }
 
             this.logger.LogInformation("MULTIPLICITY RESULTS - Inspecting the Value Types");
@@ -144,86 +152,85 @@ namespace uml4net.Reporting.Generators
 
             sb.AppendLine("");
 
-            this.logger.LogInformation("ECore Model Inspection of EPackage {0}:{1} finished in {2} [ms]", package.XmiId, package.Name, sw.ElapsedMilliseconds);
+            this.logger.LogInformation("UML Model Inspection of Package {0}:{1} finished in {2} [ms]", package.XmiId, package.Name, sw.ElapsedMilliseconds);
 
             return sb.ToString();
         }
 
         /// <summary>
-        /// Recursively inspects the content of the provided <see cref="EPackage"/>
+        /// Recursively inspects the content of the provided <see cref="IPackage"/>
         /// and adds the reported results to the provided <see cref="StringBuilder"/>
         /// </summary>
         /// <param name="package">
-        /// The <see cref="EPackage"/> which needs to be inspected
+        /// The <see cref="IPackage"/> which needs to be inspected
         /// </param>
         /// <param name="sb">
         /// The <see cref="StringBuilder"/> to which the results of hte inspection are reported
         /// </param>
         /// <param name="recursive">
-        /// A value indicating whether the sub <see cref="EPackage"/>s need to be inspected as well
+        /// A value indicating whether the sub <see cref="IPackage"/>s need to be inspected as well
         /// </param>
         private void Inspect(IPackage package, StringBuilder sb, bool recursive)
         {
-            this.logger.LogInformation("Inspecting the contents of EPackage {0}:{1}", package.XmiId, package.Name);
+            this.logger.LogInformation("Inspecting the contents of Package {0}:{1}", package.XmiId, package.Name);
 
-            foreach (var eClass in package.OwnedType.OfType<IClass>().OrderBy(x => x.Name))
+            foreach (var @class in package.PackagedElement.OfType<IClass>().OrderBy(x => x.Name))
             {
-                //this.logger.LogTrace("Inspecting EClass {0}:{1}", eClass.Identifier, eClass.Name);
+                this.logger.LogTrace("Inspecting Class {0}:{1}", @class.XmiId, @class.Name);
 
-                foreach (var property in eClass.OwnedAttribute)
+                foreach (var property in @class.OwnedAttribute)
                 {
                     if (property.IsDerived)
                     {
                         continue;
                     }
 
-                    //if (property is EReference reference)
-                    //{
-                    //    var referenceType = reference.IsContainment ? $"{reference.LowerBound}:{reference.UpperBound}:containment" : $"{reference.LowerBound}:{reference.UpperBound}";
+                    if (property.QueryIsReferenceProperty())
+                    {
+                        var referenceType = property.QueryIsContainment() ? $"{property.Lower}:{property.QueryUpperValue()}:containment" : $"{property.Lower}:{property.QueryUpperValue()}";
 
-                    //    if (!this.referenceTypes.Contains(referenceType))
-                    //    {
-                    //        this.logger.LogTrace("Inspecting reference type {0}", referenceType);
+                        if (!this.referenceTypes.Contains(referenceType))
+                        {
+                            this.logger.LogTrace("Inspecting reference type {0}", referenceType);
 
-                    //        this.referenceTypes.Add(referenceType);
-                    //        this.interestingClasses.Add(eClass);
+                            this.referenceTypes.Add(referenceType);
+                            this.interestingClasses.Add(@class);
 
-                    //        sb.AppendLine($"{package.Name}.{eClass.Name} -- REF {referenceType}");
-                    //    }
-                    //}
+                            sb.AppendLine($"{package.Name}.{@class.Name} -- REF {referenceType}");
+                        }
+                    }
 
-                    //if (structuralFeature is EAttribute attribute)
-                    //{
-                    //    if (structuralFeature.QueryIsEnum())
-                    //    {
-                    //        var @enum = $"{attribute.LowerBound}:{attribute.UpperBound}";
+                    if (property.QueryIsValueProperty())
+                    {
+                        if (property.QueryIsEnum())
+                        {
+                            var enumeration = $"{property.Lower}:{property.QueryUpperValue()}";
 
-                    //        this.logger.LogTrace("Inspecting enum attribute {0}", @enum);
+                            this.logger.LogTrace("Inspecting Enumeration property {0}", enumeration);
 
-                    //        if (!this.enums.Contains(@enum))
-                    //        {
-                    //            this.enums.Add(@enum);
-                    //            this.interestingClasses.Add(eClass);
+                            if (!this.enumerations.Contains(enumeration))
+                            {
+                                this.enumerations.Add(enumeration);
+                                this.interestingClasses.Add(@class);
 
-                    //            sb.AppendLine($"{eClass.Name} -- ENUM {@enum}");
-                    //        }
+                                sb.AppendLine($"{@class.Name} -- ENUM {enumeration}");
+                            }
+                        }
+                        else
+                        {
+                            var valueType = $"{property.QueryTypeName()}:{property.Lower}:{ property.QueryUpperValue()}";
 
-                    //    }
-                    //    else
-                    //    {
-                    //        var valueType = $"{attribute.EType.Name}:{attribute.LowerBound}:{attribute.UpperBound}";
+                            if (!this.valueTypes.Contains(valueType))
+                            {
+                                this.logger.LogTrace("Inspecting value property {0}", valueType);
 
-                    //        if (!this.valueTypes.Contains(valueType))
-                    //        {
-                    //            this.logger.LogTrace("Inspecting value attribute {0}", valueType);
+                                this.valueTypes.Add(valueType);
+                                this.interestingClasses.Add(@class);
 
-                    //            this.valueTypes.Add(valueType);
-                    //            this.interestingClasses.Add(eClass);
-
-                    //            sb.AppendLine($"{eClass.Name} -- VAL {valueType}");
-                    //        }
-                    //    }
-                    //}
+                                sb.AppendLine($"{@class.Name} -- VAL {valueType}");
+                            }
+                        }
+                    }
                 }
             }
 
@@ -237,11 +244,11 @@ namespace uml4net.Reporting.Generators
         }
 
         /// <summary>
-        /// Inspect the provided <see cref="EClass"/> (by name) that is contained in the <see cref="EPackage"/>
-        /// and returns the variation of data-types, enums and multiplicity as an Analysis report
+        /// Inspect the provided <see cref="IClass"/> (by name) that is contained in the <see cref="IPackage"/>
+        /// and returns the variation of data-types, enumerations and multiplicity as an Analysis report
         /// </summary>
         /// <param name="package">
-        /// The <see cref="EPackage"/> that contains the <see cref="EClass"/> that
+        /// The <see cref="IPackage"/> that contains the <see cref="IClass"/> that
         /// is to be inspected
         /// </param>
         /// <param name="className">
@@ -252,82 +259,86 @@ namespace uml4net.Reporting.Generators
         /// </returns>
         public string Inspect(IPackage package, string className)
         {
-            this.logger.LogInformation("Start ECore named Class '{2}' Inspection at EPackage {0}:{1}", package.XmiId, package.Name, className);
+            this.logger.LogInformation("Start UML named Class '{2}' Inspection at Package {0}:{1}", package.XmiId, package.Name, className);
 
             var sw = Stopwatch.StartNew();
 
             var sb = new StringBuilder();
 
-            var eClass = package.OwnedType.OfType<IClass>().Single(x => x.Name == className);
+            var @class = package.PackagedElement.OfType<IClass>().Single(x => x.Name == className);
 
-            sb.AppendLine($"{package.Name}.{eClass.Name}:");
+            sb.AppendLine($"{package.Name}.{@class.Name}:");
             sb.AppendLine("----------------------------------");
 
-            //foreach (var structuralFeature in eClass.AllEStructuralFeaturesOrderByName)
-            //{
-            //    if (structuralFeature.Derived || structuralFeature.Transient)
-            //    {
-            //        continue;
-            //    }
+            foreach (var property in @class.OwnedAttribute.OrderBy(x => x.Name))
+            {
+                if (property.IsDerived)
+                {
+                    continue;
+                }
 
-            //    //if (structuralFeature is EReference reference)
-            //    //{
-            //    //    string referenceType;
-            //    //    if (reference.IsContainment)
-            //    //    {
-            //    //        referenceType = $"{reference.Name}:{reference.EType.Name} [{reference.LowerBound}..{reference.UpperBound}] - CONTAINED REFERENCE TYPE";
-            //    //    }
-            //    //    else
-            //    //    {
-            //    //        referenceType = $"{reference.Name}:{reference.EType.Name} [{reference.LowerBound}..{reference.UpperBound}] - REFERENCE TYPE";
-            //    //    }
+                if (property.QueryIsReferenceProperty())
+                {
+                    string referenceType;
 
-            //    //    sb.AppendLine(referenceType);
-            //    //}
+                    if (property.QueryIsContainment())
+                    {
+                        referenceType = $"{property.Name}:{property.QueryTypeName()} [{property.Lower}..{property.QueryUpperValue()}] - CONTAINED REFERENCE TYPE";
+                    }
+                    else
+                    {
+                        referenceType = $"{property.Name}:{property.QueryTypeName()} [{property.Lower}..{property.QueryUpperValue()}] - REFERENCE TYPE";
+                    }
 
-            //    //if (structuralFeature is EAttribute attribute)
-            //    //{
-            //    //    if (structuralFeature.QueryIsEnum())
-            //    //    {
-            //    //        var @enum = $"{attribute.Name}:{attribute.EType.Name} [{attribute.LowerBound}..{attribute.UpperBound}] - ENUM TYPE";
-            //    //        sb.AppendLine(@enum);
-            //    //    }
-            //    //    else
-            //    //    {
-            //    //        var valueType = $"{attribute.Name}:{attribute.EType.Name} [{attribute.LowerBound}..{attribute.UpperBound}] - VALUETYPE";
-            //    //        sb.AppendLine(valueType);
-            //    //    }
-            //    //}
-            //}
+                    sb.AppendLine(referenceType);
+                }
+
+                if (property.QueryIsValueProperty())
+                {
+                    this.logger.LogInformation(property.Name);
+
+                    if (property.QueryIsEnum())
+                    {
+                        var enumeration = $"{property.Name}:{property.QueryTypeName()} [{property.Lower}..{property.QueryUpperValue()}] - ENUM TYPE";
+                        sb.AppendLine(enumeration);
+                    }
+                    else
+                    {
+                        var valueType = $"{property.Name}:{property.QueryTypeName()} [{property.Lower}..{property.QueryUpperValue()}] - VALUETYPE";
+                        sb.AppendLine(valueType);
+                    }
+                }
+            }
 
             sb.AppendLine("-DERIVED--------------------------");
-            //foreach (var structuralFeature in eClass.AllEStructuralFeaturesOrderByName)
-            //{
-            //    if (structuralFeature.Derived)
-            //    {
-            //        //if (structuralFeature is EReference reference)
-            //        //{
-            //        //    var referenceType = $"{reference.Name}:{reference.EType.Name} [{reference.LowerBound}..{reference.UpperBound}] - REFERENCE TYPE";
-            //        //    sb.AppendLine(referenceType);
-            //        //}
+            foreach (var property in @class.OwnedAttribute.OrderBy(x => x.Name))
+            {
+                if (property.IsDerived)
+                {
 
-            //        //if (structuralFeature is EAttribute attribute)
-            //        //{
-            //        //    if (structuralFeature.QueryIsEnum())
-            //        //    {
-            //        //        var @enum = $"{attribute.Name}:{attribute.EType.Name} [{attribute.LowerBound}..{attribute.UpperBound}] - ENUM TYPE";
-            //        //        sb.AppendLine(@enum);
-            //        //    }
-            //        //    else
-            //        //    {
-            //        //        var valueType = $"{attribute.Name}:{attribute.EType.Name} [{attribute.LowerBound}..{attribute.UpperBound}] - VALUETYPE";
-            //        //        sb.AppendLine(valueType);
-            //        //    }
-            //        //}
-            //    }
-            //}
+                    if (property.QueryIsReferenceProperty())
+                    {
+                        var referenceType = $"{property.Name}:{property.QueryTypeName()} [{property.Lower}..{property.QueryUpperValue()}] - REFERENCE TYPE";
+                        sb.AppendLine(referenceType);
+                    }
 
-            this.logger.LogInformation("ECore named Class '{2}' Inspection at EPackage {0}:{1} finished in {3} [ms]", package.XmiId, package.Name, className, sw.ElapsedMilliseconds);
+                    if (property.QueryIsValueProperty())
+                    {
+                        if (property.QueryIsEnum())
+                        {
+                            var enumeration = $"{property.Name}:{property.QueryTypeName()} [{property.Lower}..{property.QueryUpperValue()}] - ENUM TYPE";
+                            sb.AppendLine(enumeration);
+                        }
+                        else
+                        {
+                            var valueType = $"{property.Name} : {property.QueryTypeName()} [{property.Lower} .. {property.QueryUpperValue()}] - VALUETYPE";
+                            sb.AppendLine(valueType);
+                        }
+                    }
+                }
+            }
+
+            this.logger.LogInformation("UML named Class '{2}' Inspection at Package {0}:{1} finished in {3} [ms]", package.XmiId, package.Name, className, sw.ElapsedMilliseconds);
 
             return sb.ToString();
         }
@@ -347,7 +358,7 @@ namespace uml4net.Reporting.Generators
         /// </returns>
         public string AnalyzeDocumentation(IPackage package, bool recursive = false)
         {
-            this.logger.LogInformation("Start inspection of EPackage documentation {0}:{1}", package.XmiId, package.Name);
+            this.logger.LogInformation("Start inspection of Package documentation {0}:{1}", package.XmiId, package.Name);
 
             var sw = Stopwatch.StartNew();
 
@@ -360,7 +371,7 @@ namespace uml4net.Reporting.Generators
 
             sb.AppendLine("");
 
-            this.logger.LogInformation("Inspection of EPackage documentation {0}:{1} finished in {3} [ms]", package.XmiId, package.Name, sw.ElapsedMilliseconds);
+            this.logger.LogInformation("Inspection of Package documentation {0}:{1} finished in {3} [ms]", package.XmiId, package.Name, sw.ElapsedMilliseconds);
 
             return sb.ToString();
         }
@@ -370,31 +381,34 @@ namespace uml4net.Reporting.Generators
         /// <see cref="StringBuilder"/>
         /// </summary>
         /// <param name="package">
-        /// The <see cref="EPackage"/> which needs to be inspected
+        /// The <see cref="IPackage"/> which needs to be inspected
+        /// </param>
+        /// <param name="sb">
+        /// The <see cref="StringBuilder"/> to which the analysis results are written
         /// </param>
         /// <param name="recursive">
-        /// A value indicating whether the sub <see cref="EPackage"/>s need to be Analyzed as well
+        /// A value indicating whether the sub <see cref="IPackage"/>s need to be Analyzed as well
         /// </param>
         private void AnalyzeDocumentation(IPackage package, StringBuilder sb, bool recursive = false)
         {
-            sb.AppendLine($"Package.Class:Feature");
+            sb.AppendLine("Package.Class:Property");
             sb.AppendLine();
 
-            //foreach (var eClass in package.EClassifiers.OfType<EClass>().OrderBy(x => x.Name))
-            //{
-            //    if (string.IsNullOrEmpty(eClass.QueryRawDocumentation()))
-            //    {
-            //        sb.AppendLine($"{package.Name}.{eClass.Name}");
-            //    }
+            foreach (var @class in package.PackagedElement.OfType<IClass>().OrderBy(x => x.Name))
+            {
+                if (string.IsNullOrEmpty(@class.QueryRawDocumentation()))
+                {
+                    sb.AppendLine($"{package.Name}.{@class.Name}");
+                }
 
-            //    foreach (var eStructuralFeature in eClass.EStructuralFeaturesOrderByName)
-            //    {
-            //        if (string.IsNullOrEmpty(eStructuralFeature.QueryRawDocumentation()))
-            //        {
-            //            sb.AppendLine($"{package.Name}.{eClass.Name}:{eStructuralFeature.Name}");
-            //        }
-            //    }
-            //}
+                foreach (var property in @class.OwnedAttribute.OrderBy(x => x.Name))
+                {
+                    if (string.IsNullOrEmpty(property.QueryRawDocumentation()))
+                    {
+                        sb.AppendLine($"{package.Name}.{@class.Name}:{property.Name}");
+                    }
+                }
+            }
 
             if (recursive)
             {
@@ -430,7 +444,7 @@ namespace uml4net.Reporting.Generators
         /// Generates a table that contains all classes, attributes and their documentation
         /// </summary>
         /// <param name="modelPath">
-        /// the path to the Ecore model of which the report is to be generated.
+        /// the path to the UML model of which the report is to be generated.
         /// </param>
         /// <param name="outputPath">
         /// the path, including filename, where the output is to be generated.
@@ -451,14 +465,16 @@ namespace uml4net.Reporting.Generators
 
             this.logger.LogInformation("Start Generating Inspection Report");
 
-            //var rootPackage = this.LoadRootPackage(modelPath);
-            IPackage rootPackage = null;
-
+            var packages = this.LoadPackages(modelPath, modelPath.Directory);
+            
             var result = new StringBuilder();
 
-            result.Append(this.ReportHeader());
-            result.Append(this.Inspect(rootPackage, true));
-            result.Append(this.AnalyzeDocumentation(rootPackage, true));
+            foreach (var package in packages)
+            {
+                result.Append(this.ReportHeader());
+                result.Append(this.Inspect(package, true));
+                result.Append(this.AnalyzeDocumentation(package, true));
+            }
 
             if (outputPath.Exists)
             {
@@ -484,9 +500,9 @@ namespace uml4net.Reporting.Generators
             var header = new StringBuilder();
 
             header.AppendLine("The purpose of this report is to provide an overview of the");
-            header.AppendLine("contents of an ECore model.");
+            header.AppendLine("contents of a UML model.");
             header.AppendLine("");
-            header.AppendLine("1. This report shows the variation of value-types reference-types");
+            header.AppendLine("1. This report shows the variation of value-types, reference-types");
             header.AppendLine("   and enumerations");
             header.AppendLine("2. The report provides an overview of the variation of");
             header.AppendLine("   used multiplicities. ");
