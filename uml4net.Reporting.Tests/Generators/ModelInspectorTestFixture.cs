@@ -1,4 +1,4 @@
-﻿// -------------------------------------------------------------------------------------------------
+// -------------------------------------------------------------------------------------------------
 //  <copyright file="ModelInspectorTestFixture.cs" company="Starion Group S.A.">
 // 
 //    Copyright 2019-2024 Starion Group S.A.
@@ -78,7 +78,7 @@ namespace uml4net.Reporting.Tests.Generators
                 .WithLogger(this.loggerFactory)
                 .Build();
 
-            var packages = reader.Read(Path.Combine(rootPath, "model.xmi"));
+            var packages = reader.Read(Path.Combine(rootPath, "UML.xmi"));
 
             var rootPackage = packages.Single();
 
