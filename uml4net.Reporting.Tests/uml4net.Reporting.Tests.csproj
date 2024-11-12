@@ -48,6 +48,9 @@
         <None Include="..\resources\SySML2\SysML.uml" Link="TestData\SysML.uml">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </None>
+        <None Include="C:\CODE\SafePlace\SafePlace.CodeGeneration\src\SafePlace.CodeGeneration\Data\model.xmi" Link="TestData\model.xmi">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
     </ItemGroup>
 
 </Project>

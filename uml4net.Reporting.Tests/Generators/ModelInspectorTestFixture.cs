@@ -78,7 +78,7 @@ namespace uml4net.Reporting.Tests.Generators
                 .WithLogger(this.loggerFactory)
                 .Build();
 
-            var packages = reader.Read(Path.Combine(rootPath, "UML.xmi"));
+            var packages = reader.Read(Path.Combine(rootPath, "model.xmi"));
 
             var rootPackage = packages.Single();
 

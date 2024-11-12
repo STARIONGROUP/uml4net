@@ -37,7 +37,7 @@ namespace uml4net.POCO.StructuredClassifiers
     /// A Class classifies a set of objects and specifies the features that characterize the structure and behavior
     /// of those objects.  A Class may have an internal structure and Ports
     /// </summary>
-    public partial class Class : XmiElement, IClass
+    public class Class : XmiElement, IClass
     {
         /// <summary>
         /// The Comments owned by this Element.

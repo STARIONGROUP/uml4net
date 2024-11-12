@@ -22,7 +22,8 @@ namespace uml4net.Extensions
 {
     using POCO.Values;
     using System;
-
+    using System.Collections.Generic;
+    using System.Linq;
     using uml4net.POCO.Classification;
     using uml4net.POCO.SimpleClassifiers;
     using uml4net.POCO.StructuredClassifiers;
@@ -43,21 +44,48 @@ namespace uml4net.Extensions
         /// </returns>
         public static bool QueryIsEnum(this IProperty property)
         {
-            return property.Type is IEnumeration;
+            return property.DataType is IEnumeration || property.Type is IEnumeration;
         }
 
         /// <summary>
-        /// Queries whether the type of the <see cref="IProperty"/> is an <see cref="IPrimitiveType"/>
+        /// Queries whether the type of the <see cref="IProperty"/> is of type boolean
         /// </summary>
         /// <param name="property">
         /// The subject <see cref="IProperty"/>
         /// </param>
         /// <returns>
-        /// true of the type is a <see cref="IPrimitiveType"/>, false if not
+        /// true if the type is a <see cref="bool"/>, false if not
         /// </returns>
-        public static bool QueryIsPrimitiveType(this IProperty property)
+        public static bool QueryIsBool(this IProperty property)
         {
-            return property.Type is IPrimitiveType;
+            return property?.Type?.Name?.IndexOf("bool", StringComparison.InvariantCultureIgnoreCase) >= 0;
+        }
+
+        /// <summary>
+        /// Queries whether the type of the <see cref="IProperty"/> is a numeric type (e.g., int, double, decimal, float, etc.)
+        /// </summary>
+        /// <param name="property">
+        /// The subject <see cref="IProperty"/>
+        /// </param>
+        /// <returns>
+        /// true if the type is a numeric type (e.g., int, double, decimal, float), false otherwise.
+        /// </returns>
+        public static bool QueryIsNumeric(this IProperty property)
+        {
+            if (property?.Type?.Name == null)
+            {
+                return false;
+            }
+
+            var typeName = property.Type.Name.ToLowerInvariant();
+
+            return typeName.Contains("int") ||
+                   typeName.Contains("float") ||
+                   typeName.Contains("double") ||
+                   typeName.Contains("decimal") ||
+                   typeName.Contains("short") ||
+                   typeName.Contains("long") ||
+                   typeName.Contains("byte");
         }
 
         /// <summary>
@@ -71,7 +99,7 @@ namespace uml4net.Extensions
         /// </returns>
         public static bool QueryIsEnumerable(this IProperty property)
         {
-            var value = property.UpperValue switch
+            var value = property?.UpperValue switch
             {
                 ILiteralUnlimitedNatural literalUnlimitedNatural => literalUnlimitedNatural.Value,
                 ILiteralInteger literalInteger => literalInteger.Value,
@@ -154,27 +182,9 @@ namespace uml4net.Extensions
         /// <returns>
         /// A <see cref="bool"/>
         /// </returns>
-        /// <remarks>
-        /// The <see cref="IPrimitiveType"/> and <see cref="IEnumeration"/> are concrete subtypes of the
-        /// concrete <see cref="IDataType"/> type
-        /// </remarks>
         public static bool QueryIsValueProperty(this IProperty property)
         {
-            return property.Type is IDataType;
-        }
-
-        /// <summary>
-        /// Queries a value indicating whether the specified <see cref="IProperty"/> is a reference type
-        /// </summary>
-        /// <param name="property">
-        /// The subject <see cref="IProperty"/>
-        /// </param>
-        /// <returns>
-        /// A <see cref="bool"/>
-        /// </returns>
-        public static bool QueryIsReferenceProperty(this IProperty property)
-        {
-            return property.Type is not IDataType;
+            return property.Type is IPrimitiveType or IEnumeration;
         }
 
         /// <summary>
