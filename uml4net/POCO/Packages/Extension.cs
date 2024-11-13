@@ -440,7 +440,16 @@ namespace uml4net.POCO.Packages
         [Property(aggregation: AggregationKind.None, lowerValue: 2, upperValue: int.MaxValue)]
         [SubsettedProperty(propertyName: "Namespace-member")]
         [Implements(implementation: "IAssociation.MemberEnd")]
-        public List<IProperty> MemberEnd { get; set; } = new();
+        public IContainerList<IProperty> MemberEnd
+        {
+            get => this.memberEnd ??= new ContainerList<IProperty>(this);
+            set => this.memberEnd = value;
+        }
+
+        /// <summary>
+        /// Backing field for <see cref="IAssociation.OwnedEnd"/>
+        /// </summary>
+        private IContainerList<IProperty> memberEnd;
 
         /// <summary>
         /// The navigable ends that are owned by the Association itself.
@@ -459,6 +468,15 @@ namespace uml4net.POCO.Packages
         [SubsettedProperty(propertyName: "Classifier-feature")]
         [SubsettedProperty(propertyName: "Namespace-ownedMember")]
         [Implements(implementation: "IAssociation.OwnedEnd")]
-        List<IProperty> IAssociation.OwnedEnd { get; set; } = new();
+        IContainerList<IProperty> IAssociation.OwnedEnd
+        {
+            get => this.ownedEnd ??= new ContainerList<IProperty>(this); 
+            set => this.ownedEnd = value;
+        }
+
+        /// <summary>
+        /// Backing field for <see cref="IAssociation.OwnedEnd"/>
+        /// </summary>
+        private IContainerList<IProperty> ownedEnd;
     }
 }
