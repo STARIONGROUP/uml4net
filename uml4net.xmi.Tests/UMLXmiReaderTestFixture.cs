@@ -146,6 +146,14 @@ namespace uml4net.xmi.Tests
             var aggregationKind = classificationPackage.PackagedElement.OfType<IEnumeration>().Single(x => x.Name == "AggregationKind");
 
             Assert.That(aggregationKind.XmiId, Is.EqualTo("AggregationKind"));
+
+            var activity = package.PackagedElement.OfType<IPackage>().Single(x => x.Name == "Activities").PackagedElement.OfType<IClass>().Single(x => x.Name == "Activity");
+
+            var property = activity.OwnedAttribute.Single(x => x.XmiId == "Activity-group");
+            Assert.That(property.Association, Is.Not.Null);
+            Assert.That(property.Association.XmiId, Is.EqualTo("A_group_inActivity"));
+            Assert.That(property.Association.MemberEnd, Has.Count.EqualTo(2));
+            Assert.That(property.Association.MemberEnd, Has.Member(property));
         }
     }
 }
