@@ -42,7 +42,7 @@ namespace uml4net.Extensions
         /// </returns>
         public static bool QueryIsEnum(this IProperty property)
         {
-            return property.DataType is IEnumeration || property.Type is IEnumeration;
+            return property.Type is IEnumeration;
         }
 
         /// <summary>
@@ -196,7 +196,7 @@ namespace uml4net.Extensions
         /// </returns>
         public static bool QueryIsValueProperty(this IProperty property)
         {
-            return property.Type is IPrimitiveType or IEnumeration;
+            return property.Type is IDataType;
         }
 
         /// <summary>
