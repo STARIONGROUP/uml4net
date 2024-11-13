@@ -22,8 +22,6 @@ namespace uml4net.Extensions
 {
     using POCO.Values;
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
     using uml4net.POCO.Classification;
     using uml4net.POCO.SimpleClassifiers;
     using uml4net.POCO.StructuredClassifiers;
@@ -171,6 +169,20 @@ namespace uml4net.Extensions
         public static string QueryTypeName(this IProperty property)
         {
             return property.Type?.Name;
+        }
+
+        /// <summary>
+        /// Queries a value indicating whether the specified <see cref="IProperty"/> is a reference type
+        /// </summary>
+        /// <param name="property">
+        /// The subject <see cref="IProperty"/>
+        /// </param>
+        /// <returns>
+        /// A <see cref="bool"/>
+        /// </returns>
+        public static bool QueryIsReferenceProperty(this IProperty property)
+        {
+            return property.Type is not IDataType;
         }
 
         /// <summary>

@@ -20,16 +20,10 @@
 
 namespace uml4net.Extensions
 {
-    using System;
     using System.Collections.Generic;
     using System.Linq;
 
-    using HtmlAgilityPack;
-    using POCO.Packages;
-    using POCO.SimpleClassifiers;
-
     using uml4net.POCO.Classification;
-    using uml4net.POCO.CommonStructure;
     using uml4net.POCO.StructuredClassifiers;
 
     /// <summary>
