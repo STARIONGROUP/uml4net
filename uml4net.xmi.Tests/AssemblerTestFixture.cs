@@ -26,6 +26,7 @@ namespace uml4net.xmi.Tests
     using System;
     using POCO.Classification;
     using POCO.SimpleClassifiers;
+    using System.Linq;
     using uml4net.POCO.CommonStructure;
     using uml4net.POCO.StructuredClassifiers;
     using uml4net.POCO.Values;
@@ -109,6 +110,63 @@ namespace uml4net.xmi.Tests
                 Assert.That(classElement.OwnedComment.Count, Is.EqualTo(2));
                 Assert.That(classElement.OwnedComment.Contains(comment1));
                 Assert.That(classElement.OwnedComment.Contains(comment2));
+            });
+        }
+
+        [Test]
+        public void Synchronize_ShouldSetMultiValueReferenceFromExternalXmi()
+        {
+            // Arrange
+            const string externalXmi0 = "otherxmi";
+            const string externalXmi1 = "anotherone";
+            
+            var classElement0 = new Class { XmiId = Guid.NewGuid().ToString(), Name = "TestClass0"};
+            var classElement1 = new Class { XmiId = Guid.NewGuid().ToString(), Name = "TestClass1" };
+            var stringType = new PrimitiveType { XmiId = Guid.NewGuid().ToString(), Name = "string" };
+
+            var attribute0 = new Property 
+            { 
+                XmiId = Guid.NewGuid().ToString(), 
+                SingleValueReferencePropertyIdentifiers = { { nameof(Property.Type), $"{externalXmi1}#{stringType.XmiId}" } }
+            };
+
+            var attribute1 = new Property
+            { 
+                XmiId = Guid.NewGuid().ToString(), 
+                SingleValueReferencePropertyIdentifiers = { { nameof(Property.Type), $"{externalXmi1}#{classElement1.XmiId}" } }
+            };
+            
+            var comment1 = new Comment { XmiId = Guid.NewGuid().ToString(), Body = "Comment 1" };
+            var comment2 = new Comment { XmiId = Guid.NewGuid().ToString(), Body = "Comment 2" };
+
+            classElement0.MultiValueReferencePropertyIdentifiers.Add("OwnedComment", [comment1.XmiId, comment2.XmiId]);
+            classElement0.MultiValueReferencePropertyIdentifiers.Add("OwnedAttribute", [$"{externalXmi0}#{attribute0.XmiId}", $"{externalXmi1}#{attribute1.XmiId}"]);
+            
+            this.cache.Add(classElement0.XmiId, classElement0);
+            this.cache.Add(comment1.XmiId, comment1);
+            this.cache.Add(comment2.XmiId, comment2);
+
+            this.cache.SwitchContext(externalXmi0);
+            this.cache.Add(attribute0.XmiId, attribute0);
+
+            this.cache.SwitchContext(externalXmi1);
+            this.cache.Add(attribute1.XmiId, attribute1);
+            this.cache.Add(classElement1.XmiId, classElement1);
+            this.cache.Add(stringType.XmiId, stringType);
+
+            // Act
+            this.assembler.Synchronize();
+
+            // Assert
+            Assert.Multiple(() =>
+            {
+                Assert.That(classElement0.OwnedComment.Count, Is.EqualTo(2));
+                Assert.That(classElement0.OwnedComment.Contains(comment1));
+                Assert.That(classElement0.OwnedComment.Contains(comment2));
+                Assert.That(classElement0.OwnedAttribute.Contains(attribute0));
+                Assert.That(classElement0.OwnedAttribute.Contains(attribute1));
+                Assert.That(classElement0.OwnedAttribute.Single(x => x.XmiId == attribute1.XmiId).Type, Is.SameAs(classElement1));
+                Assert.That(classElement0.OwnedAttribute.Single(x => x.XmiId == attribute0.XmiId).Type, Is.SameAs(stringType));
             });
         }
 
@@ -251,7 +309,7 @@ namespace uml4net.xmi.Tests
         [Test]
         public void Synchronize_verify_that_type_is_set()
         {
-            var property = new Property()
+            var property = new Property
             {
                 XmiId = "Property-aggregation",
                 Name = "aggregation"
@@ -259,7 +317,7 @@ namespace uml4net.xmi.Tests
 
             property.SingleValueReferencePropertyIdentifiers.Add("type", "AggregationKind");
 
-            var enumeration = new Enumeration()
+            var enumeration = new Enumeration
             {
                 XmiId = "AggregationKind",
                 Name = "AggregationKind",

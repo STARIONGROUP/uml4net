@@ -54,7 +54,7 @@ namespace uml4net.HandleBars
 
                 return property.QueryIsEnumerable();
             });
-
+            
             handlebars.RegisterHelper("Property.IsEnumerable", (output, options, context, arguments) =>
             {
                 if (arguments.Length != 1)
@@ -115,7 +115,7 @@ namespace uml4net.HandleBars
                 return property.QueryIsEnum();
             });
 
-            handlebars.RegisterHelper("Property.IsEnum", (output, options, context, arguments) =>
+            handlebars.RegisterHelper("Property.IsEnum", (context, arguments) =>
             {
                 if (arguments.Length != 1)
                 {
@@ -124,12 +124,76 @@ namespace uml4net.HandleBars
 
                 var property = arguments.Single() as IProperty;
 
-                var isEnum = property.QueryIsEnum();
+                return property.QueryIsEnum();
+            });
 
-                if (isEnum)
+            handlebars.RegisterHelper("Property.QueryIsBool", (context, arguments) =>
+            {
+                if (arguments.Length != 1)
                 {
-                    options.Template(output, context);
+                    throw new HandlebarsException("{{#Property.QueryIsBool}} helper must have exactly one argument");
                 }
+
+                var property = arguments.Single() as IProperty;
+
+                return property.QueryIsBool();
+            });
+
+            handlebars.RegisterHelper("Property.QueryIsNumeric", (context, arguments) =>
+            {
+                if (arguments.Length != 1)
+                {
+                    throw new HandlebarsException("{{#Property.QueryIsNumeric}} helper must have exactly one argument");
+                }
+
+                var property = arguments.Single() as IProperty;
+
+                return property.QueryIsNumeric();
+            });
+
+            handlebars.RegisterHelper("Property.QueryIsInteger", (context, arguments) =>
+            {
+                if (arguments.Length != 1)
+                {
+                    throw new HandlebarsException("{{#Property.QueryIsInteger}} helper must have exactly one argument");
+                }
+
+                var property = arguments.Single() as IProperty;
+
+                return property?.Type?.Name.ToLowerInvariant().Contains("int");
+            });
+
+            handlebars.RegisterHelper("Property.QueryIsFloat", (context, arguments) =>
+            {
+                if (arguments.Length != 1)
+                {
+                    throw new HandlebarsException("{{#Property.QueryIsFloat}} helper must have exactly one argument");
+                }
+
+                var typeName = (arguments.Single() as IProperty)?.Type?.Name?.ToLowerInvariant();
+                return typeName is not null && (typeName.Contains("single") || typeName.Contains("float"));
+            });
+            
+            handlebars.RegisterHelper("Property.QueryIsDouble", (context, arguments) =>
+            {
+                if (arguments.Length != 1)
+                {
+                    throw new HandlebarsException("{{#Property.QueryIsDouble}} helper must have exactly one argument");
+                }
+
+                var typeName = (arguments.Single() as IProperty)?.Type?.Name?.ToLowerInvariant();
+                return typeName?.Contains("double");
+            });
+
+            handlebars.RegisterHelper("Property.QueryIsDateTime", (context, arguments) =>
+            {
+                if (arguments.Length != 1)
+                {
+                    throw new HandlebarsException("{{#Property.QueryIsDouble}} helper must have exactly one argument");
+                }
+
+                var typeName = (arguments.Single() as IProperty)?.Type?.Name?.ToLowerInvariant();
+                return typeName?.Contains("date");
             });
 
             handlebars.RegisterHelper("Property.QueryHasDefaultValue", (context, arguments) =>

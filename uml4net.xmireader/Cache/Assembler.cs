@@ -126,27 +126,9 @@ namespace uml4net.xmi.Cache
         /// <returns><c>true</c> if the referenced element was successfully retrieved; otherwise, <c>false</c>.</returns>
         private bool TryGetReferencedElement(string referenceIdKey, out IXmiElement element)
         {
-            var isContextResolved = this.cache.TryResolveContext(referenceIdKey, out var resolvedContextAndResource);
-
-            if (isContextResolved)
-            {
-                var isValueFound = this.cache.TryGetValue(resolvedContextAndResource.Context, resolvedContextAndResource.ResourceId, out element);
-                return isValueFound;
-            }
-            
-            foreach (var globalCacheKey in this.cache.GlobalCache.Keys)
-            {
-                var cache = this.cache.GlobalCache[globalCacheKey];
-                var isFallbackFound = cache.TryGetValue(referenceIdKey, out element);
-
-                if (isFallbackFound)
-                {
-                    return true;
-                }
-            }
-
-            element = null;
-            return false;
+            return this.cache.TryResolveContext(referenceIdKey, out var resolvedContextAndResource, true)
+                ? this.cache.TryGetValue(resolvedContextAndResource.Context, resolvedContextAndResource.ResourceId, out element)
+                : this.cache.Cache.TryGetValue(referenceIdKey, out element);
         }
 
         /// <summary>

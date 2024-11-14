@@ -147,21 +147,32 @@ namespace uml4net.xmi.Cache
         /// <summary>
         /// Attempts to resolve the context and resource ID from the specified resource key.
         /// </summary>
-        /// <param name="resourceKey">The key representing the resource, which may contain context and resource ID separated by '#'.</param>
-        /// <param name="resolvedContextAndResource">When this method returns, contains a tuple with the context and resource ID if resolved successfully; otherwise, <c>(null, null)</c>.</param>
-        /// <returns><c>true</c> if the context and resource ID were successfully resolved; otherwise, <c>false</c>.</returns>
-        public bool TryResolveContext(string resourceKey, out (string Context, string ResourceId) resolvedContextAndResource)
+        /// <param name="resourceKey">
+        /// The key representing the resource, which may contain context and resource ID separated by '#'.
+        /// </param>
+        /// <param name="resolvedContextAndResource">
+        /// When this method returns, contains a tuple with the resolved context and resource ID if successful; 
+        /// otherwise, <c>(null, null)</c> if unsuccessful.
+        /// </param>
+        /// <param name="validateContextExistence">
+        /// If <c>true</c>, checks whether the resolved context exists in the global cache. If <c>false</c>, 
+        /// performs no such check.
+        /// </param>
+        /// <returns>
+        /// <c>true</c> if the context and resource ID were successfully resolved and, if applicable, the 
+        /// context exists in the global cache; otherwise, <c>false</c>.
+        /// </returns>
+        public bool TryResolveContext(string resourceKey, out (string Context, string ResourceId) resolvedContextAndResource, bool validateContextExistence = false)
         {
             var referenceString = resourceKey.Split(['#'], StringSplitOptions.RemoveEmptyEntries);
 
-            if (referenceString.Length == 2)
+            resolvedContextAndResource = referenceString.Length switch
             {
-                resolvedContextAndResource = (referenceString[0], referenceString[1]);
-                return true;
-            }
-
-            resolvedContextAndResource = (null, null);
-            return false;
+                2 => (referenceString[0], referenceString[1]),
+                _ => (DefaultKey, resourceKey)
+            };
+            
+            return !validateContextExistence || this.GlobalCache.ContainsKey(resolvedContextAndResource.Context);
         }
     }
 }
