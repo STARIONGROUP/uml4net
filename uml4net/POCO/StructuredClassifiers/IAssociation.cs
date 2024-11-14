@@ -26,6 +26,7 @@ namespace uml4net.POCO.StructuredClassifiers
 
     using uml4net.POCO.Classification;
     using uml4net.POCO.CommonStructure;
+    using Utils;
 
     /// <summary>
     /// A link is a tuple of values that refer to typed objects.  An Association classifies a set of links, each of which
@@ -51,7 +52,7 @@ namespace uml4net.POCO.StructuredClassifiers
         /// </summary>
         [Property(aggregation: AggregationKind.None, lowerValue: 2, upperValue: int.MaxValue)]
         [SubsettedProperty(propertyName: "Namespace-member")]
-        public List<IProperty> MemberEnd { get; set; }
+        public IContainerList<IProperty> MemberEnd { get; set; }
 
         /// <summary>
         /// The navigable ends that are owned by the Association itself.
@@ -68,6 +69,6 @@ namespace uml4net.POCO.StructuredClassifiers
         [SubsettedProperty(propertyName: "Association-memberEnd")]
         [SubsettedProperty(propertyName: "Classifier-feature")]
         [SubsettedProperty(propertyName: "Namespace-ownedMember")]
-        public List<IProperty> OwnedEnd { get; set; }
+        public IContainerList<IProperty> OwnedEnd { get; set; }
     }
 }

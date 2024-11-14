@@ -102,6 +102,7 @@ namespace uml4net.xmi
             this.ContainerBuilder.RegisterType<PrimitiveTypeReader>().As<IXmiElementReader<IPrimitiveType>>().PropertiesAutowired();
             this.ContainerBuilder.RegisterType<InterfaceReader>().As<IXmiElementReader<IInterface>>().PropertiesAutowired();
             this.ContainerBuilder.RegisterType<RealizationReader>().As<IXmiElementReader<IRealization>>().PropertiesAutowired();
+            this.ContainerBuilder.RegisterType<AssociationReader>().As<IXmiElementReader<IAssociation>>().PropertiesAutowired();
         }
 
         /// <summary>

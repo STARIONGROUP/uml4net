@@ -81,7 +81,7 @@ namespace uml4net.xmi.Cache
 
             if (this.IsInvalidKey(key) || !cache.TryResolveContext(key, out var resource))
             {
-                logger.LogInformation("Invalid external resource key [{key}]", key);
+                logger.LogTrace("Resource key [{key}] is not referencing an external resource", key);
                 return false;
             }
 

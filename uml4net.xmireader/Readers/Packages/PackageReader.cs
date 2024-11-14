@@ -75,6 +75,11 @@ namespace uml4net.xmi.Readers.Packages
         public IXmiElementReader<IRealization> RealizationReader { get; set; }
 
         /// <summary>
+        /// Gets the INJECTED <see cref="IXmiElementReader{T}"/> of <see cref="IAssociation"/>
+        /// </summary>
+        public IXmiElementReader<IAssociation> AssociationReader { get; set; }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="PackageReader"/> class.
         /// </summary>
         /// <param name="cache">
@@ -193,7 +198,8 @@ namespace uml4net.xmi.Readers.Packages
                 case "uml:Association":
                     using (var associationXmlReader = xmlReader.ReadSubtree())
                     {
-                        this.Logger.LogDebug("uml:Association not yet implements");
+                        var association = this.AssociationReader.Read(associationXmlReader);
+                        package.PackagedElement.Add(association);
                     }
                     break;
                 case "uml:Class":

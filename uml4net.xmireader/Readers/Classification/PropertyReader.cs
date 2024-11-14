@@ -164,6 +164,12 @@ namespace uml4net.xmi.Readers.Classification
                     property.SingleValueReferencePropertyIdentifiers.Add("type", type);
                 }
 
+                var association = xmlReader.GetAttribute("association");
+                if (!string.IsNullOrEmpty(association))
+                {
+                    property.SingleValueReferencePropertyIdentifiers.Add("association", association);
+                }
+
                 while (xmlReader.Read())
                 {
                     if (xmlReader.NodeType == XmlNodeType.Element)
