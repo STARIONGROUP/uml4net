@@ -111,7 +111,7 @@ namespace uml4net.POCO.UseCases
         /// </summary>
         [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isReadOnly: true, isDerived: true)]
         [Implements(implementation: "INamedElement.QualifiedName")]
-        public string QualifiedName => throw new NotImplementedException();
+        public string QualifiedName => this.QueryQualifiedName();
 
         /// <summary>
         /// Determines whether and how the NamedElement is visible outside its owning Namespace.
