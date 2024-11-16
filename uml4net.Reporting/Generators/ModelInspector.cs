@@ -30,9 +30,7 @@ namespace uml4net.Reporting.Generators
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Logging.Abstractions;
 
-    using uml4net.Extend;
     using uml4net.Extensions;
-    using uml4net.POCO.Classification;
     using uml4net.POCO.Packages;
     using uml4net.POCO.StructuredClassifiers;
     

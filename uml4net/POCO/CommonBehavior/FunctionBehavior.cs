@@ -441,7 +441,16 @@ namespace uml4net.POCO.CommonBehavior
         [SubsettedProperty("Classifier-feature")]
         [SubsettedProperty("Namespace-ownedMember")]
         [Implements(implementation: "IClass.OwnedOperation")]
-        public List<IOperation> OwnedOperation { get; set; } = new();
+        public IContainerList<IOperation> OwnedOperation
+        {
+            get => this.ownedOperation ??= new ContainerList<IOperation>(this);
+            set => this.ownedOperation = value;
+        }
+
+        /// <summary>
+        /// Backing field for <see cref="OwnedOperation"/>
+        /// </summary>
+        private IContainerList<IOperation> ownedOperation;
 
         /// <summary>
         /// The Receptions owned by the Class.
@@ -450,7 +459,16 @@ namespace uml4net.POCO.CommonBehavior
         [SubsettedProperty("Classifier-feature")]
         [SubsettedProperty("Namespace-ownedMember")]
         [Implements(implementation: "IClass.OwnedReception")]
-        public List<IReception> OwnedReception { get; set; } = new();
+        public IContainerList<IReception> OwnedReception
+        {
+            get => this.ownedReception ??= new ContainerList<IReception>(this);
+            set => this.ownedReception = value;
+        }
+
+        /// <summary>
+        /// Backing field for <see cref="OwnedReception"/>
+        /// </summary>
+        private IContainerList<IReception> ownedReception;
 
         /// <summary>
         /// The superclasses of a Class, derived from its Generalizations.
