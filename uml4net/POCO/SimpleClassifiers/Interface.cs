@@ -32,7 +32,6 @@ namespace uml4net.POCO.SimpleClassifiers
     using uml4net.POCO.StructuredClassifiers;
     using uml4net.POCO.UseCases;
     using uml4net.POCO.Values;
-    using uml4net.Utils;
     using uml4net.POCO.StateMachines;
 
     /// <summary>
@@ -140,13 +139,14 @@ namespace uml4net.POCO.SimpleClassifiers
         /// Backing field for <see cref="ElementImport"/>
         /// </summary>
         private IContainerList<IElementImport> elementImport;
+
         /// <summary>
         /// References the PackageableElements that are members of this Namespace as a result of either PackageImports or ElementImports.
         /// </summary>
         [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isReadOnly: true, isDerived: true)]
         [SubsettedProperty(propertyName: "Namespace.Member")]
         [Implements(implementation: "INamespace.ImportedMember")]
-        public List<IPackageableElement> ImportedMember { get; }
+        public List<IPackageableElement> ImportedMember => throw new NotImplementedException();
 
         /// <summary>
         /// A collection of NamedElements owned by the Namespace.
@@ -155,7 +155,7 @@ namespace uml4net.POCO.SimpleClassifiers
         [SubsettedProperty(propertyName: "Element.OwnedElement")]
         [SubsettedProperty(propertyName: "Namespace.Member")]
         [Implements(implementation: "INamespace.OwnedMember")]
-        public List<INamedElement> OwnedMember { get; }
+        public List<INamedElement> OwnedMember => throw new NotImplementedException();
 
         /// <summary>
         /// Specifies a set of Constraints owned by this Namespace.
@@ -279,7 +279,6 @@ namespace uml4net.POCO.SimpleClassifiers
         /// Backing field for <see cref="Generalization"/>
         /// </summary>
         private IContainerList<IGeneralization> generalization;
-
 
         /// <summary>
         /// All elements inherited by this Classifier from its general Classifiers.
@@ -416,7 +415,7 @@ namespace uml4net.POCO.SimpleClassifiers
         }
 
         /// <summary>
-        /// Backing field for <see cref="Generalization"/>
+        /// Backing field for <see cref="OwnedAttribute"/>
         /// </summary>
         private IContainerList<IProperty> ownedAttribute;
 
@@ -435,7 +434,7 @@ namespace uml4net.POCO.SimpleClassifiers
         }
 
         /// <summary>
-        /// Backing field for <see cref="Generalization"/>
+        /// Backing field for <see cref="OwnedOperation"/>
         /// </summary>
         private IContainerList<IOperation> ownedOperation;
 
@@ -453,7 +452,7 @@ namespace uml4net.POCO.SimpleClassifiers
         }
 
         /// <summary>
-        /// Backing field for <see cref="Generalization"/>
+        /// Backing field for <see cref="OwnedReception"/>
         /// </summary>
         private IContainerList<IReception> ownedReception;
 
@@ -470,7 +469,7 @@ namespace uml4net.POCO.SimpleClassifiers
         }
 
         /// <summary>
-        /// Backing field for <see cref="Generalization"/>
+        /// Backing field for <see cref="Protocol"/>
         /// </summary>
         private IContainerList<IProtocolStateMachine> protocol;
 

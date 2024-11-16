@@ -81,7 +81,7 @@ namespace uml4net.POCO.StructuredClassifiers
         [SubsettedProperty("A_redefinitionContext_redefinableElement-redefinableElement")]
         [SubsettedProperty("Classifier-feature")]
         [SubsettedProperty("Namespace-ownedMember")]
-        public List<IOperation> OwnedOperation { get; set; }
+        public IContainerList<IOperation> OwnedOperation { get; set; }
 
         /// <summary>
         /// The Receptions owned by the Class.
@@ -89,7 +89,7 @@ namespace uml4net.POCO.StructuredClassifiers
         [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue)]
         [SubsettedProperty("Classifier-feature")]
         [SubsettedProperty("Namespace-ownedMember")]
-        public List<IReception> OwnedReception { get; set; }
+        public IContainerList<IReception> OwnedReception { get; set; }
 
         /// <summary>
         /// The superclasses of a Class, derived from its Generalizations.
