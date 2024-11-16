@@ -100,11 +100,12 @@ namespace uml4net.POCO.Packages
         /// <summary>
         /// Specifies the Namespace that owns the NamedElement.
         /// </summary>
-        [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isReadOnly: true, isDerived: true, isDerivedUnion: true)]
+        [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isReadOnly: true, isDerived: true,
+            isDerivedUnion: true)]
         [SubsettedProperty(propertyName: "A_member_memberNamespace.MemberNamespace")]
         [SubsettedProperty(propertyName: "Element.Owner")]
         [Implements("INamedElement.Namespace")]
-        public INamespace Namespace => throw new NotImplementedException();
+        public INamespace Namespace => this.QueryNamespace();
 
         /// <summary>
         /// A name that allows the NamedElement to be identified within a hierarchy of nested Namespaces. It is constructed from the names of 

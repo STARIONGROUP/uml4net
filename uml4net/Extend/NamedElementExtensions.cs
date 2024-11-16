@@ -67,5 +67,31 @@ namespace uml4net.Extend
 
             return result;
         }
+
+        /// <summary>
+        /// Queries the <see cref="INamespace"/> that owns the <see cref="INamedElement"/>
+        /// </summary>
+        /// <param name="namedElement">
+        /// The subject <see cref="INamedElement"/>
+        /// </param>
+        /// <returns>
+        /// The <see cref="INamespace"/> that owns the <see cref="INamedElement"/>
+        /// </returns>
+        public static INamespace QueryNamespace(this INamedElement namedElement)
+        {
+            if (namedElement.Owner == null)
+            {
+                return null;
+            }
+
+            var owner = namedElement.Owner;
+
+            while (owner is not INamespace)
+            {
+                owner = owner.Owner;
+            }
+
+            return owner as INamespace;
+        }
     }
 }

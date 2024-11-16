@@ -102,7 +102,7 @@ namespace uml4net.POCO.UseCases
         [SubsettedProperty(propertyName: "A_member_memberNamespace.MemberNamespace")]
         [SubsettedProperty(propertyName: "Element.Owner")]
         [Implements(implementation: "INamedElement.Namespace")]
-        public INamespace Namespace => throw new NotImplementedException();
+        public INamespace Namespace => this.QueryNamespace();
 
         /// <summary>
         /// A name that allows the NamedElement to be identified within a hierarchy of nested Namespaces. It is constructed from the names of 
