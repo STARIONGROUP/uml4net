@@ -20,7 +20,12 @@
 
 namespace uml4net.POCO.SimpleClassifiers
 {
+    using System.Collections.Generic;
+
+    using uml4net.Decorators;
     using uml4net.POCO.Classification;
+    using uml4net.POCO.StateMachines;
+    using uml4net.Utils;
 
     /// <summary>
     /// Interfaces declare coherent services that are implemented by BehavioredClassifiers
@@ -28,5 +33,50 @@ namespace uml4net.POCO.SimpleClassifiers
     /// </summary>
     public interface IInterface : IClassifier
     {
+        /// <summary>
+        /// References all the Classifiers that are defined (nested) within the Interface.
+        /// </summary>
+        [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: true, isReadOnly: false, isDerived: false, isDerivedUnion: false)]
+        [SubsettedProperty(propertyName: "A_redefinitionContext_redefinableElement-redefinableElement")]
+        [SubsettedProperty(propertyName: "Namespace-ownedMember")]
+        public IContainerList<IClassifier> NestedClassifier { get; set; }
+
+        /// <summary>
+        /// The attributes (i.e., the Properties) owned by the Interface.
+        /// </summary>
+        [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: true)]
+        [SubsettedProperty("Classifier-attribute")]
+        [SubsettedProperty("Namespace-ownedMember")]
+        public IContainerList<IProperty> OwnedAttribute { get; set; }
+
+        /// <summary>
+        /// The Operations owned by the Interface.
+        /// </summary>
+        [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: true)]
+        [SubsettedProperty("A_redefinitionContext_redefinableElement-redefinableElement")]
+        [SubsettedProperty("Classifier-feature")]
+        [SubsettedProperty("Namespace-ownedMember")]
+        public IContainerList<IOperation> OwnedOperation { get; set; }
+
+        /// <summary>
+        /// Receptions that objects providing this Interface are willing to accept.
+        /// </summary>
+        [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue)]
+        [SubsettedProperty("Classifier-feature")]
+        [SubsettedProperty("Namespace-ownedMember")]
+        public IContainerList<IReception> OwnedReception { get; set; }
+
+        /// <summary>
+        /// References a ProtocolStateMachine specifying the legal sequences of the invocation of the BehavioralFeatures described in the Interface.
+        /// </summary>
+        [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: 1)]
+        [SubsettedProperty("Namespace-ownedMember")]
+        public IContainerList<IProtocolStateMachine> Protocol { get; set; }
+
+        /// <summary>
+        /// References all the Interfaces redefined by this Interface.
+        /// </summary>
+        [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue)]
+        public List<IInterface> RedefinedInterface { get; set; }
     }
 }

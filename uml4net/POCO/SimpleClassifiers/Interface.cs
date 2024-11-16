@@ -33,6 +33,7 @@ namespace uml4net.POCO.SimpleClassifiers
     using uml4net.POCO.UseCases;
     using uml4net.POCO.Values;
     using uml4net.Utils;
+    using uml4net.POCO.StateMachines;
 
     /// <summary>
     /// Interfaces declare coherent services that are implemented by BehavioredClassifiers
@@ -382,5 +383,102 @@ namespace uml4net.POCO.SimpleClassifiers
         [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isReadOnly: true, isDerived: true, isDerivedUnion: true)]
         [Implements(implementation: "IRedefinableElement.RedefinitionContext")]
         public IClassifier RedefinitionContext => throw new NotImplementedException();
+
+        /// <summary>
+        /// References all the Classifiers that are defined (nested) within the Interface.
+        /// </summary>
+        [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: true, isReadOnly: false, isDerived: false, isDerivedUnion: false)]
+        [SubsettedProperty(propertyName: "A_redefinitionContext_redefinableElement-redefinableElement")]
+        [SubsettedProperty(propertyName: "Namespace-ownedMember")]
+        [Implements(implementation: "IInterface.NestedClassifier")]
+        public IContainerList<IClassifier> NestedClassifier
+        {
+            get => this.nestedClassifier ??= new ContainerList<IClassifier>(this);
+            set => this.nestedClassifier = value;
+        }
+
+        /// <summary>
+        /// Backing field for <see cref="NestedClassifier"/>
+        /// </summary>
+        private IContainerList<IClassifier> nestedClassifier;
+
+        /// <summary>
+        /// The attributes (i.e., the Properties) owned by the Interface.
+        /// </summary>
+        [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: true)]
+        [SubsettedProperty("Classifier-attribute")]
+        [SubsettedProperty("Namespace-ownedMember")]
+        [Implements(implementation: "IInterface.OwnedAttribute")]
+        public IContainerList<IProperty> OwnedAttribute
+        {
+            get => this.ownedAttribute ??= new ContainerList<IProperty>(this);
+            set => this.ownedAttribute = value;
+        }
+
+        /// <summary>
+        /// Backing field for <see cref="Generalization"/>
+        /// </summary>
+        private IContainerList<IProperty> ownedAttribute;
+
+        /// <summary>
+        /// The Operations owned by the Interface.
+        /// </summary>
+        [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: true)]
+        [SubsettedProperty("A_redefinitionContext_redefinableElement-redefinableElement")]
+        [SubsettedProperty("Classifier-feature")]
+        [SubsettedProperty("Namespace-ownedMember")]
+        [Implements(implementation: "IInterface.OwnedOperation")]
+        public IContainerList<IOperation> OwnedOperation
+        {
+            get => this.ownedOperation ??= new ContainerList<IOperation>(this);
+            set => this.ownedOperation = value;
+        }
+
+        /// <summary>
+        /// Backing field for <see cref="Generalization"/>
+        /// </summary>
+        private IContainerList<IOperation> ownedOperation;
+
+        /// <summary>
+        /// Receptions that objects providing this Interface are willing to accept.
+        /// </summary>
+        [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue)]
+        [SubsettedProperty("Classifier-feature")]
+        [SubsettedProperty("Namespace-ownedMember")]
+        [Implements(implementation: "IInterface.OwnedReception")]
+        public IContainerList<IReception> OwnedReception
+        {
+            get => this.ownedReception ??= new ContainerList<IReception>(this);
+            set => this.ownedReception = value;
+        }
+
+        /// <summary>
+        /// Backing field for <see cref="Generalization"/>
+        /// </summary>
+        private IContainerList<IReception> ownedReception;
+
+        /// <summary>
+        /// References a ProtocolStateMachine specifying the legal sequences of the invocation of the BehavioralFeatures described in the Interface.
+        /// </summary>
+        [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: 1)]
+        [SubsettedProperty("Namespace-ownedMember")]
+        [Implements(implementation: "IInterface.Protocol")]
+        public IContainerList<IProtocolStateMachine> Protocol
+        {
+            get => this.protocol ??= new ContainerList<IProtocolStateMachine>(this);
+            set => this.protocol = value;
+        }
+
+        /// <summary>
+        /// Backing field for <see cref="Generalization"/>
+        /// </summary>
+        private IContainerList<IProtocolStateMachine> protocol;
+
+        /// <summary>
+        /// References all the Interfaces redefined by this Interface.
+        /// </summary>
+        [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue)]
+        [Implements(implementation: "IInterface.RedefinedInterface")]
+        public List<IInterface> RedefinedInterface { get; set; }
     }
 }
