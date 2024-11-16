@@ -19,7 +19,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Soluttion Items", "Soluttio
 		release.bat = release.bat
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "uml4net.xmi", "uml4net.xmireader\uml4net.xmi.csproj", "{6C34F77D-734A-4983-B11C-7C166EE5E684}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "uml4net.xmi", "uml4net.xmi\uml4net.xmi.csproj", "{6C34F77D-734A-4983-B11C-7C166EE5E684}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "uml4net.xmi.Tests", "uml4net.xmi.Tests\uml4net.xmi.Tests.csproj", "{37EDC280-C79F-487A-8B34-8B6460E6EB0C}"
 EndProject
@@ -28,6 +28,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "uml4net.CodeGenerator.Tests", "uml4net.CodeGenerator.Tests\uml4net.CodeGenerator.Tests.csproj", "{325EF79A-369D-4A53-8FCE-11C5504D0EB8}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "uml4net.Extensions", "uml4net.Extensions\uml4net.Extensions.csproj", "{566C0321-9872-4F0D-AC2C-52B01EC72EFD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "uml4net.Extensions.Tests", "uml4net.Extensions.Tests\uml4net.Extensions.Tests.csproj", "{4A170254-FDB3-42B8-A71F-DD35F64D74AC}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "uml4net.HandleBars", "uml4net.HandleBars\uml4net.HandleBars.csproj", "{EB0425EC-AD4D-4F3E-8EC7-56C8116202D3}"
 EndProject
@@ -38,8 +40,6 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "uml4net.Tools", "uml4net.Tools\uml4net.Tools.csproj", "{79A43C07-CED5-4258-8314-F15F042C0775}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "uml4net.Tools.Tests", "uml4net.Tools.Tests\uml4net.Tools.Tests.csproj", "{246A65BB-19C2-4725-BF27-210711118590}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "uml4net.Reporting.Tests", "uml4net.Reporting.Tests.csproj\uml4net.Reporting.Tests.csproj", "{4A170254-FDB3-42B8-A71F-DD35F64D74AC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

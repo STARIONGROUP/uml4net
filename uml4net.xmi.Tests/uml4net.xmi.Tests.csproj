@@ -30,7 +30,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\uml4net.xmireader\uml4net.xmi.csproj" />
+      <ProjectReference Include="..\uml4net.xmi\uml4net.xmi.csproj" />
     </ItemGroup>
 
     <ItemGroup>
