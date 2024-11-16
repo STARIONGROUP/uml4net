@@ -463,11 +463,11 @@ namespace uml4net.Reporting.Generators
 
             this.logger.LogInformation("Start Generating Inspection Report");
 
-            var packages = this.LoadPackages(modelPath, modelPath.Directory);
+            var xmiReaderResult = this.LoadPackages(modelPath, modelPath.Directory);
             
             var result = new StringBuilder();
 
-            foreach (var package in packages)
+            foreach (var package in xmiReaderResult.Packages)
             {
                 result.Append(this.ReportHeader());
                 result.Append(this.Inspect(package, true));

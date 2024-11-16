@@ -33,15 +33,14 @@ namespace uml4net.Extensions.Tests
     using uml4net.POCO.Packages;
     using uml4net.POCO.StructuredClassifiers;
     using uml4net.xmi;
+    using xmi.Readers;
 
     [TestFixture]
     public class ClassifierExtensionsTestFixture
     {
         private ILoggerFactory loggerFactory;
 
-        private IEnumerable<IPackage> packages;
-
-        private IPackage rootPackage;
+        private XmiReaderResult xmiReaderResult;
 
         [OneTimeSetUp]
         public void OneTimeSetUp()
@@ -67,15 +66,13 @@ namespace uml4net.Extensions.Tests
                 .WithLogger(this.loggerFactory)
                 .Build();
 
-            this.packages = reader.Read(Path.Combine(rootPath, "UML.xmi"));
-
-            this.rootPackage = this.packages.Single();
+            this.xmiReaderResult = reader.Read(Path.Combine(rootPath, "UML.xmi"));
         }
 
         [Test]
         public void Verify_that_QueryAllGeneralClassifiers_returns_expected_result()
         {
-            var commonStructuresPackage = this.rootPackage.NestedPackage.Single(x => x.Name == "CommonStructure");
+            var commonStructuresPackage = this.xmiReaderResult.Root.NestedPackage.Single(x => x.Name == "CommonStructure");
 
             var dependency = commonStructuresPackage.PackagedElement.OfType<IClass>().Single(x => x.Name == "Dependency");
 

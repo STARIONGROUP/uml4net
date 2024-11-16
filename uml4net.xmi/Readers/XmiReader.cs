@@ -20,19 +20,20 @@
 
 namespace uml4net.xmi.Readers
 {
-    using Cache;
-    using System.Collections.Generic;
+    using System;
     using System.Diagnostics;
     using System.IO;
     using System.Xml;
 
     using Microsoft.Extensions.Logging;
-    using uml4net.POCO.Packages;
-    using xmi;
 
+    using uml4net.POCO.Packages;
+    using uml4net.xmi;
+    using uml4net.xmi.Cache;
+    
     /// <summary>
     /// The purpose of the <see cref="XmiReader"/> is to provide a means to read (deserialize)
-    /// an UML 2.5.1 model from XMI
+    /// a UML 2.5.1 model from XMI
     /// </summary>
     public class XmiReader : IXmiReader
     {
@@ -98,9 +99,10 @@ namespace uml4net.xmi.Readers
         /// The URI of the XMI file to be read.
         /// </param>
         /// <returns>
-        /// An <see cref="IEnumerable{IPackage}"/> representing the deserialized packages from the XMI file.
+        /// An <see cref="XmiReaderResult"/> that contains the root <see cref="IPackage"/> and other
+        /// contained <see cref="IPackage"/>s representing contents of XMI file
         /// </returns>
-        public IEnumerable<IPackage> Read(string fileUri)
+        public XmiReaderResult Read(string fileUri)
         {
             using var fileStream = File.OpenRead(fileUri);
 
@@ -122,11 +124,16 @@ namespace uml4net.xmi.Readers
         /// The <see cref="Stream"/> that contains the XMI content to be read.
         /// </param>
         /// <returns>
-        /// An <see cref="IEnumerable{IPackage}"/> representing the deserialized packages from the XMI stream.
+        /// An <see cref="XmiReaderResult"/> that contains the root <see cref="IPackage"/> and other
+        /// contained <see cref="IPackage"/>s representing contents of XMI stream
         /// </returns>
-        public IEnumerable<IPackage> Read(Stream stream)
+        public XmiReaderResult Read(Stream stream)
         {
-            return this.Read(stream, true);
+            var xmiReaderResult = new XmiReaderResult();
+
+            this.Read(stream, xmiReaderResult, true);
+
+            return xmiReaderResult;
         }
 
         /// <summary>
@@ -135,20 +142,23 @@ namespace uml4net.xmi.Readers
         /// <param name="stream">
         /// The <see cref="Stream"/> that contains the XMI content to be read.
         /// </param>
+        /// <param name="xmiReaderResult">
+        /// The <see cref="XmiReaderResult"/> to which the read <see cref="IPackage"/>s are added
+        /// </param>
         /// <param name="isRoot">
         /// A value indicating whether the reading occurs on the root node.
         /// </param>
         /// <returns>
-        /// An <see cref="IEnumerable{IPackage}"/> representing the deserialized packages from the XMI stream.
+        /// An <see cref="XmiReaderResult"/> that contains the root <see cref="IPackage"/> and other
+        /// contained <see cref="IPackage"/>s representing contents of XMI stream
         /// </returns>
-        private IEnumerable<IPackage> Read(Stream stream, bool isRoot)
+        private void Read(Stream stream, XmiReaderResult xmiReaderResult, bool isRoot)
         {
             var settings = new XmlReaderSettings();
 
             stream.Seek(0, SeekOrigin.Begin);
 
             var sw = Stopwatch.StartNew();
-            var packages = new List<IPackage>();
 
             using (var reader = new StreamReader(stream, detectEncodingFromByteOrderMarks: true))
 
@@ -160,14 +170,18 @@ namespace uml4net.xmi.Readers
                 {
                     if (xmlReader.NodeType == XmlNodeType.Element)
                     {
-                        //TODO: this should probably be a full list of all kinds of UML classes, use codegen
                         switch (xmlReader.Name)
                         {
                             case "uml:Package":
                                 using (var packageXmlReader = xmlReader.ReadSubtree())
                                 {
                                     var package = this.PackageReader.Read(packageXmlReader);
-                                    packages.Add(package);
+                                    xmiReaderResult.Packages.Add(package);
+
+                                    if (isRoot)
+                                    {
+                                        xmiReaderResult.Root = package;
+                                    }
                                 }
 
                                 break;
@@ -175,9 +189,20 @@ namespace uml4net.xmi.Readers
                                 using (var modelXmlReader = xmlReader.ReadSubtree())
                                 {
                                     var model = this.ModelReader.Read(modelXmlReader);
-                                    packages.Add(model);
+                                    xmiReaderResult.Packages.Add(model);
+
+                                    if (isRoot)
+                                    {
+                                        xmiReaderResult.Root = model;
+                                    }
                                 }
 
+                                break;
+                            case "uml:Profile":
+                                using (var profileXmlReader = xmlReader.ReadSubtree())
+                                {
+                                    Console.WriteLine("profileXmlReader not yet implemented");
+                                }
                                 break;
                         }
                     }
@@ -188,31 +213,34 @@ namespace uml4net.xmi.Readers
             this.logger.LogTrace("xml read in {time}", currentlyElapsedMilliseconds);
             sw.Stop();
 
-            this.TryResolveExternalReferences();
+            this.TryResolveExternalReferences(xmiReaderResult);
 
             if (isRoot)
             {
                 this.assembler.Synchronize();
             }
-
-            return packages;
-
         }
 
         /// <summary>
         /// Asynchronously resolves external references and updates the cache with the retrieved resources.
         /// </summary>
-        private void TryResolveExternalReferences()
+        /// <param name="xmiReaderResult">
+        /// The <see cref="XmiReaderResult"/> to which the read <see cref="IPackage"/>s are added
+        /// </param>
+        private void TryResolveExternalReferences(XmiReaderResult xmiReaderResult)
         {
             var stopwatch = Stopwatch.StartNew();
+
+            this.logger.LogTrace("resolving the external references");
 
             foreach (var (context, externalResource) in this.externalReferenceResolver.TryResolve())
             {
                 this.cache.SwitchContext(context);
-                this.Read(externalResource, false);
+                this.Read(externalResource, xmiReaderResult, false);
             }
 
             this.logger.LogTrace("External references synchronized in {time}", stopwatch.ElapsedMilliseconds);
+
             stopwatch.Stop();
         }
 

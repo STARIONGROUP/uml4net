@@ -29,7 +29,7 @@ namespace uml4net.Reporting.Payload
     using POCO.StructuredClassifiers;
 
     /// <summary>
-    /// represents the payload for the generators that require all <see cref="IClass"/>,
+    /// represents the payload for the generators that require all <see cref="IPackage"/>,
     /// <see cref="IDataType"/> and <see cref="IClass"/>
     /// </summary>
     public class HandlebarsPayload
@@ -38,34 +38,61 @@ namespace uml4net.Reporting.Payload
         /// initializes an instance of the <see cref="HandlebarsPayload"/> class.
         /// </summary>
         /// <param name="rootPackage">
-        /// The root <see cref="IPackage"/> of the UML model
+        /// The Root <see cref="IPackage"/> which is that <see cref="IPackage"/> that was
+        /// initially loaded
         /// </param>
-        /// <param name="enums">
-        /// the <see cref="IEnumeration"/>s in the UML model
+        /// <param name="packages">
+        /// The top level <see cref="IPackage"/>s of the UML models
+        /// </param>
+        /// <param name="enumerations">
+        /// the <see cref="IEnumeration"/>s in the UML models
+        /// </param>
+        /// <param name="primitiveTypes">
+        /// the <see cref="IPrimitiveType"/>s in the UML models
         /// </param>
         /// <param name="dataTypes">
-        /// the <see cref="IDataType"/>s in the UML model
+        /// the <see cref="IDataType"/>s in the UML models
         /// </param>
         /// <param name="classes">
-        /// the <see cref="IClass"/>es in the UML model
+        /// the <see cref="IClass"/>es in the UML models
         /// </param>
-        public HandlebarsPayload(IPackage rootPackage, IEnumerable<IEnumeration> enums, IEnumerable<IDataType> dataTypes, IEnumerable<IClass> classes)
+        /// <param name="interfaces">
+        /// the <see cref="IInterface"/>es in the UML models
+        /// </param>
+        public HandlebarsPayload(IPackage rootPackage, IEnumerable<IPackage> packages, IEnumerable<IEnumeration> enumerations, 
+            IEnumerable<IPrimitiveType> primitiveTypes, IEnumerable<IDataType> dataTypes, IEnumerable<IClass> classes,
+            IEnumerable<IInterface> interfaces)
         {
             this.RootPackage = rootPackage;
-            this.Enums = enums.ToArray();
+            this.Packages = packages.ToArray();
+            this.Enumerations = enumerations.ToArray();
+            this.PrimitiveTypes = primitiveTypes.ToArray();
             this.DataTypes = dataTypes.ToArray();
             this.Classes = classes.ToArray();
+            this.Interfaces = interfaces.ToArray();
         }
 
         /// <summary>
-        /// Gets the root <see cref="IPackage"/>
+        /// Gets the Root <see cref="IPackage"/> which is that <see cref="IPackage"/> that was
+        /// initially loaded
         /// </summary>
         public IPackage RootPackage { get; private set; }
 
         /// <summary>
+        /// Gets the top level <see cref="IPackage"/>s, the <see cref="RootPackage"/> shall be contained in the
+        /// <see cref="Packages"/> array
+        /// </summary>
+        public IPackage[] Packages { get; private set; }
+
+        /// <summary>
         /// Gets the array of <see cref="IEnumeration"/>
         /// </summary>
-        public IEnumeration[] Enums { get; private set; }
+        public IEnumeration[] Enumerations { get; private set; }
+
+        /// <summary>
+        /// Gets the array of <see cref="IPrimitiveType"/>
+        /// </summary>
+        public IPrimitiveType[] PrimitiveTypes { get; private set; }
 
         /// <summary>
         /// Gets the array of <see cref="IDataType"/>
@@ -76,6 +103,11 @@ namespace uml4net.Reporting.Payload
         /// Gets the array of <see cref="IClass"/>
         /// </summary>
         public IClass[] Classes { get; private set; }
+
+        /// <summary>
+        /// Gets the array of <see cref="IInterface"/>
+        /// </summary>
+        public IInterface[] Interfaces { get; private set; }
 
         /// <summary>
         /// Gets the version of the reporting library

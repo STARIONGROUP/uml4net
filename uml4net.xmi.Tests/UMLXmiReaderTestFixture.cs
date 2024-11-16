@@ -51,11 +51,11 @@ namespace uml4net.xmi.Tests
                 .WithLogger(this.loggerFactory)
                 .Build();
 
-            var packages = reader.Read(Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData", "PrimitiveTypes.xmi"));
+            var xmiReaderResult = reader.Read(Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData", "PrimitiveTypes.xmi"));
 
-            Assert.That(packages.Count(), Is.EqualTo(1));
+            Assert.That(xmiReaderResult.Packages.Count, Is.EqualTo(1));
 
-            var package = packages.First();
+            var package = xmiReaderResult.Packages.First();
 
             Assert.That(package.XmiId, Is.EqualTo("_0"));
             Assert.That(package.Name, Is.EqualTo("PrimitiveTypes"));
@@ -72,11 +72,11 @@ namespace uml4net.xmi.Tests
                 .WithLogger(this.loggerFactory)
                 .Build();
 
-            var packages = reader.Read(Path.Combine(rootPath, "UML.xmi"));
+            var xmiReaderResult = reader.Read(Path.Combine(rootPath, "UML.xmi"));
 
-            Assert.That(packages.Count(), Is.EqualTo(1));
+            Assert.That(xmiReaderResult.Packages.Count(), Is.EqualTo(2));
 
-            var package = packages.First();
+            var package = xmiReaderResult.Root;
 
             Assert.That(package.XmiId, Is.EqualTo("_0"));
             Assert.That(package.XmiType, Is.EqualTo("uml:Package"));

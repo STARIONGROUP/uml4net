@@ -28,11 +28,18 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <None Remove="Templates\uml-to-html-docs.hbs" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <EmbeddedResource Include="Templates\uml-to-html-docs.hbs" />
+    </ItemGroup>
+
+    <ItemGroup>
         <None Include="..\README.md" Pack="true" PackagePath="\" />
     </ItemGroup>
 
     <ItemGroup>
-        <Folder Include="Templates\" />
         <Folder Include="Resources\" />
     </ItemGroup>
 

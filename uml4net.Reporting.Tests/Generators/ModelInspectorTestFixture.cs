@@ -78,13 +78,11 @@ namespace uml4net.Reporting.Tests.Generators
                 .WithLogger(this.loggerFactory)
                 .Build();
 
-            var packages = reader.Read(Path.Combine(rootPath, "UML.xmi"));
-
-            var rootPackage = packages.Single();
+            var xmiReaderResult = reader.Read(Path.Combine(rootPath, "UML.xmi"));
 
             this.modelInspector = new ModelInspector(this.loggerFactory);
 
-            var report = this.modelInspector.Inspect(rootPackage, true);
+            var report = this.modelInspector.Inspect(xmiReaderResult.Root, true);
 
             Log.Logger.Information(report);
 
@@ -109,11 +107,9 @@ namespace uml4net.Reporting.Tests.Generators
                 .WithLogger(this.loggerFactory)
                 .Build();
 
-            var packages = reader.Read(Path.Combine(rootPath, "UML.xmi"));
+            var xmiReaderResult = reader.Read(Path.Combine(rootPath, "UML.xmi"));
 
-            var rootPackage = packages.Single();
-
-            var classificationPackage = rootPackage.PackagedElement.OfType<IPackage>().Single(x => x.Name == "Classification") ;
+            var classificationPackage = xmiReaderResult.Root.PackagedElement.OfType<IPackage>().Single(x => x.Name == "Classification") ;
 
             this.modelInspector = new ModelInspector(this.loggerFactory);
 

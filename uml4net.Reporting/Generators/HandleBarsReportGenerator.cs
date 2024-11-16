@@ -27,11 +27,14 @@ namespace uml4net.Reporting.Generators
     using HandlebarsDotNet.Helpers;
 
     using Microsoft.Extensions.Logging;
-    using Payload;
-    using POCO.Packages;
-    using POCO.StructuredClassifiers;
-    using Resources;
+
+    using uml4net.POCO.Packages;
+    using uml4net.POCO.StructuredClassifiers;
     using uml4net.POCO.SimpleClassifiers;
+
+    using uml4net.Reporting.Payload;
+    using uml4net.Reporting.Resources;
+    using uml4net.xmi.Readers;
 
     /// <summary>
     /// Abstract super class from which all <see cref="HandlebarsDotNet"/> generators
@@ -72,7 +75,7 @@ namespace uml4net.Reporting.Generators
         protected virtual void RegisterHelpers()
         {
             uml4net.HandleBars.StringHelper.RegisterStringHelper(this.Handlebars);
-            //uml4net.HandleBars.StructuralFeatureHelper.RegisterStructuralFeatureHelper(this.Handlebars);
+            uml4net.HandleBars.PropertyHelper.RegisterStructuralFeatureHelper(this.Handlebars);
             uml4net.HandleBars.GeneralizationHelper.RegisterGeneralizationHelper(this.Handlebars);
             uml4net.HandleBars.DocumentationHelper.RegisteredDocumentationHelper(this.Handlebars);
         }
@@ -100,39 +103,49 @@ namespace uml4net.Reporting.Generators
         }
 
         /// <summary>
-        /// Creates a <see cref="HandlebarsPayload"/> based on the provided root <see cref="IPackage"/>
+        /// Creates a <see cref="HandlebarsPayload"/> based on the provided root <see cref="XmiReaderResult"/>
         /// </summary>
-        /// <param name="rootPackage">
-        /// the subject root <see cref="IPackage"/>
+        /// <param name="xmiReaderResult">
+        /// the subject <see cref="XmiReaderResult"/>
         /// </param>
         /// <returns>
         /// an instance of <see cref="HandlebarsPayload"/>
         /// </returns>
-        protected static HandlebarsPayload CreateHandlebarsPayload(IPackage rootPackage)
+        protected static HandlebarsPayload CreateHandlebarsPayload(XmiReaderResult xmiReaderResult)
         {
-            var packages = rootPackage.QueryPackages();
-
-            var enums = new List<IEnumeration>();
+            var enumerations = new List<IEnumeration>();
+            var primitiveTypes = new List<IPrimitiveType>();
             var dataTypes = new List<IDataType>();
-            var eClasses = new List<IClass>();
+            var classes = new List<IClass>();
+            var interfaces = new List<IInterface>();
 
-            //foreach (var package in packages)
-            //{
-            //    enums.AddRange(package.EClassifiers.OfType<EEnum>());
+            foreach (var package in xmiReaderResult.Packages)
+            {
+                var containedPackages = package.QueryPackages();
 
-            //    dataTypes.AddRange(package.EClassifiers
-            //        .OfType<EDataType>()
-            //        .Where(x => !(x is EEnum))
-            //        .OrderBy(x => x.Name));
+                foreach (var containedPackage in containedPackages)
+                {
+                    enumerations.AddRange(containedPackage.PackagedElement.OfType<IEnumeration>());
 
-            //    eClasses.AddRange(package.EClassifiers.OfType<EClass>());
-            //}
+                    primitiveTypes.AddRange(containedPackage.PackagedElement.OfType<IPrimitiveType>());
 
-            var orderedEnums = enums.OrderBy(x => x.Name);
+                    dataTypes.AddRange(containedPackage.PackagedElement
+                        .OfType<IDataType>()
+                        .Where(x => x is not IEnumeration && x is not IPrimitiveType));
+
+                    classes.AddRange(containedPackage.PackagedElement.OfType<IClass>());
+
+                    interfaces.AddRange(containedPackage.PackagedElement.OfType<IInterface>());
+                }
+            }
+
+            var orderedEnumerations = enumerations.OrderBy(x => x.Name);
+            var orderedPrimitiveTypes = primitiveTypes.OrderBy(x => x.Name);
             var orderedDataTypes = dataTypes.OrderBy(x => x.Name);
-            var orderedClasses = eClasses.OrderBy(x => x.Name);
+            var orderedClasses = classes.OrderBy(x => x.Name);
+            var orderedInterfaces = interfaces.OrderBy(x => x.Name);
 
-            var payload = new HandlebarsPayload(rootPackage, orderedEnums, orderedDataTypes, orderedClasses);
+            var payload = new HandlebarsPayload(xmiReaderResult.Root, xmiReaderResult.Packages, orderedEnumerations, orderedPrimitiveTypes, orderedDataTypes, orderedClasses, orderedInterfaces);
 
             return payload;
         }

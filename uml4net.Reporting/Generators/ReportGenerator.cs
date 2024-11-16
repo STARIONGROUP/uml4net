@@ -30,6 +30,7 @@ namespace uml4net.Reporting.Generators
    
     using uml4net.POCO.Packages;
     using uml4net.xmi;
+    using xmi.Readers;
 
     /// <summary>
     /// abstract class from which all report generators need to derive
@@ -83,7 +84,7 @@ namespace uml4net.Reporting.Generators
         /// <returns>
         /// a list of <see cref="IPackage"/>s
         /// </returns>
-        protected IEnumerable<IPackage> LoadPackages(FileInfo modelPath, DirectoryInfo rootDirectory)
+        protected XmiReaderResult LoadPackages(FileInfo modelPath, DirectoryInfo rootDirectory)
         {
             this.logger.LogInformation("Loading UML model from {0}", modelPath.FullName);
 
@@ -92,9 +93,7 @@ namespace uml4net.Reporting.Generators
                 .WithLogger(this.loggerFactory)
                 .Build();
 
-            var packages = reader.Read(modelPath.FullName);
-
-            return packages;
+            return reader.Read(modelPath.FullName);
         }
     }
 }

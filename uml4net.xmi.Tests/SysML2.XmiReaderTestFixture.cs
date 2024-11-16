@@ -45,11 +45,11 @@ namespace uml4net.xmi.Tests
         {
             using var reader = XmiReaderBuilder.Create().WithLogger(this.loggerFactory).Build();
 
-            var packages = reader.Read(Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData", "SysML.uml"));
+            var xmiReaderResult = reader.Read(Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData", "SysML.uml"));
 
-            Assert.That(packages.Count(), Is.EqualTo(1));
+            Assert.That(xmiReaderResult.Packages.Count(), Is.EqualTo(1));
 
-            var model = packages.First() as IModel;
+            var model = xmiReaderResult.Root as IModel;
 
             Assert.That(model.XmiId, Is.EqualTo("_kUROkM9FEe6Zc_le1peNgQ"));
             Assert.That(model.Name, Is.EqualTo("sysml"));

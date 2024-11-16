@@ -21,6 +21,7 @@
 namespace uml4net.Reporting.Generators
 {
     using System;
+    using System.Diagnostics;
     using System.IO;
 
     using Microsoft.Extensions.Logging;
@@ -70,7 +71,26 @@ namespace uml4net.Reporting.Generators
         /// </returns>
         public string GenerateReport(FileInfo modelPath)
         {
-            throw new NotImplementedException();
+            if (modelPath == null)
+            {
+                throw new ArgumentNullException(nameof(modelPath));
+            }
+
+            var sw = Stopwatch.StartNew();
+
+            this.logger.LogInformation("Start Generating HTML report tables");
+
+            var template = this.Templates["uml-to-html-docs"];
+
+            var xmiReaderResult = this.LoadPackages(modelPath, modelPath.Directory);
+
+            var payload = CreateHandlebarsPayload(xmiReaderResult);
+
+            var generatedHtml = template(payload);
+
+            this.logger.LogInformation("Generated HTML report in {ElapsedTime} [ms]", sw.ElapsedMilliseconds);
+
+            return generatedHtml;
         }
 
         /// <summary>
@@ -84,7 +104,24 @@ namespace uml4net.Reporting.Generators
         /// </param>
         public void GenerateReport(FileInfo modelPath, FileInfo outputPath)
         {
-            throw new NotImplementedException();
+            if (outputPath == null)
+            {
+                throw new ArgumentNullException(nameof(outputPath));
+            }
+
+            var sw = Stopwatch.StartNew();
+
+            var generatedHtml = this.GenerateReport(modelPath);
+
+            if (outputPath.Exists)
+            {
+                outputPath.Delete();
+            }
+
+            using var writer = outputPath.CreateText();
+            writer.Write(generatedHtml);
+
+            this.logger.LogInformation("Generated and saved HTML report in {ElapsedTime} [ms]", sw.ElapsedMilliseconds);
         }
 
         /// <summary>

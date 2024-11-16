@@ -123,6 +123,8 @@ namespace uml4net.xmi.Readers.Packages
 
                 package.Name = xmlReader.GetAttribute("name");
 
+                package.URI = xmlReader.GetAttribute("URI");
+
                 var visibility = xmlReader.GetAttribute("visibility");
                 if (!string.IsNullOrEmpty(visibility))
                 {

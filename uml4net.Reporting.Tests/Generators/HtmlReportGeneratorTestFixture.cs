@@ -1,5 +1,5 @@
-// -------------------------------------------------------------------------------------------------
-//  <copyright file="ClassExtensionsTestFixture.cs" company="Starion Group S.A.">
+﻿// -------------------------------------------------------------------------------------------------
+//  <copyright file="HtmlReportGeneratorTestFixture.cs" company="Starion Group S.A.">
 // 
 //    Copyright 2019-2024 Starion Group S.A.
 // 
@@ -18,29 +18,30 @@
 //  </copyright>
 //  ------------------------------------------------------------------------------------------------
 
-namespace uml4net.Extensions.Tests
+namespace uml4net.Reporting.Tests.Generators
 {
-    using System.Collections.Generic;
     using System.IO;
     using System.Linq;
-
     using Microsoft.Extensions.Logging;
 
     using NUnit.Framework;
-
+    using POCO.Packages;
+    using Reporting.Generators;
     using Serilog;
-
-    using uml4net.POCO.Packages;
-    using uml4net.POCO.StructuredClassifiers;
-    using uml4net.xmi;
-    using xmi.Readers;
+    using xmi;
 
     [TestFixture]
-    public class ClassExtensionsTestFixture
+    public class HtmlReportGeneratorTestFixture
     {
         private ILoggerFactory loggerFactory;
 
-        private XmiReaderResult xmiReaderResult;
+        private HtmlReportGenerator htmlReportGenerator;
+
+        private string modelPath;
+
+        private FileInfo modelFileInfo;
+
+        private FileInfo reportFileInfo;
 
         [OneTimeSetUp]
         public void OneTimeSetUp()
@@ -59,26 +60,19 @@ namespace uml4net.Extensions.Tests
         [SetUp]
         public void SetUp()
         {
-            var rootPath = Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData");
+            this.modelPath = Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData", "UML.xmi");
+            this.modelFileInfo = new FileInfo(modelPath);
 
-            var reader = XmiReaderBuilder.Create()
-                .UsingSettings(x => x.LocalReferenceBasePath = rootPath)
-                .WithLogger(this.loggerFactory)
-                .Build();
-
-            this.xmiReaderResult = reader.Read(Path.Combine(rootPath, "UML.xmi"));
+            var reportPath = Path.Combine(TestContext.CurrentContext.TestDirectory, "html-report.html");
+            this.reportFileInfo = new FileInfo(reportPath);
         }
 
         [Test]
-        public void Verify_that_QueryAllProperties_returns_expected_result()
+        public void Verify_that_the_report_generator_generates_a_report()
         {
-            var commonStructuresPackage = this.xmiReaderResult.Root.NestedPackage.Single(x => x.Name == "CommonStructure");
+            this.htmlReportGenerator = new HtmlReportGenerator(this.loggerFactory);
 
-            var dependency = commonStructuresPackage.PackagedElement.OfType<IClass>().Single(x => x.Name == "Dependency");
-
-            var properties = dependency.QueryAllProperties();
-
-            Assert.That(properties.Count, Is.EqualTo(17));
+            Assert.That(() => this.htmlReportGenerator.GenerateReport(modelFileInfo, reportFileInfo), Throws.Nothing);
         }
     }
 }

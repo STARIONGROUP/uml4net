@@ -21,10 +21,8 @@
 namespace uml4net.xmi.Readers
 {
     using System;
-    using System.Collections.Generic;
     using System.IO;
-    using uml4net.POCO.Packages;
-
+    
     /// <summary>
     /// The purpose of the <see cref="IXmiReader"/> is to provide a means to read (deserialize)
     /// an UML 2.5.1 model from XMI
@@ -38,10 +36,10 @@ namespace uml4net.xmi.Readers
         /// The URI of the XMI file to be read.
         /// </param>
         /// <returns>
-        /// An <see cref="IEnumerable{IPackage}"/> representing the deserialized packages from the XMI file.
+        /// An <see cref="XmiReaderResult"/> representing the deserialized packages from the XMI file.
         /// </returns>
-        IEnumerable<IPackage> Read(string fileUri);
-        
+        XmiReaderResult Read(string fileUri);
+
         /// <summary>
         /// Reads the content of a UML XMI 2.5.1 stream.
         /// </summary>
@@ -49,8 +47,8 @@ namespace uml4net.xmi.Readers
         /// The <see cref="Stream"/> that contains the XMI content to be read.
         /// </param>
         /// <returns>
-        /// An <see cref="IEnumerable{IPackage}"/> representing the deserialized packages from the XMI stream.
+        /// An <see cref="XmiReaderResult"/> representing the deserialized packages from the XMI stream.
         /// </returns>
-        IEnumerable<IPackage> Read(Stream stream);
+        XmiReaderResult Read(Stream stream);
     }
 }

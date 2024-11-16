@@ -28,6 +28,7 @@ namespace uml4net.xmi.Readers.Packages
     using POCO;
     using uml4net.POCO.Packages;
     using Readers;
+    using System.IO.Packaging;
 
     /// <summary>
     /// The purpose of the <see cref="ModelReader"/> is to read an instance of <see cref="IModel"/>
@@ -89,7 +90,10 @@ namespace uml4net.xmi.Readers.Packages
 
                 model.Name = xmlReader.GetAttribute("name");
 
+                model.URI = xmlReader.GetAttribute("URI");
+
                 model.XmiId = xmlReader.GetAttribute("xmi:id") ?? model.Name;
+
                 this.Cache.Add(model.XmiId, model);
 
                 while (xmlReader.Read())
