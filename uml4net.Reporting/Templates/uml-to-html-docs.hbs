@@ -265,168 +265,245 @@
                 </table>
 
                 <H2 id="Enumeration">1. Enumeration Types</H2>
-                {{#each this.Enumerations as | enumeration |}}
-                <H3 id="{{enumeration.Name}}">{{enumeration.Name}}</H3>
-                <H4>Definition</H4>
-                {{ #RawDocumentation enumeration }}
-                <H4>Enumeration Literals</H4>
-                <table class="starion-table">
-                    <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>Description</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {{#each enumeration.OwnedLiteral as | enumerationLiteral |}}
-                        <tr>
-                            <td id="{{enumerationLiteral.Name}}">{{enumerationLiteral.Name}}</td>
-                            <td>
-                                {{ #RawDocumentation enumerationLiteral }}
-                            </td>
-                        </tr>
-                        {{/each}}
-                    </tbody>
-                </table>
-                {{/each}}
+                {{ #if (IEnumerable.IsEmpty this.Enumerations) }}
+                    <p>No Enumerations have been found in the UML model</p>
+                {{ else }}
+                    {{#each this.Enumerations as | enumeration |}}
+                    <H3 id="{{enumeration.Name}}">{{enumeration.Name}} [Enumeration] </H3>
+                    <H4>Features</H4>
+                    <table class="starion-table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Fully Qualified Name</td>
+                                <td> {{ enumeration.QualifiedName }} </td>
+                            </tr>
+                            <tr>
+                                <td>Definition</td>
+                                <td>{{ #RawDocumentation enumeration }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <H4>Enumeration Literals</H4>
+                    <table class="starion-table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {{#each enumeration.OwnedLiteral as | enumerationLiteral |}}
+                            <tr>
+                                <td id="{{enumerationLiteral.Name}}">{{enumerationLiteral.Name}}</td>
+                                <td>
+                                    {{ #RawDocumentation enumerationLiteral }}
+                                </td>
+                            </tr>
+                            {{/each}}
+                        </tbody>
+                    </table>
+                    {{/each}}
+                {{ /if }}
 
                 <H2 id="PrimitiveTypes">2. Primitive Types</H2>
-                {{#each this.PrimitiveTypes as | primitiveType |}}
-                <H3 id="{{primitiveType.Name}}">{{primitiveType.Name}}</H3>
-                <H4>Definition</H4>
-                {{ #RawDocumentation primitiveType }}
-                {{/each}}
+                {{ #if (IEnumerable.IsEmpty this.PrimitiveTypes) }}
+                    <p>No Primitive Types have been found in the UML model</p>
+                {{ else }}
+                    {{#each this.PrimitiveTypes as | primitiveType |}}
+                    <H3 id="{{primitiveType.Name}}">{{primitiveType.Name}} [PrimitiveType]</H3>
+                    <H4>Features</H4>
+                    <table class="starion-table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Fully Qualified Name</td>
+                                <td> {{ primitiveType.QualifiedName }} </td>
+                            </tr>
+                            <tr>
+                                <td>Definition</td>
+                                <td>{{ #RawDocumentation primitiveType }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    {{/each}}
+                {{ /if }}
 
                 <H2 id="OtherDataTypes">3. Data Types</H2>
-                {{#each this.DataTypes as | datatype |}}
-                <H3 id="{{datatype.Name}}">{{datatype.Name}}</H3>
-                <H4>Definition</H4>
-                {{ #RawDocumentation datatype }}
-                {{/each}}
+                {{ #if (IEnumerable.IsEmpty this.DataTypes) }}
+                    <p>No Data Types (other than <a href="#Enumeration">Enumerations</a> and <a href="#PrimitiveTypes">Primitive Types</a>) have been found in the UML model</p>
+                {{ else }}
+                    {{#each this.DataTypes as | datatype |}}
+                    <H3 id="{{datatype.Name}}">{{datatype.Name}} [DataType]</H3>
+                    <H4>Features</H4>
+                    <table class="starion-table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Fully Qualified Name</td>
+                                <td> {{ primitiveType.QualifiedName }} </td>
+                            </tr>
+                            <tr>
+                                <td>Definition</td>
+                                <td>{{ #RawDocumentation primitiveType }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    {{/each}}
+                {{ /if }}
 
                 <H2 id="Classes">4. Classes</H2>
-                {{#each this.Classes as | class |}}
-
-                <H3 id="{{class.Name}}">{{class.Name}}</H3>
-                <H4>Definition</H4>
-                {{ #RawDocumentation class }}
-                <H4>Features</H4>
-                <table class="starion-table">
-                    <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>Description</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Is Abstract</td>
-                            <td> {{#if class.IsAbstract}} TRUE {{else}} FALSE {{/if}} </td>
-                        </tr>
-                        <tr>
-                            <td>Generalizations</td>
-                            <td>
-                                {{#each class.SuperClass as | superClass |}}
-                                <a href="#{{superClass.Name}}">{{superClass.Name}}</a>
-                                {{/each}}
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Specializations</td>
-                            <td> TBD
-                                <!--
-                                {{#each class.SuperClass as | subClass |}}
-                                <a href="#{{subClass.Name}}">{{subClass.Name}}</a>
-                                {{/each}}
-                                -->
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-                <H4>Properties</H4>
-                <table class="starion-table">
-                    <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>Type</th>
-                            <th>Default</th>
-                            <th>Description</th>
-                            <th>Inheritance</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {{#each this.QueryAllProperties as | property |}}
-                        <tr>
-                            <td>{{ property.Name }}</td>
-                            <td>
-                                <a href="#{{Property.QueryTypeName property}}">{{Property.QueryTypeName property}}</a> [{{ property.Lower }}..{{ property.Upper }}]
-                                {{#if property.IsDerived }} {derived} {{/if}}
-                                {{#if (Property.QueryIsContainment property) }} {composite} {{/if}}
-                            </td>
-                            <td>{{ property.DefaultValueLiteral }}</td>
-                            <td>{{ #RawDocumentation property }}</td>
-                            <td><a href="#{{property.Owner.Name}}">{{property.Owner.Name}}</a></td>
-                        </tr>
-                        {{/each}}
-                    </tbody>
-                </table>
-                {{/each}}
-
-
+                {{ #if (IEnumerable.IsEmpty this.Classes) }}
+                    <p>No Classes have been found in the UML model</p>
+                {{ else }}
+                    {{#each this.Classes as | class |}}
+                    <H3 id="{{class.Name}}">{{class.Name}} [Class]</H3>
+                    <H4>Features</H4>
+                    <table class="starion-table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Fully Qualified Name</td>
+                                <td> {{ class.QualifiedName }} </td>
+                            </tr>
+                            <tr>
+                                <td>Definition</td>
+                                <td>{{ #RawDocumentation class }}</td>
+                            </tr>
+                            <tr>
+                                <td>Is Abstract</td>
+                                <td> {{#if class.IsAbstract}} TRUE {{else}} FALSE {{/if}} </td>
+                            </tr>
+                            <tr>
+                                <td>Generalizations</td>
+                                <td>
+                                    {{#each class.SuperClass as | superClass |}}
+                                    <a href="#{{superClass.Name}}">{{superClass.Name}}</a>
+                                    {{/each}}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Specializations</td>
+                                <td> TBD
+                                    <!--
+                                    {{#each class.SuperClass as | subClass |}}
+                                    <a href="#{{subClass.Name}}">{{subClass.Name}}</a>
+                                    {{/each}}
+                                    -->
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <H4>Properties</H4>
+                    <table class="starion-table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Type</th>
+                                <th>Default</th>
+                                <th>Description</th>
+                                <th>Inheritance</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {{#each this.QueryAllProperties as | property |}}
+                            <tr>
+                                <td>{{ property.Name }}</td>
+                                <td>
+                                    <a href="#{{Property.QueryTypeName property}}">{{Property.QueryTypeName property}}</a> [{{ property.Lower }}..{{ property.Upper }}]
+                                    {{#if property.IsDerived }} {derived} {{/if}}
+                                    {{#if (Property.QueryIsContainment property) }} {composite} {{/if}}
+                                </td>
+                                <td>{{ property.DefaultValueLiteral }}</td>
+                                <td>{{ #RawDocumentation property }}</td>
+                                <td><a href="#{{property.Owner.Name}}">{{property.Owner.Name}}</a></td>
+                            </tr>
+                            {{/each}}
+                        </tbody>
+                    </table>
+                    {{/each}}
+                {{ /if }}
 
                 <H2 id="Interfaces">4. Interfaces</H2>
-                {{#each this.Interfaces as | interface |}}
-
-                <H3 id="{{interface.Name}}">{{interface.Name}}</H3>
-                <H4>Definition</H4>
-                {{ #RawDocumentation interface }}
-                <H4>Features</H4>
-                <table class="starion-table">
-                    <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>Description</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Generalizations</td>
-                            <td>
-                                {{#each interface.ESuperTypes as | superInterface |}}
-                                <a href="#{{superInterface.Name}}">{{superInterface.Name}}</a>
-                                {{/each}}
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-                <H4>Properties</H4>
-                <table class="starion-table">
-                    <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>Type</th>
-                            <th>Default</th>
-                            <th>Description</th>
-                            <th>Inheritance</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {{#each this.QueryAllProperties as | property |}}
-                        <tr>
-                            <td>{{ property.Name }}</td>
-                            <td>
-                                <a href="#{{Property.QueryTypeName property}}">{{Property.QueryTypeName property}}</a> [{{ property.Lower }}..{{ property.Upper }}]
-                                {{#if property.IsDerived }} {derived} {{/if}}
-                                {{#if (Property.QueryIsContainment property) }} {composite} {{/if}}
-                            </td>
-                            <td>{{ property.DefaultValueLiteral }}</td>
-                            <td>{{ #RawDocumentation property }}</td>
-                            <td><a href="#{{property.Owner.Name}}">{{property.Owner.Name}}</a></td>
-                        </tr>
-                        {{/each}}
-                    </tbody>
-                </table>
-                {{/each}}
+                {{ #if (IEnumerable.IsEmpty this.Interfaces) }}
+                    <p>No Interfaces have been found in the UML model</p>
+                {{ else }}
+                    {{#each this.Interfaces as | interface |}}
+                    <H3 id="{{interface.Name}}">{{interface.Name}} [Interface] </H3>
+                    <H4>Definition</H4>
+                    {{ #RawDocumentation interface }}
+                    <H4>Features</H4>
+                    <table class="starion-table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Fully Qualified Name</td>
+                                <td> {{ interface.QualifiedName }} </td>
+                            </tr>
+                            <tr>
+                                <td>Generalizations</td>
+                                <td>
+                                    {{#each interface.ESuperTypes as | superInterface |}}
+                                    <a href="#{{superInterface.Name}}">{{superInterface.Name}}</a>
+                                    {{/each}}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <H4>Properties</H4>
+                    <table class="starion-table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Type</th>
+                                <th>Default</th>
+                                <th>Description</th>
+                                <th>Inheritance</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {{#each this.QueryAllProperties as | property |}}
+                            <tr>
+                                <td>{{ property.Name }}</td>
+                                <td>
+                                    <a href="#{{Property.QueryTypeName property}}">{{Property.QueryTypeName property}}</a> [{{ property.Lower }}..{{ property.Upper }}]
+                                    {{#if property.IsDerived }} {derived} {{/if}}
+                                    {{#if (Property.QueryIsContainment property) }} {composite} {{/if}}
+                                </td>
+                                <td>{{ property.DefaultValueLiteral }}</td>
+                                <td>{{ #RawDocumentation property }}</td>
+                                <td><a href="#{{property.Owner.Name}}">{{property.Owner.Name}}</a></td>
+                            </tr>
+                            {{/each}}
+                        </tbody>
+                    </table>
+                    {{/each}}
+                {{ /if }}
             </article>
         </main>
     </div>

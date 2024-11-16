@@ -35,6 +35,7 @@ namespace uml4net.Reporting.Generators
     using uml4net.Reporting.Payload;
     using uml4net.Reporting.Resources;
     using uml4net.xmi.Readers;
+    using uml4net.HandleBars;
 
     /// <summary>
     /// Abstract super class from which all <see cref="HandlebarsDotNet"/> generators
@@ -75,6 +76,7 @@ namespace uml4net.Reporting.Generators
         protected virtual void RegisterHelpers()
         {
             uml4net.HandleBars.StringHelper.RegisterStringHelper(this.Handlebars);
+            uml4net.HandleBars.IEnumerableHelper.RegisterEnumerableHelper(this.Handlebars);
             uml4net.HandleBars.PropertyHelper.RegisterStructuralFeatureHelper(this.Handlebars);
             uml4net.HandleBars.GeneralizationHelper.RegisterGeneralizationHelper(this.Handlebars);
             uml4net.HandleBars.DocumentationHelper.RegisteredDocumentationHelper(this.Handlebars);
