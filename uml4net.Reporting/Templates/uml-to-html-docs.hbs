@@ -426,11 +426,11 @@
                             </tr>
                         </thead>
                         <tbody>
-                            {{#each this.QueryAllProperties as | property |}}
+                            {{ #each (Class.QueryAllProperties class) as | property | }}
                             <tr>
                                 <td>{{ property.Name }}</td>
                                 <td>
-                                    <a href="#{{Property.QueryTypeName property}}">{{Property.QueryTypeName property}}</a> [{{ property.Lower }}..{{ property.Upper }}]
+                                    <a href="#{{ Property.WriteTypeName property}}">{{Property.WriteTypeName property}}</a> [{{ property.Lower }}..{{ Property.WriteUpperValue property }}]
                                     {{#if property.IsDerived }} {derived} {{/if}}
                                     {{#if (Property.QueryIsContainment property) }} {composite} {{/if}}
                                 </td>

@@ -212,5 +212,34 @@ namespace uml4net.Extensions
         {
             return property.Lower == 0 && !property.QueryIsEnumerable();
         }
+
+        /// <summary>
+        /// Queries the Upper value of a <see cref="IProperty"/>
+        /// </summary>
+        /// <param name="property">
+        /// The subject <see cref="IProperty"/>
+        /// </param>
+        /// <returns>
+        /// a string representation of the Upper value 
+        /// </returns>
+        public static string QueryUpperValue(this IProperty property)
+        {
+            if (property.Upper == null)
+            {
+                return "1";
+            }
+
+            if (property.Upper.Value.HasValue)
+            {
+                if (property.Upper.Value.Value == int.MaxValue)
+                {
+                    return "*";
+                }
+
+                return property.Upper.Value.Value.ToString();
+            }
+
+            throw new InvalidOperationException("");
+        }
     }
 }

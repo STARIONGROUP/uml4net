@@ -24,7 +24,7 @@ namespace uml4net.HandleBars
     using System.Linq;
 
     using HandlebarsDotNet;
-
+    using HandlebarsDotNet.Compiler.Resolvers;
     using uml4net.Extensions;
 
     using uml4net.POCO.Classification;
@@ -210,24 +210,30 @@ namespace uml4net.HandleBars
 
             handlebars.RegisterHelper("Property.QueryIsContainment", (context, arguments) =>
             {
-                if (arguments.Length != 1)
-                {
-                    throw new HandlebarsException("{{#Property.QueryIsContainment}} helper must have exactly one argument");
-                }
-
-                var property = arguments.Single() as IProperty;
+                if (!(context.Value is IProperty property))
+                    throw new ArgumentException("supposed to be IProperty");
 
                 return property.QueryIsContainment();
             });
 
-            handlebars.RegisterHelper("Property.QueryTypeName", (writer, context, parameters) =>
+            handlebars.RegisterHelper("Property.WriteTypeName", (writer, context, parameters) =>
             {
                 if (!(context.Value is IProperty property))
-                    throw new ArgumentException("supposed to be IStructuralFeature");
+                    throw new ArgumentException("supposed to be IProperty");
 
                 var typeName = property.QueryTypeName();
 
                 writer.WriteSafeString($"{typeName}");
+            });
+
+            handlebars.RegisterHelper("Property.WriteUpperValue", (writer, context, arguments) =>
+            {
+                if (!(context.Value is IProperty property))
+                    throw new ArgumentException("supposed to be IProperty");
+
+                var upperValue = property.QueryUpperValue();
+
+                writer.WriteSafeString($"{upperValue}");
             });
         }
     }
