@@ -37,12 +37,6 @@ namespace uml4net.POCO.CommonStructure
     public class PackageImport : XmiElement, IPackageImport
     {
         /// <summary>
-        /// Gets or sets a dictionary of reference properties and the associated unique identifiers
-        /// </summary>
-        [Implements(implementation: "IPackageImport.ReferencePropertyValueIdentifiers")]
-        public Dictionary<string, string> ReferencePropertyValueIdentifies { get; set; } = new Dictionary<string, string>();
-
-        /// <summary>
         /// The Comments owned by this Element.
         /// </summary>
         [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue)]

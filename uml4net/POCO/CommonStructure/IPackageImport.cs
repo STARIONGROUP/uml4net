@@ -34,11 +34,6 @@ namespace uml4net.POCO.CommonStructure
     public interface IPackageImport : IDirectedRelationship
     {
         /// <summary>
-        /// Gets or sets a dictionary of reference properties and the associated unique identifiers
-        /// </summary>
-        public Dictionary<string, string> ReferencePropertyValueIdentifies { get; set; }
-
-        /// <summary>
         /// Specifies the Package whose members are imported into a Namespace.
         /// </summary>
         [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1)]

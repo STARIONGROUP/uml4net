@@ -20,14 +20,15 @@
 
 namespace uml4net.xmi.Readers.CommonStructure
 {
-    using Cache;
     using System;
     using System.Xml;
 
     using Microsoft.Extensions.Logging;
-    using POCO;
+
+    using uml4net.POCO;
     using uml4net.POCO.CommonStructure;
-    using Readers;
+    using uml4net.xmi.Cache;
+    using uml4net.xmi.Readers;
 
     /// <summary>
     /// The purpose of the <see cref="PackageImportReader"/> is to read an instance of <see cref="IPackageImport"/>
@@ -67,14 +68,16 @@ namespace uml4net.xmi.Readers.CommonStructure
                 packageImport.XmiId = xmlReader.GetAttribute("xmi:id");
 
                 var importedPackage = xmlReader.GetAttribute("importedPackage");
-                if (importedPackage != null)
+                if (!string.IsNullOrEmpty(importedPackage))
                 {
-                    packageImport.ReferencePropertyValueIdentifies.Add("ImportedPackage", importedPackage);
+                    packageImport.SingleValueReferencePropertyIdentifiers.Add("ImportedPackage", importedPackage);
                 }
 
-                // TODO: figure out an algorithm to interpret how to set the "importingNamespace" property
-                this.Logger.LogInformation("TODO: figure out an algorithm to interpret how to set the \"importingNamespace\" property");
-                packageImport.ImportingNamespace = null;
+                var importingNamespace = xmlReader.GetAttribute("importingNamespace");
+                if (!string.IsNullOrEmpty(importingNamespace))
+                {
+                    packageImport.SingleValueReferencePropertyIdentifiers.Add("ImportingNamespace", importingNamespace);
+                }
 
                 string visibility = xmlReader.GetAttribute("visibility");
                 if (visibility != null)
