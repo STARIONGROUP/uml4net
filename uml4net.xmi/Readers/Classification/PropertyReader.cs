@@ -252,7 +252,6 @@ namespace uml4net.xmi.Readers.Classification
                                 }
                                 break;
                             case "subsettedProperty":
-                                
                                 using (var subsettedPropertyXmlReader = xmlReader.ReadSubtree())
                                 {
                                     if (subsettedPropertyXmlReader.MoveToContent() == XmlNodeType.Element)

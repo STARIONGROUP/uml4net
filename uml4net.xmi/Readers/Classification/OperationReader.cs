@@ -30,6 +30,7 @@ namespace uml4net.xmi.Readers.Classification
     using uml4net.POCO.Classification;
     using uml4net.POCO.CommonStructure;
     using uml4net.xmi.Readers;
+    using System.Collections.Generic;
 
     /// <summary>
     /// The purpose of the <see cref="OperationReader"/> is to read an instance of <see cref="IOperation"/>
@@ -120,6 +121,8 @@ namespace uml4net.xmi.Readers.Classification
                     operation.SingleValueReferencePropertyIdentifiers.Add("BodyCondition", bodyCondition );
                 }
 
+                var precondition = new List<string>();
+                
                 while (xmlReader.Read())
                 {
                     if (xmlReader.NodeType == XmlNodeType.Element)
@@ -150,19 +153,40 @@ namespace uml4net.xmi.Readers.Classification
                             case "precondition":
                                 using (var preconditionXmlReader = xmlReader.ReadSubtree())
                                 {
-                                    this.Logger.LogDebug("OperationReader:precondition not yet implemented");
+                                    if (preconditionXmlReader.MoveToContent() == XmlNodeType.Element)
+                                    {
+                                        var href = preconditionXmlReader.GetAttribute("href");
+                                        if (!string.IsNullOrEmpty(href))
+                                        {
+                                            precondition.Add(href);
+                                        }
+                                        else if (preconditionXmlReader.GetAttribute("xmi:idref") is { Length: > 0 } idRef)
+                                        {
+                                            precondition.Add(idRef);
+                                        }
+                                        else
+                                        {
+                                            throw new InvalidOperationException("redefinedProperty xml-attribute reference could not be read");
+                                        }
+                                    }
                                 }
                                 break;
                             case "redefinedOperation":
                                 using (var redefinedOperationXmlReader = xmlReader.ReadSubtree())
                                 {
-                                    this.Logger.LogDebug("OperationReader:redefinedOperation not yet implemented");
+                                    var lineInfo = xmlReader as IXmlLineInfo;
+                                    this.Logger.LogDebug("OperationReader:redefinedOperation not yet implemented at line:position {LineNumber}:{LinePosition}", lineInfo.LineNumber, lineInfo.LinePosition);
                                 }
                                 break;
                             default:
                                 throw new NotImplementedException($"OperationReader: {xmlReader.LocalName}");
                         }
                     }
+                }
+
+                if (precondition.Count > 0)
+                {
+                    operation.MultiValueReferencePropertyIdentifiers.Add("precondition", precondition);
                 }
             }
 

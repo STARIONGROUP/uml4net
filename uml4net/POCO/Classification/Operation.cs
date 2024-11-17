@@ -370,7 +370,16 @@ namespace uml4net.POCO.Classification
         [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: true)]
         [RedefinedByProperty("BehavioralFeature-ownedParameter")]
         [Implements(implementation: "IOperation.OwnedParameter")]
-        public List<IParameter> OwnedParameter { get; set; } = new List<IParameter>();
+        public IContainerList<IParameter> OwnedParameter
+        {
+            get => this.ownedParameter ??= new ContainerList<IParameter>(this);
+            set => this.ownedParameter = value;
+        }
+
+        /// <summary>
+        /// Backing field for <see cref="OwnedComment"/>
+        /// </summary>
+        private IContainerList<IParameter> ownedParameter;
 
         /// <summary>
         /// An optional set of Constraints specifying the state of the system when the Operation is completed.

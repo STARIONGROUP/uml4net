@@ -26,6 +26,7 @@ namespace uml4net.POCO.Classification
     using uml4net.POCO.CommonStructure;
     using uml4net.POCO.SimpleClassifiers;
     using uml4net.POCO.StructuredClassifiers;
+    using uml4net.Utils;
 
     /// <summary>
     /// An Operation is a BehavioralFeature of a Classifier that specifies the name, type, parameters, 
@@ -104,14 +105,14 @@ namespace uml4net.POCO.Classification
         /// </summary>
         [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered:true)]
         [RedefinedByProperty("BehavioralFeature-ownedParameter")]
-        public new List<IParameter> OwnedParameter { get; set; }
+        public new IContainerList<IParameter> OwnedParameter { get; set; }
 
         /// <summary>
         /// An optional set of Constraints specifying the state of the system when the Operation is completed.
         /// </summary>
         [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue)]
         [SubsettedProperty("Namespace-ownedRule")]
-        public List<IConstraint> Postcondition {  get; set; }
+        public List<IConstraint> Postcondition { get; set; }
 
         /// <summary>
         /// An optional set of Constraints on the state of the system when the Operation is invoked.
