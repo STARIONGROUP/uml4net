@@ -20,18 +20,18 @@
 
 namespace uml4net.xmi.Readers.Classification
 {
-    using Cache;
     using System;
     using System.Collections.Generic;
     using System.Xml;
 
     using Microsoft.Extensions.Logging;
-    using POCO.Values;
-    using POCO;
+
+    using uml4net.POCO;
     using uml4net.POCO.Classification;
     using uml4net.POCO.CommonStructure;
-
-    using Readers;
+    using uml4net.POCO.Values;
+    using uml4net.xmi.Cache;
+    using uml4net.xmi.Readers;
 
     /// <summary>
     /// The purpose of the <see cref="PropertyReader"/> is to read an instance of <see cref="IProperty"/>
@@ -170,6 +170,9 @@ namespace uml4net.xmi.Readers.Classification
                     property.SingleValueReferencePropertyIdentifiers.Add("association", association);
                 }
 
+                var redefinedProperty = new List<string>();
+                var subsettedProperty = new List<string>();
+
                 while (xmlReader.Read())
                 {
                     if (xmlReader.NodeType == XmlNodeType.Element)
@@ -234,21 +237,19 @@ namespace uml4net.xmi.Readers.Classification
                                 }
                                 break;
                             case "subsettedProperty":
+                                
                                 using (var subsettedPropertyXmlReader = xmlReader.ReadSubtree())
                                 {
                                     if (subsettedPropertyXmlReader.MoveToContent() == XmlNodeType.Element)
                                     {
-                                        var reference = subsettedPropertyXmlReader.GetAttribute("xmi:idref");
-                                        if (!string.IsNullOrEmpty(reference))
+                                        var href = subsettedPropertyXmlReader.GetAttribute("href");
+                                        if (!string.IsNullOrEmpty(href))
                                         {
-                                            if (property.MultiValueReferencePropertyIdentifiers.TryGetValue("subsettedProperty", out var references))
-                                            {
-                                                references.Add(reference);
-                                            }
-                                            else
-                                            {
-                                                property.MultiValueReferencePropertyIdentifiers.Add("subsettedProperty", new List<string> { reference });
-                                            }
+                                            subsettedProperty.Add(href);
+                                        }
+                                        else if (subsettedPropertyXmlReader.GetAttribute("xmi:idref") is { Length: > 0 } idRef)
+                                        {
+                                            subsettedProperty.Add(idRef);
                                         }
                                         else
                                         {
@@ -287,13 +288,38 @@ namespace uml4net.xmi.Readers.Classification
                             case "redefinedProperty":
                                 using (var redefinedPropertyXmlReader = xmlReader.ReadSubtree())
                                 {
-                                    this.Logger.LogDebug("property:redefinedProperty not yet implemented");
+                                    if (redefinedPropertyXmlReader.MoveToContent() == XmlNodeType.Element)
+                                    {
+                                        var href = redefinedPropertyXmlReader.GetAttribute("href");
+                                        if (!string.IsNullOrEmpty(href))
+                                        {
+                                            redefinedProperty.Add(href);
+                                        }
+                                        else if (redefinedPropertyXmlReader.GetAttribute("xmi:idref") is { Length: > 0 } idRef)
+                                        {
+                                            redefinedProperty.Add(idRef);
+                                        }
+                                        else
+                                        {
+                                            throw new InvalidOperationException("redefinedProperty xml-attribute reference could not be read");
+                                        }
+                                    }
                                 }
                                 break;
                             default:
                                 throw new NotImplementedException($"PropertyReader: {xmlReader.LocalName}");
                         }
                     }
+                }
+
+                if (redefinedProperty.Count > 0)
+                {
+                    property.MultiValueReferencePropertyIdentifiers.Add("redefinedProperty", redefinedProperty);
+                }
+
+                if (subsettedProperty.Count > 0)
+                {
+                    property.MultiValueReferencePropertyIdentifiers.Add("subsettedProperty", subsettedProperty);
                 }
             }
 
