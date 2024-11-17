@@ -147,7 +147,7 @@ namespace uml4net.POCO.Classification
         [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isReadOnly: true, isDerived: true)]
         [SubsettedProperty(propertyName: "Namespace.Member")]
         [Implements(implementation: "INamespace.ImportedMember")]
-        public List<IPackageableElement> ImportedMember { get; }
+        public List<IPackageableElement> ImportedMember => throw new NotImplementedException();
 
         /// <summary>
         /// A collection of NamedElements owned by the Namespace.
@@ -156,7 +156,7 @@ namespace uml4net.POCO.Classification
         [SubsettedProperty(propertyName: "Element.OwnedElement")]
         [SubsettedProperty(propertyName: "Namespace.Member")]
         [Implements(implementation: "INamespace.OwnedMember")]
-        public List<INamedElement> OwnedMember { get; }
+        public List<INamedElement> OwnedMember => throw new NotImplementedException();
 
         /// <summary>
         /// Specifies a set of Constraints owned by this Namespace.
@@ -182,6 +182,7 @@ namespace uml4net.POCO.Classification
         /// Backing field for <see cref="PackageImport"/>
         /// </summary>
         private IContainerList<IPackageImport> packageImport;
+
         /// <summary>
         /// The formal TemplateParameter that owns this ParameterableElement
         /// </summary>

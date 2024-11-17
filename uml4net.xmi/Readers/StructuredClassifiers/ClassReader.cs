@@ -61,6 +61,11 @@ namespace uml4net.xmi.Readers.StructuredClassifiers
         public IXmiElementReader<IComment> CommentReader { get; set; }
 
         /// <summary>
+        /// Gets the INJECTED <see cref="IXmiElementReader{T}"/> of <see cref="IOperation"/>
+        /// </summary>
+        public IXmiElementReader<IOperation> OperationReader { get; set; }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="PackageReader"/> class.
         /// </summary>
         /// <param name="cache">
@@ -146,7 +151,8 @@ namespace uml4net.xmi.Readers.StructuredClassifiers
                             case "ownedOperation":
                                 using (var ownedOperationXmlReader = xmlReader.ReadSubtree())
                                 {
-                                    this.Logger.LogInformation("ClassReader.ownedOperation not yet implemented");
+                                    var operation = this.OperationReader.Read(ownedOperationXmlReader);
+                                    @class.OwnedOperation.Add(operation);
                                 }
                                 break;
                             case "generalization":
