@@ -37,11 +37,9 @@ namespace uml4net.Reporting.Tests.Generators
 
         private HtmlReportGenerator htmlReportGenerator;
 
-        private string modelPath;
+        private FileInfo umlModelFileInfo;
 
-        private FileInfo modelFileInfo;
-
-        private FileInfo reportFileInfo;
+        private FileInfo sysml2ModelFileInfo;
 
         [OneTimeSetUp]
         public void OneTimeSetUp()
@@ -60,19 +58,28 @@ namespace uml4net.Reporting.Tests.Generators
         [SetUp]
         public void SetUp()
         {
-            this.modelPath = Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData", "UML.xmi");
-            this.modelFileInfo = new FileInfo(modelPath);
-
-            var reportPath = Path.Combine(TestContext.CurrentContext.TestDirectory, "html-report.html");
-            this.reportFileInfo = new FileInfo(reportPath);
+            this.umlModelFileInfo = new FileInfo(Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData", "UML.xmi"));
+            this.sysml2ModelFileInfo = new FileInfo(Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData", "SysML.uml"));
         }
 
         [Test]
-        public void Verify_that_the_report_generator_generates_a_report()
+        public void Verify_that_the_report_generator_generates_a_report_of_uml()
         {
             this.htmlReportGenerator = new HtmlReportGenerator(this.loggerFactory);
 
-            Assert.That(() => this.htmlReportGenerator.GenerateReport(modelFileInfo, reportFileInfo), Throws.Nothing);
+            var reportFileInfo = new FileInfo(Path.Combine(TestContext.CurrentContext.TestDirectory, "uml-html-report.html"));
+
+            Assert.That(() => this.htmlReportGenerator.GenerateReport(this.umlModelFileInfo, reportFileInfo), Throws.Nothing);
+        }
+
+        [Test]
+        public void Verify_that_the_report_generator_generates_a_report_of_sysml2()
+        {
+            this.htmlReportGenerator = new HtmlReportGenerator(this.loggerFactory);
+
+            var reportFileInfo = new FileInfo(Path.Combine(TestContext.CurrentContext.TestDirectory, "sysml2-html-report.html"));
+
+            Assert.That(() => this.htmlReportGenerator.GenerateReport(this.sysml2ModelFileInfo, reportFileInfo), Throws.Nothing);
         }
     }
 }
