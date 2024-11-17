@@ -27,6 +27,8 @@ namespace uml4net.xmi.Tests
 
     using NUnit.Framework;
 
+    using Serilog;
+
     using uml4net.POCO.Values;
     using uml4net.POCO.Packages;
     using uml4net.POCO.SimpleClassifiers;
@@ -38,16 +40,27 @@ namespace uml4net.xmi.Tests
     {
         private ILoggerFactory loggerFactory;
 
-        [SetUp]
-        public void SetUp()
+        [OneTimeSetUp]
+        public void OneTimeSetUp()
         {
-            this.loggerFactory = LoggerFactory.Create(builder => builder.AddConsole());
+            Log.Logger = new LoggerConfiguration()
+                .MinimumLevel.Fatal()
+                .WriteTo.Console()
+                .CreateLogger();
+
+            this.loggerFactory = LoggerFactory.Create(builder =>
+            {
+                builder.AddSerilog();
+            });
         }
 
         [Test]
         public void Verify_that_UML_PrimitiveTypes__XMI_can_be_read()
         {
+            var rootPath = Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData");
+
             using var reader = XmiReaderBuilder.Create()
+                .UsingSettings(x => x.LocalReferenceBasePath = rootPath)
                 .WithLogger(this.loggerFactory)
                 .Build();
 

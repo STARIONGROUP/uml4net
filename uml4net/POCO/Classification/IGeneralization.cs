@@ -34,11 +34,6 @@ namespace uml4net.POCO.Classification
     public interface IGeneralization : IDirectedRelationship
     {
         /// <summary>
-        /// Gets or sets a dictionary of reference properties and the associated unique identifiers
-        /// </summary>
-        public Dictionary<string, string> ReferencePropertyValueIdentifies { get; set; }
-
-        /// <summary>
         /// The general classifier in the Generalization relationship.
         /// </summary>
         [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1)]

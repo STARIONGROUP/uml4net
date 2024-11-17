@@ -111,6 +111,12 @@ namespace uml4net.xmi.Readers.StructuredClassifiers
                     association.Visibility = (VisibilityKind)Enum.Parse(typeof(VisibilityKind), visibility, true);
                 }
 
+                var isDerived = xmlReader.GetAttribute("isDerived");
+                if (!string.IsNullOrEmpty(isDerived))
+                {
+                    association.IsDerived = bool.Parse(isDerived);
+                }
+
                 var memberEnds = new List<string>();
 
                 while (xmlReader.Read())

@@ -27,6 +27,8 @@ namespace uml4net.xmi.Readers.CommonStructure
     using uml4net.POCO.CommonStructure;
     using Cache;
     using Readers;
+    using System;
+    using System.Linq;
 
     /// <summary>
     /// The purpose of the <see cref="CommentReader"/> is to read an instance of <see cref="IComment"/>
@@ -77,6 +79,12 @@ namespace uml4net.xmi.Readers.CommonStructure
                 this.Cache.Add(comment.XmiId, comment);
 
                 comment.Body = xmlReader.GetAttribute("body");
+
+                var annotatedElement = xmlReader.GetAttribute("annotatedElement");
+                if (!string.IsNullOrEmpty(annotatedElement))
+                {
+                    comment.MultiValueReferencePropertyIdentifiers.Add("AnnotatedElement", annotatedElement.Split([' '], StringSplitOptions.RemoveEmptyEntries).ToList());
+                }
             }
 
             return comment;

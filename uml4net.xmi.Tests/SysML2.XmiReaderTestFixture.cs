@@ -29,21 +29,32 @@ namespace uml4net.xmi.Tests
     using System.Threading.Tasks;
     using uml4net.POCO.Packages;
     using uml4net.xmi;
+    using Serilog;
 
     public class SysML2XmiReaderTestFixture
     {
         private ILoggerFactory loggerFactory;
 
-        [SetUp]
-        public void SetUp()
+        [OneTimeSetUp]
+        public void OneTimeSetUp()
         {
-            this.loggerFactory = LoggerFactory.Create(builder => builder.AddConsole());
+            Log.Logger = new LoggerConfiguration()
+                .MinimumLevel.Information()
+                .WriteTo.Console()
+                .CreateLogger();
+
+            this.loggerFactory = LoggerFactory.Create(builder =>
+            {
+                builder.AddSerilog();
+            });
         }
 
         [Test]
         public async Task Verify_that_SysML_XMI_can_be_read()
         {
-            using var reader = XmiReaderBuilder.Create().WithLogger(this.loggerFactory).Build();
+            using var reader = XmiReaderBuilder.Create()
+                .WithLogger(this.loggerFactory)
+                .Build();
 
             var xmiReaderResult = reader.Read(Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData", "SysML.uml"));
 
