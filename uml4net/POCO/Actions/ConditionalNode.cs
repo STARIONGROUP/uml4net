@@ -159,7 +159,16 @@ namespace uml4net.POCO.Actions
         [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue)]
         [SubsettedProperty(propertyName: "Namespace.OwnedMember")]
         [Implements(implementation: "INamespace.OwnedRule")]
-        public List<IConstraint> OwnedRule { get; set; }
+        public IContainerList<IConstraint> OwnedRule
+        {
+            get => this.ownedRule ??= new ContainerList<IConstraint>(this);
+            set => this.ownedRule = value;
+        }
+
+        /// <summary>
+        /// Backing field for <see cref="OwnedRule"/>
+        /// </summary>
+        private IContainerList<IConstraint> ownedRule;
 
         /// <summary>
         /// References the PackageImports owned by the Namespace.

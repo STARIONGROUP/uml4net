@@ -58,7 +58,7 @@ namespace uml4net.POCO.CommonStructure
         /// </summary>
         [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue)]
         [SubsettedProperty(propertyName: "Namespace.OwnedMember")]
-        public List<IConstraint> OwnedRule { get; set; }
+        public IContainerList<IConstraint> OwnedRule { get; set; }
 
         /// <summary>
         /// References the PackageImports owned by the Namespace.

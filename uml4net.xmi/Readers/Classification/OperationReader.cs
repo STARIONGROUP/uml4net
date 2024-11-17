@@ -40,6 +40,11 @@ namespace uml4net.xmi.Readers.Classification
         /// <summary>
         /// Gets the INJECTED <see cref="IXmiElementReader{T}"/> of <see cref="IComment"/>
         /// </summary>
+        public IXmiElementReader<IConstraint> ConstraintReader { get; set; }
+
+        /// <summary>
+        /// Gets the INJECTED <see cref="IXmiElementReader{T}"/> of <see cref="IComment"/>
+        /// </summary>
         public IXmiElementReader<IComment> CommentReader { get; set; }
 
         /// <summary>
@@ -138,7 +143,8 @@ namespace uml4net.xmi.Readers.Classification
                             case "ownedRule":
                                 using (var ownedRuleXmlReader = xmlReader.ReadSubtree())
                                 {
-                                    this.Logger.LogDebug("OperationReader:ownedRule not yet implemented");
+                                    var constraint = this.ConstraintReader.Read(ownedRuleXmlReader);
+                                    operation.OwnedRule.Add(constraint);
                                 }
                                 break;
                             case "precondition":
