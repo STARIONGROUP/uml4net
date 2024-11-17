@@ -73,9 +73,13 @@ namespace uml4net.xmi.Readers.SimpleClassifiers
             {
                 var xmiType = xmlReader.GetAttribute("xmi:type");
 
-                if (xmiType != "uml:EnumerationLiteral")
+                if (!string.IsNullOrEmpty(xmiType) && xmiType != "uml:EnumerationLiteral")
                 {
-                    throw new XmlException($"The XmiType should be: uml:EnumerationLiteral while it is {xmiType}");
+                    throw new XmlException($"The XmiType should be 'uml:EnumerationLiteral' while it is {xmiType}");
+                }
+                else
+                {
+                    xmiType = "uml:EnumerationLiteral";
                 }
 
                 enumerationLiteral.XmiType = xmiType;

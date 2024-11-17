@@ -65,6 +65,17 @@ namespace uml4net.xmi.Readers.CommonStructure
 
             if (xmlReader.MoveToContent() == XmlNodeType.Element)
             {
+                var xmiType = xmlReader.GetAttribute("xmi:type");
+
+                if (!string.IsNullOrEmpty(xmiType) && xmiType != "uml:PackageImport")
+                {
+                    throw new XmlException($"The XmiType should be 'uml:PackageImport' while it is {xmiType}");
+                }
+                else
+                {
+                    xmiType = "uml:PackageImport";
+                }
+
                 packageImport.XmiId = xmlReader.GetAttribute("xmi:id");
 
                 var importedPackage = xmlReader.GetAttribute("importedPackage");

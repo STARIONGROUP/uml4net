@@ -73,9 +73,13 @@ namespace uml4net.xmi.Readers.Values
             {
                 var xmiType = xmlReader.GetAttribute("xmi:type");
 
-                if (xmiType != "uml:LiteralInteger")
+                if (!string.IsNullOrEmpty(xmiType) && xmiType != "uml:LiteralInteger")
                 {
-                    throw new XmlException($"The XmiType should be: uml:LiteralInteger while it is {xmiType}");
+                    throw new XmlException($"The XmiType should be 'uml:LiteralInteger' while it is {xmiType}");
+                }
+                else
+                {
+                    xmiType = "uml:LiteralInteger";
                 }
 
                 literalInteger.XmiType = xmiType;

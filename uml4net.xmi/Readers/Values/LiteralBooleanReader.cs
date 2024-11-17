@@ -73,9 +73,13 @@ namespace uml4net.xmi.Readers.Values
             {
                 var xmiType = xmlReader.GetAttribute("xmi:type");
 
-                if (xmiType != "uml:LiteralBoolean")
+                if (!string.IsNullOrEmpty(xmiType) && xmiType != "uml:LiteralBoolean")
                 {
-                    throw new XmlException($"The XmiType should be: uml:LiteralBoolean while it is {xmiType}");
+                    throw new XmlException($"The XmiType should be 'uml:LiteralBoolean' while it is {xmiType}");
+                }
+                else
+                {
+                    xmiType = "uml:LiteralBoolean";
                 }
 
                 literalBoolean.XmiType = xmiType;

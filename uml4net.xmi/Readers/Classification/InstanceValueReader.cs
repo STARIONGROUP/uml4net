@@ -73,9 +73,13 @@ namespace uml4net.xmi.Readers.Classification
             {
                 var xmiType = xmlReader.GetAttribute("xmi:type");
 
-                if (xmiType != "uml:InstanceValue")
+                if (!string.IsNullOrEmpty(xmiType) && xmiType != "uml:InstanceValue")
                 {
-                    throw new XmlException($"The XmiType should be: uml:InstanceValue while it is {xmiType}");
+                    throw new XmlException($"The XmiType should be 'uml:InstanceValue' while it is {xmiType}");
+                }
+                else
+                {
+                    xmiType = "uml:InstanceValue";
                 }
 
                 instanceValue.XmiType = xmiType;

@@ -90,9 +90,13 @@ namespace uml4net.xmi.Readers.StructuredClassifiers
             {
                 var xmiType = xmlReader.GetAttribute("xmi:type");
 
-                if (xmiType != "uml:Association")
+                if (!string.IsNullOrEmpty(xmiType) && xmiType != "uml:Association")
                 {
-                    throw new XmlException($"The XmiType should be: uml:Association while it is {xmiType}");
+                    throw new XmlException($"The XmiType should be 'uml:Association' while it is {xmiType}");
+                }
+                else
+                {
+                    xmiType = "uml:Association";
                 }
 
                 association.XmiType = xmiType;

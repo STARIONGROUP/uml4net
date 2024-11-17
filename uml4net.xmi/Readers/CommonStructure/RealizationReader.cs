@@ -68,9 +68,13 @@ namespace uml4net.xmi.Readers.CommonStructure
             {
                 var xmiType = xmlReader.GetAttribute("xmi:type");
 
-                if (xmiType != "uml:Realization")
+                if (!string.IsNullOrEmpty(xmiType) && xmiType != "uml:Realization")
                 {
-                    throw new XmlException($"The XmiType should be: uml:Realization while it is {xmiType}");
+                    throw new XmlException($"The XmiType should be 'uml:Realization' while it is {xmiType}");
+                }
+                else
+                {
+                    xmiType = "uml:Realization";
                 }
 
                 realization.XmiType = xmiType;

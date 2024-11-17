@@ -84,9 +84,13 @@ namespace uml4net.xmi.Readers.Classification
             {
                 var xmiType = xmlReader.GetAttribute("xmi:type");
 
-                if (xmiType != "uml:Parameter")
+                if (!string.IsNullOrEmpty(xmiType) && xmiType != "uml:Parameter")
                 {
-                    throw new XmlException($"The XmiType should be: uml:Parameter while it is {xmiType}");
+                    throw new XmlException($"The XmiType should be 'uml:Parameter' while it is {xmiType}");
+                }
+                else
+                {
+                    xmiType = "uml:Parameter";
                 }
 
                 parameter.XmiType = xmiType;

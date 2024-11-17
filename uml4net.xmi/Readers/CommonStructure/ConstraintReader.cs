@@ -79,9 +79,13 @@ namespace uml4net.xmi.Readers.CommonStructure
             {
                 var xmiType = xmlReader.GetAttribute("xmi:type");
 
-                if (xmiType != "uml:Constraint")
+                if (!string.IsNullOrEmpty(xmiType) && xmiType != "uml:Constraint")
                 {
-                    throw new XmlException($"The XmiType should be: uml:Constraint while it is {xmiType}");
+                    throw new XmlException($"The XmiType should be 'uml:Constraint' while it is {xmiType}");
+                }
+                else
+                {
+                    xmiType = "uml:Constraint";
                 }
 
                 constraint.XmiType = xmiType;

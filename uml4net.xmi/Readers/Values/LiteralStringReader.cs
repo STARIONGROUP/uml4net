@@ -1,5 +1,5 @@
 ﻿// -------------------------------------------------------------------------------------------------
-//  <copyright file="LiteralUnlimitedNaturalReader.cs" company="Starion Group S.A.">
+//  <copyright file="LiteralStringReader.cs" company="Starion Group S.A.">
 // 
 //    Copyright 2019-2024 Starion Group S.A.
 // 
@@ -32,10 +32,10 @@ namespace uml4net.xmi.Readers.Values
     using uml4net.xmi.Readers;
 
     /// <summary>
-    /// The purpose of the <see cref="LiteralUnlimitedNaturalReader"/> is to read an instance of <see cref="ILiteralUnlimitedNatural"/>
+    /// The purpose of the <see cref="LiteralStringReader"/> is to read an instance of <see cref="ILiteralString"/>
     /// from the XMI document
     /// </summary>
-    public class LiteralUnlimitedNaturalReader : XmiElementReader<ILiteralUnlimitedNatural>, IXmiElementReader<ILiteralUnlimitedNatural>
+    public class LiteralStringReader : XmiElementReader<ILiteralString>, IXmiElementReader<ILiteralString>
     {
         /// <summary>
         /// Gets the INJECTED <see cref="IXmiElementReader{T}"/> of <see cref="IComment"/>
@@ -43,7 +43,7 @@ namespace uml4net.xmi.Readers.Values
         public IXmiElementReader<IComment> CommentReader { get; set; }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="LiteralUnlimitedNaturalReader"/> class.
+        /// Initializes a new instance of the <see cref="LiteralIntegerReader"/> class.
         /// </summary>
         /// <param name="cache">
         /// The cache in which each <see cref="IXmiElement"/>> is stored
@@ -51,54 +51,45 @@ namespace uml4net.xmi.Readers.Values
         /// <param name="logger">
         /// The (injected) <see cref="ILogger{T}"/> used to setup logging
         /// </param>
-        public LiteralUnlimitedNaturalReader(IXmiReaderCache cache, ILogger<LiteralUnlimitedNaturalReader> logger)
+        public LiteralStringReader(IXmiReaderCache cache, ILogger<LiteralStringReader> logger)
             : base(cache, logger)
         {
         }
 
         /// <summary>
-        /// Reads the <see cref="IConstraint"/> object from its XML representation
+        /// Reads the <see cref="ILiteralString"/> object from its XML representation
         /// </summary>
         /// <param name="xmlReader">
         /// an instance of <see cref="XmlReader"/>
         /// </param>
         /// <returns>
-        /// an instance of <see cref="IConstraint"/>
+        /// an instance of <see cref="ILiteralString"/>
         /// </returns>
-        public override ILiteralUnlimitedNatural Read(XmlReader xmlReader)
+        public override ILiteralString Read(XmlReader xmlReader)
         {
-            ILiteralUnlimitedNatural literalUnlimitedNatural = new LiteralUnlimitedNatural();
+            ILiteralString literalString = new LiteralString();
 
             if (xmlReader.MoveToContent() == XmlNodeType.Element)
             {
                 var xmiType = xmlReader.GetAttribute("xmi:type");
 
-                if (!string.IsNullOrEmpty(xmiType) && xmiType != "uml:LiteralUnlimitedNatural")
+                if (!string.IsNullOrEmpty(xmiType) && xmiType != "uml:LiteralString")
                 {
-                    throw new XmlException($"The XmiType should be 'uml:LiteralUnlimitedNatural' while it is {xmiType}");
+                    throw new XmlException($"The XmiType should be 'uml:LiteralString' while it is {xmiType}");
                 }
                 else
                 {
-                    xmiType = "uml:LiteralUnlimitedNatural";
+                    xmiType = "uml:LiteralString";
                 }
 
-                literalUnlimitedNatural.XmiType = xmiType;
+                literalString.XmiType = xmiType;
 
-                literalUnlimitedNatural.XmiId = xmlReader.GetAttribute("xmi:id");
+                literalString.XmiId = xmlReader.GetAttribute("xmi:id");
 
-                this.Cache.Add(literalUnlimitedNatural.XmiId, literalUnlimitedNatural);
+                this.Cache.Add(literalString.XmiId, literalString);
 
-                var value = xmlReader.GetAttribute("value");
-
-                if (value == "*")
-                {
-                    literalUnlimitedNatural.Value = int.MaxValue;
-                }
-                else if (!string.IsNullOrEmpty(value))
-                {
-                    literalUnlimitedNatural.Value = int.Parse(value);
-                }
-
+                literalString.Value = xmlReader.GetAttribute("value");
+                
                 while (xmlReader.Read())
                 {
                     if (xmlReader.NodeType == XmlNodeType.Element)
@@ -109,18 +100,18 @@ namespace uml4net.xmi.Readers.Values
                                 using (var ownedCommentXmlReader = xmlReader.ReadSubtree())
                                 {
                                     var comment = this.CommentReader.Read(ownedCommentXmlReader);
-                                    literalUnlimitedNatural.OwnedComment.Add(comment);
+                                    literalString.OwnedComment.Add(comment);
                                 }
                                 break;
                             default:
                                 var defaultLineInfo = xmlReader as IXmlLineInfo;
-                                throw new NotImplementedException($"LiteralUnlimitedNaturalReader: {xmlReader.LocalName} at line:position {defaultLineInfo.LineNumber}:{defaultLineInfo.LinePosition}");
+                                throw new NotImplementedException($"LiteralStringReader: {xmlReader.LocalName} at line:position {defaultLineInfo.LineNumber}:{defaultLineInfo.LinePosition}");
                         }
                     }
                 }
             }
 
-            return literalUnlimitedNatural;
+            return literalString;
         }
     }
 }

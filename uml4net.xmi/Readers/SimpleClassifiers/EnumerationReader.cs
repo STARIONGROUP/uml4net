@@ -79,9 +79,13 @@ namespace uml4net.xmi.Readers.SimpleClassifiers
             {
                 var xmiType = xmlReader.GetAttribute("xmi:type");
 
-                if (xmiType != "uml:Enumeration")
+                if (!string.IsNullOrEmpty(xmiType) && xmiType != "uml:Enumeration")
                 {
-                    throw new XmlException($"The XmiType should be: uml:Enumeration while it is {xmiType}");
+                    throw new XmlException($"The XmiType should be 'uml:Enumeration' while it is {xmiType}");
+                }
+                else
+                {
+                    xmiType = "uml:Enumeration";
                 }
 
                 enumeration.XmiType = xmiType;

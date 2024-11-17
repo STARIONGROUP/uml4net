@@ -96,9 +96,13 @@ namespace uml4net.xmi.Readers.StructuredClassifiers
             {
                 var xmiType = xmlReader.GetAttribute("xmi:type");
 
-                if (xmiType != "uml:Class")
+                if (!string.IsNullOrEmpty(xmiType) && xmiType != "uml:Class")
                 {
-                    throw new XmlException($"The XmiType should be: uml:Class while it is {xmiType}");
+                    throw new XmlException($"The XmiType should be 'uml:Class' while it is {xmiType}");
+                }
+                else
+                {
+                    xmiType = "uml:Class";
                 }
 
                 @class.XmiType = xmiType;

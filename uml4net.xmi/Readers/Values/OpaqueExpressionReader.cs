@@ -74,9 +74,13 @@ namespace uml4net.xmi.Readers.Values
             {
                 var xmiType = xmlReader.GetAttribute("xmi:type");
 
-                if (xmiType != "uml:OpaqueExpression")
+                if (!string.IsNullOrEmpty(xmiType) && xmiType != "uml:OpaqueExpression")
                 {
-                    throw new XmlException($"The XmiType should be: uml:OpaqueExpression while it is {xmiType}");
+                    throw new XmlException($"The XmiType should be 'uml:OpaqueExpression' while it is {xmiType}");
+                }
+                else
+                {
+                    xmiType = "uml:OpaqueExpression";
                 }
 
                 opaqueExpression.XmiType = xmiType;

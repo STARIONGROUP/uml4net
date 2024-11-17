@@ -73,9 +73,13 @@ namespace uml4net.xmi.Readers.SimpleClassifiers
             {
                 var xmiType = xmlReader.GetAttribute("xmi:type");
 
-                if (xmiType != "uml:PrimitiveType")
+                if (!string.IsNullOrEmpty(xmiType) && xmiType != "uml:PrimitiveType")
                 {
-                    throw new XmlException($"The XmiType should be: uml:PrimitiveType while it is {xmiType}");
+                    throw new XmlException($"The XmiType should be 'uml:PrimitiveType' while it is {xmiType}");
+                }
+                else
+                {
+                    xmiType = "uml:PrimitiveType";
                 }
 
                 primitiveType.XmiType = xmiType;

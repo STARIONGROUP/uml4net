@@ -20,10 +20,19 @@
 
 namespace uml4net.POCO.Values
 {
+    using uml4net.Decorators;
+
+    using uml4net.POCO.Classification;
+
     /// <summary>
     /// A LiteralString is a specification of a String value.
     /// </summary>
     public interface ILiteralString : ILiteralSpecification
     {
+        /// <summary>
+        /// The specified String value.
+        /// </summary>
+        [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1)]
+        public string Value { get; set; }
     }
 }

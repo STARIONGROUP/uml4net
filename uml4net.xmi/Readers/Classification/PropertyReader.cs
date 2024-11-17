@@ -70,6 +70,11 @@ namespace uml4net.xmi.Readers.Classification
         public IXmiElementReader<ILiteralBoolean> LiteralBooleanReader { get; set; }
 
         /// <summary>
+        /// Gets the INJECTED <see cref="IXmiElementReader{T}"/> of <see cref="ILiteralString"/>
+        /// </summary>
+        public IXmiElementReader<ILiteralString> LiteralStringReader { get; set; }
+        
+        /// <summary>
         /// Initializes a new instance of the <see cref="PropertyReader"/> class.
         /// </summary>
         /// <param name="cache">
@@ -100,9 +105,13 @@ namespace uml4net.xmi.Readers.Classification
             {
                 var xmiType = xmlReader.GetAttribute("xmi:type");
 
-                if (xmiType != "uml:Property")
+                if (!string.IsNullOrEmpty(xmiType) && xmiType != "uml:Property")
                 {
-                    throw new XmlException($"The XmiType should be: uml:Property while it is {xmiType}");
+                    throw new XmlException($"The XmiType should be 'uml:Property' while it is {xmiType}");
+                }
+                else
+                {
+                    xmiType = "uml:Property";
                 }
 
                 property.XmiType = xmiType;
@@ -374,6 +383,13 @@ namespace uml4net.xmi.Readers.Classification
                         property.DefaultValue = literalInteger;
                     }
                     break;
+                case "uml:LiteralString":
+                    using (var literalStringXmlReader = xmlReader.ReadSubtree())
+                    {
+                        var literalString = this.LiteralStringReader.Read(literalStringXmlReader);
+                        property.DefaultValue = literalString;
+                    }
+                    break;
                 case "uml:LiteralUnlimitedNatural":
                     using (var literalUnlimitedNaturalXmlReader = xmlReader.ReadSubtree())
                     {
@@ -389,7 +405,8 @@ namespace uml4net.xmi.Readers.Classification
                     }
                     break;
                 default:
-                    throw new NotImplementedException(xmiType);
+                    var defaultLineInfo = xmlReader as IXmlLineInfo;
+                    throw new NotImplementedException($"PropertyReader.ReadValueSpecification: {xmiType} at line:position {defaultLineInfo.LineNumber}:{defaultLineInfo.LinePosition}");
             }
         }
     }

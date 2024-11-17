@@ -68,9 +68,13 @@ namespace uml4net.xmi.Readers.CommonStructure
             {
                 var xmiType = xmlReader.GetAttribute("xmi:type");
 
-                if (xmiType != "uml:Comment")
+                if (!string.IsNullOrEmpty(xmiType) && xmiType != "uml:Comment")
                 {
-                    throw new XmlException($"The XmiType should be: uml:Comment while it is {xmiType}");
+                    throw new XmlException($"The XmiType should be 'uml:Comment' while it is {xmiType}");
+                }
+                else
+                {
+                    xmiType = "uml:Comment";
                 }
 
                 comment.XmiType = xmiType;

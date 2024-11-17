@@ -26,7 +26,6 @@ namespace uml4net.xmi.Tests
     using Microsoft.Extensions.Logging;
 
     using NUnit.Framework;
-    using System.Threading.Tasks;
     using uml4net.POCO.Packages;
     using uml4net.xmi;
     using Serilog;
@@ -50,7 +49,7 @@ namespace uml4net.xmi.Tests
         }
 
         [Test]
-        public async Task Verify_that_SysML_XMI_can_be_read()
+        public void Verify_that_SysML_XMI_can_be_read()
         {
             var reader = XmiReaderBuilder.Create()
                 .WithLogger(this.loggerFactory)

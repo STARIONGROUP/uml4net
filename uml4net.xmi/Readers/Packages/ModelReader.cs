@@ -29,6 +29,9 @@ namespace uml4net.xmi.Readers.Packages
     using uml4net.POCO.Packages;
     using Readers;
     using System.IO.Packaging;
+    using System;
+    using uml4net.POCO.StructuredClassifiers;
+    using uml4net.POCO.SimpleClassifiers;
 
     /// <summary>
     /// The purpose of the <see cref="ModelReader"/> is to read an instance of <see cref="IModel"/>
@@ -36,6 +39,26 @@ namespace uml4net.xmi.Readers.Packages
     /// </summary>
     public class ModelReader : XmiElementReader<IModel>, IXmiElementReader<IModel>
     {
+        /// <summary>
+        /// Gets the INJECTED <see cref="IXmiElementReader{T}"/> of <see cref="IAssociation"/>
+        /// </summary>
+        public IXmiElementReader<IAssociation> AssociationReader { get; set; }
+
+        /// <summary>
+        /// Gets the INJECTED <see cref="IXmiElementReader{T}"/> of <see cref="IComment"/>
+        /// </summary>
+        public IXmiElementReader<IClass> ClassReader { get; set; }
+
+        /// <summary>
+        /// Gets the INJECTED <see cref="IXmiElementReader{T}"/> of <see cref="IEnumeration"/>
+        /// </summary>
+        public IXmiElementReader<IEnumeration> EnumerationReader { get; set; }
+
+        /// <summary>
+        /// Gets the INJECTED <see cref="IXmiElementReader{T}"/> of <see cref="IInterface"/>
+        /// </summary>
+        public IXmiElementReader<IInterface> InterfaceReader { get; set; }
+
         /// <summary>
         /// Gets the INJECTED <see cref="IXmiElementReader{T}"/> of <see cref="IPackageImport"/>
         /// </summary>
@@ -45,6 +68,16 @@ namespace uml4net.xmi.Readers.Packages
         /// Gets the INJECTED <see cref="IXmiElementReader{T}"/> of <see cref="IPackage"/>
         /// </summary>
         public IXmiElementReader<IPackage> PackageReader { get; set; }
+
+        /// <summary>
+        /// Gets the INJECTED <see cref="IXmiElementReader{T}"/> of <see cref="IPrimitiveType"/>
+        /// </summary>
+        public IXmiElementReader<IPrimitiveType> PrimitiveTypeReader { get; set; }
+
+        /// <summary>
+        /// Gets the INJECTED <see cref="IXmiElementReader{T}"/> of <see cref="IRealization"/>
+        /// </summary>
+        public IXmiElementReader<IRealization> RealizationReader { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PackageReader"/> class.
@@ -109,20 +142,88 @@ namespace uml4net.xmi.Readers.Packages
                                     model.PackageImport.Add(packageImport);
                                 }
                                 break;
-                            case "packagedElement" when xmlReader.GetAttribute("xmi:type") == "uml:Package":
-                                using (var packageXmlReader = xmlReader.ReadSubtree())
-                                {
-                                    var package = this.PackageReader.Read(packageXmlReader);
-                                    model.PackagedElement.Add(package);
-                                }
-
+                            case "packagedElement":
+                                this.ReadPackagedElements(model, xmlReader);
                                 break;
+                            default:
+                                var defaultLineInfo = xmlReader as IXmlLineInfo;
+                                throw new NotImplementedException($"ModelReader: {xmlReader.LocalName} at line:position {defaultLineInfo.LineNumber}:{defaultLineInfo.LinePosition}");
                         }
                     }
                 }
             }
 
             return model;
+        }
+
+        /// <summary>
+        /// Reads the packaged elements
+        /// </summary>
+        /// <param name="model">
+        /// The <see cref="IModel"/> that the nested packaged elements are added to
+        /// </param>
+        /// <param name="xmlReader">
+        /// an instance of <see cref="XmlReader"/>
+        /// </param>
+        private void ReadPackagedElements(IModel model, XmlReader xmlReader)
+        {
+            var xmiType = xmlReader.GetAttribute("xmi:type");
+
+            switch (xmiType)
+            {
+                case "uml:Association":
+                    using (var associationXmlReader = xmlReader.ReadSubtree())
+                    {
+                        var association = this.AssociationReader.Read(associationXmlReader);
+                        model.PackagedElement.Add(association);
+                    }
+                    break;
+                case "uml:Class":
+                    using (var classXmlReader = xmlReader.ReadSubtree())
+                    {
+                        var packagedElement = this.ClassReader.Read(classXmlReader);
+                        model.PackagedElement.Add(packagedElement);
+                    }
+                    break;
+                case "uml:Enumeration":
+                    using (var enumerationXmlReader = xmlReader.ReadSubtree())
+                    {
+                        var enumeration = this.EnumerationReader.Read(enumerationXmlReader);
+                        model.PackagedElement.Add(enumeration);
+                    }
+                    break;
+                case "uml:Package":
+                    using (var packageXmlReader = xmlReader.ReadSubtree())
+                    {
+                        var packagedElement = this.Read(packageXmlReader);
+                        model.PackagedElement.Add(packagedElement);
+                    }
+                    break;
+                case "uml:PrimitiveType":
+                    using (var primitiveTypeXmlReader = xmlReader.ReadSubtree())
+                    {
+                        var primitive = this.PrimitiveTypeReader.Read(primitiveTypeXmlReader);
+                        model.PackagedElement.Add(primitive);
+                    }
+                    break;
+                case "uml:Interface":
+                    using (var interfaceXmlReader = xmlReader.ReadSubtree())
+                    {
+                        var @interface = this.InterfaceReader.Read(interfaceXmlReader);
+                        model.PackagedElement.Add(@interface);
+                    }
+                    break;
+                case "uml:Realization":
+                    using (var realizationXmlReader = xmlReader.ReadSubtree())
+                    {
+                        var realization = this.RealizationReader.Read(realizationXmlReader);
+                        model.PackagedElement.Add(realization);
+                    }
+                    break;
+                default:
+                    var defaultLineInfo = xmlReader as IXmlLineInfo;
+                    throw new NotImplementedException($"ModelReader.ReadPackagedElements: {xmlReader.LocalName} at line:position {defaultLineInfo.LineNumber}:{defaultLineInfo.LinePosition}");
+            }
         }
     }
 }

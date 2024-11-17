@@ -89,9 +89,13 @@ namespace uml4net.xmi.Readers.SimpleClassifiers
             {
                 var xmiType = xmlReader.GetAttribute("xmi:type");
 
-                if (xmiType != "uml:Interface")
+                if (!string.IsNullOrEmpty(xmiType) && xmiType != "uml:Interface")
                 {
-                    throw new XmlException($"The XmiType should be: uml:Interface while it is {xmiType}");
+                    throw new XmlException($"The XmiType should be 'uml:Interface' while it is {xmiType}");
+                }
+                else
+                {
+                    xmiType = "uml:Interface";
                 }
 
                 @interface.XmiType = xmiType;

@@ -57,7 +57,7 @@ namespace uml4net.xmi.Readers.Packages
         /// <summary>
         /// Gets the INJECTED <see cref="IXmiElementReader{T}"/> of <see cref="IPrimitiveType"/>
         /// </summary>
-        public IXmiElementReader<IPrimitiveType> PrimitiveReader { get; set; }
+        public IXmiElementReader<IPrimitiveType> PrimitiveTypeReader { get; set; }
 
         /// <summary>
         /// Gets the INJECTED <see cref="IXmiElementReader{T}"/> of <see cref="IComment"/>
@@ -110,9 +110,13 @@ namespace uml4net.xmi.Readers.Packages
             {
                 var xmiType = xmlReader.GetAttribute("xmi:type");
 
-                if (xmiType != "uml:Package")
+                if (!string.IsNullOrEmpty(xmiType) && xmiType != "uml:Package")
                 {
-                    throw new XmlException($"The XmiType should be: uml:Package while it is {xmiType}");
+                    throw new XmlException($"The XmiType should be 'uml:Package' while it is {xmiType}");
+                }
+                else
+                {
+                    xmiType = "uml:Package";
                 }
 
                 package.XmiType = xmiType;
@@ -229,7 +233,7 @@ namespace uml4net.xmi.Readers.Packages
                 case "uml:PrimitiveType":
                     using (var primitiveTypeXmlReader = xmlReader.ReadSubtree())
                     {
-                        var primitive = this.PrimitiveReader.Read(primitiveTypeXmlReader);
+                        var primitive = this.PrimitiveTypeReader.Read(primitiveTypeXmlReader);
                         package.PackagedElement.Add(primitive);
                     }
                     break;
@@ -247,8 +251,9 @@ namespace uml4net.xmi.Readers.Packages
                         package.PackagedElement.Add(realization);
                     }
                     break;
-                default: 
-                    throw new NotImplementedException(xmiType);
+                default:
+                    var defaultLineInfo = xmlReader as IXmlLineInfo;
+                    throw new NotImplementedException($"PackageReader.ReadPackagedElements: {xmlReader.LocalName} at line:position {defaultLineInfo.LineNumber}:{defaultLineInfo.LinePosition}");
             }
         }
     }
