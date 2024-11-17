@@ -126,7 +126,8 @@ namespace uml4net.xmi.Readers.Classification
                 }
 
                 var precondition = new List<string>();
-                
+                var redefinedOperation = new List<string>();
+
                 while (xmlReader.Read())
                 {
                     if (xmlReader.NodeType == XmlNodeType.Element)
@@ -178,8 +179,22 @@ namespace uml4net.xmi.Readers.Classification
                             case "redefinedOperation":
                                 using (var redefinedOperationXmlReader = xmlReader.ReadSubtree())
                                 {
-                                    var lineInfo = xmlReader as IXmlLineInfo;
-                                    this.Logger.LogDebug("OperationReader:redefinedOperation not yet implemented at line:position {LineNumber}:{LinePosition}", lineInfo.LineNumber, lineInfo.LinePosition);
+                                    if (redefinedOperationXmlReader.MoveToContent() == XmlNodeType.Element)
+                                    {
+                                        var href = redefinedOperationXmlReader.GetAttribute("href");
+                                        if (!string.IsNullOrEmpty(href))
+                                        {
+                                            redefinedOperation.Add(href);
+                                        }
+                                        else if (redefinedOperationXmlReader.GetAttribute("xmi:idref") is { Length: > 0 } idRef)
+                                        {
+                                            redefinedOperation.Add(idRef);
+                                        }
+                                        else
+                                        {
+                                            throw new InvalidOperationException("redefinedOperation xml-attribute reference could not be read");
+                                        }
+                                    }
                                 }
                                 break;
                             default:
@@ -192,6 +207,11 @@ namespace uml4net.xmi.Readers.Classification
                 if (precondition.Count > 0)
                 {
                     operation.MultiValueReferencePropertyIdentifiers.Add("precondition", precondition);
+                }
+
+                if (redefinedOperation.Count > 0)
+                {
+                    operation.MultiValueReferencePropertyIdentifiers.Add("redefinedOperation", redefinedOperation);
                 }
             }
 
