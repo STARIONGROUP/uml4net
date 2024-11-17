@@ -2,7 +2,7 @@
 
     <PropertyGroup>
         <Description>A .NET implementation of the OMG UML v2.5.1 specification.</Description>
-        <Version>0.3.0</Version>
+        <Version>0.4.0</Version>
         <PackageId>uml4net.xmi</PackageId>
         <LangVersion>12.0</LangVersion>
         <TargetFramework>netstandard2.0</TargetFramework>
@@ -25,7 +25,13 @@
         <PackageReadmeFile>README.md</PackageReadmeFile>
         <PackageTags>Uml XMI modeltopia</PackageTags>
         <PackageReleaseNotes>
-            [Update] to uml4net.Extensions version 0.3.0
+            [Update] to uml4net.Extensions version 0.4.0
+            [Add] AssociationReader
+            [Add] OperationReader
+            [Add] ParameterReader
+            [Add] LiteralStringReader
+            [Refactor] XmiReader to return xmiReaderResult
+            [Refactor] existing XmiElementReader
         </PackageReleaseNotes>
     </PropertyGroup>
 

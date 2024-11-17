@@ -9,7 +9,7 @@
         <PackAsTool>true</PackAsTool>
         <PackageId>uml4net.Tools</PackageId>
         <ToolCommandName>uml4nettools</ToolCommandName>
-        <Version>0.3.0</Version>
+        <Version>0.4.0</Version>
         <ImplicitUsings>disable</ImplicitUsings>
         <PackageReadmeFile>README.md</PackageReadmeFile>
         <PackageTags>Uml XMI modeltopia</PackageTags>
@@ -17,6 +17,7 @@
         <SatelliteResourceLanguages>en-US</SatelliteResourceLanguages>
         <PackageReleaseNotes>
             [Initial] (non-functional) Release
+            [Update] to uml4net.Reporting version 0.4.0
         </PackageReleaseNotes>
     </PropertyGroup>
 
