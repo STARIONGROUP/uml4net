@@ -44,7 +44,7 @@ namespace uml4net.xmi.Tests
         public void OneTimeSetUp()
         {
             Log.Logger = new LoggerConfiguration()
-                .MinimumLevel.Fatal()
+                .MinimumLevel.Debug()
                 .WriteTo.Console()
                 .CreateLogger();
 

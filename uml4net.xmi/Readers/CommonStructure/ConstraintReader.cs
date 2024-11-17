@@ -30,6 +30,8 @@ namespace uml4net.xmi.Readers.CommonStructure
     using uml4net.POCO.CommonStructure;
 
     using Readers;
+    using System.Collections.Generic;
+    using uml4net.POCO.StructuredClassifiers;
 
     /// <summary>
     /// The purpose of the <see cref="ConstraintReader"/> is to read an instance of <see cref="IConstraint"/>
@@ -89,6 +91,8 @@ namespace uml4net.xmi.Readers.CommonStructure
 
                 this.Cache.Add(constraint.XmiId, constraint);
 
+                var constrainedElements = new List<string>();
+
                 while (xmlReader.Read())
                 {
                     if (xmlReader.NodeType == XmlNodeType.Element)
@@ -96,7 +100,27 @@ namespace uml4net.xmi.Readers.CommonStructure
                         switch (xmlReader.LocalName)
                         {
                             case "constrainedElement":
-                                this.Logger.LogInformation("ConstraintReader.ownedRule not yet implemented");
+
+                                using (var constrainedElementXmlReader = xmlReader.ReadSubtree())
+                                {
+                                    if (constrainedElementXmlReader.MoveToContent() == XmlNodeType.Element)
+                                    {
+                                        var href = constrainedElementXmlReader.GetAttribute("href");
+                                        if (!string.IsNullOrEmpty(href))
+                                        {
+                                            constrainedElements.Add(href);
+                                        }
+                                        else if (constrainedElementXmlReader.GetAttribute("xmi:idref") is { Length: > 0 } idRef)
+                                        {
+                                            constrainedElements.Add(idRef);
+                                        }
+                                        else
+                                        {
+                                            throw new InvalidOperationException("constrainedElement xml-attribute reference could not be read");
+                                        }
+                                    }
+                                }
+
                                 break;
                             case "ownedComment":
                                 using (var ownedCommentXmlReader = xmlReader.ReadSubtree())
@@ -109,9 +133,14 @@ namespace uml4net.xmi.Readers.CommonStructure
                                 this.ReadValueSpecification(constraint, xmlReader);
                                 break;
                             default:
-                                throw new NotImplementedException($"ClassReader: {xmlReader.LocalName}");
+                                throw new NotImplementedException($"ConstraintReader: {xmlReader.LocalName}");
                         }
                     }
+                }
+
+                if (constrainedElements.Count > 0)
+                {
+                    constraint.MultiValueReferencePropertyIdentifiers.Add("ConstrainedElement", constrainedElements);
                 }
             }
 
