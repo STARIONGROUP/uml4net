@@ -52,7 +52,7 @@ namespace uml4net.xmi.Tests
         [Test]
         public async Task Verify_that_SysML_XMI_can_be_read()
         {
-            using var reader = XmiReaderBuilder.Create()
+            var reader = XmiReaderBuilder.Create()
                 .WithLogger(this.loggerFactory)
                 .Build();
 
