@@ -55,6 +55,21 @@ namespace uml4net.xmi.Readers.Classification
         public IXmiElementReader<IComment> CommentReader { get; set; }
 
         /// <summary>
+        /// Gets the INJECTED <see cref="IXmiElementReader{T}"/> of <see cref="IOpaqueExpression"/>
+        /// </summary>
+        public IXmiElementReader<IOpaqueExpression> OpaqueExpressionReader { get; set; }
+
+        /// <summary>
+        /// Gets the INJECTED <see cref="IXmiElementReader{T}"/> of <see cref="IInstanceValue"/>
+        /// </summary>
+        public IXmiElementReader<IInstanceValue> InstanceValueReader { get; set; }
+
+        /// <summary>
+        /// Gets the INJECTED <see cref="IXmiElementReader{T}"/> of <see cref="ILiteralBoolean"/>
+        /// </summary>
+        public IXmiElementReader<ILiteralBoolean> LiteralBooleanReader { get; set; }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="PropertyReader"/> class.
         /// </summary>
         /// <param name="cache">
@@ -280,10 +295,7 @@ namespace uml4net.xmi.Readers.Classification
                                 }
                                 break;
                             case "defaultValue":
-                                using (var defaultValueXmlReader = xmlReader.ReadSubtree())
-                                {
-                                    this.Logger.LogDebug("property:defaultValueXmlReader not yet implemented");
-                                }
+                                this.ReadValueSpecification(property, xmlReader);
                                 break;
                             case "redefinedProperty":
                                 using (var redefinedPropertyXmlReader = xmlReader.ReadSubtree())
@@ -324,6 +336,61 @@ namespace uml4net.xmi.Readers.Classification
             }
 
             return property;
+        }
+
+        /// <summary>
+        /// Read the packaged elements
+        /// </summary>
+        /// <param name="property">
+        /// The <see cref="IProperty"/> that the nested <see cref="IValueSpecification"/>> elements are added to
+        /// </param>
+        /// <param name="xmlReader">
+        /// an instance of <see cref="XmlReader"/>
+        /// </param>
+        private void ReadValueSpecification(IProperty property, XmlReader xmlReader)
+        {
+            var xmiType = xmlReader.GetAttribute("xmi:type");
+
+            switch (xmiType)
+            {
+                case "uml:InstanceValue":
+                    using (var instanceValueXmlReader = xmlReader.ReadSubtree())
+                    {
+                        var instanceValue = this.InstanceValueReader.Read(instanceValueXmlReader);
+                        property.DefaultValue = instanceValue;
+                    }
+                    break;
+                case "uml:LiteralBoolean":
+                    using (var literalBooleanXmlReader = xmlReader.ReadSubtree())
+                    {
+                        var literalBoolean = this.LiteralBooleanReader.Read(literalBooleanXmlReader);
+                        property.DefaultValue = literalBoolean;
+                    }
+                    break;
+                case "uml:LiteralInteger":
+                    using (var literalIntegerXmlReader = xmlReader.ReadSubtree())
+                    {
+                        var literalInteger = this.LiteralIntegerReader.Read(literalIntegerXmlReader);
+                        property.DefaultValue = literalInteger;
+                    }
+                    break;
+                case "uml:LiteralUnlimitedNatural":
+                    using (var literalUnlimitedNaturalXmlReader = xmlReader.ReadSubtree())
+                    {
+                        var literalUnlimitedNatural = this.LiteralUnlimitedNaturalReader.Read(literalUnlimitedNaturalXmlReader);
+                        property.DefaultValue = literalUnlimitedNatural;
+                    }
+                    break;
+                case "uml:OpaqueExpression":
+                    using (var opaqueExpressionXmlReader = xmlReader.ReadSubtree())
+                    {
+                        var opaqueExpression = this.OpaqueExpressionReader.Read(opaqueExpressionXmlReader);
+                        property.DefaultValue = opaqueExpression;
+                    }
+                    break;
+                default:
+                    throw new NotImplementedException(xmiType);
+            }
         }
     }
 }

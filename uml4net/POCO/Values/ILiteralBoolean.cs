@@ -20,10 +20,18 @@
 
 namespace uml4net.POCO.Values
 {
+    using uml4net.Decorators;
+    using uml4net.POCO.Classification;
+
     /// <summary>
     /// A LiteralBoolean is a specification of a Boolean value.
     /// </summary>
     public interface ILiteralBoolean : ILiteralSpecification
     {
+        /// <summary>
+        /// The specified Boolean value.
+        /// </summary>
+        [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, defaultValue:"false")]
+        public bool Value { get; set; }
     }
 }

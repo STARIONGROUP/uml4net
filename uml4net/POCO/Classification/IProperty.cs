@@ -84,7 +84,7 @@ namespace uml4net.POCO.Classification
         /// </summary>
         [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: 1)]
         [SubsettedProperty("Element-ownedElement")]
-        public IValueSpecification Default { get; set; }
+        public IValueSpecification DefaultValue { get; set; }
 
         /// <summary>
         /// If isComposite is true, the object containing the attribute is a container for the 

@@ -1,5 +1,5 @@
 ﻿// -------------------------------------------------------------------------------------------------
-//  <copyright file="LiteralIntegerReader.cs" company="Starion Group S.A.">
+//  <copyright file="LiteralBooleanReader.cs" company="Starion Group S.A.">
 // 
 //    Copyright 2019-2024 Starion Group S.A.
 // 
@@ -32,10 +32,10 @@ namespace uml4net.xmi.Readers.Values
     using uml4net.xmi.Readers;
 
     /// <summary>
-    /// The purpose of the <see cref="LiteralIntegerReader"/> is to read an instance of <see cref="ILiteralInteger"/>
+    /// The purpose of the <see cref="LiteralBooleanReader"/> is to read an instance of <see cref="ILiteralBoolean"/>
     /// from the XMI document
     /// </summary>
-    public class LiteralIntegerReader : XmiElementReader<ILiteralInteger>, IXmiElementReader<ILiteralInteger>
+    public class LiteralBooleanReader : XmiElementReader<ILiteralBoolean>, IXmiElementReader<ILiteralBoolean>
     {
         /// <summary>
         /// Gets the INJECTED <see cref="IXmiElementReader{T}"/> of <see cref="IComment"/>
@@ -51,43 +51,43 @@ namespace uml4net.xmi.Readers.Values
         /// <param name="logger">
         /// The (injected) <see cref="ILogger{T}"/> used to setup logging
         /// </param>
-        public LiteralIntegerReader(IXmiReaderCache cache, ILogger<LiteralIntegerReader> logger)
+        public LiteralBooleanReader(IXmiReaderCache cache, ILogger<LiteralBooleanReader> logger)
             : base(cache, logger)
         {
         }
 
         /// <summary>
-        /// Reads the <see cref="ILiteralInteger"/> object from its XML representation
+        /// Reads the <see cref="ILiteralBoolean"/> object from its XML representation
         /// </summary>
         /// <param name="xmlReader">
         /// an instance of <see cref="XmlReader"/>
         /// </param>
         /// <returns>
-        /// an instance of <see cref="ILiteralInteger"/>
+        /// an instance of <see cref="ILiteralBoolean"/>
         /// </returns>
-        public override ILiteralInteger Read(XmlReader xmlReader)
+        public override ILiteralBoolean Read(XmlReader xmlReader)
         {
-            ILiteralInteger literalInteger = new LiteralInteger();
+            ILiteralBoolean literalBoolean = new LiteralBoolean();
 
             if (xmlReader.MoveToContent() == XmlNodeType.Element)
             {
                 var xmiType = xmlReader.GetAttribute("xmi:type");
 
-                if (xmiType != "uml:LiteralInteger")
+                if (xmiType != "uml:LiteralBoolean")
                 {
-                    throw new XmlException($"The XmiType should be: uml:LiteralInteger while it is {xmiType}");
+                    throw new XmlException($"The XmiType should be: uml:LiteralBoolean while it is {xmiType}");
                 }
 
-                literalInteger.XmiType = xmiType;
+                literalBoolean.XmiType = xmiType;
 
-                literalInteger.XmiId = xmlReader.GetAttribute("xmi:id");
+                literalBoolean.XmiId = xmlReader.GetAttribute("xmi:id");
 
-                this.Cache.Add(literalInteger.XmiId, literalInteger);
+                this.Cache.Add(literalBoolean.XmiId, literalBoolean);
 
                 var value = xmlReader.GetAttribute("value");
                 if (!string.IsNullOrEmpty(value))
                 {
-                    literalInteger.Value = int.Parse(value);
+                    literalBoolean.Value = bool.Parse(value);
                 }
 
                 while (xmlReader.Read())
@@ -100,7 +100,7 @@ namespace uml4net.xmi.Readers.Values
                                 using (var ownedCommentXmlReader = xmlReader.ReadSubtree())
                                 {
                                     var comment = this.CommentReader.Read(ownedCommentXmlReader);
-                                    literalInteger.OwnedComment.Add(comment);
+                                    literalBoolean.OwnedComment.Add(comment);
                                 }
                                 break;
                             default:
@@ -110,7 +110,7 @@ namespace uml4net.xmi.Readers.Values
                 }
             }
 
-            return literalInteger;
+            return literalBoolean;
         }
     }
 }

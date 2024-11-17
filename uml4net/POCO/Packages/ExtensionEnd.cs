@@ -233,8 +233,8 @@ namespace uml4net.POCO.Packages
         /// </summary>
         [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: 1)]
         [SubsettedProperty("Element-ownedElement")]
-        [Implements(implementation: "IProperty.Default")]
-        public IValueSpecification Default { get; set; }
+        [Implements(implementation: "IProperty.DefaultValue")]
+        public IValueSpecification DefaultValue { get; set; }
 
         /// <summary>
         /// If isComposite is true, the object containing the attribute is a container for the 

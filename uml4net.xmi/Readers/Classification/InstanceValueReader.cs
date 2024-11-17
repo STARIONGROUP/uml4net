@@ -1,5 +1,5 @@
 ﻿// -------------------------------------------------------------------------------------------------
-//  <copyright file="LiteralIntegerReader.cs" company="Starion Group S.A.">
+//  <copyright file="InstanceValueReader.cs" company="Starion Group S.A.">
 // 
 //    Copyright 2019-2024 Starion Group S.A.
 // 
@@ -18,24 +18,25 @@
 //  </copyright>
 //  ------------------------------------------------------------------------------------------------
 
-namespace uml4net.xmi.Readers.Values
+namespace uml4net.xmi.Readers.Classification
 {
     using System;
     using System.Xml;
 
     using Microsoft.Extensions.Logging;
-
+    
     using uml4net.POCO;
+    using uml4net.POCO.Classification;
     using uml4net.POCO.CommonStructure;
     using uml4net.POCO.Values;
     using uml4net.xmi.Cache;
     using uml4net.xmi.Readers;
 
     /// <summary>
-    /// The purpose of the <see cref="LiteralIntegerReader"/> is to read an instance of <see cref="ILiteralInteger"/>
+    /// The purpose of the <see cref="InstanceValueReader"/> is to read an instance of <see cref="IInstanceValue"/>
     /// from the XMI document
     /// </summary>
-    public class LiteralIntegerReader : XmiElementReader<ILiteralInteger>, IXmiElementReader<ILiteralInteger>
+    public class InstanceValueReader : XmiElementReader<IInstanceValue>, IXmiElementReader<IInstanceValue>
     {
         /// <summary>
         /// Gets the INJECTED <see cref="IXmiElementReader{T}"/> of <see cref="IComment"/>
@@ -43,7 +44,7 @@ namespace uml4net.xmi.Readers.Values
         public IXmiElementReader<IComment> CommentReader { get; set; }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="LiteralIntegerReader"/> class.
+        /// Initializes a new instance of the <see cref="InstanceValueReader"/> class.
         /// </summary>
         /// <param name="cache">
         /// The cache in which each <see cref="IXmiElement"/>> is stored
@@ -51,43 +52,57 @@ namespace uml4net.xmi.Readers.Values
         /// <param name="logger">
         /// The (injected) <see cref="ILogger{T}"/> used to setup logging
         /// </param>
-        public LiteralIntegerReader(IXmiReaderCache cache, ILogger<LiteralIntegerReader> logger)
+        public InstanceValueReader(IXmiReaderCache cache, ILogger<InstanceValueReader> logger)
             : base(cache, logger)
         {
         }
 
         /// <summary>
-        /// Reads the <see cref="ILiteralInteger"/> object from its XML representation
+        /// Reads the <see cref="IInstanceValue"/> object from its XML representation
         /// </summary>
         /// <param name="xmlReader">
         /// an instance of <see cref="XmlReader"/>
         /// </param>
         /// <returns>
-        /// an instance of <see cref="ILiteralInteger"/>
+        /// an instance of <see cref="IConstraint"/>
         /// </returns>
-        public override ILiteralInteger Read(XmlReader xmlReader)
+        public override IInstanceValue Read(XmlReader xmlReader)
         {
-            ILiteralInteger literalInteger = new LiteralInteger();
+            IInstanceValue instanceValue = new InstanceValue();
 
             if (xmlReader.MoveToContent() == XmlNodeType.Element)
             {
                 var xmiType = xmlReader.GetAttribute("xmi:type");
 
-                if (xmiType != "uml:LiteralInteger")
+                if (xmiType != "uml:InstanceValue")
                 {
-                    throw new XmlException($"The XmiType should be: uml:LiteralInteger while it is {xmiType}");
+                    throw new XmlException($"The XmiType should be: uml:InstanceValue while it is {xmiType}");
                 }
 
-                literalInteger.XmiType = xmiType;
+                instanceValue.XmiType = xmiType;
 
-                literalInteger.XmiId = xmlReader.GetAttribute("xmi:id");
+                instanceValue.XmiId = xmlReader.GetAttribute("xmi:id");
 
-                this.Cache.Add(literalInteger.XmiId, literalInteger);
+                this.Cache.Add(instanceValue.XmiId, instanceValue);
 
-                var value = xmlReader.GetAttribute("value");
-                if (!string.IsNullOrEmpty(value))
+                instanceValue.Name = xmlReader.GetAttribute("name");
+
+                var visibility = xmlReader.GetAttribute("visibility");
+                if (!string.IsNullOrEmpty(visibility))
                 {
-                    literalInteger.Value = int.Parse(value);
+                    instanceValue.Visibility = (VisibilityKind)Enum.Parse(typeof(VisibilityKind), visibility, true);
+                }
+
+                var type = xmlReader.GetAttribute("type");
+                if (!string.IsNullOrEmpty(type))
+                {
+                    instanceValue.SingleValueReferencePropertyIdentifiers.Add("type", type);
+                }
+
+                var instance = xmlReader.GetAttribute("instance");
+                if (!string.IsNullOrEmpty(instance))
+                {
+                    instanceValue.SingleValueReferencePropertyIdentifiers.Add("instance", instance);
                 }
 
                 while (xmlReader.Read())
@@ -100,17 +115,17 @@ namespace uml4net.xmi.Readers.Values
                                 using (var ownedCommentXmlReader = xmlReader.ReadSubtree())
                                 {
                                     var comment = this.CommentReader.Read(ownedCommentXmlReader);
-                                    literalInteger.OwnedComment.Add(comment);
+                                    instanceValue.OwnedComment.Add(comment);
                                 }
                                 break;
                             default:
-                                throw new NotImplementedException($"LiteralIntegerReader: {xmlReader.LocalName}");
+                                throw new NotImplementedException($"InstanceValueReader: {xmlReader.LocalName}");
                         }
                     }
                 }
             }
 
-            return literalInteger;
+            return instanceValue;
         }
     }
 }
