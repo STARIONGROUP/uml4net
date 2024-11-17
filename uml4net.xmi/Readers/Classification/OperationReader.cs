@@ -43,6 +43,11 @@ namespace uml4net.xmi.Readers.Classification
         public IXmiElementReader<IComment> CommentReader { get; set; }
 
         /// <summary>
+        /// Gets the INJECTED <see cref="IXmiElementReader{T}"/> of <see cref="IParameter"/>
+        /// </summary>
+        public IXmiElementReader<IParameter> ParameterReader { get; set; }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="OperationReader"/> class.
         /// </summary>
         /// <param name="cache">
@@ -126,7 +131,8 @@ namespace uml4net.xmi.Readers.Classification
                             case "ownedParameter":
                                 using (var ownedParameterXmlReader = xmlReader.ReadSubtree())
                                 {
-                                    this.Logger.LogDebug("OperationReader:ownedParameter not yet implemented");
+                                    var parameter = this.ParameterReader.Read(ownedParameterXmlReader);
+                                    operation.OwnedParameter.Add(parameter);
                                 }
                                 break;
                             case "ownedRule":

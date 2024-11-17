@@ -106,6 +106,7 @@ namespace uml4net.xmi
             this.ContainerBuilder.RegisterType<OperationReader>().As<IXmiElementReader<IOperation>>().PropertiesAutowired();
             this.ContainerBuilder.RegisterType<InstanceValueReader>().As<IXmiElementReader<IInstanceValue>>().PropertiesAutowired();
             this.ContainerBuilder.RegisterType<LiteralBooleanReader>().As<IXmiElementReader<ILiteralBoolean>>().PropertiesAutowired();
+            this.ContainerBuilder.RegisterType<ParameterReader>().As<IXmiElementReader<IParameter>>().PropertiesAutowired();
         }
 
         /// <summary>
