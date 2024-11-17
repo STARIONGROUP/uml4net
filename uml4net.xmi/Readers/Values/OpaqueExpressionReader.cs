@@ -24,11 +24,12 @@ namespace uml4net.xmi.Readers.Values
     using System.Xml;
 
     using Microsoft.Extensions.Logging;
-    using POCO;
+
+    using uml4net.POCO;
     using uml4net.POCO.CommonStructure;
     using uml4net.POCO.Values;
-    using Cache;
-    using Readers;
+    using uml4net.xmi.Cache;
+    using uml4net.xmi.Readers;
 
     /// <summary>
     /// The purpose of the <see cref="OpaqueExpressionReader"/> is to read an instance of <see cref="IOpaqueExpression"/>
@@ -104,7 +105,8 @@ namespace uml4net.xmi.Readers.Values
                                 }
                                 break;
                             default:
-                                throw new NotImplementedException($"OpaqueExpressionReader: {xmlReader.LocalName}");
+                                var defaultLineInfo = xmlReader as IXmlLineInfo;
+                                throw new NotImplementedException($"OpaqueExpressionReader: {xmlReader.LocalName} at line:position {defaultLineInfo.LineNumber}:{defaultLineInfo.LinePosition}");
                         }
                     }
                 }

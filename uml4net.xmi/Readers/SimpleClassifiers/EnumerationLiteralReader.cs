@@ -20,16 +20,16 @@
 
 namespace uml4net.xmi.Readers.SimpleClassifiers
 {
-    using Cache;
     using System;
     using System.Xml;
 
     using Microsoft.Extensions.Logging;
-    using POCO.CommonStructure;
-    using POCO;
-    using uml4net.POCO.SimpleClassifiers;
 
-    using Readers;
+    using uml4net.POCO;
+    using uml4net.POCO.CommonStructure;
+    using uml4net.POCO.SimpleClassifiers;
+    using uml4net.xmi.Cache;
+    using uml4net.xmi.Readers;
 
     /// <summary>
     /// The purpose of the <see cref="EnumerationLiteralReader"/> is to read an instance of <see cref="IEnumerationLiteral"/>
@@ -100,7 +100,8 @@ namespace uml4net.xmi.Readers.SimpleClassifiers
                                 }
                                 break;
                             default:
-                                throw new NotImplementedException($"EnumerationLiteralReader: {xmlReader.LocalName}");
+                                var defaultLineInfo = xmlReader as IXmlLineInfo;
+                                throw new NotImplementedException($"EnumerationLiteralReader: {xmlReader.LocalName} at line:position {defaultLineInfo.LineNumber}:{defaultLineInfo.LinePosition}");
                         }
                     }
                 }

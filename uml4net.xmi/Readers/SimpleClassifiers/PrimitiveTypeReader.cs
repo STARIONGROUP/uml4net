@@ -20,14 +20,16 @@
 
 namespace uml4net.xmi.Readers.SimpleClassifiers
 {
+    using System;
+    using System.Xml;
+
     using Microsoft.Extensions.Logging;
+    
+    using uml4net.POCO;
     using uml4net.POCO.CommonStructure;
     using uml4net.POCO.SimpleClassifiers;
     using uml4net.xmi.Cache;
-
-    using POCO;
-    using System.Xml;
-    using System;
+    using uml4net.xmi.Readers;
 
     /// <summary>
     /// The purpose of the <see cref="PrimitiveTypeReader"/> is to read an instance of <see cref="IPrimitiveType"/>
@@ -98,7 +100,8 @@ namespace uml4net.xmi.Readers.SimpleClassifiers
                                 }
                                 break;
                             default:
-                                throw new NotImplementedException($"PrimitiveTypeReader: {xmlReader.LocalName}");
+                                var defaultLineInfo = xmlReader as IXmlLineInfo;
+                                throw new NotImplementedException($"PrimitiveTypeReader: {xmlReader.LocalName} at line:position {defaultLineInfo.LineNumber}:{defaultLineInfo.LinePosition}");
                         }
                     }
                 }

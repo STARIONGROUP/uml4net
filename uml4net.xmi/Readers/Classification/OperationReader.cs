@@ -20,8 +20,8 @@
 
 namespace uml4net.xmi.Readers.Classification
 {
-    using Cache;
     using System;
+    using System.Collections.Generic;
     using System.Xml;
 
     using Microsoft.Extensions.Logging;
@@ -29,8 +29,8 @@ namespace uml4net.xmi.Readers.Classification
     using uml4net.POCO;
     using uml4net.POCO.Classification;
     using uml4net.POCO.CommonStructure;
+    using uml4net.xmi.Cache;
     using uml4net.xmi.Readers;
-    using System.Collections.Generic;
 
     /// <summary>
     /// The purpose of the <see cref="OperationReader"/> is to read an instance of <see cref="IOperation"/>
@@ -179,7 +179,8 @@ namespace uml4net.xmi.Readers.Classification
                                 }
                                 break;
                             default:
-                                throw new NotImplementedException($"OperationReader: {xmlReader.LocalName}");
+                                var defaultLineInfo = xmlReader as IXmlLineInfo;
+                                throw new NotImplementedException($"OperationReader: {xmlReader.LocalName} at line:position {defaultLineInfo.LineNumber}:{defaultLineInfo.LinePosition}");
                         }
                     }
                 }

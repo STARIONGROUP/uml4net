@@ -20,7 +20,6 @@
 
 namespace uml4net.xmi.Readers.Classification
 {
-    using Cache;
     using System;
     using System.Xml;
 
@@ -29,8 +28,9 @@ namespace uml4net.xmi.Readers.Classification
     using uml4net.POCO;
     using uml4net.POCO.Classification;
     using uml4net.POCO.CommonStructure;
-    using uml4net.xmi.Readers;
     using uml4net.POCO.Values;
+    using uml4net.xmi.Cache;
+    using uml4net.xmi.Readers;
 
     /// <summary>
     /// The purpose of the <see cref="ParameterReader"/> is to read an instance of <see cref="IParameter"/>
@@ -206,7 +206,8 @@ namespace uml4net.xmi.Readers.Classification
                                 }
                                 break;
                             default:
-                                throw new NotImplementedException($"ParameterReader: {xmlReader.LocalName}");
+                                var defaultLineInfo = xmlReader as IXmlLineInfo;
+                                throw new NotImplementedException($"ParameterReader: {xmlReader.LocalName} at line:position {defaultLineInfo.LineNumber}:{defaultLineInfo.LinePosition}");
                         }
                     }
                 }

@@ -20,19 +20,19 @@
 
 namespace uml4net.xmi.Readers.StructuredClassifiers
 {
-    using Cache;
     using System;
     using System.Xml;
 
     using Microsoft.Extensions.Logging;
-    using POCO.Classification;
-    using POCO;
+
+    using uml4net.POCO;
+    using uml4net.POCO.Classification;
     using uml4net.POCO.CommonStructure;
     using uml4net.POCO.StructuredClassifiers;
     using uml4net.POCO.Packages;
-
-    using Packages;
-    using Readers;
+    using uml4net.xmi.Cache;
+    using uml4net.xmi.Readers.Packages;
+    using uml4net.xmi.Readers;
 
     /// <summary>
     /// The purpose of the <see cref="ClassReader"/> is to read an instance of <see cref="IClass"/>
@@ -163,7 +163,8 @@ namespace uml4net.xmi.Readers.StructuredClassifiers
                                 }
                                 break;
                             default:
-                                throw new NotImplementedException($"ClassReader: {xmlReader.LocalName}");
+                                var defaultLineInfo = xmlReader as IXmlLineInfo;
+                                throw new NotImplementedException($"ClassReader: {xmlReader.LocalName} at line:position {defaultLineInfo.LineNumber}:{defaultLineInfo.LinePosition}");
                         }
                     }
                 }

@@ -23,10 +23,11 @@ namespace uml4net.xmi.Readers.Classification
     using System.Xml;
 
     using Microsoft.Extensions.Logging;
-    using POCO;
+
+    using uml4net.POCO;
     using uml4net.POCO.Classification;
-    using Cache;
-    using Readers;
+    using uml4net.xmi.Cache;
+    using uml4net.xmi.Readers;
 
     /// <summary>
     /// The purpose of the <see cref="GeneralizationReader"/> is to read an instance of <see cref="IGeneralization"/>

@@ -25,11 +25,11 @@ namespace uml4net.xmi.Readers.Values
 
     using Microsoft.Extensions.Logging;
 
-    using POCO;
+    using uml4net.POCO;
     using uml4net.POCO.CommonStructure;
     using uml4net.POCO.Values;
-    using Cache;
-    using Readers;
+    using uml4net.xmi.Cache;
+    using uml4net.xmi.Readers;
 
     /// <summary>
     /// The purpose of the <see cref="LiteralUnlimitedNaturalReader"/> is to read an instance of <see cref="ILiteralUnlimitedNatural"/>
@@ -109,7 +109,8 @@ namespace uml4net.xmi.Readers.Values
                                 }
                                 break;
                             default:
-                                throw new NotImplementedException($"LiteralIntegerReader: {xmlReader.LocalName}");
+                                var defaultLineInfo = xmlReader as IXmlLineInfo;
+                                throw new NotImplementedException($"LiteralUnlimitedNaturalReader: {xmlReader.LocalName} at line:position {defaultLineInfo.LineNumber}:{defaultLineInfo.LinePosition}");
                         }
                     }
                 }

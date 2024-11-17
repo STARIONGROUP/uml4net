@@ -318,7 +318,8 @@ namespace uml4net.xmi.Readers.Classification
                                 }
                                 break;
                             default:
-                                throw new NotImplementedException($"PropertyReader: {xmlReader.LocalName}");
+                                var defaultLineInfo = xmlReader as IXmlLineInfo;
+                                throw new NotImplementedException($"PropertyReader: {xmlReader.LocalName} at line:position {defaultLineInfo.LineNumber}:{defaultLineInfo.LinePosition}");
                         }
                     }
                 }

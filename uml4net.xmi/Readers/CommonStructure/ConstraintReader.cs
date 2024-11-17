@@ -20,18 +20,17 @@
 
 namespace uml4net.xmi.Readers.CommonStructure
 {
-    using Cache;
     using System;
+    using System.Collections.Generic;
     using System.Xml;
 
     using Microsoft.Extensions.Logging;
-    using POCO.Values;
-    using POCO;
+    
+    using uml4net.POCO;
     using uml4net.POCO.CommonStructure;
-
-    using Readers;
-    using System.Collections.Generic;
-    using uml4net.POCO.StructuredClassifiers;
+    using uml4net.POCO.Values;
+    using uml4net.xmi.Cache;
+    using uml4net.xmi.Readers;
 
     /// <summary>
     /// The purpose of the <see cref="ConstraintReader"/> is to read an instance of <see cref="IConstraint"/>
@@ -133,7 +132,8 @@ namespace uml4net.xmi.Readers.CommonStructure
                                 this.ReadValueSpecification(constraint, xmlReader);
                                 break;
                             default:
-                                throw new NotImplementedException($"ConstraintReader: {xmlReader.LocalName}");
+                                var defaultLineInfo = xmlReader as IXmlLineInfo;
+                                throw new NotImplementedException($"ConstraintReader: {xmlReader.LocalName} at line:position {defaultLineInfo.LineNumber}:{defaultLineInfo.LinePosition}");
                         }
                     }
                 }

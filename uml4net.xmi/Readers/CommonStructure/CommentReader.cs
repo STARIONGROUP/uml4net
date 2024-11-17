@@ -20,15 +20,16 @@
 
 namespace uml4net.xmi.Readers.CommonStructure
 {
+    using System;
+    using System.Linq;
     using System.Xml;
 
     using Microsoft.Extensions.Logging;
-    using POCO;
+
+    using uml4net.POCO;
     using uml4net.POCO.CommonStructure;
-    using Cache;
-    using Readers;
-    using System;
-    using System.Linq;
+    using uml4net.xmi.Cache;
+    using uml4net.xmi.Readers;
 
     /// <summary>
     /// The purpose of the <see cref="CommentReader"/> is to read an instance of <see cref="IComment"/>

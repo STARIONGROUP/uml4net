@@ -28,7 +28,6 @@ namespace uml4net.xmi.Readers.Classification
     using uml4net.POCO;
     using uml4net.POCO.Classification;
     using uml4net.POCO.CommonStructure;
-    using uml4net.POCO.Values;
     using uml4net.xmi.Cache;
     using uml4net.xmi.Readers;
 
@@ -119,7 +118,8 @@ namespace uml4net.xmi.Readers.Classification
                                 }
                                 break;
                             default:
-                                throw new NotImplementedException($"InstanceValueReader: {xmlReader.LocalName}");
+                                var defaultLineInfo = xmlReader as IXmlLineInfo;
+                                throw new NotImplementedException($"InstanceValueReader: {xmlReader.LocalName} at line:position {defaultLineInfo.LineNumber}:{defaultLineInfo.LinePosition}");
                         }
                     }
                 }

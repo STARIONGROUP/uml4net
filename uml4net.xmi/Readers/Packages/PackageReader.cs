@@ -20,18 +20,18 @@
 
 namespace uml4net.xmi.Readers.Packages
 {
-    using Cache;
     using System;
     using System.Xml;
 
     using Microsoft.Extensions.Logging;
-    using POCO.SimpleClassifiers;
-    using POCO.StructuredClassifiers;
-    using POCO;
+    
+    using uml4net.POCO;
     using uml4net.POCO.CommonStructure;
     using uml4net.POCO.Packages;
-
-    using Readers;
+    using uml4net.POCO.SimpleClassifiers;
+    using uml4net.POCO.StructuredClassifiers;
+    using uml4net.xmi.Cache;
+    using uml4net.xmi.Readers;
 
     /// <summary>
     /// The purpose of the <see cref="PackageReader"/> is to read an instance of <see cref="IPackage"/>
@@ -173,7 +173,8 @@ namespace uml4net.xmi.Readers.Packages
                                 this.ReadPackagedElements(package, xmlReader);
                                 break;
                             default:
-                                throw new NotImplementedException($"PackageReader: {xmlReader.LocalName}");
+                                var defaultLineInfo = xmlReader as IXmlLineInfo;
+                                throw new NotImplementedException($"PackageReader: {xmlReader.LocalName} at line:position {defaultLineInfo.LineNumber}:{defaultLineInfo.LinePosition}");
                         }
                     }
                 }
