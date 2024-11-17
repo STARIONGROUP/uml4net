@@ -194,8 +194,8 @@ namespace uml4net.xmi.Readers.Classification
                     property.SingleValueReferencePropertyIdentifiers.Add("association", association);
                 }
 
-                var redefinedProperty = new List<string>();
-                var subsettedProperty = new List<string>();
+                var redefinedPropertys = new List<string>();
+                var subsettedPropertys = new List<string>();
 
                 while (xmlReader.Read())
                 {
@@ -268,11 +268,11 @@ namespace uml4net.xmi.Readers.Classification
                                         var href = subsettedPropertyXmlReader.GetAttribute("href");
                                         if (!string.IsNullOrEmpty(href))
                                         {
-                                            subsettedProperty.Add(href);
+                                            subsettedPropertys.Add(href);
                                         }
                                         else if (subsettedPropertyXmlReader.GetAttribute("xmi:idref") is { Length: > 0 } idRef)
                                         {
-                                            subsettedProperty.Add(idRef);
+                                            subsettedPropertys.Add(idRef);
                                         }
                                         else
                                         {
@@ -313,11 +313,11 @@ namespace uml4net.xmi.Readers.Classification
                                         var href = redefinedPropertyXmlReader.GetAttribute("href");
                                         if (!string.IsNullOrEmpty(href))
                                         {
-                                            redefinedProperty.Add(href);
+                                            redefinedPropertys.Add(href);
                                         }
                                         else if (redefinedPropertyXmlReader.GetAttribute("xmi:idref") is { Length: > 0 } idRef)
                                         {
-                                            redefinedProperty.Add(idRef);
+                                            redefinedPropertys.Add(idRef);
                                         }
                                         else
                                         {
@@ -333,14 +333,14 @@ namespace uml4net.xmi.Readers.Classification
                     }
                 }
 
-                if (redefinedProperty.Count > 0)
+                if (redefinedPropertys.Count > 0)
                 {
-                    property.MultiValueReferencePropertyIdentifiers.Add("redefinedProperty", redefinedProperty);
+                    property.MultiValueReferencePropertyIdentifiers.Add("redefinedProperty", redefinedPropertys);
                 }
 
-                if (subsettedProperty.Count > 0)
+                if (subsettedPropertys.Count > 0)
                 {
-                    property.MultiValueReferencePropertyIdentifiers.Add("subsettedProperty", subsettedProperty);
+                    property.MultiValueReferencePropertyIdentifiers.Add("subsettedProperty", subsettedPropertys);
                 }
             }
 

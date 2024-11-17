@@ -73,6 +73,14 @@ namespace uml4net.xmi.Tests
             Assert.That(package.XmiId, Is.EqualTo("_0"));
             Assert.That(package.Name, Is.EqualTo("PrimitiveTypes"));
             Assert.That(package.PackagedElement.Count, Is.EqualTo(5));
+
+            var booleanPrimitiveType = package.PackagedElement.OfType<IPrimitiveType>().Single(x => x.XmiId == "Boolean");
+
+            Assert.That(booleanPrimitiveType.Name, Is.EqualTo("Boolean"));
+
+            var comment = booleanPrimitiveType.OwnedComment.Single();
+
+            Assert.That(comment.AnnotatedElement, Contains.Item(booleanPrimitiveType));
         }
 
         [Test]

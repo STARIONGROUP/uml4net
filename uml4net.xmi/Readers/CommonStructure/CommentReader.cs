@@ -21,13 +21,16 @@
 namespace uml4net.xmi.Readers.CommonStructure
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Xml;
 
     using Microsoft.Extensions.Logging;
 
     using uml4net.POCO;
+    using uml4net.POCO.Classification;
     using uml4net.POCO.CommonStructure;
+    using uml4net.POCO.Values;
     using uml4net.xmi.Cache;
     using uml4net.xmi.Readers;
 
@@ -88,7 +91,51 @@ namespace uml4net.xmi.Readers.CommonStructure
                 var annotatedElement = xmlReader.GetAttribute("annotatedElement");
                 if (!string.IsNullOrEmpty(annotatedElement))
                 {
-                    comment.MultiValueReferencePropertyIdentifiers.Add("AnnotatedElement", annotatedElement.Split([' '], StringSplitOptions.RemoveEmptyEntries).ToList());
+                    comment.MultiValueReferencePropertyIdentifiers.Add("annotatedElement", annotatedElement.Split([' '], StringSplitOptions.RemoveEmptyEntries).ToList());
+                }
+
+                var annotatedElements = new List<string>();
+
+                while (xmlReader.Read())
+                {
+                    if (xmlReader.NodeType == XmlNodeType.Element)
+                    {
+                        switch (xmlReader.LocalName)
+                        {
+                            case "annotatedElement":
+                                using (var annotatedElementXmlReader = xmlReader.ReadSubtree())
+                                {
+                                    if (annotatedElementXmlReader.MoveToContent() == XmlNodeType.Element)
+                                    {
+                                        var href = annotatedElementXmlReader.GetAttribute("href");
+                                        if (!string.IsNullOrEmpty(href))
+                                        {
+                                            annotatedElements.Add(href);
+                                        }
+                                        else if (annotatedElementXmlReader.GetAttribute("xmi:idref") is { Length: > 0 } idRef)
+                                        {
+                                            annotatedElements.Add(idRef);
+                                        }
+                                        else
+                                        {
+                                            throw new InvalidOperationException("annotatedElement xml-attribute reference could not be read");
+                                        }
+                                    }
+                                }
+                                break;
+                            case "body":
+                                comment.Body = xmlReader.ReadElementContentAsString();
+                                break;
+                            default:
+                                var defaultLineInfo = xmlReader as IXmlLineInfo;
+                                throw new NotImplementedException($"CommentReader: {xmlReader.LocalName} at line:position {defaultLineInfo.LineNumber}:{defaultLineInfo.LinePosition}");
+                        }
+                    }
+                }
+
+                if (annotatedElements.Count > 0)
+                {
+                    comment.MultiValueReferencePropertyIdentifiers.Add("annotatedElement", annotatedElements);
                 }
             }
 

@@ -157,7 +157,7 @@ namespace uml4net.xmi.Readers.StructuredClassifiers
                                         }
                                         else
                                         {
-                                            throw new InvalidOperationException("type xml-attribute reference could not be read");
+                                            throw new InvalidOperationException("memberEnd xml-attribute reference could not be read");
                                         }
                                     }
                                 }
@@ -190,7 +190,10 @@ namespace uml4net.xmi.Readers.StructuredClassifiers
                     }
                 }
 
-                association.MultiValueReferencePropertyIdentifiers.Add("memberEnd", memberEnds);
+                if (memberEnds.Count > 0)
+                {
+                    association.MultiValueReferencePropertyIdentifiers.Add("memberEnd", memberEnds);
+                }
             }
 
             return association;

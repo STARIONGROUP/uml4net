@@ -125,8 +125,8 @@ namespace uml4net.xmi.Readers.Classification
                     operation.SingleValueReferencePropertyIdentifiers.Add("BodyCondition", bodyCondition );
                 }
 
-                var precondition = new List<string>();
-                var redefinedOperation = new List<string>();
+                var preconditions = new List<string>();
+                var redefinedOperations = new List<string>();
 
                 while (xmlReader.Read())
                 {
@@ -163,11 +163,11 @@ namespace uml4net.xmi.Readers.Classification
                                         var href = preconditionXmlReader.GetAttribute("href");
                                         if (!string.IsNullOrEmpty(href))
                                         {
-                                            precondition.Add(href);
+                                            preconditions.Add(href);
                                         }
                                         else if (preconditionXmlReader.GetAttribute("xmi:idref") is { Length: > 0 } idRef)
                                         {
-                                            precondition.Add(idRef);
+                                            preconditions.Add(idRef);
                                         }
                                         else
                                         {
@@ -184,11 +184,11 @@ namespace uml4net.xmi.Readers.Classification
                                         var href = redefinedOperationXmlReader.GetAttribute("href");
                                         if (!string.IsNullOrEmpty(href))
                                         {
-                                            redefinedOperation.Add(href);
+                                            redefinedOperations.Add(href);
                                         }
                                         else if (redefinedOperationXmlReader.GetAttribute("xmi:idref") is { Length: > 0 } idRef)
                                         {
-                                            redefinedOperation.Add(idRef);
+                                            redefinedOperations.Add(idRef);
                                         }
                                         else
                                         {
@@ -204,14 +204,14 @@ namespace uml4net.xmi.Readers.Classification
                     }
                 }
 
-                if (precondition.Count > 0)
+                if (preconditions.Count > 0)
                 {
-                    operation.MultiValueReferencePropertyIdentifiers.Add("precondition", precondition);
+                    operation.MultiValueReferencePropertyIdentifiers.Add("precondition", preconditions);
                 }
 
-                if (redefinedOperation.Count > 0)
+                if (redefinedOperations.Count > 0)
                 {
-                    operation.MultiValueReferencePropertyIdentifiers.Add("redefinedOperation", redefinedOperation);
+                    operation.MultiValueReferencePropertyIdentifiers.Add("redefinedOperation", redefinedOperations);
                 }
             }
 
