@@ -1,5 +1,5 @@
 ﻿// -------------------------------------------------------------------------------------------------
-// <copyright file="I{{this.Name}}.cs" company="Starion Group S.A.">
+// <copyright file="IConnector.cs" company="Starion Group S.A.">
 //
 //   Copyright 2019-2024 Starion Group S.A.
 //
@@ -22,7 +22,7 @@
 // --------THIS IS AN AUTOMATICALLY GENERATED FILE. ANY MANUAL CHANGES WILL BE OVERWRITTEN!--------
 // ------------------------------------------------------------------------------------------------
 
-namespace uml4net.POCO.{{this.Namespace.Name}}
+namespace uml4net.POCO.StructuredClassifiers
 {
     using System.Collections.Generic;
 
@@ -43,15 +43,14 @@ namespace uml4net.POCO.{{this.Namespace.Name}}
     using uml4net.POCO.Values;
     using uml4net.Utils;
 
-    {{ #Documentation this }}
-    {{ Enum.ToString this.Visibility }} interface I{{this.Name}} {{ #Generalization.Interfaces this }}
+    /// <summary>
+    /// A Connector specifies links that enables communication between two or more instances. In contrast to
+    /// Associations, which specify links between any instance of the associated Classifiers, Connectors
+    /// specify links between instances playing the connected parts only.
+    /// </summary>
+    public interface IConnector : IFeature
     {
-        {{ #each this.OwnedAttribute as | property | }}
-        {{ #Documentation property }}
-        [Property(aggregation: AggregationKind.None, lowerValue: {{ property.Lower }}, upperValue: int.MaxValue, isReadOnly: {{ String.Lowercase property.IsReadOnly }}, isDerived: {{ String.Lowercase property.IsDerived }})]
-        {{ Enum.ToString property.Visibility }} List<IType> {{ String.PascalCase property.Name }} { get; }
 
-        {{/each}}
     }
 }
 

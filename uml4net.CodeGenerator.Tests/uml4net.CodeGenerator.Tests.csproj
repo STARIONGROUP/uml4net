@@ -17,12 +17,50 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <Compile Remove="Expected\AutGenPoco\IActivity.cs" />
+      <Compile Remove="Expected\AutGenPoco\IActivityEdge.cs" />
+      <Compile Remove="Expected\AutGenPoco\IAssociation.cs" />
+      <Compile Remove="Expected\AutGenPoco\IConnector.cs" />
+      <Compile Remove="Expected\AutGenPoco\IDurationConstraint.cs" />
+      <Compile Remove="Expected\AutGenPoco\IDurationObservation.cs" />
+      <Compile Remove="Expected\AutGenPoco\IExpression.cs" />
+      <Compile Remove="Expected\AutGenPoco\ILiteralInteger.cs" />
+      <Compile Remove="Expected\AutGenPoco\ILiteralReal.cs" />
+      <Compile Remove="Expected\AutGenPoco\ILiteralUnlimitedNatural.cs" />
+      <Compile Remove="Expected\AutGenPoco\IObjectNode.cs" />
+      <Compile Remove="Expected\AutGenPoco\IOpaqueExpression.cs" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Include="Expected\AutGenPoco\IDurationObservation.cs">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Include="Expected\AutGenPoco\ILiteralReal.cs">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Include="Expected\AutGenPoco\ILiteralInteger.cs">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Include="Expected\AutGenPoco\ILiteralUnlimitedNatural.cs">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Include="Expected\AutGenPoco\IObjectNode.cs">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Include="Expected\AutGenPoco\IOpaqueExpression.cs">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+    </ItemGroup>
+
+    <ItemGroup>
         <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="8.0.1" />
         <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.11.1" />
         <PackageReference Include="NUnit" Version="4.2.2" />
         <PackageReference Include="NUnit.Console" Version="3.18.3" />
-        <PackageReference Include="NUnit3TestAdapter" Version="4.6.0" />
-
+        <PackageReference Include="NUnit3TestAdapter" Version="4.6.0">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
         <PackageReference Include="coverlet.collector" Version="6.0.2">
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
             <PrivateAssets>all</PrivateAssets>
@@ -31,15 +69,50 @@
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
+        <PackageReference Include="Serilog" Version="4.1.0" />
+        <PackageReference Include="Serilog.Extensions.Logging" Version="8.0.0" />
+        <PackageReference Include="Serilog.Sinks.Console" Version="6.0.0" />
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Expected\AutGenPoco\" />
       <Folder Include="Generators\" />
     </ItemGroup>
 
     <ItemGroup>
+      <None Include="Expected\AutGenPoco\IActivity.cs">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Include="Expected\AutGenPoco\IActivityEdge.cs">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Include="Expected\AutGenPoco\IAssociation.cs">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Include="Expected\AutGenPoco\IConnector.cs">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Include="Expected\AutGenPoco\IDurationConstraint.cs">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Include="Expected\AutGenPoco\IExpression.cs">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+    </ItemGroup>
+
+    <ItemGroup>
       <ProjectReference Include="..\uml4net.CodeGenerator\uml4net.CodeGenerator.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <Content Include="..\resources\UML\PrimitiveTypes.xmi.xml" Link="TestData\PrimitiveTypes.xmi">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <Content Include="..\resources\UML\UML.xmi.xml" Link="TestData\UML.xmi">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <None Include="..\resources\SySML2\SysML.uml" Link="TestData\SysML.uml">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
     </ItemGroup>
 
 </Project>

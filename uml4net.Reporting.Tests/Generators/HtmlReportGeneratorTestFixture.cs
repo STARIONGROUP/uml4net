@@ -41,8 +41,8 @@ namespace uml4net.Reporting.Tests.Generators
 
         private FileInfo sysml2ModelFileInfo;
 
-        [OneTimeSetUp]
-        public void OneTimeSetUp()
+        [SetUp]
+        public void SetUp()
         {
             Log.Logger = new LoggerConfiguration()
                 .MinimumLevel.Verbose()
@@ -53,11 +53,7 @@ namespace uml4net.Reporting.Tests.Generators
             {
                 builder.AddSerilog();
             });
-        }
 
-        [SetUp]
-        public void SetUp()
-        {
             this.umlModelFileInfo = new FileInfo(Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData", "UML.xmi"));
             this.sysml2ModelFileInfo = new FileInfo(Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData", "SysML.uml"));
         }

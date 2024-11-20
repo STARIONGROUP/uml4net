@@ -42,7 +42,7 @@ namespace uml4net.HandleBars
             handlebars.RegisterHelper("Generalization.Interfaces", (writer, context, parameters) =>
             {
                 if (!(context.Value is IClass @class))
-                    throw new ArgumentException("The context shall be a Class");
+                    throw new ArgumentException("The context shall be a IClass");
 
                 if (@class.Generalization.Any())
                 {
@@ -55,7 +55,7 @@ namespace uml4net.HandleBars
             handlebars.RegisterHelper("Generalization.Classes", (writer, context, parameters) =>
             {
                 if (!(context.Value is IClass @class))
-                    throw new ArgumentException("The context shall be a Class");
+                    throw new ArgumentException("The context shall be a IClass");
 
                 if (@class.Generalization.Any())
                 {

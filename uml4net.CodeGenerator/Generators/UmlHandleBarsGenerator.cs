@@ -24,6 +24,7 @@ namespace uml4net.CodeGenerator.Generators
     using System.Threading.Tasks;
 
     using uml4net.POCO.Packages;
+    using uml4net.xmi.Readers;
 
     /// <summary>
     /// Abstract super class from which all uml based <see cref="HandlebarsDotNet"/> generators
@@ -34,8 +35,8 @@ namespace uml4net.CodeGenerator.Generators
         /// <summary>
         /// Generates code specific to the concrete implementation
         /// </summary>
-        /// <param name="package">
-        /// the <see cref="IPackage"/> that contains the Ecore data to generate from
+        /// <param name="xmiReaderResult">
+        /// the <see cref="XmiReaderResult"/> that contains the UML model to generate from
         /// </param>
         /// <param name="outputDirectory">
         /// The target <see cref="DirectoryInfo"/>
@@ -43,6 +44,6 @@ namespace uml4net.CodeGenerator.Generators
         /// <returns>
         /// an awaitable <see cref="Task"/>
         /// </returns>
-        public abstract Task Generate(IPackage package, DirectoryInfo outputDirectory);
+        public abstract Task Generate(XmiReaderResult xmiReaderResult, DirectoryInfo outputDirectory);
     }
 }

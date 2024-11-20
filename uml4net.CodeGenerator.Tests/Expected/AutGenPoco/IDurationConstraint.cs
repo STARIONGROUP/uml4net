@@ -1,5 +1,5 @@
 ﻿// -------------------------------------------------------------------------------------------------
-// <copyright file="I{{this.Name}}.cs" company="Starion Group S.A.">
+// <copyright file="IDurationConstraint.cs" company="Starion Group S.A.">
 //
 //   Copyright 2019-2024 Starion Group S.A.
 //
@@ -22,7 +22,7 @@
 // --------THIS IS AN AUTOMATICALLY GENERATED FILE. ANY MANUAL CHANGES WILL BE OVERWRITTEN!--------
 // ------------------------------------------------------------------------------------------------
 
-namespace uml4net.POCO.{{this.Namespace.Name}}
+namespace uml4net.POCO.Values
 {
     using System.Collections.Generic;
 
@@ -43,15 +43,12 @@ namespace uml4net.POCO.{{this.Namespace.Name}}
     using uml4net.POCO.Values;
     using uml4net.Utils;
 
-    {{ #Documentation this }}
-    {{ Enum.ToString this.Visibility }} interface I{{this.Name}} {{ #Generalization.Interfaces this }}
+    /// <summary>
+    /// A DurationConstraint is a Constraint that refers to a DurationInterval.
+    /// </summary>
+    public interface IDurationConstraint : IIntervalConstraint
     {
-        {{ #each this.OwnedAttribute as | property | }}
-        {{ #Documentation property }}
-        [Property(aggregation: AggregationKind.None, lowerValue: {{ property.Lower }}, upperValue: int.MaxValue, isReadOnly: {{ String.Lowercase property.IsReadOnly }}, isDerived: {{ String.Lowercase property.IsDerived }})]
-        {{ Enum.ToString property.Visibility }} List<IType> {{ String.PascalCase property.Name }} { get; }
 
-        {{/each}}
     }
 }
 

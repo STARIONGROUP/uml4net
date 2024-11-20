@@ -40,6 +40,19 @@ namespace uml4net.HandleBars
         /// </param>
         public static void RegisteredDocumentationHelper(this IHandlebars handlebars)
         {
+            handlebars.RegisterHelper("Documentation", (writer, context, parameters) =>
+            {
+                if (!(context.Value is IElement eModelElement))
+                    throw new ArgumentException("supposed to be IElement");
+
+                writer.WriteSafeString($"/// <summary>{Environment.NewLine}");
+                foreach (var line in eModelElement.QueryDocumentation())
+                {
+                    writer.WriteSafeString($"/// {line}{Environment.NewLine}");
+                }
+                writer.WriteSafeString($"/// </summary>{Environment.NewLine}");
+            });
+
             handlebars.RegisterHelper("RawDocumentation", (writer, context, parameters) =>
             {
                 if (!(context.Value is IElement element))

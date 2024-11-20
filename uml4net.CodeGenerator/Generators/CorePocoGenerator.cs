@@ -30,6 +30,7 @@ namespace uml4net.CodeGenerator.Generators
 
     using uml4net.POCO.Packages;
     using uml4net.POCO.StructuredClassifiers;
+    using uml4net.xmi.Readers;
 
     /// <summary>
     /// A Handlebars based POCO code generator
@@ -40,8 +41,8 @@ namespace uml4net.CodeGenerator.Generators
         /// Generates the <see cref="Class"/> POCO instances
         /// that are in the provided <see cref="IPackage"/>
         /// </summary>
-        /// <param name="package">
-        /// the <see cref="IPackage"/> that contains the <see cref="Class"/> to generate
+        /// <param name="xmiReaderResult">
+        /// the <see cref="XmiReaderResult"/> that contains the UML model to generate from
         /// </param>
         /// <param name="outputDirectory">
         /// The target <see cref="DirectoryInfo"/>
@@ -49,17 +50,17 @@ namespace uml4net.CodeGenerator.Generators
         /// <returns>
         /// an awaitable <see cref="Task"/>
         /// </returns>
-        public override async Task Generate(IPackage package, DirectoryInfo outputDirectory)
+        public override async Task Generate(XmiReaderResult xmiReaderResult, DirectoryInfo outputDirectory)
         {
-            await this.GenerateInterfaces(package, outputDirectory);
-            await this.GenerateClasses(package, outputDirectory);
+            await this.GenerateInterfaces(xmiReaderResult, outputDirectory);
+            await this.GenerateClasses(xmiReaderResult, outputDirectory);
         }
 
         /// <summary>
         /// Generates POCO interfaces
         /// </summary>
-        /// <param name="package">
-        /// the <see cref="IPackage"/> that contains the <see cref="Class"/> to generate
+        /// <param name="xmiReaderResult">
+        /// the <see cref="XmiReaderResult"/> that contains the UML model to generate from
         /// </param>
         /// <param name="outputDirectory">
         /// The target <see cref="DirectoryInfo"/>
@@ -67,17 +68,21 @@ namespace uml4net.CodeGenerator.Generators
         /// <returns>
         /// an awaitable task
         /// </returns>
-        public async Task GenerateInterfaces(IPackage package, DirectoryInfo outputDirectory)
+        public async Task GenerateInterfaces(XmiReaderResult xmiReaderResult, DirectoryInfo outputDirectory)
         {
             var template = this.Templates["core-poco-interface-template"];
 
-            foreach (var eClass in package.OwnedType.OfType<Class>())
+            var classes = xmiReaderResult.Root.QueryPackages()
+                .SelectMany(x => x.PackagedElement.OfType<IClass>())
+                .ToList();
+
+            foreach (var @class in classes)
             {
-                var generatedInterface = template(eClass);
+                var generatedInterface = template(@class);
 
                 generatedInterface = CodeCleanup(generatedInterface);
 
-                var fileName = $"I{eClass.Name.CapitalizeFirstLetter()}.cs";
+                var fileName = $"I{@class.Name.CapitalizeFirstLetter()}.cs";
 
                 await Write(generatedInterface, outputDirectory, fileName);
             }
@@ -86,8 +91,8 @@ namespace uml4net.CodeGenerator.Generators
         /// <summary>
         /// Generates POCO interfaces
         /// </summary>
-        /// <param name="package">
-        /// the <see cref="IPackage"/> that contains the <see cref="Class"/> to generate
+        /// <param name="xmiReaderResult">
+        /// the <see cref="XmiReaderResult"/> that contains the UML model to generate from
         /// </param>
         /// <param name="outputDirectory">
         /// The target <see cref="DirectoryInfo"/>
@@ -95,11 +100,15 @@ namespace uml4net.CodeGenerator.Generators
         /// <returns>
         /// an awaitable task
         /// </returns>
-        public async Task<string> GenerateInterface(IPackage package, DirectoryInfo outputDirectory, string className)
+        public async Task<string> GenerateInterface(XmiReaderResult xmiReaderResult, DirectoryInfo outputDirectory, string className)
         {
             var template = this.Templates["core-poco-interface-template"];
 
-            var @class = package.OwnedType.OfType<Class>().Single(x => x.Name == className);
+            var classes = xmiReaderResult.Root.QueryPackages()
+                .SelectMany(x => x.PackagedElement.OfType<IClass>())
+                .ToList();
+
+            var @class = classes.Single(x => x.Name == className);
 
             var generatedInterface = template(@class);
 
@@ -115,8 +124,8 @@ namespace uml4net.CodeGenerator.Generators
         /// <summary>
         /// Generates POCO classes
         /// </summary>
-        /// <param name="package">
-        /// the <see cref="IPackage"/> that contains the <see cref="Class"/> to generate
+        /// <param name="xmiReaderResult">
+        /// the <see cref="XmiReaderResult"/> that contains the UML model to generate from
         /// </param>
         /// <param name="outputDirectory">
         /// The target <see cref="DirectoryInfo"/>
@@ -124,11 +133,16 @@ namespace uml4net.CodeGenerator.Generators
         /// <returns>
         /// an awaitable task
         /// </returns>
-        public async Task GenerateClasses(IPackage package, DirectoryInfo outputDirectory)
+        public async Task GenerateClasses(XmiReaderResult xmiReaderResult, DirectoryInfo outputDirectory)
         {
             var template = this.Templates["core-poco-class-template"];
 
-            foreach (var @class in package.OwnedType.OfType<Class>().Where(x => !x.IsAbstract))
+            var classes = xmiReaderResult.Root.QueryPackages()
+                .SelectMany(x => x.PackagedElement.OfType<IClass>())
+                .Where(x => !x.IsAbstract)
+                .ToList();
+
+            foreach (var @class in classes)
             {
                 var generatedCode = template(@class);
 
@@ -143,20 +157,28 @@ namespace uml4net.CodeGenerator.Generators
         /// <summary>
         /// Generates a named POCO class
         /// </summary>
-        /// <param name="package">
-        /// the <see cref="IPackage"/> that contains the <see cref="Class"/> to generate
+        /// <param name="xmiReaderResult">
+        /// the <see cref="XmiReaderResult"/> that contains the UML model to generate from
         /// </param>
         /// <param name="outputDirectory">
         /// The target <see cref="DirectoryInfo"/>
         /// </param>
+        /// <param name="name">
+        /// The name of the class that is to be generated
+        /// </param>
         /// <returns>
         /// an awaitable task
         /// </returns>
-        public async Task<string> GenerateClass(IPackage package, DirectoryInfo outputDirectory, string className)
+        public async Task<string> GenerateClass(XmiReaderResult xmiReaderResult, DirectoryInfo outputDirectory, string name)
         {
             var template = this.Templates["core-poco-class-template"];
 
-            var @class = package.OwnedType.OfType<Class>().Single(x => x.Name == className);
+            var classes = xmiReaderResult.Root.QueryPackages()
+                .SelectMany(x => x.PackagedElement.OfType<IClass>())
+                .Where(x => !x.IsAbstract)
+                .ToList();
+
+            var @class = classes.Single(x => x.Name == name);
 
             if (@class.IsAbstract)
             {
@@ -179,14 +201,13 @@ namespace uml4net.CodeGenerator.Generators
         /// </summary>
         protected override void RegisterHelpers()
         {
-            uml4net.HandleBars.BooleanHelper.RegisterBooleanHelper(this.Handlebars);
             uml4net.HandleBars.StringHelper.RegisterStringHelper(this.Handlebars);
+            uml4net.HandleBars.IEnumerableHelper.RegisterEnumerableHelper(this.Handlebars);
+            uml4net.HandleBars.ClassHelper.RegisterClassHelper(this.Handlebars);
             uml4net.HandleBars.PropertyHelper.RegisterStructuralFeatureHelper(this.Handlebars);
             uml4net.HandleBars.GeneralizationHelper.RegisterGeneralizationHelper(this.Handlebars);
-
-            //this.Handlebars.RegisteredDocumentationHelper();
-            //this.Handlebars.RegisterTypeNameHelper();
-            //this.Handlebars.RegisterStructuralFeatureHelper();
+            uml4net.HandleBars.DocumentationHelper.RegisteredDocumentationHelper(this.Handlebars);
+            uml4net.HandleBars.EnumHelper.RegisterEnumHelper(this.Handlebars);
         }
 
         /// <summary>

@@ -1,5 +1,5 @@
 ﻿// -------------------------------------------------------------------------------------------------
-// <copyright file="I{{this.Name}}.cs" company="Starion Group S.A.">
+// <copyright file="IDurationObservation.cs" company="Starion Group S.A.">
 //
 //   Copyright 2019-2024 Starion Group S.A.
 //
@@ -9,7 +9,7 @@
 //
 //       http://www.apache.org/licenses/LICENSE-2.0
 //
-//   Unless required by applicable law or agreed to in writing, software
+//   Unless required by applicable law or agreed to in writing, softwareUseCases
 //   distributed under the License is distributed on an "AS IS" BASIS,
 //   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //   See the License for the specific language governing permissions and
@@ -22,7 +22,7 @@
 // --------THIS IS AN AUTOMATICALLY GENERATED FILE. ANY MANUAL CHANGES WILL BE OVERWRITTEN!--------
 // ------------------------------------------------------------------------------------------------
 
-namespace uml4net.POCO.{{this.Namespace.Name}}
+namespace uml4net.POCO.Values
 {
     using System.Collections.Generic;
 
@@ -43,15 +43,13 @@ namespace uml4net.POCO.{{this.Namespace.Name}}
     using uml4net.POCO.Values;
     using uml4net.Utils;
 
-    {{ #Documentation this }}
-    {{ Enum.ToString this.Visibility }} interface I{{this.Name}} {{ #Generalization.Interfaces this }}
+    /// <summary>
+    /// A DurationObservation is a reference to a duration during an execution. It points out the NamedElement(s)
+    /// in the model to observe and whether the observations are when this NamedElement is entered or when it is exited.
+    /// </summary>
+    public interface IDurationObservation : IObservation
     {
-        {{ #each this.OwnedAttribute as | property | }}
-        {{ #Documentation property }}
-        [Property(aggregation: AggregationKind.None, lowerValue: {{ property.Lower }}, upperValue: int.MaxValue, isReadOnly: {{ String.Lowercase property.IsReadOnly }}, isDerived: {{ String.Lowercase property.IsDerived }})]
-        {{ Enum.ToString property.Visibility }} List<IType> {{ String.PascalCase property.Name }} { get; }
 
-        {{/each}}
     }
 }
 

@@ -266,7 +266,7 @@ namespace uml4net.POCO.StructuredClassifiers
         /// </summary>
         [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isDerived: true)]
         [Implements("IClassifier.General")]
-        public List<IClassifier> General => throw new NotImplementedException();
+        public List<IClassifier> General => this.QueryGeneral();
 
         /// <summary>
         /// The Generalization relationships for this Classifier. These Generalizations navigate to more general 

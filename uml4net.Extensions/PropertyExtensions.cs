@@ -22,6 +22,7 @@ namespace uml4net.Extensions
 {
     using POCO.Values;
     using System;
+    using System.Collections.Generic;
     using uml4net.POCO.Classification;
     using uml4net.POCO.SimpleClassifiers;
     using uml4net.POCO.StructuredClassifiers;
@@ -43,6 +44,20 @@ namespace uml4net.Extensions
         public static bool QueryIsEnum(this IProperty property)
         {
             return property.Type is IEnumeration;
+        }
+
+        /// <summary>
+        /// Queries whether the type of the <see cref="IProperty"/> is an <see cref="IPrimitiveType"/>
+        /// </summary>
+        /// <param name="property">
+        /// The subject <see cref="IProperty"/>
+        /// </param>
+        /// <returns>
+        /// true of the type is a <see cref="IPrimitiveType"/>, false if not
+        /// </returns>
+        public static bool QueryIsPrimitiveType(this IProperty property)
+        {
+            return property.Type is IPrimitiveType;
         }
 
         /// <summary>
@@ -84,6 +99,36 @@ namespace uml4net.Extensions
                    typeName.Contains("short") ||
                    typeName.Contains("long") ||
                    typeName.Contains("byte");
+        }
+
+        /// <summary>
+        /// A mapping of the known SysML value types to C# types
+        /// </summary>
+        private static readonly Dictionary<string, string> CSharpTypeMapping = new ()
+        {
+            {"Boolean", "bool"},
+            {"Integer", "int"},
+            {"Real", "double"},
+            {"String", "string"},
+        };
+
+        /// <summary>
+        /// Queries the C# type-name of the <see cref="IProperty"/>
+        /// </summary>
+        /// <param name="property">
+        /// The subject <see cref="IProperty"/>
+        /// </param>
+        /// <returns>
+        /// the C# name of the type
+        /// </returns>
+        public static string QueryCSharpTypeName(this IProperty property)
+        {
+            if (!CSharpTypeMapping.TryGetValue(property.QueryTypeName(), out var typeName))
+            {
+                return property.QueryTypeName();
+            }
+
+            return typeName;
         }
 
         /// <summary>

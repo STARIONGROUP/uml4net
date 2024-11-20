@@ -1,5 +1,5 @@
 ﻿// -------------------------------------------------------------------------------------------------
-// <copyright file="I{{this.Name}}.cs" company="Starion Group S.A.">
+// <copyright file="IOpaqueExpression.cs" company="Starion Group S.A.">
 //
 //   Copyright 2019-2024 Starion Group S.A.
 //
@@ -22,7 +22,7 @@
 // --------THIS IS AN AUTOMATICALLY GENERATED FILE. ANY MANUAL CHANGES WILL BE OVERWRITTEN!--------
 // ------------------------------------------------------------------------------------------------
 
-namespace uml4net.POCO.{{this.Namespace.Name}}
+namespace uml4net.POCO.Values
 {
     using System.Collections.Generic;
 
@@ -43,15 +43,39 @@ namespace uml4net.POCO.{{this.Namespace.Name}}
     using uml4net.POCO.Values;
     using uml4net.Utils;
 
-    {{ #Documentation this }}
-    {{ Enum.ToString this.Visibility }} interface I{{this.Name}} {{ #Generalization.Interfaces this }}
+    /// <summary>
+    /// An OpaqueExpression is a ValueSpecification that specifies the computation of a collection of values either in
+    /// terms of a UML Behavior or based on a textual statement in a language other than UML
+    /// </summary>
+    public interface IOpaqueExpression : IValueSpecification
     {
-        {{ #each this.OwnedAttribute as | property | }}
-        {{ #Documentation property }}
-        [Property(aggregation: AggregationKind.None, lowerValue: {{ property.Lower }}, upperValue: int.MaxValue, isReadOnly: {{ String.Lowercase property.IsReadOnly }}, isDerived: {{ String.Lowercase property.IsDerived }})]
-        {{ Enum.ToString property.Visibility }} List<IType> {{ String.PascalCase property.Name }} { get; }
+        /// <summary>
+        /// Specifies the behavior of the OpaqueExpression as a UML Behavior.
+        /// </summary>
+        [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1)]
+        public IBehavior Behavior { get; set; }
 
-        {{/each}}
+        /// <summary>
+        /// A textual definition of the behavior of the OpaqueExpression, possibly in multiple languages.
+        /// </summary>
+        [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: true, isUnique: false)]
+        public List<string> Body { get; set; }
+
+        /// <summary>
+        /// Specifies the languages used to express the textual bodies of the OpaqueExpression.  Languages are matched
+        /// to body Strings by order. The interpretation of the body depends on the languages. If the languages are
+        /// unspecified, they may be implicit from the expression body or the context.
+        /// </summary>
+        [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: true, isUnique: false)]
+        public List<string> Language { get; set; }
+
+        /// <summary>
+        /// If an OpaqueExpression is specified using a UML Behavior, then this refers to the single required return Parameter of
+        /// that Behavior. When the Behavior completes execution, the values on this Parameter give the result of evaluating
+        /// the OpaqueExpression.
+        /// </summary>
+        [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isReadOnly: true, isDerived: true)]
+        public IParameter Result { get; }
     }
 }
 
