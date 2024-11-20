@@ -31,10 +31,9 @@ namespace uml4net.Decorators
     public class PropertyAttribute : Attribute
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="FeatureAttribute"/> class.
+        /// Initializes a new instance of the <see cref="PropertyAttribute"/> class.
         /// </summary>
-        /// <param name="aggregation"></param>
-        public PropertyAttribute(AggregationKind aggregation = AggregationKind.None, int lowerValue = 1, int upperValue = 1, 
+        public PropertyAttribute(string xmiId = "", AggregationKind aggregation = AggregationKind.None, int lowerValue = 1, int upperValue = 1, 
             bool isOrdered = false,
             bool isReadOnly = false,
             bool isDerived = false,
@@ -42,6 +41,7 @@ namespace uml4net.Decorators
             bool isUnique = true,
             string defaultValue = null)
         {
+            this.XmiId = xmiId;
             this.Aggregation = aggregation;
             this.LowerValue = lowerValue;
             this.UpperValue = upperValue;
@@ -52,6 +52,11 @@ namespace uml4net.Decorators
             this.IsUnique = isUnique;
             this.DefaultValue = defaultValue;
         }
+
+        /// <summary>
+        /// Gets or sets the unique identifier
+        /// </summary>
+        public string XmiId { get; set; } = string.Empty;
 
         /// <summary>
         /// Gets or sets the <see cref="AggregationKind"/>.

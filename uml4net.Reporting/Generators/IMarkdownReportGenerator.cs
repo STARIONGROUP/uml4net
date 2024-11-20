@@ -20,6 +20,7 @@
 
 namespace uml4net.Reporting.Generators
 {
+    using System.Collections.Generic;
     using System.IO;
 
     /// <summary>
@@ -34,9 +35,15 @@ namespace uml4net.Reporting.Generators
         /// <param name="modelPath">
         /// the path to the UML model of which the report is to be generated.
         /// </param>
+        /// <param name="rootDirectory">
+        /// The base directory path used as the local root for resolving referenced XMI files.
+        /// </param>
+        /// <param name="pathMap">
+        /// a dictionary of key-value pairs used to map PATHMAP references to local xmi files
+        /// </param>
         /// <returns>
         /// the content of a Markdown report in a string
         /// </returns>
-        public string GenerateReport(FileInfo modelPath);
+        public string GenerateReport(FileInfo modelPath, DirectoryInfo rootDirectory, Dictionary<string, string> pathMap);
     }
 }

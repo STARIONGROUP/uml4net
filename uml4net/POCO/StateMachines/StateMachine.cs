@@ -33,6 +33,7 @@ namespace uml4net.POCO.StateMachines
     using uml4net.POCO.StructuredClassifiers;
     using uml4net.POCO.UseCases;
     using uml4net.POCO.Values;
+    using uml4net.POCO.CommonBehavior;
 
     /// <summary>
     /// StateMachines can be used to express event-driven behaviors of parts of a system. Behavior is
@@ -490,5 +491,105 @@ namespace uml4net.POCO.StateMachines
         [RedefinedProperty("Class-superClass")]
         [Implements(implementation: "IClass.SuperClass")]
         public List<IClass> SuperClass => throw new NotImplementedException();
+
+        [Property(xmiId: "Behavior-context", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Implements(implementation: "IBehavior.Context")]
+        public IBehavioredClassifier Context => throw new NotImplementedException();
+
+        /// <summary>
+        /// Tells whether the Behavior can be invoked while it is still executing from a previous invocation.
+        /// </summary>
+        [Property(xmiId: "Behavior-context", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: "true")]
+        [Implements(implementation: "IBehavior.IsReentrant")]
+        public bool IsReentrant { get; set; }
+
+        /// <summary>
+        /// References a list of Parameters to the Behavior which describes the order and type of arguments that can be given when
+        /// the Behavior is invoked and of the values which will be returned when the Behavior completes its execution.
+        /// </summary>
+        [Property(xmiId: "Behavior-ownedParameter", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Implements(implementation: "IBehavior.OwnedParameter")]
+        public IContainerList<IParameter> OwnedParameter
+        {
+            get => this.ownedParameter ??= new ContainerList<IParameter>(this);
+            set => this.ownedParameter = value;
+        }
+
+        /// <summary>
+        /// Backing field for <see cref="OwnedParameter"/>
+        /// </summary>
+        private IContainerList<IParameter> ownedParameter;
+
+        /// <summary>
+        /// The ParameterSets owned by this Behavior.
+        /// </summary>
+        [Property(xmiId: "Behavior-ownedParameterSet", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [SubsettedProperty(propertyName: "Namespace-ownedMember")]
+        [Implements(implementation: "IBehavior.OwnedParameterSet")]
+        public IContainerList<IParameterSet> OwnedParameterSet
+        {
+            get => this.ownedParameterSet ??= new ContainerList<IParameterSet>(this);
+            set => this.ownedParameterSet = value;
+        }
+
+        /// <summary>
+        /// Backing field for <see cref="OwnedParameterSet"/>
+        /// </summary>
+        private IContainerList<IParameterSet> ownedParameterSet;
+
+        /// <summary>
+        /// An optional set of Constraints specifying what is fulfilled after the execution of the Behavior is completed,
+        /// if its precondition was fulfilled before its invocation.
+        /// </summary>
+        [Property(xmiId: "Behavior-postcondition", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [SubsettedProperty(propertyName: "Namespace-ownedRule")]
+        [Implements(implementation: "IBehavior.Postcondition")]
+        public IContainerList<IConstraint> Postcondition
+        {
+            get => this.postcondition ??= new ContainerList<IConstraint>(this);
+            set => this.postcondition = value;
+        }
+
+        /// <summary>
+        /// Backing field for <see cref="Postcondition"/>
+        /// </summary>
+        private IContainerList<IConstraint> postcondition;
+
+        /// <summary>
+        /// An optional set of Constraints specifying what must be fulfilled before the Behavior is invoked.
+        /// </summary>
+        [Property(xmiId: "Behavior-precondition", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [SubsettedProperty(propertyName: "Namespace-ownedRule")]
+        [Implements(implementation: "IBehavior.Precondition")]
+        public IContainerList<IConstraint> Precondition
+        {
+            get => this.precondition ??= new ContainerList<IConstraint>(this);
+            set => this.precondition = value;
+        }
+
+        /// <summary>
+        /// Backing field for <see cref="Precondition"/>
+        /// </summary>
+        private IContainerList<IConstraint> precondition;
+
+        /// <summary>
+        /// Designates a BehavioralFeature that the Behavior implements. The BehavioralFeature must be owned by the
+        /// BehavioredClassifier that owns the Behavior or be inherited by it. The Parameters of the BehavioralFeature
+        /// and the implementing Behavior must match. A Behavior does not need to have a specification, in which
+        /// case it either is the classifierBehavior of a BehavioredClassifier or it can only be invoked by another Behavior of the Classifier.
+        /// </summary>
+        [Property(xmiId: "Behavior-specification", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Implements(implementation: "IBehavior.Specification")]
+        public IBehavioralFeature Specification { get; set; }
+
+        /// <summary>
+        /// References the Behavior that this Behavior redefines. A subtype of Behavior may redefine any other subtype of Behavior.
+        /// If the Behavior implements a BehavioralFeature, it replaces the redefined Behavior. If the Behavior is a classifierBehavior,
+        /// it extends the redefined Behavior.
+        /// </summary>
+        [Property(xmiId: "Behavior-redefinedBehavior", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [SubsettedProperty(propertyName: "Classifier-redefinedClassifier")]
+        [Implements(implementation: "IBehavior.RedefinedBehavior")]
+        public List<IBehavior> RedefinedBehavior { get; set; }
     }
 }

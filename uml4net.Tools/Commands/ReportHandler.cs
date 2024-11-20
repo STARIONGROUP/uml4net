@@ -21,6 +21,7 @@
 namespace uml4net.Tools.Commands
 {
     using System;
+    using System.Collections.Generic;
     using System.CommandLine.Invocation;
     using System.Diagnostics;
     using System.IO;
@@ -127,7 +128,9 @@ namespace uml4net.Tools.Commands
 
                         Thread.Sleep(1500);
 
-                        this.ReportGenerator.GenerateReport(this.InputModel, this.OutputReport);
+                        var pathMap = new Dictionary<string, string>();
+
+                        this.ReportGenerator.GenerateReport(this.InputModel, this.InputModel.Directory, pathMap,this.OutputReport);
 
                         AnsiConsole.MarkupLine(
                             $"[grey]LOG:[/] UML {this.ReportGenerator.QueryReportType()} report generated at [bold]{this.OutputReport.FullName}[/]");

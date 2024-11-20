@@ -21,6 +21,7 @@
 namespace uml4net.Reporting.Generators
 {
     using System;
+    using System.Collections.Generic;
     using System.Diagnostics;
     using System.IO;
 
@@ -64,12 +65,18 @@ namespace uml4net.Reporting.Generators
         /// Generates a table that contains all classes, attributes and their documentation
         /// </summary>
         /// <param name="modelPath">
-        /// /// the path to the UML model of which the report is to be generated.
+        /// the path to the UML model of which the report is to be generated.
+        /// </param>
+        /// <param name="rootDirectory">
+        /// The base directory path used as the local root for resolving referenced XMI files.
+        /// </param>
+        /// <param name="pathMap">
+        /// a dictionary of key-value pairs used to map PATHMAP references to local xmi files
         /// </param>
         /// <returns>
         /// the content of an HTML report in a string
         /// </returns>
-        public string GenerateReport(FileInfo modelPath)
+        public string GenerateReport(FileInfo modelPath, DirectoryInfo rootDirectory, Dictionary<string,string> pathMap)
         {
             if (modelPath == null)
             {
@@ -82,7 +89,7 @@ namespace uml4net.Reporting.Generators
 
             var template = this.Templates["uml-to-html-docs"];
 
-            var xmiReaderResult = this.LoadPackages(modelPath, modelPath.Directory);
+            var xmiReaderResult = this.LoadPackages(modelPath, rootDirectory, pathMap);
 
             var payload = CreateHandlebarsPayload(xmiReaderResult);
 
@@ -99,10 +106,16 @@ namespace uml4net.Reporting.Generators
         /// <param name="modelPath">
         /// the path to the UML model of which the report is to be generated.
         /// </param>
+        /// <param name="rootDirectory">
+        /// The base directory path used as the local root for resolving referenced XMI files.
+        /// </param>
+        /// <param name="pathMap">
+        /// a dictionary of key-value pairs used to map PATHMAP references to local xmi files
+        /// </param>
         /// <param name="outputPath">
         /// the path, including filename, where the output is to be generated.
         /// </param>
-        public void GenerateReport(FileInfo modelPath, FileInfo outputPath)
+        public void GenerateReport(FileInfo modelPath, DirectoryInfo rootDirectory, Dictionary<string, string> pathMap, FileInfo outputPath)
         {
             if (outputPath == null)
             {
@@ -111,7 +124,7 @@ namespace uml4net.Reporting.Generators
 
             var sw = Stopwatch.StartNew();
 
-            var generatedHtml = this.GenerateReport(modelPath);
+            var generatedHtml = this.GenerateReport(modelPath, rootDirectory, pathMap);
 
             if (outputPath.Exists)
             {

@@ -21,6 +21,7 @@
 namespace uml4net.Tools.Tests.Commands
 {
     using System;
+    using System.Collections.Generic;
     using System.CommandLine.Invocation;
     using System.IO;
     using System.Threading.Tasks;
@@ -31,7 +32,7 @@ namespace uml4net.Tools.Tests.Commands
     using Moq;
 
     using NUnit.Framework;
-    
+
     /// <summary>
     /// Suite of tests for the <see cref="XlReportCommand"/> class.
     /// </summary>
@@ -73,7 +74,7 @@ namespace uml4net.Tools.Tests.Commands
 
             var result = await this.handler.InvokeAsync(invocationContext);
 
-            this.reportGenerator.Verify(x => x.GenerateReport(It.IsAny<FileInfo>(), It.IsAny<FileInfo>()), Times.Once);
+            this.reportGenerator.Verify(x => x.GenerateReport(It.IsAny<FileInfo>(), It.IsAny<DirectoryInfo>(), It.IsAny<Dictionary<string, string>>(),It.IsAny<FileInfo>()), Times.Once);
 
             Assert.That(result, Is.EqualTo(0), "InvokeAsync should return 0 upon success.");
         }

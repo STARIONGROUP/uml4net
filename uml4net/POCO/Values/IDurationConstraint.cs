@@ -9,7 +9,7 @@
 //
 //       http://www.apache.org/licenses/LICENSE-2.0
 //
-//   Unless required by applicable law or agreed to in writing, softwareUseCases
+//   Unless required by applicable law or agreed to in writing, software
 //   distributed under the License is distributed on an "AS IS" BASIS,
 //   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //   See the License for the specific language governing permissions and
@@ -18,12 +18,56 @@
 // </copyright>
 // ------------------------------------------------------------------------------------------------
 
+// ------------------------------------------------------------------------------------------------
+// --------THIS IS AN AUTOMATICALLY GENERATED FILE. ANY MANUAL CHANGES WILL BE OVERWRITTEN!--------
+// ------------------------------------------------------------------------------------------------
+
 namespace uml4net.POCO.Values
 {
+    using System.Collections.Generic;
+
+    using uml4net.Decorators;
+    using uml4net.POCO.Actions;
+    using uml4net.POCO.Activities;
+    using uml4net.POCO.Classification;
+    using uml4net.POCO.CommonBehavior;
+    using uml4net.POCO.CommonStructure;
+    using uml4net.POCO.Deployments;
+    using uml4net.POCO.InformationFlows;
+    using uml4net.POCO.Interactions;
+    using uml4net.POCO.Packages;
+    using uml4net.POCO.SimpleClassifiers;
+    using uml4net.POCO.StateMachines;
+    using uml4net.POCO.StructuredClassifiers;
+    using uml4net.POCO.UseCases;
+    using uml4net.POCO.Values;
+    using uml4net.Utils;
+
     /// <summary>
     /// A DurationConstraint is a Constraint that refers to a DurationInterval.
     /// </summary>
+    [Class(xmiId: "DurationConstraint", isAbstract: false, isFinalSpecialization: false, isActive: false)]
     public interface IDurationConstraint : IIntervalConstraint
     {
+        /// <summary>
+        /// The value of firstEvent[i] is related to constrainedElement[i] (where i is 1 or 2). If firstEvent[i]
+        /// is true, then the corresponding observation event is the first time instant the execution enters
+        /// constrainedElement[i]. If firstEvent[i] is false, then the corresponding observation event is the
+        /// last time instant the execution is within constrainedElement[i].
+        /// </summary>
+        [Property(xmiId: "DurationConstraint-firstEvent", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 2, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        public List<bool> FirstEvent { get; set; }
+
+        /// <summary>
+        /// The DurationInterval constraining the duration.
+        /// </summary>
+        [Property(xmiId: "DurationConstraint-specification", aggregation: AggregationKind.Composite, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [RedefinedProperty(propertyName: "IntervalConstraint-specification")]
+        public new IContainerList<IDurationInterval> Specification { get; set; }
+
     }
 }
+
+// ------------------------------------------------------------------------------------------------
+// --------THIS IS AN AUTOMATICALLY GENERATED FILE. ANY MANUAL CHANGES WILL BE OVERWRITTEN!--------
+// ------------------------------------------------------------------------------------------------

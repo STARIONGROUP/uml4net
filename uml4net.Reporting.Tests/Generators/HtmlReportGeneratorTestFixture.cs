@@ -20,6 +20,7 @@
 
 namespace uml4net.Reporting.Tests.Generators
 {
+    using System.Collections.Generic;
     using System.IO;
     using System.Linq;
     using Microsoft.Extensions.Logging;
@@ -65,7 +66,9 @@ namespace uml4net.Reporting.Tests.Generators
 
             var reportFileInfo = new FileInfo(Path.Combine(TestContext.CurrentContext.TestDirectory, "uml-html-report.html"));
 
-            Assert.That(() => this.htmlReportGenerator.GenerateReport(this.umlModelFileInfo, reportFileInfo), Throws.Nothing);
+            var pathmap = new Dictionary<string, string>();
+
+            Assert.That(() => this.htmlReportGenerator.GenerateReport(this.umlModelFileInfo, this.umlModelFileInfo.Directory, pathmap, reportFileInfo), Throws.Nothing);
         }
 
         [Test]
@@ -75,7 +78,10 @@ namespace uml4net.Reporting.Tests.Generators
 
             var reportFileInfo = new FileInfo(Path.Combine(TestContext.CurrentContext.TestDirectory, "sysml2-html-report.html"));
 
-            Assert.That(() => this.htmlReportGenerator.GenerateReport(this.sysml2ModelFileInfo, reportFileInfo), Throws.Nothing);
+            var pathmap = new Dictionary<string, string>();
+            pathmap.Add("pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml", Path.Combine("TestData", "PrimitiveTypes.xmi"));
+
+            Assert.That(() => this.htmlReportGenerator.GenerateReport(this.sysml2ModelFileInfo, this.umlModelFileInfo.Directory, pathmap, reportFileInfo), Throws.Nothing);
         }
     }
 }

@@ -322,14 +322,14 @@ namespace uml4net.POCO.Classification
         [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue)]
         [SubsettedProperty("RedefinableElement-redefinedElement")]
         [Implements(implementation: "IProperty.RedefinedProperty")]
-        public List<IProperty> RedefinedProperty { get; set; }
+        public List<IProperty> RedefinedProperty { get; set; } = new ();
 
         /// <summary>
         /// The properties of which this Property is constrained to be a subset, if any.
         /// </summary>
         [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue)]
         [Implements(implementation: "IProperty.SubsettedProperty")]
-        public List<IProperty> SubsettedProperty { get; set; }
+        public List<IProperty> SubsettedProperty { get; set; } = new ();
 
         /// <summary>
         /// Indicates whether it is possible to further redefine a RedefinableElement. If the value is

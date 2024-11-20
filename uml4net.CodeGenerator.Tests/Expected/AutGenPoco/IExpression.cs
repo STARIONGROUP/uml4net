@@ -48,8 +48,21 @@ namespace uml4net.POCO.Values
     /// defines a symbol, and has a possibly empty sequence of operands that are ValueSpecifications. It
     /// denotes a (possibly empty) set of values when evaluated in a context.
     /// </summary>
+    [Class(xmiId: "Expression", isAbstract: false, isFinalSpecialization: false, isActive: false)]
     public interface IExpression : IValueSpecification
     {
+        /// <summary>
+        /// Specifies a sequence of operand ValueSpecifications.
+        /// </summary>
+        [Property(xmiId: "Expression-operand", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: true, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [SubsettedProperty(propertyName: "Element-ownedElement")]
+        public IContainerList<IValueSpecification> Operand { get; set; }
+
+        /// <summary>
+        /// The symbol associated with this node in the expression tree.
+        /// </summary>
+        [Property(xmiId: "Expression-symbol", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        public string Symbol { get; set; }
 
     }
 }

@@ -133,5 +133,39 @@ namespace uml4net.POCO.Values
         [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1)]
         [Implements(implementation: "IParameterableElement.TemplateParameter")]
         public ITemplateParameter TemplateParameter { get; set; }
+
+        /// <summary>
+        /// Specifies a sequence of operand ValueSpecifications.
+        /// </summary>
+        [Property(xmiId: "Expression-operand", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: true, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [SubsettedProperty(propertyName: "Element-ownedElement")]
+        [Implements(implementation: "IExpression.Operand")]
+        public IContainerList<IValueSpecification> Operand { get; set; }
+
+        /// <summary>
+        /// The symbol associated with this node in the expression tree.
+        /// </summary>
+        [Property(xmiId: "Expression-symbol", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Implements(implementation: "IExpression.Symbol")]
+        public string Symbol { get; set; }
+
+        /// <summary>
+        /// The DurationObservation is determined as the duration between the entering or exiting of a single
+        /// event Element during execution, or the entering/exiting of one event Element and the
+        /// entering/exiting of a second.
+        /// </summary>
+        [Property(xmiId: "DurationObservation-event", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 2, isOrdered: true, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Implements(implementation: "IDurationObservation.Symbol")]
+        public List<INamedElement> Event { get; set; }
+
+        /// <summary>
+        /// The value of firstEvent[i] is related to event[i] (where i is 1 or 2). If firstEvent[i] is true,
+        /// then the corresponding observation event is the first time instant the execution enters event[i]. If
+        /// firstEvent[i] is false, then the corresponding observation event is the time instant the execution
+        /// exits event[i].
+        /// </summary>
+        [Property(xmiId: "DurationObservation-firstEvent", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 2, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Implements(implementation: "IDurationObservation.FirstEvent")]
+        public List<bool> FirstEvent { get; set; }
     }
 }

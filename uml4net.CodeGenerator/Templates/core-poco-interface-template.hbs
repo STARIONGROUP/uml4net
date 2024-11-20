@@ -44,12 +44,15 @@ namespace uml4net.POCO.{{this.Namespace.Name}}
     using uml4net.Utils;
 
     {{ #Documentation this }}
+    {{ #Decorator.WriteClassAttribute this }}
     {{ Enum.ToString this.Visibility }} interface I{{this.Name}} {{ #Generalization.Interfaces this }}
     {
         {{ #each this.OwnedAttribute as | property | }}
         {{ #Documentation property }}
-        [Property(aggregation: AggregationKind.None, lowerValue: {{ property.Lower }}, upperValue: int.MaxValue, isReadOnly: {{ String.Lowercase property.IsReadOnly }}, isDerived: {{ String.Lowercase property.IsDerived }})]
-        {{ Enum.ToString property.Visibility }} List<IType> {{ String.PascalCase property.Name }} { get; }
+        {{ #Decorator.WritePropertyAttribute property }}
+        {{ #Decorator.WriteSubsettedPropertyAttribute property }}
+        {{ #Decorator.WriteRedefinedPropertyAttribute property }}
+        {{ #Property.InterfaceWrite property }}
 
         {{/each}}
     }

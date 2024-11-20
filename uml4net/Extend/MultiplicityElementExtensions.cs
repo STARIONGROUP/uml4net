@@ -21,9 +21,9 @@
 namespace uml4net.Extend
 {
     using System;
-    using POCO.Values;
 
     using uml4net.POCO.CommonStructure;
+    using uml4net.POCO.Values;
 
     /// <summary>
     /// Extension methods for <see cref="IMultiplicityElement"/> interface
@@ -44,7 +44,7 @@ namespace uml4net.Extend
             switch (multiplicityElement.LowerValue)
             {
                 case null:
-                    return 0;
+                    return 1;
 
                 case ILiteralInteger literalInteger:
                     return literalInteger.Value;

@@ -48,43 +48,47 @@ namespace uml4net.POCO.StructuredClassifiers
     /// each of which is an instance of the Association.  Each value in the link refers to an instance of
     /// the type of the corresponding end of the Association.
     /// </summary>
+    [Class(xmiId: "Association", isAbstract: false, isFinalSpecialization: false, isActive: false)]
     public interface IAssociation : IRelationship, IClassifier
     {
         /// <summary>
         /// The Classifiers that are used as types of the ends of the Association.
         /// </summary>
-        [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: int.MaxValue, isReadOnly: true, isDerived: true)]
+        [Property(xmiId: "Association-endType", aggregation: AggregationKind.None, lowerValue: 1, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [SubsettedProperty(propertyName: "Relationship-relatedElement")]
         public List<IType> EndType { get; }
 
         /// <summary>
         /// Specifies whether the Association is derived from other model elements such as other Associations.
         /// </summary>
-        [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, defaultValue: "false")]
+        [Property(xmiId: "Association-isDerived", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: "false")]
         public bool IsDerived { get; set; }
 
         /// <summary>
-        /// Each end represents participation of instances of the Classifier connected to the end in links of the Association.
+        /// Each end represents participation of instances of the Classifier connected to the end in links of
+        /// the Association.
         /// </summary>
-        [Property(aggregation: AggregationKind.None, lowerValue: 2, upperValue: int.MaxValue)]
+        [Property(xmiId: "Association-memberEnd", aggregation: AggregationKind.None, lowerValue: 2, upperValue: int.MaxValue, isOrdered: true, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
         [SubsettedProperty(propertyName: "Namespace-member")]
-        public IContainerList<IProperty> MemberEnd { get; set; }
+        public List<IProperty> MemberEnd { get; set; }
 
         /// <summary>
         /// The navigable ends that are owned by the Association itself.
         /// </summary>
-        [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue)]
+        [Property(xmiId: "Association-navigableOwnedEnd", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
         [SubsettedProperty(propertyName: "Association-ownedEnd")]
         public List<IProperty> NavigableOwnedEnd { get; set; }
 
         /// <summary>
         /// The ends that are owned by the Association itself.
         /// </summary>
-        [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: true)]
+        [Property(xmiId: "Association-ownedEnd", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: true, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
         [SubsettedProperty(propertyName: "A_redefinitionContext_redefinableElement-redefinableElement")]
         [SubsettedProperty(propertyName: "Association-memberEnd")]
         [SubsettedProperty(propertyName: "Classifier-feature")]
         [SubsettedProperty(propertyName: "Namespace-ownedMember")]
         public IContainerList<IProperty> OwnedEnd { get; set; }
+
     }
 }
 

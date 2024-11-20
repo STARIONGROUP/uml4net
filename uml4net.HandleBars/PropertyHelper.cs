@@ -22,11 +22,11 @@ namespace uml4net.HandleBars
 {
     using System;
     using System.Linq;
+    using System.Text;
 
     using HandlebarsDotNet;
-    using HandlebarsDotNet.Compiler.Resolvers;
+    using POCO.SimpleClassifiers;
     using uml4net.Extensions;
-
     using uml4net.POCO.Classification;
     using uml4net.POCO.StructuredClassifiers;
 
@@ -41,7 +41,7 @@ namespace uml4net.HandleBars
         /// <param name="handlebars">
         /// The <see cref="IHandlebars"/> context with which the helper needs to be registered
         /// </param>
-        public static void RegisterStructuralFeatureHelper(this IHandlebars handlebars)
+        public static void RegisterPropertyHelper(this IHandlebars handlebars)
         {
             handlebars.RegisterHelper("Property.QueryIsEnumerable", (context, arguments) =>
             {
@@ -234,6 +234,69 @@ namespace uml4net.HandleBars
                 var upperValue = property.QueryUpperValue();
 
                 writer.WriteSafeString($"{upperValue}");
+            });
+
+            handlebars.RegisterHelper("Property.InterfaceWrite", (writer, context, arguments) =>
+            {
+                if (!(context.Value is IProperty property))
+                    throw new ArgumentException("supposed to be IProperty");
+
+                // write visibility
+                var sb = new StringBuilder();
+                sb.Append(property.Visibility.ToString().ToLower());
+                sb.Append(" ");
+
+                if (property.RedefinedProperty.Any())
+                {
+                    sb.Append("new ");
+                }
+
+                if (property.Type is IDataType && property.QueryIsEnumerable() && !property.QueryIsContainment())
+                {
+                    sb.Append($"List<{property.QueryCSharpTypeName()}>");
+                    sb.Append(" ");
+                }
+                else if(property.QueryIsEnumerable() && !property.QueryIsContainment())
+                {
+                    sb.Append($"List<I{property.QueryTypeName()}>");
+                    sb.Append(" ");
+                }
+                else if(property.QueryIsContainment())
+                {
+                    sb.Append($"IContainerList<I{ property.QueryTypeName() }>");
+                    sb.Append(" ");
+                }
+                else if (property.QueryIsEnumerable() && !property.QueryIsContainment())
+                {
+                    sb.Append($"List<I{property.QueryTypeName()}>");
+                    sb.Append(" ");
+                }
+                else if (property.Type is IDataType)
+                {
+                    sb.Append($"{property.QueryCSharpTypeName()}");
+                    sb.Append(" ");
+                }
+                else
+                {
+                    sb.Append($"I{property.QueryTypeName()}");
+                    sb.Append(" ");
+                }
+
+                // write name
+                sb.Append(property.Name.CapitalizeFirstLetter());
+                sb.Append(" ");
+
+                // write get/set
+                if (property.IsReadOnly || property.IsDerived)
+                {
+                    sb.Append("{ get; }");
+                }
+                else
+                {
+                    sb.Append("{ get; set; }");
+                }
+
+                writer.WriteSafeString(sb + Environment.NewLine);
             });
         }
     }

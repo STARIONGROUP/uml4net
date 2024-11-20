@@ -145,6 +145,6 @@ namespace uml4net.POCO.Values
         /// </summary>
         [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, defaultValue: "0")]
         [Implements(implementation: "ILiteralUnlimitedNatural.Value")]
-        public int? Value { get; set; }
+        public int Value { get; set; } = 0;
     }
 }

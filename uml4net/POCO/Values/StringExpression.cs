@@ -158,5 +158,20 @@ namespace uml4net.POCO.Values
         [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1)]
         [Implements(implementation: "ITypedElement.Type")]
         public IType Type { get; set; }
+
+        /// <summary>
+        /// Specifies a sequence of operand ValueSpecifications.
+        /// </summary>
+        [Property(xmiId: "Expression-operand", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: true, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [SubsettedProperty(propertyName: "Element-ownedElement")]
+        [Implements(implementation: "IExpression.Operand")]
+        public IContainerList<IValueSpecification> Operand { get; set; }
+
+        /// <summary>
+        /// The symbol associated with this node in the expression tree.
+        /// </summary>
+        [Property(xmiId: "Expression-symbol", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Implements(implementation: "IExpression.Symbol")]
+        public string Symbol { get; set; }
     }
 }

@@ -9,7 +9,7 @@
 //
 //       http://www.apache.org/licenses/LICENSE-2.0
 //
-//   Unless required by applicable law or agreed to in writing, softwareUseCases
+//   Unless required by applicable law or agreed to in writing, software
 //   distributed under the License is distributed on an "AS IS" BASIS,
 //   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //   See the License for the specific language governing permissions and
@@ -18,21 +18,46 @@
 // </copyright>
 // ------------------------------------------------------------------------------------------------
 
+// ------------------------------------------------------------------------------------------------
+// --------THIS IS AN AUTOMATICALLY GENERATED FILE. ANY MANUAL CHANGES WILL BE OVERWRITTEN!--------
+// ------------------------------------------------------------------------------------------------
+
 namespace uml4net.POCO.Values
 {
-    using uml4net.Decorators;
+    using System.Collections.Generic;
 
+    using uml4net.Decorators;
+    using uml4net.POCO.Actions;
+    using uml4net.POCO.Activities;
     using uml4net.POCO.Classification;
+    using uml4net.POCO.CommonBehavior;
+    using uml4net.POCO.CommonStructure;
+    using uml4net.POCO.Deployments;
+    using uml4net.POCO.InformationFlows;
+    using uml4net.POCO.Interactions;
+    using uml4net.POCO.Packages;
+    using uml4net.POCO.SimpleClassifiers;
+    using uml4net.POCO.StateMachines;
+    using uml4net.POCO.StructuredClassifiers;
+    using uml4net.POCO.UseCases;
+    using uml4net.POCO.Values;
+    using uml4net.Utils;
 
     /// <summary>
     /// A LiteralUnlimitedNatural is a specification of an UnlimitedNatural number.
     /// </summary>
+    [Class(xmiId: "LiteralUnlimitedNatural", isAbstract: false, isFinalSpecialization: false, isActive: false)]
     public interface ILiteralUnlimitedNatural : ILiteralSpecification
     {
         /// <summary>
         /// The specified UnlimitedNatural value.
         /// </summary>
-        [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, defaultValue: "0")]
-        public int? Value { get; set; }
+        [Property(xmiId: "LiteralUnlimitedNatural-value", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: "0")]
+        public int Value { get; set; }
+
     }
 }
+
+// ------------------------------------------------------------------------------------------------
+// --------THIS IS AN AUTOMATICALLY GENERATED FILE. ANY MANUAL CHANGES WILL BE OVERWRITTEN!--------
+// ------------------------------------------------------------------------------------------------

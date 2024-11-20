@@ -78,7 +78,7 @@ namespace uml4net.Reporting.Generators
             uml4net.HandleBars.StringHelper.RegisterStringHelper(this.Handlebars);
             uml4net.HandleBars.IEnumerableHelper.RegisterEnumerableHelper(this.Handlebars);
             uml4net.HandleBars.ClassHelper.RegisterClassHelper(this.Handlebars);
-            uml4net.HandleBars.PropertyHelper.RegisterStructuralFeatureHelper(this.Handlebars);
+            uml4net.HandleBars.PropertyHelper.RegisterPropertyHelper(this.Handlebars);
             uml4net.HandleBars.GeneralizationHelper.RegisterGeneralizationHelper(this.Handlebars);
             uml4net.HandleBars.DocumentationHelper.RegisteredDocumentationHelper(this.Handlebars);
         }

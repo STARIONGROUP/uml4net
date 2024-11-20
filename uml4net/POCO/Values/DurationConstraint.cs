@@ -74,7 +74,7 @@ namespace uml4net.POCO.Values
         /// </summary>
         [Property(aggregation: AggregationKind.Composite, lowerValue: 1, upperValue: 1)]
         [Implements(implementation: "IConstraint.Specification")]
-        public IValueSpecification Specification { get; set; }
+        IValueSpecification IConstraint.Specification { get; set; }
 
         /// <summary>
         /// The ordered set of Elements referenced by this Constraint.
@@ -154,5 +154,23 @@ namespace uml4net.POCO.Values
         [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1)]
         [Implements(implementation: "IParameterableElement.TemplateParameter")]
         public ITemplateParameter TemplateParameter { get; set; }
+
+        /// <summary>
+        /// The value of firstEvent[i] is related to constrainedElement[i] (where i is 1 or 2). If firstEvent[i]
+        /// is true, then the corresponding observation event is the first time instant the execution enters
+        /// constrainedElement[i]. If firstEvent[i] is false, then the corresponding observation event is the
+        /// last time instant the execution is within constrainedElement[i].
+        /// </summary>
+        [Property(xmiId: "DurationConstraint-firstEvent", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 2, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Implements(implementation: "IDurationConstraint.FirstEvent")]
+        public List<bool> FirstEvent { get; set; }
+
+        /// <summary>
+        /// The DurationInterval constraining the duration.
+        /// </summary>
+        [Property(xmiId: "DurationConstraint-specification", aggregation: AggregationKind.Composite, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [RedefinedProperty(propertyName: "IntervalConstraint-specification")]
+        [Implements(implementation: "IDurationConstraint.Specification")]
+        public IContainerList<IDurationInterval> Specification { get; set; }
     }
 }

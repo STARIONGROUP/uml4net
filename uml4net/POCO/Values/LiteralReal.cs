@@ -139,5 +139,12 @@ namespace uml4net.POCO.Values
         [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1)]
         [Implements(implementation: "ITypedElement.Type")]
         public IType Type { get; set; }
+
+        /// <summary>
+        /// The specified Real value.
+        /// </summary>
+        [Property(xmiId: "LiteralReal-value", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Implements(implementation: "ILiteralReal.Value")]
+        public double Value { get; set; }
     }
 }

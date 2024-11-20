@@ -20,11 +20,71 @@
 
 namespace uml4net.CodeGenerator.Tests.Generators
 {
+    using System.IO;
+    using System.Threading.Tasks;
+
+    using Microsoft.Extensions.Logging;
+
     using NUnit.Framework;
+
+    using Serilog;
+
+    using uml4net.CodeGenerator.Generators;
+    using uml4net.xmi;
+    using uml4net.xmi.Readers;
 
     [TestFixture]
     public class CorePocoGeneratorTestFixture
     {
-        
+        private DirectoryInfo dtoDirectoryInfo;
+
+        private CorePocoGenerator pocoGenerator;
+
+        private ILoggerFactory loggerFactory;
+
+        private XmiReaderResult xmiReaderResult;
+
+        [OneTimeSetUp]
+        public void OneTimeSetUp()
+        {
+            Log.Logger = new LoggerConfiguration()
+                .MinimumLevel.Debug()
+                .WriteTo.Console()
+                .CreateLogger();
+
+            this.loggerFactory = LoggerFactory.Create(builder =>
+            {
+                builder.AddSerilog();
+            });
+        }
+
+        [SetUp]
+        public void SetUp()
+        {
+            var rootPath = Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData");
+
+            var reader = XmiReaderBuilder.Create()
+                .UsingSettings(x => x.LocalReferenceBasePath = rootPath)
+                .WithLogger(this.loggerFactory)
+                .Build();
+
+            this.xmiReaderResult = reader.Read(Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData", "UML.xmi"));
+
+            var directoryInfo = new DirectoryInfo(TestContext.CurrentContext.TestDirectory);
+
+            dtoDirectoryInfo = directoryInfo.CreateSubdirectory("_uml4net.AutoGenPoco");
+
+            this.pocoGenerator = new CorePocoGenerator();
+        }
+
+        [Test, TestCaseSource(typeof(Expected.ExpectedAllClasses)), Category("Expected")]
+        public async Task Verify_that_expected_poco_interfaces_are_generated_correctly(string className)
+        {
+            var generatedCode = await this.pocoGenerator.GenerateInterface(this.xmiReaderResult, dtoDirectoryInfo, className);
+
+            var expected = await File.ReadAllTextAsync(Path.Combine(TestContext.CurrentContext.TestDirectory, $"Expected/AutGenPoco/I{className}.cs"));
+
+            Assert.That(generatedCode, Is.EqualTo(expected));
+        }
     }
 }

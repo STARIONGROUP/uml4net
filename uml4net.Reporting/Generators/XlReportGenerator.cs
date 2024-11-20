@@ -76,7 +76,7 @@ namespace uml4net.Reporting.Generators
         /// <param name="outputPath">
         /// the path, including filename, where the output is to be generated.
         /// </param>
-        public void GenerateReport(FileInfo modelPath, FileInfo outputPath)
+        public void GenerateReport(FileInfo modelPath, DirectoryInfo rootDirectory, Dictionary<string, string> pathMap, FileInfo outputPath)
         {
             if (modelPath == null)
             {

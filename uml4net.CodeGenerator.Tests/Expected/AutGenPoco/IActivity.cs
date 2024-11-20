@@ -47,8 +47,67 @@ namespace uml4net.POCO.Activities
     /// An Activity is the specification of parameterized Behavior as the coordinated sequencing of
     /// subordinate units.
     /// </summary>
+    [Class(xmiId: "Activity", isAbstract: false, isFinalSpecialization: false, isActive: false)]
     public interface IActivity : IBehavior
     {
+        /// <summary>
+        /// ActivityEdges expressing flow between the nodes of the Activity.
+        /// </summary>
+        [Property(xmiId: "Activity-edge", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [SubsettedProperty(propertyName: "Element-ownedElement")]
+        public IContainerList<IActivityEdge> Edge { get; set; }
+
+        /// <summary>
+        /// Top-level ActivityGroups in the Activity.
+        /// </summary>
+        [Property(xmiId: "Activity-group", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [SubsettedProperty(propertyName: "Element-ownedElement")]
+        public IContainerList<IActivityGroup> Group { get; set; }
+
+        /// <summary>
+        /// If true, this Activity must not make any changes to objects. The default is false (an Activity may
+        /// make nonlocal changes). (This is an assertion, not an executable property. It may be used by an
+        /// execution engine to optimize model execution. If the assertion is violated by the Activity, then the
+        /// model is ill-formed.)
+        /// </summary>
+        [Property(xmiId: "Activity-isReadOnly", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: "false")]
+        public bool IsReadOnly { get; set; }
+
+        /// <summary>
+        /// If true, all invocations of the Activity are handled by the same execution.
+        /// </summary>
+        [Property(xmiId: "Activity-isSingleExecution", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: "false")]
+        public bool IsSingleExecution { get; set; }
+
+        /// <summary>
+        /// ActivityNodes coordinated by the Activity.
+        /// </summary>
+        [Property(xmiId: "Activity-node", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [SubsettedProperty(propertyName: "Element-ownedElement")]
+        public IContainerList<IActivityNode> Node { get; set; }
+
+        /// <summary>
+        /// Top-level ActivityPartitions in the Activity.
+        /// </summary>
+        [Property(xmiId: "Activity-partition", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [SubsettedProperty(propertyName: "Activity-group")]
+        public List<IActivityPartition> Partition { get; set; }
+
+        /// <summary>
+        /// Top-level StructuredActivityNodes in the Activity.
+        /// </summary>
+        [Property(xmiId: "Activity-structuredNode", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [SubsettedProperty(propertyName: "Activity-group")]
+        [SubsettedProperty(propertyName: "Activity-node")]
+        public IContainerList<IStructuredActivityNode> StructuredNode { get; set; }
+
+        /// <summary>
+        /// Top-level Variables defined by the Activity.
+        /// </summary>
+        [Property(xmiId: "Activity-variable", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [SubsettedProperty(propertyName: "Namespace-ownedMember")]
+        public IContainerList<IVariable> Variable { get; set; }
+
     }
 }
 

@@ -42,7 +42,7 @@ namespace uml4net.POCO.StructuredClassifiers
         /// <summary>
         /// The Comments owned by this Element.
         /// </summary>
-        [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue)]
+        [Property(xmiId: "", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue)]
         [Implements(implementation: "IElement.OwnedComment")]
         public IContainerList<IComment> OwnedComment
         {
@@ -200,9 +200,9 @@ namespace uml4net.POCO.StructuredClassifiers
         /// <summary>
         /// The TemplateParameter that exposes this ParameterableElement as a formal parameter.
         /// </summary>
-        [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1)]
+        [Property(xmiId: "ParameterableElement-templateParameter", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1)]
         [Implements("IParameterableElement.TemplateParameter")]
-        [RedefinedByProperty("IClassifierTemplateParameter TemplateParameter")]
+        [RedefinedByProperty("IClassifier.TemplateParameter")]
         ITemplateParameter IParameterableElement.TemplateParameter { get; set; }
 
         /// <summary>
@@ -216,8 +216,9 @@ namespace uml4net.POCO.StructuredClassifiers
         /// The optional TemplateSignature specifying the formal TemplateParameters for this TemplateableElement.
         /// If a TemplateableElement has a TemplateSignature, then it is a template.
         /// </summary>
-        [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: 1)]
+        [Property(xmiId: "TemplateableElement-ownedTemplateSignature", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: 1)]
         [Implements(implementation: "ITemplateableElement.OwnedTemplateSignature")]
+        [SubsettedProperty(propertyName: "Element-ownedElement")]
         [RedefinedByProperty("IClassifier.OwnedTemplateSignature")]
         ITemplateSignature ITemplateableElement.OwnedTemplateSignature { get; set; }
 
@@ -368,7 +369,7 @@ namespace uml4net.POCO.StructuredClassifiers
         /// <summary>
         /// TheClassifierTemplateParameter that exposes this element as a formal parameter.
         /// </summary>
-        [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1)]
+        [Property(xmiId: "Classifier-templateParameter", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1)]
         [RedefinedProperty(propertyName: "ParameterableElement-templateParameter")]
         [Implements("IClassifier.TemplateParameter")]
         public IClassifierTemplateParameter TemplateParameter { get; set; }
@@ -398,7 +399,7 @@ namespace uml4net.POCO.StructuredClassifiers
         /// <summary>
         /// The Classifiers that are used as types of the ends of the Association.
         /// </summary>
-        [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: int.MaxValue, isReadOnly: true, isDerived: true)]
+        [Property(xmiId: "Association-endType", aggregation: AggregationKind.None, lowerValue: 1, upperValue: int.MaxValue, isReadOnly: true, isDerived: true)]
         [Implements(implementation: "IAssociation.EndType")]
         public List<IType> EndType => throw new NotImplementedException();
 
@@ -415,17 +416,8 @@ namespace uml4net.POCO.StructuredClassifiers
         [Property(aggregation: AggregationKind.None, lowerValue: 2, upperValue: int.MaxValue)]
         [SubsettedProperty(propertyName: "Namespace-member")]
         [Implements(implementation: "IAssociation.MemberEnd")]
-        public IContainerList<IProperty> MemberEnd
-        {
-            get => this.memberEnd ??= new ContainerList<IProperty>(this);
-            set => this.memberEnd = value;
-        }
-
-        /// <summary>
-        /// Backing field for <see cref="IAssociation.OwnedEnd"/>
-        /// </summary>
-        private IContainerList<IProperty> memberEnd;
-
+        public List<IProperty> MemberEnd { get; set; } = new();
+        
         /// <summary>
         /// The navigable ends that are owned by the Association itself.
         /// </summary>

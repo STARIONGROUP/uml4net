@@ -81,15 +81,22 @@ namespace uml4net.Reporting.Generators
         /// <param name="rootDirectory">
         /// The base directory path used as the local root for resolving referenced XMI files.
         /// </param>
+        /// <param name="pathMap">
+        /// a dictionary of key-value pairs used to map PATHMAP references to local xmi files
+        /// </param>
         /// <returns>
         /// a list of <see cref="IPackage"/>s
         /// </returns>
-        protected XmiReaderResult LoadPackages(FileInfo modelPath, DirectoryInfo rootDirectory)
+        protected XmiReaderResult LoadPackages(FileInfo modelPath, DirectoryInfo rootDirectory, Dictionary<string, string> pathMap)
         {
             this.logger.LogInformation("Loading UML model from {0}", modelPath.FullName);
 
             using var reader = XmiReaderBuilder.Create()
-                .UsingSettings(x => x.LocalReferenceBasePath = rootDirectory.FullName)
+                .UsingSettings(x =>
+                {
+                    x.LocalReferenceBasePath = rootDirectory.FullName;
+                    x.PathMapMap = pathMap;
+                })
                 .WithLogger(this.loggerFactory)
                 .Build();
 

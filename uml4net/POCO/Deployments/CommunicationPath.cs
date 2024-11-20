@@ -415,16 +415,7 @@ namespace uml4net.POCO.Deployments
         [Property(aggregation: AggregationKind.None, lowerValue: 2, upperValue: int.MaxValue)]
         [SubsettedProperty(propertyName: "Namespace-member")]
         [Implements(implementation: "IAssociation.MemberEnd")]
-        public IContainerList<IProperty> MemberEnd
-        {
-            get => this.memberEnd ??= new ContainerList<IProperty>(this);
-            set => this.memberEnd = value;
-        }
-
-        /// <summary>
-        /// Backing field for <see cref="IAssociation.OwnedEnd"/>
-        /// </summary>
-        private IContainerList<IProperty> memberEnd;
+        public List<IProperty> MemberEnd { get; set; } = new();
 
         /// <summary>
         /// The navigable ends that are owned by the Association itself.

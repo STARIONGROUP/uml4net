@@ -44,12 +44,47 @@ namespace uml4net.POCO.Activities
     using uml4net.Utils;
 
     /// <summary>
-    /// An ObjectNode is an abstract ActivityNode that may hold tokens within the object flow in an Activity.
-    /// ObjectNodes also support token selection, limitation on the number of tokens held, specification of
-    /// the state required for tokens being held, and carrying control values.
+    /// An ObjectNode is an abstract ActivityNode that may hold tokens within the object flow in an
+    /// Activity. ObjectNodes also support token selection, limitation on the number of tokens held,
+    /// specification of the state required for tokens being held, and carrying control values.
     /// </summary>
+    [Class(xmiId: "ObjectNode", isAbstract: true, isFinalSpecialization: false, isActive: false)]
     public interface IObjectNode : ITypedElement, IActivityNode
     {
+        /// <summary>
+        /// The States required to be associated with the values held by tokens on this ObjectNode.
+        /// </summary>
+        [Property(xmiId: "ObjectNode-inState", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        public List<IState> InState { get; set; }
+
+        /// <summary>
+        /// Indicates whether the type of the ObjectNode is to be treated as representing control values that
+        /// may traverse ControlFlows.
+        /// </summary>
+        [Property(xmiId: "ObjectNode-isControlType", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: "false")]
+        public bool IsControlType { get; set; }
+
+        /// <summary>
+        /// Indicates how the tokens held by the ObjectNode are ordered for selection to traverse ActivityEdges
+        /// outgoing from the ObjectNode.
+        /// </summary>
+        [Property(xmiId: "ObjectNode-ordering", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: "FIFO")]
+        public ObjectNodeOrderingKind Ordering { get; set; }
+
+        /// <summary>
+        /// A Behavior used to select tokens to be offered on outgoing ActivityEdges.
+        /// </summary>
+        [Property(xmiId: "ObjectNode-selection", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        public IBehavior Selection { get; set; }
+
+        /// <summary>
+        /// The maximum number of tokens that may be held by this ObjectNode. Tokens cannot flow into the
+        /// ObjectNode if the upperBound is reached. If no upperBound is specified, then there is no limit on
+        /// how many tokens the ObjectNode can hold.
+        /// </summary>
+        [Property(xmiId: "ObjectNode-upperBound", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [SubsettedProperty(propertyName: "Element-ownedElement")]
+        public IContainerList<IValueSpecification> UpperBound { get; set; }
 
     }
 }

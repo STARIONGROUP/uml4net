@@ -31,7 +31,7 @@ namespace uml4net.POCO.Values
         /// <summary>
         /// The specified Boolean value.
         /// </summary>
-        [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, defaultValue:"false")]
+        [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, defaultValue: "false")]
         public bool Value { get; set; }
     }
 }

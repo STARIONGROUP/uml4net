@@ -21,6 +21,7 @@
 namespace uml4net.Reporting.Tests.Generators
 {
     using System;
+    using System.Collections.Generic;
     using System.IO;
     using System.Linq;
     using Microsoft.Extensions.Logging;
@@ -94,7 +95,9 @@ namespace uml4net.Reporting.Tests.Generators
         {
             this.modelInspector = new ModelInspector(this.loggerFactory);
 
-            Assert.That(() => this.modelInspector.GenerateReport(this.modelFileInfo, this.reportFileInfo), Throws.Nothing);
+            var pathmap = new Dictionary<string, string>();
+
+            Assert.That(() => this.modelInspector.GenerateReport(this.modelFileInfo, this.modelFileInfo.Directory, pathmap, this.reportFileInfo), Throws.Nothing);
         }
 
         [Test]

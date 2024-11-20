@@ -23,6 +23,8 @@ namespace uml4net.Extensions
     using POCO.Values;
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel;
+    using System.Linq;
     using uml4net.POCO.Classification;
     using uml4net.POCO.SimpleClassifiers;
     using uml4net.POCO.StructuredClassifiers;
@@ -110,6 +112,7 @@ namespace uml4net.Extensions
             {"Integer", "int"},
             {"Real", "double"},
             {"String", "string"},
+            {"UnlimitedNatural", "int"},
         };
 
         /// <summary>
@@ -142,12 +145,20 @@ namespace uml4net.Extensions
         /// </returns>
         public static bool QueryIsEnumerable(this IProperty property)
         {
-            var value = property?.UpperValue switch
+            int value;
+
+            switch (property.UpperValue)
             {
-                ILiteralUnlimitedNatural literalUnlimitedNatural => literalUnlimitedNatural.Value,
-                ILiteralInteger literalInteger => literalInteger.Value,
-                _ => null
-            };
+                case ILiteralUnlimitedNatural literalUnlimitedNatural:
+                    value = literalUnlimitedNatural.Value;
+                    break;
+                case ILiteralInteger literalInteger:
+                    value = literalInteger.Value;
+                    break;
+                default:
+                    value = 0;
+                    break;
+            }
 
             return value is -1 or > 1;
         }
@@ -199,7 +210,23 @@ namespace uml4net.Extensions
         /// </returns>
         public static bool QueryHasDefaultValue(this IProperty property)
         {
-            throw new NotImplementedException();
+            return property.DefaultValue != null;
+        }
+
+        /// <summary>
+        /// Queries the default value of a property and returns it as a string
+        /// </summary>
+        /// <param name="property">
+        /// The subject <see cref="IProperty"/>
+        /// </param>
+        /// <returns>
+        /// the string representation of the default value
+        /// </returns>
+        public static string QueryDefaultValueAsString(this IProperty property)
+        {
+            var valueSpecification = property.DefaultValue;
+
+            return valueSpecification == null ? "null" : valueSpecification.QueryDefaultValueAsString();
         }
 
         /// <summary>
@@ -274,17 +301,44 @@ namespace uml4net.Extensions
                 return "1";
             }
 
-            if (property.Upper.Value.HasValue)
+            if (property.Upper.Value == int.MaxValue)
             {
-                if (property.Upper.Value.Value == int.MaxValue)
-                {
-                    return "*";
-                }
-
-                return property.Upper.Value.Value.ToString();
+                return "*";
             }
 
-            throw new InvalidOperationException("");
+            return property.Upper.Value.ToString();
+        }
+
+        /// <summary>
+        /// Asserts whether the <paramref name="property"/> is redefined in the context of the provided <see cref="IClass"/>
+        /// </summary>
+        /// <param name="property">
+        /// the subject <see cref="IProperty"/>
+        /// </param>
+        /// <param name="context">
+        /// The <see cref="IClass"/> in whose context the redefinition is to be asserted
+        /// </param>
+        /// <param name="redefinedByProperty">
+        /// The redefined <see cref="IProperty"/>
+        /// </param>
+        /// <returns>
+        /// true when the property is redefined, false if not
+        /// </returns>
+        public static bool TryQueryRedefinedByProperty(this IProperty property, IClass context, out IProperty redefinedByProperty)
+        {
+            var properties = context.QueryAllProperties();
+
+            foreach (var prop in properties)
+            {
+                if (prop.RedefinedProperty.Any(x => x.XmiId == property.XmiId))
+                {
+                    redefinedByProperty = prop;
+                    return true;
+                }
+            }
+
+            redefinedByProperty = null;
+            return false;
         }
     }
 }

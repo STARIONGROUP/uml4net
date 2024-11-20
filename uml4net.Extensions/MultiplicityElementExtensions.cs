@@ -52,20 +52,13 @@ namespace uml4net.Extensions
 
                 case ILiteralUnlimitedNatural unlimitedNatural:
 
-                    if (!unlimitedNatural.Value.HasValue)
+                    if (unlimitedNatural.Value == int.MaxValue)
                     {
-                        return "0";
+                        return "*";
                     }
                     else
                     {
-                        if (unlimitedNatural.Value == int.MaxValue)
-                        {
-                            return "*";
-                        }
-                        else
-                        {
-                            return unlimitedNatural.Value.ToString();
-                        }
+                        return unlimitedNatural.Value.ToString();
                     }
 
                 default:
