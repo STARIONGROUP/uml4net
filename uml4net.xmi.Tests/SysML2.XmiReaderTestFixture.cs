@@ -26,9 +26,11 @@ namespace uml4net.xmi.Tests
     using Microsoft.Extensions.Logging;
 
     using NUnit.Framework;
+    using POCO.StructuredClassifiers;
     using uml4net.POCO.Packages;
     using uml4net.xmi;
     using Serilog;
+    using System.Collections.Generic;
 
     public class SysML2XmiReaderTestFixture
     {
@@ -63,6 +65,36 @@ namespace uml4net.xmi.Tests
 
             Assert.That(model.XmiId, Is.EqualTo("_kUROkM9FEe6Zc_le1peNgQ"));
             Assert.That(model.Name, Is.EqualTo("sysml"));
+        }
+
+        [TestCase(true)]
+        [TestCase(false)]
+        public void Verify_that_SysML_XMI_pathmap_references_can_be_read(bool usingSettings)
+        {
+            var reader = XmiReaderBuilder.Create()
+                .UsingSettings(x =>
+                    x.PathMapMap = usingSettings ? new Dictionary<string, string> { ["pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml"] = Path.Combine("TestData", "PrimitiveTypes.xmi") } : [])
+                .WithLogger(this.loggerFactory)
+                .Build();
+
+            var xmiReaderResult = reader.Read(Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData", "SysML.uml"));
+
+            var model = xmiReaderResult.Root as IModel;
+
+            var sysmlTypClass = model.PackagedElement.OfType<IClass>().FirstOrDefault(x => x.Name == "Type");
+            var isAbstractProperty = sysmlTypClass?.OwnedAttribute.FirstOrDefault(x => x.Name == "isAbstract");
+
+            Assert.Multiple(() =>
+            {
+                Assert.That(xmiReaderResult.Packages.Count(), Is.EqualTo(usingSettings ? 2 : 1));
+
+                Assert.That(model.XmiId, Is.EqualTo("_kUROkM9FEe6Zc_le1peNgQ"));
+                Assert.That(model.Name, Is.EqualTo("sysml"));
+
+                Assert.That(sysmlTypClass, Is.Not.Null);
+                Assert.That(isAbstractProperty, Is.Not.Null);
+                Assert.That(isAbstractProperty.Type, usingSettings ? Is.Not.Null : Is.Null);
+            });
         }
     }
 }

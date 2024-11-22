@@ -20,15 +20,19 @@
 
 namespace uml4net.xmi.Settings
 {
+    using System.Collections.Generic;
+
     /// <summary>
     /// The <see cref="IXmiReaderSettings"/> interface defines settings the <see cref="Readers.XmiReader"/> requires in order to properly read
     /// </summary>
     public interface IXmiReaderSettings
     {
         /// <summary>
-        /// Gets or sets the UML_PROFILES value, as a local file path to resolve pathmap references
+        /// Gets or sets the path specifications to resolve pathmap references.
+        /// The keys are the pathmap string such as <code>pathmap://UML_PROFILES/primitives.xmi</code> to be used
+        /// with the associated value in order to resolve the referenced xmi.
         /// </summary>
-        string UmlProfilesDirectoryPath {get;set;}
+        Dictionary<string, string> PathMapMap { get; set; }
 
         /// <summary>
         /// Gets or sets the base directory path used as the local root for resolving referenced XMI files.
