@@ -159,8 +159,20 @@ namespace uml4net.xmi.Cache
         /// <returns>A stream of the resource if the file exists; otherwise, <c>null</c>.</returns>
         private Stream ResolvePathmapResource(string key)
         {
-            var mappedFilePath = key.Replace("pathmap://UML_PROFILES/", settings.UmlProfilesDirectoryPath);
-            return File.Exists(mappedFilePath) ? File.OpenRead(mappedFilePath) : null;
+            if (key.IndexOf('#') is var index && index <= 0)
+            {
+                return default;
+            }
+
+            var substring = key.Substring(0, index);
+
+            if (settings.PathMapMap.TryGetValue(substring, out var resolvedPathmap)
+                && File.Exists(resolvedPathmap))
+            {
+                return File.OpenRead(resolvedPathmap);
+            }
+
+            return  default;
         }
     }
 }
