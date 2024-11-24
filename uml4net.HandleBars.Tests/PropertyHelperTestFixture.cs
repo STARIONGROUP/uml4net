@@ -81,7 +81,7 @@ namespace uml4net.HandleBars.Tests
         [Test]
         public void Verify_that_property_is_written_as_expected_for_interface()
         {
-            var template = "{{ #Property.InterfaceWrite this }}";
+            var template = "{{ #Property.WriteForInterface this }}";
 
             var handlebarsTemplate = this.handlebarsContenxt.Compile(template);
 

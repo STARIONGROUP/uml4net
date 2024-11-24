@@ -236,12 +236,11 @@ namespace uml4net.HandleBars
                 writer.WriteSafeString($"{upperValue}");
             });
 
-            handlebars.RegisterHelper("Property.InterfaceWrite", (writer, context, arguments) =>
+            handlebars.RegisterHelper("Property.WriteForInterface", (writer, context, arguments) =>
             {
                 if (!(context.Value is IProperty property))
                     throw new ArgumentException("supposed to be IProperty");
 
-                // write visibility
                 var sb = new StringBuilder();
                 sb.Append(property.Visibility.ToString().ToLower());
                 sb.Append(" ");
