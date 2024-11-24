@@ -101,7 +101,7 @@ namespace uml4net.xmi.Cache
 
                 if (targetProperty is null || underlyingType is null)
                 {
-                    throw new NullReferenceException($"The target property {property.Key} was not found on {element.GetType().Name} or the type is null");
+                    throw new KeyNotFoundException($"The target property {property.Key} was not found on {element.GetType().Name} or the type is null");
                 }
 
                 var resolvedReferences = this.ResolveMultiValueReferences(property.Value, property.Key, underlyingType);

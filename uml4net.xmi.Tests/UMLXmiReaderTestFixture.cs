@@ -95,7 +95,7 @@ namespace uml4net.xmi.Tests
 
             var xmiReaderResult = reader.Read(Path.Combine(rootPath, "UML.xmi"));
 
-            Assert.That(xmiReaderResult.Packages.Count(), Is.EqualTo(2));
+            Assert.That(xmiReaderResult.Packages.Count, Is.EqualTo(2));
 
             var package = xmiReaderResult.Root;
 
@@ -112,7 +112,7 @@ namespace uml4net.xmi.Tests
 
             var structuredClassifiersPackageClasses = structuredClassifiersPackage.PackagedElement.OfType<IClass>();
 
-            Assert.That(structuredClassifiersPackageClasses.Count(), Is.EqualTo(14));
+            Assert.That(structuredClassifiersPackageClasses.Count, Is.EqualTo(14));
 
             var @class = structuredClassifiersPackageClasses.Single(x => x.Name == "Class");
 

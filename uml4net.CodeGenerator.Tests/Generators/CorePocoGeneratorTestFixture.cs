@@ -72,7 +72,7 @@ namespace uml4net.CodeGenerator.Tests.Generators
 
             var directoryInfo = new DirectoryInfo(TestContext.CurrentContext.TestDirectory);
 
-            dtoDirectoryInfo = directoryInfo.CreateSubdirectory("_uml4net.AutoGenPoco");
+            this.dtoDirectoryInfo = directoryInfo.CreateSubdirectory("_uml4net.AutoGenPoco");
 
             this.pocoGenerator = new CorePocoGenerator();
         }
@@ -85,6 +85,14 @@ namespace uml4net.CodeGenerator.Tests.Generators
             var expected = await File.ReadAllTextAsync(Path.Combine(TestContext.CurrentContext.TestDirectory, $"Expected/AutGenPoco/I{className}.cs"));
 
             Assert.That(generatedCode, Is.EqualTo(expected));
+        }
+
+        [Test]
+        public void Verify_that_interfaces_are_generated()
+        {
+            Assert.That(
+                async () => await this.pocoGenerator.GenerateInterfaces(this.xmiReaderResult, this.dtoDirectoryInfo),
+                Throws.Nothing);
         }
     }
 }

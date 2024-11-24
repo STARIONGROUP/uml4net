@@ -26,6 +26,5 @@ namespace uml4net.POCO.CommonStructure
     /// </summary>
     public interface IUsage : IDependency
     {
-        //TODO: implement
     }
 }

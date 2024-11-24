@@ -265,11 +265,6 @@ namespace uml4net.HandleBars
                     sb.Append($"IContainerList<I{ property.QueryTypeName() }>");
                     sb.Append(" ");
                 }
-                else if (property.QueryIsEnumerable() && !property.QueryIsContainment())
-                {
-                    sb.Append($"List<I{property.QueryTypeName()}>");
-                    sb.Append(" ");
-                }
                 else if (property.Type is IDataType)
                 {
                     sb.Append($"{property.QueryCSharpTypeName()}");

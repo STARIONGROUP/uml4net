@@ -25,6 +25,5 @@ namespace uml4net.POCO.CommonStructure
     /// </summary>
     public interface ITemplateSignature : IElement
     {
-        //TODO: implement
     }
 }

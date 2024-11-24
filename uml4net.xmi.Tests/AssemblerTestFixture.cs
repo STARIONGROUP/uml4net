@@ -20,22 +20,25 @@
 
 namespace uml4net.xmi.Tests
 {
-    using Cache;
-    using Microsoft.Extensions.Logging;
-    using NUnit.Framework;
     using System;
-    using POCO.Classification;
-    using POCO.SimpleClassifiers;
     using System.Linq;
+
+    using Microsoft.Extensions.Logging;
+
+    using NUnit.Framework;
+    
+    using uml4net.POCO.Classification;
     using uml4net.POCO.CommonStructure;
+    using uml4net.POCO.SimpleClassifiers;
     using uml4net.POCO.StructuredClassifiers;
     using uml4net.POCO.Values;
+    using uml4net.xmi.Cache;
 
     [TestFixture]
     public class AssemblerTestFixture
     {
         private Assembler assembler;
-        private IXmiReaderCache cache;
+        private XmiReaderCache cache;
 
         [SetUp]
         public void Setup()

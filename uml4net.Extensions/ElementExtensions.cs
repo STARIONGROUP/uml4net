@@ -135,7 +135,7 @@ namespace uml4net.Extensions
         /// </returns>
         public static IEnumerable<IInterface> QueryInterfaces(this IElement element)
         {
-            if (element.Owner is not IPackage owner)
+            if (element.Owner is not IPackage)
             {
                 yield break;
             }
