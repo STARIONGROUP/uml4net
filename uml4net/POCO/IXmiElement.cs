@@ -21,6 +21,9 @@
 namespace uml4net.POCO
 {
     using System.Collections.Generic;
+    using uml4net.POCO.CommonStructure;
+
+    using uml4net.Utils;
 
     /// <summary>
     /// The <see cref="IXmiElement"/> captures the XMI properties of each element in the
@@ -52,5 +55,10 @@ namespace uml4net.POCO
         /// Gets or sets a dictionary of multivalued reference properties and the associated unique identifiers
         /// </summary>
         public Dictionary<string, List<string>> MultiValueReferencePropertyIdentifiers { get; set; }
+        
+        /// <summary>
+        /// Gets or sets the extensions defined of this <see cref="IElement"/>
+        /// </summary>
+        public List<IElement> Extensions { get; set; }
     }
 }

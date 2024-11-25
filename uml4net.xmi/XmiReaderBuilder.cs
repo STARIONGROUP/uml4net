@@ -24,6 +24,7 @@ namespace uml4net.xmi
     using Microsoft.Extensions.Logging;
     using Settings;
     using Readers;
+    using POCO;
 
     /// <summary>
     /// Provides builder methods to configure and create an instance of <see cref="IXmiReader"/>.
@@ -45,6 +46,19 @@ namespace uml4net.xmi
         public static XmiReaderScope Create()
         {
             return new XmiReaderScope();
+        }
+
+        /// <summary>
+        /// Configures the <see cref="XmiReaderScope"/> using a builder delegate to set properties of the <see cref="IXmiReaderSettings"/> instance.
+        /// </summary>
+        /// <param name="scope">The <see cref="XmiReaderScope"/> being configured.</param>
+        /// <returns>
+        /// The configured <see cref="XmiReaderScope"/> instance.
+        /// </returns>
+        public static XmiReaderScope AddExtraReader<TReader, TXmiElement>(this XmiReaderScope scope) where TXmiElement : IXmiElement
+        {
+            scope.ContainerBuilder.RegisterType<TReader>().As<IXmiElementReader<TXmiElement>>().PropertiesAutowired();
+            return scope;
         }
 
         /// <summary>
@@ -88,6 +102,22 @@ namespace uml4net.xmi
         public static XmiReaderScope WithLogger(this XmiReaderScope scope, ILoggerFactory loggerFactory)
         {
             scope.ContainerBuilder.RegisterInstance(loggerFactory).As<ILoggerFactory>().SingleInstance();
+            return scope;
+        }
+
+        /// <summary>
+        /// Configures the specified <see cref="XmiReaderScope"/> to use the specified reader type instead of the default <see cref="XmiReader"/>
+        /// </summary>
+        /// <typeparam name="TReader">The type of the reader to register, which must implement <see cref="IXmiReader"/>.</typeparam>
+        /// <param name="scope">The current <see cref="XmiReaderScope"/> instance.</param>
+        /// <returns>The modified <see cref="XmiReaderScope"/> instance with the specified reader registered.</returns>
+        /// <remarks>
+        /// Registers <typeparamref name="TReader"/> in the <paramref name="scope"/>'s container as an implementation
+        /// of <see cref="IXmiReader"/>, with properties auto-wired.
+        /// </remarks>
+        public static XmiReaderScope WithReader<TReader>(this XmiReaderScope scope) where TReader : IXmiReader
+        {
+            scope.ContainerBuilder.RegisterType<TReader>().As<IXmiReader>().PropertiesAutowired();
             return scope;
         }
 

@@ -138,7 +138,7 @@ namespace uml4net.xmi.Cache
         /// <param name="propertyName">The name of the property to find.</param>
         /// <param name="expectedType">The expected type of the property. If null, type checking is skipped.</param>
         /// <returns>The <see cref="PropertyInfo"/> of the found property, or null if no matching property is found.</returns>
-        private PropertyInfo FindPropertyWithAttribute(IXmiElement element, string propertyName, Type? expectedType = null)
+        private PropertyInfo FindPropertyWithAttribute(IXmiElement element, string propertyName, Type expectedType = null)
         {
             return element.GetType().GetProperties()
                 .FirstOrDefault(x => Attribute.IsDefined(x, typeof(PropertyAttribute))
