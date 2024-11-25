@@ -45,7 +45,7 @@ namespace uml4net.xmi.Readers
         /// <summary>
         /// The <see cref="ILogger"/> used to log
         /// </summary>
-        private readonly ILogger<XmiReader> logger;
+        protected readonly ILogger<XmiReader> Logger;
         
         /// <summary>
         /// The <see cref="IExternalReferenceResolver"/>
@@ -60,7 +60,7 @@ namespace uml4net.xmi.Readers
         /// <summary>
         /// The <see cref="IXmiReaderCache"/>
         /// </summary>
-        private readonly IXmiReaderCache cache;
+        protected readonly IXmiReaderCache Cache;
 
         /// <summary>
         /// The <see cref="IXmiElementReader{T}"/>of <see cref="IPackage"/>
@@ -86,8 +86,8 @@ namespace uml4net.xmi.Readers
             IExternalReferenceResolver externalReferenceResolver, IXmiReaderScope scope)
         {
             this.assembler = assembler;
-            this.cache = cache;
-            this.logger = logger;
+            this.Cache = cache;
+            this.Logger = logger;
             this.externalReferenceResolver = externalReferenceResolver;
             this.scope = scope;
         }
@@ -108,11 +108,11 @@ namespace uml4net.xmi.Readers
 
             var sw = Stopwatch.StartNew();
 
-            this.logger.LogTrace("start deserializing from {path}", fileUri);
+            this.Logger.LogTrace("start deserializing from {path}", fileUri);
 
             var result = this.Read(fileStream);
 
-            this.logger.LogTrace("File {path} deserialized in {time} [ms]", fileUri, sw.ElapsedMilliseconds);
+            this.Logger.LogTrace("File {path} deserialized in {time} [ms]", fileUri, sw.ElapsedMilliseconds);
 
             return result;
         }
@@ -164,7 +164,7 @@ namespace uml4net.xmi.Readers
 
             using (var xmlReader = XmlReader.Create(reader, settings))
             {
-                this.logger.LogTrace("starting to read xml");
+                this.Logger.LogTrace("starting to read xml");
 
                 while (xmlReader.Read())
                 {
@@ -204,13 +204,23 @@ namespace uml4net.xmi.Readers
                                     Console.WriteLine("profileXmlReader not yet implemented");
                                 }
                                 break;
+                            case "xmi:Extension":
+                                using (var xmiExtensionReader = xmlReader.ReadSubtree())
+                                {
+                                    if (this.ReadXmiExtension(xmiExtensionReader) is { } extension)
+                                    {
+                                        xmiReaderResult.Packages.Add(extension);
+                                    }
+                                }
+
+                                break;
                         }
                     }
                 }
             }
 
             var currentlyElapsedMilliseconds = sw.ElapsedMilliseconds;
-            this.logger.LogTrace("xml read in {time}", currentlyElapsedMilliseconds);
+            this.Logger.LogTrace("xml read in {time}", currentlyElapsedMilliseconds);
             sw.Stop();
 
             this.TryResolveExternalReferences(xmiReaderResult);
@@ -219,6 +229,22 @@ namespace uml4net.xmi.Readers
             {
                 this.assembler.Synchronize();
             }
+        }
+
+        /// <summary>
+        /// Reads an XMI extension using the specified XML reader.
+        /// </summary>
+        /// <param name="xmiExtensionReader">
+        /// The <see cref="XmlReader"/> instance to read the XMI extension from.
+        /// </param>
+        /// <returns>
+        /// An instance of <see cref="IPackage"/> representing the read XMI extension,
+        /// or <c>default</c> if no extension is read.
+        /// </returns>
+        public virtual IPackage ReadXmiExtension(XmlReader xmiExtensionReader)
+        {
+            this.Logger.LogInformation("Reading this xmi:Extension is not supported by the current XmiReader.");
+            return default;
         }
 
         /// <summary>
@@ -231,15 +257,15 @@ namespace uml4net.xmi.Readers
         {
             var stopwatch = Stopwatch.StartNew();
 
-            this.logger.LogTrace("resolving the external references");
+            this.Logger.LogTrace("resolving the external references");
 
             foreach (var (context, externalResource) in this.externalReferenceResolver.TryResolve())
             {
-                this.cache.SwitchContext(context);
+                this.Cache.SwitchContext(context);
                 this.Read(externalResource, xmiReaderResult, false);
             }
 
-            this.logger.LogTrace("External references synchronized in {time}", stopwatch.ElapsedMilliseconds);
+            this.Logger.LogTrace("External references synchronized in {time}", stopwatch.ElapsedMilliseconds);
 
             stopwatch.Stop();
         }
@@ -249,7 +275,7 @@ namespace uml4net.xmi.Readers
         /// </summary>
         public void Dispose()
         {
-            this.cache.Cache.Clear();
+            this.Cache.Cache.Clear();
             this.scope.Dispose();
         }
     }
