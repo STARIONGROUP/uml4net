@@ -49,7 +49,7 @@ namespace uml4net.POCO.Values
     /// entered or when it is exited.
     /// </summary>
     [Class(xmiId: "DurationObservation", isAbstract: false, isFinalSpecialization: false, isActive: false)]
-    public interface IDurationObservation : IObservation
+    public partial interface IDurationObservation : IObservation
     {
         /// <summary>
         /// The DurationObservation is determined as the duration between the entering or exiting of a single

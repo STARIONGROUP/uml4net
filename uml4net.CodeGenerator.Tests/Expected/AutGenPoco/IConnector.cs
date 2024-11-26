@@ -49,7 +49,7 @@ namespace uml4net.POCO.StructuredClassifiers
     /// specify links between instances playing the connected parts only.
     /// </summary>
     [Class(xmiId: "Connector", isAbstract: false, isFinalSpecialization: false, isActive: false)]
-    public interface IConnector : IFeature
+    public partial interface IConnector : IFeature
     {
         /// <summary>
         /// The set of Behaviors that specify the valid interaction patterns across the Connector.

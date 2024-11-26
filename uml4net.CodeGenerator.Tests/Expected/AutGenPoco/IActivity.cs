@@ -48,7 +48,7 @@ namespace uml4net.POCO.Activities
     /// subordinate units.
     /// </summary>
     [Class(xmiId: "Activity", isAbstract: false, isFinalSpecialization: false, isActive: false)]
-    public interface IActivity : IBehavior
+    public partial interface IActivity : IBehavior
     {
         /// <summary>
         /// ActivityEdges expressing flow between the nodes of the Activity.

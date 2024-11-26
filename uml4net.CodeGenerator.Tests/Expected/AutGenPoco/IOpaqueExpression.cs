@@ -48,7 +48,7 @@ namespace uml4net.POCO.Values
     /// either in terms of a UML Behavior or based on a textual statement in a language other than UML
     /// </summary>
     [Class(xmiId: "OpaqueExpression", isAbstract: false, isFinalSpecialization: false, isActive: false)]
-    public interface IOpaqueExpression : IValueSpecification
+    public partial interface IOpaqueExpression : IValueSpecification
     {
         /// <summary>
         /// Specifies the behavior of the OpaqueExpression as a UML Behavior.

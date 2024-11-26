@@ -47,7 +47,7 @@ namespace uml4net.POCO.Values
     /// A DurationConstraint is a Constraint that refers to a DurationInterval.
     /// </summary>
     [Class(xmiId: "DurationConstraint", isAbstract: false, isFinalSpecialization: false, isActive: false)]
-    public interface IDurationConstraint : IIntervalConstraint
+    public partial interface IDurationConstraint : IIntervalConstraint
     {
         /// <summary>
         /// The value of firstEvent[i] is related to constrainedElement[i] (where i is 1 or 2). If firstEvent[i]

@@ -49,7 +49,7 @@ namespace uml4net.POCO.Activities
     /// specification of the state required for tokens being held, and carrying control values.
     /// </summary>
     [Class(xmiId: "ObjectNode", isAbstract: true, isFinalSpecialization: false, isActive: false)]
-    public interface IObjectNode : ITypedElement, IActivityNode
+    public partial interface IObjectNode : ITypedElement, IActivityNode
     {
         /// <summary>
         /// The States required to be associated with the values held by tokens on this ObjectNode.

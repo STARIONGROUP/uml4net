@@ -47,7 +47,7 @@ namespace uml4net.POCO.Values
     /// A LiteralInteger is a specification of an Integer value.
     /// </summary>
     [Class(xmiId: "LiteralInteger", isAbstract: false, isFinalSpecialization: false, isActive: false)]
-    public interface ILiteralInteger : ILiteralSpecification
+    public partial interface ILiteralInteger : ILiteralSpecification
     {
         /// <summary>
         /// The specified Integer value.

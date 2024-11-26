@@ -49,7 +49,7 @@ namespace uml4net.POCO.Values
     /// denotes a (possibly empty) set of values when evaluated in a context.
     /// </summary>
     [Class(xmiId: "Expression", isAbstract: false, isFinalSpecialization: false, isActive: false)]
-    public interface IExpression : IValueSpecification
+    public partial interface IExpression : IValueSpecification
     {
         /// <summary>
         /// Specifies a sequence of operand ValueSpecifications.

@@ -47,7 +47,7 @@ namespace uml4net.POCO.Activities
     /// An ActivityEdge is an abstract class for directed connections between two ActivityNodes.
     /// </summary>
     [Class(xmiId: "ActivityEdge", isAbstract: true, isFinalSpecialization: false, isActive: false)]
-    public interface IActivityEdge : IRedefinableElement
+    public partial interface IActivityEdge : IRedefinableElement
     {
         /// <summary>
         /// The Activity containing the ActivityEdge, if it is directly owned by an Activity.

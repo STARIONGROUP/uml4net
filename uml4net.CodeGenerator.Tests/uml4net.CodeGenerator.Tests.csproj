@@ -29,6 +29,7 @@
       <Compile Remove="Expected\AutGenPoco\ILiteralUnlimitedNatural.cs" />
       <Compile Remove="Expected\AutGenPoco\IObjectNode.cs" />
       <Compile Remove="Expected\AutGenPoco\IOpaqueExpression.cs" />
+      <Compile Remove="Expected\AutoGenEnumeration\ConnectorKind.cs" />
     </ItemGroup>
 
     <ItemGroup>
@@ -48,6 +49,9 @@
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
       <None Include="Expected\AutGenPoco\IOpaqueExpression.cs">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Include="Expected\AutoGenEnumeration\ConnectorKind.cs">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
     </ItemGroup>

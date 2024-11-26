@@ -25,7 +25,7 @@ namespace uml4net.CodeGenerator.Generators
     using System.Threading.Tasks;
 
     using System.IO;
-
+    using POCO.SimpleClassifiers;
     using uml4net.Extensions;
 
     using uml4net.POCO.Packages;
@@ -52,8 +52,72 @@ namespace uml4net.CodeGenerator.Generators
         /// </returns>
         public override async Task Generate(XmiReaderResult xmiReaderResult, DirectoryInfo outputDirectory)
         {
+            await this.GenerateEnumerations(xmiReaderResult, outputDirectory);
             await this.GenerateInterfaces(xmiReaderResult, outputDirectory);
             await this.GenerateClasses(xmiReaderResult, outputDirectory);
+        }
+
+        /// <summary>
+        /// Generates Enumeration
+        /// </summary>
+        /// <param name="xmiReaderResult">
+        /// the <see cref="XmiReaderResult"/> that contains the UML model to generate from
+        /// </param>
+        /// <param name="outputDirectory">
+        /// The target <see cref="DirectoryInfo"/>
+        /// </param>
+        /// <returns>
+        /// an awaitable task
+        /// </returns>
+        public async Task GenerateEnumerations(XmiReaderResult xmiReaderResult, DirectoryInfo outputDirectory)
+        {
+            var template = this.Templates["core-enumeration-template"];
+
+            var enumerations = xmiReaderResult.Root.QueryPackages()
+                .SelectMany(x => x.PackagedElement.OfType<IEnumeration>())
+                .ToList();
+
+            foreach (var enumeration in enumerations)
+            {
+                var generatedEnumeration = template(enumeration);
+
+                var fileName = $"{enumeration.Name.CapitalizeFirstLetter()}.cs";
+
+                await Write(generatedEnumeration, outputDirectory, fileName);
+            }
+        }
+
+        /// <summary>
+        /// Generates POCO interfaces
+        /// </summary>
+        /// <param name="xmiReaderResult">
+        /// the <see cref="XmiReaderResult"/> that contains the UML model to generate from
+        /// </param>
+        /// <param name="outputDirectory">
+        /// The target <see cref="DirectoryInfo"/>
+        /// </param>
+        /// <returns>
+        /// an awaitable task
+        /// </returns>
+        public async Task<string> GenerateEnumeration(XmiReaderResult xmiReaderResult, DirectoryInfo outputDirectory, string enumerationName)
+        {
+            var template = this.Templates["core-enumeration-template"];
+
+            var enumerations = xmiReaderResult.Root.QueryPackages()
+                .SelectMany(x => x.PackagedElement.OfType<IEnumeration>())
+                .ToList();
+
+            var enumeration = enumerations.Single(x => x.Name == enumerationName);
+
+            var generatedEnumeration = template(enumeration);
+
+            generatedEnumeration = CodeCleanup(generatedEnumeration);
+
+            var fileName = $"{enumeration.Name.CapitalizeFirstLetter()}.cs";
+
+            await Write(generatedEnumeration, outputDirectory, fileName);
+
+            return generatedEnumeration;
         }
 
         /// <summary>
@@ -218,6 +282,7 @@ namespace uml4net.CodeGenerator.Generators
         {
             this.RegisterTemplate("core-poco-interface-template");
             this.RegisterTemplate("core-poco-class-template");
+            this.RegisterTemplate("core-enumeration-template");
         }
     }
 }

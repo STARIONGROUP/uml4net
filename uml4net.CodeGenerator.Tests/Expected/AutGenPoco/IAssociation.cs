@@ -49,7 +49,7 @@ namespace uml4net.POCO.StructuredClassifiers
     /// the type of the corresponding end of the Association.
     /// </summary>
     [Class(xmiId: "Association", isAbstract: false, isFinalSpecialization: false, isActive: false)]
-    public interface IAssociation : IRelationship, IClassifier
+    public partial interface IAssociation : IRelationship, IClassifier
     {
         /// <summary>
         /// The Classifiers that are used as types of the ends of the Association.

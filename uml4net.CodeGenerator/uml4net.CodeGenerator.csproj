@@ -40,6 +40,9 @@
     </ItemGroup>
 
     <ItemGroup>
+      <None Update="Templates\core-enumeration-template.hbs">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
       <None Update="Templates\core-poco-class-template.hbs">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>

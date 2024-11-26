@@ -36,7 +36,9 @@ namespace uml4net.CodeGenerator.Tests.Generators
     [TestFixture]
     public class CorePocoGeneratorTestFixture
     {
-        private DirectoryInfo dtoDirectoryInfo;
+        private DirectoryInfo pocoDirectoryInfo;
+
+        private DirectoryInfo enumerationDirectoryInfo;
 
         private CorePocoGenerator pocoGenerator;
 
@@ -72,7 +74,8 @@ namespace uml4net.CodeGenerator.Tests.Generators
 
             var directoryInfo = new DirectoryInfo(TestContext.CurrentContext.TestDirectory);
 
-            this.dtoDirectoryInfo = directoryInfo.CreateSubdirectory("_uml4net.AutoGenPoco");
+            this.pocoDirectoryInfo = directoryInfo.CreateSubdirectory("_uml4net.AutoGenPoco");
+            this.enumerationDirectoryInfo = directoryInfo.CreateSubdirectory("_uml4net.AutoGenEnumeration");
 
             this.pocoGenerator = new CorePocoGenerator();
         }
@@ -80,7 +83,7 @@ namespace uml4net.CodeGenerator.Tests.Generators
         [Test, TestCaseSource(typeof(Expected.ExpectedAllClasses)), Category("Expected")]
         public async Task Verify_that_expected_poco_interfaces_are_generated_correctly(string className)
         {
-            var generatedCode = await this.pocoGenerator.GenerateInterface(this.xmiReaderResult, dtoDirectoryInfo, className);
+            var generatedCode = await this.pocoGenerator.GenerateInterface(this.xmiReaderResult, this.pocoDirectoryInfo, className);
 
             var expected = await File.ReadAllTextAsync(Path.Combine(TestContext.CurrentContext.TestDirectory, $"Expected/AutGenPoco/I{className}.cs"));
 
@@ -91,7 +94,27 @@ namespace uml4net.CodeGenerator.Tests.Generators
         public void Verify_that_interfaces_are_generated()
         {
             Assert.That(
-                async () => await this.pocoGenerator.GenerateInterfaces(this.xmiReaderResult, this.dtoDirectoryInfo),
+                async () => await this.pocoGenerator.GenerateInterfaces(this.xmiReaderResult, this.pocoDirectoryInfo),
+                Throws.Nothing);
+        }
+
+        [Test]
+        public async Task Verify_that_expected_enumerations_are_generated_correctly()
+        {
+            var enumerationName = "ConnectorKind";
+
+            var generatedCode = await this.pocoGenerator.GenerateEnumeration(this.xmiReaderResult, this.enumerationDirectoryInfo, enumerationName);
+
+            var expected = await File.ReadAllTextAsync(Path.Combine(TestContext.CurrentContext.TestDirectory, $"Expected/AutoGenEnumeration/{enumerationName}.cs"));
+
+            Assert.That(generatedCode, Is.EqualTo(expected));
+        }
+
+        [Test]
+        public void Verify_that_enumerations_are_generated()
+        {
+            Assert.That(
+                async () => await this.pocoGenerator.GenerateEnumerations(this.xmiReaderResult, this.enumerationDirectoryInfo),
                 Throws.Nothing);
         }
     }

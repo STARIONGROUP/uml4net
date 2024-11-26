@@ -47,7 +47,7 @@ namespace uml4net.POCO.Values
     /// A LiteralUnlimitedNatural is a specification of an UnlimitedNatural number.
     /// </summary>
     [Class(xmiId: "LiteralUnlimitedNatural", isAbstract: false, isFinalSpecialization: false, isActive: false)]
-    public interface ILiteralUnlimitedNatural : ILiteralSpecification
+    public partial interface ILiteralUnlimitedNatural : ILiteralSpecification
     {
         /// <summary>
         /// The specified UnlimitedNatural value.

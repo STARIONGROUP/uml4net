@@ -47,7 +47,7 @@ namespace uml4net.POCO.Values
     /// A LiteralReal is a specification of a Real value.
     /// </summary>
     [Class(xmiId: "LiteralReal", isAbstract: false, isFinalSpecialization: false, isActive: false)]
-    public interface ILiteralReal : ILiteralSpecification
+    public partial interface ILiteralReal : ILiteralSpecification
     {
         /// <summary>
         /// The specified Real value.
