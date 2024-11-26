@@ -195,7 +195,7 @@ namespace uml4net.xmi.Readers.Packages
                 case "uml:Package":
                     using (var packageXmlReader = xmlReader.ReadSubtree())
                     {
-                        var packagedElement = this.Read(packageXmlReader);
+                        var packagedElement = this.PackageReader.Read(packageXmlReader);
                         model.PackagedElement.Add(packagedElement);
                     }
                     break;
