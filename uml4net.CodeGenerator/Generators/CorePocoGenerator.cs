@@ -81,6 +81,8 @@ namespace uml4net.CodeGenerator.Generators
             {
                 var generatedEnumeration = template(enumeration);
 
+                generatedEnumeration = CodeCleanup(generatedEnumeration);
+
                 var fileName = $"{enumeration.Name.CapitalizeFirstLetter()}.cs";
 
                 await Write(generatedEnumeration, outputDirectory, fileName);

@@ -9,7 +9,7 @@
 //
 //       http://www.apache.org/licenses/LICENSE-2.0
 //
-//   Unless required by applicable law or agreed to in writing, softwareUseCases
+//   Unless required by applicable law or agreed to in writing, software
 //   distributed under the License is distributed on an "AS IS" BASIS,
 //   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //   See the License for the specific language governing permissions and
@@ -18,10 +18,15 @@
 // </copyright>
 // ------------------------------------------------------------------------------------------------
 
+// ------------------------------------------------------------------------------------------------
+// --------THIS IS AN AUTOMATICALLY GENERATED FILE. ANY MANUAL CHANGES WILL BE OVERWRITTEN!--------
+// ------------------------------------------------------------------------------------------------
+
 namespace uml4net.POCO.Classification
 {
     /// <summary>
-    /// ParameterDirectionKind is an Enumeration that defines literals used to specify direction of parameters.
+    /// ParameterDirectionKind is an Enumeration that defines literals used to specify direction of
+    /// parameters.
     /// </summary>
     public enum ParameterDirectionKind
     {
@@ -31,7 +36,7 @@ namespace uml4net.POCO.Classification
         In,
 
         /// <summary>
-        /// Indicates that Parameter values are passed in by the caller and (possibly different) values passed 
+        /// Indicates that Parameter values are passed in by the caller and (possibly different) values passed
         /// out to the caller.
         /// </summary>
         Inout,
@@ -44,6 +49,11 @@ namespace uml4net.POCO.Classification
         /// <summary>
         /// Indicates that Parameter values are passed as return values back to the caller.
         /// </summary>
-        Return
+        Return,
+
     }
 }
+
+// ------------------------------------------------------------------------------------------------
+// --------THIS IS AN AUTOMATICALLY GENERATED FILE. ANY MANUAL CHANGES WILL BE OVERWRITTEN!--------
+// ------------------------------------------------------------------------------------------------
