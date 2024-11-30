@@ -147,7 +147,7 @@ namespace uml4net.Extensions
         {
             int value;
 
-            switch (property.UpperValue)
+            switch (property.UpperValue.SingleOrDefault())
             {
                 case ILiteralUnlimitedNatural literalUnlimitedNatural:
                     value = literalUnlimitedNatural.Value;
@@ -296,17 +296,12 @@ namespace uml4net.Extensions
         /// </returns>
         public static string QueryUpperValue(this IProperty property)
         {
-            if (property.Upper == null)
-            {
-                return "1";
-            }
-
-            if (property.Upper.Value == int.MaxValue)
+            if (property.Upper == int.MaxValue)
             {
                 return "*";
             }
 
-            return property.Upper.Value.ToString();
+            return property.Upper.ToString();
         }
 
         /// <summary>

@@ -94,19 +94,40 @@ namespace uml4net.POCO.Packages
         /// The specification of the lower bound for this multiplicity.
         /// </summary>
         [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: 1, isDerived: true)]
-        IValueSpecification IMultiplicityElement.LowerValue { get; set; }
+        [Implements(implementation: "IMultiplicityElement.LowerValue")]
+        public IContainerList<IValueSpecification> LowerValue
+        {
+            get => this.lowerValue ??= new ContainerList<IValueSpecification>(this);
+            set => this.lowerValue = value;
+        }
+
+        /// <summary>
+        /// Backing field for <see cref="LowerValue"/>
+        /// </summary>
+        private IContainerList<IValueSpecification> lowerValue;
 
         /// <summary>
         /// The upper bound of the multiplicity interval.
         /// </summary>
         [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isDerived: true)]
-        ILiteralUnlimitedNatural IMultiplicityElement.Upper { get; }
+        [Implements(implementation: "IMultiplicityElement.Upper")]
+        public int Upper { get; set; }
 
         /// <summary>
         /// The specification of the upper bound for this multiplicity.
         /// </summary>
         [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: 1, isDerived: true)]
-        IValueSpecification IMultiplicityElement.UpperValue { get; set; }
+        [Implements(implementation: "IMultiplicityElement.UpperValue")]
+        public IContainerList<IValueSpecification> UpperValue
+        {
+            get => this.upperValue ??= new ContainerList<IValueSpecification>(this);
+            set => this.upperValue = value;
+        }
+
+        /// <summary>
+        /// Backing field for <see cref="UpperValue"/>
+        /// </summary>
+        private IContainerList<IValueSpecification> upperValue;
 
         /// <summary>
         /// Indicates the Dependencies that reference this NamedElement as a client."

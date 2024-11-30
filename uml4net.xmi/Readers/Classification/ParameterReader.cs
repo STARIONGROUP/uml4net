@@ -171,18 +171,19 @@ namespace uml4net.xmi.Readers.Classification
                                     if (lowerValueXmlReader.MoveToContent() == XmlNodeType.Element)
                                     {
                                         var reference = lowerValueXmlReader.GetAttribute("xmi:type");
-                                        if (!string.IsNullOrEmpty(reference))
+
+                                        switch (reference)
                                         {
-                                            parameter.LowerValue = reference switch
-                                            {
-                                                "uml:LiteralInteger" => this.LiteralIntegerReader.Read(lowerValueXmlReader),
-                                                "uml:LiteralUnlimitedNatural" => this.LiteralUnlimitedNaturalReader.Read(lowerValueXmlReader),
-                                                _ => throw new InvalidOperationException($"lowerValueXmlReader: type {reference} is unsupported.")
-                                            };
-                                        }
-                                        else
-                                        {
-                                            throw new InvalidOperationException("lowerValue xmi:type reference could not be read");
+                                            case "uml:LiteralInteger":
+                                                var literalInteger = this.LiteralIntegerReader.Read(lowerValueXmlReader);
+                                                parameter.LowerValue.Add(literalInteger);
+                                                break;
+                                            case "uml:LiteralUnlimitedNatural":
+                                                var literalUnlimitedNatural = this.LiteralUnlimitedNaturalReader.Read(lowerValueXmlReader);
+                                                parameter.LowerValue.Add(literalUnlimitedNatural);
+                                                break;
+                                            default:
+                                                throw new InvalidOperationException($"lowerValueXmlReader: type {reference} is unsupported.");
                                         }
                                     }
                                 }
@@ -195,16 +196,19 @@ namespace uml4net.xmi.Readers.Classification
                                         var reference = upperValueXmlReader.GetAttribute("xmi:type");
                                         if (!string.IsNullOrEmpty(reference))
                                         {
-                                            parameter.UpperValue = reference switch
+                                            switch (reference)
                                             {
-                                                "uml:LiteralInteger" => this.LiteralIntegerReader.Read(upperValueXmlReader),
-                                                "uml:LiteralUnlimitedNatural" => this.LiteralUnlimitedNaturalReader.Read(upperValueXmlReader),
-                                                _ => throw new InvalidOperationException($"upperValueXmlReader: type {reference} is unsupported.")
-                                            };
-                                        }
-                                        else
-                                        {
-                                            throw new InvalidOperationException("upperValue xmi:type reference could not be read");
+                                                case "uml:LiteralInteger":
+                                                    var literalInteger = this.LiteralIntegerReader.Read(upperValueXmlReader);
+                                                    parameter.UpperValue.Add(literalInteger);
+                                                    break;
+                                                case "uml:LiteralUnlimitedNatural":
+                                                    var literalUnlimitedNatural = this.LiteralUnlimitedNaturalReader.Read(upperValueXmlReader);
+                                                    parameter.UpperValue.Add(literalUnlimitedNatural);
+                                                    break;
+                                                default:
+                                                    throw new InvalidOperationException($"upperValueXmlReader: type {reference} is unsupported.");
+                                            }
                                         }
                                     }
                                 }

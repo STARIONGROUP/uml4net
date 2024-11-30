@@ -80,7 +80,7 @@ namespace uml4net.HandleBars
                 var upperValue = "1";
                 if (property.Upper != null)
                 {
-                    upperValue = property.Upper.Value== int.MaxValue ? "int.MaxValue" : property.Upper.Value.ToString();
+                    upperValue = property.Upper == int.MaxValue ? "int.MaxValue" : property.Upper.ToString();
                 }
                 
                 var defaultValue = property.QueryDefaultValueAsString();

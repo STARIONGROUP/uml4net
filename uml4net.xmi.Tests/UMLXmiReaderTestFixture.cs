@@ -158,7 +158,7 @@ namespace uml4net.xmi.Tests
             Assert.That(classOwnedAttribute.IsDerived, Is.True);
             Assert.That(classOwnedAttribute.OwnedComment.First().Body, Is.EqualTo("This property is used when the Class is acting as a metaclass. It references the Extensions that specify additional properties of the metaclass. The property is derived from the Extensions whose memberEnds are typed by the Class."));
 
-            var classLowerValue = (ILiteralInteger)classOwnedAttribute.LowerValue;
+            var classLowerValue = (ILiteralInteger)classOwnedAttribute.LowerValue.Single();
 
             Assert.That(classLowerValue.Value, Is.EqualTo(0));
 

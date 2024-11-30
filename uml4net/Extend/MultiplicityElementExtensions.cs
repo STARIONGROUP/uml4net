@@ -21,7 +21,7 @@
 namespace uml4net.Extend
 {
     using System;
-
+    using System.Linq;
     using uml4net.POCO.CommonStructure;
     using uml4net.POCO.Values;
 
@@ -41,7 +41,7 @@ namespace uml4net.Extend
         /// </returns>
         public static int QueryLower(this IMultiplicityElement multiplicityElement)
         {
-            switch (multiplicityElement.LowerValue)
+            switch (multiplicityElement.LowerValue.SingleOrDefault())
             {
                 case null:
                     return 1;
@@ -64,15 +64,15 @@ namespace uml4net.Extend
         /// <returns>
         /// an instance of <see cref="ILiteralUnlimitedNatural"/> or null
         /// </returns>
-        public static ILiteralUnlimitedNatural QueryUpper(this IMultiplicityElement multiplicityElement)
+        public static int QueryUpper(this IMultiplicityElement multiplicityElement)
         {
-            switch (multiplicityElement.UpperValue)
+            switch (multiplicityElement.UpperValue.SingleOrDefault())
             {
                 case null:
-                    return null;
+                    return 1;
 
                 case ILiteralUnlimitedNatural literalUnlimitedNatural:
-                    return literalUnlimitedNatural;
+                    return literalUnlimitedNatural.Value;
 
                 default:
                     throw new NotSupportedException("UpperValue is not of type ILiteralUnlimitedNatural.");
