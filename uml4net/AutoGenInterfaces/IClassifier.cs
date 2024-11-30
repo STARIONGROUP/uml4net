@@ -47,7 +47,7 @@ namespace uml4net.POCO.Classification
         /// </summary>
         [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue)]
         [SubsettedProperty(propertyName: "Element-ownedElement")]
-        public List<ICollaborationUse> CollaborationUse { get; set; }
+        public IContainerList<ICollaborationUse> CollaborationUse { get; set; }
 
         /// <summary>
         /// Specifies each Feature directly defined in the classifier. Note that there may be members of the 

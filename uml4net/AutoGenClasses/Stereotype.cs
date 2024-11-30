@@ -234,7 +234,16 @@ namespace uml4net.POCO.Packages
         /// </summary>
         [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue)]
         [SubsettedProperty(propertyName: "Element-ownedElement")]
-        List<ICollaborationUse> IClassifier.CollaborationUse { get; set; }
+        public IContainerList<ICollaborationUse> CollaborationUse
+        {
+            get => this.collaborationUse ??= new ContainerList<ICollaborationUse>(this);
+            set => this.collaborationUse = value;
+        }
+
+        /// <summary>
+        /// Backing field for <see cref="CollaborationUse"/>
+        /// </summary>
+        private IContainerList<ICollaborationUse> collaborationUse;
 
         /// <summary>
         /// Specifies each Feature directly defined in the classifier. Note that there may be members of the 

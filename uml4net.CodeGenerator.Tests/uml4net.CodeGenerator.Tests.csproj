@@ -17,6 +17,19 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <Compile Remove="Expected\AutoGenClasses\Activity.cs" />
+      <Compile Remove="Expected\AutoGenClasses\Association.cs" />
+      <Compile Remove="Expected\AutoGenClasses\Connector.cs" />
+      <Compile Remove="Expected\AutoGenClasses\DurationConstraint.cs" />
+      <Compile Remove="Expected\AutoGenClasses\DurationObservation.cs" />
+      <Compile Remove="Expected\AutoGenClasses\ExceptionHandler.cs" />
+      <Compile Remove="Expected\AutoGenClasses\Expression.cs" />
+      <Compile Remove="Expected\AutoGenClasses\LiteralInteger.cs" />
+      <Compile Remove="Expected\AutoGenClasses\LiteralReal.cs" />
+      <Compile Remove="Expected\AutoGenClasses\LiteralUnlimitedNatural.cs" />
+      <Compile Remove="Expected\AutoGenClasses\OpaqueExpression.cs" />
+      <Compile Remove="Expected\AutoGenClasses\StateMachine.cs" />
+      <Compile Remove="Expected\AutoGenClasses\TimeConstraint.cs" />
       <Compile Remove="Expected\AutoGenInterfaces\IActivity.cs" />
       <Compile Remove="Expected\AutoGenInterfaces\IActivityEdge.cs" />
       <Compile Remove="Expected\AutoGenInterfaces\IAssociation.cs" />
@@ -37,6 +50,45 @@
     </ItemGroup>
 
     <ItemGroup>
+      <None Include="Expected\AutoGenClasses\Activity.cs">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Include="Expected\AutoGenClasses\Association.cs">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Include="Expected\AutoGenClasses\Connector.cs">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Include="Expected\AutoGenClasses\DurationConstraint.cs">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Include="Expected\AutoGenClasses\DurationObservation.cs">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Include="Expected\AutoGenClasses\ExceptionHandler.cs">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Include="Expected\AutoGenClasses\Expression.cs">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Include="Expected\AutoGenClasses\LiteralInteger.cs">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Include="Expected\AutoGenClasses\LiteralReal.cs">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Include="Expected\AutoGenClasses\LiteralUnlimitedNatural.cs">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Include="Expected\AutoGenClasses\OpaqueExpression.cs">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Include="Expected\AutoGenClasses\StateMachine.cs">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Include="Expected\AutoGenClasses\TimeConstraint.cs">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
       <None Include="Expected\AutoGenInterfaces\IDurationObservation.cs">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
@@ -95,7 +147,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Expected\AutoGenClasses\" />
       <Folder Include="Generators\" />
     </ItemGroup>
 
