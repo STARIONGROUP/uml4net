@@ -95,6 +95,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <Folder Include="Expected\AutoGenClasses\" />
       <Folder Include="Generators\" />
     </ItemGroup>
 

@@ -41,6 +41,7 @@
     <ItemGroup>
       <Folder Include="AutoGenEnumeration\" />
       <Folder Include="AutoGenInterfaces\" />
+      <Folder Include="AutoGenClasses\" />
     </ItemGroup>
 
 </Project>
