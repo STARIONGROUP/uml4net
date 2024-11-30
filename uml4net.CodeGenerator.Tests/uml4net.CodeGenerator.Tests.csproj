@@ -17,38 +17,54 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Compile Remove="Expected\AutGenPoco\IActivity.cs" />
-      <Compile Remove="Expected\AutGenPoco\IActivityEdge.cs" />
-      <Compile Remove="Expected\AutGenPoco\IAssociation.cs" />
-      <Compile Remove="Expected\AutGenPoco\IConnector.cs" />
-      <Compile Remove="Expected\AutGenPoco\IDurationConstraint.cs" />
-      <Compile Remove="Expected\AutGenPoco\IDurationObservation.cs" />
-      <Compile Remove="Expected\AutGenPoco\IExpression.cs" />
-      <Compile Remove="Expected\AutGenPoco\ILiteralInteger.cs" />
-      <Compile Remove="Expected\AutGenPoco\ILiteralReal.cs" />
-      <Compile Remove="Expected\AutGenPoco\ILiteralUnlimitedNatural.cs" />
-      <Compile Remove="Expected\AutGenPoco\IObjectNode.cs" />
-      <Compile Remove="Expected\AutGenPoco\IOpaqueExpression.cs" />
+      <Compile Remove="Expected\AutoGenInterfaces\IActivity.cs" />
+      <Compile Remove="Expected\AutoGenInterfaces\IActivityEdge.cs" />
+      <Compile Remove="Expected\AutoGenInterfaces\IAssociation.cs" />
+      <Compile Remove="Expected\AutoGenInterfaces\IConnector.cs" />
+      <Compile Remove="Expected\AutoGenInterfaces\IDurationConstraint.cs" />
+      <Compile Remove="Expected\AutoGenInterfaces\IDurationObservation.cs" />
+      <Compile Remove="Expected\AutoGenInterfaces\IExceptionHandler.cs" />
+      <Compile Remove="Expected\AutoGenInterfaces\IExpression.cs" />
+      <Compile Remove="Expected\AutoGenInterfaces\ILiteralInteger.cs" />
+      <Compile Remove="Expected\AutoGenInterfaces\ILiteralReal.cs" />
+      <Compile Remove="Expected\AutoGenInterfaces\ILiteralUnlimitedNatural.cs" />
+      <Compile Remove="Expected\AutoGenInterfaces\INamedElement.cs" />
+      <Compile Remove="Expected\AutoGenInterfaces\IObjectNode.cs" />
+      <Compile Remove="Expected\AutoGenInterfaces\IOpaqueExpression.cs" />
+      <Compile Remove="Expected\AutoGenInterfaces\IStateMachine.cs" />
+      <Compile Remove="Expected\AutoGenInterfaces\ITimeConstraint.cs" />
       <Compile Remove="Expected\AutoGenEnumeration\ConnectorKind.cs" />
     </ItemGroup>
 
     <ItemGroup>
-      <None Include="Expected\AutGenPoco\IDurationObservation.cs">
+      <None Include="Expected\AutoGenInterfaces\IDurationObservation.cs">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
-      <None Include="Expected\AutGenPoco\ILiteralReal.cs">
+      <None Include="Expected\AutoGenInterfaces\IExceptionHandler.cs">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
-      <None Include="Expected\AutGenPoco\ILiteralInteger.cs">
+      <None Include="Expected\AutoGenInterfaces\ILiteralReal.cs">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
-      <None Include="Expected\AutGenPoco\ILiteralUnlimitedNatural.cs">
+      <None Include="Expected\AutoGenInterfaces\ILiteralInteger.cs">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
-      <None Include="Expected\AutGenPoco\IObjectNode.cs">
+      <None Include="Expected\AutoGenInterfaces\ILiteralUnlimitedNatural.cs">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
-      <None Include="Expected\AutGenPoco\IOpaqueExpression.cs">
+      <None Include="Expected\AutoGenInterfaces\INamedElement.cs">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Include="Expected\AutoGenInterfaces\IObjectNode.cs">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Include="Expected\AutoGenInterfaces\IOpaqueExpression.cs">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Include="Expected\AutoGenInterfaces\IStateMachine.cs">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Include="Expected\AutoGenInterfaces\ITimeConstraint.cs">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
       <None Include="Expected\AutoGenEnumeration\ConnectorKind.cs">
@@ -83,22 +99,22 @@
     </ItemGroup>
 
     <ItemGroup>
-      <None Include="Expected\AutGenPoco\IActivity.cs">
+      <None Include="Expected\AutoGenInterfaces\IActivity.cs">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
-      <None Include="Expected\AutGenPoco\IActivityEdge.cs">
+      <None Include="Expected\AutoGenInterfaces\IActivityEdge.cs">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
-      <None Include="Expected\AutGenPoco\IAssociation.cs">
+      <None Include="Expected\AutoGenInterfaces\IAssociation.cs">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
-      <None Include="Expected\AutGenPoco\IConnector.cs">
+      <None Include="Expected\AutoGenInterfaces\IConnector.cs">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
-      <None Include="Expected\AutGenPoco\IDurationConstraint.cs">
+      <None Include="Expected\AutoGenInterfaces\IDurationConstraint.cs">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
-      <None Include="Expected\AutGenPoco\IExpression.cs">
+      <None Include="Expected\AutoGenInterfaces\IExpression.cs">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
     </ItemGroup>

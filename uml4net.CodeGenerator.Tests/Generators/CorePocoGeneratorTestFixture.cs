@@ -36,7 +36,7 @@ namespace uml4net.CodeGenerator.Tests.Generators
     [TestFixture]
     public class CorePocoGeneratorTestFixture
     {
-        private DirectoryInfo pocoDirectoryInfo;
+        private DirectoryInfo interfaceDirectoryInfo;
 
         private DirectoryInfo enumerationDirectoryInfo;
 
@@ -74,7 +74,7 @@ namespace uml4net.CodeGenerator.Tests.Generators
 
             var directoryInfo = new DirectoryInfo(TestContext.CurrentContext.TestDirectory);
 
-            this.pocoDirectoryInfo = directoryInfo.CreateSubdirectory("_uml4net.AutoGenPoco");
+            this.interfaceDirectoryInfo = directoryInfo.CreateSubdirectory("_uml4net.AutoGenInterfaces");
             this.enumerationDirectoryInfo = directoryInfo.CreateSubdirectory("_uml4net.AutoGenEnumeration");
 
             this.pocoGenerator = new CorePocoGenerator();
@@ -83,9 +83,9 @@ namespace uml4net.CodeGenerator.Tests.Generators
         [Test, TestCaseSource(typeof(Expected.ExpectedAllClasses)), Category("Expected")]
         public async Task Verify_that_expected_poco_interfaces_are_generated_correctly(string className)
         {
-            var generatedCode = await this.pocoGenerator.GenerateInterface(this.xmiReaderResult, this.pocoDirectoryInfo, className);
+            var generatedCode = await this.pocoGenerator.GenerateInterface(this.xmiReaderResult, this.interfaceDirectoryInfo, className);
 
-            var expected = await File.ReadAllTextAsync(Path.Combine(TestContext.CurrentContext.TestDirectory, $"Expected/AutGenPoco/I{className}.cs"));
+            var expected = await File.ReadAllTextAsync(Path.Combine(TestContext.CurrentContext.TestDirectory, $"Expected/AutoGenInterfaces/I{className}.cs"));
 
             Assert.That(generatedCode, Is.EqualTo(expected));
         }
@@ -94,7 +94,7 @@ namespace uml4net.CodeGenerator.Tests.Generators
         public void Verify_that_interfaces_are_generated()
         {
             Assert.That(
-                async () => await this.pocoGenerator.GenerateInterfaces(this.xmiReaderResult, this.pocoDirectoryInfo),
+                async () => await this.pocoGenerator.GenerateInterfaces(this.xmiReaderResult, this.interfaceDirectoryInfo),
                 Throws.Nothing);
         }
 

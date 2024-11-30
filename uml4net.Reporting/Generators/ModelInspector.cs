@@ -145,7 +145,13 @@ namespace uml4net.Reporting.Generators
 
             foreach (var @class in this.interestingClasses.OrderBy(x => x.Name))
             {
-                sb.AppendLine($"class: {package.Name}:{@class.Name}");
+                var isAbstract = "";
+                if (@class.IsAbstract)
+                {
+                    isAbstract = " [Abstract]";
+                }
+
+                sb.AppendLine($"class {isAbstract}: {package.Name}:{@class.Name}");
             }
 
             sb.AppendLine("");
