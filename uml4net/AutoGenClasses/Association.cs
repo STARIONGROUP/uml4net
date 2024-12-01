@@ -42,7 +42,7 @@ namespace uml4net.POCO.StructuredClassifiers
         /// <summary>
         /// Gets or sets the container of this <see cref="IElement"/>
         /// </summary>
-        public IElement Container { get; set; }
+        public IElement Possessor { get; set; }
 
         /// <summary>
         /// All of the Properties that are direct (i.e., not inherited or imported) attributes
@@ -52,7 +52,7 @@ namespace uml4net.POCO.StructuredClassifiers
         [SubsettedProperty(propertyName: "A_redefinitionContext_redefinableElement.RedefinableElement")]
         [SubsettedProperty(propertyName: "Classifier.Feature")]
         [Implements("IClassifier.Attribute")]
-        public List<IProperty> Attribute { get; set; }
+        public List<IProperty> Attribute => throw new NotImplementedException();
 
         /// <summary>
         /// Indicates the Dependencies that reference this NamedElement as a client.
@@ -328,7 +328,7 @@ namespace uml4net.POCO.StructuredClassifiers
         [SubsettedProperty(propertyName: "A_redefinitionContext_redefinableElement-redefinableElement")]
         [RedefinedProperty(propertyName: "TemplateableElement-ownedTemplateSignature")]
         [Implements("IClassifier.OwnedTemplateSignature")]
-        public IRedefinableTemplateSignature OwnedTemplateSignature { get; set; }
+        public IContainerList<IRedefinableTemplateSignature> OwnedTemplateSignature { get; set; }
 
         /// <summary>
         /// The UseCases owned by this classifier.
@@ -336,7 +336,7 @@ namespace uml4net.POCO.StructuredClassifiers
         [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue)]
         [SubsettedProperty(propertyName: "Namespace-ownedMember")]
         [Implements("IClassifier.OwnedUseCase")]
-        public List<IUseCase> OwnedUseCase { get; set; }
+        public IContainerList<IUseCase> OwnedUseCase { get; set; }
 
         /// <summary>
         /// Specifies the owning Package of this Type, if any.
@@ -422,7 +422,7 @@ namespace uml4net.POCO.StructuredClassifiers
         [SubsettedProperty(propertyName: "Element-ownedElement")]
         [SubsettedProperty(propertyName: "NamedElement-clientDependency")]
         [Implements("IClassifier.Substitution")]
-        public List<ISubstitution> Substitution { get; set; }
+        public IContainerList<ISubstitution> Substitution { get; set; }
 
         /// <summary>
         /// The optional TemplateSignature specifying the formal TemplateParameters for this TemplateableElement.

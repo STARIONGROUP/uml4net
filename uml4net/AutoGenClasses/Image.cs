@@ -64,7 +64,7 @@ namespace uml4net.POCO.Packages
         /// <summary>
         /// Gets or sets the container of this <see cref="IElement"/>
         /// </summary>
-        public IElement Container { get; set; }
+        public IElement Possessor { get; set; }
 
         /// <summary>
         /// This contains the serialization of the image according to the format. The value could represent a

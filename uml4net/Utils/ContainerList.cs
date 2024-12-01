@@ -69,7 +69,7 @@ namespace uml4net.Utils
             
             foreach (var item in containerList)
             {
-                item.Container = this.container;
+                item.Possessor = this.container;
             }
         }
 
@@ -92,7 +92,7 @@ namespace uml4net.Utils
                 throw new ArgumentNullException(nameof(element));
             }
 
-            element.Container = this.container;
+            element.Possessor = this.container;
 
             if (this.Contains(element))
             {
@@ -173,7 +173,7 @@ namespace uml4net.Utils
                     throw new InvalidOperationException($"The added item already exists {value.XmiId}.");
                 }
 
-                value.Container = this.container;
+                value.Possessor = this.container;
                 base[index] = value;
             }
         }

@@ -178,7 +178,7 @@ namespace uml4net.CodeGenerator.Generators
 
             var generatedInterface = template(@class);
 
-            generatedInterface = CodeCleanup(generatedInterface);
+            generatedInterface = this.CodeCleanup(generatedInterface);
 
             var fileName = $"I{@class.Name.CapitalizeFirstLetter()}.cs";
 
@@ -208,13 +208,13 @@ namespace uml4net.CodeGenerator.Generators
                 .Where(x => !x.IsAbstract)
                 .ToList();
 
-            foreach (var @class in classes)
+            foreach (var cls in classes)
             {
-                var generatedCode = template(@class);
+                var generatedCode = template(cls);
 
-                generatedCode = CodeCleanup(generatedCode);
+                generatedCode = this.CodeCleanup(generatedCode);
 
-                var fileName = $"{@class.Name.CapitalizeFirstLetter()}.cs";
+                var fileName = $"{cls.Name.CapitalizeFirstLetter()}.cs";
 
                 await Write(generatedCode, outputDirectory, fileName);
             }
@@ -244,18 +244,18 @@ namespace uml4net.CodeGenerator.Generators
                 .Where(x => !x.IsAbstract)
                 .ToList();
 
-            var @class = classes.Single(x => x.Name == name);
+            var cls = classes.Single(x => x.Name == name);
 
-            if (@class.IsAbstract)
+            if (cls.IsAbstract)
             {
                 throw new InvalidOperationException("POCO should not be abstract");
             }
 
-            var generatedCode = template(@class);
+            var generatedCode = template(cls);
 
-            generatedCode = CodeCleanup(generatedCode);
+            generatedCode = this.CodeCleanup(generatedCode);
 
-            var fileName = $"{@class.Name.CapitalizeFirstLetter()}.cs";
+            var fileName = $"{cls.Name.CapitalizeFirstLetter()}.cs";
 
             await Write(generatedCode, outputDirectory, fileName);
 

@@ -244,6 +244,41 @@ namespace uml4net.Extensions
         }
 
         /// <summary>
+        /// Queries the full type name which includes whether it's a <see cref="List{T}"/>
+        /// <see cref="IContainerList{T}"/>
+        /// </summary>
+        /// <param name="property">
+        /// the subject <see cref="IProperty"/>
+        /// </param>
+        /// <returns>
+        /// a string representation of the type
+        /// </returns>
+        public static string QueryCSharpFullTypeName(this IProperty property)
+        {
+            if (property.Type is IDataType && property.QueryIsEnumerable() && !property.QueryIsContainment())
+            {
+                return $"List<{property.QueryCSharpTypeName() }> ";
+            }
+
+            if (property.QueryIsEnumerable() && !property.QueryIsContainment())
+            {
+                return $"List<I{property.QueryTypeName()}> ";
+            }
+
+            if (property.QueryIsContainment())
+            {
+                return $"IContainerList<I{property.QueryTypeName()}> ";
+            }
+            
+            if (property.Type is IDataType)
+            {
+                return $"{property.QueryCSharpTypeName()} ";
+            }
+            
+            return $"I{property.QueryTypeName()}";
+        }
+
+        /// <summary>
         /// Queries a value indicating whether the specified <see cref="IProperty"/> is a reference type
         /// </summary>
         /// <param name="property">

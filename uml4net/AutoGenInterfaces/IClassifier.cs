@@ -40,7 +40,7 @@ namespace uml4net.POCO.Classification
         [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: true, isReadOnly: true, isDerived: true, isDerivedUnion: true)]
         [SubsettedProperty(propertyName: "A_redefinitionContext_redefinableElement.RedefinableElement")]
         [SubsettedProperty(propertyName: "Classifier.Feature")]
-        public List<IProperty> Attribute { get; set; }
+        public List<IProperty> Attribute { get; }
 
         /// <summary>
         /// The CollaborationUses owned by the Classifier.
@@ -99,14 +99,14 @@ namespace uml4net.POCO.Classification
         [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: 1)]
         [SubsettedProperty(propertyName: "A_redefinitionContext_redefinableElement-redefinableElement")]
         [RedefinedProperty(propertyName: "TemplateableElement-ownedTemplateSignature")]
-        public new IRedefinableTemplateSignature OwnedTemplateSignature { get; set; }
+        public new IContainerList<IRedefinableTemplateSignature>  OwnedTemplateSignature { get; set; }
 
         /// <summary>
         /// The UseCases owned by this classifier.
         /// </summary>
         [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue)]
         [SubsettedProperty(propertyName: "Namespace-ownedMember")]
-        public List<IUseCase> OwnedUseCase { get; set; }
+        public IContainerList<IUseCase> OwnedUseCase { get; set; }
 
         /// <summary>
         /// The GeneralizationSet of which this Classifier is a power type.
@@ -134,7 +134,7 @@ namespace uml4net.POCO.Classification
         [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue)]
         [SubsettedProperty(propertyName: "Element-ownedElement")]
         [SubsettedProperty(propertyName: "NamedElement-clientDependency")]
-        public List<ISubstitution> Substitution { get; set; }
+        public IContainerList<ISubstitution> Substitution { get; set; }
 
         /// <summary>
         /// TheClassifierTemplateParameter that exposes this element as a formal parameter.

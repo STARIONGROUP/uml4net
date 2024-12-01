@@ -66,7 +66,7 @@ namespace uml4net.POCO.Classification
         /// <summary>
         /// Gets or sets the container of this <see cref="IElement"/>
         /// </summary>
-        public IElement Container { get; set; }
+        public IElement Possessor { get; set; }
 
         /// <summary>
         /// The ParameterableElement that is the default for this formal TemplateParameter.

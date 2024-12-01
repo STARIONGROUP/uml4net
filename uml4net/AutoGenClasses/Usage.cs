@@ -69,7 +69,7 @@ namespace uml4net.POCO.CommonStructure
         /// <summary>
         /// Gets or sets the container of this <see cref="IElement"/>
         /// </summary>
-        public IElement Container { get; set; }
+        public IElement Possessor { get; set; }
 
         /// <summary>
         /// The Element(s) dependent on the supplier Element(s). In some cases (such as a trace Abstraction)

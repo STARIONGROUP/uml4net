@@ -67,7 +67,7 @@ namespace uml4net.POCO.Values
         /// <summary>
         /// Gets or sets the container of this <see cref="IElement"/>
         /// </summary>
-        public IElement Container { get; set; }
+        public IElement Possessor { get; set; }
 
         /// <summary>
         /// A condition that must be true when evaluated in order for the Constraint to be satisfied.

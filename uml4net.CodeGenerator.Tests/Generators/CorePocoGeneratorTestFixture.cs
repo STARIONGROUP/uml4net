@@ -22,7 +22,7 @@ namespace uml4net.CodeGenerator.Tests.Generators
 {
     using System.IO;
     using System.Threading.Tasks;
-
+    using CodeGenerator.Transformers;
     using Microsoft.Extensions.Logging;
 
     using NUnit.Framework;
@@ -74,6 +74,9 @@ namespace uml4net.CodeGenerator.Tests.Generators
 
             this.xmiReaderResult = reader.Read(Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData", "UML.xmi"));
 
+            var modelTransformer = new ModelTransformer(loggerFactory);
+            modelTransformer.Transform(this.xmiReaderResult, out var updatedElements);
+
             var directoryInfo = new DirectoryInfo(TestContext.CurrentContext.TestDirectory);
 
             this.interfaceDirectoryInfo = directoryInfo.CreateSubdirectory("_uml4net.AutoGenInterfaces");
@@ -93,10 +96,18 @@ namespace uml4net.CodeGenerator.Tests.Generators
             Assert.That(generatedCode, Is.EqualTo(expected));
         }
 
-        [Test, TestCaseSource(typeof(Expected.ExpectedConcreteClasses)), Category("Expected")]
-        public async Task Verify_that_expected_poco_classes_are_generated_correctly(string className)
+        [Test]
+        public void Verify_that_interfaces_are_generated()
         {
-            var generatedCode = await this.pocoGenerator.GenerateInterface(this.xmiReaderResult, this.classesDirectoryInfo, className);
+            Assert.That(
+                async () => await this.pocoGenerator.GenerateInterfaces(this.xmiReaderResult, this.interfaceDirectoryInfo),
+                Throws.Nothing);
+        }
+
+        [Test, TestCaseSource(typeof(Expected.ExpectedConcreteClasses)), Category("Expected")]
+        public async Task Verify_that_expected_classes_are_generated_correctly(string className)
+        {
+            var generatedCode = await this.pocoGenerator.GenerateClass(this.xmiReaderResult, this.classesDirectoryInfo, className);
 
             var expected = await File.ReadAllTextAsync(Path.Combine(TestContext.CurrentContext.TestDirectory, $"Expected/AutoGenClasses/{className}.cs"));
 
@@ -104,10 +115,10 @@ namespace uml4net.CodeGenerator.Tests.Generators
         }
 
         [Test]
-        public void Verify_that_interfaces_are_generated()
+        public void Verify_that_classes_are_generated()
         {
             Assert.That(
-                async () => await this.pocoGenerator.GenerateInterfaces(this.xmiReaderResult, this.interfaceDirectoryInfo),
+                async () => await this.pocoGenerator.GenerateClasses(this.xmiReaderResult, this.classesDirectoryInfo),
                 Throws.Nothing);
         }
 

@@ -58,7 +58,7 @@ namespace uml4net.Extensions
             {
                 var unwantedTags = new List<string> { "p", "code", "em", "tt" };
 
-                var result = ownedComment.Body.RemoveUnwantedHtmlTags(unwantedTags).Replace(Environment.NewLine, "");
+                var result = ownedComment.Body.RemoveUnwantedHtmlTags(unwantedTags).Replace("\r\n", "").Replace("\n", "").Replace("\r", "");
 
                 var splitLines = result.SplitToLines(100);
 
@@ -90,7 +90,7 @@ namespace uml4net.Extensions
             {
                 var unwantedTags = new List<string> { "p", "code", "em", "tt" };
 
-                var result = ownedComment.Body.RemoveUnwantedHtmlTags(unwantedTags).Replace(Environment.NewLine, "");
+                var result = ownedComment.Body.RemoveUnwantedHtmlTags(unwantedTags).Replace("\r\n", "").Replace("\n", "").Replace("\r", "");
 
                 return result;
             }

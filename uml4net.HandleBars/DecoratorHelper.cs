@@ -155,6 +155,16 @@ namespace uml4net.HandleBars
                     writer.WriteSafeString(string.Join(Environment.NewLine, attributes) + Environment.NewLine);
                 }
             });
+
+            handlebars.RegisterHelper("Decorator.WriteImplementsAttribute", (writer, context, parameters) =>
+            {
+                if (!(context.Value is IProperty property))
+                    throw new ArgumentException("context is supposed to be an IProperty");
+
+                var @class = property.Owner as IClass;
+
+                writer.WriteSafeString($"[Implements(implementation: \"I{@class.Name}.{property.Name.CapitalizeFirstLetter()}\")]" + Environment.NewLine);
+            });
         }
     }
 }

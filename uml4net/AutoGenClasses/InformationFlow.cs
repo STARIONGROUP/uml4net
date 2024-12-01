@@ -76,7 +76,7 @@ namespace uml4net.POCO.InformationFlows
         /// <summary>
         /// Gets or sets the container of this <see cref="IElement"/>
         /// </summary>
-        public IElement Container { get; set; }
+        public IElement Possessor { get; set; }
 
         /// <summary>
         /// Specifies the source Element(s) of the DirectedRelationship.

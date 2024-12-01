@@ -23,6 +23,7 @@ namespace uml4net.HandleBars
     using HandlebarsDotNet;
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using Extensions;
     using POCO.StructuredClassifiers;
     using uml4net.POCO.Classification;
@@ -45,7 +46,7 @@ namespace uml4net.HandleBars
                 if (!(context.Value is IClass @class))
                     throw new ArgumentException("supposed to be IClass");
 
-                var properties = @class.QueryAllProperties();
+                var properties = @class.QueryAllProperties().OrderBy(x => x.Name);
 
                 return properties;
             });

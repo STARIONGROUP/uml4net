@@ -69,7 +69,7 @@ namespace uml4net.POCO.Packages
         /// <summary>
         /// Gets or sets the container of this <see cref="IElement"/>
         /// </summary>
-        public IElement Container { get; set; }
+        public IElement Possessor { get; set; }
 
         /// <summary>
         /// Indicates the Dependencies that reference this NamedElement as a client."
@@ -227,7 +227,7 @@ namespace uml4net.POCO.Packages
         [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: true, isReadOnly: true, isDerived: true, isDerivedUnion: true)]
         [SubsettedProperty(propertyName: "A_redefinitionContext_redefinableElement.RedefinableElement")]
         [SubsettedProperty(propertyName: "Classifier.Feature")]
-        List<IProperty> IClassifier.Attribute { get; set; }
+        List<IProperty> IClassifier.Attribute { get; }
 
         /// <summary>
         /// The CollaborationUses owned by the Classifier.
@@ -304,14 +304,14 @@ namespace uml4net.POCO.Packages
         [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: 1)]
         [SubsettedProperty(propertyName: "A_redefinitionContext_redefinableElement-redefinableElement")]
         [RedefinedProperty(propertyName: "TemplateableElement-ownedTemplateSignature")]
-        IRedefinableTemplateSignature IClassifier.OwnedTemplateSignature { get; set; }
+        IContainerList<IRedefinableTemplateSignature> IClassifier.OwnedTemplateSignature { get; set; }
 
         /// <summary>
         /// The UseCases owned by this classifier.
         /// </summary>
         [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue)]
         [SubsettedProperty(propertyName: "Namespace-ownedMember")]
-        List<IUseCase> IClassifier.OwnedUseCase { get; set; }
+        IContainerList<IUseCase> IClassifier.OwnedUseCase { get; set; }
 
         /// <summary>
         /// The GeneralizationSet of which this Classifier is a power type.
@@ -339,7 +339,7 @@ namespace uml4net.POCO.Packages
         [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue)]
         [SubsettedProperty(propertyName: "Element-ownedElement")]
         [SubsettedProperty(propertyName: "NamedElement-clientDependency")]
-        List<ISubstitution> IClassifier.Substitution { get; set; }
+        IContainerList<ISubstitution> IClassifier.Substitution { get; set; }
 
         /// <summary>
         /// TheClassifierTemplateParameter that exposes this element as a formal parameter.

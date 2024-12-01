@@ -110,12 +110,12 @@ namespace uml4net.HandleBars.Tests
             var ownedCommentImplementsAttribute = handlebarsTemplate(ownedComment);
 
             Assert.That(ownedCommentImplementsAttribute,
-                Is.EqualTo("[Implements(implementation: \"IElement.OwnedComment\")]"));
+                Is.EqualTo("[Implements(implementation: \"IElement.OwnedComment\")]" + Environment.NewLine));
 
             var navigableOwnedEndAttribute = handlebarsTemplate(navigableOwnedEnd);
 
             Assert.That(navigableOwnedEndAttribute,
-                Is.EqualTo("[Implements(implementation: \"IAssociation.NavigableOwnedEnd\")]"));
+                Is.EqualTo("[Implements(implementation: \"IAssociation.NavigableOwnedEnd\")]" + Environment.NewLine));
         }
 
         [Test]

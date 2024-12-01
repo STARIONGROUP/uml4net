@@ -67,7 +67,7 @@ namespace uml4net.POCO.Classification
         /// <summary>
         /// Gets or sets the container of this <see cref="IElement"/>
         /// </summary>
-        public IElement Container { get; set; }
+        public IElement Possessor { get; set; }
 
         /// <summary>
         /// Indicates the Dependencies that reference this NamedElement as a client."

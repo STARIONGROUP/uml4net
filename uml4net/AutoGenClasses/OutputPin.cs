@@ -71,7 +71,7 @@ namespace uml4net.POCO.Actions
         /// <summary>
         /// Gets or sets the container of this <see cref="IElement"/>
         /// </summary>
-        public IElement Container { get; set; }
+        public IElement Possessor { get; set; }
 
         /// <summary>
         /// For a multivalued multiplicity, this attribute specifies whether the values in an instantiation

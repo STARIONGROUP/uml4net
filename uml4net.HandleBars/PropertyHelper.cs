@@ -25,7 +25,8 @@ namespace uml4net.HandleBars
     using System.Text;
 
     using HandlebarsDotNet;
-    using POCO.SimpleClassifiers;
+
+    using uml4net.POCO.SimpleClassifiers;
     using uml4net.Extensions;
     using uml4net.POCO.Classification;
     using uml4net.POCO.StructuredClassifiers;
@@ -276,11 +277,17 @@ namespace uml4net.HandleBars
                     sb.Append(" ");
                 }
 
-                // write name
-                sb.Append(property.Name.CapitalizeFirstLetter());
-                sb.Append(" ");
+                var propertyName = property.Name.CapitalizeFirstLetter();
 
-                // write get/set
+                var owner = property.Owner as IClass;
+                if (owner.Name.ToLowerInvariant() == property.Name.ToLowerInvariant())
+                {
+                    propertyName = propertyName + "s";
+                }
+
+                sb.Append(propertyName);
+                sb.Append(" ");
+                
                 if (property.IsReadOnly || property.IsDerived)
                 {
                     sb.Append("{ get; }");
@@ -288,6 +295,108 @@ namespace uml4net.HandleBars
                 else
                 {
                     sb.Append("{ get; set; }");
+                }
+
+                writer.WriteSafeString(sb + Environment.NewLine);
+            });
+
+            handlebars.RegisterHelper("Property.WriteForClass", (writer, context, parameters) =>
+            {
+                if (parameters.Length != 2)
+                {
+                    throw new HandlebarsException("{{#Decorator.WriteRedefinedByPropertyAttribute}} helper must have exactly two arguments");
+                }
+
+                var property = parameters[0] as IProperty;
+                var @class = parameters[1] as IClass;
+
+                var sb = new StringBuilder();
+
+                var isRedefinedByProperty = property.TryQueryRedefinedByProperty(@class, out var redefinedByProperty);
+
+                if (!isRedefinedByProperty)
+                {
+                    sb.Append(property.Visibility.ToString().ToLower());
+                    sb.Append(" ");
+
+                    if (property.RedefinedProperty.Any())
+                    {
+                        sb.Append("new ");
+                    }
+                }
+
+                sb.Append(property.QueryCSharpFullTypeName());
+                sb.Append(" ");
+
+                var owner = property.Owner as IClass;
+
+                if (isRedefinedByProperty)
+                {
+                    sb.Append($"I{owner.Name}."); 
+                }
+
+                var propertyName = property.Name.CapitalizeFirstLetter();
+                
+                if (owner.Name.ToLowerInvariant() == property.Name.ToLowerInvariant() || @class.Name.ToLowerInvariant() == property.Name.ToLowerInvariant())
+                {
+                    propertyName = propertyName + "s";
+                }
+
+                sb.Append(propertyName);
+                sb.Append(" ");
+
+                if (property.IsReadOnly || property.IsDerived)
+                {
+                    if (isRedefinedByProperty)
+                    {
+                        sb.Append($" => {owner.Name}Extensions.Query{property.Name.CapitalizeFirstLetter()}(this);");
+                    }
+                    else
+                    {
+                        sb.Append($" => this.Query{property.Name.CapitalizeFirstLetter()}();");
+                    }
+                }
+                else
+                {
+                    if (!isRedefinedByProperty)
+                    {
+                        if (property.QueryIsEnumerable() && !property.QueryIsContainment())
+                        {
+                            sb.Append("{ get; set; } = new();");
+                        }
+                        else if (property.QueryIsContainment())
+                        {
+                            propertyName = property.Name;
+
+                            switch (propertyName)
+                            {
+                                case "class":
+                                case "namespace":
+                                case "object":
+                                case "using":
+                                    propertyName = $"@{propertyName}";
+                                    break;
+                            }
+
+                            sb.AppendLine("{");
+                            sb.AppendLine($"get => this.{propertyName} ??= new ContainerList<I{property.QueryTypeName()}>(this);");
+                            sb.AppendLine($"set => this.{propertyName} = value;");
+                            sb.AppendLine("}");
+                            sb.AppendLine();
+                            sb.AppendLine("/// <summary>");
+                            sb.AppendLine($"/// Backing field for <see cref=\"{property.Name.CapitalizeFirstLetter()}\"/>");
+                            sb.AppendLine("/// </summary>");
+                            sb.Append($"private IContainerList<I{property.QueryTypeName()}> {propertyName};");
+                        }
+                        else
+                        {
+                            sb.Append("{ get; set; }");
+                        }
+                    }
+                    else
+                    {
+                        sb.Append("{ get; set; }");
+                    }
                 }
 
                 writer.WriteSafeString(sb + Environment.NewLine);
