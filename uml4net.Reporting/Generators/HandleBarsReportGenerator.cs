@@ -28,9 +28,9 @@ namespace uml4net.Reporting.Generators
 
     using Microsoft.Extensions.Logging;
 
-    using uml4net.POCO.Packages;
-    using uml4net.POCO.StructuredClassifiers;
-    using uml4net.POCO.SimpleClassifiers;
+    using uml4net.Packages;
+    using uml4net.StructuredClassifiers;
+    using uml4net.SimpleClassifiers;
 
     using uml4net.Reporting.Payload;
     using uml4net.Reporting.Resources;

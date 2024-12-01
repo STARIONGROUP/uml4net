@@ -18,12 +18,10 @@
 // </copyright>
 // ------------------------------------------------------------------------------------------------
 
-namespace uml4net.Extend
+namespace uml4net.CommonStructure
 {
     using System;
     using System.Collections.Generic;
-
-    using uml4net.POCO.CommonStructure;
 
     /// <summary>
     /// The <see cref="DirectedRelationshipExtensions"/> class provides extensions methods for the <see cref="IDirectedRelationship"/>

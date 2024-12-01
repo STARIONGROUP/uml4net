@@ -18,13 +18,12 @@
 // </copyright>
 // ------------------------------------------------------------------------------------------------
 
-namespace uml4net.Extend
+namespace uml4net.CommonStructure
 {
     using System;
     using System.Collections.Generic;
 
-    using uml4net.POCO.CommonStructure;
-
+    
     public static class RelationshipExtensions
     {
         public static List<IElement> QueryRelatedElement(this IRelationship relationship)

@@ -26,8 +26,8 @@ namespace uml4net.CodeGenerator.Transformers
 
     using Microsoft.Extensions.Logging;
 
-    using uml4net.POCO.CommonStructure;
-    using uml4net.POCO.StructuredClassifiers;
+    using uml4net.CommonStructure;
+    using uml4net.StructuredClassifiers;
     using uml4net.Extensions;
     using uml4net.xmi.Readers;
     using Microsoft.Extensions.Logging.Abstractions;

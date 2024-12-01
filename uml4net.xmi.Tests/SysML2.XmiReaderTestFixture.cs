@@ -26,8 +26,8 @@ namespace uml4net.xmi.Tests
     using Microsoft.Extensions.Logging;
 
     using NUnit.Framework;
-    using POCO.StructuredClassifiers;
-    using uml4net.POCO.Packages;
+    using uml4net.StructuredClassifiers;
+    using uml4net.Packages;
     using uml4net.xmi;
     using Serilog;
     using System.Collections.Generic;

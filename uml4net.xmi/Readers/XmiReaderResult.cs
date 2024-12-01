@@ -22,7 +22,7 @@ namespace uml4net.xmi.Readers
 {
     using System.Collections.Generic;
 
-    using POCO.Packages;
+    using uml4net.Packages;
 
     /// <summary>
     /// The purpose of the <see cref="XmiReaderResult"/> is capture the result of reading a UML model

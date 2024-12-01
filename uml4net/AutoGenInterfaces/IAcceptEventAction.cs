@@ -9,7 +9,7 @@
 //
 //       http://www.apache.org/licenses/LICENSE-2.0
 //
-//   Unless required by applicable law or agreed to in writing, softwareUseCases
+//   Unless required by applicable law or agreed to in writing, software
 //   distributed under the License is distributed on an "AS IS" BASIS,
 //   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //   See the License for the specific language governing permissions and
@@ -18,12 +18,62 @@
 // </copyright>
 // ------------------------------------------------------------------------------------------------
 
-namespace uml4net.POCO.Actions
+// ------------------------------------------------------------------------------------------------
+// --------THIS IS AN AUTOMATICALLY GENERATED FILE. ANY MANUAL CHANGES WILL BE OVERWRITTEN!--------
+// ------------------------------------------------------------------------------------------------
+
+namespace uml4net.Actions
 {
+    using System.Collections.Generic;
+
+    using uml4net.Decorators;
+    using uml4net.Actions;
+    using uml4net.Activities;
+    using uml4net.Classification;
+    using uml4net.CommonBehavior;
+    using uml4net.CommonStructure;
+    using uml4net.Deployments;
+    using uml4net.InformationFlows;
+    using uml4net.Interactions;
+    using uml4net.Packages;
+    using uml4net.SimpleClassifiers;
+    using uml4net.StateMachines;
+    using uml4net.StructuredClassifiers;
+    using uml4net.UseCases;
+    using uml4net.Values;
+
+    using uml4net.Utils;
+
     /// <summary>
     /// An AcceptEventAction is an Action that waits for the occurrence of one or more specific Events.
     /// </summary>
-    public interface IAcceptEventAction : IAction
+    [Class(xmiId: "AcceptEventAction", isAbstract: false, isFinalSpecialization: false, isActive: false)]
+    public partial interface IAcceptEventAction : IAction
     {
+        /// <summary>
+        /// Indicates whether there is a single OutputPin for a SignalEvent occurrence, or multiple OutputPins
+        /// for attribute values of the instance of the Signal associated with a SignalEvent occurrence.
+        /// </summary>
+        [Property(xmiId: "AcceptEventAction-isUnmarshall", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: "false")]
+        public bool IsUnmarshall { get; set; }
+
+        /// <summary>
+        /// OutputPins holding the values received from an Event occurrence.
+        /// </summary>
+        [Property(xmiId: "AcceptEventAction-result", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: true, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [SubsettedProperty(propertyName: "Action-output")]
+        public IContainerList<IOutputPin> Result { get; set; }
+
+        /// <summary>
+        /// The Triggers specifying the Events of which the AcceptEventAction waits for occurrences.
+        /// </summary>
+        [Property(xmiId: "AcceptEventAction-trigger", aggregation: AggregationKind.Composite, lowerValue: 1, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [SubsettedProperty(propertyName: "Element-ownedElement")]
+        public IContainerList<ITrigger> Trigger { get; set; }
+
     }
 }
+
+// ------------------------------------------------------------------------------------------------
+// --------THIS IS AN AUTOMATICALLY GENERATED FILE. ANY MANUAL CHANGES WILL BE OVERWRITTEN!--------
+// ------------------------------------------------------------------------------------------------

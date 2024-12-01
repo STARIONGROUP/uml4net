@@ -20,13 +20,15 @@
 
 namespace uml4net.HandleBars
 {
-    using HandlebarsDotNet;
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using Extensions;
-    using POCO.StructuredClassifiers;
-    using uml4net.POCO.Classification;
+
+    using HandlebarsDotNet;
+
+    using uml4net.Extensions;
+    using uml4net.StructuredClassifiers;
+    using uml4net.Classification;
 
     /// <summary>
     /// 

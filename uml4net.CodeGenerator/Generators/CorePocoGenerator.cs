@@ -25,11 +25,11 @@ namespace uml4net.CodeGenerator.Generators
     using System.Threading.Tasks;
 
     using System.IO;
-    using POCO.SimpleClassifiers;
+    using uml4net.SimpleClassifiers;
     using uml4net.Extensions;
 
-    using uml4net.POCO.Packages;
-    using uml4net.POCO.StructuredClassifiers;
+    using uml4net.Packages;
+    using uml4net.StructuredClassifiers;
     using uml4net.xmi.Readers;
 
     /// <summary>

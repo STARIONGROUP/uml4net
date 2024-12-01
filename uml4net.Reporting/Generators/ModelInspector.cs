@@ -31,8 +31,8 @@ namespace uml4net.Reporting.Generators
     using Microsoft.Extensions.Logging.Abstractions;
 
     using uml4net.Extensions;
-    using uml4net.POCO.Packages;
-    using uml4net.POCO.StructuredClassifiers;
+    using uml4net.Packages;
+    using uml4net.StructuredClassifiers;
     
     /// <summary>
     /// The purpose of the <see cref="ModelInspector"/> is to iterate through the model and report on the various kinds of

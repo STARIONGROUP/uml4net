@@ -20,10 +20,13 @@
 
 namespace uml4net.xmi.Readers
 {
-    using Cache;
-    using Microsoft.Extensions.Logging;
     using System.Xml;
-    using POCO;
+    
+    using Microsoft.Extensions.Logging;
+    
+    using uml4net;
+
+    using uml4net.xmi.Cache;
 
     /// <summary>
     /// The abstract super class from which eadh XMI reader needs to derive

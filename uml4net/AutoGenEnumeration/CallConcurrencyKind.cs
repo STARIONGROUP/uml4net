@@ -22,7 +22,7 @@
 // --------THIS IS AN AUTOMATICALLY GENERATED FILE. ANY MANUAL CHANGES WILL BE OVERWRITTEN!--------
 // ------------------------------------------------------------------------------------------------
 
-namespace uml4net.POCO.Classification
+namespace uml4net.Classification
 {
     /// <summary>
     /// CallConcurrencyKind is an Enumeration used to specify the semantics of concurrent calls to a

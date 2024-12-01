@@ -18,13 +18,12 @@
 // </copyright>
 // ------------------------------------------------------------------------------------------------
 
-namespace uml4net.Extend
+namespace uml4net.CommonStructure
 {
     using System;
     using System.Collections.Generic;
-    using System.Linq;
-    using POCO.CommonStructure;
-    using Utils;
+    
+    using uml4net.Utils;
 
     /// <summary>
     /// Extension methods for <see cref="INamedElement"/> interface
@@ -104,6 +103,7 @@ namespace uml4net.Extend
 
             return owner as INamespace;
         }
+
 
         public static IContainerList<INamedElement> QueryOwnedMember(this INamedElement namedElement)
         {

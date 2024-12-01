@@ -20,7 +20,7 @@
 
 namespace uml4net.xmi.Cache
 {
-    using POCO;
+    using uml4net;
 
     using System.Collections.Concurrent;
     using System.Collections.Generic;

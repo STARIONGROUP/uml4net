@@ -25,7 +25,7 @@ namespace uml4net.HandleBars
     using HandlebarsDotNet;
 
     using uml4net.Extensions;
-    using uml4net.POCO.CommonStructure;
+    using uml4net.CommonStructure;
 
     /// <summary>
     /// a block helper 

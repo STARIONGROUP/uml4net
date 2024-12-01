@@ -20,7 +20,7 @@
 
 namespace uml4net.xmi.Readers
 {
-    using POCO;
+    using uml4net;
     using System.Xml;
 
     /// <summary>

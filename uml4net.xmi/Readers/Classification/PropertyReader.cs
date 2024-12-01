@@ -26,10 +26,11 @@ namespace uml4net.xmi.Readers.Classification
 
     using Microsoft.Extensions.Logging;
 
-    using uml4net.POCO;
-    using uml4net.POCO.Classification;
-    using uml4net.POCO.CommonStructure;
-    using uml4net.POCO.Values;
+    using uml4net;
+    using uml4net.Classification;
+    using uml4net.CommonStructure;
+    using uml4net.Values;
+
     using uml4net.xmi.Cache;
     using uml4net.xmi.Readers;
 
@@ -370,42 +371,42 @@ namespace uml4net.xmi.Readers.Classification
                     using (var instanceValueXmlReader = xmlReader.ReadSubtree())
                     {
                         var instanceValue = this.InstanceValueReader.Read(instanceValueXmlReader);
-                        property.DefaultValue = instanceValue;
+                        property.DefaultValue.Add(instanceValue);
                     }
                     break;
                 case "uml:LiteralBoolean":
                     using (var literalBooleanXmlReader = xmlReader.ReadSubtree())
                     {
                         var literalBoolean = this.LiteralBooleanReader.Read(literalBooleanXmlReader);
-                        property.DefaultValue = literalBoolean;
+                        property.DefaultValue.Add(literalBoolean);
                     }
                     break;
                 case "uml:LiteralInteger":
                     using (var literalIntegerXmlReader = xmlReader.ReadSubtree())
                     {
                         var literalInteger = this.LiteralIntegerReader.Read(literalIntegerXmlReader);
-                        property.DefaultValue = literalInteger;
+                        property.DefaultValue.Add(literalInteger);
                     }
                     break;
                 case "uml:LiteralString":
                     using (var literalStringXmlReader = xmlReader.ReadSubtree())
                     {
                         var literalString = this.LiteralStringReader.Read(literalStringXmlReader);
-                        property.DefaultValue = literalString;
+                        property.DefaultValue.Add(literalString);
                     }
                     break;
                 case "uml:LiteralUnlimitedNatural":
                     using (var literalUnlimitedNaturalXmlReader = xmlReader.ReadSubtree())
                     {
                         var literalUnlimitedNatural = this.LiteralUnlimitedNaturalReader.Read(literalUnlimitedNaturalXmlReader);
-                        property.DefaultValue = literalUnlimitedNatural;
+                        property.DefaultValue.Add(literalUnlimitedNatural);
                     }
                     break;
                 case "uml:OpaqueExpression":
                     using (var opaqueExpressionXmlReader = xmlReader.ReadSubtree())
                     {
                         var opaqueExpression = this.OpaqueExpressionReader.Read(opaqueExpressionXmlReader);
-                        property.DefaultValue = opaqueExpression;
+                        property.DefaultValue.Add(opaqueExpression);
                     }
                     break;
                 default:

@@ -24,9 +24,9 @@ namespace uml4net.Reporting.Payload
     using System.Linq;
     using System.Reflection;
 
-    using POCO.Packages;
-    using POCO.SimpleClassifiers;
-    using POCO.StructuredClassifiers;
+    using uml4net.Packages;
+    using uml4net.SimpleClassifiers;
+    using uml4net.StructuredClassifiers;
 
     /// <summary>
     /// represents the payload for the generators that require all <see cref="IPackage"/>,

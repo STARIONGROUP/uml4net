@@ -22,7 +22,7 @@
 // --------THIS IS AN AUTOMATICALLY GENERATED FILE. ANY MANUAL CHANGES WILL BE OVERWRITTEN!--------
 // ------------------------------------------------------------------------------------------------
 
-namespace uml4net.POCO.Actions
+namespace uml4net.Actions
 {
     /// <summary>
     /// ExpansionKind is an enumeration type used to specify how an ExpansionRegion executes its contents.

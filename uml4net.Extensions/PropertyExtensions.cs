@@ -20,14 +20,14 @@
 
 namespace uml4net.Extensions
 {
-    using POCO.Values;
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel;
     using System.Linq;
-    using uml4net.POCO.Classification;
-    using uml4net.POCO.SimpleClassifiers;
-    using uml4net.POCO.StructuredClassifiers;
+
+    using uml4net.Classification;
+    using uml4net.SimpleClassifiers;
+    using uml4net.StructuredClassifiers;
+    using uml4net.Values;
 
     /// <summary>
     /// Extension methods for <see cref="IProperty"/> class
@@ -224,7 +224,7 @@ namespace uml4net.Extensions
         /// </returns>
         public static string QueryDefaultValueAsString(this IProperty property)
         {
-            var valueSpecification = property.DefaultValue;
+            var valueSpecification = property.DefaultValue.FirstOrDefault();
 
             return valueSpecification == null ? "null" : valueSpecification.QueryDefaultValueAsString();
         }

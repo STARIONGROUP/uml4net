@@ -9,7 +9,7 @@
 //
 //       http://www.apache.org/licenses/LICENSE-2.0
 //
-//   Unless required by applicable law or agreed to in writing, softwareUseCases
+//   Unless required by applicable law or agreed to in writing, software
 //   distributed under the License is distributed on an "AS IS" BASIS,
 //   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //   See the License for the specific language governing permissions and
@@ -18,31 +18,56 @@
 // </copyright>
 // ------------------------------------------------------------------------------------------------
 
-namespace uml4net.POCO.CommonStructure
+// ------------------------------------------------------------------------------------------------
+// --------THIS IS AN AUTOMATICALLY GENERATED FILE. ANY MANUAL CHANGES WILL BE OVERWRITTEN!--------
+// ------------------------------------------------------------------------------------------------
+
+namespace uml4net.CommonStructure
 {
     using System.Collections.Generic;
 
     using uml4net.Decorators;
-    using uml4net.POCO.Classification;
+    using uml4net.Actions;
+    using uml4net.Activities;
+    using uml4net.Classification;
+    using uml4net.CommonBehavior;
+    using uml4net.CommonStructure;
+    using uml4net.Deployments;
+    using uml4net.InformationFlows;
+    using uml4net.Interactions;
+    using uml4net.Packages;
+    using uml4net.SimpleClassifiers;
+    using uml4net.StateMachines;
+    using uml4net.StructuredClassifiers;
+    using uml4net.UseCases;
+    using uml4net.Values;
+
+    using uml4net.Utils;
 
     /// <summary>
-    /// A DirectedRelationship represents a relationship between a collection of source model Elements
-    /// and a collection of target model Elements.
+    /// A DirectedRelationship represents a relationship between a collection of source model Elements and a
+    /// collection of target model Elements.
     /// </summary>
-    public interface IDirectedRelationship : IRelationship
+    [Class(xmiId: "DirectedRelationship", isAbstract: true, isFinalSpecialization: false, isActive: false)]
+    public partial interface IDirectedRelationship : IRelationship
     {
         /// <summary>
         /// Specifies the source Element(s) of the DirectedRelationship.
         /// </summary>
-        [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: int.MaxValue, isReadOnly:true, isDerived:true, isDerivedUnion:true)]
-        [SubsettedProperty(propertyName: "Relationship.RelatedElement")]
-        public List <IElement> Source { get; }
+        [Property(xmiId: "DirectedRelationship-source", aggregation: AggregationKind.None, lowerValue: 1, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: false, defaultValue: null)]
+        [SubsettedProperty(propertyName: "Relationship-relatedElement")]
+        public List<IElement> Source { get; }
 
         /// <summary>
         /// Specifies the target Element(s) of the DirectedRelationship.
         /// </summary>
-        [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: int.MaxValue, isReadOnly: true, isDerived: true, isDerivedUnion: true)]
-        [SubsettedProperty(propertyName: "Relationship.RelatedElement")]
+        [Property(xmiId: "DirectedRelationship-target", aggregation: AggregationKind.None, lowerValue: 1, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: false, defaultValue: null)]
+        [SubsettedProperty(propertyName: "Relationship-relatedElement")]
         public List<IElement> Target { get; }
+
     }
 }
+
+// ------------------------------------------------------------------------------------------------
+// --------THIS IS AN AUTOMATICALLY GENERATED FILE. ANY MANUAL CHANGES WILL BE OVERWRITTEN!--------
+// ------------------------------------------------------------------------------------------------

@@ -25,10 +25,11 @@ namespace uml4net.Extensions
     using System.Linq;
 
     using HtmlAgilityPack;
-    using POCO.Packages;
-    using POCO.SimpleClassifiers;
-    using uml4net.POCO.CommonStructure;
-    using uml4net.POCO.StructuredClassifiers;
+
+    using uml4net.Packages;
+    using uml4net.SimpleClassifiers;
+    using uml4net.CommonStructure;
+    using uml4net.StructuredClassifiers;
 
     /// <summary>
     /// Extension methods for <see cref="IElement"/> interface

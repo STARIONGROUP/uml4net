@@ -18,15 +18,14 @@
 // </copyright>
 // ------------------------------------------------------------------------------------------------
 
-namespace uml4net.Extend
+namespace uml4net.StructuredClassifiers
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
-
-    using uml4net.POCO.Packages;
-    using uml4net.POCO.StructuredClassifiers;
-
+    
+    using uml4net.Packages;
+    
     /// <summary>
     /// The <see cref="ClassExtensions"/> class provides extensions methods for the <see cref="IClass"/>
     /// </summary>

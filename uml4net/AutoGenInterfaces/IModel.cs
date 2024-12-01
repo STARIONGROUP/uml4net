@@ -9,7 +9,7 @@
 //
 //       http://www.apache.org/licenses/LICENSE-2.0
 //
-//   Unless required by applicable law or agreed to in writing, softwareUseCases
+//   Unless required by applicable law or agreed to in writing, software
 //   distributed under the License is distributed on an "AS IS" BASIS,
 //   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //   See the License for the specific language governing permissions and
@@ -18,24 +18,51 @@
 // </copyright>
 // ------------------------------------------------------------------------------------------------
 
-namespace uml4net.POCO.Packages
-{
-    using uml4net.Decorators;
+// ------------------------------------------------------------------------------------------------
+// --------THIS IS AN AUTOMATICALLY GENERATED FILE. ANY MANUAL CHANGES WILL BE OVERWRITTEN!--------
+// ------------------------------------------------------------------------------------------------
 
-    using uml4net.POCO.Classification;
+namespace uml4net.Packages
+{
+    using System.Collections.Generic;
+
+    using uml4net.Decorators;
+    using uml4net.Actions;
+    using uml4net.Activities;
+    using uml4net.Classification;
+    using uml4net.CommonBehavior;
+    using uml4net.CommonStructure;
+    using uml4net.Deployments;
+    using uml4net.InformationFlows;
+    using uml4net.Interactions;
+    using uml4net.Packages;
+    using uml4net.SimpleClassifiers;
+    using uml4net.StateMachines;
+    using uml4net.StructuredClassifiers;
+    using uml4net.UseCases;
+    using uml4net.Values;
+
+    using uml4net.Utils;
 
     /// <summary>
-    /// A model captures a view of a physical system. It is an abstraction of the physical system,
-    /// with a certain purpose. This purpose determines what is to be included in the model and what
-    /// is irrelevant. Thus the model completely describes those aspects of the physical system that
-    /// are relevant to the purpose of the model, at the appropriate level of detail.
+    /// A model captures a view of a physical system. It is an abstraction of the physical system, with a
+    /// certain purpose. This purpose determines what is to be included in the model and what is irrelevant.
+    /// Thus the model completely describes those aspects of the physical system that are relevant to the
+    /// purpose of the model, at the appropriate level of detail.
     /// </summary>
-    public interface IModel : IPackage
+    [Class(xmiId: "Model", isAbstract: false, isFinalSpecialization: false, isActive: false)]
+    public partial interface IModel : IPackage
     {
         /// <summary>
-        /// The name of the viewpoint that is expressed by a model (this name may refer to a profile definition).
+        /// The name of the viewpoint that is expressed by a model (this name may refer to a profile
+        /// definition).
         /// </summary>
-        [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1)]
+        [Property(xmiId: "Model-viewpoint", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
         public string Viewpoint { get; set; }
+
     }
 }
+
+// ------------------------------------------------------------------------------------------------
+// --------THIS IS AN AUTOMATICALLY GENERATED FILE. ANY MANUAL CHANGES WILL BE OVERWRITTEN!--------
+// ------------------------------------------------------------------------------------------------

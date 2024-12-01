@@ -32,8 +32,8 @@ namespace uml4net.HandleBars.Tests
 
     using uml4net.Decorators;
     using uml4net.Extensions;
-    using uml4net.POCO.Classification;
-    using uml4net.POCO.StructuredClassifiers;
+    using uml4net.Classification;
+    using uml4net.StructuredClassifiers;
     using uml4net.xmi;
     using uml4net.xmi.Readers;
 

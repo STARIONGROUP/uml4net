@@ -22,7 +22,7 @@
 // --------THIS IS AN AUTOMATICALLY GENERATED FILE. ANY MANUAL CHANGES WILL BE OVERWRITTEN!--------
 // ------------------------------------------------------------------------------------------------
 
-namespace uml4net.POCO.Interactions
+namespace uml4net.Interactions
 {
     /// <summary>
     /// This is an enumerated type that identifies the type of Message.

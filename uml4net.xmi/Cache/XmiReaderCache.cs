@@ -23,7 +23,7 @@ namespace uml4net.xmi.Cache
     using Microsoft.Extensions.Logging;
     using System.Collections.Generic;
 
-    using POCO;
+    using uml4net;
     using System.Collections.Concurrent;
     using System;
 

@@ -23,7 +23,7 @@ namespace uml4net.CodeGenerator.Generators
     using System.IO;
     using System.Threading.Tasks;
 
-    using uml4net.POCO.Packages;
+    using uml4net.Packages;
     using uml4net.xmi.Readers;
 
     /// <summary>

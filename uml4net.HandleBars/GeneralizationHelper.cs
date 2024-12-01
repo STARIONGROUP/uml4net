@@ -24,7 +24,7 @@ namespace uml4net.HandleBars
     using System.Linq;
 
     using HandlebarsDotNet;
-    using uml4net.POCO.StructuredClassifiers;
+    using uml4net.StructuredClassifiers;
 
     /// <summary>
     /// A block helper that prints the generalization (super-type) information of an <see cref="IClass"/>

@@ -1,5 +1,5 @@
 ﻿// -------------------------------------------------------------------------------------------------
-// <copyright file="IComponentRealization.cs" company="Starion Group S.A.">
+// <copyright file="ComponentRealization.cs" company="Starion Group S.A.">
 //
 //   Copyright 2019-2024 Starion Group S.A.
 //
@@ -9,7 +9,7 @@
 //
 //       http://www.apache.org/licenses/LICENSE-2.0
 //
-//   Unless required by applicable law or agreed to in writing, softwareUseCases
+//   Unless required by applicable law or agreed to in writing, software
 //   distributed under the License is distributed on an "AS IS" BASIS,
 //   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //   See the License for the specific language governing permissions and
@@ -18,29 +18,131 @@
 // </copyright>
 // ------------------------------------------------------------------------------------------------
 
-namespace uml4net.POCO.StructuredClassifiers
+// ------------------------------------------------------------------------------------------------
+// --------THIS IS AN AUTOMATICALLY GENERATED FILE. ANY MANUAL CHANGES WILL BE OVERWRITTEN!--------
+// ------------------------------------------------------------------------------------------------
+
+namespace uml4net.StructuredClassifiers
 {
-    using System;
     using System.Collections.Generic;
 
     using uml4net.Decorators;
-    using uml4net.Extend;
+    using uml4net.Actions;
+    using uml4net.Activities;
+    using uml4net.Classification;
+    using uml4net.CommonBehavior;
+    using uml4net.CommonStructure;
+    using uml4net.Deployments;
+    using uml4net.InformationFlows;
+    using uml4net.Interactions;
+    using uml4net.Packages;
+    using uml4net.SimpleClassifiers;
+    using uml4net.StateMachines;
+    using uml4net.StructuredClassifiers;
+    using uml4net.UseCases;
+    using uml4net.Values;
+
     using uml4net.Utils;
-    using uml4net.POCO.Classification;
-    using uml4net.POCO.CommonStructure;
-    using uml4net.POCO.Values;
 
     /// <summary>
     /// Realization is specialized to (optionally) define the Classifiers that realize the contract offered
     /// by a Component in terms of its provided and required Interfaces. The Component forms an abstraction
     /// from these various Classifiers.
     /// </summary>
-    public class ComponentRealization : XmiElement, IComponentRealization
+    [Class(xmiId: "ComponentRealization", isAbstract: false, isFinalSpecialization: false, isActive: false)]
+    public partial class ComponentRealization : XmiElement, IComponentRealization
     {
+        /// <summary>
+        /// Gets or sets the container of this <see cref="IElement"/>
+        /// </summary>
+        public IElement Possessor { get; set; }
+
+        /// <summary>
+        /// The Component that owns this ComponentRealization and which is implemented by its realizing
+        /// Classifiers.
+        /// </summary>
+        [Property(xmiId: "ComponentRealization-abstraction", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [SubsettedProperty(propertyName: "Dependency-supplier")]
+        [SubsettedProperty(propertyName: "Element-owner")]
+        [Implements(implementation: "IComponentRealization.Abstraction")]
+        public IComponent Abstraction { get; set; }
+
+        /// <summary>
+        /// The Element(s) dependent on the supplier Element(s). In some cases (such as a trace Abstraction) the
+        /// assignment of direction (that is, the designation of the client Element) is at the discretion of the
+        /// modeler and is a stipulation.
+        /// </summary>
+        [Property(xmiId: "Dependency-client", aggregation: AggregationKind.None, lowerValue: 1, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [SubsettedProperty(propertyName: "DirectedRelationship-source")]
+        [Implements(implementation: "IDependency.Client")]
+        public List<INamedElement> Client { get; set; } = new();
+
+        /// <summary>
+        /// Indicates the Dependencies that reference this NamedElement as a client.
+        /// </summary>
+        [Property(xmiId: "NamedElement-clientDependency", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: true, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [SubsettedProperty(propertyName: "A_source_directedRelationship-directedRelationship")]
+        [Implements(implementation: "INamedElement.ClientDependency")]
+        public List<IDependency> ClientDependency => this.QueryClientDependency();
+
+        /// <summary>
+        /// An OpaqueExpression that states the abstraction relationship between the supplier(s) and the
+        /// client(s). In some cases, such as derivation, it is usually formal and unidirectional; in other
+        /// cases, such as trace, it is usually informal and bidirectional. The mapping expression is optional
+        /// and may be omitted if the precise relationship between the Elements is not specified.
+        /// </summary>
+        [Property(xmiId: "Abstraction-mapping", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [SubsettedProperty(propertyName: "Element-ownedElement")]
+        [Implements(implementation: "IAbstraction.Mapping")]
+        public IContainerList<IOpaqueExpression> Mapping
+        {
+            get => this.mapping ??= new ContainerList<IOpaqueExpression>(this);
+            set => this.mapping = value;
+        }
+
+        /// <summary>
+        /// Backing field for <see cref="Mapping"/>
+        /// </summary>
+        private IContainerList<IOpaqueExpression> mapping;
+
+        /// <summary>
+        /// The name of the NamedElement.
+        /// </summary>
+        [Property(xmiId: "NamedElement-name", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Implements(implementation: "INamedElement.Name")]
+        public string Name { get; set; }
+
+        /// <summary>
+        /// The StringExpression used to define the name of this NamedElement.
+        /// </summary>
+        [Property(xmiId: "NamedElement-nameExpression", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [SubsettedProperty(propertyName: "Element-ownedElement")]
+        [Implements(implementation: "INamedElement.NameExpression")]
+        public IContainerList<IStringExpression> NameExpression
+        {
+            get => this.nameExpression ??= new ContainerList<IStringExpression>(this);
+            set => this.nameExpression = value;
+        }
+
+        /// <summary>
+        /// Backing field for <see cref="NameExpression"/>
+        /// </summary>
+        private IContainerList<IStringExpression> nameExpression;
+
+        /// <summary>
+        /// Specifies the Namespace that owns the NamedElement.
+        /// </summary>
+        [Property(xmiId: "NamedElement-namespace", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: false, defaultValue: null)]
+        [SubsettedProperty(propertyName: "A_member_memberNamespace-memberNamespace")]
+        [SubsettedProperty(propertyName: "Element-owner")]
+        [Implements(implementation: "INamedElement.Namespace")]
+        public INamespace Namespace => this.QueryNamespace();
+
         /// <summary>
         /// The Comments owned by this Element.
         /// </summary>
-        [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue)]
+        [Property(xmiId: "Element-ownedComment", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [SubsettedProperty(propertyName: "Element-ownedElement")]
         [Implements(implementation: "IElement.OwnedComment")]
         public IContainerList<IComment> OwnedComment
         {
@@ -54,157 +156,104 @@ namespace uml4net.POCO.StructuredClassifiers
         private IContainerList<IComment> ownedComment;
 
         /// <summary>
-        /// The Elements owned by this Element
+        /// The Elements owned by this Element.
         /// </summary>
-        [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isReadOnly: true, isDerived: true, isDerivedUnion: true)]
+        [Property(xmiId: "Element-ownedElement", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: false, defaultValue: null)]
         [Implements(implementation: "IElement.OwnedElement")]
-        public List<IElement> OwnedElement => throw new NotImplementedException();
+        public IContainerList<IElement> OwnedElement => this.QueryOwnedElement();
 
         /// <summary>
         /// The Element that owns this Element.
         /// </summary>
-        [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isReadOnly: true, isDerived: true, isDerivedUnion: true)]
+        [Property(xmiId: "Element-owner", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: false, defaultValue: null)]
         [Implements(implementation: "IElement.Owner")]
         public IElement Owner => this.QueryOwner();
 
         /// <summary>
-        /// Gets or sets the container of this <see cref="IElement"/>
+        /// The formal TemplateParameter that owns this ParameterableElement.
         /// </summary>
-        public IElement Possessor { get; set; }
+        [Property(xmiId: "ParameterableElement-owningTemplateParameter", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [SubsettedProperty(propertyName: "Element-owner")]
+        [SubsettedProperty(propertyName: "ParameterableElement-templateParameter")]
+        [Implements(implementation: "IParameterableElement.OwningTemplateParameter")]
+        public ITemplateParameter OwningTemplateParameter { get; set; }
 
         /// <summary>
-        /// The Element(s) dependent on the supplier Element(s). In some cases (such as a trace Abstraction)
-        /// the assignment of direction (that is, the designation of the client Element) is at the discretion 
-        /// of the modeler and is a stipulation.
+        /// A name that allows the NamedElement to be identified within a hierarchy of nested Namespaces. It is
+        /// constructed from the names of the containing Namespaces starting at the root of the hierarchy and
+        /// ending with the name of the NamedElement itself.
         /// </summary>
-        [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: int.MaxValue)]
-        [Implements(implementation: "IDependency.Client")]
-        [SubsettedProperty(propertyName: "DirectedRelationship.Source")]
-        public IContainerList<INamedElement> Client
-        {
-            get => this.client ??= new ContainerList<INamedElement>(this);
-            set => this.client= value;
-        }
-
-        /// <summary>
-        /// Backing field for <see cref="Client"/>
-        /// </summary>
-        private IContainerList<INamedElement> client;
-
-        /// <summary>
-        /// The Element(s) on which the client Element(s) depend in some respect. The modeler may stipulate
-        /// a sense of Dependency direction suitable for their domain.
-        /// </summary>
-        [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: int.MaxValue)]
-        [Implements(implementation: "IDependency.Supplier")]
-        [SubsettedProperty(propertyName: "DirectedRelationship.Target")]
-        public IContainerList<INamedElement> Supplier
-        {
-            get => this.supplier ??= new ContainerList<INamedElement>(this);
-            set => this.supplier = value;
-        }
-
-        /// <summary>
-        /// Backing field for <see cref="Supplier"/>
-        /// </summary>
-        private IContainerList<INamedElement> supplier;
-
-        /// <summary>
-        /// Specifies the source Element(s) of the DirectedRelationship.
-        /// </summary>
-        [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: int.MaxValue, isReadOnly: true, isDerived: true, isDerivedUnion: true)]
-        [Implements(implementation: "IDirectedRelationship.Source")]
-        [SubsettedProperty(propertyName: "Relationship.RelatedElement")]
-        public List<IElement> Source => throw new NotImplementedException();
-
-        /// <summary>
-        /// Specifies the target Element(s) of the DirectedRelationship.
-        /// </summary>
-        [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: int.MaxValue, isReadOnly: true, isDerived: true, isDerivedUnion: true)]
-        [Implements(implementation: "IDirectedRelationship.Target")]
-        [SubsettedProperty(propertyName: "Relationship.RelatedElement")]
-        public List<IElement> Target => throw new NotImplementedException();
-
-        /// <summary>
-        /// An OpaqueExpression that states the abstraction relationship between the supplier(s) and the client(s). 
-        /// In some cases, such as derivation, it is usually formal and unidirectional; in other cases, such as trace, 
-        /// it is usually informal and bidirectional. The mapping expression is optional and may be omitted if the
-        /// precise relationship between the Elements is not specified.
-        /// </summary>
-        [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: 1)]
-        [Implements(implementation: "IAbstraction.Mapping")]
-        [SubsettedProperty(propertyName: "Element.NwnedElement")]
-        public IOpaqueExpression Mapping { get; set; }
-
-        /// <summary>
-        /// Indicates the Dependencies that reference this NamedElement as a client."
-        /// </summary>
-        [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isDerived: true)]
-        [SubsettedProperty(propertyName: "A_source_directedRelationship.DirectedRelationship")]
-        [Implements(implementation: "INamedElement.ClientDependency")]
-        public List<IDependency> ClientDependency => throw new NotImplementedException();
-
-        /// <summary>
-        /// The name of the NamedElement.
-        /// </summary>
-        [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1)]
-        [Implements(implementation: "INamedElement.Name")]
-        public string Name { get; set; }
-
-        /// <summary>
-        /// The StringExpression used to define the name of this NamedElement.
-        /// </summary>
-        [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: 1)]
-        [SubsettedProperty(propertyName: "Element.OwnedElement")]
-        [Implements(implementation: "INamedElement.NameExpression")]
-        public IStringExpression NameExpression { get; set; }
-
-        /// <summary>
-        /// Specifies the Namespace that owns the NamedElement.
-        /// </summary>
-        [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isReadOnly: true, isDerived: true, isDerivedUnion: true)]
-        [SubsettedProperty(propertyName: "A_member_memberNamespace.MemberNamespace")]
-        [SubsettedProperty(propertyName: "Element.Owner")]
-        [Implements(implementation: "INamedElement.Namespace")]
-        public INamespace Namespace => this.QueryNamespace();
-
-        /// <summary>
-        /// A name that allows the NamedElement to be identified within a hierarchy of nested Namespaces. It is constructed from the names of 
-        /// the containing Namespaces starting at the root of the hierarchy and ending with the name of the NamedElement itself.
-        /// </summary>
-        [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isReadOnly: true, isDerived: true)]
+        [Property(xmiId: "NamedElement-qualifiedName", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: false, isUnique: false, defaultValue: null)]
         [Implements(implementation: "INamedElement.QualifiedName")]
         public string QualifiedName => this.QueryQualifiedName();
 
         /// <summary>
-        /// Determines whether and how the NamedElement is visible outside its owning Namespace.
+        /// The Classifiers that are involved in the implementation of the Component that owns this Realization.
         /// </summary>
-        [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1)]
-        [Implements(implementation: "INamedElement.Visibility")]
-        public VisibilityKind Visibility { get; set; }
-
-        /// <summary>
-        /// The formal TemplateParameter that owns this ParameterableElement
-        /// </summary>
-        [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1)]
-        [Implements(implementation: "IParameterableElement.OwningTemplateParameter")]
-        [SubsettedProperty(propertyName: "Element.Owner")]
-        [SubsettedProperty(propertyName: "ParameterableElement.TemplateParameter")]
-        public ITemplateParameter OwningTemplateParameter { get; set; }
-
-        /// <summary>
-        /// ParameterableElement-templateParameter-_ownedComment.0" body="The TemplateParameter that exposes this 
-        /// ParameterableElement as a formal parameter.
-        /// </summary>
-        [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1)]
-        [Implements(implementation: "IParameterableElement.TemplateParameter")]
-        public ITemplateParameter TemplateParameter { get; set; }
+        [Property(xmiId: "ComponentRealization-realizingClassifier", aggregation: AggregationKind.None, lowerValue: 1, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [SubsettedProperty(propertyName: "Dependency-client")]
+        [Implements(implementation: "IComponentRealization.RealizingClassifier")]
+        public List<IClassifier> RealizingClassifier { get; set; } = new();
 
         /// <summary>
         /// Specifies the elements related by the Relationship.
         /// </summary>
-        [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: int.MaxValue, isReadOnly: true, isDerived: true, isDerivedUnion: true)]
+        [Property(xmiId: "Relationship-relatedElement", aggregation: AggregationKind.None, lowerValue: 1, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: false, defaultValue: null)]
         [Implements(implementation: "IRelationship.RelatedElement")]
-        public List<IElement> RelatedElement => throw new NotImplementedException();
+        public List<IElement> RelatedElement => this.QueryRelatedElement();
+
+        /// <summary>
+        /// Specifies the source Element(s) of the DirectedRelationship.
+        /// </summary>
+        [Property(xmiId: "DirectedRelationship-source", aggregation: AggregationKind.None, lowerValue: 1, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: false, defaultValue: null)]
+        [SubsettedProperty(propertyName: "Relationship-relatedElement")]
+        [Implements(implementation: "IDirectedRelationship.Source")]
+        public List<IElement> Source => this.QuerySource();
+
+        /// <summary>
+        /// The Element(s) on which the client Element(s) depend in some respect. The modeler may stipulate a
+        /// sense of Dependency direction suitable for their domain.
+        /// </summary>
+        [Property(xmiId: "Dependency-supplier", aggregation: AggregationKind.None, lowerValue: 1, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [SubsettedProperty(propertyName: "DirectedRelationship-target")]
+        [Implements(implementation: "IDependency.Supplier")]
+        public List<INamedElement> Supplier { get; set; } = new();
+
+        /// <summary>
+        /// Specifies the target Element(s) of the DirectedRelationship.
+        /// </summary>
+        [Property(xmiId: "DirectedRelationship-target", aggregation: AggregationKind.None, lowerValue: 1, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: false, defaultValue: null)]
+        [SubsettedProperty(propertyName: "Relationship-relatedElement")]
+        [Implements(implementation: "IDirectedRelationship.Target")]
+        public List<IElement> Target => this.QueryTarget();
+
+        /// <summary>
+        /// The TemplateParameter that exposes this ParameterableElement as a formal parameter.
+        /// </summary>
+        [Property(xmiId: "ParameterableElement-templateParameter", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Implements(implementation: "IParameterableElement.TemplateParameter")]
+        public ITemplateParameter TemplateParameter { get; set; }
+
+        /// <summary>
+        /// A PackageableElement must have a visibility specified if it is owned by a Namespace. The default
+        /// visibility is public.
+        /// </summary>
+        [Property(xmiId: "PackageableElement-visibility", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: "public")]
+        [RedefinedProperty(propertyName: "NamedElement-visibility")]
+        [Implements(implementation: "IPackageableElement.Visibility")]
+        public new VisibilityKind Visibility { get; set; }
+
+        /// <summary>
+        /// Determines whether and how the NamedElement is visible outside its owning Namespace.
+        /// </summary>
+        [Property(xmiId: "NamedElement-visibility", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [RedefinedByProperty("IPackageableElement.Visibility")]
+        [Implements(implementation: "INamedElement.Visibility")]
+        VisibilityKind INamedElement.Visibility { get; set; }
+
     }
 }
+
+// ------------------------------------------------------------------------------------------------
+// --------THIS IS AN AUTOMATICALLY GENERATED FILE. ANY MANUAL CHANGES WILL BE OVERWRITTEN!--------
+// ------------------------------------------------------------------------------------------------

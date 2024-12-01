@@ -9,7 +9,7 @@
 //
 //       http://www.apache.org/licenses/LICENSE-2.0
 //
-//   Unless required by applicable law or agreed to in writing, softwareUseCases
+//   Unless required by applicable law or agreed to in writing, software
 //   distributed under the License is distributed on an "AS IS" BASIS,
 //   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //   See the License for the specific language governing permissions and
@@ -18,222 +18,77 @@
 // </copyright>
 // ------------------------------------------------------------------------------------------------
 
-namespace uml4net.POCO.Packages
+// ------------------------------------------------------------------------------------------------
+// --------THIS IS AN AUTOMATICALLY GENERATED FILE. ANY MANUAL CHANGES WILL BE OVERWRITTEN!--------
+// ------------------------------------------------------------------------------------------------
+
+namespace uml4net.Packages
 {
-    using System;
     using System.Collections.Generic;
 
     using uml4net.Decorators;
-    using uml4net.Extend;
+    using uml4net.Actions;
+    using uml4net.Activities;
+    using uml4net.Classification;
+    using uml4net.CommonBehavior;
+    using uml4net.CommonStructure;
+    using uml4net.Deployments;
+    using uml4net.InformationFlows;
+    using uml4net.Interactions;
+    using uml4net.Packages;
+    using uml4net.SimpleClassifiers;
+    using uml4net.StateMachines;
+    using uml4net.StructuredClassifiers;
+    using uml4net.UseCases;
+    using uml4net.Values;
+
     using uml4net.Utils;
-    using uml4net.POCO.Classification;
-    using uml4net.POCO.CommonStructure;
-    using uml4net.POCO.SimpleClassifiers;
-    using uml4net.POCO.StructuredClassifiers;
-    using uml4net.POCO.UseCases;
-    using uml4net.POCO.Values;
 
     /// <summary>
-    /// A stereotype defines how an existing metaclass may be extended, and enables the use of platform or domain
-    /// specific terminology or notation in place of, or in addition to, the ones used for the extended metaclass.
+    /// A stereotype defines how an existing metaclass may be extended, and enables the use of platform or
+    /// domain specific terminology or notation in place of, or in addition to, the ones used for the
+    /// extended metaclass.
     /// </summary>
-    public class Stereotype : XmiElement, IStereotype
+    [Class(xmiId: "Stereotype", isAbstract: false, isFinalSpecialization: false, isActive: false)]
+    public partial class Stereotype : XmiElement, IStereotype
     {
-        /// <summary>
-        /// The Comments owned by this Element.
-        /// </summary>
-        [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue)]
-        IContainerList<IComment> IElement.OwnedComment
-        {
-            get => this.ownedComment ??= new ContainerList<IComment>(this);
-            set => this.ownedComment = value;
-        }
-
-        /// <summary>
-        /// Backing field for <see cref="IElement.OwnedComment"/>
-        /// </summary>
-        private IContainerList<IComment> ownedComment;
-
-        /// <summary>
-        /// The Elements owned by this Element
-        /// </summary>
-        [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isReadOnly: true, isDerived: true, isDerivedUnion: true)]
-        List<IElement> IElement.OwnedElement => throw new NotImplementedException();
-
-        /// <summary>
-        /// The Element that owns this Element.
-        /// </summary>
-        [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isReadOnly: true, isDerived: true, isDerivedUnion: true)]
-        IElement IElement.Owner => this.QueryOwner();
-        
         /// <summary>
         /// Gets or sets the container of this <see cref="IElement"/>
         /// </summary>
         public IElement Possessor { get; set; }
 
         /// <summary>
-        /// Indicates the Dependencies that reference this NamedElement as a client."
+        /// All of the Properties that are direct (i.e., not inherited or imported) attributes of the
+        /// Classifier.
         /// </summary>
-        [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isDerived: true)]
-        [SubsettedProperty(propertyName: "A_source_directedRelationship.DirectedRelationship")]
-        List<IDependency> INamedElement.ClientDependency => throw new NotImplementedException();
+        [Property(xmiId: "Classifier-attribute", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: true, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: false, defaultValue: null)]
+        [SubsettedProperty(propertyName: "A_redefinitionContext_redefinableElement-redefinableElement")]
+        [SubsettedProperty(propertyName: "Classifier-feature")]
+        [Implements(implementation: "IClassifier.Attribute")]
+        public List<IProperty> Attribute => this.QueryAttribute();
 
         /// <summary>
-        /// The name of the NamedElement.
+        /// A Behavior that specifies the behavior of the BehavioredClassifier itself.
         /// </summary>
-        [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1)]
-        string INamedElement.Name { get; set; }
+        [Property(xmiId: "BehavioredClassifier-classifierBehavior", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [SubsettedProperty(propertyName: "BehavioredClassifier-ownedBehavior")]
+        [Implements(implementation: "IBehavioredClassifier.ClassifierBehavior")]
+        public IBehavior ClassifierBehavior { get; set; }
 
         /// <summary>
-        /// The StringExpression used to define the name of this NamedElement.
+        /// Indicates the Dependencies that reference this NamedElement as a client.
         /// </summary>
-        [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: 1)]
-        [SubsettedProperty(propertyName: "Element.OwnedElement")]
-        IStringExpression INamedElement.NameExpression { get; set; }
-
-        /// <summary>
-        /// Specifies the Namespace that owns the NamedElement.
-        /// </summary>
-        [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isReadOnly: true, isDerived: true, isDerivedUnion: true)]
-        [SubsettedProperty(propertyName: "A_member_memberNamespace.MemberNamespace")]
-        [SubsettedProperty(propertyName: "Element.Owner")]
-        INamespace INamedElement.Namespace => throw new NotImplementedException();
-
-        /// <summary>
-        /// A name that allows the NamedElement to be identified within a hierarchy of nested Namespaces. It is constructed from the names of 
-        /// the containing Namespaces starting at the root of the hierarchy and ending with the name of the NamedElement itself.
-        /// </summary>
-        [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isReadOnly: true, isDerived: true)]
-        string INamedElement.QualifiedName => throw new NotImplementedException();
-
-        /// <summary>
-        /// Determines whether and how the NamedElement is visible outside its owning Namespace.
-        /// </summary>
-        [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1)]
-        VisibilityKind INamedElement.Visibility { get; set; }
-
-        /// <summary>
-        /// A PackageableElement must have a visibility specified if it is owned by a Namespace. The default visibility is public.
-        /// </summary>
-        [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1)]
-        VisibilityKind IPackageableElement.Visibility { get; set; }
-
-        /// <summary>
-        /// References the ElementImports owned by the Namespace.
-        /// </summary>
-        [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue)]
-        [SubsettedProperty(propertyName: "A_source_directedRelationship.directedRelationship")]
-        [SubsettedProperty(propertyName: "Element.OwnedElement")]
-        public IContainerList<IElementImport> ElementImport
-        {
-            get => this.elementImport ??= new ContainerList<IElementImport>(this);
-            set => this.elementImport = value;
-        }
-
-        /// <summary>
-        /// Backing field for <see cref="ElementImport"/>
-        /// </summary>
-        private IContainerList<IElementImport> elementImport;
-        /// <summary>
-        /// References the PackageableElements that are members of this Namespace as a result of either PackageImports or ElementImports.
-        /// </summary>
-        [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isReadOnly: true, isDerived: true)]
-        [SubsettedProperty(propertyName: "Namespace.Member")]
-        List<IPackageableElement> INamespace.ImportedMember => throw new NotImplementedException();
-        
-
-        /// <summary>
-        /// A collection of NamedElements owned by the Namespace.
-        /// </summary>
-        [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isReadOnly: true, isDerived: true, isDerivedUnion: true)]
-        [SubsettedProperty(propertyName: "Element.OwnedElement")]
-        [SubsettedProperty(propertyName: "Namespace.Member")]
-        List<INamedElement> INamespace.OwnedMember => throw new NotImplementedException();
-
-        /// <summary>
-        /// Specifies a set of Constraints owned by this Namespace.
-        /// </summary>
-        [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue)]
-        [SubsettedProperty(propertyName: "Namespace.OwnedMember")]
-        public IContainerList<IConstraint> OwnedRule
-        {
-            get => this.ownedRule ??= new ContainerList<IConstraint>(this);
-            set => this.ownedRule = value;
-        }
-
-        /// <summary>
-        /// Backing field for <see cref="OwnedRule"/>
-        /// </summary>
-        private IContainerList<IConstraint> ownedRule;
-
-        /// <summary>
-        /// References the PackageImports owned by the Namespace.
-        /// </summary>
-        [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue)]
-        [SubsettedProperty(propertyName: "Element.OwnedElement")]
-        IContainerList<IPackageImport> INamespace.PackageImport
-        {
-            get => this.packageImport ??= new ContainerList<IPackageImport>(this);
-            set => this.packageImport = value;
-        }
-
-        /// <summary>
-        /// Backing field for <see cref="INamespace.PackageImport"/>
-        /// </summary>
-        private IContainerList<IPackageImport> packageImport;
-
-        /// <summary>
-        /// The formal TemplateParameter that owns this ParameterableElement
-        /// </summary>
-        [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1)]
-        [SubsettedProperty(propertyName: "Element.Owner")]
-        [SubsettedProperty(propertyName: "ParameterableElement.TemplateParameter")]
-        ITemplateParameter IParameterableElement.OwningTemplateParameter { get; set; }
-
-        /// <summary>
-        /// ParameterableElement-templateParameter-_ownedComment.0" body="The TemplateParameter that exposes this 
-        /// ParameterableElement as a formal parameter.
-        /// </summary>
-        [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1)]
-        ITemplateParameter IParameterableElement.TemplateParameter { get; set; }
-
-        /// <summary>
-        /// The optional TemplateSignature specifying the formal TemplateParameters for this TemplateableElement.
-        /// If a TemplateableElement has a TemplateSignature, then it is a template.
-        /// </summary>
-        [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: 1)]
-        ITemplateSignature ITemplateableElement.OwnedTemplateSignature { get; set; }
-
-        /// <summary>
-        /// The optional TemplateSignature specifying the formal TemplateParameters for this TemplateableElement.
-        /// If a TemplateableElement has a TemplateSignature, then it is a template.
-        /// </summary>
-        [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue)]
-        [SubsettedProperty(propertyName: "Element.OwnedElement")]
-        [SubsettedProperty(propertyName: "A_source_directedRelationship.DirectedRelationship")]
-        List<TemplateBinding> ITemplateableElement.TemplateBinding { get; set; }
-
-        /// <summary>
-        /// Specifies the owning Package of this Type, if any.
-        /// </summary>
-        [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1)]
-        [SubsettedProperty(propertyName: "A_packagedElement_owningPackage.OwningPackage")]
-        IPackage IType.Package { get; set; }
-
-        /// <summary>
-        /// All of the Properties that are direct (i.e., not inherited or imported) attributes
-        /// of the Classifier.
-        /// </summary>
-        [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: true, isReadOnly: true, isDerived: true, isDerivedUnion: true)]
-        [SubsettedProperty(propertyName: "A_redefinitionContext_redefinableElement.RedefinableElement")]
-        [SubsettedProperty(propertyName: "Classifier.Feature")]
-        List<IProperty> IClassifier.Attribute { get; }
+        [Property(xmiId: "NamedElement-clientDependency", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: true, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [SubsettedProperty(propertyName: "A_source_directedRelationship-directedRelationship")]
+        [Implements(implementation: "INamedElement.ClientDependency")]
+        public List<IDependency> ClientDependency => this.QueryClientDependency();
 
         /// <summary>
         /// The CollaborationUses owned by the Classifier.
         /// </summary>
-        [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue)]
+        [Property(xmiId: "Classifier-collaborationUse", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
         [SubsettedProperty(propertyName: "Element-ownedElement")]
+        [Implements(implementation: "IClassifier.CollaborationUse")]
         public IContainerList<ICollaborationUse> CollaborationUse
         {
             get => this.collaborationUse ??= new ContainerList<ICollaborationUse>(this);
@@ -246,190 +101,234 @@ namespace uml4net.POCO.Packages
         private IContainerList<ICollaborationUse> collaborationUse;
 
         /// <summary>
-        /// Specifies each Feature directly defined in the classifier. Note that there may be members of the 
+        /// References the ElementImports owned by the Namespace.
+        /// </summary>
+        [Property(xmiId: "Namespace-elementImport", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [SubsettedProperty(propertyName: "A_source_directedRelationship-directedRelationship")]
+        [SubsettedProperty(propertyName: "Element-ownedElement")]
+        [Implements(implementation: "INamespace.ElementImport")]
+        public IContainerList<IElementImport> ElementImport
+        {
+            get => this.elementImport ??= new ContainerList<IElementImport>(this);
+            set => this.elementImport = value;
+        }
+
+        /// <summary>
+        /// Backing field for <see cref="ElementImport"/>
+        /// </summary>
+        private IContainerList<IElementImport> elementImport;
+
+        /// <summary>
+        /// This property is used when the Class is acting as a metaclass. It references the Extensions that
+        /// specify additional properties of the metaclass. The property is derived from the Extensions whose
+        /// memberEnds are typed by the Class.
+        /// </summary>
+        [Property(xmiId: "Class-extension", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Implements(implementation: "IClass.Extension")]
+        public List<IExtension> Extension => this.QueryExtension();
+
+        /// <summary>
+        /// Specifies each Feature directly defined in the classifier. Note that there may be members of the
         /// Classifier that are of the type Feature but are not included, e.g., inherited features.
         /// </summary>
-        [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isReadOnly: true, isDerived: true, isDerivedUnion: true)]
+        [Property(xmiId: "Classifier-feature", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: false, defaultValue: null)]
         [SubsettedProperty(propertyName: "Namespace-member")]
-        List<IFeature> IClassifier.Feature => throw new NotImplementedException();
+        [Implements(implementation: "IClassifier.Feature")]
+        public List<IFeature> Feature => this.QueryFeature();
 
         /// <summary>
         /// The generalizing Classifiers for this Classifier.
         /// </summary>
-        [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isDerived: true)]
-        List<IClassifier> IClassifier.General => throw new NotImplementedException();
+        [Property(xmiId: "Classifier-general", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: true, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [RedefinedByProperty("IClass.SuperClass")]
+        [Implements(implementation: "IClassifier.General")]
+        List<IClassifier> IClassifier.General => ClassifierExtensions.QueryGeneral(this);
 
         /// <summary>
-        /// The Generalization relationships for this Classifier. These Generalizations navigate to more general 
+        /// The Generalization relationships for this Classifier. These Generalizations navigate to more general
         /// Classifiers in the generalization hierarchy.
         /// </summary>
-        [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue)]
-        [SubsettedProperty(propertyName: "A_source_directedRelationship.DirectedRelationship")]
+        [Property(xmiId: "Classifier-generalization", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [SubsettedProperty(propertyName: "A_source_directedRelationship-directedRelationship")]
         [SubsettedProperty(propertyName: "Element-ownedElement")]
-        IContainerList<IGeneralization> IClassifier.Generalization
+        [Implements(implementation: "IClassifier.Generalization")]
+        public IContainerList<IGeneralization> Generalization
         {
             get => this.generalization ??= new ContainerList<IGeneralization>(this);
             set => this.generalization = value;
         }
 
         /// <summary>
-        /// Backing field for <see cref="IClassifier.Generalization"/>
+        /// Backing field for <see cref="Generalization"/>
         /// </summary>
         private IContainerList<IGeneralization> generalization;
 
         /// <summary>
-        /// All elements inherited by this Classifier from its general Classifiers.
+        /// Stereotype can change the graphical appearance of the extended model element by using attached
+        /// icons. When this association is not null, it references the location of the icon content to be
+        /// displayed within diagrams presenting the extended model elements.
         /// </summary>
-        [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isReadOnly: true, isDerived: true)]
-        [SubsettedProperty(propertyName: "Namespace-member")]
-        List<INamedElement> IClassifier.InheritedMember => throw new NotImplementedException();
+        [Property(xmiId: "Stereotype-icon", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [SubsettedProperty(propertyName: "Element-ownedElement")]
+        [Implements(implementation: "IStereotype.Icon")]
+        public IContainerList<IImage> Icon
+        {
+            get => this.icon ??= new ContainerList<IImage>(this);
+            set => this.icon = value;
+        }
 
         /// <summary>
-        /// If true, the Classifier can only be instantiated by instantiating one of its specializations. 
-        /// An abstract Classifier is intended to be used by other Classifiers e.g., as the target of Associations or 
-        /// Generalizations.
+        /// Backing field for <see cref="Icon"/>
         /// </summary>
-        [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, defaultValue: "false")]
+        private IContainerList<IImage> icon;
+
+        /// <summary>
+        /// References the PackageableElements that are members of this Namespace as a result of either
+        /// PackageImports or ElementImports.
+        /// </summary>
+        [Property(xmiId: "Namespace-importedMember", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [SubsettedProperty(propertyName: "Namespace-member")]
+        [Implements(implementation: "INamespace.ImportedMember")]
+        public List<IPackageableElement> ImportedMember => this.QueryImportedMember();
+
+        /// <summary>
+        /// All elements inherited by this Classifier from its general Classifiers.
+        /// </summary>
+        [Property(xmiId: "Classifier-inheritedMember", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [SubsettedProperty(propertyName: "Namespace-member")]
+        [Implements(implementation: "IClassifier.InheritedMember")]
+        public List<INamedElement> InheritedMember => this.QueryInheritedMember();
+
+        /// <summary>
+        /// The set of InterfaceRealizations owned by the BehavioredClassifier. Interface realizations reference
+        /// the Interfaces of which the BehavioredClassifier is an implementation.
+        /// </summary>
+        [Property(xmiId: "BehavioredClassifier-interfaceRealization", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [SubsettedProperty(propertyName: "Element-ownedElement")]
+        [SubsettedProperty(propertyName: "NamedElement-clientDependency")]
+        [Implements(implementation: "IBehavioredClassifier.InterfaceRealization")]
+        public IContainerList<IInterfaceRealization> InterfaceRealization
+        {
+            get => this.interfaceRealization ??= new ContainerList<IInterfaceRealization>(this);
+            set => this.interfaceRealization = value;
+        }
+
+        /// <summary>
+        /// Backing field for <see cref="InterfaceRealization"/>
+        /// </summary>
+        private IContainerList<IInterfaceRealization> interfaceRealization;
+
+        /// <summary>
+        /// If true, the Class does not provide a complete declaration and cannot be instantiated. An abstract
+        /// Class is typically used as a target of Associations or Generalizations.
+        /// </summary>
+        [Property(xmiId: "Class-isAbstract", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: "false")]
+        [RedefinedProperty(propertyName: "Classifier-isAbstract")]
+        [Implements(implementation: "IClass.IsAbstract")]
+        public new bool IsAbstract { get; set; }
+
+        /// <summary>
+        /// If true, the Classifier can only be instantiated by instantiating one of its specializations. An
+        /// abstract Classifier is intended to be used by other Classifiers e.g., as the target of Associations
+        /// or Generalizations.
+        /// </summary>
+        [Property(xmiId: "Classifier-isAbstract", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: "false")]
+        [RedefinedByProperty("IClass.IsAbstract")]
+        [Implements(implementation: "IClassifier.IsAbstract")]
         bool IClassifier.IsAbstract { get; set; }
 
         /// <summary>
-        /// If true, the Classifier cannot be specialized.
+        /// Determines whether an object specified by this Class is active or not. If true, then the owning
+        /// Class is referred to as an active Class. If false, then such a Class is referred to as a passive
+        /// Class.
         /// </summary>
-        [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, defaultValue: "false")]
-        bool IClassifier.IsFinalSpecialization { get; set; }
-
-        /// <summary>
-        /// The optional RedefinableTemplateSignature specifying the formal template parameters.
-        /// </summary>
-        [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: 1)]
-        [SubsettedProperty(propertyName: "A_redefinitionContext_redefinableElement-redefinableElement")]
-        [RedefinedProperty(propertyName: "TemplateableElement-ownedTemplateSignature")]
-        IContainerList<IRedefinableTemplateSignature> IClassifier.OwnedTemplateSignature { get; set; }
-
-        /// <summary>
-        /// The UseCases owned by this classifier.
-        /// </summary>
-        [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue)]
-        [SubsettedProperty(propertyName: "Namespace-ownedMember")]
-        IContainerList<IUseCase> IClassifier.OwnedUseCase { get; set; }
-
-        /// <summary>
-        /// The GeneralizationSet of which this Classifier is a power type.
-        /// </summary>
-        [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue)]
-        List<IGeneralizationSet> IClassifier.PowertypeExtent { get; set; }
-
-        /// <summary>
-        /// The Classifiers redefined by this Classifier.
-        /// </summary>
-        [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue)]
-        [SubsettedProperty(propertyName: "RedefinableElement-redefinedElement")]
-        List<IClassifier> IClassifier.RedefinedClassifier { get; set; }
-
-        /// <summary>
-        /// A CollaborationUse which indicates the Collaboration that represents this Classifier.
-        /// </summary>
-        [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1)]
-        [SubsettedProperty(propertyName: "Classifier-collaborationUse")]
-        ICollaborationUse IClassifier.Representation { get; set; }
-
-        /// <summary>
-        /// The Substitutions owned by this Classifier.
-        /// </summary>
-        [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue)]
-        [SubsettedProperty(propertyName: "Element-ownedElement")]
-        [SubsettedProperty(propertyName: "NamedElement-clientDependency")]
-        IContainerList<ISubstitution> IClassifier.Substitution { get; set; }
-
-        /// <summary>
-        /// TheClassifierTemplateParameter that exposes this element as a formal parameter.
-        /// </summary>
-        [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1)]
-        [RedefinedProperty(propertyName: "ParameterableElement-templateParameter")]
-        IClassifierTemplateParameter IClassifier.TemplateParameter { get; set; }
-
-        /// <summary>
-        /// Indicates whether it is possible to further redefine a RedefinableElement. If the value is
-        /// true, then it is not possible to further redefine the RedefinableElement.
-        /// </summary>
-        [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, defaultValue: "false")]
-        [Implements(implementation: "IRedefinableElement.IsLeaf")]
-        public bool IsLeaf { get; set; } = false;
-
-        /// <summary>
-        /// The RedefinableElement that is being redefined by this element.
-        /// </summary>
-        [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isReadOnly: true, isDerived: true, isDerivedUnion: true)]
-        [Implements(implementation: "IRedefinableElement.RedefinedElement")]
-        public IRedefinableElement RedefinedElement => throw new NotImplementedException();
-
-        /// <summary>
-        /// The contexts that this element may be redefined from.
-        /// </summary>
-        [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isReadOnly: true, isDerived: true, isDerivedUnion: true)]
-        [Implements(implementation: "IRedefinableElement.RedefinitionContext")]
-        public IClassifier RedefinitionContext => throw new NotImplementedException();
-
-        /// <summary>
-        /// Stereotype can change the graphical appearance of the extended model element by using attached icons.
-        /// When this association is not null, it references the location of the icon content to be displayed within
-        /// diagrams presenting the extended model elements.
-        /// </summary>
-        [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue)]
-        [Implements(implementation: "IStereotype.Icon")]
-        public List<IImage> Icon { get; set; }
-
-        /// <summary>
-        /// The profile that directly or indirectly contains this stereotype.
-        /// </summary>
-        [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isReadOnly: true, isDerived: true)]
-        [Implements(implementation: "IStereotype.Profile")]
-        public IProfile Profile => throw new NotImplementedException();
-
-        /// <summary>
-        /// This property is used when the Class is acting as a metaclass. It references the Extensions that specify
-        /// additional properties of the metaclass. The property is derived from the Extensions whose memberEnds are
-        /// typed by the Class.
-        /// </summary>
-        [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isReadOnly: true, isDerived: true)]
-        [Implements(implementation: "IClass.Extension")]
-        public List<IExtension> Extension => throw new NotImplementedException();
-
-        /// <summary>
-        /// If true, the Class does not provide a complete declaration and cannot be instantiated. An abstract Class
-        /// is typically used as a target of Associations or Generalizations.
-        /// </summary>
-        [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, defaultValue: "false")]
-        [RedefinedProperty("Classifier-isAbstract")]
-        [Implements(implementation: "IClass.IsAbstract")]
-        public bool IsAbstract { get; set; }
-
-        /// <summary>
-        /// Determines whether an object specified by this Class is active or not. If true, then the owning Class is
-        /// referred to as an active Class. If false, then such a Class is referred to as a passive Class.
-        /// </summary>
-        [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, defaultValue: "false")]
+        [Property(xmiId: "Class-isActive", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: "false")]
         [Implements(implementation: "IClass.IsActive")]
         public bool IsActive { get; set; }
 
         /// <summary>
+        /// If true, the Classifier cannot be specialized.
+        /// </summary>
+        [Property(xmiId: "Classifier-isFinalSpecialization", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: "false")]
+        [Implements(implementation: "IClassifier.IsFinalSpecialization")]
+        public bool IsFinalSpecialization { get; set; }
+
+        /// <summary>
+        /// Indicates whether it is possible to further redefine a RedefinableElement. If the value is true,
+        /// then it is not possible to further redefine the RedefinableElement.
+        /// </summary>
+        [Property(xmiId: "RedefinableElement-isLeaf", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: "false")]
+        [Implements(implementation: "IRedefinableElement.IsLeaf")]
+        public bool IsLeaf { get; set; }
+
+        /// <summary>
+        /// A collection of NamedElements identifiable within the Namespace, either by being owned or by being
+        /// introduced by importing or inheritance.
+        /// </summary>
+        [Property(xmiId: "Namespace-member", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: false, defaultValue: null)]
+        [Implements(implementation: "INamespace.Member")]
+        public List<INamedElement> Member => this.QueryMember();
+
+        /// <summary>
+        /// The name of the NamedElement.
+        /// </summary>
+        [Property(xmiId: "NamedElement-name", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Implements(implementation: "INamedElement.Name")]
+        public string Name { get; set; }
+
+        /// <summary>
+        /// The StringExpression used to define the name of this NamedElement.
+        /// </summary>
+        [Property(xmiId: "NamedElement-nameExpression", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [SubsettedProperty(propertyName: "Element-ownedElement")]
+        [Implements(implementation: "INamedElement.NameExpression")]
+        public IContainerList<IStringExpression> NameExpression
+        {
+            get => this.nameExpression ??= new ContainerList<IStringExpression>(this);
+            set => this.nameExpression = value;
+        }
+
+        /// <summary>
+        /// Backing field for <see cref="NameExpression"/>
+        /// </summary>
+        private IContainerList<IStringExpression> nameExpression;
+
+        /// <summary>
+        /// Specifies the Namespace that owns the NamedElement.
+        /// </summary>
+        [Property(xmiId: "NamedElement-namespace", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: false, defaultValue: null)]
+        [SubsettedProperty(propertyName: "A_member_memberNamespace-memberNamespace")]
+        [SubsettedProperty(propertyName: "Element-owner")]
+        [Implements(implementation: "INamedElement.Namespace")]
+        public INamespace Namespace => this.QueryNamespace();
+
+        /// <summary>
         /// The Classifiers owned by the Class that are not ownedBehaviors.
         /// </summary>
-        [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue)]
-        [SubsettedProperty("A_redefinitionContext_redefinableElement-redefinableElement")]
-        [SubsettedProperty("Namespace-ownedMember")]
+        [Property(xmiId: "Class-nestedClassifier", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: true, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [SubsettedProperty(propertyName: "A_redefinitionContext_redefinableElement-redefinableElement")]
+        [SubsettedProperty(propertyName: "Namespace-ownedMember")]
         [Implements(implementation: "IClass.NestedClassifier")]
-        public List<IClassifier> NestedClassifier { get; set; } = new();
+        public IContainerList<IClassifier> NestedClassifier
+        {
+            get => this.nestedClassifier ??= new ContainerList<IClassifier>(this);
+            set => this.nestedClassifier = value;
+        }
+
+        /// <summary>
+        /// Backing field for <see cref="NestedClassifier"/>
+        /// </summary>
+        private IContainerList<IClassifier> nestedClassifier;
 
         /// <summary>
         /// The attributes (i.e., the Properties) owned by the Class.
         /// </summary>
-        [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: true)]
-        [RedefinedProperty("StructuredClassifier-ownedAttribute")]
-        [SubsettedProperty("Classifier-attribute")]
-        [SubsettedProperty("Namespace-ownedMember")]
+        [Property(xmiId: "Class-ownedAttribute", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: true, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [SubsettedProperty(propertyName: "Classifier-attribute")]
+        [SubsettedProperty(propertyName: "Namespace-ownedMember")]
+        [RedefinedProperty(propertyName: "StructuredClassifier-ownedAttribute")]
         [Implements(implementation: "IClass.OwnedAttribute")]
-        public IContainerList<IProperty> OwnedAttribute
+        public new IContainerList<IProperty> OwnedAttribute
         {
             get => this.ownedAttribute ??= new ContainerList<IProperty>(this);
             set => this.ownedAttribute = value;
@@ -441,12 +340,92 @@ namespace uml4net.POCO.Packages
         private IContainerList<IProperty> ownedAttribute;
 
         /// <summary>
+        /// The Properties owned by the StructuredClassifier.
+        /// </summary>
+        [Property(xmiId: "StructuredClassifier-ownedAttribute", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: true, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [SubsettedProperty(propertyName: "Classifier-attribute")]
+        [SubsettedProperty(propertyName: "Namespace-ownedMember")]
+        [SubsettedProperty(propertyName: "StructuredClassifier-role")]
+        [RedefinedByProperty("IClass.OwnedAttribute")]
+        [Implements(implementation: "IStructuredClassifier.OwnedAttribute")]
+        IContainerList<IProperty> IStructuredClassifier.OwnedAttribute { get; set; }
+
+        /// <summary>
+        /// Behaviors owned by a BehavioredClassifier.
+        /// </summary>
+        [Property(xmiId: "BehavioredClassifier-ownedBehavior", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [SubsettedProperty(propertyName: "Namespace-ownedMember")]
+        [Implements(implementation: "IBehavioredClassifier.OwnedBehavior")]
+        public IContainerList<IBehavior> OwnedBehavior
+        {
+            get => this.ownedBehavior ??= new ContainerList<IBehavior>(this);
+            set => this.ownedBehavior = value;
+        }
+
+        /// <summary>
+        /// Backing field for <see cref="OwnedBehavior"/>
+        /// </summary>
+        private IContainerList<IBehavior> ownedBehavior;
+
+        /// <summary>
+        /// The Comments owned by this Element.
+        /// </summary>
+        [Property(xmiId: "Element-ownedComment", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [SubsettedProperty(propertyName: "Element-ownedElement")]
+        [Implements(implementation: "IElement.OwnedComment")]
+        public IContainerList<IComment> OwnedComment
+        {
+            get => this.ownedComment ??= new ContainerList<IComment>(this);
+            set => this.ownedComment = value;
+        }
+
+        /// <summary>
+        /// Backing field for <see cref="OwnedComment"/>
+        /// </summary>
+        private IContainerList<IComment> ownedComment;
+
+        /// <summary>
+        /// The connectors owned by the StructuredClassifier.
+        /// </summary>
+        [Property(xmiId: "StructuredClassifier-ownedConnector", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [SubsettedProperty(propertyName: "A_redefinitionContext_redefinableElement-redefinableElement")]
+        [SubsettedProperty(propertyName: "Classifier-feature")]
+        [SubsettedProperty(propertyName: "Namespace-ownedMember")]
+        [Implements(implementation: "IStructuredClassifier.OwnedConnector")]
+        public IContainerList<IConnector> OwnedConnector
+        {
+            get => this.ownedConnector ??= new ContainerList<IConnector>(this);
+            set => this.ownedConnector = value;
+        }
+
+        /// <summary>
+        /// Backing field for <see cref="OwnedConnector"/>
+        /// </summary>
+        private IContainerList<IConnector> ownedConnector;
+
+        /// <summary>
+        /// The Elements owned by this Element.
+        /// </summary>
+        [Property(xmiId: "Element-ownedElement", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: false, defaultValue: null)]
+        [Implements(implementation: "IElement.OwnedElement")]
+        public IContainerList<IElement> OwnedElement => this.QueryOwnedElement();
+
+        /// <summary>
+        /// A collection of NamedElements owned by the Namespace.
+        /// </summary>
+        [Property(xmiId: "Namespace-ownedMember", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: false, defaultValue: null)]
+        [SubsettedProperty(propertyName: "Element-ownedElement")]
+        [SubsettedProperty(propertyName: "Namespace-member")]
+        [Implements(implementation: "INamespace.OwnedMember")]
+        public IContainerList<INamedElement> OwnedMember => this.QueryOwnedMember();
+
+        /// <summary>
         /// The Operations owned by the Class.
         /// </summary>
-        [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: true)]
-        [SubsettedProperty("A_redefinitionContext_redefinableElement-redefinableElement")]
-        [SubsettedProperty("Classifier-feature")]
-        [SubsettedProperty("Namespace-ownedMember")]
+        [Property(xmiId: "Class-ownedOperation", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: true, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [SubsettedProperty(propertyName: "A_redefinitionContext_redefinableElement-redefinableElement")]
+        [SubsettedProperty(propertyName: "Classifier-feature")]
+        [SubsettedProperty(propertyName: "Namespace-ownedMember")]
         [Implements(implementation: "IClass.OwnedOperation")]
         public IContainerList<IOperation> OwnedOperation
         {
@@ -460,11 +439,19 @@ namespace uml4net.POCO.Packages
         private IContainerList<IOperation> ownedOperation;
 
         /// <summary>
+        /// The Ports owned by the EncapsulatedClassifier.
+        /// </summary>
+        [Property(xmiId: "EncapsulatedClassifier-ownedPort", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [SubsettedProperty(propertyName: "StructuredClassifier-ownedAttribute")]
+        [Implements(implementation: "IEncapsulatedClassifier.OwnedPort")]
+        public IContainerList<IPort> OwnedPort => this.QueryOwnedPort();
+
+        /// <summary>
         /// The Receptions owned by the Class.
         /// </summary>
-        [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue)]
-        [SubsettedProperty("Classifier-feature")]
-        [SubsettedProperty("Namespace-ownedMember")]
+        [Property(xmiId: "Class-ownedReception", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [SubsettedProperty(propertyName: "Classifier-feature")]
+        [SubsettedProperty(propertyName: "Namespace-ownedMember")]
         [Implements(implementation: "IClass.OwnedReception")]
         public IContainerList<IReception> OwnedReception
         {
@@ -478,11 +465,265 @@ namespace uml4net.POCO.Packages
         private IContainerList<IReception> ownedReception;
 
         /// <summary>
+        /// Specifies a set of Constraints owned by this Namespace.
+        /// </summary>
+        [Property(xmiId: "Namespace-ownedRule", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [SubsettedProperty(propertyName: "Namespace-ownedMember")]
+        [Implements(implementation: "INamespace.OwnedRule")]
+        public IContainerList<IConstraint> OwnedRule
+        {
+            get => this.ownedRule ??= new ContainerList<IConstraint>(this);
+            set => this.ownedRule = value;
+        }
+
+        /// <summary>
+        /// Backing field for <see cref="OwnedRule"/>
+        /// </summary>
+        private IContainerList<IConstraint> ownedRule;
+
+        /// <summary>
+        /// The optional RedefinableTemplateSignature specifying the formal template parameters.
+        /// </summary>
+        [Property(xmiId: "Classifier-ownedTemplateSignature", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [SubsettedProperty(propertyName: "A_redefinitionContext_redefinableElement-redefinableElement")]
+        [RedefinedProperty(propertyName: "TemplateableElement-ownedTemplateSignature")]
+        [Implements(implementation: "IClassifier.OwnedTemplateSignature")]
+        public new IContainerList<IRedefinableTemplateSignature> OwnedTemplateSignature
+        {
+            get => this.ownedTemplateSignature ??= new ContainerList<IRedefinableTemplateSignature>(this);
+            set => this.ownedTemplateSignature = value;
+        }
+
+        /// <summary>
+        /// Backing field for <see cref="OwnedTemplateSignature"/>
+        /// </summary>
+        private IContainerList<IRedefinableTemplateSignature> ownedTemplateSignature;
+
+        /// <summary>
+        /// The optional TemplateSignature specifying the formal TemplateParameters for this
+        /// TemplateableElement. If a TemplateableElement has a TemplateSignature, then it is a template.
+        /// </summary>
+        [Property(xmiId: "TemplateableElement-ownedTemplateSignature", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [SubsettedProperty(propertyName: "Element-ownedElement")]
+        [RedefinedByProperty("IClassifier.OwnedTemplateSignature")]
+        [Implements(implementation: "ITemplateableElement.OwnedTemplateSignature")]
+        IContainerList<ITemplateSignature> ITemplateableElement.OwnedTemplateSignature { get; set; }
+
+        /// <summary>
+        /// The UseCases owned by this classifier.
+        /// </summary>
+        [Property(xmiId: "Classifier-ownedUseCase", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [SubsettedProperty(propertyName: "Namespace-ownedMember")]
+        [Implements(implementation: "IClassifier.OwnedUseCase")]
+        public IContainerList<IUseCase> OwnedUseCase
+        {
+            get => this.ownedUseCase ??= new ContainerList<IUseCase>(this);
+            set => this.ownedUseCase = value;
+        }
+
+        /// <summary>
+        /// Backing field for <see cref="OwnedUseCase"/>
+        /// </summary>
+        private IContainerList<IUseCase> ownedUseCase;
+
+        /// <summary>
+        /// The Element that owns this Element.
+        /// </summary>
+        [Property(xmiId: "Element-owner", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: false, defaultValue: null)]
+        [Implements(implementation: "IElement.Owner")]
+        public IElement Owner => this.QueryOwner();
+
+        /// <summary>
+        /// The formal TemplateParameter that owns this ParameterableElement.
+        /// </summary>
+        [Property(xmiId: "ParameterableElement-owningTemplateParameter", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [SubsettedProperty(propertyName: "Element-owner")]
+        [SubsettedProperty(propertyName: "ParameterableElement-templateParameter")]
+        [Implements(implementation: "IParameterableElement.OwningTemplateParameter")]
+        public ITemplateParameter OwningTemplateParameter { get; set; }
+
+        /// <summary>
+        /// Specifies the owning Package of this Type, if any.
+        /// </summary>
+        [Property(xmiId: "Type-package", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [SubsettedProperty(propertyName: "A_packagedElement_owningPackage-owningPackage")]
+        [Implements(implementation: "IType.Package")]
+        public IPackage Package { get; set; }
+
+        /// <summary>
+        /// References the PackageImports owned by the Namespace.
+        /// </summary>
+        [Property(xmiId: "Namespace-packageImport", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [SubsettedProperty(propertyName: "A_source_directedRelationship-directedRelationship")]
+        [SubsettedProperty(propertyName: "Element-ownedElement")]
+        [Implements(implementation: "INamespace.PackageImport")]
+        public IContainerList<IPackageImport> PackageImport
+        {
+            get => this.packageImport ??= new ContainerList<IPackageImport>(this);
+            set => this.packageImport = value;
+        }
+
+        /// <summary>
+        /// Backing field for <see cref="PackageImport"/>
+        /// </summary>
+        private IContainerList<IPackageImport> packageImport;
+
+        /// <summary>
+        /// The Properties specifying instances that the StructuredClassifier owns by composition. This
+        /// collection is derived, selecting those owned Properties where isComposite is true.
+        /// </summary>
+        [Property(xmiId: "StructuredClassifier-part", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Implements(implementation: "IStructuredClassifier.Part")]
+        public List<IProperty> Part => this.QueryPart();
+
+        /// <summary>
+        /// The GeneralizationSet of which this Classifier is a power type.
+        /// </summary>
+        [Property(xmiId: "Classifier-powertypeExtent", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Implements(implementation: "IClassifier.PowertypeExtent")]
+        public List<IGeneralizationSet> PowertypeExtent { get; set; } = new();
+
+        /// <summary>
+        /// The profile that directly or indirectly contains this stereotype.
+        /// </summary>
+        [Property(xmiId: "Stereotype-profile", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Implements(implementation: "IStereotype.Profile")]
+        public IProfile Profile => this.QueryProfile();
+
+        /// <summary>
+        /// A name that allows the NamedElement to be identified within a hierarchy of nested Namespaces. It is
+        /// constructed from the names of the containing Namespaces starting at the root of the hierarchy and
+        /// ending with the name of the NamedElement itself.
+        /// </summary>
+        [Property(xmiId: "NamedElement-qualifiedName", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Implements(implementation: "INamedElement.QualifiedName")]
+        public string QualifiedName => this.QueryQualifiedName();
+
+        /// <summary>
+        /// The Classifiers redefined by this Classifier.
+        /// </summary>
+        [Property(xmiId: "Classifier-redefinedClassifier", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [SubsettedProperty(propertyName: "RedefinableElement-redefinedElement")]
+        [Implements(implementation: "IClassifier.RedefinedClassifier")]
+        public List<IClassifier> RedefinedClassifier { get; set; } = new();
+
+        /// <summary>
+        /// The RedefinableElement that is being redefined by this element.
+        /// </summary>
+        [Property(xmiId: "RedefinableElement-redefinedElement", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: false, defaultValue: null)]
+        [Implements(implementation: "IRedefinableElement.RedefinedElement")]
+        public List<IRedefinableElement> RedefinedElement => this.QueryRedefinedElement();
+
+        /// <summary>
+        /// The contexts that this element may be redefined from.
+        /// </summary>
+        [Property(xmiId: "RedefinableElement-redefinitionContext", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: false, defaultValue: null)]
+        [Implements(implementation: "IRedefinableElement.RedefinitionContext")]
+        public List<IClassifier> RedefinitionContext => this.QueryRedefinitionContext();
+
+        /// <summary>
+        /// A CollaborationUse which indicates the Collaboration that represents this Classifier.
+        /// </summary>
+        [Property(xmiId: "Classifier-representation", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [SubsettedProperty(propertyName: "Classifier-collaborationUse")]
+        [Implements(implementation: "IClassifier.Representation")]
+        public ICollaborationUse Representation { get; set; }
+
+        /// <summary>
+        /// The roles that instances may play in this StructuredClassifier.
+        /// </summary>
+        [Property(xmiId: "StructuredClassifier-role", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: false, defaultValue: null)]
+        [SubsettedProperty(propertyName: "Namespace-member")]
+        [Implements(implementation: "IStructuredClassifier.Role")]
+        public List<IConnectableElement> Role => this.QueryRole();
+
+        /// <summary>
+        /// The Substitutions owned by this Classifier.
+        /// </summary>
+        [Property(xmiId: "Classifier-substitution", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [SubsettedProperty(propertyName: "Element-ownedElement")]
+        [SubsettedProperty(propertyName: "NamedElement-clientDependency")]
+        [Implements(implementation: "IClassifier.Substitution")]
+        public IContainerList<ISubstitution> Substitution
+        {
+            get => this.substitution ??= new ContainerList<ISubstitution>(this);
+            set => this.substitution = value;
+        }
+
+        /// <summary>
+        /// Backing field for <see cref="Substitution"/>
+        /// </summary>
+        private IContainerList<ISubstitution> substitution;
+
+        /// <summary>
         /// The superclasses of a Class, derived from its Generalizations.
         /// </summary>
-        [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isDerived: true)]
-        [RedefinedProperty("Class-superClass")]
+        [Property(xmiId: "Class-superClass", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: true, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [RedefinedProperty(propertyName: "Classifier-general")]
         [Implements(implementation: "IClass.SuperClass")]
-        public List<IClass> SuperClass => throw new NotImplementedException();
+        public new List<IClass> SuperClass => this.QuerySuperClass();
+
+        /// <summary>
+        /// The optional TemplateBindings from this TemplateableElement to one or more templates.
+        /// </summary>
+        [Property(xmiId: "TemplateableElement-templateBinding", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [SubsettedProperty(propertyName: "A_source_directedRelationship-directedRelationship")]
+        [SubsettedProperty(propertyName: "Element-ownedElement")]
+        [Implements(implementation: "ITemplateableElement.TemplateBinding")]
+        public IContainerList<ITemplateBinding> TemplateBinding
+        {
+            get => this.templateBinding ??= new ContainerList<ITemplateBinding>(this);
+            set => this.templateBinding = value;
+        }
+
+        /// <summary>
+        /// Backing field for <see cref="TemplateBinding"/>
+        /// </summary>
+        private IContainerList<ITemplateBinding> templateBinding;
+
+        /// <summary>
+        /// TheClassifierTemplateParameter that exposes this element as a formal parameter.
+        /// </summary>
+        [Property(xmiId: "Classifier-templateParameter", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [RedefinedProperty(propertyName: "ParameterableElement-templateParameter")]
+        [Implements(implementation: "IClassifier.TemplateParameter")]
+        public new IClassifierTemplateParameter TemplateParameter { get; set; }
+
+        /// <summary>
+        /// The TemplateParameter that exposes this ParameterableElement as a formal parameter.
+        /// </summary>
+        [Property(xmiId: "ParameterableElement-templateParameter", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [RedefinedByProperty("IClassifier.TemplateParameter")]
+        [Implements(implementation: "IParameterableElement.TemplateParameter")]
+        ITemplateParameter IParameterableElement.TemplateParameter { get; set; }
+
+        /// <summary>
+        /// The set of UseCases for which this Classifier is the subject.
+        /// </summary>
+        [Property(xmiId: "Classifier-useCase", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Implements(implementation: "IClassifier.UseCases")]
+        public List<IUseCase> UseCases { get; set; } = new();
+
+        /// <summary>
+        /// Determines whether and how the NamedElement is visible outside its owning Namespace.
+        /// </summary>
+        [Property(xmiId: "NamedElement-visibility", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [RedefinedByProperty("IPackageableElement.Visibility")]
+        [Implements(implementation: "INamedElement.Visibility")]
+        VisibilityKind INamedElement.Visibility { get; set; }
+
+        /// <summary>
+        /// A PackageableElement must have a visibility specified if it is owned by a Namespace. The default
+        /// visibility is public.
+        /// </summary>
+        [Property(xmiId: "PackageableElement-visibility", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: "public")]
+        [RedefinedProperty(propertyName: "NamedElement-visibility")]
+        [Implements(implementation: "IPackageableElement.Visibility")]
+        public new VisibilityKind Visibility { get; set; }
+
     }
 }
+
+// ------------------------------------------------------------------------------------------------
+// --------THIS IS AN AUTOMATICALLY GENERATED FILE. ANY MANUAL CHANGES WILL BE OVERWRITTEN!--------
+// ------------------------------------------------------------------------------------------------

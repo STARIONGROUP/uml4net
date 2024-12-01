@@ -9,7 +9,7 @@
 //
 //       http://www.apache.org/licenses/LICENSE-2.0
 //
-//   Unless required by applicable law or agreed to in writing, softwareUseCases
+//   Unless required by applicable law or agreed to in writing, software
 //   distributed under the License is distributed on an "AS IS" BASIS,
 //   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //   See the License for the specific language governing permissions and
@@ -18,33 +18,56 @@
 // </copyright>
 // ------------------------------------------------------------------------------------------------
 
-namespace uml4net.POCO.Packages
+// ------------------------------------------------------------------------------------------------
+// --------THIS IS AN AUTOMATICALLY GENERATED FILE. ANY MANUAL CHANGES WILL BE OVERWRITTEN!--------
+// ------------------------------------------------------------------------------------------------
+
+namespace uml4net.Packages
 {
     using System.Collections.Generic;
 
     using uml4net.Decorators;
-    using uml4net.POCO.Classification;
-    using uml4net.POCO.CommonStructure;
-    using Utils;
+    using uml4net.Actions;
+    using uml4net.Activities;
+    using uml4net.Classification;
+    using uml4net.CommonBehavior;
+    using uml4net.CommonStructure;
+    using uml4net.Deployments;
+    using uml4net.InformationFlows;
+    using uml4net.Interactions;
+    using uml4net.Packages;
+    using uml4net.SimpleClassifiers;
+    using uml4net.StateMachines;
+    using uml4net.StructuredClassifiers;
+    using uml4net.UseCases;
+    using uml4net.Values;
+
+    using uml4net.Utils;
 
     /// <summary>
-    /// A profile defines limited extensions to a reference metamodel with the purpose of adapting
-    /// the metamodel to a specific platform or domain.
+    /// A profile defines limited extensions to a reference metamodel with the purpose of adapting the
+    /// metamodel to a specific platform or domain.
     /// </summary>
-    public interface IProfile : IPackage
+    [Class(xmiId: "Profile", isAbstract: false, isFinalSpecialization: false, isActive: false)]
+    public partial interface IProfile : IPackage
     {
         /// <summary>
         /// References a metaclass that may be extended.
         /// </summary>
-        [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue)]
+        [Property(xmiId: "Profile-metaclassReference", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
         [SubsettedProperty(propertyName: "Namespace-elementImport")]
         public IContainerList<IElementImport> MetaclassReference { get; set; }
 
         /// <summary>
         /// References a package containing (directly or indirectly) metaclasses that may be extended.
         /// </summary>
-        [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue)]
+        [Property(xmiId: "Profile-metamodelReference", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
         [SubsettedProperty(propertyName: "Namespace-packageImport")]
         public IContainerList<IPackageImport> MetamodelReference { get; set; }
+
     }
 }
+
+// ------------------------------------------------------------------------------------------------
+// --------THIS IS AN AUTOMATICALLY GENERATED FILE. ANY MANUAL CHANGES WILL BE OVERWRITTEN!--------
+// ------------------------------------------------------------------------------------------------

@@ -30,8 +30,8 @@ namespace uml4net.Extensions.Tests
 
     using Serilog;
 
-    using uml4net.POCO.Packages;
-    using uml4net.POCO.StructuredClassifiers;
+    using uml4net.Packages;
+    using uml4net.StructuredClassifiers;
     using uml4net.xmi;
     using xmi.Readers;
 

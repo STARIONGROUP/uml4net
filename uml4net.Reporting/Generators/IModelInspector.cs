@@ -20,7 +20,7 @@
 
 namespace uml4net.Reporting.Generators
 {
-    using POCO.Packages;
+    using uml4net.Packages;
 
     /// <summary>
     /// The purpose of the <see cref="IModelInspector"/> is to iterate through the model and report on the various kinds of

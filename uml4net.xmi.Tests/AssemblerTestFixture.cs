@@ -27,11 +27,11 @@ namespace uml4net.xmi.Tests
 
     using NUnit.Framework;
     
-    using uml4net.POCO.Classification;
-    using uml4net.POCO.CommonStructure;
-    using uml4net.POCO.SimpleClassifiers;
-    using uml4net.POCO.StructuredClassifiers;
-    using uml4net.POCO.Values;
+    using uml4net.Classification;
+    using uml4net.CommonStructure;
+    using uml4net.SimpleClassifiers;
+    using uml4net.StructuredClassifiers;
+    using uml4net.Values;
     using uml4net.xmi.Cache;
 
     [TestFixture]
@@ -63,26 +63,25 @@ namespace uml4net.xmi.Tests
             var classElement = new Class
             {
                 XmiId = Guid.NewGuid().ToString(),
-                Name = "TestClass",
-                NameExpression = null
+                Name = "TestClass"
             };
 
             var stringExpression = new StringExpression { XmiId = Guid.NewGuid().ToString(), Name = "StringExpression1" };
 
-            classElement.SingleValueReferencePropertyIdentifiers.Add("NameExpression", stringExpression.XmiId);
+            classElement.MultiValueReferencePropertyIdentifiers.Add("NameExpression", [stringExpression.XmiId]);
             this.cache.Add(classElement.XmiId, classElement);
             this.cache.Add(stringExpression.XmiId, stringExpression);
 
-            Assert.That(classElement.NameExpression, Is.Null);
+            Assert.That(classElement.NameExpression, Is.Empty);
             
             this.assembler.Synchronize();
             
             // Assert
             Assert.Multiple(() =>
             {
-                Assert.That(classElement.NameExpression, Is.Not.Null);
-                Assert.That(classElement.NameExpression, Is.SameAs(stringExpression));
-                Assert.That(classElement.NameExpression.Name, Is.EqualTo(stringExpression.Name));
+                Assert.That(classElement.NameExpression, Is.Not.Empty);
+                Assert.That(classElement.NameExpression.First(), Is.SameAs(stringExpression));
+                Assert.That(classElement.NameExpression.First().Name, Is.EqualTo(stringExpression.Name));
             });
         }
 
@@ -180,8 +179,7 @@ namespace uml4net.xmi.Tests
             var classElement = new Class
             {
                 XmiId = Guid.NewGuid().ToString(),
-                Name = "TestClass",
-                NameExpression = null
+                Name = "TestClass"
             };
 
             var stringExpression = new StringExpression { XmiId = Guid.NewGuid().ToString(), Name = "StringExpression1" };
@@ -194,10 +192,10 @@ namespace uml4net.xmi.Tests
             this.cache.Add(comment1.XmiId, comment1);
             this.cache.Add(comment2.XmiId, comment2);
 
-            classElement.SingleValueReferencePropertyIdentifiers.Add("NameExpression", stringExpression.XmiId);
+            classElement.MultiValueReferencePropertyIdentifiers.Add("NameExpression", [stringExpression.XmiId]);
             this.cache.Add(stringExpression.XmiId, stringExpression);
 
-            Assert.That(classElement.NameExpression, Is.Null);
+            Assert.That(classElement.NameExpression, Is.Empty);
             Assert.That(classElement.OwnedComment.Count, Is.Zero);
 
             this.assembler.Synchronize();
@@ -208,9 +206,9 @@ namespace uml4net.xmi.Tests
                 Assert.That(classElement.OwnedComment.Count, Is.EqualTo(2));
                 Assert.That(classElement.OwnedComment.Contains(comment1));
                 Assert.That(classElement.OwnedComment.Contains(comment2));
-                Assert.That(classElement.NameExpression, Is.Not.Null);
-                Assert.That(classElement.NameExpression, Is.SameAs(stringExpression));
-                Assert.That(classElement.NameExpression.Name, Is.EqualTo(stringExpression.Name));
+                Assert.That(classElement.NameExpression, Is.Not.Empty);
+                Assert.That(classElement.NameExpression.First(), Is.SameAs(stringExpression));
+                Assert.That(classElement.NameExpression.First().Name, Is.EqualTo(stringExpression.Name));
             });
         }
 
@@ -221,15 +219,13 @@ namespace uml4net.xmi.Tests
             var classElement0 = new Class
             {
                 XmiId = Guid.NewGuid().ToString(),
-                Name = "TestClass",
-                NameExpression = null
+                Name = "TestClass"
             };
 
             var classElement1 = new Class
             {
                 XmiId = Guid.NewGuid().ToString(),
-                Name = "TestClass",
-                NameExpression = null
+                Name = "TestClass"
             };
 
             var stringExpression = new StringExpression { XmiId = Guid.NewGuid().ToString(), Name = "StringExpression1" };
@@ -244,11 +240,11 @@ namespace uml4net.xmi.Tests
             this.cache.Add(comment1.XmiId, comment1);
             this.cache.Add(comment0.XmiId, comment0);
 
-            classElement0.SingleValueReferencePropertyIdentifiers.Add("NameExpression", stringExpression.XmiId);
+            classElement0.MultiValueReferencePropertyIdentifiers.Add("NameExpression", [stringExpression.XmiId]);
             this.cache.Add(stringExpression.XmiId, stringExpression);
 
-            Assert.That(classElement0.NameExpression, Is.Null);
-            Assert.That(classElement1.NameExpression, Is.Null);
+            Assert.That(classElement0.NameExpression, Is.Empty);
+            Assert.That(classElement1.NameExpression, Is.Empty);
             Assert.That(classElement0.OwnedComment.Count, Is.Zero);
             Assert.That(classElement1.OwnedComment.Count, Is.Zero);
 
@@ -257,14 +253,13 @@ namespace uml4net.xmi.Tests
             // Assert
             Assert.Multiple(() =>
             {
-                Assert.That(classElement0.NameExpression, Is.SameAs(stringExpression));
-                Assert.That(classElement1.NameExpression, Is.Null);
+                Assert.That(classElement1.NameExpression, Is.Empty);
                 Assert.That(classElement0.OwnedComment.Count, Is.EqualTo(1));
                 Assert.That(classElement1.OwnedComment.Count, Is.EqualTo(1));
                 Assert.That(classElement0.OwnedComment.Contains(comment0));
                 Assert.That(classElement1.OwnedComment.Contains(comment1));
-                Assert.That(classElement0.NameExpression, Is.Not.Null);
-                Assert.That(classElement0.NameExpression.Name, Is.EqualTo(stringExpression.Name));
+                Assert.That(classElement0.NameExpression, Is.Not.Empty);
+                Assert.That(classElement0.NameExpression.First().Name, Is.EqualTo(stringExpression.Name));
             });
         }
 
@@ -274,8 +269,7 @@ namespace uml4net.xmi.Tests
             var classElement = new Class
             {
                 XmiId = Guid.NewGuid().ToString(),
-                Name = "TestClass",
-                NameExpression = new StringExpression()
+                Name = "TestClass"
             };
 
             classElement.SingleValueReferencePropertyIdentifiers.Add("NameExpression", "NonExistentReference");
@@ -305,7 +299,7 @@ namespace uml4net.xmi.Tests
             {
                 Assert.Throws<InvalidOperationException>(() => this.assembler.Synchronize());
                 Assert.That(classElement.OwnedComment, Is.Empty);
-                Assert.That(classElement.NameExpression, Is.Null);
+                Assert.That(classElement.NameExpression, Is.Empty);
             });
         }
 

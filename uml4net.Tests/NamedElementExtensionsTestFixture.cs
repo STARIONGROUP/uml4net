@@ -21,8 +21,8 @@
 namespace uml4net.Tests
 {
     using NUnit.Framework;
-    using POCO.Packages;
-    using POCO.StructuredClassifiers;
+    using uml4net.Packages;
+    using uml4net.StructuredClassifiers;
 
     [TestFixture]
     public class NamedElementExtensionsTestFixture

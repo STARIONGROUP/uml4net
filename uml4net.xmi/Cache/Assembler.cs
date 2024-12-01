@@ -27,7 +27,7 @@ namespace uml4net.xmi.Cache
     using System.Linq;
     using System.Reflection;
     using Decorators;
-    using POCO;
+    using uml4net;
 
     /// <summary>
     /// The purpose of the Assembler is to resolve all the reference properties of the objects

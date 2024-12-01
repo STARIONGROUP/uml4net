@@ -21,12 +21,14 @@
 namespace uml4net.xmi.Readers.CommonStructure
 {
     using System;
+    using System.Collections.Generic;
     using System.Xml;
 
     using Microsoft.Extensions.Logging;
 
-    using uml4net.POCO;
-    using uml4net.POCO.CommonStructure;
+    using uml4net;
+    using uml4net.CommonStructure;
+    
     using uml4net.xmi.Cache;
     using uml4net.xmi.Readers;
 

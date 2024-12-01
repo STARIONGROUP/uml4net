@@ -22,7 +22,7 @@
 // --------THIS IS AN AUTOMATICALLY GENERATED FILE. ANY MANUAL CHANGES WILL BE OVERWRITTEN!--------
 // ------------------------------------------------------------------------------------------------
 
-namespace uml4net.POCO.StateMachines
+namespace uml4net.StateMachines
 {
     /// <summary>
     /// TransitionKind is an Enumeration type used to differentiate the various kinds of Transitions.

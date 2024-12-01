@@ -1,5 +1,5 @@
 ﻿// -------------------------------------------------------------------------------------------------
-// <copyright file="IProtocolConformance.cs" company="Starion Group S.A.">
+// <copyright file="ProtocolConformance.cs" company="Starion Group S.A.">
 //
 //   Copyright 2019-2024 Starion Group S.A.
 //
@@ -9,7 +9,7 @@
 //
 //       http://www.apache.org/licenses/LICENSE-2.0
 //
-//   Unless required by applicable law or agreed to in writing, softwareUseCases
+//   Unless required by applicable law or agreed to in writing, software
 //   distributed under the License is distributed on an "AS IS" BASIS,
 //   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //   See the License for the specific language governing permissions and
@@ -18,29 +18,59 @@
 // </copyright>
 // ------------------------------------------------------------------------------------------------
 
-namespace uml4net.POCO.StateMachines
+// ------------------------------------------------------------------------------------------------
+// --------THIS IS AN AUTOMATICALLY GENERATED FILE. ANY MANUAL CHANGES WILL BE OVERWRITTEN!--------
+// ------------------------------------------------------------------------------------------------
+
+namespace uml4net.StateMachines
 {
-    using System;
     using System.Collections.Generic;
 
     using uml4net.Decorators;
-    using uml4net.Extend;
+    using uml4net.Actions;
+    using uml4net.Activities;
+    using uml4net.Classification;
+    using uml4net.CommonBehavior;
+    using uml4net.CommonStructure;
+    using uml4net.Deployments;
+    using uml4net.InformationFlows;
+    using uml4net.Interactions;
+    using uml4net.Packages;
+    using uml4net.SimpleClassifiers;
+    using uml4net.StateMachines;
+    using uml4net.StructuredClassifiers;
+    using uml4net.UseCases;
+    using uml4net.Values;
+
     using uml4net.Utils;
-    using uml4net.POCO.Classification;
-    using uml4net.POCO.CommonStructure;
 
     /// <summary>
     /// A ProtocolStateMachine can be redefined into a more specific ProtocolStateMachine or into behavioral
-    /// StateMachine. ProtocolConformance declares that the specific ProtocolStateMachine specifies a protocol
-    /// that conforms to the general ProtocolStateMachine or that the specific behavioral StateMachine abides
-    /// by the protocol of the general ProtocolStateMachine.
+    /// StateMachine. ProtocolConformance declares that the specific ProtocolStateMachine specifies a
+    /// protocol that conforms to the general ProtocolStateMachine or that the specific behavioral
+    /// StateMachine abides by the protocol of the general ProtocolStateMachine.
     /// </summary>
-    public class ProtocolConformance : XmiElement, IProtocolConformance
+    [Class(xmiId: "ProtocolConformance", isAbstract: false, isFinalSpecialization: false, isActive: false)]
+    public partial class ProtocolConformance : XmiElement, IProtocolConformance
     {
+        /// <summary>
+        /// Gets or sets the container of this <see cref="IElement"/>
+        /// </summary>
+        public IElement Possessor { get; set; }
+
+        /// <summary>
+        /// Specifies the ProtocolStateMachine to which the specific ProtocolStateMachine conforms.
+        /// </summary>
+        [Property(xmiId: "ProtocolConformance-generalMachine", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [SubsettedProperty(propertyName: "DirectedRelationship-target")]
+        [Implements(implementation: "IProtocolConformance.GeneralMachine")]
+        public IProtocolStateMachine GeneralMachine { get; set; }
+
         /// <summary>
         /// The Comments owned by this Element.
         /// </summary>
-        [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue)]
+        [Property(xmiId: "Element-ownedComment", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [SubsettedProperty(propertyName: "Element-ownedElement")]
         [Implements(implementation: "IElement.OwnedComment")]
         public IContainerList<IComment> OwnedComment
         {
@@ -54,45 +84,54 @@ namespace uml4net.POCO.StateMachines
         private IContainerList<IComment> ownedComment;
 
         /// <summary>
-        /// The Elements owned by this Element
+        /// The Elements owned by this Element.
         /// </summary>
-        [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isReadOnly: true, isDerived: true, isDerivedUnion: true)]
+        [Property(xmiId: "Element-ownedElement", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: false, defaultValue: null)]
         [Implements(implementation: "IElement.OwnedElement")]
-        public List<IElement> OwnedElement => throw new NotImplementedException();
+        public IContainerList<IElement> OwnedElement => this.QueryOwnedElement();
 
         /// <summary>
         /// The Element that owns this Element.
         /// </summary>
-        [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isReadOnly: true, isDerived: true, isDerivedUnion: true)]
+        [Property(xmiId: "Element-owner", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: false, defaultValue: null)]
         [Implements(implementation: "IElement.Owner")]
         public IElement Owner => this.QueryOwner();
 
         /// <summary>
-        /// Gets or sets the container of this <see cref="IElement"/>
+        /// Specifies the elements related by the Relationship.
         /// </summary>
-        public IElement Possessor { get; set; }
+        [Property(xmiId: "Relationship-relatedElement", aggregation: AggregationKind.None, lowerValue: 1, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: false, defaultValue: null)]
+        [Implements(implementation: "IRelationship.RelatedElement")]
+        public List<IElement> RelatedElement => this.QueryRelatedElement();
 
         /// <summary>
         /// Specifies the source Element(s) of the DirectedRelationship.
         /// </summary>
-        [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: int.MaxValue, isReadOnly: true, isDerived: true, isDerivedUnion: true)]
+        [Property(xmiId: "DirectedRelationship-source", aggregation: AggregationKind.None, lowerValue: 1, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: false, defaultValue: null)]
+        [SubsettedProperty(propertyName: "Relationship-relatedElement")]
         [Implements(implementation: "IDirectedRelationship.Source")]
-        [SubsettedProperty(propertyName: "Relationship.RelatedElement")]
-        public List<IElement> Source => throw new NotImplementedException();
+        public List<IElement> Source => this.QuerySource();
+
+        /// <summary>
+        /// Specifies the ProtocolStateMachine which conforms to the general ProtocolStateMachine.
+        /// </summary>
+        [Property(xmiId: "ProtocolConformance-specificMachine", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [SubsettedProperty(propertyName: "DirectedRelationship-source")]
+        [SubsettedProperty(propertyName: "Element-owner")]
+        [Implements(implementation: "IProtocolConformance.SpecificMachine")]
+        public IProtocolStateMachine SpecificMachine { get; set; }
 
         /// <summary>
         /// Specifies the target Element(s) of the DirectedRelationship.
         /// </summary>
-        [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: int.MaxValue, isReadOnly: true, isDerived: true, isDerivedUnion: true)]
+        [Property(xmiId: "DirectedRelationship-target", aggregation: AggregationKind.None, lowerValue: 1, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: false, defaultValue: null)]
+        [SubsettedProperty(propertyName: "Relationship-relatedElement")]
         [Implements(implementation: "IDirectedRelationship.Target")]
-        [SubsettedProperty(propertyName: "Relationship.RelatedElement")]
-        public List<IElement> Target => throw new NotImplementedException();
+        public List<IElement> Target => this.QueryTarget();
 
-        /// <summary>
-        /// Specifies the elements related by the Relationship.
-        /// </summary>
-        [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: int.MaxValue, isReadOnly: true, isDerived: true, isDerivedUnion: true)]
-        [Implements(implementation: "IRelationship.RelatedElement")]
-        public List<IElement> RelatedElement => throw new NotImplementedException();
     }
 }
+
+// ------------------------------------------------------------------------------------------------
+// --------THIS IS AN AUTOMATICALLY GENERATED FILE. ANY MANUAL CHANGES WILL BE OVERWRITTEN!--------
+// ------------------------------------------------------------------------------------------------

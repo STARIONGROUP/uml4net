@@ -22,7 +22,7 @@
 // --------THIS IS AN AUTOMATICALLY GENERATED FILE. ANY MANUAL CHANGES WILL BE OVERWRITTEN!--------
 // ------------------------------------------------------------------------------------------------
 
-namespace uml4net.POCO.Activities
+namespace uml4net.Activities
 {
     /// <summary>
     /// ObjectNodeOrderingKind is an enumeration indicating queuing order for offering the tokens held by an

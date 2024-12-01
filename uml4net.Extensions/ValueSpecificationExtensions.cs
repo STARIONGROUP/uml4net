@@ -21,8 +21,9 @@
 namespace uml4net.Extensions
 {
     using System;
-    using POCO.Classification;
-    using uml4net.POCO.Values;
+
+    using uml4net.Classification;
+    using uml4net.Values;
 
     /// <summary>
     /// The <see cref="ValueSpecificationExtensions"/> class provides extensions methods for the <see cref="IValueSpecification"/>

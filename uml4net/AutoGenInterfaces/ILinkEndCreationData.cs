@@ -9,7 +9,7 @@
 //
 //       http://www.apache.org/licenses/LICENSE-2.0
 //
-//   Unless required by applicable law or agreed to in writing, softwareUseCases
+//   Unless required by applicable law or agreed to in writing, software
 //   distributed under the License is distributed on an "AS IS" BASIS,
 //   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //   See the License for the specific language governing permissions and
@@ -18,12 +18,58 @@
 // </copyright>
 // ------------------------------------------------------------------------------------------------
 
-namespace uml4net.POCO.Actions
+// ------------------------------------------------------------------------------------------------
+// --------THIS IS AN AUTOMATICALLY GENERATED FILE. ANY MANUAL CHANGES WILL BE OVERWRITTEN!--------
+// ------------------------------------------------------------------------------------------------
+
+namespace uml4net.Actions
 {
+    using System.Collections.Generic;
+
+    using uml4net.Decorators;
+    using uml4net.Actions;
+    using uml4net.Activities;
+    using uml4net.Classification;
+    using uml4net.CommonBehavior;
+    using uml4net.CommonStructure;
+    using uml4net.Deployments;
+    using uml4net.InformationFlows;
+    using uml4net.Interactions;
+    using uml4net.Packages;
+    using uml4net.SimpleClassifiers;
+    using uml4net.StateMachines;
+    using uml4net.StructuredClassifiers;
+    using uml4net.UseCases;
+    using uml4net.Values;
+
+    using uml4net.Utils;
+
     /// <summary>
-    /// LinkEndCreationData is LinkEndData used to provide values for one end of a link to be created by a CreateLinkAction.
+    /// LinkEndCreationData is LinkEndData used to provide values for one end of a link to be created by a
+    /// CreateLinkAction.
     /// </summary>
-    public interface ILinkEndCreationData : ILinkEndData
+    [Class(xmiId: "LinkEndCreationData", isAbstract: false, isFinalSpecialization: false, isActive: false)]
+    public partial interface ILinkEndCreationData : ILinkEndData
     {
+        /// <summary>
+        /// For ordered Association ends, the InputPin that provides the position where the new link should be
+        /// inserted or where an existing link should be moved to. The type of the insertAt InputPin is
+        /// UnlimitedNatural, but the input cannot be zero. It is omitted for Association ends that are not
+        /// ordered.
+        /// </summary>
+        [Property(xmiId: "LinkEndCreationData-insertAt", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        public IInputPin InsertAt { get; set; }
+
+        /// <summary>
+        /// Specifies whether the existing links emanating from the object on this end should be destroyed
+        /// before creating a new link.
+        /// </summary>
+        [Property(xmiId: "LinkEndCreationData-isReplaceAll", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: "false")]
+        public bool IsReplaceAll { get; set; }
+
     }
 }
+
+// ------------------------------------------------------------------------------------------------
+// --------THIS IS AN AUTOMATICALLY GENERATED FILE. ANY MANUAL CHANGES WILL BE OVERWRITTEN!--------
+// ------------------------------------------------------------------------------------------------

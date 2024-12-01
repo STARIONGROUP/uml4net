@@ -9,7 +9,7 @@
 //
 //       http://www.apache.org/licenses/LICENSE-2.0
 //
-//   Unless required by applicable law or agreed to in writing, softwareUseCases
+//   Unless required by applicable law or agreed to in writing, software
 //   distributed under the License is distributed on an "AS IS" BASIS,
 //   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //   See the License for the specific language governing permissions and
@@ -18,30 +18,58 @@
 // </copyright>
 // ------------------------------------------------------------------------------------------------
 
-namespace uml4net.POCO.Packages
+// ------------------------------------------------------------------------------------------------
+// --------THIS IS AN AUTOMATICALLY GENERATED FILE. ANY MANUAL CHANGES WILL BE OVERWRITTEN!--------
+// ------------------------------------------------------------------------------------------------
+
+namespace uml4net.Packages
 {
+    using System.Collections.Generic;
+
     using uml4net.Decorators;
-    using uml4net.POCO.Classification;
-    using uml4net.POCO.CommonStructure;
+    using uml4net.Actions;
+    using uml4net.Activities;
+    using uml4net.Classification;
+    using uml4net.CommonBehavior;
+    using uml4net.CommonStructure;
+    using uml4net.Deployments;
+    using uml4net.InformationFlows;
+    using uml4net.Interactions;
+    using uml4net.Packages;
+    using uml4net.SimpleClassifiers;
+    using uml4net.StateMachines;
+    using uml4net.StructuredClassifiers;
+    using uml4net.UseCases;
+    using uml4net.Values;
+
+    using uml4net.Utils;
 
     /// <summary>
-    /// A package merge defines how the contents of one package are extended by the contents of another package.
+    /// A package merge defines how the contents of one package are extended by the contents of another
+    /// package.
     /// </summary>
-    public interface IPackageMerge : IDirectedRelationship
+    [Class(xmiId: "PackageMerge", isAbstract: false, isFinalSpecialization: false, isActive: false)]
+    public partial interface IPackageMerge : IDirectedRelationship
     {
         /// <summary>
         /// References the Package that is to be merged with the receiving package of the PackageMerge.
         /// </summary>
-        [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1)]
-        [SubsettedProperty("DirectedRelationship-target")]
+        [Property(xmiId: "PackageMerge-mergedPackage", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [SubsettedProperty(propertyName: "DirectedRelationship-target")]
         public IPackage MergedPackage { get; set; }
 
         /// <summary>
-        /// References the Package that is being extended with the contents of the merged package of the PackageMerge.
+        /// References the Package that is being extended with the contents of the merged package of the
+        /// PackageMerge.
         /// </summary>
-        [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1)]
-        [SubsettedProperty("DirectedRelationship-source")]
-        [SubsettedProperty("Element-owner")]
+        [Property(xmiId: "PackageMerge-receivingPackage", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [SubsettedProperty(propertyName: "DirectedRelationship-source")]
+        [SubsettedProperty(propertyName: "Element-owner")]
         public IPackage ReceivingPackage { get; set; }
+
     }
 }
+
+// ------------------------------------------------------------------------------------------------
+// --------THIS IS AN AUTOMATICALLY GENERATED FILE. ANY MANUAL CHANGES WILL BE OVERWRITTEN!--------
+// ------------------------------------------------------------------------------------------------

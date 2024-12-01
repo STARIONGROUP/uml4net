@@ -22,7 +22,7 @@
 // --------THIS IS AN AUTOMATICALLY GENERATED FILE. ANY MANUAL CHANGES WILL BE OVERWRITTEN!--------
 // ------------------------------------------------------------------------------------------------
 
-namespace uml4net.POCO.StateMachines
+namespace uml4net.StateMachines
 {
     /// <summary>
     /// PseudostateKind is an Enumeration type that is used to differentiate various kinds of Pseudostates.

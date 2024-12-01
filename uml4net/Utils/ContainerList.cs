@@ -20,10 +20,11 @@
 
 namespace uml4net.Utils
 {
-    using POCO.CommonStructure;
     using System.ComponentModel;
     using System.Collections.Generic;
     using System;
+
+    using uml4net.CommonStructure;
 
     /// <summary>
     /// List Type used for the 10-25 model for classes which are part of a composition relationship

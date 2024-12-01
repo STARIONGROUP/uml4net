@@ -18,11 +18,11 @@
 // </copyright>
 // ------------------------------------------------------------------------------------------------
 
-namespace uml4net.Extend
+namespace uml4net.CommonBehavior
 {
     using System;
-    using POCO.CommonBehavior;
-    using uml4net.POCO.SimpleClassifiers;
+
+    using uml4net.SimpleClassifiers;
 
     public static class BehaviorExtensions
     {

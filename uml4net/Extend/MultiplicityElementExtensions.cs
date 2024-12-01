@@ -18,12 +18,12 @@
 // </copyright>
 // ------------------------------------------------------------------------------------------------
 
-namespace uml4net.Extend
+namespace uml4net.CommonStructure
 {
     using System;
     using System.Linq;
-    using uml4net.POCO.CommonStructure;
-    using uml4net.POCO.Values;
+    
+    using uml4net.Values;
 
     /// <summary>
     /// Extension methods for <see cref="IMultiplicityElement"/> interface

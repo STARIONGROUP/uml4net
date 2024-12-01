@@ -26,10 +26,10 @@ namespace uml4net.HandleBars
 
     using HandlebarsDotNet;
 
-    using uml4net.POCO.SimpleClassifiers;
+    using uml4net.SimpleClassifiers;
     using uml4net.Extensions;
-    using uml4net.POCO.Classification;
-    using uml4net.POCO.StructuredClassifiers;
+    using uml4net.Classification;
+    using uml4net.StructuredClassifiers;
 
     /// <summary>
     /// A handlebars block helper for the <see cref="IProperty"/> interface

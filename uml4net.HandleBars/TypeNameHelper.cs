@@ -24,8 +24,8 @@ namespace uml4net.HandleBars
     using uml4net.Extensions;
 
     using HandlebarsDotNet;
-    using POCO.StructuredClassifiers;
-    using uml4net.POCO.Classification;
+    using uml4net.StructuredClassifiers;
+    using uml4net.Classification;
 
     /// <summary>
     /// A block helper that prints the name of the type of <see cref="IProperty"/>

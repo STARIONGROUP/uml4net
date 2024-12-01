@@ -23,12 +23,12 @@ namespace uml4net.xmi
     using Autofac;
     using Cache;
     using Microsoft.Extensions.Logging;
-    using POCO.Classification;
-    using POCO.CommonStructure;
-    using POCO.Packages;
-    using POCO.SimpleClassifiers;
-    using POCO.StructuredClassifiers;
-    using POCO.Values;
+    using uml4net.Classification;
+    using uml4net.CommonStructure;
+    using uml4net.Packages;
+    using uml4net.SimpleClassifiers;
+    using uml4net.StructuredClassifiers;
+    using uml4net.Values;
     using System.Net.Http;
     using Readers;
     using Readers.Classification;

@@ -20,9 +20,10 @@
 
 namespace uml4net.Utils
 {
-    using POCO.CommonStructure;
     using System.Collections.Generic;
     using System.ComponentModel;
+
+    using uml4net.CommonStructure;
 
     /// <summary>
     /// The <see cref="IContainerList{T}"/> interface defines public members for a container list implementation.

@@ -18,12 +18,11 @@
 // </copyright>
 // ------------------------------------------------------------------------------------------------
 
-namespace uml4net.Extend
+namespace uml4net.Actions
 {
     using System;
-
-    using uml4net.POCO.Actions;
-    using uml4net.POCO.Classification;
+    
+    using uml4net.Classification;
     using uml4net.Utils;
 
     /// <summary>

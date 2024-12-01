@@ -18,14 +18,13 @@
 //  </copyright>
 //  ------------------------------------------------------------------------------------------------
 
-namespace uml4net.Extend
+namespace uml4net.StructuredClassifiers
 {
     using System;
     using System.Collections.Generic;
 
-    using uml4net.POCO.Classification;
-    using uml4net.POCO.StructuredClassifiers;
-
+    using uml4net.Classification;
+    
     public static class StructuredClassifierExtensions
     {
         public static List<IProperty> QueryPart(this IStructuredClassifier structuredClassifier)

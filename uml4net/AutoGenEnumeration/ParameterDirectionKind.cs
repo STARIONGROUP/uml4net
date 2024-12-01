@@ -22,7 +22,7 @@
 // --------THIS IS AN AUTOMATICALLY GENERATED FILE. ANY MANUAL CHANGES WILL BE OVERWRITTEN!--------
 // ------------------------------------------------------------------------------------------------
 
-namespace uml4net.POCO.Classification
+namespace uml4net.Classification
 {
     /// <summary>
     /// ParameterDirectionKind is an Enumeration that defines literals used to specify direction of

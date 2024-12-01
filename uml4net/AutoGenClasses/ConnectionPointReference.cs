@@ -9,7 +9,7 @@
 //
 //       http://www.apache.org/licenses/LICENSE-2.0
 //
-//   Unless required by applicable law or agreed to in writing, softwareUseCases
+//   Unless required by applicable law or agreed to in writing, software
 //   distributed under the License is distributed on an "AS IS" BASIS,
 //   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //   See the License for the specific language governing permissions and
@@ -18,28 +18,134 @@
 // </copyright>
 // ------------------------------------------------------------------------------------------------
 
-namespace uml4net.POCO.StateMachines
+// ------------------------------------------------------------------------------------------------
+// --------THIS IS AN AUTOMATICALLY GENERATED FILE. ANY MANUAL CHANGES WILL BE OVERWRITTEN!--------
+// ------------------------------------------------------------------------------------------------
+
+namespace uml4net.StateMachines
 {
-    using System;
     using System.Collections.Generic;
 
     using uml4net.Decorators;
-    using uml4net.Extend;
+    using uml4net.Actions;
+    using uml4net.Activities;
+    using uml4net.Classification;
+    using uml4net.CommonBehavior;
+    using uml4net.CommonStructure;
+    using uml4net.Deployments;
+    using uml4net.InformationFlows;
+    using uml4net.Interactions;
+    using uml4net.Packages;
+    using uml4net.SimpleClassifiers;
+    using uml4net.StateMachines;
+    using uml4net.StructuredClassifiers;
+    using uml4net.UseCases;
+    using uml4net.Values;
+
     using uml4net.Utils;
-    using uml4net.POCO.Classification;
-    using uml4net.POCO.CommonStructure;
-    using uml4net.POCO.Values;
 
     /// <summary>
-    /// A ConnectionPointReference represents a usage (as part of a submachine State) of an entry/exit
-    /// point Pseudostate defined in the StateMachine referenced by the submachine State.
+    /// A ConnectionPointReference represents a usage (as part of a submachine State) of an entry/exit point
+    /// Pseudostate defined in the StateMachine referenced by the submachine State.
     /// </summary>
-    public class ConnectionPointReference : XmiElement, IConnectionPointReference
+    [Class(xmiId: "ConnectionPointReference", isAbstract: false, isFinalSpecialization: false, isActive: false)]
+    public partial class ConnectionPointReference : XmiElement, IConnectionPointReference
     {
+        /// <summary>
+        /// Gets or sets the container of this <see cref="IElement"/>
+        /// </summary>
+        public IElement Possessor { get; set; }
+
+        /// <summary>
+        /// Indicates the Dependencies that reference this NamedElement as a client.
+        /// </summary>
+        [Property(xmiId: "NamedElement-clientDependency", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: true, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [SubsettedProperty(propertyName: "A_source_directedRelationship-directedRelationship")]
+        [Implements(implementation: "INamedElement.ClientDependency")]
+        public List<IDependency> ClientDependency => this.QueryClientDependency();
+
+        /// <summary>
+        /// The Region that contains this Vertex.
+        /// </summary>
+        [Property(xmiId: "Vertex-container", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [SubsettedProperty(propertyName: "NamedElement-namespace")]
+        [Implements(implementation: "IVertex.Container")]
+        public IRegion Container { get; set; }
+
+        /// <summary>
+        /// The entryPoint Pseudostates corresponding to this connection point.
+        /// </summary>
+        [Property(xmiId: "ConnectionPointReference-entry", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Implements(implementation: "IConnectionPointReference.Entry")]
+        public List<IPseudostate> Entry { get; set; } = new();
+
+        /// <summary>
+        /// The exitPoints kind Pseudostates corresponding to this connection point.
+        /// </summary>
+        [Property(xmiId: "ConnectionPointReference-exit", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Implements(implementation: "IConnectionPointReference.Exit")]
+        public List<IPseudostate> Exit { get; set; } = new();
+
+        /// <summary>
+        /// Specifies the Transitions entering this Vertex.
+        /// </summary>
+        [Property(xmiId: "Vertex-incoming", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Implements(implementation: "IVertex.Incoming")]
+        public List<ITransition> Incoming => this.QueryIncoming();
+
+        /// <summary>
+        /// Indicates whether it is possible to further redefine a RedefinableElement. If the value is true,
+        /// then it is not possible to further redefine the RedefinableElement.
+        /// </summary>
+        [Property(xmiId: "RedefinableElement-isLeaf", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: "false")]
+        [Implements(implementation: "IRedefinableElement.IsLeaf")]
+        public bool IsLeaf { get; set; }
+
+        /// <summary>
+        /// The name of the NamedElement.
+        /// </summary>
+        [Property(xmiId: "NamedElement-name", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Implements(implementation: "INamedElement.Name")]
+        public string Name { get; set; }
+
+        /// <summary>
+        /// The StringExpression used to define the name of this NamedElement.
+        /// </summary>
+        [Property(xmiId: "NamedElement-nameExpression", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [SubsettedProperty(propertyName: "Element-ownedElement")]
+        [Implements(implementation: "INamedElement.NameExpression")]
+        public IContainerList<IStringExpression> NameExpression
+        {
+            get => this.nameExpression ??= new ContainerList<IStringExpression>(this);
+            set => this.nameExpression = value;
+        }
+
+        /// <summary>
+        /// Backing field for <see cref="NameExpression"/>
+        /// </summary>
+        private IContainerList<IStringExpression> nameExpression;
+
+        /// <summary>
+        /// Specifies the Namespace that owns the NamedElement.
+        /// </summary>
+        [Property(xmiId: "NamedElement-namespace", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: false, defaultValue: null)]
+        [SubsettedProperty(propertyName: "A_member_memberNamespace-memberNamespace")]
+        [SubsettedProperty(propertyName: "Element-owner")]
+        [Implements(implementation: "INamedElement.Namespace")]
+        public INamespace Namespace => this.QueryNamespace();
+
+        /// <summary>
+        /// Specifies the Transitions departing from this Vertex.
+        /// </summary>
+        [Property(xmiId: "Vertex-outgoing", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Implements(implementation: "IVertex.Outgoing")]
+        public List<ITransition> Outgoing => this.QueryOutgoing();
+
         /// <summary>
         /// The Comments owned by this Element.
         /// </summary>
-        [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue)]
+        [Property(xmiId: "Element-ownedComment", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [SubsettedProperty(propertyName: "Element-ownedElement")]
         [Implements(implementation: "IElement.OwnedComment")]
         public IContainerList<IComment> OwnedComment
         {
@@ -53,91 +159,77 @@ namespace uml4net.POCO.StateMachines
         private IContainerList<IComment> ownedComment;
 
         /// <summary>
-        /// The Elements owned by this Element
+        /// The Elements owned by this Element.
         /// </summary>
-        [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isReadOnly: true, isDerived: true, isDerivedUnion: true)]
+        [Property(xmiId: "Element-ownedElement", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: false, defaultValue: null)]
         [Implements(implementation: "IElement.OwnedElement")]
-        public List<IElement> OwnedElement => throw new NotImplementedException();
+        public IContainerList<IElement> OwnedElement => this.QueryOwnedElement();
 
         /// <summary>
         /// The Element that owns this Element.
         /// </summary>
-        [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isReadOnly: true, isDerived: true, isDerivedUnion: true)]
+        [Property(xmiId: "Element-owner", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: false, defaultValue: null)]
         [Implements(implementation: "IElement.Owner")]
         public IElement Owner => this.QueryOwner();
 
         /// <summary>
-        /// Gets or sets the container of this <see cref="IElement"/>
+        /// A name that allows the NamedElement to be identified within a hierarchy of nested Namespaces. It is
+        /// constructed from the names of the containing Namespaces starting at the root of the hierarchy and
+        /// ending with the name of the NamedElement itself.
         /// </summary>
-        public IElement Possessor { get; set; }
-
-        /// <summary>
-        /// Indicates the Dependencies that reference this NamedElement as a client."
-        /// </summary>
-        [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isDerived: true)]
-        [SubsettedProperty(propertyName: "A_source_directedRelationship.DirectedRelationship")]
-        [Implements(implementation: "INamedElement.ClientDependency")]
-        public List<IDependency> ClientDependency => throw new NotImplementedException();
-
-        /// <summary>
-        /// The name of the NamedElement.
-        /// </summary>
-        [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1)]
-        [Implements(implementation: "INamedElement.Name")]
-        public string Name { get; set; }
-
-        /// <summary>
-        /// The StringExpression used to define the name of this NamedElement.
-        /// </summary>
-        [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: 1)]
-        [SubsettedProperty(propertyName: "Element.OwnedElement")]
-        [Implements(implementation: "INamedElement.NameExpression")]
-        public IStringExpression NameExpression { get; set; }
-
-        /// <summary>
-        /// Specifies the Namespace that owns the NamedElement.
-        /// </summary>
-        [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isReadOnly: true, isDerived: true, isDerivedUnion: true)]
-        [SubsettedProperty(propertyName: "A_member_memberNamespace.MemberNamespace")]
-        [SubsettedProperty(propertyName: "Element.Owner")]
-        [Implements(implementation: "INamedElement.Namespace")]
-        public INamespace Namespace => this.QueryNamespace();
-
-        /// <summary>
-        /// A name that allows the NamedElement to be identified within a hierarchy of nested Namespaces. It is constructed from the names of 
-        /// the containing Namespaces starting at the root of the hierarchy and ending with the name of the NamedElement itself.
-        /// </summary>
-        [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isReadOnly: true, isDerived: true)]
+        [Property(xmiId: "NamedElement-qualifiedName", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: false, isUnique: false, defaultValue: null)]
         [Implements(implementation: "INamedElement.QualifiedName")]
         public string QualifiedName => this.QueryQualifiedName();
 
         /// <summary>
-        /// Determines whether and how the NamedElement is visible outside its owning Namespace.
-        /// </summary>
-        [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1)]
-        [Implements(implementation: "INamedElement.Visibility")]
-        public VisibilityKind Visibility { get; set; }
-
-        /// <summary>
-        /// Indicates whether it is possible to further redefine a RedefinableElement. If the value is
-        /// true, then it is not possible to further redefine the RedefinableElement.
-        /// </summary>
-        [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, defaultValue: "false")]
-        [Implements(implementation: "IRedefinableElement.IsLeaf")]
-        public bool IsLeaf { get; set; } = false;
-
-        /// <summary>
         /// The RedefinableElement that is being redefined by this element.
         /// </summary>
-        [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isReadOnly: true, isDerived: true, isDerivedUnion: true)]
+        [Property(xmiId: "RedefinableElement-redefinedElement", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: false, defaultValue: null)]
         [Implements(implementation: "IRedefinableElement.RedefinedElement")]
-        public IRedefinableElement RedefinedElement => throw new NotImplementedException();
+        public List<IRedefinableElement> RedefinedElement => this.QueryRedefinedElement();
+
+        /// <summary>
+        /// The Vertex of which this Vertex is a redefinition.
+        /// </summary>
+        [Property(xmiId: "State-redefinedState", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [SubsettedProperty(propertyName: "RedefinableElement-redefinedElement")]
+        [Implements(implementation: "IVertex.RedefinedVertex")]
+        public IVertex RedefinedVertex { get; set; }
+
+        /// <summary>
+        /// References the Classifier in which context this element may be redefined.
+        /// </summary>
+        [Property(xmiId: "State-redefinitionContext", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [RedefinedProperty(propertyName: "RedefinableElement-redefinitionContext")]
+        [Implements(implementation: "IVertex.RedefinitionContext")]
+        public new IClassifier RedefinitionContext => this.QueryRedefinitionContext();
 
         /// <summary>
         /// The contexts that this element may be redefined from.
         /// </summary>
-        [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isReadOnly: true, isDerived: true, isDerivedUnion: true)]
+        [Property(xmiId: "RedefinableElement-redefinitionContext", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: false, defaultValue: null)]
+        [RedefinedByProperty("IVertex.RedefinitionContext")]
         [Implements(implementation: "IRedefinableElement.RedefinitionContext")]
-        public IClassifier RedefinitionContext => throw new NotImplementedException();
+        List<IClassifier> IRedefinableElement.RedefinitionContext => RedefinableElementExtensions.QueryRedefinitionContext(this);
+
+        /// <summary>
+        /// The State in which the ConnectionPointReference is defined.
+        /// </summary>
+        [Property(xmiId: "ConnectionPointReference-state", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [SubsettedProperty(propertyName: "NamedElement-namespace")]
+        [Implements(implementation: "IConnectionPointReference.State")]
+        public IState State { get; set; }
+
+        /// <summary>
+        /// Determines whether and how the NamedElement is visible outside its owning Namespace.
+        /// </summary>
+        [Property(xmiId: "NamedElement-visibility", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Implements(implementation: "INamedElement.Visibility")]
+        public VisibilityKind Visibility { get; set; }
+
     }
 }
+
+// ------------------------------------------------------------------------------------------------
+// --------THIS IS AN AUTOMATICALLY GENERATED FILE. ANY MANUAL CHANGES WILL BE OVERWRITTEN!--------
+// ------------------------------------------------------------------------------------------------

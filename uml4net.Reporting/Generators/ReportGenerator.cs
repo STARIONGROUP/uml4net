@@ -28,7 +28,7 @@ namespace uml4net.Reporting.Generators
     using System;
     using System.Collections.Generic;
    
-    using uml4net.POCO.Packages;
+    using uml4net.Packages;
     using uml4net.xmi;
     using xmi.Readers;
 

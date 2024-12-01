@@ -27,7 +27,7 @@ namespace uml4net.xmi.Readers
 
     using Microsoft.Extensions.Logging;
 
-    using uml4net.POCO.Packages;
+    using uml4net.Packages;
     using uml4net.xmi;
     using uml4net.xmi.Cache;
     

@@ -20,16 +20,18 @@
 
 namespace uml4net.CodeGenerator.Tests.Transformers
 {
-    using System.Collections.Generic;
-    using Microsoft.Extensions.Logging;
-    using NUnit.Framework;
-    using Serilog;
     using System.IO;
     using System.Linq;
-    using CodeGenerator.Transformers;
-    using DocumentFormat.OpenXml.Office2010.ExcelAc;
-    using POCO.Classification;
-    using POCO.CommonStructure;
+
+    using Microsoft.Extensions.Logging;
+    
+    using NUnit.Framework;
+    
+    using Serilog;
+    
+    using uml4net.CodeGenerator.Transformers;
+    using uml4net.Classification;
+    using uml4net.CommonStructure;
     using uml4net.CodeGenerator.Generators;
     using uml4net.xmi;
     using uml4net.xmi.Readers;

@@ -9,7 +9,7 @@
 //
 //       http://www.apache.org/licenses/LICENSE-2.0
 //
-//   Unless required by applicable law or agreed to in writing, softwareUseCases
+//   Unless required by applicable law or agreed to in writing, software
 //   distributed under the License is distributed on an "AS IS" BASIS,
 //   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //   See the License for the specific language governing permissions and
@@ -18,51 +18,79 @@
 // </copyright>
 // ------------------------------------------------------------------------------------------------
 
-namespace uml4net.POCO.CommonStructure
+// ------------------------------------------------------------------------------------------------
+// --------THIS IS AN AUTOMATICALLY GENERATED FILE. ANY MANUAL CHANGES WILL BE OVERWRITTEN!--------
+// ------------------------------------------------------------------------------------------------
+
+namespace uml4net.CommonStructure
 {
+    using System.Collections.Generic;
+
     using uml4net.Decorators;
-    using uml4net.POCO.Classification;
+    using uml4net.Actions;
+    using uml4net.Activities;
+    using uml4net.Classification;
+    using uml4net.CommonBehavior;
+    using uml4net.CommonStructure;
+    using uml4net.Deployments;
+    using uml4net.InformationFlows;
+    using uml4net.Interactions;
+    using uml4net.Packages;
+    using uml4net.SimpleClassifiers;
+    using uml4net.StateMachines;
+    using uml4net.StructuredClassifiers;
+    using uml4net.UseCases;
+    using uml4net.Values;
+
+    using uml4net.Utils;
 
     /// <summary>
     /// A TemplateParameter exposes a ParameterableElement as a formal parameter of a template.
     /// </summary>
-    public interface ITemplateParameter : IElement
+    [Class(xmiId: "TemplateParameter", isAbstract: false, isFinalSpecialization: false, isActive: false)]
+    public partial interface ITemplateParameter : IElement
     {
         /// <summary>
         /// The ParameterableElement that is the default for this formal TemplateParameter.
         /// </summary>
-        [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1)]
-        public IParameterableElement Default {get; set;}
+        [Property(xmiId: "TemplateParameter-default", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        public IParameterableElement Default { get; set; }
 
         /// <summary>
-        /// The ParameterableElement that is owned by this TemplateParameter for the purpose of providing a default.
+        /// The ParameterableElement that is owned by this TemplateParameter for the purpose of providing a
+        /// default.
         /// </summary>
-        [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: 1)]
-        [SubsettedProperty(propertyName: "Element.OwnedElement")]
-        [SubsettedProperty(propertyName: "TemplateParameter.Default")]
-        public IParameterableElement OwnedDefault { get; set; }
+        [Property(xmiId: "TemplateParameter-ownedDefault", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [SubsettedProperty(propertyName: "Element-ownedElement")]
+        [SubsettedProperty(propertyName: "TemplateParameter-default")]
+        public IContainerList<IParameterableElement> OwnedDefault { get; set; }
 
         /// <summary>
         /// The ParameterableElement that is owned by this TemplateParameter for the purpose of exposing it as
         /// the parameteredElement.
         /// </summary>
-        [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: 1)]
-        [SubsettedProperty(propertyName: "Element.OwnedElement")]
-        [SubsettedProperty(propertyName: "TemplateParameter.ParameteredElement")]
-        public IParameterableElement OwnedParameteredElement { get; set; }
+        [Property(xmiId: "TemplateParameter-ownedParameteredElement", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [SubsettedProperty(propertyName: "Element-ownedElement")]
+        [SubsettedProperty(propertyName: "TemplateParameter-parameteredElement")]
+        public IContainerList<IParameterableElement> OwnedParameteredElement { get; set; }
 
         /// <summary>
         /// The ParameterableElement exposed by this TemplateParameter.
         /// </summary>
-        [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1)]
+        [Property(xmiId: "TemplateParameter-parameteredElement", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
         public IParameterableElement ParameteredElement { get; set; }
 
         /// <summary>
         /// The TemplateSignature that owns this TemplateParameter.
         /// </summary>
-        [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1)]
-        [SubsettedProperty(propertyName: "A_parameter_templateSignature.TemplateSignature")]
-        [SubsettedProperty(propertyName: "Element.Owner")]
+        [Property(xmiId: "TemplateParameter-signature", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [SubsettedProperty(propertyName: "A_parameter_templateSignature-templateSignature")]
+        [SubsettedProperty(propertyName: "Element-owner")]
         public ITemplateSignature Signature { get; set; }
+
     }
 }
+
+// ------------------------------------------------------------------------------------------------
+// --------THIS IS AN AUTOMATICALLY GENERATED FILE. ANY MANUAL CHANGES WILL BE OVERWRITTEN!--------
+// ------------------------------------------------------------------------------------------------

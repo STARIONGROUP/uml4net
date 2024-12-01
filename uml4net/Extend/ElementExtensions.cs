@@ -18,10 +18,12 @@
 // </copyright>
 // ------------------------------------------------------------------------------------------------
 
-namespace uml4net.Extend
+namespace uml4net.CommonStructure
 {
-    using POCO.CommonStructure;
+    using System;
     
+    using uml4net.Utils;
+
     /// <summary>
     /// The <see cref="ElementExtensions"/> class provides extensions methods for the <see cref="IElement"/>
     /// </summary>
@@ -36,5 +38,11 @@ namespace uml4net.Extend
         /// or <c>null</c> if the element does not have a container.
         /// </returns>
         public static IElement QueryOwner(this IElement element) => element.Possessor;
+
+
+        public static IContainerList<IElement> QueryOwnedElement(this IElement element)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

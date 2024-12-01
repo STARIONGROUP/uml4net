@@ -26,7 +26,7 @@ namespace uml4net.Reporting.Tests.Generators
     using Microsoft.Extensions.Logging;
 
     using NUnit.Framework;
-    using POCO.Packages;
+    using uml4net.Packages;
     using Reporting.Generators;
     using Serilog;
     using xmi;

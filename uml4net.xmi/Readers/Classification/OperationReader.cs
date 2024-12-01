@@ -26,9 +26,10 @@ namespace uml4net.xmi.Readers.Classification
 
     using Microsoft.Extensions.Logging;
 
-    using uml4net.POCO;
-    using uml4net.POCO.Classification;
-    using uml4net.POCO.CommonStructure;
+    using uml4net;
+    using uml4net.Classification;
+    using uml4net.CommonStructure;
+    
     using uml4net.xmi.Cache;
     using uml4net.xmi.Readers;
 
@@ -122,7 +123,7 @@ namespace uml4net.xmi.Readers.Classification
                 var bodyCondition = xmlReader.GetAttribute("bodyCondition");
                 if (!string.IsNullOrEmpty(bodyCondition))
                 {
-                    operation.SingleValueReferencePropertyIdentifiers.Add("BodyCondition", bodyCondition );
+                    operation.MultiValueReferencePropertyIdentifiers.Add("BodyCondition", new List<string> { bodyCondition } );
                 }
 
                 var preconditions = new List<string>();

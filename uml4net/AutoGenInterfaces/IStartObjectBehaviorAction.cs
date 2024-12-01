@@ -9,7 +9,7 @@
 //
 //       http://www.apache.org/licenses/LICENSE-2.0
 //
-//   Unless required by applicable law or agreed to in writing, softwareUseCases
+//   Unless required by applicable law or agreed to in writing, software
 //   distributed under the License is distributed on an "AS IS" BASIS,
 //   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //   See the License for the specific language governing permissions and
@@ -18,15 +18,52 @@
 // </copyright>
 // ------------------------------------------------------------------------------------------------
 
-namespace uml4net.POCO.Actions
+// ------------------------------------------------------------------------------------------------
+// --------THIS IS AN AUTOMATICALLY GENERATED FILE. ANY MANUAL CHANGES WILL BE OVERWRITTEN!--------
+// ------------------------------------------------------------------------------------------------
+
+namespace uml4net.Actions
 {
+    using System.Collections.Generic;
+
+    using uml4net.Decorators;
+    using uml4net.Actions;
+    using uml4net.Activities;
+    using uml4net.Classification;
+    using uml4net.CommonBehavior;
+    using uml4net.CommonStructure;
+    using uml4net.Deployments;
+    using uml4net.InformationFlows;
+    using uml4net.Interactions;
+    using uml4net.Packages;
+    using uml4net.SimpleClassifiers;
+    using uml4net.StateMachines;
+    using uml4net.StructuredClassifiers;
+    using uml4net.UseCases;
+    using uml4net.Values;
+
+    using uml4net.Utils;
+
     /// <summary>
-    /// A StartObjectBehaviorAction is an InvocationAction that starts the execution either of a
-    /// directly instantiated Behavior or of the classifierBehavior of an object. Argument values 
-    /// may be supplied for the input Parameters of the Behavior. If the Behavior is invoked 
-    /// synchronously, then output values may be obtained for output Parameters.
+    /// A StartObjectBehaviorAction is an InvocationAction that starts the execution either of a directly
+    /// instantiated Behavior or of the classifierBehavior of an object. Argument values may be supplied for
+    /// the input Parameters of the Behavior. If the Behavior is invoked synchronously, then output values
+    /// may be obtained for output Parameters.
     /// </summary>
-    public interface IStartObjectBehaviorAction : ICallAction
+    [Class(xmiId: "StartObjectBehaviorAction", isAbstract: false, isFinalSpecialization: false, isActive: false)]
+    public partial interface IStartObjectBehaviorAction : ICallAction
     {
+        /// <summary>
+        /// An InputPin that holds the object that is either a Behavior to be started or has a
+        /// classifierBehavior to be started.
+        /// </summary>
+        [Property(xmiId: "StartObjectBehaviorAction-object", aggregation: AggregationKind.Composite, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [SubsettedProperty(propertyName: "Action-input")]
+        public IContainerList<IInputPin> Object { get; set; }
+
     }
 }
+
+// ------------------------------------------------------------------------------------------------
+// --------THIS IS AN AUTOMATICALLY GENERATED FILE. ANY MANUAL CHANGES WILL BE OVERWRITTEN!--------
+// ------------------------------------------------------------------------------------------------

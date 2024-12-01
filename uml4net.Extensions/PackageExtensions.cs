@@ -23,7 +23,8 @@ namespace uml4net.Extensions
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Linq;
-    using uml4net.POCO.Packages;
+
+    using uml4net.Packages;
 
     /// <summary>
     /// Extension methods for <see cref="IPackage"/> interface

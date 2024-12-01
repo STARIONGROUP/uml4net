@@ -18,10 +18,10 @@
 // </copyright>
 // ------------------------------------------------------------------------------------------------
 
-namespace uml4net.Extend
+namespace uml4net.StructuredClassifiers
 {
     using System;
-    using uml4net.POCO.StructuredClassifiers;
+
     using uml4net.Utils;
 
     public static class EncapsulatedClassifierExtensions

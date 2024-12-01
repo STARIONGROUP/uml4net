@@ -22,7 +22,7 @@
 // --------THIS IS AN AUTOMATICALLY GENERATED FILE. ANY MANUAL CHANGES WILL BE OVERWRITTEN!--------
 // ------------------------------------------------------------------------------------------------
 
-namespace uml4net.POCO.CommonStructure
+namespace uml4net.CommonStructure
 {
     /// <summary>
     /// VisibilityKind is an enumeration type that defines literals to determine the visibility of Elements

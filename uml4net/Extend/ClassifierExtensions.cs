@@ -18,15 +18,14 @@
 // </copyright>
 // ------------------------------------------------------------------------------------------------
 
-namespace uml4net.Extend
+namespace uml4net.Classification
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
 
-    using uml4net.POCO.Classification;
-    using uml4net.POCO.CommonStructure;
-
+    using uml4net.CommonStructure;
+    
     /// <summary>
     /// The <see cref="ClassifierExtensions"/> class provides extensions methods for the <see cref="IClassifier"/>
     /// </summary>
@@ -51,7 +50,8 @@ namespace uml4net.Extend
         /// If the element does not have any generalizations, an empty list will be returned.
         /// </returns>
         public static List<IClassifier> QueryGeneral(this IClassifier element)
-            => element.Generalization.Select(x => x.General).ToList();
+                => element.Generalization.Select(x => x.General).ToList();
+
 
         public static List<INamedElement> QueryInheritedMember(this IClassifier element)
         {

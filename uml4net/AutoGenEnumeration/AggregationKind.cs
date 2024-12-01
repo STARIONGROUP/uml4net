@@ -22,7 +22,7 @@
 // --------THIS IS AN AUTOMATICALLY GENERATED FILE. ANY MANUAL CHANGES WILL BE OVERWRITTEN!--------
 // ------------------------------------------------------------------------------------------------
 
-namespace uml4net.POCO.Classification
+namespace uml4net.Classification
 {
     /// <summary>
     /// AggregationKind is an Enumeration for specifying the kind of aggregation of a Property.

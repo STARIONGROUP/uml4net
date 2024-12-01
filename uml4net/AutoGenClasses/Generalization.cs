@@ -9,7 +9,7 @@
 //
 //       http://www.apache.org/licenses/LICENSE-2.0
 //
-//   Unless required by applicable law or agreed to in writing, softwareUseCases
+//   Unless required by applicable law or agreed to in writing, software
 //   distributed under the License is distributed on an "AS IS" BASIS,
 //   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //   See the License for the specific language governing permissions and
@@ -18,28 +18,77 @@
 // </copyright>
 // ------------------------------------------------------------------------------------------------
 
-namespace uml4net.POCO.Classification
+// ------------------------------------------------------------------------------------------------
+// --------THIS IS AN AUTOMATICALLY GENERATED FILE. ANY MANUAL CHANGES WILL BE OVERWRITTEN!--------
+// ------------------------------------------------------------------------------------------------
+
+namespace uml4net.Classification
 {
-    using System;
     using System.Collections.Generic;
 
     using uml4net.Decorators;
-    using uml4net.Extend;
+    using uml4net.Actions;
+    using uml4net.Activities;
+    using uml4net.Classification;
+    using uml4net.CommonBehavior;
+    using uml4net.CommonStructure;
+    using uml4net.Deployments;
+    using uml4net.InformationFlows;
+    using uml4net.Interactions;
+    using uml4net.Packages;
+    using uml4net.SimpleClassifiers;
+    using uml4net.StateMachines;
+    using uml4net.StructuredClassifiers;
+    using uml4net.UseCases;
+    using uml4net.Values;
+
     using uml4net.Utils;
-    using uml4net.POCO.CommonStructure;
 
     /// <summary>
     /// A Generalization is a taxonomic relationship between a more general Classifier and a more specific
     /// Classifier. Each instance of the specific Classifier is also an instance of the general Classifier.
-    /// The specific Classifier inherits the features of the more general Classifier. A Generalization
-    /// is owned by the specific Classifier.
+    /// The specific Classifier inherits the features of the more general Classifier. A Generalization is
+    /// owned by the specific Classifier.
     /// </summary>
-    public class Generalization : XmiElement, IGeneralization
+    [Class(xmiId: "Generalization", isAbstract: false, isFinalSpecialization: false, isActive: false)]
+    public partial class Generalization : XmiElement, IGeneralization
     {
+        /// <summary>
+        /// Gets or sets the container of this <see cref="IElement"/>
+        /// </summary>
+        public IElement Possessor { get; set; }
+
+        /// <summary>
+        /// The general classifier in the Generalization relationship.
+        /// </summary>
+        [Property(xmiId: "Generalization-general", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [SubsettedProperty(propertyName: "DirectedRelationship-target")]
+        [Implements(implementation: "IGeneralization.General")]
+        public IClassifier General { get; set; }
+
+        /// <summary>
+        /// Represents a set of instances of Generalization.  A Generalization may appear in many
+        /// GeneralizationSets.
+        /// </summary>
+        [Property(xmiId: "Generalization-generalizationSet", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Implements(implementation: "IGeneralization.GeneralizationSet")]
+        public List<IGeneralizationSet> GeneralizationSet { get; set; } = new();
+
+        /// <summary>
+        /// Indicates whether the specific Classifier can be used wherever the general Classifier can be used.
+        /// If true, the execution traces of the specific Classifier shall be a superset of the execution traces
+        /// of the general Classifier. If false, there is no such constraint on execution traces. If unset, the
+        /// modeler has not stated whether there is such a constraint or not.
+        /// </summary>
+        [Property(xmiId: "Generalization-isSubstitutable", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: "true")]
+        [Implements(implementation: "IGeneralization.IsSubstitutable")]
+        public bool IsSubstitutable { get; set; }
+
         /// <summary>
         /// The Comments owned by this Element.
         /// </summary>
-        [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue)]
+        [Property(xmiId: "Element-ownedComment", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [SubsettedProperty(propertyName: "Element-ownedElement")]
         [Implements(implementation: "IElement.OwnedComment")]
         public IContainerList<IComment> OwnedComment
         {
@@ -53,77 +102,54 @@ namespace uml4net.POCO.Classification
         private IContainerList<IComment> ownedComment;
 
         /// <summary>
-        /// The Elements owned by this Element
+        /// The Elements owned by this Element.
         /// </summary>
-        [Property(aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isReadOnly: true, isDerived: true, isDerivedUnion: true)]
+        [Property(xmiId: "Element-ownedElement", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: false, defaultValue: null)]
         [Implements(implementation: "IElement.OwnedElement")]
-        public List<IElement> OwnedElement => throw new NotImplementedException();
+        public IContainerList<IElement> OwnedElement => this.QueryOwnedElement();
 
         /// <summary>
         /// The Element that owns this Element.
         /// </summary>
-        [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isReadOnly: true, isDerived: true, isDerivedUnion: true)]
+        [Property(xmiId: "Element-owner", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: false, defaultValue: null)]
         [Implements(implementation: "IElement.Owner")]
         public IElement Owner => this.QueryOwner();
 
         /// <summary>
-        /// Gets or sets the container of this <see cref="IElement"/>
+        /// Specifies the elements related by the Relationship.
         /// </summary>
-        public IElement Possessor { get; set; }
+        [Property(xmiId: "Relationship-relatedElement", aggregation: AggregationKind.None, lowerValue: 1, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: false, defaultValue: null)]
+        [Implements(implementation: "IRelationship.RelatedElement")]
+        public List<IElement> RelatedElement => this.QueryRelatedElement();
 
         /// <summary>
         /// Specifies the source Element(s) of the DirectedRelationship.
         /// </summary>
-        [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: int.MaxValue, isReadOnly: true, isDerived: true, isDerivedUnion: true)]
+        [Property(xmiId: "DirectedRelationship-source", aggregation: AggregationKind.None, lowerValue: 1, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: false, defaultValue: null)]
+        [SubsettedProperty(propertyName: "Relationship-relatedElement")]
         [Implements(implementation: "IDirectedRelationship.Source")]
-        [SubsettedProperty(propertyName: "Relationship.RelatedElement")]
-        public List<IElement> Source => throw new NotImplementedException();
-
-        /// <summary>
-        /// Specifies the target Element(s) of the DirectedRelationship.
-        /// </summary>
-        [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: int.MaxValue, isReadOnly: true, isDerived: true, isDerivedUnion: true)]
-        [Implements(implementation: "IDirectedRelationship.Target")]
-        [SubsettedProperty(propertyName: "Relationship.RelatedElement")]
-        public List<IElement> Target => throw new NotImplementedException();
-
-        /// <summary>
-        /// Specifies the elements related by the Relationship.
-        /// </summary>
-        [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: int.MaxValue, isReadOnly: true, isDerived: true, isDerivedUnion: true)]
-        [Implements(implementation: "IRelationship.RelatedElement")]
-        public List<IElement> RelatedElement => throw new NotImplementedException();
-
-        /// <summary>
-        /// The general classifier in the Generalization relationship.
-        /// </summary>
-        [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1)]
-        [SubsettedProperty("DirectedRelationship-target")]
-        [Implements(implementation: "IGeneralization.General")]
-        public IClassifier General { get; set; }
-
-        /// <summary>
-        /// Represents a set of instances of Generalization.  A Generalization may appear in many GeneralizationSets.
-        /// </summary>
-        [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue)]
-        [Implements(implementation: "IGeneralization.GeneralizationSet")]
-        public List<GeneralizationSet> GeneralizationSet { get; set; }
-
-        /// <summary>
-        /// Indicates whether the specific Classifier can be used wherever the general Classifier can be used. 
-        /// If true, the execution traces of the specific Classifier shall be a superset of the execution traces 
-        /// of the general Classifier. If false, there is no such constraint on execution traces. If unset, the 
-        /// modeler has not stated whether there is such a constraint or not.
-        /// </summary>
-        [Property(aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, defaultValue: "true")]
-        [Implements(implementation: "IGeneralization.IsSubstitutable")]
-        public bool IsSubstitutable { get; set; } = true;
+        public List<IElement> Source => this.QuerySource();
 
         /// <summary>
         /// The specializing Classifier in the Generalization relationship.
         /// </summary>
-        [Property(aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1)]
+        [Property(xmiId: "Generalization-specific", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [SubsettedProperty(propertyName: "DirectedRelationship-source")]
+        [SubsettedProperty(propertyName: "Element-owner")]
         [Implements(implementation: "IGeneralization.Specific")]
         public IClassifier Specific { get; set; }
+
+        /// <summary>
+        /// Specifies the target Element(s) of the DirectedRelationship.
+        /// </summary>
+        [Property(xmiId: "DirectedRelationship-target", aggregation: AggregationKind.None, lowerValue: 1, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: false, defaultValue: null)]
+        [SubsettedProperty(propertyName: "Relationship-relatedElement")]
+        [Implements(implementation: "IDirectedRelationship.Target")]
+        public List<IElement> Target => this.QueryTarget();
+
     }
 }
+
+// ------------------------------------------------------------------------------------------------
+// --------THIS IS AN AUTOMATICALLY GENERATED FILE. ANY MANUAL CHANGES WILL BE OVERWRITTEN!--------
+// ------------------------------------------------------------------------------------------------

@@ -9,7 +9,7 @@
 //
 //       http://www.apache.org/licenses/LICENSE-2.0
 //
-//   Unless required by applicable law or agreed to in writing, softwareUseCases
+//   Unless required by applicable law or agreed to in writing, software
 //   distributed under the License is distributed on an "AS IS" BASIS,
 //   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //   See the License for the specific language governing permissions and
@@ -18,15 +18,67 @@
 // </copyright>
 // ------------------------------------------------------------------------------------------------
 
-namespace uml4net.POCO.Activities
+// ------------------------------------------------------------------------------------------------
+// --------THIS IS AN AUTOMATICALLY GENERATED FILE. ANY MANUAL CHANGES WILL BE OVERWRITTEN!--------
+// ------------------------------------------------------------------------------------------------
+
+namespace uml4net.Activities
 {
-    using uml4net.POCO.CommonStructure;
+    using System.Collections.Generic;
+
+    using uml4net.Decorators;
+    using uml4net.Actions;
+    using uml4net.Activities;
+    using uml4net.Classification;
+    using uml4net.CommonBehavior;
+    using uml4net.CommonStructure;
+    using uml4net.Deployments;
+    using uml4net.InformationFlows;
+    using uml4net.Interactions;
+    using uml4net.Packages;
+    using uml4net.SimpleClassifiers;
+    using uml4net.StateMachines;
+    using uml4net.StructuredClassifiers;
+    using uml4net.UseCases;
+    using uml4net.Values;
+
+    using uml4net.Utils;
 
     /// <summary>
-    /// An ObjectFlow is an ActivityEdge that is traversed by object tokens that may hold values. Object flows
-    /// also support multicast/receive, token selection from object nodes, and transformation of tokens.
+    /// An ObjectFlow is an ActivityEdge that is traversed by object tokens that may hold values. Object
+    /// flows also support multicast/receive, token selection from object nodes, and transformation of
+    /// tokens.
     /// </summary>
-    public interface IObjectFlow : IActivityEdge, ITypedElement, IActivityNode
+    [Class(xmiId: "ObjectFlow", isAbstract: false, isFinalSpecialization: false, isActive: false)]
+    public partial interface IObjectFlow : IActivityEdge
     {
+        /// <summary>
+        /// Indicates whether the objects in the ObjectFlow are passed by multicasting.
+        /// </summary>
+        [Property(xmiId: "ObjectFlow-isMulticast", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: "false")]
+        public bool IsMulticast { get; set; }
+
+        /// <summary>
+        /// Indicates whether the objects in the ObjectFlow are gathered from respondents to multicasting.
+        /// </summary>
+        [Property(xmiId: "ObjectFlow-isMultireceive", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: "false")]
+        public bool IsMultireceive { get; set; }
+
+        /// <summary>
+        /// A Behavior used to select tokens from a source ObjectNode.
+        /// </summary>
+        [Property(xmiId: "ObjectFlow-selection", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        public IBehavior Selection { get; set; }
+
+        /// <summary>
+        /// A Behavior used to change or replace object tokens flowing along the ObjectFlow.
+        /// </summary>
+        [Property(xmiId: "ObjectFlow-transformation", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        public IBehavior Transformation { get; set; }
+
     }
 }
+
+// ------------------------------------------------------------------------------------------------
+// --------THIS IS AN AUTOMATICALLY GENERATED FILE. ANY MANUAL CHANGES WILL BE OVERWRITTEN!--------
+// ------------------------------------------------------------------------------------------------

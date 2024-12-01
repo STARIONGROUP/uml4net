@@ -22,7 +22,7 @@
 // --------THIS IS AN AUTOMATICALLY GENERATED FILE. ANY MANUAL CHANGES WILL BE OVERWRITTEN!--------
 // ------------------------------------------------------------------------------------------------
 
-namespace uml4net.POCO.Interactions
+namespace uml4net.Interactions
 {
     /// <summary>
     /// InteractionOperatorKind is an enumeration designating the different kinds of operators of

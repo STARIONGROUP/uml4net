@@ -25,9 +25,10 @@ namespace uml4net.xmi.Readers.Values
 
     using Microsoft.Extensions.Logging;
 
-    using uml4net.POCO;
-    using uml4net.POCO.CommonStructure;
-    using uml4net.POCO.Values;
+    using uml4net;
+    using uml4net.CommonStructure;
+    using uml4net.Values;
+
     using uml4net.xmi.Cache;
     using uml4net.xmi.Readers;
 
@@ -96,10 +97,12 @@ namespace uml4net.xmi.Readers.Values
                         switch (xmlReader.LocalName)
                         {
                             case "body":
-                                opaqueExpression.Body.Add(xmlReader.ReadElementContentAsString());
+                                var body = xmlReader.ReadElementContentAsString();
+                                opaqueExpression.Body.Add(body);
                                 break;
                             case "language":
-                                opaqueExpression.Language.Add(xmlReader.ReadElementContentAsString());
+                                var language = xmlReader.ReadElementContentAsString();
+                                opaqueExpression.Language.Add(language);
                                 break;
                             case "ownedComment":
                                 using (var ownedCommentXmlReader = xmlReader.ReadSubtree())

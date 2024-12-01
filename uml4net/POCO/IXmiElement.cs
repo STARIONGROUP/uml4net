@@ -18,7 +18,7 @@
 // </copyright>
 // ------------------------------------------------------------------------------------------------
 
-namespace uml4net.POCO
+namespace uml4net
 {
     using System.Collections.Generic;
 

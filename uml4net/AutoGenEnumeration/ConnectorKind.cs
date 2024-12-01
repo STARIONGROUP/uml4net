@@ -22,7 +22,7 @@
 // --------THIS IS AN AUTOMATICALLY GENERATED FILE. ANY MANUAL CHANGES WILL BE OVERWRITTEN!--------
 // ------------------------------------------------------------------------------------------------
 
-namespace uml4net.POCO.StructuredClassifiers
+namespace uml4net.StructuredClassifiers
 {
     /// <summary>
     /// ConnectorKind is an enumeration that defines whether a Connector is an assembly or a delegation.

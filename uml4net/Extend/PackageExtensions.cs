@@ -18,12 +18,14 @@
 // </copyright>
 // ------------------------------------------------------------------------------------------------
 
-namespace uml4net.Extend
+namespace uml4net.Packages
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
 
-    using uml4net.POCO.Packages;
+    using uml4net.CommonStructure;
+    using uml4net.Utils;
 
     /// <summary>
     /// Extension methods for <see cref="IPackage"/> interface
@@ -38,7 +40,26 @@ namespace uml4net.Extend
         /// A <see cref="List{T}"/> of <see cref="IPackage"/> elements representing the nested packages 
         /// within the specified <paramref name="package"/>.
         /// </returns>
-        public static List<IPackage> QueryNestedPackage(this IPackage package)
-            => package.PackagedElement.OfType<IPackage>().ToList();
-    }
+        public static IContainerList<IPackage> QueryNestedPackage(this IPackage package)
+        {
+            var containerList = new ContainerList<IPackage>(package);
+
+            foreach (var packageableElement in package.PackagedElement.OfType<IPackage>())
+            {
+                containerList.Add(packageableElement);
+            }
+
+            return containerList;
+        }
+
+        public static IContainerList<IStereotype> QueryOwnedStereotype(this IPackage package)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static IContainerList<IType> QueryOwnedType(this IPackage package)
+        {
+            throw new NotImplementedException();
+        }
+}
 }

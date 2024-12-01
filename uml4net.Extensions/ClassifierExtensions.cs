@@ -20,11 +20,11 @@
 
 namespace uml4net.Extensions
 {
-    using POCO.Classification;
     using System.Collections.Generic;
-
     using System.Collections.ObjectModel;
     using System.Linq;
+
+    using Classification;
 
     /// <summary>
     /// The <see cref="ClassifierExtensions"/> class provides extensions methods for the <see cref="IClassifier"/>

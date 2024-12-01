@@ -28,9 +28,9 @@ namespace uml4net.HandleBars
 
     using uml4net.Extensions;
 
-    using uml4net.POCO.Classification;
-    using uml4net.POCO.CommonStructure;
-    using uml4net.POCO.StructuredClassifiers;
+    using uml4net.Classification;
+    using uml4net.CommonStructure;
+    using uml4net.StructuredClassifiers;
     
     /// <summary>
     /// A block helper that supports operations on class and property decorators (C# attributes)

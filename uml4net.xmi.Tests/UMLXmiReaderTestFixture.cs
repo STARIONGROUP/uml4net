@@ -29,10 +29,10 @@ namespace uml4net.xmi.Tests
 
     using Serilog;
 
-    using uml4net.POCO.Values;
-    using uml4net.POCO.Packages;
-    using uml4net.POCO.SimpleClassifiers;
-    using uml4net.POCO.StructuredClassifiers;
+    using uml4net.Values;
+    using uml4net.Packages;
+    using uml4net.SimpleClassifiers;
+    using uml4net.StructuredClassifiers;
     using uml4net.xmi;
 
     [TestFixture]
@@ -144,7 +144,7 @@ namespace uml4net.xmi.Tests
 
             Assert.That(classOwnedRule.OwnedComment.Single().Body, Is.EqualTo("Only an active Class may own Receptions and have a classifierBehavior."));
 
-            var opaqueExpression = classOwnedRule.Specification as IOpaqueExpression;
+            var opaqueExpression = classOwnedRule.Specification.First() as IOpaqueExpression;
 
             Assert.That(opaqueExpression.Body.Single(), Is.EqualTo("not isActive implies (ownedReception->isEmpty() and classifierBehavior = null)"));
             Assert.That(opaqueExpression.Language.Single(), Is.EqualTo("OCL"));

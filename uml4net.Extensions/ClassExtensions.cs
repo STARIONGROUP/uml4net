@@ -24,8 +24,8 @@ namespace uml4net.Extensions
     using System.Collections.ObjectModel;
     using System.Linq;
 
-    using uml4net.POCO.Classification;
-    using uml4net.POCO.StructuredClassifiers;
+    using uml4net.Classification;
+    using uml4net.StructuredClassifiers;
 
     /// <summary>
     /// Extension methods for <see cref="IClass"/> interface

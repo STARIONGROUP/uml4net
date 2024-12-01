@@ -25,10 +25,11 @@ namespace uml4net.xmi.Readers.CommonStructure
     using System.Xml;
 
     using Microsoft.Extensions.Logging;
-    
-    using uml4net.POCO;
-    using uml4net.POCO.CommonStructure;
-    using uml4net.POCO.Values;
+
+    using uml4net;
+    using uml4net.CommonStructure;
+    using uml4net.Values;
+
     using uml4net.xmi.Cache;
     using uml4net.xmi.Readers;
 
@@ -170,7 +171,7 @@ namespace uml4net.xmi.Readers.CommonStructure
                     using (var opaqueExpressionXmlReader = xmlReader.ReadSubtree())
                     {
                         var opaqueExpression = this.OpaqueExpressionReader.Read(opaqueExpressionXmlReader);
-                        constraint.Specification = opaqueExpression;
+                        constraint.Specification.Add(opaqueExpression);
                     }
                     break;
                 default:
