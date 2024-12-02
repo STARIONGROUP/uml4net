@@ -305,7 +305,7 @@ namespace uml4net.Reporting.Generators
             }
             catch (Exception e)
             {
-                this.logger.LogWarning("Problem loading fonts when adjusting to contents {0}", e);
+                this.logger.LogError(e, "Problem loading fonts when adjusting to contents");
             }
         }
 
