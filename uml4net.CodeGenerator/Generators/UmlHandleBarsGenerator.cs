@@ -44,6 +44,6 @@ namespace uml4net.CodeGenerator.Generators
         /// <returns>
         /// an awaitable <see cref="Task"/>
         /// </returns>
-        public abstract Task Generate(XmiReaderResult xmiReaderResult, DirectoryInfo outputDirectory);
+        public abstract Task GenerateAsync(XmiReaderResult xmiReaderResult, DirectoryInfo outputDirectory);
     }
 }

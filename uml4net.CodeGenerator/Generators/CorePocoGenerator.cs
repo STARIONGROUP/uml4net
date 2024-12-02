@@ -50,11 +50,11 @@ namespace uml4net.CodeGenerator.Generators
         /// <returns>
         /// an awaitable <see cref="Task"/>
         /// </returns>
-        public override async Task Generate(XmiReaderResult xmiReaderResult, DirectoryInfo outputDirectory)
+        public override async Task GenerateAsync(XmiReaderResult xmiReaderResult, DirectoryInfo outputDirectory)
         {
-            await this.GenerateEnumerations(xmiReaderResult, outputDirectory);
-            await this.GenerateInterfaces(xmiReaderResult, outputDirectory);
-            await this.GenerateClasses(xmiReaderResult, outputDirectory);
+            await this.GenerateEnumerationsAsync(xmiReaderResult, outputDirectory);
+            await this.GenerateInterfacesAsync(xmiReaderResult, outputDirectory);
+            await this.GenerateClassesAsync(xmiReaderResult, outputDirectory);
         }
 
         /// <summary>
@@ -69,8 +69,18 @@ namespace uml4net.CodeGenerator.Generators
         /// <returns>
         /// an awaitable task
         /// </returns>
-        public async Task GenerateEnumerations(XmiReaderResult xmiReaderResult, DirectoryInfo outputDirectory)
+        public async Task GenerateEnumerationsAsync(XmiReaderResult xmiReaderResult, DirectoryInfo outputDirectory)
         {
+            if (xmiReaderResult == null)
+            {
+                throw new ArgumentNullException($"{nameof(xmiReaderResult)} may not be null");
+            }
+
+            if (outputDirectory == null)
+            {
+                throw new ArgumentNullException($"{nameof(outputDirectory)} may not be null");
+            }
+
             var template = this.Templates["core-enumeration-template"];
 
             var enumerations = xmiReaderResult.Root.QueryPackages()
@@ -98,18 +108,36 @@ namespace uml4net.CodeGenerator.Generators
         /// <param name="outputDirectory">
         /// The target <see cref="DirectoryInfo"/>
         /// </param>
+        /// <param name="name">
+        /// The name of the Enumeration to generate
+        /// </param>
         /// <returns>
         /// an awaitable task
         /// </returns>
-        public async Task<string> GenerateEnumeration(XmiReaderResult xmiReaderResult, DirectoryInfo outputDirectory, string enumerationName)
+        public async Task<string> GenerateEnumerationAsync(XmiReaderResult xmiReaderResult, DirectoryInfo outputDirectory, string name)
         {
+            if (xmiReaderResult == null)
+            {
+                throw new ArgumentNullException($"{nameof(xmiReaderResult)} may not be null");
+            }
+
+            if (outputDirectory == null)
+            {
+                throw new ArgumentNullException($"{nameof(outputDirectory)} may not be null");
+            }
+
+            if (string.IsNullOrEmpty(name))
+            {
+                throw new ArgumentNullException($"{nameof(name)} may not be null or empty");
+            }
+
             var template = this.Templates["core-enumeration-template"];
 
             var enumerations = xmiReaderResult.Root.QueryPackages()
                 .SelectMany(x => x.PackagedElement.OfType<IEnumeration>())
                 .ToList();
 
-            var enumeration = enumerations.Single(x => x.Name == enumerationName);
+            var enumeration = enumerations.Single(x => x.Name == name);
 
             var generatedEnumeration = template(enumeration);
 
@@ -134,8 +162,18 @@ namespace uml4net.CodeGenerator.Generators
         /// <returns>
         /// an awaitable task
         /// </returns>
-        public async Task GenerateInterfaces(XmiReaderResult xmiReaderResult, DirectoryInfo outputDirectory)
+        public async Task GenerateInterfacesAsync(XmiReaderResult xmiReaderResult, DirectoryInfo outputDirectory)
         {
+            if (xmiReaderResult == null)
+            {
+                throw new ArgumentNullException($"{nameof(xmiReaderResult)} may not be null");
+            }
+
+            if (outputDirectory == null)
+            {
+                throw new ArgumentNullException($"{nameof(outputDirectory)} may not be null");
+            }
+
             var template = this.Templates["core-poco-interface-template"];
 
             var classes = xmiReaderResult.Root.QueryPackages()
@@ -163,18 +201,36 @@ namespace uml4net.CodeGenerator.Generators
         /// <param name="outputDirectory">
         /// The target <see cref="DirectoryInfo"/>
         /// </param>
+        /// <param name="name">
+        /// The name of the interface that is to be generated
+        /// </param>
         /// <returns>
         /// an awaitable task
         /// </returns>
-        public async Task<string> GenerateInterface(XmiReaderResult xmiReaderResult, DirectoryInfo outputDirectory, string className)
+        public async Task<string> GenerateInterfaceAsync(XmiReaderResult xmiReaderResult, DirectoryInfo outputDirectory, string name)
         {
+            if (xmiReaderResult == null)
+            {
+                throw new ArgumentNullException($"{nameof(xmiReaderResult)} may not be null");
+            }
+
+            if (outputDirectory == null)
+            {
+                throw new ArgumentNullException($"{nameof(outputDirectory)} may not be null");
+            }
+
+            if (string.IsNullOrEmpty(name))
+            {
+                throw new ArgumentNullException($"{nameof(name)} may not be null or empty");
+            }
+
             var template = this.Templates["core-poco-interface-template"];
 
             var classes = xmiReaderResult.Root.QueryPackages()
                 .SelectMany(x => x.PackagedElement.OfType<IClass>())
                 .ToList();
 
-            var @class = classes.Single(x => x.Name == className);
+            var @class = classes.Single(x => x.Name == name);
 
             var generatedInterface = template(@class);
 
@@ -199,8 +255,18 @@ namespace uml4net.CodeGenerator.Generators
         /// <returns>
         /// an awaitable task
         /// </returns>
-        public async Task GenerateClasses(XmiReaderResult xmiReaderResult, DirectoryInfo outputDirectory)
+        public async Task GenerateClassesAsync(XmiReaderResult xmiReaderResult, DirectoryInfo outputDirectory)
         {
+            if (xmiReaderResult == null)
+            {
+                throw new ArgumentNullException($"{nameof(xmiReaderResult)} may not be null");
+            }
+
+            if (outputDirectory == null)
+            {
+                throw new ArgumentNullException($"{nameof(outputDirectory)} may not be null");
+            }
+
             var template = this.Templates["core-poco-class-template"];
 
             var classes = xmiReaderResult.Root.QueryPackages()
@@ -235,8 +301,23 @@ namespace uml4net.CodeGenerator.Generators
         /// <returns>
         /// an awaitable task
         /// </returns>
-        public async Task<string> GenerateClass(XmiReaderResult xmiReaderResult, DirectoryInfo outputDirectory, string name)
+        public async Task<string> GenerateClassAsync(XmiReaderResult xmiReaderResult, DirectoryInfo outputDirectory, string name)
         {
+            if (xmiReaderResult == null)
+            {
+                throw new ArgumentNullException($"{nameof(xmiReaderResult)} may not be null");
+            }
+
+            if (outputDirectory == null)
+            {
+                throw new ArgumentNullException($"{nameof(outputDirectory)} may not be null");
+            }
+
+            if (string.IsNullOrEmpty(name))
+            {
+                throw new ArgumentNullException($"{nameof(name)} may not be null or empty");
+            }
+
             var template = this.Templates["core-poco-class-template"];
 
             var classes = xmiReaderResult.Root.QueryPackages()
