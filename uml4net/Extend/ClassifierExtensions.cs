@@ -27,7 +27,7 @@ namespace uml4net.Classification
     using uml4net.CommonStructure;
     
     /// <summary>
-    /// The <see cref="ClassifierExtensions"/> class provides extensions methods for the <see cref="IClassifier"/>
+    /// The <see cref="ClassifierExtensions"/> class provides extensions methods for <see cref="IClassifier"/>
     /// </summary>
     public static class ClassifierExtensions
     {

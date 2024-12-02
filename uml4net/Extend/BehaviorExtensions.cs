@@ -24,6 +24,9 @@ namespace uml4net.CommonBehavior
 
     using uml4net.SimpleClassifiers;
 
+    /// <summary>
+    /// The <see cref="BehaviorExtensions"/> class provides extensions methods for <see cref="IBehavior"/>
+    /// </summary>
     public static class BehaviorExtensions
     {
         public static IBehavioredClassifier QueryContext(this IBehavior behavior)

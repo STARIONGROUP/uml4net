@@ -21,8 +21,12 @@
 namespace uml4net.StructuredClassifiers
 {
     using System;
+
     using uml4net.Classification;
-    
+
+    /// <summary>
+    /// The <see cref="ConnectorEndExtensions"/> class provides extensions methods for <see cref="IConnectorEnd"/>
+    /// </summary>
     public static class ConnectorEndExtensions
     {
         public static IProperty QueryDefiningEnd(this IConnectorEnd connectorEnd)

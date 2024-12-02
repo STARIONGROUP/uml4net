@@ -26,7 +26,7 @@ namespace uml4net.CommonStructure
     using uml4net.Utils;
 
     /// <summary>
-    /// Extension methods for <see cref="INamedElement"/> interface
+    /// The <see cref="NamedElementExtensions"/> class provides extensions methods for <see cref="INamedElement"/>
     /// </summary>
     public static class NamedElementExtensions
     {

@@ -24,6 +24,9 @@ namespace uml4net.Classification
     
     using uml4net.CommonStructure;
 
+    /// <summary>
+    /// The <see cref="OperationExtensions"/> class provides extensions methods for <see cref="IOperation"/>
+    /// </summary>
     public static class OperationExtensions
     {
         public static bool QueryIsOrdered(this IOperation operation)

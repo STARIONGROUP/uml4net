@@ -21,7 +21,10 @@
 namespace uml4net.Classification
 {
     using System;
-    
+
+    /// <summary>
+    /// The <see cref="ParameterExtensions"/> class provides extensions methods for <see cref="IParameter"/>
+    /// </summary>
     public static class ParameterExtensions
     {
         public static string QueryDefault(this IParameter parameter)

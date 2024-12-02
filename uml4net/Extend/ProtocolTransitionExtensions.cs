@@ -24,8 +24,10 @@ namespace uml4net.StateMachines
     using System.Collections.Generic;
 
     using uml4net.Classification;
-    
 
+    /// <summary>
+    /// The <see cref="ProtocolTransitionExtensions"/> class provides extensions methods for <see cref="IProtocolTransition"/>
+    /// </summary>
     public static class ProtocolTransitionExtensions
     {
         public static List<IOperation> QueryReferred(this IProtocolTransition protocolTransition)

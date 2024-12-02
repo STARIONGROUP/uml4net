@@ -22,7 +22,10 @@ namespace uml4net.CommonStructure
 {
     using System;
     using System.Collections.Generic;
-    
+
+    /// <summary>
+    /// The <see cref="NamespaceExtensions"/> class provides extensions methods for <see cref="INamespace"/>
+    /// </summary>
     public static class NamespaceExtensions
     {
         public static List<IPackageableElement> QueryImportedMember(this INamespace @namespace)

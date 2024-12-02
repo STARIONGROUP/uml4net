@@ -21,8 +21,10 @@
 namespace uml4net.StructuredClassifiers
 {
     using System;
-    
 
+    /// <summary>
+    /// The <see cref="ConnectorExtensions"/> class provides extensions methods for <see cref="IConnector"/>
+    /// </summary>
     public static class ConnectorExtensions
     {
         public static ConnectorKind QueryKind(this IConnector connector)

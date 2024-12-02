@@ -22,8 +22,10 @@ namespace uml4net.Classification
 {
     using System;
     using System.Collections.Generic;
-    
 
+    /// <summary>
+    /// The <see cref="RedefinableElementExtensions"/> class provides extensions methods for <see cref="IRedefinableElement"/>
+    /// </summary>
     public static class RedefinableElementExtensions
     {
         public static List<IRedefinableElement> QueryRedefinedElement(this IRedefinableElement redefinableElement)

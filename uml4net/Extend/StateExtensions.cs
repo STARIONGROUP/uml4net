@@ -21,8 +21,10 @@
 namespace uml4net.StateMachines
 {
     using System;
-    
 
+    /// <summary>
+    /// The <see cref="StateExtensions"/> class provides extensions methods for <see cref="IState"/>
+    /// </summary>
     public static class StateExtensions
     {
         public static bool QueryIsComposite(this IState state)

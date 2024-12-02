@@ -26,7 +26,7 @@ namespace uml4net.CommonStructure
     using uml4net.Values;
 
     /// <summary>
-    /// Extension methods for <see cref="IMultiplicityElement"/> interface
+    /// The <see cref="MultiplicityElementExtensions"/> class provides extensions methods for <see cref="IMultiplicityElement"/>
     /// </summary>
     public static class MultiplicityElementExtensions
     {

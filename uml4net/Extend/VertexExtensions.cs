@@ -22,8 +22,12 @@ namespace uml4net.StateMachines
 {
     using System;
     using System.Collections.Generic;
+
     using uml4net.Classification;
-    
+
+    /// <summary>
+    /// The <see cref="VertexExtensions"/> class provides extensions methods for <see cref="IVertex"/>
+    /// </summary>
     public static class VertexExtensions
     {
         public static List<ITransition> QueryIncoming(this IVertex vertex)

@@ -21,6 +21,7 @@
 namespace uml4net.Decorators
 {
     using System;
+
     using uml4net.Classification;
 
     /// <summary>
@@ -64,7 +65,7 @@ namespace uml4net.Decorators
         public AggregationKind Aggregation { get; set; }
 
         /// <summary>
-        /// Gets or sets the lower value (lowerbound) of the property
+        /// Gets or sets the lower value (lower bound) of the property
         /// </summary>
         public int LowerValue { get; set; }
 
@@ -74,22 +75,22 @@ namespace uml4net.Decorators
         public int UpperValue { get; set; }
 
         /// <summary>
-        /// Gets or sets a value specifiying whether this is an ordered property
+        /// Gets or sets a value specifying whether this is an ordered property
         /// </summary>
         public bool IsOrdered { get; set; }
 
         /// <summary>
-        /// Gets or sets a value specifiying whether this is a readonly property
+        /// Gets or sets a value specifying whether this is a readonly property
         /// </summary>
         public bool IsReadOnly { get; set; }
 
         /// <summary>
-        /// Gets or sets a value specifiying whether this is a derived property
+        /// Gets or sets a value specifying whether this is a derived property
         /// </summary>
         public bool IsDerived { get; set; }
 
         /// <summary>
-        /// Gets or sets a value specifiying whether this is a derived union property
+        /// Gets or sets a value specifying whether this is a derived union property
         /// </summary>
         public bool IsDerivedUnion { get; set; }
 

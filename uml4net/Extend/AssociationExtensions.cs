@@ -22,9 +22,12 @@ namespace uml4net.StructuredClassifiers
 {
     using System;
     using System.Collections.Generic;
-    using uml4net.CommonStructure;
-    using uml4net.StructuredClassifiers;
 
+    using uml4net.CommonStructure;
+
+    /// <summary>
+    /// The <see cref="AssociationExtensions"/> class provides extensions methods for <see cref="IAssociation"/>
+    /// </summary>
     public static class AssociationExtensions
     {
         public static List<IType> QueryEndType(this IAssociation association)

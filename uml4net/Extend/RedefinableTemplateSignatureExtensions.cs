@@ -25,6 +25,9 @@ namespace uml4net.Classification
     
     using uml4net.CommonStructure;
 
+    /// <summary>
+    /// The <see cref="RedefinableTemplateSignatureExtensions"/> class provides extensions methods for <see cref="IRedefinableTemplateSignature"/>
+    /// </summary>
     public static class RedefinableTemplateSignatureExtensions
     {
         public static List<ITemplateParameter> QueryInheritedParameter(this IRedefinableTemplateSignature redefinableTemplateSignature)

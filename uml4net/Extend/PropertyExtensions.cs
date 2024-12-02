@@ -21,7 +21,10 @@
 namespace uml4net.Classification
 {
     using System;
-    
+
+    /// <summary>
+    /// The <see cref="PropertyExtensions"/> class provides extensions methods for <see cref="IProperty"/>
+    /// </summary>
     public static class PropertyExtensions
     {
         public static bool QueryIsComposite(this IProperty property)

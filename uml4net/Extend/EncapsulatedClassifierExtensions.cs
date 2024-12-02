@@ -24,6 +24,9 @@ namespace uml4net.StructuredClassifiers
 
     using uml4net.Utils;
 
+    /// <summary>
+    /// The <see cref="EncapsulatedClassifierExtensions"/> class provides extensions methods for <see cref="IEncapsulatedClassifier"/>
+    /// </summary>
     public static class EncapsulatedClassifierExtensions
     {
         public static IContainerList<IPort> QueryOwnedPort(this IEncapsulatedClassifier encapsulatedClassifier)

@@ -22,7 +22,10 @@ namespace uml4net.Values
 {
     using System;
     using uml4net.Classification;
-    
+
+    /// <summary>
+    /// The <see cref="OpaqueExpressionExtensions"/> class provides extensions methods for <see cref="IOpaqueExpression"/>
+    /// </summary>
     public static class OpaqueExpressionExtensions
     {
         public static IParameter QueryResult(this IOpaqueExpression opaqueExpression)

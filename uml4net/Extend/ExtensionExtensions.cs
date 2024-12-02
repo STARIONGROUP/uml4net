@@ -24,6 +24,9 @@ namespace uml4net.Packages
     
     using uml4net.StructuredClassifiers;
 
+    /// <summary>
+    /// The <see cref="ExtensionExtensions"/> class provides extensions methods for <see cref="IExtension"/>
+    /// </summary>
     public static class ExtensionExtensions
     {
         public static bool QueryIsRequired(this IExtension extension)

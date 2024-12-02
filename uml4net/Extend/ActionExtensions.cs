@@ -26,7 +26,7 @@ namespace uml4net.Actions
     using uml4net.Utils;
 
     /// <summary>
-    /// The <see cref="ActionExtensions"/> class provides extensions methods for the <see cref="IAction"/>
+    /// The <see cref="ActionExtensions"/> class provides extensions methods for <see cref="IAction"/>
     /// </summary>
     public static class ActionExtensions
     {

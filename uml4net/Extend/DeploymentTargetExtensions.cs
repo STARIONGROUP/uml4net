@@ -24,12 +24,15 @@ namespace uml4net.Deployments
     using System.Collections.Generic;
 
     using uml4net.CommonStructure;
-    
+
+    /// <summary>
+    /// The <see cref="DeploymentTargetExtensions"/> class provides extensions methods for <see cref="IDeploymentTarget"/>
+    /// </summary>
     public static class DeploymentTargetExtensions
     {
         public static List<IPackageableElement> QueryDeployedElement(this IDeploymentTarget deploymentTarget)
         {
             throw new NotImplementedException();
-    }
+        }
     }
 }

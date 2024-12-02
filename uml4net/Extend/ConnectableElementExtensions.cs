@@ -22,7 +22,10 @@ namespace uml4net.StructuredClassifiers
 {
     using System;
     using System.Collections.Generic;
-    
+
+    /// <summary>
+    /// The <see cref="ConnectableElementExtensions"/> class provides extensions methods for <see cref="IConnectableElement"/>
+    /// </summary>
     public static class ConnectableElementExtensions
     {
         public static List<IConnectorEnd> QueryEnd(this IConnectableElement connectableElement)

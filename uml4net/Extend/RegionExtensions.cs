@@ -23,7 +23,10 @@ namespace uml4net.StateMachines
     using System;
 
     using uml4net.Classification;
-    
+
+    /// <summary>
+    /// The <see cref="RegionExtensions"/> class provides extensions methods for <see cref="IRegion"/>
+    /// </summary>
     public static class RegionExtensions
     {
         public static IClassifier QueryRedefinitionContext(this IRegion region)

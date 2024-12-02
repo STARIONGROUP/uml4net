@@ -21,7 +21,10 @@
 namespace uml4net.Classification
 {
     using System;
-    
+
+    /// <summary>
+    /// The <see cref="FeatureExtensions"/> class provides extensions methods for <see cref="IFeature"/>
+    /// </summary>
     public static class FeatureExtensions
     {
         public static IClassifier QueryFeaturingClassifier(this IFeature feature)

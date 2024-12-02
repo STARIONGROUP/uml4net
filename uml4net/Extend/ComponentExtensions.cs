@@ -25,6 +25,9 @@ namespace uml4net.StructuredClassifiers
     
     using uml4net.SimpleClassifiers;
 
+    /// <summary>
+    /// The <see cref="ComponentExtensions"/> class provides extensions methods for <see cref="IComponent"/>
+    /// </summary>
     public static class ComponentExtensions
     {
         public static List<IInterface> QueryProvided(this IComponent component)

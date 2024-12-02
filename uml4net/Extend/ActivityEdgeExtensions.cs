@@ -22,8 +22,10 @@ namespace uml4net.Activities
 {
     using System;
     using System.Collections.Generic;
-    using uml4net.Activities;
-        
+
+    /// <summary>
+    /// The <see cref="ActivityEdgeExtensions"/> class provides extensions methods for <see cref="IActivityEdge"/>
+    /// </summary>
     public static class ActivityEdgeExtensions
     {
         public static List<IActivityGroup> QueryInGroup(this IActivityEdge activityEdge)

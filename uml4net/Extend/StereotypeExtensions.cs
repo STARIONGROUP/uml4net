@@ -21,8 +21,10 @@
 namespace uml4net.Packages
 {
     using System;
-    
 
+    /// <summary>
+    /// The <see cref="StereotypeExtensions"/> class provides extensions methods for <see cref="IStereotype"/>
+    /// </summary>
     public static class StereotypeExtensions
     {
         public static IProfile QueryProfile(this IStereotype stereotype)

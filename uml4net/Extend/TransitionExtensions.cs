@@ -21,8 +21,12 @@
 namespace uml4net.StateMachines
 {
     using System;
+
     using uml4net.Classification;
-    
+
+    /// <summary>
+    /// The <see cref="TransitionExtensions"/> class provides extensions methods for <see cref="ITransition"/>
+    /// </summary>
     public static class TransitionExtensions
     {
         public static IClassifier QueryRedefinitionContext(this ITransition transition)

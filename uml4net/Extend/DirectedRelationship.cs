@@ -24,7 +24,7 @@ namespace uml4net.CommonStructure
     using System.Collections.Generic;
 
     /// <summary>
-    /// The <see cref="DirectedRelationshipExtensions"/> class provides extensions methods for the <see cref="IDirectedRelationship"/>
+    /// The <see cref="DirectedRelationshipExtensions"/> class provides extensions methods for <see cref="IDirectedRelationship"/>
     /// </summary>
     public static class DirectedRelationshipExtensions
     {

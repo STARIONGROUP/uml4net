@@ -27,7 +27,7 @@ namespace uml4net.StructuredClassifiers
     using uml4net.Packages;
     
     /// <summary>
-    /// The <see cref="ClassExtensions"/> class provides extensions methods for the <see cref="IClass"/>
+    /// The <see cref="ClassExtensions"/> class provides extensions methods for <see cref="IClass"/>
     /// </summary>
     public static class ClassExtensions
     {

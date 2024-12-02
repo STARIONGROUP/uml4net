@@ -23,7 +23,9 @@ namespace uml4net.CommonStructure
     using System;
     using System.Collections.Generic;
 
-    
+    /// <summary>
+    /// The <see cref="RelationshipExtensions"/> class provides extensions methods for <see cref="IRelationship"/>
+    /// </summary>
     public static class RelationshipExtensions
     {
         public static List<IElement> QueryRelatedElement(this IRelationship relationship)

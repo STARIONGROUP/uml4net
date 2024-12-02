@@ -24,8 +24,10 @@ namespace uml4net.StructuredClassifiers
     using System.Collections.Generic;
 
     using uml4net.SimpleClassifiers;
-    
-    
+
+    /// <summary>
+    /// The <see cref="PortExtensions"/> class provides extensions methods for <see cref="IPort"/>
+    /// </summary>
     public static class PortExtensions
     {
         public static List<IInterface> QueryProvided(this IPort port)

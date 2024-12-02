@@ -27,7 +27,7 @@ namespace uml4net.Activities
     using uml4net.Utils;
 
     /// <summary>
-    /// The <see cref="ActivityGroupExtensions"/> class provides extensions methods for the <see cref="IActivityGroup"/>
+    /// The <see cref="ActivityGroupExtensions"/> class provides extensions methods for <see cref="IActivityGroup"/>
     /// </summary>
     public static class ActivityGroupExtensions
     {

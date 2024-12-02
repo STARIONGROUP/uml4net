@@ -24,7 +24,10 @@ namespace uml4net.StructuredClassifiers
     using System.Collections.Generic;
 
     using uml4net.Classification;
-    
+
+    /// <summary>
+    /// The <see cref="StructuredClassifierExtensions"/> class provides extensions methods for <see cref="IStructuredClassifier"/>
+    /// </summary>
     public static class StructuredClassifierExtensions
     {
         public static List<IProperty> QueryPart(this IStructuredClassifier structuredClassifier)

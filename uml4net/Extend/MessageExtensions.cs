@@ -21,7 +21,10 @@
 namespace uml4net.Interactions
 {
     using System;
-    
+
+    /// <summary>
+    /// The <see cref="MessageExtensions"/> class provides extensions methods for <see cref="IMessage"/>
+    /// </summary>
     public static class MessageExtensions
     {
         public static MessageKind QueryMessageKind(this IMessage message)

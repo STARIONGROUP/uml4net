@@ -28,7 +28,7 @@ namespace uml4net.Packages
     using uml4net.Utils;
 
     /// <summary>
-    /// Extension methods for <see cref="IPackage"/> interface
+    /// The <see cref="PackageExtensions"/> class provides extensions methods for <see cref="IPackage"/>
     /// </summary>
     public static class PackageExtensions
     {

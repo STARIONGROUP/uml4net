@@ -21,7 +21,10 @@
 namespace uml4net.SimpleClassifiers
 {
     using System;
-    
+
+    /// <summary>
+    /// The <see cref="EnumerationLiteralExtensions"/> class provides extensions methods for <see cref="IEnumerationLiteral"/>
+    /// </summary>
     public static class EnumerationLiteralExtensions
     {
         public static IEnumeration QueryClassifier(this IEnumerationLiteral enumerationLiteral)
