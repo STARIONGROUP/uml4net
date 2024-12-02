@@ -20,6 +20,7 @@
 
 namespace uml4net.CodeGenerator.Generators
 {
+    using System;
     using System.IO;
     using System.Reflection;
     using System.Text;
@@ -59,6 +60,11 @@ namespace uml4net.CodeGenerator.Generators
         /// </returns>
         protected virtual string CodeCleanup(string generatedCode)
         {
+            if (string.IsNullOrEmpty(generatedCode))
+            {
+                throw new ArgumentNullException($"{nameof(generatedCode)} may not be null or empty");
+            }
+
             generatedCode = generatedCode.Replace("&nbsp;", " ");
             var workspace = new AdhocWorkspace();
             var syntaxTree = CSharpSyntaxTree.ParseText(generatedCode);
@@ -84,8 +90,23 @@ namespace uml4net.CodeGenerator.Generators
         /// <returns>
         /// an awaitable <see cref="Task"/>
         /// </returns>
-        protected static async Task Write(string generatedCode, DirectoryInfo outputDirectory, string fileName)
+        protected static async Task WriteAsync(string generatedCode, DirectoryInfo outputDirectory, string fileName)
         {
+            if (string.IsNullOrEmpty(generatedCode))
+            {
+                throw new ArgumentNullException($"{nameof(generatedCode)} may not be null or empty");
+            }
+
+            if (outputDirectory == null)
+            {
+                throw new ArgumentNullException($"{nameof(outputDirectory)} may not be null");
+            }
+
+            if (string.IsNullOrEmpty(fileName))
+            {
+                throw new ArgumentNullException($"{nameof(fileName)} may not be null or empty");
+            }
+
             var filePath = Path.Combine(outputDirectory.FullName, fileName);
 
             await File.WriteAllTextAsync(filePath, generatedCode, Encoding.UTF8);

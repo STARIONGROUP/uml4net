@@ -95,7 +95,7 @@ namespace uml4net.CodeGenerator.Generators
 
                 var fileName = $"{enumeration.Name.CapitalizeFirstLetter()}.cs";
 
-                await Write(generatedEnumeration, outputDirectory, fileName);
+                await WriteAsync(generatedEnumeration, outputDirectory, fileName);
             }
         }
 
@@ -145,7 +145,7 @@ namespace uml4net.CodeGenerator.Generators
 
             var fileName = $"{enumeration.Name.CapitalizeFirstLetter()}.cs";
 
-            await Write(generatedEnumeration, outputDirectory, fileName);
+            await WriteAsync(generatedEnumeration, outputDirectory, fileName);
 
             return generatedEnumeration;
         }
@@ -188,7 +188,7 @@ namespace uml4net.CodeGenerator.Generators
 
                 var fileName = $"I{@class.Name.CapitalizeFirstLetter()}.cs";
 
-                await Write(generatedInterface, outputDirectory, fileName);
+                await WriteAsync(generatedInterface, outputDirectory, fileName);
             }
         }
 
@@ -238,7 +238,7 @@ namespace uml4net.CodeGenerator.Generators
 
             var fileName = $"I{@class.Name.CapitalizeFirstLetter()}.cs";
 
-            await Write(generatedInterface, outputDirectory, fileName);
+            await WriteAsync(generatedInterface, outputDirectory, fileName);
 
             return generatedInterface;
         }
@@ -282,7 +282,7 @@ namespace uml4net.CodeGenerator.Generators
 
                 var fileName = $"{cls.Name.CapitalizeFirstLetter()}.cs";
 
-                await Write(generatedCode, outputDirectory, fileName);
+                await WriteAsync(generatedCode, outputDirectory, fileName);
             }
         }
 
@@ -338,7 +338,7 @@ namespace uml4net.CodeGenerator.Generators
 
             var fileName = $"{cls.Name.CapitalizeFirstLetter()}.cs";
 
-            await Write(generatedCode, outputDirectory, fileName);
+            await WriteAsync(generatedCode, outputDirectory, fileName);
 
             return generatedCode;
         }
