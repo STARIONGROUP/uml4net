@@ -77,12 +77,8 @@ namespace uml4net.HandleBars
                 if (!(context.Value is IProperty property))
                     throw new ArgumentException("context is supposed to be an IProperty");
 
-                var upperValue = "1";
-                if (property.Upper != null)
-                {
-                    upperValue = property.Upper == int.MaxValue ? "int.MaxValue" : property.Upper.ToString();
-                }
-                
+                var upperValue = property.Upper == int.MaxValue ? "int.MaxValue" : property.Upper.ToString();
+
                 var defaultValue = property.QueryDefaultValueAsString();
                 if (defaultValue != "null")
                 {

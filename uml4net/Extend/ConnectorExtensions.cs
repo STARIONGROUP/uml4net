@@ -23,7 +23,7 @@ namespace uml4net.StructuredClassifiers
     using System;
     
 
-    public static class ConnectorExtensions_
+    public static class ConnectorExtensions
     {
         public static ConnectorKind QueryKind(this IConnector connector)
         {

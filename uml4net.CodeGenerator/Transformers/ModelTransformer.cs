@@ -93,7 +93,7 @@ namespace uml4net.CodeGenerator.Transformers
                 }
             }
 
-            return updatedElements.Any();
+            return updatedElements.Count > 0;
         }
     }
 }

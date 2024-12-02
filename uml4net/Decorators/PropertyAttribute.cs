@@ -56,51 +56,51 @@ namespace uml4net.Decorators
         /// <summary>
         /// Gets or sets the unique identifier
         /// </summary>
-        public string XmiId { get; set; } = string.Empty;
+        public string XmiId { get; set; }
 
         /// <summary>
         /// Gets or sets the <see cref="AggregationKind"/>.
         /// </summary>
-        public AggregationKind Aggregation { get; set; } = AggregationKind.None;
+        public AggregationKind Aggregation { get; set; }
 
         /// <summary>
         /// Gets or sets the lower value (lowerbound) of the property
         /// </summary>
-        public int LowerValue { get; set; } = 1;
+        public int LowerValue { get; set; }
 
         /// <summary>
         /// Gets or sets the upper value (upperbound) of the property
         /// </summary>
-        public int UpperValue { get; set; } = 1;
+        public int UpperValue { get; set; }
 
         /// <summary>
         /// Gets or sets a value specifiying whether this is an ordered property
         /// </summary>
-        public bool IsOrdered { get; set; } = false;
+        public bool IsOrdered { get; set; }
 
         /// <summary>
         /// Gets or sets a value specifiying whether this is a readonly property
         /// </summary>
-        public bool IsReadOnly { get; set; } = false;
+        public bool IsReadOnly { get; set; }
 
         /// <summary>
         /// Gets or sets a value specifiying whether this is a derived property
         /// </summary>
-        public bool IsDerived { get; set; } = false;
+        public bool IsDerived { get; set; }
 
         /// <summary>
         /// Gets or sets a value specifiying whether this is a derived union property
         /// </summary>
-        public bool IsDerivedUnion { get; set; } = false;
+        public bool IsDerivedUnion { get; set; }
 
         /// <summary>
         /// For a multivalued multiplicity, this attributes specifies whether the values in an instantiation of this MultiplicityElement are unique.
         /// </summary>
-        public bool IsUnique { get; set; } = true;
+        public bool IsUnique { get; set; }
 
         /// <summary>
         /// Gets or sets the default value if any.
         /// </summary>
-        public string DefaultValue { get; set; } = null;
+        public string DefaultValue { get; set; }
     }
 }

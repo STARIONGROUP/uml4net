@@ -312,7 +312,7 @@ namespace uml4net.HandleBars
 
                 var sb = new StringBuilder();
 
-                var isRedefinedByProperty = property.TryQueryRedefinedByProperty(@class, out var redefinedByProperty);
+                var isRedefinedByProperty = property.TryQueryRedefinedByProperty(@class, out _);
 
                 if (!isRedefinedByProperty)
                 {
