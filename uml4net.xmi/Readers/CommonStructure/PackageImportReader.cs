@@ -21,7 +21,6 @@
 namespace uml4net.xmi.Readers.CommonStructure
 {
     using System;
-    using System.Collections.Generic;
     using System.Xml;
 
     using Microsoft.Extensions.Logging;

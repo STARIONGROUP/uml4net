@@ -36,6 +36,6 @@ namespace uml4net.CommonStructure
         public static List<IElement> QuerySource(this IDirectedRelationship directedRelationship)
         {
             throw new NotImplementedException();
-    }
+        }
     }
 }

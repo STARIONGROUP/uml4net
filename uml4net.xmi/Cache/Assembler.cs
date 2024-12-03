@@ -20,13 +20,16 @@
 
 namespace uml4net.xmi.Cache
 {
-    using Microsoft.Extensions.Logging;
     using System;
     using System.Collections;
     using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
-    using Decorators;
+    
+    using Microsoft.Extensions.Logging;
+    
+    using uml4net.Decorators;
+    
     using uml4net;
 
     /// <summary>

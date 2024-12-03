@@ -53,5 +53,5 @@ namespace uml4net.Classification
         {
             throw new NotImplementedException();
         }
-}
+    }
 }

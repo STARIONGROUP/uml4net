@@ -23,10 +23,14 @@ namespace uml4net.Tools.Tests.Services
     using System;
     using System.Net.Http;
     using System.Threading.Tasks;
+
     using Microsoft.Extensions.Logging;
+
     using NUnit.Framework;
+
     using Serilog;
-    using Tools.Services;
+
+    using uml4net.Tools.Services;
 
     [TestFixture]
     public class VersionCheckerTestFixture

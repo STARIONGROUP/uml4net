@@ -39,5 +39,5 @@ namespace uml4net.StructuredClassifiers
         {
             throw new NotImplementedException();
         }
-}
+    }
 }

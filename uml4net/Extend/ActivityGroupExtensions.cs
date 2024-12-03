@@ -22,8 +22,7 @@ namespace uml4net.Activities
 {
     using System;
     using System.Collections.Generic;
-    using uml4net.Activities;
-    using uml4net.StructuredClassifiers;
+
     using uml4net.Utils;
 
     /// <summary>

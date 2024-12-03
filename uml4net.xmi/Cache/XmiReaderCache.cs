@@ -20,13 +20,14 @@
 
 namespace uml4net.xmi.Cache
 {
-    using Microsoft.Extensions.Logging;
+    using System;
+    using System.Collections.Concurrent;
     using System.Collections.Generic;
 
-    using uml4net;
-    using System.Collections.Concurrent;
-    using System;
+    using Microsoft.Extensions.Logging;
 
+    using uml4net;
+    
     /// <summary>
     /// A cache specifically designed for XMI elements, organized by context, to facilitate 
     /// efficient lookups and storage during the reading of XMI files. This class provides methods 

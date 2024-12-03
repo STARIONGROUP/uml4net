@@ -20,7 +20,6 @@
 
 namespace uml4net.Extensions.Tests
 {
-    using System.Collections.Generic;
     using System.IO;
     using System.Linq;
 
@@ -30,10 +29,9 @@ namespace uml4net.Extensions.Tests
 
     using Serilog;
 
-    using uml4net.Packages;
     using uml4net.StructuredClassifiers;
     using uml4net.xmi;
-    using xmi.Readers;
+    using uml4net.xmi.Readers;
 
     [TestFixture]
     public class ClassifierExtensionsTestFixture

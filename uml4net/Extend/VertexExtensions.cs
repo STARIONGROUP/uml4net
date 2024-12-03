@@ -40,7 +40,6 @@ namespace uml4net.StateMachines
             throw new NotImplementedException();
         }
 
-
         public static IClassifier QueryRedefinitionContext(this IVertex vertex)
         {
             throw new NotImplementedException();

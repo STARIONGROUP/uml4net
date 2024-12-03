@@ -20,9 +20,10 @@
 
 namespace uml4net.xmi.Readers
 {
-    using uml4net;
     using System.Xml;
 
+    using uml4net;
+    
     /// <summary>
     /// Defines a contract for reading <typeparamref name="TXmiElement"/> objects
     /// from their XML representation.
