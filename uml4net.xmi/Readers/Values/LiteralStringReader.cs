@@ -27,8 +27,8 @@ namespace uml4net.xmi.Readers.Values
 
     using uml4net;
     using uml4net.CommonStructure;
+    using uml4net.Utils;
     using uml4net.Values;
-
     using uml4net.xmi.Cache;
     using uml4net.xmi.Readers;
 
@@ -68,6 +68,8 @@ namespace uml4net.xmi.Readers.Values
         /// </returns>
         public override ILiteralString Read(XmlReader xmlReader)
         {
+            Guard.ThrowIfNull(xmlReader);
+
             ILiteralString literalString = new LiteralString();
 
             if (xmlReader.MoveToContent() == XmlNodeType.Element)

@@ -30,7 +30,7 @@ namespace uml4net.xmi.Readers.Packages
     using uml4net.Packages;
     using uml4net.SimpleClassifiers;
     using uml4net.StructuredClassifiers;
-
+    using uml4net.Utils;
     using uml4net.xmi.Cache;
     using uml4net.xmi.Readers;
 
@@ -105,6 +105,8 @@ namespace uml4net.xmi.Readers.Packages
         /// </returns>
         public override IModel Read(XmlReader xmlReader)
         {
+            Guard.ThrowIfNull(xmlReader);
+
             IModel model = new Model();
 
             if (xmlReader.MoveToContent() == XmlNodeType.Element)

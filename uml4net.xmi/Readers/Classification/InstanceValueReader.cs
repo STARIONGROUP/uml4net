@@ -28,10 +28,10 @@ namespace uml4net.xmi.Readers.Classification
     using uml4net;
     using uml4net.Classification;
     using uml4net.CommonStructure;
-    
+    using uml4net.Utils;
     using uml4net.xmi.Cache;
     using uml4net.xmi.Readers;
-
+    
     /// <summary>
     /// The purpose of the <see cref="InstanceValueReader"/> is to read an instance of <see cref="IInstanceValue"/>
     /// from the XMI document
@@ -68,6 +68,8 @@ namespace uml4net.xmi.Readers.Classification
         /// </returns>
         public override IInstanceValue Read(XmlReader xmlReader)
         {
+            Guard.ThrowIfNull(xmlReader);
+
             IInstanceValue instanceValue = new InstanceValue();
 
             if (xmlReader.MoveToContent() == XmlNodeType.Element)

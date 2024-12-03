@@ -42,6 +42,8 @@ namespace uml4net.Packages
         /// </returns>
         public static IContainerList<IPackage> QueryNestedPackage(this IPackage package)
         {
+            Guard.ThrowIfNull(package);
+
             var containerList = new ContainerList<IPackage>(package);
 
             foreach (var packageableElement in package.PackagedElement.OfType<IPackage>())

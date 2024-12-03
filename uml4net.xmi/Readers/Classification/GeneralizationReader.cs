@@ -26,10 +26,10 @@ namespace uml4net.xmi.Readers.Classification
 
     using uml4net;
     using uml4net.Classification;
-    
+    using uml4net.Utils;
     using uml4net.xmi.Cache;
     using uml4net.xmi.Readers;
-
+    
     /// <summary>
     /// The purpose of the <see cref="GeneralizationReader"/> is to read an instance of <see cref="IGeneralization"/>
     /// from the XMI document
@@ -61,6 +61,8 @@ namespace uml4net.xmi.Readers.Classification
         /// </returns>
         public override IGeneralization Read(XmlReader xmlReader)
         {
+            Guard.ThrowIfNull(xmlReader);
+
             IGeneralization generalization = new Generalization();
 
             if (xmlReader.MoveToContent() == XmlNodeType.Element)

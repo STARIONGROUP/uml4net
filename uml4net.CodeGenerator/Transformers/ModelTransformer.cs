@@ -62,6 +62,8 @@ namespace uml4net.CodeGenerator.Transformers
         /// </param>
         public bool Transform(XmiReaderResult xmiReaderResult, out List<IElement> updatedElements)
         {
+            ArgumentNullException.ThrowIfNull(xmiReaderResult, nameof(xmiReaderResult));
+
             updatedElements = new List<IElement>();
 
             var packages = xmiReaderResult.Root.QueryPackages();

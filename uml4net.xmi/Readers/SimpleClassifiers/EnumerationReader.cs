@@ -28,7 +28,7 @@ namespace uml4net.xmi.Readers.SimpleClassifiers
     using uml4net;
     using uml4net.CommonStructure;
     using uml4net.SimpleClassifiers;
-
+    using uml4net.Utils;
     using uml4net.xmi.Cache;
     using uml4net.xmi.Readers;
 
@@ -73,6 +73,8 @@ namespace uml4net.xmi.Readers.SimpleClassifiers
         /// </returns>
         public override IEnumeration Read(XmlReader xmlReader)
         {
+            Guard.ThrowIfNull(xmlReader);
+
             IEnumeration enumeration = new Enumeration();
 
             if (xmlReader.MoveToContent() == XmlNodeType.Element)

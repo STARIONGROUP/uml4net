@@ -22,9 +22,10 @@ namespace uml4net.CommonStructure
 {
     using System;
     using System.Linq;
-    
-    using uml4net.Values;
 
+    using uml4net.Utils;
+    using uml4net.Values;
+    
     /// <summary>
     /// The <see cref="MultiplicityElementExtensions"/> class provides extensions methods for <see cref="IMultiplicityElement"/>
     /// </summary>
@@ -41,6 +42,8 @@ namespace uml4net.CommonStructure
         /// </returns>
         public static int QueryLower(this IMultiplicityElement multiplicityElement)
         {
+            Guard.ThrowIfNull(multiplicityElement);
+
             switch (multiplicityElement.LowerValue.SingleOrDefault())
             {
                 case null:
@@ -66,6 +69,8 @@ namespace uml4net.CommonStructure
         /// </returns>
         public static int QueryUpper(this IMultiplicityElement multiplicityElement)
         {
+            Guard.ThrowIfNull(multiplicityElement);
+
             switch (multiplicityElement.UpperValue.SingleOrDefault())
             {
                 case null:

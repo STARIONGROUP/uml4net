@@ -28,9 +28,8 @@ namespace uml4net.xmi.Readers.CommonStructure
     using Microsoft.Extensions.Logging;
 
     using uml4net;
-    
     using uml4net.CommonStructure;
-    
+    using uml4net.Utils;
     using uml4net.xmi.Cache;
     using uml4net.xmi.Readers;
 
@@ -65,6 +64,8 @@ namespace uml4net.xmi.Readers.CommonStructure
         /// </returns>
         public override IComment Read(XmlReader xmlReader)
         {
+            Guard.ThrowIfNull(xmlReader);
+
             IComment comment = new Comment();
 
             if (xmlReader.MoveToContent() == XmlNodeType.Element)

@@ -29,6 +29,7 @@ namespace uml4net.CodeGenerator.Generators
     using Microsoft.CodeAnalysis;
     using Microsoft.CodeAnalysis.CSharp;
     using Microsoft.CodeAnalysis.Formatting;
+    using uml4net.xmi.Readers;
 
     /// <summary>
     /// Abstract class from which all generators derive
@@ -60,10 +61,7 @@ namespace uml4net.CodeGenerator.Generators
         /// </returns>
         protected virtual string CodeCleanup(string generatedCode)
         {
-            if (string.IsNullOrEmpty(generatedCode))
-            {
-                throw new ArgumentNullException($"{nameof(generatedCode)} may not be null or empty");
-            }
+            ArgumentNullException.ThrowIfNullOrEmpty(generatedCode, nameof(generatedCode));
 
             generatedCode = generatedCode.Replace("&nbsp;", " ");
             var workspace = new AdhocWorkspace();
@@ -92,20 +90,11 @@ namespace uml4net.CodeGenerator.Generators
         /// </returns>
         protected static async Task WriteAsync(string generatedCode, DirectoryInfo outputDirectory, string fileName)
         {
-            if (string.IsNullOrEmpty(generatedCode))
-            {
-                throw new ArgumentNullException($"{nameof(generatedCode)} may not be null or empty");
-            }
+            ArgumentNullException.ThrowIfNullOrEmpty(generatedCode, nameof(generatedCode));
 
-            if (outputDirectory == null)
-            {
-                throw new ArgumentNullException($"{nameof(outputDirectory)} may not be null");
-            }
+            ArgumentNullException.ThrowIfNull(outputDirectory, nameof(outputDirectory));
 
-            if (string.IsNullOrEmpty(fileName))
-            {
-                throw new ArgumentNullException($"{nameof(fileName)} may not be null or empty");
-            }
+            ArgumentNullException.ThrowIfNullOrEmpty(fileName, nameof(fileName));
 
             var filePath = Path.Combine(outputDirectory.FullName, fileName);
 

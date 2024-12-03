@@ -27,8 +27,8 @@ namespace uml4net.xmi.Readers.Values
 
     using uml4net;
     using uml4net.CommonStructure;
+    using uml4net.Utils;
     using uml4net.Values;
-
     using uml4net.xmi.Cache;
     using uml4net.xmi.Readers;
 
@@ -68,6 +68,8 @@ namespace uml4net.xmi.Readers.Values
         /// </returns>
         public override ILiteralUnlimitedNatural Read(XmlReader xmlReader)
         {
+            Guard.ThrowIfNull(xmlReader);
+
             ILiteralUnlimitedNatural literalUnlimitedNatural = new LiteralUnlimitedNatural();
 
             if (xmlReader.MoveToContent() == XmlNodeType.Element)

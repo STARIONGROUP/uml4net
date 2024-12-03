@@ -20,12 +20,14 @@
 
 namespace uml4net.Extensions
 {
+    using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Linq;
-
+    using DocumentFormat.OpenXml.Office.PowerPoint.Y2021.M06.Main;
     using uml4net.Classification;
     using uml4net.StructuredClassifiers;
+    using Utils;
 
     /// <summary>
     /// Extension methods for <see cref="IClass"/> interface
@@ -40,6 +42,8 @@ namespace uml4net.Extensions
         /// <returns>A <see cref="ReadOnlyCollection{T}"/> of <see cref="IProperty"/></returns>
         public static ReadOnlyCollection<IProperty> QueryAllProperties(this IClass @class)
         {
+            Guard.ThrowIfNull(@class);
+
             var result = new List<IProperty>();
 
             var superClassifiers = @class.QueryAllGeneralClassifiers();

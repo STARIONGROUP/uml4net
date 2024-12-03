@@ -21,7 +21,6 @@
 namespace uml4net.xmi.Readers.Packages
 {
     using System;
-    using System.Collections.Generic;
     using System.Xml;
 
     using Microsoft.Extensions.Logging;
@@ -31,10 +30,10 @@ namespace uml4net.xmi.Readers.Packages
     using uml4net.Packages;
     using uml4net.SimpleClassifiers;
     using uml4net.StructuredClassifiers;
-    
+    using uml4net.Utils;
     using uml4net.xmi.Cache;
     using uml4net.xmi.Readers;
-
+    
     /// <summary>
     /// The purpose of the <see cref="PackageReader"/> is to read an instance of <see cref="IPackage"/>
     /// from the XMI document
@@ -106,6 +105,8 @@ namespace uml4net.xmi.Readers.Packages
         /// </returns>
         public override IPackage Read(XmlReader xmlReader)
         {
+            Guard.ThrowIfNull(xmlReader);
+
             IPackage package = new Package();
 
             if (xmlReader.MoveToContent() == XmlNodeType.Element)

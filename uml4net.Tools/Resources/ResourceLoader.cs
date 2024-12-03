@@ -20,9 +20,11 @@
 
 namespace uml4net.Tools.Resources
 {
+    using System;
     using System.IO;
     using System.Reflection;
     using System.Resources;
+    using uml4net.xmi.Readers;
 
     /// <summary>
     /// Class responsible for loading embedded resources.
@@ -40,6 +42,8 @@ namespace uml4net.Tools.Resources
         /// </returns>
         public static string LoadEmbeddedResource(string path)
         {
+            ArgumentNullException.ThrowIfNullOrEmpty(path, nameof(path));
+
             var assembly = Assembly.GetExecutingAssembly();
 
             using var stream = assembly.GetManifestResourceStream(path);

@@ -27,6 +27,7 @@ namespace uml4net.Reporting.Generators
 
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Logging.Abstractions;
+    using Utils;
 
     /// <summary>
     /// The purpose of the <see cref="HtmlReportGenerator"/> is to generate an HTML report of a
@@ -78,10 +79,7 @@ namespace uml4net.Reporting.Generators
         /// </returns>
         public string GenerateReport(FileInfo modelPath, DirectoryInfo rootDirectory, Dictionary<string,string> pathMap)
         {
-            if (modelPath == null)
-            {
-                throw new ArgumentNullException(nameof(modelPath));
-            }
+            Guard.ThrowIfNull(modelPath);
 
             var sw = Stopwatch.StartNew();
 
@@ -117,10 +115,8 @@ namespace uml4net.Reporting.Generators
         /// </param>
         public void GenerateReport(FileInfo modelPath, DirectoryInfo rootDirectory, Dictionary<string, string> pathMap, FileInfo outputPath)
         {
-            if (outputPath == null)
-            {
-                throw new ArgumentNullException(nameof(outputPath));
-            }
+            Guard.ThrowIfNull(modelPath);
+            Guard.ThrowIfNull(outputPath);
 
             var sw = Stopwatch.StartNew();
 

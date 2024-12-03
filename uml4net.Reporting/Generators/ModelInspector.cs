@@ -24,6 +24,7 @@ namespace uml4net.Reporting.Generators
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.IO;
+    using System.IO.Packaging;
     using System.Linq;
     using System.Text;
     
@@ -33,7 +34,8 @@ namespace uml4net.Reporting.Generators
     using uml4net.Extensions;
     using uml4net.Packages;
     using uml4net.StructuredClassifiers;
-    
+    using uml4net.Utils;
+
     /// <summary>
     /// The purpose of the <see cref="ModelInspector"/> is to iterate through the model and report on the various kinds of
     /// patters that exist in the UML model that need to be taken into account for code-generation
@@ -90,6 +92,8 @@ namespace uml4net.Reporting.Generators
         /// </returns>
         public string Inspect(IPackage package, bool recursive = false)
         {
+            Guard.ThrowIfNull(package);
+            
             this.logger.LogInformation("Start UML Model Inspection at Package {0}:{1}", package.XmiId, package.Name);
 
             this.interestingClasses.Clear();
@@ -263,6 +267,9 @@ namespace uml4net.Reporting.Generators
         /// </returns>
         public string Inspect(IPackage package, string className)
         {
+            Guard.ThrowIfNull(package);
+            Guard.ThrowIfNullOrEmpty(className);
+
             this.logger.LogInformation("Start UML named Class '{2}' Inspection at Package {0}:{1}", package.XmiId, package.Name, className);
 
             var sw = Stopwatch.StartNew();
@@ -362,6 +369,8 @@ namespace uml4net.Reporting.Generators
         /// </returns>
         public string AnalyzeDocumentation(IPackage package, bool recursive = false)
         {
+            Guard.ThrowIfNull(package);
+            
             this.logger.LogInformation("Start inspection of Package documentation {0}:{1}", package.XmiId, package.Name);
 
             var sw = Stopwatch.StartNew();
@@ -435,6 +444,8 @@ namespace uml4net.Reporting.Generators
         /// </returns>
         public override Tuple<bool, string> IsValidReportExtension(FileInfo outputPath)
         {
+            Guard.ThrowIfNull(outputPath);
+            
             if (outputPath.Extension == ".txt")
             {
                 return new Tuple<bool, string>(true, ".txt is a supported report extension");
@@ -461,15 +472,8 @@ namespace uml4net.Reporting.Generators
         /// </param>
         public void GenerateReport(FileInfo modelPath, DirectoryInfo rootDirectory, Dictionary<string, string> pathMap, FileInfo outputPath)
         {
-            if (modelPath == null)
-            {
-                throw new ArgumentNullException(nameof(modelPath));
-            }
-
-            if (outputPath == null)
-            {
-                throw new ArgumentNullException(nameof(outputPath));
-            }
+            Guard.ThrowIfNull(modelPath);
+            Guard.ThrowIfNull(outputPath);
 
             var sw = Stopwatch.StartNew();
 

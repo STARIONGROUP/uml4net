@@ -27,7 +27,7 @@ namespace uml4net.xmi.Readers.CommonStructure
 
     using uml4net;
     using uml4net.CommonStructure;
-    
+    using uml4net.Utils;
     using uml4net.xmi.Cache;
     using uml4net.xmi.Readers;
 
@@ -62,6 +62,8 @@ namespace uml4net.xmi.Readers.CommonStructure
         /// </returns>
         public override IPackageImport Read(XmlReader xmlReader)
         {
+            Guard.ThrowIfNull(xmlReader);
+
             var packageImport = new PackageImport();
 
             if (xmlReader.MoveToContent() == XmlNodeType.Element)

@@ -20,7 +20,6 @@
 
 namespace uml4net.Extensions
 {
-    using System;
     using System.Collections.Generic;
     using System.Linq;
 
@@ -30,6 +29,8 @@ namespace uml4net.Extensions
     using uml4net.SimpleClassifiers;
     using uml4net.CommonStructure;
     using uml4net.StructuredClassifiers;
+    using uml4net.Utils;
+    using System.Xml.Linq;
 
     /// <summary>
     /// Extension methods for <see cref="IElement"/> interface
@@ -49,6 +50,8 @@ namespace uml4net.Extensions
         /// </returns>
         public static IEnumerable<string> QueryDocumentation(this IElement element)
         {
+            Guard.ThrowIfNull(element);
+
             var ownedComment = element.OwnedComment.FirstOrDefault();
             if (ownedComment == null)
             {
@@ -81,6 +84,8 @@ namespace uml4net.Extensions
         /// </returns>
         public static string QueryRawDocumentation(this IElement element)
         {
+            Guard.ThrowIfNull(element);
+
             var ownedComment = element.OwnedComment.FirstOrDefault();
             if (ownedComment == null)
             {
@@ -108,6 +113,8 @@ namespace uml4net.Extensions
         /// </returns>
         public static IPackage QueryRootPackage(this IElement element)
         {
+            Guard.ThrowIfNull(element);
+
             if (element.Owner is not IPackage owner)
             {
                 return element as IPackage;
@@ -136,6 +143,8 @@ namespace uml4net.Extensions
         /// </returns>
         public static IEnumerable<IInterface> QueryInterfaces(this IElement element)
         {
+            Guard.ThrowIfNull(element);
+
             if (element.Owner is not IPackage)
             {
                 yield break;

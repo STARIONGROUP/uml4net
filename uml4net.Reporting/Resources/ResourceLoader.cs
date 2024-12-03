@@ -24,6 +24,8 @@ namespace uml4net.Reporting.Resources
     using System.Reflection;
     using System.Resources;
 
+    using uml4net.Utils;
+
     /// <summary>
     /// Class responsible for loading embedded resources.
     /// </summary>
@@ -40,6 +42,8 @@ namespace uml4net.Reporting.Resources
         /// </returns>
         public static string LoadEmbeddedResource(string path)
         {
+            Guard.ThrowIfNullOrEmpty(path);
+            
             var assembly = Assembly.GetExecutingAssembly();
 
             using var stream = assembly.GetManifestResourceStream(path);

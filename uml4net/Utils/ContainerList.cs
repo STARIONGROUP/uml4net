@@ -25,6 +25,7 @@ namespace uml4net.Utils
     using System;
 
     using uml4net.CommonStructure;
+    using uml4net.Packages;
 
     /// <summary>
     /// List Type used for the 10-25 model for classes which are part of a composition relationship
@@ -88,10 +89,7 @@ namespace uml4net.Utils
         /// <exception cref="InvalidOperationException">Thrown if <paramref name="element"/> already exists in the list.</exception>
         public new void Add(T element)
         {
-            if (element == null)
-            {
-                throw new ArgumentNullException(nameof(element));
-            }
+            Guard.ThrowIfNull(element);
 
             element.Possessor = this.container;
 

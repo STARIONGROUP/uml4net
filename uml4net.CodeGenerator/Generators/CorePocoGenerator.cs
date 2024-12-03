@@ -31,6 +31,8 @@ namespace uml4net.CodeGenerator.Generators
     using uml4net.Packages;
     using uml4net.StructuredClassifiers;
     using uml4net.xmi.Readers;
+    using DocumentFormat.OpenXml.Wordprocessing;
+    using System.Xml.Linq;
 
     /// <summary>
     /// A Handlebars based POCO code generator
@@ -71,15 +73,9 @@ namespace uml4net.CodeGenerator.Generators
         /// </returns>
         public async Task GenerateEnumerationsAsync(XmiReaderResult xmiReaderResult, DirectoryInfo outputDirectory)
         {
-            if (xmiReaderResult == null)
-            {
-                throw new ArgumentNullException($"{nameof(xmiReaderResult)} may not be null");
-            }
+            ArgumentNullException.ThrowIfNull(xmiReaderResult, nameof(xmiReaderResult));
 
-            if (outputDirectory == null)
-            {
-                throw new ArgumentNullException($"{nameof(outputDirectory)} may not be null");
-            }
+            ArgumentNullException.ThrowIfNull(outputDirectory, nameof(outputDirectory));
 
             var template = this.Templates["core-enumeration-template"];
 
@@ -116,20 +112,11 @@ namespace uml4net.CodeGenerator.Generators
         /// </returns>
         public async Task<string> GenerateEnumerationAsync(XmiReaderResult xmiReaderResult, DirectoryInfo outputDirectory, string name)
         {
-            if (xmiReaderResult == null)
-            {
-                throw new ArgumentNullException($"{nameof(xmiReaderResult)} may not be null");
-            }
+            ArgumentNullException.ThrowIfNull(xmiReaderResult, nameof(xmiReaderResult));
 
-            if (outputDirectory == null)
-            {
-                throw new ArgumentNullException($"{nameof(outputDirectory)} may not be null");
-            }
+            ArgumentNullException.ThrowIfNull(outputDirectory, nameof(outputDirectory));
 
-            if (string.IsNullOrEmpty(name))
-            {
-                throw new ArgumentNullException($"{nameof(name)} may not be null or empty");
-            }
+            ArgumentNullException.ThrowIfNullOrEmpty(name, nameof(name));
 
             var template = this.Templates["core-enumeration-template"];
 
@@ -164,16 +151,10 @@ namespace uml4net.CodeGenerator.Generators
         /// </returns>
         public async Task GenerateInterfacesAsync(XmiReaderResult xmiReaderResult, DirectoryInfo outputDirectory)
         {
-            if (xmiReaderResult == null)
-            {
-                throw new ArgumentNullException($"{nameof(xmiReaderResult)} may not be null");
-            }
+            ArgumentNullException.ThrowIfNull(xmiReaderResult, nameof(xmiReaderResult));
 
-            if (outputDirectory == null)
-            {
-                throw new ArgumentNullException($"{nameof(outputDirectory)} may not be null");
-            }
-
+            ArgumentNullException.ThrowIfNull(outputDirectory, nameof(outputDirectory));
+            
             var template = this.Templates["core-poco-interface-template"];
 
             var classes = xmiReaderResult.Root.QueryPackages()
@@ -209,20 +190,11 @@ namespace uml4net.CodeGenerator.Generators
         /// </returns>
         public async Task<string> GenerateInterfaceAsync(XmiReaderResult xmiReaderResult, DirectoryInfo outputDirectory, string name)
         {
-            if (xmiReaderResult == null)
-            {
-                throw new ArgumentNullException($"{nameof(xmiReaderResult)} may not be null");
-            }
+            ArgumentNullException.ThrowIfNull(xmiReaderResult, nameof(xmiReaderResult));
 
-            if (outputDirectory == null)
-            {
-                throw new ArgumentNullException($"{nameof(outputDirectory)} may not be null");
-            }
+            ArgumentNullException.ThrowIfNull(outputDirectory, nameof(outputDirectory));
 
-            if (string.IsNullOrEmpty(name))
-            {
-                throw new ArgumentNullException($"{nameof(name)} may not be null or empty");
-            }
+            ArgumentNullException.ThrowIfNullOrEmpty(name, nameof(name));
 
             var template = this.Templates["core-poco-interface-template"];
 
@@ -257,16 +229,10 @@ namespace uml4net.CodeGenerator.Generators
         /// </returns>
         public async Task GenerateClassesAsync(XmiReaderResult xmiReaderResult, DirectoryInfo outputDirectory)
         {
-            if (xmiReaderResult == null)
-            {
-                throw new ArgumentNullException($"{nameof(xmiReaderResult)} may not be null");
-            }
+            ArgumentNullException.ThrowIfNull(xmiReaderResult, nameof(xmiReaderResult));
 
-            if (outputDirectory == null)
-            {
-                throw new ArgumentNullException($"{nameof(outputDirectory)} may not be null");
-            }
-
+            ArgumentNullException.ThrowIfNull(outputDirectory, nameof(outputDirectory));
+            
             var template = this.Templates["core-poco-class-template"];
 
             var classes = xmiReaderResult.Root.QueryPackages()
@@ -303,20 +269,11 @@ namespace uml4net.CodeGenerator.Generators
         /// </returns>
         public async Task<string> GenerateClassAsync(XmiReaderResult xmiReaderResult, DirectoryInfo outputDirectory, string name)
         {
-            if (xmiReaderResult == null)
-            {
-                throw new ArgumentNullException($"{nameof(xmiReaderResult)} may not be null");
-            }
+            ArgumentNullException.ThrowIfNull(xmiReaderResult, nameof(xmiReaderResult));
 
-            if (outputDirectory == null)
-            {
-                throw new ArgumentNullException($"{nameof(outputDirectory)} may not be null");
-            }
+            ArgumentNullException.ThrowIfNull(outputDirectory, nameof(outputDirectory));
 
-            if (string.IsNullOrEmpty(name))
-            {
-                throw new ArgumentNullException($"{nameof(name)} may not be null or empty");
-            }
+            ArgumentNullException.ThrowIfNullOrEmpty(name, nameof(name));
 
             var template = this.Templates["core-poco-class-template"];
 

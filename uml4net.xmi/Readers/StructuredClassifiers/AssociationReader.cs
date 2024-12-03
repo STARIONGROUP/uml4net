@@ -30,7 +30,7 @@ namespace uml4net.xmi.Readers.StructuredClassifiers
     using uml4net.Classification;
     using uml4net.CommonStructure;
     using uml4net.StructuredClassifiers;
-
+    using uml4net.Utils;
     using uml4net.xmi.Cache;
     using uml4net.xmi.Readers;
 
@@ -85,6 +85,8 @@ namespace uml4net.xmi.Readers.StructuredClassifiers
         /// </returns>
         public override IAssociation Read(XmlReader xmlReader)
         {
+            Guard.ThrowIfNull(xmlReader);
+
             IAssociation association = new Association();
 
             if (xmlReader.MoveToContent() == XmlNodeType.Element)

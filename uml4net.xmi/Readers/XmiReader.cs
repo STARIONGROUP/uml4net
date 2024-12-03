@@ -28,6 +28,7 @@ namespace uml4net.xmi.Readers
     using Microsoft.Extensions.Logging;
 
     using uml4net.Packages;
+    using uml4net.Utils;
     using uml4net.xmi;
     using uml4net.xmi.Cache;
     
@@ -104,6 +105,8 @@ namespace uml4net.xmi.Readers
         /// </returns>
         public XmiReaderResult Read(string fileUri)
         {
+            Guard.ThrowIfNullOrEmpty(fileUri);
+
             using var fileStream = File.OpenRead(fileUri);
 
             var sw = Stopwatch.StartNew();
@@ -129,6 +132,8 @@ namespace uml4net.xmi.Readers
         /// </returns>
         public XmiReaderResult Read(Stream stream)
         {
+            Guard.ThrowIfNull(stream);
+
             var xmiReaderResult = new XmiReaderResult();
 
             this.Read(stream, xmiReaderResult, true);

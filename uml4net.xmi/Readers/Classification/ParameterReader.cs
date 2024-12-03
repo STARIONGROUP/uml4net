@@ -29,7 +29,7 @@ namespace uml4net.xmi.Readers.Classification
     using uml4net.Classification;
     using uml4net.CommonStructure;
     using uml4net.Values;
-
+    using uml4net.Utils;
     using uml4net.xmi.Cache;
     using uml4net.xmi.Readers;
 
@@ -79,6 +79,8 @@ namespace uml4net.xmi.Readers.Classification
         /// </returns>
         public override IParameter Read(XmlReader xmlReader)
         {
+            Guard.ThrowIfNull(xmlReader);
+
             IParameter parameter = new Parameter();
 
             if (xmlReader.MoveToContent() == XmlNodeType.Element)

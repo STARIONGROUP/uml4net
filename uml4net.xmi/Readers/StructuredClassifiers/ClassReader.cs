@@ -30,10 +30,10 @@ namespace uml4net.xmi.Readers.StructuredClassifiers
     using uml4net.CommonStructure;
     using uml4net.Packages;
     using uml4net.StructuredClassifiers;
-    
+    using uml4net.Utils;
     using uml4net.xmi.Cache;
     using uml4net.xmi.Readers;
-
+    
     /// <summary>
     /// The purpose of the <see cref="ClassReader"/> is to read an instance of <see cref="IClass"/>
     /// from the XMI document
@@ -90,6 +90,8 @@ namespace uml4net.xmi.Readers.StructuredClassifiers
         /// </returns>
         public override IClass Read(XmlReader xmlReader)
         {
+            Guard.ThrowIfNull(xmlReader);
+
             IClass @class = new Class();
 
             if (xmlReader.MoveToContent() == XmlNodeType.Element)

@@ -24,7 +24,8 @@ namespace uml4net.Extensions
     using System.Collections.ObjectModel;
     using System.Linq;
 
-    using Classification;
+    using uml4net.Classification;
+    using uml4net.Utils;
 
     /// <summary>
     /// The <see cref="ClassifierExtensions"/> class provides extensions methods for the <see cref="IClassifier"/>
@@ -43,6 +44,8 @@ namespace uml4net.Extensions
         /// </returns>
         public static ReadOnlyCollection<IClassifier> QueryAllGeneralClassifiers(this IClassifier classifier)
         {
+            Guard.ThrowIfNull(classifier);
+
             var result = new List<IClassifier> { classifier };
 
             if (classifier.Generalization != null)

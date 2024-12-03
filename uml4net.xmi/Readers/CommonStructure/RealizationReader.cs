@@ -32,6 +32,7 @@ namespace uml4net.xmi.Readers.CommonStructure
     using uml4net.Packages;
     using uml4net.SimpleClassifiers;
     using uml4net.StructuredClassifiers;
+    using uml4net.Utils;
     using uml4net.Values;
     using uml4net.xmi.Cache;
     using uml4net.xmi.Readers;
@@ -67,6 +68,8 @@ namespace uml4net.xmi.Readers.CommonStructure
         /// </returns>
         public override IRealization Read(XmlReader xmlReader)
         {
+            Guard.ThrowIfNull(xmlReader);
+
             IRealization realization = new Realization();
 
             if (xmlReader.MoveToContent() == XmlNodeType.Element)

@@ -29,7 +29,7 @@ namespace uml4net.xmi.Readers.CommonStructure
     using uml4net;
     using uml4net.CommonStructure;
     using uml4net.Values;
-
+    using uml4net.Utils;
     using uml4net.xmi.Cache;
     using uml4net.xmi.Readers;
 
@@ -74,6 +74,8 @@ namespace uml4net.xmi.Readers.CommonStructure
         /// </returns>
         public override IConstraint Read(XmlReader xmlReader)
         {
+            Guard.ThrowIfNull(xmlReader);
+
             IConstraint constraint = new Constraint();
 
             if (xmlReader.MoveToContent() == XmlNodeType.Element)

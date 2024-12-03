@@ -22,9 +22,9 @@ namespace uml4net.Extensions
 {
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
-    using System.Linq;
-
+    
     using uml4net.Packages;
+    using uml4net.Utils;
 
     /// <summary>
     /// Extension methods for <see cref="IPackage"/> interface
@@ -44,6 +44,8 @@ namespace uml4net.Extensions
         /// </returns>
         public static ReadOnlyCollection<IPackage> QueryPackages(this IPackage root)
         {
+            Guard.ThrowIfNull(root);
+
             var result = new List<IPackage>();
 
             if (root == null)
