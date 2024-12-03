@@ -90,11 +90,11 @@ namespace uml4net.CodeGenerator.Generators
         /// </returns>
         protected static async Task WriteAsync(string generatedCode, DirectoryInfo outputDirectory, string fileName)
         {
-            ArgumentNullException.ThrowIfNullOrEmpty(generatedCode, nameof(generatedCode));
+            ArgumentNullException.ThrowIfNullOrEmpty(generatedCode);
 
-            ArgumentNullException.ThrowIfNull(outputDirectory, nameof(outputDirectory));
+            ArgumentNullException.ThrowIfNull(outputDirectory);
 
-            ArgumentNullException.ThrowIfNullOrEmpty(fileName, nameof(fileName));
+            ArgumentNullException.ThrowIfNullOrEmpty(fileName);
 
             var filePath = Path.Combine(outputDirectory.FullName, fileName);
 

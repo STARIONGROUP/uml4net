@@ -73,9 +73,9 @@ namespace uml4net.CodeGenerator.Generators
         /// </returns>
         public async Task GenerateEnumerationsAsync(XmiReaderResult xmiReaderResult, DirectoryInfo outputDirectory)
         {
-            ArgumentNullException.ThrowIfNull(xmiReaderResult, nameof(xmiReaderResult));
+            ArgumentNullException.ThrowIfNull(xmiReaderResult);
 
-            ArgumentNullException.ThrowIfNull(outputDirectory, nameof(outputDirectory));
+            ArgumentNullException.ThrowIfNull(outputDirectory);
 
             var template = this.Templates["core-enumeration-template"];
 
@@ -112,11 +112,11 @@ namespace uml4net.CodeGenerator.Generators
         /// </returns>
         public async Task<string> GenerateEnumerationAsync(XmiReaderResult xmiReaderResult, DirectoryInfo outputDirectory, string name)
         {
-            ArgumentNullException.ThrowIfNull(xmiReaderResult, nameof(xmiReaderResult));
+            ArgumentNullException.ThrowIfNull(xmiReaderResult);
 
-            ArgumentNullException.ThrowIfNull(outputDirectory, nameof(outputDirectory));
+            ArgumentNullException.ThrowIfNull(outputDirectory);
 
-            ArgumentNullException.ThrowIfNullOrEmpty(name, nameof(name));
+            ArgumentNullException.ThrowIfNullOrEmpty(name);
 
             var template = this.Templates["core-enumeration-template"];
 
@@ -151,9 +151,9 @@ namespace uml4net.CodeGenerator.Generators
         /// </returns>
         public async Task GenerateInterfacesAsync(XmiReaderResult xmiReaderResult, DirectoryInfo outputDirectory)
         {
-            ArgumentNullException.ThrowIfNull(xmiReaderResult, nameof(xmiReaderResult));
+            ArgumentNullException.ThrowIfNull(xmiReaderResult);
 
-            ArgumentNullException.ThrowIfNull(outputDirectory, nameof(outputDirectory));
+            ArgumentNullException.ThrowIfNull(outputDirectory);
             
             var template = this.Templates["core-poco-interface-template"];
 
@@ -190,11 +190,11 @@ namespace uml4net.CodeGenerator.Generators
         /// </returns>
         public async Task<string> GenerateInterfaceAsync(XmiReaderResult xmiReaderResult, DirectoryInfo outputDirectory, string name)
         {
-            ArgumentNullException.ThrowIfNull(xmiReaderResult, nameof(xmiReaderResult));
+            ArgumentNullException.ThrowIfNull(xmiReaderResult);
 
-            ArgumentNullException.ThrowIfNull(outputDirectory, nameof(outputDirectory));
+            ArgumentNullException.ThrowIfNull(outputDirectory);
 
-            ArgumentNullException.ThrowIfNullOrEmpty(name, nameof(name));
+            ArgumentNullException.ThrowIfNullOrEmpty(name);
 
             var template = this.Templates["core-poco-interface-template"];
 
@@ -229,9 +229,9 @@ namespace uml4net.CodeGenerator.Generators
         /// </returns>
         public async Task GenerateClassesAsync(XmiReaderResult xmiReaderResult, DirectoryInfo outputDirectory)
         {
-            ArgumentNullException.ThrowIfNull(xmiReaderResult, nameof(xmiReaderResult));
+            ArgumentNullException.ThrowIfNull(xmiReaderResult);
 
-            ArgumentNullException.ThrowIfNull(outputDirectory, nameof(outputDirectory));
+            ArgumentNullException.ThrowIfNull(outputDirectory);
             
             var template = this.Templates["core-poco-class-template"];
 
@@ -269,11 +269,11 @@ namespace uml4net.CodeGenerator.Generators
         /// </returns>
         public async Task<string> GenerateClassAsync(XmiReaderResult xmiReaderResult, DirectoryInfo outputDirectory, string name)
         {
-            ArgumentNullException.ThrowIfNull(xmiReaderResult, nameof(xmiReaderResult));
+            ArgumentNullException.ThrowIfNull(xmiReaderResult);
 
-            ArgumentNullException.ThrowIfNull(outputDirectory, nameof(outputDirectory));
+            ArgumentNullException.ThrowIfNull(outputDirectory);
 
-            ArgumentNullException.ThrowIfNullOrEmpty(name, nameof(name));
+            ArgumentNullException.ThrowIfNullOrEmpty(name);
 
             var template = this.Templates["core-poco-class-template"];
 

@@ -42,7 +42,7 @@ namespace uml4net.Tools.Resources
         /// </returns>
         public static string LoadEmbeddedResource(string path)
         {
-            ArgumentNullException.ThrowIfNullOrEmpty(path, nameof(path));
+            ArgumentNullException.ThrowIfNullOrEmpty(path);
 
             var assembly = Assembly.GetExecutingAssembly();
 
