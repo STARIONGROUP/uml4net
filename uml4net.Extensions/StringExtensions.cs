@@ -23,6 +23,7 @@ namespace uml4net.Extensions
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using Utils;
 
     /// <summary>
     /// Extension methods for <see cref="string"/> 
@@ -41,8 +42,10 @@ namespace uml4net.Extensions
         /// <returns>
         /// an <see cref="IEnumerable{String}"/>
         /// </returns>
-        public static IEnumerable<string> SplitToLines(this string input, int maximumLineLength)
+        public static IEnumerable<string> SplitToLines(this string input, int maximumLineLength = 100)
         {
+            Guard.ThrowIfNull(input);
+
             input = input.Replace("\r\n", " ").Trim();
 
             var words = input.Split(' ');
