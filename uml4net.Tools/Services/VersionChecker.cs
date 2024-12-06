@@ -65,7 +65,7 @@ namespace uml4net.Tools.Services
         /// an instance of <see cref="GitHubRelease"/> or null if not found or a connection
         /// error occured
         /// </returns>
-        public async Task<GitHubRelease> QueryLatestRelease()
+        public async Task<GitHubRelease> QueryLatestReleaseAsync()
         {
             var requestUrl = "https://api.github.com/repos/STARIONGROUP/uml4net/releases/latest";
 
