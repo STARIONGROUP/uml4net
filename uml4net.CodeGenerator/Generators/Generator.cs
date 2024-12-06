@@ -29,8 +29,7 @@ namespace uml4net.CodeGenerator.Generators
     using Microsoft.CodeAnalysis;
     using Microsoft.CodeAnalysis.CSharp;
     using Microsoft.CodeAnalysis.Formatting;
-    using uml4net.xmi.Readers;
-
+    
     /// <summary>
     /// Abstract class from which all generators derive
     /// </summary>
@@ -63,7 +62,7 @@ namespace uml4net.CodeGenerator.Generators
         {
             ArgumentNullException.ThrowIfNullOrEmpty(generatedCode, nameof(generatedCode));
 
-            generatedCode = generatedCode.Replace("&nbsp;", " ");
+            generatedCode = generatedCode.Replace("&nbsp;", " ", StringComparison.OrdinalIgnoreCase);
             var workspace = new AdhocWorkspace();
             var syntaxTree = CSharpSyntaxTree.ParseText(generatedCode);
             var root = syntaxTree.GetRoot();

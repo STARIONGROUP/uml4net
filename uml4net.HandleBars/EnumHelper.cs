@@ -42,7 +42,9 @@ namespace uml4net.HandleBars
         public static string EnumToString<TEnum>(TEnum enumValue) where TEnum : Enum
         {
             if (!typeof(TEnum).IsEnum)
+            {
                 throw new ArgumentException("TEnum must be an enum type");
+            }
 
             return enumValue.ToString();
         }

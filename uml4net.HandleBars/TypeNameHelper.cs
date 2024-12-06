@@ -21,9 +21,10 @@
 namespace uml4net.HandleBars
 {
     using System;
-    using uml4net.Extensions;
 
     using HandlebarsDotNet;
+
+    using uml4net.Extensions;
     using uml4net.StructuredClassifiers;
     using uml4net.Classification;
 
@@ -43,7 +44,9 @@ namespace uml4net.HandleBars
             handlebars.RegisterHelper("POCO.TypeName", (writer, context, parameters) =>
             {
                 if (!(context.Value is IProperty property))
+                {
                     throw new ArgumentException("POCO.TypeName - supposed to be IProperty");
+                }
 
                 var typeName = property.QueryCSharpTypeName();
 
