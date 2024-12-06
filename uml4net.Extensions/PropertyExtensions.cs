@@ -28,6 +28,7 @@ namespace uml4net.Extensions
     using uml4net.SimpleClassifiers;
     using uml4net.StructuredClassifiers;
     using uml4net.Values;
+    using Utils;
 
     /// <summary>
     /// Extension methods for <see cref="IProperty"/> class
@@ -45,6 +46,8 @@ namespace uml4net.Extensions
         /// </returns>
         public static bool QueryIsEnum(this IProperty property)
         {
+            Guard.ThrowIfNull(property);
+
             return property.Type is IEnumeration;
         }
 
@@ -59,6 +62,8 @@ namespace uml4net.Extensions
         /// </returns>
         public static bool QueryIsPrimitiveType(this IProperty property)
         {
+            Guard.ThrowIfNull(property);
+
             return property.Type is IPrimitiveType;
         }
 
@@ -73,6 +78,8 @@ namespace uml4net.Extensions
         /// </returns>
         public static bool QueryIsBool(this IProperty property)
         {
+            Guard.ThrowIfNull(property);
+
             return property?.Type?.Name?.IndexOf("bool", StringComparison.InvariantCultureIgnoreCase) >= 0;
         }
 
@@ -87,6 +94,8 @@ namespace uml4net.Extensions
         /// </returns>
         public static bool QueryIsNumeric(this IProperty property)
         {
+            Guard.ThrowIfNull(property);
+
             if (property?.Type?.Name == null)
             {
                 return false;
@@ -126,6 +135,8 @@ namespace uml4net.Extensions
         /// </returns>
         public static string QueryCSharpTypeName(this IProperty property)
         {
+            Guard.ThrowIfNull(property);
+
             if (!CSharpTypeMapping.TryGetValue(property.QueryTypeName(), out var typeName))
             {
                 return property.QueryTypeName();
@@ -145,6 +156,8 @@ namespace uml4net.Extensions
         /// </returns>
         public static bool QueryIsEnumerable(this IProperty property)
         {
+            Guard.ThrowIfNull(property);
+
             int value;
 
             switch (property.UpperValue.SingleOrDefault())
@@ -174,6 +187,8 @@ namespace uml4net.Extensions
         /// </returns>
         public static bool QueryIsContainment(this IProperty property)
         {
+            Guard.ThrowIfNull(property);
+
             if (property.Aggregation == AggregationKind.Composite)
             {
                 return true;
@@ -196,6 +211,9 @@ namespace uml4net.Extensions
         /// </returns>
         public static bool QueryStructuralFeatureNameEqualsEnclosingType(this IStructuralFeature structuralFeature, IClass @class)
         {
+            Guard.ThrowIfNull(structuralFeature);
+            Guard.ThrowIfNull(@class);
+
             return string.Equals(structuralFeature.Name, @class.Name, StringComparison.CurrentCultureIgnoreCase);
         }
 
@@ -210,6 +228,8 @@ namespace uml4net.Extensions
         /// </returns>
         public static bool QueryHasDefaultValue(this IProperty property)
         {
+            Guard.ThrowIfNull(property);
+
             return property.DefaultValue != null;
         }
 
@@ -224,6 +244,8 @@ namespace uml4net.Extensions
         /// </returns>
         public static string QueryDefaultValueAsString(this IProperty property)
         {
+            Guard.ThrowIfNull(property);
+
             var valueSpecification = property.DefaultValue.FirstOrDefault();
 
             return valueSpecification == null ? "null" : valueSpecification.QueryDefaultValueAsString();
@@ -240,6 +262,8 @@ namespace uml4net.Extensions
         /// </returns>
         public static string QueryTypeName(this IProperty property)
         {
+            Guard.ThrowIfNull(property);
+
             return property.Type?.Name;
         }
 
@@ -255,6 +279,8 @@ namespace uml4net.Extensions
         /// </returns>
         public static string QueryCSharpFullTypeName(this IProperty property)
         {
+            Guard.ThrowIfNull(property);
+
             if (property.Type is IDataType && property.QueryIsEnumerable() && !property.QueryIsContainment())
             {
                 return $"List<{property.QueryCSharpTypeName() }> ";
@@ -289,6 +315,8 @@ namespace uml4net.Extensions
         /// </returns>
         public static bool QueryIsReferenceProperty(this IProperty property)
         {
+            Guard.ThrowIfNull(property);
+
             return property.Type is not IDataType;
         }
 
@@ -303,6 +331,8 @@ namespace uml4net.Extensions
         /// </returns>
         public static bool QueryIsValueProperty(this IProperty property)
         {
+            Guard.ThrowIfNull(property);
+
             return property.Type is IDataType;
         }
 
@@ -317,6 +347,8 @@ namespace uml4net.Extensions
         /// </returns>
         public static bool QueryIsNullable(this IProperty property)
         {
+            Guard.ThrowIfNull(property);
+
             return property.Lower == 0 && !property.QueryIsEnumerable();
         }
 
@@ -331,6 +363,8 @@ namespace uml4net.Extensions
         /// </returns>
         public static string QueryUpperValue(this IProperty property)
         {
+            Guard.ThrowIfNull(property);
+
             if (property.Upper == int.MaxValue)
             {
                 return "*";
@@ -356,6 +390,9 @@ namespace uml4net.Extensions
         /// </returns>
         public static bool TryQueryRedefinedByProperty(this IProperty property, IClass context, out IProperty redefinedByProperty)
         {
+            Guard.ThrowIfNull(property);
+            Guard.ThrowIfNull(context);
+
             var properties = context.QueryAllProperties();
 
             foreach (var prop in properties)
