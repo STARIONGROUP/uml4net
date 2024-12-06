@@ -108,7 +108,7 @@ namespace uml4net.xmi.Readers.Values
                                 break;
                             default:
                                 var defaultLineInfo = xmlReader as IXmlLineInfo;
-                                throw new NotImplementedException($"LiteralStringReader: {xmlReader.LocalName} at line:position {defaultLineInfo.LineNumber}:{defaultLineInfo.LinePosition}");
+                                throw new NotSupportedException($"LiteralStringReader: {xmlReader.LocalName} at line:position {defaultLineInfo.LineNumber}:{defaultLineInfo.LinePosition}");
                         }
                     }
                 }

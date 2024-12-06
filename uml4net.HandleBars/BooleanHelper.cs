@@ -20,6 +20,7 @@
 
 namespace uml4net.HandleBars
 {
+    using System.Globalization;
     using HandlebarsDotNet;
 
     /// <summary>
@@ -44,7 +45,7 @@ namespace uml4net.HandleBars
 
                 var value = (bool)parameters[0];
 
-                writer.WriteSafeString(value.ToString().ToLowerInvariant());
+                writer.WriteSafeString(value.ToString(CultureInfo.InvariantCulture).ToLowerInvariant());
             });
         }
     }

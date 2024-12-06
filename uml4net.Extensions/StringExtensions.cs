@@ -22,8 +22,10 @@ namespace uml4net.Extensions
 {
     using System;
     using System.Collections.Generic;
+    using System.Globalization;
     using System.Linq;
-    using Utils;
+
+    using uml4net.Utils;
 
     /// <summary>
     /// Extension methods for <see cref="string"/> 
@@ -49,7 +51,8 @@ namespace uml4net.Extensions
             input = input.Replace("\r\n", " ").Trim();
 
             var words = input.Split(' ');
-            var line = words.First();
+            var line = words[0];
+
             foreach (var word in words.Skip(1))
             {
                 var test = $"{line} {word}";
@@ -83,7 +86,7 @@ namespace uml4net.Extensions
                 throw new ArgumentException("string can't be empty!");
             }
 
-            return string.Concat(input[0].ToString().ToUpper(), input.Substring(1));
+            return string.Concat(input[0].ToString(CultureInfo.InvariantCulture).ToUpper(CultureInfo.InvariantCulture), input.Substring(1));
         }
 
         /// <summary>
@@ -102,7 +105,7 @@ namespace uml4net.Extensions
                 throw new ArgumentException("string can't be empty!");
             }
 
-            return string.Concat(input.First().ToString().ToLower(), input.Substring(1));
+            return string.Concat(input[0].ToString(CultureInfo.InvariantCulture).ToLower(CultureInfo.InvariantCulture), input.Substring(1));
         }
 
         /// <summary>

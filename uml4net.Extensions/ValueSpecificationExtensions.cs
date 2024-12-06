@@ -21,7 +21,7 @@
 namespace uml4net.Extensions
 {
     using System;
-
+    using System.Globalization;
     using uml4net.Classification;
     using uml4net.Values;
     using uml4net.Utils;
@@ -44,9 +44,9 @@ namespace uml4net.Extensions
             switch (valueSpecification)
             {
                 case ILiteralBoolean literalBoolean:
-                    return literalBoolean.Value.ToString().ToLower();
+                    return literalBoolean.Value.ToString(CultureInfo.InvariantCulture).ToLower(CultureInfo.InvariantCulture);
                 case ILiteralInteger literalInteger:
-                    return literalInteger.Value.ToString();
+                    return literalInteger.Value.ToString(CultureInfo.InvariantCulture);
                 case ILiteralNull:
                     return "null";
                 case ILiteralString literalString:

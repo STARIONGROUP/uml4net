@@ -55,7 +55,7 @@ namespace uml4net.Tools.Middlewares
 
                 try
                 {
-                    var payload = await versionChecker.QueryLatestRelease();
+                    var payload = await versionChecker.QueryLatestReleaseAsync();
 
                     if (payload != null)
                     {

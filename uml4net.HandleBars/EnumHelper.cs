@@ -22,6 +22,7 @@ namespace uml4net.HandleBars
 {
     using HandlebarsDotNet;
     using System;
+    using System.Globalization;
 
     /// <summary>
     /// A enum helper
@@ -63,7 +64,7 @@ namespace uml4net.HandleBars
 
                 if (parameters[0] is Enum enumValue)
                 {
-                    var value = enumValue.ToString().ToLower();
+                    var value = enumValue.ToString().ToLower(CultureInfo.InvariantCulture);
 
                     writer.WriteSafeString(value);
                 }

@@ -22,6 +22,7 @@ namespace uml4net.Extensions
 {
     using System;
     using System.Collections.Generic;
+    using System.Globalization;
     using System.Linq;
 
     using uml4net.Classification;
@@ -370,7 +371,7 @@ namespace uml4net.Extensions
                 return "*";
             }
 
-            return property.Upper.ToString();
+            return property.Upper.ToString(CultureInfo.InvariantCulture);
         }
 
         /// <summary>

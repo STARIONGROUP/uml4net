@@ -140,7 +140,7 @@ namespace uml4net.xmi.Readers.CommonStructure
                                 break;
                             default:
                                 var defaultLineInfo = xmlReader as IXmlLineInfo;
-                                throw new NotImplementedException($"ConstraintReader: {xmlReader.LocalName} at line:position {defaultLineInfo.LineNumber}:{defaultLineInfo.LinePosition}");
+                                throw new NotSupportedException($"ConstraintReader: {xmlReader.LocalName} at line:position {defaultLineInfo.LineNumber}:{defaultLineInfo.LinePosition}");
                         }
                     }
                 }
@@ -177,7 +177,7 @@ namespace uml4net.xmi.Readers.CommonStructure
                     }
                     break;
                 default:
-                    throw new NotImplementedException(xmiType);
+                    throw new NotSupportedException(xmiType);
             }
         }
     }

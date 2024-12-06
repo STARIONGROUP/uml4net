@@ -150,7 +150,7 @@ namespace uml4net.xmi.Readers.Packages
                                 break;
                             default:
                                 var defaultLineInfo = xmlReader as IXmlLineInfo;
-                                throw new NotImplementedException($"ModelReader: {xmlReader.LocalName} at line:position {defaultLineInfo.LineNumber}:{defaultLineInfo.LinePosition}");
+                                throw new NotSupportedException($"ModelReader: {xmlReader.LocalName} at line:position {defaultLineInfo.LineNumber}:{defaultLineInfo.LinePosition}");
                         }
                     }
                 }
@@ -225,7 +225,7 @@ namespace uml4net.xmi.Readers.Packages
                     break;
                 default:
                     var defaultLineInfo = xmlReader as IXmlLineInfo;
-                    throw new NotImplementedException($"ModelReader.ReadPackagedElements: {xmlReader.LocalName} at line:position {defaultLineInfo.LineNumber}:{defaultLineInfo.LinePosition}");
+                    throw new NotSupportedException($"ModelReader.ReadPackagedElements: {xmlReader.LocalName} at line:position {defaultLineInfo.LineNumber}:{defaultLineInfo.LinePosition}");
             }
         }
     }

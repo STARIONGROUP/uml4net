@@ -22,6 +22,7 @@ namespace uml4net.HandleBars
 {
     using System;
     using System.Collections.Generic;
+    using System.Globalization;
     using System.Linq;
     using System.Text;
     using HandlebarsDotNet;
@@ -51,9 +52,9 @@ namespace uml4net.HandleBars
                     throw new ArgumentException("context is supposed to be an IClass");
 
                 var classAttribute = $"[Class(xmiId: \"{@class.XmiId}\", " +
-                                     $"isAbstract: {@class.IsAbstract.ToString().ToLower()}, " +
-                                     $"isFinalSpecialization: {@class.IsFinalSpecialization.ToString().ToLower()}," +
-                                     $"isActive: {@class.IsActive.ToString().ToLower()})]";
+                                     $"isAbstract: {@class.IsAbstract.ToString(CultureInfo.InvariantCulture).ToLower(CultureInfo.InvariantCulture)}, " +
+                                     $"isFinalSpecialization: {@class.IsFinalSpecialization.ToString(CultureInfo.InvariantCulture).ToLower(CultureInfo.InvariantCulture)}," +
+                                     $"isActive: {@class.IsActive.ToString(CultureInfo.InvariantCulture).ToLower(CultureInfo.InvariantCulture)})]";
 
                 writer.WriteSafeString(classAttribute);
             });
@@ -77,7 +78,7 @@ namespace uml4net.HandleBars
                 if (!(context.Value is IProperty property))
                     throw new ArgumentException("context is supposed to be an IProperty");
 
-                var upperValue = property.Upper == int.MaxValue ? "int.MaxValue" : property.Upper.ToString();
+                var upperValue = property.Upper == int.MaxValue ? "int.MaxValue" : property.Upper.ToString(CultureInfo.InvariantCulture);
 
                 var defaultValue = property.QueryDefaultValueAsString();
                 if (defaultValue != "null")
@@ -89,11 +90,11 @@ namespace uml4net.HandleBars
                                         $"aggregation: AggregationKind.{property.Aggregation.ToString()}, " +
                                         $"lowerValue: {property.Lower}, " +
                                         $"upperValue: {upperValue}, " +
-                                        $"isOrdered: {property.IsOrdered.ToString().ToLowerInvariant()}, " +
-                                        $"isReadOnly: {property.IsReadOnly.ToString().ToLowerInvariant()}, " +
-                                        $"isDerived: {property.IsDerived.ToString().ToLowerInvariant()}, " +
-                                        $"isDerivedUnion: {property.IsDerivedUnion.ToString().ToLowerInvariant()}, " +
-                                        $"isUnique: {property.IsUnique.ToString().ToLowerInvariant()}, " +
+                                        $"isOrdered: {property.IsOrdered.ToString(CultureInfo.InvariantCulture).ToLowerInvariant()}, " +
+                                        $"isReadOnly: {property.IsReadOnly.ToString(CultureInfo.InvariantCulture).ToLowerInvariant()}, " +
+                                        $"isDerived: {property.IsDerived.ToString(CultureInfo.InvariantCulture).ToLowerInvariant()}, " +
+                                        $"isDerivedUnion: {property.IsDerivedUnion.ToString(CultureInfo.InvariantCulture).ToLowerInvariant()}, " +
+                                        $"isUnique: {property.IsUnique.ToString(CultureInfo.InvariantCulture).ToLowerInvariant()}, " +
                                         $"defaultValue: {defaultValue})]";
 
                 writer.WriteSafeString($"{propertyAttribute}" + Environment.NewLine);
