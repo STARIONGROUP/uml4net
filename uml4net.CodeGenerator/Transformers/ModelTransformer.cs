@@ -55,12 +55,12 @@ namespace uml4net.CodeGenerator.Transformers
         }
 
         /// <summary>
-        /// Transform the model to be compatible with C#
+        /// TryTransform the model to be compatible with C#
         /// </summary>
         /// <param name="xmiReaderResult">
         /// The <see cref="XmiReaderResult"/> that contains the UML model that may be transformed
         /// </param>
-        public bool Transform(XmiReaderResult xmiReaderResult, out List<IElement> updatedElements)
+        public bool TryTransform(XmiReaderResult xmiReaderResult, out List<IElement> updatedElements)
         {
             ArgumentNullException.ThrowIfNull(xmiReaderResult);
 

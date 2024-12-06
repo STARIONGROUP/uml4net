@@ -75,7 +75,7 @@ namespace uml4net.CodeGenerator.Tests.Generators
             this.xmiReaderResult = reader.Read(Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData", "UML.xmi"));
 
             var modelTransformer = new ModelTransformer(loggerFactory);
-            modelTransformer.Transform(this.xmiReaderResult, out var updatedElements);
+            modelTransformer.TryTransform(this.xmiReaderResult, out var updatedElements);
 
             var directoryInfo = new DirectoryInfo(TestContext.CurrentContext.TestDirectory);
 

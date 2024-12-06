@@ -77,7 +77,7 @@ namespace uml4net.CodeGenerator.Tests.Transformers
         [Test]
         public void Verify_that_ModelTransformer_can_be_executed()
         {
-            Assert.That(this.modelTransformer.Transform(this.xmiReaderResult, out var updatedElements), Is.True) ;
+            Assert.That(this.modelTransformer.TryTransform(this.xmiReaderResult, out var updatedElements), Is.True) ;
 
             var property = updatedElements.OfType<IProperty>().Single(x => x.XmiId == "Classifier-useCase");
 
