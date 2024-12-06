@@ -44,7 +44,9 @@ namespace uml4net.HandleBars
             handlebars.RegisterHelper("Class.QueryAllProperties", (context, parameters) =>
             {
                 if (!(context.Value is IClass @class))
+                {
                     throw new ArgumentException("supposed to be IClass");
+                }
 
                 var properties = @class.QueryAllProperties().OrderBy(x => x.Name);
 

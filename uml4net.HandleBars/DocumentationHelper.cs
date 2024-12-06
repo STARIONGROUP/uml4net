@@ -43,7 +43,9 @@ namespace uml4net.HandleBars
             handlebars.RegisterHelper("Documentation", (writer, context, parameters) =>
             {
                 if (!(context.Value is IElement eModelElement))
+                {
                     throw new ArgumentException("supposed to be IElement");
+                }
 
                 writer.WriteSafeString($"/// <summary>{Environment.NewLine}");
                 foreach (var line in eModelElement.QueryDocumentation())
@@ -56,7 +58,9 @@ namespace uml4net.HandleBars
             handlebars.RegisterHelper("RawDocumentation", (writer, context, parameters) =>
             {
                 if (!(context.Value is IElement element))
+                {
                     throw new ArgumentException("supposed to be IElement");
+                }
 
                 var rawDocumentation = element.QueryRawDocumentation();
 

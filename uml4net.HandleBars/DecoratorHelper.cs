@@ -49,7 +49,9 @@ namespace uml4net.HandleBars
             handlebars.RegisterHelper("Decorator.WriteClassAttribute", (writer, context, parameters) =>
             {
                 if (!(context.Value is IClass @class))
+                {
                     throw new ArgumentException("context is supposed to be an IClass");
+                }
 
                 var classAttribute = $"[Class(xmiId: \"{@class.XmiId}\", " +
                                      $"isAbstract: {@class.IsAbstract.ToString(CultureInfo.InvariantCulture).ToLower(CultureInfo.InvariantCulture)}, " +
@@ -62,7 +64,9 @@ namespace uml4net.HandleBars
             handlebars.RegisterHelper("Decorator.WriteImplementsAttribute", (writer, context, parameters) =>
             {
                 if (!(context.Value is IProperty property))
+                {
                     throw new ArgumentException("context is supposed to be an IProperty");
+                }
 
                 var owner = property.Owner;
 
@@ -76,7 +80,9 @@ namespace uml4net.HandleBars
             handlebars.RegisterHelper("Decorator.WritePropertyAttribute", (writer, context, parameters) =>
             {
                 if (!(context.Value is IProperty property))
+                {
                     throw new ArgumentException("context is supposed to be an IProperty");
+                }
 
                 var upperValue = property.Upper == int.MaxValue ? "int.MaxValue" : property.Upper.ToString(CultureInfo.InvariantCulture);
 
@@ -103,7 +109,9 @@ namespace uml4net.HandleBars
             handlebars.RegisterHelper("Decorator.WriteRedefinedPropertyAttribute", (writer, context, parameters) =>
             {
                 if (!(context.Value is IProperty property))
+                {
                     throw new ArgumentException("context is supposed to be an IProperty");
+                }
 
                 var attributes = new List<string>();
 
@@ -138,7 +146,9 @@ namespace uml4net.HandleBars
             handlebars.RegisterHelper("Decorator.WriteSubsettedPropertyAttribute", (writer, context, parameters) =>
             {
                 if (!(context.Value is IProperty property))
+                {
                     throw new ArgumentException("context is supposed to be an IProperty");
+                }
 
                 var attributes = new List<string>();
 
@@ -156,7 +166,9 @@ namespace uml4net.HandleBars
             handlebars.RegisterHelper("Decorator.WriteImplementsAttribute", (writer, context, parameters) =>
             {
                 if (!(context.Value is IProperty property))
+                {
                     throw new ArgumentException("context is supposed to be an IProperty");
+                }
 
                 var @class = property.Owner as IClass;
 

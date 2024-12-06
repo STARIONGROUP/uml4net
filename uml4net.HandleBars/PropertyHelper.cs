@@ -212,7 +212,9 @@ namespace uml4net.HandleBars
             handlebars.RegisterHelper("Property.QueryIsContainment", (context, arguments) =>
             {
                 if (!(context.Value is IProperty property))
+                {
                     throw new ArgumentException("supposed to be IProperty");
+                }
 
                 return property.QueryIsContainment();
             });
@@ -220,7 +222,9 @@ namespace uml4net.HandleBars
             handlebars.RegisterHelper("Property.WriteTypeName", (writer, context, parameters) =>
             {
                 if (!(context.Value is IProperty property))
+                {
                     throw new ArgumentException("supposed to be IProperty");
+                }
 
                 var typeName = property.QueryTypeName();
 
@@ -230,7 +234,9 @@ namespace uml4net.HandleBars
             handlebars.RegisterHelper("Property.WriteUpperValue", (writer, context, arguments) =>
             {
                 if (!(context.Value is IProperty property))
+                {
                     throw new ArgumentException("supposed to be IProperty");
+                }
 
                 var upperValue = property.QueryUpperValue();
 
@@ -240,7 +246,9 @@ namespace uml4net.HandleBars
             handlebars.RegisterHelper("Property.WriteForInterface", (writer, context, arguments) =>
             {
                 if (!(context.Value is IProperty property))
+                {
                     throw new ArgumentException("supposed to be IProperty");
+                }
 
                 var sb = new StringBuilder();
                 sb.Append(property.Visibility.ToString().ToLower());

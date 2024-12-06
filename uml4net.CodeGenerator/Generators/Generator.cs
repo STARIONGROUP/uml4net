@@ -60,7 +60,7 @@ namespace uml4net.CodeGenerator.Generators
         /// </returns>
         protected virtual string CodeCleanup(string generatedCode)
         {
-            ArgumentNullException.ThrowIfNullOrEmpty(generatedCode, nameof(generatedCode));
+            ArgumentNullException.ThrowIfNullOrEmpty(generatedCode));
 
             generatedCode = generatedCode.Replace("&nbsp;", " ", StringComparison.OrdinalIgnoreCase);
             var workspace = new AdhocWorkspace();
