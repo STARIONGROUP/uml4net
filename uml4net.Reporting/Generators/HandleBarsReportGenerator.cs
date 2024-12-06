@@ -28,14 +28,12 @@ namespace uml4net.Reporting.Generators
 
     using Microsoft.Extensions.Logging;
 
-    using uml4net.Packages;
     using uml4net.StructuredClassifiers;
     using uml4net.SimpleClassifiers;
-
     using uml4net.Reporting.Payload;
     using uml4net.Reporting.Resources;
+    using uml4net.Utils;
     using uml4net.xmi.Readers;
-    using uml4net.HandleBars;
 
     /// <summary>
     /// Abstract super class from which all <see cref="HandlebarsDotNet"/> generators
@@ -116,6 +114,8 @@ namespace uml4net.Reporting.Generators
         /// </returns>
         protected static HandlebarsPayload CreateHandlebarsPayload(XmiReaderResult xmiReaderResult)
         {
+            Guard.ThrowIfNull(xmiReaderResult);
+
             var enumerations = new List<IEnumeration>();
             var primitiveTypes = new List<IPrimitiveType>();
             var dataTypes = new List<IDataType>();
