@@ -28,14 +28,30 @@ namespace uml4net.Extensions
     using uml4net.Classification;
     using uml4net.SimpleClassifiers;
     using uml4net.StructuredClassifiers;
+    using uml4net.Utils;
     using uml4net.Values;
-    using Utils;
-
+    
     /// <summary>
     /// Extension methods for <see cref="IProperty"/> class
     /// </summary>
     public static class PropertyExtensions
     {
+        /// <summary>
+        /// Queries whether the type of the <see cref="IProperty"/> is an <see cref="IDataType"/>
+        /// </summary>
+        /// <param name="property">
+        /// The subject <see cref="IProperty"/>
+        /// </param>
+        /// <returns>
+        /// true of the type is a <see cref="IDataType"/>, false if not
+        /// </returns>
+        public static bool QueryIsDataType(this IProperty property)
+        {
+            Guard.ThrowIfNull(property);
+
+            return property.Type is IDataType;
+        }
+
         /// <summary>
         /// Queries whether the type of the <see cref="IProperty"/> is an <see cref="IEnumeration"/>
         /// </summary>

@@ -30,6 +30,9 @@ namespace uml4net.HandleBars
     using uml4net.Extensions;
     using uml4net.Classification;
     using uml4net.StructuredClassifiers;
+    using DocumentFormat.OpenXml.Wordprocessing;
+    using System.Xml;
+    using uml4net.CommonStructure;
 
     /// <summary>
     /// A handlebars block helper for the <see cref="IProperty"/> interface
@@ -408,6 +411,279 @@ namespace uml4net.HandleBars
                 }
 
                 writer.WriteSafeString(sb + Environment.NewLine);
+            });
+
+            handlebars.RegisterHelper("Property.WriteXmlAttributeForXmiReader", (writer, context, parameters) =>
+            {
+                if (parameters.Length != 2)
+                {
+                    throw new HandlebarsException("{{#Property.WriteXmlElementForXmiReader}} helper must have exactly two arguments");
+                }
+
+                var property = parameters[0] as IProperty;
+                var @class = parameters[1] as IClass;
+
+                if (property == null || @class == null)
+                {
+                    throw new ArgumentNullException();
+                }
+
+                if (property.IsDerived || property.IsDerivedUnion || property.IsReadOnly)
+                {
+                    return;
+                }
+
+                if (property.QueryIsReferenceProperty())
+                {
+                    return;
+                }
+
+                var isRedefinedByProperty = property.TryQueryRedefinedByProperty(@class, out _);
+
+                if (isRedefinedByProperty)
+                {
+                    return;
+                }
+
+                var sb = new StringBuilder();
+
+                if (!property.QueryIsContainment())
+                {
+                    if (property.QueryIsDataType() && property.QueryIsEnumerable())
+                    {
+                        sb.AppendLine($"var {property.Name}XmlAttribute = xmlReader.GetAttribute(\"{property.Name}\");");
+                        sb.AppendLine($"if (!string.IsNullOrEmpty({property.Name}XmlAttribute))");
+                        sb.AppendLine("{");
+                        sb.AppendLine($"throw new NotSupportedException(\"DataTypes encoded as XML attributes are not (yet) supported: {@class.Name}.{property.Name}\");");
+                        sb.AppendLine("}");
+
+                        writer.WriteSafeString(sb + Environment.NewLine);
+                        return;
+                    }
+
+                    if (property.QueryIsPrimitiveType() && !property.QueryIsEnumerable())
+                    {
+                        var cSharpTypeName = property.QueryCSharpTypeName();
+
+                        switch (cSharpTypeName)
+                        {
+                            case "bool":
+                            case "double":
+                            case "int":
+                                sb.AppendLine($"var {property.Name}XmlAttribute = xmlReader.GetAttribute(\"{property.Name}\");");
+                                sb.AppendLine($"if (!string.IsNullOrEmpty({property.Name}XmlAttribute))");
+                                sb.AppendLine("{");
+                                sb.AppendLine($"poco.{property.Name.CapitalizeFirstLetter()} = {cSharpTypeName}.Parse({property.Name}XmlAttribute);");
+                                sb.AppendLine("}");
+                                break;
+                            case "string":
+                                sb.AppendLine($"poco.{property.Name.CapitalizeFirstLetter()} = xmlReader.GetAttribute(\"{property.Name}\");");
+                                break;
+                            default:
+                                throw new NotSupportedException($"{property.Name} has a Primitive Type that is not supported: {cSharpTypeName}");
+                        }
+
+                        writer.WriteSafeString(sb + Environment.NewLine);
+                        return;
+                    }
+
+                    if (property.QueryIsEnum())
+                    {
+                        var typeName = property.QueryTypeName();
+
+                        sb.AppendLine($"var {property.Name}XmlAttribute = xmlReader.GetAttribute(\"{property.Name}\");");
+                        sb.AppendLine($"if (!string.IsNullOrEmpty({property.Name}XmlAttribute))");
+                        sb.AppendLine("{");
+                        sb.AppendLine($"poco.{property.Name.CapitalizeFirstLetter()} = ({typeName})Enum.Parse(typeof({typeName}), {property.Name}XmlAttribute, true);");
+                        sb.AppendLine("}");
+
+                        writer.WriteSafeString(sb + Environment.NewLine);
+                        return;
+                    }
+                }
+
+                throw new NotSupportedException($"{@class.Name}.{property.Name}");
+            });
+
+            handlebars.RegisterHelper("Property.WriteXmlElementForXmiReader", (writer, context, parameters) =>
+            {
+                if (parameters.Length != 2)
+                {
+                    throw new HandlebarsException("{{#Property.WriteXmlElementForXmiReader}} helper must have exactly two arguments");
+                }
+
+                var property = parameters[0] as IProperty;
+                var @class = parameters[1] as IClass;
+
+                if (property == null || @class == null)
+                {
+                    throw new ArgumentNullException();
+                }
+
+                if (property.IsDerived || property.IsDerivedUnion || property.IsReadOnly)
+                {
+                    return;
+                }
+
+                var isRedefinedByProperty = property.TryQueryRedefinedByProperty(@class, out _);
+
+                if (isRedefinedByProperty)
+                {
+                    return;
+                }
+
+                var sb = new StringBuilder();
+
+                sb.AppendLine($"case \"{property.Name}\":");
+
+                if (property.QueryIsContainment())
+                {
+                    if (property.QueryIsPrimitiveType())
+                    {
+                        sb.AppendLine($"var {property.Name} = xmlReader.ReadElementContentAsString();");
+                        sb.AppendLine($"poco.{property.Name.CapitalizeFirstLetter()}.Add({property.Name});");
+                        sb.AppendLine("break;");
+                        
+                        writer.WriteSafeString(sb);
+
+                        return;
+                    }
+
+                    if (property.QueryIsEnum())
+                    {
+                        throw new NotImplementedException("contained enumeration is not yet supported");
+                    }
+
+                    if (property.QueryIsReferenceProperty())
+                    {
+                        sb.AppendLine($"using (var {property.Name}XmlReader = xmlReader.ReadSubtree())");
+                        sb.AppendLine("{");
+                        sb.AppendLine(
+                            $"    var {property.Name} = this.{property.Name.CapitalizeFirstLetter()}Reader.Read({property.Name}XmlReader);");
+                        sb.AppendLine($"    poco.{property.Name.CapitalizeFirstLetter()}.Add({property.Name});");
+                        sb.AppendLine("}");
+                        sb.AppendLine("break;");
+
+                        writer.WriteSafeString(sb);
+
+                        return;
+                    }
+                }
+                else
+                {
+                    if (property.QueryIsPrimitiveType() && property.QueryIsEnumerable())
+                    {
+                        sb.AppendLine($"var {property.Name} = xmlReader.ReadElementContentAsString();");
+                        sb.AppendLine($"poco.{property.Name.CapitalizeFirstLetter()}.Add({property.Name});");
+                        sb.AppendLine("break;");
+
+                        writer.WriteSafeString(sb);
+
+                        return;
+                    }
+
+                    if (property.QueryIsPrimitiveType() && !property.QueryIsEnumerable())
+                    {
+                        var cSharpTypeName = property.QueryCSharpTypeName();
+
+                        switch (cSharpTypeName)
+                        {
+                            case "bool":
+                            case "double":
+                            case "int":
+                                sb.AppendLine($"var {property.Name}XmlElement = xmlReader.ReadElementContentAsString();");
+                                sb.AppendLine($"if (!string.IsNullOrEmpty({property.Name}XmlElement))");
+                                sb.AppendLine("{");
+                                sb.AppendLine($"poco.{property.Name.CapitalizeFirstLetter()} = {cSharpTypeName}.Parse({property.Name}XmlElement);");
+                                sb.AppendLine("}");
+                                break;
+                            case "string":
+                                sb.AppendLine($"poco.{property.Name.CapitalizeFirstLetter()} = xmlReader.ReadElementContentAsString();");
+                                break;
+                            default:
+                                throw new NotSupportedException($"{property.Name} has a Primitive Type that is not supported: {cSharpTypeName}");
+                        }
+
+                        sb.AppendLine("break;");
+
+                        writer.WriteSafeString(sb);
+
+                        return;
+                    }
+
+                    if (property.QueryIsEnum())
+                    {
+                        var typeName = property.QueryTypeName();
+
+                        sb.AppendLine($"var {property.Name}XmlElement = xmlReader.ReadElementContentAsString();");
+                        sb.AppendLine($"if (!string.IsNullOrEmpty({property.Name}XmlElement))");
+                        sb.AppendLine("{");
+                        sb.AppendLine($"poco.{property.Name.CapitalizeFirstLetter()} = ({typeName})Enum.Parse(typeof({typeName}), {property.Name}XmlElement, true);;");
+                        sb.AppendLine("}");
+
+                        sb.AppendLine("break;");
+                        writer.WriteSafeString(sb);
+                        return;
+                    }
+
+                    if (property.QueryIsReferenceProperty() && !property.QueryIsEnumerable())
+                    {
+                        sb.AppendLine("using (var typeXmlReader = xmlReader.ReadSubtree())");
+                        sb.AppendLine("{");
+                        sb.AppendLine("    if (typeXmlReader.MoveToContent() == XmlNodeType.Element)");
+                        sb.AppendLine("    {");
+                        sb.AppendLine("        var reference = typeXmlReader.GetAttribute(\"href\");");
+                        sb.AppendLine("        if (!string.IsNullOrEmpty(reference))");
+                        sb.AppendLine("        {");
+                        sb.AppendLine($"            poco.SingleValueReferencePropertyIdentifiers.Add(\"{property.Name}\", reference);");
+                        sb.AppendLine("        }");
+                        sb.AppendLine("        else if (typeXmlReader.GetAttribute(\"xmi:idref\") is { Length: > 0 } idRef)");
+                        sb.AppendLine("        {");
+                        sb.AppendLine($"            poco.SingleValueReferencePropertyIdentifiers.Add(\"{property.Name}\", idRef);");
+                        sb.AppendLine("        }");
+                        sb.AppendLine("        else");
+                        sb.AppendLine("        {");
+                        sb.AppendLine($"            throw new InvalidOperationException(\"{property.Name} xml-attribute reference could not be read\");");
+                        sb.AppendLine("        }");
+                        sb.AppendLine("    }");
+                        sb.AppendLine("}");
+                        sb.AppendLine("break;");
+
+                        writer.WriteSafeString(sb);
+                        return;
+                    }
+
+                    if (property.QueryIsReferenceProperty() && property.QueryIsEnumerable())
+                    {
+                        sb.AppendLine($"using (var {property.Name}XmlReader = xmlReader.ReadSubtree())");
+                        sb.AppendLine("{");
+                        sb.AppendLine($"    if ({property.Name}XmlReader.MoveToContent() == XmlNodeType.Element)");
+                        sb.AppendLine("    {");
+                        sb.AppendLine($"        var href = {property.Name}XmlReader.GetAttribute(\"href\");");
+                        sb.AppendLine("        if (!string.IsNullOrEmpty(href))");
+                        sb.AppendLine("        {");
+                        sb.AppendLine($"            {property.Name}s.Add(href);");
+                        sb.AppendLine("        }");
+                        sb.AppendLine($"        else if ({property.Name}XmlReader.GetAttribute(\"xmi:idref\") is {{ Length: > 0 }} idRef)");
+                        sb.AppendLine("        {");
+                        sb.AppendLine($"            {property.Name}s.Add(idRef);");
+                        sb.AppendLine("        }");
+                        sb.AppendLine("        else");
+                        sb.AppendLine("        {");
+                        sb.AppendLine($"            throw new InvalidOperationException(\"{property.Name} xml - attribute reference could not be read\");");
+                        sb.AppendLine("        }");
+                        sb.AppendLine("    }");
+                        sb.AppendLine("}");
+                        sb.AppendLine("break;");
+
+                        writer.WriteSafeString(sb);
+                        return;
+                    }
+
+                    throw new NotSupportedException($"{@class.Name}.{property.Name}");
+                }
+
+                throw new NotSupportedException($"{@class.Name}.{property.Name}");
             });
         }
     }

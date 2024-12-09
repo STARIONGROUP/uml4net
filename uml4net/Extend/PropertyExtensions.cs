@@ -27,9 +27,23 @@ namespace uml4net.Classification
     /// </summary>
     public static class PropertyExtensions
     {
+        /// <summary>
+        /// Asserts whether the aggregation of the <see cref="IProperty"/> is composite or not.
+        /// </summary>
+        /// <param name="property">
+        /// the subject <see cref="IProperty"/>
+        /// </param>
+        /// <returns>
+        /// true if the aggregation is composite, false if not
+        /// </returns>
         public static bool QueryIsComposite(this IProperty property)
         {
-            throw new NotImplementedException();
+            if (property.Aggregation == AggregationKind.Composite)
+            {
+                return true;
+            }
+
+            return false;
         }
 
         public static IProperty QueryOpposite(this IProperty property)

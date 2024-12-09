@@ -21,10 +21,12 @@
 namespace uml4net.HandleBars
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
-
+    using Classification;
     using HandlebarsDotNet;
 
+    using uml4net.Classification;
     using uml4net.Extensions;
     using uml4net.StructuredClassifiers;
 
@@ -49,6 +51,154 @@ namespace uml4net.HandleBars
                 }
 
                 var properties = @class.QueryAllProperties().OrderBy(x => x.Name);
+
+                return properties;
+            });
+
+            handlebars.RegisterHelper("Class.QueryAllContainedProperties", (context, parameters) =>
+            {
+                if (!(context.Value is IClass @class))
+                {
+                    throw new ArgumentException("supposed to be IClass");
+                }
+
+                var properties = @class.QueryAllProperties()
+                    .Where(x => x.IsComposite)
+                    . OrderBy(x => x.Name);
+
+                return properties;
+            });
+
+            handlebars.RegisterHelper("Class.QueryAllContainedNonDerivedProperties", (context, parameters) =>
+            {
+                if (!(context.Value is IClass @class))
+                {
+                    throw new ArgumentException("supposed to be IClass");
+                }
+
+                var properties = @class.QueryAllProperties()
+                    .Where(x => x.IsComposite)
+                    .Where(x => !x.IsDerived)
+                    .OrderBy(x => x.Name);
+
+                return properties;
+            });
+
+            handlebars.RegisterHelper("Class.QueryAllContainedNonDerivedNonRedefinedProperties", (context, parameters) =>
+            {
+                if (!(context.Value is IClass @class))
+                {
+                    throw new ArgumentException("supposed to be IClass");
+                }
+
+                var properties = @class.QueryAllProperties()
+                    .Where(x => x.IsComposite)
+                    .Where(x => !x.IsDerived)
+                    .OrderBy(x => x.Name)
+                    .ToList();
+
+                var nonRedefinedProperties = properties.ToList();
+
+                foreach (var property in properties)
+                {
+                    foreach (var redefinedProperty in property.RedefinedProperty)        
+                    {
+                        if (nonRedefinedProperties.Contains(redefinedProperty))
+                        {
+                            nonRedefinedProperties.Remove(redefinedProperty);
+                        }
+                    }
+                }
+
+                return nonRedefinedProperties;
+            });
+
+            handlebars.RegisterHelper("Class.QueryAllContainedNonDerivedNonRedefinedProperties", (context, parameters) =>
+            {
+                if (!(context.Value is IClass @class))
+                {
+                    throw new ArgumentException("supposed to be IClass");
+                }
+
+                var properties = @class.QueryAllProperties()
+                    .Where(x => x.IsComposite)
+                    .Where(x => !x.IsDerived)
+                    .OrderBy(x => x.Name)
+                    .ToList();
+
+                var nonRedefinedProperties = properties.ToList();
+
+                foreach (var property in properties)
+                {
+                    foreach (var redefinedProperty in property.RedefinedProperty)
+                    {
+                        if (nonRedefinedProperties.Contains(redefinedProperty))
+                        {
+                            nonRedefinedProperties.Remove(redefinedProperty);
+                        }
+                    }
+                }
+
+                return nonRedefinedProperties;
+            });
+
+            handlebars.RegisterHelper("Class.QueryAllNonDerivedProperties", (context, parameters) =>
+            {
+                if (!(context.Value is IClass @class))
+                {
+                    throw new ArgumentException("supposed to be IClass");
+                }
+
+                var properties = @class.QueryAllProperties()
+                    .Where(x => !x.IsDerived)
+                    .OrderBy(x => x.Name);
+
+                return properties;
+            });
+
+            handlebars.RegisterHelper("Class.QueryAllNonDerivedNonReadOnlyProperties", (context, parameters) =>
+            {
+                if (!(context.Value is IClass @class))
+                {
+                    throw new ArgumentException("supposed to be IClass");
+                }
+
+                var properties = @class.QueryAllProperties()
+                    .Where(x => !x.IsDerived || !x.IsDerivedUnion || !x.IsReadOnly)
+                    .OrderBy(x => x.Name);
+
+                return properties;
+            });
+
+            handlebars.RegisterHelper("Class.QueryAllNonDerivedNonReadOnlyProperties", (context, parameters) =>
+            {
+                if (!(context.Value is IClass @class))
+                {
+                    throw new ArgumentException("supposed to be IClass");
+                }
+
+                var properties = @class.QueryAllProperties()
+                    .Where(x => !x.IsDerived || !x.IsDerivedUnion || !x.IsReadOnly)
+                    .OrderBy(x => x.Name);
+
+                return properties;
+            });
+
+            handlebars.RegisterHelper("Class.QueryAllNonDerivedNonReadOnlyNonContainedReferenceEnumerableProperties", (context, parameters) =>
+            {
+                if (!(context.Value is IClass @class))
+                {
+                    throw new ArgumentException("supposed to be IClass");
+                }
+
+                var properties = @class.QueryAllProperties()
+                    .Where(x => !x.IsDerived)
+                    .Where(x => !x.IsDerivedUnion)
+                    .Where(x => !x.IsReadOnly)
+                    .Where(x => !x.IsComposite)
+                    .Where(x => x.QueryIsReferenceProperty())
+                    .Where(x => x.QueryIsEnumerable())
+                    .OrderBy(x => x.Name);
 
                 return properties;
             });

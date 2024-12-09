@@ -21,19 +21,16 @@
 namespace uml4net.CodeGenerator.Generators
 {
     using System;
+    using System.IO;
     using System.Linq;
     using System.Threading.Tasks;
 
-    using System.IO;
     using uml4net.SimpleClassifiers;
     using uml4net.Extensions;
-
     using uml4net.Packages;
     using uml4net.StructuredClassifiers;
     using uml4net.xmi.Readers;
-    using DocumentFormat.OpenXml.Wordprocessing;
-    using System.Xml.Linq;
-
+    
     /// <summary>
     /// A Handlebars based POCO code generator
     /// </summary>

@@ -80,6 +80,7 @@ namespace uml4net.Reporting.Generators
         public string GenerateReport(FileInfo modelPath, DirectoryInfo rootDirectory, Dictionary<string,string> pathMap)
         {
             Guard.ThrowIfNull(modelPath);
+            Guard.ThrowIfNull(rootDirectory);
 
             var sw = Stopwatch.StartNew();
 
@@ -145,6 +146,8 @@ namespace uml4net.Reporting.Generators
         /// </returns>
         public override Tuple<bool, string> IsValidReportExtension(FileInfo outputPath)
         {
+            Guard.ThrowIfNull(outputPath);
+
             if (outputPath.Extension == ".html")
             {
                 return new Tuple<bool, string>(true, ".html is a supported report extension");

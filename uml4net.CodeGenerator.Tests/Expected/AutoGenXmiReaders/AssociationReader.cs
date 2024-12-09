@@ -560,6 +560,7 @@ namespace uml4net.xmi.Readers.StructuredClassifiers
                 {
                     poco.MultiValueReferencePropertyIdentifiers.Add("useCases", useCasess);
                 }
+
             }
 
             return poco;
