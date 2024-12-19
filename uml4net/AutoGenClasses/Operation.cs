@@ -24,6 +24,7 @@
 
 namespace uml4net.Classification
 {
+    using System;
     using System.Collections.Generic;
 
     using uml4net.Decorators;
@@ -305,7 +306,7 @@ namespace uml4net.Classification
         [Property(xmiId: "Operation-ownedParameter", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: true, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
         [RedefinedProperty(propertyName: "BehavioralFeature-ownedParameter")]
         [Implements(implementation: "IOperation.OwnedParameter")]
-        public new IContainerList<IParameter> OwnedParameter
+        public IContainerList<IParameter> OwnedParameter
         {
             get => this.ownedParameter ??= new ContainerList<IParameter>(this);
             set => this.ownedParameter = value;
@@ -323,7 +324,11 @@ namespace uml4net.Classification
         [SubsettedProperty(propertyName: "Namespace-ownedMember")]
         [RedefinedByProperty("IOperation.OwnedParameter")]
         [Implements(implementation: "IBehavioralFeature.OwnedParameter")]
-        IContainerList<IParameter> IBehavioralFeature.OwnedParameter { get; set; }
+        IContainerList<IParameter> IBehavioralFeature.OwnedParameter
+        {
+            get => throw new InvalidOperationException("Redefined by property IOperation.OwnedParameter");
+            set => throw new InvalidOperationException("Redefined by property IOperation.OwnedParameter");
+        }
 
         /// <summary>
         /// The ParameterSets owned by this BehavioralFeature.
@@ -460,7 +465,7 @@ namespace uml4net.Classification
         [Property(xmiId: "Operation-raisedException", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
         [RedefinedProperty(propertyName: "BehavioralFeature-raisedException")]
         [Implements(implementation: "IOperation.RaisedException")]
-        public new List<IType> RaisedException { get; set; } = new();
+        public List<IType> RaisedException { get; set; } = new();
 
         /// <summary>
         /// The Types representing exceptions that may be raised during an invocation of this BehavioralFeature.
@@ -468,7 +473,11 @@ namespace uml4net.Classification
         [Property(xmiId: "BehavioralFeature-raisedException", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
         [RedefinedByProperty("IOperation.RaisedException")]
         [Implements(implementation: "IBehavioralFeature.RaisedException")]
-        List<IType> IBehavioralFeature.RaisedException { get; set; }
+        List<IType> IBehavioralFeature.RaisedException
+        {
+            get => throw new InvalidOperationException("Redefined by property IOperation.RaisedException");
+            set => throw new InvalidOperationException("Redefined by property IOperation.RaisedException");
+        }
 
         /// <summary>
         /// The RedefinableElement that is being redefined by this element.
@@ -516,7 +525,7 @@ namespace uml4net.Classification
         [Property(xmiId: "Operation-templateParameter", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
         [RedefinedProperty(propertyName: "ParameterableElement-templateParameter")]
         [Implements(implementation: "IOperation.TemplateParameter")]
-        public new IOperationTemplateParameter TemplateParameter { get; set; }
+        public IOperationTemplateParameter TemplateParameter { get; set; }
 
         /// <summary>
         /// The TemplateParameter that exposes this ParameterableElement as a formal parameter.
@@ -524,7 +533,11 @@ namespace uml4net.Classification
         [Property(xmiId: "ParameterableElement-templateParameter", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
         [RedefinedByProperty("IOperation.TemplateParameter")]
         [Implements(implementation: "IParameterableElement.TemplateParameter")]
-        ITemplateParameter IParameterableElement.TemplateParameter { get; set; }
+        ITemplateParameter IParameterableElement.TemplateParameter
+        {
+            get => throw new InvalidOperationException("Redefined by property IOperation.TemplateParameter");
+            set => throw new InvalidOperationException("Redefined by property IOperation.TemplateParameter");
+        }
 
         /// <summary>
         /// The return type of the operation, if present. This information is derived from the return result for

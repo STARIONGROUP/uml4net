@@ -21,6 +21,7 @@
 namespace uml4net.xmi.Readers.CommonStructure
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Xml;
 
@@ -28,14 +29,20 @@ namespace uml4net.xmi.Readers.CommonStructure
 
     using uml4net;
     using uml4net.Classification;
+    using uml4net.CommonBehavior;
     using uml4net.CommonStructure;
+    using uml4net.Deployments;
     using uml4net.Packages;
     using uml4net.SimpleClassifiers;
     using uml4net.StructuredClassifiers;
+    using uml4net.UseCases;
     using uml4net.Utils;
     using uml4net.Values;
     using uml4net.xmi.Cache;
     using uml4net.xmi.Readers;
+    using uml4net.xmi.Readers.Classification;
+    using uml4net.xmi.Readers.CommonStructure;
+    using uml4net.xmi.Readers.Values;
 
     /// <summary>
     /// The purpose of the <see cref="CommentReader"/> is to read an instance of <see cref="IRealization"/>
@@ -43,6 +50,8 @@ namespace uml4net.xmi.Readers.CommonStructure
     /// </summary>
     public class RealizationReader : XmiElementReader<IRealization>, IXmiElementReader<IRealization>
     {
+        private readonly IXmiElementReaderFacade xmiElementReaderFacade;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="RealizationReader"/> class.
         /// </summary>
@@ -52,9 +61,10 @@ namespace uml4net.xmi.Readers.CommonStructure
         /// <param name="logger">
         /// The (injected) <see cref="ILogger{T}"/> used to setup logging
         /// </param>
-        public RealizationReader(IXmiReaderCache cache, ILogger<RealizationReader> logger)
-            : base(cache, logger)
+        public RealizationReader(IXmiReaderCache cache, ILoggerFactory loggerFactory)
+            : base(cache, loggerFactory)
         {
+            this.xmiElementReaderFacade = new XmiElementReaderFacade();
         }
 
         /// <summary>

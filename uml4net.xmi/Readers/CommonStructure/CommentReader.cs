@@ -28,10 +28,21 @@ namespace uml4net.xmi.Readers.CommonStructure
     using Microsoft.Extensions.Logging;
 
     using uml4net;
+    using uml4net.Classification;
+    using uml4net.CommonBehavior;
     using uml4net.CommonStructure;
+    using uml4net.Deployments;
+    using uml4net.Packages;
+    using uml4net.SimpleClassifiers;
+    using uml4net.StructuredClassifiers;
+    using uml4net.UseCases;
     using uml4net.Utils;
+    using uml4net.Values;
     using uml4net.xmi.Cache;
     using uml4net.xmi.Readers;
+    using uml4net.xmi.Readers.Classification;
+    using uml4net.xmi.Readers.CommonStructure;
+    using uml4net.xmi.Readers.Values;
 
     /// <summary>
     /// The purpose of the <see cref="CommentReader"/> is to read an instance of <see cref="IComment"/>
@@ -39,6 +50,8 @@ namespace uml4net.xmi.Readers.CommonStructure
     /// </summary>
     public class CommentReader : XmiElementReader<IComment>, IXmiElementReader<IComment>
     {
+        private readonly IXmiElementReaderFacade xmiElementReaderFacade;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="CommentReader"/> class.
         /// </summary>
@@ -48,9 +61,10 @@ namespace uml4net.xmi.Readers.CommonStructure
         /// <param name="logger">
         /// The (injected) <see cref="ILogger{T}"/> used to setup logging
         /// </param>
-        public CommentReader(IXmiReaderCache cache, ILogger<CommentReader> logger)
-            : base(cache, logger)
+        public CommentReader(IXmiReaderCache cache, ILoggerFactory loggerFactory)
+            : base(cache, loggerFactory)
         {
+            this.xmiElementReaderFacade = new XmiElementReaderFacade();
         }
 
         /// <summary>
@@ -89,13 +103,13 @@ namespace uml4net.xmi.Readers.CommonStructure
 
                 comment.Body = xmlReader.GetAttribute("body");
 
-                var annotatedElement = xmlReader.GetAttribute("annotatedElement");
-                if (!string.IsNullOrEmpty(annotatedElement))
+                var annotatedElementXmlAttribute = xmlReader.GetAttribute("annotatedElement");
+                if (!string.IsNullOrEmpty(annotatedElementXmlAttribute))
                 {
-                    comment.MultiValueReferencePropertyIdentifiers.Add("annotatedElement", annotatedElement.Split([' '], StringSplitOptions.RemoveEmptyEntries).ToList());
+                    comment.MultiValueReferencePropertyIdentifiers.Add("annotatedElement", annotatedElementXmlAttribute.Split([' '], StringSplitOptions.RemoveEmptyEntries).ToList());
                 }
 
-                var annotatedElements = new List<string>();
+                var annotatedElement = new List<string>();
 
                 while (xmlReader.Read())
                 {
@@ -111,11 +125,11 @@ namespace uml4net.xmi.Readers.CommonStructure
                                         var href = annotatedElementXmlReader.GetAttribute("href");
                                         if (!string.IsNullOrEmpty(href))
                                         {
-                                            annotatedElements.Add(href);
+                                            annotatedElement.Add(href);
                                         }
                                         else if (annotatedElementXmlReader.GetAttribute("xmi:idref") is { Length: > 0 } idRef)
                                         {
-                                            annotatedElements.Add(idRef);
+                                            annotatedElement.Add(idRef);
                                         }
                                         else
                                         {
@@ -134,9 +148,9 @@ namespace uml4net.xmi.Readers.CommonStructure
                     }
                 }
 
-                if (annotatedElements.Count > 0)
+                if (annotatedElement.Count > 0)
                 {
-                    comment.MultiValueReferencePropertyIdentifiers.Add("annotatedElement", annotatedElements);
+                    comment.MultiValueReferencePropertyIdentifiers.Add("annotatedElement", annotatedElement);
                 }
             }
 

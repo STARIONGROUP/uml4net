@@ -21,23 +21,12 @@
 namespace uml4net.xmi
 {
     using Autofac;
-    using Cache;
+    
     using Microsoft.Extensions.Logging;
-    using uml4net.Classification;
-    using uml4net.CommonStructure;
-    using uml4net.Packages;
-    using uml4net.SimpleClassifiers;
-    using uml4net.StructuredClassifiers;
-    using uml4net.Values;
-    using System.Net.Http;
-    using Readers;
-    using Readers.Classification;
-    using Readers.CommonStructure;
-    using Readers.Packages;
-    using Readers.SimpleClassifiers;
-    using Readers.StructuredClassifiers;
-    using Readers.Values;
-    using Settings;
+
+    using uml4net.xmi.Cache;
+    using uml4net.xmi.Readers;
+    using uml4net.xmi.Settings;
 
     /// <summary>
     /// Represents the scope for configuring and managing services used by the XMI reader.
@@ -74,41 +63,18 @@ namespace uml4net.xmi
         internal XmiReaderScope()
         {
             // Overridable services
-            this.ContainerBuilder.RegisterType<HttpClient>().AsSelf();
             this.ContainerBuilder.RegisterType<DefaultSettings>().As<IXmiReaderSettings>();
 
             // Required services
-            this.ContainerBuilder.RegisterGeneric(typeof(Logger<>)).As(typeof(ILogger<>));
+            this.ContainerBuilder.RegisterGeneric(typeof(Logger<>)).As(typeof(ILogger<>)).PropertiesAutowired(PropertyWiringOptions.AllowCircularDependencies);
             this.ContainerBuilder.RegisterInstance(this).As<IXmiReaderScope>().SingleInstance();
             this.ContainerBuilder.RegisterType<Assembler>().As<IAssembler>();
             this.ContainerBuilder.RegisterType<XmiReaderCache>().As<IXmiReaderCache>().SingleInstance();
             this.ContainerBuilder.RegisterType<ExternalReferenceResolver>().As<IExternalReferenceResolver>().SingleInstance();
 
             // Readers
-            this.ContainerBuilder.RegisterType<XmiReader>().As<IXmiReader>().PropertiesAutowired();
-            this.ContainerBuilder.RegisterType<GeneralizationReader>().As<IXmiElementReader<IGeneralization>>().PropertiesAutowired();
-            this.ContainerBuilder.RegisterType<PropertyReader>().As<IXmiElementReader<IProperty>>().PropertiesAutowired();
-            this.ContainerBuilder.RegisterType<CommentReader>().As<IXmiElementReader<IComment>>().PropertiesAutowired();
-            this.ContainerBuilder.RegisterType<ConstraintReader>().As<IXmiElementReader<IConstraint>>().PropertiesAutowired();
-            this.ContainerBuilder.RegisterType<PackageImportReader>().As<IXmiElementReader<IPackageImport>>().PropertiesAutowired();
-            this.ContainerBuilder.RegisterType<ModelReader>().As<IXmiElementReader<IModel>>().PropertiesAutowired();
-            this.ContainerBuilder.RegisterType<PackageReader>().As<IXmiElementReader<IPackage>>().PropertiesAutowired();
-            this.ContainerBuilder.RegisterType<EnumerationLiteralReader>().As<IXmiElementReader<IEnumerationLiteral>>().PropertiesAutowired();
-            this.ContainerBuilder.RegisterType<EnumerationReader>().As<IXmiElementReader<IEnumeration>>().PropertiesAutowired();
-            this.ContainerBuilder.RegisterType<ClassReader>().As<IXmiElementReader<IClass>>().PropertiesAutowired();
-            this.ContainerBuilder.RegisterType<LiteralIntegerReader>().As<IXmiElementReader<ILiteralInteger>>().PropertiesAutowired();
-            this.ContainerBuilder.RegisterType<LiteralUnlimitedNaturalReader>().As<IXmiElementReader<ILiteralUnlimitedNatural>>().PropertiesAutowired();
-            this.ContainerBuilder.RegisterType<OpaqueExpressionReader>().As<IXmiElementReader<IOpaqueExpression>>().PropertiesAutowired();
-            this.ContainerBuilder.RegisterType<PrimitiveTypeReader>().As<IXmiElementReader<IPrimitiveType>>().PropertiesAutowired();
-            this.ContainerBuilder.RegisterType<InterfaceReader>().As<IXmiElementReader<IInterface>>().PropertiesAutowired();
-            this.ContainerBuilder.RegisterType<RealizationReader>().As<IXmiElementReader<IRealization>>().PropertiesAutowired();
-            this.ContainerBuilder.RegisterType<AssociationReader>().As<IXmiElementReader<IAssociation>>().PropertiesAutowired();
-            this.ContainerBuilder.RegisterType<OperationReader>().As<IXmiElementReader<IOperation>>().PropertiesAutowired();
-            this.ContainerBuilder.RegisterType<InstanceValueReader>().As<IXmiElementReader<IInstanceValue>>().PropertiesAutowired();
-            this.ContainerBuilder.RegisterType<LiteralBooleanReader>().As<IXmiElementReader<ILiteralBoolean>>().PropertiesAutowired();
-            this.ContainerBuilder.RegisterType<ParameterReader>().As<IXmiElementReader<IParameter>>().PropertiesAutowired();
-            this.ContainerBuilder.RegisterType<LiteralStringReader>().As<IXmiElementReader<ILiteralString>>().PropertiesAutowired();
-            
+            this.ContainerBuilder.RegisterType<XmiElementReaderFacade>().As<IXmiElementReaderFacade>().SingleInstance();
+            this.ContainerBuilder.RegisterType<XmiReader>().As<IXmiReader>().PropertiesAutowired(PropertyWiringOptions.AllowCircularDependencies); 
         }
 
         /// <summary>

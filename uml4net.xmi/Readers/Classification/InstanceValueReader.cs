@@ -21,27 +21,36 @@
 namespace uml4net.xmi.Readers.Classification
 {
     using System;
+    using System.Collections.Generic;
+    using System.Linq;
     using System.Xml;
 
     using Microsoft.Extensions.Logging;
 
     using uml4net;
     using uml4net.Classification;
+    using uml4net.CommonBehavior;
     using uml4net.CommonStructure;
+    using uml4net.Deployments;
+    using uml4net.Packages;
+    using uml4net.SimpleClassifiers;
+    using uml4net.StructuredClassifiers;
+    using uml4net.UseCases;
     using uml4net.Utils;
+    using uml4net.Values;
     using uml4net.xmi.Cache;
     using uml4net.xmi.Readers;
-    
+    using uml4net.xmi.Readers.Classification;
+    using uml4net.xmi.Readers.CommonStructure;
+    using uml4net.xmi.Readers.Values;
+
     /// <summary>
     /// The purpose of the <see cref="InstanceValueReader"/> is to read an instance of <see cref="IInstanceValue"/>
     /// from the XMI document
     /// </summary>
     public class InstanceValueReader : XmiElementReader<IInstanceValue>, IXmiElementReader<IInstanceValue>
     {
-        /// <summary>
-        /// Gets the INJECTED <see cref="IXmiElementReader{T}"/> of <see cref="IComment"/>
-        /// </summary>
-        public IXmiElementReader<IComment> CommentReader { get; set; }
+        private readonly IXmiElementReaderFacade xmiElementReaderFacade;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="InstanceValueReader"/> class.
@@ -52,9 +61,10 @@ namespace uml4net.xmi.Readers.Classification
         /// <param name="logger">
         /// The (injected) <see cref="ILogger{T}"/> used to setup logging
         /// </param>
-        public InstanceValueReader(IXmiReaderCache cache, ILogger<InstanceValueReader> logger)
-            : base(cache, logger)
+        public InstanceValueReader(IXmiReaderCache cache, ILoggerFactory loggerFactory)
+            : base(cache, loggerFactory)
         {
+            this.xmiElementReaderFacade = new XmiElementReaderFacade();
         }
 
         /// <summary>
@@ -70,7 +80,7 @@ namespace uml4net.xmi.Readers.Classification
         {
             Guard.ThrowIfNull(xmlReader);
 
-            IInstanceValue instanceValue = new InstanceValue();
+            IInstanceValue poco = new InstanceValue();
 
             if (xmlReader.MoveToContent() == XmlNodeType.Element)
             {
@@ -85,30 +95,30 @@ namespace uml4net.xmi.Readers.Classification
                     xmiType = "uml:InstanceValue";
                 }
 
-                instanceValue.XmiType = xmiType;
+                poco.XmiType = xmiType;
 
-                instanceValue.XmiId = xmlReader.GetAttribute("xmi:id");
+                poco.XmiId = xmlReader.GetAttribute("xmi:id");
 
-                this.Cache.Add(instanceValue.XmiId, instanceValue);
+                this.Cache.Add(poco.XmiId, poco);
 
-                instanceValue.Name = xmlReader.GetAttribute("name");
+                poco.Name = xmlReader.GetAttribute("name");
 
                 var visibility = xmlReader.GetAttribute("visibility");
                 if (!string.IsNullOrEmpty(visibility))
                 {
-                    instanceValue.Visibility = (VisibilityKind)Enum.Parse(typeof(VisibilityKind), visibility, true);
+                    poco.Visibility = (VisibilityKind)Enum.Parse(typeof(VisibilityKind), visibility, true);
                 }
 
                 var type = xmlReader.GetAttribute("type");
                 if (!string.IsNullOrEmpty(type))
                 {
-                    instanceValue.SingleValueReferencePropertyIdentifiers.Add("type", type);
+                    poco.SingleValueReferencePropertyIdentifiers.Add("type", type);
                 }
 
                 var instance = xmlReader.GetAttribute("instance");
                 if (!string.IsNullOrEmpty(instance))
                 {
-                    instanceValue.SingleValueReferencePropertyIdentifiers.Add("instance", instance);
+                    poco.SingleValueReferencePropertyIdentifiers.Add("instance", instance);
                 }
 
                 while (xmlReader.Read())
@@ -118,11 +128,8 @@ namespace uml4net.xmi.Readers.Classification
                         switch (xmlReader.LocalName)
                         {
                             case "ownedComment":
-                                using (var ownedCommentXmlReader = xmlReader.ReadSubtree())
-                                {
-                                    var comment = this.CommentReader.Read(ownedCommentXmlReader);
-                                    instanceValue.OwnedComment.Add(comment);
-                                }
+                                var ownedComment = (IComment)this.xmiElementReaderFacade.QueryXmiElement(xmlReader, this.Cache, this.LoggerFactory, "uml:Comment");
+                                poco.OwnedComment.Add(ownedComment);
                                 break;
                             default:
                                 var defaultLineInfo = xmlReader as IXmlLineInfo;
@@ -132,7 +139,7 @@ namespace uml4net.xmi.Readers.Classification
                 }
             }
 
-            return instanceValue;
+            return poco;
         }
     }
 }

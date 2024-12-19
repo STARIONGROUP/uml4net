@@ -24,6 +24,7 @@
 
 namespace uml4net.SimpleClassifiers
 {
+    using System;
     using System.Collections.Generic;
 
     using uml4net.Decorators;
@@ -61,7 +62,7 @@ namespace uml4net.SimpleClassifiers
         [Property(xmiId: "EnumerationLiteral-classifier", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: false, isUnique: false, defaultValue: null)]
         [RedefinedProperty(propertyName: "InstanceSpecification-classifier")]
         [Implements(implementation: "IEnumerationLiteral.Classifier")]
-        public new IEnumeration Classifier => this.QueryClassifier();
+        public IEnumeration Classifier => this.QueryClassifier();
 
         /// <summary>
         /// The Classifier or Classifiers of the represented instance. If multiple Classifiers are specified,
@@ -70,7 +71,11 @@ namespace uml4net.SimpleClassifiers
         [Property(xmiId: "InstanceSpecification-classifier", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
         [RedefinedByProperty("IEnumerationLiteral.Classifier")]
         [Implements(implementation: "IInstanceSpecification.Classifier")]
-        List<IClassifier> IInstanceSpecification.Classifier { get; set; }
+        List<IClassifier> IInstanceSpecification.Classifier
+        {
+            get => throw new InvalidOperationException("Redefined by property IEnumerationLiteral.Classifier");
+            set => throw new InvalidOperationException("Redefined by property IEnumerationLiteral.Classifier");
+        }
 
         /// <summary>
         /// Indicates the Dependencies that reference this NamedElement as a client.
@@ -246,7 +251,11 @@ namespace uml4net.SimpleClassifiers
         [Property(xmiId: "NamedElement-visibility", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
         [RedefinedByProperty("IPackageableElement.Visibility")]
         [Implements(implementation: "INamedElement.Visibility")]
-        VisibilityKind INamedElement.Visibility { get; set; }
+        VisibilityKind INamedElement.Visibility
+        {
+            get => throw new InvalidOperationException("Redefined by property IPackageableElement.Visibility");
+            set => throw new InvalidOperationException("Redefined by property IPackageableElement.Visibility");
+        }
 
         /// <summary>
         /// A PackageableElement must have a visibility specified if it is owned by a Namespace. The default
@@ -255,7 +264,7 @@ namespace uml4net.SimpleClassifiers
         [Property(xmiId: "PackageableElement-visibility", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: "public")]
         [RedefinedProperty(propertyName: "NamedElement-visibility")]
         [Implements(implementation: "IPackageableElement.Visibility")]
-        public new VisibilityKind Visibility { get; set; }
+        public VisibilityKind Visibility { get; set; }
 
     }
 }

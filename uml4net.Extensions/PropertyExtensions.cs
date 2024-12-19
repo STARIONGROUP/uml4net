@@ -24,7 +24,7 @@ namespace uml4net.Extensions
     using System.Collections.Generic;
     using System.Globalization;
     using System.Linq;
-
+    using CommonStructure;
     using uml4net.Classification;
     using uml4net.SimpleClassifiers;
     using uml4net.StructuredClassifiers;
@@ -335,6 +335,27 @@ namespace uml4net.Extensions
             Guard.ThrowIfNull(property);
 
             return property.Type is not IDataType;
+        }
+
+        /// <summary>
+        /// Queries whether the <see cref="ITypedElement.Type"/> is abstract or not
+        /// </summary>
+        /// <param name="property">
+        ///The subject <see cref="IProperty"/>
+        /// </param>
+        /// <returns>
+        /// true when the type is abstract, false if not
+        /// </returns>
+        public static bool QueryIsTypeAbstract(this IProperty property)
+        {
+            Guard.ThrowIfNull(property);
+
+            if (property.Type is IClass classifier)
+            {
+                return classifier.IsAbstract;
+            }
+
+            return false;
         }
 
         /// <summary>

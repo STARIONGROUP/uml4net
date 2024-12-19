@@ -26,16 +26,22 @@ namespace uml4net.xmi.Readers.StructuredClassifiers
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Xml;
 
     using Microsoft.Extensions.Logging;
 
     using uml4net;
+    using uml4net.Actions;
+    using uml4net.Activities;
     using uml4net.Classification;
     using uml4net.CommonBehavior;
     using uml4net.CommonStructure;
+    using uml4net.Deployments;
+    using uml4net.Interactions;
     using uml4net.Packages;
     using uml4net.SimpleClassifiers;
+    using uml4net.StateMachines;
     using uml4net.StructuredClassifiers;
     using uml4net.UseCases;
     using uml4net.Utils;
@@ -49,78 +55,7 @@ namespace uml4net.xmi.Readers.StructuredClassifiers
     /// </summary>
     public class AssociationReader : XmiElementReader<IAssociation>, IXmiElementReader<IAssociation>
     {
-        /// <summary>
-        /// Gets the INJECTED <see cref="IXmiElementReader{T}"/> of <see cref="ICollaborationUse"/> to read
-        /// the <see cref="IAssociation.CollaborationUse"/> property.
-        /// </summary>
-        public IXmiElementReader<ICollaborationUse> CollaborationUseReader { get; set; }
-
-        /// <summary>
-        /// Gets the INJECTED <see cref="IXmiElementReader{T}"/> of <see cref="IElementImport"/> to read
-        /// the <see cref="IAssociation.ElementImport"/> property.
-        /// </summary>
-        public IXmiElementReader<IElementImport> ElementImportReader { get; set; }
-
-        /// <summary>
-        /// Gets the INJECTED <see cref="IXmiElementReader{T}"/> of <see cref="IGeneralization"/> to read
-        /// the <see cref="IAssociation.Generalization"/> property.
-        /// </summary>
-        public IXmiElementReader<IGeneralization> GeneralizationReader { get; set; }
-
-        /// <summary>
-        /// Gets the INJECTED <see cref="IXmiElementReader{T}"/> of <see cref="IStringExpression"/> to read
-        /// the <see cref="IAssociation.NameExpression"/> property.
-        /// </summary>
-        public IXmiElementReader<IStringExpression> NameExpressionReader { get; set; }
-
-        /// <summary>
-        /// Gets the INJECTED <see cref="IXmiElementReader{T}"/> of <see cref="IComment"/> to read
-        /// the <see cref="IAssociation.OwnedComment"/> property.
-        /// </summary>
-        public IXmiElementReader<IComment> OwnedCommentReader { get; set; }
-
-        /// <summary>
-        /// Gets the INJECTED <see cref="IXmiElementReader{T}"/> of <see cref="IProperty"/> to read
-        /// the <see cref="IAssociation.OwnedEnd"/> property.
-        /// </summary>
-        public IXmiElementReader<IProperty> OwnedEndReader { get; set; }
-
-        /// <summary>
-        /// Gets the INJECTED <see cref="IXmiElementReader{T}"/> of <see cref="IConstraint"/> to read
-        /// the <see cref="IAssociation.OwnedRule"/> property.
-        /// </summary>
-        public IXmiElementReader<IConstraint> OwnedRuleReader { get; set; }
-
-        /// <summary>
-        /// Gets the INJECTED <see cref="IXmiElementReader{T}"/> of <see cref="IRedefinableTemplateSignature"/> to read
-        /// the <see cref="IAssociation.OwnedTemplateSignature"/> property.
-        /// </summary>
-        public IXmiElementReader<IRedefinableTemplateSignature> OwnedTemplateSignatureReader { get; set; }
-
-        /// <summary>
-        /// Gets the INJECTED <see cref="IXmiElementReader{T}"/> of <see cref="IUseCase"/> to read
-        /// the <see cref="IAssociation.OwnedUseCase"/> property.
-        /// </summary>
-        public IXmiElementReader<IUseCase> OwnedUseCaseReader { get; set; }
-
-        /// <summary>
-        /// Gets the INJECTED <see cref="IXmiElementReader{T}"/> of <see cref="IPackageImport"/> to read
-        /// the <see cref="IAssociation.PackageImport"/> property.
-        /// </summary>
-        public IXmiElementReader<IPackageImport> PackageImportReader { get; set; }
-
-        /// <summary>
-        /// Gets the INJECTED <see cref="IXmiElementReader{T}"/> of <see cref="ISubstitution"/> to read
-        /// the <see cref="IAssociation.Substitution"/> property.
-        /// </summary>
-        public IXmiElementReader<ISubstitution> SubstitutionReader { get; set; }
-
-        /// <summary>
-        /// Gets the INJECTED <see cref="IXmiElementReader{T}"/> of <see cref="ITemplateBinding"/> to read
-        /// the <see cref="IAssociation.TemplateBinding"/> property.
-        /// </summary>
-        public IXmiElementReader<ITemplateBinding> TemplateBindingReader { get; set; }
-
+        private readonly IXmiElementReaderFacade xmiElementReaderFacade;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AssociationReader"/> class.
@@ -128,12 +63,13 @@ namespace uml4net.xmi.Readers.StructuredClassifiers
         /// <param name="cache">
         /// The cache in which each <see cref="IXmiElement"/>> is stored
         /// </param>
-        /// <param name="logger">
-        /// The (injected) <see cref="ILogger{T}"/> used to set up logging
+        /// <param name="loggerFactory">
+        /// The (injected) <see cref="ILoggerFactory"/> used to set up logging
         /// </param>
-        public AssociationReader(IXmiReaderCache cache, ILogger<AssociationReader> logger)
-            : base(cache, logger)
+        public AssociationReader(IXmiReaderCache cache, ILoggerFactory loggerFactory)
+            : base(cache, loggerFactory)
         {
+            this.xmiElementReaderFacade = new XmiElementReaderFacade();
         }
 
         /// <summary>
@@ -197,7 +133,66 @@ namespace uml4net.xmi.Readers.StructuredClassifiers
                     poco.IsLeaf = bool.Parse(isLeafXmlAttribute);
                 }
 
+                var memberEndXmlAttribute = xmlReader.GetAttribute("memberEnd");
+                if (!string.IsNullOrEmpty(memberEndXmlAttribute))
+                {
+                    var memberEndXmlAttributeValues = memberEndXmlAttribute.Split(SplitMultiReference, StringSplitOptions.RemoveEmptyEntries).ToList();
+                    poco.MultiValueReferencePropertyIdentifiers.Add("memberEnd", memberEndXmlAttributeValues);
+                }
+
                 poco.Name = xmlReader.GetAttribute("name");
+
+                var navigableOwnedEndXmlAttribute = xmlReader.GetAttribute("navigableOwnedEnd");
+                if (!string.IsNullOrEmpty(navigableOwnedEndXmlAttribute))
+                {
+                    var navigableOwnedEndXmlAttributeValues = navigableOwnedEndXmlAttribute.Split(SplitMultiReference, StringSplitOptions.RemoveEmptyEntries).ToList();
+                    poco.MultiValueReferencePropertyIdentifiers.Add("navigableOwnedEnd", navigableOwnedEndXmlAttributeValues);
+                }
+
+                var owningTemplateParameterXmlAttribute = xmlReader.GetAttribute("owningTemplateParameter");
+                if (!string.IsNullOrEmpty(owningTemplateParameterXmlAttribute))
+                {
+                    poco.SingleValueReferencePropertyIdentifiers.Add("owningTemplateParameter", owningTemplateParameterXmlAttribute);
+                }
+
+                var packageXmlAttribute = xmlReader.GetAttribute("package");
+                if (!string.IsNullOrEmpty(packageXmlAttribute))
+                {
+                    poco.SingleValueReferencePropertyIdentifiers.Add("package", packageXmlAttribute);
+                }
+
+                var powertypeExtentXmlAttribute = xmlReader.GetAttribute("powertypeExtent");
+                if (!string.IsNullOrEmpty(powertypeExtentXmlAttribute))
+                {
+                    var powertypeExtentXmlAttributeValues = powertypeExtentXmlAttribute.Split(SplitMultiReference, StringSplitOptions.RemoveEmptyEntries).ToList();
+                    poco.MultiValueReferencePropertyIdentifiers.Add("powertypeExtent", powertypeExtentXmlAttributeValues);
+                }
+
+                var redefinedClassifierXmlAttribute = xmlReader.GetAttribute("redefinedClassifier");
+                if (!string.IsNullOrEmpty(redefinedClassifierXmlAttribute))
+                {
+                    var redefinedClassifierXmlAttributeValues = redefinedClassifierXmlAttribute.Split(SplitMultiReference, StringSplitOptions.RemoveEmptyEntries).ToList();
+                    poco.MultiValueReferencePropertyIdentifiers.Add("redefinedClassifier", redefinedClassifierXmlAttributeValues);
+                }
+
+                var representationXmlAttribute = xmlReader.GetAttribute("representation");
+                if (!string.IsNullOrEmpty(representationXmlAttribute))
+                {
+                    poco.SingleValueReferencePropertyIdentifiers.Add("representation", representationXmlAttribute);
+                }
+
+                var templateParameterXmlAttribute = xmlReader.GetAttribute("templateParameter");
+                if (!string.IsNullOrEmpty(templateParameterXmlAttribute))
+                {
+                    poco.SingleValueReferencePropertyIdentifiers.Add("templateParameter", templateParameterXmlAttribute);
+                }
+
+                var useCasesXmlAttribute = xmlReader.GetAttribute("useCases");
+                if (!string.IsNullOrEmpty(useCasesXmlAttribute))
+                {
+                    var useCasesXmlAttributeValues = useCasesXmlAttribute.Split(SplitMultiReference, StringSplitOptions.RemoveEmptyEntries).ToList();
+                    poco.MultiValueReferencePropertyIdentifiers.Add("useCases", useCasesXmlAttributeValues);
+                }
 
                 var visibilityXmlAttribute = xmlReader.GetAttribute("visibility");
                 if (!string.IsNullOrEmpty(visibilityXmlAttribute))
@@ -206,11 +201,11 @@ namespace uml4net.xmi.Readers.StructuredClassifiers
                 }
 
 
-                var memberEnds = new List<string>();
-                var navigableOwnedEnds = new List<string>();
-                var powertypeExtents = new List<string>();
-                var redefinedClassifiers = new List<string>();
-                var useCasess = new List<string>();
+                var memberEndValues = new List<string>();
+                var navigableOwnedEndValues = new List<string>();
+                var powertypeExtentValues = new List<string>();
+                var redefinedClassifierValues = new List<string>();
+                var useCasesValues = new List<string>();
 
                 while (xmlReader.Read())
                 {
@@ -219,314 +214,116 @@ namespace uml4net.xmi.Readers.StructuredClassifiers
                         switch (xmlReader.LocalName)
                         {
                             case "collaborationUse":
-                                using (var collaborationUseXmlReader = xmlReader.ReadSubtree())
-                                {
-                                    var collaborationUse = this.CollaborationUseReader.Read(collaborationUseXmlReader);
-                                    poco.CollaborationUse.Add(collaborationUse);
-                                }
+                                var collaborationUseValue = (ICollaborationUse)this.xmiElementReaderFacade.QueryXmiElement(xmlReader, this.Cache, this.LoggerFactory, "uml:CollaborationUse");
+                                poco.CollaborationUse.Add(collaborationUseValue);
                                 break;
                             case "elementImport":
-                                using (var elementImportXmlReader = xmlReader.ReadSubtree())
-                                {
-                                    var elementImport = this.ElementImportReader.Read(elementImportXmlReader);
-                                    poco.ElementImport.Add(elementImport);
-                                }
+                                var elementImportValue = (IElementImport)this.xmiElementReaderFacade.QueryXmiElement(xmlReader, this.Cache, this.LoggerFactory, "uml:ElementImport");
+                                poco.ElementImport.Add(elementImportValue);
                                 break;
                             case "generalization":
-                                using (var generalizationXmlReader = xmlReader.ReadSubtree())
-                                {
-                                    var generalization = this.GeneralizationReader.Read(generalizationXmlReader);
-                                    poco.Generalization.Add(generalization);
-                                }
+                                var generalizationValue = (IGeneralization)this.xmiElementReaderFacade.QueryXmiElement(xmlReader, this.Cache, this.LoggerFactory, "uml:Generalization");
+                                poco.Generalization.Add(generalizationValue);
                                 break;
                             case "isAbstract":
-                                var isAbstractXmlElement = xmlReader.ReadElementContentAsString();
-                                if (!string.IsNullOrEmpty(isAbstractXmlElement))
+                                var isAbstractValue = xmlReader.ReadElementContentAsString();
+                                if (!string.IsNullOrEmpty(isAbstractValue))
                                 {
-                                    poco.IsAbstract = bool.Parse(isAbstractXmlElement);
+                                    poco.IsAbstract = bool.Parse(isAbstractValue);
                                 }
                                 break;
                             case "isDerived":
-                                var isDerivedXmlElement = xmlReader.ReadElementContentAsString();
-                                if (!string.IsNullOrEmpty(isDerivedXmlElement))
+                                var isDerivedValue = xmlReader.ReadElementContentAsString();
+                                if (!string.IsNullOrEmpty(isDerivedValue))
                                 {
-                                    poco.IsDerived = bool.Parse(isDerivedXmlElement);
+                                    poco.IsDerived = bool.Parse(isDerivedValue);
                                 }
                                 break;
                             case "isFinalSpecialization":
-                                var isFinalSpecializationXmlElement = xmlReader.ReadElementContentAsString();
-                                if (!string.IsNullOrEmpty(isFinalSpecializationXmlElement))
+                                var isFinalSpecializationValue = xmlReader.ReadElementContentAsString();
+                                if (!string.IsNullOrEmpty(isFinalSpecializationValue))
                                 {
-                                    poco.IsFinalSpecialization = bool.Parse(isFinalSpecializationXmlElement);
+                                    poco.IsFinalSpecialization = bool.Parse(isFinalSpecializationValue);
                                 }
                                 break;
                             case "isLeaf":
-                                var isLeafXmlElement = xmlReader.ReadElementContentAsString();
-                                if (!string.IsNullOrEmpty(isLeafXmlElement))
+                                var isLeafValue = xmlReader.ReadElementContentAsString();
+                                if (!string.IsNullOrEmpty(isLeafValue))
                                 {
-                                    poco.IsLeaf = bool.Parse(isLeafXmlElement);
+                                    poco.IsLeaf = bool.Parse(isLeafValue);
                                 }
                                 break;
                             case "memberEnd":
-                                using (var memberEndXmlReader = xmlReader.ReadSubtree())
-                                {
-                                    if (memberEndXmlReader.MoveToContent() == XmlNodeType.Element)
-                                    {
-                                        var href = memberEndXmlReader.GetAttribute("href");
-                                        if (!string.IsNullOrEmpty(href))
-                                        {
-                                            memberEnds.Add(href);
-                                        }
-                                        else if (memberEndXmlReader.GetAttribute("xmi:idref") is { Length: > 0 } idRef)
-                                        {
-                                            memberEnds.Add(idRef);
-                                        }
-                                        else
-                                        {
-                                            throw new InvalidOperationException("memberEnd xml - attribute reference could not be read");
-                                        }
-                                    }
-                                }
+                                this.CollectMultiValueReferencePropertyIdentifiers(xmlReader, memberEndValues, "memberEnd");
                                 break;
                             case "name":
                                 poco.Name = xmlReader.ReadElementContentAsString();
                                 break;
                             case "nameExpression":
-                                using (var nameExpressionXmlReader = xmlReader.ReadSubtree())
-                                {
-                                    var nameExpression = this.NameExpressionReader.Read(nameExpressionXmlReader);
-                                    poco.NameExpression.Add(nameExpression);
-                                }
+                                var nameExpressionValue = (IStringExpression)this.xmiElementReaderFacade.QueryXmiElement(xmlReader, this.Cache, this.LoggerFactory, "uml:StringExpression");
+                                poco.NameExpression.Add(nameExpressionValue);
                                 break;
                             case "navigableOwnedEnd":
-                                using (var navigableOwnedEndXmlReader = xmlReader.ReadSubtree())
-                                {
-                                    if (navigableOwnedEndXmlReader.MoveToContent() == XmlNodeType.Element)
-                                    {
-                                        var href = navigableOwnedEndXmlReader.GetAttribute("href");
-                                        if (!string.IsNullOrEmpty(href))
-                                        {
-                                            navigableOwnedEnds.Add(href);
-                                        }
-                                        else if (navigableOwnedEndXmlReader.GetAttribute("xmi:idref") is { Length: > 0 } idRef)
-                                        {
-                                            navigableOwnedEnds.Add(idRef);
-                                        }
-                                        else
-                                        {
-                                            throw new InvalidOperationException("navigableOwnedEnd xml - attribute reference could not be read");
-                                        }
-                                    }
-                                }
+                                this.CollectMultiValueReferencePropertyIdentifiers(xmlReader, navigableOwnedEndValues, "navigableOwnedEnd");
                                 break;
                             case "ownedComment":
-                                using (var ownedCommentXmlReader = xmlReader.ReadSubtree())
-                                {
-                                    var ownedComment = this.OwnedCommentReader.Read(ownedCommentXmlReader);
-                                    poco.OwnedComment.Add(ownedComment);
-                                }
+                                var ownedCommentValue = (IComment)this.xmiElementReaderFacade.QueryXmiElement(xmlReader, this.Cache, this.LoggerFactory, "uml:Comment");
+                                poco.OwnedComment.Add(ownedCommentValue);
                                 break;
                             case "ownedEnd":
-                                using (var ownedEndXmlReader = xmlReader.ReadSubtree())
-                                {
-                                    var ownedEnd = this.OwnedEndReader.Read(ownedEndXmlReader);
-                                    poco.OwnedEnd.Add(ownedEnd);
-                                }
+                                var ownedEndValue = (IProperty)this.xmiElementReaderFacade.QueryXmiElement(xmlReader, this.Cache, this.LoggerFactory, "uml:Property");
+                                poco.OwnedEnd.Add(ownedEndValue);
                                 break;
                             case "ownedRule":
-                                using (var ownedRuleXmlReader = xmlReader.ReadSubtree())
-                                {
-                                    var ownedRule = this.OwnedRuleReader.Read(ownedRuleXmlReader);
-                                    poco.OwnedRule.Add(ownedRule);
-                                }
+                                var ownedRuleValue = (IConstraint)this.xmiElementReaderFacade.QueryXmiElement(xmlReader, this.Cache, this.LoggerFactory, "uml:Constraint");
+                                poco.OwnedRule.Add(ownedRuleValue);
                                 break;
                             case "ownedTemplateSignature":
-                                using (var ownedTemplateSignatureXmlReader = xmlReader.ReadSubtree())
-                                {
-                                    var ownedTemplateSignature = this.OwnedTemplateSignatureReader.Read(ownedTemplateSignatureXmlReader);
-                                    poco.OwnedTemplateSignature.Add(ownedTemplateSignature);
-                                }
+                                var ownedTemplateSignatureValue = (IRedefinableTemplateSignature)this.xmiElementReaderFacade.QueryXmiElement(xmlReader, this.Cache, this.LoggerFactory, "uml:RedefinableTemplateSignature");
+                                poco.OwnedTemplateSignature.Add(ownedTemplateSignatureValue);
                                 break;
                             case "ownedUseCase":
-                                using (var ownedUseCaseXmlReader = xmlReader.ReadSubtree())
-                                {
-                                    var ownedUseCase = this.OwnedUseCaseReader.Read(ownedUseCaseXmlReader);
-                                    poco.OwnedUseCase.Add(ownedUseCase);
-                                }
+                                var ownedUseCaseValue = (IUseCase)this.xmiElementReaderFacade.QueryXmiElement(xmlReader, this.Cache, this.LoggerFactory, "uml:UseCase");
+                                poco.OwnedUseCase.Add(ownedUseCaseValue);
                                 break;
                             case "owningTemplateParameter":
-                                using (var typeXmlReader = xmlReader.ReadSubtree())
-                                {
-                                    if (typeXmlReader.MoveToContent() == XmlNodeType.Element)
-                                    {
-                                        var reference = typeXmlReader.GetAttribute("href");
-                                        if (!string.IsNullOrEmpty(reference))
-                                        {
-                                            poco.SingleValueReferencePropertyIdentifiers.Add("owningTemplateParameter", reference);
-                                        }
-                                        else if (typeXmlReader.GetAttribute("xmi:idref") is { Length: > 0 } idRef)
-                                        {
-                                            poco.SingleValueReferencePropertyIdentifiers.Add("owningTemplateParameter", idRef);
-                                        }
-                                        else
-                                        {
-                                            throw new InvalidOperationException("owningTemplateParameter xml-attribute reference could not be read");
-                                        }
-                                    }
-                                }
+                                this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "owningTemplateParameter");
                                 break;
                             case "package":
-                                using (var typeXmlReader = xmlReader.ReadSubtree())
-                                {
-                                    if (typeXmlReader.MoveToContent() == XmlNodeType.Element)
-                                    {
-                                        var reference = typeXmlReader.GetAttribute("href");
-                                        if (!string.IsNullOrEmpty(reference))
-                                        {
-                                            poco.SingleValueReferencePropertyIdentifiers.Add("package", reference);
-                                        }
-                                        else if (typeXmlReader.GetAttribute("xmi:idref") is { Length: > 0 } idRef)
-                                        {
-                                            poco.SingleValueReferencePropertyIdentifiers.Add("package", idRef);
-                                        }
-                                        else
-                                        {
-                                            throw new InvalidOperationException("package xml-attribute reference could not be read");
-                                        }
-                                    }
-                                }
+                                this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "package");
                                 break;
                             case "packageImport":
-                                using (var packageImportXmlReader = xmlReader.ReadSubtree())
-                                {
-                                    var packageImport = this.PackageImportReader.Read(packageImportXmlReader);
-                                    poco.PackageImport.Add(packageImport);
-                                }
+                                var packageImportValue = (IPackageImport)this.xmiElementReaderFacade.QueryXmiElement(xmlReader, this.Cache, this.LoggerFactory, "uml:PackageImport");
+                                poco.PackageImport.Add(packageImportValue);
                                 break;
                             case "powertypeExtent":
-                                using (var powertypeExtentXmlReader = xmlReader.ReadSubtree())
-                                {
-                                    if (powertypeExtentXmlReader.MoveToContent() == XmlNodeType.Element)
-                                    {
-                                        var href = powertypeExtentXmlReader.GetAttribute("href");
-                                        if (!string.IsNullOrEmpty(href))
-                                        {
-                                            powertypeExtents.Add(href);
-                                        }
-                                        else if (powertypeExtentXmlReader.GetAttribute("xmi:idref") is { Length: > 0 } idRef)
-                                        {
-                                            powertypeExtents.Add(idRef);
-                                        }
-                                        else
-                                        {
-                                            throw new InvalidOperationException("powertypeExtent xml - attribute reference could not be read");
-                                        }
-                                    }
-                                }
+                                this.CollectMultiValueReferencePropertyIdentifiers(xmlReader, powertypeExtentValues, "powertypeExtent");
                                 break;
                             case "redefinedClassifier":
-                                using (var redefinedClassifierXmlReader = xmlReader.ReadSubtree())
-                                {
-                                    if (redefinedClassifierXmlReader.MoveToContent() == XmlNodeType.Element)
-                                    {
-                                        var href = redefinedClassifierXmlReader.GetAttribute("href");
-                                        if (!string.IsNullOrEmpty(href))
-                                        {
-                                            redefinedClassifiers.Add(href);
-                                        }
-                                        else if (redefinedClassifierXmlReader.GetAttribute("xmi:idref") is { Length: > 0 } idRef)
-                                        {
-                                            redefinedClassifiers.Add(idRef);
-                                        }
-                                        else
-                                        {
-                                            throw new InvalidOperationException("redefinedClassifier xml - attribute reference could not be read");
-                                        }
-                                    }
-                                }
+                                this.CollectMultiValueReferencePropertyIdentifiers(xmlReader, redefinedClassifierValues, "redefinedClassifier");
                                 break;
                             case "representation":
-                                using (var typeXmlReader = xmlReader.ReadSubtree())
-                                {
-                                    if (typeXmlReader.MoveToContent() == XmlNodeType.Element)
-                                    {
-                                        var reference = typeXmlReader.GetAttribute("href");
-                                        if (!string.IsNullOrEmpty(reference))
-                                        {
-                                            poco.SingleValueReferencePropertyIdentifiers.Add("representation", reference);
-                                        }
-                                        else if (typeXmlReader.GetAttribute("xmi:idref") is { Length: > 0 } idRef)
-                                        {
-                                            poco.SingleValueReferencePropertyIdentifiers.Add("representation", idRef);
-                                        }
-                                        else
-                                        {
-                                            throw new InvalidOperationException("representation xml-attribute reference could not be read");
-                                        }
-                                    }
-                                }
+                                this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "representation");
                                 break;
                             case "substitution":
-                                using (var substitutionXmlReader = xmlReader.ReadSubtree())
-                                {
-                                    var substitution = this.SubstitutionReader.Read(substitutionXmlReader);
-                                    poco.Substitution.Add(substitution);
-                                }
+                                var substitutionValue = (ISubstitution)this.xmiElementReaderFacade.QueryXmiElement(xmlReader, this.Cache, this.LoggerFactory, "uml:Substitution");
+                                poco.Substitution.Add(substitutionValue);
                                 break;
                             case "templateBinding":
-                                using (var templateBindingXmlReader = xmlReader.ReadSubtree())
-                                {
-                                    var templateBinding = this.TemplateBindingReader.Read(templateBindingXmlReader);
-                                    poco.TemplateBinding.Add(templateBinding);
-                                }
+                                var templateBindingValue = (ITemplateBinding)this.xmiElementReaderFacade.QueryXmiElement(xmlReader, this.Cache, this.LoggerFactory, "uml:TemplateBinding");
+                                poco.TemplateBinding.Add(templateBindingValue);
                                 break;
                             case "templateParameter":
-                                using (var typeXmlReader = xmlReader.ReadSubtree())
-                                {
-                                    if (typeXmlReader.MoveToContent() == XmlNodeType.Element)
-                                    {
-                                        var reference = typeXmlReader.GetAttribute("href");
-                                        if (!string.IsNullOrEmpty(reference))
-                                        {
-                                            poco.SingleValueReferencePropertyIdentifiers.Add("templateParameter", reference);
-                                        }
-                                        else if (typeXmlReader.GetAttribute("xmi:idref") is { Length: > 0 } idRef)
-                                        {
-                                            poco.SingleValueReferencePropertyIdentifiers.Add("templateParameter", idRef);
-                                        }
-                                        else
-                                        {
-                                            throw new InvalidOperationException("templateParameter xml-attribute reference could not be read");
-                                        }
-                                    }
-                                }
+                                this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "templateParameter");
                                 break;
                             case "useCases":
-                                using (var useCasesXmlReader = xmlReader.ReadSubtree())
-                                {
-                                    if (useCasesXmlReader.MoveToContent() == XmlNodeType.Element)
-                                    {
-                                        var href = useCasesXmlReader.GetAttribute("href");
-                                        if (!string.IsNullOrEmpty(href))
-                                        {
-                                            useCasess.Add(href);
-                                        }
-                                        else if (useCasesXmlReader.GetAttribute("xmi:idref") is { Length: > 0 } idRef)
-                                        {
-                                            useCasess.Add(idRef);
-                                        }
-                                        else
-                                        {
-                                            throw new InvalidOperationException("useCases xml - attribute reference could not be read");
-                                        }
-                                    }
-                                }
+                                this.CollectMultiValueReferencePropertyIdentifiers(xmlReader, useCasesValues, "useCases");
                                 break;
                             case "visibility":
-                                var visibilityXmlElement = xmlReader.ReadElementContentAsString();
-                                if (!string.IsNullOrEmpty(visibilityXmlElement))
+                                var visibilityValue = xmlReader.ReadElementContentAsString();
+                                if (!string.IsNullOrEmpty(visibilityValue))
                                 {
-                                    poco.Visibility = (VisibilityKind)Enum.Parse(typeof(VisibilityKind), visibilityXmlElement, true); ;
+                                    poco.Visibility = (VisibilityKind)Enum.Parse(typeof(VisibilityKind), visibilityValue, true); ;
                                 }
                                 break;
                             default:
@@ -536,29 +333,29 @@ namespace uml4net.xmi.Readers.StructuredClassifiers
                     }
                 }
 
-                if (memberEnds.Count > 0)
+                if (memberEndValues.Count > 0)
                 {
-                    poco.MultiValueReferencePropertyIdentifiers.Add("memberEnd", memberEnds);
+                    poco.MultiValueReferencePropertyIdentifiers.Add("memberEnd", memberEndValues);
                 }
 
-                if (navigableOwnedEnds.Count > 0)
+                if (navigableOwnedEndValues.Count > 0)
                 {
-                    poco.MultiValueReferencePropertyIdentifiers.Add("navigableOwnedEnd", navigableOwnedEnds);
+                    poco.MultiValueReferencePropertyIdentifiers.Add("navigableOwnedEnd", navigableOwnedEndValues);
                 }
 
-                if (powertypeExtents.Count > 0)
+                if (powertypeExtentValues.Count > 0)
                 {
-                    poco.MultiValueReferencePropertyIdentifiers.Add("powertypeExtent", powertypeExtents);
+                    poco.MultiValueReferencePropertyIdentifiers.Add("powertypeExtent", powertypeExtentValues);
                 }
 
-                if (redefinedClassifiers.Count > 0)
+                if (redefinedClassifierValues.Count > 0)
                 {
-                    poco.MultiValueReferencePropertyIdentifiers.Add("redefinedClassifier", redefinedClassifiers);
+                    poco.MultiValueReferencePropertyIdentifiers.Add("redefinedClassifier", redefinedClassifierValues);
                 }
 
-                if (useCasess.Count > 0)
+                if (useCasesValues.Count > 0)
                 {
-                    poco.MultiValueReferencePropertyIdentifiers.Add("useCases", useCasess);
+                    poco.MultiValueReferencePropertyIdentifiers.Add("useCases", useCasesValues);
                 }
 
             }

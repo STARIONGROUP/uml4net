@@ -24,6 +24,7 @@
 
 namespace uml4net.Classification
 {
+    using System;
     using System.Collections.Generic;
 
     using uml4net.Decorators;
@@ -137,7 +138,7 @@ namespace uml4net.Classification
         [Property(xmiId: "OperationTemplateParameter-parameteredElement", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
         [RedefinedProperty(propertyName: "TemplateParameter-parameteredElement")]
         [Implements(implementation: "IOperationTemplateParameter.ParameteredElement")]
-        public new IOperation ParameteredElement { get; set; }
+        public IOperation ParameteredElement { get; set; }
 
         /// <summary>
         /// The ParameterableElement exposed by this TemplateParameter.
@@ -145,7 +146,11 @@ namespace uml4net.Classification
         [Property(xmiId: "TemplateParameter-parameteredElement", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
         [RedefinedByProperty("IOperationTemplateParameter.ParameteredElement")]
         [Implements(implementation: "ITemplateParameter.ParameteredElement")]
-        IParameterableElement ITemplateParameter.ParameteredElement { get; set; }
+        IParameterableElement ITemplateParameter.ParameteredElement
+        {
+            get => throw new InvalidOperationException("Redefined by property IOperationTemplateParameter.ParameteredElement");
+            set => throw new InvalidOperationException("Redefined by property IOperationTemplateParameter.ParameteredElement");
+        }
 
         /// <summary>
         /// The TemplateSignature that owns this TemplateParameter.

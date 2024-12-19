@@ -22,16 +22,27 @@ namespace uml4net.xmi.Readers.CommonStructure
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Xml;
 
     using Microsoft.Extensions.Logging;
 
     using uml4net;
+    using uml4net.Classification;
+    using uml4net.CommonBehavior;
     using uml4net.CommonStructure;
-    using uml4net.Values;
+    using uml4net.Deployments;
+    using uml4net.Packages;
+    using uml4net.SimpleClassifiers;
+    using uml4net.StructuredClassifiers;
+    using uml4net.UseCases;
     using uml4net.Utils;
+    using uml4net.Values;
     using uml4net.xmi.Cache;
     using uml4net.xmi.Readers;
+    using uml4net.xmi.Readers.Classification;
+    using uml4net.xmi.Readers.CommonStructure;
+    using uml4net.xmi.Readers.Values;
 
     /// <summary>
     /// The purpose of the <see cref="ConstraintReader"/> is to read an instance of <see cref="IConstraint"/>
@@ -39,15 +50,7 @@ namespace uml4net.xmi.Readers.CommonStructure
     /// </summary>
     public class ConstraintReader : XmiElementReader<IConstraint>, IXmiElementReader<IConstraint>
     {
-        /// <summary>
-        /// Gets the INJECTED <see cref="IXmiElementReader{T}"/> of <see cref="IOpaqueExpression"/>
-        /// </summary>
-        public IXmiElementReader<IOpaqueExpression> OpaqueExpressionReader { get; set; }
-
-        /// <summary>
-        /// Gets the INJECTED <see cref="IXmiElementReader{T}"/> of <see cref="IComment"/>
-        /// </summary>
-        public IXmiElementReader<IComment> CommentReader { get; set; }
+        private readonly IXmiElementReaderFacade xmiElementReaderFacade;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ConstraintReader"/> class.
@@ -58,9 +61,10 @@ namespace uml4net.xmi.Readers.CommonStructure
         /// <param name="logger">
         /// The <see cref="ILogger{T}"/>
         /// </param>
-        public ConstraintReader(IXmiReaderCache cache, ILogger<ConstraintReader> logger)
-            : base(cache, logger)
+        public ConstraintReader(IXmiReaderCache cache, ILoggerFactory loggerFactory)
+            : base(cache, loggerFactory)
         {
+            this.xmiElementReaderFacade = new XmiElementReaderFacade();
         }
 
         /// <summary>
@@ -76,7 +80,7 @@ namespace uml4net.xmi.Readers.CommonStructure
         {
             Guard.ThrowIfNull(xmlReader);
 
-            IConstraint constraint = new Constraint();
+            IConstraint poco = new Constraint();
 
             if (xmlReader.MoveToContent() == XmlNodeType.Element)
             {
@@ -91,13 +95,13 @@ namespace uml4net.xmi.Readers.CommonStructure
                     xmiType = "uml:Constraint";
                 }
 
-                constraint.XmiType = xmiType;
+                poco.XmiType = xmiType;
 
-                constraint.XmiId = xmlReader.GetAttribute("xmi:id");
+                poco.XmiId = xmlReader.GetAttribute("xmi:id");
 
-                this.Cache.Add(constraint.XmiId, constraint);
+                this.Cache.Add(poco.XmiId, poco);
 
-                var constrainedElements = new List<string>();
+                var constrainedElement = new List<string>();
 
                 while (xmlReader.Read())
                 {
@@ -114,11 +118,11 @@ namespace uml4net.xmi.Readers.CommonStructure
                                         var href = constrainedElementXmlReader.GetAttribute("href");
                                         if (!string.IsNullOrEmpty(href))
                                         {
-                                            constrainedElements.Add(href);
+                                            constrainedElement.Add(href);
                                         }
                                         else if (constrainedElementXmlReader.GetAttribute("xmi:idref") is { Length: > 0 } idRef)
                                         {
-                                            constrainedElements.Add(idRef);
+                                            constrainedElement.Add(idRef);
                                         }
                                         else
                                         {
@@ -129,14 +133,11 @@ namespace uml4net.xmi.Readers.CommonStructure
 
                                 break;
                             case "ownedComment":
-                                using (var ownedCommentXmlReader = xmlReader.ReadSubtree())
-                                {
-                                    var comment = this.CommentReader.Read(ownedCommentXmlReader);
-                                    constraint.OwnedComment.Add(comment);
-                                }
+                                var ownedComment = (IComment)this.xmiElementReaderFacade.QueryXmiElement(xmlReader, this.Cache, this.LoggerFactory, "uml:Comment");
+                                poco.OwnedComment.Add(ownedComment);
                                 break;
                             case "specification":
-                                this.ReadValueSpecification(constraint, xmlReader);
+                                this.ReadValueSpecification(poco, xmlReader);
                                 break;
                             default:
                                 var defaultLineInfo = xmlReader as IXmlLineInfo;
@@ -145,13 +146,13 @@ namespace uml4net.xmi.Readers.CommonStructure
                     }
                 }
 
-                if (constrainedElements.Count > 0)
+                if (constrainedElement.Count > 0)
                 {
-                    constraint.MultiValueReferencePropertyIdentifiers.Add("ConstrainedElement", constrainedElements);
+                    poco.MultiValueReferencePropertyIdentifiers.Add("ConstrainedElement", constrainedElement);
                 }
             }
 
-            return constraint;
+            return poco;
         }
 
         /// <summary>
@@ -172,7 +173,8 @@ namespace uml4net.xmi.Readers.CommonStructure
                 case "uml:OpaqueExpression":
                     using (var opaqueExpressionXmlReader = xmlReader.ReadSubtree())
                     {
-                        var opaqueExpression = this.OpaqueExpressionReader.Read(opaqueExpressionXmlReader);
+                        var opaqueExpressionReader = new OpaqueExpressionReader(this.Cache, this.LoggerFactory);
+                        var opaqueExpression = opaqueExpressionReader.Read(opaqueExpressionXmlReader);
                         constraint.Specification.Add(opaqueExpression);
                     }
                     break;

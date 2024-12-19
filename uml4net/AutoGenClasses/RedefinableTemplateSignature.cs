@@ -24,6 +24,7 @@
 
 namespace uml4net.Classification
 {
+    using System;
     using System.Collections.Generic;
 
     using uml4net.Decorators;
@@ -63,7 +64,7 @@ namespace uml4net.Classification
         [SubsettedProperty(propertyName: "RedefinableElement-redefinitionContext")]
         [RedefinedProperty(propertyName: "TemplateSignature-template")]
         [Implements(implementation: "IRedefinableTemplateSignature.Classifier")]
-        public new IClassifier Classifier { get; set; }
+        public IClassifier Classifier { get; set; }
 
         /// <summary>
         /// Indicates the Dependencies that reference this NamedElement as a client.
@@ -216,7 +217,11 @@ namespace uml4net.Classification
         [SubsettedProperty(propertyName: "Element-owner")]
         [RedefinedByProperty("IRedefinableTemplateSignature.Classifier")]
         [Implements(implementation: "ITemplateSignature.Template")]
-        ITemplateableElement ITemplateSignature.Template { get; set; }
+        ITemplateableElement ITemplateSignature.Template
+        {
+            get => throw new InvalidOperationException("Redefined by property IRedefinableTemplateSignature.Classifier");
+            set => throw new InvalidOperationException("Redefined by property IRedefinableTemplateSignature.Classifier");
+        }
 
         /// <summary>
         /// Determines whether and how the NamedElement is visible outside its owning Namespace.

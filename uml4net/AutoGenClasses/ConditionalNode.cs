@@ -24,6 +24,7 @@
 
 namespace uml4net.Actions
 {
+    using System;
     using System.Collections.Generic;
 
     using uml4net.Decorators;
@@ -64,7 +65,7 @@ namespace uml4net.Actions
         [RedefinedProperty(propertyName: "ActivityGroup-inActivity")]
         [RedefinedProperty(propertyName: "ActivityNode-activity")]
         [Implements(implementation: "IStructuredActivityNode.Activity")]
-        public new IActivity Activity { get; set; }
+        public IActivity Activity { get; set; }
 
         /// <summary>
         /// The Activity containing the ActivityNode, if it is directly owned by an Activity.
@@ -73,7 +74,11 @@ namespace uml4net.Actions
         [SubsettedProperty(propertyName: "Element-owner")]
         [RedefinedByProperty("IStructuredActivityNode.Activity")]
         [Implements(implementation: "IActivityNode.Activity")]
-        IActivity IActivityNode.Activity { get; set; }
+        IActivity IActivityNode.Activity
+        {
+            get => throw new InvalidOperationException("Redefined by property IStructuredActivityNode.Activity");
+            set => throw new InvalidOperationException("Redefined by property IStructuredActivityNode.Activity");
+        }
 
         /// <summary>
         /// The set of Clauses composing the ConditionalNode.
@@ -191,7 +196,11 @@ namespace uml4net.Actions
         [SubsettedProperty(propertyName: "Element-owner")]
         [RedefinedByProperty("IStructuredActivityNode.Activity")]
         [Implements(implementation: "IActivityGroup.InActivity")]
-        IActivity IActivityGroup.InActivity { get; set; }
+        IActivity IActivityGroup.InActivity
+        {
+            get => throw new InvalidOperationException("Redefined by property IStructuredActivityNode.Activity");
+            set => throw new InvalidOperationException("Redefined by property IStructuredActivityNode.Activity");
+        }
 
         /// <summary>
         /// ActivityEdges that have the ActivityNode as their target.
@@ -506,7 +515,7 @@ namespace uml4net.Actions
         [Property(xmiId: "ConditionalNode-result", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: true, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
         [RedefinedProperty(propertyName: "StructuredActivityNode-structuredNodeOutput")]
         [Implements(implementation: "IConditionalNode.Result")]
-        public new IContainerList<IOutputPin> Result
+        public IContainerList<IOutputPin> Result
         {
             get => this.result ??= new ContainerList<IOutputPin>(this);
             set => this.result = value;
@@ -541,7 +550,11 @@ namespace uml4net.Actions
         [SubsettedProperty(propertyName: "Action-output")]
         [RedefinedByProperty("IConditionalNode.Result")]
         [Implements(implementation: "IStructuredActivityNode.StructuredNodeOutput")]
-        IContainerList<IOutputPin> IStructuredActivityNode.StructuredNodeOutput { get; set; }
+        IContainerList<IOutputPin> IStructuredActivityNode.StructuredNodeOutput
+        {
+            get => throw new InvalidOperationException("Redefined by property IConditionalNode.Result");
+            set => throw new InvalidOperationException("Redefined by property IConditionalNode.Result");
+        }
 
         /// <summary>
         /// Other ActivityGroups immediately contained in this ActivityGroup.

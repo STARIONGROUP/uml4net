@@ -21,16 +21,28 @@
 namespace uml4net.xmi.Readers.SimpleClassifiers
 {
     using System;
+    using System.Collections.Generic;
+    using System.Linq;
     using System.Xml;
 
     using Microsoft.Extensions.Logging;
 
     using uml4net;
+    using uml4net.Classification;
+    using uml4net.CommonBehavior;
     using uml4net.CommonStructure;
+    using uml4net.Deployments;
+    using uml4net.Packages;
     using uml4net.SimpleClassifiers;
+    using uml4net.StructuredClassifiers;
+    using uml4net.UseCases;
     using uml4net.Utils;
+    using uml4net.Values;
     using uml4net.xmi.Cache;
     using uml4net.xmi.Readers;
+    using uml4net.xmi.Readers.Classification;
+    using uml4net.xmi.Readers.CommonStructure;
+    using uml4net.xmi.Readers.Values;
 
     /// <summary>
     /// The purpose of the <see cref="PrimitiveTypeReader"/> is to read an instance of <see cref="IPrimitiveType"/>
@@ -38,10 +50,7 @@ namespace uml4net.xmi.Readers.SimpleClassifiers
     /// </summary>
     public class PrimitiveTypeReader : XmiElementReader<IPrimitiveType>, IXmiElementReader<IPrimitiveType>
     {
-        /// <summary>
-        /// Gets the INJECTED <see cref="IXmiElementReader{T}"/> of <see cref="IComment"/>
-        /// </summary>
-        public IXmiElementReader<IComment> CommentReader { get; set; }
+        private readonly IXmiElementReaderFacade xmiElementReaderFacade;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PrimitiveTypeReader"/> class.
@@ -49,12 +58,13 @@ namespace uml4net.xmi.Readers.SimpleClassifiers
         /// <param name="cache">
         /// The cache in which each <see cref="IXmiElement"/>> is stored
         /// </param>
-        /// <param name="logger">
+        /// <param name="loggerFactory">
         /// The (injected) <see cref="ILogger{T}"/> used to setup logging
         /// </param>
-        public PrimitiveTypeReader(IXmiReaderCache cache, ILogger<PrimitiveTypeReader> logger)
-            : base(cache, logger)
+        public PrimitiveTypeReader(IXmiReaderCache cache, ILoggerFactory loggerFactory)
+            : base(cache, loggerFactory)
         {
+            this.xmiElementReaderFacade = new XmiElementReaderFacade();
         }
 
         /// <summary>
@@ -70,7 +80,7 @@ namespace uml4net.xmi.Readers.SimpleClassifiers
         {
             Guard.ThrowIfNull(xmlReader);
 
-            IPrimitiveType primitiveType = new PrimitiveType();
+            IPrimitiveType poco = new PrimitiveType();
 
             if (xmlReader.MoveToContent() == XmlNodeType.Element)
             {
@@ -85,13 +95,13 @@ namespace uml4net.xmi.Readers.SimpleClassifiers
                     xmiType = "uml:PrimitiveType";
                 }
 
-                primitiveType.XmiType = xmiType;
+                poco.XmiType = xmiType;
 
-                primitiveType.XmiId = xmlReader.GetAttribute("xmi:id");
+                poco.XmiId = xmlReader.GetAttribute("xmi:id");
 
-                this.Cache.Add(primitiveType.XmiId, primitiveType);
+                this.Cache.Add(poco.XmiId, poco);
 
-                primitiveType.Name = xmlReader.GetAttribute("name");
+                poco.Name = xmlReader.GetAttribute("name");
 
                 while (xmlReader.Read())
                 {
@@ -100,11 +110,8 @@ namespace uml4net.xmi.Readers.SimpleClassifiers
                         switch (xmlReader.LocalName)
                         {
                             case "ownedComment":
-                                using (var ownedCommentXmlReader = xmlReader.ReadSubtree())
-                                {
-                                    var comment = this.CommentReader.Read(ownedCommentXmlReader);
-                                    primitiveType.OwnedComment.Add(comment);
-                                }
+                                var ownedComment = (IComment)this.xmiElementReaderFacade.QueryXmiElement(xmlReader, this.Cache, this.LoggerFactory, "uml:Comment");
+                                poco.OwnedComment.Add(ownedComment);
                                 break;
                             default:
                                 var defaultLineInfo = xmlReader as IXmlLineInfo;
@@ -114,7 +121,7 @@ namespace uml4net.xmi.Readers.SimpleClassifiers
                 }
             }
 
-            return primitiveType;
+            return poco;
         }
     }
 }

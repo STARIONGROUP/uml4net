@@ -24,6 +24,7 @@
 
 namespace uml4net.Actions
 {
+    using System;
     using System.Collections.Generic;
 
     using uml4net.Decorators;
@@ -72,7 +73,11 @@ namespace uml4net.Actions
         [SubsettedProperty(propertyName: "Action-input")]
         [RedefinedByProperty("ISendObjectAction.Request")]
         [Implements(implementation: "IInvocationAction.Argument")]
-        IContainerList<IInputPin> IInvocationAction.Argument { get; set; }
+        IContainerList<IInputPin> IInvocationAction.Argument
+        {
+            get => throw new InvalidOperationException("Redefined by property ISendObjectAction.Request");
+            set => throw new InvalidOperationException("Redefined by property ISendObjectAction.Request");
+        }
 
         /// <summary>
         /// Indicates the Dependencies that reference this NamedElement as a client.
@@ -332,7 +337,7 @@ namespace uml4net.Actions
         [Property(xmiId: "SendObjectAction-request", aggregation: AggregationKind.Composite, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
         [RedefinedProperty(propertyName: "InvocationAction-argument")]
         [Implements(implementation: "ISendObjectAction.Request")]
-        public new IContainerList<IInputPin> Request
+        public IContainerList<IInputPin> Request
         {
             get => this.request ??= new ContainerList<IInputPin>(this);
             set => this.request = value;

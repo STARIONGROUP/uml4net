@@ -21,16 +21,28 @@
 namespace uml4net.xmi.Readers.Values
 {
     using System;
+    using System.Collections.Generic;
+    using System.Linq;
     using System.Xml;
 
     using Microsoft.Extensions.Logging;
 
     using uml4net;
+    using uml4net.Classification;
+    using uml4net.CommonBehavior;
     using uml4net.CommonStructure;
+    using uml4net.Deployments;
+    using uml4net.Packages;
+    using uml4net.SimpleClassifiers;
+    using uml4net.StructuredClassifiers;
+    using uml4net.UseCases;
     using uml4net.Utils;
     using uml4net.Values;
     using uml4net.xmi.Cache;
     using uml4net.xmi.Readers;
+    using uml4net.xmi.Readers.Classification;
+    using uml4net.xmi.Readers.CommonStructure;
+    using uml4net.xmi.Readers.Values;
 
     /// <summary>
     /// The purpose of the <see cref="LiteralBooleanReader"/> is to read an instance of <see cref="ILiteralBoolean"/>
@@ -38,10 +50,7 @@ namespace uml4net.xmi.Readers.Values
     /// </summary>
     public class LiteralBooleanReader : XmiElementReader<ILiteralBoolean>, IXmiElementReader<ILiteralBoolean>
     {
-        /// <summary>
-        /// Gets the INJECTED <see cref="IXmiElementReader{T}"/> of <see cref="IComment"/>
-        /// </summary>
-        public IXmiElementReader<IComment> CommentReader { get; set; }
+        private readonly IXmiElementReaderFacade xmiElementReaderFacade;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="LiteralIntegerReader"/> class.
@@ -49,12 +58,13 @@ namespace uml4net.xmi.Readers.Values
         /// <param name="cache">
         /// The cache in which each <see cref="IXmiElement"/>> is stored
         /// </param>
-        /// <param name="logger">
+        /// <param name="loggerFactory">
         /// The (injected) <see cref="ILogger{T}"/> used to setup logging
         /// </param>
-        public LiteralBooleanReader(IXmiReaderCache cache, ILogger<LiteralBooleanReader> logger)
-            : base(cache, logger)
+        public LiteralBooleanReader(IXmiReaderCache cache, ILoggerFactory loggerFactory)
+            : base(cache, loggerFactory)
         {
+            this.xmiElementReaderFacade = new XmiElementReaderFacade();
         }
 
         /// <summary>
@@ -70,7 +80,7 @@ namespace uml4net.xmi.Readers.Values
         {
             Guard.ThrowIfNull(xmlReader);
 
-            ILiteralBoolean literalBoolean = new LiteralBoolean();
+            ILiteralBoolean poco = new LiteralBoolean();
 
             if (xmlReader.MoveToContent() == XmlNodeType.Element)
             {
@@ -85,16 +95,16 @@ namespace uml4net.xmi.Readers.Values
                     xmiType = "uml:LiteralBoolean";
                 }
 
-                literalBoolean.XmiType = xmiType;
+                poco.XmiType = xmiType;
 
-                literalBoolean.XmiId = xmlReader.GetAttribute("xmi:id");
+                poco.XmiId = xmlReader.GetAttribute("xmi:id");
 
-                this.Cache.Add(literalBoolean.XmiId, literalBoolean);
+                this.Cache.Add(poco.XmiId, poco);
 
                 var value = xmlReader.GetAttribute("value");
                 if (!string.IsNullOrEmpty(value))
                 {
-                    literalBoolean.Value = bool.Parse(value);
+                    poco.Value = bool.Parse(value);
                 }
 
                 while (xmlReader.Read())
@@ -104,11 +114,8 @@ namespace uml4net.xmi.Readers.Values
                         switch (xmlReader.LocalName)
                         {
                             case "ownedComment":
-                                using (var ownedCommentXmlReader = xmlReader.ReadSubtree())
-                                {
-                                    var comment = this.CommentReader.Read(ownedCommentXmlReader);
-                                    literalBoolean.OwnedComment.Add(comment);
-                                }
+                                var ownedComment = (IComment)this.xmiElementReaderFacade.QueryXmiElement(xmlReader, this.Cache, this.LoggerFactory, "uml:Comment");
+                                poco.OwnedComment.Add(ownedComment);
                                 break;
                             default:
                                 var defaultLineInfo = xmlReader as IXmlLineInfo;
@@ -118,7 +125,7 @@ namespace uml4net.xmi.Readers.Values
                 }
             }
 
-            return literalBoolean;
+            return poco;
         }
     }
 }

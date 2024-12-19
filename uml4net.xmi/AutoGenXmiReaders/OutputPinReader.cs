@@ -1,0 +1,382 @@
+﻿// -------------------------------------------------------------------------------------------------
+// <copyright file="OutputPinReader.cs" company="Starion Group S.A.">
+//
+//   Copyright (C) 2019-2024 Starion Group S.A.
+//
+//   Licensed under the Apache License, Version 2.0 (the "License");
+//   you may not use this file except in compliance with the License.
+//   You may obtain a copy of the License at
+//
+//       http://www.apache.org/licenses/LICENSE-2.0
+//
+//   Unless required by applicable law or agreed to in writing, software
+//   distributed under the License is distributed on an "AS IS" BASIS,
+//   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+//   See the License for the specific language governing permissions and
+//   limitations under the License.
+//
+// </copyright>
+// ------------------------------------------------------------------------------------------------
+
+// ------------------------------------------------------------------------------------------------
+// --------THIS IS AN AUTOMATICALLY GENERATED FILE. ANY MANUAL CHANGES WILL BE OVERWRITTEN!--------
+// ------------------------------------------------------------------------------------------------
+
+namespace uml4net.xmi.Readers.Actions
+{
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Xml;
+
+    using Microsoft.Extensions.Logging;
+
+    using uml4net;
+    using uml4net.Actions;
+    using uml4net.Activities;
+    using uml4net.Classification;
+    using uml4net.CommonBehavior;
+    using uml4net.CommonStructure;
+    using uml4net.Deployments;
+    using uml4net.Packages;
+    using uml4net.SimpleClassifiers;
+    using uml4net.StructuredClassifiers;
+    using uml4net.UseCases;
+    using uml4net.Utils;
+    using uml4net.Values;
+    using uml4net.xmi.Cache;
+    using uml4net.xmi.Readers;
+
+    /// <summary>
+    /// The purpose of the <see cref="OutputPinReader"/> is to read an instance of <see cref="IOutputPin"/>
+    /// from the XMI document
+    /// </summary>
+    public class OutputPinReader : XmiElementReader<IOutputPin>, IXmiElementReader<IOutputPin>
+    {
+        private readonly IXmiElementReaderFacade xmiElementReaderFacade;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="OutputPinReader"/> class.
+        /// </summary>
+        /// <param name="cache">
+        /// The cache in which each <see cref="IXmiElement"/>> is stored
+        /// </param>
+        /// <param name="loggerFactory">
+        /// The (injected) <see cref="ILoggerFactory"/> used to set up logging
+        /// </param>
+        public OutputPinReader(IXmiReaderCache cache, ILoggerFactory loggerFactory)
+            : base(cache, loggerFactory)
+        {
+            this.xmiElementReaderFacade = new XmiElementReaderFacade();
+        }
+
+        /// <summary>
+        /// Reads the <see cref="IOutputPin"/> object from its XML representation
+        /// </summary>
+        /// <param name="xmlReader">
+        /// an instance of <see cref="XmlReader"/>
+        /// </param>
+        /// <returns>
+        /// an instance of <see cref="IOutputPin"/>
+        /// </returns>
+        public override IOutputPin Read(XmlReader xmlReader)
+        {
+            if (xmlReader == null)
+            {
+                throw new ArgumentNullException(nameof(xmlReader));
+            }
+
+            IOutputPin poco = new OutputPin();
+
+            if (xmlReader.MoveToContent() == XmlNodeType.Element)
+            {
+                var xmiType = xmlReader.GetAttribute("xmi:type");
+
+                if (!string.IsNullOrEmpty(xmiType) && xmiType != "uml:OutputPin")
+                {
+                    throw new XmlException($"The XmiType should be 'uml:OutputPin' while it is {xmiType}");
+                }
+                else
+                {
+                    xmiType = "uml:OutputPin";
+                }
+
+                poco.XmiType = xmiType;
+
+                poco.XmiId = xmlReader.GetAttribute("xmi:id");
+
+                this.Cache.Add(poco.XmiId, poco);
+
+                var activityXmlAttribute = xmlReader.GetAttribute("activity");
+                if (!string.IsNullOrEmpty(activityXmlAttribute))
+                {
+                    poco.SingleValueReferencePropertyIdentifiers.Add("activity", activityXmlAttribute);
+                }
+
+                var incomingXmlAttribute = xmlReader.GetAttribute("incoming");
+                if (!string.IsNullOrEmpty(incomingXmlAttribute))
+                {
+                    var incomingXmlAttributeValues = incomingXmlAttribute.Split(SplitMultiReference, StringSplitOptions.RemoveEmptyEntries).ToList();
+                    poco.MultiValueReferencePropertyIdentifiers.Add("incoming", incomingXmlAttributeValues);
+                }
+
+                var inInterruptibleRegionXmlAttribute = xmlReader.GetAttribute("inInterruptibleRegion");
+                if (!string.IsNullOrEmpty(inInterruptibleRegionXmlAttribute))
+                {
+                    var inInterruptibleRegionXmlAttributeValues = inInterruptibleRegionXmlAttribute.Split(SplitMultiReference, StringSplitOptions.RemoveEmptyEntries).ToList();
+                    poco.MultiValueReferencePropertyIdentifiers.Add("inInterruptibleRegion", inInterruptibleRegionXmlAttributeValues);
+                }
+
+                var inPartitionXmlAttribute = xmlReader.GetAttribute("inPartition");
+                if (!string.IsNullOrEmpty(inPartitionXmlAttribute))
+                {
+                    var inPartitionXmlAttributeValues = inPartitionXmlAttribute.Split(SplitMultiReference, StringSplitOptions.RemoveEmptyEntries).ToList();
+                    poco.MultiValueReferencePropertyIdentifiers.Add("inPartition", inPartitionXmlAttributeValues);
+                }
+
+                var inStateXmlAttribute = xmlReader.GetAttribute("inState");
+                if (!string.IsNullOrEmpty(inStateXmlAttribute))
+                {
+                    var inStateXmlAttributeValues = inStateXmlAttribute.Split(SplitMultiReference, StringSplitOptions.RemoveEmptyEntries).ToList();
+                    poco.MultiValueReferencePropertyIdentifiers.Add("inState", inStateXmlAttributeValues);
+                }
+
+                var inStructuredNodeXmlAttribute = xmlReader.GetAttribute("inStructuredNode");
+                if (!string.IsNullOrEmpty(inStructuredNodeXmlAttribute))
+                {
+                    poco.SingleValueReferencePropertyIdentifiers.Add("inStructuredNode", inStructuredNodeXmlAttribute);
+                }
+
+                var isControlXmlAttribute = xmlReader.GetAttribute("isControl");
+                if (!string.IsNullOrEmpty(isControlXmlAttribute))
+                {
+                    poco.IsControl = bool.Parse(isControlXmlAttribute);
+                }
+
+                var isControlTypeXmlAttribute = xmlReader.GetAttribute("isControlType");
+                if (!string.IsNullOrEmpty(isControlTypeXmlAttribute))
+                {
+                    poco.IsControlType = bool.Parse(isControlTypeXmlAttribute);
+                }
+
+                var isLeafXmlAttribute = xmlReader.GetAttribute("isLeaf");
+                if (!string.IsNullOrEmpty(isLeafXmlAttribute))
+                {
+                    poco.IsLeaf = bool.Parse(isLeafXmlAttribute);
+                }
+
+                var isOrderedXmlAttribute = xmlReader.GetAttribute("isOrdered");
+                if (!string.IsNullOrEmpty(isOrderedXmlAttribute))
+                {
+                    poco.IsOrdered = bool.Parse(isOrderedXmlAttribute);
+                }
+
+                var isUniqueXmlAttribute = xmlReader.GetAttribute("isUnique");
+                if (!string.IsNullOrEmpty(isUniqueXmlAttribute))
+                {
+                    poco.IsUnique = bool.Parse(isUniqueXmlAttribute);
+                }
+
+                poco.Name = xmlReader.GetAttribute("name");
+
+                var orderingXmlAttribute = xmlReader.GetAttribute("ordering");
+                if (!string.IsNullOrEmpty(orderingXmlAttribute))
+                {
+                    poco.Ordering = (ObjectNodeOrderingKind)Enum.Parse(typeof(ObjectNodeOrderingKind), orderingXmlAttribute, true);
+                }
+
+                var outgoingXmlAttribute = xmlReader.GetAttribute("outgoing");
+                if (!string.IsNullOrEmpty(outgoingXmlAttribute))
+                {
+                    var outgoingXmlAttributeValues = outgoingXmlAttribute.Split(SplitMultiReference, StringSplitOptions.RemoveEmptyEntries).ToList();
+                    poco.MultiValueReferencePropertyIdentifiers.Add("outgoing", outgoingXmlAttributeValues);
+                }
+
+                var redefinedNodeXmlAttribute = xmlReader.GetAttribute("redefinedNode");
+                if (!string.IsNullOrEmpty(redefinedNodeXmlAttribute))
+                {
+                    var redefinedNodeXmlAttributeValues = redefinedNodeXmlAttribute.Split(SplitMultiReference, StringSplitOptions.RemoveEmptyEntries).ToList();
+                    poco.MultiValueReferencePropertyIdentifiers.Add("redefinedNode", redefinedNodeXmlAttributeValues);
+                }
+
+                var selectionXmlAttribute = xmlReader.GetAttribute("selection");
+                if (!string.IsNullOrEmpty(selectionXmlAttribute))
+                {
+                    poco.SingleValueReferencePropertyIdentifiers.Add("selection", selectionXmlAttribute);
+                }
+
+                var typeXmlAttribute = xmlReader.GetAttribute("type");
+                if (!string.IsNullOrEmpty(typeXmlAttribute))
+                {
+                    poco.SingleValueReferencePropertyIdentifiers.Add("type", typeXmlAttribute);
+                }
+
+                var visibilityXmlAttribute = xmlReader.GetAttribute("visibility");
+                if (!string.IsNullOrEmpty(visibilityXmlAttribute))
+                {
+                    poco.Visibility = (VisibilityKind)Enum.Parse(typeof(VisibilityKind), visibilityXmlAttribute, true);
+                }
+
+
+                var incoming = new List<string>();
+                var inInterruptibleRegion = new List<string>();
+                var inPartition = new List<string>();
+                var inState = new List<string>();
+                var outgoing = new List<string>();
+                var redefinedNode = new List<string>();
+
+                while (xmlReader.Read())
+                {
+                    if (xmlReader.NodeType == XmlNodeType.Element)
+                    {
+                        switch (xmlReader.LocalName)
+                        {
+                            case "activity":
+                                this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "activity");
+                                break;
+                            case "incoming":
+                                this.CollectMultiValueReferencePropertyIdentifiers(xmlReader, incoming, "incoming");
+                                break;
+                            case "inInterruptibleRegion":
+                                this.CollectMultiValueReferencePropertyIdentifiers(xmlReader, inInterruptibleRegion, "inInterruptibleRegion");
+                                break;
+                            case "inPartition":
+                                this.CollectMultiValueReferencePropertyIdentifiers(xmlReader, inPartition, "inPartition");
+                                break;
+                            case "inState":
+                                this.CollectMultiValueReferencePropertyIdentifiers(xmlReader, inState, "inState");
+                                break;
+                            case "inStructuredNode":
+                                this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "inStructuredNode");
+                                break;
+                            case "isControl":
+                                var isControlXmlElement = xmlReader.ReadElementContentAsString();
+                                if (!string.IsNullOrEmpty(isControlXmlElement))
+                                {
+                                    poco.IsControl = bool.Parse(isControlXmlElement);
+                                }
+                                break;
+                            case "isControlType":
+                                var isControlTypeXmlElement = xmlReader.ReadElementContentAsString();
+                                if (!string.IsNullOrEmpty(isControlTypeXmlElement))
+                                {
+                                    poco.IsControlType = bool.Parse(isControlTypeXmlElement);
+                                }
+                                break;
+                            case "isLeaf":
+                                var isLeafXmlElement = xmlReader.ReadElementContentAsString();
+                                if (!string.IsNullOrEmpty(isLeafXmlElement))
+                                {
+                                    poco.IsLeaf = bool.Parse(isLeafXmlElement);
+                                }
+                                break;
+                            case "isOrdered":
+                                var isOrderedXmlElement = xmlReader.ReadElementContentAsString();
+                                if (!string.IsNullOrEmpty(isOrderedXmlElement))
+                                {
+                                    poco.IsOrdered = bool.Parse(isOrderedXmlElement);
+                                }
+                                break;
+                            case "isUnique":
+                                var isUniqueXmlElement = xmlReader.ReadElementContentAsString();
+                                if (!string.IsNullOrEmpty(isUniqueXmlElement))
+                                {
+                                    poco.IsUnique = bool.Parse(isUniqueXmlElement);
+                                }
+                                break;
+                            case "lowerValue":
+                                var lowerValue = (IValueSpecification)this.xmiElementReaderFacade.QueryXmiElement(xmlReader, this.Cache, this.LoggerFactory);
+                                poco.LowerValue.Add(lowerValue);
+                                break;
+                            case "name":
+                                poco.Name = xmlReader.ReadElementContentAsString();
+                                break;
+                            case "nameExpression":
+                                var nameExpression = (IStringExpression)this.xmiElementReaderFacade.QueryXmiElement(xmlReader, this.Cache, this.LoggerFactory, "uml:StringExpression");
+                                poco.NameExpression.Add(nameExpression);
+                                break;
+                            case "ordering":
+                                var orderingXmlElement = xmlReader.ReadElementContentAsString();
+                                if (!string.IsNullOrEmpty(orderingXmlElement))
+                                {
+                                    poco.Ordering = (ObjectNodeOrderingKind)Enum.Parse(typeof(ObjectNodeOrderingKind), orderingXmlElement, true); ;
+                                }
+                                break;
+                            case "outgoing":
+                                this.CollectMultiValueReferencePropertyIdentifiers(xmlReader, outgoing, "outgoing");
+                                break;
+                            case "ownedComment":
+                                var ownedComment = (IComment)this.xmiElementReaderFacade.QueryXmiElement(xmlReader, this.Cache, this.LoggerFactory, "uml:Comment");
+                                poco.OwnedComment.Add(ownedComment);
+                                break;
+                            case "redefinedNode":
+                                this.CollectMultiValueReferencePropertyIdentifiers(xmlReader, redefinedNode, "redefinedNode");
+                                break;
+                            case "selection":
+                                this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "selection");
+                                break;
+                            case "type":
+                                this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "type");
+                                break;
+                            case "upperBound":
+                                var upperBound = (IValueSpecification)this.xmiElementReaderFacade.QueryXmiElement(xmlReader, this.Cache, this.LoggerFactory);
+                                poco.UpperBound.Add(upperBound);
+                                break;
+                            case "upperValue":
+                                var upperValue = (IValueSpecification)this.xmiElementReaderFacade.QueryXmiElement(xmlReader, this.Cache, this.LoggerFactory);
+                                poco.UpperValue.Add(upperValue);
+                                break;
+                            case "visibility":
+                                var visibilityXmlElement = xmlReader.ReadElementContentAsString();
+                                if (!string.IsNullOrEmpty(visibilityXmlElement))
+                                {
+                                    poco.Visibility = (VisibilityKind)Enum.Parse(typeof(VisibilityKind), visibilityXmlElement, true); ;
+                                }
+                                break;
+                            default:
+                                var defaultLineInfo = xmlReader as IXmlLineInfo;
+                                throw new NotSupportedException($"OutputPinReader: {xmlReader.LocalName} at line:position {defaultLineInfo.LineNumber}:{defaultLineInfo.LinePosition}");
+                        }
+                    }
+                }
+
+                if (incoming.Count > 0)
+                {
+                    poco.MultiValueReferencePropertyIdentifiers.Add("incoming", incoming);
+                }
+
+                if (inInterruptibleRegion.Count > 0)
+                {
+                    poco.MultiValueReferencePropertyIdentifiers.Add("inInterruptibleRegion", inInterruptibleRegion);
+                }
+
+                if (inPartition.Count > 0)
+                {
+                    poco.MultiValueReferencePropertyIdentifiers.Add("inPartition", inPartition);
+                }
+
+                if (inState.Count > 0)
+                {
+                    poco.MultiValueReferencePropertyIdentifiers.Add("inState", inState);
+                }
+
+                if (outgoing.Count > 0)
+                {
+                    poco.MultiValueReferencePropertyIdentifiers.Add("outgoing", outgoing);
+                }
+
+                if (redefinedNode.Count > 0)
+                {
+                    poco.MultiValueReferencePropertyIdentifiers.Add("redefinedNode", redefinedNode);
+                }
+
+            }
+
+            return poco;
+        }
+    }
+}
+
+// ------------------------------------------------------------------------------------------------
+// --------THIS IS AN AUTOMATICALLY GENERATED FILE. ANY MANUAL CHANGES WILL BE OVERWRITTEN!--------
+// ------------------------------------------------------------------------------------------------

@@ -24,6 +24,7 @@
 
 namespace uml4net.CommonStructure
 {
+    using System;
     using System.Collections.Generic;
 
     using uml4net.Decorators;

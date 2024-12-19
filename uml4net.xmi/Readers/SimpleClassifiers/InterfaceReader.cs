@@ -21,18 +21,28 @@
 namespace uml4net.xmi.Readers.SimpleClassifiers
 {
     using System;
+    using System.Collections.Generic;
+    using System.Linq;
     using System.Xml;
 
     using Microsoft.Extensions.Logging;
 
     using uml4net;
     using uml4net.Classification;
+    using uml4net.CommonBehavior;
     using uml4net.CommonStructure;
+    using uml4net.Deployments;
     using uml4net.Packages;
     using uml4net.SimpleClassifiers;
+    using uml4net.StructuredClassifiers;
+    using uml4net.UseCases;
     using uml4net.Utils;
+    using uml4net.Values;
     using uml4net.xmi.Cache;
     using uml4net.xmi.Readers;
+    using uml4net.xmi.Readers.Classification;
+    using uml4net.xmi.Readers.CommonStructure;
+    using uml4net.xmi.Readers.Values;
 
     /// <summary>
     /// The purpose of the <see cref="InterfaceReader"/> is to read an instance of <see cref="IInterface"/>
@@ -40,38 +50,21 @@ namespace uml4net.xmi.Readers.SimpleClassifiers
     /// </summary>
     public class InterfaceReader : XmiElementReader<IInterface>, IXmiElementReader<IInterface>
     {
-        /// <summary>
-        /// Gets the INJECTED <see cref="IXmiElementReader{T}"/> of <see cref="IConstraint"/>
-        /// </summary>
-        public IXmiElementReader<IConstraint> ConstraintReader { get; set; }
+        private readonly IXmiElementReaderFacade xmiElementReaderFacade;
 
         /// <summary>
-        /// Gets the INJECTED <see cref="IXmiElementReader{T}"/> of <see cref="IProperty"/>
-        /// </summary>
-        public IXmiElementReader<IProperty> PropertyReader { get; set; }
-
-        /// <summary>
-        /// Gets the INJECTED <see cref="IXmiElementReader{T}"/> of <see cref="IGeneralization"/>
-        /// </summary>
-        public IXmiElementReader<IGeneralization> GeneralizationReader { get; set; }
-
-        /// <summary>
-        /// Gets the INJECTED <see cref="IXmiElementReader{T}"/> of <see cref="IComment"/>
-        /// </summary>
-        public IXmiElementReader<IComment> CommentReader { get; set; }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="PackageReader"/> class.
+        /// Initializes a new instance of the <see cref="InterfaceReader"/> class.
         /// </summary>
         /// <param name="cache">
         /// The cache in which each <see cref="IXmiElement"/>> is stored
         /// </param>
-        /// <param name="logger">
-        /// The (injected) <see cref="ILogger{T}"/> used to setup logging
+        /// <param name="loggerFactory">
+        /// The (injected) <see cref="ILoggerFactory"/> used to set up logging
         /// </param>
-        public InterfaceReader(IXmiReaderCache cache, ILogger<InterfaceReader> logger)
-            : base(cache, logger)
+        public InterfaceReader(IXmiReaderCache cache, ILoggerFactory loggerFactory)
+            : base(cache, loggerFactory)
         {
+            this.xmiElementReaderFacade = new XmiElementReaderFacade();
         }
 
         /// <summary>
@@ -87,7 +80,7 @@ namespace uml4net.xmi.Readers.SimpleClassifiers
         {
             Guard.ThrowIfNull(xmlReader);
 
-            IInterface @interface = new Interface();
+            IInterface poco = new Interface();
 
             if (xmlReader.MoveToContent() == XmlNodeType.Element)
             {
@@ -102,24 +95,24 @@ namespace uml4net.xmi.Readers.SimpleClassifiers
                     xmiType = "uml:Interface";
                 }
 
-                @interface.XmiType = xmiType;
+                poco.XmiType = xmiType;
 
-                @interface.XmiId = xmlReader.GetAttribute("xmi:id");
+                poco.XmiId = xmlReader.GetAttribute("xmi:id");
 
-                this.Cache.Add(@interface.XmiId, @interface);
+                this.Cache.Add(poco.XmiId, poco);
 
-                @interface.Name = xmlReader.GetAttribute("name");
+                poco.Name = xmlReader.GetAttribute("name");
 
                 var isAbstract = xmlReader.GetAttribute("isAbstract");
                 if (!string.IsNullOrEmpty(isAbstract))
                 {
-                    @interface.IsAbstract = bool.Parse(isAbstract);
+                    poco.IsAbstract = bool.Parse(isAbstract);
                 }
 
                 var visibility = xmlReader.GetAttribute("visibility");
                 if (!string.IsNullOrEmpty(visibility))
                 {
-                    @interface.Visibility = (VisibilityKind)Enum.Parse(typeof(VisibilityKind), visibility, true);
+                    poco.Visibility = (VisibilityKind)Enum.Parse(typeof(VisibilityKind), visibility, true);
                 }
 
                 while (xmlReader.Read())
@@ -129,24 +122,19 @@ namespace uml4net.xmi.Readers.SimpleClassifiers
                         switch (xmlReader.LocalName)
                         {
                             case "ownedComment":
-                                using (var ownedCommentXmlReader = xmlReader.ReadSubtree())
-                                {
-                                    var comment = this.CommentReader.Read(ownedCommentXmlReader);
-                                    @interface.OwnedComment.Add(comment);
-                                }
+                                var ownedComment = (IComment)this.xmiElementReaderFacade.QueryXmiElement(xmlReader, this.Cache, this.LoggerFactory, "uml:Comment");
+                                poco.OwnedComment.Add(ownedComment);
                                 break;
                             case "ownedRule":
-                                using (var ownedRuleXmlReader = xmlReader.ReadSubtree())
-                                {
-                                    var constraint = this.ConstraintReader.Read(ownedRuleXmlReader);
-                                    @interface.OwnedRule.Add(constraint);
-                                }
+                                var ownedRule = (IConstraint)this.xmiElementReaderFacade.QueryXmiElement(xmlReader, this.Cache, this.LoggerFactory, "uml:Constraint");
+                                poco.OwnedRule.Add(ownedRule);
                                 break;
                             case "ownedAttribute":
                                 using (var ownedAttributeXmlReader = xmlReader.ReadSubtree())
                                 {
-                                    var property = this.PropertyReader.Read(ownedAttributeXmlReader);
-                                    @interface.Attribute.Add(property);
+                                    var propertyReader = new PropertyReader(this.Cache, this.LoggerFactory);
+                                    var property = propertyReader.Read(ownedAttributeXmlReader);
+                                    poco.Attribute.Add(property);
                                 }
                                 break;
                             case "ownedOperation":
@@ -158,8 +146,9 @@ namespace uml4net.xmi.Readers.SimpleClassifiers
                             case "generalization":
                                 using (var generalizationXmlReader = xmlReader.ReadSubtree())
                                 {
-                                    var generalization = this.GeneralizationReader.Read(generalizationXmlReader);
-                                    @interface.Generalization.Add(generalization);
+                                    var generalizationReader = new GeneralizationReader(this.Cache, this.LoggerFactory);
+                                    var generalization = generalizationReader.Read(generalizationXmlReader);
+                                    poco.Generalization.Add(generalization);
                                 }
                                 break;
                             default:
@@ -170,7 +159,7 @@ namespace uml4net.xmi.Readers.SimpleClassifiers
                 }
             }
 
-            return @interface;
+            return poco;
         }
     }
 }

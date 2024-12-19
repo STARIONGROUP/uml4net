@@ -24,6 +24,7 @@
 
 namespace uml4net.Actions
 {
+    using System;
     using System.Collections.Generic;
 
     using uml4net.Decorators;
@@ -67,7 +68,7 @@ namespace uml4net.Actions
         [RedefinedProperty(propertyName: "ActivityGroup-inActivity")]
         [RedefinedProperty(propertyName: "ActivityNode-activity")]
         [Implements(implementation: "IStructuredActivityNode.Activity")]
-        public new IActivity Activity { get; set; }
+        public IActivity Activity { get; set; }
 
         /// <summary>
         /// The Activity containing the ActivityNode, if it is directly owned by an Activity.
@@ -76,7 +77,11 @@ namespace uml4net.Actions
         [SubsettedProperty(propertyName: "Element-owner")]
         [RedefinedByProperty("IStructuredActivityNode.Activity")]
         [Implements(implementation: "IActivityNode.Activity")]
-        IActivity IActivityNode.Activity { get; set; }
+        IActivity IActivityNode.Activity
+        {
+            get => throw new InvalidOperationException("Redefined by property IStructuredActivityNode.Activity");
+            set => throw new InvalidOperationException("Redefined by property IStructuredActivityNode.Activity");
+        }
 
         /// <summary>
         /// Indicates the Dependencies that reference this NamedElement as a client.
@@ -177,7 +182,11 @@ namespace uml4net.Actions
         [SubsettedProperty(propertyName: "Element-owner")]
         [RedefinedByProperty("IStructuredActivityNode.Activity")]
         [Implements(implementation: "IActivityGroup.InActivity")]
-        IActivity IActivityGroup.InActivity { get; set; }
+        IActivity IActivityGroup.InActivity
+        {
+            get => throw new InvalidOperationException("Redefined by property IStructuredActivityNode.Activity");
+            set => throw new InvalidOperationException("Redefined by property IStructuredActivityNode.Activity");
+        }
 
         /// <summary>
         /// ActivityEdges that have the ActivityNode as their target.

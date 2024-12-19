@@ -24,6 +24,7 @@
 
 namespace uml4net.Actions
 {
+    using System;
     using System.Collections.Generic;
 
     using uml4net.Decorators;
@@ -86,7 +87,7 @@ namespace uml4net.Actions
         [Property(xmiId: "CreateLinkAction-endData", aggregation: AggregationKind.Composite, lowerValue: 2, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
         [RedefinedProperty(propertyName: "LinkAction-endData")]
         [Implements(implementation: "ICreateLinkAction.EndData")]
-        public new IContainerList<ILinkEndCreationData> EndData
+        public IContainerList<ILinkEndCreationData> EndData
         {
             get => this.endData ??= new ContainerList<ILinkEndCreationData>(this);
             set => this.endData = value;
@@ -104,7 +105,11 @@ namespace uml4net.Actions
         [SubsettedProperty(propertyName: "Element-ownedElement")]
         [RedefinedByProperty("ICreateLinkAction.EndData")]
         [Implements(implementation: "ILinkAction.EndData")]
-        IContainerList<ILinkEndData> ILinkAction.EndData { get; set; }
+        IContainerList<ILinkEndData> ILinkAction.EndData
+        {
+            get => throw new InvalidOperationException("Redefined by property ICreateLinkAction.EndData");
+            set => throw new InvalidOperationException("Redefined by property ICreateLinkAction.EndData");
+        }
 
         /// <summary>
         /// A set of ExceptionHandlers that are examined if an exception propagates out of the ExceptionNode.

@@ -24,6 +24,7 @@
 
 namespace uml4net.StateMachines
 {
+    using System;
     using System.Collections.Generic;
 
     using uml4net.Decorators;
@@ -414,7 +415,7 @@ namespace uml4net.StateMachines
         [Property(xmiId: "State-redefinitionContext", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: false, isUnique: false, defaultValue: null)]
         [RedefinedProperty(propertyName: "RedefinableElement-redefinitionContext")]
         [Implements(implementation: "IVertex.RedefinitionContext")]
-        public new IClassifier RedefinitionContext => this.QueryRedefinitionContext();
+        public IClassifier RedefinitionContext => this.QueryRedefinitionContext();
 
         /// <summary>
         /// The contexts that this element may be redefined from.

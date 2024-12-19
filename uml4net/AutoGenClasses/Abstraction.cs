@@ -24,6 +24,7 @@
 
 namespace uml4net.CommonStructure
 {
+    using System;
     using System.Collections.Generic;
 
     using uml4net.Decorators;
@@ -222,7 +223,7 @@ namespace uml4net.CommonStructure
         [Property(xmiId: "PackageableElement-visibility", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: "public")]
         [RedefinedProperty(propertyName: "NamedElement-visibility")]
         [Implements(implementation: "IPackageableElement.Visibility")]
-        public new VisibilityKind Visibility { get; set; }
+        public VisibilityKind Visibility { get; set; }
 
         /// <summary>
         /// Determines whether and how the NamedElement is visible outside its owning Namespace.
@@ -230,7 +231,11 @@ namespace uml4net.CommonStructure
         [Property(xmiId: "NamedElement-visibility", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
         [RedefinedByProperty("IPackageableElement.Visibility")]
         [Implements(implementation: "INamedElement.Visibility")]
-        VisibilityKind INamedElement.Visibility { get; set; }
+        VisibilityKind INamedElement.Visibility
+        {
+            get => throw new InvalidOperationException("Redefined by property IPackageableElement.Visibility");
+            set => throw new InvalidOperationException("Redefined by property IPackageableElement.Visibility");
+        }
 
     }
 }

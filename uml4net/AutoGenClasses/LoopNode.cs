@@ -24,6 +24,7 @@
 
 namespace uml4net.Actions
 {
+    using System;
     using System.Collections.Generic;
 
     using uml4net.Decorators;
@@ -64,7 +65,7 @@ namespace uml4net.Actions
         [RedefinedProperty(propertyName: "ActivityGroup-inActivity")]
         [RedefinedProperty(propertyName: "ActivityNode-activity")]
         [Implements(implementation: "IStructuredActivityNode.Activity")]
-        public new IActivity Activity { get; set; }
+        public IActivity Activity { get; set; }
 
         /// <summary>
         /// The Activity containing the ActivityNode, if it is directly owned by an Activity.
@@ -73,7 +74,11 @@ namespace uml4net.Actions
         [SubsettedProperty(propertyName: "Element-owner")]
         [RedefinedByProperty("IStructuredActivityNode.Activity")]
         [Implements(implementation: "IActivityNode.Activity")]
-        IActivity IActivityNode.Activity { get; set; }
+        IActivity IActivityNode.Activity
+        {
+            get => throw new InvalidOperationException("Redefined by property IStructuredActivityNode.Activity");
+            set => throw new InvalidOperationException("Redefined by property IStructuredActivityNode.Activity");
+        }
 
         /// <summary>
         /// The OutputPins on Actions within the bodyPart, the values of which are moved to the loopVariable
@@ -199,7 +204,11 @@ namespace uml4net.Actions
         [SubsettedProperty(propertyName: "Element-owner")]
         [RedefinedByProperty("IStructuredActivityNode.Activity")]
         [Implements(implementation: "IActivityGroup.InActivity")]
-        IActivity IActivityGroup.InActivity { get; set; }
+        IActivity IActivityGroup.InActivity
+        {
+            get => throw new InvalidOperationException("Redefined by property IStructuredActivityNode.Activity");
+            set => throw new InvalidOperationException("Redefined by property IStructuredActivityNode.Activity");
+        }
 
         /// <summary>
         /// ActivityEdges that have the ActivityNode as their target.
@@ -333,7 +342,7 @@ namespace uml4net.Actions
         [Property(xmiId: "LoopNode-loopVariableInput", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: true, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
         [RedefinedProperty(propertyName: "StructuredActivityNode-structuredNodeInput")]
         [Implements(implementation: "ILoopNode.LoopVariableInput")]
-        public new IContainerList<IInputPin> LoopVariableInput
+        public IContainerList<IInputPin> LoopVariableInput
         {
             get => this.loopVariableInput ??= new ContainerList<IInputPin>(this);
             set => this.loopVariableInput = value;
@@ -542,7 +551,7 @@ namespace uml4net.Actions
         [Property(xmiId: "LoopNode-result", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: true, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
         [RedefinedProperty(propertyName: "StructuredActivityNode-structuredNodeOutput")]
         [Implements(implementation: "ILoopNode.Result")]
-        public new IContainerList<IOutputPin> Result
+        public IContainerList<IOutputPin> Result
         {
             get => this.result ??= new ContainerList<IOutputPin>(this);
             set => this.result = value;
@@ -568,7 +577,11 @@ namespace uml4net.Actions
         [SubsettedProperty(propertyName: "Action-input")]
         [RedefinedByProperty("ILoopNode.LoopVariableInput")]
         [Implements(implementation: "IStructuredActivityNode.StructuredNodeInput")]
-        IContainerList<IInputPin> IStructuredActivityNode.StructuredNodeInput { get; set; }
+        IContainerList<IInputPin> IStructuredActivityNode.StructuredNodeInput
+        {
+            get => throw new InvalidOperationException("Redefined by property ILoopNode.LoopVariableInput");
+            set => throw new InvalidOperationException("Redefined by property ILoopNode.LoopVariableInput");
+        }
 
         /// <summary>
         /// The OutputPins owned by the StructuredActivityNode.
@@ -577,7 +590,11 @@ namespace uml4net.Actions
         [SubsettedProperty(propertyName: "Action-output")]
         [RedefinedByProperty("ILoopNode.Result")]
         [Implements(implementation: "IStructuredActivityNode.StructuredNodeOutput")]
-        IContainerList<IOutputPin> IStructuredActivityNode.StructuredNodeOutput { get; set; }
+        IContainerList<IOutputPin> IStructuredActivityNode.StructuredNodeOutput
+        {
+            get => throw new InvalidOperationException("Redefined by property ILoopNode.Result");
+            set => throw new InvalidOperationException("Redefined by property ILoopNode.Result");
+        }
 
         /// <summary>
         /// Other ActivityGroups immediately contained in this ActivityGroup.

@@ -21,16 +21,28 @@
 namespace uml4net.xmi.Readers.Values
 {
     using System;
+    using System.Collections.Generic;
+    using System.Linq;
     using System.Xml;
 
     using Microsoft.Extensions.Logging;
 
     using uml4net;
+    using uml4net.Classification;
+    using uml4net.CommonBehavior;
     using uml4net.CommonStructure;
+    using uml4net.Deployments;
+    using uml4net.Packages;
+    using uml4net.SimpleClassifiers;
+    using uml4net.StructuredClassifiers;
+    using uml4net.UseCases;
     using uml4net.Utils;
     using uml4net.Values;
     using uml4net.xmi.Cache;
     using uml4net.xmi.Readers;
+    using uml4net.xmi.Readers.Classification;
+    using uml4net.xmi.Readers.CommonStructure;
+    using uml4net.xmi.Readers.Values;
 
     /// <summary>
     /// The purpose of the <see cref="LiteralStringReader"/> is to read an instance of <see cref="ILiteralString"/>
@@ -38,10 +50,7 @@ namespace uml4net.xmi.Readers.Values
     /// </summary>
     public class LiteralStringReader : XmiElementReader<ILiteralString>, IXmiElementReader<ILiteralString>
     {
-        /// <summary>
-        /// Gets the INJECTED <see cref="IXmiElementReader{T}"/> of <see cref="IComment"/>
-        /// </summary>
-        public IXmiElementReader<IComment> CommentReader { get; set; }
+        private readonly IXmiElementReaderFacade xmiElementReaderFacade;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="LiteralIntegerReader"/> class.
@@ -52,9 +61,10 @@ namespace uml4net.xmi.Readers.Values
         /// <param name="logger">
         /// The (injected) <see cref="ILogger{T}"/> used to setup logging
         /// </param>
-        public LiteralStringReader(IXmiReaderCache cache, ILogger<LiteralStringReader> logger)
-            : base(cache, logger)
+        public LiteralStringReader(IXmiReaderCache cache, ILoggerFactory loggerFactory)
+            : base(cache, loggerFactory)
         {
+            this.xmiElementReaderFacade = new XmiElementReaderFacade();
         }
 
         /// <summary>
@@ -70,7 +80,7 @@ namespace uml4net.xmi.Readers.Values
         {
             Guard.ThrowIfNull(xmlReader);
 
-            ILiteralString literalString = new LiteralString();
+            ILiteralString poco = new LiteralString();
 
             if (xmlReader.MoveToContent() == XmlNodeType.Element)
             {
@@ -85,13 +95,13 @@ namespace uml4net.xmi.Readers.Values
                     xmiType = "uml:LiteralString";
                 }
 
-                literalString.XmiType = xmiType;
+                poco.XmiType = xmiType;
 
-                literalString.XmiId = xmlReader.GetAttribute("xmi:id");
+                poco.XmiId = xmlReader.GetAttribute("xmi:id");
 
-                this.Cache.Add(literalString.XmiId, literalString);
+                this.Cache.Add(poco.XmiId, poco);
 
-                literalString.Value = xmlReader.GetAttribute("value");
+                poco.Value = xmlReader.GetAttribute("value");
                 
                 while (xmlReader.Read())
                 {
@@ -100,11 +110,8 @@ namespace uml4net.xmi.Readers.Values
                         switch (xmlReader.LocalName)
                         {
                             case "ownedComment":
-                                using (var ownedCommentXmlReader = xmlReader.ReadSubtree())
-                                {
-                                    var comment = this.CommentReader.Read(ownedCommentXmlReader);
-                                    literalString.OwnedComment.Add(comment);
-                                }
+                                var ownedComment = (IComment)this.xmiElementReaderFacade.QueryXmiElement(xmlReader, this.Cache, this.LoggerFactory, "uml:Comment");
+                                poco.OwnedComment.Add(ownedComment);
                                 break;
                             default:
                                 var defaultLineInfo = xmlReader as IXmlLineInfo;
@@ -114,7 +121,7 @@ namespace uml4net.xmi.Readers.Values
                 }
             }
 
-            return literalString;
+            return poco;
         }
     }
 }

@@ -1,0 +1,112 @@
+﻿// -------------------------------------------------------------------------------------------------
+// <copyright file="XmiElementReaderFacade.cs" company="Starion Group S.A.">
+//
+//   Copyright (C) 2019-2024 Starion Group S.A.
+//
+//   Licensed under the Apache License, Version 2.0 (the "License");
+//   you may not use this file except in compliance with the License.
+//   You may obtain a copy of the License at
+//
+//       http://www.apache.org/licenses/LICENSE-2.0
+//
+//   Unless required by applicable law or agreed to in writing, software
+//   distributed under the License is distributed on an "AS IS" BASIS,
+//   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+//   See the License for the specific language governing permissions and
+//   limitations under the License.
+//
+// </copyright>
+// ------------------------------------------------------------------------------------------------
+
+// ------------------------------------------------------------------------------------------------
+// --------THIS IS AN AUTOMATICALLY GENERATED FILE. ANY MANUAL CHANGES WILL BE OVERWRITTEN!--------
+// ------------------------------------------------------------------------------------------------
+
+namespace uml4net.xmi.Readers
+{
+    using System;
+    using System.Collections.Generic;
+    using System.Xml;
+    using Microsoft.Extensions.Logging;
+
+    using uml4net.xmi.Cache;
+    using uml4net.xmi.Readers.Classification;
+    using uml4net.xmi.Readers.Values;
+
+    /// <summary>
+    /// The purpose of the <see cref="XmiElementReaderFacade"/> is to read an <see cref="IXmiElement"/> from an
+    /// <see cref="XmlReader"/>
+    /// </summary>
+    public class XmiElementReaderFacade : IXmiElementReaderFacade
+    {
+        /// <summary>
+        /// A dictionary that contains functions that return <see cref="IXmiElement"/> based a key that represents the xmiType
+        /// and a provided <see cref="IXmiReaderCache"/>, <see cref="ILoggerFactory"/> and <see cref="XmlReader"/>
+        /// </summary>
+        private readonly Dictionary<string, Func<IXmiReaderCache, ILoggerFactory, XmlReader, IXmiElement>> readerCache;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="XmiElementReaderFacade"/>
+        /// </summary>
+        public XmiElementReaderFacade()
+        {
+            readerCache = new Dictionary<string, Func<IXmiReaderCache, ILoggerFactory, XmlReader, IXmiElement>>
+            {
+                {{ #each this as | class | }}
+                ["uml:{{ class.Name }}"] = (cache, loggerFactory, xmlReader) =>
+                {
+                    using var subXmlReader = xmlReader.ReadSubtree();
+                    var {{ String.LowerCaseFirstLetter class.Name }}Reader = new {{ class.Name }}Reader(cache, loggerFactory);
+                    return {{ String.LowerCaseFirstLetter class.Name }}Reader.Read(subXmlReader);
+                },
+                {{/each}}
+            };
+        }
+
+        /// <summary>
+        /// Queries an instance of an <see cref="IXmiElement"/> based on the position of the <see cref="XmlReader"/>. When the reader
+        /// is at an XML Element and has an attribute of xmi:type, the value of that attribute is used to select the appropriate
+        /// XmiElementReader from which the <see cref="IXmiElement"/> is returned.
+        /// </summary>
+        /// <param name="xmlReader">
+        /// An instance of <see cref="XmlReader"/>
+        /// </param>
+        /// <param name="cache">
+        /// The <see cref="IXmiReaderCache"/> in which all model instances are registered
+        /// </param>
+        /// <param name="loggerFactory">
+        /// The <see cref="ILoggerFactory"/> to set up logging
+        /// </param>
+        /// <returns>
+        /// an instance of <see cref="IXmiElement"/>
+        /// </returns>
+        /// <exception cref="InvalidOperationException">
+        /// thrown when the xmi:type is not supported and noXmiElementReader was found
+        /// </exception>
+        public IXmiElement QueryXmiElement(XmlReader xmlReader, IXmiReaderCache cache, ILoggerFactory loggerFactory)
+        {
+            var xmiType= xmlReader.GetAttribute("xmi:type");
+
+            if (xmiType == null && explicitTypeName != null)
+            {
+                xmiType = explicitTypeName;
+            }
+
+            if (xmiType == null)
+            {
+                throw new InvalidOperationException($"The xmi:type is not specified");
+            }
+
+            if (readerCache.TryGetValue(xmiType, out var readerFactory))
+            {
+                return readerFactory(cache, loggerFactory, xmlReader);
+            }
+
+            throw new InvalidOperationException($"No reader found for xmi:type - {xmiType}");
+        }
+    }
+}
+
+// ------------------------------------------------------------------------------------------------
+// --------THIS IS AN AUTOMATICALLY GENERATED FILE. ANY MANUAL CHANGES WILL BE OVERWRITTEN!--------
+// ------------------------------------------------------------------------------------------------

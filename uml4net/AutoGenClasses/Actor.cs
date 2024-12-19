@@ -24,6 +24,7 @@
 
 namespace uml4net.UseCases
 {
+    using System;
     using System.Collections.Generic;
 
     using uml4net.Decorators;
@@ -326,7 +327,7 @@ namespace uml4net.UseCases
         [SubsettedProperty(propertyName: "A_redefinitionContext_redefinableElement-redefinableElement")]
         [RedefinedProperty(propertyName: "TemplateableElement-ownedTemplateSignature")]
         [Implements(implementation: "IClassifier.OwnedTemplateSignature")]
-        public new IContainerList<IRedefinableTemplateSignature> OwnedTemplateSignature
+        public IContainerList<IRedefinableTemplateSignature> OwnedTemplateSignature
         {
             get => this.ownedTemplateSignature ??= new ContainerList<IRedefinableTemplateSignature>(this);
             set => this.ownedTemplateSignature = value;
@@ -345,7 +346,11 @@ namespace uml4net.UseCases
         [SubsettedProperty(propertyName: "Element-ownedElement")]
         [RedefinedByProperty("IClassifier.OwnedTemplateSignature")]
         [Implements(implementation: "ITemplateableElement.OwnedTemplateSignature")]
-        IContainerList<ITemplateSignature> ITemplateableElement.OwnedTemplateSignature { get; set; }
+        IContainerList<ITemplateSignature> ITemplateableElement.OwnedTemplateSignature
+        {
+            get => throw new InvalidOperationException("Redefined by property IClassifier.OwnedTemplateSignature");
+            set => throw new InvalidOperationException("Redefined by property IClassifier.OwnedTemplateSignature");
+        }
 
         /// <summary>
         /// The UseCases owned by this classifier.
@@ -494,7 +499,7 @@ namespace uml4net.UseCases
         [Property(xmiId: "Classifier-templateParameter", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
         [RedefinedProperty(propertyName: "ParameterableElement-templateParameter")]
         [Implements(implementation: "IClassifier.TemplateParameter")]
-        public new IClassifierTemplateParameter TemplateParameter { get; set; }
+        public IClassifierTemplateParameter TemplateParameter { get; set; }
 
         /// <summary>
         /// The TemplateParameter that exposes this ParameterableElement as a formal parameter.
@@ -502,7 +507,11 @@ namespace uml4net.UseCases
         [Property(xmiId: "ParameterableElement-templateParameter", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
         [RedefinedByProperty("IClassifier.TemplateParameter")]
         [Implements(implementation: "IParameterableElement.TemplateParameter")]
-        ITemplateParameter IParameterableElement.TemplateParameter { get; set; }
+        ITemplateParameter IParameterableElement.TemplateParameter
+        {
+            get => throw new InvalidOperationException("Redefined by property IClassifier.TemplateParameter");
+            set => throw new InvalidOperationException("Redefined by property IClassifier.TemplateParameter");
+        }
 
         /// <summary>
         /// The set of UseCases for which this Classifier is the subject.
@@ -517,7 +526,11 @@ namespace uml4net.UseCases
         [Property(xmiId: "NamedElement-visibility", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
         [RedefinedByProperty("IPackageableElement.Visibility")]
         [Implements(implementation: "INamedElement.Visibility")]
-        VisibilityKind INamedElement.Visibility { get; set; }
+        VisibilityKind INamedElement.Visibility
+        {
+            get => throw new InvalidOperationException("Redefined by property IPackageableElement.Visibility");
+            set => throw new InvalidOperationException("Redefined by property IPackageableElement.Visibility");
+        }
 
         /// <summary>
         /// A PackageableElement must have a visibility specified if it is owned by a Namespace. The default
@@ -526,7 +539,7 @@ namespace uml4net.UseCases
         [Property(xmiId: "PackageableElement-visibility", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: "public")]
         [RedefinedProperty(propertyName: "NamedElement-visibility")]
         [Implements(implementation: "IPackageableElement.Visibility")]
-        public new VisibilityKind Visibility { get; set; }
+        public VisibilityKind Visibility { get; set; }
 
     }
 }

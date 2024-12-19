@@ -26,16 +26,22 @@ namespace uml4net.xmi.Readers.{{this.Namespace.Name}}
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Xml;
 
     using Microsoft.Extensions.Logging;
 
     using uml4net;
+    using uml4net.Actions;
+    using uml4net.Activities;
     using uml4net.Classification;
     using uml4net.CommonBehavior;
     using uml4net.CommonStructure;
+    using uml4net.Deployments;
+    using uml4net.Interactions;
     using uml4net.Packages;
     using uml4net.SimpleClassifiers;
+    using uml4net.StateMachines;
     using uml4net.StructuredClassifiers;
     using uml4net.UseCases;
     using uml4net.Utils;
@@ -49,14 +55,7 @@ namespace uml4net.xmi.Readers.{{this.Namespace.Name}}
     /// </summary>
     public class {{this.Name}}Reader : XmiElementReader<I{{this.Name}}>, IXmiElementReader<I{{this.Name}}>
     {
-        {{ #each (Class.QueryAllContainedNonDerivedNonRedefinedProperties this) as | property | }}
-        /// <summary>
-        /// Gets the INJECTED <see cref="IXmiElementReader{T}"/> of <see cref="I{{#Property.WriteTypeName property}}"/> to read
-        /// the <see cref="I{{../Name}}.{{ #String.CapitalizeFirstLetter property.Name }}"/> property.
-        /// </summary>
-        public IXmiElementReader<I{{#Property.WriteTypeName property}}> {{ #String.CapitalizeFirstLetter property.Name }}Reader { get; set; }
-
-        {{/each}}
+        private readonly IXmiElementReaderFacade xmiElementReaderFacade;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="{{this.Name}}Reader"/> class.
@@ -64,12 +63,13 @@ namespace uml4net.xmi.Readers.{{this.Namespace.Name}}
         /// <param name="cache">
         /// The cache in which each <see cref="IXmiElement"/>> is stored
         /// </param>
-        /// <param name="logger">
-        /// The (injected) <see cref="ILogger{T}"/> used to set up logging
+        /// <param name="loggerFactory">
+        /// The (injected) <see cref="ILoggerFactory"/> used to set up logging
         /// </param>
-        public {{this.Name}}Reader(IXmiReaderCache cache, ILogger<{{this.Name}}Reader> logger)
-            : base(cache, logger)
+        public {{this.Name}}Reader(IXmiReaderCache cache, ILoggerFactory loggerFactory)
+            : base(cache, loggerFactory)
         {
+            this.xmiElementReaderFacade = new XmiElementReaderFacade();
         }
 
         /// <summary>
@@ -114,7 +114,7 @@ namespace uml4net.xmi.Readers.{{this.Namespace.Name}}
                 {{/each}}
 
                 {{ #each (Class.QueryAllNonDerivedNonReadOnlyNonContainedReferenceEnumerableProperties this) as | property | }}
-                    var {{ property.Name }}s = new List<string>();
+                    var {{ property.Name }}Values = new List<string>();
                 {{/each}}
 
                 while (xmlReader.Read())
@@ -134,9 +134,9 @@ namespace uml4net.xmi.Readers.{{this.Namespace.Name}}
                 }
 
                 {{ #each (Class.QueryAllNonDerivedNonReadOnlyNonContainedReferenceEnumerableProperties this) as | property | }}
-                    if ({{ property.Name }}s.Count > 0)
+                    if ({{ property.Name }}Values.Count > 0)
                     {
-                        poco.MultiValueReferencePropertyIdentifiers.Add("{{ property.Name }}", {{ property.Name }}s);
+                        poco.MultiValueReferencePropertyIdentifiers.Add("{{ property.Name }}", {{ property.Name }}Values);
                     }
 
                 {{/each}}

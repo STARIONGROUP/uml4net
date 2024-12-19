@@ -20,10 +20,12 @@
 
 namespace uml4net.xmi.Readers
 {
+    using System;
+    using System.Collections.Generic;
     using System.Xml;
-    
+    using DocumentFormat.OpenXml.Office2010.ExcelAc;
     using Microsoft.Extensions.Logging;
-    
+    using Microsoft.Extensions.Logging.Abstractions;
     using uml4net;
     using uml4net.xmi.Cache;
 
@@ -34,7 +36,17 @@ namespace uml4net.xmi.Readers
     public abstract class XmiElementReader<TXmiElement> where TXmiElement : IXmiElement
     {
         /// <summary>
-        /// The (injected) <see cref="ILogger"/> used to setup logging
+        /// the character used to split the values (of xml attributes) using a white space as separator
+        /// </summary>
+        protected static readonly char[] SplitMultiReference = new[] { ' ' };
+
+        /// <summary>
+        /// The (injected) <see cref="ILoggerFactory"/> used to set up logging
+        /// </summary>
+        protected readonly ILoggerFactory LoggerFactory;
+
+        /// <summary>
+        /// The (injected) <see cref="ILogger"/> used to set up logging
         /// </summary>
         protected readonly ILogger<XmiElementReader<TXmiElement>> Logger;
 
@@ -49,13 +61,15 @@ namespace uml4net.xmi.Readers
         /// <param name="cache">
         /// The cache in which each <see cref="IXmiElement"/>> is stored
         /// </param>
-        /// <param name="logger">
-        /// The (injected) <see cref="ILogger{T}"/> used to setup logging
+        /// <param name="loggerFactory">
+        /// The (injected) <see cref="ILoggerFactory"/> used to set up logging
         /// </param>
-        protected XmiElementReader(IXmiReaderCache cache, ILogger<XmiElementReader<TXmiElement>> logger)
+        protected XmiElementReader(IXmiReaderCache cache, ILoggerFactory loggerFactory)
         {
             this.Cache = cache;
-            this.Logger = logger;
+
+            this.LoggerFactory = loggerFactory;
+            this.Logger = loggerFactory == null ? NullLogger<XmiElementReader<TXmiElement>>.Instance : loggerFactory.CreateLogger<XmiElementReader<TXmiElement>>();
         }
 
         /// <summary>
@@ -68,5 +82,108 @@ namespace uml4net.xmi.Readers
         /// an instance of <typeparamref name="TXmiElement"/>
         /// </returns>
         public abstract TXmiElement Read(XmlReader xmlReader);
+
+        /// <summary>
+        /// Adds the property-name and unique identifier of the referenced <see cref="IXmiElement"/> to the
+        /// <see cref="IXmiElement.SingleValueReferencePropertyIdentifiers"/> collection
+        /// </summary>
+        /// <param name="xmlReader">
+        /// An instance of <see cref="XmlReader"/>
+        /// </param>
+        /// <param name="xmiElement">
+        /// The target <see cref="IXmiElement"/> to which the property-name and unique identifier key-value pair
+        /// are added in the <see cref="IXmiElement.SingleValueReferencePropertyIdentifiers"/> collection
+        /// </param>
+        /// <param name="localName">
+        /// the name of the single-value reference property used to verify that the cursor of the 
+        /// <see cref="XmlReader"/> is at the right position
+        /// </param>
+        protected void CollectSingleValueReferencePropertyIdentifier(XmlReader xmlReader, IXmiElement xmiElement, string localName)
+        {
+            if (xmlReader == null)
+            {
+                throw new ArgumentNullException(nameof(xmlReader));
+            }
+
+            if (xmiElement == null)
+            {
+                throw new ArgumentNullException(nameof(xmiElement));
+            }
+
+            if (localName != xmlReader.LocalName)
+            {
+                throw new InvalidOperationException($"xmlReader.LocalName:{xmlReader.LocalName} is not equal to the provided localName:{localName}");
+            }
+
+            using var subXmlReader = xmlReader.ReadSubtree();
+
+            if (subXmlReader.MoveToContent() == XmlNodeType.Element)
+            {
+                var reference = subXmlReader.GetAttribute("href");
+                if (!string.IsNullOrEmpty(reference))
+                {
+                    xmiElement.SingleValueReferencePropertyIdentifiers.Add(localName, reference);
+                }
+                else if (subXmlReader.GetAttribute("xmi:idref") is { Length: > 0 } idRef)
+                {
+                    xmiElement.SingleValueReferencePropertyIdentifiers.Add(localName, idRef);
+                }
+                else
+                {
+                    throw new InvalidOperationException($"{localName} xml-attribute reference could not be read");
+                }
+            }
+        }
+
+        /// <summary>
+        /// Adds the unique identifier of the referenced <see cref="IXmiElement"/> to the
+        /// provided <paramref name="references"/> collection
+        /// </summary>
+        /// <param name="xmlReader">
+        /// An instance of <see cref="XmlReader"/>
+        /// </param>
+        /// <param name="references">
+        /// The collection of string-based unique identifiers
+        /// </param>
+        /// <param name="localName">
+        /// the name of the multi-value reference property used to verify that the cursor of the 
+        /// <see cref="XmlReader"/> is at the right position
+        /// </param>
+        protected void CollectMultiValueReferencePropertyIdentifiers(XmlReader xmlReader, List<string> references, string localName)
+        {
+            if (xmlReader == null)
+            {
+                throw new ArgumentNullException(nameof(xmlReader));
+            }
+
+            if (references == null)
+            {
+                throw new ArgumentNullException(nameof(references));
+            }
+
+            if (localName != xmlReader.LocalName)
+            {
+                throw new InvalidOperationException($"xmlReader.LocalName:{xmlReader.LocalName} is not equal to the provided localName:{localName}");
+            }
+
+            using var subXmlReader = xmlReader.ReadSubtree();
+
+            if (subXmlReader.MoveToContent() == XmlNodeType.Element)
+            {
+                var href = subXmlReader.GetAttribute("href");
+                if (!string.IsNullOrEmpty(href))
+                {
+                    references.Add(href);
+                }
+                else if (subXmlReader.GetAttribute("xmi:idref") is { Length: > 0 } idRef)
+                {
+                    references.Add(idRef);
+                }
+                else
+                {
+                    throw new InvalidOperationException($"{xmlReader.LocalName} xml-attribute href or xmi:idref could not be read");
+                }
+            }
+        }
     }
 }

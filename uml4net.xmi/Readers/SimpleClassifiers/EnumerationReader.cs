@@ -21,16 +21,28 @@
 namespace uml4net.xmi.Readers.SimpleClassifiers
 {
     using System;
+    using System.Collections.Generic;
+    using System.Linq;
     using System.Xml;
 
     using Microsoft.Extensions.Logging;
 
     using uml4net;
+    using uml4net.Classification;
+    using uml4net.CommonBehavior;
     using uml4net.CommonStructure;
+    using uml4net.Deployments;
+    using uml4net.Packages;
     using uml4net.SimpleClassifiers;
+    using uml4net.StructuredClassifiers;
+    using uml4net.UseCases;
     using uml4net.Utils;
+    using uml4net.Values;
     using uml4net.xmi.Cache;
     using uml4net.xmi.Readers;
+    using uml4net.xmi.Readers.Classification;
+    using uml4net.xmi.Readers.CommonStructure;
+    using uml4net.xmi.Readers.Values;
 
     /// <summary>
     /// The purpose of the <see cref="EnumerationReader"/> is to read an instance of <see cref="IEnumeration"/>
@@ -38,15 +50,7 @@ namespace uml4net.xmi.Readers.SimpleClassifiers
     /// </summary>
     public class EnumerationReader : XmiElementReader<IEnumeration>, IXmiElementReader<IEnumeration>
     {
-        /// <summary>
-        /// Gets the INJECTED <see cref="IXmiElementReader{T}"/> of <see cref="IEnumerationLiteral"/>
-        /// </summary>
-        public IXmiElementReader<IEnumerationLiteral> EnumerationLiteralReader { get; set; }
-
-        /// <summary>
-        /// Gets the INJECTED <see cref="IXmiElementReader{T}"/> of <see cref="IComment"/>
-        /// </summary>
-        public IXmiElementReader<IComment> CommentReader { get; set; }
+        private readonly IXmiElementReaderFacade xmiElementReaderFacade;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="EnumerationReader"/> class.
@@ -54,12 +58,13 @@ namespace uml4net.xmi.Readers.SimpleClassifiers
         /// <param name="cache">
         /// The cache in which each <see cref="IXmiElement"/>> is stored
         /// </param>
-        /// <param name="logger">
+        /// <param name="loggerFactory">
         /// The (injected) <see cref="ILogger{T}"/> used to setup logging
         /// </param>
-        public EnumerationReader(IXmiReaderCache cache, ILogger<EnumerationReader> logger)
-            : base(cache, logger)
+        public EnumerationReader(IXmiReaderCache cache, ILoggerFactory loggerFactory)
+            : base(cache, loggerFactory)
         {
+            this.xmiElementReaderFacade = new XmiElementReaderFacade();
         }
 
         /// <summary>
@@ -75,7 +80,7 @@ namespace uml4net.xmi.Readers.SimpleClassifiers
         {
             Guard.ThrowIfNull(xmlReader);
 
-            IEnumeration enumeration = new Enumeration();
+            IEnumeration poco = new Enumeration();
 
             if (xmlReader.MoveToContent() == XmlNodeType.Element)
             {
@@ -90,13 +95,13 @@ namespace uml4net.xmi.Readers.SimpleClassifiers
                     xmiType = "uml:Enumeration";
                 }
 
-                enumeration.XmiType = xmiType;
+                poco.XmiType = xmiType;
 
-                enumeration.XmiId = xmlReader.GetAttribute("xmi:id");
+                poco.XmiId = xmlReader.GetAttribute("xmi:id");
 
-                this.Cache.Add(enumeration.XmiId, enumeration);
+                this.Cache.Add(poco.XmiId, poco);
 
-                enumeration.Name = xmlReader.GetAttribute("name");
+                poco.Name = xmlReader.GetAttribute("name");
 
                 while (xmlReader.Read())
                 {
@@ -105,17 +110,15 @@ namespace uml4net.xmi.Readers.SimpleClassifiers
                         switch (xmlReader.LocalName)
                         {
                             case "ownedComment":
-                                using (var ownedCommentXmlReader = xmlReader.ReadSubtree())
-                                {
-                                    var comment = this.CommentReader.Read(ownedCommentXmlReader);
-                                    enumeration.OwnedComment.Add(comment);
-                                }
+                                var ownedComment = (IComment)this.xmiElementReaderFacade.QueryXmiElement(xmlReader, this.Cache, this.LoggerFactory, "uml:Comment");
+                                poco.OwnedComment.Add(ownedComment);
                                 break;
                             case "ownedLiteral":
                                 using (var ownedLiteralXmlReader = xmlReader.ReadSubtree())
                                 {
-                                    var enumerationLiteral = this.EnumerationLiteralReader.Read(ownedLiteralXmlReader);
-                                    enumeration.OwnedLiteral.Add(enumerationLiteral);
+                                    var enumerationLiteralReader = new EnumerationLiteralReader(this.Cache, this.LoggerFactory);
+                                    var ownedLiteral = enumerationLiteralReader.Read(ownedLiteralXmlReader);
+                                    poco.OwnedLiteral.Add(ownedLiteral);
                                 }
                                 break;
                             default:
@@ -126,7 +129,7 @@ namespace uml4net.xmi.Readers.SimpleClassifiers
                 }
             }
 
-            return enumeration;
+            return poco;
         }
     }
 }

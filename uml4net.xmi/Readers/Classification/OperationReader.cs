@@ -22,16 +22,27 @@ namespace uml4net.xmi.Readers.Classification
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Xml;
 
     using Microsoft.Extensions.Logging;
 
     using uml4net;
     using uml4net.Classification;
+    using uml4net.CommonBehavior;
     using uml4net.CommonStructure;
+    using uml4net.Deployments;
+    using uml4net.Packages;
+    using uml4net.SimpleClassifiers;
+    using uml4net.StructuredClassifiers;
+    using uml4net.UseCases;
     using uml4net.Utils;
+    using uml4net.Values;
     using uml4net.xmi.Cache;
     using uml4net.xmi.Readers;
+    using uml4net.xmi.Readers.Classification;
+    using uml4net.xmi.Readers.CommonStructure;
+    using uml4net.xmi.Readers.Values;
 
     /// <summary>
     /// The purpose of the <see cref="OperationReader"/> is to read an instance of <see cref="IOperation"/>
@@ -39,20 +50,7 @@ namespace uml4net.xmi.Readers.Classification
     /// </summary>
     public class OperationReader : XmiElementReader<IOperation>, IXmiElementReader<IOperation>
     {
-        /// <summary>
-        /// Gets the INJECTED <see cref="IXmiElementReader{T}"/> of <see cref="IComment"/>
-        /// </summary>
-        public IXmiElementReader<IConstraint> ConstraintReader { get; set; }
-
-        /// <summary>
-        /// Gets the INJECTED <see cref="IXmiElementReader{T}"/> of <see cref="IComment"/>
-        /// </summary>
-        public IXmiElementReader<IComment> CommentReader { get; set; }
-
-        /// <summary>
-        /// Gets the INJECTED <see cref="IXmiElementReader{T}"/> of <see cref="IParameter"/>
-        /// </summary>
-        public IXmiElementReader<IParameter> ParameterReader { get; set; }
+        private readonly IXmiElementReaderFacade xmiElementReaderFacade;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="OperationReader"/> class.
@@ -60,12 +58,13 @@ namespace uml4net.xmi.Readers.Classification
         /// <param name="cache">
         /// The cache in which each <see cref="IXmiElement"/>> is stored
         /// </param>
-        /// <param name="logger">
+        /// <param name="loggerFactory">
         /// The (injected) <see cref="ILogger{T}"/> used to setup logging
         /// </param>
-        public OperationReader(IXmiReaderCache cache, ILogger<OperationReader> logger)
-            : base(cache, logger)
+        public OperationReader(IXmiReaderCache cache, ILoggerFactory loggerFactory)
+            : base(cache, loggerFactory)
         {
+            this.xmiElementReaderFacade = new XmiElementReaderFacade();
         }
 
         /// <summary>
@@ -81,7 +80,7 @@ namespace uml4net.xmi.Readers.Classification
         {
             Guard.ThrowIfNull(xmlReader);
 
-            IOperation operation = new Operation();
+            IOperation poco = new Operation();
 
             if (xmlReader.MoveToContent() == XmlNodeType.Element)
             {
@@ -96,40 +95,40 @@ namespace uml4net.xmi.Readers.Classification
                     xmiType = "uml:Operation";
                 }
 
-                operation.XmiType = xmiType;
+                poco.XmiType = xmiType;
 
-                operation.XmiId = xmlReader.GetAttribute("xmi:id");
+                poco.XmiId = xmlReader.GetAttribute("xmi:id");
 
-                this.Cache.Add(operation.XmiId, operation);
+                this.Cache.Add(poco.XmiId, poco);
 
-                operation.Name = xmlReader.GetAttribute("name");
+                poco.Name = xmlReader.GetAttribute("name");
 
                 var isAbstract = xmlReader.GetAttribute("isAbstract");
                 if (!string.IsNullOrEmpty(isAbstract))
                 {
-                    operation.IsAbstract = bool.Parse(isAbstract);
+                    poco.IsAbstract = bool.Parse(isAbstract);
                 }
 
                 var isQuery = xmlReader.GetAttribute("isQuery");
                 if (!string.IsNullOrEmpty(isQuery))
                 {
-                    operation.IsQuery = bool.Parse(isQuery);
+                    poco.IsQuery = bool.Parse(isQuery);
                 }
 
                 var visibility = xmlReader.GetAttribute("visibility");
                 if (!string.IsNullOrEmpty(visibility))
                 {
-                    operation.Visibility = (VisibilityKind)Enum.Parse(typeof(VisibilityKind), visibility, true);
+                    poco.Visibility = (VisibilityKind)Enum.Parse(typeof(VisibilityKind), visibility, true);
                 }
 
                 var bodyCondition = xmlReader.GetAttribute("bodyCondition");
                 if (!string.IsNullOrEmpty(bodyCondition))
                 {
-                    operation.MultiValueReferencePropertyIdentifiers.Add("BodyCondition", new List<string> { bodyCondition } );
+                    poco.MultiValueReferencePropertyIdentifiers.Add("BodyCondition", new List<string> { bodyCondition } );
                 }
 
-                var preconditions = new List<string>();
-                var redefinedOperations = new List<string>();
+                var precondition = new List<string>();
+                var redefinedOperation = new List<string>();
 
                 while (xmlReader.Read())
                 {
@@ -138,25 +137,20 @@ namespace uml4net.xmi.Readers.Classification
                         switch (xmlReader.LocalName)
                         {
                             case "ownedComment":
-                                using (var ownedCommentXmlReader = xmlReader.ReadSubtree())
-                                {
-                                    var comment = this.CommentReader.Read(ownedCommentXmlReader);
-                                    operation.OwnedComment.Add(comment);
-                                }
+                                var ownedComment = (IComment)this.xmiElementReaderFacade.QueryXmiElement(xmlReader, this.Cache, this.LoggerFactory, "uml:Comment");
+                                poco.OwnedComment.Add(ownedComment);
                                 break;
                             case "ownedParameter":
                                 using (var ownedParameterXmlReader = xmlReader.ReadSubtree())
                                 {
-                                    var parameter = this.ParameterReader.Read(ownedParameterXmlReader);
-                                    operation.OwnedParameter.Add(parameter);
+                                    var parameterReader = new ParameterReader(this.Cache, this.LoggerFactory);
+                                    var ownedParameter = parameterReader .Read(ownedParameterXmlReader);
+                                    poco.OwnedParameter.Add(ownedParameter);
                                 }
                                 break;
                             case "ownedRule":
-                                using (var ownedRuleXmlReader = xmlReader.ReadSubtree())
-                                {
-                                    var constraint = this.ConstraintReader.Read(ownedRuleXmlReader);
-                                    operation.OwnedRule.Add(constraint);
-                                }
+                                var ownedRule = (IConstraint)this.xmiElementReaderFacade.QueryXmiElement(xmlReader, this.Cache, this.LoggerFactory, "uml:Constraint");
+                                poco.OwnedRule.Add(ownedRule);
                                 break;
                             case "precondition":
                                 using (var preconditionXmlReader = xmlReader.ReadSubtree())
@@ -166,11 +160,11 @@ namespace uml4net.xmi.Readers.Classification
                                         var href = preconditionXmlReader.GetAttribute("href");
                                         if (!string.IsNullOrEmpty(href))
                                         {
-                                            preconditions.Add(href);
+                                            precondition.Add(href);
                                         }
                                         else if (preconditionXmlReader.GetAttribute("xmi:idref") is { Length: > 0 } idRef)
                                         {
-                                            preconditions.Add(idRef);
+                                            precondition.Add(idRef);
                                         }
                                         else
                                         {
@@ -187,11 +181,11 @@ namespace uml4net.xmi.Readers.Classification
                                         var href = redefinedOperationXmlReader.GetAttribute("href");
                                         if (!string.IsNullOrEmpty(href))
                                         {
-                                            redefinedOperations.Add(href);
+                                            redefinedOperation.Add(href);
                                         }
                                         else if (redefinedOperationXmlReader.GetAttribute("xmi:idref") is { Length: > 0 } idRef)
                                         {
-                                            redefinedOperations.Add(idRef);
+                                            redefinedOperation.Add(idRef);
                                         }
                                         else
                                         {
@@ -207,18 +201,18 @@ namespace uml4net.xmi.Readers.Classification
                     }
                 }
 
-                if (preconditions.Count > 0)
+                if (precondition.Count > 0)
                 {
-                    operation.MultiValueReferencePropertyIdentifiers.Add("precondition", preconditions);
+                    poco.MultiValueReferencePropertyIdentifiers.Add("precondition", precondition);
                 }
 
-                if (redefinedOperations.Count > 0)
+                if (redefinedOperation.Count > 0)
                 {
-                    operation.MultiValueReferencePropertyIdentifiers.Add("redefinedOperation", redefinedOperations);
+                    poco.MultiValueReferencePropertyIdentifiers.Add("redefinedOperation", redefinedOperation);
                 }
             }
 
-            return operation;
+            return poco;
         }
     }
 }

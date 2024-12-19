@@ -24,6 +24,7 @@
 
 namespace uml4net.StructuredClassifiers
 {
+    using System;
     using System.Collections.Generic;
 
     using uml4net.Decorators;
@@ -138,7 +139,7 @@ namespace uml4net.StructuredClassifiers
         [Property(xmiId: "ConnectableElementTemplateParameter-parameteredElement", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
         [RedefinedProperty(propertyName: "TemplateParameter-parameteredElement")]
         [Implements(implementation: "IConnectableElementTemplateParameter.ParameteredElement")]
-        public new IConnectableElement ParameteredElement { get; set; }
+        public IConnectableElement ParameteredElement { get; set; }
 
         /// <summary>
         /// The ParameterableElement exposed by this TemplateParameter.
@@ -146,7 +147,11 @@ namespace uml4net.StructuredClassifiers
         [Property(xmiId: "TemplateParameter-parameteredElement", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
         [RedefinedByProperty("IConnectableElementTemplateParameter.ParameteredElement")]
         [Implements(implementation: "ITemplateParameter.ParameteredElement")]
-        IParameterableElement ITemplateParameter.ParameteredElement { get; set; }
+        IParameterableElement ITemplateParameter.ParameteredElement
+        {
+            get => throw new InvalidOperationException("Redefined by property IConnectableElementTemplateParameter.ParameteredElement");
+            set => throw new InvalidOperationException("Redefined by property IConnectableElementTemplateParameter.ParameteredElement");
+        }
 
         /// <summary>
         /// The TemplateSignature that owns this TemplateParameter.

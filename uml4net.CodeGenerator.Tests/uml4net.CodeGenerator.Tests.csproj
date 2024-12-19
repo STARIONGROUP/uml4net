@@ -47,9 +47,22 @@
       <Compile Remove="Expected\AutoGenInterfaces\IStateMachine.cs" />
       <Compile Remove="Expected\AutoGenInterfaces\ITimeConstraint.cs" />
       <Compile Remove="Expected\AutoGenEnumeration\ConnectorKind.cs" />
+      <Compile Remove="Expected\AutoGenXmiReaders\ActivityReader.cs" />
       <Compile Remove="Expected\AutoGenXmiReaders\AssociationReader.cs" />
       <Compile Remove="Expected\AutoGenXmiReaders\ClassReader.cs" />
+      <Compile Remove="Expected\AutoGenXmiReaders\ConnectorReader.cs" />
+      <Compile Remove="Expected\AutoGenXmiReaders\DurationConstraintReader.cs" />
+      <Compile Remove="Expected\AutoGenXmiReaders\DurationObservationReader.cs" />
+      <Compile Remove="Expected\AutoGenXmiReaders\ExceptionHandlerReader.cs" />
+      <Compile Remove="Expected\AutoGenXmiReaders\ExpressionReader.cs" />
+      <Compile Remove="Expected\AutoGenXmiReaders\GeneralizationReader.cs" />
+      <Compile Remove="Expected\AutoGenXmiReaders\LiteralIntegerReader.cs" />
+      <Compile Remove="Expected\AutoGenXmiReaders\LiteralRealReader.cs" />
+      <Compile Remove="Expected\AutoGenXmiReaders\LiteralUnlimitedNaturalReader.cs" />
       <Compile Remove="Expected\AutoGenXmiReaders\OpaqueExpressionReader.cs" />
+      <Compile Remove="Expected\AutoGenXmiReaders\PropertyReader.cs" />
+      <Compile Remove="Expected\AutoGenXmiReaders\StateMachineReader.cs" />
+      <Compile Remove="Expected\AutoGenXmiReaders\TimeConstraintReader.cs" />
     </ItemGroup>
 
     <ItemGroup>
@@ -125,13 +138,52 @@
       <None Include="Expected\AutoGenEnumeration\ConnectorKind.cs">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
+      <None Include="Expected\AutoGenXmiReaders\ActivityReader.cs">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
       <None Include="Expected\AutoGenXmiReaders\AssociationReader.cs">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
       <None Include="Expected\AutoGenXmiReaders\ClassReader.cs">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
+      <None Include="Expected\AutoGenXmiReaders\ConnectorReader.cs">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Include="Expected\AutoGenXmiReaders\DurationConstraintReader.cs">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Include="Expected\AutoGenXmiReaders\DurationObservationReader.cs">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Include="Expected\AutoGenXmiReaders\ExceptionHandlerReader.cs">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Include="Expected\AutoGenXmiReaders\ExpressionReader.cs">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Include="Expected\AutoGenXmiReaders\GeneralizationReader.cs">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Include="Expected\AutoGenXmiReaders\LiteralIntegerReader.cs">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Include="Expected\AutoGenXmiReaders\LiteralRealReader.cs">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Include="Expected\AutoGenXmiReaders\LiteralUnlimitedNaturalReader.cs">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
       <None Include="Expected\AutoGenXmiReaders\OpaqueExpressionReader.cs">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Include="Expected\AutoGenXmiReaders\PropertyReader.cs">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Include="Expected\AutoGenXmiReaders\StateMachineReader.cs">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Include="Expected\AutoGenXmiReaders\TimeConstraintReader.cs">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
     </ItemGroup>

@@ -26,16 +26,22 @@ namespace uml4net.xmi.Readers.Values
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Xml;
 
     using Microsoft.Extensions.Logging;
 
     using uml4net;
+    using uml4net.Actions;
+    using uml4net.Activities;
     using uml4net.Classification;
     using uml4net.CommonBehavior;
     using uml4net.CommonStructure;
+    using uml4net.Deployments;
+    using uml4net.Interactions;
     using uml4net.Packages;
     using uml4net.SimpleClassifiers;
+    using uml4net.StateMachines;
     using uml4net.StructuredClassifiers;
     using uml4net.UseCases;
     using uml4net.Utils;
@@ -49,18 +55,7 @@ namespace uml4net.xmi.Readers.Values
     /// </summary>
     public class OpaqueExpressionReader : XmiElementReader<IOpaqueExpression>, IXmiElementReader<IOpaqueExpression>
     {
-        /// <summary>
-        /// Gets the INJECTED <see cref="IXmiElementReader{T}"/> of <see cref="IStringExpression"/> to read
-        /// the <see cref="IOpaqueExpression.NameExpression"/> property.
-        /// </summary>
-        public IXmiElementReader<IStringExpression> NameExpressionReader { get; set; }
-
-        /// <summary>
-        /// Gets the INJECTED <see cref="IXmiElementReader{T}"/> of <see cref="IComment"/> to read
-        /// the <see cref="IOpaqueExpression.OwnedComment"/> property.
-        /// </summary>
-        public IXmiElementReader<IComment> OwnedCommentReader { get; set; }
-
+        private readonly IXmiElementReaderFacade xmiElementReaderFacade;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="OpaqueExpressionReader"/> class.
@@ -68,12 +63,13 @@ namespace uml4net.xmi.Readers.Values
         /// <param name="cache">
         /// The cache in which each <see cref="IXmiElement"/>> is stored
         /// </param>
-        /// <param name="logger">
-        /// The (injected) <see cref="ILogger{T}"/> used to set up logging
+        /// <param name="loggerFactory">
+        /// The (injected) <see cref="ILoggerFactory"/> used to set up logging
         /// </param>
-        public OpaqueExpressionReader(IXmiReaderCache cache, ILogger<OpaqueExpressionReader> logger)
-            : base(cache, logger)
+        public OpaqueExpressionReader(IXmiReaderCache cache, ILoggerFactory loggerFactory)
+            : base(cache, loggerFactory)
         {
+            this.xmiElementReaderFacade = new XmiElementReaderFacade();
         }
 
         /// <summary>
@@ -113,6 +109,12 @@ namespace uml4net.xmi.Readers.Values
 
                 this.Cache.Add(poco.XmiId, poco);
 
+                var behaviorXmlAttribute = xmlReader.GetAttribute("behavior");
+                if (!string.IsNullOrEmpty(behaviorXmlAttribute))
+                {
+                    poco.SingleValueReferencePropertyIdentifiers.Add("behavior", behaviorXmlAttribute);
+                }
+
                 var bodyXmlAttribute = xmlReader.GetAttribute("body");
                 if (!string.IsNullOrEmpty(bodyXmlAttribute))
                 {
@@ -126,6 +128,24 @@ namespace uml4net.xmi.Readers.Values
                 }
 
                 poco.Name = xmlReader.GetAttribute("name");
+
+                var owningTemplateParameterXmlAttribute = xmlReader.GetAttribute("owningTemplateParameter");
+                if (!string.IsNullOrEmpty(owningTemplateParameterXmlAttribute))
+                {
+                    poco.SingleValueReferencePropertyIdentifiers.Add("owningTemplateParameter", owningTemplateParameterXmlAttribute);
+                }
+
+                var templateParameterXmlAttribute = xmlReader.GetAttribute("templateParameter");
+                if (!string.IsNullOrEmpty(templateParameterXmlAttribute))
+                {
+                    poco.SingleValueReferencePropertyIdentifiers.Add("templateParameter", templateParameterXmlAttribute);
+                }
+
+                var typeXmlAttribute = xmlReader.GetAttribute("type");
+                if (!string.IsNullOrEmpty(typeXmlAttribute))
+                {
+                    poco.SingleValueReferencePropertyIdentifiers.Add("type", typeXmlAttribute);
+                }
 
                 var visibilityXmlAttribute = xmlReader.GetAttribute("visibility");
                 if (!string.IsNullOrEmpty(visibilityXmlAttribute))
@@ -142,119 +162,41 @@ namespace uml4net.xmi.Readers.Values
                         switch (xmlReader.LocalName)
                         {
                             case "behavior":
-                                using (var typeXmlReader = xmlReader.ReadSubtree())
-                                {
-                                    if (typeXmlReader.MoveToContent() == XmlNodeType.Element)
-                                    {
-                                        var reference = typeXmlReader.GetAttribute("href");
-                                        if (!string.IsNullOrEmpty(reference))
-                                        {
-                                            poco.SingleValueReferencePropertyIdentifiers.Add("behavior", reference);
-                                        }
-                                        else if (typeXmlReader.GetAttribute("xmi:idref") is { Length: > 0 } idRef)
-                                        {
-                                            poco.SingleValueReferencePropertyIdentifiers.Add("behavior", idRef);
-                                        }
-                                        else
-                                        {
-                                            throw new InvalidOperationException("behavior xml-attribute reference could not be read");
-                                        }
-                                    }
-                                }
+                                this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "behavior");
                                 break;
                             case "body":
-                                var body = xmlReader.ReadElementContentAsString();
-                                poco.Body.Add(body);
+                                var bodyValue = xmlReader.ReadElementContentAsString();
+                                poco.Body.Add(bodyValue);
                                 break;
                             case "language":
-                                var language = xmlReader.ReadElementContentAsString();
-                                poco.Language.Add(language);
+                                var languageValue = xmlReader.ReadElementContentAsString();
+                                poco.Language.Add(languageValue);
                                 break;
                             case "name":
                                 poco.Name = xmlReader.ReadElementContentAsString();
                                 break;
                             case "nameExpression":
-                                using (var nameExpressionXmlReader = xmlReader.ReadSubtree())
-                                {
-                                    var nameExpression = this.NameExpressionReader.Read(nameExpressionXmlReader);
-                                    poco.NameExpression.Add(nameExpression);
-                                }
+                                var nameExpressionValue = (IStringExpression)this.xmiElementReaderFacade.QueryXmiElement(xmlReader, this.Cache, this.LoggerFactory, "uml:StringExpression");
+                                poco.NameExpression.Add(nameExpressionValue);
                                 break;
                             case "ownedComment":
-                                using (var ownedCommentXmlReader = xmlReader.ReadSubtree())
-                                {
-                                    var ownedComment = this.OwnedCommentReader.Read(ownedCommentXmlReader);
-                                    poco.OwnedComment.Add(ownedComment);
-                                }
+                                var ownedCommentValue = (IComment)this.xmiElementReaderFacade.QueryXmiElement(xmlReader, this.Cache, this.LoggerFactory, "uml:Comment");
+                                poco.OwnedComment.Add(ownedCommentValue);
                                 break;
                             case "owningTemplateParameter":
-                                using (var typeXmlReader = xmlReader.ReadSubtree())
-                                {
-                                    if (typeXmlReader.MoveToContent() == XmlNodeType.Element)
-                                    {
-                                        var reference = typeXmlReader.GetAttribute("href");
-                                        if (!string.IsNullOrEmpty(reference))
-                                        {
-                                            poco.SingleValueReferencePropertyIdentifiers.Add("owningTemplateParameter", reference);
-                                        }
-                                        else if (typeXmlReader.GetAttribute("xmi:idref") is { Length: > 0 } idRef)
-                                        {
-                                            poco.SingleValueReferencePropertyIdentifiers.Add("owningTemplateParameter", idRef);
-                                        }
-                                        else
-                                        {
-                                            throw new InvalidOperationException("owningTemplateParameter xml-attribute reference could not be read");
-                                        }
-                                    }
-                                }
+                                this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "owningTemplateParameter");
                                 break;
                             case "templateParameter":
-                                using (var typeXmlReader = xmlReader.ReadSubtree())
-                                {
-                                    if (typeXmlReader.MoveToContent() == XmlNodeType.Element)
-                                    {
-                                        var reference = typeXmlReader.GetAttribute("href");
-                                        if (!string.IsNullOrEmpty(reference))
-                                        {
-                                            poco.SingleValueReferencePropertyIdentifiers.Add("templateParameter", reference);
-                                        }
-                                        else if (typeXmlReader.GetAttribute("xmi:idref") is { Length: > 0 } idRef)
-                                        {
-                                            poco.SingleValueReferencePropertyIdentifiers.Add("templateParameter", idRef);
-                                        }
-                                        else
-                                        {
-                                            throw new InvalidOperationException("templateParameter xml-attribute reference could not be read");
-                                        }
-                                    }
-                                }
+                                this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "templateParameter");
                                 break;
                             case "type":
-                                using (var typeXmlReader = xmlReader.ReadSubtree())
-                                {
-                                    if (typeXmlReader.MoveToContent() == XmlNodeType.Element)
-                                    {
-                                        var reference = typeXmlReader.GetAttribute("href");
-                                        if (!string.IsNullOrEmpty(reference))
-                                        {
-                                            poco.SingleValueReferencePropertyIdentifiers.Add("type", reference);
-                                        }
-                                        else if (typeXmlReader.GetAttribute("xmi:idref") is { Length: > 0 } idRef)
-                                        {
-                                            poco.SingleValueReferencePropertyIdentifiers.Add("type", idRef);
-                                        }
-                                        else
-                                        {
-                                            throw new InvalidOperationException("type xml-attribute reference could not be read");
-                                        }
-                                    }
-                                }
+                                this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "type");
                                 break;
                             case "visibility":
-                                var visibilityXmlElement = xmlReader.ReadElementContentAsString();
-                                if (!string.IsNullOrEmpty(visibilityXmlElement))
+                                var visibilityValue = xmlReader.ReadElementContentAsString();
+                                if (!string.IsNullOrEmpty(visibilityValue))
                                 {
-                                    poco.Visibility = (VisibilityKind)Enum.Parse(typeof(VisibilityKind), visibilityXmlElement, true); ;
+                                    poco.Visibility = (VisibilityKind)Enum.Parse(typeof(VisibilityKind), visibilityValue, true); ;
                                 }
                                 break;
                             default:

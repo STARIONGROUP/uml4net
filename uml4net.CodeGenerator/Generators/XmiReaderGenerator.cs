@@ -99,6 +99,41 @@ namespace uml4net.CodeGenerator.Generators
         }
 
         /// <summary>
+        /// Generates the XmiElementReaderFacade based on the <see cref="IClass"/> instances
+        /// that are in the provided <see cref="XmiReaderResult"/>
+        /// </summary>
+        /// <param name="xmiReaderResult">
+        /// the <see cref="XmiReaderResult"/> that contains the UML model to generate from
+        /// </param>
+        /// <param name="outputDirectory">
+        /// The target <see cref="DirectoryInfo"/>
+        /// </param>
+        /// <returns>
+        /// an awaitable <see cref="Task"/>
+        /// </returns>
+        public async Task GenerateXmiElementReaderFacadeAsync(XmiReaderResult xmiReaderResult, DirectoryInfo outputDirectory)
+        {
+            ArgumentNullException.ThrowIfNull(xmiReaderResult);
+
+            ArgumentNullException.ThrowIfNull(outputDirectory);
+
+            var classes = xmiReaderResult.Root.QueryPackages()
+                .SelectMany(x => x.PackagedElement.OfType<IClass>())
+                .Where(x => !x.IsAbstract)
+                .ToList();
+
+            var template = this.Templates["XmiElementReaderFacade-template"];
+
+            var generatedCode = template(classes);
+
+            generatedCode = this.CodeCleanup(generatedCode);
+
+            var fileName = "XmiElementReaderFacade.cs";
+
+            await WriteAsync(generatedCode, outputDirectory, fileName);
+        }
+
+        /// <summary>
         /// Register the custom helpers
         /// </summary>
         protected override void RegisterHelpers()
@@ -114,11 +149,12 @@ namespace uml4net.CodeGenerator.Generators
         }
 
         /// <summary>
-        /// Register the code templates
+        /// Register the handlebars templates
         /// </summary>
         protected override void RegisterTemplates()
         {
             this.RegisterTemplate("xmi-reader-template");
+            this.RegisterTemplate("XmiElementReaderFacade-template");
         }
     }
 }

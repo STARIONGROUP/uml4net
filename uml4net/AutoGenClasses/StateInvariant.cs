@@ -24,6 +24,7 @@
 
 namespace uml4net.Interactions
 {
+    using System;
     using System.Collections.Generic;
 
     using uml4net.Decorators;
@@ -72,7 +73,7 @@ namespace uml4net.Interactions
         [Property(xmiId: "StateInvariant-covered", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
         [RedefinedProperty(propertyName: "InteractionFragment-covered")]
         [Implements(implementation: "IStateInvariant.Covered")]
-        public new ILifeline Covered { get; set; }
+        public ILifeline Covered { get; set; }
 
         /// <summary>
         /// References the Lifelines that the InteractionFragment involves.
@@ -80,7 +81,11 @@ namespace uml4net.Interactions
         [Property(xmiId: "InteractionFragment-covered", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
         [RedefinedByProperty("IStateInvariant.Covered")]
         [Implements(implementation: "IInteractionFragment.Covered")]
-        List<ILifeline> IInteractionFragment.Covered { get; set; }
+        List<ILifeline> IInteractionFragment.Covered
+        {
+            get => throw new InvalidOperationException("Redefined by property IStateInvariant.Covered");
+            set => throw new InvalidOperationException("Redefined by property IStateInvariant.Covered");
+        }
 
         /// <summary>
         /// The Interaction enclosing this InteractionFragment.

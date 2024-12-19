@@ -21,17 +21,28 @@
 namespace uml4net.xmi.Readers.Classification
 {
     using System;
+    using System.Collections.Generic;
+    using System.Linq;
     using System.Xml;
 
     using Microsoft.Extensions.Logging;
 
     using uml4net;
     using uml4net.Classification;
+    using uml4net.CommonBehavior;
     using uml4net.CommonStructure;
-    using uml4net.Values;
+    using uml4net.Deployments;
+    using uml4net.Packages;
+    using uml4net.SimpleClassifiers;
+    using uml4net.StructuredClassifiers;
+    using uml4net.UseCases;
     using uml4net.Utils;
+    using uml4net.Values;
     using uml4net.xmi.Cache;
     using uml4net.xmi.Readers;
+    using uml4net.xmi.Readers.Classification;
+    using uml4net.xmi.Readers.CommonStructure;
+    using uml4net.xmi.Readers.Values;
 
     /// <summary>
     /// The purpose of the <see cref="ParameterReader"/> is to read an instance of <see cref="IParameter"/>
@@ -39,20 +50,7 @@ namespace uml4net.xmi.Readers.Classification
     /// </summary>
     public class ParameterReader : XmiElementReader<IParameter>, IXmiElementReader<IParameter>
     {
-        /// <summary>
-        /// Gets the INJECTED <see cref="IXmiElementReader{T}"/> of <see cref="IComment"/>
-        /// </summary>
-        public IXmiElementReader<IComment> CommentReader { get; set; }
-
-        /// <summary>
-        /// Gets the INJECTED <see cref="IXmiElementReader{T}"/> of <see cref="ILiteralInteger"/>
-        /// </summary>
-        public IXmiElementReader<ILiteralInteger> LiteralIntegerReader { get; set; }
-
-        /// <summary>
-        /// Gets the INJECTED <see cref="IXmiElementReader{T}"/> of <see cref="ILiteralUnlimitedNatural"/>
-        /// </summary>
-        public IXmiElementReader<ILiteralUnlimitedNatural> LiteralUnlimitedNaturalReader { get; set; }
+        private readonly IXmiElementReaderFacade xmiElementReaderFacade;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ParameterReader"/> class.
@@ -60,12 +58,13 @@ namespace uml4net.xmi.Readers.Classification
         /// <param name="cache">
         /// The cache in which each <see cref="IXmiElement"/>> is stored
         /// </param>
-        /// <param name="logger">
+        /// <param name="loggerFactory">
         /// The (injected) <see cref="ILogger{T}"/> used to setup logging
         /// </param>
-        public ParameterReader(IXmiReaderCache cache, ILogger<ParameterReader> logger)
-            : base(cache, logger)
+        public ParameterReader(IXmiReaderCache cache, ILoggerFactory loggerFactory)
+            : base(cache, loggerFactory)
         {
+            this.xmiElementReaderFacade = new XmiElementReaderFacade();
         }
 
         /// <summary>
@@ -81,7 +80,7 @@ namespace uml4net.xmi.Readers.Classification
         {
             Guard.ThrowIfNull(xmlReader);
 
-            IParameter parameter = new Parameter();
+            IParameter poco = new Parameter();
 
             if (xmlReader.MoveToContent() == XmlNodeType.Element)
             {
@@ -96,42 +95,42 @@ namespace uml4net.xmi.Readers.Classification
                     xmiType = "uml:Parameter";
                 }
 
-                parameter.XmiType = xmiType;
+                poco.XmiType = xmiType;
 
-                parameter.XmiId = xmlReader.GetAttribute("xmi:id");
+                poco.XmiId = xmlReader.GetAttribute("xmi:id");
 
-                this.Cache.Add(parameter.XmiId, parameter);
+                this.Cache.Add(poco.XmiId, poco);
 
-                parameter.Name = xmlReader.GetAttribute("name");
+                poco.Name = xmlReader.GetAttribute("name");
 
                 var direction = xmlReader.GetAttribute("direction");
                 if (!string.IsNullOrEmpty(direction))
                 {
-                    parameter.Direction = (ParameterDirectionKind)Enum.Parse(typeof(ParameterDirectionKind), direction, true);
+                    poco.Direction = (ParameterDirectionKind)Enum.Parse(typeof(ParameterDirectionKind), direction, true);
                 }
 
                 var visibility = xmlReader.GetAttribute("visibility");
                 if (!string.IsNullOrEmpty(visibility))
                 {
-                    parameter.Visibility = (VisibilityKind)Enum.Parse(typeof(VisibilityKind), visibility, true);
+                    poco.Visibility = (VisibilityKind)Enum.Parse(typeof(VisibilityKind), visibility, true);
                 }
 
                 var type = xmlReader.GetAttribute("type");
                 if (!string.IsNullOrEmpty(type))
                 {
-                    parameter.SingleValueReferencePropertyIdentifiers.Add("type", type);
+                    poco.SingleValueReferencePropertyIdentifiers.Add("type", type);
                 }
 
                 var isOrdered = xmlReader.GetAttribute("isOrdered");
                 if (!string.IsNullOrEmpty(isOrdered))
                 {
-                    parameter.IsOrdered = bool.Parse(isOrdered);
+                    poco.IsOrdered = bool.Parse(isOrdered);
                 }
 
                 var isUnique = xmlReader.GetAttribute("isUnique");
                 if (!string.IsNullOrEmpty(isUnique))
                 {
-                    parameter.IsUnique = bool.Parse(isUnique);
+                    poco.IsUnique = bool.Parse(isUnique);
                 }
 
                 while (xmlReader.Read())
@@ -141,11 +140,8 @@ namespace uml4net.xmi.Readers.Classification
                         switch (xmlReader.LocalName)
                         {
                             case "ownedComment":
-                                using (var ownedCommentXmlReader = xmlReader.ReadSubtree())
-                                {
-                                    var comment = this.CommentReader.Read(ownedCommentXmlReader);
-                                    parameter.OwnedComment.Add(comment);
-                                }
+                                var ownedComment = (IComment)this.xmiElementReaderFacade.QueryXmiElement(xmlReader, this.Cache, this.LoggerFactory, "uml:Comment");
+                                poco.OwnedComment.Add(ownedComment);
                                 break;
                             case "type":
                                 using (var typeXmlReader = xmlReader.ReadSubtree())
@@ -155,11 +151,11 @@ namespace uml4net.xmi.Readers.Classification
                                         var href = typeXmlReader.GetAttribute("href");
                                         if (!string.IsNullOrEmpty(href))
                                         {
-                                            parameter.SingleValueReferencePropertyIdentifiers.Add("type", href);
+                                            poco.SingleValueReferencePropertyIdentifiers.Add("type", href);
                                         }
                                         else if (typeXmlReader.GetAttribute("xmi:idref") is { Length: > 0 } idRef)
                                         {
-                                            parameter.SingleValueReferencePropertyIdentifiers.Add("type", idRef);
+                                            poco.SingleValueReferencePropertyIdentifiers.Add("type", idRef);
                                         }
                                         else
                                         {
@@ -178,12 +174,14 @@ namespace uml4net.xmi.Readers.Classification
                                         switch (reference)
                                         {
                                             case "uml:LiteralInteger":
-                                                var literalInteger = this.LiteralIntegerReader.Read(lowerValueXmlReader);
-                                                parameter.LowerValue.Add(literalInteger);
+                                                var literalIntegerReader = new LiteralIntegerReader(this.Cache, this.LoggerFactory);
+                                                var literalInteger = literalIntegerReader.Read(lowerValueXmlReader);
+                                                poco.LowerValue.Add(literalInteger);
                                                 break;
                                             case "uml:LiteralUnlimitedNatural":
-                                                var literalUnlimitedNatural = this.LiteralUnlimitedNaturalReader.Read(lowerValueXmlReader);
-                                                parameter.LowerValue.Add(literalUnlimitedNatural);
+                                                var literalUnlimitedNaturalReader = new LiteralUnlimitedNaturalReader(this.Cache, this.LoggerFactory);
+                                                var literalUnlimitedNatural = literalUnlimitedNaturalReader.Read(lowerValueXmlReader);
+                                                poco.LowerValue.Add(literalUnlimitedNatural);
                                                 break;
                                             default:
                                                 throw new InvalidOperationException($"lowerValueXmlReader: type {reference} is unsupported.");
@@ -202,12 +200,14 @@ namespace uml4net.xmi.Readers.Classification
                                             switch (reference)
                                             {
                                                 case "uml:LiteralInteger":
-                                                    var literalInteger = this.LiteralIntegerReader.Read(upperValueXmlReader);
-                                                    parameter.UpperValue.Add(literalInteger);
+                                                    var literalIntegerReader = new LiteralIntegerReader(this.Cache, this.LoggerFactory);
+                                                    var literalInteger = literalIntegerReader.Read(upperValueXmlReader);
+                                                    poco.UpperValue.Add(literalInteger);
                                                     break;
                                                 case "uml:LiteralUnlimitedNatural":
-                                                    var literalUnlimitedNatural = this.LiteralUnlimitedNaturalReader.Read(upperValueXmlReader);
-                                                    parameter.UpperValue.Add(literalUnlimitedNatural);
+                                                    var literalUnlimitedNaturalReader = new LiteralUnlimitedNaturalReader(this.Cache, this.LoggerFactory);
+                                                    var literalUnlimitedNatural = literalUnlimitedNaturalReader.Read(upperValueXmlReader);
+                                                    poco.UpperValue.Add(literalUnlimitedNatural);
                                                     break;
                                                 default:
                                                     throw new InvalidOperationException($"upperValueXmlReader: type {reference} is unsupported.");
@@ -224,7 +224,7 @@ namespace uml4net.xmi.Readers.Classification
                 }
             }
 
-            return parameter;
+            return poco;
         }
     }
 }

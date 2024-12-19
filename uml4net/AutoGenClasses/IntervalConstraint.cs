@@ -24,6 +24,7 @@
 
 namespace uml4net.Values
 {
+    using System;
     using System.Collections.Generic;
 
     using uml4net.Decorators;
@@ -166,7 +167,7 @@ namespace uml4net.Values
         [Property(xmiId: "IntervalConstraint-specification", aggregation: AggregationKind.Composite, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
         [RedefinedProperty(propertyName: "Constraint-specification")]
         [Implements(implementation: "IIntervalConstraint.Specification")]
-        public new IContainerList<IInterval> Specification
+        public IContainerList<IInterval> Specification
         {
             get => this.specification ??= new ContainerList<IInterval>(this);
             set => this.specification = value;
@@ -184,7 +185,11 @@ namespace uml4net.Values
         [SubsettedProperty(propertyName: "Element-ownedElement")]
         [RedefinedByProperty("IIntervalConstraint.Specification")]
         [Implements(implementation: "IConstraint.Specification")]
-        IContainerList<IValueSpecification> IConstraint.Specification { get; set; }
+        IContainerList<IValueSpecification> IConstraint.Specification
+        {
+            get => throw new InvalidOperationException("Redefined by property IIntervalConstraint.Specification");
+            set => throw new InvalidOperationException("Redefined by property IIntervalConstraint.Specification");
+        }
 
         /// <summary>
         /// The TemplateParameter that exposes this ParameterableElement as a formal parameter.
@@ -200,7 +205,7 @@ namespace uml4net.Values
         [Property(xmiId: "PackageableElement-visibility", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: "public")]
         [RedefinedProperty(propertyName: "NamedElement-visibility")]
         [Implements(implementation: "IPackageableElement.Visibility")]
-        public new VisibilityKind Visibility { get; set; }
+        public VisibilityKind Visibility { get; set; }
 
         /// <summary>
         /// Determines whether and how the NamedElement is visible outside its owning Namespace.
@@ -208,7 +213,11 @@ namespace uml4net.Values
         [Property(xmiId: "NamedElement-visibility", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
         [RedefinedByProperty("IPackageableElement.Visibility")]
         [Implements(implementation: "INamedElement.Visibility")]
-        VisibilityKind INamedElement.Visibility { get; set; }
+        VisibilityKind INamedElement.Visibility
+        {
+            get => throw new InvalidOperationException("Redefined by property IPackageableElement.Visibility");
+            set => throw new InvalidOperationException("Redefined by property IPackageableElement.Visibility");
+        }
 
     }
 }

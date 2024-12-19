@@ -24,6 +24,7 @@
 
 namespace uml4net.StateMachines
 {
+    using System;
     using System.Collections.Generic;
 
     using uml4net.Decorators;

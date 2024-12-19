@@ -21,64 +21,37 @@
 namespace uml4net.xmi.Readers.Packages
 {
     using System;
+    using System.Collections.Generic;
+    using System.Linq;
     using System.Xml;
 
     using Microsoft.Extensions.Logging;
-
+    using SimpleClassifiers;
     using uml4net;
+    using uml4net.Classification;
+    using uml4net.CommonBehavior;
     using uml4net.CommonStructure;
+    using uml4net.Deployments;
     using uml4net.Packages;
     using uml4net.SimpleClassifiers;
     using uml4net.StructuredClassifiers;
+    using uml4net.UseCases;
     using uml4net.Utils;
+    using uml4net.Values;
     using uml4net.xmi.Cache;
     using uml4net.xmi.Readers;
-    
+    using uml4net.xmi.Readers.Classification;
+    using uml4net.xmi.Readers.CommonStructure;
+    using uml4net.xmi.Readers.StructuredClassifiers;
+    using uml4net.xmi.Readers.Values;
+
     /// <summary>
     /// The purpose of the <see cref="PackageReader"/> is to read an instance of <see cref="IPackage"/>
     /// from the XMI document
     /// </summary>
     public class PackageReader : XmiElementReader<IPackage>, IXmiElementReader<IPackage>
     {
-        /// <summary>
-        /// Gets the INJECTED <see cref="IXmiElementReader{T}"/> of <see cref="IComment"/>
-        /// </summary>
-        public IXmiElementReader<IClass> ClassReader { get; set; }
-
-        /// <summary>
-        /// Gets the INJECTED <see cref="IXmiElementReader{T}"/> of <see cref="IEnumeration"/>
-        /// </summary>
-        public IXmiElementReader<IEnumeration> EnumerationReader { get; set; }
-
-        /// <summary>
-        /// Gets the INJECTED <see cref="IXmiElementReader{T}"/> of <see cref="IPackageImport"/>
-        /// </summary>
-        public IXmiElementReader<IPackageImport> PackageImportReader { get; set; }
-
-        /// <summary>
-        /// Gets the INJECTED <see cref="IXmiElementReader{T}"/> of <see cref="IPrimitiveType"/>
-        /// </summary>
-        public IXmiElementReader<IPrimitiveType> PrimitiveTypeReader { get; set; }
-
-        /// <summary>
-        /// Gets the INJECTED <see cref="IXmiElementReader{T}"/> of <see cref="IComment"/>
-        /// </summary>
-        public IXmiElementReader<IComment> CommentReader { get; set; }
-
-        /// <summary>
-        /// Gets the INJECTED <see cref="IXmiElementReader{T}"/> of <see cref="IInterface"/>
-        /// </summary>
-        public IXmiElementReader<IInterface> InterfaceReader { get; set; }
-
-        /// <summary>
-        /// Gets the INJECTED <see cref="IXmiElementReader{T}"/> of <see cref="IRealization"/>
-        /// </summary>
-        public IXmiElementReader<IRealization> RealizationReader { get; set; }
-
-        /// <summary>
-        /// Gets the INJECTED <see cref="IXmiElementReader{T}"/> of <see cref="IAssociation"/>
-        /// </summary>
-        public IXmiElementReader<IAssociation> AssociationReader { get; set; }
+        private readonly IXmiElementReaderFacade xmiElementReaderFacade;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PackageReader"/> class.
@@ -89,9 +62,10 @@ namespace uml4net.xmi.Readers.Packages
         /// <param name="logger">
         /// The (injected) <see cref="ILogger{T}"/> used to setup logging
         /// </param>
-        public PackageReader(IXmiReaderCache cache, ILogger<PackageReader> logger)
-            : base(cache, logger)
+        public PackageReader(IXmiReaderCache cache, ILoggerFactory loggerFactory)
+            : base(cache, loggerFactory)
         {
+            this.xmiElementReaderFacade = new XmiElementReaderFacade();
         }
 
         /// <summary>
@@ -107,7 +81,7 @@ namespace uml4net.xmi.Readers.Packages
         {
             Guard.ThrowIfNull(xmlReader);
 
-            IPackage package = new Package();
+            IPackage poco = new Package();
 
             if (xmlReader.MoveToContent() == XmlNodeType.Element)
             {
@@ -122,20 +96,20 @@ namespace uml4net.xmi.Readers.Packages
                     xmiType = "uml:Package";
                 }
 
-                package.XmiType = xmiType;
+                poco.XmiType = xmiType;
 
-                package.XmiId = xmlReader.GetAttribute("xmi:id");
+                poco.XmiId = xmlReader.GetAttribute("xmi:id");
 
-                this.Cache.Add(package.XmiId, package);
+                this.Cache.Add(poco.XmiId, poco);
 
-                package.Name = xmlReader.GetAttribute("name");
+                poco.Name = xmlReader.GetAttribute("name");
 
-                package.URI = xmlReader.GetAttribute("URI");
+                poco.URI = xmlReader.GetAttribute("URI");
 
                 var visibility = xmlReader.GetAttribute("visibility");
                 if (!string.IsNullOrEmpty(visibility))
                 {
-                    package.Visibility = (VisibilityKind)Enum.Parse(typeof(VisibilityKind), visibility, true);
+                    poco.Visibility = (VisibilityKind)Enum.Parse(typeof(VisibilityKind), visibility, true);
                 }
 
                 while (xmlReader.Read())
@@ -145,11 +119,8 @@ namespace uml4net.xmi.Readers.Packages
                         switch (xmlReader.LocalName)
                         {
                             case "ownedComment":
-                                using (var ownedCommentXmlReader = xmlReader.ReadSubtree())
-                                {
-                                    var comment = this.CommentReader.Read(ownedCommentXmlReader);
-                                    package.OwnedComment.Add(comment);
-                                }
+                                var ownedComment = (IComment)this.xmiElementReaderFacade.QueryXmiElement(xmlReader, this.Cache, this.LoggerFactory, "uml:Comment");
+                                poco.OwnedComment.Add(ownedComment);
                                 break;
                             case "elementImport":
                                 using (var elementImportXmlReader = xmlReader.ReadSubtree())
@@ -158,16 +129,15 @@ namespace uml4net.xmi.Readers.Packages
                                 }
                                 break;
                             case "ownedRule":
-                                using (var ownedRuleXmlReader = xmlReader.ReadSubtree())
-                                {
-                                    this.Logger.LogInformation("PackageReader.ownedRule not yet implemented");
-                                }
+                                var ownedRule = (IConstraint)this.xmiElementReaderFacade.QueryXmiElement(xmlReader, this.Cache, this.LoggerFactory, "uml:Constraint");
+                                poco.OwnedRule.Add(ownedRule);
                                 break;
                             case "packageImport":
                                 using (var packageImportXmlReader = xmlReader.ReadSubtree())
                                 {
-                                    var packageImport = this.PackageImportReader.Read(packageImportXmlReader);
-                                    package.PackageImport.Add(packageImport);
+                                    var packageImportReader = new PackageImportReader(this.Cache, this.LoggerFactory);
+                                    var packageImport = packageImportReader.Read(packageImportXmlReader);
+                                    poco.PackageImport.Add(packageImport);
                                 }
                                 break;
                             case "templateBinding":
@@ -177,7 +147,7 @@ namespace uml4net.xmi.Readers.Packages
                                 }
                                 break;
                             case "packagedElement":
-                                this.ReadPackagedElements(package, xmlReader);
+                                this.ReadPackagedElements(poco, xmlReader);
                                 break;
                             default:
                                 var defaultLineInfo = xmlReader as IXmlLineInfo;
@@ -187,7 +157,7 @@ namespace uml4net.xmi.Readers.Packages
                 }
             }
 
-            return package;
+            return poco;
         }
 
         /// <summary>
@@ -208,21 +178,24 @@ namespace uml4net.xmi.Readers.Packages
                 case "uml:Association":
                     using (var associationXmlReader = xmlReader.ReadSubtree())
                     {
-                        var association = this.AssociationReader.Read(associationXmlReader);
+                        var associationReader = new AssociationReader(this.Cache, this.LoggerFactory);
+                        var association = associationReader.Read(associationXmlReader);
                         package.PackagedElement.Add(association);
                     }
                     break;
                 case "uml:Class":
                     using (var classXmlReader = xmlReader.ReadSubtree())
                     {
-                        var packagedElement = this.ClassReader.Read(classXmlReader);
+                        var classReader = new ClassReader(this.Cache, this.LoggerFactory);
+                        var packagedElement = classReader.Read(classXmlReader);
                         package.PackagedElement.Add(packagedElement);
                     }
                     break;
                 case "uml:Enumeration":
                     using (var enumerationXmlReader = xmlReader.ReadSubtree())
                     {
-                        var enumeration = this.EnumerationReader.Read(enumerationXmlReader);
+                        var enumerationReader = new EnumerationReader(this.Cache, this.LoggerFactory);
+                        var enumeration = enumerationReader.Read(enumerationXmlReader);
                         package.PackagedElement.Add(enumeration);
                     }
                     break;
@@ -236,21 +209,24 @@ namespace uml4net.xmi.Readers.Packages
                 case "uml:PrimitiveType":
                     using (var primitiveTypeXmlReader = xmlReader.ReadSubtree())
                     {
-                        var primitive = this.PrimitiveTypeReader.Read(primitiveTypeXmlReader);
+                        var primitiveTypeReader = new PrimitiveTypeReader(this.Cache, this.LoggerFactory);
+                        var primitive = primitiveTypeReader.Read(primitiveTypeXmlReader);
                         package.PackagedElement.Add(primitive);
                     }
                     break;
                 case "uml:Interface":
                     using (var interfaceXmlReader = xmlReader.ReadSubtree())
                     {
-                        var @interface = this.InterfaceReader.Read(interfaceXmlReader);
+                        var interfaceReader = new InterfaceReader(this.Cache, this.LoggerFactory);
+                        var @interface = interfaceReader.Read(interfaceXmlReader);
                         package.PackagedElement.Add(@interface);
                     }
                     break;
                 case "uml:Realization":
                     using (var realizationXmlReader = xmlReader.ReadSubtree())
                     {
-                        var realization = this.RealizationReader.Read(realizationXmlReader);
+                        var realizationReader = new RealizationReader(this.Cache, this.LoggerFactory);
+                        var realization = realizationReader.Read(realizationXmlReader);
                         package.PackagedElement.Add(realization);
                     }
                     break;

@@ -24,6 +24,7 @@
 
 namespace uml4net.Packages
 {
+    using System;
     using System.Collections.Generic;
 
     using uml4net.Decorators;
@@ -252,7 +253,7 @@ namespace uml4net.Packages
         [Property(xmiId: "ExtensionEnd-lower", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: true, isDerivedUnion: false, isUnique: false, defaultValue: null)]
         [RedefinedProperty(propertyName: "MultiplicityElement-lower")]
         [Implements(implementation: "IExtensionEnd.Lower")]
-        public new int Lower => this.QueryLower();
+        public int Lower => this.QueryLower();
 
         /// <summary>
         /// The lower bound of the multiplicity interval.
@@ -431,7 +432,7 @@ namespace uml4net.Packages
         [Property(xmiId: "ConnectableElement-templateParameter", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
         [RedefinedProperty(propertyName: "ParameterableElement-templateParameter")]
         [Implements(implementation: "IConnectableElement.TemplateParameter")]
-        public new IConnectableElementTemplateParameter TemplateParameter { get; set; }
+        public IConnectableElementTemplateParameter TemplateParameter { get; set; }
 
         /// <summary>
         /// The TemplateParameter that exposes this ParameterableElement as a formal parameter.
@@ -439,7 +440,11 @@ namespace uml4net.Packages
         [Property(xmiId: "ParameterableElement-templateParameter", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
         [RedefinedByProperty("IConnectableElement.TemplateParameter")]
         [Implements(implementation: "IParameterableElement.TemplateParameter")]
-        ITemplateParameter IParameterableElement.TemplateParameter { get; set; }
+        ITemplateParameter IParameterableElement.TemplateParameter
+        {
+            get => throw new InvalidOperationException("Redefined by property IConnectableElement.TemplateParameter");
+            set => throw new InvalidOperationException("Redefined by property IConnectableElement.TemplateParameter");
+        }
 
         /// <summary>
         /// References the type of the ExtensionEnd. Note that this association restricts the possible types of
@@ -448,7 +453,7 @@ namespace uml4net.Packages
         [Property(xmiId: "ExtensionEnd-type", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
         [RedefinedProperty(propertyName: "TypedElement-type")]
         [Implements(implementation: "IExtensionEnd.Type")]
-        public new IStereotype Type { get; set; }
+        public IStereotype Type { get; set; }
 
         /// <summary>
         /// The type of the TypedElement.
@@ -456,7 +461,11 @@ namespace uml4net.Packages
         [Property(xmiId: "TypedElement-type", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
         [RedefinedByProperty("IExtensionEnd.Type")]
         [Implements(implementation: "ITypedElement.Type")]
-        IType ITypedElement.Type { get; set; }
+        IType ITypedElement.Type
+        {
+            get => throw new InvalidOperationException("Redefined by property IExtensionEnd.Type");
+            set => throw new InvalidOperationException("Redefined by property IExtensionEnd.Type");
+        }
 
         /// <summary>
         /// The upper bound of the multiplicity interval.

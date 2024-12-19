@@ -1,0 +1,227 @@
+﻿// -------------------------------------------------------------------------------------------------
+// <copyright file="GeneralizationSetReader.cs" company="Starion Group S.A.">
+//
+//   Copyright (C) 2019-2024 Starion Group S.A.
+//
+//   Licensed under the Apache License, Version 2.0 (the "License");
+//   you may not use this file except in compliance with the License.
+//   You may obtain a copy of the License at
+//
+//       http://www.apache.org/licenses/LICENSE-2.0
+//
+//   Unless required by applicable law or agreed to in writing, software
+//   distributed under the License is distributed on an "AS IS" BASIS,
+//   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+//   See the License for the specific language governing permissions and
+//   limitations under the License.
+//
+// </copyright>
+// ------------------------------------------------------------------------------------------------
+
+// ------------------------------------------------------------------------------------------------
+// --------THIS IS AN AUTOMATICALLY GENERATED FILE. ANY MANUAL CHANGES WILL BE OVERWRITTEN!--------
+// ------------------------------------------------------------------------------------------------
+
+namespace uml4net.xmi.Readers.Classification
+{
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Xml;
+
+    using Microsoft.Extensions.Logging;
+
+    using uml4net;
+    using uml4net.Classification;
+    using uml4net.CommonBehavior;
+    using uml4net.CommonStructure;
+    using uml4net.Deployments;
+    using uml4net.Packages;
+    using uml4net.SimpleClassifiers;
+    using uml4net.StructuredClassifiers;
+    using uml4net.UseCases;
+    using uml4net.Utils;
+    using uml4net.Values;
+    using uml4net.xmi.Cache;
+    using uml4net.xmi.Readers;
+
+    /// <summary>
+    /// The purpose of the <see cref="GeneralizationSetReader"/> is to read an instance of <see cref="IGeneralizationSet"/>
+    /// from the XMI document
+    /// </summary>
+    public class GeneralizationSetReader : XmiElementReader<IGeneralizationSet>, IXmiElementReader<IGeneralizationSet>
+    {
+        private readonly IXmiElementReaderFacade xmiElementReaderFacade;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="GeneralizationSetReader"/> class.
+        /// </summary>
+        /// <param name="cache">
+        /// The cache in which each <see cref="IXmiElement"/>> is stored
+        /// </param>
+        /// <param name="loggerFactory">
+        /// The (injected) <see cref="ILoggerFactory"/> used to set up logging
+        /// </param>
+        public GeneralizationSetReader(IXmiReaderCache cache, ILoggerFactory loggerFactory)
+            : base(cache, loggerFactory)
+        {
+            this.xmiElementReaderFacade = new XmiElementReaderFacade();
+        }
+
+        /// <summary>
+        /// Reads the <see cref="IGeneralizationSet"/> object from its XML representation
+        /// </summary>
+        /// <param name="xmlReader">
+        /// an instance of <see cref="XmlReader"/>
+        /// </param>
+        /// <returns>
+        /// an instance of <see cref="IGeneralizationSet"/>
+        /// </returns>
+        public override IGeneralizationSet Read(XmlReader xmlReader)
+        {
+            if (xmlReader == null)
+            {
+                throw new ArgumentNullException(nameof(xmlReader));
+            }
+
+            IGeneralizationSet poco = new GeneralizationSet();
+
+            if (xmlReader.MoveToContent() == XmlNodeType.Element)
+            {
+                var xmiType = xmlReader.GetAttribute("xmi:type");
+
+                if (!string.IsNullOrEmpty(xmiType) && xmiType != "uml:GeneralizationSet")
+                {
+                    throw new XmlException($"The XmiType should be 'uml:GeneralizationSet' while it is {xmiType}");
+                }
+                else
+                {
+                    xmiType = "uml:GeneralizationSet";
+                }
+
+                poco.XmiType = xmiType;
+
+                poco.XmiId = xmlReader.GetAttribute("xmi:id");
+
+                this.Cache.Add(poco.XmiId, poco);
+
+                var generalizationXmlAttribute = xmlReader.GetAttribute("generalization");
+                if (!string.IsNullOrEmpty(generalizationXmlAttribute))
+                {
+                    var generalizationXmlAttributeValues = generalizationXmlAttribute.Split(SplitMultiReference, StringSplitOptions.RemoveEmptyEntries).ToList();
+                    poco.MultiValueReferencePropertyIdentifiers.Add("generalization", generalizationXmlAttributeValues);
+                }
+
+                var isCoveringXmlAttribute = xmlReader.GetAttribute("isCovering");
+                if (!string.IsNullOrEmpty(isCoveringXmlAttribute))
+                {
+                    poco.IsCovering = bool.Parse(isCoveringXmlAttribute);
+                }
+
+                var isDisjointXmlAttribute = xmlReader.GetAttribute("isDisjoint");
+                if (!string.IsNullOrEmpty(isDisjointXmlAttribute))
+                {
+                    poco.IsDisjoint = bool.Parse(isDisjointXmlAttribute);
+                }
+
+                poco.Name = xmlReader.GetAttribute("name");
+
+                var owningTemplateParameterXmlAttribute = xmlReader.GetAttribute("owningTemplateParameter");
+                if (!string.IsNullOrEmpty(owningTemplateParameterXmlAttribute))
+                {
+                    poco.SingleValueReferencePropertyIdentifiers.Add("owningTemplateParameter", owningTemplateParameterXmlAttribute);
+                }
+
+                var powertypeXmlAttribute = xmlReader.GetAttribute("powertype");
+                if (!string.IsNullOrEmpty(powertypeXmlAttribute))
+                {
+                    poco.SingleValueReferencePropertyIdentifiers.Add("powertype", powertypeXmlAttribute);
+                }
+
+                var templateParameterXmlAttribute = xmlReader.GetAttribute("templateParameter");
+                if (!string.IsNullOrEmpty(templateParameterXmlAttribute))
+                {
+                    poco.SingleValueReferencePropertyIdentifiers.Add("templateParameter", templateParameterXmlAttribute);
+                }
+
+                var visibilityXmlAttribute = xmlReader.GetAttribute("visibility");
+                if (!string.IsNullOrEmpty(visibilityXmlAttribute))
+                {
+                    poco.Visibility = (VisibilityKind)Enum.Parse(typeof(VisibilityKind), visibilityXmlAttribute, true);
+                }
+
+
+                var generalization = new List<string>();
+
+                while (xmlReader.Read())
+                {
+                    if (xmlReader.NodeType == XmlNodeType.Element)
+                    {
+                        switch (xmlReader.LocalName)
+                        {
+                            case "generalization":
+                                this.CollectMultiValueReferencePropertyIdentifiers(xmlReader, generalization, "generalization");
+                                break;
+                            case "isCovering":
+                                var isCoveringXmlElement = xmlReader.ReadElementContentAsString();
+                                if (!string.IsNullOrEmpty(isCoveringXmlElement))
+                                {
+                                    poco.IsCovering = bool.Parse(isCoveringXmlElement);
+                                }
+                                break;
+                            case "isDisjoint":
+                                var isDisjointXmlElement = xmlReader.ReadElementContentAsString();
+                                if (!string.IsNullOrEmpty(isDisjointXmlElement))
+                                {
+                                    poco.IsDisjoint = bool.Parse(isDisjointXmlElement);
+                                }
+                                break;
+                            case "name":
+                                poco.Name = xmlReader.ReadElementContentAsString();
+                                break;
+                            case "nameExpression":
+                                var nameExpression = (IStringExpression)this.xmiElementReaderFacade.QueryXmiElement(xmlReader, this.Cache, this.LoggerFactory, "uml:StringExpression");
+                                poco.NameExpression.Add(nameExpression);
+                                break;
+                            case "ownedComment":
+                                var ownedComment = (IComment)this.xmiElementReaderFacade.QueryXmiElement(xmlReader, this.Cache, this.LoggerFactory, "uml:Comment");
+                                poco.OwnedComment.Add(ownedComment);
+                                break;
+                            case "owningTemplateParameter":
+                                this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "owningTemplateParameter");
+                                break;
+                            case "powertype":
+                                this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "powertype");
+                                break;
+                            case "templateParameter":
+                                this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "templateParameter");
+                                break;
+                            case "visibility":
+                                var visibilityXmlElement = xmlReader.ReadElementContentAsString();
+                                if (!string.IsNullOrEmpty(visibilityXmlElement))
+                                {
+                                    poco.Visibility = (VisibilityKind)Enum.Parse(typeof(VisibilityKind), visibilityXmlElement, true); ;
+                                }
+                                break;
+                            default:
+                                var defaultLineInfo = xmlReader as IXmlLineInfo;
+                                throw new NotSupportedException($"GeneralizationSetReader: {xmlReader.LocalName} at line:position {defaultLineInfo.LineNumber}:{defaultLineInfo.LinePosition}");
+                        }
+                    }
+                }
+
+                if (generalization.Count > 0)
+                {
+                    poco.MultiValueReferencePropertyIdentifiers.Add("generalization", generalization);
+                }
+
+            }
+
+            return poco;
+        }
+    }
+}
+
+// ------------------------------------------------------------------------------------------------
+// --------THIS IS AN AUTOMATICALLY GENERATED FILE. ANY MANUAL CHANGES WILL BE OVERWRITTEN!--------
+// ------------------------------------------------------------------------------------------------

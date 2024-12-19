@@ -85,7 +85,17 @@ namespace uml4net.CodeGenerator.Tests.Generators
         }
 
         [Test]
-        public async Task Verify_that_concrete_classes_are_generated([Values("Association", "Class", "OpaqueExpression")] string className)
+        public async Task Verify_that_concrete_classes_are_generated([Values(
+            "Activity","Association",
+            "Class", "Connector", 
+            "DurationConstraint", "DurationObservation", 
+            "ExceptionHandler", "Expression",
+            "Generalization",
+            "LiteralInteger","LiteralReal","LiteralUnlimitedNatural",
+            "OpaqueExpression",
+            "Property",
+            "StateMachine",
+            "TimeConstraint")] string className)
         {
             var classes = xmiReaderResult.Root.QueryPackages()
                 .SelectMany(x => x.PackagedElement.OfType<IClass>())
@@ -99,6 +109,21 @@ namespace uml4net.CodeGenerator.Tests.Generators
             var expected = await File.ReadAllTextAsync(Path.Combine(TestContext.CurrentContext.TestDirectory, $"Expected/AutoGenXmiReaders/{className}Reader.cs"));
 
             Assert.That(generatedCode, Is.EqualTo(expected));
+        }
+
+        [Test]
+        public void Verify_that_concrete_xmi_reader_classes_are_generated()
+        {
+            Assert.That(async () => await this.xmiReaderGenerator.GenerateAsync(xmiReaderResult, this.xmiReaderDirectoryInfo),
+                Throws.Nothing);
+        }
+
+        [Test]
+        public void Verify_that_GenerateXmiElementReaderFacade_is_generated()
+        {
+            Assert.That(async () => await this.xmiReaderGenerator.GenerateXmiElementReaderFacadeAsync(xmiReaderResult,
+                    this.xmiReaderDirectoryInfo),
+                Throws.Nothing);
         }
     }
 }

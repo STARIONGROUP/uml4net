@@ -21,15 +21,28 @@
 namespace uml4net.xmi.Readers.CommonStructure
 {
     using System;
+    using System.Collections.Generic;
+    using System.Linq;
     using System.Xml;
 
     using Microsoft.Extensions.Logging;
 
     using uml4net;
+    using uml4net.Classification;
+    using uml4net.CommonBehavior;
     using uml4net.CommonStructure;
+    using uml4net.Deployments;
+    using uml4net.Packages;
+    using uml4net.SimpleClassifiers;
+    using uml4net.StructuredClassifiers;
+    using uml4net.UseCases;
     using uml4net.Utils;
+    using uml4net.Values;
     using uml4net.xmi.Cache;
     using uml4net.xmi.Readers;
+    using uml4net.xmi.Readers.Classification;
+    using uml4net.xmi.Readers.CommonStructure;
+    using uml4net.xmi.Readers.Values;
 
     /// <summary>
     /// The purpose of the <see cref="PackageImportReader"/> is to read an instance of <see cref="IPackageImport"/>
@@ -37,6 +50,8 @@ namespace uml4net.xmi.Readers.CommonStructure
     /// </summary>
     public class PackageImportReader : XmiElementReader<IPackageImport>, IXmiElementReader<IPackageImport>
     {
+        private readonly IXmiElementReaderFacade xmiElementReaderFacade;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="PackageImportReader"/> class.
         /// </summary>
@@ -46,9 +61,10 @@ namespace uml4net.xmi.Readers.CommonStructure
         /// <param name="logger">
         /// The <see cref="ILogger{T}"/>
         /// </param>
-        public PackageImportReader(IXmiReaderCache cache, ILogger<PackageImportReader> logger)
-            : base(cache, logger)
+        public PackageImportReader(IXmiReaderCache cache, ILoggerFactory loggerFactory)
+            : base(cache, loggerFactory)
         {
+            this.xmiElementReaderFacade = new XmiElementReaderFacade();
         }
 
         /// <summary>
