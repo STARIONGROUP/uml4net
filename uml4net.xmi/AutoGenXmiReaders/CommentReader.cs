@@ -1,5 +1,5 @@
 ﻿// -------------------------------------------------------------------------------------------------
-// <copyright file="RedefinableTemplateSignatureReader.cs" company="Starion Group S.A.">
+// <copyright file="CommentReader.cs" company="Starion Group S.A.">
 //
 //   Copyright (C) 2019-2024 Starion Group S.A.
 //
@@ -22,7 +22,7 @@
 // --------THIS IS AN AUTOMATICALLY GENERATED FILE. ANY MANUAL CHANGES WILL BE OVERWRITTEN!--------
 // ------------------------------------------------------------------------------------------------
 
-namespace uml4net.xmi.Readers.Classification
+namespace uml4net.xmi.Readers.CommonStructure
 {
     using System;
     using System.Collections.Generic;
@@ -32,32 +32,33 @@ namespace uml4net.xmi.Readers.Classification
     using Microsoft.Extensions.Logging;
 
     using uml4net;
+    using uml4net.Actions;
+    using uml4net.Activities;
     using uml4net.Classification;
     using uml4net.CommonBehavior;
     using uml4net.CommonStructure;
     using uml4net.Deployments;
+    using uml4net.Interactions;
     using uml4net.Packages;
     using uml4net.SimpleClassifiers;
+    using uml4net.StateMachines;
     using uml4net.StructuredClassifiers;
     using uml4net.UseCases;
     using uml4net.Utils;
     using uml4net.Values;
     using uml4net.xmi.Cache;
     using uml4net.xmi.Readers;
-    using uml4net.xmi.Readers.Classification;
-    using uml4net.xmi.Readers.CommonStructure;
-    using uml4net.xmi.Readers.Values;
 
     /// <summary>
-    /// The purpose of the <see cref="RedefinableTemplateSignatureReader"/> is to read an instance of <see cref="IRedefinableTemplateSignature"/>
+    /// The purpose of the <see cref="CommentReader"/> is to read an instance of <see cref="IComment"/>
     /// from the XMI document
     /// </summary>
-    public class RedefinableTemplateSignatureReader : XmiElementReader<IRedefinableTemplateSignature>, IXmiElementReader<IRedefinableTemplateSignature>
+    public class CommentReader : XmiElementReader<IComment>, IXmiElementReader<IComment>
     {
         private readonly IXmiElementReaderFacade xmiElementReaderFacade;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="RedefinableTemplateSignatureReader"/> class.
+        /// Initializes a new instance of the <see cref="CommentReader"/> class.
         /// </summary>
         /// <param name="cache">
         /// The cache in which each <see cref="IXmiElement"/>> is stored
@@ -65,41 +66,41 @@ namespace uml4net.xmi.Readers.Classification
         /// <param name="loggerFactory">
         /// The (injected) <see cref="ILoggerFactory"/> used to set up logging
         /// </param>
-        public RedefinableTemplateSignatureReader(IXmiReaderCache cache, ILoggerFactory loggerFactory)
+        public CommentReader(IXmiReaderCache cache, ILoggerFactory loggerFactory)
             : base(cache, loggerFactory)
         {
             this.xmiElementReaderFacade = new XmiElementReaderFacade();
         }
 
         /// <summary>
-        /// Reads the <see cref="IRedefinableTemplateSignature"/> object from its XML representation
+        /// Reads the <see cref="IComment"/> object from its XML representation
         /// </summary>
         /// <param name="xmlReader">
         /// an instance of <see cref="XmlReader"/>
         /// </param>
         /// <returns>
-        /// an instance of <see cref="IRedefinableTemplateSignature"/>
+        /// an instance of <see cref="IComment"/>
         /// </returns>
-        public override IRedefinableTemplateSignature Read(XmlReader xmlReader)
+        public override IComment Read(XmlReader xmlReader)
         {
             if (xmlReader == null)
             {
                 throw new ArgumentNullException(nameof(xmlReader));
             }
 
-            IRedefinableTemplateSignature poco = new RedefinableTemplateSignature();
+            IComment poco = new Comment();
 
             if (xmlReader.MoveToContent() == XmlNodeType.Element)
             {
                 var xmiType = xmlReader.GetAttribute("xmi:type");
 
-                if (!string.IsNullOrEmpty(xmiType) && xmiType != "uml:RedefinableTemplateSignature")
+                if (!string.IsNullOrEmpty(xmiType) && xmiType != "uml:Comment")
                 {
-                    throw new XmlException($"The XmiType should be 'uml:RedefinableTemplateSignature' while it is {xmiType}");
+                    throw new XmlException($"The XmiType should be 'uml:Comment' while it is {xmiType}");
                 }
                 else
                 {
-                    xmiType = "uml:RedefinableTemplateSignature";
+                    xmiType = "uml:Comment";
                 }
 
                 poco.XmiType = xmiType;
@@ -107,6 +108,47 @@ namespace uml4net.xmi.Readers.Classification
                 poco.XmiId = xmlReader.GetAttribute("xmi:id");
 
                 this.Cache.Add(poco.XmiId, poco);
+
+                var annotatedElementXmlAttribute = xmlReader.GetAttribute("annotatedElement");
+                if (!string.IsNullOrEmpty(annotatedElementXmlAttribute))
+                {
+                    var annotatedElementXmlAttributeValues = annotatedElementXmlAttribute.Split(SplitMultiReference, StringSplitOptions.RemoveEmptyEntries).ToList();
+                    poco.MultiValueReferencePropertyIdentifiers.Add("annotatedElement", annotatedElementXmlAttributeValues);
+                }
+
+                poco.Body = xmlReader.GetAttribute("body");
+
+
+                var annotatedElementValues = new List<string>();
+
+                while (xmlReader.Read())
+                {
+                    if (xmlReader.NodeType == XmlNodeType.Element)
+                    {
+                        switch (xmlReader.LocalName)
+                        {
+                            case "annotatedElement":
+                                this.CollectMultiValueReferencePropertyIdentifiers(xmlReader, annotatedElementValues, "annotatedElement");
+                                break;
+                            case "body":
+                                poco.Body = xmlReader.ReadElementContentAsString();
+                                break;
+                            case "ownedComment":
+                                var ownedCommentValue = (IComment)this.xmiElementReaderFacade.QueryXmiElement(xmlReader, this.Cache, this.LoggerFactory, "uml:Comment");
+                                poco.OwnedComment.Add(ownedCommentValue);
+                                break;
+                            default:
+                                var defaultLineInfo = xmlReader as IXmlLineInfo;
+                                throw new NotSupportedException($"CommentReader: {xmlReader.LocalName} at line:position {defaultLineInfo.LineNumber}:{defaultLineInfo.LinePosition}");
+                        }
+                    }
+                }
+
+                if (annotatedElementValues.Count > 0)
+                {
+                    poco.MultiValueReferencePropertyIdentifiers.Add("annotatedElement", annotatedElementValues);
+                }
+
             }
 
             return poco;

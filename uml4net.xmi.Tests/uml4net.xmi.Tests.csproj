@@ -39,6 +39,9 @@
     </ItemGroup>
 
     <ItemGroup>
+        <Content Include="..\resources\Decision Model and Notation\dtc-23-02-13.xmi.xml" Link="TestData\dtc-23-02-13.xmi.xml">
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
         <Content Include="..\resources\UML\PrimitiveTypes.xmi.xml" Link="TestData\PrimitiveTypes.xmi">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </Content>

@@ -1,5 +1,5 @@
 ﻿// -------------------------------------------------------------------------------------------------
-// <copyright file="PackageReader.cs" company="Starion Group S.A.">
+// <copyright file="InterfaceRealizationReader.cs" company="Starion Group S.A.">
 //
 //   Copyright (C) 2019-2024 Starion Group S.A.
 //
@@ -22,7 +22,7 @@
 // --------THIS IS AN AUTOMATICALLY GENERATED FILE. ANY MANUAL CHANGES WILL BE OVERWRITTEN!--------
 // ------------------------------------------------------------------------------------------------
 
-namespace uml4net.xmi.Readers.Packages
+namespace uml4net.xmi.Readers.SimpleClassifiers
 {
     using System;
     using System.Collections.Generic;
@@ -50,15 +50,15 @@ namespace uml4net.xmi.Readers.Packages
     using uml4net.xmi.Readers;
 
     /// <summary>
-    /// The purpose of the <see cref="PackageReader"/> is to read an instance of <see cref="IPackage"/>
+    /// The purpose of the <see cref="InterfaceRealizationReader"/> is to read an instance of <see cref="IInterfaceRealization"/>
     /// from the XMI document
     /// </summary>
-    public class PackageReader : XmiElementReader<IPackage>, IXmiElementReader<IPackage>
+    public class InterfaceRealizationReader : XmiElementReader<IInterfaceRealization>, IXmiElementReader<IInterfaceRealization>
     {
         private readonly IXmiElementReaderFacade xmiElementReaderFacade;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="PackageReader"/> class.
+        /// Initializes a new instance of the <see cref="InterfaceRealizationReader"/> class.
         /// </summary>
         /// <param name="cache">
         /// The cache in which each <see cref="IXmiElement"/>> is stored
@@ -66,41 +66,41 @@ namespace uml4net.xmi.Readers.Packages
         /// <param name="loggerFactory">
         /// The (injected) <see cref="ILoggerFactory"/> used to set up logging
         /// </param>
-        public PackageReader(IXmiReaderCache cache, ILoggerFactory loggerFactory)
+        public InterfaceRealizationReader(IXmiReaderCache cache, ILoggerFactory loggerFactory)
             : base(cache, loggerFactory)
         {
             this.xmiElementReaderFacade = new XmiElementReaderFacade();
         }
 
         /// <summary>
-        /// Reads the <see cref="IPackage"/> object from its XML representation
+        /// Reads the <see cref="IInterfaceRealization"/> object from its XML representation
         /// </summary>
         /// <param name="xmlReader">
         /// an instance of <see cref="XmlReader"/>
         /// </param>
         /// <returns>
-        /// an instance of <see cref="IPackage"/>
+        /// an instance of <see cref="IInterfaceRealization"/>
         /// </returns>
-        public override IPackage Read(XmlReader xmlReader)
+        public override IInterfaceRealization Read(XmlReader xmlReader)
         {
             if (xmlReader == null)
             {
                 throw new ArgumentNullException(nameof(xmlReader));
             }
 
-            IPackage poco = new Package();
+            IInterfaceRealization poco = new InterfaceRealization();
 
             if (xmlReader.MoveToContent() == XmlNodeType.Element)
             {
                 var xmiType = xmlReader.GetAttribute("xmi:type");
 
-                if (!string.IsNullOrEmpty(xmiType) && xmiType != "uml:Package")
+                if (!string.IsNullOrEmpty(xmiType) && xmiType != "uml:InterfaceRealization")
                 {
-                    throw new XmlException($"The XmiType should be 'uml:Package' while it is {xmiType}");
+                    throw new XmlException($"The XmiType should be 'uml:InterfaceRealization' while it is {xmiType}");
                 }
                 else
                 {
-                    xmiType = "uml:Package";
+                    xmiType = "uml:InterfaceRealization";
                 }
 
                 poco.XmiType = xmiType;
@@ -109,18 +109,38 @@ namespace uml4net.xmi.Readers.Packages
 
                 this.Cache.Add(poco.XmiId, poco);
 
-                poco.Name = xmlReader.GetAttribute("name");
-
-                var nestingPackageXmlAttribute = xmlReader.GetAttribute("nestingPackage");
-                if (!string.IsNullOrEmpty(nestingPackageXmlAttribute))
+                var clientXmlAttribute = xmlReader.GetAttribute("client");
+                if (!string.IsNullOrEmpty(clientXmlAttribute))
                 {
-                    poco.SingleValueReferencePropertyIdentifiers.Add("nestingPackage", nestingPackageXmlAttribute);
+                    var clientXmlAttributeValues = clientXmlAttribute.Split(SplitMultiReference, StringSplitOptions.RemoveEmptyEntries).ToList();
+                    poco.MultiValueReferencePropertyIdentifiers.Add("client", clientXmlAttributeValues);
                 }
+
+                var contractXmlAttribute = xmlReader.GetAttribute("contract");
+                if (!string.IsNullOrEmpty(contractXmlAttribute))
+                {
+                    poco.SingleValueReferencePropertyIdentifiers.Add("contract", contractXmlAttribute);
+                }
+
+                var implementingClassifierXmlAttribute = xmlReader.GetAttribute("implementingClassifier");
+                if (!string.IsNullOrEmpty(implementingClassifierXmlAttribute))
+                {
+                    poco.SingleValueReferencePropertyIdentifiers.Add("implementingClassifier", implementingClassifierXmlAttribute);
+                }
+
+                poco.Name = xmlReader.GetAttribute("name");
 
                 var owningTemplateParameterXmlAttribute = xmlReader.GetAttribute("owningTemplateParameter");
                 if (!string.IsNullOrEmpty(owningTemplateParameterXmlAttribute))
                 {
                     poco.SingleValueReferencePropertyIdentifiers.Add("owningTemplateParameter", owningTemplateParameterXmlAttribute);
+                }
+
+                var supplierXmlAttribute = xmlReader.GetAttribute("supplier");
+                if (!string.IsNullOrEmpty(supplierXmlAttribute))
+                {
+                    var supplierXmlAttributeValues = supplierXmlAttribute.Split(SplitMultiReference, StringSplitOptions.RemoveEmptyEntries).ToList();
+                    poco.MultiValueReferencePropertyIdentifiers.Add("supplier", supplierXmlAttributeValues);
                 }
 
                 var templateParameterXmlAttribute = xmlReader.GetAttribute("templateParameter");
@@ -129,8 +149,6 @@ namespace uml4net.xmi.Readers.Packages
                     poco.SingleValueReferencePropertyIdentifiers.Add("templateParameter", templateParameterXmlAttribute);
                 }
 
-                poco.URI = xmlReader.GetAttribute("URI");
-
                 var visibilityXmlAttribute = xmlReader.GetAttribute("visibility");
                 if (!string.IsNullOrEmpty(visibilityXmlAttribute))
                 {
@@ -138,6 +156,8 @@ namespace uml4net.xmi.Readers.Packages
                 }
 
 
+                var clientValues = new List<string>();
+                var supplierValues = new List<string>();
 
                 while (xmlReader.Read())
                 {
@@ -145,9 +165,18 @@ namespace uml4net.xmi.Readers.Packages
                     {
                         switch (xmlReader.LocalName)
                         {
-                            case "elementImport":
-                                var elementImportValue = (IElementImport)this.xmiElementReaderFacade.QueryXmiElement(xmlReader, this.Cache, this.LoggerFactory, "uml:ElementImport");
-                                poco.ElementImport.Add(elementImportValue);
+                            case "client":
+                                this.CollectMultiValueReferencePropertyIdentifiers(xmlReader, clientValues, "client");
+                                break;
+                            case "contract":
+                                this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "contract");
+                                break;
+                            case "implementingClassifier":
+                                this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "implementingClassifier");
+                                break;
+                            case "mapping":
+                                var mappingValue = (IOpaqueExpression)this.xmiElementReaderFacade.QueryXmiElement(xmlReader, this.Cache, this.LoggerFactory, "uml:OpaqueExpression");
+                                poco.Mapping.Add(mappingValue);
                                 break;
                             case "name":
                                 poco.Name = xmlReader.ReadElementContentAsString();
@@ -156,49 +185,18 @@ namespace uml4net.xmi.Readers.Packages
                                 var nameExpressionValue = (IStringExpression)this.xmiElementReaderFacade.QueryXmiElement(xmlReader, this.Cache, this.LoggerFactory, "uml:StringExpression");
                                 poco.NameExpression.Add(nameExpressionValue);
                                 break;
-                            case "nestingPackage":
-                                this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "nestingPackage");
-                                break;
                             case "ownedComment":
                                 var ownedCommentValue = (IComment)this.xmiElementReaderFacade.QueryXmiElement(xmlReader, this.Cache, this.LoggerFactory, "uml:Comment");
                                 poco.OwnedComment.Add(ownedCommentValue);
                                 break;
-                            case "ownedRule":
-                                var ownedRuleValue = (IConstraint)this.xmiElementReaderFacade.QueryXmiElement(xmlReader, this.Cache, this.LoggerFactory, "uml:Constraint");
-                                poco.OwnedRule.Add(ownedRuleValue);
-                                break;
-                            case "ownedTemplateSignature":
-                                var ownedTemplateSignatureValue = (ITemplateSignature)this.xmiElementReaderFacade.QueryXmiElement(xmlReader, this.Cache, this.LoggerFactory, "uml:TemplateSignature");
-                                poco.OwnedTemplateSignature.Add(ownedTemplateSignatureValue);
-                                break;
                             case "owningTemplateParameter":
                                 this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "owningTemplateParameter");
                                 break;
-                            case "packagedElement":
-                                var packagedElementValue = (IPackageableElement)this.xmiElementReaderFacade.QueryXmiElement(xmlReader, this.Cache, this.LoggerFactory);
-                                poco.PackagedElement.Add(packagedElementValue);
-                                break;
-                            case "packageImport":
-                                var packageImportValue = (IPackageImport)this.xmiElementReaderFacade.QueryXmiElement(xmlReader, this.Cache, this.LoggerFactory, "uml:PackageImport");
-                                poco.PackageImport.Add(packageImportValue);
-                                break;
-                            case "packageMerge":
-                                var packageMergeValue = (IPackageMerge)this.xmiElementReaderFacade.QueryXmiElement(xmlReader, this.Cache, this.LoggerFactory, "uml:PackageMerge");
-                                poco.PackageMerge.Add(packageMergeValue);
-                                break;
-                            case "profileApplication":
-                                var profileApplicationValue = (IProfileApplication)this.xmiElementReaderFacade.QueryXmiElement(xmlReader, this.Cache, this.LoggerFactory, "uml:ProfileApplication");
-                                poco.ProfileApplication.Add(profileApplicationValue);
-                                break;
-                            case "templateBinding":
-                                var templateBindingValue = (ITemplateBinding)this.xmiElementReaderFacade.QueryXmiElement(xmlReader, this.Cache, this.LoggerFactory, "uml:TemplateBinding");
-                                poco.TemplateBinding.Add(templateBindingValue);
+                            case "supplier":
+                                this.CollectMultiValueReferencePropertyIdentifiers(xmlReader, supplierValues, "supplier");
                                 break;
                             case "templateParameter":
                                 this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "templateParameter");
-                                break;
-                            case "URI":
-                                poco.URI = xmlReader.ReadElementContentAsString();
                                 break;
                             case "visibility":
                                 var visibilityValue = xmlReader.ReadElementContentAsString();
@@ -209,9 +207,19 @@ namespace uml4net.xmi.Readers.Packages
                                 break;
                             default:
                                 var defaultLineInfo = xmlReader as IXmlLineInfo;
-                                throw new NotSupportedException($"PackageReader: {xmlReader.LocalName} at line:position {defaultLineInfo.LineNumber}:{defaultLineInfo.LinePosition}");
+                                throw new NotSupportedException($"InterfaceRealizationReader: {xmlReader.LocalName} at line:position {defaultLineInfo.LineNumber}:{defaultLineInfo.LinePosition}");
                         }
                     }
+                }
+
+                if (clientValues.Count > 0)
+                {
+                    poco.MultiValueReferencePropertyIdentifiers.Add("client", clientValues);
+                }
+
+                if (supplierValues.Count > 0)
+                {
+                    poco.MultiValueReferencePropertyIdentifiers.Add("supplier", supplierValues);
                 }
 
             }

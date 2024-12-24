@@ -32,21 +32,22 @@ namespace uml4net.xmi.Readers.CommonStructure
     using Microsoft.Extensions.Logging;
 
     using uml4net;
+    using uml4net.Actions;
+    using uml4net.Activities;
     using uml4net.Classification;
     using uml4net.CommonBehavior;
     using uml4net.CommonStructure;
     using uml4net.Deployments;
+    using uml4net.Interactions;
     using uml4net.Packages;
     using uml4net.SimpleClassifiers;
+    using uml4net.StateMachines;
     using uml4net.StructuredClassifiers;
     using uml4net.UseCases;
     using uml4net.Utils;
     using uml4net.Values;
     using uml4net.xmi.Cache;
     using uml4net.xmi.Readers;
-    using uml4net.xmi.Readers.Classification;
-    using uml4net.xmi.Readers.CommonStructure;
-    using uml4net.xmi.Readers.Values;
 
     /// <summary>
     /// The purpose of the <see cref="TemplateBindingReader"/> is to read an instance of <see cref="ITemplateBinding"/>
@@ -107,6 +108,48 @@ namespace uml4net.xmi.Readers.CommonStructure
                 poco.XmiId = xmlReader.GetAttribute("xmi:id");
 
                 this.Cache.Add(poco.XmiId, poco);
+
+                var boundElementXmlAttribute = xmlReader.GetAttribute("boundElement");
+                if (!string.IsNullOrEmpty(boundElementXmlAttribute))
+                {
+                    poco.SingleValueReferencePropertyIdentifiers.Add("boundElement", boundElementXmlAttribute);
+                }
+
+                var signatureXmlAttribute = xmlReader.GetAttribute("signature");
+                if (!string.IsNullOrEmpty(signatureXmlAttribute))
+                {
+                    poco.SingleValueReferencePropertyIdentifiers.Add("signature", signatureXmlAttribute);
+                }
+
+
+
+                while (xmlReader.Read())
+                {
+                    if (xmlReader.NodeType == XmlNodeType.Element)
+                    {
+                        switch (xmlReader.LocalName)
+                        {
+                            case "boundElement":
+                                this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "boundElement");
+                                break;
+                            case "ownedComment":
+                                var ownedCommentValue = (IComment)this.xmiElementReaderFacade.QueryXmiElement(xmlReader, this.Cache, this.LoggerFactory, "uml:Comment");
+                                poco.OwnedComment.Add(ownedCommentValue);
+                                break;
+                            case "parameterSubstitution":
+                                var parameterSubstitutionValue = (ITemplateParameterSubstitution)this.xmiElementReaderFacade.QueryXmiElement(xmlReader, this.Cache, this.LoggerFactory, "uml:TemplateParameterSubstitution");
+                                poco.ParameterSubstitution.Add(parameterSubstitutionValue);
+                                break;
+                            case "signature":
+                                this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "signature");
+                                break;
+                            default:
+                                var defaultLineInfo = xmlReader as IXmlLineInfo;
+                                throw new NotSupportedException($"TemplateBindingReader: {xmlReader.LocalName} at line:position {defaultLineInfo.LineNumber}:{defaultLineInfo.LinePosition}");
+                        }
+                    }
+                }
+
             }
 
             return poco;

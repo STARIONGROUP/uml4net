@@ -1,5 +1,5 @@
-// -------------------------------------------------------------------------------------------------
-// <copyright file="ClassReader.cs" company="Starion Group S.A.">
+﻿// -------------------------------------------------------------------------------------------------
+// <copyright file="UseCaseReader.cs" company="Starion Group S.A.">
 //
 //   Copyright (C) 2019-2024 Starion Group S.A.
 //
@@ -22,7 +22,7 @@
 // --------THIS IS AN AUTOMATICALLY GENERATED FILE. ANY MANUAL CHANGES WILL BE OVERWRITTEN!--------
 // ------------------------------------------------------------------------------------------------
 
-namespace uml4net.xmi.Readers.StructuredClassifiers
+namespace uml4net.xmi.Readers.UseCases
 {
     using System;
     using System.Collections.Generic;
@@ -50,15 +50,15 @@ namespace uml4net.xmi.Readers.StructuredClassifiers
     using uml4net.xmi.Readers;
 
     /// <summary>
-    /// The purpose of the <see cref="ClassReader"/> is to read an instance of <see cref="IClass"/>
+    /// The purpose of the <see cref="UseCaseReader"/> is to read an instance of <see cref="IUseCase"/>
     /// from the XMI document
     /// </summary>
-    public class ClassReader : XmiElementReader<IClass>, IXmiElementReader<IClass>
+    public class UseCaseReader : XmiElementReader<IUseCase>, IXmiElementReader<IUseCase>
     {
         private readonly IXmiElementReaderFacade xmiElementReaderFacade;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ClassReader"/> class.
+        /// Initializes a new instance of the <see cref="UseCaseReader"/> class.
         /// </summary>
         /// <param name="cache">
         /// The cache in which each <see cref="IXmiElement"/>> is stored
@@ -66,41 +66,41 @@ namespace uml4net.xmi.Readers.StructuredClassifiers
         /// <param name="loggerFactory">
         /// The (injected) <see cref="ILoggerFactory"/> used to set up logging
         /// </param>
-        public ClassReader(IXmiReaderCache cache, ILoggerFactory loggerFactory)
+        public UseCaseReader(IXmiReaderCache cache, ILoggerFactory loggerFactory)
             : base(cache, loggerFactory)
         {
             this.xmiElementReaderFacade = new XmiElementReaderFacade();
         }
 
         /// <summary>
-        /// Reads the <see cref="IClass"/> object from its XML representation
+        /// Reads the <see cref="IUseCase"/> object from its XML representation
         /// </summary>
         /// <param name="xmlReader">
         /// an instance of <see cref="XmlReader"/>
         /// </param>
         /// <returns>
-        /// an instance of <see cref="IClass"/>
+        /// an instance of <see cref="IUseCase"/>
         /// </returns>
-        public override IClass Read(XmlReader xmlReader)
+        public override IUseCase Read(XmlReader xmlReader)
         {
             if (xmlReader == null)
             {
                 throw new ArgumentNullException(nameof(xmlReader));
             }
 
-            IClass poco = new Class();
+            IUseCase poco = new UseCase();
 
             if (xmlReader.MoveToContent() == XmlNodeType.Element)
             {
                 var xmiType = xmlReader.GetAttribute("xmi:type");
 
-                if (!string.IsNullOrEmpty(xmiType) && xmiType != "uml:Class")
+                if (!string.IsNullOrEmpty(xmiType) && xmiType != "uml:UseCase")
                 {
-                    throw new XmlException($"The XmiType should be 'uml:Class' while it is {xmiType}");
+                    throw new XmlException($"The XmiType should be 'uml:UseCase' while it is {xmiType}");
                 }
                 else
                 {
-                    xmiType = "uml:Class";
+                    xmiType = "uml:UseCase";
                 }
 
                 poco.XmiType = xmiType;
@@ -119,12 +119,6 @@ namespace uml4net.xmi.Readers.StructuredClassifiers
                 if (!string.IsNullOrEmpty(isAbstractXmlAttribute))
                 {
                     poco.IsAbstract = bool.Parse(isAbstractXmlAttribute);
-                }
-
-                var isActiveXmlAttribute = xmlReader.GetAttribute("isActive");
-                if (!string.IsNullOrEmpty(isActiveXmlAttribute))
-                {
-                    poco.IsActive = bool.Parse(isActiveXmlAttribute);
                 }
 
                 var isFinalSpecializationXmlAttribute = xmlReader.GetAttribute("isFinalSpecialization");
@@ -173,6 +167,13 @@ namespace uml4net.xmi.Readers.StructuredClassifiers
                     poco.SingleValueReferencePropertyIdentifiers.Add("representation", representationXmlAttribute);
                 }
 
+                var subjectXmlAttribute = xmlReader.GetAttribute("subject");
+                if (!string.IsNullOrEmpty(subjectXmlAttribute))
+                {
+                    var subjectXmlAttributeValues = subjectXmlAttribute.Split(SplitMultiReference, StringSplitOptions.RemoveEmptyEntries).ToList();
+                    poco.MultiValueReferencePropertyIdentifiers.Add("subject", subjectXmlAttributeValues);
+                }
+
                 var templateParameterXmlAttribute = xmlReader.GetAttribute("templateParameter");
                 if (!string.IsNullOrEmpty(templateParameterXmlAttribute))
                 {
@@ -195,6 +196,7 @@ namespace uml4net.xmi.Readers.StructuredClassifiers
 
                 var powertypeExtentValues = new List<string>();
                 var redefinedClassifierValues = new List<string>();
+                var subjectValues = new List<string>();
                 var useCasesValues = new List<string>();
 
                 while (xmlReader.Read())
@@ -214,9 +216,21 @@ namespace uml4net.xmi.Readers.StructuredClassifiers
                                 var elementImportValue = (IElementImport)this.xmiElementReaderFacade.QueryXmiElement(xmlReader, this.Cache, this.LoggerFactory, "uml:ElementImport");
                                 poco.ElementImport.Add(elementImportValue);
                                 break;
+                            case "extend":
+                                var extendValue = (IExtend)this.xmiElementReaderFacade.QueryXmiElement(xmlReader, this.Cache, this.LoggerFactory, "uml:Extend");
+                                poco.Extend.Add(extendValue);
+                                break;
+                            case "extensionPoint":
+                                var extensionPointValue = (IExtensionPoint)this.xmiElementReaderFacade.QueryXmiElement(xmlReader, this.Cache, this.LoggerFactory, "uml:ExtensionPoint");
+                                poco.ExtensionPoint.Add(extensionPointValue);
+                                break;
                             case "generalization":
                                 var generalizationValue = (IGeneralization)this.xmiElementReaderFacade.QueryXmiElement(xmlReader, this.Cache, this.LoggerFactory, "uml:Generalization");
                                 poco.Generalization.Add(generalizationValue);
+                                break;
+                            case "include":
+                                var includeValue = (IInclude)this.xmiElementReaderFacade.QueryXmiElement(xmlReader, this.Cache, this.LoggerFactory, "uml:Include");
+                                poco.Include.Add(includeValue);
                                 break;
                             case "interfaceRealization":
                                 var interfaceRealizationValue = (IInterfaceRealization)this.xmiElementReaderFacade.QueryXmiElement(xmlReader, this.Cache, this.LoggerFactory, "uml:InterfaceRealization");
@@ -227,13 +241,6 @@ namespace uml4net.xmi.Readers.StructuredClassifiers
                                 if (!string.IsNullOrEmpty(isAbstractValue))
                                 {
                                     poco.IsAbstract = bool.Parse(isAbstractValue);
-                                }
-                                break;
-                            case "isActive":
-                                var isActiveValue = xmlReader.ReadElementContentAsString();
-                                if (!string.IsNullOrEmpty(isActiveValue))
-                                {
-                                    poco.IsActive = bool.Parse(isActiveValue);
                                 }
                                 break;
                             case "isFinalSpecialization":
@@ -257,14 +264,6 @@ namespace uml4net.xmi.Readers.StructuredClassifiers
                                 var nameExpressionValue = (IStringExpression)this.xmiElementReaderFacade.QueryXmiElement(xmlReader, this.Cache, this.LoggerFactory, "uml:StringExpression");
                                 poco.NameExpression.Add(nameExpressionValue);
                                 break;
-                            case "nestedClassifier":
-                                var nestedClassifierValue = (IClassifier)this.xmiElementReaderFacade.QueryXmiElement(xmlReader, this.Cache, this.LoggerFactory);
-                                poco.NestedClassifier.Add(nestedClassifierValue);
-                                break;
-                            case "ownedAttribute":
-                                var ownedAttributeValue = (IProperty)this.xmiElementReaderFacade.QueryXmiElement(xmlReader, this.Cache, this.LoggerFactory, "uml:Property");
-                                poco.OwnedAttribute.Add(ownedAttributeValue);
-                                break;
                             case "ownedBehavior":
                                 var ownedBehaviorValue = (IBehavior)this.xmiElementReaderFacade.QueryXmiElement(xmlReader, this.Cache, this.LoggerFactory);
                                 poco.OwnedBehavior.Add(ownedBehaviorValue);
@@ -272,18 +271,6 @@ namespace uml4net.xmi.Readers.StructuredClassifiers
                             case "ownedComment":
                                 var ownedCommentValue = (IComment)this.xmiElementReaderFacade.QueryXmiElement(xmlReader, this.Cache, this.LoggerFactory, "uml:Comment");
                                 poco.OwnedComment.Add(ownedCommentValue);
-                                break;
-                            case "ownedConnector":
-                                var ownedConnectorValue = (IConnector)this.xmiElementReaderFacade.QueryXmiElement(xmlReader, this.Cache, this.LoggerFactory, "uml:Connector");
-                                poco.OwnedConnector.Add(ownedConnectorValue);
-                                break;
-                            case "ownedOperation":
-                                var ownedOperationValue = (IOperation)this.xmiElementReaderFacade.QueryXmiElement(xmlReader, this.Cache, this.LoggerFactory, "uml:Operation");
-                                poco.OwnedOperation.Add(ownedOperationValue);
-                                break;
-                            case "ownedReception":
-                                var ownedReceptionValue = (IReception)this.xmiElementReaderFacade.QueryXmiElement(xmlReader, this.Cache, this.LoggerFactory, "uml:Reception");
-                                poco.OwnedReception.Add(ownedReceptionValue);
                                 break;
                             case "ownedRule":
                                 var ownedRuleValue = (IConstraint)this.xmiElementReaderFacade.QueryXmiElement(xmlReader, this.Cache, this.LoggerFactory, "uml:Constraint");
@@ -316,6 +303,9 @@ namespace uml4net.xmi.Readers.StructuredClassifiers
                             case "representation":
                                 this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "representation");
                                 break;
+                            case "subject":
+                                this.CollectMultiValueReferencePropertyIdentifiers(xmlReader, subjectValues, "subject");
+                                break;
                             case "substitution":
                                 var substitutionValue = (ISubstitution)this.xmiElementReaderFacade.QueryXmiElement(xmlReader, this.Cache, this.LoggerFactory, "uml:Substitution");
                                 poco.Substitution.Add(substitutionValue);
@@ -339,7 +329,7 @@ namespace uml4net.xmi.Readers.StructuredClassifiers
                                 break;
                             default:
                                 var defaultLineInfo = xmlReader as IXmlLineInfo;
-                                throw new NotSupportedException($"ClassReader: {xmlReader.LocalName} at line:position {defaultLineInfo.LineNumber}:{defaultLineInfo.LinePosition}");
+                                throw new NotSupportedException($"UseCaseReader: {xmlReader.LocalName} at line:position {defaultLineInfo.LineNumber}:{defaultLineInfo.LinePosition}");
                         }
                     }
                 }
@@ -352,6 +342,11 @@ namespace uml4net.xmi.Readers.StructuredClassifiers
                 if (redefinedClassifierValues.Count > 0)
                 {
                     poco.MultiValueReferencePropertyIdentifiers.Add("redefinedClassifier", redefinedClassifierValues);
+                }
+
+                if (subjectValues.Count > 0)
+                {
+                    poco.MultiValueReferencePropertyIdentifiers.Add("subject", subjectValues);
                 }
 
                 if (useCasesValues.Count > 0)

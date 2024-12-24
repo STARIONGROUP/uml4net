@@ -32,21 +32,22 @@ namespace uml4net.xmi.Readers.CommonStructure
     using Microsoft.Extensions.Logging;
 
     using uml4net;
+    using uml4net.Actions;
+    using uml4net.Activities;
     using uml4net.Classification;
     using uml4net.CommonBehavior;
     using uml4net.CommonStructure;
     using uml4net.Deployments;
+    using uml4net.Interactions;
     using uml4net.Packages;
     using uml4net.SimpleClassifiers;
+    using uml4net.StateMachines;
     using uml4net.StructuredClassifiers;
     using uml4net.UseCases;
     using uml4net.Utils;
     using uml4net.Values;
     using uml4net.xmi.Cache;
     using uml4net.xmi.Readers;
-    using uml4net.xmi.Readers.Classification;
-    using uml4net.xmi.Readers.CommonStructure;
-    using uml4net.xmi.Readers.Values;
 
     /// <summary>
     /// The purpose of the <see cref="ElementImportReader"/> is to read an instance of <see cref="IElementImport"/>
@@ -107,9 +108,69 @@ namespace uml4net.xmi.Readers.CommonStructure
                 poco.XmiId = xmlReader.GetAttribute("xmi:id");
 
                 this.Cache.Add(poco.XmiId, poco);
+
+                poco.Alias = xmlReader.GetAttribute("alias");
+
+                var importedElementXmlAttribute = xmlReader.GetAttribute("importedElement");
+                if (!string.IsNullOrEmpty(importedElementXmlAttribute))
+                {
+                    poco.SingleValueReferencePropertyIdentifiers.Add("importedElement", importedElementXmlAttribute);
+                }
+
+                var importingNamespaceXmlAttribute = xmlReader.GetAttribute("importingNamespace");
+                if (!string.IsNullOrEmpty(importingNamespaceXmlAttribute))
+                {
+                    poco.SingleValueReferencePropertyIdentifiers.Add("importingNamespace", importingNamespaceXmlAttribute);
+                }
+
+                var visibilityXmlAttribute = xmlReader.GetAttribute("visibility");
+                if (!string.IsNullOrEmpty(visibilityXmlAttribute))
+                {
+                    poco.Visibility = (VisibilityKind)Enum.Parse(typeof(VisibilityKind), visibilityXmlAttribute, true);
+                }
+
+
+
+                while (xmlReader.Read())
+                {
+                    if (xmlReader.NodeType == XmlNodeType.Element)
+                    {
+                        switch (xmlReader.LocalName)
+                        {
+                            case "alias":
+                                poco.Alias = xmlReader.ReadElementContentAsString();
+                                break;
+                            case "importedElement":
+                                this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "importedElement");
+                                break;
+                            case "importingNamespace":
+                                this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "importingNamespace");
+                                break;
+                            case "ownedComment":
+                                var ownedCommentValue = (IComment)this.xmiElementReaderFacade.QueryXmiElement(xmlReader, this.Cache, this.LoggerFactory, "uml:Comment");
+                                poco.OwnedComment.Add(ownedCommentValue);
+                                break;
+                            case "visibility":
+                                var visibilityValue = xmlReader.ReadElementContentAsString();
+                                if (!string.IsNullOrEmpty(visibilityValue))
+                                {
+                                    poco.Visibility = (VisibilityKind)Enum.Parse(typeof(VisibilityKind), visibilityValue, true); ;
+                                }
+                                break;
+                            default:
+                                var defaultLineInfo = xmlReader as IXmlLineInfo;
+                                throw new NotSupportedException($"ElementImportReader: {xmlReader.LocalName} at line:position {defaultLineInfo.LineNumber}:{defaultLineInfo.LinePosition}");
+                        }
+                    }
+                }
+
             }
 
             return poco;
         }
     }
 }
+
+// ------------------------------------------------------------------------------------------------
+// --------THIS IS AN AUTOMATICALLY GENERATED FILE. ANY MANUAL CHANGES WILL BE OVERWRITTEN!--------
+// ------------------------------------------------------------------------------------------------

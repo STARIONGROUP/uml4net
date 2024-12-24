@@ -32,24 +32,25 @@ namespace uml4net.xmi.Readers.StructuredClassifiers
     using Microsoft.Extensions.Logging;
 
     using uml4net;
+    using uml4net.Actions;
+    using uml4net.Activities;
     using uml4net.Classification;
     using uml4net.CommonBehavior;
     using uml4net.CommonStructure;
     using uml4net.Deployments;
+    using uml4net.Interactions;
     using uml4net.Packages;
     using uml4net.SimpleClassifiers;
+    using uml4net.StateMachines;
     using uml4net.StructuredClassifiers;
     using uml4net.UseCases;
     using uml4net.Utils;
     using uml4net.Values;
     using uml4net.xmi.Cache;
     using uml4net.xmi.Readers;
-    using uml4net.xmi.Readers.Classification;
-    using uml4net.xmi.Readers.CommonStructure;
-    using uml4net.xmi.Readers.Values;
 
     /// <summary>
-    /// The purpose of the <see cref="CollaborationUseReader"/> is to read an instance of <see cref="ICollaboration"/>
+    /// The purpose of the <see cref="CollaborationUseReader"/> is to read an instance of <see cref="ICollaborationUse"/>
     /// from the XMI document
     /// </summary>
     public class CollaborationUseReader : XmiElementReader<ICollaborationUse>, IXmiElementReader<ICollaborationUse>
@@ -72,13 +73,13 @@ namespace uml4net.xmi.Readers.StructuredClassifiers
         }
 
         /// <summary>
-        /// Reads the <see cref="ICollaboration"/> object from its XML representation
+        /// Reads the <see cref="ICollaborationUse"/> object from its XML representation
         /// </summary>
         /// <param name="xmlReader">
         /// an instance of <see cref="XmlReader"/>
         /// </param>
         /// <returns>
-        /// an instance of <see cref="ICollaboration"/>
+        /// an instance of <see cref="ICollaborationUse"/>
         /// </returns>
         public override ICollaborationUse Read(XmlReader xmlReader)
         {
@@ -107,9 +108,68 @@ namespace uml4net.xmi.Readers.StructuredClassifiers
                 poco.XmiId = xmlReader.GetAttribute("xmi:id");
 
                 this.Cache.Add(poco.XmiId, poco);
+
+                poco.Name = xmlReader.GetAttribute("name");
+
+                var typeXmlAttribute = xmlReader.GetAttribute("type");
+                if (!string.IsNullOrEmpty(typeXmlAttribute))
+                {
+                    poco.SingleValueReferencePropertyIdentifiers.Add("type", typeXmlAttribute);
+                }
+
+                var visibilityXmlAttribute = xmlReader.GetAttribute("visibility");
+                if (!string.IsNullOrEmpty(visibilityXmlAttribute))
+                {
+                    poco.Visibility = (VisibilityKind)Enum.Parse(typeof(VisibilityKind), visibilityXmlAttribute, true);
+                }
+
+
+
+                while (xmlReader.Read())
+                {
+                    if (xmlReader.NodeType == XmlNodeType.Element)
+                    {
+                        switch (xmlReader.LocalName)
+                        {
+                            case "name":
+                                poco.Name = xmlReader.ReadElementContentAsString();
+                                break;
+                            case "nameExpression":
+                                var nameExpressionValue = (IStringExpression)this.xmiElementReaderFacade.QueryXmiElement(xmlReader, this.Cache, this.LoggerFactory, "uml:StringExpression");
+                                poco.NameExpression.Add(nameExpressionValue);
+                                break;
+                            case "ownedComment":
+                                var ownedCommentValue = (IComment)this.xmiElementReaderFacade.QueryXmiElement(xmlReader, this.Cache, this.LoggerFactory, "uml:Comment");
+                                poco.OwnedComment.Add(ownedCommentValue);
+                                break;
+                            case "roleBinding":
+                                var roleBindingValue = (IDependency)this.xmiElementReaderFacade.QueryXmiElement(xmlReader, this.Cache, this.LoggerFactory, "uml:Dependency");
+                                poco.RoleBinding.Add(roleBindingValue);
+                                break;
+                            case "type":
+                                this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "type");
+                                break;
+                            case "visibility":
+                                var visibilityValue = xmlReader.ReadElementContentAsString();
+                                if (!string.IsNullOrEmpty(visibilityValue))
+                                {
+                                    poco.Visibility = (VisibilityKind)Enum.Parse(typeof(VisibilityKind), visibilityValue, true); ;
+                                }
+                                break;
+                            default:
+                                var defaultLineInfo = xmlReader as IXmlLineInfo;
+                                throw new NotSupportedException($"CollaborationUseReader: {xmlReader.LocalName} at line:position {defaultLineInfo.LineNumber}:{defaultLineInfo.LinePosition}");
+                        }
+                    }
+                }
+
             }
 
             return poco;
         }
     }
 }
+
+// ------------------------------------------------------------------------------------------------
+// --------THIS IS AN AUTOMATICALLY GENERATED FILE. ANY MANUAL CHANGES WILL BE OVERWRITTEN!--------
+// ------------------------------------------------------------------------------------------------
