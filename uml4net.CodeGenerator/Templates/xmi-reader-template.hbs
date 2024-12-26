@@ -113,7 +113,7 @@ namespace uml4net.xmi.Readers.{{this.Namespace.Name}}
                 {{ #Property.WriteXmlAttributeForXmiReader property ../ }}
                 {{/each}}
 
-                {{ #each (Class.QueryAllNonDerivedNonReadOnlyNonContainedReferenceEnumerableProperties this) as | property | }}
+                {{ #each (Class.QueryAllNonDerivedNonReadOnlyNonContainedNonRedefinedReferenceEnumerableProperties this) as | property | }}
                     var {{ property.Name }}Values = new List<string>();
                 {{/each}}
 
@@ -133,7 +133,7 @@ namespace uml4net.xmi.Readers.{{this.Namespace.Name}}
                     }
                 }
 
-                {{ #each (Class.QueryAllNonDerivedNonReadOnlyNonContainedReferenceEnumerableProperties this) as | property | }}
+                {{ #each (Class.QueryAllNonDerivedNonReadOnlyNonContainedNonRedefinedReferenceEnumerableProperties this) as | property | }}
                     if ({{ property.Name }}Values.Count > 0)
                     {
                         poco.MultiValueReferencePropertyIdentifiers.Add("{{ property.Name }}", {{ property.Name }}Values);

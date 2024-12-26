@@ -221,7 +221,6 @@ namespace uml4net.xmi.Readers.StateMachines
 
                 var extendedStateMachineValues = new List<string>();
                 var powertypeExtentValues = new List<string>();
-                var redefinedBehaviorValues = new List<string>();
                 var redefinedClassifierValues = new List<string>();
                 var submachineStateValues = new List<string>();
                 var useCasesValues = new List<string>();
@@ -421,11 +420,6 @@ namespace uml4net.xmi.Readers.StateMachines
                 if (powertypeExtentValues.Count > 0)
                 {
                     poco.MultiValueReferencePropertyIdentifiers.Add("powertypeExtent", powertypeExtentValues);
-                }
-
-                if (redefinedBehaviorValues.Count > 0)
-                {
-                    poco.MultiValueReferencePropertyIdentifiers.Add("redefinedBehavior", redefinedBehaviorValues);
                 }
 
                 if (redefinedClassifierValues.Count > 0)
