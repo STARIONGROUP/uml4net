@@ -108,6 +108,8 @@ namespace uml4net.xmi.Readers
 
                 poco.XmiId = xmlReader.GetAttribute("xmi:id");
 
+                poco.XmiGuid = xmlReader.GetAttribute("xmi:uuid");
+
                 this.Cache.Add(poco.XmiId, poco);
 
                 poco.Name = xmlReader.GetAttribute("name");
@@ -131,7 +133,7 @@ namespace uml4net.xmi.Readers
                 }
 
                 poco.Value = xmlReader.GetAttribute("value");
-                
+
                 var visibilityXmlAttribute = xmlReader.GetAttribute("visibility");
                 if (!string.IsNullOrEmpty(visibilityXmlAttribute))
                 {
