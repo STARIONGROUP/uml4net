@@ -44,8 +44,6 @@ namespace uml4net.Interactions
     using uml4net.UseCases;
     using uml4net.Values;
 
-    using uml4net.Utils;
-
     /// <summary>
     /// An Interaction is a unit of Behavior that focuses on the observable exchange of information between
     /// connectable elements.

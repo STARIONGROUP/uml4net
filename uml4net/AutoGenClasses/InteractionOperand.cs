@@ -44,8 +44,6 @@ namespace uml4net.Interactions
     using uml4net.UseCases;
     using uml4net.Values;
 
-    using uml4net.Utils;
-
     /// <summary>
     /// An InteractionOperand is contained in a CombinedFragment. An InteractionOperand represents one
     /// operand of the expression given by the enclosing CombinedFragment.

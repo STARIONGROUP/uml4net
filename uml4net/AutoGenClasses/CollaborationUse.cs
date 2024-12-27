@@ -44,8 +44,6 @@ namespace uml4net.StructuredClassifiers
     using uml4net.UseCases;
     using uml4net.Values;
 
-    using uml4net.Utils;
-
     /// <summary>
     /// A CollaborationUse is used to specify the application of a pattern specified by a Collaboration to a
     /// specific situation.

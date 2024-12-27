@@ -43,8 +43,6 @@ namespace uml4net.Actions
     using uml4net.UseCases;
     using uml4net.Values;
 
-    using uml4net.Utils;
-
     /// <summary>
     /// A Pin is an ObjectNode and MultiplicityElement that provides input values to an Action or accepts
     /// output values from an Action.

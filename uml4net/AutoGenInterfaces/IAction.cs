@@ -43,8 +43,6 @@ namespace uml4net.Actions
     using uml4net.UseCases;
     using uml4net.Values;
 
-    using uml4net.Utils;
-
     /// <summary>
     /// An Action is the fundamental unit of executable functionality. The execution of an Action represents
     /// some transformation or processing in the modeled system. Actions provide the ExecutableNodes within

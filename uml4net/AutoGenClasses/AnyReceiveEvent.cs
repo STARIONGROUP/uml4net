@@ -44,8 +44,6 @@ namespace uml4net.CommonBehavior
     using uml4net.UseCases;
     using uml4net.Values;
 
-    using uml4net.Utils;
-
     /// <summary>
     /// A trigger for an AnyReceiveEvent is triggered by the receipt of any message that is not explicitly
     /// handled by any related trigger.

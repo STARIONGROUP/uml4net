@@ -43,8 +43,6 @@ namespace uml4net.InformationFlows
     using uml4net.UseCases;
     using uml4net.Values;
 
-    using uml4net.Utils;
-
     /// <summary>
     /// InformationFlows describe circulation of information through a system in a general manner. They do
     /// not specify the nature of the information, mechanisms by which it is conveyed, sequences of exchange

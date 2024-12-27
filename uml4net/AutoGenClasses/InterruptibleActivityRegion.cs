@@ -44,8 +44,6 @@ namespace uml4net.Activities
     using uml4net.UseCases;
     using uml4net.Values;
 
-    using uml4net.Utils;
-
     /// <summary>
     /// An InterruptibleActivityRegion is an ActivityGroup that supports the termination of tokens flowing
     /// in the portions of an activity within it.

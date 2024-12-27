@@ -43,8 +43,6 @@ namespace uml4net.StateMachines
     using uml4net.UseCases;
     using uml4net.Values;
 
-    using uml4net.Utils;
-
     /// <summary>
     /// A ConnectionPointReference represents a usage (as part of a submachine State) of an entry/exit point
     /// Pseudostate defined in the StateMachine referenced by the submachine State.

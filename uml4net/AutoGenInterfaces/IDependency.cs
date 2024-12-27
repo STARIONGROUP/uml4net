@@ -43,8 +43,6 @@ namespace uml4net.CommonStructure
     using uml4net.UseCases;
     using uml4net.Values;
 
-    using uml4net.Utils;
-
     /// <summary>
     /// A Dependency is a Relationship that signifies that a single model Element or a set of model Elements
     /// requires other model Elements for their specification or implementation. This means that the

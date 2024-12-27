@@ -44,8 +44,6 @@ namespace uml4net.CommonStructure
     using uml4net.UseCases;
     using uml4net.Values;
 
-    using uml4net.Utils;
-
     /// <summary>
     /// A TemplateBinding is a DirectedRelationship between a TemplateableElement and a template. A
     /// TemplateBinding specifies the TemplateParameterSubstitutions of actual parameters for the formal

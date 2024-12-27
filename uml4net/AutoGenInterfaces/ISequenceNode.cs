@@ -43,8 +43,6 @@ namespace uml4net.Actions
     using uml4net.UseCases;
     using uml4net.Values;
 
-    using uml4net.Utils;
-
     /// <summary>
     /// A SequenceNode is a StructuredActivityNode that executes a sequence of ExecutableNodes in order.
     /// </summary>

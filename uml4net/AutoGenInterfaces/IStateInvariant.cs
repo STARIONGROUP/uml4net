@@ -43,8 +43,6 @@ namespace uml4net.Interactions
     using uml4net.UseCases;
     using uml4net.Values;
 
-    using uml4net.Utils;
-
     /// <summary>
     /// A StateInvariant is a runtime constraint on the participants of the Interaction. It may be used to
     /// specify a variety of different kinds of Constraints, such as values of Attributes or Variables,

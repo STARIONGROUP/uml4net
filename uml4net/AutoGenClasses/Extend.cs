@@ -44,8 +44,6 @@ namespace uml4net.UseCases
     using uml4net.UseCases;
     using uml4net.Values;
 
-    using uml4net.Utils;
-
     /// <summary>
     /// A relationship from an extending UseCase to an extended UseCase that specifies how and when the
     /// behavior defined in the extending UseCase can be inserted into the behavior defined in the extended

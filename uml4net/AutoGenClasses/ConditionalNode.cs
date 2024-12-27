@@ -44,8 +44,6 @@ namespace uml4net.Actions
     using uml4net.UseCases;
     using uml4net.Values;
 
-    using uml4net.Utils;
-
     /// <summary>
     /// A ConditionalNode is a StructuredActivityNode that chooses one among some number of alternative
     /// collections of ExecutableNodes to execute.

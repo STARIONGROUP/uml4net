@@ -43,8 +43,6 @@ namespace uml4net.Interactions
     using uml4net.UseCases;
     using uml4net.Values;
 
-    using uml4net.Utils;
-
     /// <summary>
     /// A ConsiderIgnoreFragment is a kind of CombinedFragment that is used for the consider and ignore
     /// cases, which require lists of pertinent Messages to be specified.

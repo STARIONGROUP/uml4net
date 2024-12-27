@@ -44,8 +44,6 @@ namespace uml4net.Activities
     using uml4net.UseCases;
     using uml4net.Values;
 
-    using uml4net.Utils;
-
     /// <summary>
     /// An ExceptionHandler is an Element that specifies a handlerBody ExecutableNode to execute in case the
     /// specified exception occurs during the execution of the protected ExecutableNode.

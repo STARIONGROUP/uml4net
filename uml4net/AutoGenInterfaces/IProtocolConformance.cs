@@ -43,8 +43,6 @@ namespace uml4net.StateMachines
     using uml4net.UseCases;
     using uml4net.Values;
 
-    using uml4net.Utils;
-
     /// <summary>
     /// A ProtocolStateMachine can be redefined into a more specific ProtocolStateMachine or into behavioral
     /// StateMachine. ProtocolConformance declares that the specific ProtocolStateMachine specifies a

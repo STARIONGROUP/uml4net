@@ -43,8 +43,6 @@ namespace uml4net.StateMachines
     using uml4net.UseCases;
     using uml4net.Values;
 
-    using uml4net.Utils;
-
     /// <summary>
     /// A State models a situation during which some (usually implicit) invariant condition holds.
     /// </summary>

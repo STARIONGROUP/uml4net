@@ -43,8 +43,6 @@ namespace uml4net.StateMachines
     using uml4net.UseCases;
     using uml4net.Values;
 
-    using uml4net.Utils;
-
     /// <summary>
     /// A ProtocolStateMachine is always defined in the context of a Classifier. It specifies which
     /// BehavioralFeatures of the Classifier can be called in which State and under which conditions, thus

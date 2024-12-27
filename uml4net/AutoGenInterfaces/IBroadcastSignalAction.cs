@@ -43,8 +43,6 @@ namespace uml4net.Actions
     using uml4net.UseCases;
     using uml4net.Values;
 
-    using uml4net.Utils;
-
     /// <summary>
     /// A BroadcastSignalAction is an InvocationAction that transmits a Signal instance to all the potential
     /// target objects in the system. Values from the argument InputPins are used to provide values for the

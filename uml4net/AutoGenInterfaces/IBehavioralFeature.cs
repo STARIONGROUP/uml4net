@@ -43,8 +43,6 @@ namespace uml4net.Classification
     using uml4net.UseCases;
     using uml4net.Values;
 
-    using uml4net.Utils;
-
     /// <summary>
     /// A BehavioralFeature is a feature of a Classifier that specifies an aspect of the behavior of its
     /// instances.  A BehavioralFeature is implemented (realized) by a Behavior. A BehavioralFeature

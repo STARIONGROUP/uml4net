@@ -43,8 +43,6 @@ namespace uml4net.Packages
     using uml4net.UseCases;
     using uml4net.Values;
 
-    using uml4net.Utils;
-
     /// <summary>
     /// A profile application is used to show which profiles have been applied to a package.
     /// </summary>

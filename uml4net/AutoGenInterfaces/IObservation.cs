@@ -43,8 +43,6 @@ namespace uml4net.Values
     using uml4net.UseCases;
     using uml4net.Values;
 
-    using uml4net.Utils;
-
     /// <summary>
     /// Observation specifies a value determined by observing an event or events that occur relative to
     /// other model Elements.

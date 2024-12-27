@@ -44,8 +44,6 @@ namespace uml4net.Deployments
     using uml4net.UseCases;
     using uml4net.Values;
 
-    using uml4net.Utils;
-
     /// <summary>
     /// An execution environment is a node that offers an execution environment for specific types of
     /// components that are deployed on it in the form of executable artifacts.

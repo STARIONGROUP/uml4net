@@ -43,8 +43,6 @@ namespace uml4net.Values
     using uml4net.UseCases;
     using uml4net.Values;
 
-    using uml4net.Utils;
-
     /// <summary>
     /// A StringExpression is an Expression that specifies a String value that is derived by concatenating a
     /// sequence of operands with String values or a sequence of subExpressions, some of which might be

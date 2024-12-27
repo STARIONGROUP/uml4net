@@ -44,8 +44,6 @@ namespace uml4net.Packages
     using uml4net.UseCases;
     using uml4net.Values;
 
-    using uml4net.Utils;
-
     /// <summary>
     /// A package can have one or more profile applications to indicate which profiles have been applied.
     /// Because a profile is a package, it is possible to apply a profile not only to packages, but also to

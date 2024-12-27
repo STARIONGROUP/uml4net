@@ -43,8 +43,6 @@ namespace uml4net.Values
     using uml4net.UseCases;
     using uml4net.Values;
 
-    using uml4net.Utils;
-
     /// <summary>
     /// An OpaqueExpression is a ValueSpecification that specifies the computation of a collection of values
     /// either in terms of a UML Behavior or based on a textual statement in a language other than UML

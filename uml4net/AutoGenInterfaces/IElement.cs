@@ -43,8 +43,6 @@ namespace uml4net.CommonStructure
     using uml4net.UseCases;
     using uml4net.Values;
 
-    using uml4net.Utils;
-
     /// <summary>
     /// An Element is a constituent of a model. As such, it has the capability of owning other Elements.
     /// </summary>

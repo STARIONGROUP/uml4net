@@ -44,8 +44,6 @@ namespace uml4net.Classification
     using uml4net.UseCases;
     using uml4net.Values;
 
-    using uml4net.Utils;
-
     /// <summary>
     /// A Property is a StructuralFeature. A Property related by ownedAttribute to a Classifier (other than
     /// an association) represents an attribute and might also represent an association end. It relates an

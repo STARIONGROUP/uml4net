@@ -44,8 +44,6 @@ namespace uml4net.SimpleClassifiers
     using uml4net.UseCases;
     using uml4net.Values;
 
-    using uml4net.Utils;
-
     /// <summary>
     /// An InterfaceRealization is a specialized realization relationship between a BehavioredClassifier and
     /// an Interface. This relationship signifies that the realizing BehavioredClassifier conforms to the

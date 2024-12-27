@@ -43,8 +43,6 @@ namespace uml4net.CommonStructure
     using uml4net.UseCases;
     using uml4net.Values;
 
-    using uml4net.Utils;
-
     /// <summary>
     /// A DirectedRelationship represents a relationship between a collection of source model Elements and a
     /// collection of target model Elements.

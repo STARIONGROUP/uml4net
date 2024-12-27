@@ -44,8 +44,6 @@ namespace uml4net.Actions
     using uml4net.UseCases;
     using uml4net.Values;
 
-    using uml4net.Utils;
-
     /// <summary>
     /// LinkEndDestructionData is LinkEndData used to provide values for one end of a link to be destroyed
     /// by a DestroyLinkAction.

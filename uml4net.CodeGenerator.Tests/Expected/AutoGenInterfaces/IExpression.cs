@@ -43,8 +43,6 @@ namespace uml4net.Values
     using uml4net.UseCases;
     using uml4net.Values;
 
-    using uml4net.Utils;
-
     /// <summary>
     /// An Expression represents a node in an expression tree, which may be non-terminal or terminal. It
     /// defines a symbol, and has a possibly empty sequence of operands that are ValueSpecifications. It

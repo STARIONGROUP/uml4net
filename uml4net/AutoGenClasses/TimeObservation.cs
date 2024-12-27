@@ -44,8 +44,6 @@ namespace uml4net.Values
     using uml4net.UseCases;
     using uml4net.Values;
 
-    using uml4net.Utils;
-
     /// <summary>
     /// A TimeObservation is a reference to a time instant during an execution. It points out the
     /// NamedElement in the model to observe and whether the observation is when this NamedElement is

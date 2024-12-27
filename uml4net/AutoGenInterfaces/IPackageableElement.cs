@@ -43,8 +43,6 @@ namespace uml4net.CommonStructure
     using uml4net.UseCases;
     using uml4net.Values;
 
-    using uml4net.Utils;
-
     /// <summary>
     /// A PackageableElement is a NamedElement that may be owned directly by a Package. A PackageableElement
     /// is also able to serve as the parameteredElement of a TemplateParameter.

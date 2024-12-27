@@ -43,8 +43,6 @@ namespace uml4net.Activities
     using uml4net.UseCases;
     using uml4net.Values;
 
-    using uml4net.Utils;
-
     /// <summary>
     /// A Variable is a ConnectableElement that may store values during the execution of an Activity.
     /// Reading and writing the values of a Variable provides an alternative means for passing data than the

@@ -44,8 +44,6 @@ namespace uml4net.StructuredClassifiers
     using uml4net.UseCases;
     using uml4net.Values;
 
-    using uml4net.Utils;
-
     /// <summary>
     /// A link is a tuple of values that refer to typed objects.  An Association classifies a set of links,
     /// each of which is an instance of the Association.  Each value in the link refers to an instance of

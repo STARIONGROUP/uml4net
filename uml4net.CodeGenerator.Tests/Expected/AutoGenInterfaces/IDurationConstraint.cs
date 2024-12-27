@@ -43,8 +43,6 @@ namespace uml4net.Values
     using uml4net.UseCases;
     using uml4net.Values;
 
-    using uml4net.Utils;
-
     /// <summary>
     /// A DurationConstraint is a Constraint that refers to a DurationInterval.
     /// </summary>

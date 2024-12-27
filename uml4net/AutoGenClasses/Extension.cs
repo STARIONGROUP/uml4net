@@ -44,8 +44,6 @@ namespace uml4net.Packages
     using uml4net.UseCases;
     using uml4net.Values;
 
-    using uml4net.Utils;
-
     /// <summary>
     /// An extension is used to indicate that the properties of a metaclass are extended through a
     /// stereotype, and gives the ability to flexibly add (and later remove) stereotypes to classes.

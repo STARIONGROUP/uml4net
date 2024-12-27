@@ -44,8 +44,6 @@ namespace uml4net.Deployments
     using uml4net.UseCases;
     using uml4net.Values;
 
-    using uml4net.Utils;
-
     /// <summary>
     /// A deployment is the allocation of an artifact or artifact instance to a deployment target.A
     /// component deployment is the deployment of one or more artifacts or artifact instances to a

@@ -43,8 +43,6 @@ namespace uml4net.Deployments
     using uml4net.UseCases;
     using uml4net.Values;
 
-    using uml4net.Utils;
-
     /// <summary>
     /// A manifestation is the concrete physical rendering of one or more model elements by an artifact.
     /// </summary>

@@ -18,7 +18,7 @@
 //  </copyright>
 //  ------------------------------------------------------------------------------------------------
 
-namespace uml4net.Utils
+namespace uml4net
 {
     using System.ComponentModel;
     using System.Collections.Generic;

@@ -44,8 +44,6 @@ namespace uml4net.Actions
     using uml4net.UseCases;
     using uml4net.Values;
 
-    using uml4net.Utils;
-
     /// <summary>
     /// A StartObjectBehaviorAction is an InvocationAction that starts the execution either of a directly
     /// instantiated Behavior or of the classifierBehavior of an object. Argument values may be supplied for

@@ -44,8 +44,6 @@ namespace uml4net.Classification
     using uml4net.UseCases;
     using uml4net.Values;
 
-    using uml4net.Utils;
-
     /// <summary>
     /// A substitution is a relationship between two classifiers signifying that the substituting classifier
     /// complies with the contract specified by the contract classifier. This implies that instances of the

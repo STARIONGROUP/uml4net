@@ -43,8 +43,6 @@ namespace uml4net.SimpleClassifiers
     using uml4net.UseCases;
     using uml4net.Values;
 
-    using uml4net.Utils;
-
     /// <summary>
     /// An EnumerationLiteral is a user-defined data value for an Enumeration.
     /// </summary>

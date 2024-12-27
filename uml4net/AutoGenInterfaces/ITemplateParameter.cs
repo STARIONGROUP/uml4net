@@ -43,8 +43,6 @@ namespace uml4net.CommonStructure
     using uml4net.UseCases;
     using uml4net.Values;
 
-    using uml4net.Utils;
-
     /// <summary>
     /// A TemplateParameter exposes a ParameterableElement as a formal parameter of a template.
     /// </summary>

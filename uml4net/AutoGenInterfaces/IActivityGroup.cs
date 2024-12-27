@@ -43,8 +43,6 @@ namespace uml4net.Activities
     using uml4net.UseCases;
     using uml4net.Values;
 
-    using uml4net.Utils;
-
     /// <summary>
     /// ActivityGroup is an abstract class for defining sets of ActivityNodes and ActivityEdges in an
     /// Activity.

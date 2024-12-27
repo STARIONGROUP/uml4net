@@ -43,8 +43,6 @@ namespace uml4net.Classification
     using uml4net.UseCases;
     using uml4net.Values;
 
-    using uml4net.Utils;
-
     /// <summary>
     /// A Feature declares a behavioral or structural characteristic of Classifiers.
     /// </summary>

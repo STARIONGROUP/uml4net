@@ -44,8 +44,6 @@ namespace uml4net.SimpleClassifiers
     using uml4net.UseCases;
     using uml4net.Values;
 
-    using uml4net.Utils;
-
     /// <summary>
     /// Interfaces declare coherent services that are implemented by BehavioredClassifiers that implement
     /// the Interfaces via InterfaceRealizations.

@@ -43,8 +43,6 @@ namespace uml4net.Activities
     using uml4net.UseCases;
     using uml4net.Values;
 
-    using uml4net.Utils;
-
     /// <summary>
     /// An ObjectNode is an abstract ActivityNode that may hold tokens within the object flow in an
     /// Activity. ObjectNodes also support token selection, limitation on the number of tokens held,

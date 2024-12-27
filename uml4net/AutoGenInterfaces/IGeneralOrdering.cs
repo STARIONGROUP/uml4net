@@ -43,8 +43,6 @@ namespace uml4net.Interactions
     using uml4net.UseCases;
     using uml4net.Values;
 
-    using uml4net.Utils;
-
     /// <summary>
     /// A GeneralOrdering represents a binary relation between two OccurrenceSpecifications, to describe
     /// that one OccurrenceSpecification must occur before the other in a valid trace. This mechanism

@@ -22,8 +22,6 @@ namespace uml4net.StructuredClassifiers
 {
     using System;
 
-    using uml4net.Utils;
-
     /// <summary>
     /// The <see cref="EncapsulatedClassifierExtensions"/> class provides extensions methods for <see cref="IEncapsulatedClassifier"/>
     /// </summary>

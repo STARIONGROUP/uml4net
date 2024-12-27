@@ -43,8 +43,6 @@ namespace uml4net.StateMachines
     using uml4net.UseCases;
     using uml4net.Values;
 
-    using uml4net.Utils;
-
     /// <summary>
     /// StateMachines can be used to express event-driven behaviors of parts of a system. Behavior is
     /// modeled as a traversal of a graph of Vertices interconnected by one or more joined Transition arcs

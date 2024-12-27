@@ -44,8 +44,6 @@ namespace uml4net.Interactions
     using uml4net.UseCases;
     using uml4net.Values;
 
-    using uml4net.Utils;
-
     /// <summary>
     /// A PartDecomposition is a description of the internal Interactions of one Lifeline relative to an
     /// Interaction.

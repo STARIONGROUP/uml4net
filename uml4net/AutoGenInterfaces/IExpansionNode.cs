@@ -43,8 +43,6 @@ namespace uml4net.Actions
     using uml4net.UseCases;
     using uml4net.Values;
 
-    using uml4net.Utils;
-
     /// <summary>
     /// An ExpansionNode is an ObjectNode used to indicate a collection input or output for an
     /// ExpansionRegion. A collection input of an ExpansionRegion contains a collection that is broken into

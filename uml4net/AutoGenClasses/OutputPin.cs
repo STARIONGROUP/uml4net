@@ -44,8 +44,6 @@ namespace uml4net.Actions
     using uml4net.UseCases;
     using uml4net.Values;
 
-    using uml4net.Utils;
-
     /// <summary>
     /// An OutputPin is a Pin that holds output values produced by an Action.
     /// </summary>

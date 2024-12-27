@@ -43,8 +43,6 @@ namespace uml4net.CommonStructure
     using uml4net.UseCases;
     using uml4net.Values;
 
-    using uml4net.Utils;
-
     /// <summary>
     /// A NamedElement is an Element in a model that may have a name. The name may be given directly and/or
     /// via the use of a StringExpression.

@@ -43,8 +43,6 @@ namespace uml4net.CommonStructure
     using uml4net.UseCases;
     using uml4net.Values;
 
-    using uml4net.Utils;
-
     /// <summary>
     /// A Namespace is an Element in a model that owns and/or imports a set of NamedElements that can be
     /// identified by name.

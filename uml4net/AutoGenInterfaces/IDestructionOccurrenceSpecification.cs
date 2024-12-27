@@ -43,8 +43,6 @@ namespace uml4net.Interactions
     using uml4net.UseCases;
     using uml4net.Values;
 
-    using uml4net.Utils;
-
     /// <summary>
     /// A DestructionOccurenceSpecification models the destruction of an object.
     /// </summary>

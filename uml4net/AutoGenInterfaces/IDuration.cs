@@ -43,8 +43,6 @@ namespace uml4net.Values
     using uml4net.UseCases;
     using uml4net.Values;
 
-    using uml4net.Utils;
-
     /// <summary>
     /// A Duration is a ValueSpecification that specifies the temporal distance between two time instants.
     /// </summary>

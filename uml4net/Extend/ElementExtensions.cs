@@ -22,8 +22,6 @@ namespace uml4net.CommonStructure
 {
     using System;
     
-    using uml4net.Utils;
-
     /// <summary>
     /// The <see cref="ElementExtensions"/> class provides extensions methods for <see cref="IElement"/>
     /// </summary>

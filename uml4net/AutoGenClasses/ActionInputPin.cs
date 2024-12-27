@@ -44,8 +44,6 @@ namespace uml4net.Actions
     using uml4net.UseCases;
     using uml4net.Values;
 
-    using uml4net.Utils;
-
     /// <summary>
     /// An ActionInputPin is a kind of InputPin that executes an Action to determine the values to input to
     /// another Action.

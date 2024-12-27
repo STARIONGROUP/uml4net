@@ -43,8 +43,6 @@ namespace uml4net.SimpleClassifiers
     using uml4net.UseCases;
     using uml4net.Values;
 
-    using uml4net.Utils;
-
     /// <summary>
     /// A BehavioredClassifier may have InterfaceRealizations, and owns a set of Behaviors one of which may
     /// specify the behavior of the BehavioredClassifier itself.

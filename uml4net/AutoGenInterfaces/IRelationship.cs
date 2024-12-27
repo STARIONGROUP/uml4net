@@ -43,8 +43,6 @@ namespace uml4net.CommonStructure
     using uml4net.UseCases;
     using uml4net.Values;
 
-    using uml4net.Utils;
-
     /// <summary>
     /// Relationship is an abstract concept that specifies some kind of relationship between Elements.
     /// </summary>

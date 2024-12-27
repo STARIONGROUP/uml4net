@@ -43,8 +43,6 @@ namespace uml4net.CommonBehavior
     using uml4net.UseCases;
     using uml4net.Values;
 
-    using uml4net.Utils;
-
     /// <summary>
     /// A SignalEvent represents the receipt of an asynchronous Signal instance.
     /// </summary>

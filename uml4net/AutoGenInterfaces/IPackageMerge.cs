@@ -43,8 +43,6 @@ namespace uml4net.Packages
     using uml4net.UseCases;
     using uml4net.Values;
 
-    using uml4net.Utils;
-
     /// <summary>
     /// A package merge defines how the contents of one package are extended by the contents of another
     /// package.

@@ -44,8 +44,6 @@ namespace uml4net.CommonStructure
     using uml4net.UseCases;
     using uml4net.Values;
 
-    using uml4net.Utils;
-
     /// <summary>
     /// A Template Signature bundles the set of formal TemplateParameters for a template.
     /// </summary>

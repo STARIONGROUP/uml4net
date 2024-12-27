@@ -43,8 +43,6 @@ namespace uml4net.Actions
     using uml4net.UseCases;
     using uml4net.Values;
 
-    using uml4net.Utils;
-
     /// <summary>
     /// A ReclassifyObjectAction is an Action that changes the Classifiers that classify an object.
     /// </summary>

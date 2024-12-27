@@ -43,8 +43,6 @@ namespace uml4net.Activities
     using uml4net.UseCases;
     using uml4net.Values;
 
-    using uml4net.Utils;
-
     /// <summary>
     /// ActivityNode is an abstract class for points in the flow of an Activity connected by ActivityEdges.
     /// </summary>

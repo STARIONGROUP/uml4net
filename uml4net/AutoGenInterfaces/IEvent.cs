@@ -43,8 +43,6 @@ namespace uml4net.CommonBehavior
     using uml4net.UseCases;
     using uml4net.Values;
 
-    using uml4net.Utils;
-
     /// <summary>
     /// An Event is the specification of some occurrence that may potentially trigger effects by an object.
     /// </summary>

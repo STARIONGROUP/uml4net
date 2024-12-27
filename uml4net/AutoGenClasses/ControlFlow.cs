@@ -44,8 +44,6 @@ namespace uml4net.Activities
     using uml4net.UseCases;
     using uml4net.Values;
 
-    using uml4net.Utils;
-
     /// <summary>
     /// A ControlFlow is an ActivityEdge traversed by control tokens or object tokens of control type, which
     /// are use to control the execution of ExecutableNodes.

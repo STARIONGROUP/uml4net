@@ -44,8 +44,6 @@ namespace uml4net.Packages
     using uml4net.UseCases;
     using uml4net.Values;
 
-    using uml4net.Utils;
-
     /// <summary>
     /// A stereotype defines how an existing metaclass may be extended, and enables the use of platform or
     /// domain specific terminology or notation in place of, or in addition to, the ones used for the

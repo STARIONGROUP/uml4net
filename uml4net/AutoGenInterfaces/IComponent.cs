@@ -43,8 +43,6 @@ namespace uml4net.StructuredClassifiers
     using uml4net.UseCases;
     using uml4net.Values;
 
-    using uml4net.Utils;
-
     /// <summary>
     /// A Component represents a modular part of a system that encapsulates its contents and whose
     /// manifestation is replaceable within its environment.

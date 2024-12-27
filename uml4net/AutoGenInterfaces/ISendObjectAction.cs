@@ -43,8 +43,6 @@ namespace uml4net.Actions
     using uml4net.UseCases;
     using uml4net.Values;
 
-    using uml4net.Utils;
-
     /// <summary>
     /// A SendObjectAction is an InvocationAction that transmits an input object to the target object, which
     /// is handled as a request message by the target object. The requestor continues execution immediately

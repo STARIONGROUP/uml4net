@@ -44,8 +44,6 @@ namespace uml4net.Actions
     using uml4net.UseCases;
     using uml4net.Values;
 
-    using uml4net.Utils;
-
     /// <summary>
     /// A ReplyAction is an Action that accepts a set of reply values and a value containing return
     /// information produced by a previous AcceptCallAction. The ReplyAction returns the values to the

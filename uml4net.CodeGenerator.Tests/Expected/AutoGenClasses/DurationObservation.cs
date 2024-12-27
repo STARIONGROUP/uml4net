@@ -44,8 +44,6 @@ namespace uml4net.Values
     using uml4net.UseCases;
     using uml4net.Values;
 
-    using uml4net.Utils;
-
     /// <summary>
     /// A DurationObservation is a reference to a duration during an execution. It points out the
     /// NamedElement(s) in the model to observe and whether the observations are when this NamedElement is

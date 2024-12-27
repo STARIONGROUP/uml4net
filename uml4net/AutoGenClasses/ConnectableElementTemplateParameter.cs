@@ -44,8 +44,6 @@ namespace uml4net.StructuredClassifiers
     using uml4net.UseCases;
     using uml4net.Values;
 
-    using uml4net.Utils;
-
     /// <summary>
     /// A ConnectableElementTemplateParameter exposes a ConnectableElement as a formal parameter for a
     /// template.

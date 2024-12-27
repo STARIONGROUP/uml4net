@@ -43,8 +43,6 @@ namespace uml4net.CommonBehavior
     using uml4net.UseCases;
     using uml4net.Values;
 
-    using uml4net.Utils;
-
     /// <summary>
     /// A MessageEvent specifies the receipt by an object of either an Operation call or a Signal instance.
     /// </summary>

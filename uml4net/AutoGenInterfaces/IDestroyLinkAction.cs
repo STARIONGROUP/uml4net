@@ -43,8 +43,6 @@ namespace uml4net.Actions
     using uml4net.UseCases;
     using uml4net.Values;
 
-    using uml4net.Utils;
-
     /// <summary>
     /// A DestroyLinkAction is a WriteLinkAction that destroys links (including link objects).
     /// </summary>

@@ -43,8 +43,6 @@ namespace uml4net.CommonBehavior
     using uml4net.UseCases;
     using uml4net.Values;
 
-    using uml4net.Utils;
-
     /// <summary>
     /// Behavior is a specification of how its context BehavioredClassifier changes state over time. This
     /// specification may be either a definition of possible behavior execution or emergent behavior, or a

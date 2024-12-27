@@ -43,8 +43,6 @@ namespace uml4net.Interactions
     using uml4net.UseCases;
     using uml4net.Values;
 
-    using uml4net.Utils;
-
     /// <summary>
     /// An ExecutionSpecification is a specification of the execution of a unit of Behavior or Action within
     /// the Lifeline. The duration of an ExecutionSpecification is represented by two

@@ -43,8 +43,6 @@ namespace uml4net.StructuredClassifiers
     using uml4net.UseCases;
     using uml4net.Values;
 
-    using uml4net.Utils;
-
     /// <summary>
     /// ConnectableElement is an abstract metaclass representing a set of instances that play roles of a
     /// StructuredClassifier. ConnectableElements may be joined by attached Connectors and specify

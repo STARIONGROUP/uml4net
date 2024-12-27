@@ -43,8 +43,6 @@ namespace uml4net.CommonStructure
     using uml4net.UseCases;
     using uml4net.Values;
 
-    using uml4net.Utils;
-
     /// <summary>
     /// A ParameterableElement is an Element that can be exposed as a formal TemplateParameter for a
     /// template, or specified as an actual parameter in a binding of a template.

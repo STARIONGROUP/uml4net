@@ -44,8 +44,6 @@ namespace uml4net.Packages
     using uml4net.UseCases;
     using uml4net.Values;
 
-    using uml4net.Utils;
-
     /// <summary>
     /// A profile defines limited extensions to a reference metamodel with the purpose of adapting the
     /// metamodel to a specific platform or domain.

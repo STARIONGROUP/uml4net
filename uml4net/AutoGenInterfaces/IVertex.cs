@@ -43,8 +43,6 @@ namespace uml4net.StateMachines
     using uml4net.UseCases;
     using uml4net.Values;
 
-    using uml4net.Utils;
-
     /// <summary>
     /// A Vertex is an abstraction of a node in a StateMachine graph. It can be the source or destination of
     /// any number of Transitions.

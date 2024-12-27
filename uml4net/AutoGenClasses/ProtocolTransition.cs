@@ -44,8 +44,6 @@ namespace uml4net.StateMachines
     using uml4net.UseCases;
     using uml4net.Values;
 
-    using uml4net.Utils;
-
     /// <summary>
     /// A ProtocolTransition specifies a legal Transition for an Operation. Transitions of
     /// ProtocolStateMachines have the following information: a pre-condition (guard), a Trigger, and a

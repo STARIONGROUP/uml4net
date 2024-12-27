@@ -44,8 +44,6 @@ namespace uml4net.Actions
     using uml4net.UseCases;
     using uml4net.Values;
 
-    using uml4net.Utils;
-
     /// <summary>
     /// A CreateObjectAction is an Action that creates an instance of the specified Classifier.
     /// </summary>

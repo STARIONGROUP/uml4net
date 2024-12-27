@@ -43,8 +43,6 @@ namespace uml4net.Activities
     using uml4net.UseCases;
     using uml4net.Values;
 
-    using uml4net.Utils;
-
     /// <summary>
     /// An ActivityEdge is an abstract class for directed connections between two ActivityNodes.
     /// </summary>

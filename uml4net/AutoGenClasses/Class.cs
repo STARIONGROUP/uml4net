@@ -44,8 +44,6 @@ namespace uml4net.StructuredClassifiers
     using uml4net.UseCases;
     using uml4net.Values;
 
-    using uml4net.Utils;
-
     /// <summary>
     /// A Class classifies a set of objects and specifies the features that characterize the structure and
     /// behavior of those objects.  A Class may have an internal structure and Ports.

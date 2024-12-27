@@ -44,8 +44,6 @@ namespace uml4net.Interactions
     using uml4net.UseCases;
     using uml4net.Values;
 
-    using uml4net.Utils;
-
     /// <summary>
     /// An OccurrenceSpecification is the basic semantic unit of Interactions. The sequences of occurrences
     /// specified by them are the meanings of Interactions.

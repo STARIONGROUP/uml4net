@@ -43,8 +43,6 @@ namespace uml4net.StateMachines
     using uml4net.UseCases;
     using uml4net.Values;
 
-    using uml4net.Utils;
-
     /// <summary>
     /// A Transition represents an arc between exactly one source Vertex and exactly one Target vertex (the
     /// source and targets may be the same Vertex). It may form part of a compound transition, which takes

@@ -43,8 +43,6 @@ namespace uml4net.UseCases
     using uml4net.UseCases;
     using uml4net.Values;
 
-    using uml4net.Utils;
-
     /// <summary>
     /// An Actor specifies a role played by a user or any other system that interacts with the subject.
     /// </summary>

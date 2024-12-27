@@ -43,8 +43,6 @@ namespace uml4net.Interactions
     using uml4net.UseCases;
     using uml4net.Values;
 
-    using uml4net.Utils;
-
     /// <summary>
     /// InteractionFragment is an abstract notion of the most general interaction unit. An
     /// InteractionFragment is a piece of an Interaction. Each InteractionFragment is conceptually like an

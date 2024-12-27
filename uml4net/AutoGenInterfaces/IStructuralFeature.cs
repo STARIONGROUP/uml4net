@@ -43,8 +43,6 @@ namespace uml4net.Classification
     using uml4net.UseCases;
     using uml4net.Values;
 
-    using uml4net.Utils;
-
     /// <summary>
     /// A StructuralFeature is a typed feature of a Classifier that specifies the structure of instances of
     /// the Classifier.

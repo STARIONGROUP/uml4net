@@ -43,8 +43,6 @@ namespace uml4net.Packages
     using uml4net.UseCases;
     using uml4net.Values;
 
-    using uml4net.Utils;
-
     /// <summary>
     /// A model captures a view of a physical system. It is an abstraction of the physical system, with a
     /// certain purpose. This purpose determines what is to be included in the model and what is irrelevant.

@@ -43,8 +43,6 @@ namespace uml4net.Deployments
     using uml4net.UseCases;
     using uml4net.Values;
 
-    using uml4net.Utils;
-
     /// <summary>
     /// A communication path is an association between two deployment targets, through which they are able
     /// to exchange signals and messages.

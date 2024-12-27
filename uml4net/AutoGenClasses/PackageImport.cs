@@ -44,8 +44,6 @@ namespace uml4net.CommonStructure
     using uml4net.UseCases;
     using uml4net.Values;
 
-    using uml4net.Utils;
-
     /// <summary>
     /// A PackageImport is a Relationship that imports all the non-private members of a Package into the
     /// Namespace owning the PackageImport, so that those Elements may be referred to by their unqualified

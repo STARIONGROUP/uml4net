@@ -44,8 +44,6 @@ namespace uml4net.StructuredClassifiers
     using uml4net.UseCases;
     using uml4net.Values;
 
-    using uml4net.Utils;
-
     /// <summary>
     /// A model element that has both Association and Class properties. An AssociationClass can be seen as
     /// an Association that also has Class properties, or as a Class that also has Association properties.

@@ -44,8 +44,6 @@ namespace uml4net.SimpleClassifiers
     using uml4net.UseCases;
     using uml4net.Values;
 
-    using uml4net.Utils;
-
     /// <summary>
     /// An Enumeration is a DataType whose values are enumerated in the model as EnumerationLiterals.
     /// </summary>

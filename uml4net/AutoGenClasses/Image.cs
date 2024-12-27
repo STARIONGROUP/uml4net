@@ -44,8 +44,6 @@ namespace uml4net.Packages
     using uml4net.UseCases;
     using uml4net.Values;
 
-    using uml4net.Utils;
-
     /// <summary>
     /// Physical definition of a graphical image.
     /// </summary>

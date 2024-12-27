@@ -29,7 +29,6 @@ namespace uml4net.Extensions
     using uml4net.CommonStructure;
     using uml4net.SimpleClassifiers;
     using uml4net.StructuredClassifiers;
-    using uml4net.Utils;
     using uml4net.Values;
     
     /// <summary>

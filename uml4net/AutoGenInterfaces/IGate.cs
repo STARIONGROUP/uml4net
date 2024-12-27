@@ -43,8 +43,6 @@ namespace uml4net.Interactions
     using uml4net.UseCases;
     using uml4net.Values;
 
-    using uml4net.Utils;
-
     /// <summary>
     /// A Gate is a MessageEnd which serves as a connection point for relating a Message which has a
     /// MessageEnd (sendEvent / receiveEvent) outside an InteractionFragment with another Message which has

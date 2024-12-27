@@ -43,8 +43,6 @@ namespace uml4net.Actions
     using uml4net.UseCases;
     using uml4net.Values;
 
-    using uml4net.Utils;
-
     /// <summary>
     /// LinkEndData is an Element that identifies on end of a link to be read or written by a LinkAction. As
     /// a link (that is not a link object) cannot be passed as a runtime value to or from an Action, it is

@@ -43,8 +43,6 @@ namespace uml4net.StructuredClassifiers
     using uml4net.UseCases;
     using uml4net.Values;
 
-    using uml4net.Utils;
-
     /// <summary>
     /// An EncapsulatedClassifier may own Ports to specify typed interaction points.
     /// </summary>

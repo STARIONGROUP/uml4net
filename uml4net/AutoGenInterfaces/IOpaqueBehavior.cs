@@ -43,8 +43,6 @@ namespace uml4net.CommonBehavior
     using uml4net.UseCases;
     using uml4net.Values;
 
-    using uml4net.Utils;
-
     /// <summary>
     /// An OpaqueBehavior is a Behavior whose specification is given in a textual language other than UML.
     /// </summary>

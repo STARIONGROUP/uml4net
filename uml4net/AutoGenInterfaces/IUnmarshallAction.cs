@@ -43,8 +43,6 @@ namespace uml4net.Actions
     using uml4net.UseCases;
     using uml4net.Values;
 
-    using uml4net.Utils;
-
     /// <summary>
     /// An UnmarshallAction is an Action that retrieves the values of the StructuralFeatures of an object
     /// and places them on OutputPins.

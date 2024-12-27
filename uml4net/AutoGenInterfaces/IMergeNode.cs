@@ -43,8 +43,6 @@ namespace uml4net.Activities
     using uml4net.UseCases;
     using uml4net.Values;
 
-    using uml4net.Utils;
-
     /// <summary>
     /// A merge node is a control node that brings together multiple alternate flows. It is not used to
     /// synchronize concurrent flows but to accept one among several alternate flows.

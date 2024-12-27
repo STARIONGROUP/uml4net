@@ -43,8 +43,6 @@ namespace uml4net.Actions
     using uml4net.UseCases;
     using uml4net.Values;
 
-    using uml4net.Utils;
-
     /// <summary>
     /// LinkAction is an abstract class for all Actions that identify the links to be acted on using
     /// LinkEndData.

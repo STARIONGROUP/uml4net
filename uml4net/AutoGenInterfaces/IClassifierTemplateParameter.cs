@@ -43,8 +43,6 @@ namespace uml4net.Classification
     using uml4net.UseCases;
     using uml4net.Values;
 
-    using uml4net.Utils;
-
     /// <summary>
     /// A ClassifierTemplateParameter exposes a Classifier as a formal template parameter.
     /// </summary>

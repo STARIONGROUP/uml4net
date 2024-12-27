@@ -44,8 +44,6 @@ namespace uml4net.Activities
     using uml4net.UseCases;
     using uml4net.Values;
 
-    using uml4net.Utils;
-
     /// <summary>
     /// An Activity is the specification of parameterized Behavior as the coordinated sequencing of
     /// subordinate units.

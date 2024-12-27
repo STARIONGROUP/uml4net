@@ -44,8 +44,6 @@ namespace uml4net.StructuredClassifiers
     using uml4net.UseCases;
     using uml4net.Values;
 
-    using uml4net.Utils;
-
     /// <summary>
     /// A ConnectorEnd is an endpoint of a Connector, which attaches the Connector to a ConnectableElement.
     /// </summary>

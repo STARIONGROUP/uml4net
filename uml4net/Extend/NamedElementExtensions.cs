@@ -23,8 +23,6 @@ namespace uml4net.CommonStructure
     using System;
     using System.Collections.Generic;
     
-    using uml4net.Utils;
-
     /// <summary>
     /// The <see cref="NamedElementExtensions"/> class provides extensions methods for <see cref="INamedElement"/>
     /// </summary>

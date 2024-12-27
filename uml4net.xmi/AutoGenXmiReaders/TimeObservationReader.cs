@@ -45,7 +45,6 @@ namespace uml4net.xmi.Readers
     using uml4net.StateMachines;
     using uml4net.StructuredClassifiers;
     using uml4net.UseCases;
-    using uml4net.Utils;
     using uml4net.Values;
     using uml4net.xmi.Cache;
 

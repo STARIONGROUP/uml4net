@@ -44,8 +44,6 @@ namespace uml4net.Actions
     using uml4net.UseCases;
     using uml4net.Values;
 
-    using uml4net.Utils;
-
     /// <summary>
     /// A CallOperationAction is a CallAction that transmits an Operation call request to the target object,
     /// where it may cause the invocation of associated Behavior. The argument values of the

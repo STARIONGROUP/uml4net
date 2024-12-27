@@ -43,8 +43,6 @@ namespace uml4net.Classification
     using uml4net.UseCases;
     using uml4net.Values;
 
-    using uml4net.Utils;
-
     /// <summary>
     /// An Operation is a BehavioralFeature of a Classifier that specifies the name, type, parameters, and
     /// constraints for invoking an associated Behavior. An Operation may invoke both the execution of

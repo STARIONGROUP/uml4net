@@ -43,8 +43,6 @@ namespace uml4net.Actions
     using uml4net.UseCases;
     using uml4net.Values;
 
-    using uml4net.Utils;
-
     /// <summary>
     /// A QualifierValue is an Element that is used as part of LinkEndData to provide the value for a single
     /// qualifier of the end given by the LinkEndData.

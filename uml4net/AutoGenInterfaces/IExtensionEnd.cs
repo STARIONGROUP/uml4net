@@ -43,8 +43,6 @@ namespace uml4net.Packages
     using uml4net.UseCases;
     using uml4net.Values;
 
-    using uml4net.Utils;
-
     /// <summary>
     /// An extension end is used to tie an extension to a stereotype when extending a metaclass.The default
     /// multiplicity of an extension end is 0..1.

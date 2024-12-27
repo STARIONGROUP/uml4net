@@ -44,8 +44,6 @@ namespace uml4net.UseCases
     using uml4net.UseCases;
     using uml4net.Values;
 
-    using uml4net.Utils;
-
     /// <summary>
     /// An Include relationship specifies that a UseCase contains the behavior defined in another UseCase.
     /// </summary>

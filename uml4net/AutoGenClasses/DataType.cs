@@ -44,8 +44,6 @@ namespace uml4net.SimpleClassifiers
     using uml4net.UseCases;
     using uml4net.Values;
 
-    using uml4net.Utils;
-
     /// <summary>
     /// A DataType is a type whose instances are identified only by their value.
     /// </summary>

@@ -44,8 +44,6 @@ namespace uml4net.StateMachines
     using uml4net.UseCases;
     using uml4net.Values;
 
-    using uml4net.Utils;
-
     /// <summary>
     /// A Region is a top-level part of a StateMachine or a composite State, that serves as a container for
     /// the Vertices and Transitions of the StateMachine. A StateMachine or composite State may contain

@@ -44,8 +44,6 @@ namespace uml4net.Values
     using uml4net.UseCases;
     using uml4net.Values;
 
-    using uml4net.Utils;
-
     /// <summary>
     /// A TimeExpression is a ValueSpecification that represents a time value.
     /// </summary>

@@ -43,8 +43,6 @@ namespace uml4net.Interactions
     using uml4net.UseCases;
     using uml4net.Values;
 
-    using uml4net.Utils;
-
     /// <summary>
     /// A Lifeline represents an individual participant in the Interaction. While parts and structural
     /// features may have multiplicity greater than 1, Lifelines represent only one interacting entity.

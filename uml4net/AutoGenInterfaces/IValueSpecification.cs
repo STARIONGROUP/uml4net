@@ -43,8 +43,6 @@ namespace uml4net.Values
     using uml4net.UseCases;
     using uml4net.Values;
 
-    using uml4net.Utils;
-
     /// <summary>
     /// A ValueSpecification is the specification of a (possibly empty) set of values. A ValueSpecification
     /// is a ParameterableElement that may be exposed as a formal TemplateParameter and provided as the

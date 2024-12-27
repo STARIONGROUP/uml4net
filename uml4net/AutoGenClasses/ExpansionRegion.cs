@@ -44,8 +44,6 @@ namespace uml4net.Actions
     using uml4net.UseCases;
     using uml4net.Values;
 
-    using uml4net.Utils;
-
     /// <summary>
     /// An ExpansionRegion is a StructuredActivityNode that executes its content multiple times
     /// corresponding to elements of input collection(s).

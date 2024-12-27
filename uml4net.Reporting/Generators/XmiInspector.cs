@@ -30,8 +30,6 @@ namespace uml4net.Reporting.Generators
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Logging.Abstractions;
     
-    using uml4net.Utils;
-    
     /// <summary>
     /// The purpose of the <see cref="IXmiInspector"/> is to inspect the XMI and return a text based
     /// report

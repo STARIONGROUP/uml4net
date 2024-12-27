@@ -43,8 +43,6 @@ namespace uml4net.Classification
     using uml4net.UseCases;
     using uml4net.Values;
 
-    using uml4net.Utils;
-
     /// <summary>
     /// A RedefinableElement is an element that, when defined in the context of a Classifier, can be
     /// redefined more specifically or differently in the context of another Classifier that specializes

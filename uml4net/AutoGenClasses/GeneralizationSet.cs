@@ -44,8 +44,6 @@ namespace uml4net.Classification
     using uml4net.UseCases;
     using uml4net.Values;
 
-    using uml4net.Utils;
-
     /// <summary>
     /// A GeneralizationSet is a PackageableElement whose instances represent sets of Generalization
     /// relationships.

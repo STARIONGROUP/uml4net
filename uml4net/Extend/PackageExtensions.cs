@@ -25,7 +25,6 @@ namespace uml4net.Packages
     using System.Linq;
 
     using uml4net.CommonStructure;
-    using uml4net.Utils;
 
     /// <summary>
     /// The <see cref="PackageExtensions"/> class provides extensions methods for <see cref="IPackage"/>

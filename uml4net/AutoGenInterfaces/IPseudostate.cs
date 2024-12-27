@@ -43,8 +43,6 @@ namespace uml4net.StateMachines
     using uml4net.UseCases;
     using uml4net.Values;
 
-    using uml4net.Utils;
-
     /// <summary>
     /// A Pseudostate is an abstraction that encompasses different types of transient Vertices in the
     /// StateMachine graph. A StateMachine instance never comes to rest in a Pseudostate, instead, it will

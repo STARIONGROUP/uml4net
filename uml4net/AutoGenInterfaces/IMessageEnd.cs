@@ -43,8 +43,6 @@ namespace uml4net.Interactions
     using uml4net.UseCases;
     using uml4net.Values;
 
-    using uml4net.Utils;
-
     /// <summary>
     /// MessageEnd is an abstract specialization of NamedElement that represents what can occur at the end
     /// of a Message.

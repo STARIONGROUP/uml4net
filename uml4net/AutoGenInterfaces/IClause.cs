@@ -43,8 +43,6 @@ namespace uml4net.Actions
     using uml4net.UseCases;
     using uml4net.Values;
 
-    using uml4net.Utils;
-
     /// <summary>
     /// A Clause is an Element that represents a single branch of a ConditionalNode, including a test and a
     /// body section. The body section is executed only if (but not necessarily if) the test section

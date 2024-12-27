@@ -43,8 +43,6 @@ namespace uml4net.Interactions
     using uml4net.UseCases;
     using uml4net.Values;
 
-    using uml4net.Utils;
-
     /// <summary>
     /// An InteractionUse refers to an Interaction. The InteractionUse is a shorthand for copying the
     /// contents of the referenced Interaction where the InteractionUse is. To be accurate the copying must

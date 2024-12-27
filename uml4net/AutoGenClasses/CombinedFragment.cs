@@ -44,8 +44,6 @@ namespace uml4net.Interactions
     using uml4net.UseCases;
     using uml4net.Values;
 
-    using uml4net.Utils;
-
     /// <summary>
     /// A CombinedFragment defines an expression of InteractionFragments. A CombinedFragment is defined by
     /// an interaction operator and corresponding InteractionOperands. Through the use of CombinedFragments

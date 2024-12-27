@@ -43,8 +43,6 @@ namespace uml4net.InformationFlows
     using uml4net.UseCases;
     using uml4net.Values;
 
-    using uml4net.Utils;
-
     /// <summary>
     /// InformationItems represent many kinds of information that can flow from sources to targets in very
     /// abstract ways.  They represent the kinds of information that may move within a system, but do not

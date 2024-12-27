@@ -43,8 +43,6 @@ namespace uml4net.CommonStructure
     using uml4net.UseCases;
     using uml4net.Values;
 
-    using uml4net.Utils;
-
     /// <summary>
     /// An Abstraction is a Relationship that relates two Elements or sets of Elements that represent the
     /// same concept at different levels of abstraction or from different viewpoints.

@@ -43,8 +43,6 @@ namespace uml4net.Activities
     using uml4net.UseCases;
     using uml4net.Values;
 
-    using uml4net.Utils;
-
     /// <summary>
     /// A CentralBufferNode is an ObjectNode for managing flows from multiple sources and targets.
     /// </summary>

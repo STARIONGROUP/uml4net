@@ -43,8 +43,6 @@ namespace uml4net.Actions
     using uml4net.UseCases;
     using uml4net.Values;
 
-    using uml4net.Utils;
-
     /// <summary>
     /// An AddStructuralFeatureValueAction is a WriteStructuralFeatureAction for adding values to a
     /// StructuralFeature.

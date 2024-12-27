@@ -43,8 +43,6 @@ namespace uml4net.Deployments
     using uml4net.UseCases;
     using uml4net.Values;
 
-    using uml4net.Utils;
-
     /// <summary>
     /// A deployed artifact is an artifact or artifact instance that has been deployed to a deployment
     /// target.

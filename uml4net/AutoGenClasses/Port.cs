@@ -44,8 +44,6 @@ namespace uml4net.StructuredClassifiers
     using uml4net.UseCases;
     using uml4net.Values;
 
-    using uml4net.Utils;
-
     /// <summary>
     /// A Port is a property of an EncapsulatedClassifier that specifies a distinct interaction point
     /// between that EncapsulatedClassifier and its environment or between the (behavior of the)

@@ -43,8 +43,6 @@ namespace uml4net.Deployments
     using uml4net.UseCases;
     using uml4net.Values;
 
-    using uml4net.Utils;
-
     /// <summary>
     /// A device is a physical computational resource with processing capability upon which artifacts may be
     /// deployed for execution. Devices may be complex (i.e., they may consist of other devices).

@@ -44,8 +44,6 @@ namespace uml4net.Actions
     using uml4net.UseCases;
     using uml4net.Values;
 
-    using uml4net.Utils;
-
     /// <summary>
     /// An AcceptCallAction is an AcceptEventAction that handles the receipt of a synchronous call request.
     /// In addition to the values from the Operation input parameters, the Action produces an output that is

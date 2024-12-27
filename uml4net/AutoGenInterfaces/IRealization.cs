@@ -43,8 +43,6 @@ namespace uml4net.CommonStructure
     using uml4net.UseCases;
     using uml4net.Values;
 
-    using uml4net.Utils;
-
     /// <summary>
     /// Realization is a specialized Abstraction relationship between two sets of model Elements, one
     /// representing a specification (the supplier) and the other represents an implementation of the latter

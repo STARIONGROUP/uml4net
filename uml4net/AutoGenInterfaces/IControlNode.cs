@@ -43,8 +43,6 @@ namespace uml4net.Activities
     using uml4net.UseCases;
     using uml4net.Values;
 
-    using uml4net.Utils;
-
     /// <summary>
     /// A ControlNode is an abstract ActivityNode that coordinates flows in an Activity.
     /// </summary>

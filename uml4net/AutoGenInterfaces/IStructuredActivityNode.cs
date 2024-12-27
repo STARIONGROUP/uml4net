@@ -43,8 +43,6 @@ namespace uml4net.Actions
     using uml4net.UseCases;
     using uml4net.Values;
 
-    using uml4net.Utils;
-
     /// <summary>
     /// A StructuredActivityNode is an Action that is also an ActivityGroup and whose behavior is specified
     /// by the ActivityNodes and ActivityEdges it so contains. Unlike other kinds of ActivityGroup, a

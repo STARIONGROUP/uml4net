@@ -43,8 +43,6 @@ namespace uml4net.Activities
     using uml4net.UseCases;
     using uml4net.Values;
 
-    using uml4net.Utils;
-
     /// <summary>
     /// An ActivityParameterNode is an ObjectNode for accepting values from the input Parameters or
     /// providing values to the output Parameters of an Activity.

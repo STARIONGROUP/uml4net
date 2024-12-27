@@ -44,8 +44,6 @@ namespace uml4net.Interactions
     using uml4net.UseCases;
     using uml4net.Values;
 
-    using uml4net.Utils;
-
     /// <summary>
     /// A Continuation is a syntactic way to define continuations of different branches of an alternative
     /// CombinedFragment. Continuations are intuitively similar to labels representing intermediate points

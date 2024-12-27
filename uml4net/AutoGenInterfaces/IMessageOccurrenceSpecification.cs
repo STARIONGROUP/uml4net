@@ -43,8 +43,6 @@ namespace uml4net.Interactions
     using uml4net.UseCases;
     using uml4net.Values;
 
-    using uml4net.Utils;
-
     /// <summary>
     /// A MessageOccurrenceSpecification specifies the occurrence of Message events, such as sending and
     /// receiving of Signals or invoking or receiving of Operation calls. A MessageOccurrenceSpecification

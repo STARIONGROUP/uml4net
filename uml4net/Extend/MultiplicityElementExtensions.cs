@@ -23,7 +23,6 @@ namespace uml4net.CommonStructure
     using System;
     using System.Linq;
 
-    using uml4net.Utils;
     using uml4net.Values;
     
     /// <summary>

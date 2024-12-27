@@ -44,8 +44,6 @@ namespace uml4net.StateMachines
     using uml4net.UseCases;
     using uml4net.Values;
 
-    using uml4net.Utils;
-
     /// <summary>
     /// A special kind of State, which, when entered, signifies that the enclosing Region has completed. If
     /// the enclosing Region is directly contained in a StateMachine and all other Regions in that

@@ -43,8 +43,6 @@ namespace uml4net.Deployments
     using uml4net.UseCases;
     using uml4net.Values;
 
-    using uml4net.Utils;
-
     /// <summary>
     /// A deployment target is the location for a deployed artifact.
     /// </summary>

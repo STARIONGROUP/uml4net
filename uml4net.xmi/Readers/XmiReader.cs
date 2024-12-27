@@ -28,7 +28,6 @@ namespace uml4net.xmi.Readers
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Logging.Abstractions;
     using uml4net.Packages;
-    using uml4net.Utils;
     using uml4net.xmi;
     using uml4net.xmi.Cache;
     

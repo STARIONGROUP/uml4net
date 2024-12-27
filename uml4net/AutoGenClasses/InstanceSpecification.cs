@@ -44,8 +44,6 @@ namespace uml4net.Classification
     using uml4net.UseCases;
     using uml4net.Values;
 
-    using uml4net.Utils;
-
     /// <summary>
     /// An InstanceSpecification is a model element that represents an instance in a modeled system. An
     /// InstanceSpecification can act as a DeploymentTarget in a Deployment relationship, in the case that

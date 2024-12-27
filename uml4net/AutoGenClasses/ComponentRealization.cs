@@ -44,8 +44,6 @@ namespace uml4net.StructuredClassifiers
     using uml4net.UseCases;
     using uml4net.Values;
 
-    using uml4net.Utils;
-
     /// <summary>
     /// Realization is specialized to (optionally) define the Classifiers that realize the contract offered
     /// by a Component in terms of its provided and required Interfaces. The Component forms an abstraction

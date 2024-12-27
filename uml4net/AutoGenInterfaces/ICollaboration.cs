@@ -43,8 +43,6 @@ namespace uml4net.StructuredClassifiers
     using uml4net.UseCases;
     using uml4net.Values;
 
-    using uml4net.Utils;
-
     /// <summary>
     /// A Collaboration describes a structure of collaborating elements (roles), each performing a
     /// specialized function, which collectively accomplish some desired functionality.

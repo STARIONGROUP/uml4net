@@ -43,8 +43,6 @@ namespace uml4net.Activities
     using uml4net.UseCases;
     using uml4net.Values;
 
-    using uml4net.Utils;
-
     /// <summary>
     /// An ExecutableNode is an abstract class for ActivityNodes whose execution may be controlled using
     /// ControlFlows and to which ExceptionHandlers may be attached.

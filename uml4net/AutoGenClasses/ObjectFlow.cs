@@ -44,8 +44,6 @@ namespace uml4net.Activities
     using uml4net.UseCases;
     using uml4net.Values;
 
-    using uml4net.Utils;
-
     /// <summary>
     /// An ObjectFlow is an ActivityEdge that is traversed by object tokens that may hold values. Object
     /// flows also support multicast/receive, token selection from object nodes, and transformation of

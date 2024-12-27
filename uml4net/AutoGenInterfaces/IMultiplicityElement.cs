@@ -43,8 +43,6 @@ namespace uml4net.CommonStructure
     using uml4net.UseCases;
     using uml4net.Values;
 
-    using uml4net.Utils;
-
     /// <summary>
     /// A multiplicity is a definition of an inclusive interval of non-negative integers beginning with a
     /// lower bound and ending with a (possibly infinite) upper bound. A MultiplicityElement embeds this

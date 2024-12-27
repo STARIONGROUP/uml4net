@@ -43,8 +43,6 @@ namespace uml4net.StructuredClassifiers
     using uml4net.UseCases;
     using uml4net.Values;
 
-    using uml4net.Utils;
-
     /// <summary>
     /// A Connector specifies links that enables communication between two or more instances. In contrast to
     /// Associations, which specify links between any instance of the associated Classifiers, Connectors

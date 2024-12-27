@@ -43,8 +43,6 @@ namespace uml4net.Deployments
     using uml4net.UseCases;
     using uml4net.Values;
 
-    using uml4net.Utils;
-
     /// <summary>
     /// A deployment specification specifies a set of properties that determine execution parameters of a
     /// component artifact that is deployed on a node. A deployment specification can be aimed at a specific

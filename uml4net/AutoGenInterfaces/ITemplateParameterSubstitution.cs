@@ -43,8 +43,6 @@ namespace uml4net.CommonStructure
     using uml4net.UseCases;
     using uml4net.Values;
 
-    using uml4net.Utils;
-
     /// <summary>
     /// A TemplateParameterSubstitution relates the actual parameter to a formal TemplateParameter as part
     /// of a template binding.

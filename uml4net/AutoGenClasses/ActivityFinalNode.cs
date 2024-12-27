@@ -44,8 +44,6 @@ namespace uml4net.Activities
     using uml4net.UseCases;
     using uml4net.Values;
 
-    using uml4net.Utils;
-
     /// <summary>
     /// An ActivityFinalNode is a FinalNode that terminates the execution of its owning Activity or
     /// StructuredActivityNode.

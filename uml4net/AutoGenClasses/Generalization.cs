@@ -44,8 +44,6 @@ namespace uml4net.Classification
     using uml4net.UseCases;
     using uml4net.Values;
 
-    using uml4net.Utils;
-
     /// <summary>
     /// A Generalization is a taxonomic relationship between a more general Classifier and a more specific
     /// Classifier. Each instance of the specific Classifier is also an instance of the general Classifier.

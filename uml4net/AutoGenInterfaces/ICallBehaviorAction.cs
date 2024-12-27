@@ -43,8 +43,6 @@ namespace uml4net.Actions
     using uml4net.UseCases;
     using uml4net.Values;
 
-    using uml4net.Utils;
-
     /// <summary>
     /// A CallBehaviorAction is a CallAction that invokes a Behavior directly. The argument values of the
     /// CallBehaviorAction are passed on the input Parameters of the invoked Behavior. If the call is

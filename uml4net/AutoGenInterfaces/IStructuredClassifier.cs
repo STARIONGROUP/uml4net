@@ -43,8 +43,6 @@ namespace uml4net.StructuredClassifiers
     using uml4net.UseCases;
     using uml4net.Values;
 
-    using uml4net.Utils;
-
     /// <summary>
     /// StructuredClassifiers may contain an internal structure of connected elements each of which plays a
     /// role in the overall Behavior modeled by the StructuredClassifier.

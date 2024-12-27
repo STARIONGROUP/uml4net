@@ -43,8 +43,6 @@ namespace uml4net.Classification
     using uml4net.UseCases;
     using uml4net.Values;
 
-    using uml4net.Utils;
-
     /// <summary>
     /// A Parameter is a specification of an argument used to pass information into or out of an invocation
     /// of a BehavioralFeature.  Parameters can be treated as ConnectableElements within Collaborations.

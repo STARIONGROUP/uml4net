@@ -43,8 +43,6 @@ namespace uml4net.SimpleClassifiers
     using uml4net.UseCases;
     using uml4net.Values;
 
-    using uml4net.Utils;
-
     /// <summary>
     /// A Reception is a declaration stating that a Classifier is prepared to react to the receipt of a
     /// Signal.

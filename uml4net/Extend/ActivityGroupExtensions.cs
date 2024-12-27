@@ -23,8 +23,6 @@ namespace uml4net.Activities
     using System;
     using System.Collections.Generic;
 
-    using uml4net.Utils;
-
     /// <summary>
     /// The <see cref="ActivityGroupExtensions"/> class provides extensions methods for <see cref="IActivityGroup"/>
     /// </summary>

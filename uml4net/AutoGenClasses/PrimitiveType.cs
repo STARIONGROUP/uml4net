@@ -44,8 +44,6 @@ namespace uml4net.SimpleClassifiers
     using uml4net.UseCases;
     using uml4net.Values;
 
-    using uml4net.Utils;
-
     /// <summary>
     /// A PrimitiveType defines a predefined DataType, without any substructure. A PrimitiveType may have an
     /// algebra and operations defined outside of UML, for example, mathematically.

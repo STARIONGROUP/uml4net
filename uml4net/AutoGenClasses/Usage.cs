@@ -44,8 +44,6 @@ namespace uml4net.CommonStructure
     using uml4net.UseCases;
     using uml4net.Values;
 
-    using uml4net.Utils;
-
     /// <summary>
     /// A Usage is a Dependency in which the client Element requires the supplier Element (or set of
     /// Elements) for its full implementation or operation.

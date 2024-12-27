@@ -44,8 +44,6 @@ namespace uml4net.Actions
     using uml4net.UseCases;
     using uml4net.Values;
 
-    using uml4net.Utils;
-
     /// <summary>
     /// A ReadIsClassifiedObjectAction is an Action that determines whether an object is classified by a
     /// given Classifier.

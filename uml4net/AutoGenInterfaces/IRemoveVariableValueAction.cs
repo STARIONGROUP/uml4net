@@ -43,8 +43,6 @@ namespace uml4net.Actions
     using uml4net.UseCases;
     using uml4net.Values;
 
-    using uml4net.Utils;
-
     /// <summary>
     /// A RemoveVariableValueAction is a WriteVariableAction that removes values from a Variables.
     /// </summary>

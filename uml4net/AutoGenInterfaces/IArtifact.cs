@@ -43,8 +43,6 @@ namespace uml4net.Deployments
     using uml4net.UseCases;
     using uml4net.Values;
 
-    using uml4net.Utils;
-
     /// <summary>
     /// An artifact is the specification of a physical piece of information that is used or produced by a
     /// software development process, or by deployment and operation of a system. Examples of artifacts
