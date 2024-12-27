@@ -39,7 +39,7 @@ namespace uml4net.CommonStructure
         /// </returns>
         public static List<IElement> QueryRelatedElement(this IRelationship relationship)
         {
-            throw new NotImplementedException();
+            throw new NotSupportedException();
         }
     }
 }

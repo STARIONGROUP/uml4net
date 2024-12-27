@@ -43,7 +43,7 @@ namespace uml4net.StateMachines
         /// </returns>
         public static List<IOperation> QueryReferred(this IProtocolTransition protocolTransition)
         {
-            throw new NotImplementedException();
+            throw new NotSupportedException();
         }
     }
 }

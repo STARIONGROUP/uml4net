@@ -39,7 +39,7 @@ namespace uml4net.Activities
         /// </returns>
         public static List<IActivityGroup> QueryInGroup(this IActivityNode activityNode)
         {
-            throw new NotImplementedException();
+            throw new NotSupportedException();
         }
     }
 }

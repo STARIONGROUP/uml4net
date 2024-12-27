@@ -43,7 +43,7 @@ namespace uml4net.Values
         /// </returns>
         public static IParameter QueryResult(this IOpaqueExpression opaqueExpression)
         {
-            throw new NotImplementedException();
+            throw new NotSupportedException();
         }
     }
 }

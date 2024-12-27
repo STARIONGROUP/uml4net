@@ -40,7 +40,7 @@ namespace uml4net.StructuredClassifiers
         /// </returns>
         public static IContainerList<IPort> QueryOwnedPort(this IEncapsulatedClassifier encapsulatedClassifier)
         {
-            throw new NotImplementedException();
+            throw new NotSupportedException();
         }
     }
 }

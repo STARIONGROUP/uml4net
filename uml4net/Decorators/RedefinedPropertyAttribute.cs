@@ -26,7 +26,7 @@ namespace uml4net.Decorators
     /// Attribute used to decorate properties when these are redefined properties
     /// </summary>
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = true)]
-    public class RedefinedPropertyAttribute : Attribute
+    public sealed class RedefinedPropertyAttribute : Attribute
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="RedefinedPropertyAttribute"/> class.

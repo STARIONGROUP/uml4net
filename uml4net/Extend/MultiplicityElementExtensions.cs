@@ -56,7 +56,7 @@ namespace uml4net.CommonStructure
                     return literalInteger.Value;
 
                 default:
-                    throw new NotSupportedException("");
+                    throw new NotSupportedException("LowerValue is not of type ILiteralInteger.");
             }
 
         }

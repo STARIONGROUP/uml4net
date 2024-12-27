@@ -138,7 +138,7 @@ namespace uml4net.xmi.Cache
         {
             if (this.Cache.ContainsKey(id))
             {
-                logger.LogCritical("Failed to add element type [{element}] with id [{id}] as it was already in the cache. The XMI document seems to have duplicate xmi:id values", element.GetType().Name, id);
+                logger.LogCritical("Failed to add element type [{Element}] with id [{Id}] as it was already in the cache. The XMI document seems to have duplicate xmi:id values", element.GetType().Name, id);
                 return;
             }
 

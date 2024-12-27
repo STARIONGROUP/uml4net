@@ -41,7 +41,7 @@ namespace uml4net.StateMachines
         /// </returns>
         public static List<ITransition> QueryIncoming(this IVertex vertex)
         {
-            throw new NotImplementedException();
+            throw new NotSupportedException();
         }
 
         /// <summary>
@@ -55,7 +55,7 @@ namespace uml4net.StateMachines
         /// </returns>
         public static List<ITransition> QueryOutgoing(this IVertex vertex)
         {
-            throw new NotImplementedException();
+            throw new NotSupportedException();
         }
 
         /// <summary>
@@ -69,7 +69,7 @@ namespace uml4net.StateMachines
         /// </returns>
         public static IClassifier QueryRedefinitionContext(this IVertex vertex)
         {
-            throw new NotImplementedException();
+            throw new NotSupportedException();
         }
     }
 }

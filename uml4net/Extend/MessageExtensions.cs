@@ -38,7 +38,7 @@ namespace uml4net.Interactions
         /// </returns>
         public static MessageKind QueryMessageKind(this IMessage message)
         {
-            throw new NotImplementedException();
+            throw new NotSupportedException();
         }
     }
 }

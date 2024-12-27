@@ -41,7 +41,7 @@ namespace uml4net.StructuredClassifiers
         /// </returns>
         public static List<IType> QueryEndType(this IAssociation association)
         {
-            throw new NotImplementedException();
+            throw new NotSupportedException();
         }
     }
 }

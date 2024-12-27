@@ -39,7 +39,7 @@ namespace uml4net.StructuredClassifiers
         /// </returns>
         public static List<IConnectorEnd> QueryEnd(this IConnectableElement connectableElement)
         {
-            throw new NotImplementedException();
+            throw new NotSupportedException();
         }
     }
 }

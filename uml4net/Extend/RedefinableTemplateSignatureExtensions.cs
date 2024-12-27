@@ -41,7 +41,7 @@ namespace uml4net.Classification
         /// </returns>
         public static List<ITemplateParameter> QueryInheritedParameter(this IRedefinableTemplateSignature redefinableTemplateSignature)
         {
-            throw new NotImplementedException();
+            throw new NotSupportedException();
         }
     }
 }

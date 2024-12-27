@@ -42,7 +42,7 @@ namespace uml4net.StructuredClassifiers
         /// </returns>
         public static ConnectorKind QueryKind(this IConnector connector)
         {
-            throw new NotImplementedException();
+            throw new NotSupportedException();
         }
     }
 }

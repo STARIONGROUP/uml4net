@@ -44,7 +44,7 @@ namespace uml4net.Classification
         /// </returns>
         public static List<IProperty> QueryAttribute(this IClassifier element)
         {
-            throw new NotImplementedException();
+            throw new NotSupportedException();
         }
 
         /// <summary>
@@ -60,7 +60,7 @@ namespace uml4net.Classification
         /// </returns>
         public static List<IFeature> QueryFeature(this IClassifier element)
         {
-            throw new NotImplementedException();
+            throw new NotSupportedException();
         }
 
         /// <summary>
@@ -94,7 +94,7 @@ namespace uml4net.Classification
         /// </returns>
         public static List<INamedElement> QueryInheritedMember(this IClassifier element)
         {
-            throw new NotImplementedException();
+            throw new NotSupportedException();
         }
     }
 }

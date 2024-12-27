@@ -26,10 +26,10 @@ namespace uml4net.Decorators
 
     /// <summary>
     /// Attribute used to decorate properties with using the properties sourced from
-    /// the UML meta-model.
+    /// the UML metamodel.
     /// </summary>
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = false)]
-    public class PropertyAttribute : Attribute
+    public sealed class PropertyAttribute : Attribute
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="PropertyAttribute"/> class.

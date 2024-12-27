@@ -41,7 +41,7 @@ namespace uml4net.CommonStructure
         /// </returns>
         public static List<IPackageableElement> QueryImportedMember(this INamespace @namespace)
         {
-            throw new NotImplementedException();
+            throw new NotSupportedException();
         }
     }
 }

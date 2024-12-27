@@ -24,10 +24,10 @@ namespace uml4net.Decorators
 
     /// <summary>
     /// Attribute used to decorate classes using the properties sourced from
-    /// the UML meta-model.
+    /// the UML metamodel.
     /// </summary>
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Interface, AllowMultiple = false)]
-    public class ClassAttribute : Attribute
+    public sealed class ClassAttribute : Attribute
     {
         /// <summary>
         /// initializes a new instance of the <see cref="ClassAttribute"/> class.

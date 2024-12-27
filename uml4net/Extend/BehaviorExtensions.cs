@@ -56,7 +56,7 @@ namespace uml4net.CommonBehavior
         /// </returns>
         public static IBehavioredClassifier QueryContext(this IBehavior behavior)
         {
-            throw new NotImplementedException();
+            throw new NotSupportedException();
         }
     }
 }

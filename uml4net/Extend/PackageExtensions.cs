@@ -73,7 +73,7 @@ namespace uml4net.Packages
                 throw new ArgumentNullException(nameof(package));
             }
 
-            throw new NotImplementedException();
+            throw new NotSupportedException();
         }
 
         /// <summary>
@@ -92,7 +92,7 @@ namespace uml4net.Packages
                 throw new ArgumentNullException(nameof(package));
             }
 
-            throw new NotImplementedException();
+            throw new NotSupportedException();
         }
     }
 }

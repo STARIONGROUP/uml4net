@@ -21,6 +21,7 @@
 namespace uml4net.Extensions
 {
     using System;
+    using System.Globalization;
     using System.Linq;
 
     using uml4net.CommonStructure;
@@ -59,7 +60,7 @@ namespace uml4net.Extensions
                         return int.MaxValue;
                     }
 
-                    return int.Parse(literalUnlimitedNatural.Value);
+                    return int.Parse(literalUnlimitedNatural.Value, CultureInfo.InvariantCulture);
 
                 default:
                     throw new NotSupportedException("UpperValue is not of type ILiteralUnlimitedNatural.");

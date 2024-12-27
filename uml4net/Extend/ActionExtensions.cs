@@ -42,7 +42,7 @@ namespace uml4net.Actions
         /// </returns>
         public static IClassifier QueryContext(this IAction action)
         {
-            throw new NotImplementedException();
+            throw new NotSupportedException();
         }
 
         /// <summary>
@@ -56,7 +56,7 @@ namespace uml4net.Actions
         /// </returns>
         public static IContainerList<IInputPin> QueryInput(this IAction action)
         {
-            throw new NotImplementedException();
+            throw new NotSupportedException();
         }
 
         /// <summary>
@@ -70,7 +70,7 @@ namespace uml4net.Actions
         /// </returns>
         public static IContainerList<IOutputPin> QueryOutput(this IAction action)
         {
-            throw new NotImplementedException();
+            throw new NotSupportedException();
         }
     }
 }

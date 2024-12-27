@@ -38,7 +38,7 @@ namespace uml4net.Packages
         /// </returns>
         public static IProfile QueryProfile(this IStereotype stereotype)
         {
-            throw new NotImplementedException();
+            throw new NotSupportedException();
         }
     }
 }

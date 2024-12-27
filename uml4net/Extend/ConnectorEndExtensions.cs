@@ -46,7 +46,7 @@ namespace uml4net.StructuredClassifiers
         /// </returns>
         public static IProperty QueryDefiningEnd(this IConnectorEnd connectorEnd)
         {
-            throw new NotImplementedException();
+            throw new NotSupportedException();
         }
     }
 }

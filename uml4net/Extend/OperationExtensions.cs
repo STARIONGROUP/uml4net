@@ -43,7 +43,7 @@ namespace uml4net.Classification
         /// </returns>
         public static bool QueryIsOrdered(this IOperation operation)
         {
-            throw new NotImplementedException();
+            throw new NotSupportedException();
         }
 
         /// <summary>
@@ -59,7 +59,7 @@ namespace uml4net.Classification
         /// </returns>
         public static bool QueryIsUnique(this IOperation operation)
         {
-            throw new NotImplementedException();
+            throw new NotSupportedException();
         }
 
         /// <summary>
@@ -75,7 +75,7 @@ namespace uml4net.Classification
         /// </returns>
         public static int QueryLower(this IOperation operation)
         {
-            throw new NotImplementedException();
+            throw new NotSupportedException();
         }
 
         /// <summary>
@@ -91,7 +91,7 @@ namespace uml4net.Classification
         /// </returns>
         public static IType QueryType(this IOperation operation)
         {
-            throw new NotImplementedException();
+            throw new NotSupportedException();
         }
 
         /// <summary>
@@ -107,7 +107,7 @@ namespace uml4net.Classification
         /// </returns>
         public static string QueryUpper(this IOperation operation)
         {
-            throw new NotImplementedException();
+            throw new NotSupportedException();
         }
     }
 }

@@ -27,7 +27,7 @@ namespace uml4net.Decorators
     /// is being implemented
     /// </summary>
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = false)]
-    public class ImplementsAttribute : Attribute
+    public sealed class ImplementsAttribute : Attribute
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ImplementsAttribute"/> class.

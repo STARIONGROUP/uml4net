@@ -45,7 +45,7 @@ namespace uml4net.StructuredClassifiers
         /// </returns>
         public static List<IExtension> QueryExtension(this IClass @class)
         {
-            throw new NotImplementedException();
+            throw new NotSupportedException();
         }
 
         /// <summary>

@@ -84,13 +84,13 @@ namespace uml4net.xmi.Cache
 
             if (this.IsInvalidKey(key) || !cache.TryResolveContext(key, out var resource))
             {
-                logger.LogTrace("Resource key [{key}] is not referencing an external resource", key);
+                logger.LogTrace("Resource key [{Key}] is not referencing an external resource", key);
                 return false;
             }
 
             if (cache.DoesContextExists(resource.Context, resource.ResourceId))
             {
-                logger.LogInformation("The resource {resource} was already parsed", resource.Context);
+                logger.LogInformation("The resource {Resource} was already parsed", resource.Context);
                 return false;
             }
 
@@ -103,7 +103,7 @@ namespace uml4net.xmi.Cache
             }
             catch (Exception exception)
             {
-                logger.LogError(exception, "Error resolving key '{key}': {message}", key, exception.Message);
+                logger.LogError(exception, "Error resolving key '{Key}': {Message}", key, exception.Message);
                 return false;
             }
         }
@@ -149,7 +149,7 @@ namespace uml4net.xmi.Cache
         /// <returns>The <see cref="Stream"/> if the file exists locally; otherwise, <c>null</c>.</returns>
         private Stream ResolveRemoteResource(Uri uri, string context)
         {
-            logger.LogWarning("The resource {resource} is a reference to a remote resource which is unsupported by the Uml4Net library. An attempt to load the resource locally will be made", context);
+            logger.LogWarning("The resource {Resource} is a reference to a remote resource which is unsupported by the Uml4Net library. An attempt to load the resource locally will be made", context);
             var localPath = Path.Combine(settings.LocalReferenceBasePath, Path.GetFileName(uri.AbsolutePath));
             
             return File.Exists(localPath) ? File.OpenRead(localPath) : null;

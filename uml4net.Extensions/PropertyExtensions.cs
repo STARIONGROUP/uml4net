@@ -129,7 +129,7 @@ namespace uml4net.Extensions
                 throw new ArgumentNullException(nameof(property));
             }
 
-            if (property?.Type?.Name == null)
+            if (property.Type?.Name == null)
             {
                 return false;
             }
@@ -202,15 +202,7 @@ namespace uml4net.Extensions
             switch (property.UpperValue.SingleOrDefault())
             {
                 case ILiteralUnlimitedNatural literalUnlimitedNatural:
-
-                    if (literalUnlimitedNatural.Value == "*")
-                    {
-                        value = int.MaxValue;
-                    }
-                    else
-                    {
-                        value = int.Parse(literalUnlimitedNatural.Value);
-                    }
+                    value = literalUnlimitedNatural.Value == "*" ? int.MaxValue : int.Parse(literalUnlimitedNatural.Value, CultureInfo.InvariantCulture);
                     break;
                 case ILiteralInteger literalInteger:
                     value = literalInteger.Value;

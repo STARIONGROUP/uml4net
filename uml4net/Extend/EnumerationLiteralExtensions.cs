@@ -38,7 +38,7 @@ namespace uml4net.SimpleClassifiers
         /// </returns>
         public static IEnumeration QueryClassifier(this IEnumerationLiteral enumerationLiteral)
         {
-            throw new NotImplementedException();
+            throw new NotSupportedException();
         }
     }
 }

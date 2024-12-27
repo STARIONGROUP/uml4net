@@ -87,7 +87,7 @@ namespace uml4net.xmi.Cache
             {
                 if (!this.TryGetReferencedElement(property.Value, out var referencedElement))
                 {
-                    this.logger.LogWarning("The reference to [{reference}] for property [{key}] on element type [{element}] with id [{id}] was not found in the cache, probably because its type is not supported.", 
+                    this.logger.LogWarning("The reference to [{Reference}] for property [{Key}] on element type [{Element}] with id [{Id}] was not found in the cache, probably because its type is not supported.", 
                         property.Value, property.Key, element.XmiType, element.XmiId);
                     continue;
                 }
@@ -172,7 +172,7 @@ namespace uml4net.xmi.Cache
             {
                 if (!this.TryGetReferencedElement(propertyValue, out var referencedElement) || !expectedType.IsAssignableFrom(referencedElement.GetType()))
                 {
-                    this.logger.LogWarning("The reference with the id [{key}] to [{propertyValue}] was not found in the cache, probably because its type is not supported.", key, propertyValue);
+                    this.logger.LogWarning("The reference with the id [{Key}] to [{PropertyValue}] was not found in the cache, probably because its type is not supported.", key, propertyValue);
                     continue;
                 }
 

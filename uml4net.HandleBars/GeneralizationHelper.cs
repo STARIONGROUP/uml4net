@@ -68,7 +68,7 @@ namespace uml4net.HandleBars
                     return;
                 }
 
-                writer.WriteSafeString($": {@class.General.First().Name}, I{@class.Name}");
+                writer.WriteSafeString($": {@class.General[0].Name}, I{@class.Name}");
             });
         }
     }

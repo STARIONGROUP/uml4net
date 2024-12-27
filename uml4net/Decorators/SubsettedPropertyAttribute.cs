@@ -26,7 +26,7 @@ namespace uml4net.Decorators
     /// Attribute used to decorate properties when these are subsetted properties
     /// </summary>
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = true)]
-    public class SubsettedPropertyAttribute : Attribute
+    public sealed class SubsettedPropertyAttribute : Attribute
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="SubsettedPropertyAttribute"/> class.

@@ -50,7 +50,7 @@ namespace uml4net.CommonStructure
         /// </returns>
         public static IContainerList<IElement> QueryOwnedElement(this IElement element)
         {
-            throw new NotImplementedException();
+            throw new NotSupportedException();
         }
     }
 }

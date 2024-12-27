@@ -43,7 +43,7 @@ namespace uml4net.Deployments
         /// </returns>
         public static List<IPackageableElement> QueryDeployedElement(this IDeploymentTarget deploymentTarget)
         {
-            throw new NotImplementedException();
+            throw new NotSupportedException();
         }
     }
 }

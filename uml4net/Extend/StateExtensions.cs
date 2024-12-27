@@ -40,7 +40,7 @@ namespace uml4net.StateMachines
         /// </returns>
         public static bool QueryIsComposite(this IState state)
         {
-            throw new NotImplementedException();
+            throw new NotSupportedException();
         }
 
         /// <summary>
@@ -56,7 +56,7 @@ namespace uml4net.StateMachines
         /// </returns>
         public static bool QueryIsSimple(this IState state)
         {
-            throw new NotImplementedException();
+            throw new NotSupportedException();
         }
 
         /// <summary>
@@ -72,7 +72,7 @@ namespace uml4net.StateMachines
         /// </returns>
         public static bool QueryIsSubmachineState(this IState state)
         {
-            throw new NotImplementedException();
+            throw new NotSupportedException();
         }
 
         /// <summary>
@@ -88,7 +88,7 @@ namespace uml4net.StateMachines
         /// </returns>
         public static bool QueryIsOrthogonal(this IState state)
         {
-            throw new NotImplementedException();
+            throw new NotSupportedException();
         }
     }
 }

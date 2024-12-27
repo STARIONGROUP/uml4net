@@ -45,7 +45,7 @@ namespace uml4net.StructuredClassifiers
         /// </returns>
         public static List<IInterface> QueryProvided(this IComponent component)
         {
-            throw new NotImplementedException();
+            throw new NotSupportedException();
         }
 
         /// <summary>
@@ -65,7 +65,7 @@ namespace uml4net.StructuredClassifiers
         /// </returns>
         public static List<IInterface> QueryRequired(this IComponent component)
         {
-            throw new NotImplementedException();
+            throw new NotSupportedException();
         }
     }
 }

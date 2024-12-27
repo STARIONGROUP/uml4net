@@ -43,7 +43,7 @@ namespace uml4net.StructuredClassifiers
         /// </returns>
         public static List<IProperty> QueryPart(this IStructuredClassifier structuredClassifier)
         {
-            throw new NotImplementedException();
+            throw new NotSupportedException();
         }
 
         /// <summary>
@@ -57,7 +57,7 @@ namespace uml4net.StructuredClassifiers
         /// </returns>
         public static List<IConnectableElement> QueryRole(this IStructuredClassifier structuredClassifier)
         {
-            throw new NotImplementedException();
+            throw new NotSupportedException();
         }
     }
 }

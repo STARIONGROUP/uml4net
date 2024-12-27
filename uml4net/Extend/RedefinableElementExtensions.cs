@@ -39,7 +39,7 @@ namespace uml4net.Classification
         /// </returns>
         public static List<IRedefinableElement> QueryRedefinedElement(this IRedefinableElement redefinableElement)
         {
-            throw new NotImplementedException();
+            throw new NotSupportedException();
         }
 
         /// <summary>
@@ -53,7 +53,7 @@ namespace uml4net.Classification
         /// </returns>
         public static List<IClassifier> QueryRedefinitionContext(this IRedefinableElement redefinableElement)
         {
-            throw new NotImplementedException();
+            throw new NotSupportedException();
         }
     }
 }

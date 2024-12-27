@@ -48,7 +48,7 @@ namespace uml4net.Packages
         /// </returns>
         public static bool QueryIsRequired(this IExtension extension)
         {
-            throw new NotImplementedException();
+            throw new NotSupportedException();
         }
 
         /// <summary>
@@ -64,7 +64,7 @@ namespace uml4net.Packages
         /// </returns>
         public static IClass QueryMetaclass(this IExtension extension)
         {
-            throw new NotImplementedException();
+            throw new NotSupportedException();
         }
     }
 }

@@ -38,7 +38,7 @@ namespace uml4net.Classification
         /// </returns>
         public static string QueryDefault(this IParameter parameter)
         {
-            throw new NotImplementedException();
+            throw new NotSupportedException();
         }
     }
 }

@@ -41,7 +41,7 @@ namespace uml4net.CommonStructure
         /// </returns>
         public static List<IDependency> QueryClientDependency(this INamedElement namedElement)
         {
-            throw new NotImplementedException();
+            throw new NotSupportedException();
         }
 
         /// <summary>
@@ -57,7 +57,7 @@ namespace uml4net.CommonStructure
         /// </returns>
         public static List<INamedElement> QueryMember(this INamedElement namedElement)
         {
-            throw new NotImplementedException();
+            throw new NotSupportedException();
         }
 
         /// <summary>
@@ -145,7 +145,7 @@ namespace uml4net.CommonStructure
         /// </returns>
         public static IContainerList<INamedElement> QueryOwnedMember(this INamedElement namedElement)
         {
-            throw new NotImplementedException();
+            throw new NotSupportedException();
         }
     }
 }

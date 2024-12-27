@@ -38,7 +38,7 @@ namespace uml4net.Classification
         /// </returns>
         public static IClassifier QueryFeaturingClassifier(this IFeature feature)
         {
-            throw new NotImplementedException();
+            throw new NotSupportedException();
         }
     }
 }

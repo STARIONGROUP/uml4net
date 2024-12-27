@@ -40,7 +40,7 @@ namespace uml4net.StateMachines
         /// </returns>
         public static IClassifier QueryRedefinitionContext(this ITransition transition)
         {
-            throw new NotImplementedException();
+            throw new NotSupportedException();
         }
     }
 }

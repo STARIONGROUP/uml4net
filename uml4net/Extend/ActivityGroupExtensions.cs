@@ -41,7 +41,7 @@ namespace uml4net.Activities
         /// </returns>
         public static List<IActivityEdge> QueryContainedEdge(this IActivityGroup activityGroup)
         {
-            throw new NotImplementedException();
+            throw new NotSupportedException();
         }
 
         /// <summary>
@@ -55,7 +55,7 @@ namespace uml4net.Activities
         /// </returns>
         public static List<IActivityNode> QueryContainedNode(this IActivityGroup activityGroup)
         {
-            throw new NotImplementedException();
+            throw new NotSupportedException();
         }
 
         /// <summary>
@@ -69,7 +69,7 @@ namespace uml4net.Activities
         /// </returns>
         public static IContainerList<IActivityGroup> QuerySubgroup(this IActivityGroup activityGroup)
         {
-            throw new NotImplementedException();
+            throw new NotSupportedException();
         }
 
         /// <summary>
@@ -85,7 +85,7 @@ namespace uml4net.Activities
         /// </returns>
         public static IActivityGroup QuerySuperGroup(this IActivityGroup activityGroup)
         {
-            throw new NotImplementedException();
+            throw new NotSupportedException();
         }
     }
 }

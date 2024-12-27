@@ -67,7 +67,7 @@ namespace uml4net.Classification
                 throw new ArgumentNullException(nameof(property));
             }
 
-            throw new NotImplementedException();
+            throw new NotSupportedException();
         }
     }
 }

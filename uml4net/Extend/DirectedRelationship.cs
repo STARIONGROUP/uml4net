@@ -39,7 +39,7 @@ namespace uml4net.CommonStructure
         /// </returns>
         public static List<IElement> QueryTarget(this IDirectedRelationship directedRelationship)
         {
-            throw new NotImplementedException();
+            throw new NotSupportedException();
         }
 
         /// <summary>
@@ -53,7 +53,7 @@ namespace uml4net.CommonStructure
         /// </returns>
         public static List<IElement> QuerySource(this IDirectedRelationship directedRelationship)
         {
-            throw new NotImplementedException();
+            throw new NotSupportedException();
         }
     }
 }

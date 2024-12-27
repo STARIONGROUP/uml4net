@@ -129,11 +129,11 @@ namespace uml4net.xmi.Readers
 
             var sw = Stopwatch.StartNew();
 
-            this.logger.LogTrace("start deserializing from {path}", fileUri);
+            this.logger.LogTrace("start deserializing from {Path}", fileUri);
 
             var result = this.Read(fileStream);
 
-            this.logger.LogTrace("File {path} deserialized in {time} [ms]", fileUri, sw.ElapsedMilliseconds);
+            this.logger.LogTrace("File {Path} deserialized in {Time} [ms]", fileUri, sw.ElapsedMilliseconds);
 
             return result;
         }
@@ -190,6 +190,8 @@ namespace uml4net.xmi.Readers
 
             using (var xmlReader = XmlReader.Create(reader, settings))
             {
+                var defaultLineInfo = xmlReader as IXmlLineInfo;
+
                 this.logger.LogTrace("starting to read xml");
 
                 while (xmlReader.Read())
@@ -232,13 +234,16 @@ namespace uml4net.xmi.Readers
                                     Console.WriteLine("profileXmlReader not yet implemented");
                                 }
                                 break;
+                            default:
+                                this.logger.LogWarning("XmiReader: {LocalName} at line:position {DefaultLineInfo}", xmlReader.LocalName, defaultLineInfo);
+                                break;
                         }
                     }
                 }
             }
 
             var currentlyElapsedMilliseconds = sw.ElapsedMilliseconds;
-            this.logger.LogTrace("xml read in {time}", currentlyElapsedMilliseconds);
+            this.logger.LogTrace("xml read in {Time}", currentlyElapsedMilliseconds);
             sw.Stop();
 
             this.TryResolveExternalReferences(xmiReaderResult);
@@ -267,7 +272,7 @@ namespace uml4net.xmi.Readers
                 this.Read(externalResource, xmiReaderResult, false);
             }
 
-            this.logger.LogTrace("External references synchronized in {time}", stopwatch.ElapsedMilliseconds);
+            this.logger.LogTrace("External references synchronized in {Time}", stopwatch.ElapsedMilliseconds);
 
             stopwatch.Stop();
         }

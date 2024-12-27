@@ -113,7 +113,7 @@ namespace uml4net.xmi.Readers
 
             if (localName != xmlReader.LocalName)
             {
-                throw new InvalidOperationException($"xmlReader.LocalName:{xmlReader.LocalName} is not equal to the provided localName:{localName}");
+                throw new InvalidOperationException($"LocalName:{xmlReader.LocalName} is not equal to the provided localName:{localName}");
             }
 
             using var subXmlReader = xmlReader.ReadSubtree();
@@ -164,7 +164,7 @@ namespace uml4net.xmi.Readers
 
             if (localName != xmlReader.LocalName)
             {
-                throw new InvalidOperationException($"xmlReader.LocalName:{xmlReader.LocalName} is not equal to the provided localName:{localName}");
+                throw new InvalidOperationException($"LocalName:{xmlReader.LocalName} is not equal to the provided localName:{localName}");
             }
 
             using var subXmlReader = xmlReader.ReadSubtree();
@@ -215,7 +215,7 @@ namespace uml4net.xmi.Readers
             
             if (localName != xmlReader.LocalName)
             {
-                throw new InvalidOperationException($"xmlReader.LocalName:{xmlReader.LocalName} is not equal to the provided localName:{localName}");
+                throw new InvalidOperationException($"LocalName:{xmlReader.LocalName} is not equal to the provided localName:{localName}");
             }
 
             using var subXmlReader = xmlReader.ReadSubtree();

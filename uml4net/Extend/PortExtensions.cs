@@ -53,7 +53,7 @@ namespace uml4net.StructuredClassifiers
         /// </returns>
         public static List<IInterface> QueryProvided(this IPort port)
         {
-            throw new NotImplementedException();
+            throw new NotSupportedException();
         }
 
         /// <summary>
@@ -77,7 +77,7 @@ namespace uml4net.StructuredClassifiers
         /// </returns>
         public static List<IInterface> QueryRequired(this IPort port)
         {
-            throw new NotImplementedException();
+            throw new NotSupportedException();
         }
 
     }
