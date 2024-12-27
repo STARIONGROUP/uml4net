@@ -20,6 +20,7 @@
 
 namespace uml4net.Reporting.Generators
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     
@@ -33,7 +34,6 @@ namespace uml4net.Reporting.Generators
     using uml4net.SimpleClassifiers;
     using uml4net.Reporting.Payload;
     using uml4net.Reporting.Resources;
-    using uml4net.Utils;
     using uml4net.xmi.Readers;
 
     /// <summary>
@@ -115,7 +115,10 @@ namespace uml4net.Reporting.Generators
         /// </returns>
         protected static HandlebarsPayload CreateHandlebarsPayload(XmiReaderResult xmiReaderResult)
         {
-            Guard.ThrowIfNull(xmiReaderResult);
+            if (xmiReaderResult == null)
+            {
+                throw new ArgumentNullException(nameof(xmiReaderResult));
+            }
 
             var enumerations = new List<IEnumeration>();
             var primitiveTypes = new List<IPrimitiveType>();

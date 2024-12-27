@@ -28,8 +28,6 @@ namespace uml4net.Reporting.Generators
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Logging.Abstractions;
 
-    using uml4net.Utils;
-
     /// <summary>
     /// The purpose of the <see cref="HtmlReportGenerator"/> is to generate an HTML report of a
     /// UML Model
@@ -80,8 +78,15 @@ namespace uml4net.Reporting.Generators
         /// </returns>
         public string GenerateReport(FileInfo modelPath, DirectoryInfo rootDirectory, Dictionary<string,string> pathMap)
         {
-            Guard.ThrowIfNull(modelPath);
-            Guard.ThrowIfNull(rootDirectory);
+            if (modelPath == null)
+            {
+                throw new ArgumentNullException(nameof(modelPath));
+            }
+
+            if (rootDirectory == null)
+            {
+                throw new ArgumentNullException(nameof(rootDirectory));
+            }
 
             var sw = Stopwatch.StartNew();
 
@@ -117,8 +122,15 @@ namespace uml4net.Reporting.Generators
         /// </param>
         public void GenerateReport(FileInfo modelPath, DirectoryInfo rootDirectory, Dictionary<string, string> pathMap, FileInfo outputPath)
         {
-            Guard.ThrowIfNull(modelPath);
-            Guard.ThrowIfNull(outputPath);
+            if (modelPath == null)
+            {
+                throw new ArgumentNullException(nameof(modelPath));
+            }
+
+            if (outputPath == null)
+            {
+                throw new ArgumentNullException(nameof(outputPath));
+            }
 
             var sw = Stopwatch.StartNew();
 
@@ -147,7 +159,10 @@ namespace uml4net.Reporting.Generators
         /// </returns>
         public override Tuple<bool, string> IsValidReportExtension(FileInfo outputPath)
         {
-            Guard.ThrowIfNull(outputPath);
+            if (outputPath == null)
+            {
+                throw new ArgumentNullException(nameof(outputPath));
+            }
 
             if (outputPath.Extension == ".html")
             {

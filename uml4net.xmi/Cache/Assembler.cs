@@ -30,7 +30,6 @@ namespace uml4net.xmi.Cache
     
     using uml4net;
     using uml4net.Decorators;
-    using uml4net.Utils;
 
     /// <summary>
     /// The purpose of the Assembler is to resolve all the reference properties of the objects
@@ -79,7 +78,10 @@ namespace uml4net.xmi.Cache
         /// <param name="element">The element whose references are to be resolved.</param>
         public void ResolveReferences(IXmiElement element)
         {
-            Guard.ThrowIfNull(element);
+            if (element == null)
+            {
+                throw new ArgumentNullException(nameof(element));
+            }
 
             foreach (var property in element.SingleValueReferencePropertyIdentifiers)
             {

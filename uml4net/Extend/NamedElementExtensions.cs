@@ -76,7 +76,10 @@ namespace uml4net.CommonStructure
         /// </remarks>
         public static string QueryQualifiedName(this INamedElement namedElement)
         {
-            Guard.ThrowIfNull(namedElement);
+            if (namedElement == null)
+            {
+                throw new ArgumentNullException(nameof(namedElement));
+            }
 
             if (string.IsNullOrEmpty(namedElement.Name))
             {
@@ -111,7 +114,10 @@ namespace uml4net.CommonStructure
         /// </returns>
         public static INamespace QueryNamespace(this INamedElement namedElement)
         {
-            Guard.ThrowIfNull(namedElement);
+            if (namedElement == null)
+            {
+                throw new ArgumentNullException(nameof(namedElement));
+            }
 
             if (namedElement.Owner == null)
             {

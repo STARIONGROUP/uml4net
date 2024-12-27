@@ -25,7 +25,6 @@ namespace uml4net.Extensions
 
     using uml4net.Classification;
     using uml4net.Values;
-    using uml4net.Utils;
 
     /// <summary>
     /// The <see cref="ValueSpecificationExtensions"/> class provides extensions methods for the <see cref="IValueSpecification"/>
@@ -40,7 +39,10 @@ namespace uml4net.Extensions
         /// <exception cref="NotSupportedException"></exception>
         public static string QueryDefaultValueAsString(this IValueSpecification valueSpecification)
         {
-            Guard.ThrowIfNull(valueSpecification);
+            if (valueSpecification == null)
+            {
+                throw new ArgumentNullException(nameof(valueSpecification));
+            }
 
             switch (valueSpecification)
             {

@@ -74,7 +74,7 @@ namespace uml4net.Reporting.Generators
         {
             if (modelFileInfo == null)
             {
-                Guard.ThrowIfNull(modelFileInfo);
+                throw new ArgumentNullException(nameof(modelFileInfo));
             }
 
             using var fileStream = File.OpenRead(modelFileInfo.FullName);

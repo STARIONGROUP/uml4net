@@ -20,6 +20,7 @@
 
 namespace uml4net.Extensions
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
 
@@ -28,7 +29,6 @@ namespace uml4net.Extensions
     using uml4net.Packages;
     using uml4net.SimpleClassifiers;
     using uml4net.CommonStructure;
-    using uml4net.Utils;
 
     /// <summary>
     /// Extension methods for <see cref="IElement"/> interface
@@ -48,7 +48,10 @@ namespace uml4net.Extensions
         /// </returns>
         public static IEnumerable<string> QueryDocumentation(this IElement element)
         {
-            Guard.ThrowIfNull(element);
+            if (element == null)
+            {
+                throw new ArgumentNullException(nameof(element));
+            }
 
             var ownedComment = element.OwnedComment.FirstOrDefault();
             if (ownedComment == null)
@@ -82,7 +85,10 @@ namespace uml4net.Extensions
         /// </returns>
         public static string QueryRawDocumentation(this IElement element)
         {
-            Guard.ThrowIfNull(element);
+            if (element == null)
+            {
+                throw new ArgumentNullException(nameof(element));
+            }
 
             var ownedComment = element.OwnedComment.FirstOrDefault();
             if (ownedComment == null)
@@ -111,7 +117,10 @@ namespace uml4net.Extensions
         /// </returns>
         public static IPackage QueryRootPackage(this IElement element)
         {
-            Guard.ThrowIfNull(element);
+            if (element == null)
+            {
+                throw new ArgumentNullException(nameof(element));
+            }
 
             if (element.Owner is not IPackage owner)
             {
@@ -141,7 +150,10 @@ namespace uml4net.Extensions
         /// </returns>
         public static IEnumerable<IInterface> QueryInterfaces(this IElement element)
         {
-            Guard.ThrowIfNull(element);
+            if (element == null)
+            {
+                throw new ArgumentNullException(nameof(element));
+            }
 
             if (element.Owner is not IPackage)
             {

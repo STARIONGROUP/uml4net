@@ -33,7 +33,6 @@ namespace uml4net.Reporting.Generators
     using uml4net.Extensions;
     using uml4net.Packages;
     using uml4net.StructuredClassifiers;
-    using uml4net.Utils;
 
     /// <summary>
     /// The purpose of the <see cref="ModelInspector"/> is to iterate through the model and report on the various kinds of
@@ -91,8 +90,11 @@ namespace uml4net.Reporting.Generators
         /// </returns>
         public string Inspect(IPackage package, bool recursive = false)
         {
-            Guard.ThrowIfNull(package);
-            
+            if (package == null)
+            {
+                throw new ArgumentNullException(nameof(package));
+            }
+
             this.logger.LogInformation("Start UML Model Inspection at Package {0}:{1}", package.XmiId, package.Name);
 
             this.interestingClasses.Clear();
@@ -266,8 +268,20 @@ namespace uml4net.Reporting.Generators
         /// </returns>
         public string Inspect(IPackage package, string className)
         {
-            Guard.ThrowIfNull(package);
-            Guard.ThrowIfNullOrEmpty(className);
+            if (package == null)
+            {
+                throw new ArgumentNullException(nameof(package));
+            }
+
+            if (className == null)
+            {
+                throw new ArgumentNullException(nameof(className));
+            }
+
+            if (className.Length == 0)
+            {
+                throw new ArgumentException(nameof(className));
+            }
 
             this.logger.LogInformation("Start UML named Class '{2}' Inspection at Package {0}:{1}", package.XmiId, package.Name, className);
 
@@ -368,8 +382,11 @@ namespace uml4net.Reporting.Generators
         /// </returns>
         public string AnalyzeDocumentation(IPackage package, bool recursive = false)
         {
-            Guard.ThrowIfNull(package);
-            
+            if (package == null)
+            {
+                throw new ArgumentNullException(nameof(package));
+            }
+
             this.logger.LogInformation("Start inspection of Package documentation {0}:{1}", package.XmiId, package.Name);
 
             var sw = Stopwatch.StartNew();
@@ -443,8 +460,11 @@ namespace uml4net.Reporting.Generators
         /// </returns>
         public override Tuple<bool, string> IsValidReportExtension(FileInfo outputPath)
         {
-            Guard.ThrowIfNull(outputPath);
-            
+            if (outputPath == null)
+            {
+                throw new ArgumentNullException(nameof(outputPath));
+            }
+
             if (outputPath.Extension == ".txt")
             {
                 return new Tuple<bool, string>(true, ".txt is a supported report extension");
@@ -471,8 +491,15 @@ namespace uml4net.Reporting.Generators
         /// </param>
         public void GenerateReport(FileInfo modelPath, DirectoryInfo rootDirectory, Dictionary<string, string> pathMap, FileInfo outputPath)
         {
-            Guard.ThrowIfNull(modelPath);
-            Guard.ThrowIfNull(outputPath);
+            if (modelPath == null)
+            {
+                throw new ArgumentNullException(nameof(modelPath));
+            }
+            
+            if (outputPath == null)
+            {
+                throw new ArgumentNullException(nameof(outputPath));
+            }
 
             var sw = Stopwatch.StartNew();
 

@@ -20,13 +20,13 @@
 
 namespace uml4net.Extensions
 {
+    using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Linq;
 
     using uml4net.Classification;
     using uml4net.StructuredClassifiers;
-    using uml4net.Utils;
 
     /// <summary>
     /// Extension methods for <see cref="IClass"/> interface
@@ -41,7 +41,10 @@ namespace uml4net.Extensions
         /// <returns>A <see cref="ReadOnlyCollection{T}"/> of <see cref="IProperty"/></returns>
         public static ReadOnlyCollection<IProperty> QueryAllProperties(this IClass @class)
         {
-            Guard.ThrowIfNull(@class);
+            if (@class == null)
+            {
+                throw new ArgumentNullException(nameof(@class));
+            }
 
             var result = new List<IProperty>();
 

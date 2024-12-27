@@ -42,7 +42,10 @@ namespace uml4net.CommonStructure
         /// </returns>
         public static int QueryLower(this IMultiplicityElement multiplicityElement)
         {
-            Guard.ThrowIfNull(multiplicityElement);
+            if (multiplicityElement == null)
+            {
+                throw new ArgumentNullException(nameof(multiplicityElement));
+            }
 
             switch (multiplicityElement.LowerValue.SingleOrDefault())
             {
@@ -69,7 +72,11 @@ namespace uml4net.CommonStructure
         /// </returns>
         public static int QueryUpper(this IMultiplicityElement multiplicityElement)
         {
-            Guard.ThrowIfNull(multiplicityElement);
+            if (multiplicityElement == null)
+            {
+                throw new ArgumentNullException(nameof(multiplicityElement));
+            }
+
 
             switch (multiplicityElement.UpperValue.SingleOrDefault())
             {

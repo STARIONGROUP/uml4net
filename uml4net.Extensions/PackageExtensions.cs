@@ -20,11 +20,11 @@
 
 namespace uml4net.Extensions
 {
+    using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     
     using uml4net.Packages;
-    using uml4net.Utils;
 
     /// <summary>
     /// Extension methods for <see cref="IPackage"/> interface
@@ -44,7 +44,10 @@ namespace uml4net.Extensions
         /// </returns>
         public static ReadOnlyCollection<IPackage> QueryPackages(this IPackage root)
         {
-            Guard.ThrowIfNull(root);
+            if (root == null)
+            {
+                throw new ArgumentNullException(nameof(root));
+            }
 
             var result = new List<IPackage>();
 

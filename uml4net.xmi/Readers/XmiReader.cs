@@ -115,7 +115,15 @@ namespace uml4net.xmi.Readers
         /// </returns>
         public XmiReaderResult Read(string fileUri)
         {
-            Guard.ThrowIfNullOrEmpty(fileUri);
+            if (fileUri == null)
+            {
+                throw new ArgumentNullException(nameof(fileUri));
+            }
+
+            if (fileUri.Length == 0)
+            {
+                throw new ArgumentException(nameof(fileUri));
+            }
 
             using var fileStream = File.OpenRead(fileUri);
 
@@ -142,7 +150,10 @@ namespace uml4net.xmi.Readers
         /// </returns>
         public XmiReaderResult Read(Stream stream)
         {
-            Guard.ThrowIfNull(stream);
+            if (stream == null)
+            {
+                throw new ArgumentNullException(nameof(stream));
+            }
 
             var xmiReaderResult = new XmiReaderResult();
 

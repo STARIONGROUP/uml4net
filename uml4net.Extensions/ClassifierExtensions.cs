@@ -20,12 +20,12 @@
 
 namespace uml4net.Extensions
 {
+    using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Linq;
 
     using uml4net.Classification;
-    using uml4net.Utils;
 
     /// <summary>
     /// The <see cref="ClassifierExtensions"/> class provides extensions methods for the <see cref="IClassifier"/>
@@ -44,7 +44,10 @@ namespace uml4net.Extensions
         /// </returns>
         public static ReadOnlyCollection<IClassifier> QueryAllGeneralClassifiers(this IClassifier classifier)
         {
-            Guard.ThrowIfNull(classifier);
+            if (classifier == null)
+            {
+                throw new ArgumentNullException(nameof(classifier));
+            }
 
             var result = new List<IClassifier> { classifier };
 

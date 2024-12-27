@@ -25,8 +25,6 @@ namespace uml4net.Extensions
     using System.Globalization;
     using System.Linq;
 
-    using uml4net.Utils;
-
     /// <summary>
     /// Extension methods for <see cref="string"/> 
     /// </summary>
@@ -46,7 +44,10 @@ namespace uml4net.Extensions
         /// </returns>
         public static IEnumerable<string> SplitToLines(this string input, int maximumLineLength = 100)
         {
-            Guard.ThrowIfNull(input);
+            if (input == null)
+            {
+                throw new ArgumentNullException(nameof(input));
+            }
 
             input = input.Replace("\r\n", " ").Trim();
 

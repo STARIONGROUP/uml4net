@@ -42,7 +42,10 @@ namespace uml4net.Packages
         /// </returns>
         public static IContainerList<IPackage> QueryNestedPackage(this IPackage package)
         {
-            Guard.ThrowIfNull(package);
+            if (package == null)
+            {
+                throw new ArgumentNullException(nameof(package));
+            }
 
             var containerList = new ContainerList<IPackage>(package);
 
@@ -65,6 +68,11 @@ namespace uml4net.Packages
         /// </returns>
         public static IContainerList<IStereotype> QueryOwnedStereotype(this IPackage package)
         {
+            if (package == null)
+            {
+                throw new ArgumentNullException(nameof(package));
+            }
+
             throw new NotImplementedException();
         }
 
@@ -79,6 +87,11 @@ namespace uml4net.Packages
         /// </returns>
         public static IContainerList<IType> QueryOwnedType(this IPackage package)
         {
+            if (package == null)
+            {
+                throw new ArgumentNullException(nameof(package));
+            }
+
             throw new NotImplementedException();
         }
     }
