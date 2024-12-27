@@ -24,6 +24,7 @@
 
 namespace uml4net.Activities
 {
+    using System.CodeDom.Compiler;
     using System.Collections.Generic;
 
     using uml4net.Decorators;
@@ -49,6 +50,7 @@ namespace uml4net.Activities
     /// specified exception occurs during the execution of the protected ExecutableNode.
     /// </summary>
     [Class(xmiId: "ExceptionHandler", isAbstract: false, isFinalSpecialization: false, isActive: false)]
+    [GeneratedCode("uml4net", "latest")]
     public partial interface IExceptionHandler : IElement
     {
         /// <summary>

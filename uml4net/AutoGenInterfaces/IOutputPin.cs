@@ -24,6 +24,7 @@
 
 namespace uml4net.Actions
 {
+    using System.CodeDom.Compiler;
     using System.Collections.Generic;
 
     using uml4net.Decorators;
@@ -48,6 +49,7 @@ namespace uml4net.Actions
     /// An OutputPin is a Pin that holds output values produced by an Action.
     /// </summary>
     [Class(xmiId: "OutputPin", isAbstract: false, isFinalSpecialization: false, isActive: false)]
+    [GeneratedCode("uml4net", "latest")]
     public partial interface IOutputPin : IPin
     {
     }

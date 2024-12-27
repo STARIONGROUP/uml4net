@@ -25,6 +25,7 @@
 namespace uml4net.Actions
 {
     using System;
+    using System.CodeDom.Compiler;
     using System.Collections.Generic;
 
     using uml4net.Decorators;
@@ -51,6 +52,7 @@ namespace uml4net.Actions
     /// evaluates to true.
     /// </summary>
     [Class(xmiId: "Clause", isAbstract: false, isFinalSpecialization: false, isActive: false)]
+    [GeneratedCode("uml4net", "latest")]
     public partial class Clause : XmiElement, IClause
     {
         /// <summary>

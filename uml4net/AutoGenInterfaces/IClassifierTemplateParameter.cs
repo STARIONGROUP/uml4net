@@ -24,6 +24,7 @@
 
 namespace uml4net.Classification
 {
+    using System.CodeDom.Compiler;
     using System.Collections.Generic;
 
     using uml4net.Decorators;
@@ -48,6 +49,7 @@ namespace uml4net.Classification
     /// A ClassifierTemplateParameter exposes a Classifier as a formal template parameter.
     /// </summary>
     [Class(xmiId: "ClassifierTemplateParameter", isAbstract: false, isFinalSpecialization: false, isActive: false)]
+    [GeneratedCode("uml4net", "latest")]
     public partial interface IClassifierTemplateParameter : ITemplateParameter
     {
         /// <summary>

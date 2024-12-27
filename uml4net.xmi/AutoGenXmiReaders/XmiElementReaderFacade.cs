@@ -25,8 +25,10 @@
 namespace uml4net.xmi.Readers
 {
     using System;
+    using System.CodeDom.Compiler;
     using System.Collections.Generic;
     using System.Xml;
+
     using Microsoft.Extensions.Logging;
 
     using uml4net.xmi.Cache;
@@ -35,6 +37,7 @@ namespace uml4net.xmi.Readers
     /// The purpose of the <see cref="XmiElementReaderFacade"/> is to read an <see cref="IXmiElement"/> from an
     /// <see cref="XmlReader"/>
     /// </summary>
+    [GeneratedCode("uml4net", "latest")]
     public class XmiElementReaderFacade : IXmiElementReaderFacade
     {
         /// <summary>

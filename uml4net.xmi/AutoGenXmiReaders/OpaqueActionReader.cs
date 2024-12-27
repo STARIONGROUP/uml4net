@@ -25,6 +25,7 @@
 namespace uml4net.xmi.Readers
 {
     using System;
+    using System.CodeDom.Compiler;
     using System.Linq;
     using System.Xml;
 
@@ -52,6 +53,7 @@ namespace uml4net.xmi.Readers
     /// The purpose of the <see cref="OpaqueActionReader"/> is to read an instance of <see cref="IOpaqueAction"/>
     /// from the XMI document
     /// </summary>
+    [GeneratedCode("uml4net", "latest")]
     public class OpaqueActionReader : XmiElementReader<IOpaqueAction>, IXmiElementReader<IOpaqueAction>
     {
         private readonly IXmiElementReaderFacade xmiElementReaderFacade;

@@ -24,6 +24,7 @@
 
 namespace uml4net.StructuredClassifiers
 {
+    using System.CodeDom.Compiler;
     using System.Collections.Generic;
 
     using uml4net.Decorators;
@@ -49,6 +50,7 @@ namespace uml4net.StructuredClassifiers
     /// specialized function, which collectively accomplish some desired functionality.
     /// </summary>
     [Class(xmiId: "Collaboration", isAbstract: false, isFinalSpecialization: false, isActive: false)]
+    [GeneratedCode("uml4net", "latest")]
     public partial interface ICollaboration : IStructuredClassifier, IBehavioredClassifier
     {
         /// <summary>

@@ -24,6 +24,7 @@
 
 namespace uml4net.CommonStructure
 {
+    using System.CodeDom.Compiler;
     using System.Collections.Generic;
 
     using uml4net.Decorators;
@@ -48,6 +49,7 @@ namespace uml4net.CommonStructure
     /// A Type constrains the values represented by a TypedElement.
     /// </summary>
     [Class(xmiId: "Type", isAbstract: true, isFinalSpecialization: false, isActive: false)]
+    [GeneratedCode("uml4net", "latest")]
     public partial interface IType : IPackageableElement
     {
         /// <summary>

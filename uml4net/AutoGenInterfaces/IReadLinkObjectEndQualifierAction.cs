@@ -24,6 +24,7 @@
 
 namespace uml4net.Actions
 {
+    using System.CodeDom.Compiler;
     using System.Collections.Generic;
 
     using uml4net.Decorators;
@@ -49,6 +50,7 @@ namespace uml4net.Actions
     /// object.
     /// </summary>
     [Class(xmiId: "ReadLinkObjectEndQualifierAction", isAbstract: false, isFinalSpecialization: false, isActive: false)]
+    [GeneratedCode("uml4net", "latest")]
     public partial interface IReadLinkObjectEndQualifierAction : IAction
     {
         /// <summary>

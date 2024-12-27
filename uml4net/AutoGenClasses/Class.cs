@@ -25,6 +25,7 @@
 namespace uml4net.StructuredClassifiers
 {
     using System;
+    using System.CodeDom.Compiler;
     using System.Collections.Generic;
 
     using uml4net.Decorators;
@@ -50,6 +51,7 @@ namespace uml4net.StructuredClassifiers
     /// behavior of those objects.  A Class may have an internal structure and Ports.
     /// </summary>
     [Class(xmiId: "Class", isAbstract: false, isFinalSpecialization: false, isActive: false)]
+    [GeneratedCode("uml4net", "latest")]
     public partial class Class : XmiElement, IClass
     {
         /// <summary>

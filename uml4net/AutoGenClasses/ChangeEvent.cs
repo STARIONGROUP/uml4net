@@ -25,6 +25,7 @@
 namespace uml4net.CommonBehavior
 {
     using System;
+    using System.CodeDom.Compiler;
     using System.Collections.Generic;
 
     using uml4net.Decorators;
@@ -49,6 +50,7 @@ namespace uml4net.CommonBehavior
     /// A ChangeEvent models a change in the system configuration that makes a condition true.
     /// </summary>
     [Class(xmiId: "ChangeEvent", isAbstract: false, isFinalSpecialization: false, isActive: false)]
+    [GeneratedCode("uml4net", "latest")]
     public partial class ChangeEvent : XmiElement, IChangeEvent
     {
         /// <summary>

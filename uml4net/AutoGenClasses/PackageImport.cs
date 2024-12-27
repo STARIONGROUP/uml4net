@@ -25,6 +25,7 @@
 namespace uml4net.CommonStructure
 {
     using System;
+    using System.CodeDom.Compiler;
     using System.Collections.Generic;
 
     using uml4net.Decorators;
@@ -51,6 +52,7 @@ namespace uml4net.CommonStructure
     /// names in the importingNamespace.
     /// </summary>
     [Class(xmiId: "PackageImport", isAbstract: false, isFinalSpecialization: false, isActive: false)]
+    [GeneratedCode("uml4net", "latest")]
     public partial class PackageImport : XmiElement, IPackageImport
     {
         /// <summary>

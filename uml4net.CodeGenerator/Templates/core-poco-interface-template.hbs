@@ -24,6 +24,7 @@
 
 namespace uml4net.{{this.Namespace.Name}}
 {
+    using System.CodeDom.Compiler;
     using System.Collections.Generic;
 
     using uml4net.Decorators;
@@ -46,6 +47,7 @@ namespace uml4net.{{this.Namespace.Name}}
 
     {{ #Documentation this }}
     {{ #Decorator.WriteClassAttribute this }}
+    [GeneratedCode("uml4net", "latest")]
     {{ Enum.ToString this.Visibility }} partial interface I{{this.Name}} {{ #Generalization.Interfaces this }}
     {
         {{ #each this.OwnedAttribute as | property | }}

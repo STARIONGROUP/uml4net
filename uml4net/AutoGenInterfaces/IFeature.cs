@@ -24,6 +24,7 @@
 
 namespace uml4net.Classification
 {
+    using System.CodeDom.Compiler;
     using System.Collections.Generic;
 
     using uml4net.Decorators;
@@ -48,6 +49,7 @@ namespace uml4net.Classification
     /// A Feature declares a behavioral or structural characteristic of Classifiers.
     /// </summary>
     [Class(xmiId: "Feature", isAbstract: true, isFinalSpecialization: false, isActive: false)]
+    [GeneratedCode("uml4net", "latest")]
     public partial interface IFeature : IRedefinableElement
     {
         /// <summary>

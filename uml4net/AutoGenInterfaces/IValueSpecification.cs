@@ -24,6 +24,7 @@
 
 namespace uml4net.Values
 {
+    using System.CodeDom.Compiler;
     using System.Collections.Generic;
 
     using uml4net.Decorators;
@@ -50,6 +51,7 @@ namespace uml4net.Values
     /// actual parameter in the binding of a template.
     /// </summary>
     [Class(xmiId: "ValueSpecification", isAbstract: true, isFinalSpecialization: false, isActive: false)]
+    [GeneratedCode("uml4net", "latest")]
     public partial interface IValueSpecification : ITypedElement, IPackageableElement
     {
     }

@@ -24,6 +24,7 @@
 
 namespace uml4net.Activities
 {
+    using System.CodeDom.Compiler;
     using System.Collections.Generic;
 
     using uml4net.Decorators;
@@ -49,6 +50,7 @@ namespace uml4net.Activities
     /// are use to control the execution of ExecutableNodes.
     /// </summary>
     [Class(xmiId: "ControlFlow", isAbstract: false, isFinalSpecialization: false, isActive: false)]
+    [GeneratedCode("uml4net", "latest")]
     public partial interface IControlFlow : IActivityEdge
     {
     }

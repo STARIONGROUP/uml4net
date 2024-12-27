@@ -25,6 +25,7 @@
 namespace uml4net.Activities
 {
     using System;
+    using System.CodeDom.Compiler;
     using System.Collections.Generic;
 
     using uml4net.Decorators;
@@ -53,6 +54,7 @@ namespace uml4net.Activities
     /// is only accessible within that node.
     /// </summary>
     [Class(xmiId: "Variable", isAbstract: false, isFinalSpecialization: false, isActive: false)]
+    [GeneratedCode("uml4net", "latest")]
     public partial class Variable : XmiElement, IVariable
     {
         /// <summary>
@@ -245,7 +247,7 @@ namespace uml4net.Activities
         /// </summary>
         [Property(xmiId: "MultiplicityElement-upper", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: true, isDerivedUnion: false, isUnique: false, defaultValue: null)]
         [Implements(implementation: "IMultiplicityElement.Upper")]
-        public int Upper => this.QueryUpper();
+        public string Upper => this.QueryUpper();
 
         /// <summary>
         /// The specification of the upper bound for this multiplicity.

@@ -24,6 +24,7 @@
 
 namespace uml4net.Activities
 {
+    using System.CodeDom.Compiler;
     using System.Collections.Generic;
 
     using uml4net.Decorators;
@@ -48,6 +49,7 @@ namespace uml4net.Activities
     /// An InitialNode is a ControlNode that offers a single control token when initially enabled.
     /// </summary>
     [Class(xmiId: "InitialNode", isAbstract: false, isFinalSpecialization: false, isActive: false)]
+    [GeneratedCode("uml4net", "latest")]
     public partial interface IInitialNode : IControlNode
     {
     }

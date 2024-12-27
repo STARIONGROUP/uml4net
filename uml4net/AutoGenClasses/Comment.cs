@@ -25,6 +25,7 @@
 namespace uml4net.CommonStructure
 {
     using System;
+    using System.CodeDom.Compiler;
     using System.Collections.Generic;
 
     using uml4net.Decorators;
@@ -49,6 +50,7 @@ namespace uml4net.CommonStructure
     /// A Comment is a textual annotation that can be attached to a set of Elements.
     /// </summary>
     [Class(xmiId: "Comment", isAbstract: false, isFinalSpecialization: false, isActive: false)]
+    [GeneratedCode("uml4net", "latest")]
     public partial class Comment : XmiElement, IComment
     {
         /// <summary>

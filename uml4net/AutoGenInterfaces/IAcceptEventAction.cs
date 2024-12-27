@@ -24,6 +24,7 @@
 
 namespace uml4net.Actions
 {
+    using System.CodeDom.Compiler;
     using System.Collections.Generic;
 
     using uml4net.Decorators;
@@ -48,6 +49,7 @@ namespace uml4net.Actions
     /// An AcceptEventAction is an Action that waits for the occurrence of one or more specific Events.
     /// </summary>
     [Class(xmiId: "AcceptEventAction", isAbstract: false, isFinalSpecialization: false, isActive: false)]
+    [GeneratedCode("uml4net", "latest")]
     public partial interface IAcceptEventAction : IAction
     {
         /// <summary>

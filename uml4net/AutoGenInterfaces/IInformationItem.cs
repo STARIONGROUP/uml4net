@@ -24,6 +24,7 @@
 
 namespace uml4net.InformationFlows
 {
+    using System.CodeDom.Compiler;
     using System.Collections.Generic;
 
     using uml4net.Decorators;
@@ -56,6 +57,7 @@ namespace uml4net.InformationFlows
     /// but perhaps more general and communicable, ways.
     /// </summary>
     [Class(xmiId: "InformationItem", isAbstract: false, isFinalSpecialization: false, isActive: false)]
+    [GeneratedCode("uml4net", "latest")]
     public partial interface IInformationItem : IClassifier
     {
         /// <summary>

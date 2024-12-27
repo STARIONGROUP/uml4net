@@ -24,6 +24,7 @@
 
 namespace uml4net.Deployments
 {
+    using System.CodeDom.Compiler;
     using System.Collections.Generic;
 
     using uml4net.Decorators;
@@ -48,6 +49,7 @@ namespace uml4net.Deployments
     /// A deployment target is the location for a deployed artifact.
     /// </summary>
     [Class(xmiId: "DeploymentTarget", isAbstract: true, isFinalSpecialization: false, isActive: false)]
+    [GeneratedCode("uml4net", "latest")]
     public partial interface IDeploymentTarget : INamedElement
     {
         /// <summary>

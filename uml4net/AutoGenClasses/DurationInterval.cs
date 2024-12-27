@@ -25,6 +25,7 @@
 namespace uml4net.Values
 {
     using System;
+    using System.CodeDom.Compiler;
     using System.Collections.Generic;
 
     using uml4net.Decorators;
@@ -49,6 +50,7 @@ namespace uml4net.Values
     /// A DurationInterval defines the range between two Durations.
     /// </summary>
     [Class(xmiId: "DurationInterval", isAbstract: false, isFinalSpecialization: false, isActive: false)]
+    [GeneratedCode("uml4net", "latest")]
     public partial class DurationInterval : XmiElement, IDurationInterval
     {
         /// <summary>

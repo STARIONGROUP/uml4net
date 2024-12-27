@@ -25,6 +25,7 @@
 namespace uml4net.Values
 {
     using System;
+    using System.CodeDom.Compiler;
     using System.Collections.Generic;
 
     using uml4net.Decorators;
@@ -49,6 +50,7 @@ namespace uml4net.Values
     /// A TimeExpression is a ValueSpecification that represents a time value.
     /// </summary>
     [Class(xmiId: "TimeExpression", isAbstract: false, isFinalSpecialization: false, isActive: false)]
+    [GeneratedCode("uml4net", "latest")]
     public partial class TimeExpression : XmiElement, ITimeExpression
     {
         /// <summary>

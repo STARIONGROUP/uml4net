@@ -25,6 +25,7 @@
 namespace uml4net.Actions
 {
     using System;
+    using System.CodeDom.Compiler;
     using System.Collections.Generic;
 
     using uml4net.Decorators;
@@ -50,6 +51,7 @@ namespace uml4net.Actions
     /// another Action.
     /// </summary>
     [Class(xmiId: "ActionInputPin", isAbstract: false, isFinalSpecialization: false, isActive: false)]
+    [GeneratedCode("uml4net", "latest")]
     public partial class ActionInputPin : XmiElement, IActionInputPin
     {
         /// <summary>
@@ -330,7 +332,7 @@ namespace uml4net.Actions
         /// </summary>
         [Property(xmiId: "MultiplicityElement-upper", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: true, isDerivedUnion: false, isUnique: false, defaultValue: null)]
         [Implements(implementation: "IMultiplicityElement.Upper")]
-        public int Upper => this.QueryUpper();
+        public string Upper => this.QueryUpper();
 
         /// <summary>
         /// The maximum number of tokens that may be held by this ObjectNode. Tokens cannot flow into the

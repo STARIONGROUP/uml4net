@@ -24,6 +24,7 @@
 
 namespace uml4net.Activities
 {
+    using System.CodeDom.Compiler;
     using System.Collections.Generic;
 
     using uml4net.Decorators;
@@ -48,6 +49,7 @@ namespace uml4net.Activities
     /// A FlowFinalNode is a FinalNode that terminates a flow by consuming the tokens offered to it.
     /// </summary>
     [Class(xmiId: "FlowFinalNode", isAbstract: false, isFinalSpecialization: false, isActive: false)]
+    [GeneratedCode("uml4net", "latest")]
     public partial interface IFlowFinalNode : IFinalNode
     {
     }

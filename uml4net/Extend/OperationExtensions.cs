@@ -23,6 +23,7 @@ namespace uml4net.Classification
     using System;
     
     using uml4net.CommonStructure;
+    using uml4net.Values;
 
     /// <summary>
     /// The <see cref="OperationExtensions"/> class provides extensions methods for <see cref="IOperation"/>
@@ -104,7 +105,7 @@ namespace uml4net.Classification
         /// The upper multiplicity of the return parameter, if present. This information is derived from the
         /// return result for this Operation.
         /// </returns>
-        public static int QueryUpper(this IOperation operation)
+        public static string QueryUpper(this IOperation operation)
         {
             throw new NotImplementedException();
         }

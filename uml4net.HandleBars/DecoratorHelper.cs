@@ -83,7 +83,7 @@ namespace uml4net.HandleBars
                     throw new ArgumentException("context is supposed to be an IProperty");
                 }
 
-                var upperValue = property.Upper == int.MaxValue ? "int.MaxValue" : property.Upper.ToString(CultureInfo.InvariantCulture);
+                var upperValue = property.QueryUpperValue() == int.MaxValue ? "int.MaxValue" : property.Upper.ToString(CultureInfo.InvariantCulture);
 
                 var defaultValue = property.QueryDefaultValueAsString();
                 if (defaultValue != "null")

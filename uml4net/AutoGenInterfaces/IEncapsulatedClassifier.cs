@@ -24,6 +24,7 @@
 
 namespace uml4net.StructuredClassifiers
 {
+    using System.CodeDom.Compiler;
     using System.Collections.Generic;
 
     using uml4net.Decorators;
@@ -48,6 +49,7 @@ namespace uml4net.StructuredClassifiers
     /// An EncapsulatedClassifier may own Ports to specify typed interaction points.
     /// </summary>
     [Class(xmiId: "EncapsulatedClassifier", isAbstract: true, isFinalSpecialization: false, isActive: false)]
+    [GeneratedCode("uml4net", "latest")]
     public partial interface IEncapsulatedClassifier : IStructuredClassifier
     {
         /// <summary>

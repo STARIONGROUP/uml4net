@@ -25,6 +25,7 @@
 namespace uml4net.CommonStructure
 {
     using System;
+    using System.CodeDom.Compiler;
     using System.Collections.Generic;
 
     using uml4net.Decorators;
@@ -51,6 +52,7 @@ namespace uml4net.CommonStructure
     /// parameters of the template.
     /// </summary>
     [Class(xmiId: "TemplateBinding", isAbstract: false, isFinalSpecialization: false, isActive: false)]
+    [GeneratedCode("uml4net", "latest")]
     public partial class TemplateBinding : XmiElement, ITemplateBinding
     {
         /// <summary>

@@ -24,6 +24,7 @@
 
 namespace uml4net.Classification
 {
+    using System.CodeDom.Compiler;
     using System.Collections.Generic;
 
     using uml4net.Decorators;
@@ -48,6 +49,7 @@ namespace uml4net.Classification
     /// An OperationTemplateParameter exposes an Operation as a formal parameter for a template.
     /// </summary>
     [Class(xmiId: "OperationTemplateParameter", isAbstract: false, isFinalSpecialization: false, isActive: false)]
+    [GeneratedCode("uml4net", "latest")]
     public partial interface IOperationTemplateParameter : ITemplateParameter
     {
         /// <summary>

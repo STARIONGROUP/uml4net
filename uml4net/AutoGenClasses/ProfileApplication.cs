@@ -25,6 +25,7 @@
 namespace uml4net.Packages
 {
     using System;
+    using System.CodeDom.Compiler;
     using System.Collections.Generic;
 
     using uml4net.Decorators;
@@ -49,6 +50,7 @@ namespace uml4net.Packages
     /// A profile application is used to show which profiles have been applied to a package.
     /// </summary>
     [Class(xmiId: "ProfileApplication", isAbstract: false, isFinalSpecialization: false, isActive: false)]
+    [GeneratedCode("uml4net", "latest")]
     public partial class ProfileApplication : XmiElement, IProfileApplication
     {
         /// <summary>

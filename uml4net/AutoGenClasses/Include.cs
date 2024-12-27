@@ -25,6 +25,7 @@
 namespace uml4net.UseCases
 {
     using System;
+    using System.CodeDom.Compiler;
     using System.Collections.Generic;
 
     using uml4net.Decorators;
@@ -49,6 +50,7 @@ namespace uml4net.UseCases
     /// An Include relationship specifies that a UseCase contains the behavior defined in another UseCase.
     /// </summary>
     [Class(xmiId: "Include", isAbstract: false, isFinalSpecialization: false, isActive: false)]
+    [GeneratedCode("uml4net", "latest")]
     public partial class Include : XmiElement, IInclude
     {
         /// <summary>

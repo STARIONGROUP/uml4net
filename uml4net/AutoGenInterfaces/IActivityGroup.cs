@@ -24,6 +24,7 @@
 
 namespace uml4net.Activities
 {
+    using System.CodeDom.Compiler;
     using System.Collections.Generic;
 
     using uml4net.Decorators;
@@ -49,6 +50,7 @@ namespace uml4net.Activities
     /// Activity.
     /// </summary>
     [Class(xmiId: "ActivityGroup", isAbstract: true, isFinalSpecialization: false, isActive: false)]
+    [GeneratedCode("uml4net", "latest")]
     public partial interface IActivityGroup : INamedElement
     {
         /// <summary>

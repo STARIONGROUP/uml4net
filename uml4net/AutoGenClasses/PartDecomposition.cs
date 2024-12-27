@@ -25,6 +25,7 @@
 namespace uml4net.Interactions
 {
     using System;
+    using System.CodeDom.Compiler;
     using System.Collections.Generic;
 
     using uml4net.Decorators;
@@ -50,6 +51,7 @@ namespace uml4net.Interactions
     /// Interaction.
     /// </summary>
     [Class(xmiId: "PartDecomposition", isAbstract: false, isFinalSpecialization: false, isActive: false)]
+    [GeneratedCode("uml4net", "latest")]
     public partial class PartDecomposition : XmiElement, IPartDecomposition
     {
         /// <summary>

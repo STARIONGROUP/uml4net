@@ -24,6 +24,7 @@
 
 namespace uml4net.CommonStructure
 {
+    using System.CodeDom.Compiler;
     using System.Collections.Generic;
 
     using uml4net.Decorators;
@@ -49,6 +50,7 @@ namespace uml4net.CommonStructure
     /// identified by name.
     /// </summary>
     [Class(xmiId: "Namespace", isAbstract: true, isFinalSpecialization: false, isActive: false)]
+    [GeneratedCode("uml4net", "latest")]
     public partial interface INamespace : INamedElement
     {
         /// <summary>

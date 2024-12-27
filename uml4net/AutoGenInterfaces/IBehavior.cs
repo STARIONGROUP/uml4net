@@ -24,6 +24,7 @@
 
 namespace uml4net.CommonBehavior
 {
+    using System.CodeDom.Compiler;
     using System.Collections.Generic;
 
     using uml4net.Decorators;
@@ -51,6 +52,7 @@ namespace uml4net.CommonBehavior
     /// used for capturing examples, such as a trace of a particular execution.
     /// </summary>
     [Class(xmiId: "Behavior", isAbstract: true, isFinalSpecialization: false, isActive: false)]
+    [GeneratedCode("uml4net", "latest")]
     public partial interface IBehavior : IClass
     {
         /// <summary>

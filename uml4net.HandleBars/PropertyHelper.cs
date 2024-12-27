@@ -374,10 +374,15 @@ namespace uml4net.HandleBars
                             switch (propertyName)
                             {
                                 case "class":
+                                case "interface":
                                 case "namespace":
                                 case "object":
+                                case "type":
                                 case "using":
                                     propertyName = $"@{propertyName}";
+                                    break;
+                                default:
+                                    // nothing to do here
                                     break;
                             }
 

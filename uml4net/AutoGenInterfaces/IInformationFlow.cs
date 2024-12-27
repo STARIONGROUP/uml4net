@@ -24,6 +24,7 @@
 
 namespace uml4net.InformationFlows
 {
+    using System.CodeDom.Compiler;
     using System.Collections.Generic;
 
     using uml4net.Decorators;
@@ -55,6 +56,7 @@ namespace uml4net.InformationFlows
     /// the information channel may be represented by abstract InformationItems and by concrete Classifiers.
     /// </summary>
     [Class(xmiId: "InformationFlow", isAbstract: false, isFinalSpecialization: false, isActive: false)]
+    [GeneratedCode("uml4net", "latest")]
     public partial interface IInformationFlow : IDirectedRelationship, IPackageableElement
     {
         /// <summary>

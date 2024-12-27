@@ -25,6 +25,7 @@
 namespace uml4net.SimpleClassifiers
 {
     using System;
+    using System.CodeDom.Compiler;
     using System.Collections.Generic;
 
     using uml4net.Decorators;
@@ -49,6 +50,7 @@ namespace uml4net.SimpleClassifiers
     /// An Enumeration is a DataType whose values are enumerated in the model as EnumerationLiterals.
     /// </summary>
     [Class(xmiId: "Enumeration", isAbstract: false, isFinalSpecialization: false, isActive: false)]
+    [GeneratedCode("uml4net", "latest")]
     public partial class Enumeration : XmiElement, IEnumeration
     {
         /// <summary>

@@ -24,6 +24,7 @@
 
 namespace uml4net.Interactions
 {
+    using System.CodeDom.Compiler;
     using System.Collections.Generic;
 
     using uml4net.Decorators;
@@ -50,6 +51,7 @@ namespace uml4net.Interactions
     /// in a flow of control.
     /// </summary>
     [Class(xmiId: "Continuation", isAbstract: false, isFinalSpecialization: false, isActive: false)]
+    [GeneratedCode("uml4net", "latest")]
     public partial interface IContinuation : IInteractionFragment
     {
         /// <summary>

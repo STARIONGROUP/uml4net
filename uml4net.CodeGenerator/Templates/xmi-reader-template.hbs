@@ -25,6 +25,7 @@
 namespace uml4net.xmi.Readers
 {
     using System;
+    using System.CodeDom.Compiler;
     using System.Linq;
     using System.Xml;
 
@@ -52,6 +53,7 @@ namespace uml4net.xmi.Readers
     /// The purpose of the <see cref="{{this.Name}}Reader"/> is to read an instance of <see cref="I{{this.Name}}"/>
     /// from the XMI document
     /// </summary>
+    [GeneratedCode("uml4net", "latest")]
     public class {{this.Name}}Reader : XmiElementReader<I{{this.Name}}>, IXmiElementReader<I{{this.Name}}>
     {
         private readonly IXmiElementReaderFacade xmiElementReaderFacade;

@@ -24,6 +24,7 @@
 
 namespace uml4net.Actions
 {
+    using System.CodeDom.Compiler;
     using System.Collections.Generic;
 
     using uml4net.Decorators;
@@ -48,6 +49,7 @@ namespace uml4net.Actions
     /// An AddVariableValueAction is a WriteVariableAction for adding values to a Variable.
     /// </summary>
     [Class(xmiId: "AddVariableValueAction", isAbstract: false, isFinalSpecialization: false, isActive: false)]
+    [GeneratedCode("uml4net", "latest")]
     public partial interface IAddVariableValueAction : IWriteVariableAction
     {
         /// <summary>

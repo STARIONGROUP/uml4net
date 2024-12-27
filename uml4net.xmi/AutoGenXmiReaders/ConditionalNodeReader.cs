@@ -25,6 +25,7 @@
 namespace uml4net.xmi.Readers
 {
     using System;
+    using System.CodeDom.Compiler;
     using System.Linq;
     using System.Xml;
 
@@ -52,6 +53,7 @@ namespace uml4net.xmi.Readers
     /// The purpose of the <see cref="ConditionalNodeReader"/> is to read an instance of <see cref="IConditionalNode"/>
     /// from the XMI document
     /// </summary>
+    [GeneratedCode("uml4net", "latest")]
     public class ConditionalNodeReader : XmiElementReader<IConditionalNode>, IXmiElementReader<IConditionalNode>
     {
         private readonly IXmiElementReaderFacade xmiElementReaderFacade;

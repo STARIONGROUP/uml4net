@@ -25,6 +25,7 @@
 namespace uml4net.Values
 {
     using System;
+    using System.CodeDom.Compiler;
     using System.Collections.Generic;
 
     using uml4net.Decorators;
@@ -51,6 +52,7 @@ namespace uml4net.Values
     /// entered or when it is exited.
     /// </summary>
     [Class(xmiId: "DurationObservation", isAbstract: false, isFinalSpecialization: false, isActive: false)]
+    [GeneratedCode("uml4net", "latest")]
     public partial class DurationObservation : XmiElement, IDurationObservation
     {
         /// <summary>

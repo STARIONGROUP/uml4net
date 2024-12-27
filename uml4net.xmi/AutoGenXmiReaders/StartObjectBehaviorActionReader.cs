@@ -25,6 +25,7 @@
 namespace uml4net.xmi.Readers
 {
     using System;
+    using System.CodeDom.Compiler;
     using System.Linq;
     using System.Xml;
 
@@ -52,6 +53,7 @@ namespace uml4net.xmi.Readers
     /// The purpose of the <see cref="StartObjectBehaviorActionReader"/> is to read an instance of <see cref="IStartObjectBehaviorAction"/>
     /// from the XMI document
     /// </summary>
+    [GeneratedCode("uml4net", "latest")]
     public class StartObjectBehaviorActionReader : XmiElementReader<IStartObjectBehaviorAction>, IXmiElementReader<IStartObjectBehaviorAction>
     {
         private readonly IXmiElementReaderFacade xmiElementReaderFacade;

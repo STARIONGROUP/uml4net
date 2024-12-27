@@ -24,6 +24,7 @@
 
 namespace uml4net.Activities
 {
+    using System.CodeDom.Compiler;
     using System.Collections.Generic;
 
     using uml4net.Decorators;
@@ -48,6 +49,7 @@ namespace uml4net.Activities
     /// An ActivityEdge is an abstract class for directed connections between two ActivityNodes.
     /// </summary>
     [Class(xmiId: "ActivityEdge", isAbstract: true, isFinalSpecialization: false, isActive: false)]
+    [GeneratedCode("uml4net", "latest")]
     public partial interface IActivityEdge : IRedefinableElement
     {
         /// <summary>

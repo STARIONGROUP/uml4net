@@ -25,6 +25,7 @@
 namespace uml4net.Packages
 {
     using System;
+    using System.CodeDom.Compiler;
     using System.Collections.Generic;
 
     using uml4net.Decorators;
@@ -52,6 +53,7 @@ namespace uml4net.Packages
     /// purpose of the model, at the appropriate level of detail.
     /// </summary>
     [Class(xmiId: "Model", isAbstract: false, isFinalSpecialization: false, isActive: false)]
+    [GeneratedCode("uml4net", "latest")]
     public partial class Model : XmiElement, IModel
     {
         /// <summary>

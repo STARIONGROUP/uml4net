@@ -24,6 +24,7 @@
 
 namespace uml4net.StateMachines
 {
+    using System.CodeDom.Compiler;
     using System.Collections.Generic;
 
     using uml4net.Decorators;
@@ -49,6 +50,7 @@ namespace uml4net.StateMachines
     /// Pseudostate defined in the StateMachine referenced by the submachine State.
     /// </summary>
     [Class(xmiId: "ConnectionPointReference", isAbstract: false, isFinalSpecialization: false, isActive: false)]
+    [GeneratedCode("uml4net", "latest")]
     public partial interface IConnectionPointReference : IVertex
     {
         /// <summary>

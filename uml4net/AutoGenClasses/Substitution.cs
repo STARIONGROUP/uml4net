@@ -25,6 +25,7 @@
 namespace uml4net.Classification
 {
     using System;
+    using System.CodeDom.Compiler;
     using System.Collections.Generic;
 
     using uml4net.Decorators;
@@ -52,6 +53,7 @@ namespace uml4net.Classification
     /// expected.
     /// </summary>
     [Class(xmiId: "Substitution", isAbstract: false, isFinalSpecialization: false, isActive: false)]
+    [GeneratedCode("uml4net", "latest")]
     public partial class Substitution : XmiElement, ISubstitution
     {
         /// <summary>

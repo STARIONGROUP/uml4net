@@ -24,6 +24,7 @@
 
 namespace uml4net.Interactions
 {
+    using System.CodeDom.Compiler;
     using System.Collections.Generic;
 
     using uml4net.Decorators;
@@ -50,6 +51,7 @@ namespace uml4net.Interactions
     /// a MessageEnd (receiveEvent / sendEvent)  inside that InteractionFragment.
     /// </summary>
     [Class(xmiId: "Gate", isAbstract: false, isFinalSpecialization: false, isActive: false)]
+    [GeneratedCode("uml4net", "latest")]
     public partial interface IGate : IMessageEnd
     {
     }

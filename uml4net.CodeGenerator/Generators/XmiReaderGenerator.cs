@@ -128,7 +128,7 @@ namespace uml4net.CodeGenerator.Generators
 
             generatedCode = this.CodeCleanup(generatedCode);
 
-            var fileName = "XmiElementReaderFacade.cs";
+            const string fileName = "XmiElementReaderFacade.cs";
 
             await WriteAsync(generatedCode, outputDirectory, fileName);
         }

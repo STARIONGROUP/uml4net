@@ -455,30 +455,6 @@ namespace uml4net.Extensions
         }
 
         /// <summary>
-        /// Queries the Upper value of a <see cref="IProperty"/>
-        /// </summary>
-        /// <param name="property">
-        /// The subject <see cref="IProperty"/>
-        /// </param>
-        /// <returns>
-        /// a string representation of the Upper value 
-        /// </returns>
-        public static string QueryUpperValue(this IProperty property)
-        {
-            if (property == null)
-            {
-                throw new ArgumentNullException(nameof(property));
-            }
-
-            if (property.Upper == int.MaxValue)
-            {
-                return "*";
-            }
-
-            return property.Upper.ToString(CultureInfo.InvariantCulture);
-        }
-
-        /// <summary>
         /// Asserts whether the <paramref name="property"/> is redefined in the context of the provided <see cref="IClass"/>
         /// </summary>
         /// <param name="property">

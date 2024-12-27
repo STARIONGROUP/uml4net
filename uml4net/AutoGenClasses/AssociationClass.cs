@@ -25,6 +25,7 @@
 namespace uml4net.StructuredClassifiers
 {
     using System;
+    using System.CodeDom.Compiler;
     using System.Collections.Generic;
 
     using uml4net.Decorators;
@@ -52,6 +53,7 @@ namespace uml4net.StructuredClassifiers
     /// Association itself and not to any of the associated Classifiers.
     /// </summary>
     [Class(xmiId: "AssociationClass", isAbstract: false, isFinalSpecialization: false, isActive: false)]
+    [GeneratedCode("uml4net", "latest")]
     public partial class AssociationClass : XmiElement, IAssociationClass
     {
         /// <summary>

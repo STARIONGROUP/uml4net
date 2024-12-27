@@ -24,6 +24,7 @@
 
 namespace uml4net.Values
 {
+    using System.CodeDom.Compiler;
     using System.Collections.Generic;
 
     using uml4net.Decorators;
@@ -48,6 +49,7 @@ namespace uml4net.Values
     /// A LiteralReal is a specification of a Real value.
     /// </summary>
     [Class(xmiId: "LiteralReal", isAbstract: false, isFinalSpecialization: false, isActive: false)]
+    [GeneratedCode("uml4net", "latest")]
     public partial interface ILiteralReal : ILiteralSpecification
     {
         /// <summary>

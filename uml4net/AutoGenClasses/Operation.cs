@@ -25,6 +25,7 @@
 namespace uml4net.Classification
 {
     using System;
+    using System.CodeDom.Compiler;
     using System.Collections.Generic;
 
     using uml4net.Decorators;
@@ -54,6 +55,7 @@ namespace uml4net.Classification
     /// provided as an actual parameter in a binding of a template.
     /// </summary>
     [Class(xmiId: "Operation", isAbstract: false, isFinalSpecialization: false, isActive: false)]
+    [GeneratedCode("uml4net", "latest")]
     public partial class Operation : XmiElement, IOperation
     {
         /// <summary>
@@ -553,7 +555,7 @@ namespace uml4net.Classification
         /// </summary>
         [Property(xmiId: "Operation-upper", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: false, isUnique: false, defaultValue: null)]
         [Implements(implementation: "IOperation.Upper")]
-        public int Upper => this.QueryUpper();
+        public string Upper => this.QueryUpper();
 
         /// <summary>
         /// Determines whether and how the NamedElement is visible outside its owning Namespace.

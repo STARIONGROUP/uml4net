@@ -25,6 +25,7 @@
 namespace uml4net.StructuredClassifiers
 {
     using System;
+    using System.CodeDom.Compiler;
     using System.Collections.Generic;
 
     using uml4net.Decorators;
@@ -49,6 +50,7 @@ namespace uml4net.StructuredClassifiers
     /// A ConnectorEnd is an endpoint of a Connector, which attaches the Connector to a ConnectableElement.
     /// </summary>
     [Class(xmiId: "ConnectorEnd", isAbstract: false, isFinalSpecialization: false, isActive: false)]
+    [GeneratedCode("uml4net", "latest")]
     public partial class ConnectorEnd : XmiElement, IConnectorEnd
     {
         /// <summary>
@@ -158,7 +160,7 @@ namespace uml4net.StructuredClassifiers
         /// </summary>
         [Property(xmiId: "MultiplicityElement-upper", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: true, isDerivedUnion: false, isUnique: false, defaultValue: null)]
         [Implements(implementation: "IMultiplicityElement.Upper")]
-        public int Upper => this.QueryUpper();
+        public string Upper => this.QueryUpper();
 
         /// <summary>
         /// The specification of the upper bound for this multiplicity.

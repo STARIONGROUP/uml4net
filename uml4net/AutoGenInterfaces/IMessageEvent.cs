@@ -24,6 +24,7 @@
 
 namespace uml4net.CommonBehavior
 {
+    using System.CodeDom.Compiler;
     using System.Collections.Generic;
 
     using uml4net.Decorators;
@@ -48,6 +49,7 @@ namespace uml4net.CommonBehavior
     /// A MessageEvent specifies the receipt by an object of either an Operation call or a Signal instance.
     /// </summary>
     [Class(xmiId: "MessageEvent", isAbstract: true, isFinalSpecialization: false, isActive: false)]
+    [GeneratedCode("uml4net", "latest")]
     public partial interface IMessageEvent : IEvent
     {
     }

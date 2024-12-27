@@ -25,6 +25,7 @@
 namespace uml4net.xmi.Readers
 {
     using System;
+    using System.CodeDom.Compiler;
     using System.Linq;
     using System.Xml;
 
@@ -52,6 +53,7 @@ namespace uml4net.xmi.Readers
     /// The purpose of the <see cref="AcceptEventActionReader"/> is to read an instance of <see cref="IAcceptEventAction"/>
     /// from the XMI document
     /// </summary>
+    [GeneratedCode("uml4net", "latest")]
     public class AcceptEventActionReader : XmiElementReader<IAcceptEventAction>, IXmiElementReader<IAcceptEventAction>
     {
         private readonly IXmiElementReaderFacade xmiElementReaderFacade;

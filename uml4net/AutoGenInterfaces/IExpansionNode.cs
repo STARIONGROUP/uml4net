@@ -24,6 +24,7 @@
 
 namespace uml4net.Actions
 {
+    using System.CodeDom.Compiler;
     using System.Collections.Generic;
 
     using uml4net.Decorators;
@@ -52,6 +53,7 @@ namespace uml4net.Actions
     /// into a collection for use outside the region.
     /// </summary>
     [Class(xmiId: "ExpansionNode", isAbstract: false, isFinalSpecialization: false, isActive: false)]
+    [GeneratedCode("uml4net", "latest")]
     public partial interface IExpansionNode : IObjectNode
     {
         /// <summary>

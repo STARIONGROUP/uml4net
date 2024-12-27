@@ -25,6 +25,7 @@
 namespace uml4net.Actions
 {
     using System;
+    using System.CodeDom.Compiler;
     using System.Collections.Generic;
 
     using uml4net.Decorators;
@@ -52,6 +53,7 @@ namespace uml4net.Actions
     /// are sent out and cannot receive reply values.
     /// </summary>
     [Class(xmiId: "BroadcastSignalAction", isAbstract: false, isFinalSpecialization: false, isActive: false)]
+    [GeneratedCode("uml4net", "latest")]
     public partial class BroadcastSignalAction : XmiElement, IBroadcastSignalAction
     {
         /// <summary>

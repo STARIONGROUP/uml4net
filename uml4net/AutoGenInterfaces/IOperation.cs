@@ -24,6 +24,7 @@
 
 namespace uml4net.Classification
 {
+    using System.CodeDom.Compiler;
     using System.Collections.Generic;
 
     using uml4net.Decorators;
@@ -53,6 +54,7 @@ namespace uml4net.Classification
     /// provided as an actual parameter in a binding of a template.
     /// </summary>
     [Class(xmiId: "Operation", isAbstract: false, isFinalSpecialization: false, isActive: false)]
+    [GeneratedCode("uml4net", "latest")]
     public partial interface IOperation : ITemplateableElement, IParameterableElement, IBehavioralFeature
     {
         /// <summary>
@@ -171,7 +173,7 @@ namespace uml4net.Classification
         /// return result for this Operation.
         /// </summary>
         [Property(xmiId: "Operation-upper", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: false, isUnique: false, defaultValue: null)]
-        public int Upper { get; }
+        public string Upper { get; }
 
     }
 }

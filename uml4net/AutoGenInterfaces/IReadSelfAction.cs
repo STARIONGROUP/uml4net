@@ -24,6 +24,7 @@
 
 namespace uml4net.Actions
 {
+    using System.CodeDom.Compiler;
     using System.Collections.Generic;
 
     using uml4net.Decorators;
@@ -49,6 +50,7 @@ namespace uml4net.Actions
     /// which the ReadSelfAction execution is taking place.
     /// </summary>
     [Class(xmiId: "ReadSelfAction", isAbstract: false, isFinalSpecialization: false, isActive: false)]
+    [GeneratedCode("uml4net", "latest")]
     public partial interface IReadSelfAction : IAction
     {
         /// <summary>

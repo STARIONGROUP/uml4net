@@ -24,6 +24,7 @@
 
 namespace uml4net.Activities
 {
+    using System.CodeDom.Compiler;
     using System.Collections.Generic;
 
     using uml4net.Decorators;
@@ -49,6 +50,7 @@ namespace uml4net.Activities
     /// synchronize concurrent flows but to accept one among several alternate flows.
     /// </summary>
     [Class(xmiId: "MergeNode", isAbstract: false, isFinalSpecialization: false, isActive: false)]
+    [GeneratedCode("uml4net", "latest")]
     public partial interface IMergeNode : IControlNode
     {
     }

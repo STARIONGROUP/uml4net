@@ -25,6 +25,7 @@
 namespace uml4net.StateMachines
 {
     using System;
+    using System.CodeDom.Compiler;
     using System.Collections.Generic;
 
     using uml4net.Decorators;
@@ -51,6 +52,7 @@ namespace uml4net.StateMachines
     /// exit and enter the Pseudostate within a single run-to-completion step.
     /// </summary>
     [Class(xmiId: "Pseudostate", isAbstract: false, isFinalSpecialization: false, isActive: false)]
+    [GeneratedCode("uml4net", "latest")]
     public partial class Pseudostate : XmiElement, IPseudostate
     {
         /// <summary>

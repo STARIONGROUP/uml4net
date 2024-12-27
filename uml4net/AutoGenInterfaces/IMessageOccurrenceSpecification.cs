@@ -24,6 +24,7 @@
 
 namespace uml4net.Interactions
 {
+    using System.CodeDom.Compiler;
     using System.Collections.Generic;
 
     using uml4net.Decorators;
@@ -51,6 +52,7 @@ namespace uml4net.Interactions
     /// asynchronous Signal sends. They are received by the execution of corresponding AcceptEventActions.
     /// </summary>
     [Class(xmiId: "MessageOccurrenceSpecification", isAbstract: false, isFinalSpecialization: false, isActive: false)]
+    [GeneratedCode("uml4net", "latest")]
     public partial interface IMessageOccurrenceSpecification : IMessageEnd, IOccurrenceSpecification
     {
     }

@@ -24,6 +24,7 @@
 
 namespace uml4net.Interactions
 {
+    using System.CodeDom.Compiler;
     using System.Collections.Generic;
 
     using uml4net.Decorators;
@@ -51,6 +52,7 @@ namespace uml4net.Interactions
     /// have a specified order.
     /// </summary>
     [Class(xmiId: "GeneralOrdering", isAbstract: false, isFinalSpecialization: false, isActive: false)]
+    [GeneratedCode("uml4net", "latest")]
     public partial interface IGeneralOrdering : INamedElement
     {
         /// <summary>

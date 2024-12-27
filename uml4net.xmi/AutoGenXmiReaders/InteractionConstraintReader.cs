@@ -25,6 +25,7 @@
 namespace uml4net.xmi.Readers
 {
     using System;
+    using System.CodeDom.Compiler;
     using System.Linq;
     using System.Xml;
 
@@ -52,6 +53,7 @@ namespace uml4net.xmi.Readers
     /// The purpose of the <see cref="InteractionConstraintReader"/> is to read an instance of <see cref="IInteractionConstraint"/>
     /// from the XMI document
     /// </summary>
+    [GeneratedCode("uml4net", "latest")]
     public class InteractionConstraintReader : XmiElementReader<IInteractionConstraint>, IXmiElementReader<IInteractionConstraint>
     {
         private readonly IXmiElementReaderFacade xmiElementReaderFacade;

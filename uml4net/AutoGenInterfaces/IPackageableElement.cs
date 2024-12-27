@@ -24,6 +24,7 @@
 
 namespace uml4net.CommonStructure
 {
+    using System.CodeDom.Compiler;
     using System.Collections.Generic;
 
     using uml4net.Decorators;
@@ -49,6 +50,7 @@ namespace uml4net.CommonStructure
     /// is also able to serve as the parameteredElement of a TemplateParameter.
     /// </summary>
     [Class(xmiId: "PackageableElement", isAbstract: true, isFinalSpecialization: false, isActive: false)]
+    [GeneratedCode("uml4net", "latest")]
     public partial interface IPackageableElement : IParameterableElement, INamedElement
     {
         /// <summary>

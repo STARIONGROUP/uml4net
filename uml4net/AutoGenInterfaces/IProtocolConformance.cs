@@ -24,6 +24,7 @@
 
 namespace uml4net.StateMachines
 {
+    using System.CodeDom.Compiler;
     using System.Collections.Generic;
 
     using uml4net.Decorators;
@@ -51,6 +52,7 @@ namespace uml4net.StateMachines
     /// StateMachine abides by the protocol of the general ProtocolStateMachine.
     /// </summary>
     [Class(xmiId: "ProtocolConformance", isAbstract: false, isFinalSpecialization: false, isActive: false)]
+    [GeneratedCode("uml4net", "latest")]
     public partial interface IProtocolConformance : IDirectedRelationship
     {
         /// <summary>

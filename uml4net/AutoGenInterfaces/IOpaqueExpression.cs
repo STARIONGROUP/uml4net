@@ -24,6 +24,7 @@
 
 namespace uml4net.Values
 {
+    using System.CodeDom.Compiler;
     using System.Collections.Generic;
 
     using uml4net.Decorators;
@@ -49,6 +50,7 @@ namespace uml4net.Values
     /// either in terms of a UML Behavior or based on a textual statement in a language other than UML
     /// </summary>
     [Class(xmiId: "OpaqueExpression", isAbstract: false, isFinalSpecialization: false, isActive: false)]
+    [GeneratedCode("uml4net", "latest")]
     public partial interface IOpaqueExpression : IValueSpecification
     {
         /// <summary>

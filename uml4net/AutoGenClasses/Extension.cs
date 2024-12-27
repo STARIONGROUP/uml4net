@@ -25,6 +25,7 @@
 namespace uml4net.Packages
 {
     using System;
+    using System.CodeDom.Compiler;
     using System.Collections.Generic;
 
     using uml4net.Decorators;
@@ -50,6 +51,7 @@ namespace uml4net.Packages
     /// stereotype, and gives the ability to flexibly add (and later remove) stereotypes to classes.
     /// </summary>
     [Class(xmiId: "Extension", isAbstract: false, isFinalSpecialization: false, isActive: false)]
+    [GeneratedCode("uml4net", "latest")]
     public partial class Extension : XmiElement, IExtension
     {
         /// <summary>

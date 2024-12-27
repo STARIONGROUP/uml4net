@@ -25,6 +25,7 @@
 namespace uml4net.CommonStructure
 {
     using System;
+    using System.CodeDom.Compiler;
     using System.Collections.Generic;
 
     using uml4net.Decorators;
@@ -52,6 +53,7 @@ namespace uml4net.CommonStructure
     /// definition of the supplier Element(s).
     /// </summary>
     [Class(xmiId: "Dependency", isAbstract: false, isFinalSpecialization: false, isActive: false)]
+    [GeneratedCode("uml4net", "latest")]
     public partial class Dependency : XmiElement, IDependency
     {
         /// <summary>

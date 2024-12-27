@@ -24,6 +24,7 @@
 
 namespace uml4net.Values
 {
+    using System.CodeDom.Compiler;
     using System.Collections.Generic;
 
     using uml4net.Decorators;
@@ -48,6 +49,7 @@ namespace uml4net.Values
     /// A Duration is a ValueSpecification that specifies the temporal distance between two time instants.
     /// </summary>
     [Class(xmiId: "Duration", isAbstract: false, isFinalSpecialization: false, isActive: false)]
+    [GeneratedCode("uml4net", "latest")]
     public partial interface IDuration : IValueSpecification
     {
         /// <summary>

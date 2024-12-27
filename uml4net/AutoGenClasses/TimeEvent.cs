@@ -25,6 +25,7 @@
 namespace uml4net.CommonBehavior
 {
     using System;
+    using System.CodeDom.Compiler;
     using System.Collections.Generic;
 
     using uml4net.Decorators;
@@ -49,6 +50,7 @@ namespace uml4net.CommonBehavior
     /// A TimeEvent is an Event that occurs at a specific point in time.
     /// </summary>
     [Class(xmiId: "TimeEvent", isAbstract: false, isFinalSpecialization: false, isActive: false)]
+    [GeneratedCode("uml4net", "latest")]
     public partial class TimeEvent : XmiElement, ITimeEvent
     {
         /// <summary>

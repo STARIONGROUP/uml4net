@@ -24,6 +24,7 @@
 
 namespace uml4net.CommonBehavior
 {
+    using System.CodeDom.Compiler;
     using System.Collections.Generic;
 
     using uml4net.Decorators;
@@ -48,6 +49,7 @@ namespace uml4net.CommonBehavior
     /// An OpaqueBehavior is a Behavior whose specification is given in a textual language other than UML.
     /// </summary>
     [Class(xmiId: "OpaqueBehavior", isAbstract: false, isFinalSpecialization: false, isActive: false)]
+    [GeneratedCode("uml4net", "latest")]
     public partial interface IOpaqueBehavior : IBehavior
     {
         /// <summary>

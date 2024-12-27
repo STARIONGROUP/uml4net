@@ -25,6 +25,7 @@
 namespace uml4net.Packages
 {
     using System;
+    using System.CodeDom.Compiler;
     using System.Collections.Generic;
 
     using uml4net.Decorators;
@@ -54,6 +55,7 @@ namespace uml4net.Packages
     /// elements.
     /// </summary>
     [Class(xmiId: "Package", isAbstract: false, isFinalSpecialization: false, isActive: false)]
+    [GeneratedCode("uml4net", "latest")]
     public partial class Package : XmiElement, IPackage
     {
         /// <summary>

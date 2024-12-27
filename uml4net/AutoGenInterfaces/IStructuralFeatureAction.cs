@@ -24,6 +24,7 @@
 
 namespace uml4net.Actions
 {
+    using System.CodeDom.Compiler;
     using System.Collections.Generic;
 
     using uml4net.Decorators;
@@ -48,6 +49,7 @@ namespace uml4net.Actions
     /// StructuralFeatureAction is an abstract class for all Actions that operate on StructuralFeatures.
     /// </summary>
     [Class(xmiId: "StructuralFeatureAction", isAbstract: true, isFinalSpecialization: false, isActive: false)]
+    [GeneratedCode("uml4net", "latest")]
     public partial interface IStructuralFeatureAction : IAction
     {
         /// <summary>

@@ -256,11 +256,11 @@ namespace uml4net.Extensions.Tests
 
             var ownedComment = property.QueryAllProperties().Single(x => x.Name == "ownedComment");
 
-            Assert.That(ownedComment.QueryUpperValue(), Is.EqualTo("*"));
+            Assert.That(ownedComment.Upper, Is.EqualTo("*"));
 
             var lowerValue = property.QueryAllProperties().Single(x => x.Name == "lowerValue");
 
-            Assert.That(lowerValue.QueryUpperValue(), Is.EqualTo("1"));
+            Assert.That(lowerValue.Upper, Is.EqualTo("1"));
         }
 
         [Test]

@@ -20,6 +20,8 @@
 
 namespace uml4net.CodeGenerator.Tests.Expected.AutGenPoco
 {
+    using System.CodeDom.Compiler;
+
     public interface IStateMachine
     {
         

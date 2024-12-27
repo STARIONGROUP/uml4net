@@ -25,6 +25,7 @@
 namespace uml4net.StructuredClassifiers
 {
     using System;
+    using System.CodeDom.Compiler;
     using System.Collections.Generic;
 
     using uml4net.Decorators;
@@ -50,6 +51,7 @@ namespace uml4net.StructuredClassifiers
     /// template.
     /// </summary>
     [Class(xmiId: "ConnectableElementTemplateParameter", isAbstract: false, isFinalSpecialization: false, isActive: false)]
+    [GeneratedCode("uml4net", "latest")]
     public partial class ConnectableElementTemplateParameter : XmiElement, IConnectableElementTemplateParameter
     {
         /// <summary>

@@ -24,6 +24,7 @@
 
 namespace uml4net.Deployments
 {
+    using System.CodeDom.Compiler;
     using System.Collections.Generic;
 
     using uml4net.Decorators;
@@ -52,6 +53,7 @@ namespace uml4net.Deployments
     /// source of a deployment to a node.
     /// </summary>
     [Class(xmiId: "Artifact", isAbstract: false, isFinalSpecialization: false, isActive: false)]
+    [GeneratedCode("uml4net", "latest")]
     public partial interface IArtifact : IClassifier, IDeployedArtifact
     {
         /// <summary>

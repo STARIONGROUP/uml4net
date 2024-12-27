@@ -25,6 +25,7 @@
 namespace uml4net.StateMachines
 {
     using System;
+    using System.CodeDom.Compiler;
     using System.Collections.Generic;
 
     using uml4net.Decorators;
@@ -51,6 +52,7 @@ namespace uml4net.StateMachines
     /// StateMachine also are completed, then it means that the entire StateMachine behavior is completed.
     /// </summary>
     [Class(xmiId: "FinalState", isAbstract: false, isFinalSpecialization: false, isActive: false)]
+    [GeneratedCode("uml4net", "latest")]
     public partial class FinalState : XmiElement, IFinalState
     {
         /// <summary>

@@ -24,6 +24,7 @@
 
 namespace uml4net.CommonStructure
 {
+    using System.CodeDom.Compiler;
     using System.Collections.Generic;
 
     using uml4net.Decorators;
@@ -50,6 +51,7 @@ namespace uml4net.CommonStructure
     /// information to specify the allowable cardinalities for an instantiation of the Element.
     /// </summary>
     [Class(xmiId: "MultiplicityElement", isAbstract: true, isFinalSpecialization: false, isActive: false)]
+    [GeneratedCode("uml4net", "latest")]
     public partial interface IMultiplicityElement : IElement
     {
         /// <summary>
@@ -83,7 +85,7 @@ namespace uml4net.CommonStructure
         /// The upper bound of the multiplicity interval.
         /// </summary>
         [Property(xmiId: "MultiplicityElement-upper", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: true, isDerivedUnion: false, isUnique: false, defaultValue: null)]
-        public int Upper { get; }
+        public string Upper { get; }
 
         /// <summary>
         /// The specification of the upper bound for this multiplicity.

@@ -24,6 +24,7 @@
 
 namespace uml4net.StructuredClassifiers
 {
+    using System.CodeDom.Compiler;
     using System.Collections.Generic;
 
     using uml4net.Decorators;
@@ -49,6 +50,7 @@ namespace uml4net.StructuredClassifiers
     /// role in the overall Behavior modeled by the StructuredClassifier.
     /// </summary>
     [Class(xmiId: "StructuredClassifier", isAbstract: true, isFinalSpecialization: false, isActive: false)]
+    [GeneratedCode("uml4net", "latest")]
     public partial interface IStructuredClassifier : IClassifier
     {
         /// <summary>

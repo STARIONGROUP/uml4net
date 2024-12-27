@@ -25,6 +25,7 @@
 namespace uml4net.xmi.Readers
 {
     using System;
+    using System.CodeDom.Compiler;
     using System.Linq;
     using System.Xml;
 
@@ -52,6 +53,7 @@ namespace uml4net.xmi.Readers
     /// The purpose of the <see cref="PackageMergeReader"/> is to read an instance of <see cref="IPackageMerge"/>
     /// from the XMI document
     /// </summary>
+    [GeneratedCode("uml4net", "latest")]
     public class PackageMergeReader : XmiElementReader<IPackageMerge>, IXmiElementReader<IPackageMerge>
     {
         private readonly IXmiElementReaderFacade xmiElementReaderFacade;

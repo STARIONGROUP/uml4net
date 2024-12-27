@@ -25,6 +25,7 @@
 namespace uml4net.CommonBehavior
 {
     using System;
+    using System.CodeDom.Compiler;
     using System.Collections.Generic;
 
     using uml4net.Decorators;
@@ -50,6 +51,7 @@ namespace uml4net.CommonBehavior
     /// Behavior. A Trigger may be qualified by the Port on which the Event occurred.
     /// </summary>
     [Class(xmiId: "Trigger", isAbstract: false, isFinalSpecialization: false, isActive: false)]
+    [GeneratedCode("uml4net", "latest")]
     public partial class Trigger : XmiElement, ITrigger
     {
         /// <summary>

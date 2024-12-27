@@ -24,6 +24,7 @@
 
 namespace uml4net.Packages
 {
+    using System.CodeDom.Compiler;
     using System.Collections.Generic;
 
     using uml4net.Decorators;
@@ -49,6 +50,7 @@ namespace uml4net.Packages
     /// multiplicity of an extension end is 0..1.
     /// </summary>
     [Class(xmiId: "ExtensionEnd", isAbstract: false, isFinalSpecialization: false, isActive: false)]
+    [GeneratedCode("uml4net", "latest")]
     public partial interface IExtensionEnd : IProperty
     {
         /// <summary>

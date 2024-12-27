@@ -24,6 +24,7 @@
 
 namespace uml4net.Classification
 {
+    using System.CodeDom.Compiler;
     using System.Collections.Generic;
 
     using uml4net.Decorators;
@@ -48,6 +49,7 @@ namespace uml4net.Classification
     /// An InstanceValue is a ValueSpecification that identifies an instance.
     /// </summary>
     [Class(xmiId: "InstanceValue", isAbstract: false, isFinalSpecialization: false, isActive: false)]
+    [GeneratedCode("uml4net", "latest")]
     public partial interface IInstanceValue : IValueSpecification
     {
         /// <summary>

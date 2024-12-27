@@ -25,6 +25,7 @@
 namespace uml4net.StructuredClassifiers
 {
     using System;
+    using System.CodeDom.Compiler;
     using System.Collections.Generic;
 
     using uml4net.Decorators;
@@ -51,6 +52,7 @@ namespace uml4net.StructuredClassifiers
     /// specify links between instances playing the connected parts only.
     /// </summary>
     [Class(xmiId: "Connector", isAbstract: false, isFinalSpecialization: false, isActive: false)]
+    [GeneratedCode("uml4net", "latest")]
     public partial class Connector : XmiElement, IConnector
     {
         /// <summary>

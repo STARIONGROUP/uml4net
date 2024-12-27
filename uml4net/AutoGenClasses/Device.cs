@@ -25,6 +25,7 @@
 namespace uml4net.Deployments
 {
     using System;
+    using System.CodeDom.Compiler;
     using System.Collections.Generic;
 
     using uml4net.Decorators;
@@ -50,6 +51,7 @@ namespace uml4net.Deployments
     /// deployed for execution. Devices may be complex (i.e., they may consist of other devices).
     /// </summary>
     [Class(xmiId: "Device", isAbstract: false, isFinalSpecialization: false, isActive: false)]
+    [GeneratedCode("uml4net", "latest")]
     public partial class Device : XmiElement, IDevice
     {
         /// <summary>

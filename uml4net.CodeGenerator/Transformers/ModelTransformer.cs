@@ -81,7 +81,7 @@ namespace uml4net.CodeGenerator.Transformers
 
                         if (property.QueryIsEnumerable())
                         {
-                            this.logger.LogWarning("The {owner} class has a property {property} that is renamed", owner.Name, property.Name);
+                            this.logger.LogWarning("The {Owner} class has a property {Property} that is renamed", owner.Name, property.Name);
 
                             property.Name = $"{property.Name}s";
 

@@ -25,6 +25,7 @@
 namespace uml4net.xmi.Readers
 {
     using System;
+    using System.CodeDom.Compiler;
     using System.Linq;
     using System.Xml;
 
@@ -52,6 +53,7 @@ namespace uml4net.xmi.Readers
     /// The purpose of the <see cref="ReadIsClassifiedObjectActionReader"/> is to read an instance of <see cref="IReadIsClassifiedObjectAction"/>
     /// from the XMI document
     /// </summary>
+    [GeneratedCode("uml4net", "latest")]
     public class ReadIsClassifiedObjectActionReader : XmiElementReader<IReadIsClassifiedObjectAction>, IXmiElementReader<IReadIsClassifiedObjectAction>
     {
         private readonly IXmiElementReaderFacade xmiElementReaderFacade;

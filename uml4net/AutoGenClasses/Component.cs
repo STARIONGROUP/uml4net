@@ -25,6 +25,7 @@
 namespace uml4net.StructuredClassifiers
 {
     using System;
+    using System.CodeDom.Compiler;
     using System.Collections.Generic;
 
     using uml4net.Decorators;
@@ -50,6 +51,7 @@ namespace uml4net.StructuredClassifiers
     /// manifestation is replaceable within its environment.
     /// </summary>
     [Class(xmiId: "Component", isAbstract: false, isFinalSpecialization: false, isActive: false)]
+    [GeneratedCode("uml4net", "latest")]
     public partial class Component : XmiElement, IComponent
     {
         /// <summary>

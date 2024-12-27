@@ -25,6 +25,7 @@
 namespace uml4net.Interactions
 {
     using System;
+    using System.CodeDom.Compiler;
     using System.Collections.Generic;
 
     using uml4net.Decorators;
@@ -50,6 +51,7 @@ namespace uml4net.Interactions
     /// features may have multiplicity greater than 1, Lifelines represent only one interacting entity.
     /// </summary>
     [Class(xmiId: "Lifeline", isAbstract: false, isFinalSpecialization: false, isActive: false)]
+    [GeneratedCode("uml4net", "latest")]
     public partial class Lifeline : XmiElement, ILifeline
     {
         /// <summary>

@@ -24,6 +24,7 @@
 
 namespace uml4net.Deployments
 {
+    using System.CodeDom.Compiler;
     using System.Collections.Generic;
 
     using uml4net.Decorators;
@@ -48,6 +49,7 @@ namespace uml4net.Deployments
     /// A manifestation is the concrete physical rendering of one or more model elements by an artifact.
     /// </summary>
     [Class(xmiId: "Manifestation", isAbstract: false, isFinalSpecialization: false, isActive: false)]
+    [GeneratedCode("uml4net", "latest")]
     public partial interface IManifestation : IAbstraction
     {
         /// <summary>

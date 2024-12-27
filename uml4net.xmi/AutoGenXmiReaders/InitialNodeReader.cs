@@ -25,6 +25,7 @@
 namespace uml4net.xmi.Readers
 {
     using System;
+    using System.CodeDom.Compiler;
     using System.Linq;
     using System.Xml;
 
@@ -52,6 +53,7 @@ namespace uml4net.xmi.Readers
     /// The purpose of the <see cref="InitialNodeReader"/> is to read an instance of <see cref="IInitialNode"/>
     /// from the XMI document
     /// </summary>
+    [GeneratedCode("uml4net", "latest")]
     public class InitialNodeReader : XmiElementReader<IInitialNode>, IXmiElementReader<IInitialNode>
     {
         private readonly IXmiElementReaderFacade xmiElementReaderFacade;

@@ -24,6 +24,7 @@
 
 namespace uml4net.CommonStructure
 {
+    using System.CodeDom.Compiler;
     using System.Collections.Generic;
 
     using uml4net.Decorators;
@@ -48,6 +49,7 @@ namespace uml4net.CommonStructure
     /// A TypedElement is a NamedElement that may have a Type specified for it.
     /// </summary>
     [Class(xmiId: "TypedElement", isAbstract: true, isFinalSpecialization: false, isActive: false)]
+    [GeneratedCode("uml4net", "latest")]
     public partial interface ITypedElement : INamedElement
     {
         /// <summary>

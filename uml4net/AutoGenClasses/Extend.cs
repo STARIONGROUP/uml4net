@@ -25,6 +25,7 @@
 namespace uml4net.UseCases
 {
     using System;
+    using System.CodeDom.Compiler;
     using System.Collections.Generic;
 
     using uml4net.Decorators;
@@ -51,6 +52,7 @@ namespace uml4net.UseCases
     /// UseCase.
     /// </summary>
     [Class(xmiId: "Extend", isAbstract: false, isFinalSpecialization: false, isActive: false)]
+    [GeneratedCode("uml4net", "latest")]
     public partial class Extend : XmiElement, IExtend
     {
         /// <summary>

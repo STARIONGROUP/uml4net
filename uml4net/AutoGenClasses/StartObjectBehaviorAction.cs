@@ -25,6 +25,7 @@
 namespace uml4net.Actions
 {
     using System;
+    using System.CodeDom.Compiler;
     using System.Collections.Generic;
 
     using uml4net.Decorators;
@@ -52,6 +53,7 @@ namespace uml4net.Actions
     /// may be obtained for output Parameters.
     /// </summary>
     [Class(xmiId: "StartObjectBehaviorAction", isAbstract: false, isFinalSpecialization: false, isActive: false)]
+    [GeneratedCode("uml4net", "latest")]
     public partial class StartObjectBehaviorAction : XmiElement, IStartObjectBehaviorAction
     {
         /// <summary>

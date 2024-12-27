@@ -24,6 +24,7 @@
 
 namespace uml4net.SimpleClassifiers
 {
+    using System.CodeDom.Compiler;
     using System.Collections.Generic;
 
     using uml4net.Decorators;
@@ -50,6 +51,7 @@ namespace uml4net.SimpleClassifiers
     /// contract specified by the Interface.
     /// </summary>
     [Class(xmiId: "InterfaceRealization", isAbstract: false, isFinalSpecialization: false, isActive: false)]
+    [GeneratedCode("uml4net", "latest")]
     public partial interface IInterfaceRealization : IRealization
     {
         /// <summary>

@@ -24,6 +24,7 @@
 
 namespace uml4net.Actions
 {
+    using System.CodeDom.Compiler;
     using System.Collections.Generic;
 
     using uml4net.Decorators;
@@ -49,6 +50,7 @@ namespace uml4net.Actions
     /// qualifier of the end given by the LinkEndData.
     /// </summary>
     [Class(xmiId: "QualifierValue", isAbstract: false, isFinalSpecialization: false, isActive: false)]
+    [GeneratedCode("uml4net", "latest")]
     public partial interface IQualifierValue : IElement
     {
         /// <summary>

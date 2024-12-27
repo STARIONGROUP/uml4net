@@ -24,6 +24,7 @@
 
 namespace uml4net.StateMachines
 {
+    using System.CodeDom.Compiler;
     using System.Collections.Generic;
 
     using uml4net.Decorators;
@@ -49,6 +50,7 @@ namespace uml4net.StateMachines
     /// any number of Transitions.
     /// </summary>
     [Class(xmiId: "Vertex", isAbstract: true, isFinalSpecialization: false, isActive: false)]
+    [GeneratedCode("uml4net", "latest")]
     public partial interface IVertex : INamedElement, IRedefinableElement
     {
         /// <summary>

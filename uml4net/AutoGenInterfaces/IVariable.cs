@@ -24,6 +24,7 @@
 
 namespace uml4net.Activities
 {
+    using System.CodeDom.Compiler;
     using System.Collections.Generic;
 
     using uml4net.Decorators;
@@ -52,6 +53,7 @@ namespace uml4net.Activities
     /// is only accessible within that node.
     /// </summary>
     [Class(xmiId: "Variable", isAbstract: false, isFinalSpecialization: false, isActive: false)]
+    [GeneratedCode("uml4net", "latest")]
     public partial interface IVariable : IConnectableElement, IMultiplicityElement
     {
         /// <summary>

@@ -24,6 +24,7 @@
 
 namespace uml4net.StateMachines
 {
+    using System.CodeDom.Compiler;
     using System.Collections.Generic;
 
     using uml4net.Decorators;
@@ -52,6 +53,7 @@ namespace uml4net.StateMachines
     /// StateMachine.
     /// </summary>
     [Class(xmiId: "StateMachine", isAbstract: false, isFinalSpecialization: false, isActive: false)]
+    [GeneratedCode("uml4net", "latest")]
     public partial interface IStateMachine : IBehavior
     {
         /// <summary>

@@ -25,6 +25,7 @@
 namespace uml4net.Classification
 {
     using System;
+    using System.CodeDom.Compiler;
     using System.Collections.Generic;
 
     using uml4net.Decorators;
@@ -57,6 +58,7 @@ namespace uml4net.Classification
     /// parameter in a binding of a template.
     /// </summary>
     [Class(xmiId: "Property", isAbstract: false, isFinalSpecialization: false, isActive: false)]
+    [GeneratedCode("uml4net", "latest")]
     public partial class Property : XmiElement, IProperty
     {
         /// <summary>
@@ -455,7 +457,7 @@ namespace uml4net.Classification
         /// </summary>
         [Property(xmiId: "MultiplicityElement-upper", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: true, isDerivedUnion: false, isUnique: false, defaultValue: null)]
         [Implements(implementation: "IMultiplicityElement.Upper")]
-        public int Upper => this.QueryUpper();
+        public string Upper => this.QueryUpper();
 
         /// <summary>
         /// The specification of the upper bound for this multiplicity.

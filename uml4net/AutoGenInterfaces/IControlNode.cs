@@ -24,6 +24,7 @@
 
 namespace uml4net.Activities
 {
+    using System.CodeDom.Compiler;
     using System.Collections.Generic;
 
     using uml4net.Decorators;
@@ -48,6 +49,7 @@ namespace uml4net.Activities
     /// A ControlNode is an abstract ActivityNode that coordinates flows in an Activity.
     /// </summary>
     [Class(xmiId: "ControlNode", isAbstract: true, isFinalSpecialization: false, isActive: false)]
+    [GeneratedCode("uml4net", "latest")]
     public partial interface IControlNode : IActivityNode
     {
     }

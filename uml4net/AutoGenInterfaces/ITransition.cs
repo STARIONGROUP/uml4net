@@ -24,6 +24,7 @@
 
 namespace uml4net.StateMachines
 {
+    using System.CodeDom.Compiler;
     using System.Collections.Generic;
 
     using uml4net.Decorators;
@@ -51,6 +52,7 @@ namespace uml4net.StateMachines
     /// the StateMachine to an occurrence of an Event that triggered it.
     /// </summary>
     [Class(xmiId: "Transition", isAbstract: false, isFinalSpecialization: false, isActive: false)]
+    [GeneratedCode("uml4net", "latest")]
     public partial interface ITransition : INamespace, IRedefinableElement
     {
         /// <summary>

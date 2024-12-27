@@ -25,6 +25,7 @@
 namespace uml4net.Interactions
 {
     using System;
+    using System.CodeDom.Compiler;
     using System.Collections.Generic;
 
     using uml4net.Decorators;
@@ -51,6 +52,7 @@ namespace uml4net.Interactions
     /// the user will be able to describe a number of traces in a compact and concise manner.
     /// </summary>
     [Class(xmiId: "CombinedFragment", isAbstract: false, isFinalSpecialization: false, isActive: false)]
+    [GeneratedCode("uml4net", "latest")]
     public partial class CombinedFragment : XmiElement, ICombinedFragment
     {
         /// <summary>

@@ -24,6 +24,7 @@
 
 namespace uml4net.Interactions
 {
+    using System.CodeDom.Compiler;
     using System.Collections.Generic;
 
     using uml4net.Decorators;
@@ -49,6 +50,7 @@ namespace uml4net.Interactions
     /// operand of the expression given by the enclosing CombinedFragment.
     /// </summary>
     [Class(xmiId: "InteractionOperand", isAbstract: false, isFinalSpecialization: false, isActive: false)]
+    [GeneratedCode("uml4net", "latest")]
     public partial interface IInteractionOperand : IInteractionFragment, INamespace
     {
         /// <summary>

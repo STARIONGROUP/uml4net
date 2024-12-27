@@ -24,6 +24,7 @@
 
 namespace uml4net.Classification
 {
+    using System.CodeDom.Compiler;
     using System.Collections.Generic;
 
     using uml4net.Decorators;
@@ -51,6 +52,7 @@ namespace uml4net.Classification
     /// instance of an Artifact.
     /// </summary>
     [Class(xmiId: "InstanceSpecification", isAbstract: false, isFinalSpecialization: false, isActive: false)]
+    [GeneratedCode("uml4net", "latest")]
     public partial interface IInstanceSpecification : IDeploymentTarget, IPackageableElement, IDeployedArtifact
     {
         /// <summary>

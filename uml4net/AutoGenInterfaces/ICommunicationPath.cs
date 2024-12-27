@@ -24,6 +24,7 @@
 
 namespace uml4net.Deployments
 {
+    using System.CodeDom.Compiler;
     using System.Collections.Generic;
 
     using uml4net.Decorators;
@@ -49,6 +50,7 @@ namespace uml4net.Deployments
     /// to exchange signals and messages.
     /// </summary>
     [Class(xmiId: "CommunicationPath", isAbstract: false, isFinalSpecialization: false, isActive: false)]
+    [GeneratedCode("uml4net", "latest")]
     public partial interface ICommunicationPath : IAssociation
     {
     }

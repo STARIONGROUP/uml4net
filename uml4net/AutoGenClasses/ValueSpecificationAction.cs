@@ -25,6 +25,7 @@
 namespace uml4net.Actions
 {
     using System;
+    using System.CodeDom.Compiler;
     using System.Collections.Generic;
 
     using uml4net.Decorators;
@@ -49,6 +50,7 @@ namespace uml4net.Actions
     /// A ValueSpecificationAction is an Action that evaluates a ValueSpecification and provides a result.
     /// </summary>
     [Class(xmiId: "ValueSpecificationAction", isAbstract: false, isFinalSpecialization: false, isActive: false)]
+    [GeneratedCode("uml4net", "latest")]
     public partial class ValueSpecificationAction : XmiElement, IValueSpecificationAction
     {
         /// <summary>

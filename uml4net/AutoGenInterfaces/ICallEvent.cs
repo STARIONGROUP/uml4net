@@ -24,6 +24,7 @@
 
 namespace uml4net.CommonBehavior
 {
+    using System.CodeDom.Compiler;
     using System.Collections.Generic;
 
     using uml4net.Decorators;
@@ -48,6 +49,7 @@ namespace uml4net.CommonBehavior
     /// A CallEvent models the receipt by an object of a message invoking a call of an Operation.
     /// </summary>
     [Class(xmiId: "CallEvent", isAbstract: false, isFinalSpecialization: false, isActive: false)]
+    [GeneratedCode("uml4net", "latest")]
     public partial interface ICallEvent : IMessageEvent
     {
         /// <summary>

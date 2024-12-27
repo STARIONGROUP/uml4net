@@ -25,6 +25,7 @@
 namespace uml4net.Actions
 {
     using System;
+    using System.CodeDom.Compiler;
     using System.Collections.Generic;
 
     using uml4net.Decorators;
@@ -53,6 +54,7 @@ namespace uml4net.Actions
     /// execution of the subsequent ReplyAction will complete immediately with no effect.
     /// </summary>
     [Class(xmiId: "AcceptCallAction", isAbstract: false, isFinalSpecialization: false, isActive: false)]
+    [GeneratedCode("uml4net", "latest")]
     public partial class AcceptCallAction : XmiElement, IAcceptCallAction
     {
         /// <summary>

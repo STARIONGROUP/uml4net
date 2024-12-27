@@ -24,6 +24,7 @@
 
 namespace uml4net.Actions
 {
+    using System.CodeDom.Compiler;
     using System.Collections.Generic;
 
     using uml4net.Decorators;
@@ -48,6 +49,7 @@ namespace uml4net.Actions
     /// A StartClassifierBehaviorAction is an Action that starts the classifierBehavior of the input object.
     /// </summary>
     [Class(xmiId: "StartClassifierBehaviorAction", isAbstract: false, isFinalSpecialization: false, isActive: false)]
+    [GeneratedCode("uml4net", "latest")]
     public partial interface IStartClassifierBehaviorAction : IAction
     {
         /// <summary>

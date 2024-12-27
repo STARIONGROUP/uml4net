@@ -24,6 +24,7 @@
 
 namespace uml4net.Actions
 {
+    using System.CodeDom.Compiler;
     using System.Collections.Generic;
 
     using uml4net.Decorators;
@@ -48,6 +49,7 @@ namespace uml4net.Actions
     /// A ReadExtentAction is an Action that retrieves the current instances of a Classifier.
     /// </summary>
     [Class(xmiId: "ReadExtentAction", isAbstract: false, isFinalSpecialization: false, isActive: false)]
+    [GeneratedCode("uml4net", "latest")]
     public partial interface IReadExtentAction : IAction
     {
         /// <summary>

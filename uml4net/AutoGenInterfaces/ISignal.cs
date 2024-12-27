@@ -24,6 +24,7 @@
 
 namespace uml4net.SimpleClassifiers
 {
+    using System.CodeDom.Compiler;
     using System.Collections.Generic;
 
     using uml4net.Decorators;
@@ -49,6 +50,7 @@ namespace uml4net.SimpleClassifiers
     /// asynchronously triggered in the receiver without a reply.
     /// </summary>
     [Class(xmiId: "Signal", isAbstract: false, isFinalSpecialization: false, isActive: false)]
+    [GeneratedCode("uml4net", "latest")]
     public partial interface ISignal : IClassifier
     {
         /// <summary>

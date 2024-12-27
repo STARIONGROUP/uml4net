@@ -24,6 +24,7 @@
 
 namespace uml4net.UseCases
 {
+    using System.CodeDom.Compiler;
     using System.Collections.Generic;
 
     using uml4net.Decorators;
@@ -49,6 +50,7 @@ namespace uml4net.UseCases
     /// extended by the behavior of some other (extending) UseCase, as specified by an Extend relationship.
     /// </summary>
     [Class(xmiId: "ExtensionPoint", isAbstract: false, isFinalSpecialization: false, isActive: false)]
+    [GeneratedCode("uml4net", "latest")]
     public partial interface IExtensionPoint : IRedefinableElement
     {
         /// <summary>

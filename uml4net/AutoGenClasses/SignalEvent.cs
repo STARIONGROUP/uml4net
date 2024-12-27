@@ -25,6 +25,7 @@
 namespace uml4net.CommonBehavior
 {
     using System;
+    using System.CodeDom.Compiler;
     using System.Collections.Generic;
 
     using uml4net.Decorators;
@@ -49,6 +50,7 @@ namespace uml4net.CommonBehavior
     /// A SignalEvent represents the receipt of an asynchronous Signal instance.
     /// </summary>
     [Class(xmiId: "SignalEvent", isAbstract: false, isFinalSpecialization: false, isActive: false)]
+    [GeneratedCode("uml4net", "latest")]
     public partial class SignalEvent : XmiElement, ISignalEvent
     {
         /// <summary>

@@ -24,6 +24,7 @@
 
 namespace uml4net.Deployments
 {
+    using System.CodeDom.Compiler;
     using System.Collections.Generic;
 
     using uml4net.Decorators;
@@ -49,6 +50,7 @@ namespace uml4net.Deployments
     /// interconnected through communication paths to define network structures.
     /// </summary>
     [Class(xmiId: "Node", isAbstract: false, isFinalSpecialization: false, isActive: false)]
+    [GeneratedCode("uml4net", "latest")]
     public partial interface INode : IClass, IDeploymentTarget
     {
         /// <summary>

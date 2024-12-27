@@ -24,6 +24,7 @@
 
 namespace uml4net.StateMachines
 {
+    using System.CodeDom.Compiler;
     using System.Collections.Generic;
 
     using uml4net.Decorators;
@@ -48,6 +49,7 @@ namespace uml4net.StateMachines
     /// A State models a situation during which some (usually implicit) invariant condition holds.
     /// </summary>
     [Class(xmiId: "State", isAbstract: false, isFinalSpecialization: false, isActive: false)]
+    [GeneratedCode("uml4net", "latest")]
     public partial interface IState : INamespace, IVertex
     {
         /// <summary>

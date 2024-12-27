@@ -25,6 +25,7 @@
 namespace uml4net.StateMachines
 {
     using System;
+    using System.CodeDom.Compiler;
     using System.Collections.Generic;
 
     using uml4net.Decorators;
@@ -51,6 +52,7 @@ namespace uml4net.StateMachines
     /// multiple Regions representing behaviors that may occur in parallel.
     /// </summary>
     [Class(xmiId: "Region", isAbstract: false, isFinalSpecialization: false, isActive: false)]
+    [GeneratedCode("uml4net", "latest")]
     public partial class Region : XmiElement, IRegion
     {
         /// <summary>

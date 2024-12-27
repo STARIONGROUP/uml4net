@@ -25,6 +25,7 @@
 namespace uml4net.StateMachines
 {
     using System;
+    using System.CodeDom.Compiler;
     using System.Collections.Generic;
 
     using uml4net.Decorators;
@@ -56,6 +57,7 @@ namespace uml4net.StateMachines
     /// existence.
     /// </summary>
     [Class(xmiId: "ProtocolStateMachine", isAbstract: false, isFinalSpecialization: false, isActive: false)]
+    [GeneratedCode("uml4net", "latest")]
     public partial class ProtocolStateMachine : XmiElement, IProtocolStateMachine
     {
         /// <summary>

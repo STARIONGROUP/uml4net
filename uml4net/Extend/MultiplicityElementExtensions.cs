@@ -70,32 +70,25 @@ namespace uml4net.CommonStructure
         /// <returns>
         /// an instance of <see cref="ILiteralUnlimitedNatural"/> or null
         /// </returns>
-        public static int QueryUpper(this IMultiplicityElement multiplicityElement)
+        public static string QueryUpper(this IMultiplicityElement multiplicityElement)
         {
             if (multiplicityElement == null)
             {
                 throw new ArgumentNullException(nameof(multiplicityElement));
             }
 
-
             switch (multiplicityElement.UpperValue.SingleOrDefault())
             {
                 case null:
-                    return 1;
+                    return "1";
 
                 case ILiteralUnlimitedNatural literalUnlimitedNatural:
 
-                    if (literalUnlimitedNatural.Value == "*")
-                    {
-                        return int.MaxValue;
-                    }
-
-                    return int.Parse(literalUnlimitedNatural.Value);
-
+                    return literalUnlimitedNatural.Value;
+                    
                 default:
                     throw new NotSupportedException("UpperValue is not of type ILiteralUnlimitedNatural.");
             }
-
         }
     }
 }

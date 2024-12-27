@@ -25,6 +25,7 @@
 namespace uml4net.Actions
 {
     using System;
+    using System.CodeDom.Compiler;
     using System.Collections.Generic;
 
     using uml4net.Decorators;
@@ -49,6 +50,7 @@ namespace uml4net.Actions
     /// A ReclassifyObjectAction is an Action that changes the Classifiers that classify an object.
     /// </summary>
     [Class(xmiId: "ReclassifyObjectAction", isAbstract: false, isFinalSpecialization: false, isActive: false)]
+    [GeneratedCode("uml4net", "latest")]
     public partial class ReclassifyObjectAction : XmiElement, IReclassifyObjectAction
     {
         /// <summary>

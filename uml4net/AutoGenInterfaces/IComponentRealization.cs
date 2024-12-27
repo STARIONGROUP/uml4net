@@ -24,6 +24,7 @@
 
 namespace uml4net.StructuredClassifiers
 {
+    using System.CodeDom.Compiler;
     using System.Collections.Generic;
 
     using uml4net.Decorators;
@@ -50,6 +51,7 @@ namespace uml4net.StructuredClassifiers
     /// from these various Classifiers.
     /// </summary>
     [Class(xmiId: "ComponentRealization", isAbstract: false, isFinalSpecialization: false, isActive: false)]
+    [GeneratedCode("uml4net", "latest")]
     public partial interface IComponentRealization : IRealization
     {
         /// <summary>

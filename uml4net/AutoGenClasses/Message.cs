@@ -25,6 +25,7 @@
 namespace uml4net.Interactions
 {
     using System;
+    using System.CodeDom.Compiler;
     using System.Collections.Generic;
 
     using uml4net.Decorators;
@@ -49,6 +50,7 @@ namespace uml4net.Interactions
     /// A Message defines a particular communication between Lifelines of an Interaction.
     /// </summary>
     [Class(xmiId: "Message", isAbstract: false, isFinalSpecialization: false, isActive: false)]
+    [GeneratedCode("uml4net", "latest")]
     public partial class Message : XmiElement, IMessage
     {
         /// <summary>

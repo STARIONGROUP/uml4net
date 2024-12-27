@@ -24,6 +24,7 @@
 
 namespace uml4net.Interactions
 {
+    using System.CodeDom.Compiler;
     using System.Collections.Generic;
 
     using uml4net.Decorators;
@@ -48,6 +49,7 @@ namespace uml4net.Interactions
     /// An InteractionConstraint is a Boolean expression that guards an operand in a CombinedFragment.
     /// </summary>
     [Class(xmiId: "InteractionConstraint", isAbstract: false, isFinalSpecialization: false, isActive: false)]
+    [GeneratedCode("uml4net", "latest")]
     public partial interface IInteractionConstraint : IConstraint
     {
         /// <summary>

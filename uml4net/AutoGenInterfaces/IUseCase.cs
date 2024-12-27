@@ -24,6 +24,7 @@
 
 namespace uml4net.UseCases
 {
+    using System.CodeDom.Compiler;
     using System.Collections.Generic;
 
     using uml4net.Decorators;
@@ -49,6 +50,7 @@ namespace uml4net.UseCases
     /// that is of value for one or more Actors or other stakeholders of each subject.
     /// </summary>
     [Class(xmiId: "UseCase", isAbstract: false, isFinalSpecialization: false, isActive: false)]
+    [GeneratedCode("uml4net", "latest")]
     public partial interface IUseCase : IBehavioredClassifier
     {
         /// <summary>

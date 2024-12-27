@@ -24,6 +24,7 @@
 
 namespace uml4net.UseCases
 {
+    using System.CodeDom.Compiler;
     using System.Collections.Generic;
 
     using uml4net.Decorators;
@@ -48,6 +49,7 @@ namespace uml4net.UseCases
     /// An Actor specifies a role played by a user or any other system that interacts with the subject.
     /// </summary>
     [Class(xmiId: "Actor", isAbstract: false, isFinalSpecialization: false, isActive: false)]
+    [GeneratedCode("uml4net", "latest")]
     public partial interface IActor : IBehavioredClassifier
     {
     }

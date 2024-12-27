@@ -24,6 +24,7 @@
 
 namespace uml4net.Classification
 {
+    using System.CodeDom.Compiler;
     using System.Collections.Generic;
 
     using uml4net.Decorators;
@@ -48,6 +49,7 @@ namespace uml4net.Classification
     /// A ParameterSet designates alternative sets of inputs or outputs that a Behavior may use.
     /// </summary>
     [Class(xmiId: "ParameterSet", isAbstract: false, isFinalSpecialization: false, isActive: false)]
+    [GeneratedCode("uml4net", "latest")]
     public partial interface IParameterSet : INamedElement
     {
         /// <summary>

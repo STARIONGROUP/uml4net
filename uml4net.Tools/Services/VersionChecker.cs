@@ -67,7 +67,7 @@ namespace uml4net.Tools.Services
         /// </returns>
         public async Task<GitHubRelease> QueryLatestReleaseAsync()
         {
-            var requestUrl = "https://api.github.com/repos/STARIONGROUP/uml4net/releases/latest";
+            const string requestUrl = "https://api.github.com/repos/STARIONGROUP/uml4net/releases/latest";
 
             try
             {

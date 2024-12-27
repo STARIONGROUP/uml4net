@@ -25,6 +25,7 @@
 namespace uml4net.xmi.Readers
 {
     using System;
+    using System.CodeDom.Compiler;
     using System.Linq;
     using System.Xml;
 
@@ -52,6 +53,7 @@ namespace uml4net.xmi.Readers
     /// The purpose of the <see cref="ReadStructuralFeatureActionReader"/> is to read an instance of <see cref="IReadStructuralFeatureAction"/>
     /// from the XMI document
     /// </summary>
+    [GeneratedCode("uml4net", "latest")]
     public class ReadStructuralFeatureActionReader : XmiElementReader<IReadStructuralFeatureAction>, IXmiElementReader<IReadStructuralFeatureAction>
     {
         private readonly IXmiElementReaderFacade xmiElementReaderFacade;

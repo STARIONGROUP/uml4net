@@ -25,6 +25,7 @@
 namespace uml4net.StateMachines
 {
     using System;
+    using System.CodeDom.Compiler;
     using System.Collections.Generic;
 
     using uml4net.Decorators;
@@ -52,6 +53,7 @@ namespace uml4net.StateMachines
     /// to the context Classifier of the ProtocolStateMachine.
     /// </summary>
     [Class(xmiId: "ProtocolTransition", isAbstract: false, isFinalSpecialization: false, isActive: false)]
+    [GeneratedCode("uml4net", "latest")]
     public partial class ProtocolTransition : XmiElement, IProtocolTransition
     {
         /// <summary>

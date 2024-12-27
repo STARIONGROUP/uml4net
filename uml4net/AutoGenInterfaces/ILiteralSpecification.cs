@@ -24,6 +24,7 @@
 
 namespace uml4net.Values
 {
+    using System.CodeDom.Compiler;
     using System.Collections.Generic;
 
     using uml4net.Decorators;
@@ -48,6 +49,7 @@ namespace uml4net.Values
     /// A LiteralSpecification identifies a literal constant being modeled.
     /// </summary>
     [Class(xmiId: "LiteralSpecification", isAbstract: true, isFinalSpecialization: false, isActive: false)]
+    [GeneratedCode("uml4net", "latest")]
     public partial interface ILiteralSpecification : IValueSpecification
     {
     }

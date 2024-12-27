@@ -24,6 +24,7 @@
 
 namespace uml4net.SimpleClassifiers
 {
+    using System.CodeDom.Compiler;
     using System.Collections.Generic;
 
     using uml4net.Decorators;
@@ -48,6 +49,7 @@ namespace uml4net.SimpleClassifiers
     /// An EnumerationLiteral is a user-defined data value for an Enumeration.
     /// </summary>
     [Class(xmiId: "EnumerationLiteral", isAbstract: false, isFinalSpecialization: false, isActive: false)]
+    [GeneratedCode("uml4net", "latest")]
     public partial interface IEnumerationLiteral : IInstanceSpecification
     {
         /// <summary>

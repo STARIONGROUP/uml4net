@@ -24,6 +24,7 @@
 
 namespace uml4net.Activities
 {
+    using System.CodeDom.Compiler;
     using System.Collections.Generic;
 
     using uml4net.Decorators;
@@ -50,6 +51,7 @@ namespace uml4net.Activities
     /// specification of the state required for tokens being held, and carrying control values.
     /// </summary>
     [Class(xmiId: "ObjectNode", isAbstract: true, isFinalSpecialization: false, isActive: false)]
+    [GeneratedCode("uml4net", "latest")]
     public partial interface IObjectNode : ITypedElement, IActivityNode
     {
         /// <summary>

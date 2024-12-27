@@ -25,6 +25,7 @@
 namespace uml4net.Actions
 {
     using System;
+    using System.CodeDom.Compiler;
     using System.Collections.Generic;
 
     using uml4net.Decorators;
@@ -49,6 +50,7 @@ namespace uml4net.Actions
     /// A SequenceNode is a StructuredActivityNode that executes a sequence of ExecutableNodes in order.
     /// </summary>
     [Class(xmiId: "SequenceNode", isAbstract: false, isFinalSpecialization: false, isActive: false)]
+    [GeneratedCode("uml4net", "latest")]
     public partial class SequenceNode : XmiElement, ISequenceNode
     {
         /// <summary>

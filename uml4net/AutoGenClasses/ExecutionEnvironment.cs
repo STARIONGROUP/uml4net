@@ -25,6 +25,7 @@
 namespace uml4net.Deployments
 {
     using System;
+    using System.CodeDom.Compiler;
     using System.Collections.Generic;
 
     using uml4net.Decorators;
@@ -50,6 +51,7 @@ namespace uml4net.Deployments
     /// components that are deployed on it in the form of executable artifacts.
     /// </summary>
     [Class(xmiId: "ExecutionEnvironment", isAbstract: false, isFinalSpecialization: false, isActive: false)]
+    [GeneratedCode("uml4net", "latest")]
     public partial class ExecutionEnvironment : XmiElement, IExecutionEnvironment
     {
         /// <summary>

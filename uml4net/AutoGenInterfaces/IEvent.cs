@@ -24,6 +24,7 @@
 
 namespace uml4net.CommonBehavior
 {
+    using System.CodeDom.Compiler;
     using System.Collections.Generic;
 
     using uml4net.Decorators;
@@ -48,6 +49,7 @@ namespace uml4net.CommonBehavior
     /// An Event is the specification of some occurrence that may potentially trigger effects by an object.
     /// </summary>
     [Class(xmiId: "Event", isAbstract: true, isFinalSpecialization: false, isActive: false)]
+    [GeneratedCode("uml4net", "latest")]
     public partial interface IEvent : IPackageableElement
     {
     }

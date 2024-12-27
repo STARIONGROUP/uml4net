@@ -24,6 +24,7 @@
 
 namespace uml4net.Packages
 {
+    using System.CodeDom.Compiler;
     using System.Collections.Generic;
 
     using uml4net.Decorators;
@@ -48,6 +49,7 @@ namespace uml4net.Packages
     /// Physical definition of a graphical image.
     /// </summary>
     [Class(xmiId: "Image", isAbstract: false, isFinalSpecialization: false, isActive: false)]
+    [GeneratedCode("uml4net", "latest")]
     public partial interface IImage : IElement
     {
         /// <summary>

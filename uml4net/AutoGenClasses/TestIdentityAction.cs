@@ -25,6 +25,7 @@
 namespace uml4net.Actions
 {
     using System;
+    using System.CodeDom.Compiler;
     using System.Collections.Generic;
 
     using uml4net.Decorators;
@@ -49,6 +50,7 @@ namespace uml4net.Actions
     /// A TestIdentityAction is an Action that tests if two values are identical objects.
     /// </summary>
     [Class(xmiId: "TestIdentityAction", isAbstract: false, isFinalSpecialization: false, isActive: false)]
+    [GeneratedCode("uml4net", "latest")]
     public partial class TestIdentityAction : XmiElement, ITestIdentityAction
     {
         /// <summary>
