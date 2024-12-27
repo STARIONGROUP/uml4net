@@ -20,12 +20,6 @@
 
 namespace uml4net.CommonStructure
 {
-    using System.Collections.Generic;
-
-    using uml4net.Decorators;
-    using uml4net.Classification;
-    using Utils;
-
     /// <summary>
     /// An Element is a constituent of a model. As such, it has the capability of owning other Elements.
     /// </summary>

@@ -29,6 +29,15 @@ namespace uml4net.StateMachines
     /// </summary>
     public static class TransitionExtensions
     {
+        /// <summary>
+        /// References the Classifier in which context this element may be redefined.
+        /// </summary>
+        /// <param name="transition">
+        /// The subject <see cref="ITransition"/>
+        /// </param>
+        /// <returns>
+        /// The Classifier in which context this element may be redefined.
+        /// </returns>
         public static IClassifier QueryRedefinitionContext(this ITransition transition)
         {
             throw new NotImplementedException();

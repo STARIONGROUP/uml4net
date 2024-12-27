@@ -29,6 +29,21 @@ namespace uml4net.StructuredClassifiers
     /// </summary>
     public static class ConnectorEndExtensions
     {
+        /// <summary>
+        /// Queries A derived property referencing the corresponding end on the Association which types the Connector
+        /// owing this ConnectorEnd, if any. It is derived by selecting the end at the same place in the
+        /// ordering of Association ends as this ConnectorEnd.
+        /// </summary>
+        /// </summary>
+        /// <param name="connectorEnd">
+        /// The subject <see cref="IConnectorEnd"/>
+        /// </param>
+        /// <returns>
+        /// A derived property referencing the corresponding end on the Association which types the Connector
+        /// owing this ConnectorEnd, if any. It is derived by selecting the end at the same place in the
+        /// ordering of Association ends as this ConnectorEnd.
+        /// </summary>
+        /// </returns>
         public static IProperty QueryDefiningEnd(this IConnectorEnd connectorEnd)
         {
             throw new NotImplementedException();

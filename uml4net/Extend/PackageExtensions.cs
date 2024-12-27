@@ -54,11 +54,29 @@ namespace uml4net.Packages
             return containerList;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="package">
+        /// The subject <see cref="IPackage"/>
+        /// </param>
+        /// <returns>
+        ///
+        /// </returns>
         public static IContainerList<IStereotype> QueryOwnedStereotype(this IPackage package)
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="package">
+        /// The subject <see cref="IPackage"/>
+        /// </param>
+        /// <returns>
+        ///
+        /// </returns>
         public static IContainerList<IType> QueryOwnedType(this IPackage package)
         {
             throw new NotImplementedException();

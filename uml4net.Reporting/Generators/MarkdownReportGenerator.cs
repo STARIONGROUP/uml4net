@@ -29,7 +29,7 @@ namespace uml4net.Reporting.Generators
     using Microsoft.Extensions.Logging.Abstractions;
 
     /// <summary>
-    /// The purpose of the <see cref="MarkdownReportGenerator"/> is to generate a Markdown report of an
+    /// The purpose of the <see cref="MarkdownReportGenerator"/> is to generate a Markdown report of a
     /// UML Model
     /// </summary>
     public class MarkdownReportGenerator : HandleBarsReportGenerator, IMarkdownReportGenerator

@@ -28,6 +28,15 @@ namespace uml4net.Activities
     /// </summary>
     public static class ActivityNodeExtensions
     {
+        /// <summary>
+        /// Queries the ActivityGroups containing the ActivityNode.
+        /// </summary>
+        /// <param name="activityNode">
+        /// The subject <see cref="IActivityGroup"/>
+        /// </param>
+        /// <returns>
+        /// The ActivityGroups containing the ActivityNode.
+        /// </returns>
         public static List<IActivityGroup> QueryInGroup(this IActivityNode activityNode)
         {
             throw new NotImplementedException();

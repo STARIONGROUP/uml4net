@@ -32,6 +32,7 @@ namespace uml4net.xmi.Tests
     using Serilog;
     using System.Collections.Generic;
 
+    [TestFixture]
     public class SysML2XmiReaderTestFixture
     {
         private ILoggerFactory loggerFactory;

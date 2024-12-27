@@ -29,6 +29,15 @@ namespace uml4net.StructuredClassifiers
     /// </summary>
     public static class EncapsulatedClassifierExtensions
     {
+        /// <summary>
+        /// Queries The Ports owned by the EncapsulatedClassifier.
+        /// </summary>
+        /// <param name="encapsulatedClassifier">
+        /// The subject <see cref="IEncapsulatedClassifier"/>
+        /// </param>
+        /// <returns>
+        /// The Ports owned by the EncapsulatedClassifier.
+        /// </returns>
         public static IContainerList<IPort> QueryOwnedPort(this IEncapsulatedClassifier encapsulatedClassifier)
         {
             throw new NotImplementedException();

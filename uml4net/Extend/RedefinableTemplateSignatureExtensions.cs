@@ -30,6 +30,15 @@ namespace uml4net.Classification
     /// </summary>
     public static class RedefinableTemplateSignatureExtensions
     {
+        /// <summary>
+        /// Queries The formal template parameters of the extended signatures
+        /// </summary>
+        /// <param name="redefinableTemplateSignature">
+        /// The subject <see cref="IRedefinableTemplateSignature"/>
+        /// </param>
+        /// <returns>
+        /// The formal template parameters of the extended signatures
+        /// </returns>
         public static List<ITemplateParameter> QueryInheritedParameter(this IRedefinableTemplateSignature redefinableTemplateSignature)
         {
             throw new NotImplementedException();

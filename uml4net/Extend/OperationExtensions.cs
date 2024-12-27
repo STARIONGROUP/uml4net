@@ -29,26 +29,81 @@ namespace uml4net.Classification
     /// </summary>
     public static class OperationExtensions
     {
+        /// <summary>
+        /// Queries whether the return parameter is ordered or not, if present.  This information is derived
+        /// from the return result for this Operation.
+        /// </summary>
+        /// <param name="operation">
+        /// The subject <see cref="IOperation"/>
+        /// </param>
+        /// <returns>
+        /// whether the return parameter is ordered or not, if present.  This information is derived
+        /// from the return result for this Operation.
+        /// </returns>
         public static bool QueryIsOrdered(this IOperation operation)
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Queries whether the return parameter is unique or not, if present. This information is derived
+        /// from the return result for this Operation.
+        /// </summary>
+        /// <param name="operation">
+        /// The subject <see cref="IOperation"/>
+        /// </param>
+        /// <returns>
+        /// whether the return parameter is unique or not, if present. This information is derived
+        /// from the return result for this Operation.
+        /// </returns>
         public static bool QueryIsUnique(this IOperation operation)
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Queries the lower multiplicity of the return parameter, if present. This information is derived
+        /// from the return result for this Operation.
+        /// </summary>
+        /// <param name="operation">
+        /// The subject <see cref="IOperation"/>
+        /// </param>
+        /// <returns>
+        /// the lower multiplicity of the return parameter, if present. This information is derived
+        /// from the return result for this Operation.
+        /// </returns>
         public static int QueryLower(this IOperation operation)
         {
             throw new NotImplementedException();
         }
 
-        public  static IType QueryType(this IOperation operation)
+        /// <summary>
+        /// Queries The return type of the operation, if present. This information is derived from the return result for
+        /// this Operation.
+        /// </summary>
+        /// <param name="operation">
+        /// The subject <see cref="IOperation"/>
+        /// </param>
+        /// <returns>
+        /// The return type of the operation, if present. This information is derived from the return result for
+        /// this Operation.
+        /// </returns>
+        public static IType QueryType(this IOperation operation)
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Queries The upper multiplicity of the return parameter, if present. This information is derived from the
+        /// return result for this Operation.
+        /// </summary>
+        /// <param name="operation">
+        /// The subject <see cref="IOperation"/>
+        /// </param>
+        /// <returns>
+        /// The upper multiplicity of the return parameter, if present. This information is derived from the
+        /// return result for this Operation.
+        /// </returns>
         public static int QueryUpper(this IOperation operation)
         {
             throw new NotImplementedException();

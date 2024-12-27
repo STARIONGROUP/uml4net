@@ -27,7 +27,8 @@ namespace uml4net.Reporting.Generators
 
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Logging.Abstractions;
-    using Utils;
+
+    using uml4net.Utils;
 
     /// <summary>
     /// The purpose of the <see cref="HtmlReportGenerator"/> is to generate an HTML report of a

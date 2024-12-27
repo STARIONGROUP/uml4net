@@ -155,7 +155,6 @@ namespace uml4net.xmi.Cache
         /// <summary>
         /// Resolves multiple references from the cache, ensuring that the types match the expected type.
         /// </summary>
-        /// <param name="cache">The cache containing the referenced elements.</param>
         /// <param name="propertyValues">The keys of the references to be resolved.</param>
         /// <param name="key">The name of the property referring to the elements.</param>
         /// <param name="expectedType">The expected type of the referenced elements.</param>

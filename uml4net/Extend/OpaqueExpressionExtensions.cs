@@ -28,6 +28,19 @@ namespace uml4net.Values
     /// </summary>
     public static class OpaqueExpressionExtensions
     {
+        /// <summary>
+        /// Queries If an OpaqueExpression is specified using a UML Behavior, then this refers to the single required
+        /// return Parameter of that Behavior. When the Behavior completes execution, the values on this
+        /// Parameter give the result of evaluating the OpaqueExpression.
+        /// </summary>
+        /// <param name="opaqueExpression">
+        /// The subject <see cref="IOpaqueExpression"/>
+        /// </param>
+        /// <returns>
+        /// If an OpaqueExpression is specified using a UML Behavior, then this refers to the single required
+        /// return Parameter of that Behavior. When the Behavior completes execution, the values on this
+        /// Parameter give the result of evaluating the OpaqueExpression.
+        /// </returns>
         public static IParameter QueryResult(this IOpaqueExpression opaqueExpression)
         {
             throw new NotImplementedException();

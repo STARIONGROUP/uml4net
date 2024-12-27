@@ -21,12 +21,9 @@
 namespace uml4net.HandleBars
 {
     using System;
-    using System.Collections.Generic;
     using System.Linq;
-    using Classification;
     using HandlebarsDotNet;
 
-    using uml4net.Classification;
     using uml4net.Extensions;
     using uml4net.StructuredClassifiers;
 

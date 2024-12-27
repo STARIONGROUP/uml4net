@@ -35,7 +35,7 @@ namespace uml4net.Reporting.Generators
     using uml4net.Packages;
 
     /// <summary>
-    /// The purpose of the <see cref="XlReportGenerator"/> is to generate reports of an
+    /// The purpose of the <see cref="XlReportGenerator"/> is to generate reports of a
     /// UML Model
     /// </summary>
     public class XlReportGenerator : ReportGenerator, IXlReportGenerator
@@ -72,6 +72,12 @@ namespace uml4net.Reporting.Generators
         /// </summary>
         /// <param name="modelPath">
         /// the path to the UML model of which the report is to be generated.
+        /// </param>
+        /// <param name="rootDirectory">
+        /// The base directory path used as the local root for resolving referenced XMI files.
+        /// </param>
+        /// <param name="pathMap">
+        /// a dictionary of key-value pairs used to map PATHMAP references to local xmi files
         /// </param>
         /// <param name="outputPath">
         /// the path, including filename, where the output is to be generated.

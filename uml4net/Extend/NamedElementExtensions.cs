@@ -30,11 +30,31 @@ namespace uml4net.CommonStructure
     /// </summary>
     public static class NamedElementExtensions
     {
+        /// <summary>
+        /// Queries the Dependencies that reference this NamedElement as a client.
+        /// </summary>
+        /// <param name="namedElement">
+        /// The subject <see cref="INamedElement"/>
+        /// </param>
+        /// <returns>
+        /// the Dependencies that reference this NamedElement as a client.
+        /// </returns>
         public static List<IDependency> QueryClientDependency(this INamedElement namedElement)
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Queries A collection of NamedElements identifiable within the Namespace, either by being owned or by being
+        /// introduced by importing or inheritance.
+        /// </summary>
+        /// <param name="namedElement">
+        /// The subject <see cref="INamedElement"/>
+        /// </param>
+        /// <returns>
+        /// A collection of NamedElements identifiable within the Namespace, either by being owned or by being
+        /// introduced by importing or inheritance.
+        /// </returns>
         public static List<INamedElement> QueryMember(this INamedElement namedElement)
         {
             throw new NotImplementedException();
@@ -108,7 +128,15 @@ namespace uml4net.CommonStructure
             return owner as INamespace;
         }
 
-
+        /// <summary>
+        /// Queries A collection of NamedElements owned by the Namespace.
+        /// </summary>
+        /// <param name="namedElement">
+        /// The subject <see cref="INamedElement"/>
+        /// </param>
+        /// <returns>
+        /// A collection of NamedElements owned by the Namespace.
+        /// </returns>
         public static IContainerList<INamedElement> QueryOwnedMember(this INamedElement namedElement)
         {
             throw new NotImplementedException();

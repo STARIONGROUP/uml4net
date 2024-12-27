@@ -27,6 +27,19 @@ namespace uml4net.StructuredClassifiers
     /// </summary>
     public static class ConnectorExtensions
     {
+        /// <summary>
+        /// Queries the kind of Connector. This is derived: a Connector with one or more ends connected to a
+        /// Port which is not on a Part and which is not a behavior port is a delegation; otherwise it is an
+        /// assembly.
+        /// </summary>
+        /// <param name="connector">
+        /// The subject <see cref="IConnector"/>
+        /// </param>
+        /// <returns>
+        /// the kind of Connector. This is derived: a Connector with one or more ends connected to a
+        /// Port which is not on a Part and which is not a behavior port is a delegation; otherwise it is an
+        /// assembly.
+        /// </returns>
         public static ConnectorKind QueryKind(this IConnector connector)
         {
             throw new NotImplementedException();

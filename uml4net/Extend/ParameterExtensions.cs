@@ -27,6 +27,15 @@ namespace uml4net.Classification
     /// </summary>
     public static class ParameterExtensions
     {
+        /// <summary>
+        /// Queries A String that represents a value to be used when no argument is supplied for the Parameter.
+        /// </summary>
+        /// <param name="parameter">
+        /// The subject <see cref="IParameter"/>
+        /// </param>
+        /// <returns>
+        /// A String that represents a value to be used when no argument is supplied for the Parameter.
+        /// </returns>
         public static string QueryDefault(this IParameter parameter)
         {
             throw new NotImplementedException();

@@ -22,12 +22,13 @@ namespace uml4net.Reporting.Generators
 {
     using System.Collections.Generic;
     using System.Linq;
-    using Extensions;
+    
     using HandlebarsDotNet;
     using HandlebarsDotNet.Helpers;
 
     using Microsoft.Extensions.Logging;
 
+    using uml4net.Extensions;
     using uml4net.StructuredClassifiers;
     using uml4net.SimpleClassifiers;
     using uml4net.Reporting.Payload;

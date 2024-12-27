@@ -24,6 +24,7 @@ namespace uml4net.HandleBars
     using System.Linq;
 
     using HandlebarsDotNet;
+
     using uml4net.StructuredClassifiers;
 
     /// <summary>

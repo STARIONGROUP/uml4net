@@ -30,21 +30,59 @@ namespace uml4net.Activities
     /// </summary>
     public static class ActivityGroupExtensions
     {
+        /// <summary>
+        /// Queries the ActivityEdges immediately contained in the ActivityGroup.
+        /// </summary>
+        /// <param name="activityGroup">
+        /// The subject <see cref="IActivityGroup"/>
+        /// </param>
+        /// <returns>
+        /// The ActivityEdges immediately contained in the ActivityGroup.
+        /// </returns>
         public static List<IActivityEdge> QueryContainedEdge(this IActivityGroup activityGroup)
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Queries the ActivityNodes immediately contained in the ActivityGroup.
+        /// </summary>
+        /// <param name="activityGroup">
+        /// The subject <see cref="IActivityGroup"/>
+        /// </param>
+        /// <returns>
+        /// The ActivityNodes immediately contained in the ActivityGroup.
+        /// </returns>
         public static List<IActivityNode> QueryContainedNode(this IActivityGroup activityGroup)
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Queries the Other ActivityGroups immediately contained in this ActivityGroup.
+        /// </summary>
+        /// <param name="activityGroup">
+        /// The subject <see cref="IActivityGroup"/>
+        /// </param>
+        /// <returns>
+        /// The Other ActivityGroups immediately contained in this ActivityGroup.
+        /// </returns>
         public static IContainerList<IActivityGroup> QuerySubgroup(this IActivityGroup activityGroup)
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Queries the ActivityGroup immediately containing this ActivityGroup, if it is directly owned by another
+        /// ActivityGroup.
+        /// </summary>
+        /// <param name="activityGroup">
+        /// The subject <see cref="IActivityGroup"/>
+        /// </param>
+        /// <returns>
+        /// The ActivityGroup immediately containing this ActivityGroup, if it is directly owned by another
+        /// ActivityGroup.
+        /// </returns>
         public static IActivityGroup QuerySuperGroup(this IActivityGroup activityGroup)
         {
             throw new NotImplementedException();

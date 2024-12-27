@@ -30,10 +30,6 @@ namespace uml4net.HandleBars
     using uml4net.Extensions;
     using uml4net.Classification;
     using uml4net.StructuredClassifiers;
-    using DocumentFormat.OpenXml.Wordprocessing;
-    using System.Xml;
-    using uml4net.CommonStructure;
-    using uml4net.Utils;
 
     /// <summary>
     /// A handlebars block helper for the <see cref="IProperty"/> interface

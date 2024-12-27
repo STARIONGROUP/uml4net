@@ -27,6 +27,15 @@ namespace uml4net.Packages
     /// </summary>
     public static class StereotypeExtensions
     {
+        /// <summary>
+        /// Queries the profile that directly or indirectly contains this stereotype.
+        /// </summary>
+        /// <param name="stereotype">
+        /// The subject <see cref="IStereotype"/>
+        /// </param>
+        /// <returns>
+        /// The profile that directly or indirectly contains this stereotype.
+        /// </returns>
         public static IProfile QueryProfile(this IStereotype stereotype)
         {
             throw new NotImplementedException();

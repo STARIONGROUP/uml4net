@@ -28,6 +28,15 @@ namespace uml4net.StructuredClassifiers
     /// </summary>
     public static class ConnectableElementExtensions
     {
+        /// <summary>
+        /// Queries A set of ConnectorEnds that attach to this ConnectableElement.
+        /// </summary>
+        /// <param name="connectableElement">
+        /// The subject <see cref="IConnectableElement"/>
+        /// </param>
+        /// <returns>
+        /// A set of ConnectorEnds that attach to this ConnectableElement.
+        /// </returns>
         public static List<IConnectorEnd> QueryEnd(this IConnectableElement connectableElement)
         {
             throw new NotImplementedException();

@@ -21,6 +21,7 @@
 namespace uml4net.HandleBars
 {
     using System.Globalization;
+
     using HandlebarsDotNet;
 
     /// <summary>

@@ -28,12 +28,29 @@ namespace uml4net.Classification
     /// </summary>
     public static class RedefinableElementExtensions
     {
+        /// <summary>
+        /// Queries The RedefinableElement that is being redefined by this element.
+        /// </summary>
+        /// <param name="redefinableElement">
+        /// The subject <see cref="IRedefinableElement"/>
+        /// </param>
+        /// <returns>
+        /// The RedefinableElement that is being redefined by this element.
+        /// </returns>
         public static List<IRedefinableElement> QueryRedefinedElement(this IRedefinableElement redefinableElement)
         {
             throw new NotImplementedException();
         }
 
-
+        /// <summary>
+        /// Queries The contexts that this element may be redefined from.
+        /// </summary>
+        /// <param name="redefinableElement">
+        /// The subject <see cref="IRedefinableElement"/>
+        /// </param>
+        /// <returns>
+        /// The contexts that this element may be redefined from.
+        /// </returns>
         public static List<IClassifier> QueryRedefinitionContext(this IRedefinableElement redefinableElement)
         {
             throw new NotImplementedException();

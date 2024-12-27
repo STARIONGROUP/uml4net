@@ -21,7 +21,7 @@
 namespace uml4net.Reporting.Generators
 {
     /// <summary>
-    /// The purpose of the <see cref="IXlReportGenerator"/> is to generate reports of an
+    /// The purpose of the <see cref="IXlReportGenerator"/> is to generate reports of a
     /// UML Model
     /// </summary>
     public interface IXlReportGenerator : IReportGenerator

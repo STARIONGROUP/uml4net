@@ -29,11 +29,39 @@ namespace uml4net.Packages
     /// </summary>
     public static class ExtensionExtensions
     {
+        /// <summary>
+        /// Queries whether an instance of the extending stereotype must be created when an instance of the
+        /// extended class is created. The attribute value is derived from the value of the lower property of
+        /// the ExtensionEnd referenced by Extension::ownedEnd; a lower value of 1 means that isRequired is
+        /// true, but otherwise it is false. Since the default value of ExtensionEnd::lower is 0, the default
+        /// value of isRequired is false.
+        /// </summary>
+        /// <param name="extension">
+        /// The subject <see cref="IExtension"/>
+        /// </param>
+        /// <returns>
+        /// whether an instance of the extending stereotype must be created when an instance of the
+        /// extended class is created. The attribute value is derived from the value of the lower property of
+        /// the ExtensionEnd referenced by Extension::ownedEnd; a lower value of 1 means that isRequired is
+        /// true, but otherwise it is false. Since the default value of ExtensionEnd::lower is 0, the default
+        /// value of isRequired is false.
+        /// </returns>
         public static bool QueryIsRequired(this IExtension extension)
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Queries the Class that is extended through an Extension. The property is derived from the type of
+        /// the memberEnd that is not the ownedEnd.
+        /// </summary>
+        /// <param name="extension">
+        /// The subject <see cref="IExtension"/>
+        /// </param>
+        /// <returns>
+        /// the Class that is extended through an Extension. The property is derived from the type of
+        /// the memberEnd that is not the ownedEnd.
+        /// </returns>
         public static IClass QueryMetaclass(this IExtension extension)
         {
             throw new NotImplementedException();

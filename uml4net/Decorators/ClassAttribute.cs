@@ -39,6 +39,9 @@ namespace uml4net.Decorators
         /// a value indicating that If true, the Class does not provide a complete declaration and cannot
         /// be instantiated. An abstract Class is typically used as a target of Associations or Generalizations
         /// </param>
+        /// <param name="isFinalSpecialization">
+        /// If true, the Classifier cannot be specialized
+        /// </param>
         /// <param name="isActive">
         /// Determines whether an object specified by this Class is active or not. If true, then the owning Class is referred
         /// to as an active Class. If false, then such a Class is referred to as a passive Class
@@ -60,17 +63,17 @@ namespace uml4net.Decorators
         /// Gets or sets a value indicating that if true, the Class does not provide a complete declaration and cannot
         /// be instantiated. An abstract Class is typically used as a target of Associations or Generalizations
         /// </summary>
-        public bool IsAbstract { get; set; } = false;
+        public bool IsAbstract { get; set; }
 
         /// <summary>
         /// Gets or set a value indicating that if true, the Classifier cannot be specialized
         /// </summary>
-        public bool IsFinalSpecialization { get; set; } = false;
+        public bool IsFinalSpecialization { get; set; }
         
         /// <summary>
         /// Determines whether an object specified by this Class is active or not. If true, then the owning Class is referred
         /// to as an active Class. If false, then such a Class is referred to as a passive Class
         /// </summary>
-        public bool IsActive { get; set; } = false;
+        public bool IsActive { get; set; }
     }
 }

@@ -28,9 +28,7 @@ namespace uml4net.Extensions
     using uml4net.Packages;
     using uml4net.SimpleClassifiers;
     using uml4net.CommonStructure;
-    using uml4net.StructuredClassifiers;
     using uml4net.Utils;
-    using System.Xml.Linq;
 
     /// <summary>
     /// Extension methods for <see cref="IElement"/> interface

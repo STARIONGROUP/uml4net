@@ -31,6 +31,19 @@ namespace uml4net.StructuredClassifiers
     /// </summary>
     public static class ClassExtensions
     {
+        /// <summary>
+        /// Queries whether this property is used when the Class is acting as a metaclass. It references the Extensions that
+        /// specify additional properties of the metaclass. The property is derived from the Extensions whose
+        /// memberEnds are typed by the Class.
+        /// </summary>
+        /// <param name="@class">
+        /// The subject <see cref="IClass"/>
+        /// </param>
+        /// <returns>
+        /// This property is used when the Class is acting as a metaclass. It references the Extensions that
+        /// specify additional properties of the metaclass. The property is derived from the Extensions whose
+        /// memberEnds are typed by the Class.
+        /// </returns>
         public static List<IExtension> QueryExtension(this IClass @class)
         {
             throw new NotImplementedException();

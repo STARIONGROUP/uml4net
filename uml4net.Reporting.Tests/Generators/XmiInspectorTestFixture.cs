@@ -21,11 +21,14 @@
 namespace uml4net.Reporting.Tests.Generators
 {
     using System;
-    using Microsoft.Extensions.Logging;
-    using NUnit.Framework;
-    using Serilog;
-    using System.Collections.Generic;
     using System.IO;
+
+    using Microsoft.Extensions.Logging;
+    
+    using NUnit.Framework;
+    
+    using Serilog;
+    
     using uml4net.Reporting.Generators;
 
     [TestFixture]

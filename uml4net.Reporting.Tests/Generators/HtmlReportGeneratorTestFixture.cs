@@ -22,14 +22,11 @@ namespace uml4net.Reporting.Tests.Generators
 {
     using System.Collections.Generic;
     using System.IO;
-    using System.Linq;
     using Microsoft.Extensions.Logging;
 
     using NUnit.Framework;
-    using uml4net.Packages;
     using Reporting.Generators;
     using Serilog;
-    using xmi;
 
     [TestFixture]
     public class HtmlReportGeneratorTestFixture

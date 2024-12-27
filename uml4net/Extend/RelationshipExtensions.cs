@@ -28,6 +28,15 @@ namespace uml4net.CommonStructure
     /// </summary>
     public static class RelationshipExtensions
     {
+        /// <summary>
+        /// Queries the elements related by the Relationship.
+        /// </summary>
+        /// <param name="relationship">
+        /// The subject <see cref="IRelationship"/>
+        /// </param>
+        /// <returns>
+        /// The elements related by the Relationship.
+        /// </returns>
         public static List<IElement> QueryRelatedElement(this IRelationship relationship)
         {
             throw new NotImplementedException();

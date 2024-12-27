@@ -24,7 +24,6 @@ namespace uml4net.Reporting.Generators
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.IO;
-    using System.IO.Packaging;
     using System.Linq;
     using System.Text;
     

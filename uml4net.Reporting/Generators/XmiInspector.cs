@@ -22,17 +22,16 @@ namespace uml4net.Reporting.Generators
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics;
+    using System.IO;
+    using System.Linq;
+    using System.Xml;
+
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Logging.Abstractions;
-    using System.IO;
-    using Utils;
-    using System.Diagnostics;
-    using System.Linq;
-    using System.Runtime.InteropServices.ComTypes;
-    using System.Text;
-    using System.Xml;
-    using DocumentFormat.OpenXml.Spreadsheet;
-
+    
+    using uml4net.Utils;
+    
     /// <summary>
     /// The purpose of the <see cref="IXmiInspector"/> is to inspect the XMI and return a text based
     /// report

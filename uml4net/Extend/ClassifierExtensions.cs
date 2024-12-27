@@ -31,11 +31,33 @@ namespace uml4net.Classification
     /// </summary>
     public static class ClassifierExtensions
     {
+        /// <summary>
+        /// Queries All of the Properties that are direct (i.e., not inherited or imported) attributes of the
+        /// Classifier.
+        /// </summary>
+        /// <param name="element">
+        /// The subject <see cref="IClassifier"/>
+        /// </param>
+        /// <returns>
+        /// All of the Properties that are direct (i.e., not inherited or imported) attributes of the
+        /// Classifier.
+        /// </returns>
         public static List<IProperty> QueryAttribute(this IClassifier element)
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Queries each Feature directly defined in the classifier. Note that there may be members of the
+        /// Classifier that are of the type Feature but are not included, e.g., inherited features.
+        /// </summary>
+        /// <param name="element">
+        /// The subject <see cref="IClassifier"/>
+        /// </param>
+        /// <returns>
+        /// each Feature directly defined in the classifier. Note that there may be members of the
+        /// Classifier that are of the type Feature but are not included, e.g., inherited features.
+        /// </returns>
         public static List<IFeature> QueryFeature(this IClassifier element)
         {
             throw new NotImplementedException();
@@ -52,7 +74,15 @@ namespace uml4net.Classification
         public static List<IClassifier> QueryGeneral(this IClassifier element)
                 => element.Generalization.Select(x => x.General).ToList();
 
-
+        /// <summary>
+        /// Queries All elements inherited by this Classifier from its general Classifiers
+        /// </summary>
+        /// <param name="element">
+        /// The subject <see cref="IClassifier"/>
+        /// </param>
+        /// <returns>
+        /// All elements inherited by this Classifier from its general Classifiers.
+        /// </returns>
         public static List<INamedElement> QueryInheritedMember(this IClassifier element)
         {
             throw new NotImplementedException();

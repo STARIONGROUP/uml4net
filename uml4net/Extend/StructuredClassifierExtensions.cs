@@ -30,11 +30,31 @@ namespace uml4net.StructuredClassifiers
     /// </summary>
     public static class StructuredClassifierExtensions
     {
+        /// <summary>
+        /// Queries the Properties specifying instances that the StructuredClassifier owns by composition. This
+        /// collection is derived, selecting those owned Properties where isComposite is true.
+        /// </summary>
+        /// <param name="structuredClassifier">
+        /// The subject <see cref="IStructuredClassifier"/>
+        /// </param>
+        /// <returns>
+        /// The Properties specifying instances that the StructuredClassifier owns by composition. This
+        /// collection is derived, selecting those owned Properties where isComposite is true.
+        /// </returns>
         public static List<IProperty> QueryPart(this IStructuredClassifier structuredClassifier)
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Queries the roles that instances may play in this StructuredClassifier.
+        /// </summary>
+        /// <param name="structuredClassifier">
+        /// The subject <see cref="IStructuredClassifier"/>
+        /// </param>
+        /// <returns>
+        /// The roles that instances may play in this StructuredClassifier.
+        /// </returns>
         public static List<IConnectableElement> QueryRole(this IStructuredClassifier structuredClassifier)
         {
             throw new NotImplementedException();

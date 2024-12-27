@@ -23,7 +23,7 @@ namespace uml4net.Decorators
     using System;
     
     /// <summary>
-    /// Attribute used to decorate properties with to indicicate which class.property
+    /// Attribute used to decorate properties with to indicate which class/property
     /// is being implemented
     /// </summary>
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = false)]
@@ -38,7 +38,7 @@ namespace uml4net.Decorators
         }
 
         /// <summary>
-        /// Gets or sets the names of the propertries that are being implemented
+        /// Gets or sets the names of the properties that are being implemented
         /// ClassName.AttributeName or ClassName.OperationName
         /// </summary>
         public string Implementations { get; set; }

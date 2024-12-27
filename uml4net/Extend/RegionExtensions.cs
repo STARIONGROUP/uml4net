@@ -29,6 +29,15 @@ namespace uml4net.StateMachines
     /// </summary>
     public static class RegionExtensions
     {
+        /// <summary>
+        /// Queries the Classifier in which context this element may be redefined.
+        /// </summary>
+        /// <param name="region">
+        /// The subject <see cref="region"/>
+        /// </param>
+        /// <returns>
+        /// The Classifier in which context this element may be redefined.
+        /// </returns>
         public static IClassifier QueryRedefinitionContext(this IRegion region)
         {
             throw new NotImplementedException();

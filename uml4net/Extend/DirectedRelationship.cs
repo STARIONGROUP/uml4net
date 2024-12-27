@@ -28,11 +28,29 @@ namespace uml4net.CommonStructure
     /// </summary>
     public static class DirectedRelationshipExtensions
     {
+        /// <summary>
+        /// Queries the target Element(s) of the DirectedRelationship.
+        /// </summary>
+        /// <param name="directedRelationship">
+        /// The subject <see cref="IDirectedRelationship"/>
+        /// </param>
+        /// <returns>
+        /// the target Element(s) of the DirectedRelationship.
+        /// </returns>
         public static List<IElement> QueryTarget(this IDirectedRelationship directedRelationship)
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Queries the source Element(s) of the DirectedRelationship.
+        /// </summary>
+        /// <param name="directedRelationship">
+        /// The subject <see cref="IDirectedRelationship"/>
+        /// </param>
+        /// <returns>
+        /// the source Element(s) of the DirectedRelationship.
+        /// </returns>
         public static List<IElement> QuerySource(this IDirectedRelationship directedRelationship)
         {
             throw new NotImplementedException();

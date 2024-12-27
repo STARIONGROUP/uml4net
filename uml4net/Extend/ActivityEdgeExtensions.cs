@@ -28,6 +28,15 @@ namespace uml4net.Activities
     /// </summary>
     public static class ActivityEdgeExtensions
     {
+        /// <summary>
+        /// Queries the ActivityGroups containing the ActivityEdge.
+        /// </summary>
+        /// <param name="activityEdge">
+        /// The subject <see cref="IActivityEdge"/>
+        /// </param>
+        /// <returns>
+        /// a <see cref="List{IActivityGroup}"/>
+        /// </returns>
         public static List<IActivityGroup> QueryInGroup(this IActivityEdge activityEdge)
         {
             throw new NotImplementedException();

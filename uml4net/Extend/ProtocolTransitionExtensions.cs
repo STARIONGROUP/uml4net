@@ -30,6 +30,17 @@ namespace uml4net.StateMachines
     /// </summary>
     public static class ProtocolTransitionExtensions
     {
+        /// <summary>
+        /// Queries the association refers to the associated Operation. It is derived from the Operation of the
+        /// CallEvent Trigger when applicable.
+        /// </summary>
+        /// <param name="protocolTransition">
+        /// The subject <see cref="IProtocolTransition"/>
+        /// </param>
+        /// <returns>
+        /// The association refers to the associated Operation. It is derived from the Operation of the
+        /// CallEvent Trigger when applicable.
+        /// </returns>
         public static List<IOperation> QueryReferred(this IProtocolTransition protocolTransition)
         {
             throw new NotImplementedException();

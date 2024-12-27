@@ -39,7 +39,15 @@ namespace uml4net.CommonStructure
         /// </returns>
         public static IElement QueryOwner(this IElement element) => element.Possessor;
 
-
+        /// <summary>
+        /// Queries the Elements owned by this Element.
+        /// </summary>
+        /// <param name="element">
+        /// The subject <see cref="IElement"/>
+        /// </param>
+        /// <returns>
+        /// The Elements owned by this Element.
+        /// </returns>
         public static IContainerList<IElement> QueryOwnedElement(this IElement element)
         {
             throw new NotImplementedException();

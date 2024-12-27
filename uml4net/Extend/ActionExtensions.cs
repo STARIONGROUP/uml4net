@@ -30,16 +30,44 @@ namespace uml4net.Actions
     /// </summary>
     public static class ActionExtensions
     {
+        /// <summary>
+        /// Queries the context Classifier of the Behavior that contains this Action, or the Behavior itself if it has
+        /// no context.
+        /// </summary>
+        /// <param name="action">
+        /// The subject <see cref="IAction"/>
+        /// </param>
+        /// <returns>
+        /// a <see cref="IClassifier"/>
+        /// </returns>
         public static IClassifier QueryContext(this IAction action)
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Queries the ordered set of InputPins representing the inputs to the Action.
+        /// </summary>
+        /// <param name="action">
+        /// The subject <see cref="IAction"/>
+        /// </param>
+        /// <returns>
+        /// 
+        /// </returns>
         public static IContainerList<IInputPin> QueryInput(this IAction action)
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Queries the ordered set of OutputPins representing outputs from the Action.
+        /// </summary>
+        /// <param name="action">
+        /// The subject <see cref="IAction"/>
+        /// </param>
+        /// <returns>
+        /// 
+        /// </returns>
         public static IContainerList<IOutputPin> QueryOutput(this IAction action)
         {
             throw new NotImplementedException();

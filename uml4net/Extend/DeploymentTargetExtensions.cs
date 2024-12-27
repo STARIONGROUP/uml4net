@@ -30,6 +30,17 @@ namespace uml4net.Deployments
     /// </summary>
     public static class DeploymentTargetExtensions
     {
+        /// <summary>
+        /// Queries The set of elements that are manifested in an Artifact that is involved in Deployment to a
+        /// DeploymentTarget.
+        /// </summary>
+        /// <param name="deploymentTarget">
+        /// The subject <see cref="IDeploymentTarget"/>
+        /// </param>
+        /// <returns>
+        /// The set of elements that are manifested in an Artifact that is involved in Deployment to a
+        /// DeploymentTarget.
+        /// </returns>
         public static List<IPackageableElement> QueryDeployedElement(this IDeploymentTarget deploymentTarget)
         {
             throw new NotImplementedException();

@@ -27,6 +27,15 @@ namespace uml4net.Interactions
     /// </summary>
     public static class MessageExtensions
     {
+        /// <summary>
+        /// Queries The derived kind of the Message (complete, lost, found, or unknown).
+        /// </summary>
+        /// <param name="message">
+        /// The subject <see cref="IMessage"/>
+        /// </param>
+        /// <returns>
+        /// The derived kind of the Message (complete, lost, found, or unknown).
+        /// </returns>
         public static MessageKind QueryMessageKind(this IMessage message)
         {
             throw new NotImplementedException();

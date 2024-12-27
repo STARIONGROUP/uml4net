@@ -28,6 +28,17 @@ namespace uml4net.CommonStructure
     /// </summary>
     public static class NamespaceExtensions
     {
+        /// <summary>
+        /// Queries the PackageableElements that are members of this Namespace as a result of either
+        /// PackageImports or ElementImports.
+        /// </summary>
+        /// <param name="@namespace">
+        /// The subject <see cref="INamespace"/>
+        /// </param>
+        /// <returns>
+        /// the PackageableElements that are members of this Namespace as a result of either
+        /// PackageImports or ElementImports.
+        /// </returns>
         public static List<IPackageableElement> QueryImportedMember(this INamespace @namespace)
         {
             throw new NotImplementedException();

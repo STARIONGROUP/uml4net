@@ -20,12 +20,15 @@
 
 namespace uml4net.xmi.Cache
 {
-    using Microsoft.Extensions.Logging;
-    using Settings;
     using System;
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
+
+    using Microsoft.Extensions.Logging;
+    
+    using uml4net.xmi.Settings;
+    
 
     /// <summary>
     /// Resolves external references for XMI elements using provided settings and cache.

@@ -22,6 +22,7 @@ namespace uml4net.Extensions
 {
     using System;
     using System.Globalization;
+
     using uml4net.Classification;
     using uml4net.Values;
     using uml4net.Utils;

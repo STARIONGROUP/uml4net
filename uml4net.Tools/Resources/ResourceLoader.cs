@@ -24,8 +24,7 @@ namespace uml4net.Tools.Resources
     using System.IO;
     using System.Reflection;
     using System.Resources;
-    using uml4net.xmi.Readers;
-
+    
     /// <summary>
     /// Class responsible for loading embedded resources.
     /// </summary>

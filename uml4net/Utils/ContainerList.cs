@@ -25,7 +25,6 @@ namespace uml4net.Utils
     using System;
 
     using uml4net.CommonStructure;
-    using uml4net.Packages;
 
     /// <summary>
     /// List Type used for the 10-25 model for classes which are part of a composition relationship

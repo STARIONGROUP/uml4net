@@ -30,16 +30,43 @@ namespace uml4net.StateMachines
     /// </summary>
     public static class VertexExtensions
     {
+        /// <summary>
+        /// Specifies the Transitions entering this Vertex.
+        /// </summary>
+        /// <param name="vertex">
+        /// The subject <see cref="IVertex"/>
+        /// </param>
+        /// <returns>
+        /// The Transitions entering this Vertex.
+        /// </returns>
         public static List<ITransition> QueryIncoming(this IVertex vertex)
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="vertex">
+        /// The subject <see cref="IVertex"/>
+        /// </param>
+        /// <returns>
+        ///
+        /// </returns>
         public static List<ITransition> QueryOutgoing(this IVertex vertex)
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Specifies the Transitions departing from this Vertex.
+        /// </summary>
+        /// <param name="vertex">
+        /// The subject <see cref="IVertex"/>
+        /// </param>
+        /// <returns>
+        /// The the Transitions departing from this Vertex.
+        /// </returns>
         public static IClassifier QueryRedefinitionContext(this IVertex vertex)
         {
             throw new NotImplementedException();

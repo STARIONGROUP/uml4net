@@ -30,6 +30,15 @@ namespace uml4net.StructuredClassifiers
     /// </summary>
     public static class AssociationExtensions
     {
+        /// <summary>
+        /// Queries the Classifiers that are used as types of the ends of the Association
+        /// </summary>
+        /// <param name="association">
+        /// The subject <see cref="IAssociation"/>
+        /// </param>
+        /// <returns>
+        /// The Classifiers that are used as types of the ends of the Association.
+        /// </returns>
         public static List<IType> QueryEndType(this IAssociation association)
         {
             throw new NotImplementedException();

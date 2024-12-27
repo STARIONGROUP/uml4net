@@ -23,14 +23,15 @@ namespace uml4net.xmi.Readers
     using System;
     using System.Collections.Generic;
     using System.Xml;
-    using DocumentFormat.OpenXml.Office2010.ExcelAc;
+    
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Logging.Abstractions;
+
     using uml4net;
     using uml4net.xmi.Cache;
 
     /// <summary>
-    /// The abstract super class from which eadh XMI reader needs to derive
+    /// The abstract super class from which each XMI reader needs to derive
     /// </summary> 
     /// <typeparam name="TXmiElement">The type of the XMI element to be read.</typeparam>
     public abstract class XmiElementReader<TXmiElement> where TXmiElement : IXmiElement

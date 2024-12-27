@@ -27,21 +27,65 @@ namespace uml4net.StateMachines
     /// </summary>
     public static class StateExtensions
     {
+        /// <summary>
+        /// Queries a state with isComposite=true is said to be a composite State. A composite State is a State that
+        /// contains at least one Region.
+        /// </summary>
+        /// <param name="state">
+        /// The subject <see cref="IState"/>
+        /// </param>
+        /// <returns>
+        /// A state with isComposite=true is said to be a composite State. A composite State is a State that
+        /// contains at least one Region.
+        /// </returns>
         public static bool QueryIsComposite(this IState state)
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Queries a State with isSimple=true is said to be a simple State A simple State does not have any Regions and
+        /// it does not refer to any submachine StateMachine.
+        /// </summary>
+        /// <param name="state">
+        /// The subject <see cref="IState"/>
+        /// </param>
+        /// <returns>
+        /// A State with isSimple=true is said to be a simple State A simple State does not have any Regions and
+        /// it does not refer to any submachine StateMachine.
+        /// </returns>
         public static bool QueryIsSimple(this IState state)
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Queries A State with isSubmachineState=true is said to be a submachine State Such a State refers to another
+        /// StateMachine(submachine).
+        /// </summary>
+        /// <param name="state">
+        /// The subject <see cref="IState"/>
+        /// </param>
+        /// <returns>
+        /// A State with isSubmachineState=true is said to be a submachine State Such a State refers to another
+        /// StateMachine(submachine).
+        /// </returns>
         public static bool QueryIsSubmachineState(this IState state)
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Queries A State with isOrthogonal=true is said to be an orthogonal composite State An orthogonal composite
+        /// State contains two or more Regions.
+        /// </summary>
+        /// <param name="state">
+        /// The subject <see cref="IState"/>
+        /// </param>
+        /// <returns>
+        /// A State with isOrthogonal=true is said to be an orthogonal composite State An orthogonal composite
+        /// State contains two or more Regions.
+        /// </returns>
         public static bool QueryIsOrthogonal(this IState state)
         {
             throw new NotImplementedException();

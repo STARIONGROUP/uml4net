@@ -46,6 +46,15 @@ namespace uml4net.Classification
             return false;
         }
 
+        /// <summary>
+        /// In the case where the Property is one end of a binary association this gives the other end.
+        /// </summary>
+        /// <param name="property">
+        /// The subject <see cref="IProperty"/>
+        /// </param>
+        /// <returns>
+        /// In the case where the Property is one end of a binary association this gives the other end.
+        /// </returns>
         public static IProperty QueryOpposite(this IProperty property)
         {
             throw new NotImplementedException();

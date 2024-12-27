@@ -27,6 +27,15 @@ namespace uml4net.Classification
     /// </summary>
     public static class FeatureExtensions
     {
+        /// <summary>
+        /// Queries The Classifiers that have this Feature as a feature.
+        /// </summary>
+        /// <param name="feature">
+        /// The subject <see cref="IFeature"/>
+        /// </param>
+        /// <returns>
+        /// The Classifiers that have this Feature as a feature.
+        /// </returns>
         public static IClassifier QueryFeaturingClassifier(this IFeature feature)
         {
             throw new NotImplementedException();

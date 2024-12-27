@@ -21,19 +21,13 @@
 namespace uml4net.Tests
 {
     using NUnit.Framework;
+    
     using uml4net.Packages;
     using uml4net.StructuredClassifiers;
 
     [TestFixture]
     public class NamedElementExtensionsTestFixture
     {
-
-        [SetUp]
-        public void SetUp()
-        {
-
-        }
-
         [Test]
         public void Verify_that_the_fully_qualified_name_of_a_class_returns_the_expected_result()
         {

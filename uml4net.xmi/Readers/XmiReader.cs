@@ -81,10 +81,14 @@ namespace uml4net.xmi.Readers
         /// <summary>
         /// Initializes a new instance of the <see cref="XmiReader"/> class.
         /// </summary>
-        /// <param name="assembler">The <see cref="IAssembler"/></param>
-        /// <param name="cache">The <see cref="IXmiReaderCache"/></param>
-        /// <param name="logger">
-        /// The (injected) <see cref="ILogger{T}"/> used to setup logging
+        /// <param name="assembler">
+        /// The (injected) <see cref="IAssembler"/> used to assemble a UML object graph
+        /// </param>
+        /// <param name="cache">
+        /// The (injected) <see cref="IXmiReaderCache"/> used to cache all the <see cref="IXmiElement"/>s
+        /// </param>
+        /// <param name="loggerFactory">
+        /// The (injected) <see cref="ILoggerFactory"/> used to set up logging
         /// </param>
         /// <param name="externalReferenceResolver">The <see cref="IExternalReferenceResolver"/></param>
         /// <param name="scope">The <see cref="IXmiReaderScope"/></param>

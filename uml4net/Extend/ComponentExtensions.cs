@@ -30,11 +30,39 @@ namespace uml4net.StructuredClassifiers
     /// </summary>
     public static class ComponentExtensions
     {
+        /// <summary>
+        /// Queries The Interfaces that the Component exposes to its environment. These Interfaces may be Realized by
+        /// the Component or any of its realizingClassifiers, or they may be the Interfaces that are provided by
+        /// its public Ports.
+        /// </summary>
+        /// <param name="component">
+        /// The subject <see cref="IComponent"/>
+        /// </param>
+        /// <returns>
+        /// The Interfaces that the Component exposes to its environment. These Interfaces may be Realized by
+        /// the Component or any of its realizingClassifiers, or they may be the Interfaces that are provided by
+        /// its public Ports.
+        /// </returns>
         public static List<IInterface> QueryProvided(this IComponent component)
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Queries The Interfaces that the Component requires from other Components in its environment in order to be
+        /// able to offer its full set of provided functionality. These Interfaces may be used by the Component
+        /// or any of its realizingClassifiers, or they may be the Interfaces that are required by its public
+        /// Ports.
+        /// </summary>
+        /// <param name="component">
+        /// The subject <see cref="IComponent"/>
+        /// </param>
+        /// <returns>
+        /// The Interfaces that the Component requires from other Components in its environment in order to be
+        /// able to offer its full set of provided functionality. These Interfaces may be used by the Component
+        /// or any of its realizingClassifiers, or they may be the Interfaces that are required by its public
+        /// Ports.
+        /// </returns>
         public static List<IInterface> QueryRequired(this IComponent component)
         {
             throw new NotImplementedException();

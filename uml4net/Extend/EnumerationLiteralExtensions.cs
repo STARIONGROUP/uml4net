@@ -27,6 +27,15 @@ namespace uml4net.SimpleClassifiers
     /// </summary>
     public static class EnumerationLiteralExtensions
     {
+        /// <summary>
+        /// Queries 
+        /// </summary>
+        /// <param name="enumerationLiteral">
+        /// The subject <see cref="IEnumerationLiteral"/>
+        /// </param>
+        /// <returns>
+        ///
+        /// </returns>
         public static IEnumeration QueryClassifier(this IEnumerationLiteral enumerationLiteral)
         {
             throw new NotImplementedException();
