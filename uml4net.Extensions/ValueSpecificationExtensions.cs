@@ -53,12 +53,12 @@ namespace uml4net.Extensions
                     return literalString.Value;
                 case ILiteralUnlimitedNatural literalUnlimitedNatural:
 
-                    if (literalUnlimitedNatural.Value == int.MaxValue)
+                    if (literalUnlimitedNatural.Value == "*")
                     {
                         return "int.MaxValue";
                     }
                     
-                    return literalUnlimitedNatural.Value.ToString();
+                    return literalUnlimitedNatural.Value;
                 case IInstanceValue instanceValue:
                     return instanceValue.Instance.Name;
                 default:

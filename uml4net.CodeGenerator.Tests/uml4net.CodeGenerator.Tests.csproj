@@ -58,6 +58,7 @@
       <Compile Remove="Expected\AutoGenXmiReaders\GeneralizationReader.cs" />
       <Compile Remove="Expected\AutoGenXmiReaders\LiteralIntegerReader.cs" />
       <Compile Remove="Expected\AutoGenXmiReaders\LiteralRealReader.cs" />
+      <Compile Remove="Expected\AutoGenXmiReaders\LiteralUnlimitedNaturalReader.cs" />
       <Compile Remove="Expected\AutoGenXmiReaders\OpaqueExpressionReader.cs" />
       <Compile Remove="Expected\AutoGenXmiReaders\PropertyReader.cs" />
       <Compile Remove="Expected\AutoGenXmiReaders\StateMachineReader.cs" />
@@ -237,6 +238,9 @@
         </Content>
         <Content Include="..\resources\UML\UML.xmi.xml" Link="TestData\UML.xmi">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <Content Include="Expected\AutoGenXmiReaders\LiteralUnlimitedNaturalReader.cs">
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </Content>
         <None Include="..\resources\SySML2\SysML.uml" Link="TestData\SysML.uml">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>

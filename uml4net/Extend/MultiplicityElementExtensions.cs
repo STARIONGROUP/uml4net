@@ -77,7 +77,13 @@ namespace uml4net.CommonStructure
                     return 1;
 
                 case ILiteralUnlimitedNatural literalUnlimitedNatural:
-                    return literalUnlimitedNatural.Value;
+
+                    if (literalUnlimitedNatural.Value == "*")
+                    {
+                        return int.MaxValue;
+                    }
+
+                    return int.Parse(literalUnlimitedNatural.Value);
 
                 default:
                     throw new NotSupportedException("UpperValue is not of type ILiteralUnlimitedNatural.");

@@ -163,9 +163,9 @@ namespace uml4net.Values
         /// <summary>
         /// The specified UnlimitedNatural value.
         /// </summary>
-        [Property(xmiId: "LiteralUnlimitedNatural-value", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: "0")]
+        [Property(xmiId: "LiteralUnlimitedNatural-value", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: "")]
         [Implements(implementation: "ILiteralUnlimitedNatural.Value")]
-        public int Value { get; set; }
+        public string Value { get; set; }
 
         /// <summary>
         /// Determines whether and how the NamedElement is visible outside its owning Namespace.

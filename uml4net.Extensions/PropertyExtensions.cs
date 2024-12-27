@@ -138,7 +138,7 @@ namespace uml4net.Extensions
             {"Integer", "int"},
             {"Real", "double"},
             {"String", "string"},
-            {"UnlimitedNatural", "int"},
+            {"UnlimitedNatural", "string"},
         };
 
         /// <summary>
@@ -180,7 +180,15 @@ namespace uml4net.Extensions
             switch (property.UpperValue.SingleOrDefault())
             {
                 case ILiteralUnlimitedNatural literalUnlimitedNatural:
-                    value = literalUnlimitedNatural.Value;
+
+                    if (literalUnlimitedNatural.Value == "*")
+                    {
+                        value = int.MaxValue;
+                    }
+                    else
+                    {
+                        value = int.Parse(literalUnlimitedNatural.Value);
+                    }
                     break;
                 case ILiteralInteger literalInteger:
                     value = literalInteger.Value;
