@@ -38,6 +38,11 @@ namespace uml4net.Classification
         /// </returns>
         public static bool QueryIsComposite(this IProperty property)
         {
+            if (property == null)
+            {
+                throw new ArgumentNullException(nameof(property));
+            }
+
             if (property.Aggregation == AggregationKind.Composite)
             {
                 return true;
@@ -57,6 +62,11 @@ namespace uml4net.Classification
         /// </returns>
         public static IProperty QueryOpposite(this IProperty property)
         {
+            if (property == null)
+            {
+                throw new ArgumentNullException(nameof(property));
+            }
+
             throw new NotImplementedException();
         }
     }

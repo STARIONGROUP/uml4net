@@ -58,13 +58,13 @@ namespace uml4net.Packages
         }
 
         /// <summary>
-        /// 
+        /// Queries the Stereotypes that are owned by the Package.
         /// </summary>
         /// <param name="package">
         /// The subject <see cref="IPackage"/>
         /// </param>
         /// <returns>
-        ///
+        /// The Stereotypes that are owned by the Package.
         /// </returns>
         public static IContainerList<IStereotype> QueryOwnedStereotype(this IPackage package)
         {
@@ -77,13 +77,13 @@ namespace uml4net.Packages
         }
 
         /// <summary>
-        /// 
+        /// Queries the packaged elements that are Types.
         /// </summary>
         /// <param name="package">
         /// The subject <see cref="IPackage"/>
         /// </param>
         /// <returns>
-        ///
+        /// The packaged elements that are Types.
         /// </returns>
         public static IContainerList<IType> QueryOwnedType(this IPackage package)
         {

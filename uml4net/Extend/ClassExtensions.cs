@@ -23,9 +23,8 @@ namespace uml4net.StructuredClassifiers
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    
     using uml4net.Packages;
-    
+
     /// <summary>
     /// The <see cref="ClassExtensions"/> class provides extensions methods for <see cref="IClass"/>
     /// </summary>
@@ -59,7 +58,14 @@ namespace uml4net.StructuredClassifiers
         /// A list of <see cref="IClass"/> objects representing the immediate superclasses of the specified class. 
         /// If no superclasses are defined, returns an empty list.
         /// </returns>
-        public static List<IClass> QuerySuperClass(this IClass @class) => 
-            @class.Generalization.Select(x => x.General).OfType<IClass>().ToList();
+        public static List<IClass> QuerySuperClass(this IClass @class)
+        {
+            if (@class == null)
+            {
+                throw new ArgumentNullException(nameof(@class));
+            }
+
+            return @class.Generalization.Select(x => x.General).OfType<IClass>().ToList();
+        }
     }
 }

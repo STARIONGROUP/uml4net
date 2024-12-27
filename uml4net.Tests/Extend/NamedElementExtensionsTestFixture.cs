@@ -18,10 +18,11 @@
 //  </copyright>
 //  ------------------------------------------------------------------------------------------------
 
-namespace uml4net.Tests
+namespace uml4net.Tests.Extend
 {
+    using CommonStructure;
     using NUnit.Framework;
-    
+
     using uml4net.Packages;
     using uml4net.StructuredClassifiers;
 
@@ -31,7 +32,7 @@ namespace uml4net.Tests
         [Test]
         public void Verify_that_the_fully_qualified_name_of_a_class_returns_the_expected_result()
         {
-            var rootPackage = new Package { Name = "root"};
+            var rootPackage = new Package { Name = "root" };
             var package = new Package { Name = "sub" };
             var @class = new Class { Name = "class_A" };
 
@@ -56,6 +57,18 @@ namespace uml4net.Tests
             Assert.That(@class.Namespace, Is.EqualTo(package));
             Assert.That(package.Namespace, Is.EqualTo(rootPackage));
             Assert.That(rootPackage.Namespace, Is.Null);
+        }
+
+        [Test]
+        public void Verify_that_when_NamedElement_is_null_argument_exception_is_thrown()
+        {
+            Class @class = null;
+
+            Assert.That(() => NamedElementExtensions.QueryQualifiedName(@class),
+                Throws.ArgumentNullException);
+
+            Assert.That(() => NamedElementExtensions.QueryNamespace(@class),
+                Throws.ArgumentNullException);
         }
     }
 }
