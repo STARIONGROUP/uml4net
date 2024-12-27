@@ -30,8 +30,6 @@ namespace uml4net.xmi.Readers
     using Microsoft.Extensions.Logging;
 
     using uml4net.xmi.Cache;
-    using uml4net.xmi.Readers.Classification;
-    using uml4net.xmi.Readers.Values;
 
     /// <summary>
     /// The purpose of the <see cref="XmiElementReaderFacade"/> is to read an <see cref="IXmiElement"/> from an
@@ -77,15 +75,19 @@ namespace uml4net.xmi.Readers
         /// <param name="loggerFactory">
         /// The <see cref="ILoggerFactory"/> to set up logging
         /// </param>
+        /// <param name="explicitTypeName">
+        /// the name of the type using the convention of the XMI file. This must be specified in case the XMI document does not include the
+        /// xmi:type attribute since the type can be inferred from the property itself.
+        /// </param>
         /// <returns>
         /// an instance of <see cref="IXmiElement"/>
         /// </returns>
         /// <exception cref="InvalidOperationException">
         /// thrown when the xmi:type is not supported and noXmiElementReader was found
         /// </exception>
-        public IXmiElement QueryXmiElement(XmlReader xmlReader, IXmiReaderCache cache, ILoggerFactory loggerFactory)
+        public IXmiElement QueryXmiElement(XmlReader xmlReader, IXmiReaderCache cache, ILoggerFactory loggerFactory, string explicitTypeName = null)
         {
-            var xmiType= xmlReader.GetAttribute("xmi:type");
+            var xmiType = xmlReader.GetAttribute("xmi:type");
 
             if (xmiType == null && explicitTypeName != null)
             {

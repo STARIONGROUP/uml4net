@@ -22,10 +22,9 @@
 // --------THIS IS AN AUTOMATICALLY GENERATED FILE. ANY MANUAL CHANGES WILL BE OVERWRITTEN!--------
 // ------------------------------------------------------------------------------------------------
 
-namespace uml4net.xmi.Readers.Activities
+namespace uml4net.xmi.Readers
 {
     using System;
-    using System.Collections.Generic;
     using System.Linq;
     using System.Xml;
 
@@ -38,14 +37,16 @@ namespace uml4net.xmi.Readers.Activities
     using uml4net.CommonBehavior;
     using uml4net.CommonStructure;
     using uml4net.Deployments;
+    using uml4net.InformationFlows;
+    using uml4net.Interactions;
     using uml4net.Packages;
     using uml4net.SimpleClassifiers;
+    using uml4net.StateMachines;
     using uml4net.StructuredClassifiers;
     using uml4net.UseCases;
     using uml4net.Utils;
     using uml4net.Values;
     using uml4net.xmi.Cache;
-    using uml4net.xmi.Readers;
 
     /// <summary>
     /// The purpose of the <see cref="ActivityPartitionReader"/> is to read an instance of <see cref="IActivityPartition"/>
@@ -85,6 +86,8 @@ namespace uml4net.xmi.Readers.Activities
             {
                 throw new ArgumentNullException(nameof(xmlReader));
             }
+
+            var defaultLineInfo = xmlReader as IXmlLineInfo;
 
             IActivityPartition poco = new ActivityPartition();
 
@@ -160,9 +163,6 @@ namespace uml4net.xmi.Readers.Activities
                 }
 
 
-                var edge = new List<string>();
-                var node = new List<string>();
-
                 while (xmlReader.Read())
                 {
                     if (xmlReader.NodeType == XmlNodeType.Element)
@@ -170,73 +170,61 @@ namespace uml4net.xmi.Readers.Activities
                         switch (xmlReader.LocalName)
                         {
                             case "edge":
-                                this.CollectMultiValueReferencePropertyIdentifiers(xmlReader, edge, "edge");
+                                this.TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, "edge");
                                 break;
                             case "inActivity":
                                 this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "inActivity");
                                 break;
                             case "isDimension":
-                                var isDimensionXmlElement = xmlReader.ReadElementContentAsString();
-                                if (!string.IsNullOrEmpty(isDimensionXmlElement))
+                                var isDimensionValue = xmlReader.ReadElementContentAsString();
+                                if (!string.IsNullOrEmpty(isDimensionValue))
                                 {
-                                    poco.IsDimension = bool.Parse(isDimensionXmlElement);
+                                    poco.IsDimension = bool.Parse(isDimensionValue);
                                 }
                                 break;
                             case "isExternal":
-                                var isExternalXmlElement = xmlReader.ReadElementContentAsString();
-                                if (!string.IsNullOrEmpty(isExternalXmlElement))
+                                var isExternalValue = xmlReader.ReadElementContentAsString();
+                                if (!string.IsNullOrEmpty(isExternalValue))
                                 {
-                                    poco.IsExternal = bool.Parse(isExternalXmlElement);
+                                    poco.IsExternal = bool.Parse(isExternalValue);
                                 }
                                 break;
                             case "name":
                                 poco.Name = xmlReader.ReadElementContentAsString();
                                 break;
                             case "nameExpression":
-                                var nameExpression = (IStringExpression)this.xmiElementReaderFacade.QueryXmiElement(xmlReader, this.Cache, this.LoggerFactory, "uml:StringExpression");
-                                poco.NameExpression.Add(nameExpression);
+                                var nameExpressionValue = (IStringExpression)this.xmiElementReaderFacade.QueryXmiElement(xmlReader, this.Cache, this.LoggerFactory, "uml:StringExpression");
+                                poco.NameExpression.Add(nameExpressionValue);
                                 break;
                             case "node":
-                                this.CollectMultiValueReferencePropertyIdentifiers(xmlReader, node, "node");
+                                this.TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, "node");
                                 break;
                             case "ownedComment":
-                                var ownedComment = (IComment)this.xmiElementReaderFacade.QueryXmiElement(xmlReader, this.Cache, this.LoggerFactory, "uml:Comment");
-                                poco.OwnedComment.Add(ownedComment);
+                                var ownedCommentValue = (IComment)this.xmiElementReaderFacade.QueryXmiElement(xmlReader, this.Cache, this.LoggerFactory, "uml:Comment");
+                                poco.OwnedComment.Add(ownedCommentValue);
                                 break;
                             case "represents":
                                 this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "represents");
                                 break;
                             case "subpartition":
-                                var subpartition = (IActivityPartition)this.xmiElementReaderFacade.QueryXmiElement(xmlReader, this.Cache, this.LoggerFactory, "uml:ActivityPartition");
-                                poco.Subpartition.Add(subpartition);
+                                var subpartitionValue = (IActivityPartition)this.xmiElementReaderFacade.QueryXmiElement(xmlReader, this.Cache, this.LoggerFactory, "uml:ActivityPartition");
+                                poco.Subpartition.Add(subpartitionValue);
                                 break;
                             case "superPartition":
                                 this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "superPartition");
                                 break;
                             case "visibility":
-                                var visibilityXmlElement = xmlReader.ReadElementContentAsString();
-                                if (!string.IsNullOrEmpty(visibilityXmlElement))
+                                var visibilityValue = xmlReader.ReadElementContentAsString();
+                                if (!string.IsNullOrEmpty(visibilityValue))
                                 {
-                                    poco.Visibility = (VisibilityKind)Enum.Parse(typeof(VisibilityKind), visibilityXmlElement, true); ;
+                                    poco.Visibility = (VisibilityKind)Enum.Parse(typeof(VisibilityKind), visibilityValue, true); ;
                                 }
                                 break;
                             default:
-                                var defaultLineInfo = xmlReader as IXmlLineInfo;
                                 throw new NotSupportedException($"ActivityPartitionReader: {xmlReader.LocalName} at line:position {defaultLineInfo.LineNumber}:{defaultLineInfo.LinePosition}");
                         }
                     }
                 }
-
-                if (edge.Count > 0)
-                {
-                    poco.MultiValueReferencePropertyIdentifiers.Add("edge", edge);
-                }
-
-                if (node.Count > 0)
-                {
-                    poco.MultiValueReferencePropertyIdentifiers.Add("node", node);
-                }
-
             }
 
             return poco;

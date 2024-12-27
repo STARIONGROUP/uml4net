@@ -22,10 +22,9 @@
 // --------THIS IS AN AUTOMATICALLY GENERATED FILE. ANY MANUAL CHANGES WILL BE OVERWRITTEN!--------
 // ------------------------------------------------------------------------------------------------
 
-namespace uml4net.xmi.Readers.Classification
+namespace uml4net.xmi.Readers
 {
     using System;
-    using System.Collections.Generic;
     using System.Linq;
     using System.Xml;
 
@@ -38,6 +37,7 @@ namespace uml4net.xmi.Readers.Classification
     using uml4net.CommonBehavior;
     using uml4net.CommonStructure;
     using uml4net.Deployments;
+    using uml4net.InformationFlows;
     using uml4net.Interactions;
     using uml4net.Packages;
     using uml4net.SimpleClassifiers;
@@ -47,7 +47,6 @@ namespace uml4net.xmi.Readers.Classification
     using uml4net.Utils;
     using uml4net.Values;
     using uml4net.xmi.Cache;
-    using uml4net.xmi.Readers;
 
     /// <summary>
     /// The purpose of the <see cref="RedefinableTemplateSignatureReader"/> is to read an instance of <see cref="IRedefinableTemplateSignature"/>
@@ -87,6 +86,8 @@ namespace uml4net.xmi.Readers.Classification
             {
                 throw new ArgumentNullException(nameof(xmlReader));
             }
+
+            var defaultLineInfo = xmlReader as IXmlLineInfo;
 
             IRedefinableTemplateSignature poco = new RedefinableTemplateSignature();
 
@@ -144,9 +145,6 @@ namespace uml4net.xmi.Readers.Classification
                 }
 
 
-                var extendedSignatureValues = new List<string>();
-                var parameterValues = new List<string>();
-
                 while (xmlReader.Read())
                 {
                     if (xmlReader.NodeType == XmlNodeType.Element)
@@ -157,7 +155,7 @@ namespace uml4net.xmi.Readers.Classification
                                 this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "classifier");
                                 break;
                             case "extendedSignature":
-                                this.CollectMultiValueReferencePropertyIdentifiers(xmlReader, extendedSignatureValues, "extendedSignature");
+                                this.TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, "extendedSignature");
                                 break;
                             case "isLeaf":
                                 var isLeafValue = xmlReader.ReadElementContentAsString();
@@ -182,7 +180,7 @@ namespace uml4net.xmi.Readers.Classification
                                 poco.OwnedParameter.Add(ownedParameterValue);
                                 break;
                             case "parameter":
-                                this.CollectMultiValueReferencePropertyIdentifiers(xmlReader, parameterValues, "parameter");
+                                this.TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, "parameter");
                                 break;
                             case "visibility":
                                 var visibilityValue = xmlReader.ReadElementContentAsString();
@@ -192,22 +190,10 @@ namespace uml4net.xmi.Readers.Classification
                                 }
                                 break;
                             default:
-                                var defaultLineInfo = xmlReader as IXmlLineInfo;
                                 throw new NotSupportedException($"RedefinableTemplateSignatureReader: {xmlReader.LocalName} at line:position {defaultLineInfo.LineNumber}:{defaultLineInfo.LinePosition}");
                         }
                     }
                 }
-
-                if (extendedSignatureValues.Count > 0)
-                {
-                    poco.MultiValueReferencePropertyIdentifiers.Add("extendedSignature", extendedSignatureValues);
-                }
-
-                if (parameterValues.Count > 0)
-                {
-                    poco.MultiValueReferencePropertyIdentifiers.Add("parameter", parameterValues);
-                }
-
             }
 
             return poco;

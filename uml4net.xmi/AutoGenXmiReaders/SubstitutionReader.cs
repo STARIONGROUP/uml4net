@@ -22,10 +22,9 @@
 // --------THIS IS AN AUTOMATICALLY GENERATED FILE. ANY MANUAL CHANGES WILL BE OVERWRITTEN!--------
 // ------------------------------------------------------------------------------------------------
 
-namespace uml4net.xmi.Readers.Classification
+namespace uml4net.xmi.Readers
 {
     using System;
-    using System.Collections.Generic;
     using System.Linq;
     using System.Xml;
 
@@ -38,6 +37,7 @@ namespace uml4net.xmi.Readers.Classification
     using uml4net.CommonBehavior;
     using uml4net.CommonStructure;
     using uml4net.Deployments;
+    using uml4net.InformationFlows;
     using uml4net.Interactions;
     using uml4net.Packages;
     using uml4net.SimpleClassifiers;
@@ -47,7 +47,6 @@ namespace uml4net.xmi.Readers.Classification
     using uml4net.Utils;
     using uml4net.Values;
     using uml4net.xmi.Cache;
-    using uml4net.xmi.Readers;
 
     /// <summary>
     /// The purpose of the <see cref="SubstitutionReader"/> is to read an instance of <see cref="ISubstitution"/>
@@ -87,6 +86,8 @@ namespace uml4net.xmi.Readers.Classification
             {
                 throw new ArgumentNullException(nameof(xmlReader));
             }
+
+            var defaultLineInfo = xmlReader as IXmlLineInfo;
 
             ISubstitution poco = new Substitution();
 
@@ -156,9 +157,6 @@ namespace uml4net.xmi.Readers.Classification
                 }
 
 
-                var clientValues = new List<string>();
-                var supplierValues = new List<string>();
-
                 while (xmlReader.Read())
                 {
                     if (xmlReader.NodeType == XmlNodeType.Element)
@@ -166,7 +164,7 @@ namespace uml4net.xmi.Readers.Classification
                         switch (xmlReader.LocalName)
                         {
                             case "client":
-                                this.CollectMultiValueReferencePropertyIdentifiers(xmlReader, clientValues, "client");
+                                this.TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, "client");
                                 break;
                             case "contract":
                                 this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "contract");
@@ -193,7 +191,7 @@ namespace uml4net.xmi.Readers.Classification
                                 this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "substitutingClassifier");
                                 break;
                             case "supplier":
-                                this.CollectMultiValueReferencePropertyIdentifiers(xmlReader, supplierValues, "supplier");
+                                this.TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, "supplier");
                                 break;
                             case "templateParameter":
                                 this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "templateParameter");
@@ -206,22 +204,10 @@ namespace uml4net.xmi.Readers.Classification
                                 }
                                 break;
                             default:
-                                var defaultLineInfo = xmlReader as IXmlLineInfo;
                                 throw new NotSupportedException($"SubstitutionReader: {xmlReader.LocalName} at line:position {defaultLineInfo.LineNumber}:{defaultLineInfo.LinePosition}");
                         }
                     }
                 }
-
-                if (clientValues.Count > 0)
-                {
-                    poco.MultiValueReferencePropertyIdentifiers.Add("client", clientValues);
-                }
-
-                if (supplierValues.Count > 0)
-                {
-                    poco.MultiValueReferencePropertyIdentifiers.Add("supplier", supplierValues);
-                }
-
             }
 
             return poco;

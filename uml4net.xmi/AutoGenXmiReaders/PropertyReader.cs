@@ -22,10 +22,9 @@
 // --------THIS IS AN AUTOMATICALLY GENERATED FILE. ANY MANUAL CHANGES WILL BE OVERWRITTEN!--------
 // ------------------------------------------------------------------------------------------------
 
-namespace uml4net.xmi.Readers.Classification
+namespace uml4net.xmi.Readers
 {
     using System;
-    using System.Collections.Generic;
     using System.Linq;
     using System.Xml;
 
@@ -38,6 +37,7 @@ namespace uml4net.xmi.Readers.Classification
     using uml4net.CommonBehavior;
     using uml4net.CommonStructure;
     using uml4net.Deployments;
+    using uml4net.InformationFlows;
     using uml4net.Interactions;
     using uml4net.Packages;
     using uml4net.SimpleClassifiers;
@@ -47,7 +47,6 @@ namespace uml4net.xmi.Readers.Classification
     using uml4net.Utils;
     using uml4net.Values;
     using uml4net.xmi.Cache;
-    using uml4net.xmi.Readers;
 
     /// <summary>
     /// The purpose of the <see cref="PropertyReader"/> is to read an instance of <see cref="IProperty"/>
@@ -87,6 +86,8 @@ namespace uml4net.xmi.Readers.Classification
             {
                 throw new ArgumentNullException(nameof(xmlReader));
             }
+
+            var defaultLineInfo = xmlReader as IXmlLineInfo;
 
             IProperty poco = new Property();
 
@@ -240,9 +241,6 @@ namespace uml4net.xmi.Readers.Classification
                 }
 
 
-                var redefinedPropertyValues = new List<string>();
-                var subsettedPropertyValues = new List<string>();
-
                 while (xmlReader.Read())
                 {
                     if (xmlReader.NodeType == XmlNodeType.Element)
@@ -361,10 +359,10 @@ namespace uml4net.xmi.Readers.Classification
                                 poco.Qualifier.Add(qualifierValue);
                                 break;
                             case "redefinedProperty":
-                                this.CollectMultiValueReferencePropertyIdentifiers(xmlReader, redefinedPropertyValues, "redefinedProperty");
+                                this.TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, "redefinedProperty");
                                 break;
                             case "subsettedProperty":
-                                this.CollectMultiValueReferencePropertyIdentifiers(xmlReader, subsettedPropertyValues, "subsettedProperty");
+                                this.TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, "subsettedProperty");
                                 break;
                             case "templateParameter":
                                 this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "templateParameter");
@@ -384,22 +382,10 @@ namespace uml4net.xmi.Readers.Classification
                                 }
                                 break;
                             default:
-                                var defaultLineInfo = xmlReader as IXmlLineInfo;
                                 throw new NotSupportedException($"PropertyReader: {xmlReader.LocalName} at line:position {defaultLineInfo.LineNumber}:{defaultLineInfo.LinePosition}");
                         }
                     }
                 }
-
-                if (redefinedPropertyValues.Count > 0)
-                {
-                    poco.MultiValueReferencePropertyIdentifiers.Add("redefinedProperty", redefinedPropertyValues);
-                }
-
-                if (subsettedPropertyValues.Count > 0)
-                {
-                    poco.MultiValueReferencePropertyIdentifiers.Add("subsettedProperty", subsettedPropertyValues);
-                }
-
             }
 
             return poco;

@@ -185,5 +185,70 @@ namespace uml4net.xmi.Readers
                 }
             }
         }
+
+        /// <summary>
+        /// Tries to add the unique identifier of the referenced (using either href or idref) of the
+        /// <see cref="IXmiElement"/> to the MultiValueReferencePropertyIdentifiers
+        /// </summary>
+        /// <param name="xmlReader">
+        /// An instance of <see cref="XmlReader"/>
+        /// </param>
+        /// <param name="xmiElement">
+        /// The <see cref="IXmiElement"/> to which the referenced identifier is added
+        /// </param>
+        /// <param name="localName">
+        /// the name of the multi-value reference property used to verify that the cursor of the 
+        /// <see cref="XmlReader"/> is at the right position
+        /// </param>
+        protected bool TryCollectMultiValueReferencePropertyIdentifiers(XmlReader xmlReader, IXmiElement xmiElement, string localName)
+        {
+            if (xmlReader == null)
+            {
+                throw new ArgumentNullException(nameof(xmlReader));
+            }
+
+            if (xmiElement == null)
+            {
+                throw new ArgumentNullException(nameof(xmiElement));
+            }
+            
+            if (localName != xmlReader.LocalName)
+            {
+                throw new InvalidOperationException($"xmlReader.LocalName:{xmlReader.LocalName} is not equal to the provided localName:{localName}");
+            }
+
+            using var subXmlReader = xmlReader.ReadSubtree();
+
+            if (subXmlReader.MoveToContent() == XmlNodeType.Element)
+            {
+                var href = subXmlReader.GetAttribute("href");
+                if (!string.IsNullOrEmpty(href))
+                {
+                    if (!xmiElement.MultiValueReferencePropertyIdentifiers.TryGetValue(localName, out var references))
+                    {
+                        references = new List<string>();
+                        xmiElement.MultiValueReferencePropertyIdentifiers.Add(localName, references);
+                    }
+
+                    references.Add(href);
+                    return true;
+                }
+
+                var idRef = subXmlReader.GetAttribute("xmi:idref");
+                if (!string.IsNullOrEmpty(idRef))
+                {
+                    if (!xmiElement.MultiValueReferencePropertyIdentifiers.TryGetValue(localName, out var references))
+                    {
+                        references = new List<string>();
+                        xmiElement.MultiValueReferencePropertyIdentifiers.Add(localName, references);
+                    }
+
+                    references.Add(idRef);
+                    return true;
+                }
+            }
+
+            return false;
+        }
     }
 }

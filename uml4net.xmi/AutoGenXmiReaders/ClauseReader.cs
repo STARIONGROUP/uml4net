@@ -22,10 +22,9 @@
 // --------THIS IS AN AUTOMATICALLY GENERATED FILE. ANY MANUAL CHANGES WILL BE OVERWRITTEN!--------
 // ------------------------------------------------------------------------------------------------
 
-namespace uml4net.xmi.Readers.Actions
+namespace uml4net.xmi.Readers
 {
     using System;
-    using System.Collections.Generic;
     using System.Linq;
     using System.Xml;
 
@@ -38,14 +37,16 @@ namespace uml4net.xmi.Readers.Actions
     using uml4net.CommonBehavior;
     using uml4net.CommonStructure;
     using uml4net.Deployments;
+    using uml4net.InformationFlows;
+    using uml4net.Interactions;
     using uml4net.Packages;
     using uml4net.SimpleClassifiers;
+    using uml4net.StateMachines;
     using uml4net.StructuredClassifiers;
     using uml4net.UseCases;
     using uml4net.Utils;
     using uml4net.Values;
     using uml4net.xmi.Cache;
-    using uml4net.xmi.Readers;
 
     /// <summary>
     /// The purpose of the <see cref="ClauseReader"/> is to read an instance of <see cref="IClause"/>
@@ -85,6 +86,8 @@ namespace uml4net.xmi.Readers.Actions
             {
                 throw new ArgumentNullException(nameof(xmlReader));
             }
+
+            var defaultLineInfo = xmlReader as IXmlLineInfo;
 
             IClause poco = new Clause();
 
@@ -149,12 +152,6 @@ namespace uml4net.xmi.Readers.Actions
                 }
 
 
-                var body = new List<string>();
-                var bodyOutput = new List<string>();
-                var predecessorClause = new List<string>();
-                var successorClause = new List<string>();
-                var test = new List<string>();
-
                 while (xmlReader.Read())
                 {
                     if (xmlReader.NodeType == XmlNodeType.Element)
@@ -162,59 +159,32 @@ namespace uml4net.xmi.Readers.Actions
                         switch (xmlReader.LocalName)
                         {
                             case "body":
-                                this.CollectMultiValueReferencePropertyIdentifiers(xmlReader, body, "body");
+                                this.TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, "body");
                                 break;
                             case "bodyOutput":
-                                this.CollectMultiValueReferencePropertyIdentifiers(xmlReader, bodyOutput, "bodyOutput");
+                                this.TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, "bodyOutput");
                                 break;
                             case "decider":
                                 this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "decider");
                                 break;
                             case "ownedComment":
-                                var ownedComment = (IComment)this.xmiElementReaderFacade.QueryXmiElement(xmlReader, this.Cache, this.LoggerFactory, "uml:Comment");
-                                poco.OwnedComment.Add(ownedComment);
+                                var ownedCommentValue = (IComment)this.xmiElementReaderFacade.QueryXmiElement(xmlReader, this.Cache, this.LoggerFactory, "uml:Comment");
+                                poco.OwnedComment.Add(ownedCommentValue);
                                 break;
                             case "predecessorClause":
-                                this.CollectMultiValueReferencePropertyIdentifiers(xmlReader, predecessorClause, "predecessorClause");
+                                this.TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, "predecessorClause");
                                 break;
                             case "successorClause":
-                                this.CollectMultiValueReferencePropertyIdentifiers(xmlReader, successorClause, "successorClause");
+                                this.TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, "successorClause");
                                 break;
                             case "test":
-                                this.CollectMultiValueReferencePropertyIdentifiers(xmlReader, test, "test");
+                                this.TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, "test");
                                 break;
                             default:
-                                var defaultLineInfo = xmlReader as IXmlLineInfo;
                                 throw new NotSupportedException($"ClauseReader: {xmlReader.LocalName} at line:position {defaultLineInfo.LineNumber}:{defaultLineInfo.LinePosition}");
                         }
                     }
                 }
-
-                if (body.Count > 0)
-                {
-                    poco.MultiValueReferencePropertyIdentifiers.Add("body", body);
-                }
-
-                if (bodyOutput.Count > 0)
-                {
-                    poco.MultiValueReferencePropertyIdentifiers.Add("bodyOutput", bodyOutput);
-                }
-
-                if (predecessorClause.Count > 0)
-                {
-                    poco.MultiValueReferencePropertyIdentifiers.Add("predecessorClause", predecessorClause);
-                }
-
-                if (successorClause.Count > 0)
-                {
-                    poco.MultiValueReferencePropertyIdentifiers.Add("successorClause", successorClause);
-                }
-
-                if (test.Count > 0)
-                {
-                    poco.MultiValueReferencePropertyIdentifiers.Add("test", test);
-                }
-
             }
 
             return poco;

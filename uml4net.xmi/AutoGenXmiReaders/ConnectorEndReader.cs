@@ -22,28 +22,31 @@
 // --------THIS IS AN AUTOMATICALLY GENERATED FILE. ANY MANUAL CHANGES WILL BE OVERWRITTEN!--------
 // ------------------------------------------------------------------------------------------------
 
-namespace uml4net.xmi.Readers.StructuredClassifiers
+namespace uml4net.xmi.Readers
 {
     using System;
-    using System.Collections.Generic;
     using System.Linq;
     using System.Xml;
 
     using Microsoft.Extensions.Logging;
 
     using uml4net;
+    using uml4net.Actions;
+    using uml4net.Activities;
     using uml4net.Classification;
     using uml4net.CommonBehavior;
     using uml4net.CommonStructure;
     using uml4net.Deployments;
+    using uml4net.InformationFlows;
+    using uml4net.Interactions;
     using uml4net.Packages;
     using uml4net.SimpleClassifiers;
+    using uml4net.StateMachines;
     using uml4net.StructuredClassifiers;
     using uml4net.UseCases;
     using uml4net.Utils;
     using uml4net.Values;
     using uml4net.xmi.Cache;
-    using uml4net.xmi.Readers;
 
     /// <summary>
     /// The purpose of the <see cref="ConnectorEndReader"/> is to read an instance of <see cref="IConnectorEnd"/>
@@ -83,6 +86,8 @@ namespace uml4net.xmi.Readers.StructuredClassifiers
             {
                 throw new ArgumentNullException(nameof(xmlReader));
             }
+
+            var defaultLineInfo = xmlReader as IXmlLineInfo;
 
             IConnectorEnd poco = new ConnectorEnd();
 
@@ -130,7 +135,6 @@ namespace uml4net.xmi.Readers.StructuredClassifiers
                 }
 
 
-
                 while (xmlReader.Read())
                 {
                     if (xmlReader.NodeType == XmlNodeType.Element)
@@ -138,26 +142,26 @@ namespace uml4net.xmi.Readers.StructuredClassifiers
                         switch (xmlReader.LocalName)
                         {
                             case "isOrdered":
-                                var isOrderedXmlElement = xmlReader.ReadElementContentAsString();
-                                if (!string.IsNullOrEmpty(isOrderedXmlElement))
+                                var isOrderedValue = xmlReader.ReadElementContentAsString();
+                                if (!string.IsNullOrEmpty(isOrderedValue))
                                 {
-                                    poco.IsOrdered = bool.Parse(isOrderedXmlElement);
+                                    poco.IsOrdered = bool.Parse(isOrderedValue);
                                 }
                                 break;
                             case "isUnique":
-                                var isUniqueXmlElement = xmlReader.ReadElementContentAsString();
-                                if (!string.IsNullOrEmpty(isUniqueXmlElement))
+                                var isUniqueValue = xmlReader.ReadElementContentAsString();
+                                if (!string.IsNullOrEmpty(isUniqueValue))
                                 {
-                                    poco.IsUnique = bool.Parse(isUniqueXmlElement);
+                                    poco.IsUnique = bool.Parse(isUniqueValue);
                                 }
                                 break;
                             case "lowerValue":
-                                var lowerValue = (IValueSpecification)this.xmiElementReaderFacade.QueryXmiElement(xmlReader, this.Cache, this.LoggerFactory);
-                                poco.LowerValue.Add(lowerValue);
+                                var lowerValueValue = (IValueSpecification)this.xmiElementReaderFacade.QueryXmiElement(xmlReader, this.Cache, this.LoggerFactory);
+                                poco.LowerValue.Add(lowerValueValue);
                                 break;
                             case "ownedComment":
-                                var ownedComment = (IComment)this.xmiElementReaderFacade.QueryXmiElement(xmlReader, this.Cache, this.LoggerFactory, "uml:Comment");
-                                poco.OwnedComment.Add(ownedComment);
+                                var ownedCommentValue = (IComment)this.xmiElementReaderFacade.QueryXmiElement(xmlReader, this.Cache, this.LoggerFactory, "uml:Comment");
+                                poco.OwnedComment.Add(ownedCommentValue);
                                 break;
                             case "partWithPort":
                                 this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "partWithPort");
@@ -166,16 +170,14 @@ namespace uml4net.xmi.Readers.StructuredClassifiers
                                 this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "role");
                                 break;
                             case "upperValue":
-                                var upperValue = (IValueSpecification)this.xmiElementReaderFacade.QueryXmiElement(xmlReader, this.Cache, this.LoggerFactory);
-                                poco.UpperValue.Add(upperValue);
+                                var upperValueValue = (IValueSpecification)this.xmiElementReaderFacade.QueryXmiElement(xmlReader, this.Cache, this.LoggerFactory);
+                                poco.UpperValue.Add(upperValueValue);
                                 break;
                             default:
-                                var defaultLineInfo = xmlReader as IXmlLineInfo;
                                 throw new NotSupportedException($"ConnectorEndReader: {xmlReader.LocalName} at line:position {defaultLineInfo.LineNumber}:{defaultLineInfo.LinePosition}");
                         }
                     }
                 }
-
             }
 
             return poco;

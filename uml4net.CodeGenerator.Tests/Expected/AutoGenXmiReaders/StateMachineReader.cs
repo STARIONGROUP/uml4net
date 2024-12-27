@@ -22,10 +22,9 @@
 // --------THIS IS AN AUTOMATICALLY GENERATED FILE. ANY MANUAL CHANGES WILL BE OVERWRITTEN!--------
 // ------------------------------------------------------------------------------------------------
 
-namespace uml4net.xmi.Readers.StateMachines
+namespace uml4net.xmi.Readers
 {
     using System;
-    using System.Collections.Generic;
     using System.Linq;
     using System.Xml;
 
@@ -38,6 +37,7 @@ namespace uml4net.xmi.Readers.StateMachines
     using uml4net.CommonBehavior;
     using uml4net.CommonStructure;
     using uml4net.Deployments;
+    using uml4net.InformationFlows;
     using uml4net.Interactions;
     using uml4net.Packages;
     using uml4net.SimpleClassifiers;
@@ -47,7 +47,6 @@ namespace uml4net.xmi.Readers.StateMachines
     using uml4net.Utils;
     using uml4net.Values;
     using uml4net.xmi.Cache;
-    using uml4net.xmi.Readers;
 
     /// <summary>
     /// The purpose of the <see cref="StateMachineReader"/> is to read an instance of <see cref="IStateMachine"/>
@@ -87,6 +86,8 @@ namespace uml4net.xmi.Readers.StateMachines
             {
                 throw new ArgumentNullException(nameof(xmlReader));
             }
+
+            var defaultLineInfo = xmlReader as IXmlLineInfo;
 
             IStateMachine poco = new StateMachine();
 
@@ -219,12 +220,6 @@ namespace uml4net.xmi.Readers.StateMachines
                 }
 
 
-                var extendedStateMachineValues = new List<string>();
-                var powertypeExtentValues = new List<string>();
-                var redefinedClassifierValues = new List<string>();
-                var submachineStateValues = new List<string>();
-                var useCasesValues = new List<string>();
-
                 while (xmlReader.Read())
                 {
                     if (xmlReader.NodeType == XmlNodeType.Element)
@@ -247,7 +242,7 @@ namespace uml4net.xmi.Readers.StateMachines
                                 poco.ElementImport.Add(elementImportValue);
                                 break;
                             case "extendedStateMachine":
-                                this.CollectMultiValueReferencePropertyIdentifiers(xmlReader, extendedStateMachineValues, "extendedStateMachine");
+                                this.TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, "extendedStateMachine");
                                 break;
                             case "generalization":
                                 var generalizationValue = (IGeneralization)this.xmiElementReaderFacade.QueryXmiElement(xmlReader, this.Cache, this.LoggerFactory, "uml:Generalization");
@@ -358,18 +353,22 @@ namespace uml4net.xmi.Readers.StateMachines
                                 poco.PackageImport.Add(packageImportValue);
                                 break;
                             case "postcondition":
-                                var postconditionValue = (IConstraint)this.xmiElementReaderFacade.QueryXmiElement(xmlReader, this.Cache, this.LoggerFactory, "uml:Constraint");
-                                poco.Postcondition.Add(postconditionValue);
+                                if (!this.TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, "postcondition"))
+                                {
+                                    this.Logger.LogWarning("The StateMachine.Postcondition attribute was not processed at {DefaultLineInfo}", defaultLineInfo);
+                                }
                                 break;
                             case "powertypeExtent":
-                                this.CollectMultiValueReferencePropertyIdentifiers(xmlReader, powertypeExtentValues, "powertypeExtent");
+                                this.TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, "powertypeExtent");
                                 break;
                             case "precondition":
-                                var preconditionValue = (IConstraint)this.xmiElementReaderFacade.QueryXmiElement(xmlReader, this.Cache, this.LoggerFactory, "uml:Constraint");
-                                poco.Precondition.Add(preconditionValue);
+                                if (!this.TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, "precondition"))
+                                {
+                                    this.Logger.LogWarning("The StateMachine.Precondition attribute was not processed at {DefaultLineInfo}", defaultLineInfo);
+                                }
                                 break;
                             case "redefinedClassifier":
-                                this.CollectMultiValueReferencePropertyIdentifiers(xmlReader, redefinedClassifierValues, "redefinedClassifier");
+                                this.TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, "redefinedClassifier");
                                 break;
                             case "region":
                                 var regionValue = (IRegion)this.xmiElementReaderFacade.QueryXmiElement(xmlReader, this.Cache, this.LoggerFactory, "uml:Region");
@@ -382,7 +381,7 @@ namespace uml4net.xmi.Readers.StateMachines
                                 this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "specification");
                                 break;
                             case "submachineState":
-                                this.CollectMultiValueReferencePropertyIdentifiers(xmlReader, submachineStateValues, "submachineState");
+                                this.TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, "submachineState");
                                 break;
                             case "substitution":
                                 var substitutionValue = (ISubstitution)this.xmiElementReaderFacade.QueryXmiElement(xmlReader, this.Cache, this.LoggerFactory, "uml:Substitution");
@@ -396,7 +395,7 @@ namespace uml4net.xmi.Readers.StateMachines
                                 this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "templateParameter");
                                 break;
                             case "useCases":
-                                this.CollectMultiValueReferencePropertyIdentifiers(xmlReader, useCasesValues, "useCases");
+                                this.TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, "useCases");
                                 break;
                             case "visibility":
                                 var visibilityValue = xmlReader.ReadElementContentAsString();
@@ -406,37 +405,10 @@ namespace uml4net.xmi.Readers.StateMachines
                                 }
                                 break;
                             default:
-                                var defaultLineInfo = xmlReader as IXmlLineInfo;
                                 throw new NotSupportedException($"StateMachineReader: {xmlReader.LocalName} at line:position {defaultLineInfo.LineNumber}:{defaultLineInfo.LinePosition}");
                         }
                     }
                 }
-
-                if (extendedStateMachineValues.Count > 0)
-                {
-                    poco.MultiValueReferencePropertyIdentifiers.Add("extendedStateMachine", extendedStateMachineValues);
-                }
-
-                if (powertypeExtentValues.Count > 0)
-                {
-                    poco.MultiValueReferencePropertyIdentifiers.Add("powertypeExtent", powertypeExtentValues);
-                }
-
-                if (redefinedClassifierValues.Count > 0)
-                {
-                    poco.MultiValueReferencePropertyIdentifiers.Add("redefinedClassifier", redefinedClassifierValues);
-                }
-
-                if (submachineStateValues.Count > 0)
-                {
-                    poco.MultiValueReferencePropertyIdentifiers.Add("submachineState", submachineStateValues);
-                }
-
-                if (useCasesValues.Count > 0)
-                {
-                    poco.MultiValueReferencePropertyIdentifiers.Add("useCases", useCasesValues);
-                }
-
             }
 
             return poco;

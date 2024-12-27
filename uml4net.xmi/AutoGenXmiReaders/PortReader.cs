@@ -22,28 +22,31 @@
 // --------THIS IS AN AUTOMATICALLY GENERATED FILE. ANY MANUAL CHANGES WILL BE OVERWRITTEN!--------
 // ------------------------------------------------------------------------------------------------
 
-namespace uml4net.xmi.Readers.StructuredClassifiers
+namespace uml4net.xmi.Readers
 {
     using System;
-    using System.Collections.Generic;
     using System.Linq;
     using System.Xml;
 
     using Microsoft.Extensions.Logging;
 
     using uml4net;
+    using uml4net.Actions;
+    using uml4net.Activities;
     using uml4net.Classification;
     using uml4net.CommonBehavior;
     using uml4net.CommonStructure;
     using uml4net.Deployments;
+    using uml4net.InformationFlows;
+    using uml4net.Interactions;
     using uml4net.Packages;
     using uml4net.SimpleClassifiers;
+    using uml4net.StateMachines;
     using uml4net.StructuredClassifiers;
     using uml4net.UseCases;
     using uml4net.Utils;
     using uml4net.Values;
     using uml4net.xmi.Cache;
-    using uml4net.xmi.Readers;
 
     /// <summary>
     /// The purpose of the <see cref="PortReader"/> is to read an instance of <see cref="IPort"/>
@@ -83,6 +86,8 @@ namespace uml4net.xmi.Readers.StructuredClassifiers
             {
                 throw new ArgumentNullException(nameof(xmlReader));
             }
+
+            var defaultLineInfo = xmlReader as IXmlLineInfo;
 
             IPort poco = new Port();
 
@@ -267,10 +272,6 @@ namespace uml4net.xmi.Readers.StructuredClassifiers
                 }
 
 
-                var redefinedPort = new List<string>();
-                var redefinedProperty = new List<string>();
-                var subsettedProperty = new List<string>();
-
                 while (xmlReader.Read())
                 {
                     if (xmlReader.NodeType == XmlNodeType.Element)
@@ -278,10 +279,10 @@ namespace uml4net.xmi.Readers.StructuredClassifiers
                         switch (xmlReader.LocalName)
                         {
                             case "aggregation":
-                                var aggregationXmlElement = xmlReader.ReadElementContentAsString();
-                                if (!string.IsNullOrEmpty(aggregationXmlElement))
+                                var aggregationValue = xmlReader.ReadElementContentAsString();
+                                if (!string.IsNullOrEmpty(aggregationValue))
                                 {
-                                    poco.Aggregation = (AggregationKind)Enum.Parse(typeof(AggregationKind), aggregationXmlElement, true); ;
+                                    poco.Aggregation = (AggregationKind)Enum.Parse(typeof(AggregationKind), aggregationValue, true); ;
                                 }
                                 break;
                             case "association":
@@ -297,107 +298,107 @@ namespace uml4net.xmi.Readers.StructuredClassifiers
                                 this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "datatype");
                                 break;
                             case "defaultValue":
-                                var defaultValue = (IValueSpecification)this.xmiElementReaderFacade.QueryXmiElement(xmlReader, this.Cache, this.LoggerFactory);
-                                poco.DefaultValue.Add(defaultValue);
+                                var defaultValueValue = (IValueSpecification)this.xmiElementReaderFacade.QueryXmiElement(xmlReader, this.Cache, this.LoggerFactory);
+                                poco.DefaultValue.Add(defaultValueValue);
                                 break;
                             case "deployment":
-                                var deployment = (IDeployment)this.xmiElementReaderFacade.QueryXmiElement(xmlReader, this.Cache, this.LoggerFactory, "uml:Deployment");
-                                poco.Deployment.Add(deployment);
+                                var deploymentValue = (IDeployment)this.xmiElementReaderFacade.QueryXmiElement(xmlReader, this.Cache, this.LoggerFactory, "uml:Deployment");
+                                poco.Deployment.Add(deploymentValue);
                                 break;
                             case "interface":
                                 this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "interface");
                                 break;
                             case "isBehavior":
-                                var isBehaviorXmlElement = xmlReader.ReadElementContentAsString();
-                                if (!string.IsNullOrEmpty(isBehaviorXmlElement))
+                                var isBehaviorValue = xmlReader.ReadElementContentAsString();
+                                if (!string.IsNullOrEmpty(isBehaviorValue))
                                 {
-                                    poco.IsBehavior = bool.Parse(isBehaviorXmlElement);
+                                    poco.IsBehavior = bool.Parse(isBehaviorValue);
                                 }
                                 break;
                             case "isConjugated":
-                                var isConjugatedXmlElement = xmlReader.ReadElementContentAsString();
-                                if (!string.IsNullOrEmpty(isConjugatedXmlElement))
+                                var isConjugatedValue = xmlReader.ReadElementContentAsString();
+                                if (!string.IsNullOrEmpty(isConjugatedValue))
                                 {
-                                    poco.IsConjugated = bool.Parse(isConjugatedXmlElement);
+                                    poco.IsConjugated = bool.Parse(isConjugatedValue);
                                 }
                                 break;
                             case "isDerived":
-                                var isDerivedXmlElement = xmlReader.ReadElementContentAsString();
-                                if (!string.IsNullOrEmpty(isDerivedXmlElement))
+                                var isDerivedValue = xmlReader.ReadElementContentAsString();
+                                if (!string.IsNullOrEmpty(isDerivedValue))
                                 {
-                                    poco.IsDerived = bool.Parse(isDerivedXmlElement);
+                                    poco.IsDerived = bool.Parse(isDerivedValue);
                                 }
                                 break;
                             case "isDerivedUnion":
-                                var isDerivedUnionXmlElement = xmlReader.ReadElementContentAsString();
-                                if (!string.IsNullOrEmpty(isDerivedUnionXmlElement))
+                                var isDerivedUnionValue = xmlReader.ReadElementContentAsString();
+                                if (!string.IsNullOrEmpty(isDerivedUnionValue))
                                 {
-                                    poco.IsDerivedUnion = bool.Parse(isDerivedUnionXmlElement);
+                                    poco.IsDerivedUnion = bool.Parse(isDerivedUnionValue);
                                 }
                                 break;
                             case "isID":
-                                var isIDXmlElement = xmlReader.ReadElementContentAsString();
-                                if (!string.IsNullOrEmpty(isIDXmlElement))
+                                var isIDValue = xmlReader.ReadElementContentAsString();
+                                if (!string.IsNullOrEmpty(isIDValue))
                                 {
-                                    poco.IsID = bool.Parse(isIDXmlElement);
+                                    poco.IsID = bool.Parse(isIDValue);
                                 }
                                 break;
                             case "isLeaf":
-                                var isLeafXmlElement = xmlReader.ReadElementContentAsString();
-                                if (!string.IsNullOrEmpty(isLeafXmlElement))
+                                var isLeafValue = xmlReader.ReadElementContentAsString();
+                                if (!string.IsNullOrEmpty(isLeafValue))
                                 {
-                                    poco.IsLeaf = bool.Parse(isLeafXmlElement);
+                                    poco.IsLeaf = bool.Parse(isLeafValue);
                                 }
                                 break;
                             case "isOrdered":
-                                var isOrderedXmlElement = xmlReader.ReadElementContentAsString();
-                                if (!string.IsNullOrEmpty(isOrderedXmlElement))
+                                var isOrderedValue = xmlReader.ReadElementContentAsString();
+                                if (!string.IsNullOrEmpty(isOrderedValue))
                                 {
-                                    poco.IsOrdered = bool.Parse(isOrderedXmlElement);
+                                    poco.IsOrdered = bool.Parse(isOrderedValue);
                                 }
                                 break;
                             case "isReadOnly":
-                                var isReadOnlyXmlElement = xmlReader.ReadElementContentAsString();
-                                if (!string.IsNullOrEmpty(isReadOnlyXmlElement))
+                                var isReadOnlyValue = xmlReader.ReadElementContentAsString();
+                                if (!string.IsNullOrEmpty(isReadOnlyValue))
                                 {
-                                    poco.IsReadOnly = bool.Parse(isReadOnlyXmlElement);
+                                    poco.IsReadOnly = bool.Parse(isReadOnlyValue);
                                 }
                                 break;
                             case "isService":
-                                var isServiceXmlElement = xmlReader.ReadElementContentAsString();
-                                if (!string.IsNullOrEmpty(isServiceXmlElement))
+                                var isServiceValue = xmlReader.ReadElementContentAsString();
+                                if (!string.IsNullOrEmpty(isServiceValue))
                                 {
-                                    poco.IsService = bool.Parse(isServiceXmlElement);
+                                    poco.IsService = bool.Parse(isServiceValue);
                                 }
                                 break;
                             case "isStatic":
-                                var isStaticXmlElement = xmlReader.ReadElementContentAsString();
-                                if (!string.IsNullOrEmpty(isStaticXmlElement))
+                                var isStaticValue = xmlReader.ReadElementContentAsString();
+                                if (!string.IsNullOrEmpty(isStaticValue))
                                 {
-                                    poco.IsStatic = bool.Parse(isStaticXmlElement);
+                                    poco.IsStatic = bool.Parse(isStaticValue);
                                 }
                                 break;
                             case "isUnique":
-                                var isUniqueXmlElement = xmlReader.ReadElementContentAsString();
-                                if (!string.IsNullOrEmpty(isUniqueXmlElement))
+                                var isUniqueValue = xmlReader.ReadElementContentAsString();
+                                if (!string.IsNullOrEmpty(isUniqueValue))
                                 {
-                                    poco.IsUnique = bool.Parse(isUniqueXmlElement);
+                                    poco.IsUnique = bool.Parse(isUniqueValue);
                                 }
                                 break;
                             case "lowerValue":
-                                var lowerValue = (IValueSpecification)this.xmiElementReaderFacade.QueryXmiElement(xmlReader, this.Cache, this.LoggerFactory);
-                                poco.LowerValue.Add(lowerValue);
+                                var lowerValueValue = (IValueSpecification)this.xmiElementReaderFacade.QueryXmiElement(xmlReader, this.Cache, this.LoggerFactory);
+                                poco.LowerValue.Add(lowerValueValue);
                                 break;
                             case "name":
                                 poco.Name = xmlReader.ReadElementContentAsString();
                                 break;
                             case "nameExpression":
-                                var nameExpression = (IStringExpression)this.xmiElementReaderFacade.QueryXmiElement(xmlReader, this.Cache, this.LoggerFactory, "uml:StringExpression");
-                                poco.NameExpression.Add(nameExpression);
+                                var nameExpressionValue = (IStringExpression)this.xmiElementReaderFacade.QueryXmiElement(xmlReader, this.Cache, this.LoggerFactory, "uml:StringExpression");
+                                poco.NameExpression.Add(nameExpressionValue);
                                 break;
                             case "ownedComment":
-                                var ownedComment = (IComment)this.xmiElementReaderFacade.QueryXmiElement(xmlReader, this.Cache, this.LoggerFactory, "uml:Comment");
-                                poco.OwnedComment.Add(ownedComment);
+                                var ownedCommentValue = (IComment)this.xmiElementReaderFacade.QueryXmiElement(xmlReader, this.Cache, this.LoggerFactory, "uml:Comment");
+                                poco.OwnedComment.Add(ownedCommentValue);
                                 break;
                             case "owningAssociation":
                                 this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "owningAssociation");
@@ -409,17 +410,17 @@ namespace uml4net.xmi.Readers.StructuredClassifiers
                                 this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "protocol");
                                 break;
                             case "qualifier":
-                                var qualifier = (IProperty)this.xmiElementReaderFacade.QueryXmiElement(xmlReader, this.Cache, this.LoggerFactory, "uml:Property");
-                                poco.Qualifier.Add(qualifier);
+                                var qualifierValue = (IProperty)this.xmiElementReaderFacade.QueryXmiElement(xmlReader, this.Cache, this.LoggerFactory, "uml:Property");
+                                poco.Qualifier.Add(qualifierValue);
                                 break;
                             case "redefinedPort":
-                                this.CollectMultiValueReferencePropertyIdentifiers(xmlReader, redefinedPort, "redefinedPort");
+                                this.TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, "redefinedPort");
                                 break;
                             case "redefinedProperty":
-                                this.CollectMultiValueReferencePropertyIdentifiers(xmlReader, redefinedProperty, "redefinedProperty");
+                                this.TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, "redefinedProperty");
                                 break;
                             case "subsettedProperty":
-                                this.CollectMultiValueReferencePropertyIdentifiers(xmlReader, subsettedProperty, "subsettedProperty");
+                                this.TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, "subsettedProperty");
                                 break;
                             case "templateParameter":
                                 this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "templateParameter");
@@ -428,38 +429,21 @@ namespace uml4net.xmi.Readers.StructuredClassifiers
                                 this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "type");
                                 break;
                             case "upperValue":
-                                var upperValue = (IValueSpecification)this.xmiElementReaderFacade.QueryXmiElement(xmlReader, this.Cache, this.LoggerFactory);
-                                poco.UpperValue.Add(upperValue);
+                                var upperValueValue = (IValueSpecification)this.xmiElementReaderFacade.QueryXmiElement(xmlReader, this.Cache, this.LoggerFactory);
+                                poco.UpperValue.Add(upperValueValue);
                                 break;
                             case "visibility":
-                                var visibilityXmlElement = xmlReader.ReadElementContentAsString();
-                                if (!string.IsNullOrEmpty(visibilityXmlElement))
+                                var visibilityValue = xmlReader.ReadElementContentAsString();
+                                if (!string.IsNullOrEmpty(visibilityValue))
                                 {
-                                    poco.Visibility = (VisibilityKind)Enum.Parse(typeof(VisibilityKind), visibilityXmlElement, true); ;
+                                    poco.Visibility = (VisibilityKind)Enum.Parse(typeof(VisibilityKind), visibilityValue, true); ;
                                 }
                                 break;
                             default:
-                                var defaultLineInfo = xmlReader as IXmlLineInfo;
                                 throw new NotSupportedException($"PortReader: {xmlReader.LocalName} at line:position {defaultLineInfo.LineNumber}:{defaultLineInfo.LinePosition}");
                         }
                     }
                 }
-
-                if (redefinedPort.Count > 0)
-                {
-                    poco.MultiValueReferencePropertyIdentifiers.Add("redefinedPort", redefinedPort);
-                }
-
-                if (redefinedProperty.Count > 0)
-                {
-                    poco.MultiValueReferencePropertyIdentifiers.Add("redefinedProperty", redefinedProperty);
-                }
-
-                if (subsettedProperty.Count > 0)
-                {
-                    poco.MultiValueReferencePropertyIdentifiers.Add("subsettedProperty", subsettedProperty);
-                }
-
             }
 
             return poco;

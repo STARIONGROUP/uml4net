@@ -22,28 +22,31 @@
 // --------THIS IS AN AUTOMATICALLY GENERATED FILE. ANY MANUAL CHANGES WILL BE OVERWRITTEN!--------
 // ------------------------------------------------------------------------------------------------
 
-namespace uml4net.xmi.Readers.CommonStructure
+namespace uml4net.xmi.Readers
 {
     using System;
-    using System.Collections.Generic;
     using System.Linq;
     using System.Xml;
 
     using Microsoft.Extensions.Logging;
 
     using uml4net;
+    using uml4net.Actions;
+    using uml4net.Activities;
     using uml4net.Classification;
     using uml4net.CommonBehavior;
     using uml4net.CommonStructure;
     using uml4net.Deployments;
+    using uml4net.InformationFlows;
+    using uml4net.Interactions;
     using uml4net.Packages;
     using uml4net.SimpleClassifiers;
+    using uml4net.StateMachines;
     using uml4net.StructuredClassifiers;
     using uml4net.UseCases;
     using uml4net.Utils;
     using uml4net.Values;
     using uml4net.xmi.Cache;
-    using uml4net.xmi.Readers;
 
     /// <summary>
     /// The purpose of the <see cref="TemplateSignatureReader"/> is to read an instance of <see cref="ITemplateSignature"/>
@@ -84,6 +87,8 @@ namespace uml4net.xmi.Readers.CommonStructure
                 throw new ArgumentNullException(nameof(xmlReader));
             }
 
+            var defaultLineInfo = xmlReader as IXmlLineInfo;
+
             ITemplateSignature poco = new TemplateSignature();
 
             if (xmlReader.MoveToContent() == XmlNodeType.Element)
@@ -119,8 +124,6 @@ namespace uml4net.xmi.Readers.CommonStructure
                 }
 
 
-                var parameter = new List<string>();
-
                 while (xmlReader.Read())
                 {
                     if (xmlReader.NodeType == XmlNodeType.Element)
@@ -128,31 +131,24 @@ namespace uml4net.xmi.Readers.CommonStructure
                         switch (xmlReader.LocalName)
                         {
                             case "ownedComment":
-                                var ownedComment = (IComment)this.xmiElementReaderFacade.QueryXmiElement(xmlReader, this.Cache, this.LoggerFactory, "uml:Comment");
-                                poco.OwnedComment.Add(ownedComment);
+                                var ownedCommentValue = (IComment)this.xmiElementReaderFacade.QueryXmiElement(xmlReader, this.Cache, this.LoggerFactory, "uml:Comment");
+                                poco.OwnedComment.Add(ownedCommentValue);
                                 break;
                             case "ownedParameter":
-                                var ownedParameter = (ITemplateParameter)this.xmiElementReaderFacade.QueryXmiElement(xmlReader, this.Cache, this.LoggerFactory, "uml:TemplateParameter");
-                                poco.OwnedParameter.Add(ownedParameter);
+                                var ownedParameterValue = (ITemplateParameter)this.xmiElementReaderFacade.QueryXmiElement(xmlReader, this.Cache, this.LoggerFactory, "uml:TemplateParameter");
+                                poco.OwnedParameter.Add(ownedParameterValue);
                                 break;
                             case "parameter":
-                                this.CollectMultiValueReferencePropertyIdentifiers(xmlReader, parameter, "parameter");
+                                this.TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, "parameter");
                                 break;
                             case "template":
                                 this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "template");
                                 break;
                             default:
-                                var defaultLineInfo = xmlReader as IXmlLineInfo;
                                 throw new NotSupportedException($"TemplateSignatureReader: {xmlReader.LocalName} at line:position {defaultLineInfo.LineNumber}:{defaultLineInfo.LinePosition}");
                         }
                     }
                 }
-
-                if (parameter.Count > 0)
-                {
-                    poco.MultiValueReferencePropertyIdentifiers.Add("parameter", parameter);
-                }
-
             }
 
             return poco;

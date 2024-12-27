@@ -22,20 +22,23 @@
 // --------THIS IS AN AUTOMATICALLY GENERATED FILE. ANY MANUAL CHANGES WILL BE OVERWRITTEN!--------
 // ------------------------------------------------------------------------------------------------
 
-namespace uml4net.xmi.Readers.StateMachines
+namespace uml4net.xmi.Readers
 {
     using System;
-    using System.Collections.Generic;
     using System.Linq;
     using System.Xml;
 
     using Microsoft.Extensions.Logging;
 
     using uml4net;
+    using uml4net.Actions;
+    using uml4net.Activities;
     using uml4net.Classification;
     using uml4net.CommonBehavior;
     using uml4net.CommonStructure;
     using uml4net.Deployments;
+    using uml4net.InformationFlows;
+    using uml4net.Interactions;
     using uml4net.Packages;
     using uml4net.SimpleClassifiers;
     using uml4net.StateMachines;
@@ -44,7 +47,6 @@ namespace uml4net.xmi.Readers.StateMachines
     using uml4net.Utils;
     using uml4net.Values;
     using uml4net.xmi.Cache;
-    using uml4net.xmi.Readers;
 
     /// <summary>
     /// The purpose of the <see cref="PseudostateReader"/> is to read an instance of <see cref="IPseudostate"/>
@@ -84,6 +86,8 @@ namespace uml4net.xmi.Readers.StateMachines
             {
                 throw new ArgumentNullException(nameof(xmlReader));
             }
+
+            var defaultLineInfo = xmlReader as IXmlLineInfo;
 
             IPseudostate poco = new Pseudostate();
 
@@ -151,7 +155,6 @@ namespace uml4net.xmi.Readers.StateMachines
                 }
 
 
-
                 while (xmlReader.Read())
                 {
                     if (xmlReader.NodeType == XmlNodeType.Element)
@@ -162,29 +165,29 @@ namespace uml4net.xmi.Readers.StateMachines
                                 this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "container");
                                 break;
                             case "isLeaf":
-                                var isLeafXmlElement = xmlReader.ReadElementContentAsString();
-                                if (!string.IsNullOrEmpty(isLeafXmlElement))
+                                var isLeafValue = xmlReader.ReadElementContentAsString();
+                                if (!string.IsNullOrEmpty(isLeafValue))
                                 {
-                                    poco.IsLeaf = bool.Parse(isLeafXmlElement);
+                                    poco.IsLeaf = bool.Parse(isLeafValue);
                                 }
                                 break;
                             case "kind":
-                                var kindXmlElement = xmlReader.ReadElementContentAsString();
-                                if (!string.IsNullOrEmpty(kindXmlElement))
+                                var kindValue = xmlReader.ReadElementContentAsString();
+                                if (!string.IsNullOrEmpty(kindValue))
                                 {
-                                    poco.Kind = (PseudostateKind)Enum.Parse(typeof(PseudostateKind), kindXmlElement, true); ;
+                                    poco.Kind = (PseudostateKind)Enum.Parse(typeof(PseudostateKind), kindValue, true); ;
                                 }
                                 break;
                             case "name":
                                 poco.Name = xmlReader.ReadElementContentAsString();
                                 break;
                             case "nameExpression":
-                                var nameExpression = (IStringExpression)this.xmiElementReaderFacade.QueryXmiElement(xmlReader, this.Cache, this.LoggerFactory, "uml:StringExpression");
-                                poco.NameExpression.Add(nameExpression);
+                                var nameExpressionValue = (IStringExpression)this.xmiElementReaderFacade.QueryXmiElement(xmlReader, this.Cache, this.LoggerFactory, "uml:StringExpression");
+                                poco.NameExpression.Add(nameExpressionValue);
                                 break;
                             case "ownedComment":
-                                var ownedComment = (IComment)this.xmiElementReaderFacade.QueryXmiElement(xmlReader, this.Cache, this.LoggerFactory, "uml:Comment");
-                                poco.OwnedComment.Add(ownedComment);
+                                var ownedCommentValue = (IComment)this.xmiElementReaderFacade.QueryXmiElement(xmlReader, this.Cache, this.LoggerFactory, "uml:Comment");
+                                poco.OwnedComment.Add(ownedCommentValue);
                                 break;
                             case "redefinedVertex":
                                 this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "redefinedVertex");
@@ -196,19 +199,17 @@ namespace uml4net.xmi.Readers.StateMachines
                                 this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "stateMachine");
                                 break;
                             case "visibility":
-                                var visibilityXmlElement = xmlReader.ReadElementContentAsString();
-                                if (!string.IsNullOrEmpty(visibilityXmlElement))
+                                var visibilityValue = xmlReader.ReadElementContentAsString();
+                                if (!string.IsNullOrEmpty(visibilityValue))
                                 {
-                                    poco.Visibility = (VisibilityKind)Enum.Parse(typeof(VisibilityKind), visibilityXmlElement, true); ;
+                                    poco.Visibility = (VisibilityKind)Enum.Parse(typeof(VisibilityKind), visibilityValue, true); ;
                                 }
                                 break;
                             default:
-                                var defaultLineInfo = xmlReader as IXmlLineInfo;
                                 throw new NotSupportedException($"PseudostateReader: {xmlReader.LocalName} at line:position {defaultLineInfo.LineNumber}:{defaultLineInfo.LinePosition}");
                         }
                     }
                 }
-
             }
 
             return poco;

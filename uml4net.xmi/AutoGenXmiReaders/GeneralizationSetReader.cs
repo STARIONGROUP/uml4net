@@ -22,28 +22,31 @@
 // --------THIS IS AN AUTOMATICALLY GENERATED FILE. ANY MANUAL CHANGES WILL BE OVERWRITTEN!--------
 // ------------------------------------------------------------------------------------------------
 
-namespace uml4net.xmi.Readers.Classification
+namespace uml4net.xmi.Readers
 {
     using System;
-    using System.Collections.Generic;
     using System.Linq;
     using System.Xml;
 
     using Microsoft.Extensions.Logging;
 
     using uml4net;
+    using uml4net.Actions;
+    using uml4net.Activities;
     using uml4net.Classification;
     using uml4net.CommonBehavior;
     using uml4net.CommonStructure;
     using uml4net.Deployments;
+    using uml4net.InformationFlows;
+    using uml4net.Interactions;
     using uml4net.Packages;
     using uml4net.SimpleClassifiers;
+    using uml4net.StateMachines;
     using uml4net.StructuredClassifiers;
     using uml4net.UseCases;
     using uml4net.Utils;
     using uml4net.Values;
     using uml4net.xmi.Cache;
-    using uml4net.xmi.Readers;
 
     /// <summary>
     /// The purpose of the <see cref="GeneralizationSetReader"/> is to read an instance of <see cref="IGeneralizationSet"/>
@@ -83,6 +86,8 @@ namespace uml4net.xmi.Readers.Classification
             {
                 throw new ArgumentNullException(nameof(xmlReader));
             }
+
+            var defaultLineInfo = xmlReader as IXmlLineInfo;
 
             IGeneralizationSet poco = new GeneralizationSet();
 
@@ -151,8 +156,6 @@ namespace uml4net.xmi.Readers.Classification
                 }
 
 
-                var generalization = new List<string>();
-
                 while (xmlReader.Read())
                 {
                     if (xmlReader.NodeType == XmlNodeType.Element)
@@ -160,32 +163,32 @@ namespace uml4net.xmi.Readers.Classification
                         switch (xmlReader.LocalName)
                         {
                             case "generalization":
-                                this.CollectMultiValueReferencePropertyIdentifiers(xmlReader, generalization, "generalization");
+                                this.TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, "generalization");
                                 break;
                             case "isCovering":
-                                var isCoveringXmlElement = xmlReader.ReadElementContentAsString();
-                                if (!string.IsNullOrEmpty(isCoveringXmlElement))
+                                var isCoveringValue = xmlReader.ReadElementContentAsString();
+                                if (!string.IsNullOrEmpty(isCoveringValue))
                                 {
-                                    poco.IsCovering = bool.Parse(isCoveringXmlElement);
+                                    poco.IsCovering = bool.Parse(isCoveringValue);
                                 }
                                 break;
                             case "isDisjoint":
-                                var isDisjointXmlElement = xmlReader.ReadElementContentAsString();
-                                if (!string.IsNullOrEmpty(isDisjointXmlElement))
+                                var isDisjointValue = xmlReader.ReadElementContentAsString();
+                                if (!string.IsNullOrEmpty(isDisjointValue))
                                 {
-                                    poco.IsDisjoint = bool.Parse(isDisjointXmlElement);
+                                    poco.IsDisjoint = bool.Parse(isDisjointValue);
                                 }
                                 break;
                             case "name":
                                 poco.Name = xmlReader.ReadElementContentAsString();
                                 break;
                             case "nameExpression":
-                                var nameExpression = (IStringExpression)this.xmiElementReaderFacade.QueryXmiElement(xmlReader, this.Cache, this.LoggerFactory, "uml:StringExpression");
-                                poco.NameExpression.Add(nameExpression);
+                                var nameExpressionValue = (IStringExpression)this.xmiElementReaderFacade.QueryXmiElement(xmlReader, this.Cache, this.LoggerFactory, "uml:StringExpression");
+                                poco.NameExpression.Add(nameExpressionValue);
                                 break;
                             case "ownedComment":
-                                var ownedComment = (IComment)this.xmiElementReaderFacade.QueryXmiElement(xmlReader, this.Cache, this.LoggerFactory, "uml:Comment");
-                                poco.OwnedComment.Add(ownedComment);
+                                var ownedCommentValue = (IComment)this.xmiElementReaderFacade.QueryXmiElement(xmlReader, this.Cache, this.LoggerFactory, "uml:Comment");
+                                poco.OwnedComment.Add(ownedCommentValue);
                                 break;
                             case "owningTemplateParameter":
                                 this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "owningTemplateParameter");
@@ -197,24 +200,17 @@ namespace uml4net.xmi.Readers.Classification
                                 this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "templateParameter");
                                 break;
                             case "visibility":
-                                var visibilityXmlElement = xmlReader.ReadElementContentAsString();
-                                if (!string.IsNullOrEmpty(visibilityXmlElement))
+                                var visibilityValue = xmlReader.ReadElementContentAsString();
+                                if (!string.IsNullOrEmpty(visibilityValue))
                                 {
-                                    poco.Visibility = (VisibilityKind)Enum.Parse(typeof(VisibilityKind), visibilityXmlElement, true); ;
+                                    poco.Visibility = (VisibilityKind)Enum.Parse(typeof(VisibilityKind), visibilityValue, true); ;
                                 }
                                 break;
                             default:
-                                var defaultLineInfo = xmlReader as IXmlLineInfo;
                                 throw new NotSupportedException($"GeneralizationSetReader: {xmlReader.LocalName} at line:position {defaultLineInfo.LineNumber}:{defaultLineInfo.LinePosition}");
                         }
                     }
                 }
-
-                if (generalization.Count > 0)
-                {
-                    poco.MultiValueReferencePropertyIdentifiers.Add("generalization", generalization);
-                }
-
             }
 
             return poco;

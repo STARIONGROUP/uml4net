@@ -22,10 +22,9 @@
 // --------THIS IS AN AUTOMATICALLY GENERATED FILE. ANY MANUAL CHANGES WILL BE OVERWRITTEN!--------
 // ------------------------------------------------------------------------------------------------
 
-namespace uml4net.xmi.Readers.Actions
+namespace uml4net.xmi.Readers
 {
     using System;
-    using System.Collections.Generic;
     using System.Linq;
     using System.Xml;
 
@@ -38,15 +37,16 @@ namespace uml4net.xmi.Readers.Actions
     using uml4net.CommonBehavior;
     using uml4net.CommonStructure;
     using uml4net.Deployments;
+    using uml4net.InformationFlows;
     using uml4net.Interactions;
     using uml4net.Packages;
     using uml4net.SimpleClassifiers;
+    using uml4net.StateMachines;
     using uml4net.StructuredClassifiers;
     using uml4net.UseCases;
     using uml4net.Utils;
     using uml4net.Values;
     using uml4net.xmi.Cache;
-    using uml4net.xmi.Readers;
 
     /// <summary>
     /// The purpose of the <see cref="LinkEndDataReader"/> is to read an instance of <see cref="ILinkEndData"/>
@@ -87,6 +87,8 @@ namespace uml4net.xmi.Readers.Actions
                 throw new ArgumentNullException(nameof(xmlReader));
             }
 
+            var defaultLineInfo = xmlReader as IXmlLineInfo;
+
             ILinkEndData poco = new LinkEndData();
 
             if (xmlReader.MoveToContent() == XmlNodeType.Element)
@@ -121,7 +123,6 @@ namespace uml4net.xmi.Readers.Actions
                 }
 
 
-
                 while (xmlReader.Read())
                 {
                     if (xmlReader.NodeType == XmlNodeType.Element)
@@ -132,23 +133,21 @@ namespace uml4net.xmi.Readers.Actions
                                 this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "end");
                                 break;
                             case "ownedComment":
-                                var ownedComment = (IComment)this.xmiElementReaderFacade.QueryXmiElement(xmlReader, this.Cache, this.LoggerFactory, "uml:Comment");
-                                poco.OwnedComment.Add(ownedComment);
+                                var ownedCommentValue = (IComment)this.xmiElementReaderFacade.QueryXmiElement(xmlReader, this.Cache, this.LoggerFactory, "uml:Comment");
+                                poco.OwnedComment.Add(ownedCommentValue);
                                 break;
                             case "qualifier":
-                                var qualifier = (IQualifierValue)this.xmiElementReaderFacade.QueryXmiElement(xmlReader, this.Cache, this.LoggerFactory, "uml:QualifierValue");
-                                poco.Qualifier.Add(qualifier);
+                                var qualifierValue = (IQualifierValue)this.xmiElementReaderFacade.QueryXmiElement(xmlReader, this.Cache, this.LoggerFactory, "uml:QualifierValue");
+                                poco.Qualifier.Add(qualifierValue);
                                 break;
                             case "value":
                                 this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "value");
                                 break;
                             default:
-                                var defaultLineInfo = xmlReader as IXmlLineInfo;
                                 throw new NotSupportedException($"LinkEndDataReader: {xmlReader.LocalName} at line:position {defaultLineInfo.LineNumber}:{defaultLineInfo.LinePosition}");
                         }
                     }
                 }
-
             }
 
             return poco;

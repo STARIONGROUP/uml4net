@@ -18,7 +18,7 @@
 //  </copyright>
 //  ------------------------------------------------------------------------------------------------
 
-namespace uml4net.xmi.Readers.Values
+namespace uml4net.xmi.Readers
 {
     using System;
     using System.Collections.Generic;
@@ -40,10 +40,7 @@ namespace uml4net.xmi.Readers.Values
     using uml4net.Values;
     using uml4net.xmi.Cache;
     using uml4net.xmi.Readers;
-    using uml4net.xmi.Readers.Classification;
-    using uml4net.xmi.Readers.CommonStructure;
-    using uml4net.xmi.Readers.Values;
-
+    
     /// <summary>
     /// The purpose of the <see cref="LiteralUnlimitedNaturalReader"/> is to read an instance of <see cref="ILiteralUnlimitedNatural"/>
     /// from the XMI document

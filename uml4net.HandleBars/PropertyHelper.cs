@@ -580,7 +580,7 @@ namespace uml4net.HandleBars
                         throw new NotImplementedException("contained enumeration is not yet supported");
                     }
 
-                    if (property.QueryIsReferenceProperty())
+                    if (property.QueryIsReferenceProperty() && (property.SubsettedProperty.Count == 0))
                     {
                         sb.AppendLine(property.QueryIsTypeAbstract()
                             ? $"var {property.Name}Value = (I{property.QueryTypeName()})this.xmiElementReaderFacade.QueryXmiElement(xmlReader, this.Cache, this.LoggerFactory);"
@@ -593,6 +593,36 @@ namespace uml4net.HandleBars
                         writer.WriteSafeString(sb);
 
                         return;
+                    }
+
+                    if (property.QueryIsReferenceProperty() && property.SubsettedProperty.Count > 0)
+                    {
+                        if (property.SubsettedProperty.Any(x => x.IsDerived || x.IsDerivedUnion || x.IsReadOnly))
+                        {
+                            sb.AppendLine(property.QueryIsTypeAbstract()
+                                ? $"var {property.Name}Value = (I{property.QueryTypeName()})this.xmiElementReaderFacade.QueryXmiElement(xmlReader, this.Cache, this.LoggerFactory);"
+                                : $"var {property.Name}Value = (I{property.QueryTypeName()})this.xmiElementReaderFacade.QueryXmiElement(xmlReader, this.Cache, this.LoggerFactory, \"uml:{property.QueryTypeName()}\");");
+
+                            sb.AppendLine($"poco.{property.Name.CapitalizeFirstLetter()}.Add({property.Name}Value);");
+
+                            sb.AppendLine("break;");
+
+                            writer.WriteSafeString(sb);
+
+                            return;
+                        }
+                        else
+                        {
+                            sb.AppendLine($"if (!this.TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, \"{property.Name}\"))");
+                            sb.AppendLine("{");
+                            sb.AppendLine($"    this.Logger.LogWarning(\"The {@class.Name}.{property.Name.CapitalizeFirstLetter()} attribute was not processed at {{DefaultLineInfo}}\", defaultLineInfo);");
+                            sb.AppendLine("}");
+                            sb.AppendLine("break;");
+
+                            writer.WriteSafeString(sb);
+
+                            return;
+                        }
                     }
                 }
                 else
@@ -682,7 +712,7 @@ namespace uml4net.HandleBars
 
                     if (property.QueryIsReferenceProperty() && property.QueryIsEnumerable())
                     {
-                        sb.AppendLine($"this.CollectMultiValueReferencePropertyIdentifiers(xmlReader, {property.Name}Values, \"{property.Name}\");");
+                        sb.AppendLine($"this.TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, \"{property.Name}\");");
                         sb.AppendLine("break;");
 
                         writer.WriteSafeString(sb);

@@ -22,10 +22,9 @@
 // --------THIS IS AN AUTOMATICALLY GENERATED FILE. ANY MANUAL CHANGES WILL BE OVERWRITTEN!--------
 // ------------------------------------------------------------------------------------------------
 
-namespace uml4net.xmi.Readers.InformationFlows
+namespace uml4net.xmi.Readers
 {
     using System;
-    using System.Collections.Generic;
     using System.Linq;
     using System.Xml;
 
@@ -42,12 +41,12 @@ namespace uml4net.xmi.Readers.InformationFlows
     using uml4net.Interactions;
     using uml4net.Packages;
     using uml4net.SimpleClassifiers;
+    using uml4net.StateMachines;
     using uml4net.StructuredClassifiers;
     using uml4net.UseCases;
     using uml4net.Utils;
     using uml4net.Values;
     using uml4net.xmi.Cache;
-    using uml4net.xmi.Readers;
 
     /// <summary>
     /// The purpose of the <see cref="InformationFlowReader"/> is to read an instance of <see cref="IInformationFlow"/>
@@ -87,6 +86,8 @@ namespace uml4net.xmi.Readers.InformationFlows
             {
                 throw new ArgumentNullException(nameof(xmlReader));
             }
+
+            var defaultLineInfo = xmlReader as IXmlLineInfo;
 
             IInformationFlow poco = new InformationFlow();
 
@@ -179,14 +180,6 @@ namespace uml4net.xmi.Readers.InformationFlows
                 }
 
 
-                var conveyed = new List<string>();
-                var informationSource = new List<string>();
-                var informationTarget = new List<string>();
-                var realization = new List<string>();
-                var realizingActivityEdge = new List<string>();
-                var realizingConnector = new List<string>();
-                var realizingMessage = new List<string>();
-
                 while (xmlReader.Read())
                 {
                     if (xmlReader.NodeType == XmlNodeType.Element)
@@ -194,92 +187,55 @@ namespace uml4net.xmi.Readers.InformationFlows
                         switch (xmlReader.LocalName)
                         {
                             case "conveyed":
-                                this.CollectMultiValueReferencePropertyIdentifiers(xmlReader, conveyed, "conveyed");
+                                this.TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, "conveyed");
                                 break;
                             case "informationSource":
-                                this.CollectMultiValueReferencePropertyIdentifiers(xmlReader, informationSource, "informationSource");
+                                this.TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, "informationSource");
                                 break;
                             case "informationTarget":
-                                this.CollectMultiValueReferencePropertyIdentifiers(xmlReader, informationTarget, "informationTarget");
+                                this.TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, "informationTarget");
                                 break;
                             case "name":
                                 poco.Name = xmlReader.ReadElementContentAsString();
                                 break;
                             case "nameExpression":
-                                var nameExpression = (IStringExpression)this.xmiElementReaderFacade.QueryXmiElement(xmlReader, this.Cache, this.LoggerFactory, "uml:StringExpression");
-                                poco.NameExpression.Add(nameExpression);
+                                var nameExpressionValue = (IStringExpression)this.xmiElementReaderFacade.QueryXmiElement(xmlReader, this.Cache, this.LoggerFactory, "uml:StringExpression");
+                                poco.NameExpression.Add(nameExpressionValue);
                                 break;
                             case "ownedComment":
-                                var ownedComment = (IComment)this.xmiElementReaderFacade.QueryXmiElement(xmlReader, this.Cache, this.LoggerFactory, "uml:Comment");
-                                poco.OwnedComment.Add(ownedComment);
+                                var ownedCommentValue = (IComment)this.xmiElementReaderFacade.QueryXmiElement(xmlReader, this.Cache, this.LoggerFactory, "uml:Comment");
+                                poco.OwnedComment.Add(ownedCommentValue);
                                 break;
                             case "owningTemplateParameter":
                                 this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "owningTemplateParameter");
                                 break;
                             case "realization":
-                                this.CollectMultiValueReferencePropertyIdentifiers(xmlReader, realization, "realization");
+                                this.TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, "realization");
                                 break;
                             case "realizingActivityEdge":
-                                this.CollectMultiValueReferencePropertyIdentifiers(xmlReader, realizingActivityEdge, "realizingActivityEdge");
+                                this.TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, "realizingActivityEdge");
                                 break;
                             case "realizingConnector":
-                                this.CollectMultiValueReferencePropertyIdentifiers(xmlReader, realizingConnector, "realizingConnector");
+                                this.TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, "realizingConnector");
                                 break;
                             case "realizingMessage":
-                                this.CollectMultiValueReferencePropertyIdentifiers(xmlReader, realizingMessage, "realizingMessage");
+                                this.TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, "realizingMessage");
                                 break;
                             case "templateParameter":
                                 this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "templateParameter");
                                 break;
                             case "visibility":
-                                var visibilityXmlElement = xmlReader.ReadElementContentAsString();
-                                if (!string.IsNullOrEmpty(visibilityXmlElement))
+                                var visibilityValue = xmlReader.ReadElementContentAsString();
+                                if (!string.IsNullOrEmpty(visibilityValue))
                                 {
-                                    poco.Visibility = (VisibilityKind)Enum.Parse(typeof(VisibilityKind), visibilityXmlElement, true); ;
+                                    poco.Visibility = (VisibilityKind)Enum.Parse(typeof(VisibilityKind), visibilityValue, true); ;
                                 }
                                 break;
                             default:
-                                var defaultLineInfo = xmlReader as IXmlLineInfo;
                                 throw new NotSupportedException($"InformationFlowReader: {xmlReader.LocalName} at line:position {defaultLineInfo.LineNumber}:{defaultLineInfo.LinePosition}");
                         }
                     }
                 }
-
-                if (conveyed.Count > 0)
-                {
-                    poco.MultiValueReferencePropertyIdentifiers.Add("conveyed", conveyed);
-                }
-
-                if (informationSource.Count > 0)
-                {
-                    poco.MultiValueReferencePropertyIdentifiers.Add("informationSource", informationSource);
-                }
-
-                if (informationTarget.Count > 0)
-                {
-                    poco.MultiValueReferencePropertyIdentifiers.Add("informationTarget", informationTarget);
-                }
-
-                if (realization.Count > 0)
-                {
-                    poco.MultiValueReferencePropertyIdentifiers.Add("realization", realization);
-                }
-
-                if (realizingActivityEdge.Count > 0)
-                {
-                    poco.MultiValueReferencePropertyIdentifiers.Add("realizingActivityEdge", realizingActivityEdge);
-                }
-
-                if (realizingConnector.Count > 0)
-                {
-                    poco.MultiValueReferencePropertyIdentifiers.Add("realizingConnector", realizingConnector);
-                }
-
-                if (realizingMessage.Count > 0)
-                {
-                    poco.MultiValueReferencePropertyIdentifiers.Add("realizingMessage", realizingMessage);
-                }
-
             }
 
             return poco;

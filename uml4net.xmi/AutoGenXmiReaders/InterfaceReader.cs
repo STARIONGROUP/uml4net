@@ -22,10 +22,9 @@
 // --------THIS IS AN AUTOMATICALLY GENERATED FILE. ANY MANUAL CHANGES WILL BE OVERWRITTEN!--------
 // ------------------------------------------------------------------------------------------------
 
-namespace uml4net.xmi.Readers.SimpleClassifiers
+namespace uml4net.xmi.Readers
 {
     using System;
-    using System.Collections.Generic;
     using System.Linq;
     using System.Xml;
 
@@ -38,6 +37,7 @@ namespace uml4net.xmi.Readers.SimpleClassifiers
     using uml4net.CommonBehavior;
     using uml4net.CommonStructure;
     using uml4net.Deployments;
+    using uml4net.InformationFlows;
     using uml4net.Interactions;
     using uml4net.Packages;
     using uml4net.SimpleClassifiers;
@@ -47,7 +47,6 @@ namespace uml4net.xmi.Readers.SimpleClassifiers
     using uml4net.Utils;
     using uml4net.Values;
     using uml4net.xmi.Cache;
-    using uml4net.xmi.Readers;
 
     /// <summary>
     /// The purpose of the <see cref="InterfaceReader"/> is to read an instance of <see cref="IInterface"/>
@@ -87,6 +86,8 @@ namespace uml4net.xmi.Readers.SimpleClassifiers
             {
                 throw new ArgumentNullException(nameof(xmlReader));
             }
+
+            var defaultLineInfo = xmlReader as IXmlLineInfo;
 
             IInterface poco = new Interface();
 
@@ -188,11 +189,6 @@ namespace uml4net.xmi.Readers.SimpleClassifiers
                 }
 
 
-                var powertypeExtentValues = new List<string>();
-                var redefinedClassifierValues = new List<string>();
-                var redefinedInterfaceValues = new List<string>();
-                var useCasesValues = new List<string>();
-
                 while (xmlReader.Read())
                 {
                     if (xmlReader.NodeType == XmlNodeType.Element)
@@ -282,17 +278,17 @@ namespace uml4net.xmi.Readers.SimpleClassifiers
                                 poco.PackageImport.Add(packageImportValue);
                                 break;
                             case "powertypeExtent":
-                                this.CollectMultiValueReferencePropertyIdentifiers(xmlReader, powertypeExtentValues, "powertypeExtent");
+                                this.TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, "powertypeExtent");
                                 break;
                             case "protocol":
                                 var protocolValue = (IProtocolStateMachine)this.xmiElementReaderFacade.QueryXmiElement(xmlReader, this.Cache, this.LoggerFactory, "uml:ProtocolStateMachine");
                                 poco.Protocol.Add(protocolValue);
                                 break;
                             case "redefinedClassifier":
-                                this.CollectMultiValueReferencePropertyIdentifiers(xmlReader, redefinedClassifierValues, "redefinedClassifier");
+                                this.TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, "redefinedClassifier");
                                 break;
                             case "redefinedInterface":
-                                this.CollectMultiValueReferencePropertyIdentifiers(xmlReader, redefinedInterfaceValues, "redefinedInterface");
+                                this.TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, "redefinedInterface");
                                 break;
                             case "representation":
                                 this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "representation");
@@ -309,7 +305,7 @@ namespace uml4net.xmi.Readers.SimpleClassifiers
                                 this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "templateParameter");
                                 break;
                             case "useCases":
-                                this.CollectMultiValueReferencePropertyIdentifiers(xmlReader, useCasesValues, "useCases");
+                                this.TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, "useCases");
                                 break;
                             case "visibility":
                                 var visibilityValue = xmlReader.ReadElementContentAsString();
@@ -319,32 +315,10 @@ namespace uml4net.xmi.Readers.SimpleClassifiers
                                 }
                                 break;
                             default:
-                                var defaultLineInfo = xmlReader as IXmlLineInfo;
                                 throw new NotSupportedException($"InterfaceReader: {xmlReader.LocalName} at line:position {defaultLineInfo.LineNumber}:{defaultLineInfo.LinePosition}");
                         }
                     }
                 }
-
-                if (powertypeExtentValues.Count > 0)
-                {
-                    poco.MultiValueReferencePropertyIdentifiers.Add("powertypeExtent", powertypeExtentValues);
-                }
-
-                if (redefinedClassifierValues.Count > 0)
-                {
-                    poco.MultiValueReferencePropertyIdentifiers.Add("redefinedClassifier", redefinedClassifierValues);
-                }
-
-                if (redefinedInterfaceValues.Count > 0)
-                {
-                    poco.MultiValueReferencePropertyIdentifiers.Add("redefinedInterface", redefinedInterfaceValues);
-                }
-
-                if (useCasesValues.Count > 0)
-                {
-                    poco.MultiValueReferencePropertyIdentifiers.Add("useCases", useCasesValues);
-                }
-
             }
 
             return poco;

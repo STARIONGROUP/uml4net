@@ -22,10 +22,9 @@
 // --------THIS IS AN AUTOMATICALLY GENERATED FILE. ANY MANUAL CHANGES WILL BE OVERWRITTEN!--------
 // ------------------------------------------------------------------------------------------------
 
-namespace uml4net.xmi.Readers.Activities
+namespace uml4net.xmi.Readers
 {
     using System;
-    using System.Collections.Generic;
     using System.Linq;
     using System.Xml;
 
@@ -38,6 +37,7 @@ namespace uml4net.xmi.Readers.Activities
     using uml4net.CommonBehavior;
     using uml4net.CommonStructure;
     using uml4net.Deployments;
+    using uml4net.InformationFlows;
     using uml4net.Interactions;
     using uml4net.Packages;
     using uml4net.SimpleClassifiers;
@@ -47,7 +47,6 @@ namespace uml4net.xmi.Readers.Activities
     using uml4net.Utils;
     using uml4net.Values;
     using uml4net.xmi.Cache;
-    using uml4net.xmi.Readers;
 
     /// <summary>
     /// The purpose of the <see cref="ActivityReader"/> is to read an instance of <see cref="IActivity"/>
@@ -87,6 +86,8 @@ namespace uml4net.xmi.Readers.Activities
             {
                 throw new ArgumentNullException(nameof(xmlReader));
             }
+
+            var defaultLineInfo = xmlReader as IXmlLineInfo;
 
             IActivity poco = new Activity();
 
@@ -230,12 +231,6 @@ namespace uml4net.xmi.Readers.Activities
                     poco.Visibility = (VisibilityKind)Enum.Parse(typeof(VisibilityKind), visibilityXmlAttribute, true);
                 }
 
-
-                var partitionValues = new List<string>();
-                var powertypeExtentValues = new List<string>();
-                var redefinedBehaviorValues = new List<string>();
-                var redefinedClassifierValues = new List<string>();
-                var useCasesValues = new List<string>();
 
                 while (xmlReader.Read())
                 {
@@ -389,24 +384,28 @@ namespace uml4net.xmi.Readers.Activities
                                 poco.PackageImport.Add(packageImportValue);
                                 break;
                             case "partition":
-                                this.CollectMultiValueReferencePropertyIdentifiers(xmlReader, partitionValues, "partition");
+                                this.TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, "partition");
                                 break;
                             case "postcondition":
-                                var postconditionValue = (IConstraint)this.xmiElementReaderFacade.QueryXmiElement(xmlReader, this.Cache, this.LoggerFactory, "uml:Constraint");
-                                poco.Postcondition.Add(postconditionValue);
+                                if (!this.TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, "postcondition"))
+                                {
+                                    this.Logger.LogWarning("The Activity.Postcondition attribute was not processed at {DefaultLineInfo}", defaultLineInfo);
+                                }
                                 break;
                             case "powertypeExtent":
-                                this.CollectMultiValueReferencePropertyIdentifiers(xmlReader, powertypeExtentValues, "powertypeExtent");
+                                this.TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, "powertypeExtent");
                                 break;
                             case "precondition":
-                                var preconditionValue = (IConstraint)this.xmiElementReaderFacade.QueryXmiElement(xmlReader, this.Cache, this.LoggerFactory, "uml:Constraint");
-                                poco.Precondition.Add(preconditionValue);
+                                if (!this.TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, "precondition"))
+                                {
+                                    this.Logger.LogWarning("The Activity.Precondition attribute was not processed at {DefaultLineInfo}", defaultLineInfo);
+                                }
                                 break;
                             case "redefinedBehavior":
-                                this.CollectMultiValueReferencePropertyIdentifiers(xmlReader, redefinedBehaviorValues, "redefinedBehavior");
+                                this.TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, "redefinedBehavior");
                                 break;
                             case "redefinedClassifier":
-                                this.CollectMultiValueReferencePropertyIdentifiers(xmlReader, redefinedClassifierValues, "redefinedClassifier");
+                                this.TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, "redefinedClassifier");
                                 break;
                             case "representation":
                                 this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "representation");
@@ -415,8 +414,10 @@ namespace uml4net.xmi.Readers.Activities
                                 this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "specification");
                                 break;
                             case "structuredNode":
-                                var structuredNodeValue = (IStructuredActivityNode)this.xmiElementReaderFacade.QueryXmiElement(xmlReader, this.Cache, this.LoggerFactory, "uml:StructuredActivityNode");
-                                poco.StructuredNode.Add(structuredNodeValue);
+                                if (!this.TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, "structuredNode"))
+                                {
+                                    this.Logger.LogWarning("The Activity.StructuredNode attribute was not processed at {DefaultLineInfo}", defaultLineInfo);
+                                }
                                 break;
                             case "substitution":
                                 var substitutionValue = (ISubstitution)this.xmiElementReaderFacade.QueryXmiElement(xmlReader, this.Cache, this.LoggerFactory, "uml:Substitution");
@@ -430,7 +431,7 @@ namespace uml4net.xmi.Readers.Activities
                                 this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "templateParameter");
                                 break;
                             case "useCases":
-                                this.CollectMultiValueReferencePropertyIdentifiers(xmlReader, useCasesValues, "useCases");
+                                this.TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, "useCases");
                                 break;
                             case "variable":
                                 var variableValue = (IVariable)this.xmiElementReaderFacade.QueryXmiElement(xmlReader, this.Cache, this.LoggerFactory, "uml:Variable");
@@ -444,37 +445,10 @@ namespace uml4net.xmi.Readers.Activities
                                 }
                                 break;
                             default:
-                                var defaultLineInfo = xmlReader as IXmlLineInfo;
                                 throw new NotSupportedException($"ActivityReader: {xmlReader.LocalName} at line:position {defaultLineInfo.LineNumber}:{defaultLineInfo.LinePosition}");
                         }
                     }
                 }
-
-                if (partitionValues.Count > 0)
-                {
-                    poco.MultiValueReferencePropertyIdentifiers.Add("partition", partitionValues);
-                }
-
-                if (powertypeExtentValues.Count > 0)
-                {
-                    poco.MultiValueReferencePropertyIdentifiers.Add("powertypeExtent", powertypeExtentValues);
-                }
-
-                if (redefinedBehaviorValues.Count > 0)
-                {
-                    poco.MultiValueReferencePropertyIdentifiers.Add("redefinedBehavior", redefinedBehaviorValues);
-                }
-
-                if (redefinedClassifierValues.Count > 0)
-                {
-                    poco.MultiValueReferencePropertyIdentifiers.Add("redefinedClassifier", redefinedClassifierValues);
-                }
-
-                if (useCasesValues.Count > 0)
-                {
-                    poco.MultiValueReferencePropertyIdentifiers.Add("useCases", useCasesValues);
-                }
-
             }
 
             return poco;

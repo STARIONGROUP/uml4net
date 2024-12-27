@@ -31,8 +31,7 @@ namespace uml4net.xmi.Readers
     using uml4net.Utils;
     using uml4net.xmi;
     using uml4net.xmi.Cache;
-    using uml4net.xmi.Readers.Packages;
-
+    
     /// <summary>
     /// The purpose of the <see cref="XmiReader"/> is to provide a means to read (deserialize)
     /// a UML 2.5.1 model from XMI

@@ -22,10 +22,9 @@
 // --------THIS IS AN AUTOMATICALLY GENERATED FILE. ANY MANUAL CHANGES WILL BE OVERWRITTEN!--------
 // ------------------------------------------------------------------------------------------------
 
-namespace uml4net.xmi.Readers.StructuredClassifiers
+namespace uml4net.xmi.Readers
 {
     using System;
-    using System.Collections.Generic;
     using System.Linq;
     using System.Xml;
 
@@ -38,6 +37,7 @@ namespace uml4net.xmi.Readers.StructuredClassifiers
     using uml4net.CommonBehavior;
     using uml4net.CommonStructure;
     using uml4net.Deployments;
+    using uml4net.InformationFlows;
     using uml4net.Interactions;
     using uml4net.Packages;
     using uml4net.SimpleClassifiers;
@@ -47,7 +47,6 @@ namespace uml4net.xmi.Readers.StructuredClassifiers
     using uml4net.Utils;
     using uml4net.Values;
     using uml4net.xmi.Cache;
-    using uml4net.xmi.Readers;
 
     /// <summary>
     /// The purpose of the <see cref="AssociationReader"/> is to read an instance of <see cref="IAssociation"/>
@@ -87,6 +86,8 @@ namespace uml4net.xmi.Readers.StructuredClassifiers
             {
                 throw new ArgumentNullException(nameof(xmlReader));
             }
+
+            var defaultLineInfo = xmlReader as IXmlLineInfo;
 
             IAssociation poco = new Association();
 
@@ -201,12 +202,6 @@ namespace uml4net.xmi.Readers.StructuredClassifiers
                 }
 
 
-                var memberEndValues = new List<string>();
-                var navigableOwnedEndValues = new List<string>();
-                var powertypeExtentValues = new List<string>();
-                var redefinedClassifierValues = new List<string>();
-                var useCasesValues = new List<string>();
-
                 while (xmlReader.Read())
                 {
                     if (xmlReader.NodeType == XmlNodeType.Element)
@@ -254,7 +249,7 @@ namespace uml4net.xmi.Readers.StructuredClassifiers
                                 }
                                 break;
                             case "memberEnd":
-                                this.CollectMultiValueReferencePropertyIdentifiers(xmlReader, memberEndValues, "memberEnd");
+                                this.TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, "memberEnd");
                                 break;
                             case "name":
                                 poco.Name = xmlReader.ReadElementContentAsString();
@@ -264,7 +259,7 @@ namespace uml4net.xmi.Readers.StructuredClassifiers
                                 poco.NameExpression.Add(nameExpressionValue);
                                 break;
                             case "navigableOwnedEnd":
-                                this.CollectMultiValueReferencePropertyIdentifiers(xmlReader, navigableOwnedEndValues, "navigableOwnedEnd");
+                                this.TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, "navigableOwnedEnd");
                                 break;
                             case "ownedComment":
                                 var ownedCommentValue = (IComment)this.xmiElementReaderFacade.QueryXmiElement(xmlReader, this.Cache, this.LoggerFactory, "uml:Comment");
@@ -297,10 +292,10 @@ namespace uml4net.xmi.Readers.StructuredClassifiers
                                 poco.PackageImport.Add(packageImportValue);
                                 break;
                             case "powertypeExtent":
-                                this.CollectMultiValueReferencePropertyIdentifiers(xmlReader, powertypeExtentValues, "powertypeExtent");
+                                this.TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, "powertypeExtent");
                                 break;
                             case "redefinedClassifier":
-                                this.CollectMultiValueReferencePropertyIdentifiers(xmlReader, redefinedClassifierValues, "redefinedClassifier");
+                                this.TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, "redefinedClassifier");
                                 break;
                             case "representation":
                                 this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "representation");
@@ -317,7 +312,7 @@ namespace uml4net.xmi.Readers.StructuredClassifiers
                                 this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "templateParameter");
                                 break;
                             case "useCases":
-                                this.CollectMultiValueReferencePropertyIdentifiers(xmlReader, useCasesValues, "useCases");
+                                this.TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, "useCases");
                                 break;
                             case "visibility":
                                 var visibilityValue = xmlReader.ReadElementContentAsString();
@@ -327,37 +322,10 @@ namespace uml4net.xmi.Readers.StructuredClassifiers
                                 }
                                 break;
                             default:
-                                var defaultLineInfo = xmlReader as IXmlLineInfo;
                                 throw new NotSupportedException($"AssociationReader: {xmlReader.LocalName} at line:position {defaultLineInfo.LineNumber}:{defaultLineInfo.LinePosition}");
                         }
                     }
                 }
-
-                if (memberEndValues.Count > 0)
-                {
-                    poco.MultiValueReferencePropertyIdentifiers.Add("memberEnd", memberEndValues);
-                }
-
-                if (navigableOwnedEndValues.Count > 0)
-                {
-                    poco.MultiValueReferencePropertyIdentifiers.Add("navigableOwnedEnd", navigableOwnedEndValues);
-                }
-
-                if (powertypeExtentValues.Count > 0)
-                {
-                    poco.MultiValueReferencePropertyIdentifiers.Add("powertypeExtent", powertypeExtentValues);
-                }
-
-                if (redefinedClassifierValues.Count > 0)
-                {
-                    poco.MultiValueReferencePropertyIdentifiers.Add("redefinedClassifier", redefinedClassifierValues);
-                }
-
-                if (useCasesValues.Count > 0)
-                {
-                    poco.MultiValueReferencePropertyIdentifiers.Add("useCases", useCasesValues);
-                }
-
             }
 
             return poco;

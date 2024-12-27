@@ -22,10 +22,9 @@
 // --------THIS IS AN AUTOMATICALLY GENERATED FILE. ANY MANUAL CHANGES WILL BE OVERWRITTEN!--------
 // ------------------------------------------------------------------------------------------------
 
-namespace uml4net.xmi.Readers.Classification
+namespace uml4net.xmi.Readers
 {
     using System;
-    using System.Collections.Generic;
     using System.Linq;
     using System.Xml;
 
@@ -38,6 +37,7 @@ namespace uml4net.xmi.Readers.Classification
     using uml4net.CommonBehavior;
     using uml4net.CommonStructure;
     using uml4net.Deployments;
+    using uml4net.InformationFlows;
     using uml4net.Interactions;
     using uml4net.Packages;
     using uml4net.SimpleClassifiers;
@@ -47,7 +47,6 @@ namespace uml4net.xmi.Readers.Classification
     using uml4net.Utils;
     using uml4net.Values;
     using uml4net.xmi.Cache;
-    using uml4net.xmi.Readers;
 
     /// <summary>
     /// The purpose of the <see cref="ParameterReader"/> is to read an instance of <see cref="IParameter"/>
@@ -87,6 +86,8 @@ namespace uml4net.xmi.Readers.Classification
             {
                 throw new ArgumentNullException(nameof(xmlReader));
             }
+
+            var defaultLineInfo = xmlReader as IXmlLineInfo;
 
             IParameter poco = new Parameter();
 
@@ -185,8 +186,6 @@ namespace uml4net.xmi.Readers.Classification
                 }
 
 
-                var parameterSetValues = new List<string>();
-
                 while (xmlReader.Read())
                 {
                     if (xmlReader.NodeType == XmlNodeType.Element)
@@ -261,7 +260,7 @@ namespace uml4net.xmi.Readers.Classification
                                 this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "owningTemplateParameter");
                                 break;
                             case "parameterSet":
-                                this.CollectMultiValueReferencePropertyIdentifiers(xmlReader, parameterSetValues, "parameterSet");
+                                this.TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, "parameterSet");
                                 break;
                             case "templateParameter":
                                 this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "templateParameter");
@@ -281,17 +280,10 @@ namespace uml4net.xmi.Readers.Classification
                                 }
                                 break;
                             default:
-                                var defaultLineInfo = xmlReader as IXmlLineInfo;
                                 throw new NotSupportedException($"ParameterReader: {xmlReader.LocalName} at line:position {defaultLineInfo.LineNumber}:{defaultLineInfo.LinePosition}");
                         }
                     }
                 }
-
-                if (parameterSetValues.Count > 0)
-                {
-                    poco.MultiValueReferencePropertyIdentifiers.Add("parameterSet", parameterSetValues);
-                }
-
             }
 
             return poco;

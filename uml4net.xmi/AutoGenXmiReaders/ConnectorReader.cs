@@ -22,10 +22,9 @@
 // --------THIS IS AN AUTOMATICALLY GENERATED FILE. ANY MANUAL CHANGES WILL BE OVERWRITTEN!--------
 // ------------------------------------------------------------------------------------------------
 
-namespace uml4net.xmi.Readers.StructuredClassifiers
+namespace uml4net.xmi.Readers
 {
     using System;
-    using System.Collections.Generic;
     using System.Linq;
     using System.Xml;
 
@@ -38,6 +37,7 @@ namespace uml4net.xmi.Readers.StructuredClassifiers
     using uml4net.CommonBehavior;
     using uml4net.CommonStructure;
     using uml4net.Deployments;
+    using uml4net.InformationFlows;
     using uml4net.Interactions;
     using uml4net.Packages;
     using uml4net.SimpleClassifiers;
@@ -47,7 +47,6 @@ namespace uml4net.xmi.Readers.StructuredClassifiers
     using uml4net.Utils;
     using uml4net.Values;
     using uml4net.xmi.Cache;
-    using uml4net.xmi.Readers;
 
     /// <summary>
     /// The purpose of the <see cref="ConnectorReader"/> is to read an instance of <see cref="IConnector"/>
@@ -87,6 +86,8 @@ namespace uml4net.xmi.Readers.StructuredClassifiers
             {
                 throw new ArgumentNullException(nameof(xmlReader));
             }
+
+            var defaultLineInfo = xmlReader as IXmlLineInfo;
 
             IConnector poco = new Connector();
 
@@ -150,9 +151,6 @@ namespace uml4net.xmi.Readers.StructuredClassifiers
                 }
 
 
-                var contractValues = new List<string>();
-                var redefinedConnectorValues = new List<string>();
-
                 while (xmlReader.Read())
                 {
                     if (xmlReader.NodeType == XmlNodeType.Element)
@@ -160,7 +158,7 @@ namespace uml4net.xmi.Readers.StructuredClassifiers
                         switch (xmlReader.LocalName)
                         {
                             case "contract":
-                                this.CollectMultiValueReferencePropertyIdentifiers(xmlReader, contractValues, "contract");
+                                this.TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, "contract");
                                 break;
                             case "end":
                                 var endValue = (IConnectorEnd)this.xmiElementReaderFacade.QueryXmiElement(xmlReader, this.Cache, this.LoggerFactory, "uml:ConnectorEnd");
@@ -192,7 +190,7 @@ namespace uml4net.xmi.Readers.StructuredClassifiers
                                 poco.OwnedComment.Add(ownedCommentValue);
                                 break;
                             case "redefinedConnector":
-                                this.CollectMultiValueReferencePropertyIdentifiers(xmlReader, redefinedConnectorValues, "redefinedConnector");
+                                this.TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, "redefinedConnector");
                                 break;
                             case "type":
                                 this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "type");
@@ -205,22 +203,10 @@ namespace uml4net.xmi.Readers.StructuredClassifiers
                                 }
                                 break;
                             default:
-                                var defaultLineInfo = xmlReader as IXmlLineInfo;
                                 throw new NotSupportedException($"ConnectorReader: {xmlReader.LocalName} at line:position {defaultLineInfo.LineNumber}:{defaultLineInfo.LinePosition}");
                         }
                     }
                 }
-
-                if (contractValues.Count > 0)
-                {
-                    poco.MultiValueReferencePropertyIdentifiers.Add("contract", contractValues);
-                }
-
-                if (redefinedConnectorValues.Count > 0)
-                {
-                    poco.MultiValueReferencePropertyIdentifiers.Add("redefinedConnector", redefinedConnectorValues);
-                }
-
             }
 
             return poco;
