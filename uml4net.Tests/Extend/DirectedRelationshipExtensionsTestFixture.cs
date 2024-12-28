@@ -1,5 +1,5 @@
 ﻿// -------------------------------------------------------------------------------------------------
-//  <copyright file="ClassExtensionsTestFixture.cs" company="Starion Group S.A.">
+//  <copyright file="DirectedRelationshipExtensionsTestFixture.cs" company="Starion Group S.A.">
 // 
 //    Copyright 2019-2024 Starion Group S.A.
 // 
@@ -20,18 +20,16 @@
 
 namespace uml4net.Tests.Extend
 {
-    using System.Collections.Generic;
-    
     using NUnit.Framework;
 
     using uml4net.Classification;
     using uml4net.StructuredClassifiers;
 
     [TestFixture]
-    public class ClassExtensionsTestFixture
+    public class DirectedRelationshipExtensionsTestFixture
     {
         [Test]
-        public void Verify_that_the_SuperClass_of_a_class_returns_the_expected_result()
+        public void Verify_that_when_Generalization_Source_and_Target_return_expected_result()
         {
             var animal = new Class { Name = "Animal" };
             var mammal = new Class { Name = "Mammal" };
@@ -48,17 +46,8 @@ namespace uml4net.Tests.Extend
             cat.Generalization.Add(mammal_is_generalization_of_cat);
             animal.Generalization.Add(animal_is_generalization_of_mammal);
 
-            var general = ClassifierExtensions.QueryGeneral(cat);
-
-            Assert.That(general, Is.EquivalentTo(new List<IClass>() { mammal }));
-        }
-
-        [Test]
-        public void Verify_that_when_Class_is_null_argument_exception_is_thrown()
-        {
-            Class @class = null;
-
-            Assert.That(() => ClassifierExtensions.QueryGeneral(@class), Throws.ArgumentNullException);
+            Assert.That(animal_is_generalization_of_mammal.Source, Is.EquivalentTo([mammal] ));
+            Assert.That(animal_is_generalization_of_mammal.Target, Is.EquivalentTo([animal]));
         }
     }
 }

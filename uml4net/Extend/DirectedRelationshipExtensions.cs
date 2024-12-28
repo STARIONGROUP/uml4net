@@ -23,6 +23,8 @@ namespace uml4net.CommonStructure
     using System;
     using System.Collections.Generic;
 
+    using Classification;
+
     /// <summary>
     /// The <see cref="DirectedRelationshipExtensions"/> class provides extensions methods for <see cref="IDirectedRelationship"/>
     /// </summary>
@@ -39,7 +41,12 @@ namespace uml4net.CommonStructure
         /// </returns>
         public static List<IElement> QueryTarget(this IDirectedRelationship directedRelationship)
         {
-            throw new NotSupportedException();
+            if (directedRelationship is IGeneralization generalization)
+            {
+                return [generalization.General];
+            }
+
+            throw new NotSupportedException($"{directedRelationship.GetType()} not yet supported");
         }
 
         /// <summary>
@@ -53,7 +60,12 @@ namespace uml4net.CommonStructure
         /// </returns>
         public static List<IElement> QuerySource(this IDirectedRelationship directedRelationship)
         {
-            throw new NotSupportedException();
+            if (directedRelationship is IGeneralization generalization)
+            {
+                return [generalization.Specific];
+            }
+
+            throw new NotSupportedException($"{directedRelationship.GetType()} not yet supported");
         }
     }
 }

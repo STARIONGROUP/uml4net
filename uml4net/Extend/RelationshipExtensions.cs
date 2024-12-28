@@ -23,6 +23,8 @@ namespace uml4net.CommonStructure
     using System;
     using System.Collections.Generic;
 
+    using uml4net.Classification;
+
     /// <summary>
     /// The <see cref="RelationshipExtensions"/> class provides extensions methods for <see cref="IRelationship"/>
     /// </summary>
@@ -39,7 +41,12 @@ namespace uml4net.CommonStructure
         /// </returns>
         public static List<IElement> QueryRelatedElement(this IRelationship relationship)
         {
-            throw new NotSupportedException();
+            if (relationship is IGeneralization generalization)
+            {
+                return [generalization.Specific, generalization.General];
+            }
+
+            throw new NotSupportedException($"{relationship.GetType()} not yet supported");
         }
     }
 }
