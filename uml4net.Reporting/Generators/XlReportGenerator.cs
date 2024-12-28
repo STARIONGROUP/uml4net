@@ -25,13 +25,19 @@ namespace uml4net.Reporting.Generators
     using System.Data;
     using System.Diagnostics;
     using System.IO;
+    using System.Linq;
     using System.Reflection;
 
     using ClosedXML.Excel;
-    using Extensions;
+
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Logging.Abstractions;
 
+    using uml4net.Classification;
+    using uml4net.CommonStructure;
+    using uml4net.Extensions;
+    using uml4net.SimpleClassifiers;
+    using uml4net.StructuredClassifiers;
     using uml4net.Packages;
 
     /// <summary>
@@ -98,20 +104,26 @@ namespace uml4net.Reporting.Generators
 
             this.logger.LogInformation("Start Generating Excel report tables");
 
-            //var rootPackage = this.LoadRootPackage(modelPath);
-            IPackage rootPackage = null;
+            var xmiReaderResult = this.LoadPackages(modelPath, rootDirectory, pathMap);
 
-            var packages = rootPackage.QueryPackages();
+            var packages = xmiReaderResult.Root.QueryPackages().ToList();
+            packages.AddRange(xmiReaderResult.Packages);
+
+            packages = packages.Distinct().ToList();
 
             using (var workbook = new XLWorkbook())
             {
-                this.AddInfoSheet(workbook, rootPackage);
+                this.AddInfoSheet(workbook, xmiReaderResult.Root);
 
                 this.AddIClassSheet(workbook, packages);
 
-                this.AddIEnumuerationSheet(workbook, packages);
+                this.AddIInterfaceSheet(workbook, packages);
 
-                this.AddIDataTypeSheet(workbook, packages);
+                this.AddIEnumerationSheet(workbook, packages);
+
+                this.AddIPrimitiveTypeSheet(workbook, packages);
+
+                this.AddOtherIDataTypeSheet(workbook, packages);
 
                 this.logger.LogInformation("Saving report file to {0}", outputPath.FullName);
 
@@ -159,51 +171,59 @@ namespace uml4net.Reporting.Generators
         /// </param>
         private void AddIClassSheet(XLWorkbook workbook, IEnumerable<IPackage> packages)
         {
-            this.logger.LogDebug("Add IClass reports");
+            this.logger.LogDebug("Add IClass report");
 
             var classWorksheet = workbook.Worksheets.Add("Class");
 
             var dataTable = new DataTable();
 
             dataTable.Columns.Add("Class", typeof(string));
-            dataTable.Columns.Add("Feature", typeof(string));
-            dataTable.Columns.Add("EType", typeof(string));
+            dataTable.Columns.Add("Qualified Name", typeof(string));
+            dataTable.Columns.Add("IsAbstract", typeof(string));
+            dataTable.Columns.Add("Generalizations", typeof(string));
+            dataTable.Columns.Add("Property", typeof(string));
+            dataTable.Columns.Add("Type", typeof(string));
             dataTable.Columns.Add("Multiplicity", typeof(string));
             dataTable.Columns.Add("IsContainment", typeof(string));
             dataTable.Columns.Add("Documentation", typeof(string));
+            dataTable.Columns.Add("Inheritance", typeof(string));
 
-            //foreach (var package in packages)
-            //{
-            //    foreach (var eClass in package.EClassifiers.OfType<EClass>().OrderBy(x => x.Name))
-            //    {
-            //        var classDataRow = dataTable.NewRow();
-            //        classDataRow["Class"] = eClass.Name;
-            //        classDataRow["Feature"] = "--";
-            //        classDataRow["EType"] = "--";
-            //        classDataRow["Multiplicity"] = "--";
-            //        classDataRow["IsContainment"] = "--";
-            //        classDataRow["Documentation"] = eClass.QueryRawDocumentation();
-            //        dataTable.Rows.Add(classDataRow);
+            foreach (var package in packages)
+            {
+                foreach (var @class in package.PackagedElement.OfType<IClass>().OrderBy(x => x.Name))
+                {
+                    var classDataRow = dataTable.NewRow();
+                    classDataRow["Class"] = @class.Name;
+                    classDataRow["Qualified Name"] = @class.QualifiedName;
+                    classDataRow["IsAbstract"] = @class.IsAbstract.ToString();
+                    classDataRow["Generalizations"] = string.Join(", ", @class.SuperClass.Select(o => o.Name)) ;
+                    classDataRow["Property"] = "--";
+                    classDataRow["Type"] = "--";
+                    classDataRow["Multiplicity"] = "--";
+                    classDataRow["IsContainment"] = "--";
+                    classDataRow["Documentation"] = @class.QueryRawDocumentation();
+                    classDataRow["Inheritance"] = "--";
+                    dataTable.Rows.Add(classDataRow);
 
-            //        foreach (var structuralFeature in eClass.EStructuralFeatures)
-            //        {
-            //            if (structuralFeature.Derived || structuralFeature.Transient)
-            //            {
-            //                continue;
-            //            }
+                    foreach (var property in @class.QueryAllProperties())
+                    {
+                        if (property.IsDerived || property.IsDerived || property.IsReadOnly)
+                        {
+                            continue;
+                        }
 
-            //            var structuralFeatureDataRow = dataTable.NewRow();
-            //            structuralFeatureDataRow["Class"] = eClass.Name;
-            //            structuralFeatureDataRow["Feature"] = structuralFeature.Name;
-            //            structuralFeatureDataRow["EType"] = structuralFeature.EType.Name;
-            //            structuralFeatureDataRow["Multiplicity"] = $"{structuralFeature.LowerBound}:{structuralFeature.UpperBound}";
-            //            structuralFeatureDataRow["IsContainment"] = structuralFeature.QueryIsContainment();
-            //            structuralFeatureDataRow["Documentation"] = structuralFeature.QueryRawDocumentation();
-
-            //            dataTable.Rows.Add(structuralFeatureDataRow);
-            //        }
-            //    }
-            //}
+                        var propertyDataRow = dataTable.NewRow();
+                        propertyDataRow["Class"] = @class.Name;
+                        propertyDataRow["Property"] = property.Name;
+                        propertyDataRow["Type"] = property.QueryTypeName();
+                        propertyDataRow["Multiplicity"] = $"[{property.Lower}..{property.Upper}]";
+                        propertyDataRow["IsContainment"] = property.IsComposite.ToString();
+                        propertyDataRow["Documentation"] = property.QueryRawDocumentation();
+                        propertyDataRow["Inheritance"] = ((INamedElement)property.Owner).Name;
+                        dataTable.Rows.Add(propertyDataRow);
+                    }
+                }
+            }
 
             classWorksheet.Cell(1, 1).InsertTable(dataTable, "Classes", true);
 
@@ -211,85 +231,191 @@ namespace uml4net.Reporting.Generators
         }
 
         /// <summary>
-        /// Adds a worksheet to the workbook with EEnum data
+        /// Adds a worksheet to the workbook with Interface data
         /// </summary>
         /// <param name="workbook">
-        /// The target <see cref="XLWorkbook"/> to which the EEnum worksheet is added
+        /// The target <see cref="XLWorkbook"/> to which the Interface worksheet is added
         /// </param>
         /// <param name="packages">
-        /// The <see cref="IPackage"/>s that contain the EEnum instances to report on
+        /// The <see cref="IPackage"/>s that contain the Interface instances to report on
         /// </param>
-        private void AddIEnumuerationSheet(XLWorkbook workbook, IEnumerable<IPackage> packages)
+        private void AddIInterfaceSheet(XLWorkbook workbook, IEnumerable<IPackage> packages)
         {
-            var enumWorksheet = workbook.Worksheets.Add("EEnum");
+            this.logger.LogDebug("Add IInterface report");
 
-            this.logger.LogDebug("Add EEnum reports");
+            var interfaceWorksheet = workbook.Worksheets.Add("Interface");
 
             var dataTable = new DataTable();
 
-            dataTable.Columns.Add("Enumueration", typeof(string));
-            dataTable.Columns.Add("Literal", typeof(string));
+            dataTable.Columns.Add("Interface", typeof(string));
+            dataTable.Columns.Add("Qualified Name", typeof(string));
+            dataTable.Columns.Add("Generalizations", typeof(string));
+            dataTable.Columns.Add("Property", typeof(string));
+            dataTable.Columns.Add("Type", typeof(string));
+            dataTable.Columns.Add("Multiplicity", typeof(string));
+            dataTable.Columns.Add("IsContainment", typeof(string));
             dataTable.Columns.Add("Documentation", typeof(string));
 
-            //foreach (var package in packages)
-            //{
-            //    foreach (var eEnum in package.EClassifiers.OfType<EEnum>().OrderBy(x => x.Name))
-            //    {
-            //        var enumDataRow = dataTable.NewRow();
-            //        enumDataRow["Enum"] = eEnum.Name;
-            //        enumDataRow["Literal"] = "--";
-            //        enumDataRow["Documentation"] = eEnum.QueryRawDocumentation();
-            //        dataTable.Rows.Add(enumDataRow);
+            foreach (var package in packages)
+            {
+                foreach (var @interface in package.PackagedElement.OfType<IInterface>().OrderBy(x => x.Name))
+                {
+                    var classDataRow = dataTable.NewRow();
+                    classDataRow["Class"] = @interface.Name;
+                    classDataRow["Qualified Name"] = @interface.QualifiedName;
+                    classDataRow["IsAbstract"] = @interface.IsAbstract.ToString();
+                    classDataRow["Generalizations"] = string.Join(", ", @interface.QueryGeneral().Select(o => o.Name));
+                    classDataRow["Property"] = "--";
+                    classDataRow["Type"] = "--";
+                    classDataRow["Multiplicity"] = "--";
+                    classDataRow["IsContainment"] = "--";
+                    classDataRow["Documentation"] = @interface.QueryRawDocumentation();
+                    dataTable.Rows.Add(classDataRow);
 
-            //        foreach (var eEnumLiteral in eEnum.ELiterals)
-            //        {
-            //            var eEnumLiteralRow = dataTable.NewRow();
-            //            eEnumLiteralRow["Enum"] = eEnum.Name;
-            //            eEnumLiteralRow["Literal"] = eEnumLiteral.Name;
-            //            eEnumLiteralRow["Documentation"] = eEnumLiteral.QueryRawDocumentation();
-            //            dataTable.Rows.Add(eEnumLiteralRow);
-            //        }
-            //    }
-            //}
+                    foreach (var property in @interface.OwnedAttribute)
+                    {
+                        if (property.IsDerived || property.IsDerived || property.IsReadOnly)
+                        {
+                            continue;
+                        }
 
-            enumWorksheet.Cell(1, 1).InsertTable(dataTable, "Enums", true);
+                        var propertyDataRow = dataTable.NewRow();
+                        propertyDataRow["Class"] = @interface.Name;
+                        propertyDataRow["Property"] = property.Name;
+                        propertyDataRow["Type"] = property.QueryTypeName();
+                        propertyDataRow["Multiplicity"] = $"[{property.Lower}..{property.Upper}]";
+                        propertyDataRow["IsContainment"] = property.IsComposite.ToString();
+                        propertyDataRow["Documentation"] = property.QueryRawDocumentation();
+                        dataTable.Rows.Add(propertyDataRow);
+                    }
+                }
+            }
 
-            this.FormatSheet(enumWorksheet);
+            interfaceWorksheet.Cell(1, 1).InsertTable(dataTable, "Interfaces", true);
+
+            this.FormatSheet(interfaceWorksheet);
         }
 
         /// <summary>
-        /// Adds a worksheet to the workbook with EDataType data
+        /// Adds a worksheet to the workbook with IEnumeration data
         /// </summary>
         /// <param name="workbook">
-        /// The target <see cref="XLWorkbook"/> to which the EDataType worksheet is added
+        /// The target <see cref="XLWorkbook"/> to which the IEnumeration worksheet is added
         /// </param>
         /// <param name="packages">
-        /// The <see cref="IPackage"/>s that contain the EDataType instances to report on
+        /// The <see cref="IPackage"/>s that contain the IEnumeration instances to report on
         /// </param>
-        private void AddIDataTypeSheet(XLWorkbook workbook, IEnumerable<IPackage> packages)
+        private void AddIEnumerationSheet(XLWorkbook workbook, IEnumerable<IPackage> packages)
         {
-            var dataTypeWorksheet = workbook.Worksheets.Add("EDataType");
+            var enumerationWorksheet = workbook.Worksheets.Add("Enumeration");
 
-            this.logger.LogDebug("Add EDataType reports");
+            this.logger.LogDebug("Add IEnumeration report");
+
+            var dataTable = new DataTable();
+
+            dataTable.Columns.Add("Enumeration", typeof(string));
+            dataTable.Columns.Add("Qualified Name", typeof(string));
+            dataTable.Columns.Add("EnumerationLiteral", typeof(string));
+            dataTable.Columns.Add("Documentation", typeof(string));
+
+            foreach (var package in packages)
+            {
+                foreach (var enumeration in package.PackagedElement.OfType<IEnumeration>().OrderBy(x => x.Name))
+                {
+                    var enumerationDataRow = dataTable.NewRow();
+                    enumerationDataRow["Enumeration"] = enumeration.Name;
+                    enumerationDataRow["Qualified Name"] = enumeration.QualifiedName;
+                    enumerationDataRow["EnumerationLiteral"] = "--";
+                    enumerationDataRow["Documentation"] = enumeration.QueryRawDocumentation();
+                    dataTable.Rows.Add(enumerationDataRow);
+
+                    foreach (var enumerationLiteral in enumeration.OwnedLiteral)
+                    {
+                        var enumerationLiteralDataRow = dataTable.NewRow();
+                        enumerationLiteralDataRow["Enumeration"] = enumeration.Name;
+                        enumerationLiteralDataRow["EnumerationLiteral"] = enumerationLiteral.Name;
+                        enumerationLiteralDataRow["Documentation"] = enumerationLiteral.QueryRawDocumentation();
+                        dataTable.Rows.Add(enumerationLiteralDataRow);
+                    }
+                }
+            }
+
+            enumerationWorksheet.Cell(1, 1).InsertTable(dataTable, "Enumerations", true);
+
+            this.FormatSheet(enumerationWorksheet);
+        }
+
+        /// <summary>
+        /// Adds a worksheet to the workbook with IPrimitiveType data
+        /// </summary>
+        /// <param name="workbook">
+        /// The target <see cref="XLWorkbook"/> to which the IPrimitiveType worksheet is added
+        /// </param>
+        /// <param name="packages">
+        /// The <see cref="IPackage"/>s that contain the IPrimitiveType instances to report on
+        /// </param>
+        private void AddIPrimitiveTypeSheet(XLWorkbook workbook, IEnumerable<IPackage> packages)
+        {
+            var primitiveTypeWorksheet = workbook.Worksheets.Add("PrimitiveType");
+
+            this.logger.LogDebug("Add IPrimitiveType report");
+
+            var dataTable = new DataTable();
+
+            dataTable.Columns.Add("PrimitiveType", typeof(string));
+            dataTable.Columns.Add("Documentation", typeof(string));
+
+            foreach (var package in packages)
+            {
+                foreach (var primitiveType in package.PackagedElement
+                             .OfType<IPrimitiveType>()
+                             .OrderBy(x => x.Name))
+                {
+                    var dataTypeRow = dataTable.NewRow();
+                    dataTypeRow["PrimitiveType"] = primitiveType.Name;
+                    dataTypeRow["Documentation"] = primitiveType.QueryRawDocumentation();
+                    dataTable.Rows.Add(dataTypeRow);
+                }
+            }
+
+            primitiveTypeWorksheet.Cell(1, 1).InsertTable(dataTable, "PrimitiveTypes", true);
+
+            this.FormatSheet(primitiveTypeWorksheet);
+        }
+
+        /// <summary>
+        /// Adds a worksheet to the workbook with IDataType data (except for IEnumerations and PrimitiveTypes)
+        /// </summary>
+        /// <param name="workbook">
+        /// The target <see cref="XLWorkbook"/> to which the IDataType worksheet is added
+        /// </param>
+        /// <param name="packages">
+        /// The <see cref="IPackage"/>s that contain the IDataType instances to report on
+        /// </param>
+        private void AddOtherIDataTypeSheet(XLWorkbook workbook, IEnumerable<IPackage> packages)
+        {
+            var dataTypeWorksheet = workbook.Worksheets.Add("DataType");
+
+            this.logger.LogDebug("Add IDataType report");
 
             var dataTable = new DataTable();
 
             dataTable.Columns.Add("DataType", typeof(string));
             dataTable.Columns.Add("Documentation", typeof(string));
 
-            //foreach (var package in packages)
-            //{
-            //    foreach (var eDataType in package.EClassifiers
-            //                 .OfType<EDataType>()
-            //                 .Where(x => !(x is EEnum))
-            //                 .OrderBy(x => x.Name))
-            //    {
-            //        var dataTypeRow = dataTable.NewRow();
-            //        dataTypeRow["DataType"] = eDataType.Name;
-            //        dataTypeRow["Documentation"] = eDataType.QueryRawDocumentation();
-            //        dataTable.Rows.Add(dataTypeRow);
-            //    }
-            //}
+            foreach (var package in packages)
+            {
+                foreach (var eDataType in package.PackagedElement
+                             .OfType<IDataType>()
+                             .Where(x => x is not IEnumeration && x is not IPrimitiveType)
+                             .OrderBy(x => x.Name))
+                {
+                    var dataTypeRow = dataTable.NewRow();
+                    dataTypeRow["DataType"] = eDataType.Name;
+                    dataTypeRow["Documentation"] = eDataType.QueryRawDocumentation();
+                    dataTable.Rows.Add(dataTypeRow);
+                }
+            }
 
             dataTypeWorksheet.Cell(1, 1).InsertTable(dataTable, "DataTypes", true);
 
