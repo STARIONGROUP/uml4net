@@ -45,7 +45,7 @@ namespace uml4net.HandleBars
         /// </param>
         public static void RegisterDecoratorHelper(this IHandlebars handlebars)
         {
-            handlebars.RegisterHelper("Decorator.WriteClassAttribute", (writer, context, parameters) =>
+            handlebars.RegisterHelper("Decorator.WriteClassAttribute", (writer, context, _) =>
             {
                 if (!(context.Value is IClass @class))
                 {
@@ -60,7 +60,7 @@ namespace uml4net.HandleBars
                 writer.WriteSafeString(classAttribute);
             });
 
-            handlebars.RegisterHelper("Decorator.WriteImplementsAttribute", (writer, context, parameters) =>
+            handlebars.RegisterHelper("Decorator.WriteImplementsAttribute", (writer, context, _) =>
             {
                 if (!(context.Value is IProperty property))
                 {
@@ -76,7 +76,7 @@ namespace uml4net.HandleBars
                 writer.WriteSafeString(implementsAttribute);
             });
 
-            handlebars.RegisterHelper("Decorator.WritePropertyAttribute", (writer, context, parameters) =>
+            handlebars.RegisterHelper("Decorator.WritePropertyAttribute", (writer, context, _) =>
             {
                 if (!(context.Value is IProperty property))
                 {
@@ -105,7 +105,7 @@ namespace uml4net.HandleBars
                 writer.WriteSafeString($"{propertyAttribute}" + Environment.NewLine);
             });
 
-            handlebars.RegisterHelper("Decorator.WriteRedefinedPropertyAttribute", (writer, context, parameters) =>
+            handlebars.RegisterHelper("Decorator.WriteRedefinedPropertyAttribute", (writer, context, _) =>
             {
                 if (!(context.Value is IProperty property))
                 {
@@ -125,7 +125,7 @@ namespace uml4net.HandleBars
                 }
             });
 
-            handlebars.RegisterHelper("Decorator.WriteRedefinedByPropertyAttribute", (writer, context, parameters) =>
+            handlebars.RegisterHelper("Decorator.WriteRedefinedByPropertyAttribute", (writer, _, parameters) =>
             {
                 if (parameters.Length != 2)
                 {
@@ -142,7 +142,7 @@ namespace uml4net.HandleBars
                 }
             });
 
-            handlebars.RegisterHelper("Decorator.WriteSubsettedPropertyAttribute", (writer, context, parameters) =>
+            handlebars.RegisterHelper("Decorator.WriteSubsettedPropertyAttribute", (writer, context, _) =>
             {
                 if (!(context.Value is IProperty property))
                 {
@@ -162,7 +162,7 @@ namespace uml4net.HandleBars
                 }
             });
 
-            handlebars.RegisterHelper("Decorator.WriteImplementsAttribute", (writer, context, parameters) =>
+            handlebars.RegisterHelper("Decorator.WriteImplementsAttribute", (writer, context, _) =>
             {
                 if (!(context.Value is IProperty property))
                 {

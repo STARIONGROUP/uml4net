@@ -41,7 +41,7 @@ namespace uml4net.HandleBars
         /// </param>
         public static void RegisterTypeNameHelper(this IHandlebars handlebars)
         {
-            handlebars.RegisterHelper("POCO.TypeName", (writer, context, parameters) =>
+            handlebars.RegisterHelper("POCO.TypeName", (writer, context, _) =>
             {
                 if (!(context.Value is IProperty property))
                 {

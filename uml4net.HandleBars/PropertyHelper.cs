@@ -73,7 +73,7 @@ namespace uml4net.HandleBars
                 }
             });
 
-            handlebars.RegisterHelper("Property.QueryStructuralFeatureNameEqualsEnclosingType", (context, arguments) =>
+            handlebars.RegisterHelper("Property.QueryStructuralFeatureNameEqualsEnclosingType", (_, arguments) =>
             {
                 if (arguments.Length != 2)
                 {
@@ -104,7 +104,7 @@ namespace uml4net.HandleBars
                 }
             });
 
-            handlebars.RegisterHelper("Property.QueryIsEnum", (context, arguments) =>
+            handlebars.RegisterHelper("Property.QueryIsEnum", (_, arguments) =>
             {
                 if (arguments.Length != 1)
                 {
@@ -116,7 +116,7 @@ namespace uml4net.HandleBars
                 return property.QueryIsEnum();
             });
 
-            handlebars.RegisterHelper("Property.IsEnum", (context, arguments) =>
+            handlebars.RegisterHelper("Property.IsEnum", (_, arguments) =>
             {
                 if (arguments.Length != 1)
                 {
@@ -128,7 +128,7 @@ namespace uml4net.HandleBars
                 return property.QueryIsEnum();
             });
 
-            handlebars.RegisterHelper("Property.QueryIsBool", (context, arguments) =>
+            handlebars.RegisterHelper("Property.QueryIsBool", (_, arguments) =>
             {
                 if (arguments.Length != 1)
                 {
@@ -140,7 +140,7 @@ namespace uml4net.HandleBars
                 return property.QueryIsBool();
             });
 
-            handlebars.RegisterHelper("Property.QueryIsNumeric", (context, arguments) =>
+            handlebars.RegisterHelper("Property.QueryIsNumeric", (_, arguments) =>
             {
                 if (arguments.Length != 1)
                 {
@@ -152,7 +152,7 @@ namespace uml4net.HandleBars
                 return property.QueryIsNumeric();
             });
 
-            handlebars.RegisterHelper("Property.QueryIsInteger", (context, arguments) =>
+            handlebars.RegisterHelper("Property.QueryIsInteger", (_, arguments) =>
             {
                 if (arguments.Length != 1)
                 {
@@ -164,7 +164,7 @@ namespace uml4net.HandleBars
                 return property?.Type?.Name.ToLowerInvariant().Contains("int");
             });
 
-            handlebars.RegisterHelper("Property.QueryIsFloat", (context, arguments) =>
+            handlebars.RegisterHelper("Property.QueryIsFloat", (_, arguments) =>
             {
                 if (arguments.Length != 1)
                 {
@@ -175,7 +175,7 @@ namespace uml4net.HandleBars
                 return typeName is not null && (typeName.Contains("single") || typeName.Contains("float"));
             });
             
-            handlebars.RegisterHelper("Property.QueryIsDouble", (context, arguments) =>
+            handlebars.RegisterHelper("Property.QueryIsDouble", (_, arguments) =>
             {
                 if (arguments.Length != 1)
                 {
@@ -186,7 +186,7 @@ namespace uml4net.HandleBars
                 return typeName?.Contains("double");
             });
 
-            handlebars.RegisterHelper("Property.QueryIsDateTime", (context, arguments) =>
+            handlebars.RegisterHelper("Property.QueryIsDateTime", (_, arguments) =>
             {
                 if (arguments.Length != 1)
                 {
@@ -197,7 +197,7 @@ namespace uml4net.HandleBars
                 return typeName?.Contains("date");
             });
 
-            handlebars.RegisterHelper("Property.QueryHasDefaultValue", (context, arguments) =>
+            handlebars.RegisterHelper("Property.QueryHasDefaultValue", (_, arguments) =>
             {
                 if (arguments.Length != 1)
                 {
@@ -209,7 +209,7 @@ namespace uml4net.HandleBars
                 return property.QueryHasDefaultValue();
             });
 
-            handlebars.RegisterHelper("Property.QueryIsContainment", (context, arguments) =>
+            handlebars.RegisterHelper("Property.QueryIsContainment", (context, _) =>
             {
                 if (!(context.Value is IProperty property))
                 {
@@ -219,7 +219,7 @@ namespace uml4net.HandleBars
                 return property.QueryIsContainment();
             });
 
-            handlebars.RegisterHelper("Property.WriteTypeName", (writer, context, parameters) =>
+            handlebars.RegisterHelper("Property.WriteTypeName", (writer, context, _) =>
             {
                 if (!(context.Value is IProperty property))
                 {
@@ -231,7 +231,7 @@ namespace uml4net.HandleBars
                 writer.WriteSafeString($"{typeName}");
             });
 
-            handlebars.RegisterHelper("Property.WriteUpperValue", (writer, context, arguments) =>
+            handlebars.RegisterHelper("Property.WriteUpperValue", (writer, context, _) =>
             {
                 if (!(context.Value is IProperty property))
                 {
@@ -243,7 +243,7 @@ namespace uml4net.HandleBars
                 writer.WriteSafeString($"{upperValue}");
             });
 
-            handlebars.RegisterHelper("Property.WriteForInterface", (writer, context, arguments) =>
+            handlebars.RegisterHelper("Property.WriteForInterface", (writer, context, _) =>
             {
                 if (!(context.Value is IProperty property))
                 {
@@ -308,7 +308,7 @@ namespace uml4net.HandleBars
                 writer.WriteSafeString(sb + Environment.NewLine);
             });
 
-            handlebars.RegisterHelper("Property.WriteForClass", (writer, context, parameters) =>
+            handlebars.RegisterHelper("Property.WriteForClass", (writer, _, parameters) =>
             {
                 if (parameters.Length != 2)
                 {

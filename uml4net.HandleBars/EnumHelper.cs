@@ -57,7 +57,7 @@ namespace uml4net.HandleBars
         /// </param>
         public static void RegisterEnumHelper(this IHandlebars handlebars)
         {
-            handlebars.RegisterHelper("Enum.ToString", (writer, context, parameters) =>
+            handlebars.RegisterHelper("Enum.ToString", (writer, _, parameters) =>
             {
                 if (parameters.Length != 1)
                 {

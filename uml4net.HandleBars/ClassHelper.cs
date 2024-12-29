@@ -40,7 +40,7 @@ namespace uml4net.HandleBars
         /// </param>
         public static void RegisterClassHelper(this IHandlebars handlebars)
         {
-            handlebars.RegisterHelper("Class.QueryAllProperties", (context, parameters) =>
+            handlebars.RegisterHelper("Class.QueryAllProperties", (context, _) =>
             {
                 if (!(context.Value is IClass @class))
                 {
@@ -52,7 +52,7 @@ namespace uml4net.HandleBars
                 return properties;
             });
 
-            handlebars.RegisterHelper("Class.QueryAllContainedProperties", (context, parameters) =>
+            handlebars.RegisterHelper("Class.QueryAllContainedProperties", (context, _) =>
             {
                 if (!(context.Value is IClass @class))
                 {
@@ -66,7 +66,7 @@ namespace uml4net.HandleBars
                 return properties;
             });
 
-            handlebars.RegisterHelper("Class.QueryAllContainedNonDerivedProperties", (context, parameters) =>
+            handlebars.RegisterHelper("Class.QueryAllContainedNonDerivedProperties", (context, _) =>
             {
                 if (!(context.Value is IClass @class))
                 {
@@ -81,7 +81,7 @@ namespace uml4net.HandleBars
                 return properties;
             });
 
-            handlebars.RegisterHelper("Class.QueryAllContainedNonDerivedNonRedefinedProperties", (context, parameters) =>
+            handlebars.RegisterHelper("Class.QueryAllContainedNonDerivedNonRedefinedProperties", (context, _) =>
             {
                 if (!(context.Value is IClass @class))
                 {
@@ -110,7 +110,7 @@ namespace uml4net.HandleBars
                 return nonRedefinedProperties;
             });
 
-            handlebars.RegisterHelper("Class.QueryAllNonDerivedProperties", (context, parameters) =>
+            handlebars.RegisterHelper("Class.QueryAllNonDerivedProperties", (context, _) =>
             {
                 if (!(context.Value is IClass @class))
                 {
@@ -124,7 +124,7 @@ namespace uml4net.HandleBars
                 return properties;
             });
 
-            handlebars.RegisterHelper("Class.QueryAllNonDerivedNonReadOnlyProperties", (context, parameters) =>
+            handlebars.RegisterHelper("Class.QueryAllNonDerivedNonReadOnlyProperties", (context, _) =>
             {
                 if (!(context.Value is IClass @class))
                 {
@@ -138,7 +138,7 @@ namespace uml4net.HandleBars
                 return properties;
             });
 
-            handlebars.RegisterHelper("Class.QueryAllNonDerivedNonReadOnlyProperties", (context, parameters) =>
+            handlebars.RegisterHelper("Class.QueryAllNonDerivedNonReadOnlyProperties", (context, _) =>
             {
                 if (!(context.Value is IClass @class))
                 {
@@ -152,7 +152,7 @@ namespace uml4net.HandleBars
                 return properties;
             });
 
-            handlebars.RegisterHelper("Class.QueryAllNonDerivedNonReadOnlyNonContainedReferenceEnumerableProperties", (context, parameters) =>
+            handlebars.RegisterHelper("Class.QueryAllNonDerivedNonReadOnlyNonContainedReferenceEnumerableProperties", (context, _) =>
             {
                 if (!(context.Value is IClass @class))
                 {
@@ -171,7 +171,7 @@ namespace uml4net.HandleBars
                 return properties;
             });
 
-            handlebars.RegisterHelper("Class.QueryAllNonDerivedNonReadOnlyNonContainedNonRedefinedReferenceEnumerableProperties", (context, parameters) =>
+            handlebars.RegisterHelper("Class.QueryAllNonDerivedNonReadOnlyNonContainedNonRedefinedReferenceEnumerableProperties", (context, _) =>
             {
                 if (!(context.Value is IClass @class))
                 {

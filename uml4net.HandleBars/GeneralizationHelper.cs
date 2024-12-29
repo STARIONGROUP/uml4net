@@ -40,7 +40,7 @@ namespace uml4net.HandleBars
         /// </param>
         public static void RegisterGeneralizationHelper(this IHandlebars handlebars)
         {
-            handlebars.RegisterHelper("Generalization.Interfaces", (writer, context, parameters) =>
+            handlebars.RegisterHelper("Generalization.Interfaces", (writer, context, _) =>
             {
                 if (!(context.Value is IClass @class))
                 {
@@ -55,7 +55,7 @@ namespace uml4net.HandleBars
                 }
             });
 
-            handlebars.RegisterHelper("Generalization.Classes", (writer, context, parameters) =>
+            handlebars.RegisterHelper("Generalization.Classes", (writer, context, _) =>
             {
                 if (!(context.Value is IClass @class))
                 {
