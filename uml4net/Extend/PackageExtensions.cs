@@ -48,9 +48,9 @@ namespace uml4net.Packages
 
             var containerList = new ContainerList<IPackage>(package);
 
-            foreach (var packageableElement in package.PackagedElement.OfType<IPackage>())
+            foreach (var nestedPackage in package.PackagedElement.OfType<IPackage>())
             {
-                containerList.Add(packageableElement);
+                containerList.Add(nestedPackage);
             }
 
             return containerList;
@@ -72,7 +72,14 @@ namespace uml4net.Packages
                 throw new ArgumentNullException(nameof(package));
             }
 
-            throw new NotSupportedException();
+            var containerList = new ContainerList<IStereotype>(package);
+
+            foreach (var ownedStereoType in package.PackagedElement.OfType<IStereotype>())
+            {
+                containerList.Add(ownedStereoType);
+            }
+
+            return containerList;
         }
 
         /// <summary>
@@ -91,7 +98,14 @@ namespace uml4net.Packages
                 throw new ArgumentNullException(nameof(package));
             }
 
-            throw new NotSupportedException();
+            var containerList = new ContainerList<IType>(package);
+
+            foreach (var ownedType in package.PackagedElement.OfType<IType>())
+            {
+                containerList.Add(ownedType);
+            }
+
+            return containerList;
         }
     }
 }

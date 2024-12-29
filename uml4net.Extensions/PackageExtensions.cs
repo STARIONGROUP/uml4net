@@ -49,14 +49,7 @@ namespace uml4net.Extensions
                 throw new ArgumentNullException(nameof(root));
             }
 
-            var result = new List<IPackage>();
-
-            if (root == null)
-            {
-                return result.AsReadOnly();
-            }
-
-            result.Add(root);
+            var result = new List<IPackage> { root };
 
             if (root.NestedPackage != null)
             {

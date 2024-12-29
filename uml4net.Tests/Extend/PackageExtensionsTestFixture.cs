@@ -24,7 +24,7 @@ namespace uml4net.Tests.Extend
     using System.Linq;
     using CommonStructure;
     using NUnit.Framework;
-
+    using SimpleClassifiers;
     using uml4net.Packages;
     using uml4net.StructuredClassifiers;
 
@@ -48,6 +48,42 @@ namespace uml4net.Tests.Extend
             Assert.That(root.NestedPackage.ToList() , 
                 Is.EquivalentTo( new List<IPackage> { subPackage_1 , subPackage_2} ));
 
+        }
+
+        [Test]
+        public void Verify_that_QueryOwnedStereotype_returns_expected_result()
+        {
+            var root = new Package();
+
+            Assert.That(root.OwnedStereotype.ToList(), Is.Empty);
+
+            var stereoType_1 = new Stereotype();
+            var stereoType_2 = new Stereotype();
+
+            root.PackagedElement.Add(stereoType_1);
+            root.PackagedElement.Add(stereoType_2);
+
+            Assert.That(root.OwnedStereotype.ToList(),
+                Is.EquivalentTo(new List<IStereotype> { stereoType_1, stereoType_2 }));
+        }
+
+        [Test]
+        public void Verify_that_QueryOwnedType_returns_expected_result()
+        {
+            var root = new Package();
+
+            Assert.That(root.OwnedType.ToList(), Is.Empty);
+
+            var @class = new Class();
+            var primitiveType = new PrimitiveType();
+            var enumeration = new Enumeration();
+
+            root.PackagedElement.Add(@class);
+            root.PackagedElement.Add(primitiveType);
+            root.PackagedElement.Add(enumeration);
+
+            Assert.That(root.OwnedType.ToList(),
+                Is.EquivalentTo(new List<IType> { @class, primitiveType, enumeration }));
         }
 
         [Test]

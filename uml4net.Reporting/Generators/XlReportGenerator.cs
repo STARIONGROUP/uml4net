@@ -207,7 +207,7 @@ namespace uml4net.Reporting.Generators
 
                     foreach (var property in @class.QueryAllProperties())
                     {
-                        if (property.IsDerived || property.IsDerived || property.IsReadOnly)
+                        if (property.IsDerived || property.IsDerivedUnion || property.IsReadOnly)
                         {
                             continue;
                         }
@@ -274,7 +274,7 @@ namespace uml4net.Reporting.Generators
 
                     foreach (var property in @interface.OwnedAttribute)
                     {
-                        if (property.IsDerived || property.IsDerived || property.IsReadOnly)
+                        if (property.IsDerived || property.IsDerivedUnion || property.IsReadOnly)
                         {
                             continue;
                         }
