@@ -38,6 +38,10 @@
     </ItemGroup>
 
     <ItemGroup>
+        <PackageReference Include="ClosedXML" Version="0.104.2" />
+    </ItemGroup>
+
+    <ItemGroup>
       <ProjectReference Include="..\uml4net.HandleBars\uml4net.HandleBars.csproj" />
       <ProjectReference Include="..\uml4net.xmi\uml4net.xmi.csproj" />
     </ItemGroup>

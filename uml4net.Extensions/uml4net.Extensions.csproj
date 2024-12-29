@@ -39,12 +39,6 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="ClosedXML" Version="0.104.2" />
         <PackageReference Include="HtmlAgilityPack" Version="1.11.71" />
-        <PackageReference Include="System.Memory" Version="4.6.0" />
-    </ItemGroup>
-
-    <ItemGroup Label="override transitive vulnerability dependencies">
-        <PackageReference Include="System.IO.Packaging" Version="9.0.0" />
     </ItemGroup>
 </Project>
