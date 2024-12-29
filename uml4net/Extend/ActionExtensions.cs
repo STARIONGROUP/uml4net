@@ -51,10 +51,11 @@ namespace uml4net.Actions
         /// The subject <see cref="IAction"/>
         /// </param>
         /// <returns>
-        /// 
+        /// The ordered set of InputPins representing the inputs to the Action.
         /// </returns>
         public static IContainerList<IInputPin> QueryInput(this IAction action)
         {
+
             throw new NotSupportedException();
         }
 

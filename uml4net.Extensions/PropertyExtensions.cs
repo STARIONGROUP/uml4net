@@ -109,7 +109,7 @@ namespace uml4net.Extensions
                 throw new ArgumentNullException(nameof(property));
             }
 
-            return property?.Type?.Name?.IndexOf("bool", StringComparison.InvariantCultureIgnoreCase) >= 0;
+            return property.Type?.Name?.IndexOf("bool", StringComparison.InvariantCultureIgnoreCase) >= 0;
         }
 
         /// <summary>
@@ -472,19 +472,10 @@ namespace uml4net.Extensions
                 throw new ArgumentNullException(nameof(context));
             }
 
-            var properties = context.QueryAllProperties();
+            redefinedByProperty = context.QueryAllProperties()
+                .FirstOrDefault(prop => prop.RedefinedProperty.Any(x => x.XmiId == property.XmiId));
 
-            foreach (var prop in properties)
-            {
-                if (prop.RedefinedProperty.Any(x => x.XmiId == property.XmiId))
-                {
-                    redefinedByProperty = prop;
-                    return true;
-                }
-            }
-
-            redefinedByProperty = null;
-            return false;
+            return redefinedByProperty != null;
         }
     }
 }

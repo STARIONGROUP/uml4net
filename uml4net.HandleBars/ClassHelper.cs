@@ -110,35 +110,6 @@ namespace uml4net.HandleBars
                 return nonRedefinedProperties;
             });
 
-            handlebars.RegisterHelper("Class.QueryAllContainedNonDerivedNonRedefinedProperties", (context, parameters) =>
-            {
-                if (!(context.Value is IClass @class))
-                {
-                    throw new ArgumentException("supposed to be IClass");
-                }
-
-                var properties = @class.QueryAllProperties()
-                    .Where(x => x.IsComposite)
-                    .Where(x => !x.IsDerived)
-                    .OrderBy(x => x.Name)
-                    .ToList();
-
-                var nonRedefinedProperties = properties.ToList();
-
-                foreach (var property in properties)
-                {
-                    foreach (var redefinedProperty in property.RedefinedProperty)
-                    {
-                        if (nonRedefinedProperties.Contains(redefinedProperty))
-                        {
-                            nonRedefinedProperties.Remove(redefinedProperty);
-                        }
-                    }
-                }
-
-                return nonRedefinedProperties;
-            });
-
             handlebars.RegisterHelper("Class.QueryAllNonDerivedProperties", (context, parameters) =>
             {
                 if (!(context.Value is IClass @class))
