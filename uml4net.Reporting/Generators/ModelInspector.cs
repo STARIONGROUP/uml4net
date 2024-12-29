@@ -196,7 +196,7 @@ namespace uml4net.Reporting.Generators
 
                     if (property.QueryIsReferenceProperty())
                     {
-                        var referenceType = property.QueryIsContainment() ? $"{property.Lower}:{property.QueryUpperValue()}:containment" : $"{property.Lower}:{property.QueryUpperValue()}";
+                        var referenceType = property.IsComposite ? $"{property.Lower}:{property.QueryUpperValue()}:containment" : $"{property.Lower}:{property.QueryUpperValue()}";
 
                         if (!this.referenceTypes.Contains(referenceType))
                         {
@@ -305,7 +305,7 @@ namespace uml4net.Reporting.Generators
                 {
                     string referenceType;
 
-                    if (property.QueryIsContainment())
+                    if (property.IsComposite)
                     {
                         referenceType = $"{property.Name}:{property.QueryTypeName()} [{property.Lower}..{property.QueryUpperValue()}] - CONTAINED REFERENCE TYPE";
                     }

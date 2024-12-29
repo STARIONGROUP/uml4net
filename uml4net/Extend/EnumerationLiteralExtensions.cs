@@ -28,13 +28,13 @@ namespace uml4net.SimpleClassifiers
     public static class EnumerationLiteralExtensions
     {
         /// <summary>
-        /// Queries 
+        /// Queries the classifier of this EnumerationLiteral derived to be equal to its Enumeration.
         /// </summary>
         /// <param name="enumerationLiteral">
         /// The subject <see cref="IEnumerationLiteral"/>
         /// </param>
         /// <returns>
-        ///
+        /// The classifier of this EnumerationLiteral derived to be equal to its Enumeration.
         /// </returns>
         public static IEnumeration QueryClassifier(this IEnumerationLiteral enumerationLiteral)
         {

@@ -21,6 +21,7 @@
 namespace uml4net.Classification
 {
     using System;
+    using System.Linq;
 
     /// <summary>
     /// The <see cref="PropertyExtensions"/> class provides extensions methods for <see cref="IProperty"/>
@@ -67,7 +68,12 @@ namespace uml4net.Classification
                 throw new ArgumentNullException(nameof(property));
             }
 
-            throw new NotSupportedException();
+            if (property.Association == null)
+            {
+                return null;
+            }
+
+            return property.Association.MemberEnd.Except([property]).Single();
         }
     }
 }

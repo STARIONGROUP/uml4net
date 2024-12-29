@@ -21,6 +21,7 @@
 namespace uml4net.Packages
 {
     using System;
+    using System.Data;
 
     /// <summary>
     /// The <see cref="StereotypeExtensions"/> class provides extensions methods for <see cref="IStereotype"/>
@@ -38,7 +39,18 @@ namespace uml4net.Packages
         /// </returns>
         public static IProfile QueryProfile(this IStereotype stereotype)
         {
-            throw new NotSupportedException();
+            var owner = stereotype.Owner;
+            while (owner is not IProfile)
+            {
+                if (owner == null)
+                {
+                    throw new DataException($"The {nameof(stereotype)} does not seem to have a IProfile that is the container.");
+                }
+
+                owner = owner.Owner;
+            }
+
+            return (IProfile)owner;
         }
     }
 }

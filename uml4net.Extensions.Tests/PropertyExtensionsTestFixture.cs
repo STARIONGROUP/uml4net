@@ -176,11 +176,11 @@ namespace uml4net.Extensions.Tests
 
             var lower = property.QueryAllProperties().Single(x => x.Name == "lower");
 
-            Assert.That(lower.QueryIsContainment(), Is.False);
+            Assert.That(lower.IsComposite, Is.False);
 
             var ownedComment = property.QueryAllProperties().Single(x => x.Name == "ownedComment");
 
-            Assert.That(ownedComment.QueryIsContainment(), Is.True);
+            Assert.That(ownedComment.IsComposite, Is.True);
         }
 
         [Test]

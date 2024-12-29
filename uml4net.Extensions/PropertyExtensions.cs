@@ -215,30 +215,6 @@ namespace uml4net.Extensions
         }
 
         /// <summary>
-        /// Queries whether the <see cref="IProperty"/> is of type containment
-        /// </summary>
-        /// <param name="property">
-        /// The subject <see cref="IProperty"/>
-        /// </param>
-        /// <returns>
-        /// True when it is, false when not
-        /// </returns>
-        public static bool QueryIsContainment(this IProperty property)
-        {
-            if (property == null)
-            {
-                throw new ArgumentNullException(nameof(property));
-            }
-
-            if (property.Aggregation == AggregationKind.Composite)
-            {
-                return true;
-            }
-
-            return false;
-        }
-
-        /// <summary>
         /// Queries whether the specified <see cref="IStructuralFeature.Name"/> is equal to the name of the containing <see cref="IClass"/>
         /// </summary>
         /// <param name="structuralFeature">
@@ -341,17 +317,17 @@ namespace uml4net.Extensions
                 throw new ArgumentNullException(nameof(property));
             }
 
-            if (property.Type is IDataType && property.QueryIsEnumerable() && !property.QueryIsContainment())
+            if (property.Type is IDataType && property.QueryIsEnumerable() && !property.IsComposite)
             {
                 return $"List<{property.QueryCSharpTypeName() }> ";
             }
 
-            if (property.QueryIsEnumerable() && !property.QueryIsContainment())
+            if (property.QueryIsEnumerable() && !property.IsComposite)
             {
                 return $"List<I{property.QueryTypeName()}> ";
             }
 
-            if (property.QueryIsContainment())
+            if (property.IsComposite)
             {
                 return $"IContainerList<I{property.QueryTypeName()}> ";
             }

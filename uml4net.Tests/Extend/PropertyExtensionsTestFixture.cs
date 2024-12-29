@@ -59,8 +59,24 @@ namespace uml4net.Tests.Extend
             property.Aggregation = AggregationKind.Composite;
 
             Assert.That(property.IsComposite, Is.True);
-
         }
 
+        [Test]
+        public void Verify_that_Opposite_returns_expected_result()
+        {
+            var property_a = new Property();
+            var property_b = new Property();
+
+            var association = new Association();
+            property_a.Association = association;
+            property_b.Association = association;
+            association.MemberEnd.AddRange([property_a, property_b]);
+
+            Assert.That(property_a.Opposite, Is.EqualTo(property_b));
+            Assert.That(property_b.Opposite, Is.EqualTo(property_a));
+
+            var property_c = new Property();
+            Assert.That(property_c.Opposite, Is.Null);
+        }
     }
 }

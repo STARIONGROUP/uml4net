@@ -210,14 +210,14 @@ namespace uml4net.HandleBars
                 return property.QueryHasDefaultValue();
             });
 
-            handlebars.RegisterHelper("Property.QueryIsContainment", (context, _) =>
+            handlebars.RegisterHelper("Property.IsComposite", (context, _) =>
             {
                 if (!(context.Value is IProperty property))
                 {
                     throw new ArgumentException("supposed to be IProperty");
                 }
 
-                return property.QueryIsContainment();
+                return property.IsComposite;
             });
 
             handlebars.RegisterHelper("Property.WriteTypeName", (writer, context, _) =>
@@ -260,17 +260,17 @@ namespace uml4net.HandleBars
                     sb.Append("new ");
                 }
 
-                if (property.Type is IDataType && property.QueryIsEnumerable() && !property.QueryIsContainment())
+                if (property.Type is IDataType && property.QueryIsEnumerable() && !property.IsComposite)
                 {
                     sb.Append($"List<{property.QueryCSharpTypeName()}>");
                     sb.Append(" ");
                 }
-                else if(property.QueryIsEnumerable() && !property.QueryIsContainment())
+                else if(property.QueryIsEnumerable() && !property.IsComposite)
                 {
                     sb.Append($"List<I{property.QueryTypeName()}>");
                     sb.Append(" ");
                 }
-                else if(property.QueryIsContainment())
+                else if(property.IsComposite)
                 {
                     sb.Append($"IContainerList<I{ property.QueryTypeName() }>");
                     sb.Append(" ");
@@ -364,11 +364,11 @@ namespace uml4net.HandleBars
                 {
                     if (!isRedefinedByProperty)
                     {
-                        if (property.QueryIsEnumerable() && !property.QueryIsContainment())
+                        if (property.QueryIsEnumerable() && !property.IsComposite)
                         {
                             sb.Append("{ get; set; } = new();");
                         }
-                        else if (property.QueryIsContainment())
+                        else if (property.IsComposite)
                         {
                             propertyName = property.Name;
 
@@ -445,7 +445,7 @@ namespace uml4net.HandleBars
 
                 var sb = new StringBuilder();
 
-                if (!property.QueryIsContainment())
+                if (!property.IsComposite)
                 {
                     if (property.QueryIsReferenceProperty() && !property.QueryIsEnumerable())
                     {
@@ -564,7 +564,7 @@ namespace uml4net.HandleBars
 
                 sb.AppendLine($"case \"{property.Name}\":");
 
-                if (property.QueryIsContainment())
+                if (property.IsComposite)
                 {
                     if (property.QueryIsPrimitiveType())
                     {
