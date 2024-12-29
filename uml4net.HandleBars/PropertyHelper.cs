@@ -220,6 +220,19 @@ namespace uml4net.HandleBars
                 return property.IsComposite;
             });
 
+            handlebars.RegisterHelper("Property.IsRedefined", (context, parameters) =>
+            {
+                if (parameters.Length != 2)
+                {
+                    throw new HandlebarsException("{{#Property.IsRedefined}} helper must have exactly two arguments");
+                }
+
+                var property = parameters[0] as IProperty;
+                var @class = parameters[1] as IClass;
+
+                return property.TryQueryRedefinedByProperty(@class, out _);
+            });
+
             handlebars.RegisterHelper("Property.WriteTypeName", (writer, context, _) =>
             {
                 if (!(context.Value is IProperty property))

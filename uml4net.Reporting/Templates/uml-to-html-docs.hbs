@@ -430,9 +430,14 @@
                             <tr>
                                 <td>{{ property.Name }}</td>
                                 <td>
-                                    <a href="#{{ Property.WriteTypeName property}}">{{Property.WriteTypeName property}}</a> [{{ property.Lower }}..{{ Property.WriteUpperValue property }}]
+                                    <a href="#{{ Property.WriteTypeName property}}">{{Property.WriteTypeName property}}</a> [{{ property.Lower }}..{{ property.Upper }}]
+                                    {{#if (#Property.IsComposite property) }} {composite} {{/if}}
                                     {{#if property.IsDerived }} {derived} {{/if}}
-                                    {{#if (Property.IsComposite property) }} {composite} {{/if}}
+                                    {{#if property.IsDerivedUnion }} {derived-union} {{/if}}
+                                    {{#if property.IsOrdered }} {ordered} {{/if}}
+                                    {{#if property.IsReadOnly }} {read-only} {{/if}}
+                                    {{#if (#Property.IsRedefined property class)}} {redefined} {{/if}}
+                                    {{#if property.IsID }} {ID} {{/if}}
                                 </td>
                                 <td>{{ property.DefaultValueLiteral }}</td>
                                 <td>{{ #RawDocumentation property }}</td>
@@ -492,8 +497,13 @@
                                 <td>{{ property.Name }}</td>
                                 <td>
                                     <a href="#{{Property.QueryTypeName property}}">{{Property.QueryTypeName property}}</a> [{{ property.Lower }}..{{ property.Upper }}]
+                                    {{#if (#Property.IsComposite property) }} {composite} {{/if}}
                                     {{#if property.IsDerived }} {derived} {{/if}}
-                                    {{#if (Property.IsComposite property) }} {composite} {{/if}}
+                                    {{#if property.IsDerivedUnion }} {derived-union} {{/if}}
+                                    {{#if property.IsOrdered }} {ordered} {{/if}}
+                                    {{#if property.IsReadOnly }} {read-only} {{/if}}
+                                    {{#if (#Property.IsRedefined property class)}} {redefined} {{/if}}
+                                    {{#if property.IsID }} {ID} {{/if}}
                                 </td>
                                 <td>{{ property.DefaultValueLiteral }}</td>
                                 <td>{{ #RawDocumentation property }}</td>
