@@ -96,7 +96,7 @@ namespace uml4net.xmi.Cache
                 
                 if (targetProperty is null)
                 {
-                    throw new InvalidOperationException($"The target property {property.Key} was not found on {element.GetType().Name} or the property type doesn't match the referenced element type");
+                    throw new InvalidOperationException($"The target property {property.Key} was not found on {element.GetType().Name} or the property type doesn't match the referenced {nameof(element)} type");
                 }
 
                 targetProperty.SetValue(element, referencedElement);
