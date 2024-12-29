@@ -196,7 +196,7 @@ namespace uml4net.Reporting.Generators
 
                     if (property.QueryIsReferenceProperty())
                     {
-                        var referenceType = property.IsComposite ? $"{property.Lower}:{property.QueryUpperValue()}:containment" : $"{property.Lower}:{property.QueryUpperValue()}";
+                        var referenceType = property.IsComposite ? $"{property.Lower}:{property.Upper}:containment" : $"{property.Lower}:{property.Upper}";
 
                         if (!this.referenceTypes.Contains(referenceType))
                         {
@@ -213,7 +213,7 @@ namespace uml4net.Reporting.Generators
                     {
                         if (property.QueryIsEnum())
                         {
-                            var enumeration = $"{property.Lower}:{property.QueryUpperValue()}";
+                            var enumeration = $"{property.Lower}:{property.Upper}";
 
                             this.logger.LogTrace("Inspecting Enumeration property {0}", enumeration);
 
@@ -227,7 +227,7 @@ namespace uml4net.Reporting.Generators
                         }
                         else
                         {
-                            var valueType = $"{property.QueryTypeName()}:{property.Lower}:{ property.QueryUpperValue()}";
+                            var valueType = $"{property.QueryTypeName()}:{property.Lower}:{ property.Upper}";
 
                             if (!this.valueTypes.Contains(valueType))
                             {
@@ -307,11 +307,11 @@ namespace uml4net.Reporting.Generators
 
                     if (property.IsComposite)
                     {
-                        referenceType = $"{property.Name}:{property.QueryTypeName()} [{property.Lower}..{property.QueryUpperValue()}] - CONTAINED REFERENCE TYPE";
+                        referenceType = $"{property.Name}:{property.QueryTypeName()} [{property.Lower}..{property.Upper}] - CONTAINED REFERENCE TYPE";
                     }
                     else
                     {
-                        referenceType = $"{property.Name}:{property.QueryTypeName()} [{property.Lower}..{property.QueryUpperValue()}] - REFERENCE TYPE";
+                        referenceType = $"{property.Name}:{property.QueryTypeName()} [{property.Lower}..{property.Upper}] - REFERENCE TYPE";
                     }
 
                     sb.AppendLine(referenceType);
@@ -323,12 +323,12 @@ namespace uml4net.Reporting.Generators
 
                     if (property.QueryIsEnum())
                     {
-                        var enumeration = $"{property.Name}:{property.QueryTypeName()} [{property.Lower}..{property.QueryUpperValue()}] - ENUM TYPE";
+                        var enumeration = $"{property.Name}:{property.QueryTypeName()} [{property.Lower}..{property.Upper}] - ENUM TYPE";
                         sb.AppendLine(enumeration);
                     }
                     else
                     {
-                        var valueType = $"{property.Name}:{property.QueryTypeName()} [{property.Lower}..{property.QueryUpperValue()}] - VALUETYPE";
+                        var valueType = $"{property.Name}:{property.QueryTypeName()} [{property.Lower}..{property.Upper}] - VALUETYPE";
                         sb.AppendLine(valueType);
                     }
                 }
@@ -342,7 +342,7 @@ namespace uml4net.Reporting.Generators
 
                     if (property.QueryIsReferenceProperty())
                     {
-                        var referenceType = $"{property.Name}:{property.QueryTypeName()} [{property.Lower}..{property.QueryUpperValue()}] - REFERENCE TYPE";
+                        var referenceType = $"{property.Name}:{property.QueryTypeName()} [{property.Lower}..{property.Upper}] - REFERENCE TYPE";
                         sb.AppendLine(referenceType);
                     }
 
@@ -350,12 +350,12 @@ namespace uml4net.Reporting.Generators
                     {
                         if (property.QueryIsEnum())
                         {
-                            var enumeration = $"{property.Name}:{property.QueryTypeName()} [{property.Lower}..{property.QueryUpperValue()}] - ENUM TYPE";
+                            var enumeration = $"{property.Name}:{property.QueryTypeName()} [{property.Lower}..{property.Upper}] - ENUM TYPE";
                             sb.AppendLine(enumeration);
                         }
                         else
                         {
-                            var valueType = $"{property.Name} : {property.QueryTypeName()} [{property.Lower} .. {property.QueryUpperValue()}] - VALUETYPE";
+                            var valueType = $"{property.Name} : {property.QueryTypeName()} [{property.Lower} .. {property.Upper}] - VALUETYPE";
                             sb.AppendLine(valueType);
                         }
                     }
@@ -395,6 +395,8 @@ namespace uml4net.Reporting.Generators
 
             sb.AppendLine("----- MISSING DOCUMENTATION ANALYSIS ------");
             sb.AppendLine("");
+            sb.AppendLine("---------- Package.Class:Property ---------");
+            sb.AppendLine("");
 
             this.AnalyzeDocumentation(package, sb, recursive);
 
@@ -420,9 +422,6 @@ namespace uml4net.Reporting.Generators
         /// </param>
         private void AnalyzeDocumentation(IPackage package, StringBuilder sb, bool recursive = false)
         {
-            sb.AppendLine("Package.Class:Property");
-            sb.AppendLine();
-
             foreach (var @class in package.PackagedElement.OfType<IClass>().OrderBy(x => x.Name))
             {
                 if (string.IsNullOrEmpty(@class.QueryRawDocumentation()))
@@ -551,7 +550,7 @@ namespace uml4net.Reporting.Generators
             header.AppendLine("   when writing unit tests for code generation. By writing");
             header.AppendLine("   tests for these classes all variations of types and multiplicities");
             header.AppendLine("   are covered.");
-            header.AppendLine("4. The report lists each class and feature that does contain");
+            header.AppendLine("4. The report lists each class and property that does not contain");
             header.AppendLine("   any documentation.");
             header.AppendLine("");
             header.AppendLine($"Inspection Report generated on {DateTime.Now:f}");
