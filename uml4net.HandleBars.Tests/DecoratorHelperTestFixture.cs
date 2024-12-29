@@ -20,8 +20,11 @@
 
 namespace uml4net.HandleBars.Tests
 {
+    using System;
     using System.Globalization;
-
+    using System.IO;
+    using System.Linq;
+    
     using HandlebarsDotNet;
 
     using Microsoft.Extensions.Logging;

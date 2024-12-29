@@ -1,22 +1,25 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup Label="Package">
+        <TargetFramework>net9.0</TargetFramework>
         <LangVersion>12.0</LangVersion>
+        <Version>1.0.2</Version>
         <Title>uml4net.Tools</Title>
         <Description>A command line application that processes a UML file and generates various reports.</Description>
-        <TargetFramework>net9.0</TargetFramework>
         <OutputType>Exe</OutputType>
         <PackAsTool>true</PackAsTool>
         <PackageId>uml4net.Tools</PackageId>
         <ToolCommandName>uml4nettools</ToolCommandName>
-        <Version>1.0.1</Version>
         <ImplicitUsings>disable</ImplicitUsings>
+        <ApplicationIcon>icon.ico</ApplicationIcon>
         <PackageReadmeFile>README.md</PackageReadmeFile>
-        <PackageTags>Uml XMI modeltopia</PackageTags>
+        <PackageIcon>icon.png</PackageIcon>
+        <PackageTags>UML XMI modeltopia</PackageTags>
         <NeutralLanguage>en-US</NeutralLanguage>
         <SatelliteResourceLanguages>en-US</SatelliteResourceLanguages>
         <PackageReleaseNotes>
-            [Update] to uml4net.Reporting version 1.0.1
+            [Add] PackageIcon
+            [Update] to uml4net.Reporting version 1.0.2
         </PackageReleaseNotes>
     </PropertyGroup>
 
@@ -39,6 +42,8 @@
 
     <ItemGroup>
         <None Include="..\README.md" Pack="true" PackagePath="\" />
+        <None Include="..\icon.png" Pack="true" PackagePath="" />
+        <Content Include="icon.ico" />
         <EmbeddedResource Include="Resources\ascii-art.txt" />
     </ItemGroup>
 

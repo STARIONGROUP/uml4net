@@ -2,7 +2,7 @@
 
     <PropertyGroup>
         <Description>A .NET implementation of the OMG UML v2.5.1 specification.</Description>
-        <Version>0.5.0</Version>
+        <Version>1.0.2</Version>
         <PackageId>uml4net.xmi</PackageId>
         <LangVersion>12.0</LangVersion>
         <TargetFramework>netstandard2.0</TargetFramework>
@@ -23,15 +23,17 @@
         <SatelliteResourceLanguages>en-US</SatelliteResourceLanguages>
         <Authors>Sam Gerené; Nathanael Smiechowski</Authors>
         <PackageReadmeFile>README.md</PackageReadmeFile>
-        <PackageTags>Uml XMI modeltopia</PackageTags>
+        <PackageIcon>icon.png</PackageIcon>
+        <PackageTags>UML XMI modeltopia</PackageTags>
         <PackageReleaseNotes>
-            [Add] code-generated xmi readers
-            [Update] to uml4net.Extensions version 1.0.1
+            [Add] PackageIcon
+            [Update] to uml4net.Extensions version 1.0.2
         </PackageReleaseNotes>
     </PropertyGroup>
 
     <ItemGroup>
         <None Include="..\README.md" Pack="true" PackagePath="\" />
+        <None Include="..\icon.png" Pack="true" PackagePath="" />
     </ItemGroup>
 
   <ItemGroup>

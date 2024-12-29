@@ -3,7 +3,7 @@
   <PropertyGroup>
       <TargetFramework>net9.0</TargetFramework>
       <Company>Starion Group S.A.</Company>
-      <Authors>Sam Gerene</Authors>
+      <Authors>Sam Gerené; Nathanael Smiechowski</Authors>
       <Description>Nunit test suite for the uml4net library</Description>
       <Copyright>Copyright 2019-2024 Starion Group S.A.</Copyright>
       <RepositoryUrl>https://github.com/STARIONGROUP/uml4net.git</RepositoryUrl>

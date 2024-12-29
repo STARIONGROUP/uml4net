@@ -2,11 +2,18 @@
 
     <PropertyGroup>
         <TargetFramework>net9.0</TargetFramework>
-        <Nullable>enable</Nullable>
-        <IsPackable>false</IsPackable>
         <Company>Starion Group S.A.</Company>
-        <Authors>Sam Gerené</Authors>
+        <Authors>Sam Gerené; Nathanael Smiechowski</Authors>
+        <Description>Nunit test suite for the uml4net.Tools library</Description>
         <Copyright>Copyright © Starion Group S.A.</Copyright>
+        <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+        <RepositoryUrl>https://github.com/STARIONGROUP/uml4net.git</RepositoryUrl>
+        <RepositoryType>Git</RepositoryType>
+        <ImplicitUsings>false</ImplicitUsings>
+        <Nullable>disable</Nullable>
+        <IsPackable>false</IsPackable>
+        <PreserveCompilationContext>true</PreserveCompilationContext>
+        <SatelliteResourceLanguages>en-US</SatelliteResourceLanguages>
     </PropertyGroup>
 
     <ItemGroup>

@@ -2,7 +2,7 @@
 
   <PropertyGroup>
       <TargetFramework>netstandard2.0</TargetFramework>
-      <Version>1.0.1</Version>
+      <Version>1.0.2</Version>
       <LangVersion>12.0</LangVersion>
       <Company>Starion Group S.A.</Company>
       <Copyright>Copyright © Starion Group S.A.</Copyright>
@@ -21,14 +21,16 @@
       <SatelliteResourceLanguages>en-US</SatelliteResourceLanguages>
       <Authors>Sam Gerené; Nathanael Smiechowski</Authors>
       <PackageReadmeFile>README.md</PackageReadmeFile>
-      <PackageTags>Uml modeltopia</PackageTags>
+      <PackageIcon>icon.png</PackageIcon>
+      <PackageTags>UML modeltopia</PackageTags>
       <PackageReleaseNotes>
-          [Update] Enumerations, Interfaces and Classes with code-generated files
+          [Add] PackageIcon
       </PackageReleaseNotes>
   </PropertyGroup>
 
     <ItemGroup>
         <None Include="..\README.md" Pack="true" PackagePath="\" />
+        <None Include="..\icon.png" Pack="true" PackagePath="" />
     </ItemGroup>
 
     <ItemGroup>

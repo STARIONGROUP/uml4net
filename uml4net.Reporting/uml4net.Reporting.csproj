@@ -2,7 +2,7 @@
 
     <PropertyGroup>
         <TargetFramework>netstandard2.0</TargetFramework>
-        <Version>1.0.1</Version>
+        <Version>1.0.2</Version>
         <LangVersion>12.0</LangVersion>
         <Company>Starion Group S.A.</Company>
         <Copyright>Copyright © Starion Group S.A.</Copyright>
@@ -21,26 +21,20 @@
         <SatelliteResourceLanguages>en-US</SatelliteResourceLanguages>
         <Authors>Sam Gerené; Nathanael Smiechowski</Authors>
         <PackageReadmeFile>README.md</PackageReadmeFile>
+        <PackageIcon>icon.png</PackageIcon>
         <PackageTags>Uml modeltopia</PackageTags>
         <PackageReleaseNotes>
-            [Update] to uml4net.HandleBars version 1.0.1
+            [Add] PackageIcon
+            [Update] to uml4net.HandleBars version 1.0.2
         </PackageReleaseNotes>
     </PropertyGroup>
 
     <ItemGroup>
-      <None Remove="Templates\uml-to-html-docs.hbs" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <EmbeddedResource Include="Templates\uml-to-html-docs.hbs" />
-    </ItemGroup>
-
-    <ItemGroup>
         <None Include="..\README.md" Pack="true" PackagePath="\" />
-    </ItemGroup>
-
-    <ItemGroup>
+        <None Include="..\icon.png" Pack="true" PackagePath="" />
         <Folder Include="Resources\" />
+        <None Remove="Templates\uml-to-html-docs.hbs" />
+        <EmbeddedResource Include="Templates\uml-to-html-docs.hbs" />
     </ItemGroup>
 
     <ItemGroup>

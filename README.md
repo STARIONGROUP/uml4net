@@ -22,7 +22,7 @@ The **uml4net.HandleBars** library provides [HandleBars](https://github.com/Hand
 
 The **uml4net.Reporting** library contains reporting generators. This library is part of the uml4net ecosystem.
 
-## uml4net.Tools
+# uml4net.Tools
 
 The **uml4net.Tools** commandline application is used to generate reports on the content of the UML model. Find the documentation [here](https://github.com/STARIONGROUP/uml4net/wiki/uml4net.Tools).
 
