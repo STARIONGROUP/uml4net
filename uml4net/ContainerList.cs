@@ -25,8 +25,7 @@ namespace uml4net
     using System;
 
     using uml4net.CommonStructure;
-    using uml4net.Packages;
-
+    
     /// <summary>
     /// List Type used for the 10-25 model for classes which are part of a composition relationship
     /// </summary>
@@ -62,6 +61,16 @@ namespace uml4net
         /// </param>
         public ContainerList(IContainerList<T> containerList, IElement container, bool updateContaineeContainer = false) : base(containerList)
         {
+            if (containerList == null)
+            {
+                throw new ArgumentNullException(nameof(containerList));
+            }
+
+            if (container == null)
+            {
+                throw new ArgumentNullException(nameof(container));
+            }
+
             this.container = container;
 
             if (!updateContaineeContainer)
@@ -94,6 +103,11 @@ namespace uml4net
                 throw new ArgumentNullException(nameof(element));
             }
 
+            if (this.container == element)
+            {
+                throw new InvalidOperationException("The container shall not be added as an element");
+            }
+
             element.Possessor = this.container;
 
             if (this.Contains(element))
@@ -118,6 +132,11 @@ namespace uml4net
         /// <exception cref="InvalidOperationException">Thrown if any element in <paramref name="elements"/> already exists in the list.</exception>
         public new void AddRange(IEnumerable<T> elements)
         {
+            if (elements == null)
+            {
+                throw new ArgumentNullException(nameof(elements));
+            }
+
             foreach (var element in elements)
             {
                 this.Add(element);

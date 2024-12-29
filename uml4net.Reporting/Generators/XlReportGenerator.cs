@@ -24,6 +24,7 @@ namespace uml4net.Reporting.Generators
     using System.Collections.Generic;
     using System.Data;
     using System.Diagnostics;
+    using System.Globalization;
     using System.IO;
     using System.Linq;
     using System.Reflection;
@@ -95,6 +96,11 @@ namespace uml4net.Reporting.Generators
                 throw new ArgumentNullException(nameof(modelPath));
             }
 
+            if (rootDirectory == null)
+            {
+                throw new ArgumentNullException(nameof(rootDirectory));
+            }
+
             if (outputPath == null)
             {
                 throw new ArgumentNullException(nameof(outputPath));
@@ -152,7 +158,7 @@ namespace uml4net.Reporting.Generators
             infoWorksheet.Cell(1, 2).Value = Assembly.GetExecutingAssembly().GetName().Version?.ToString();
 
             infoWorksheet.Cell(2, 1).Value = "Generation Date";
-            infoWorksheet.Cell(2, 2).Value = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+            infoWorksheet.Cell(2, 2).Value = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture);
 
             infoWorksheet.Cell(3, 1).Value = "Root Package - name";
             infoWorksheet.Cell(3, 2).Value = rootPackage.Name;
@@ -176,6 +182,7 @@ namespace uml4net.Reporting.Generators
             var classWorksheet = workbook.Worksheets.Add("Class");
 
             var dataTable = new DataTable();
+            dataTable.Locale = CultureInfo.InvariantCulture;
 
             dataTable.Columns.Add("Class", typeof(string));
             dataTable.Columns.Add("Qualified Name", typeof(string));
@@ -195,7 +202,7 @@ namespace uml4net.Reporting.Generators
                     var classDataRow = dataTable.NewRow();
                     classDataRow["Class"] = @class.Name;
                     classDataRow["Qualified Name"] = @class.QualifiedName;
-                    classDataRow["IsAbstract"] = @class.IsAbstract.ToString();
+                    classDataRow["IsAbstract"] = @class.IsAbstract.ToString(CultureInfo.InvariantCulture);
                     classDataRow["Generalizations"] = string.Join(", ", @class.SuperClass.Select(o => o.Name)) ;
                     classDataRow["Property"] = "--";
                     classDataRow["Type"] = "--";
@@ -217,7 +224,7 @@ namespace uml4net.Reporting.Generators
                         propertyDataRow["Property"] = property.Name;
                         propertyDataRow["Type"] = property.QueryTypeName();
                         propertyDataRow["Multiplicity"] = $"[{property.Lower}..{property.Upper}]";
-                        propertyDataRow["IsContainment"] = property.IsComposite.ToString();
+                        propertyDataRow["IsContainment"] = property.IsComposite.ToString(CultureInfo.InvariantCulture);
                         propertyDataRow["Documentation"] = property.QueryRawDocumentation();
                         propertyDataRow["Inheritance"] = ((INamedElement)property.Owner).Name;
                         dataTable.Rows.Add(propertyDataRow);
@@ -246,6 +253,7 @@ namespace uml4net.Reporting.Generators
             var interfaceWorksheet = workbook.Worksheets.Add("Interface");
 
             var dataTable = new DataTable();
+            dataTable.Locale = CultureInfo.InvariantCulture;
 
             dataTable.Columns.Add("Interface", typeof(string));
             dataTable.Columns.Add("Qualified Name", typeof(string));
@@ -263,7 +271,7 @@ namespace uml4net.Reporting.Generators
                     var classDataRow = dataTable.NewRow();
                     classDataRow["Class"] = @interface.Name;
                     classDataRow["Qualified Name"] = @interface.QualifiedName;
-                    classDataRow["IsAbstract"] = @interface.IsAbstract.ToString();
+                    classDataRow["IsAbstract"] = @interface.IsAbstract.ToString(CultureInfo.InvariantCulture);
                     classDataRow["Generalizations"] = string.Join(", ", @interface.QueryGeneral().Select(o => o.Name));
                     classDataRow["Property"] = "--";
                     classDataRow["Type"] = "--";
@@ -284,7 +292,7 @@ namespace uml4net.Reporting.Generators
                         propertyDataRow["Property"] = property.Name;
                         propertyDataRow["Type"] = property.QueryTypeName();
                         propertyDataRow["Multiplicity"] = $"[{property.Lower}..{property.Upper}]";
-                        propertyDataRow["IsContainment"] = property.IsComposite.ToString();
+                        propertyDataRow["IsContainment"] = property.IsComposite.ToString(CultureInfo.InvariantCulture);
                         propertyDataRow["Documentation"] = property.QueryRawDocumentation();
                         dataTable.Rows.Add(propertyDataRow);
                     }
@@ -312,6 +320,7 @@ namespace uml4net.Reporting.Generators
             this.logger.LogDebug("Add IEnumeration report");
 
             var dataTable = new DataTable();
+            dataTable.Locale = CultureInfo.InvariantCulture;
 
             dataTable.Columns.Add("Enumeration", typeof(string));
             dataTable.Columns.Add("Qualified Name", typeof(string));
@@ -361,6 +370,7 @@ namespace uml4net.Reporting.Generators
             this.logger.LogDebug("Add IPrimitiveType report");
 
             var dataTable = new DataTable();
+            dataTable.Locale = CultureInfo.InvariantCulture;
 
             dataTable.Columns.Add("PrimitiveType", typeof(string));
             dataTable.Columns.Add("Documentation", typeof(string));
@@ -399,6 +409,7 @@ namespace uml4net.Reporting.Generators
             this.logger.LogDebug("Add IDataType report");
 
             var dataTable = new DataTable();
+            dataTable.Locale = CultureInfo.InvariantCulture;
 
             dataTable.Columns.Add("DataType", typeof(string));
             dataTable.Columns.Add("Documentation", typeof(string));
@@ -453,6 +464,11 @@ namespace uml4net.Reporting.Generators
         /// </returns>
         public override Tuple<bool, string> IsValidReportExtension(FileInfo outputPath)
         {
+            if (outputPath == null)
+            {
+                throw new ArgumentNullException(nameof(outputPath));
+            }
+
             switch (outputPath.Extension)
             {
                 case ".xlsm":

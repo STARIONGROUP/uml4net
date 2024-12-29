@@ -30,7 +30,7 @@ namespace uml4net.Reporting.Generators
    
     using uml4net.Packages;
     using uml4net.xmi;
-    using xmi.Readers;
+    using uml4net.xmi.Readers;
 
     /// <summary>
     /// abstract class from which all report generators need to derive
@@ -89,6 +89,16 @@ namespace uml4net.Reporting.Generators
         /// </returns>
         protected XmiReaderResult LoadPackages(FileInfo modelPath, DirectoryInfo rootDirectory, Dictionary<string, string> pathMap)
         {
+            if (modelPath == null)
+            {
+                throw new ArgumentNullException(nameof(modelPath));
+            }
+
+            if (rootDirectory == null)
+            {
+                throw new ArgumentNullException(nameof(rootDirectory));
+            }
+
             this.logger.LogInformation("Loading UML model from {0}", modelPath.FullName);
 
             using var reader = XmiReaderBuilder.Create()

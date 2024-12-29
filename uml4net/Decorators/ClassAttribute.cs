@@ -57,7 +57,7 @@ namespace uml4net.Decorators
         /// <summary>
         /// Gets or sets the unique identifier
         /// </summary>
-        public string XmiId { get; set; } = string.Empty;
+        public string XmiId { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating that if true, the Class does not provide a complete declaration and cannot

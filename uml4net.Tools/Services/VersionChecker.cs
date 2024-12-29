@@ -85,7 +85,7 @@ namespace uml4net.Tools.Services
             }
             catch (TaskCanceledException)
             {
-                this.logger.LogWarning("Contacting the GitHub API at {url} timed out", requestUrl);
+                this.logger.LogWarning("Contacting the GitHub API at {Url} timed out", requestUrl);
             }
             catch (Exception ex)
             {

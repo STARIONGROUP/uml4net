@@ -21,6 +21,7 @@
 namespace uml4net.HandleBars
 {
     using System;
+    using System.Globalization;
     using System.Linq;
     using System.Text;
 
@@ -324,7 +325,7 @@ namespace uml4net.HandleBars
 
                 if (!isRedefinedByProperty)
                 {
-                    sb.Append(property.Visibility.ToString().ToLower());
+                    sb.Append(property.Visibility.ToString().ToLower(CultureInfo.InvariantCulture));
                     sb.Append(" ");
                 }
 

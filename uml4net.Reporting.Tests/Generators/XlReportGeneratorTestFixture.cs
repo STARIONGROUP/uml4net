@@ -83,5 +83,22 @@ namespace uml4net.Reporting.Tests.Generators
 
             Assert.That(() => this.xlReportGenerator.GenerateReport(this.sysml2ModelFileInfo, this.umlModelFileInfo.Directory, pathmap, reportFileInfo), Throws.Nothing);
         }
+
+        [Test]
+        public void Verify_that_when_inputfile_or_rootdirectory_or_outputPath_are_null_ArgumentNullException_is_thrown()
+        {
+            this.xlReportGenerator = new XlReportGenerator(this.loggerFactory);
+
+            var pathmap = new Dictionary<string, string>();
+
+            var reportFileInfo = new FileInfo(Path.Combine(TestContext.CurrentContext.TestDirectory, "sysml2-xl-report.xlsx"));
+
+            Assert.That(() => this.xlReportGenerator.GenerateReport(null, this.umlModelFileInfo.Directory, pathmap, reportFileInfo), Throws.ArgumentNullException);
+
+            Assert.That(() => this.xlReportGenerator.GenerateReport(this.sysml2ModelFileInfo, null, pathmap, reportFileInfo), Throws.ArgumentNullException);
+
+            Assert.That(() => this.xlReportGenerator.GenerateReport(this.sysml2ModelFileInfo, this.umlModelFileInfo.Directory, pathmap, null), Throws.ArgumentNullException);
+
+        }
     }
 }

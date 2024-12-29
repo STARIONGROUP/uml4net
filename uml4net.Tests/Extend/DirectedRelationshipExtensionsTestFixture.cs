@@ -23,6 +23,7 @@ namespace uml4net.Tests.Extend
     using NUnit.Framework;
 
     using uml4net.Classification;
+    using uml4net.CommonStructure;
     using uml4net.StructuredClassifiers;
 
     [TestFixture]
@@ -48,6 +49,15 @@ namespace uml4net.Tests.Extend
 
             Assert.That(animal_is_generalization_of_mammal.Source, Is.EquivalentTo([mammal] ));
             Assert.That(animal_is_generalization_of_mammal.Target, Is.EquivalentTo([animal]));
+        }
+
+        [Test]
+        public void Verify_that_when_QuerySource_or_QueryTarget_is_called_with_null_argument_exception_is_thrown()
+        {
+            IDirectedRelationship directedRelationship = null;
+
+            Assert.That(() => DirectedRelationshipExtensions.QuerySource(directedRelationship), Throws.ArgumentNullException);
+            Assert.That(() => DirectedRelationshipExtensions.QueryTarget(directedRelationship), Throws.ArgumentNullException);
         }
     }
 }

@@ -41,6 +41,11 @@ namespace uml4net.CommonStructure
         /// </returns>
         public static List<IElement> QueryTarget(this IDirectedRelationship directedRelationship)
         {
+            if (directedRelationship == null)
+            {
+                throw new ArgumentNullException(nameof(directedRelationship));
+            }
+
             if (directedRelationship is IGeneralization generalization)
             {
                 return [generalization.General];
@@ -60,6 +65,11 @@ namespace uml4net.CommonStructure
         /// </returns>
         public static List<IElement> QuerySource(this IDirectedRelationship directedRelationship)
         {
+            if (directedRelationship == null)
+            {
+                throw new ArgumentNullException(nameof(directedRelationship));
+            }
+
             if (directedRelationship is IGeneralization generalization)
             {
                 return [generalization.Specific];

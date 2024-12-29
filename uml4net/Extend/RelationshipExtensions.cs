@@ -41,6 +41,11 @@ namespace uml4net.CommonStructure
         /// </returns>
         public static List<IElement> QueryRelatedElement(this IRelationship relationship)
         {
+            if (relationship == null)
+            {
+                throw new ArgumentNullException(nameof(relationship));
+            }
+
             if (relationship is IGeneralization generalization)
             {
                 return [generalization.Specific, generalization.General];

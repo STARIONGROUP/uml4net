@@ -35,7 +35,15 @@ namespace uml4net.CommonStructure
         /// The <see cref="IElement"/> that acts as the container for the specified <paramref name="element"/>, 
         /// or <c>null</c> if the element does not have a container.
         /// </returns>
-        public static IElement QueryOwner(this IElement element) => element.Possessor;
+        public static IElement QueryOwner(this IElement element)
+        {
+            if (element == null)
+            {
+                throw new ArgumentNullException(nameof(element));
+            }
+
+            return element.Possessor;
+        }
 
         /// <summary>
         /// Queries the Elements owned by this Element.
