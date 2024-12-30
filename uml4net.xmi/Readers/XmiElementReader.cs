@@ -52,9 +52,9 @@ namespace uml4net.xmi.Readers
         protected readonly ILogger<XmiElementReader<TXmiElement>> Logger;
 
         /// <summary>
-        /// The (injected) <see cref="IXmiReaderCache"/> used cache the <see cref="IXmiElement"/>s
+        /// The (injected) <see cref="IXmiElementCache"/> used cache the <see cref="IXmiElement"/>s
         /// </summary>
-        protected readonly IXmiReaderCache Cache;
+        protected readonly IXmiElementCache Cache;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="XmiElementReader{T}"/> class.
@@ -65,7 +65,7 @@ namespace uml4net.xmi.Readers
         /// <param name="loggerFactory">
         /// The (injected) <see cref="ILoggerFactory"/> used to set up logging
         /// </param>
-        protected XmiElementReader(IXmiReaderCache cache, ILoggerFactory loggerFactory)
+        protected XmiElementReader(IXmiElementCache cache, ILoggerFactory loggerFactory)
         {
             this.Cache = cache;
 

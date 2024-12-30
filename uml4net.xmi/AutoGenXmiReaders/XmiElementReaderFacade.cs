@@ -42,16 +42,16 @@ namespace uml4net.xmi.Readers
     {
         /// <summary>
         /// A dictionary that contains functions that return <see cref="IXmiElement"/> based a key that represents the xmiType
-        /// and a provided <see cref="IXmiReaderCache"/>, <see cref="ILoggerFactory"/> and <see cref="XmlReader"/>
+        /// and a provided <see cref="IXmiElementCache"/>, <see cref="ILoggerFactory"/> and <see cref="XmlReader"/>
         /// </summary>
-        private readonly Dictionary<string, Func<IXmiReaderCache, ILoggerFactory, XmlReader, IXmiElement>> readerCache;
+        private readonly Dictionary<string, Func<IXmiElementCache, ILoggerFactory, XmlReader, IXmiElement>> readerCache;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="XmiElementReaderFacade"/>
         /// </summary>
         public XmiElementReaderFacade()
         {
-            readerCache = new Dictionary<string, Func<IXmiReaderCache, ILoggerFactory, XmlReader, IXmiElement>>
+            readerCache = new Dictionary<string, Func<IXmiElementCache, ILoggerFactory, XmlReader, IXmiElement>>
             {
                 ["uml:Activity"] = (cache, loggerFactory, xmlReader) =>
                 {
@@ -1223,7 +1223,7 @@ namespace uml4net.xmi.Readers
         /// An instance of <see cref="XmlReader"/>
         /// </param>
         /// <param name="cache">
-        /// The <see cref="IXmiReaderCache"/> in which all model instances are registered
+        /// The <see cref="IXmiElementCache"/> in which all model instances are registered
         /// </param>
         /// <param name="loggerFactory">
         /// The <see cref="ILoggerFactory"/> to set up logging
@@ -1238,7 +1238,7 @@ namespace uml4net.xmi.Readers
         /// <exception cref="InvalidOperationException">
         /// thrown when the xmi:type is not supported and noXmiElementReader was found
         /// </exception>
-        public IXmiElement QueryXmiElement(XmlReader xmlReader, IXmiReaderCache cache, ILoggerFactory loggerFactory, string explicitTypeName = null)
+        public IXmiElement QueryXmiElement(XmlReader xmlReader, IXmiElementCache cache, ILoggerFactory loggerFactory, string explicitTypeName = null)
         {
             var xmiType = xmlReader.GetAttribute("xmi:type");
 

@@ -43,23 +43,23 @@ namespace uml4net.xmi.Cache
         private readonly ILogger<Assembler> logger;
 
         /// <summary>
-        /// The <see cref="IXmiReaderCache"/>
+        /// The <see cref="IXmiElementCache"/>
         /// </summary>
-        private readonly IXmiReaderCache cache;
+        private readonly IXmiElementCache cache;
 
         /// <summary>
         /// Initializes a new <see cref="Assembler"/>
         /// </summary>
         /// <param name="logger">The <see cref="ILogger{T}"/></param>
-        /// <param name="cache">The <see cref="IXmiReaderCache"/></param>
-        public Assembler(ILogger<Assembler> logger, IXmiReaderCache cache)
+        /// <param name="cache">The <see cref="IXmiElementCache"/></param>
+        public Assembler(ILogger<Assembler> logger, IXmiElementCache cache)
         {
             this.logger = logger;
             this.cache = cache;
         }
 
         /// <summary>
-        /// Synchronizes the <see cref="IXmiReaderCache"/> by assigning properties to elements.
+        /// Synchronizes the <see cref="IXmiElementCache"/> by assigning properties to elements
         /// </summary>
         public void Synchronize()
         {

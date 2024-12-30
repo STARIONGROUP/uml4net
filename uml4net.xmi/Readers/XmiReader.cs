@@ -63,9 +63,9 @@ namespace uml4net.xmi.Readers
         private readonly IXmiReaderScope scope;
 
         /// <summary>
-        /// The <see cref="IXmiReaderCache"/>
+        /// The <see cref="IXmiElementCache"/>
         /// </summary>
-        private readonly IXmiReaderCache cache;
+        private readonly IXmiElementCache cache;
 
         /// <summary>
         /// The <see cref="IXmiElementReader{T}"/>of <see cref="IPackage"/>
@@ -84,14 +84,14 @@ namespace uml4net.xmi.Readers
         /// The (injected) <see cref="IAssembler"/> used to assemble a UML object graph
         /// </param>
         /// <param name="cache">
-        /// The (injected) <see cref="IXmiReaderCache"/> used to cache all the <see cref="IXmiElement"/>s
+        /// The (injected) <see cref="IXmiElementCache"/> used to cache all the <see cref="IXmiElement"/>s
         /// </param>
         /// <param name="loggerFactory">
         /// The (injected) <see cref="ILoggerFactory"/> used to set up logging
         /// </param>
         /// <param name="externalReferenceResolver">The <see cref="IExternalReferenceResolver"/></param>
         /// <param name="scope">The <see cref="IXmiReaderScope"/></param>
-        public XmiReader(IAssembler assembler, IXmiReaderCache cache, ILoggerFactory loggerFactory,
+        public XmiReader(IAssembler assembler, IXmiElementCache cache, ILoggerFactory loggerFactory,
             IExternalReferenceResolver externalReferenceResolver, IXmiReaderScope scope)
         {
             this.assembler = assembler;

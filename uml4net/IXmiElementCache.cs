@@ -1,5 +1,5 @@
 ﻿// -------------------------------------------------------------------------------------------------
-//  <copyright file="ICache.cs" company="Starion Group S.A.">
+//  <copyright file="IXmiElementCache.cs" company="Starion Group S.A.">
 // 
 //    Copyright 2019-2024 Starion Group S.A.
 // 
@@ -18,17 +18,15 @@
 //  </copyright>
 //  ------------------------------------------------------------------------------------------------
 
-namespace uml4net.xmi.Cache
+namespace uml4net
 {
-    using uml4net;
-
     using System.Collections.Concurrent;
     using System.Collections.Generic;
 
     /// <summary>
     /// Represents a cache for storing and retrieving XMI elements during the reading process.
     /// </summary>
-    public interface IXmiReaderCache
+    public interface IXmiElementCache
     {
         /// <summary>
         /// Provides a cache for storing XMI elements with unique IDs, organized by context. 
@@ -46,7 +44,7 @@ namespace uml4net.xmi.Cache
 
         /// <summary>
         /// Switches the current context to a new XMI file, allowing elements to be stored 
-        /// under a distinct key in the cache. Initializes an empty dictionary in <see cref="XmiReaderCache.Cache"/> 
+        /// under a distinct key in the cache. Initializes an empty dictionary in <see cref="XmiElementCache.Cache"/> 
         /// for the specified context if it does not exist.
         /// </summary>
         /// <param name="context">The unique identifier for the new context, typically the XMI file name.</param>
@@ -54,27 +52,15 @@ namespace uml4net.xmi.Cache
 
         /// <summary>
         /// Adds the specified XMI element to the cache under the current context.
-        /// If the context does not already exist, the default one is used. It can be changed via <see cref="XmiReaderCache.SwitchContext"/>.
+        /// If the context does not already exist, the default one is used. It can be changed via <see cref="XmiElementCache.SwitchContext"/>.
         /// </summary>
         /// <param name="id">The unique identifier of the XMI element within the current context.</param>
         /// <param name="element">The XMI element to be added to the cache.</param>
-        void Add(string id, IXmiElement element);
-
-        /// <summary>
-        /// Checks whether the specified context exists in the cache and optionally verifies the existence of a specific key within that context.
-        /// </summary>
-        /// <param name="context">
-        /// The context name to check within the cache.
-        /// </param>
-        /// <param name="key">
-        /// (Optional) The specific key to check within the specified context. If <c>null</c>, the method only verifies if the context exists
-        /// and contains any entries.
-        /// </param>
         /// <returns>
-        /// <c>true</c> if the context is missing, contains no entries, or if a specified key exists in the context with a non-null value;
-        /// otherwise, <c>false</c>.
+        /// true if the element was added, false if the element was already present in the
+        /// cache and could not be added again
         /// </returns>
-        bool DoesContextExists(string context, string key = null);
+        bool TryAdd(string id, IXmiElement element);
 
         /// <summary>
         /// Attempts to retrieve an <see cref="IXmiElement"/> instance from the cache 
@@ -111,5 +97,21 @@ namespace uml4net.xmi.Cache
         /// context exists in the global cache; otherwise, <c>false</c>.
         /// </returns>
         bool TryResolveContext(string resourceKey, out (string Context, string ResourceId) resolvedContextAndResource, bool validateContextExistence = false);
+
+        /// <summary>
+        /// Checks whether the specified context exists in the cache and optionally verifies the existence of a specific key within that context.
+        /// </summary>
+        /// <param name="context">
+        /// The context name to check within the cache.
+        /// </param>
+        /// <param name="key">
+        /// (Optional) The specific key to check within the specified context. If <c>null</c>, the method only verifies if the context exists
+        /// and contains any entries.
+        /// </param>
+        /// <returns>
+        /// <c>true</c> if the context is missing, contains no entries, or if a specified key exists in the context with a non-null value;
+        /// otherwise, <c>false</c>.
+        /// </returns>
+        bool DoesContextExists(string context, string key = null);
     }
 }

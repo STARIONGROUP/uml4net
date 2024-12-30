@@ -36,7 +36,7 @@ namespace uml4net.xmi.Cache
     /// <param name="cache">The cache containing XMI reader information.</param>
     /// <param name="settings">The settings for the XMI reader configuration.</param>
     /// <param name="logger">The logger for logging information and errors.</param>
-    public class ExternalReferenceResolver(IXmiReaderCache cache, IXmiReaderSettings settings, ILogger<ExternalReferenceResolver> logger)
+    public class ExternalReferenceResolver(IXmiElementCache cache, IXmiReaderSettings settings, ILogger<ExternalReferenceResolver> logger)
         : IExternalReferenceResolver
     {
         /// <summary>

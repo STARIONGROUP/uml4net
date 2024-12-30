@@ -1,5 +1,5 @@
 ﻿// -------------------------------------------------------------------------------------------------
-//  <copyright file="IAssembler.cs" company="Starion Group S.A.">
+//  <copyright file="XmiElementCacheTestFixture.cs" company="Starion Group S.A.">
 // 
 //    Copyright 2019-2024 Starion Group S.A.
 // 
@@ -9,7 +9,7 @@
 // 
 //        http://www.apache.org/licenses/LICENSE-2.0
 // 
-//    Unless required by applicable law or agreed to in writing, softwareUseCases
+//    Unless required by applicable law or agreed to in writing, software
 //    distributed under the License is distributed on an "AS IS" BASIS,
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
@@ -18,16 +18,13 @@
 //  </copyright>
 //  ------------------------------------------------------------------------------------------------
 
-namespace uml4net.xmi.Cache
+namespace uml4net.Tests
 {
-    /// <summary>
-    /// The <see cref="IAssembler"/> is the interface definition for the <see cref="Assembler"/>
-    /// </summary>
-    public interface IAssembler
+    using NUnit.Framework;
+
+    [TestFixture]
+    public class XmiElementCacheTestFixture
     {
-        /// <summary>
-        /// Synchronizes the <see cref="IXmiElementCache"/> by assigning properties to elements.
-        /// </summary>
-        void Synchronize();
+        
     }
 }

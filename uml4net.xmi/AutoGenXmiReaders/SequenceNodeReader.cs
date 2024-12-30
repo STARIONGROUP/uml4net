@@ -66,7 +66,7 @@ namespace uml4net.xmi.Readers
         /// <param name="loggerFactory">
         /// The (injected) <see cref="ILoggerFactory"/> used to set up logging
         /// </param>
-        public SequenceNodeReader(IXmiReaderCache cache, ILoggerFactory loggerFactory)
+        public SequenceNodeReader(IXmiElementCache cache, ILoggerFactory loggerFactory)
             : base(cache, loggerFactory)
         {
             this.xmiElementReaderFacade = new XmiElementReaderFacade();
@@ -111,7 +111,10 @@ namespace uml4net.xmi.Readers
 
                 poco.XmiGuid = xmlReader.GetAttribute("xmi:uuid");
 
-                this.Cache.Add(poco.XmiId, poco);
+                if (!this.Cache.TryAdd(poco.XmiId, poco))
+                {
+                    this.Logger.LogCritical("Failed to add element type [{Poco}] with id [{Id}] as it was already in the cache. The XMI document seems to have duplicate xmi:id values", "SequenceNode", poco.XmiId);
+                }
 
                 var activityXmlAttribute = xmlReader.GetAttribute("activity");
                 if (!string.IsNullOrEmpty(activityXmlAttribute))

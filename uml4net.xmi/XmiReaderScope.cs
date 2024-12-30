@@ -69,7 +69,7 @@ namespace uml4net.xmi
             this.ContainerBuilder.RegisterGeneric(typeof(Logger<>)).As(typeof(ILogger<>)).PropertiesAutowired(PropertyWiringOptions.AllowCircularDependencies);
             this.ContainerBuilder.RegisterInstance(this).As<IXmiReaderScope>().SingleInstance();
             this.ContainerBuilder.RegisterType<Assembler>().As<IAssembler>();
-            this.ContainerBuilder.RegisterType<XmiReaderCache>().As<IXmiReaderCache>().SingleInstance();
+            this.ContainerBuilder.RegisterType<XmiElementCache>().As<IXmiElementCache>().SingleInstance();
             this.ContainerBuilder.RegisterType<ExternalReferenceResolver>().As<IExternalReferenceResolver>().SingleInstance();
 
             // Readers

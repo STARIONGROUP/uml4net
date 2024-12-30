@@ -1,5 +1,5 @@
 ﻿// -------------------------------------------------------------------------------------------------
-//  <copyright file="XmiReaderXmiReaderCache.cs" company="Starion Group S.A.">
+//  <copyright file="XmiElementCache.cs" company="Starion Group S.A.">
 // 
 //    Copyright 2019-2024 Starion Group S.A.
 // 
@@ -18,16 +18,12 @@
 //  </copyright>
 //  ------------------------------------------------------------------------------------------------
 
-namespace uml4net.xmi.Cache
+namespace uml4net
 {
     using System;
     using System.Collections.Concurrent;
     using System.Collections.Generic;
 
-    using Microsoft.Extensions.Logging;
-
-    using uml4net;
-    
     /// <summary>
     /// A cache specifically designed for XMI elements, organized by context, to facilitate 
     /// efficient lookups and storage during the reading of XMI files. This class provides methods 
@@ -38,7 +34,7 @@ namespace uml4net.xmi.Cache
     /// organize elements on a per-file basis. Resolved external references are also tracked 
     /// to prevent repeated processing of the same references.
     /// </remarks>
-    internal class XmiReaderCache(ILogger<XmiReaderCache> logger) : IXmiReaderCache
+    public class XmiElementCache : IXmiElementCache
     {
         private const string DefaultKey = "_";
 
@@ -134,15 +130,17 @@ namespace uml4net.xmi.Cache
         /// </summary>
         /// <param name="id">The unique identifier of the XMI element within the current context.</param>
         /// <param name="element">The XMI element to be added to the cache.</param>
-        public void Add(string id, IXmiElement element)
+        public bool TryAdd(string id, IXmiElement element)
         {
             if (this.Cache.ContainsKey(id))
             {
-                logger.LogCritical("Failed to add element type [{Element}] with id [{Id}] as it was already in the cache. The XMI document seems to have duplicate xmi:id values", element.GetType().Name, id);
-                return;
+                return false;
             }
 
             this.Cache[id] = element;
+            element.Cache = this;
+
+            return true;
         }
 
         /// <summary>

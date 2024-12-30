@@ -42,7 +42,7 @@ namespace uml4net.xmi.Readers
         /// An instance of <see cref="XmlReader"/>
         /// </param>
         /// <param name="cache">
-        /// The <see cref="IXmiReaderCache"/> in which all model instances are registered
+        /// The <see cref="IXmiElementCache"/> in which all model instances are registered
         /// </param>
         /// <param name="loggerFactory">
         /// The <see cref="ILoggerFactory"/> to set up logging
@@ -57,6 +57,6 @@ namespace uml4net.xmi.Readers
         /// <exception cref="InvalidOperationException">
         /// thrown when the xmi:type is not supported and noXmiElementReader was found
         /// </exception>
-        public IXmiElement QueryXmiElement(XmlReader xmlReader, IXmiReaderCache cache, ILoggerFactory loggerFactory, string explicitTypeName = null);
+        public IXmiElement QueryXmiElement(XmlReader xmlReader, IXmiElementCache cache, ILoggerFactory loggerFactory, string explicitTypeName = null);
     }
 }

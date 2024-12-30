@@ -52,5 +52,10 @@ namespace uml4net
         /// Gets or sets a dictionary of multivalued reference properties and the associated unique identifiers
         /// </summary>
         public Dictionary<string, List<string>> MultiValueReferencePropertyIdentifiers { get; set; }
+
+        /// <summary>
+        /// Gets or sets the <see cref="IXmiElementCache"/>
+        /// </summary>
+        public IXmiElementCache Cache { get; set; }
     }
 }
