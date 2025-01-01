@@ -18,7 +18,7 @@
 // </copyright>
 // ------------------------------------------------------------------------------------------------
 
-namespace uml4net.xmi.Cache
+namespace uml4net
 {
     using System;
     using System.Collections;

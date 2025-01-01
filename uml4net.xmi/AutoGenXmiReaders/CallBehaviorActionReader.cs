@@ -46,7 +46,7 @@ namespace uml4net.xmi.Readers
     using uml4net.StructuredClassifiers;
     using uml4net.UseCases;
     using uml4net.Values;
-    using uml4net.xmi.Cache;
+    using uml4net.xmi.ReferenceResolver;
 
     /// <summary>
     /// The purpose of the <see cref="CallBehaviorActionReader"/> is to read an instance of <see cref="ICallBehaviorAction"/>

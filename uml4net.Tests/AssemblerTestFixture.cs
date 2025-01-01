@@ -18,7 +18,7 @@
 // </copyright>
 // ------------------------------------------------------------------------------------------------
 
-namespace uml4net.xmi.Tests
+namespace uml4net.Tests
 {
     using System;
     using System.Linq;
@@ -32,8 +32,7 @@ namespace uml4net.xmi.Tests
     using uml4net.SimpleClassifiers;
     using uml4net.StructuredClassifiers;
     using uml4net.Values;
-    using uml4net.xmi.Cache;
-
+    
     [TestFixture]
     public class AssemblerTestFixture
     {

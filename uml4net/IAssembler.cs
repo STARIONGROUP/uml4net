@@ -1,5 +1,5 @@
 ﻿// -------------------------------------------------------------------------------------------------
-//  <copyright file="IExternalReferenceResolver.cs" company="Starion Group S.A.">
+//  <copyright file="IAssembler.cs" company="Starion Group S.A.">
 // 
 //    Copyright 2019-2024 Starion Group S.A.
 // 
@@ -18,20 +18,16 @@
 //  </copyright>
 //  ------------------------------------------------------------------------------------------------
 
-namespace uml4net.xmi.Cache
+namespace uml4net
 {
-    using System.Collections.Generic;
-    using System.IO;
-
     /// <summary>
-    /// Defines a contract for resolving external references associated with XMI elements.
+    /// The <see cref="IAssembler"/> is the interface definition for the <see cref="Assembler"/>
     /// </summary>
-    public interface IExternalReferenceResolver
+    public interface IAssembler
     {
         /// <summary>
-        /// Asynchronously attempts to resolve external references and yields their context and stream.
+        /// Synchronizes the <see cref="IXmiElementCache"/> by assigning properties to elements.
         /// </summary>
-        /// <returns>An enumerable of tuples containing the context and stream of resolved references.</returns>
-        IEnumerable<(string Context, Stream Stream)> TryResolve();
+        void Synchronize();
     }
 }

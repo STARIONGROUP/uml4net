@@ -27,10 +27,10 @@ namespace uml4net.xmi.Readers
 
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Logging.Abstractions;
-
+    
     using uml4net.Packages;
     using uml4net.xmi;
-    using uml4net.xmi.Cache;
+    using uml4net.xmi.ReferenceResolver;
     
     /// <summary>
     /// The purpose of the <see cref="XmiReader"/> is to provide a means to read (deserialize)

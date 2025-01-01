@@ -28,8 +28,7 @@ namespace uml4net.xmi.Readers
     using Microsoft.Extensions.Logging.Abstractions;
 
     using uml4net;
-    using uml4net.xmi.Cache;
-
+    
     /// <summary>
     /// The abstract super class from which each XMI reader needs to derive
     /// </summary> 

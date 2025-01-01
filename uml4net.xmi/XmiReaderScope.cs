@@ -24,8 +24,8 @@ namespace uml4net.xmi
     
     using Microsoft.Extensions.Logging;
 
-    using uml4net.xmi.Cache;
     using uml4net.xmi.Readers;
+    using uml4net.xmi.ReferenceResolver;
     using uml4net.xmi.Settings;
 
     /// <summary>

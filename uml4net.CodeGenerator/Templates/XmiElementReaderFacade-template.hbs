@@ -31,7 +31,7 @@ namespace uml4net.xmi.Readers
 
     using Microsoft.Extensions.Logging;
 
-    using uml4net.xmi.Cache;
+    using uml4net.xmi.ReferenceResolver;
 
     /// <summary>
     /// The purpose of the <see cref="XmiElementReaderFacade"/> is to read an <see cref="IXmiElement"/> from an

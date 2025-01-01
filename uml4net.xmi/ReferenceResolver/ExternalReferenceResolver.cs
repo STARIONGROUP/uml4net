@@ -18,7 +18,7 @@
 //  </copyright>
 //  ------------------------------------------------------------------------------------------------
 
-namespace uml4net.xmi.Cache
+namespace uml4net.xmi.ReferenceResolver
 {
     using System;
     using System.Collections.Generic;
