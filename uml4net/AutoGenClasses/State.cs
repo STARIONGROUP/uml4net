@@ -421,7 +421,7 @@ namespace uml4net.StateMachines
         [Property(xmiId: "RedefinableElement-redefinitionContext", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: false, defaultValue: null)]
         [RedefinedByProperty("IVertex.RedefinitionContext")]
         [Implements(implementation: "IRedefinableElement.RedefinitionContext")]
-        List<IClassifier> IRedefinableElement.RedefinitionContext => RedefinableElementExtensions.QueryRedefinitionContext(this);
+        List<IClassifier> IRedefinableElement.RedefinitionContext => throw new InvalidOperationException("Redefined by property IVertex.RedefinitionContext");
 
         /// <summary>
         /// The Regions owned directly by the State.

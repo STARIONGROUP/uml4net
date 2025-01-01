@@ -187,7 +187,7 @@ namespace uml4net.StateMachines
         [Property(xmiId: "Classifier-general", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: true, isDerivedUnion: false, isUnique: false, defaultValue: null)]
         [RedefinedByProperty("IClass.SuperClass")]
         [Implements(implementation: "IClassifier.General")]
-        List<IClassifier> IClassifier.General => ClassifierExtensions.QueryGeneral(this);
+        List<IClassifier> IClassifier.General => throw new InvalidOperationException("Redefined by property IClass.SuperClass");
 
         /// <summary>
         /// The Generalization relationships for this Classifier. These Generalizations navigate to more general

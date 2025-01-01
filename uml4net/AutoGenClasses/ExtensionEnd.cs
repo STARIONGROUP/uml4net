@@ -261,7 +261,7 @@ namespace uml4net.Packages
         [Property(xmiId: "MultiplicityElement-lower", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: true, isDerivedUnion: false, isUnique: false, defaultValue: null)]
         [RedefinedByProperty("IExtensionEnd.Lower")]
         [Implements(implementation: "IMultiplicityElement.Lower")]
-        int IMultiplicityElement.Lower => MultiplicityElementExtensions.QueryLower(this);
+        int IMultiplicityElement.Lower => throw new InvalidOperationException("Redefined by property IExtensionEnd.Lower");
 
         /// <summary>
         /// The specification of the lower bound for this multiplicity.

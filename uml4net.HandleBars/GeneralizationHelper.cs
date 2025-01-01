@@ -49,7 +49,7 @@ namespace uml4net.HandleBars
 
                 if (@class.Generalization.Any())
                 {
-                    var result = $": {string.Join(", ", @class.General.Select(x => $"I{x.Name}"))}";
+                    var result = $": {string.Join(", ", @class.SuperClass.Select(x => $"I{x.Name}"))}";
 
                     writer.WriteSafeString(result);
                 }

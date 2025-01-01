@@ -346,7 +346,7 @@ namespace uml4net.StateMachines
         [Property(xmiId: "RedefinableElement-redefinitionContext", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: false, defaultValue: null)]
         [RedefinedByProperty("ITransition.RedefinitionContext")]
         [Implements(implementation: "IRedefinableElement.RedefinitionContext")]
-        List<IClassifier> IRedefinableElement.RedefinitionContext => RedefinableElementExtensions.QueryRedefinitionContext(this);
+        List<IClassifier> IRedefinableElement.RedefinitionContext => throw new InvalidOperationException("Redefined by property ITransition.RedefinitionContext");
 
         /// <summary>
         /// This association refers to the associated Operation. It is derived from the Operation of the

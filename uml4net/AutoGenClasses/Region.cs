@@ -255,7 +255,7 @@ namespace uml4net.StateMachines
         [Property(xmiId: "RedefinableElement-redefinitionContext", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: false, defaultValue: null)]
         [RedefinedByProperty("IRegion.RedefinitionContext")]
         [Implements(implementation: "IRedefinableElement.RedefinitionContext")]
-        List<IClassifier> IRedefinableElement.RedefinitionContext => RedefinableElementExtensions.QueryRedefinitionContext(this);
+        List<IClassifier> IRedefinableElement.RedefinitionContext => throw new InvalidOperationException("Redefined by property IRegion.RedefinitionContext");
 
         /// <summary>
         /// The State that owns the Region. If a Region is owned by a State, then it cannot also be owned by a

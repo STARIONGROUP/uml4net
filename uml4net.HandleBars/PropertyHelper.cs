@@ -362,11 +362,13 @@ namespace uml4net.HandleBars
                 sb.Append(propertyName);
                 sb.Append(" ");
 
-                if (property.IsReadOnly || property.IsDerived)
+                if (property.IsReadOnly || property.IsDerived || property.IsDerivedUnion)
                 {
                     if (isRedefinedByProperty)
                     {
-                        sb.Append($" => {owner.Name}Extensions.Query{property.Name.CapitalizeFirstLetter()}(this);");
+                        var owningClass = redefiningProperty.Owner as IClass;
+
+                        sb.Append($"=> throw new InvalidOperationException(\"Redefined by property I{owningClass.Name}.{redefiningProperty.Name.CapitalizeFirstLetter()}\");");
                     }
                     else
                     {
