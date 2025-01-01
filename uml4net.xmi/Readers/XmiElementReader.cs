@@ -57,6 +57,34 @@ namespace uml4net.xmi.Readers
         protected readonly IXmiElementCache Cache;
 
         /// <summary>
+        /// The (injected) <see cref="IXmiElementReaderFacade"/> used to resolve any
+        /// required <see cref="IXmiElementReader{T}"/>
+        /// </summary>
+        protected readonly IXmiElementReaderFacade XmiElementReaderFacade;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="XmiElementReader{T}"/> class.
+        /// </summary>
+        /// <param name="cache">
+        /// The cache in which each <see cref="IXmiElement"/>> is stored
+        /// </param>
+        /// <param name="xmiElementReaderFacade">
+        /// The (injected) <see cref="IXmiElementReaderFacade"/> used to resolve any
+        /// required <see cref="IXmiElementReader{T}"/>
+        /// </param>
+        /// <param name="loggerFactory">
+        /// The (injected) <see cref="ILoggerFactory"/> used to set up logging
+        /// </param>
+        protected XmiElementReader(IXmiElementCache cache, IXmiElementReaderFacade xmiElementReaderFacade, ILoggerFactory loggerFactory)
+        {
+            this.Cache = cache;
+            this.XmiElementReaderFacade = xmiElementReaderFacade;
+
+            this.LoggerFactory = loggerFactory;
+            this.Logger = loggerFactory == null ? NullLogger<XmiElementReader<TXmiElement>>.Instance : loggerFactory.CreateLogger<XmiElementReader<TXmiElement>>();
+        }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="XmiElementReader{T}"/> class.
         /// </summary>
         /// <param name="cache">

@@ -61,15 +61,19 @@ namespace uml4net.xmi.Readers
         /// Initializes a new instance of the <see cref="ProtocolConformanceReader"/> class.
         /// </summary>
         /// <param name="cache">
-        /// The cache in which each <see cref="IXmiElement"/>> is stored
+        /// The (injected) <see cref="IXmiElementCache"/>> in which each <see cref="IXmiElement"/>> is stored
+        /// </param>
+        /// <param name="xmiElementReaderFacade">
+        /// The (injected) <see cref="IXmiElementReaderFacade"/> used to resolve any
+        /// required <see cref="IXmiElementReader{T}"/>
         /// </param>
         /// <param name="loggerFactory">
         /// The (injected) <see cref="ILoggerFactory"/> used to set up logging
         /// </param>
-        public ProtocolConformanceReader(IXmiElementCache cache, ILoggerFactory loggerFactory)
+        public ProtocolConformanceReader(IXmiElementCache cache, IXmiElementReaderFacade xmiElementReaderFacade, ILoggerFactory loggerFactory)
             : base(cache, loggerFactory)
         {
-            this.xmiElementReaderFacade = new XmiElementReaderFacade();
+            this.xmiElementReaderFacade = xmiElementReaderFacade;
         }
 
         /// <summary>

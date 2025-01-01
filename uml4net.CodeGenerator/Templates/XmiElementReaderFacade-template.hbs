@@ -57,7 +57,7 @@ namespace uml4net.xmi.Readers
                 ["uml:{{ class.Name }}"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var {{ String.LowerCaseFirstLetter class.Name }}Reader = new {{ class.Name }}Reader(cache, loggerFactory);
+                    var {{ String.LowerCaseFirstLetter class.Name }}Reader = new {{ class.Name }}Reader(cache, this, loggerFactory);
                     return {{ String.LowerCaseFirstLetter class.Name }}Reader.Read(subXmlReader);
                 },
                 {{/each}}

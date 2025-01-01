@@ -56,1159 +56,1159 @@ namespace uml4net.xmi.Readers
                 ["uml:Activity"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var activityReader = new ActivityReader(cache, loggerFactory);
+                    var activityReader = new ActivityReader(cache, this, loggerFactory);
                     return activityReader.Read(subXmlReader);
                 },
                 ["uml:ActivityFinalNode"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var activityFinalNodeReader = new ActivityFinalNodeReader(cache, loggerFactory);
+                    var activityFinalNodeReader = new ActivityFinalNodeReader(cache, this, loggerFactory);
                     return activityFinalNodeReader.Read(subXmlReader);
                 },
                 ["uml:ActivityParameterNode"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var activityParameterNodeReader = new ActivityParameterNodeReader(cache, loggerFactory);
+                    var activityParameterNodeReader = new ActivityParameterNodeReader(cache, this, loggerFactory);
                     return activityParameterNodeReader.Read(subXmlReader);
                 },
                 ["uml:ActivityPartition"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var activityPartitionReader = new ActivityPartitionReader(cache, loggerFactory);
+                    var activityPartitionReader = new ActivityPartitionReader(cache, this, loggerFactory);
                     return activityPartitionReader.Read(subXmlReader);
                 },
                 ["uml:CentralBufferNode"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var centralBufferNodeReader = new CentralBufferNodeReader(cache, loggerFactory);
+                    var centralBufferNodeReader = new CentralBufferNodeReader(cache, this, loggerFactory);
                     return centralBufferNodeReader.Read(subXmlReader);
                 },
                 ["uml:ControlFlow"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var controlFlowReader = new ControlFlowReader(cache, loggerFactory);
+                    var controlFlowReader = new ControlFlowReader(cache, this, loggerFactory);
                     return controlFlowReader.Read(subXmlReader);
                 },
                 ["uml:DataStoreNode"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var dataStoreNodeReader = new DataStoreNodeReader(cache, loggerFactory);
+                    var dataStoreNodeReader = new DataStoreNodeReader(cache, this, loggerFactory);
                     return dataStoreNodeReader.Read(subXmlReader);
                 },
                 ["uml:DecisionNode"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var decisionNodeReader = new DecisionNodeReader(cache, loggerFactory);
+                    var decisionNodeReader = new DecisionNodeReader(cache, this, loggerFactory);
                     return decisionNodeReader.Read(subXmlReader);
                 },
                 ["uml:ExceptionHandler"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var exceptionHandlerReader = new ExceptionHandlerReader(cache, loggerFactory);
+                    var exceptionHandlerReader = new ExceptionHandlerReader(cache, this, loggerFactory);
                     return exceptionHandlerReader.Read(subXmlReader);
                 },
                 ["uml:FlowFinalNode"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var flowFinalNodeReader = new FlowFinalNodeReader(cache, loggerFactory);
+                    var flowFinalNodeReader = new FlowFinalNodeReader(cache, this, loggerFactory);
                     return flowFinalNodeReader.Read(subXmlReader);
                 },
                 ["uml:ForkNode"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var forkNodeReader = new ForkNodeReader(cache, loggerFactory);
+                    var forkNodeReader = new ForkNodeReader(cache, this, loggerFactory);
                     return forkNodeReader.Read(subXmlReader);
                 },
                 ["uml:InitialNode"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var initialNodeReader = new InitialNodeReader(cache, loggerFactory);
+                    var initialNodeReader = new InitialNodeReader(cache, this, loggerFactory);
                     return initialNodeReader.Read(subXmlReader);
                 },
                 ["uml:InterruptibleActivityRegion"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var interruptibleActivityRegionReader = new InterruptibleActivityRegionReader(cache, loggerFactory);
+                    var interruptibleActivityRegionReader = new InterruptibleActivityRegionReader(cache, this, loggerFactory);
                     return interruptibleActivityRegionReader.Read(subXmlReader);
                 },
                 ["uml:JoinNode"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var joinNodeReader = new JoinNodeReader(cache, loggerFactory);
+                    var joinNodeReader = new JoinNodeReader(cache, this, loggerFactory);
                     return joinNodeReader.Read(subXmlReader);
                 },
                 ["uml:MergeNode"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var mergeNodeReader = new MergeNodeReader(cache, loggerFactory);
+                    var mergeNodeReader = new MergeNodeReader(cache, this, loggerFactory);
                     return mergeNodeReader.Read(subXmlReader);
                 },
                 ["uml:ObjectFlow"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var objectFlowReader = new ObjectFlowReader(cache, loggerFactory);
+                    var objectFlowReader = new ObjectFlowReader(cache, this, loggerFactory);
                     return objectFlowReader.Read(subXmlReader);
                 },
                 ["uml:Variable"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var variableReader = new VariableReader(cache, loggerFactory);
+                    var variableReader = new VariableReader(cache, this, loggerFactory);
                     return variableReader.Read(subXmlReader);
                 },
                 ["uml:Duration"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var durationReader = new DurationReader(cache, loggerFactory);
+                    var durationReader = new DurationReader(cache, this, loggerFactory);
                     return durationReader.Read(subXmlReader);
                 },
                 ["uml:DurationConstraint"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var durationConstraintReader = new DurationConstraintReader(cache, loggerFactory);
+                    var durationConstraintReader = new DurationConstraintReader(cache, this, loggerFactory);
                     return durationConstraintReader.Read(subXmlReader);
                 },
                 ["uml:DurationInterval"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var durationIntervalReader = new DurationIntervalReader(cache, loggerFactory);
+                    var durationIntervalReader = new DurationIntervalReader(cache, this, loggerFactory);
                     return durationIntervalReader.Read(subXmlReader);
                 },
                 ["uml:DurationObservation"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var durationObservationReader = new DurationObservationReader(cache, loggerFactory);
+                    var durationObservationReader = new DurationObservationReader(cache, this, loggerFactory);
                     return durationObservationReader.Read(subXmlReader);
                 },
                 ["uml:Expression"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var expressionReader = new ExpressionReader(cache, loggerFactory);
+                    var expressionReader = new ExpressionReader(cache, this, loggerFactory);
                     return expressionReader.Read(subXmlReader);
                 },
                 ["uml:Interval"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var intervalReader = new IntervalReader(cache, loggerFactory);
+                    var intervalReader = new IntervalReader(cache, this, loggerFactory);
                     return intervalReader.Read(subXmlReader);
                 },
                 ["uml:IntervalConstraint"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var intervalConstraintReader = new IntervalConstraintReader(cache, loggerFactory);
+                    var intervalConstraintReader = new IntervalConstraintReader(cache, this, loggerFactory);
                     return intervalConstraintReader.Read(subXmlReader);
                 },
                 ["uml:LiteralBoolean"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var literalBooleanReader = new LiteralBooleanReader(cache, loggerFactory);
+                    var literalBooleanReader = new LiteralBooleanReader(cache, this, loggerFactory);
                     return literalBooleanReader.Read(subXmlReader);
                 },
                 ["uml:LiteralInteger"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var literalIntegerReader = new LiteralIntegerReader(cache, loggerFactory);
+                    var literalIntegerReader = new LiteralIntegerReader(cache, this, loggerFactory);
                     return literalIntegerReader.Read(subXmlReader);
                 },
                 ["uml:LiteralNull"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var literalNullReader = new LiteralNullReader(cache, loggerFactory);
+                    var literalNullReader = new LiteralNullReader(cache, this, loggerFactory);
                     return literalNullReader.Read(subXmlReader);
                 },
                 ["uml:LiteralReal"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var literalRealReader = new LiteralRealReader(cache, loggerFactory);
+                    var literalRealReader = new LiteralRealReader(cache, this, loggerFactory);
                     return literalRealReader.Read(subXmlReader);
                 },
                 ["uml:LiteralString"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var literalStringReader = new LiteralStringReader(cache, loggerFactory);
+                    var literalStringReader = new LiteralStringReader(cache, this, loggerFactory);
                     return literalStringReader.Read(subXmlReader);
                 },
                 ["uml:LiteralUnlimitedNatural"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var literalUnlimitedNaturalReader = new LiteralUnlimitedNaturalReader(cache, loggerFactory);
+                    var literalUnlimitedNaturalReader = new LiteralUnlimitedNaturalReader(cache, this, loggerFactory);
                     return literalUnlimitedNaturalReader.Read(subXmlReader);
                 },
                 ["uml:OpaqueExpression"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var opaqueExpressionReader = new OpaqueExpressionReader(cache, loggerFactory);
+                    var opaqueExpressionReader = new OpaqueExpressionReader(cache, this, loggerFactory);
                     return opaqueExpressionReader.Read(subXmlReader);
                 },
                 ["uml:StringExpression"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var stringExpressionReader = new StringExpressionReader(cache, loggerFactory);
+                    var stringExpressionReader = new StringExpressionReader(cache, this, loggerFactory);
                     return stringExpressionReader.Read(subXmlReader);
                 },
                 ["uml:TimeConstraint"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var timeConstraintReader = new TimeConstraintReader(cache, loggerFactory);
+                    var timeConstraintReader = new TimeConstraintReader(cache, this, loggerFactory);
                     return timeConstraintReader.Read(subXmlReader);
                 },
                 ["uml:TimeExpression"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var timeExpressionReader = new TimeExpressionReader(cache, loggerFactory);
+                    var timeExpressionReader = new TimeExpressionReader(cache, this, loggerFactory);
                     return timeExpressionReader.Read(subXmlReader);
                 },
                 ["uml:TimeInterval"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var timeIntervalReader = new TimeIntervalReader(cache, loggerFactory);
+                    var timeIntervalReader = new TimeIntervalReader(cache, this, loggerFactory);
                     return timeIntervalReader.Read(subXmlReader);
                 },
                 ["uml:TimeObservation"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var timeObservationReader = new TimeObservationReader(cache, loggerFactory);
+                    var timeObservationReader = new TimeObservationReader(cache, this, loggerFactory);
                     return timeObservationReader.Read(subXmlReader);
                 },
                 ["uml:Actor"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var actorReader = new ActorReader(cache, loggerFactory);
+                    var actorReader = new ActorReader(cache, this, loggerFactory);
                     return actorReader.Read(subXmlReader);
                 },
                 ["uml:Extend"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var extendReader = new ExtendReader(cache, loggerFactory);
+                    var extendReader = new ExtendReader(cache, this, loggerFactory);
                     return extendReader.Read(subXmlReader);
                 },
                 ["uml:ExtensionPoint"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var extensionPointReader = new ExtensionPointReader(cache, loggerFactory);
+                    var extensionPointReader = new ExtensionPointReader(cache, this, loggerFactory);
                     return extensionPointReader.Read(subXmlReader);
                 },
                 ["uml:Include"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var includeReader = new IncludeReader(cache, loggerFactory);
+                    var includeReader = new IncludeReader(cache, this, loggerFactory);
                     return includeReader.Read(subXmlReader);
                 },
                 ["uml:UseCase"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var useCaseReader = new UseCaseReader(cache, loggerFactory);
+                    var useCaseReader = new UseCaseReader(cache, this, loggerFactory);
                     return useCaseReader.Read(subXmlReader);
                 },
                 ["uml:Association"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var associationReader = new AssociationReader(cache, loggerFactory);
+                    var associationReader = new AssociationReader(cache, this, loggerFactory);
                     return associationReader.Read(subXmlReader);
                 },
                 ["uml:AssociationClass"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var associationClassReader = new AssociationClassReader(cache, loggerFactory);
+                    var associationClassReader = new AssociationClassReader(cache, this, loggerFactory);
                     return associationClassReader.Read(subXmlReader);
                 },
                 ["uml:Class"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var classReader = new ClassReader(cache, loggerFactory);
+                    var classReader = new ClassReader(cache, this, loggerFactory);
                     return classReader.Read(subXmlReader);
                 },
                 ["uml:Collaboration"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var collaborationReader = new CollaborationReader(cache, loggerFactory);
+                    var collaborationReader = new CollaborationReader(cache, this, loggerFactory);
                     return collaborationReader.Read(subXmlReader);
                 },
                 ["uml:CollaborationUse"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var collaborationUseReader = new CollaborationUseReader(cache, loggerFactory);
+                    var collaborationUseReader = new CollaborationUseReader(cache, this, loggerFactory);
                     return collaborationUseReader.Read(subXmlReader);
                 },
                 ["uml:Component"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var componentReader = new ComponentReader(cache, loggerFactory);
+                    var componentReader = new ComponentReader(cache, this, loggerFactory);
                     return componentReader.Read(subXmlReader);
                 },
                 ["uml:ComponentRealization"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var componentRealizationReader = new ComponentRealizationReader(cache, loggerFactory);
+                    var componentRealizationReader = new ComponentRealizationReader(cache, this, loggerFactory);
                     return componentRealizationReader.Read(subXmlReader);
                 },
                 ["uml:ConnectableElementTemplateParameter"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var connectableElementTemplateParameterReader = new ConnectableElementTemplateParameterReader(cache, loggerFactory);
+                    var connectableElementTemplateParameterReader = new ConnectableElementTemplateParameterReader(cache, this, loggerFactory);
                     return connectableElementTemplateParameterReader.Read(subXmlReader);
                 },
                 ["uml:Connector"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var connectorReader = new ConnectorReader(cache, loggerFactory);
+                    var connectorReader = new ConnectorReader(cache, this, loggerFactory);
                     return connectorReader.Read(subXmlReader);
                 },
                 ["uml:ConnectorEnd"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var connectorEndReader = new ConnectorEndReader(cache, loggerFactory);
+                    var connectorEndReader = new ConnectorEndReader(cache, this, loggerFactory);
                     return connectorEndReader.Read(subXmlReader);
                 },
                 ["uml:Port"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var portReader = new PortReader(cache, loggerFactory);
+                    var portReader = new PortReader(cache, this, loggerFactory);
                     return portReader.Read(subXmlReader);
                 },
                 ["uml:ConnectionPointReference"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var connectionPointReferenceReader = new ConnectionPointReferenceReader(cache, loggerFactory);
+                    var connectionPointReferenceReader = new ConnectionPointReferenceReader(cache, this, loggerFactory);
                     return connectionPointReferenceReader.Read(subXmlReader);
                 },
                 ["uml:FinalState"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var finalStateReader = new FinalStateReader(cache, loggerFactory);
+                    var finalStateReader = new FinalStateReader(cache, this, loggerFactory);
                     return finalStateReader.Read(subXmlReader);
                 },
                 ["uml:ProtocolConformance"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var protocolConformanceReader = new ProtocolConformanceReader(cache, loggerFactory);
+                    var protocolConformanceReader = new ProtocolConformanceReader(cache, this, loggerFactory);
                     return protocolConformanceReader.Read(subXmlReader);
                 },
                 ["uml:ProtocolStateMachine"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var protocolStateMachineReader = new ProtocolStateMachineReader(cache, loggerFactory);
+                    var protocolStateMachineReader = new ProtocolStateMachineReader(cache, this, loggerFactory);
                     return protocolStateMachineReader.Read(subXmlReader);
                 },
                 ["uml:ProtocolTransition"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var protocolTransitionReader = new ProtocolTransitionReader(cache, loggerFactory);
+                    var protocolTransitionReader = new ProtocolTransitionReader(cache, this, loggerFactory);
                     return protocolTransitionReader.Read(subXmlReader);
                 },
                 ["uml:Pseudostate"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var pseudostateReader = new PseudostateReader(cache, loggerFactory);
+                    var pseudostateReader = new PseudostateReader(cache, this, loggerFactory);
                     return pseudostateReader.Read(subXmlReader);
                 },
                 ["uml:Region"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var regionReader = new RegionReader(cache, loggerFactory);
+                    var regionReader = new RegionReader(cache, this, loggerFactory);
                     return regionReader.Read(subXmlReader);
                 },
                 ["uml:State"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var stateReader = new StateReader(cache, loggerFactory);
+                    var stateReader = new StateReader(cache, this, loggerFactory);
                     return stateReader.Read(subXmlReader);
                 },
                 ["uml:StateMachine"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var stateMachineReader = new StateMachineReader(cache, loggerFactory);
+                    var stateMachineReader = new StateMachineReader(cache, this, loggerFactory);
                     return stateMachineReader.Read(subXmlReader);
                 },
                 ["uml:Transition"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var transitionReader = new TransitionReader(cache, loggerFactory);
+                    var transitionReader = new TransitionReader(cache, this, loggerFactory);
                     return transitionReader.Read(subXmlReader);
                 },
                 ["uml:DataType"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var dataTypeReader = new DataTypeReader(cache, loggerFactory);
+                    var dataTypeReader = new DataTypeReader(cache, this, loggerFactory);
                     return dataTypeReader.Read(subXmlReader);
                 },
                 ["uml:Enumeration"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var enumerationReader = new EnumerationReader(cache, loggerFactory);
+                    var enumerationReader = new EnumerationReader(cache, this, loggerFactory);
                     return enumerationReader.Read(subXmlReader);
                 },
                 ["uml:EnumerationLiteral"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var enumerationLiteralReader = new EnumerationLiteralReader(cache, loggerFactory);
+                    var enumerationLiteralReader = new EnumerationLiteralReader(cache, this, loggerFactory);
                     return enumerationLiteralReader.Read(subXmlReader);
                 },
                 ["uml:Interface"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var interfaceReader = new InterfaceReader(cache, loggerFactory);
+                    var interfaceReader = new InterfaceReader(cache, this, loggerFactory);
                     return interfaceReader.Read(subXmlReader);
                 },
                 ["uml:InterfaceRealization"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var interfaceRealizationReader = new InterfaceRealizationReader(cache, loggerFactory);
+                    var interfaceRealizationReader = new InterfaceRealizationReader(cache, this, loggerFactory);
                     return interfaceRealizationReader.Read(subXmlReader);
                 },
                 ["uml:PrimitiveType"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var primitiveTypeReader = new PrimitiveTypeReader(cache, loggerFactory);
+                    var primitiveTypeReader = new PrimitiveTypeReader(cache, this, loggerFactory);
                     return primitiveTypeReader.Read(subXmlReader);
                 },
                 ["uml:Reception"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var receptionReader = new ReceptionReader(cache, loggerFactory);
+                    var receptionReader = new ReceptionReader(cache, this, loggerFactory);
                     return receptionReader.Read(subXmlReader);
                 },
                 ["uml:Signal"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var signalReader = new SignalReader(cache, loggerFactory);
+                    var signalReader = new SignalReader(cache, this, loggerFactory);
                     return signalReader.Read(subXmlReader);
                 },
                 ["uml:Extension"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var extensionReader = new ExtensionReader(cache, loggerFactory);
+                    var extensionReader = new ExtensionReader(cache, this, loggerFactory);
                     return extensionReader.Read(subXmlReader);
                 },
                 ["uml:ExtensionEnd"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var extensionEndReader = new ExtensionEndReader(cache, loggerFactory);
+                    var extensionEndReader = new ExtensionEndReader(cache, this, loggerFactory);
                     return extensionEndReader.Read(subXmlReader);
                 },
                 ["uml:Image"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var imageReader = new ImageReader(cache, loggerFactory);
+                    var imageReader = new ImageReader(cache, this, loggerFactory);
                     return imageReader.Read(subXmlReader);
                 },
                 ["uml:Model"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var modelReader = new ModelReader(cache, loggerFactory);
+                    var modelReader = new ModelReader(cache, this, loggerFactory);
                     return modelReader.Read(subXmlReader);
                 },
                 ["uml:Package"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var packageReader = new PackageReader(cache, loggerFactory);
+                    var packageReader = new PackageReader(cache, this, loggerFactory);
                     return packageReader.Read(subXmlReader);
                 },
                 ["uml:PackageMerge"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var packageMergeReader = new PackageMergeReader(cache, loggerFactory);
+                    var packageMergeReader = new PackageMergeReader(cache, this, loggerFactory);
                     return packageMergeReader.Read(subXmlReader);
                 },
                 ["uml:Profile"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var profileReader = new ProfileReader(cache, loggerFactory);
+                    var profileReader = new ProfileReader(cache, this, loggerFactory);
                     return profileReader.Read(subXmlReader);
                 },
                 ["uml:ProfileApplication"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var profileApplicationReader = new ProfileApplicationReader(cache, loggerFactory);
+                    var profileApplicationReader = new ProfileApplicationReader(cache, this, loggerFactory);
                     return profileApplicationReader.Read(subXmlReader);
                 },
                 ["uml:Stereotype"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var stereotypeReader = new StereotypeReader(cache, loggerFactory);
+                    var stereotypeReader = new StereotypeReader(cache, this, loggerFactory);
                     return stereotypeReader.Read(subXmlReader);
                 },
                 ["uml:ActionExecutionSpecification"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var actionExecutionSpecificationReader = new ActionExecutionSpecificationReader(cache, loggerFactory);
+                    var actionExecutionSpecificationReader = new ActionExecutionSpecificationReader(cache, this, loggerFactory);
                     return actionExecutionSpecificationReader.Read(subXmlReader);
                 },
                 ["uml:BehaviorExecutionSpecification"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var behaviorExecutionSpecificationReader = new BehaviorExecutionSpecificationReader(cache, loggerFactory);
+                    var behaviorExecutionSpecificationReader = new BehaviorExecutionSpecificationReader(cache, this, loggerFactory);
                     return behaviorExecutionSpecificationReader.Read(subXmlReader);
                 },
                 ["uml:CombinedFragment"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var combinedFragmentReader = new CombinedFragmentReader(cache, loggerFactory);
+                    var combinedFragmentReader = new CombinedFragmentReader(cache, this, loggerFactory);
                     return combinedFragmentReader.Read(subXmlReader);
                 },
                 ["uml:ConsiderIgnoreFragment"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var considerIgnoreFragmentReader = new ConsiderIgnoreFragmentReader(cache, loggerFactory);
+                    var considerIgnoreFragmentReader = new ConsiderIgnoreFragmentReader(cache, this, loggerFactory);
                     return considerIgnoreFragmentReader.Read(subXmlReader);
                 },
                 ["uml:Continuation"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var continuationReader = new ContinuationReader(cache, loggerFactory);
+                    var continuationReader = new ContinuationReader(cache, this, loggerFactory);
                     return continuationReader.Read(subXmlReader);
                 },
                 ["uml:DestructionOccurrenceSpecification"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var destructionOccurrenceSpecificationReader = new DestructionOccurrenceSpecificationReader(cache, loggerFactory);
+                    var destructionOccurrenceSpecificationReader = new DestructionOccurrenceSpecificationReader(cache, this, loggerFactory);
                     return destructionOccurrenceSpecificationReader.Read(subXmlReader);
                 },
                 ["uml:ExecutionOccurrenceSpecification"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var executionOccurrenceSpecificationReader = new ExecutionOccurrenceSpecificationReader(cache, loggerFactory);
+                    var executionOccurrenceSpecificationReader = new ExecutionOccurrenceSpecificationReader(cache, this, loggerFactory);
                     return executionOccurrenceSpecificationReader.Read(subXmlReader);
                 },
                 ["uml:Gate"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var gateReader = new GateReader(cache, loggerFactory);
+                    var gateReader = new GateReader(cache, this, loggerFactory);
                     return gateReader.Read(subXmlReader);
                 },
                 ["uml:GeneralOrdering"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var generalOrderingReader = new GeneralOrderingReader(cache, loggerFactory);
+                    var generalOrderingReader = new GeneralOrderingReader(cache, this, loggerFactory);
                     return generalOrderingReader.Read(subXmlReader);
                 },
                 ["uml:Interaction"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var interactionReader = new InteractionReader(cache, loggerFactory);
+                    var interactionReader = new InteractionReader(cache, this, loggerFactory);
                     return interactionReader.Read(subXmlReader);
                 },
                 ["uml:InteractionConstraint"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var interactionConstraintReader = new InteractionConstraintReader(cache, loggerFactory);
+                    var interactionConstraintReader = new InteractionConstraintReader(cache, this, loggerFactory);
                     return interactionConstraintReader.Read(subXmlReader);
                 },
                 ["uml:InteractionOperand"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var interactionOperandReader = new InteractionOperandReader(cache, loggerFactory);
+                    var interactionOperandReader = new InteractionOperandReader(cache, this, loggerFactory);
                     return interactionOperandReader.Read(subXmlReader);
                 },
                 ["uml:InteractionUse"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var interactionUseReader = new InteractionUseReader(cache, loggerFactory);
+                    var interactionUseReader = new InteractionUseReader(cache, this, loggerFactory);
                     return interactionUseReader.Read(subXmlReader);
                 },
                 ["uml:Lifeline"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var lifelineReader = new LifelineReader(cache, loggerFactory);
+                    var lifelineReader = new LifelineReader(cache, this, loggerFactory);
                     return lifelineReader.Read(subXmlReader);
                 },
                 ["uml:Message"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var messageReader = new MessageReader(cache, loggerFactory);
+                    var messageReader = new MessageReader(cache, this, loggerFactory);
                     return messageReader.Read(subXmlReader);
                 },
                 ["uml:MessageOccurrenceSpecification"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var messageOccurrenceSpecificationReader = new MessageOccurrenceSpecificationReader(cache, loggerFactory);
+                    var messageOccurrenceSpecificationReader = new MessageOccurrenceSpecificationReader(cache, this, loggerFactory);
                     return messageOccurrenceSpecificationReader.Read(subXmlReader);
                 },
                 ["uml:OccurrenceSpecification"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var occurrenceSpecificationReader = new OccurrenceSpecificationReader(cache, loggerFactory);
+                    var occurrenceSpecificationReader = new OccurrenceSpecificationReader(cache, this, loggerFactory);
                     return occurrenceSpecificationReader.Read(subXmlReader);
                 },
                 ["uml:PartDecomposition"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var partDecompositionReader = new PartDecompositionReader(cache, loggerFactory);
+                    var partDecompositionReader = new PartDecompositionReader(cache, this, loggerFactory);
                     return partDecompositionReader.Read(subXmlReader);
                 },
                 ["uml:StateInvariant"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var stateInvariantReader = new StateInvariantReader(cache, loggerFactory);
+                    var stateInvariantReader = new StateInvariantReader(cache, this, loggerFactory);
                     return stateInvariantReader.Read(subXmlReader);
                 },
                 ["uml:InformationFlow"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var informationFlowReader = new InformationFlowReader(cache, loggerFactory);
+                    var informationFlowReader = new InformationFlowReader(cache, this, loggerFactory);
                     return informationFlowReader.Read(subXmlReader);
                 },
                 ["uml:InformationItem"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var informationItemReader = new InformationItemReader(cache, loggerFactory);
+                    var informationItemReader = new InformationItemReader(cache, this, loggerFactory);
                     return informationItemReader.Read(subXmlReader);
                 },
                 ["uml:Artifact"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var artifactReader = new ArtifactReader(cache, loggerFactory);
+                    var artifactReader = new ArtifactReader(cache, this, loggerFactory);
                     return artifactReader.Read(subXmlReader);
                 },
                 ["uml:CommunicationPath"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var communicationPathReader = new CommunicationPathReader(cache, loggerFactory);
+                    var communicationPathReader = new CommunicationPathReader(cache, this, loggerFactory);
                     return communicationPathReader.Read(subXmlReader);
                 },
                 ["uml:Deployment"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var deploymentReader = new DeploymentReader(cache, loggerFactory);
+                    var deploymentReader = new DeploymentReader(cache, this, loggerFactory);
                     return deploymentReader.Read(subXmlReader);
                 },
                 ["uml:DeploymentSpecification"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var deploymentSpecificationReader = new DeploymentSpecificationReader(cache, loggerFactory);
+                    var deploymentSpecificationReader = new DeploymentSpecificationReader(cache, this, loggerFactory);
                     return deploymentSpecificationReader.Read(subXmlReader);
                 },
                 ["uml:Device"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var deviceReader = new DeviceReader(cache, loggerFactory);
+                    var deviceReader = new DeviceReader(cache, this, loggerFactory);
                     return deviceReader.Read(subXmlReader);
                 },
                 ["uml:ExecutionEnvironment"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var executionEnvironmentReader = new ExecutionEnvironmentReader(cache, loggerFactory);
+                    var executionEnvironmentReader = new ExecutionEnvironmentReader(cache, this, loggerFactory);
                     return executionEnvironmentReader.Read(subXmlReader);
                 },
                 ["uml:Manifestation"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var manifestationReader = new ManifestationReader(cache, loggerFactory);
+                    var manifestationReader = new ManifestationReader(cache, this, loggerFactory);
                     return manifestationReader.Read(subXmlReader);
                 },
                 ["uml:Node"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var nodeReader = new NodeReader(cache, loggerFactory);
+                    var nodeReader = new NodeReader(cache, this, loggerFactory);
                     return nodeReader.Read(subXmlReader);
                 },
                 ["uml:Abstraction"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var abstractionReader = new AbstractionReader(cache, loggerFactory);
+                    var abstractionReader = new AbstractionReader(cache, this, loggerFactory);
                     return abstractionReader.Read(subXmlReader);
                 },
                 ["uml:Comment"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var commentReader = new CommentReader(cache, loggerFactory);
+                    var commentReader = new CommentReader(cache, this, loggerFactory);
                     return commentReader.Read(subXmlReader);
                 },
                 ["uml:Constraint"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var constraintReader = new ConstraintReader(cache, loggerFactory);
+                    var constraintReader = new ConstraintReader(cache, this, loggerFactory);
                     return constraintReader.Read(subXmlReader);
                 },
                 ["uml:Dependency"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var dependencyReader = new DependencyReader(cache, loggerFactory);
+                    var dependencyReader = new DependencyReader(cache, this, loggerFactory);
                     return dependencyReader.Read(subXmlReader);
                 },
                 ["uml:ElementImport"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var elementImportReader = new ElementImportReader(cache, loggerFactory);
+                    var elementImportReader = new ElementImportReader(cache, this, loggerFactory);
                     return elementImportReader.Read(subXmlReader);
                 },
                 ["uml:PackageImport"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var packageImportReader = new PackageImportReader(cache, loggerFactory);
+                    var packageImportReader = new PackageImportReader(cache, this, loggerFactory);
                     return packageImportReader.Read(subXmlReader);
                 },
                 ["uml:Realization"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var realizationReader = new RealizationReader(cache, loggerFactory);
+                    var realizationReader = new RealizationReader(cache, this, loggerFactory);
                     return realizationReader.Read(subXmlReader);
                 },
                 ["uml:TemplateBinding"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var templateBindingReader = new TemplateBindingReader(cache, loggerFactory);
+                    var templateBindingReader = new TemplateBindingReader(cache, this, loggerFactory);
                     return templateBindingReader.Read(subXmlReader);
                 },
                 ["uml:TemplateParameter"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var templateParameterReader = new TemplateParameterReader(cache, loggerFactory);
+                    var templateParameterReader = new TemplateParameterReader(cache, this, loggerFactory);
                     return templateParameterReader.Read(subXmlReader);
                 },
                 ["uml:TemplateParameterSubstitution"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var templateParameterSubstitutionReader = new TemplateParameterSubstitutionReader(cache, loggerFactory);
+                    var templateParameterSubstitutionReader = new TemplateParameterSubstitutionReader(cache, this, loggerFactory);
                     return templateParameterSubstitutionReader.Read(subXmlReader);
                 },
                 ["uml:TemplateSignature"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var templateSignatureReader = new TemplateSignatureReader(cache, loggerFactory);
+                    var templateSignatureReader = new TemplateSignatureReader(cache, this, loggerFactory);
                     return templateSignatureReader.Read(subXmlReader);
                 },
                 ["uml:Usage"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var usageReader = new UsageReader(cache, loggerFactory);
+                    var usageReader = new UsageReader(cache, this, loggerFactory);
                     return usageReader.Read(subXmlReader);
                 },
                 ["uml:AnyReceiveEvent"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var anyReceiveEventReader = new AnyReceiveEventReader(cache, loggerFactory);
+                    var anyReceiveEventReader = new AnyReceiveEventReader(cache, this, loggerFactory);
                     return anyReceiveEventReader.Read(subXmlReader);
                 },
                 ["uml:CallEvent"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var callEventReader = new CallEventReader(cache, loggerFactory);
+                    var callEventReader = new CallEventReader(cache, this, loggerFactory);
                     return callEventReader.Read(subXmlReader);
                 },
                 ["uml:ChangeEvent"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var changeEventReader = new ChangeEventReader(cache, loggerFactory);
+                    var changeEventReader = new ChangeEventReader(cache, this, loggerFactory);
                     return changeEventReader.Read(subXmlReader);
                 },
                 ["uml:FunctionBehavior"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var functionBehaviorReader = new FunctionBehaviorReader(cache, loggerFactory);
+                    var functionBehaviorReader = new FunctionBehaviorReader(cache, this, loggerFactory);
                     return functionBehaviorReader.Read(subXmlReader);
                 },
                 ["uml:OpaqueBehavior"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var opaqueBehaviorReader = new OpaqueBehaviorReader(cache, loggerFactory);
+                    var opaqueBehaviorReader = new OpaqueBehaviorReader(cache, this, loggerFactory);
                     return opaqueBehaviorReader.Read(subXmlReader);
                 },
                 ["uml:SignalEvent"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var signalEventReader = new SignalEventReader(cache, loggerFactory);
+                    var signalEventReader = new SignalEventReader(cache, this, loggerFactory);
                     return signalEventReader.Read(subXmlReader);
                 },
                 ["uml:TimeEvent"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var timeEventReader = new TimeEventReader(cache, loggerFactory);
+                    var timeEventReader = new TimeEventReader(cache, this, loggerFactory);
                     return timeEventReader.Read(subXmlReader);
                 },
                 ["uml:Trigger"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var triggerReader = new TriggerReader(cache, loggerFactory);
+                    var triggerReader = new TriggerReader(cache, this, loggerFactory);
                     return triggerReader.Read(subXmlReader);
                 },
                 ["uml:Substitution"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var substitutionReader = new SubstitutionReader(cache, loggerFactory);
+                    var substitutionReader = new SubstitutionReader(cache, this, loggerFactory);
                     return substitutionReader.Read(subXmlReader);
                 },
                 ["uml:ClassifierTemplateParameter"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var classifierTemplateParameterReader = new ClassifierTemplateParameterReader(cache, loggerFactory);
+                    var classifierTemplateParameterReader = new ClassifierTemplateParameterReader(cache, this, loggerFactory);
                     return classifierTemplateParameterReader.Read(subXmlReader);
                 },
                 ["uml:Generalization"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var generalizationReader = new GeneralizationReader(cache, loggerFactory);
+                    var generalizationReader = new GeneralizationReader(cache, this, loggerFactory);
                     return generalizationReader.Read(subXmlReader);
                 },
                 ["uml:GeneralizationSet"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var generalizationSetReader = new GeneralizationSetReader(cache, loggerFactory);
+                    var generalizationSetReader = new GeneralizationSetReader(cache, this, loggerFactory);
                     return generalizationSetReader.Read(subXmlReader);
                 },
                 ["uml:InstanceSpecification"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var instanceSpecificationReader = new InstanceSpecificationReader(cache, loggerFactory);
+                    var instanceSpecificationReader = new InstanceSpecificationReader(cache, this, loggerFactory);
                     return instanceSpecificationReader.Read(subXmlReader);
                 },
                 ["uml:InstanceValue"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var instanceValueReader = new InstanceValueReader(cache, loggerFactory);
+                    var instanceValueReader = new InstanceValueReader(cache, this, loggerFactory);
                     return instanceValueReader.Read(subXmlReader);
                 },
                 ["uml:Operation"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var operationReader = new OperationReader(cache, loggerFactory);
+                    var operationReader = new OperationReader(cache, this, loggerFactory);
                     return operationReader.Read(subXmlReader);
                 },
                 ["uml:OperationTemplateParameter"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var operationTemplateParameterReader = new OperationTemplateParameterReader(cache, loggerFactory);
+                    var operationTemplateParameterReader = new OperationTemplateParameterReader(cache, this, loggerFactory);
                     return operationTemplateParameterReader.Read(subXmlReader);
                 },
                 ["uml:Parameter"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var parameterReader = new ParameterReader(cache, loggerFactory);
+                    var parameterReader = new ParameterReader(cache, this, loggerFactory);
                     return parameterReader.Read(subXmlReader);
                 },
                 ["uml:ParameterSet"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var parameterSetReader = new ParameterSetReader(cache, loggerFactory);
+                    var parameterSetReader = new ParameterSetReader(cache, this, loggerFactory);
                     return parameterSetReader.Read(subXmlReader);
                 },
                 ["uml:Property"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var propertyReader = new PropertyReader(cache, loggerFactory);
+                    var propertyReader = new PropertyReader(cache, this, loggerFactory);
                     return propertyReader.Read(subXmlReader);
                 },
                 ["uml:RedefinableTemplateSignature"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var redefinableTemplateSignatureReader = new RedefinableTemplateSignatureReader(cache, loggerFactory);
+                    var redefinableTemplateSignatureReader = new RedefinableTemplateSignatureReader(cache, this, loggerFactory);
                     return redefinableTemplateSignatureReader.Read(subXmlReader);
                 },
                 ["uml:Slot"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var slotReader = new SlotReader(cache, loggerFactory);
+                    var slotReader = new SlotReader(cache, this, loggerFactory);
                     return slotReader.Read(subXmlReader);
                 },
                 ["uml:ValueSpecificationAction"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var valueSpecificationActionReader = new ValueSpecificationActionReader(cache, loggerFactory);
+                    var valueSpecificationActionReader = new ValueSpecificationActionReader(cache, this, loggerFactory);
                     return valueSpecificationActionReader.Read(subXmlReader);
                 },
                 ["uml:AcceptCallAction"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var acceptCallActionReader = new AcceptCallActionReader(cache, loggerFactory);
+                    var acceptCallActionReader = new AcceptCallActionReader(cache, this, loggerFactory);
                     return acceptCallActionReader.Read(subXmlReader);
                 },
                 ["uml:AcceptEventAction"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var acceptEventActionReader = new AcceptEventActionReader(cache, loggerFactory);
+                    var acceptEventActionReader = new AcceptEventActionReader(cache, this, loggerFactory);
                     return acceptEventActionReader.Read(subXmlReader);
                 },
                 ["uml:ActionInputPin"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var actionInputPinReader = new ActionInputPinReader(cache, loggerFactory);
+                    var actionInputPinReader = new ActionInputPinReader(cache, this, loggerFactory);
                     return actionInputPinReader.Read(subXmlReader);
                 },
                 ["uml:AddStructuralFeatureValueAction"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var addStructuralFeatureValueActionReader = new AddStructuralFeatureValueActionReader(cache, loggerFactory);
+                    var addStructuralFeatureValueActionReader = new AddStructuralFeatureValueActionReader(cache, this, loggerFactory);
                     return addStructuralFeatureValueActionReader.Read(subXmlReader);
                 },
                 ["uml:AddVariableValueAction"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var addVariableValueActionReader = new AddVariableValueActionReader(cache, loggerFactory);
+                    var addVariableValueActionReader = new AddVariableValueActionReader(cache, this, loggerFactory);
                     return addVariableValueActionReader.Read(subXmlReader);
                 },
                 ["uml:BroadcastSignalAction"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var broadcastSignalActionReader = new BroadcastSignalActionReader(cache, loggerFactory);
+                    var broadcastSignalActionReader = new BroadcastSignalActionReader(cache, this, loggerFactory);
                     return broadcastSignalActionReader.Read(subXmlReader);
                 },
                 ["uml:CallBehaviorAction"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var callBehaviorActionReader = new CallBehaviorActionReader(cache, loggerFactory);
+                    var callBehaviorActionReader = new CallBehaviorActionReader(cache, this, loggerFactory);
                     return callBehaviorActionReader.Read(subXmlReader);
                 },
                 ["uml:CallOperationAction"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var callOperationActionReader = new CallOperationActionReader(cache, loggerFactory);
+                    var callOperationActionReader = new CallOperationActionReader(cache, this, loggerFactory);
                     return callOperationActionReader.Read(subXmlReader);
                 },
                 ["uml:Clause"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var clauseReader = new ClauseReader(cache, loggerFactory);
+                    var clauseReader = new ClauseReader(cache, this, loggerFactory);
                     return clauseReader.Read(subXmlReader);
                 },
                 ["uml:ClearAssociationAction"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var clearAssociationActionReader = new ClearAssociationActionReader(cache, loggerFactory);
+                    var clearAssociationActionReader = new ClearAssociationActionReader(cache, this, loggerFactory);
                     return clearAssociationActionReader.Read(subXmlReader);
                 },
                 ["uml:ClearStructuralFeatureAction"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var clearStructuralFeatureActionReader = new ClearStructuralFeatureActionReader(cache, loggerFactory);
+                    var clearStructuralFeatureActionReader = new ClearStructuralFeatureActionReader(cache, this, loggerFactory);
                     return clearStructuralFeatureActionReader.Read(subXmlReader);
                 },
                 ["uml:ClearVariableAction"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var clearVariableActionReader = new ClearVariableActionReader(cache, loggerFactory);
+                    var clearVariableActionReader = new ClearVariableActionReader(cache, this, loggerFactory);
                     return clearVariableActionReader.Read(subXmlReader);
                 },
                 ["uml:ConditionalNode"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var conditionalNodeReader = new ConditionalNodeReader(cache, loggerFactory);
+                    var conditionalNodeReader = new ConditionalNodeReader(cache, this, loggerFactory);
                     return conditionalNodeReader.Read(subXmlReader);
                 },
                 ["uml:CreateLinkAction"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var createLinkActionReader = new CreateLinkActionReader(cache, loggerFactory);
+                    var createLinkActionReader = new CreateLinkActionReader(cache, this, loggerFactory);
                     return createLinkActionReader.Read(subXmlReader);
                 },
                 ["uml:CreateLinkObjectAction"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var createLinkObjectActionReader = new CreateLinkObjectActionReader(cache, loggerFactory);
+                    var createLinkObjectActionReader = new CreateLinkObjectActionReader(cache, this, loggerFactory);
                     return createLinkObjectActionReader.Read(subXmlReader);
                 },
                 ["uml:CreateObjectAction"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var createObjectActionReader = new CreateObjectActionReader(cache, loggerFactory);
+                    var createObjectActionReader = new CreateObjectActionReader(cache, this, loggerFactory);
                     return createObjectActionReader.Read(subXmlReader);
                 },
                 ["uml:DestroyLinkAction"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var destroyLinkActionReader = new DestroyLinkActionReader(cache, loggerFactory);
+                    var destroyLinkActionReader = new DestroyLinkActionReader(cache, this, loggerFactory);
                     return destroyLinkActionReader.Read(subXmlReader);
                 },
                 ["uml:DestroyObjectAction"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var destroyObjectActionReader = new DestroyObjectActionReader(cache, loggerFactory);
+                    var destroyObjectActionReader = new DestroyObjectActionReader(cache, this, loggerFactory);
                     return destroyObjectActionReader.Read(subXmlReader);
                 },
                 ["uml:ExpansionNode"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var expansionNodeReader = new ExpansionNodeReader(cache, loggerFactory);
+                    var expansionNodeReader = new ExpansionNodeReader(cache, this, loggerFactory);
                     return expansionNodeReader.Read(subXmlReader);
                 },
                 ["uml:ExpansionRegion"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var expansionRegionReader = new ExpansionRegionReader(cache, loggerFactory);
+                    var expansionRegionReader = new ExpansionRegionReader(cache, this, loggerFactory);
                     return expansionRegionReader.Read(subXmlReader);
                 },
                 ["uml:InputPin"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var inputPinReader = new InputPinReader(cache, loggerFactory);
+                    var inputPinReader = new InputPinReader(cache, this, loggerFactory);
                     return inputPinReader.Read(subXmlReader);
                 },
                 ["uml:LinkEndCreationData"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var linkEndCreationDataReader = new LinkEndCreationDataReader(cache, loggerFactory);
+                    var linkEndCreationDataReader = new LinkEndCreationDataReader(cache, this, loggerFactory);
                     return linkEndCreationDataReader.Read(subXmlReader);
                 },
                 ["uml:LinkEndData"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var linkEndDataReader = new LinkEndDataReader(cache, loggerFactory);
+                    var linkEndDataReader = new LinkEndDataReader(cache, this, loggerFactory);
                     return linkEndDataReader.Read(subXmlReader);
                 },
                 ["uml:LinkEndDestructionData"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var linkEndDestructionDataReader = new LinkEndDestructionDataReader(cache, loggerFactory);
+                    var linkEndDestructionDataReader = new LinkEndDestructionDataReader(cache, this, loggerFactory);
                     return linkEndDestructionDataReader.Read(subXmlReader);
                 },
                 ["uml:LoopNode"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var loopNodeReader = new LoopNodeReader(cache, loggerFactory);
+                    var loopNodeReader = new LoopNodeReader(cache, this, loggerFactory);
                     return loopNodeReader.Read(subXmlReader);
                 },
                 ["uml:OpaqueAction"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var opaqueActionReader = new OpaqueActionReader(cache, loggerFactory);
+                    var opaqueActionReader = new OpaqueActionReader(cache, this, loggerFactory);
                     return opaqueActionReader.Read(subXmlReader);
                 },
                 ["uml:OutputPin"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var outputPinReader = new OutputPinReader(cache, loggerFactory);
+                    var outputPinReader = new OutputPinReader(cache, this, loggerFactory);
                     return outputPinReader.Read(subXmlReader);
                 },
                 ["uml:QualifierValue"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var qualifierValueReader = new QualifierValueReader(cache, loggerFactory);
+                    var qualifierValueReader = new QualifierValueReader(cache, this, loggerFactory);
                     return qualifierValueReader.Read(subXmlReader);
                 },
                 ["uml:RaiseExceptionAction"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var raiseExceptionActionReader = new RaiseExceptionActionReader(cache, loggerFactory);
+                    var raiseExceptionActionReader = new RaiseExceptionActionReader(cache, this, loggerFactory);
                     return raiseExceptionActionReader.Read(subXmlReader);
                 },
                 ["uml:ReadExtentAction"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var readExtentActionReader = new ReadExtentActionReader(cache, loggerFactory);
+                    var readExtentActionReader = new ReadExtentActionReader(cache, this, loggerFactory);
                     return readExtentActionReader.Read(subXmlReader);
                 },
                 ["uml:ReadIsClassifiedObjectAction"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var readIsClassifiedObjectActionReader = new ReadIsClassifiedObjectActionReader(cache, loggerFactory);
+                    var readIsClassifiedObjectActionReader = new ReadIsClassifiedObjectActionReader(cache, this, loggerFactory);
                     return readIsClassifiedObjectActionReader.Read(subXmlReader);
                 },
                 ["uml:ReadLinkAction"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var readLinkActionReader = new ReadLinkActionReader(cache, loggerFactory);
+                    var readLinkActionReader = new ReadLinkActionReader(cache, this, loggerFactory);
                     return readLinkActionReader.Read(subXmlReader);
                 },
                 ["uml:ReadLinkObjectEndAction"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var readLinkObjectEndActionReader = new ReadLinkObjectEndActionReader(cache, loggerFactory);
+                    var readLinkObjectEndActionReader = new ReadLinkObjectEndActionReader(cache, this, loggerFactory);
                     return readLinkObjectEndActionReader.Read(subXmlReader);
                 },
                 ["uml:ReadLinkObjectEndQualifierAction"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var readLinkObjectEndQualifierActionReader = new ReadLinkObjectEndQualifierActionReader(cache, loggerFactory);
+                    var readLinkObjectEndQualifierActionReader = new ReadLinkObjectEndQualifierActionReader(cache, this, loggerFactory);
                     return readLinkObjectEndQualifierActionReader.Read(subXmlReader);
                 },
                 ["uml:ReadSelfAction"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var readSelfActionReader = new ReadSelfActionReader(cache, loggerFactory);
+                    var readSelfActionReader = new ReadSelfActionReader(cache, this, loggerFactory);
                     return readSelfActionReader.Read(subXmlReader);
                 },
                 ["uml:ReadStructuralFeatureAction"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var readStructuralFeatureActionReader = new ReadStructuralFeatureActionReader(cache, loggerFactory);
+                    var readStructuralFeatureActionReader = new ReadStructuralFeatureActionReader(cache, this, loggerFactory);
                     return readStructuralFeatureActionReader.Read(subXmlReader);
                 },
                 ["uml:ReadVariableAction"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var readVariableActionReader = new ReadVariableActionReader(cache, loggerFactory);
+                    var readVariableActionReader = new ReadVariableActionReader(cache, this, loggerFactory);
                     return readVariableActionReader.Read(subXmlReader);
                 },
                 ["uml:ReclassifyObjectAction"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var reclassifyObjectActionReader = new ReclassifyObjectActionReader(cache, loggerFactory);
+                    var reclassifyObjectActionReader = new ReclassifyObjectActionReader(cache, this, loggerFactory);
                     return reclassifyObjectActionReader.Read(subXmlReader);
                 },
                 ["uml:ReduceAction"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var reduceActionReader = new ReduceActionReader(cache, loggerFactory);
+                    var reduceActionReader = new ReduceActionReader(cache, this, loggerFactory);
                     return reduceActionReader.Read(subXmlReader);
                 },
                 ["uml:RemoveStructuralFeatureValueAction"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var removeStructuralFeatureValueActionReader = new RemoveStructuralFeatureValueActionReader(cache, loggerFactory);
+                    var removeStructuralFeatureValueActionReader = new RemoveStructuralFeatureValueActionReader(cache, this, loggerFactory);
                     return removeStructuralFeatureValueActionReader.Read(subXmlReader);
                 },
                 ["uml:RemoveVariableValueAction"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var removeVariableValueActionReader = new RemoveVariableValueActionReader(cache, loggerFactory);
+                    var removeVariableValueActionReader = new RemoveVariableValueActionReader(cache, this, loggerFactory);
                     return removeVariableValueActionReader.Read(subXmlReader);
                 },
                 ["uml:ReplyAction"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var replyActionReader = new ReplyActionReader(cache, loggerFactory);
+                    var replyActionReader = new ReplyActionReader(cache, this, loggerFactory);
                     return replyActionReader.Read(subXmlReader);
                 },
                 ["uml:SendObjectAction"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var sendObjectActionReader = new SendObjectActionReader(cache, loggerFactory);
+                    var sendObjectActionReader = new SendObjectActionReader(cache, this, loggerFactory);
                     return sendObjectActionReader.Read(subXmlReader);
                 },
                 ["uml:SendSignalAction"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var sendSignalActionReader = new SendSignalActionReader(cache, loggerFactory);
+                    var sendSignalActionReader = new SendSignalActionReader(cache, this, loggerFactory);
                     return sendSignalActionReader.Read(subXmlReader);
                 },
                 ["uml:SequenceNode"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var sequenceNodeReader = new SequenceNodeReader(cache, loggerFactory);
+                    var sequenceNodeReader = new SequenceNodeReader(cache, this, loggerFactory);
                     return sequenceNodeReader.Read(subXmlReader);
                 },
                 ["uml:StartClassifierBehaviorAction"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var startClassifierBehaviorActionReader = new StartClassifierBehaviorActionReader(cache, loggerFactory);
+                    var startClassifierBehaviorActionReader = new StartClassifierBehaviorActionReader(cache, this, loggerFactory);
                     return startClassifierBehaviorActionReader.Read(subXmlReader);
                 },
                 ["uml:StartObjectBehaviorAction"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var startObjectBehaviorActionReader = new StartObjectBehaviorActionReader(cache, loggerFactory);
+                    var startObjectBehaviorActionReader = new StartObjectBehaviorActionReader(cache, this, loggerFactory);
                     return startObjectBehaviorActionReader.Read(subXmlReader);
                 },
                 ["uml:StructuredActivityNode"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var structuredActivityNodeReader = new StructuredActivityNodeReader(cache, loggerFactory);
+                    var structuredActivityNodeReader = new StructuredActivityNodeReader(cache, this, loggerFactory);
                     return structuredActivityNodeReader.Read(subXmlReader);
                 },
                 ["uml:TestIdentityAction"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var testIdentityActionReader = new TestIdentityActionReader(cache, loggerFactory);
+                    var testIdentityActionReader = new TestIdentityActionReader(cache, this, loggerFactory);
                     return testIdentityActionReader.Read(subXmlReader);
                 },
                 ["uml:UnmarshallAction"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var unmarshallActionReader = new UnmarshallActionReader(cache, loggerFactory);
+                    var unmarshallActionReader = new UnmarshallActionReader(cache, this, loggerFactory);
                     return unmarshallActionReader.Read(subXmlReader);
                 },
                 ["uml:ValuePin"] = (cache, loggerFactory, xmlReader) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var valuePinReader = new ValuePinReader(cache, loggerFactory);
+                    var valuePinReader = new ValuePinReader(cache, this, loggerFactory);
                     return valuePinReader.Read(subXmlReader);
                 },
             };
