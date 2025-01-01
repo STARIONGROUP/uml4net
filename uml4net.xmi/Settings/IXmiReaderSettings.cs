@@ -32,7 +32,7 @@ namespace uml4net.xmi.Settings
         /// The keys are the pathmap string such as <code>pathmap://UML_PROFILES/primitives.xmi</code> to be used
         /// with the associated value in order to resolve the referenced xmi.
         /// </summary>
-        Dictionary<string, string> PathMapMap { get; set; }
+        Dictionary<string, string> PathMaps { get; set; }
 
         /// <summary>
         /// Gets or sets the base directory path used as the local root for resolving referenced XMI files.

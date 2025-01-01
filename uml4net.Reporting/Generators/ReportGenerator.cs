@@ -105,7 +105,7 @@ namespace uml4net.Reporting.Generators
                 .UsingSettings(x =>
                 {
                     x.LocalReferenceBasePath = rootDirectory.FullName;
-                    x.PathMapMap = pathMap;
+                    x.PathMaps = pathMap;
                 })
                 .WithLogger(this.loggerFactory)
                 .Build();

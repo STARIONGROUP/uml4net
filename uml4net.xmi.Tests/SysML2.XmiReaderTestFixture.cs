@@ -74,7 +74,7 @@ namespace uml4net.xmi.Tests
         {
             var reader = XmiReaderBuilder.Create()
                 .UsingSettings(x =>
-                    x.PathMapMap = usingSettings ? new Dictionary<string, string> { ["pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml"] = Path.Combine("TestData", "PrimitiveTypes.xmi") } : [])
+                    x.PathMaps = usingSettings ? new Dictionary<string, string> { ["pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml"] = Path.Combine("TestData", "PrimitiveTypes.xmi") } : [])
                 .WithLogger(this.loggerFactory)
                 .Build();
 

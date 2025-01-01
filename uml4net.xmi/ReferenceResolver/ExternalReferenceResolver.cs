@@ -169,7 +169,7 @@ namespace uml4net.xmi.ReferenceResolver
 
             var substring = key.Substring(0, index);
 
-            if (settings.PathMapMap.TryGetValue(substring, out var resolvedPathmap)
+            if (settings.PathMaps.TryGetValue(substring, out var resolvedPathmap)
                 && File.Exists(resolvedPathmap))
             {
                 return File.OpenRead(resolvedPathmap);
