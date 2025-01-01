@@ -130,6 +130,11 @@ namespace uml4net.Reporting.Generators
         /// </returns>
         public override Tuple<bool, string> IsValidReportExtension(FileInfo outputPath)
         {
+            if (outputPath == null)
+            {
+                throw new ArgumentNullException(nameof(outputPath));
+            }
+
             if (outputPath.Extension == ".md")
             {
                 return new Tuple<bool, string>(true, ".md is a supported report extension");

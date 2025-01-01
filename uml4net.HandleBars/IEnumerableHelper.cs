@@ -38,7 +38,7 @@ namespace uml4net.HandleBars
         /// </param>
         public static void RegisterEnumerableHelper(this IHandlebars handlebars)
         {
-            handlebars.RegisterHelper("IEnumerable.IsEmpty", (context, parameters) =>
+            handlebars.RegisterHelper("IEnumerable.IsEmpty", (_, parameters) =>
             {
                 if (parameters[0] is IEnumerable<object> list && !list.Any())
                 {
