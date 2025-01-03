@@ -65,16 +65,32 @@ namespace uml4net.Tools.Tests.Commands
         }
 
         [Test]
-        public async Task Verify_that_InvokeAsync_returns_0()
+        public async Task Verify_that_InvokeAsync_returns_0_for_UML_xmi()
         {
             var invocationContext = new InvocationContext(null!);
 
             this.handler.InputModel = new FileInfo(Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData", "UML.xmi"));
             this.handler.OutputReport = new FileInfo(Path.Combine(TestContext.CurrentContext.TestDirectory, "html-report.html"));
-
+            
             var result = await this.handler.InvokeAsync(invocationContext);
 
             this.htmlReportGenerator.Verify(x => x.GenerateReport(It.IsAny<FileInfo>(), It.IsAny<DirectoryInfo>(), It.IsAny<Dictionary<string,string>>(), It.IsAny<FileInfo>()), Times.Once);
+
+            Assert.That(result, Is.EqualTo(0), "InvokeAsync should return 0 upon success.");
+        }
+
+        [Test]
+        public async Task Verify_that_InvokeAsync_returns_0_for_SysML_xmi()
+        {
+            var invocationContext = new InvocationContext(null!);
+
+            this.handler.InputModel = new FileInfo(Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData", "SysML.uml"));
+            this.handler.OutputReport = new FileInfo(Path.Combine(TestContext.CurrentContext.TestDirectory, "html-report.html"));
+            this.handler.PathMaps = new[] { $"pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml={Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData", "PrimitiveTypes.xmi")}" };
+
+            var result = await this.handler.InvokeAsync(invocationContext);
+
+            this.htmlReportGenerator.Verify(x => x.GenerateReport(It.IsAny<FileInfo>(), It.IsAny<DirectoryInfo>(), It.IsAny<Dictionary<string, string>>(), It.IsAny<FileInfo>()), Times.Once);
 
             Assert.That(result, Is.EqualTo(0), "InvokeAsync should return 0 upon success.");
         }

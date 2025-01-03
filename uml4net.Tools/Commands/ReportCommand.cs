@@ -49,6 +49,12 @@ namespace uml4net.Tools.Commands
             inputModelFileOption.IsRequired = true;
             this.AddOption(inputModelFileOption);
 
+            var pathMaps = new Option<string[]>(
+                name: "--pathmaps",
+                description: "Add pathmap key-value pairs");
+            pathMaps.AllowMultipleArgumentsPerToken = true;
+            this.AddOption(pathMaps);
+
             var autoOpenReportOption = new Option<bool>(
                 name: "--auto-open-report",
                 description: "Open the generated report with its default application",

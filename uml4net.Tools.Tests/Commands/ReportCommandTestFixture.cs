@@ -71,6 +71,7 @@ namespace uml4net.Tools.Tests.Commands
 
             this.handler.InputModel = new FileInfo(Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData", "UML.xmi"));
             this.handler.OutputReport = new FileInfo(Path.Combine(TestContext.CurrentContext.TestDirectory, "tabular-report.xlsx"));
+            this.handler.PathMaps = new[] { $"pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml={Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData", "PrimitiveTypes.xmi")}" };
 
             var result = await this.handler.InvokeAsync(invocationContext);
 
@@ -86,8 +87,17 @@ namespace uml4net.Tools.Tests.Commands
 
             this.handler.InputModel = new FileInfo(Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData", "non-existent.xmi"));
             this.handler.OutputReport = new FileInfo(Path.Combine(TestContext.CurrentContext.TestDirectory, "tabular-report.xlsx"));
+            this.handler.PathMaps = new[] { "pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml=PrimitiveTypes.xmi" };
 
             var result = await this.handler.InvokeAsync(invocationContext);
+
+            Assert.That(result, Is.EqualTo(-1), "InvokeAsync should return -1 upon failure.");
+
+            this.handler.InputModel = new FileInfo(Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData", "UML.xmi"));
+            this.handler.OutputReport = new FileInfo(Path.Combine(TestContext.CurrentContext.TestDirectory, "tabular-report.xlsx"));
+            this.handler.PathMaps = new[] { "pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml=PrimitiveTypes.xmi" };
+
+            result = await this.handler.InvokeAsync(invocationContext);
 
             Assert.That(result, Is.EqualTo(-1), "InvokeAsync should return -1 upon failure.");
         }

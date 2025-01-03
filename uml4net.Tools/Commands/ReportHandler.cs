@@ -39,6 +39,11 @@ namespace uml4net.Tools.Commands
     public abstract class ReportHandler
     {
         /// <summary>
+        /// The PathMap dictionary from which path maps can be resolved
+        /// </summary>
+        private Dictionary<string, string> pathMap = [];
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="ReportHandler"/>
         /// </summary>
         /// <param name="reportGenerator">
@@ -63,6 +68,11 @@ namespace uml4net.Tools.Commands
         /// Gets or sets the <see cref="FileInfo"/> where the UML model is located that is to be read
         /// </summary>
         public FileInfo InputModel { get; set; }
+
+        /// <summary>
+        /// Gets or sets the pathmap string
+        /// </summary>
+        public string[] PathMaps { get; set; } = [];
 
         /// <summary>
         /// Gets or sets the <see cref="FileInfo"/> where the inspection report is to be generated
@@ -128,9 +138,7 @@ namespace uml4net.Tools.Commands
 
                         Thread.Sleep(1500);
 
-                        var pathMap = new Dictionary<string, string>();
-
-                        this.ReportGenerator.GenerateReport(this.InputModel, this.InputModel.Directory, pathMap,this.OutputReport);
+                        this.ReportGenerator.GenerateReport(this.InputModel, this.InputModel.Directory, this.pathMap,this.OutputReport);
 
                         AnsiConsole.MarkupLine(
                             $"[grey]LOG:[/] UML {this.ReportGenerator.QueryReportType()} report generated at [bold]{this.OutputReport.FullName}[/]");
@@ -191,6 +199,27 @@ namespace uml4net.Tools.Commands
                 AnsiConsole.MarkupLine($"[purple]{this.InputModel.FullName}[/]");
                 AnsiConsole.WriteLine("");
                 return false;
+            }
+
+
+            foreach (var pair in this.PathMaps)
+            {
+                var parts = pair.Split('=', 2);
+                if (parts.Length != 2)
+                {
+                    continue;
+                }
+
+                if (!Path.Exists(parts[1]))
+                {
+                    AnsiConsole.WriteLine("");
+                    AnsiConsole.MarkupLine($"[red]The specified Path Map does not exist[/]");
+                    AnsiConsole.MarkupLine($"[purple]{pair}[/]");
+                    AnsiConsole.WriteLine("");
+                    return false;
+                }
+
+                this.pathMap[parts[0]] = parts[1];
             }
 
             return true;
