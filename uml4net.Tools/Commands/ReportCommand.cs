@@ -52,6 +52,7 @@ namespace uml4net.Tools.Commands
             var pathMaps = new Option<string[]>(
                 name: "--pathmaps",
                 description: "Add pathmap key-value pairs");
+            pathMaps.AddAlias("-m");
             pathMaps.AllowMultipleArgumentsPerToken = true;
             this.AddOption(pathMaps);
 
