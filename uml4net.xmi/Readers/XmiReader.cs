@@ -23,6 +23,7 @@ namespace uml4net.xmi.Readers
     using System;
     using System.Diagnostics;
     using System.IO;
+    using System.Linq;
     using System.Xml;
 
     using Microsoft.Extensions.Logging;
@@ -126,13 +127,19 @@ namespace uml4net.xmi.Readers
                 throw new ArgumentException(nameof(fileUri));
             }
 
+            var fileInfo = new FileInfo(fileUri);
+            if (!fileInfo.Exists)
+            {
+                throw new ArgumentException($"The file at {fileUri} does not exist");
+            }
+
             using var fileStream = File.OpenRead(fileUri);
 
             var sw = Stopwatch.StartNew();
 
             this.logger.LogTrace("start deserializing from {Path}", fileUri);
 
-            var result = this.Read(fileStream);
+            var result = this.Read(fileStream, fileInfo.Name);
 
             this.logger.LogTrace("File {Path} deserialized in {Time} [ms]", fileUri, sw.ElapsedMilliseconds);
 
@@ -149,16 +156,21 @@ namespace uml4net.xmi.Readers
         /// An <see cref="XmiReaderResult"/> that contains the root <see cref="IPackage"/> and other
         /// contained <see cref="IPackage"/>s representing contents of XMI stream
         /// </returns>
-        public XmiReaderResult Read(Stream stream)
+        public XmiReaderResult Read(Stream stream, string documentName)
         {
             if (stream == null)
             {
                 throw new ArgumentNullException(nameof(stream));
             }
 
+            if (string.IsNullOrEmpty(documentName))
+            {
+                throw new ArgumentException(nameof(documentName));
+            }
+
             var xmiReaderResult = new XmiReaderResult();
 
-            this.Read(stream, xmiReaderResult, true);
+            this.Read(stream, documentName, xmiReaderResult, true);
 
             return xmiReaderResult;
         }
@@ -179,7 +191,7 @@ namespace uml4net.xmi.Readers
         /// An <see cref="XmiReaderResult"/> that contains the root <see cref="IPackage"/> and other
         /// contained <see cref="IPackage"/>s representing contents of XMI stream
         /// </returns>
-        private void Read(Stream stream, XmiReaderResult xmiReaderResult, bool isRoot)
+        private void Read(Stream stream, string documentName, XmiReaderResult xmiReaderResult, bool isRoot)
         {
             var settings = new XmlReaderSettings();
 
@@ -199,11 +211,10 @@ namespace uml4net.xmi.Readers
                 {
                     if (xmlReader.NodeType == XmlNodeType.Element)
                     {
-                        switch (xmlReader.Name)
+                        switch (xmlReader.LocalName)
                         {
-                            case "uml:Package":
-
-                                var package = (IPackage)xmiElementReaderFacade.QueryXmiElement(xmlReader, this.cache, this.loggerFactory, "uml:Package");
+                            case "Package":
+                                var package = (IPackage)xmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, xmlReader.NamespaceURI, cache, this.loggerFactory, "uml:Package");
                                 xmiReaderResult.Packages.Add(package);
 
                                 if (isRoot)
@@ -212,9 +223,9 @@ namespace uml4net.xmi.Readers
                                 }
 
                                 break;
-                            case "uml:Model":
+                            case "Model":
 
-                                var model = (IModel)xmiElementReaderFacade.QueryXmiElement(xmlReader, this.cache, this.loggerFactory, "uml:Model");
+                                var model = (IModel)xmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, xmlReader.NamespaceURI, this.cache, this.loggerFactory, "uml:Model");
                                 xmiReaderResult.Packages.Add(model);
 
                                 if (isRoot)
@@ -223,8 +234,8 @@ namespace uml4net.xmi.Readers
                                 }
 
                                 break;
-                            case "uml:Profile":
-                                var profile = (IProfile)xmiElementReaderFacade.QueryXmiElement(xmlReader, this.cache, this.loggerFactory, "uml:Profile");
+                            case "Profile":
+                                var profile = (IProfile)xmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, xmlReader.NamespaceURI, this.cache, this.loggerFactory, "uml:Profile");
                                 xmiReaderResult.Packages.Add(profile);
 
                                 if (isRoot)
@@ -265,10 +276,11 @@ namespace uml4net.xmi.Readers
 
             this.logger.LogTrace("resolving the external references");
 
-            foreach (var (context, externalResource) in this.externalReferenceResolver.TryResolve())
+            var x = this.externalReferenceResolver.TryResolve().ToList();
+
+            foreach (var (context, externalResource) in x)
             {
-                this.cache.SwitchContext(context);
-                this.Read(externalResource, xmiReaderResult, false);
+                this.Read(externalResource, context, xmiReaderResult, false);
             }
 
             this.logger.LogTrace("External references synchronized in {Time}", stopwatch.ElapsedMilliseconds);
@@ -281,7 +293,7 @@ namespace uml4net.xmi.Readers
         /// </summary>
         public void Dispose()
         {
-            this.cache.Cache.Clear();
+            this.cache.Clear();
             this.scope.Dispose();
         }
     }

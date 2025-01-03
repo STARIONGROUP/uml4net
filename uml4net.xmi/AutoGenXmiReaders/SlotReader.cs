@@ -55,8 +55,6 @@ namespace uml4net.xmi.Readers
     [GeneratedCode("uml4net", "latest")]
     public class SlotReader : XmiElementReader<ISlot>, IXmiElementReader<ISlot>
     {
-        private readonly IXmiElementReaderFacade xmiElementReaderFacade;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="SlotReader"/> class.
         /// </summary>
@@ -71,9 +69,8 @@ namespace uml4net.xmi.Readers
         /// The (injected) <see cref="ILoggerFactory"/> used to set up logging
         /// </param>
         public SlotReader(IXmiElementCache cache, IXmiElementReaderFacade xmiElementReaderFacade, ILoggerFactory loggerFactory)
-            : base(cache, loggerFactory)
+            : base(cache, xmiElementReaderFacade, loggerFactory)
         {
-            this.xmiElementReaderFacade = xmiElementReaderFacade;
         }
 
         /// <summary>
@@ -82,14 +79,30 @@ namespace uml4net.xmi.Readers
         /// <param name="xmlReader">
         /// an instance of <see cref="XmlReader"/>
         /// </param>
+        /// <param name="documentName">
+        /// The name of the document that contains the <see cref="ISlot"/>
+        /// </param>
+        /// <param name="namespaceUri">
+        /// the namespace that the <see cref="ISlot"/> belongs to
+        /// </param>
         /// <returns>
         /// an instance of <see cref="ISlot"/>
         /// </returns>
-        public override ISlot Read(XmlReader xmlReader)
+        public override ISlot Read(XmlReader xmlReader, string documentName, string namespaceUri)
         {
             if (xmlReader == null)
             {
                 throw new ArgumentNullException(nameof(xmlReader));
+            }
+
+            if (string.IsNullOrEmpty(documentName))
+            {
+                throw new ArgumentException(nameof(documentName));
+            }
+
+            if (string.IsNullOrEmpty(namespaceUri))
+            {
+                throw new ArgumentException(nameof(namespaceUri));
             }
 
             var defaultLineInfo = xmlReader as IXmlLineInfo;
@@ -109,15 +122,24 @@ namespace uml4net.xmi.Readers
                     xmiType = "uml:Slot";
                 }
 
+                if (!string.IsNullOrEmpty(xmlReader.NamespaceURI))
+                {
+                    namespaceUri = xmlReader.NamespaceURI;
+                }
+
                 poco.XmiType = xmiType;
 
                 poco.XmiId = xmlReader.GetAttribute("xmi:id");
 
                 poco.XmiGuid = xmlReader.GetAttribute("xmi:uuid");
 
-                if (!this.Cache.TryAdd(poco.XmiId, poco))
+                poco.DocumentName = documentName;
+
+                poco.XmiNamespaceUri = namespaceUri;
+
+                if (!this.Cache.TryAdd(poco))
                 {
-                    this.Logger.LogCritical("Failed to add element type [{Poco}] with id [{Id}] as it was already in the cache. The XMI document seems to have duplicate xmi:id values", "Slot", poco.XmiId);
+                    this.Logger.LogCritical("Failed to add element type [{Poco}] with id [{Id}] as it was already in the Cache. The XMI document seems to have duplicate xmi:id values", "Slot", poco.XmiId);
                 }
 
                 var definingFeatureXmlAttribute = xmlReader.GetAttribute("definingFeature");
@@ -143,14 +165,14 @@ namespace uml4net.xmi.Readers
                                 this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "definingFeature");
                                 break;
                             case "ownedComment":
-                                var ownedCommentValue = (IComment)this.xmiElementReaderFacade.QueryXmiElement(xmlReader, this.Cache, this.LoggerFactory, "uml:Comment");
+                                var ownedCommentValue = (IComment)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.LoggerFactory, "uml:Comment");
                                 poco.OwnedComment.Add(ownedCommentValue);
                                 break;
                             case "owningInstance":
                                 this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "owningInstance");
                                 break;
                             case "value":
-                                var valueValue = (IValueSpecification)this.xmiElementReaderFacade.QueryXmiElement(xmlReader, this.Cache, this.LoggerFactory);
+                                var valueValue = (IValueSpecification)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.LoggerFactory);
                                 poco.Value.Add(valueValue);
                                 break;
                             default:

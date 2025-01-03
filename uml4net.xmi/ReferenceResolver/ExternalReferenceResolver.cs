@@ -40,13 +40,22 @@ namespace uml4net.xmi.ReferenceResolver
         : IExternalReferenceResolver
     {
         /// <summary>
+        /// a cache of processed external references
+        /// </summary>
+        private readonly HashSet<string> externalReferencesCache = [];
+
+        /// <summary>
         /// Asynchronously attempts to resolve external references and yields their context and stream.
         /// </summary>
-        /// <param>The current directory of the main resource</param>
-        /// <returns>An enumerable of tuples containing the context and stream of resolved references.</returns>
+        /// <param>
+        /// The current directory of the main resource
+        /// </param>
+        /// <returns>
+        /// An IEnumerable of tuples containing the context and stream of resolved references.
+        /// </returns>
         public IEnumerable<(string Context, Stream Stream)> TryResolve()
         {
-            foreach (var identifier in cache.Cache.Values
+            foreach (var identifier in cache.Values
                          .SelectMany(cacheEntry => cacheEntry.SingleValueReferencePropertyIdentifiers.Values))
             {
                 if(this.TryResolve(identifier, out var reference))
@@ -55,7 +64,7 @@ namespace uml4net.xmi.ReferenceResolver
                 }
             }
 
-            foreach (var identifiers in cache.Cache.Values
+            foreach (var identifiers in cache.Values
                          .SelectMany(cacheEntry => cacheEntry.MultiValueReferencePropertyIdentifiers.Values))
             {
                 foreach (var identifier in identifiers)
@@ -70,7 +79,9 @@ namespace uml4net.xmi.ReferenceResolver
         /// <summary>
         /// Attempts to resolve an external reference identified by the specified key.
         /// </summary>
-        /// <param name="key">The key representing the external reference to resolve.</param>
+        /// <param name="key">
+        /// The key representing the external reference to resolve.
+        /// </param>
         /// <param name="result">
         /// When this method returns, contains a tuple with the context and stream if the reference is resolved; 
         /// otherwise, it is set to a default value.
@@ -82,23 +93,33 @@ namespace uml4net.xmi.ReferenceResolver
         {
             result = default;
 
-            if (this.IsInvalidKey(key) || !cache.TryResolveContext(key, out var resource))
+            if (this.IsInvalidKey(key) || !this.TryResolveContext(key, out var resource))
             {
                 logger.LogTrace("Resource key [{Key}] is not referencing an external resource", key);
                 return false;
             }
 
-            if (cache.DoesContextExists(resource.Context, resource.ResourceId))
+            if (this.externalReferencesCache.Contains(resource.Context))
             {
-                logger.LogInformation("The resource {Resource} was already parsed", resource.Context);
+                logger.LogDebug("The resource {Resource} was already parsed", resource.Context);
                 return false;
             }
 
-            result.Context = resource.Context;
-
             try
             {
-                result.Stream = this.ResolveStream(key, resource.Context);
+                var resolveResult = this.ResolveStream(key, resource.Context);
+
+                if (resolveResult == null)
+                {
+                    logger.LogWarning("The resolving key '{Key}' from context '{Context}' could not be resolved", key, resource.Context);
+                    return false;
+                }
+
+                result.Stream = resolveResult.Item1;
+                result.Context = resource.Context;
+
+                this.externalReferencesCache.Add(resource.Context);
+
                 return result.Stream?.Length > 0;
             }
             catch (Exception exception)
@@ -106,6 +127,36 @@ namespace uml4net.xmi.ReferenceResolver
                 logger.LogError(exception, "Error resolving key '{Key}': {Message}", key, exception.Message);
                 return false;
             }
+        }
+
+        /// <summary>
+        /// Attempts to resolve the context and resource ID from the specified resource key.
+        /// </summary>
+        /// <param name="resourceKey">
+        /// The key representing the resource, which may contain context and resource ID separated by '#'.
+        /// </param>
+        /// <param name="resolvedContextAndResource">
+        /// When this method returns, contains a tuple with the resolved context and resource ID if successful; 
+        /// otherwise, <c>(null, null)</c> if unsuccessful.
+        /// </param>
+        /// <returns>
+        /// <c>true</c> if the context and resource ID were successfully resolved and, if applicable, the 
+        /// context exists in the global cache; otherwise, <c>false</c>.
+        /// </returns>
+        private bool TryResolveContext(string resourceKey, out (string Context, string ResourceId) resolvedContextAndResource)
+        {
+            var referenceString = resourceKey.Split(['#'], StringSplitOptions.RemoveEmptyEntries);
+
+            if (referenceString.Length == 2)
+            {
+                resolvedContextAndResource = new ValueTuple<string, string>(referenceString[0], referenceString[1]);
+            }
+            else
+            {
+                resolvedContextAndResource = new ValueTuple<string, string>("_", resourceKey);
+            }
+
+            return true;
         }
 
         /// <summary>
@@ -122,7 +173,7 @@ namespace uml4net.xmi.ReferenceResolver
         /// <param name="key">The key representing the resource location.</param>
         /// <param name="context">The resource context path.</param>
         /// <returns>The resolved <see cref="Stream"/> if found; otherwise, <c>null</c>.</returns>
-        private Stream ResolveStream(string key, string context)
+        private Tuple<Stream, string> ResolveStream(string key, string context)
         {
             if (Uri.TryCreate(key, UriKind.Absolute, out var uri))
             {
@@ -132,12 +183,12 @@ namespace uml4net.xmi.ReferenceResolver
                 }
                 else if (uri.Scheme == Uri.UriSchemeFile && File.Exists(uri.LocalPath))
                 {
-                    return File.OpenRead(uri.LocalPath);
+                    return new Tuple<Stream, string>(File.OpenRead(uri.LocalPath), uri.LocalPath) ;
                 }
             }
 
             return key.StartsWith("pathmap://") ? this.ResolvePathmapResource(key) :
-                   File.Exists(context) ? File.OpenRead(context) :
+                   File.Exists(context) ? new Tuple<Stream, string>(File.OpenRead(context), context)  :
                    null;
         }
 
@@ -147,12 +198,15 @@ namespace uml4net.xmi.ReferenceResolver
         /// <param name="uri">The URI of the remote resource.</param>
         /// <param name="context">The resource context.</param>
         /// <returns>The <see cref="Stream"/> if the file exists locally; otherwise, <c>null</c>.</returns>
-        private Stream ResolveRemoteResource(Uri uri, string context)
+        private Tuple<Stream, string> ResolveRemoteResource(Uri uri, string context)
         {
             logger.LogWarning("The resource {Resource} is a reference to a remote resource which is unsupported by the Uml4Net library. An attempt to load the resource locally will be made", context);
-            var localPath = Path.Combine(settings.LocalReferenceBasePath, Path.GetFileName(uri.AbsolutePath));
+
+            var fileName = Path.GetFileName(uri.AbsolutePath);
+
+            var localPath = Path.Combine(settings.LocalReferenceBasePath, fileName);
             
-            return File.Exists(localPath) ? File.OpenRead(localPath) : null;
+            return File.Exists(localPath) ? new Tuple<Stream, string>(File.OpenRead(localPath), fileName) : null;
         }
 
         /// <summary>
@@ -160,7 +214,7 @@ namespace uml4net.xmi.ReferenceResolver
         /// </summary>
         /// <param name="key">The key representing the resource path to resolve.</param>
         /// <returns>A stream of the resource if the file exists; otherwise, <c>null</c>.</returns>
-        private Stream ResolvePathmapResource(string key)
+        private Tuple<Stream, string> ResolvePathmapResource(string key)
         {
             if (key.IndexOf('#') is var index && index <= 0)
             {
@@ -172,7 +226,7 @@ namespace uml4net.xmi.ReferenceResolver
             if (settings.PathMaps.TryGetValue(substring, out var resolvedPathmap)
                 && File.Exists(resolvedPathmap))
             {
-                return File.OpenRead(resolvedPathmap);
+                return new Tuple<Stream, string>(File.OpenRead(resolvedPathmap), resolvedPathmap);
             }
 
             return  default;

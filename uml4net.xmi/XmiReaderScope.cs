@@ -70,7 +70,7 @@ namespace uml4net.xmi
             this.ContainerBuilder.RegisterInstance(this).As<IXmiReaderScope>().SingleInstance();
             this.ContainerBuilder.RegisterType<Assembler>().As<IAssembler>();
             this.ContainerBuilder.RegisterType<XmiElementCache>().As<IXmiElementCache>().SingleInstance();
-            this.ContainerBuilder.RegisterType<ExternalReferenceResolver>().As<IExternalReferenceResolver>().SingleInstance();
+            this.ContainerBuilder.RegisterType<ExternalReferenceResolver>().As<IExternalReferenceResolver>();
 
             // Readers
             this.ContainerBuilder.RegisterType<XmiElementReaderFacade>().As<IXmiElementReaderFacade>().SingleInstance();

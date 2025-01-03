@@ -55,8 +55,6 @@ namespace uml4net.xmi.Readers
     [GeneratedCode("uml4net", "latest")]
     public class EnumerationLiteralReader : XmiElementReader<IEnumerationLiteral>, IXmiElementReader<IEnumerationLiteral>
     {
-        private readonly IXmiElementReaderFacade xmiElementReaderFacade;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="EnumerationLiteralReader"/> class.
         /// </summary>
@@ -71,9 +69,8 @@ namespace uml4net.xmi.Readers
         /// The (injected) <see cref="ILoggerFactory"/> used to set up logging
         /// </param>
         public EnumerationLiteralReader(IXmiElementCache cache, IXmiElementReaderFacade xmiElementReaderFacade, ILoggerFactory loggerFactory)
-            : base(cache, loggerFactory)
+            : base(cache, xmiElementReaderFacade, loggerFactory)
         {
-            this.xmiElementReaderFacade = xmiElementReaderFacade;
         }
 
         /// <summary>
@@ -82,14 +79,30 @@ namespace uml4net.xmi.Readers
         /// <param name="xmlReader">
         /// an instance of <see cref="XmlReader"/>
         /// </param>
+        /// <param name="documentName">
+        /// The name of the document that contains the <see cref="IEnumerationLiteral"/>
+        /// </param>
+        /// <param name="namespaceUri">
+        /// the namespace that the <see cref="IEnumerationLiteral"/> belongs to
+        /// </param>
         /// <returns>
         /// an instance of <see cref="IEnumerationLiteral"/>
         /// </returns>
-        public override IEnumerationLiteral Read(XmlReader xmlReader)
+        public override IEnumerationLiteral Read(XmlReader xmlReader, string documentName, string namespaceUri)
         {
             if (xmlReader == null)
             {
                 throw new ArgumentNullException(nameof(xmlReader));
+            }
+
+            if (string.IsNullOrEmpty(documentName))
+            {
+                throw new ArgumentException(nameof(documentName));
+            }
+
+            if (string.IsNullOrEmpty(namespaceUri))
+            {
+                throw new ArgumentException(nameof(namespaceUri));
             }
 
             var defaultLineInfo = xmlReader as IXmlLineInfo;
@@ -109,15 +122,24 @@ namespace uml4net.xmi.Readers
                     xmiType = "uml:EnumerationLiteral";
                 }
 
+                if (!string.IsNullOrEmpty(xmlReader.NamespaceURI))
+                {
+                    namespaceUri = xmlReader.NamespaceURI;
+                }
+
                 poco.XmiType = xmiType;
 
                 poco.XmiId = xmlReader.GetAttribute("xmi:id");
 
                 poco.XmiGuid = xmlReader.GetAttribute("xmi:uuid");
 
-                if (!this.Cache.TryAdd(poco.XmiId, poco))
+                poco.DocumentName = documentName;
+
+                poco.XmiNamespaceUri = namespaceUri;
+
+                if (!this.Cache.TryAdd(poco))
                 {
-                    this.Logger.LogCritical("Failed to add element type [{Poco}] with id [{Id}] as it was already in the cache. The XMI document seems to have duplicate xmi:id values", "EnumerationLiteral", poco.XmiId);
+                    this.Logger.LogCritical("Failed to add element type [{Poco}] with id [{Id}] as it was already in the Cache. The XMI document seems to have duplicate xmi:id values", "EnumerationLiteral", poco.XmiId);
                 }
 
                 var enumerationXmlAttribute = xmlReader.GetAttribute("enumeration");
@@ -154,7 +176,7 @@ namespace uml4net.xmi.Readers
                         switch (xmlReader.LocalName)
                         {
                             case "deployment":
-                                var deploymentValue = (IDeployment)this.xmiElementReaderFacade.QueryXmiElement(xmlReader, this.Cache, this.LoggerFactory, "uml:Deployment");
+                                var deploymentValue = (IDeployment)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.LoggerFactory, "uml:Deployment");
                                 poco.Deployment.Add(deploymentValue);
                                 break;
                             case "enumeration":
@@ -164,22 +186,22 @@ namespace uml4net.xmi.Readers
                                 poco.Name = xmlReader.ReadElementContentAsString();
                                 break;
                             case "nameExpression":
-                                var nameExpressionValue = (IStringExpression)this.xmiElementReaderFacade.QueryXmiElement(xmlReader, this.Cache, this.LoggerFactory, "uml:StringExpression");
+                                var nameExpressionValue = (IStringExpression)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.LoggerFactory, "uml:StringExpression");
                                 poco.NameExpression.Add(nameExpressionValue);
                                 break;
                             case "ownedComment":
-                                var ownedCommentValue = (IComment)this.xmiElementReaderFacade.QueryXmiElement(xmlReader, this.Cache, this.LoggerFactory, "uml:Comment");
+                                var ownedCommentValue = (IComment)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.LoggerFactory, "uml:Comment");
                                 poco.OwnedComment.Add(ownedCommentValue);
                                 break;
                             case "owningTemplateParameter":
                                 this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "owningTemplateParameter");
                                 break;
                             case "slot":
-                                var slotValue = (ISlot)this.xmiElementReaderFacade.QueryXmiElement(xmlReader, this.Cache, this.LoggerFactory, "uml:Slot");
+                                var slotValue = (ISlot)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.LoggerFactory, "uml:Slot");
                                 poco.Slot.Add(slotValue);
                                 break;
                             case "specification":
-                                var specificationValue = (IValueSpecification)this.xmiElementReaderFacade.QueryXmiElement(xmlReader, this.Cache, this.LoggerFactory);
+                                var specificationValue = (IValueSpecification)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.LoggerFactory);
                                 poco.Specification.Add(specificationValue);
                                 break;
                             case "templateParameter":

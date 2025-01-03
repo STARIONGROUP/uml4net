@@ -55,8 +55,6 @@ namespace uml4net.xmi.Readers
     [GeneratedCode("uml4net", "latest")]
     public class RegionReader : XmiElementReader<IRegion>, IXmiElementReader<IRegion>
     {
-        private readonly IXmiElementReaderFacade xmiElementReaderFacade;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="RegionReader"/> class.
         /// </summary>
@@ -71,9 +69,8 @@ namespace uml4net.xmi.Readers
         /// The (injected) <see cref="ILoggerFactory"/> used to set up logging
         /// </param>
         public RegionReader(IXmiElementCache cache, IXmiElementReaderFacade xmiElementReaderFacade, ILoggerFactory loggerFactory)
-            : base(cache, loggerFactory)
+            : base(cache, xmiElementReaderFacade, loggerFactory)
         {
-            this.xmiElementReaderFacade = xmiElementReaderFacade;
         }
 
         /// <summary>
@@ -82,14 +79,30 @@ namespace uml4net.xmi.Readers
         /// <param name="xmlReader">
         /// an instance of <see cref="XmlReader"/>
         /// </param>
+        /// <param name="documentName">
+        /// The name of the document that contains the <see cref="IRegion"/>
+        /// </param>
+        /// <param name="namespaceUri">
+        /// the namespace that the <see cref="IRegion"/> belongs to
+        /// </param>
         /// <returns>
         /// an instance of <see cref="IRegion"/>
         /// </returns>
-        public override IRegion Read(XmlReader xmlReader)
+        public override IRegion Read(XmlReader xmlReader, string documentName, string namespaceUri)
         {
             if (xmlReader == null)
             {
                 throw new ArgumentNullException(nameof(xmlReader));
+            }
+
+            if (string.IsNullOrEmpty(documentName))
+            {
+                throw new ArgumentException(nameof(documentName));
+            }
+
+            if (string.IsNullOrEmpty(namespaceUri))
+            {
+                throw new ArgumentException(nameof(namespaceUri));
             }
 
             var defaultLineInfo = xmlReader as IXmlLineInfo;
@@ -109,15 +122,24 @@ namespace uml4net.xmi.Readers
                     xmiType = "uml:Region";
                 }
 
+                if (!string.IsNullOrEmpty(xmlReader.NamespaceURI))
+                {
+                    namespaceUri = xmlReader.NamespaceURI;
+                }
+
                 poco.XmiType = xmiType;
 
                 poco.XmiId = xmlReader.GetAttribute("xmi:id");
 
                 poco.XmiGuid = xmlReader.GetAttribute("xmi:uuid");
 
-                if (!this.Cache.TryAdd(poco.XmiId, poco))
+                poco.DocumentName = documentName;
+
+                poco.XmiNamespaceUri = namespaceUri;
+
+                if (!this.Cache.TryAdd(poco))
                 {
-                    this.Logger.LogCritical("Failed to add element type [{Poco}] with id [{Id}] as it was already in the cache. The XMI document seems to have duplicate xmi:id values", "Region", poco.XmiId);
+                    this.Logger.LogCritical("Failed to add element type [{Poco}] with id [{Id}] as it was already in the Cache. The XMI document seems to have duplicate xmi:id values", "Region", poco.XmiId);
                 }
 
                 var extendedRegionXmlAttribute = xmlReader.GetAttribute("extendedRegion");
@@ -160,7 +182,7 @@ namespace uml4net.xmi.Readers
                         switch (xmlReader.LocalName)
                         {
                             case "elementImport":
-                                var elementImportValue = (IElementImport)this.xmiElementReaderFacade.QueryXmiElement(xmlReader, this.Cache, this.LoggerFactory, "uml:ElementImport");
+                                var elementImportValue = (IElementImport)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.LoggerFactory, "uml:ElementImport");
                                 poco.ElementImport.Add(elementImportValue);
                                 break;
                             case "extendedRegion":
@@ -177,19 +199,19 @@ namespace uml4net.xmi.Readers
                                 poco.Name = xmlReader.ReadElementContentAsString();
                                 break;
                             case "nameExpression":
-                                var nameExpressionValue = (IStringExpression)this.xmiElementReaderFacade.QueryXmiElement(xmlReader, this.Cache, this.LoggerFactory, "uml:StringExpression");
+                                var nameExpressionValue = (IStringExpression)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.LoggerFactory, "uml:StringExpression");
                                 poco.NameExpression.Add(nameExpressionValue);
                                 break;
                             case "ownedComment":
-                                var ownedCommentValue = (IComment)this.xmiElementReaderFacade.QueryXmiElement(xmlReader, this.Cache, this.LoggerFactory, "uml:Comment");
+                                var ownedCommentValue = (IComment)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.LoggerFactory, "uml:Comment");
                                 poco.OwnedComment.Add(ownedCommentValue);
                                 break;
                             case "ownedRule":
-                                var ownedRuleValue = (IConstraint)this.xmiElementReaderFacade.QueryXmiElement(xmlReader, this.Cache, this.LoggerFactory, "uml:Constraint");
+                                var ownedRuleValue = (IConstraint)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.LoggerFactory, "uml:Constraint");
                                 poco.OwnedRule.Add(ownedRuleValue);
                                 break;
                             case "packageImport":
-                                var packageImportValue = (IPackageImport)this.xmiElementReaderFacade.QueryXmiElement(xmlReader, this.Cache, this.LoggerFactory, "uml:PackageImport");
+                                var packageImportValue = (IPackageImport)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.LoggerFactory, "uml:PackageImport");
                                 poco.PackageImport.Add(packageImportValue);
                                 break;
                             case "state":
@@ -199,11 +221,11 @@ namespace uml4net.xmi.Readers
                                 this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "stateMachine");
                                 break;
                             case "subvertex":
-                                var subvertexValue = (IVertex)this.xmiElementReaderFacade.QueryXmiElement(xmlReader, this.Cache, this.LoggerFactory);
+                                var subvertexValue = (IVertex)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.LoggerFactory);
                                 poco.Subvertex.Add(subvertexValue);
                                 break;
                             case "transition":
-                                var transitionValue = (ITransition)this.xmiElementReaderFacade.QueryXmiElement(xmlReader, this.Cache, this.LoggerFactory, "uml:Transition");
+                                var transitionValue = (ITransition)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.LoggerFactory, "uml:Transition");
                                 poco.Transition.Add(transitionValue);
                                 break;
                             case "visibility":

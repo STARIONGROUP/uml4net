@@ -55,8 +55,6 @@ namespace uml4net.xmi.Readers
     [GeneratedCode("uml4net", "latest")]
     public class RemoveStructuralFeatureValueActionReader : XmiElementReader<IRemoveStructuralFeatureValueAction>, IXmiElementReader<IRemoveStructuralFeatureValueAction>
     {
-        private readonly IXmiElementReaderFacade xmiElementReaderFacade;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="RemoveStructuralFeatureValueActionReader"/> class.
         /// </summary>
@@ -71,9 +69,8 @@ namespace uml4net.xmi.Readers
         /// The (injected) <see cref="ILoggerFactory"/> used to set up logging
         /// </param>
         public RemoveStructuralFeatureValueActionReader(IXmiElementCache cache, IXmiElementReaderFacade xmiElementReaderFacade, ILoggerFactory loggerFactory)
-            : base(cache, loggerFactory)
+            : base(cache, xmiElementReaderFacade, loggerFactory)
         {
-            this.xmiElementReaderFacade = xmiElementReaderFacade;
         }
 
         /// <summary>
@@ -82,14 +79,30 @@ namespace uml4net.xmi.Readers
         /// <param name="xmlReader">
         /// an instance of <see cref="XmlReader"/>
         /// </param>
+        /// <param name="documentName">
+        /// The name of the document that contains the <see cref="IRemoveStructuralFeatureValueAction"/>
+        /// </param>
+        /// <param name="namespaceUri">
+        /// the namespace that the <see cref="IRemoveStructuralFeatureValueAction"/> belongs to
+        /// </param>
         /// <returns>
         /// an instance of <see cref="IRemoveStructuralFeatureValueAction"/>
         /// </returns>
-        public override IRemoveStructuralFeatureValueAction Read(XmlReader xmlReader)
+        public override IRemoveStructuralFeatureValueAction Read(XmlReader xmlReader, string documentName, string namespaceUri)
         {
             if (xmlReader == null)
             {
                 throw new ArgumentNullException(nameof(xmlReader));
+            }
+
+            if (string.IsNullOrEmpty(documentName))
+            {
+                throw new ArgumentException(nameof(documentName));
+            }
+
+            if (string.IsNullOrEmpty(namespaceUri))
+            {
+                throw new ArgumentException(nameof(namespaceUri));
             }
 
             var defaultLineInfo = xmlReader as IXmlLineInfo;
@@ -109,15 +122,24 @@ namespace uml4net.xmi.Readers
                     xmiType = "uml:RemoveStructuralFeatureValueAction";
                 }
 
+                if (!string.IsNullOrEmpty(xmlReader.NamespaceURI))
+                {
+                    namespaceUri = xmlReader.NamespaceURI;
+                }
+
                 poco.XmiType = xmiType;
 
                 poco.XmiId = xmlReader.GetAttribute("xmi:id");
 
                 poco.XmiGuid = xmlReader.GetAttribute("xmi:uuid");
 
-                if (!this.Cache.TryAdd(poco.XmiId, poco))
+                poco.DocumentName = documentName;
+
+                poco.XmiNamespaceUri = namespaceUri;
+
+                if (!this.Cache.TryAdd(poco))
                 {
-                    this.Logger.LogCritical("Failed to add element type [{Poco}] with id [{Id}] as it was already in the cache. The XMI document seems to have duplicate xmi:id values", "RemoveStructuralFeatureValueAction", poco.XmiId);
+                    this.Logger.LogCritical("Failed to add element type [{Poco}] with id [{Id}] as it was already in the Cache. The XMI document seems to have duplicate xmi:id values", "RemoveStructuralFeatureValueAction", poco.XmiId);
                 }
 
                 var activityXmlAttribute = xmlReader.GetAttribute("activity");
@@ -210,7 +232,7 @@ namespace uml4net.xmi.Readers
                                 this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "activity");
                                 break;
                             case "handler":
-                                var handlerValue = (IExceptionHandler)this.xmiElementReaderFacade.QueryXmiElement(xmlReader, this.Cache, this.LoggerFactory, "uml:ExceptionHandler");
+                                var handlerValue = (IExceptionHandler)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.LoggerFactory, "uml:ExceptionHandler");
                                 poco.Handler.Add(handlerValue);
                                 break;
                             case "incoming":
@@ -247,47 +269,47 @@ namespace uml4net.xmi.Readers
                                 }
                                 break;
                             case "localPostcondition":
-                                var localPostconditionValue = (IConstraint)this.xmiElementReaderFacade.QueryXmiElement(xmlReader, this.Cache, this.LoggerFactory, "uml:Constraint");
+                                var localPostconditionValue = (IConstraint)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.LoggerFactory, "uml:Constraint");
                                 poco.LocalPostcondition.Add(localPostconditionValue);
                                 break;
                             case "localPrecondition":
-                                var localPreconditionValue = (IConstraint)this.xmiElementReaderFacade.QueryXmiElement(xmlReader, this.Cache, this.LoggerFactory, "uml:Constraint");
+                                var localPreconditionValue = (IConstraint)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.LoggerFactory, "uml:Constraint");
                                 poco.LocalPrecondition.Add(localPreconditionValue);
                                 break;
                             case "name":
                                 poco.Name = xmlReader.ReadElementContentAsString();
                                 break;
                             case "nameExpression":
-                                var nameExpressionValue = (IStringExpression)this.xmiElementReaderFacade.QueryXmiElement(xmlReader, this.Cache, this.LoggerFactory, "uml:StringExpression");
+                                var nameExpressionValue = (IStringExpression)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.LoggerFactory, "uml:StringExpression");
                                 poco.NameExpression.Add(nameExpressionValue);
                                 break;
                             case "object":
-                                var objectValue = (IInputPin)this.xmiElementReaderFacade.QueryXmiElement(xmlReader, this.Cache, this.LoggerFactory, "uml:InputPin");
+                                var objectValue = (IInputPin)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.LoggerFactory, "uml:InputPin");
                                 poco.Object.Add(objectValue);
                                 break;
                             case "outgoing":
                                 this.TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, "outgoing");
                                 break;
                             case "ownedComment":
-                                var ownedCommentValue = (IComment)this.xmiElementReaderFacade.QueryXmiElement(xmlReader, this.Cache, this.LoggerFactory, "uml:Comment");
+                                var ownedCommentValue = (IComment)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.LoggerFactory, "uml:Comment");
                                 poco.OwnedComment.Add(ownedCommentValue);
                                 break;
                             case "redefinedNode":
                                 this.TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, "redefinedNode");
                                 break;
                             case "removeAt":
-                                var removeAtValue = (IInputPin)this.xmiElementReaderFacade.QueryXmiElement(xmlReader, this.Cache, this.LoggerFactory, "uml:InputPin");
+                                var removeAtValue = (IInputPin)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.LoggerFactory, "uml:InputPin");
                                 poco.RemoveAt.Add(removeAtValue);
                                 break;
                             case "result":
-                                var resultValue = (IOutputPin)this.xmiElementReaderFacade.QueryXmiElement(xmlReader, this.Cache, this.LoggerFactory, "uml:OutputPin");
+                                var resultValue = (IOutputPin)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.LoggerFactory, "uml:OutputPin");
                                 poco.Result.Add(resultValue);
                                 break;
                             case "structuralFeature":
                                 this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "structuralFeature");
                                 break;
                             case "value":
-                                var valueValue = (IInputPin)this.xmiElementReaderFacade.QueryXmiElement(xmlReader, this.Cache, this.LoggerFactory, "uml:InputPin");
+                                var valueValue = (IInputPin)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.LoggerFactory, "uml:InputPin");
                                 poco.Value.Add(valueValue);
                                 break;
                             case "visibility":

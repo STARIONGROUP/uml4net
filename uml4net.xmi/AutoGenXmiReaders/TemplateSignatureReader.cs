@@ -55,8 +55,6 @@ namespace uml4net.xmi.Readers
     [GeneratedCode("uml4net", "latest")]
     public class TemplateSignatureReader : XmiElementReader<ITemplateSignature>, IXmiElementReader<ITemplateSignature>
     {
-        private readonly IXmiElementReaderFacade xmiElementReaderFacade;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="TemplateSignatureReader"/> class.
         /// </summary>
@@ -71,9 +69,8 @@ namespace uml4net.xmi.Readers
         /// The (injected) <see cref="ILoggerFactory"/> used to set up logging
         /// </param>
         public TemplateSignatureReader(IXmiElementCache cache, IXmiElementReaderFacade xmiElementReaderFacade, ILoggerFactory loggerFactory)
-            : base(cache, loggerFactory)
+            : base(cache, xmiElementReaderFacade, loggerFactory)
         {
-            this.xmiElementReaderFacade = xmiElementReaderFacade;
         }
 
         /// <summary>
@@ -82,14 +79,30 @@ namespace uml4net.xmi.Readers
         /// <param name="xmlReader">
         /// an instance of <see cref="XmlReader"/>
         /// </param>
+        /// <param name="documentName">
+        /// The name of the document that contains the <see cref="ITemplateSignature"/>
+        /// </param>
+        /// <param name="namespaceUri">
+        /// the namespace that the <see cref="ITemplateSignature"/> belongs to
+        /// </param>
         /// <returns>
         /// an instance of <see cref="ITemplateSignature"/>
         /// </returns>
-        public override ITemplateSignature Read(XmlReader xmlReader)
+        public override ITemplateSignature Read(XmlReader xmlReader, string documentName, string namespaceUri)
         {
             if (xmlReader == null)
             {
                 throw new ArgumentNullException(nameof(xmlReader));
+            }
+
+            if (string.IsNullOrEmpty(documentName))
+            {
+                throw new ArgumentException(nameof(documentName));
+            }
+
+            if (string.IsNullOrEmpty(namespaceUri))
+            {
+                throw new ArgumentException(nameof(namespaceUri));
             }
 
             var defaultLineInfo = xmlReader as IXmlLineInfo;
@@ -109,15 +122,24 @@ namespace uml4net.xmi.Readers
                     xmiType = "uml:TemplateSignature";
                 }
 
+                if (!string.IsNullOrEmpty(xmlReader.NamespaceURI))
+                {
+                    namespaceUri = xmlReader.NamespaceURI;
+                }
+
                 poco.XmiType = xmiType;
 
                 poco.XmiId = xmlReader.GetAttribute("xmi:id");
 
                 poco.XmiGuid = xmlReader.GetAttribute("xmi:uuid");
 
-                if (!this.Cache.TryAdd(poco.XmiId, poco))
+                poco.DocumentName = documentName;
+
+                poco.XmiNamespaceUri = namespaceUri;
+
+                if (!this.Cache.TryAdd(poco))
                 {
-                    this.Logger.LogCritical("Failed to add element type [{Poco}] with id [{Id}] as it was already in the cache. The XMI document seems to have duplicate xmi:id values", "TemplateSignature", poco.XmiId);
+                    this.Logger.LogCritical("Failed to add element type [{Poco}] with id [{Id}] as it was already in the Cache. The XMI document seems to have duplicate xmi:id values", "TemplateSignature", poco.XmiId);
                 }
 
                 var parameterXmlAttribute = xmlReader.GetAttribute("parameter");
@@ -141,11 +163,11 @@ namespace uml4net.xmi.Readers
                         switch (xmlReader.LocalName)
                         {
                             case "ownedComment":
-                                var ownedCommentValue = (IComment)this.xmiElementReaderFacade.QueryXmiElement(xmlReader, this.Cache, this.LoggerFactory, "uml:Comment");
+                                var ownedCommentValue = (IComment)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.LoggerFactory, "uml:Comment");
                                 poco.OwnedComment.Add(ownedCommentValue);
                                 break;
                             case "ownedParameter":
-                                var ownedParameterValue = (ITemplateParameter)this.xmiElementReaderFacade.QueryXmiElement(xmlReader, this.Cache, this.LoggerFactory, "uml:TemplateParameter");
+                                var ownedParameterValue = (ITemplateParameter)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.LoggerFactory, "uml:TemplateParameter");
                                 poco.OwnedParameter.Add(ownedParameterValue);
                                 break;
                             case "parameter":

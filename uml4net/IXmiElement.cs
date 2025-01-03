@@ -34,6 +34,17 @@ namespace uml4net
         public string XmiId { get; set; }
 
         /// <summary>
+        /// Gets or sets the name of the document that contains the element
+        /// </summary>
+        public string DocumentName { get; set; }
+
+        /// <summary>
+        /// Gets or sets the namespace Uri of the XMi element that this <see cref="IXmiElement"/>
+        /// belongs to.
+        /// </summary>
+        public string XmiNamespaceUri { get; set; }
+
+        /// <summary>
         /// Gets or sets the GUID unique identifier of the Element in the XMI document
         /// </summary>
         public string XmiGuid { get; set; }
@@ -42,6 +53,15 @@ namespace uml4net
         /// Gets or sets the name of the xmi type
         /// </summary>
         public string XmiType { get; set; }
+
+        /// <summary>
+        /// Gets the Fully Qualified Identifier which is the concatenation of the
+        /// <see cref="DocumentName"/> and the <see cref="XmiId"/> seperated by a pound sign #
+        /// </summary>
+        /// <remarks>
+        /// In case the <see cref="DocumentName"/> is empty then FQN uses the underscore _ as <see cref="DocumentName"/>
+        /// </remarks>
+        public string FullyQualifiedIdentifier { get; }
 
         /// <summary>
         /// Gets or sets a dictionary of single-valued reference properties and the associated unique identifiers

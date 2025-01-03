@@ -37,9 +37,14 @@ namespace uml4net.xmi.Readers
         /// <param name="xmlReader">
         /// an instance of <see cref="XmlReader"/>
         /// </param>
+        /// <param name="namespaceUri">
+        /// The namespaceUri of the parent <see cref="XmlReader"/>>.
+        /// Since <see cref="XmlReader.ReadSubtree"/> is used extensively the <see cref="XmlReader.NamespaceURI"/>
+        /// returns the empty string when reading from a subtree, therefore it is passed from the caller
+        /// </param>
         /// <returns>
         /// an instance of <typeparamref name="TXmiElement"/>
         /// </returns>
-        public TXmiElement Read(XmlReader xmlReader);
+        public TXmiElement Read(XmlReader xmlReader, string namespaceUri = "", string xmiNamespace = "");
     }
 }

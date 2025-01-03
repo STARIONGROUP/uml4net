@@ -21,7 +21,6 @@
 namespace uml4net
 {
     using System;
-    using System.Collections.Concurrent;
     using System.Collections.Generic;
 
     /// <summary>
@@ -36,74 +35,54 @@ namespace uml4net
     /// </remarks>
     public class XmiElementCache : IXmiElementCache
     {
-        private const string DefaultKey = "_";
+        /// <summary>
+        /// Gets the cached dictionary of XMI elements. The <see cref="IXmiElement.FullyQualifiedIdentifier"/>
+        /// is used as key, the <see cref="IXmiElement"/> is the value
+        /// </summary>
+        private readonly Dictionary<string, IXmiElement> cache = [];
 
         /// <summary>
-        /// Provides a cache for storing XMI elements with unique IDs, organized by context. 
-        /// Each <see cref="IXmiElement"/> is stored in a nested dictionary keyed by its context 
-        /// (representing the XMI file) and the element’s unique identifier within that context.
+        /// Tries to add the specified XMI element to the cache using the <see cref="IXmiElement.FullyQualifiedIdentifier"/>
+        /// as the key
         /// </summary>
-        public ConcurrentDictionary<string, Dictionary<string, IXmiElement>> GlobalCache { get; } = [];
-
-        /// <summary>
-        /// Gets the collection of XMI elements associated with the current context. This 
-        /// dictionary maps unique identifiers to their corresponding <see cref="IXmiElement"/> instances 
-        /// within the active context.
-        /// </summary>
-        public Dictionary<string, IXmiElement> Cache => this.GlobalCache.GetOrAdd(this.currentContext, []);
-
-        /// <summary>
-        /// Holds the current context, typically representing the current XMI file being processed. 
-        /// This context helps to group elements by their file of origin in the cache.
-        /// </summary>
-        private string currentContext = DefaultKey;
-
-        /// <summary>
-        /// Checks whether the specified context exists in the cache and optionally verifies the existence of a specific key within that context.
-        /// </summary>
-        /// <param name="context">
-        /// The context name to check within the cache.
-        /// </param>
-        /// <param name="key">
-        /// (Optional) The specific key to check within the specified context. If <c>null</c>, the method only verifies if the context exists
-        /// and contains any entries.
+        /// <param name="element">
+        /// The XMI element to be added to the Cache
         /// </param>
         /// <returns>
-        /// <c>true</c> if the context is missing, contains no entries, or if a specified key exists in the context with a non-null value;
-        /// otherwise, <c>false</c>.
+        /// true if the element was added, false if the element was already present in the
+        /// cache and could not be added again
         /// </returns>
-        public bool DoesContextExists(string context, string key = null)
+        public bool TryAdd(IXmiElement element)
         {
-            if (!this.GlobalCache.TryGetValue(context, out var contextDictionary) || contextDictionary.Count == 0)
+            if (element == null)
+            {
+                throw new ArgumentNullException();
+            }
+
+            if (this.cache.ContainsKey(element.FullyQualifiedIdentifier))
             {
                 return false;
             }
 
-            return key switch
-            {
-                null => true,
-                _ => contextDictionary.TryGetValue(key, out var value) && value != null
-            };
+            this.cache.Add(element.FullyQualifiedIdentifier, element);
+            element.Cache = this;
+
+            return true;
         }
 
-        /// <summary>
-        /// Attempts to retrieve an <see cref="IXmiElement"/> instance from the cache 
-        /// based on the specified <paramref name="context"/> and <paramref name="key"/>. 
-        /// Returns <c>true</c> if both the context and key exist in the cache, otherwise <c>false</c>.
-        /// </summary>
-        /// <param name="context">The context in which the element is stored, typically representing an XMI file.</param>
-        /// <param name="key">The unique identifier of the XMI element within the specified context.</param>
-        /// <param name="value">
-        /// When this method returns, contains the <see cref="IXmiElement"/> associated with the specified 
-        /// context and key, if found; otherwise, <c>default</c>.
-        /// </param>
-        /// <returns>
-        /// <c>true</c> if the element is found in the cache with the specified context and key; otherwise, <c>false</c>.
-        /// </returns>
-        public bool TryGetValue(string context, string key, out IXmiElement value)
+        /// <summary>Gets the value associated with the specified key.</summary>
+        /// <param name="key">The key of the value to get.</param>
+        /// <param name="value">When this method returns, contains the value associated with the specified key, if the key is found; otherwise, the default value for the type of the value parameter. This parameter is passed uninitialized.</param>
+        /// <returns>true if the Cache contains an element with the specified key; otherwise, false.</returns>
+        /// <exception cref="T:System.ArgumentNullException"><paramref name="key">key</paramref> is null.</exception>
+        public bool TryGetValue(string key, out IXmiElement value)
         {
-            if (this.GlobalCache.TryGetValue(context, out var contextDictionary)
-                && contextDictionary.TryGetValue(key, out value))
+            if (string.IsNullOrEmpty(key))
+            {
+                throw new ArgumentException(nameof(key));
+            }
+
+            if (this.cache.TryGetValue(key, out value))
             {
                 return true;
             }
@@ -113,65 +92,47 @@ namespace uml4net
         }
 
         /// <summary>
-        /// Switches the current context to a new XMI file, allowing elements to be stored 
-        /// under a distinct key in the cache. Initializes an empty dictionary in <see cref="Cache"/> 
-        /// for the specified context if it does not exist.
+        /// Returns an enumerator that iterates through the key-value pairs in the Cache
         /// </summary>
-        /// <param name="context">The unique identifier for the new context, typically the XMI file name.</param>
-        public void SwitchContext(string context)
-        {
-            this.currentContext = context;
-            this.GlobalCache.GetOrAdd(context, []);
-        }
-
-        /// <summary>
-        /// Adds the specified XMI element to the cache under the current context.
-        /// If the context does not already exist, it must be set via <see cref="SwitchContext(string)"/>.
-        /// </summary>
-        /// <param name="id">The unique identifier of the XMI element within the current context.</param>
-        /// <param name="element">The XMI element to be added to the cache.</param>
-        public bool TryAdd(string id, IXmiElement element)
-        {
-            if (this.Cache.ContainsKey(id))
-            {
-                return false;
-            }
-
-            this.Cache[id] = element;
-            element.Cache = this;
-
-            return true;
-        }
-
-        /// <summary>
-        /// Attempts to resolve the context and resource ID from the specified resource key.
-        /// </summary>
-        /// <param name="resourceKey">
-        /// The key representing the resource, which may contain context and resource ID separated by '#'.
-        /// </param>
-        /// <param name="resolvedContextAndResource">
-        /// When this method returns, contains a tuple with the resolved context and resource ID if successful; 
-        /// otherwise, <c>(null, null)</c> if unsuccessful.
-        /// </param>
-        /// <param name="validateContextExistence">
-        /// If <c>true</c>, checks whether the resolved context exists in the global cache. If <c>false</c>, 
-        /// performs no such check.
-        /// </param>
         /// <returns>
-        /// <c>true</c> if the context and resource ID were successfully resolved and, if applicable, the 
-        /// context exists in the global cache; otherwise, <c>false</c>.
+        /// A <see cref="T:System.Collections.Generic.Dictionary`2.Enumerator"></see> structure
         /// </returns>
-        public bool TryResolveContext(string resourceKey, out (string Context, string ResourceId) resolvedContextAndResource, bool validateContextExistence = false)
+        public Dictionary<string, IXmiElement>.Enumerator GetEnumerator()
         {
-            var referenceString = resourceKey.Split(['#'], StringSplitOptions.RemoveEmptyEntries);
+            return this.cache.GetEnumerator();
+        }
 
-            resolvedContextAndResource = referenceString.Length switch
-            {
-                2 => (referenceString[0], referenceString[1]),
-                _ => (DefaultKey, resourceKey)
-            };
-            
-            return !validateContextExistence || this.GlobalCache.ContainsKey(resolvedContextAndResource.Context);
+        /// <summary>
+        /// Gets a collection containing the values in the Cache.
+        /// </summary>
+        /// <returns>
+        /// A <see cref="T:System.Collections.Generic.Dictionary`2.ValueCollection"></see> containing
+        /// the values in the Cache.
+        /// </returns>
+        public Dictionary<string, IXmiElement>.ValueCollection Values => this.cache.Values;
+
+        /// <summary>
+        /// Gets a collection containing the keys in the cache.
+        /// </summary>
+        /// <returns>
+        /// A <see cref="T:System.Collections.Generic.Dictionary`2.KeyCollection"></see> containing the keys in the cache.
+        /// </returns>
+        public Dictionary<string, IXmiElement>.KeyCollection Keys => this.cache.Keys;
+
+        /// <summary>
+        /// Gets the number of key/value pairs contained in the Cache.
+        /// </summary>
+        /// <returns>
+        /// The number of key/value pairs contained in the Cache.
+        /// </returns>
+        public int Count => this.cache.Count;
+
+        /// <summary>
+        /// Removes all keys and values from the Cache
+        /// </summary>
+        public void Clear()
+        {
+            this.cache.Clear();
         }
     }
 }

@@ -28,7 +28,6 @@ namespace uml4net
     
     using Microsoft.Extensions.Logging;
     
-    using uml4net;
     using uml4net.Decorators;
 
     /// <summary>
@@ -59,16 +58,15 @@ namespace uml4net
         }
 
         /// <summary>
-        /// Synchronizes the <see cref="IXmiElementCache"/> by assigning properties to elements
+        /// Synchronizes the <see cref="IXmiElement"/>s in the <see cref="IXmiElementCache"/> by assigning
+        /// the reference properties that are encoded by <see cref="IXmiElement.SingleValueReferencePropertyIdentifiers"/>
+        /// and by <see cref="IXmiElement.MultiValueReferencePropertyIdentifiers>"/>
         /// </summary>
         public void Synchronize()
         {
-            foreach (var contextEntries in this.cache.GlobalCache)
+            foreach (var kvp in this.cache)
             {
-                foreach (var element in contextEntries.Value)
-                {
-                    this.ResolveReferences(element.Value);
-                }
+                this.ResolveReferences(kvp.Value);
             }
         }
 
@@ -85,15 +83,15 @@ namespace uml4net
 
             foreach (var property in element.SingleValueReferencePropertyIdentifiers)
             {
-                if (!this.TryGetReferencedElement(property.Value, out var referencedElement))
+                if (!this.TryGetReferencedElement(element.DocumentName,property.Value, out var referencedElement))
                 {
-                    this.logger.LogWarning("The reference to [{Reference}] for property [{Key}] on element type [{Element}] with id [{Id}] was not found in the cache, probably because its type is not supported.", 
+                    this.logger.LogWarning("The reference to [{Reference}] for property [{Key}] on element type [{Element}] with id [{Id}] was not found in the cache, probably because its type is not supported.",
                         property.Value, property.Key, element.XmiType, element.XmiId);
                     continue;
                 }
 
                 var targetProperty = this.FindPropertyWithAttribute(element, property.Key, referencedElement.GetType());
-                
+
                 if (targetProperty is null)
                 {
                     throw new InvalidOperationException($"The target property {property.Key} was not found on {element.GetType().Name} or the property type doesn't match the referenced {nameof(element)} type");
@@ -112,7 +110,7 @@ namespace uml4net
                     throw new KeyNotFoundException($"The target property {property.Key} was not found on {element.GetType().Name} or the type is null");
                 }
 
-                var resolvedReferences = this.ResolveMultiValueReferences(property.Value, property.Key, underlyingType);
+                var resolvedReferences = this.ResolveMultiValueReferences(element.DocumentName,property.Value, property.Key, underlyingType);
 
                 if (targetProperty.GetValue(element) is not IList list)
                 {
@@ -127,16 +125,58 @@ namespace uml4net
         }
 
         /// <summary>
-        /// Attempts to retrieve the referenced element associated with the specified reference ID key.
+        /// Try to get an <see cref="IXmiElement"/> from th cache based on the provided
+        /// <paramref name="documentName"/> and <paramref name="referenceIdKey"/>
         /// </summary>
-        /// <param name="referenceIdKey">The key representing the reference ID.</param>
-        /// <param name="element">When this method returns, contains the referenced element if found; otherwise, <c>null</c>.</param>
-        /// <returns><c>true</c> if the referenced element was successfully retrieved; otherwise, <c>false</c>.</returns>
-        private bool TryGetReferencedElement(string referenceIdKey, out IXmiElement element)
+        /// <param name="documentName">
+        /// The name of the document or resource from where the <see cref="IXmiElement"/> was parsed/read
+        /// </param>
+        /// <param name="referenceIdKey">
+        /// The unique identifier of the <see cref="IXmiElement"/> that is to be retrieved
+        /// </param>
+        /// <param name="element">
+        /// The found <see cref="IXmiElement"/>, null if not found
+        /// </param>
+        /// <returns>
+        /// true if found, false if not
+        /// </returns>
+        private bool TryGetReferencedElement(string documentName, string referenceIdKey, out IXmiElement element)
         {
-            return this.cache.TryResolveContext(referenceIdKey, out var resolvedContextAndResource, true)
-                ? this.cache.TryGetValue(resolvedContextAndResource.Context, resolvedContextAndResource.ResourceId, out element)
-                : this.cache.Cache.TryGetValue(referenceIdKey, out element);
+            var key = referenceIdKey.Contains("#") ? referenceIdKey : $"{documentName}#{referenceIdKey}";
+
+            return this.cache.TryGetValue(key, out element);
+        }
+
+        /// <summary>
+        /// resolves multi-valued reference properties
+        /// </summary>
+        /// <param name="documentName">
+        /// The name of the document or resource from where the <see cref="IXmiElement"/> was parsed/read
+        /// </param>
+        /// <param name="propertyValues">
+        /// The values of the property, which are references by unique identifier to other <see cref="IXmiElement"/>s
+        /// </param>
+        /// <param name="key">
+        /// The name of the property for which the references to other <see cref="IXmiElement"/>s are being resolved
+        /// </param>
+        /// <param name="expectedType"></param>
+        /// <returns></returns>
+        private List<IXmiElement> ResolveMultiValueReferences(string documentName, IEnumerable<string> propertyValues, string key, Type expectedType)
+        {
+            var resolvedReferences = new List<IXmiElement>();
+
+            foreach (var propertyValue in propertyValues)
+            {
+                if (!this.TryGetReferencedElement(documentName,propertyValue, out var referencedElement) || !expectedType.IsAssignableFrom(referencedElement.GetType()))
+                {
+                    this.logger.LogWarning("The reference with the id [{Key}] to [{PropertyValue}] was not found in the cache, probably because its type is not supported.", key, propertyValue);
+                    continue;
+                }
+
+                resolvedReferences.Add(referencedElement);
+            }
+
+            return resolvedReferences;
         }
 
         /// <summary>
@@ -152,34 +192,6 @@ namespace uml4net
                 .FirstOrDefault(x => Attribute.IsDefined(x, typeof(PropertyAttribute))
                                      && x.Name.Equals(propertyName, StringComparison.InvariantCultureIgnoreCase)
                                      && (expectedType == null || x.PropertyType.IsAssignableFrom(expectedType)));
-        }
-
-        /// <summary>
-        /// Resolves multiple references from the cache, ensuring that the types match the expected type.
-        /// </summary>
-        /// <param name="propertyValues">The keys of the references to be resolved.</param>
-        /// <param name="key">The name of the property referring to the elements.</param>
-        /// <param name="expectedType">The expected type of the referenced elements.</param>
-        /// <returns>A list of resolved IXmiElement references.</returns>
-        /// <exception cref="InvalidOperationException">
-        /// Thrown if a reference is not found in the cache or if the type of a referenced element does not match the expected type.
-        /// </exception>
-        private List<IXmiElement> ResolveMultiValueReferences(IEnumerable<string> propertyValues, string key, Type expectedType)
-        {
-            var resolvedReferences = new List<IXmiElement>();
-
-            foreach (var propertyValue in propertyValues)
-            {
-                if (!this.TryGetReferencedElement(propertyValue, out var referencedElement) || !expectedType.IsAssignableFrom(referencedElement.GetType()))
-                {
-                    this.logger.LogWarning("The reference with the id [{Key}] to [{PropertyValue}] was not found in the cache, probably because its type is not supported.", key, propertyValue);
-                    continue;
-                }
-
-                resolvedReferences.Add(referencedElement);
-            }
-
-            return resolvedReferences;
         }
     }
 }

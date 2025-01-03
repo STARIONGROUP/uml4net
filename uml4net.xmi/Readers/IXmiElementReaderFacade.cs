@@ -39,6 +39,12 @@ namespace uml4net.xmi.Readers
         /// <param name="xmlReader">
         /// An instance of <see cref="XmlReader"/>
         /// </param>
+        /// <param name="documentName">
+        /// The name of the document that contains the <see cref="IXmiElement"/>
+        /// </param>
+        /// <param name="namespaceUri">
+        /// the namespace that the <see cref="IXmiElement"/> belongs to
+        /// </param>
         /// <param name="cache">
         /// The <see cref="IXmiElementCache"/> in which all model instances are registered
         /// </param>
@@ -55,6 +61,6 @@ namespace uml4net.xmi.Readers
         /// <exception cref="InvalidOperationException">
         /// thrown when the xmi:type is not supported and noXmiElementReader was found
         /// </exception>
-        public IXmiElement QueryXmiElement(XmlReader xmlReader, IXmiElementCache cache, ILoggerFactory loggerFactory, string explicitTypeName = null);
+        public IXmiElement QueryXmiElement(XmlReader xmlReader, string documentName, string namespaceUri, IXmiElementCache cache, ILoggerFactory loggerFactory, string explicitTypeName = null);
     }
 }

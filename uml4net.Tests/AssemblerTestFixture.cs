@@ -38,6 +38,7 @@ namespace uml4net.Tests
     {
         private Assembler assembler;
         private XmiElementCache cache;
+        private string documentName;
 
         [SetUp]
         public void Setup()
@@ -47,12 +48,14 @@ namespace uml4net.Tests
             this.cache = new XmiElementCache();
 
             this.assembler = new Assembler(loggerFactory.CreateLogger<Assembler>(), this.cache);
+
+            this.documentName = "test";
         }
 
         [TearDown]
         public void Teardown()
         {
-            this.cache.GlobalCache.Clear();
+            this.cache.Clear();
         }
 
         [Test]
@@ -62,14 +65,20 @@ namespace uml4net.Tests
             var classElement = new Class
             {
                 XmiId = Guid.NewGuid().ToString(),
-                Name = "TestClass"
+                Name = "TestClass",
+                DocumentName = this.documentName
             };
 
-            var stringExpression = new StringExpression { XmiId = Guid.NewGuid().ToString(), Name = "StringExpression1" };
+            var stringExpression = new StringExpression
+            {
+                XmiId = Guid.NewGuid().ToString(), 
+                Name = "StringExpression1",
+                DocumentName = this.documentName
+            };
 
             classElement.MultiValueReferencePropertyIdentifiers.Add("NameExpression", [stringExpression.XmiId]);
-            Assert.That(this.cache.TryAdd(classElement.XmiId, classElement), Is.True);
-            Assert.That(this.cache.TryAdd(stringExpression.XmiId, stringExpression), Is.True);
+            Assert.That(this.cache.TryAdd(classElement), Is.True);
+            Assert.That(this.cache.TryAdd(stringExpression), Is.True);
 
             Assert.That(classElement.NameExpression, Is.Empty);
             
@@ -91,17 +100,28 @@ namespace uml4net.Tests
             var classElement = new Class
             {
                 XmiId = Guid.NewGuid().ToString(),
-                Name = "TestClass"
+                Name = "TestClass",
+                DocumentName = this.documentName
             };
 
             var comment1 = new Comment
-            {  XmiId = Guid.NewGuid().ToString(), Body = "Comment 1" };
-            var comment2 = new Comment { XmiId = Guid.NewGuid().ToString(), Body = "Comment 2" };
+            {
+                XmiId = Guid.NewGuid().ToString(), 
+                Body = "Comment 1",
+                DocumentName = this.documentName
+            };
+
+            var comment2 = new Comment
+            {
+                XmiId = Guid.NewGuid().ToString(),
+                Body = "Comment 2",
+                DocumentName = this.documentName
+            };
 
             classElement.MultiValueReferencePropertyIdentifiers.Add("OwnedComment", [comment1.XmiId, comment2.XmiId]);
-            Assert.That(this.cache.TryAdd(classElement.XmiId, classElement), Is.True);
-            Assert.That(this.cache.TryAdd(comment1.XmiId, comment1), Is.True);
-            Assert.That(this.cache.TryAdd(comment2.XmiId, comment2), Is.True);
+            Assert.That(this.cache.TryAdd(classElement), Is.True);
+            Assert.That(this.cache.TryAdd(comment1), Is.True);
+            Assert.That(this.cache.TryAdd(comment2), Is.True);
 
             this.assembler.Synchronize();
 
@@ -121,39 +141,65 @@ namespace uml4net.Tests
             const string externalXmi0 = "otherxmi";
             const string externalXmi1 = "anotherone";
             
-            var classElement0 = new Class { XmiId = Guid.NewGuid().ToString(), Name = "TestClass0"};
-            var classElement1 = new Class { XmiId = Guid.NewGuid().ToString(), Name = "TestClass1" };
-            var stringType = new PrimitiveType { XmiId = Guid.NewGuid().ToString(), Name = "string" };
+            var classElement0 = new Class 
+            { 
+                XmiId = Guid.NewGuid().ToString(),
+                Name = "TestClass0",
+                DocumentName = this.documentName
+            };
+
+            var classElement1 = new Class
+            {
+                XmiId = Guid.NewGuid().ToString(),
+                Name = "TestClass1",
+                DocumentName = externalXmi1
+            };
+            
+            var stringType = new PrimitiveType
+            {
+                XmiId = Guid.NewGuid().ToString(), 
+                Name = "string",
+                DocumentName = externalXmi1
+            };
 
             var attribute0 = new Property 
             { 
-                XmiId = Guid.NewGuid().ToString(), 
+                XmiId = Guid.NewGuid().ToString(),
+                DocumentName = externalXmi0, 
                 SingleValueReferencePropertyIdentifiers = { { nameof(Property.Type), $"{externalXmi1}#{stringType.XmiId}" } }
             };
 
             var attribute1 = new Property
             { 
-                XmiId = Guid.NewGuid().ToString(), 
+                XmiId = Guid.NewGuid().ToString(),
+                DocumentName = externalXmi1, 
                 SingleValueReferencePropertyIdentifiers = { { nameof(Property.Type), $"{externalXmi1}#{classElement1.XmiId}" } }
             };
             
-            var comment1 = new Comment { XmiId = Guid.NewGuid().ToString(), Body = "Comment 1" };
-            var comment2 = new Comment { XmiId = Guid.NewGuid().ToString(), Body = "Comment 2" };
+            var comment1 = new Comment 
+            {
+                XmiId = Guid.NewGuid().ToString(), 
+                Body = "Comment 1",
+                DocumentName = this.documentName
+            };
+
+            var comment2 = new Comment 
+            { 
+                XmiId = Guid.NewGuid().ToString(),
+                Body = "Comment 2",
+                DocumentName = this.documentName
+            };
 
             classElement0.MultiValueReferencePropertyIdentifiers.Add("OwnedComment", [comment1.XmiId, comment2.XmiId]);
             classElement0.MultiValueReferencePropertyIdentifiers.Add("OwnedAttribute", [$"{externalXmi0}#{attribute0.XmiId}", $"{externalXmi1}#{attribute1.XmiId}"]);
             
-            Assert.That(this.cache.TryAdd(classElement0.XmiId, classElement0), Is.True);
-            Assert.That(this.cache.TryAdd(comment1.XmiId, comment1), Is.True);
-            Assert.That(this.cache.TryAdd(comment2.XmiId, comment2), Is.True);
-
-            this.cache.SwitchContext(externalXmi0);
-            Assert.That(this.cache.TryAdd(attribute0.XmiId, attribute0), Is.True);
-
-            this.cache.SwitchContext(externalXmi1);
-            Assert.That(this.cache.TryAdd(attribute1.XmiId, attribute1), Is.True);
-            Assert.That(this.cache.TryAdd(classElement1.XmiId, classElement1), Is.True);
-            Assert.That(this.cache.TryAdd(stringType.XmiId, stringType), Is.True);
+            Assert.That(this.cache.TryAdd(classElement0), Is.True);
+            Assert.That(this.cache.TryAdd(comment1), Is.True);
+            Assert.That(this.cache.TryAdd(comment2), Is.True);
+            Assert.That(this.cache.TryAdd(attribute0), Is.True);
+            Assert.That(this.cache.TryAdd(attribute1), Is.True);
+            Assert.That(this.cache.TryAdd(classElement1), Is.True);
+            Assert.That(this.cache.TryAdd(stringType), Is.True);
 
             // Act
             this.assembler.Synchronize();
@@ -178,21 +224,28 @@ namespace uml4net.Tests
             var classElement = new Class
             {
                 XmiId = Guid.NewGuid().ToString(),
-                Name = "TestClass"
+                Name = "TestClass",
+                DocumentName = this.documentName
             };
 
-            var stringExpression = new StringExpression { XmiId = Guid.NewGuid().ToString(), Name = "StringExpression1" };
+            var stringExpression = new StringExpression { XmiId = Guid.NewGuid().ToString(), Name = "StringExpression1",
+                DocumentName = this.documentName
+            };
 
-            var comment1 = new Comment { XmiId = Guid.NewGuid().ToString(), Body = "Comment 1" };
-            var comment2 = new Comment { XmiId = Guid.NewGuid().ToString(), Body = "Comment 2" };
+            var comment1 = new Comment { XmiId = Guid.NewGuid().ToString(), Body = "Comment 1",
+                DocumentName = this.documentName
+            };
+            var comment2 = new Comment { XmiId = Guid.NewGuid().ToString(), Body = "Comment 2",
+                DocumentName = this.documentName
+            };
 
             classElement.MultiValueReferencePropertyIdentifiers.Add("OwnedComment", [comment1.XmiId, comment2.XmiId]);
-            Assert.That(this.cache.TryAdd(classElement.XmiId, classElement), Is.True);
-            Assert.That(this.cache.TryAdd(comment1.XmiId, comment1), Is.True);
-            Assert.That(this.cache.TryAdd(comment2.XmiId, comment2), Is.True);
+            Assert.That(this.cache.TryAdd(classElement), Is.True);
+            Assert.That(this.cache.TryAdd(comment1), Is.True);
+            Assert.That(this.cache.TryAdd(comment2), Is.True);
 
             classElement.MultiValueReferencePropertyIdentifiers.Add("NameExpression", [stringExpression.XmiId]);
-            Assert.That(this.cache.TryAdd(stringExpression.XmiId, stringExpression), Is.True);
+            Assert.That(this.cache.TryAdd(stringExpression), Is.True);
 
             Assert.That(classElement.NameExpression, Is.Empty);
             Assert.That(classElement.OwnedComment.Count, Is.Zero);
@@ -218,29 +271,37 @@ namespace uml4net.Tests
             var classElement0 = new Class
             {
                 XmiId = Guid.NewGuid().ToString(),
-                Name = "TestClass"
+                Name = "TestClass",
+                DocumentName = this.documentName
             };
 
             var classElement1 = new Class
             {
                 XmiId = Guid.NewGuid().ToString(),
-                Name = "TestClass"
+                Name = "TestClass",
+                DocumentName = this.documentName
             };
 
-            var stringExpression = new StringExpression { XmiId = Guid.NewGuid().ToString(), Name = "StringExpression1" };
+            var stringExpression = new StringExpression { XmiId = Guid.NewGuid().ToString(), Name = "StringExpression1",
+                DocumentName = this.documentName
+            };
 
-            var comment0 = new Comment { XmiId = Guid.NewGuid().ToString(), Body = "Comment 1" };
-            var comment1 = new Comment { XmiId = Guid.NewGuid().ToString(), Body = "Comment 2" };
+            var comment0 = new Comment { XmiId = Guid.NewGuid().ToString(), Body = "Comment 1",
+                DocumentName = this.documentName
+            };
+            var comment1 = new Comment { XmiId = Guid.NewGuid().ToString(), Body = "Comment 2",
+                DocumentName = this.documentName
+            };
 
             classElement0.MultiValueReferencePropertyIdentifiers.Add("OwnedComment", [comment0.XmiId ]);
-            Assert.That(this.cache.TryAdd(classElement0.XmiId, classElement0), Is.True);
+            Assert.That(this.cache.TryAdd(classElement0), Is.True);
             classElement1.MultiValueReferencePropertyIdentifiers.Add("OwnedComment", [comment1.XmiId]);
-            Assert.That(this.cache.TryAdd(classElement1.XmiId, classElement1), Is.True);
-            Assert.That(this.cache.TryAdd(comment1.XmiId, comment1), Is.True);
-            Assert.That(this.cache.TryAdd(comment0.XmiId, comment0), Is.True);
+            Assert.That(this.cache.TryAdd(classElement1), Is.True);
+            Assert.That(this.cache.TryAdd(comment1), Is.True);
+            Assert.That(this.cache.TryAdd(comment0), Is.True);
 
             classElement0.MultiValueReferencePropertyIdentifiers.Add("NameExpression", [stringExpression.XmiId]);
-            Assert.That(this.cache.TryAdd(stringExpression.XmiId, stringExpression), Is.True);
+            Assert.That(this.cache.TryAdd(stringExpression), Is.True);
 
             Assert.That(classElement0.NameExpression, Is.Empty);
             Assert.That(classElement1.NameExpression, Is.Empty);
@@ -268,11 +329,12 @@ namespace uml4net.Tests
             var classElement = new Class
             {
                 XmiId = Guid.NewGuid().ToString(),
-                Name = "TestClass"
+                Name = "TestClass",
+                DocumentName = this.documentName
             };
 
             classElement.SingleValueReferencePropertyIdentifiers.Add("NameExpression", "NonExistentReference");
-            Assert.That(this.cache.TryAdd(classElement.XmiId, classElement), Is.True);
+            Assert.That(this.cache.TryAdd(classElement), Is.True);
             
             this.assembler.Synchronize();
 
@@ -286,13 +348,16 @@ namespace uml4net.Tests
             {
                 XmiId = Guid.NewGuid().ToString(),
                 Name = "TestClass",
+                DocumentName = this.documentName,
                 NameExpression = null
             };
 
-            var invalidElement = new Comment { XmiId = Guid.NewGuid().ToString(), Body = "Not a comment" };
+            var invalidElement = new Comment { XmiId = Guid.NewGuid().ToString(), Body = "Not a comment",
+                DocumentName = this.documentName
+            };
             classElement.SingleValueReferencePropertyIdentifiers.Add("NameExpression", invalidElement.XmiId);
-            Assert.That(this.cache.TryAdd(classElement.XmiId, classElement), Is.True);
-            Assert.That(this.cache.TryAdd(invalidElement.XmiId, invalidElement), Is.True);
+            Assert.That(this.cache.TryAdd(classElement), Is.True);
+            Assert.That(this.cache.TryAdd(invalidElement), Is.True);
 
             Assert.Multiple(() =>
             {
@@ -308,7 +373,8 @@ namespace uml4net.Tests
             var property = new Property
             {
                 XmiId = "Property-aggregation",
-                Name = "aggregation"
+                Name = "aggregation",
+                DocumentName = this.documentName
             };
 
             property.SingleValueReferencePropertyIdentifiers.Add("type", "AggregationKind");
@@ -317,10 +383,11 @@ namespace uml4net.Tests
             {
                 XmiId = "AggregationKind",
                 Name = "AggregationKind",
+                DocumentName = this.documentName
             };
 
-            Assert.That(this.cache.TryAdd(property.XmiId, property), Is.True);
-            Assert.That(this.cache.TryAdd(enumeration.XmiId, enumeration), Is.True);
+            Assert.That(this.cache.TryAdd(property), Is.True);
+            Assert.That(this.cache.TryAdd(enumeration), Is.True);
 
             this.assembler.Synchronize();
 

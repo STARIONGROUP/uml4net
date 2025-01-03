@@ -106,10 +106,18 @@ namespace uml4net.xmi.Readers
         /// <param name="xmlReader">
         /// an instance of <see cref="XmlReader"/>
         /// </param>
+        /// <param name="documentName">
+        /// The name of the document that contains the <see cref="IXmiElement"/>
+        /// </param>
+        /// <param name="namespaceUri">
+        /// The namespaceUri of the parent <see cref="XmlReader"/>>.
+        /// Since <see cref="XmlReader.ReadSubtree"/> is used extensively the <see cref="XmlReader.NamespaceURI"/>
+        /// returns the empty string when reading from a subtree, therefore it is passed from the caller
+        /// </param>
         /// <returns>
         /// an instance of <typeparamref name="TXmiElement"/>
         /// </returns>
-        public abstract TXmiElement Read(XmlReader xmlReader);
+        public abstract TXmiElement Read(XmlReader xmlReader, string documentName, string namespaceUri);
 
         /// <summary>
         /// Adds the property-name and unique identifier of the referenced <see cref="IXmiElement"/> to the
@@ -159,57 +167,6 @@ namespace uml4net.xmi.Readers
                 else
                 {
                     throw new InvalidOperationException($"{localName} xml-attribute reference could not be read");
-                }
-            }
-        }
-
-        /// <summary>
-        /// Adds the unique identifier of the referenced <see cref="IXmiElement"/> to the
-        /// provided <paramref name="references"/> collection
-        /// </summary>
-        /// <param name="xmlReader">
-        /// An instance of <see cref="XmlReader"/>
-        /// </param>
-        /// <param name="references">
-        /// The collection of string-based unique identifiers
-        /// </param>
-        /// <param name="localName">
-        /// the name of the multi-value reference property used to verify that the cursor of the 
-        /// <see cref="XmlReader"/> is at the right position
-        /// </param>
-        protected void CollectMultiValueReferencePropertyIdentifiers(XmlReader xmlReader, List<string> references, string localName)
-        {
-            if (xmlReader == null)
-            {
-                throw new ArgumentNullException(nameof(xmlReader));
-            }
-
-            if (references == null)
-            {
-                throw new ArgumentNullException(nameof(references));
-            }
-
-            if (localName != xmlReader.LocalName)
-            {
-                throw new InvalidOperationException($"LocalName:{xmlReader.LocalName} is not equal to the provided localName:{localName}");
-            }
-
-            using var subXmlReader = xmlReader.ReadSubtree();
-
-            if (subXmlReader.MoveToContent() == XmlNodeType.Element)
-            {
-                var href = subXmlReader.GetAttribute("href");
-                if (!string.IsNullOrEmpty(href))
-                {
-                    references.Add(href);
-                }
-                else if (subXmlReader.GetAttribute("xmi:idref") is { Length: > 0 } idRef)
-                {
-                    references.Add(idRef);
-                }
-                else
-                {
-                    throw new InvalidOperationException($"{xmlReader.LocalName} xml-attribute href or xmi:idref could not be read");
                 }
             }
         }

@@ -49,6 +49,6 @@ namespace uml4net.xmi.Readers
         /// <returns>
         /// An <see cref="XmiReaderResult"/> representing the deserialized packages from the XMI stream.
         /// </returns>
-        XmiReaderResult Read(Stream stream);
+        XmiReaderResult Read(Stream stream, string documentName);
     }
 }
