@@ -224,13 +224,17 @@ namespace uml4net.xmi.Readers
 
                                 break;
                             case "uml:Profile":
-                                using (var profileXmlReader = xmlReader.ReadSubtree())
+                                var profile = (IProfile)xmiElementReaderFacade.QueryXmiElement(xmlReader, this.cache, this.loggerFactory, "uml:Profile");
+                                xmiReaderResult.Packages.Add(profile);
+
+                                if (isRoot)
                                 {
-                                    Console.WriteLine("profileXmlReader not yet implemented");
+                                    xmiReaderResult.Root = profile;
                                 }
+
                                 break;
                             default:
-                                this.logger.LogWarning("XmiReader: {LocalName} at line:position {DefaultLineInfo}", xmlReader.LocalName, defaultLineInfo);
+                                this.logger.LogWarning("XmiReader: {LocalName} at line:position {Line}:{Position} was not read", xmlReader.LocalName, defaultLineInfo.LineNumber, defaultLineInfo.LinePosition);
                                 break;
                         }
                     }

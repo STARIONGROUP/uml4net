@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmi:XMI xmlns:mofext="http://www.omg.org/spec/MOF/20131001" xmlns:uml="http://www.omg.org/spec/UML/20131001" xmlns:xmi="http://www.omg.org/spec/XMI/20131001">
+  <uml:Package xmi:type="uml:Package" xmi:id="_XMI" name="XMI" URI="http://www.omg.org/spec/XMI/20131001">
+    <packagedElement xmi:type="uml:Class" name="Delete" xmi:id="_XMI-Delete">
+      <generalization xmi:type="uml:Generalization" xmi:id="_XMI-Delete-Generalization.0">
+        <general xmi:idref="_XMI-Difference"/>
+      </generalization>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Association" name="A_addition_add" xmi:id="_XMI-A_addition_add">
+      <memberEnd xmi:idref="_XMI-A_addition_add-add"/>
+      <memberEnd xmi:idref="_XMI-Add-addition"/>
+      <ownedEnd xmi:type="uml:Property" name="add" visibility="public" xmi:id="_XMI-A_addition_add-add">
+        <type xmi:idref="_XMI-Add"/>
+        <association xmi:idref="_XMI-A_addition_add"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" value="*" xmi:id="_XMI-A_addition_add-add-LiteralUnlimitedNatural.2"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_XMI-A_addition_add-add-LiteralInteger.3"/>
+      </ownedEnd>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Class" name="Documentation" xmi:id="_XMI-Documentation">
+      <ownedAttribute xmi:type="uml:Property" name="contact" visibility="public" xmi:id="_XMI-Documentation-contact">
+        <type href="http://www.omg.org/spec/UML/20131001/PrimitiveTypes.xmi#String"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_XMI-Documentation-contact-LiteralInteger.1"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:type="uml:Property" name="exporter" visibility="public" xmi:id="_XMI-Documentation-exporter">
+        <type href="http://www.omg.org/spec/UML/20131001/PrimitiveTypes.xmi#String"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_XMI-Documentation-exporter-LiteralInteger.1"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:type="uml:Property" name="exporterVersion" visibility="public" xmi:id="_XMI-Documentation-exporterVersion">
+        <type href="http://www.omg.org/spec/UML/20131001/PrimitiveTypes.xmi#String"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_XMI-Documentation-exporterVersion-LiteralInteger.1"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:type="uml:Property" name="exporterID" visibility="public" xmi:id="_XMI-Documentation-exporterID">
+        <type href="http://www.omg.org/spec/UML/20131001/PrimitiveTypes.xmi#String"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_XMI-Documentation-exporterID-LiteralInteger.1"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:type="uml:Property" name="longDescription" visibility="public" xmi:id="_XMI-Documentation-longDescription">
+        <type href="http://www.omg.org/spec/UML/20131001/PrimitiveTypes.xmi#String"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" value="*" xmi:id="_XMI-Documentation-longDescription-LiteralUnlimitedNatural.1"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_XMI-Documentation-longDescription-LiteralInteger.2"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:type="uml:Property" name="shortDescription" visibility="public" xmi:id="_XMI-Documentation-shortDescription">
+        <type href="http://www.omg.org/spec/UML/20131001/PrimitiveTypes.xmi#String"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" value="*" xmi:id="_XMI-Documentation-shortDescription-LiteralUnlimitedNatural.1"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_XMI-Documentation-shortDescription-LiteralInteger.2"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:type="uml:Property" name="notice" visibility="public" xmi:id="_XMI-Documentation-notice">
+        <type href="http://www.omg.org/spec/UML/20131001/PrimitiveTypes.xmi#String"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" value="*" xmi:id="_XMI-Documentation-notice-LiteralUnlimitedNatural.1"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_XMI-Documentation-notice-LiteralInteger.2"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:type="uml:Property" name="owner" visibility="public" xmi:id="_XMI-Documentation-owner">
+        <type href="http://www.omg.org/spec/UML/20131001/PrimitiveTypes.xmi#String"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" value="*" xmi:id="_XMI-Documentation-owner-LiteralUnlimitedNatural.1"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_XMI-Documentation-owner-LiteralInteger.2"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:type="uml:Property" name="timestamp" visibility="public" xmi:id="_XMI-Documentation-timestamp">
+        <type xmi:idref="_XMI-DateTime"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_XMI-Documentation-timestamp-LiteralInteger.1"/>
+      </ownedAttribute>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Association" name="A_container_difference" xmi:id="_XMI-A_container_difference">
+      <memberEnd xmi:idref="_XMI-Difference-container"/>
+      <memberEnd xmi:idref="_XMI-Difference-difference"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Association" name="A_target_difference" xmi:id="_XMI-A_target_difference">
+      <memberEnd xmi:idref="_XMI-A_target_difference-difference"/>
+      <memberEnd xmi:idref="_XMI-Difference-target"/>
+      <ownedEnd xmi:type="uml:Property" name="difference" visibility="public" xmi:id="_XMI-A_target_difference-difference">
+        <type xmi:idref="_XMI-Difference"/>
+        <association xmi:idref="_XMI-A_target_difference"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" value="*" xmi:id="_XMI-A_target_difference-difference-LiteralUnlimitedNatural.2"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_XMI-A_target_difference-difference-LiteralInteger.3"/>
+      </ownedEnd>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Class" name="Difference" isAbstract="true" xmi:id="_XMI-Difference">
+      <ownedAttribute xmi:type="uml:Property" name="container" visibility="public" xmi:id="_XMI-Difference-container">
+        <type xmi:idref="_XMI-Difference"/>
+        <association xmi:idref="_XMI-A_container_difference"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_XMI-Difference-container-LiteralInteger.2"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:type="uml:Property" name="difference" visibility="public" aggregation="composite" xmi:id="_XMI-Difference-difference">
+        <type xmi:idref="_XMI-Difference"/>
+        <association xmi:idref="_XMI-A_container_difference"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" value="*" xmi:id="_XMI-Difference-difference-LiteralUnlimitedNatural.2"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_XMI-Difference-difference-LiteralInteger.3"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:type="uml:Property" name="target" visibility="public" xmi:id="_XMI-Difference-target">
+        <association xmi:idref="_XMI-A_target_difference"/>
+        <type href="http://www.omg.org/spec/UML/20131001/UML.xmi#Element"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" value="*" xmi:id="_XMI-Difference-target-LiteralUnlimitedNatural.2"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_XMI-Difference-target-LiteralInteger.3"/>
+      </ownedAttribute>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Class" name="Extension" xmi:id="_XMI-Extension">
+      <ownedAttribute xmi:type="uml:Property" name="extender" visibility="public" xmi:id="_XMI-Extension-extender">
+        <type href="http://www.omg.org/spec/UML/20131001/PrimitiveTypes.xmi#String"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:type="uml:Property" name="extenderID" visibility="public" xmi:id="_XMI-Extension-extenderID">
+        <type href="http://www.omg.org/spec/UML/20131001/PrimitiveTypes.xmi#String"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_XMI-Extension-extenderID-LiteralInteger.1"/>
+      </ownedAttribute>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Class" name="XMI" xmi:id="_XMI-XMI">
+      <ownedAttribute xmi:type="uml:Property" name="documentation" visibility="public" xmi:id="_XMI-XMI-documentation">
+        <type xmi:idref="_XMI-Documentation"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_XMI-XMI-documentation-LiteralInteger.1"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:type="uml:Property" name="difference" visibility="public" xmi:id="_XMI-XMI-difference">
+        <type xmi:idref="_XMI-Difference"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" value="*" xmi:id="_XMI-XMI-difference-LiteralUnlimitedNatural.1"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_XMI-XMI-difference-LiteralInteger.2"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:type="uml:Property" name="extension" visibility="public" xmi:id="_XMI-XMI-extension">
+        <type xmi:idref="_XMI-Extension"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" value="*" xmi:id="_XMI-XMI-extension-LiteralUnlimitedNatural.1"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_XMI-XMI-extension-LiteralInteger.2"/>
+      </ownedAttribute>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Class" name="Replace" xmi:id="_XMI-Replace">
+      <generalization xmi:type="uml:Generalization" xmi:id="_XMI-Replace-Generalization.0">
+        <general xmi:idref="_XMI-Difference"/>
+      </generalization>
+      <ownedAttribute xmi:type="uml:Property" name="position" visibility="public" xmi:id="_XMI-Replace-position">
+        <type href="http://www.omg.org/spec/UML/20131001/PrimitiveTypes.xmi#Integer"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_XMI-Replace-position-LiteralInteger.1"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:type="uml:Property" name="replacement" visibility="public" xmi:id="_XMI-Replace-replacement">
+        <association xmi:idref="_XMI-A_replacement_replace"/>
+        <type href="http://www.omg.org/spec/UML/20131001/UML.xmi#Element"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" value="*" xmi:id="_XMI-Replace-replacement-LiteralUnlimitedNatural.2"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_XMI-Replace-replacement-LiteralInteger.3"/>
+      </ownedAttribute>
+    </packagedElement>
+    <packagedElement xmi:type="uml:PrimitiveType" name="DateTime" xmi:id="_XMI-DateTime"/>
+    <packagedElement xmi:type="uml:Association" name="A_replacement_replace" xmi:id="_XMI-A_replacement_replace">
+      <memberEnd xmi:idref="_XMI-A_replacement_replace-replace"/>
+      <memberEnd xmi:idref="_XMI-Replace-replacement"/>
+      <ownedEnd xmi:type="uml:Property" name="replace" visibility="public" xmi:id="_XMI-A_replacement_replace-replace">
+        <type xmi:idref="_XMI-Replace"/>
+        <association xmi:idref="_XMI-A_replacement_replace"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" value="*" xmi:id="_XMI-A_replacement_replace-replace-LiteralUnlimitedNatural.2"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_XMI-A_replacement_replace-replace-LiteralInteger.3"/>
+      </ownedEnd>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Class" name="Add" xmi:id="_XMI-Add">
+      <generalization xmi:type="uml:Generalization" xmi:id="_XMI-Add-Generalization.0">
+        <general xmi:idref="_XMI-Difference"/>
+      </generalization>
+      <ownedAttribute xmi:type="uml:Property" name="position" visibility="public" xmi:id="_XMI-Add-position">
+        <type href="http://www.omg.org/spec/UML/20131001/PrimitiveTypes.xmi#Integer"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_XMI-Add-position-LiteralInteger.1"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:type="uml:Property" name="addition" visibility="public" xmi:id="_XMI-Add-addition">
+        <association xmi:idref="_XMI-A_addition_add"/>
+        <type href="http://www.omg.org/spec/UML/20131001/UML.xmi#Element"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" value="*" xmi:id="_XMI-Add-addition-LiteralUnlimitedNatural.2"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_XMI-Add-addition-LiteralInteger.3"/>
+      </ownedAttribute>
+    </packagedElement>
+  </uml:Package>
+  <mofext:Tag xmi:type="mofext:Tag" xmi:id="_org.omg.xmi.nsPrefix" name="org.omg.xmi.nsPrefix" value="xmi">
+    <element xmi:idref="_XMI"/>
+  </mofext:Tag>
+  <mofext:Tag xmi:type="mofext:Tag" xmi:id="_org.omg.xmi.superClassFirst" name="org.omg.xmi.superClassFirst" value="true">
+    <element xmi:idref="_XMI"/>
+  </mofext:Tag>
+  <mofext:Tag xmi:type="mofext:Tag" xmi:id="_org.omg.xmi.useSchemaExtension" name="org.omg.xmi.useSchemaExtension" value="true">
+    <element xmi:idref="_XMI"/>
+  </mofext:Tag>
+  <mofext:Tag xmi:type="mofext:Tag" xmi:id="_org.omg.xmi.element" name="org.omg.xmi.element" value="true">
+    <element xmi:idref="_XMI"/>
+  </mofext:Tag>
+  <mofext:Tag xmi:type="mofext:Tag" xmi:id="_org.omg.xmi.attribute" name="org.omg.xmi.attribute" value="false">
+    <element xmi:idref="_XMI"/>
+  </mofext:Tag>
+  <mofext:Tag xmi:type="mofext:Tag" xmi:id="_org.omg.xmi.schemaType" name="org.omg.xmi.schemaType" value="http://www.w3.org/2001/XMLSchema#dateTime">
+    <element xmi:idref="_XMI-DateTime"/>
+  </mofext:Tag>
+</xmi:XMI>

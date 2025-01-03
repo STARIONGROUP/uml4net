@@ -1,0 +1,1498 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmi:XMI xmlns:xmi="http://www.omg.org/spec/XMI/20131001" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:uml="http://www.omg.org/spec/UML/20161101" xmlns:mofext="http://www.omg.org/spec/MOF/20131001" xmlns:SysML="https://www.omg.org/spec/SysML/20240101/SysML.xmi" xmlns:StandardProfile="http://www.omg.org/spec/UML/20161101/StandardProfile">
+  <uml:Package xmi:id="QUDV" URI="https://www.omg.org/spec/SysML/20240101/QUDV" name="QUDV">
+    <packageImport xmi:id="QUDV._packageImport.SysML.Libraries.PrimitiveValueTypes" xmi:type="uml:PackageImport">
+      <importedPackage href="https://www.omg.org/spec/SysML/20240101/SysML.xmi#SysML.Libraries.PrimitiveValueTypes"/>
+    </packageImport>
+    <packageImport xmi:id="QUDV._packageImport.StandardProfile" xmi:type="uml:PackageImport">
+      <importedPackage href="http://www.omg.org/spec/UML/20161101/StandardProfile.xmi#_0"/>
+    </packageImport>
+    <packageImport xmi:id="QUDV._packageImport.SysML.Libraries.UnitAndQuantityKind" xmi:type="uml:PackageImport">
+      <importedPackage href="https://www.omg.org/spec/SysML/20240101/SysML.xmi#SysML.Libraries.UnitAndQuantityKind"/>
+    </packageImport>
+    <packagedElement xmi:id="QUDV.A_conversionBasedUnit_referenceUnit" xmi:type="uml:Association" name="A_conversionBasedUnit_referenceUnit">
+      <memberEnd xmi:idref="QUDV.A_conversionBasedUnit_referenceUnit.conversionBasedUnit"/>
+      <memberEnd xmi:idref="QUDV.ConversionBasedUnit.referenceUnit"/>
+      <ownedEnd xmi:id="QUDV.A_conversionBasedUnit_referenceUnit.conversionBasedUnit" xmi:type="uml:Property" name="conversionBasedUnit">
+        <association xmi:idref="QUDV.A_conversionBasedUnit_referenceUnit"/>
+        <lowerValue xmi:id="QUDV.A_conversionBasedUnit_referenceUnit.conversionBasedUnit.lowerValue0" xmi:type="uml:LiteralInteger" name=""/>
+        <type xmi:idref="QUDV.ConversionBasedUnit"/>
+        <upperValue xmi:id="QUDV.A_conversionBasedUnit_referenceUnit.conversionBasedUnit.upperValue0" xmi:type="uml:LiteralUnlimitedNatural" name="" value="*"/>
+      </ownedEnd>
+    </packagedElement>
+    <packagedElement xmi:id="QUDV.A_derivedQuantityKind_factor" xmi:type="uml:Association" name="A_derivedQuantityKind_factor">
+      <memberEnd xmi:idref="QUDV.A_derivedQuantityKind_factor.derivedQuantityKind"/>
+      <memberEnd xmi:idref="QUDV.DerivedQuantityKind.factor"/>
+      <ownedEnd xmi:id="QUDV.A_derivedQuantityKind_factor.derivedQuantityKind" xmi:type="uml:Property" name="derivedQuantityKind">
+        <association xmi:idref="QUDV.A_derivedQuantityKind_factor"/>
+        <lowerValue xmi:id="QUDV.A_derivedQuantityKind_factor.derivedQuantityKind.lowerValue0" xmi:type="uml:LiteralInteger" name=""/>
+        <type xmi:idref="QUDV.DerivedQuantityKind"/>
+        <upperValue xmi:id="QUDV.A_derivedQuantityKind_factor.derivedQuantityKind.upperValue0" xmi:type="uml:LiteralUnlimitedNatural" name="" value="*"/>
+      </ownedEnd>
+    </packagedElement>
+    <packagedElement xmi:id="QUDV.A_derivedUnit_factor" xmi:type="uml:Association" name="A_derivedUnit_factor">
+      <memberEnd xmi:idref="QUDV.A_derivedUnit_factor.derivedUnit"/>
+      <memberEnd xmi:idref="QUDV.DerivedUnit.factor"/>
+      <ownedEnd xmi:id="QUDV.A_derivedUnit_factor.derivedUnit" xmi:type="uml:Property" name="derivedUnit">
+        <association xmi:idref="QUDV.A_derivedUnit_factor"/>
+        <lowerValue xmi:id="QUDV.A_derivedUnit_factor.derivedUnit.lowerValue0" xmi:type="uml:LiteralInteger" name=""/>
+        <type xmi:idref="QUDV.DerivedUnit"/>
+        <upperValue xmi:id="QUDV.A_derivedUnit_factor.derivedUnit.upperValue0" xmi:type="uml:LiteralUnlimitedNatural" name="" value="*"/>
+      </ownedEnd>
+    </packagedElement>
+    <packagedElement xmi:id="QUDV.A_dimension_factor" xmi:type="uml:Association" name="A_dimension_factor">
+      <memberEnd xmi:idref="QUDV.A_dimension_factor.dimension"/>
+      <memberEnd xmi:idref="QUDV.Dimension.factor"/>
+      <ownedEnd xmi:id="QUDV.A_dimension_factor.dimension" xmi:type="uml:Property" name="dimension">
+        <association xmi:idref="QUDV.A_dimension_factor"/>
+        <lowerValue xmi:id="QUDV.A_dimension_factor.dimension.lowerValue0" xmi:type="uml:LiteralInteger" name="" value="1"/>
+        <type xmi:idref="QUDV.Dimension"/>
+        <upperValue xmi:id="QUDV.A_dimension_factor.dimension.upperValue0" xmi:type="uml:LiteralUnlimitedNatural" name="" value="1"/>
+      </ownedEnd>
+    </packagedElement>
+    <packagedElement xmi:id="QUDV.A_generalQuantityKind_specificQuantityKind" xmi:type="uml:Association" name="A_generalQuantityKind_specificQuantityKind">
+      <memberEnd xmi:idref="QUDV.QuantityKind.general"/>
+      <memberEnd xmi:idref="QUDV.A_generalQuantityKind_specificQuantityKind.specific"/>
+      <ownedEnd xmi:id="QUDV.A_generalQuantityKind_specificQuantityKind.specific" xmi:type="uml:Property" name="specific">
+        <association xmi:idref="QUDV.A_generalQuantityKind_specificQuantityKind"/>
+        <lowerValue xmi:id="QUDV.A_generalQuantityKind_specificQuantityKind.specific.lowerValue0" xmi:type="uml:LiteralInteger" name=""/>
+        <type xmi:idref="QUDV.QuantityKind"/>
+        <upperValue xmi:id="QUDV.A_generalQuantityKind_specificQuantityKind.specific.upperValue0" xmi:type="uml:LiteralUnlimitedNatural" name="" value="*"/>
+      </ownedEnd>
+    </packagedElement>
+    <packagedElement xmi:id="QUDV.A_generalUnit_specificUnit" xmi:type="uml:Association" name="A_generalUnit_specificUnit">
+      <memberEnd xmi:idref="QUDV.A_generalUnit_specificUnit.specific"/>
+      <memberEnd xmi:idref="QUDV.Unit.general"/>
+      <ownedEnd xmi:id="QUDV.A_generalUnit_specificUnit.specific" xmi:type="uml:Property" name="specific">
+        <association xmi:idref="QUDV.A_generalUnit_specificUnit"/>
+        <lowerValue xmi:id="QUDV.A_generalUnit_specificUnit.specific.lowerValue0" xmi:type="uml:LiteralInteger" name=""/>
+        <type xmi:idref="QUDV.Unit"/>
+        <upperValue xmi:id="QUDV.A_generalUnit_specificUnit.specific.upperValue0" xmi:type="uml:LiteralUnlimitedNatural" name="" value="*"/>
+      </ownedEnd>
+    </packagedElement>
+    <packagedElement xmi:id="QUDV.A_includedSystemOfQuantities_systemOfQuantities" xmi:type="uml:Association" name="A_includedSystemOfQuantities_systemOfQuantities">
+      <memberEnd xmi:idref="QUDV.A_includedSystemOfQuantities_systemOfQuantities.systemOfQuantities"/>
+      <memberEnd xmi:idref="QUDV.SystemOfQuantities.includedSystemOfQuantities"/>
+      <ownedEnd xmi:id="QUDV.A_includedSystemOfQuantities_systemOfQuantities.systemOfQuantities" xmi:type="uml:Property" name="systemOfQuantities">
+        <association xmi:idref="QUDV.A_includedSystemOfQuantities_systemOfQuantities"/>
+        <lowerValue xmi:id="QUDV.A_includedSystemOfQuantities_systemOfQuantities.systemOfQuantities.lowerValue0" xmi:type="uml:LiteralInteger" name=""/>
+        <type xmi:idref="QUDV.SystemOfQuantities"/>
+        <upperValue xmi:id="QUDV.A_includedSystemOfQuantities_systemOfQuantities.systemOfQuantities.upperValue0" xmi:type="uml:LiteralUnlimitedNatural" name="" value="*"/>
+      </ownedEnd>
+    </packagedElement>
+    <packagedElement xmi:id="QUDV.A_includedSystemOfUnits_systemOfUnits" xmi:type="uml:Association" name="A_includedSystemOfUnits_systemOfUnits">
+      <memberEnd xmi:idref="QUDV.A_includedSystemOfUnits_systemOfUnits.systemOfUnits"/>
+      <memberEnd xmi:idref="QUDV.SystemOfUnits.includedSystemOfUnits"/>
+      <ownedEnd xmi:id="QUDV.A_includedSystemOfUnits_systemOfUnits.systemOfUnits" xmi:type="uml:Property" name="systemOfUnits">
+        <association xmi:idref="QUDV.A_includedSystemOfUnits_systemOfUnits"/>
+        <lowerValue xmi:id="QUDV.A_includedSystemOfUnits_systemOfUnits.systemOfUnits.lowerValue0" xmi:type="uml:LiteralInteger" name=""/>
+        <type xmi:idref="QUDV.SystemOfUnits"/>
+        <upperValue xmi:id="QUDV.A_includedSystemOfUnits_systemOfUnits.systemOfUnits.upperValue0" xmi:type="uml:LiteralUnlimitedNatural" name="" value="*"/>
+      </ownedEnd>
+    </packagedElement>
+    <packagedElement xmi:id="QUDV.A_prefixedUnit_prefix" xmi:type="uml:Association" name="A_prefixedUnit_prefix">
+      <memberEnd xmi:idref="QUDV.A_prefixedUnit_prefix.prefixedUnit"/>
+      <memberEnd xmi:idref="QUDV.PrefixedUnit.prefix"/>
+      <ownedEnd xmi:id="QUDV.A_prefixedUnit_prefix.prefixedUnit" xmi:type="uml:Property" name="prefixedUnit">
+        <association xmi:idref="QUDV.A_prefixedUnit_prefix"/>
+        <lowerValue xmi:id="QUDV.A_prefixedUnit_prefix.prefixedUnit.lowerValue0" xmi:type="uml:LiteralInteger" name=""/>
+        <type xmi:idref="QUDV.PrefixedUnit"/>
+        <upperValue xmi:id="QUDV.A_prefixedUnit_prefix.prefixedUnit.upperValue0" xmi:type="uml:LiteralUnlimitedNatural" name="" value="*"/>
+      </ownedEnd>
+    </packagedElement>
+    <packagedElement xmi:id="QUDV.A_quantityKindFactor_quantityKind" xmi:type="uml:Association" name="A_quantityKindFactor_quantityKind">
+      <memberEnd xmi:idref="QUDV.A_quantityKindFactor_quantityKind.quantityKindFactor"/>
+      <memberEnd xmi:idref="QUDV.QuantityKindFactor.quantityKind"/>
+      <ownedEnd xmi:id="QUDV.A_quantityKindFactor_quantityKind.quantityKindFactor" xmi:type="uml:Property" name="quantityKindFactor">
+        <association xmi:idref="QUDV.A_quantityKindFactor_quantityKind"/>
+        <lowerValue xmi:id="QUDV.A_quantityKindFactor_quantityKind.quantityKindFactor.lowerValue0" xmi:type="uml:LiteralInteger" name=""/>
+        <type xmi:idref="QUDV.QuantityKindFactor"/>
+        <upperValue xmi:id="QUDV.A_quantityKindFactor_quantityKind.quantityKindFactor.upperValue0" xmi:type="uml:LiteralUnlimitedNatural" name="" value="*"/>
+      </ownedEnd>
+    </packagedElement>
+    <packagedElement xmi:id="QUDV.A_quantityKind_measurementUnit" xmi:type="uml:Association" name="A_quantityKind_measurementUnit">
+      <generalization xmi:id="QUDV.A_quantityKind_measurementUnit._generalization.SysML.A_quantityKind_unit" xmi:type="uml:Generalization">
+        <general href="https://www.omg.org/spec/SysML/20240101/SysML.xmi#SysML.A_quantityKind_unit"/>
+      </generalization>
+      <memberEnd xmi:idref="QUDV.Unit.quantityKind"/>
+      <memberEnd xmi:idref="QUDV.A_quantityKind_measurementUnit.measurementUnit"/>
+      <ownedEnd xmi:id="QUDV.A_quantityKind_measurementUnit.measurementUnit" xmi:type="uml:Property" name="measurementUnit">
+        <association xmi:idref="QUDV.A_quantityKind_measurementUnit"/>
+        <lowerValue xmi:id="QUDV.A_quantityKind_measurementUnit.measurementUnit.lowerValue0" xmi:type="uml:LiteralInteger" name=""/>
+        <redefinedProperty href="https://www.omg.org/spec/SysML/20240101/SysML.xmi#SysML.A_quantityKind_unit.unit"/>
+        <type xmi:idref="QUDV.Unit"/>
+        <upperValue xmi:id="QUDV.A_quantityKind_measurementUnit.measurementUnit.upperValue0" xmi:type="uml:LiteralUnlimitedNatural" name="" value="*"/>
+      </ownedEnd>
+    </packagedElement>
+    <packagedElement xmi:id="QUDV.A_systemOfQuantities_baseQuantityKind" xmi:type="uml:Association" name="A_systemOfQuantities_baseQuantityKind">
+      <generalization xmi:id="QUDV.A_systemOfQuantities_baseQuantityKind._generalization.QUDV.A_systemOfQuantities_quantityKind" xmi:type="uml:Generalization">
+        <general xmi:idref="QUDV.A_systemOfQuantities_quantityKind"/>
+      </generalization>
+      <memberEnd xmi:idref="QUDV.A_systemOfQuantities_baseQuantityKind.systemOfQuantities"/>
+      <memberEnd xmi:idref="QUDV.SystemOfQuantities.baseQuantityKind"/>
+      <ownedEnd xmi:id="QUDV.A_systemOfQuantities_baseQuantityKind.systemOfQuantities" xmi:type="uml:Property" name="systemOfQuantities">
+        <association xmi:idref="QUDV.A_systemOfQuantities_baseQuantityKind"/>
+        <lowerValue xmi:id="QUDV.A_systemOfQuantities_baseQuantityKind.systemOfQuantities.lowerValue0" xmi:type="uml:LiteralInteger" name=""/>
+        <subsettedProperty xmi:idref="QUDV.A_systemOfQuantities_quantityKind.systemOfQuantities"/>
+        <type xmi:idref="QUDV.SystemOfQuantities"/>
+        <upperValue xmi:id="QUDV.A_systemOfQuantities_baseQuantityKind.systemOfQuantities.upperValue0" xmi:type="uml:LiteralUnlimitedNatural" name="" value="1"/>
+      </ownedEnd>
+    </packagedElement>
+    <packagedElement xmi:id="QUDV.A_systemOfQuantities_dimension" xmi:type="uml:Association" name="A_systemOfQuantities_dimension">
+      <memberEnd xmi:idref="QUDV.A_systemOfQuantities_dimension.systemOfQuantities"/>
+      <memberEnd xmi:idref="QUDV.SystemOfQuantities.dimension"/>
+      <ownedEnd xmi:id="QUDV.A_systemOfQuantities_dimension.systemOfQuantities" xmi:type="uml:Property" name="systemOfQuantities">
+        <association xmi:idref="QUDV.A_systemOfQuantities_dimension"/>
+        <lowerValue xmi:id="QUDV.A_systemOfQuantities_dimension.systemOfQuantities.lowerValue0" xmi:type="uml:LiteralInteger" name="" value="1"/>
+        <type xmi:idref="QUDV.SystemOfQuantities"/>
+        <upperValue xmi:id="QUDV.A_systemOfQuantities_dimension.systemOfQuantities.upperValue0" xmi:type="uml:LiteralUnlimitedNatural" name="" value="*"/>
+      </ownedEnd>
+    </packagedElement>
+    <packagedElement xmi:id="QUDV.A_systemOfQuantities_quantityKind" xmi:type="uml:Association" name="A_systemOfQuantities_quantityKind">
+      <memberEnd xmi:idref="QUDV.A_systemOfQuantities_quantityKind.systemOfQuantities"/>
+      <memberEnd xmi:idref="QUDV.SystemOfQuantities.quantityKind"/>
+      <ownedEnd xmi:id="QUDV.A_systemOfQuantities_quantityKind.systemOfQuantities" xmi:type="uml:Property" name="systemOfQuantities">
+        <association xmi:idref="QUDV.A_systemOfQuantities_quantityKind"/>
+        <lowerValue xmi:id="QUDV.A_systemOfQuantities_quantityKind.systemOfQuantities.lowerValue0" xmi:type="uml:LiteralInteger" name=""/>
+        <type xmi:idref="QUDV.SystemOfQuantities"/>
+        <upperValue xmi:id="QUDV.A_systemOfQuantities_quantityKind.systemOfQuantities.upperValue0" xmi:type="uml:LiteralUnlimitedNatural" name="" value="1"/>
+      </ownedEnd>
+    </packagedElement>
+    <packagedElement xmi:id="QUDV.A_systemOfUnits_baseUnit" xmi:type="uml:Association" name="A_systemOfUnits_baseUnit">
+      <generalization xmi:id="QUDV.A_systemOfUnits_baseUnit._generalization.QUDV.A_systemOfUnits_unit" xmi:type="uml:Generalization">
+        <general xmi:idref="QUDV.A_systemOfUnits_unit"/>
+      </generalization>
+      <memberEnd xmi:idref="QUDV.A_systemOfUnits_baseUnit.systemOfUnits"/>
+      <memberEnd xmi:idref="QUDV.SystemOfUnits.baseUnit"/>
+      <ownedEnd xmi:id="QUDV.A_systemOfUnits_baseUnit.systemOfUnits" xmi:type="uml:Property" name="systemOfUnits">
+        <association xmi:idref="QUDV.A_systemOfUnits_baseUnit"/>
+        <lowerValue xmi:id="QUDV.A_systemOfUnits_baseUnit.systemOfUnits.lowerValue0" xmi:type="uml:LiteralInteger" name=""/>
+        <subsettedProperty xmi:idref="QUDV.A_systemOfUnits_unit.systemOfUnits"/>
+        <type xmi:idref="QUDV.SystemOfUnits"/>
+        <upperValue xmi:id="QUDV.A_systemOfUnits_baseUnit.systemOfUnits.upperValue0" xmi:type="uml:LiteralUnlimitedNatural" name="" value="1"/>
+      </ownedEnd>
+    </packagedElement>
+    <packagedElement xmi:id="QUDV.A_systemOfUnits_prefix" xmi:type="uml:Association" name="A_systemOfUnits_prefix">
+      <memberEnd xmi:idref="QUDV.A_systemOfUnits_prefix.systemOfUnits"/>
+      <memberEnd xmi:idref="QUDV.SystemOfUnits.prefix"/>
+      <ownedEnd xmi:id="QUDV.A_systemOfUnits_prefix.systemOfUnits" xmi:type="uml:Property" name="systemOfUnits">
+        <association xmi:idref="QUDV.A_systemOfUnits_prefix"/>
+        <lowerValue xmi:id="QUDV.A_systemOfUnits_prefix.systemOfUnits.lowerValue0" xmi:type="uml:LiteralInteger" name=""/>
+        <type xmi:idref="QUDV.SystemOfUnits"/>
+        <upperValue xmi:id="QUDV.A_systemOfUnits_prefix.systemOfUnits.upperValue0" xmi:type="uml:LiteralUnlimitedNatural" name="" value="*"/>
+      </ownedEnd>
+    </packagedElement>
+    <packagedElement xmi:id="QUDV.A_systemOfUnits_systemOfQuantities" xmi:type="uml:Association" name="A_systemOfUnits_systemOfQuantities">
+      <memberEnd xmi:idref="QUDV.A_systemOfUnits_systemOfQuantities.systemOfUnits"/>
+      <memberEnd xmi:idref="QUDV.SystemOfUnits.systemOfQuantities"/>
+      <ownedEnd xmi:id="QUDV.A_systemOfUnits_systemOfQuantities.systemOfUnits" xmi:type="uml:Property" name="systemOfUnits">
+        <association xmi:idref="QUDV.A_systemOfUnits_systemOfQuantities"/>
+        <lowerValue xmi:id="QUDV.A_systemOfUnits_systemOfQuantities.systemOfUnits.lowerValue0" xmi:type="uml:LiteralInteger" name=""/>
+        <type xmi:idref="QUDV.SystemOfUnits"/>
+        <upperValue xmi:id="QUDV.A_systemOfUnits_systemOfQuantities.systemOfUnits.upperValue0" xmi:type="uml:LiteralUnlimitedNatural" name="" value="*"/>
+      </ownedEnd>
+    </packagedElement>
+    <packagedElement xmi:id="QUDV.A_systemOfUnits_unit" xmi:type="uml:Association" name="A_systemOfUnits_unit">
+      <memberEnd xmi:idref="QUDV.A_systemOfUnits_unit.systemOfUnits"/>
+      <memberEnd xmi:idref="QUDV.SystemOfUnits.unit"/>
+      <ownedEnd xmi:id="QUDV.A_systemOfUnits_unit.systemOfUnits" xmi:type="uml:Property" name="systemOfUnits">
+        <association xmi:idref="QUDV.A_systemOfUnits_unit"/>
+        <lowerValue xmi:id="QUDV.A_systemOfUnits_unit.systemOfUnits.lowerValue0" xmi:type="uml:LiteralInteger" name=""/>
+        <type xmi:idref="QUDV.SystemOfUnits"/>
+        <upperValue xmi:id="QUDV.A_systemOfUnits_unit.systemOfUnits.upperValue0" xmi:type="uml:LiteralUnlimitedNatural" name="" value="1"/>
+      </ownedEnd>
+    </packagedElement>
+    <packagedElement xmi:id="QUDV.A_uantityKind_refixedUnit" xmi:type="uml:Association" name="A_uantityKind_refixedUnit">
+      <generalization xmi:id="QUDV.A_uantityKind_refixedUnit._generalization.QUDV.A_quantityKind_measurementUnit" xmi:type="uml:Generalization">
+        <general xmi:idref="QUDV.A_quantityKind_measurementUnit"/>
+      </generalization>
+      <memberEnd xmi:idref="QUDV.PrefixedUnit.noQuantityKind"/>
+      <memberEnd xmi:idref="QUDV.A_uantityKind_refixedUnit.measurementUnit"/>
+      <ownedEnd xmi:id="QUDV.A_uantityKind_refixedUnit.measurementUnit" xmi:type="uml:Property" name="measurementUnit">
+        <association xmi:idref="QUDV.A_uantityKind_refixedUnit"/>
+        <lowerValue xmi:id="QUDV.A_uantityKind_refixedUnit.measurementUnit.lowerValue0" xmi:type="uml:LiteralInteger" name=""/>
+        <redefinedProperty xmi:idref="QUDV.A_quantityKind_measurementUnit.measurementUnit"/>
+        <type xmi:idref="QUDV.PrefixedUnit"/>
+        <upperValue xmi:id="QUDV.A_uantityKind_refixedUnit.measurementUnit.upperValue0" xmi:type="uml:LiteralUnlimitedNatural" name=""/>
+      </ownedEnd>
+    </packagedElement>
+    <packagedElement xmi:id="QUDV.A_unitFactor_unit" xmi:type="uml:Association" name="A_unitFactor_unit">
+      <memberEnd xmi:idref="QUDV.A_unitFactor_unit.unitFactor"/>
+      <memberEnd xmi:idref="QUDV.UnitFactor.unit"/>
+      <ownedEnd xmi:id="QUDV.A_unitFactor_unit.unitFactor" xmi:type="uml:Property" name="unitFactor">
+        <association xmi:idref="QUDV.A_unitFactor_unit"/>
+        <lowerValue xmi:id="QUDV.A_unitFactor_unit.unitFactor.lowerValue0" xmi:type="uml:LiteralInteger" name=""/>
+        <type xmi:idref="QUDV.UnitFactor"/>
+        <upperValue xmi:id="QUDV.A_unitFactor_unit.unitFactor.upperValue0" xmi:type="uml:LiteralUnlimitedNatural" name="" value="*"/>
+      </ownedEnd>
+    </packagedElement>
+    <packagedElement xmi:id="QUDV.A_usedSystemOfQuantities_systemOfQuantities" xmi:type="uml:Association" name="A_usedSystemOfQuantities_systemOfQuantities">
+      <memberEnd xmi:idref="QUDV.A_usedSystemOfQuantities_systemOfQuantities.systemOfQuantities"/>
+      <memberEnd xmi:idref="QUDV.SystemOfQuantities.usedSystemOfQuantities"/>
+      <ownedEnd xmi:id="QUDV.A_usedSystemOfQuantities_systemOfQuantities.systemOfQuantities" xmi:type="uml:Property" name="systemOfQuantities">
+        <association xmi:idref="QUDV.A_usedSystemOfQuantities_systemOfQuantities"/>
+        <lowerValue xmi:id="QUDV.A_usedSystemOfQuantities_systemOfQuantities.systemOfQuantities.lowerValue0" xmi:type="uml:LiteralInteger" name=""/>
+        <type xmi:idref="QUDV.SystemOfQuantities"/>
+        <upperValue xmi:id="QUDV.A_usedSystemOfQuantities_systemOfQuantities.systemOfQuantities.upperValue0" xmi:type="uml:LiteralUnlimitedNatural" name="" value="*"/>
+      </ownedEnd>
+    </packagedElement>
+    <packagedElement xmi:id="QUDV.A_usedSystemOfUnits_systemOfUnits" xmi:type="uml:Association" name="A_usedSystemOfUnits_systemOfUnits">
+      <memberEnd xmi:idref="QUDV.A_usedSystemOfUnits_systemOfUnits.systemOfUnits"/>
+      <memberEnd xmi:idref="QUDV.SystemOfUnits.usedSystemOfUnits"/>
+      <ownedEnd xmi:id="QUDV.A_usedSystemOfUnits_systemOfUnits.systemOfUnits" xmi:type="uml:Property" name="systemOfUnits">
+        <association xmi:idref="QUDV.A_usedSystemOfUnits_systemOfUnits"/>
+        <lowerValue xmi:id="QUDV.A_usedSystemOfUnits_systemOfUnits.systemOfUnits.lowerValue0" xmi:type="uml:LiteralInteger" name=""/>
+        <type xmi:idref="QUDV.SystemOfUnits"/>
+        <upperValue xmi:id="QUDV.A_usedSystemOfUnits_systemOfUnits.systemOfUnits.upperValue0" xmi:type="uml:LiteralUnlimitedNatural" name="" value="*"/>
+      </ownedEnd>
+    </packagedElement>
+    <packagedElement xmi:id="QUDV.AffineConversionUnit" xmi:type="uml:Class" name="AffineConversionUnit">
+      <generalization xmi:id="QUDV.AffineConversionUnit._generalization.QUDV.ConversionBasedUnit" xmi:type="uml:Generalization">
+        <general xmi:idref="QUDV.ConversionBasedUnit"/>
+      </generalization>
+      <ownedAttribute xmi:id="QUDV.AffineConversionUnit.factor" xmi:type="uml:Property" name="factor">
+        <lowerValue xmi:id="QUDV.AffineConversionUnit.factor.lowerValue0" xmi:type="uml:LiteralInteger" name="" value="1"/>
+        <ownedComment xmi:id="QUDV.AffineConversionUnit.factor._comment0" xmi:type="uml:Comment" body="Number that specifies the factor in the unit conversion relationship.">
+          <annotatedElement xmi:idref="QUDV.AffineConversionUnit.factor"/>
+        </ownedComment>
+        <type href="https://www.omg.org/spec/SysML/20240101/SysML.xmi#SysML_dataType.Number"/>
+        <upperValue xmi:id="QUDV.AffineConversionUnit.factor.upperValue0" xmi:type="uml:LiteralUnlimitedNatural" name="" value="1"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="QUDV.AffineConversionUnit.offset" xmi:type="uml:Property" name="offset">
+        <lowerValue xmi:id="QUDV.AffineConversionUnit.offset.lowerValue0" xmi:type="uml:LiteralInteger" name="" value="1"/>
+        <ownedComment xmi:id="QUDV.AffineConversionUnit.offset._comment0" xmi:type="uml:Comment" body="Number that specifies the offset in the unit conversion relationship.">
+          <annotatedElement xmi:idref="QUDV.AffineConversionUnit.offset"/>
+        </ownedComment>
+        <type href="https://www.omg.org/spec/SysML/20240101/SysML.xmi#SysML_dataType.Number"/>
+        <upperValue xmi:id="QUDV.AffineConversionUnit.offset.upperValue0" xmi:type="uml:LiteralUnlimitedNatural" name="" value="1"/>
+      </ownedAttribute>
+      <ownedComment xmi:id="QUDV.AffineConversionUnit._comment0" xmi:type="uml:Comment" body="&lt;p&gt; An AffineConversionUnit is a ConversionBasedUnit that represents a measurement unit that is defined with respect to another reference measurement unit through an affine conversion relationship with a conversion factor and offset. &lt;/p&gt;&lt;p&gt; The unit conversion relationship is defined by the following equation:&lt;/p&gt; &lt;p class=&quot;formula&quot;&gt;value&lt;sub&gt;RU&lt;/sub&gt; = factor * value&lt;sub&gt;CU&lt;/sub&gt; + offset&lt;/p&gt; &lt;p&gt; where:&lt;/p&gt;&lt;p&gt; &lt;span class=&quot;formula&quot;&gt;value&lt;sub&gt;RU&lt;/sub&gt;&lt;/span&gt; is the quantity value expressed in the referenceUnit, and,&lt;/p&gt;&lt;p&gt; &lt;span class=&quot;formula&quot;&gt;value&lt;sub&gt;CU&lt;/sub&gt;&lt;/span&gt; is the quantity value expressed in the AffineConversionUnit.&lt;/p&gt;&lt;p&gt; For example, in the definition of the AffineConversionUnit for &quot;degree Fahrenheit&quot; with respect to the referenceUnit &quot;degree Celsius,&quot; the factor would be &lt;span class=&quot;formula&quot;&gt;5/9&lt;/span&gt; and the offset would be &lt;span class=&quot;formula&quot;&gt;-160/9&lt;/span&gt;, because&lt;/p&gt;&lt;p&gt; &lt;span class=&quot;formula&quot;&gt;T&lt;sub&gt;Celsius&lt;/sub&gt; = 5/9 * T&lt;sub&gt;Fahrenheit&lt;/sub&gt; - 160/9&lt;/span&gt; which is equivalent with &lt;span class=&quot;formula&quot;&gt;T&lt;sub&gt;Fahrenheit&lt;/sub&gt; = 9/5 * T&lt;sub&gt;Celsius&lt;/sub&gt; + 32/1&lt;/span&gt;&lt;/p&gt;">
+        <annotatedElement xmi:idref="QUDV.AffineConversionUnit"/>
+</ownedComment>
+      <ownedRule xmi:id="QUDV.AffineConversionUnit._rule.invertible" xmi:type="uml:Constraint" name="invertible">
+        <specification xmi:id="QUDV.AffineConversionUnit._rule.invertible.specification0" xmi:type="uml:OpaqueExpression" body="isInvertible = true" language="OCL2.0" name=""/>
+      </ownedRule>
+    </packagedElement>
+    <packagedElement xmi:id="QUDV.ConversionBasedUnit" xmi:type="uml:Class" isAbstract="true" name="ConversionBasedUnit">
+      <generalization xmi:id="QUDV.ConversionBasedUnit._generalization.QUDV.Unit" xmi:type="uml:Generalization">
+        <general xmi:idref="QUDV.Unit"/>
+      </generalization>
+      <ownedAttribute xmi:id="QUDV.ConversionBasedUnit.isInvertible" xmi:type="uml:Property" name="isInvertible">
+        <lowerValue xmi:id="QUDV.ConversionBasedUnit.isInvertible.lowerValue0" xmi:type="uml:LiteralInteger" name="" value="1"/>
+        <ownedComment xmi:id="QUDV.ConversionBasedUnit.isInvertible._comment0" xmi:type="uml:Comment" body="Specifies whether the unit conversion relationship is invertible. For LinearConversionUnit and AffineConversionUnit this is always true.">
+          <annotatedElement xmi:idref="QUDV.ConversionBasedUnit.isInvertible"/>
+        </ownedComment>
+        <type href="https://www.omg.org/spec/SysML/20240101/SysML.xmi#SysML_dataType.Boolean"/>
+        <upperValue xmi:id="QUDV.ConversionBasedUnit.isInvertible.upperValue0" xmi:type="uml:LiteralUnlimitedNatural" name="" value="1"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="QUDV.ConversionBasedUnit.referenceUnit" xmi:type="uml:Property" name="referenceUnit">
+        <association xmi:idref="QUDV.A_conversionBasedUnit_referenceUnit"/>
+        <lowerValue xmi:id="QUDV.ConversionBasedUnit.referenceUnit.lowerValue0" xmi:type="uml:LiteralInteger" name="" value="1"/>
+        <ownedComment xmi:id="QUDV.ConversionBasedUnit.referenceUnit._comment0" xmi:type="uml:Comment" body="Specifies the unit with respect to which the ConversionBasedUnit is defined.">
+          <annotatedElement xmi:idref="QUDV.ConversionBasedUnit.referenceUnit"/>
+        </ownedComment>
+        <type xmi:idref="QUDV.Unit"/>
+        <upperValue xmi:id="QUDV.ConversionBasedUnit.referenceUnit.upperValue0" xmi:type="uml:LiteralUnlimitedNatural" name="" value="1"/>
+      </ownedAttribute>
+      <ownedComment xmi:id="QUDV.ConversionBasedUnit._comment0" xmi:type="uml:Comment" body="A ConversionBasedUnit is an abstract classifier that is a Unit that represents a measurement unit that is defined with respect to another reference unit through an explicit conversion relationship.">
+        <annotatedElement xmi:idref="QUDV.ConversionBasedUnit"/>
+      </ownedComment>
+      <ownedOperation xmi:id="QUDV.ConversionBasedUnit.dependsOnUnits_" xmi:type="uml:Operation" isQuery="true" name="dependsOnUnits">
+        <bodyCondition xmi:id="QUDV.ConversionBasedUnit.dependsOnUnits_._rule.body" xmi:type="uml:Constraint" name="body">
+          <constrainedElement xmi:idref="QUDV.ConversionBasedUnit.dependsOnUnits_"/>
+          <specification xmi:id="QUDV.ConversionBasedUnit.dependsOnUnits_._rule.body.specification0" xmi:type="uml:OpaqueExpression" body="result = referenceUnit.dependsOnUnits()-&gt;including(referenceUnit)-&gt;asSet()" language="OCL2.0" name=""/>
+        </bodyCondition>
+        <ownedComment xmi:id="QUDV.ConversionBasedUnit.dependsOnUnits_._comment0" xmi:type="uml:Comment" body="A ConversionBasedUnit transitively depends on its referenceUnit and all of the Units that its referenceUnit depends on.">
+          <annotatedElement xmi:idref="QUDV.ConversionBasedUnit.dependsOnUnits_"/>
+        </ownedComment>
+        <ownedComment xmi:id="QUDV.ConversionBasedUnit.dependsOnUnits_._comment1" xmi:type="uml:Comment" body="A ConversionBasedUnit transitively depends on its referenceUnit and all of the Units that its referenceUnit depends on."/>
+        <ownedParameter xmi:id="QUDV.ConversionBasedUnit.dependsOnUnits_.result" xmi:type="uml:Parameter" direction="return" effect="create" name="result">
+          <lowerValue xmi:id="QUDV.ConversionBasedUnit.dependsOnUnits_.result.lowerValue0" xmi:type="uml:LiteralInteger" name=""/>
+          <type xmi:idref="QUDV.Unit"/>
+          <upperValue xmi:id="QUDV.ConversionBasedUnit.dependsOnUnits_.result.upperValue0" xmi:type="uml:LiteralUnlimitedNatural" name="" value="*"/>
+        </ownedParameter>
+        <ownedRule xmi:idref="QUDV.ConversionBasedUnit.dependsOnUnits_._rule.body"/>
+        <redefinedOperation xmi:idref="QUDV.Unit.dependsOnUnits_"/>
+      </ownedOperation>
+    </packagedElement>
+    <packagedElement xmi:id="QUDV.DerivedQuantityKind" xmi:type="uml:Class" name="DerivedQuantityKind">
+      <generalization xmi:id="QUDV.DerivedQuantityKind._generalization.QUDV.QuantityKind" xmi:type="uml:Generalization">
+        <general xmi:idref="QUDV.QuantityKind"/>
+      </generalization>
+      <ownedAttribute xmi:id="QUDV.DerivedQuantityKind.factor" xmi:type="uml:Property" name="factor">
+        <association xmi:idref="QUDV.A_derivedQuantityKind_factor"/>
+        <lowerValue xmi:id="QUDV.DerivedQuantityKind.factor.lowerValue0" xmi:type="uml:LiteralInteger" name="" value="1"/>
+        <ownedComment xmi:id="QUDV.DerivedQuantityKind.factor._comment0" xmi:type="uml:Comment" body="Set of QuantityKindFactor that specifies the product of powers of other kind(s) of quantity that define the DerivedQuantityKind.">
+          <annotatedElement xmi:idref="QUDV.DerivedQuantityKind.factor"/>
+        </ownedComment>
+        <type xmi:idref="QUDV.QuantityKindFactor"/>
+        <upperValue xmi:id="QUDV.DerivedQuantityKind.factor.upperValue0" xmi:type="uml:LiteralUnlimitedNatural" name="" value="*"/>
+      </ownedAttribute>
+      <ownedComment xmi:id="QUDV.DerivedQuantityKind._comment0" xmi:type="uml:Comment" body="&lt;p&gt; A DerivedQuantityKind is a QuantityKind that represents a kind of quantity that is defined as a product of powers of one or more other kinds of quantity. A DerivedQuantityKind may also be used to define a synonym kind of quantity for another kind of quantity. &lt;/p&gt;&lt;p&gt; For example &quot;velocity&quot; can be specified as the product of &quot;length&quot; to the power one times &quot;time&quot; to the power minus one, and subsequently &quot;speed&quot; can be specified as &quot;velocity&quot; to the power one. &lt;/p&gt;">
+        <annotatedElement xmi:idref="QUDV.DerivedQuantityKind"/>
+</ownedComment>
+      <ownedOperation xmi:id="QUDV.DerivedQuantityKind.dependsOnQuantityKinds_" xmi:type="uml:Operation" isQuery="true" name="dependsOnQuantityKinds">
+        <bodyCondition xmi:id="QUDV.DerivedQuantityKind.dependsOnQuantityKinds_._rule.body" xmi:type="uml:Constraint" name="body">
+          <constrainedElement xmi:idref="QUDV.DerivedQuantityKind.dependsOnQuantityKinds_"/>
+          <specification xmi:id="QUDV.DerivedQuantityKind.dependsOnQuantityKinds_._rule.body.specification0" xmi:type="uml:OpaqueExpression" body="result = factor.quantityKind.dependsOnQuantityKinds()-&gt;flatten()-&gt;asSet() -&gt;union(factor.quantityKind-&gt;flatten()-&gt;asSet())-&gt;asSet()" language="OCL2.0" name="">
+</specification>
+        </bodyCondition>
+        <ownedComment xmi:id="QUDV.DerivedQuantityKind.dependsOnQuantityKinds_._comment0" xmi:type="uml:Comment" body="A DerivedQuantityKind transitively depends on its factors' QuantityKinds and all of the QuantityKinds that its factors' QuantityKinds depend on.">
+          <annotatedElement xmi:idref="QUDV.DerivedQuantityKind.dependsOnQuantityKinds_"/>
+        </ownedComment>
+        <ownedComment xmi:id="QUDV.DerivedQuantityKind.dependsOnQuantityKinds_._comment1" xmi:type="uml:Comment" body="A DerivedQuantityKind transitively depends on its factors' QuantityKinds and all of the QuantityKinds that its factors' QuantityKinds depend on."/>
+        <ownedParameter xmi:id="QUDV.DerivedQuantityKind.dependsOnQuantityKinds_.result" xmi:type="uml:Parameter" direction="return" effect="create" name="result">
+          <lowerValue xmi:id="QUDV.DerivedQuantityKind.dependsOnQuantityKinds_.result.lowerValue0" xmi:type="uml:LiteralInteger" name=""/>
+          <type xmi:idref="QUDV.QuantityKind"/>
+          <upperValue xmi:id="QUDV.DerivedQuantityKind.dependsOnQuantityKinds_.result.upperValue0" xmi:type="uml:LiteralUnlimitedNatural" name="" value="*"/>
+        </ownedParameter>
+        <ownedRule xmi:idref="QUDV.DerivedQuantityKind.dependsOnQuantityKinds_._rule.body"/>
+      </ownedOperation>
+    </packagedElement>
+    <packagedElement xmi:id="QUDV.DerivedUnit" xmi:type="uml:Class" name="DerivedUnit">
+      <generalization xmi:id="QUDV.DerivedUnit._generalization.QUDV.Unit" xmi:type="uml:Generalization">
+        <general xmi:idref="QUDV.Unit"/>
+      </generalization>
+      <ownedAttribute xmi:id="QUDV.DerivedUnit.factor" xmi:type="uml:Property" name="factor">
+        <association xmi:idref="QUDV.A_derivedUnit_factor"/>
+        <lowerValue xmi:id="QUDV.DerivedUnit.factor.lowerValue0" xmi:type="uml:LiteralInteger" name="" value="1"/>
+        <ownedComment xmi:id="QUDV.DerivedUnit.factor._comment0" xmi:type="uml:Comment" body="Set of UnitFactor that specifies the product of powers of other measurement units that define the DerivedUnit.">
+          <annotatedElement xmi:idref="QUDV.DerivedUnit.factor"/>
+        </ownedComment>
+        <type xmi:idref="QUDV.UnitFactor"/>
+        <upperValue xmi:id="QUDV.DerivedUnit.factor.upperValue0" xmi:type="uml:LiteralUnlimitedNatural" name="" value="*"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="QUDV.DerivedUnit.hasReducedFactors" xmi:type="uml:Property" name="hasReducedFactors">
+        <defaultValue xmi:id="QUDV.DerivedUnit.hasReducedFactors.defaultValue0" xmi:type="uml:LiteralBoolean" name="" value="true"/>
+        <lowerValue xmi:id="QUDV.DerivedUnit.hasReducedFactors.lowerValue0" xmi:type="uml:LiteralInteger" name="" value="1"/>
+        <ownedComment xmi:id="QUDV.DerivedUnit.hasReducedFactors._comment0" xmi:type="uml:Comment" body="             If true, the UnitFactors specifying the product of powers of other measurement units that define the DerivedUnit cannot be simplified. If false, the DerivedUnit is non-reduced; some UnitFactors can be simplified. A non-reduced DerivedUnit can have as a general unit other DerivedUnits defined in terms of simplified UnitFactors, possibly in reduced form.           ">
+</ownedComment>
+        <ownedComment xmi:id="QUDV.DerivedUnit.hasReducedFactors._comment1" xmi:type="uml:Comment" body="If true, the UnitFactors specifying the product of powers of other measurement units that define the DerivedUnit cannot be simplified. If false, the DerivedUnit is non-reduced; some UnitFactors can be simplified. A non-reduced DerivedUnit can have as a general unit other DerivedUnits defined in terms of simplified UnitFactors, possibly in reduced form.">
+          <annotatedElement xmi:idref="QUDV.DerivedUnit.hasReducedFactors"/>
+</ownedComment>
+        <type href="https://www.omg.org/spec/SysML/20240101/SysML.xmi#SysML_dataType.Boolean"/>
+        <upperValue xmi:id="QUDV.DerivedUnit.hasReducedFactors.upperValue0" xmi:type="uml:LiteralUnlimitedNatural" name="" value="1"/>
+      </ownedAttribute>
+      <ownedComment xmi:id="QUDV.DerivedUnit._comment0" xmi:type="uml:Comment" body="&lt;p&gt; A DerivedUnit is a Unit that represents a measurement unit that is defined as a product of powers of one or more other measurement units. &lt;/p&gt;&lt;p&gt; For example the measurement unit &quot;metre per second&quot; for &quot;velocity&quot; is specified as the product of &quot;metre&quot; to the power one times &quot;second&quot; to the power minus one. &lt;/p&gt;">
+        <annotatedElement xmi:idref="QUDV.DerivedUnit"/>
+</ownedComment>
+      <ownedOperation xmi:id="QUDV.DerivedUnit.allAccessibleQuantityKinds_" xmi:type="uml:Operation" name="allAccessibleQuantityKinds">
+        <bodyCondition xmi:id="QUDV.DerivedUnit.allAccessibleQuantityKinds_._rule.unnamed1" xmi:type="uml:Constraint" name="unnamed1">
+          <specification xmi:id="QUDV.DerivedUnit.allAccessibleQuantityKinds_._rule.unnamed1.specification0" xmi:type="uml:OpaqueExpression" body="result = allAccessibleSystemOfQuantities()-&gt;collect(quantityKind)-&gt;flatten()-&gt;asSet() inv SoU3_3: getEffectiveSystemOfQuantities() = null or let aqk : Set(QuantityKind) = getEffectiveSystemOfQuantities().allQuantityKinds() in -&gt;allUnits() -&gt;forAll(u | aqk&gt;includesAll (getKindOfQuantitiesForMeasurementUnit(u)))" language="English" name="">
+</specification>
+        </bodyCondition>
+        <ownedComment xmi:id="QUDV.DerivedUnit.allAccessibleQuantityKinds_._comment0" xmi:type="uml:Comment" body="The query accessibleQuantityKinds() gives all the QuantityKinds directly defined in the SystemOfQuantities or transitively in any included or used SystemOfQuantities.">
+          <annotatedElement xmi:idref="QUDV.DerivedUnit.allAccessibleQuantityKinds_"/>
+        </ownedComment>
+        <ownedParameter xmi:id="QUDV.DerivedUnit.allAccessibleQuantityKinds_.result" xmi:type="uml:Parameter" direction="return" effect="create" name="result">
+          <lowerValue xmi:id="QUDV.DerivedUnit.allAccessibleQuantityKinds_.result.lowerValue0" xmi:type="uml:LiteralInteger" name=""/>
+          <type xmi:idref="QUDV.QuantityKind"/>
+          <upperValue xmi:id="QUDV.DerivedUnit.allAccessibleQuantityKinds_.result.upperValue0" xmi:type="uml:LiteralUnlimitedNatural" name="" value="*"/>
+        </ownedParameter>
+        <ownedRule xmi:idref="QUDV.DerivedUnit.allAccessibleQuantityKinds_._rule.unnamed1"/>
+      </ownedOperation>
+      <ownedOperation xmi:id="QUDV.DerivedUnit.dependsOnUnits_" xmi:type="uml:Operation" isQuery="true" name="dependsOnUnits">
+        <bodyCondition xmi:id="QUDV.DerivedUnit.dependsOnUnits_._rule.body" xmi:type="uml:Constraint" name="body">
+          <constrainedElement xmi:idref="QUDV.DerivedUnit.dependsOnUnits_"/>
+          <specification xmi:id="QUDV.DerivedUnit.dependsOnUnits_._rule.body.specification0" xmi:type="uml:OpaqueExpression" body="result = factor.unit.dependsOnUnits()-&gt;flatten()-&gt;asSet()-&gt;union(factor.unit-&gt;flatten()-&gt;asSet())-&gt;asSet()" language="OCL2.0" name=""/>
+        </bodyCondition>
+        <ownedComment xmi:id="QUDV.DerivedUnit.dependsOnUnits_._comment0" xmi:type="uml:Comment" body="A DerivedUnit transitively depends on its factors' Units and all of the Units that its factors' Units depend on.">
+          <annotatedElement xmi:idref="QUDV.DerivedUnit.dependsOnUnits_"/>
+        </ownedComment>
+        <ownedComment xmi:id="QUDV.DerivedUnit.dependsOnUnits_._comment1" xmi:type="uml:Comment" body="A DerivedUnit transitively depends on its factors' Units and all of the Units that its factors' Units depend on."/>
+        <ownedParameter xmi:id="QUDV.DerivedUnit.dependsOnUnits_.result" xmi:type="uml:Parameter" direction="return" effect="create" name="result">
+          <lowerValue xmi:id="QUDV.DerivedUnit.dependsOnUnits_.result.lowerValue0" xmi:type="uml:LiteralInteger" name=""/>
+          <type xmi:idref="QUDV.Unit"/>
+          <upperValue xmi:id="QUDV.DerivedUnit.dependsOnUnits_.result.upperValue0" xmi:type="uml:LiteralUnlimitedNatural" name="" value="*"/>
+        </ownedParameter>
+        <ownedRule xmi:idref="QUDV.DerivedUnit.dependsOnUnits_._rule.body"/>
+        <redefinedOperation xmi:idref="QUDV.Unit.dependsOnUnits_"/>
+      </ownedOperation>
+      <ownedRule xmi:id="QUDV.DerivedUnit._rule.mustSpecifyQuantityKind" xmi:type="uml:Constraint" name="mustSpecifyQuantityKind">
+        <ownedComment xmi:id="QUDV.DerivedUnit._rule.mustSpecifyQuantityKind._comment0" xmi:type="uml:Comment" body="Since a DerivedUnit is defined as a product factor of one or more other Units, it must specify explicitly its QuantityKinds."/>
+        <specification xmi:id="QUDV.DerivedUnit._rule.mustSpecifyQuantityKind.specification0" xmi:type="uml:OpaqueExpression" body="quantityKind &lt;&gt; null and quantityKind-&gt;notEmpty()" language="OCL2.0" name=""/>
+      </ownedRule>
+    </packagedElement>
+    <packagedElement xmi:id="QUDV.Dimension" xmi:type="uml:Class" name="Dimension">
+      <ownedAttribute xmi:id="QUDV.Dimension.factor" xmi:type="uml:Property" isOrdered="true" name="factor">
+        <association xmi:idref="QUDV.A_dimension_factor"/>
+        <lowerValue xmi:id="QUDV.Dimension.factor.lowerValue0" xmi:type="uml:LiteralInteger" name=""/>
+        <ownedComment xmi:id="QUDV.Dimension.factor._comment0" xmi:type="uml:Comment" body="If true Ordered set of QuantityKindFactor that specifies the product of powers of base dimensions that define the Dimension. The possible base dimensions are represented by the ordered set of baseQuantityKind defined in the SystemOfQuantities for which the Dimension is specified. The order of the factors should follow the ordered set of baseQuantityKind in SystemOfQuantities.">
+          <annotatedElement xmi:idref="QUDV.Dimension.factor"/>
+</ownedComment>
+        <type xmi:idref="QUDV.QuantityKindFactor"/>
+        <upperValue xmi:id="QUDV.Dimension.factor.upperValue0" xmi:type="uml:LiteralUnlimitedNatural" name="" value="*"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="QUDV.Dimension.symbolicExpression" xmi:type="uml:Property" name="symbolicExpression">
+        <lowerValue xmi:id="QUDV.Dimension.symbolicExpression.lowerValue0" xmi:type="uml:LiteralInteger" name=""/>
+        <ownedComment xmi:id="QUDV.Dimension.symbolicExpression._comment0" xmi:type="uml:Comment" body="Symbolic expression of the quantity dimension's product of powers, in terms of symbols of the kinds of quantity that represent the base kinds of quantity and their exponents. In tool implementations, the symbolicExpression may automatically derived from the associated factor set.">
+          <annotatedElement xmi:idref="QUDV.Dimension.symbolicExpression"/>
+</ownedComment>
+        <ownedComment xmi:id="QUDV.Dimension.symbolicExpression._comment1" xmi:type="uml:Comment" body="Symbolic expression of the quantity dimension's product of powers, in terms of symbols of the kinds of quantity that represent the base kinds of quantity and their exponents. In tool implementations, the symbolicExpression may automatically derived from the associated factor set.">
+</ownedComment>
+        <type href="https://www.omg.org/spec/SysML/20240101/SysML.xmi#SysML_dataType.String"/>
+        <upperValue xmi:id="QUDV.Dimension.symbolicExpression.upperValue0" xmi:type="uml:LiteralUnlimitedNatural" name="" value="1"/>
+      </ownedAttribute>
+      <ownedComment xmi:id="QUDV.Dimension._comment0" xmi:type="uml:Comment" body="&lt;p&gt; A Dimension represents the [VIM] concept of &quot;quantity dimension&quot; that is defined as &quot;expression of the dependence of a quantity on the base quantities of a system of quantities as a product of powers of factors corresponding to the base quantities, omitting any numerical factor.&quot; &lt;/p&gt;&lt;p&gt; For example in the ISQ the quantity dimension of &quot;force&quot; is denoted by &lt;span class=&quot;formula&quot;&gt;dim F = L*M*T&lt;sup&gt;-2&lt;/sup&gt;&lt;/span&gt;, where &lt;span class=&quot;formula&quot;&gt;&quot;F&quot;&lt;/span&gt; is the symbol for &quot;force,&quot; and &lt;span class=&quot;formula&quot;&gt;&quot;L,&quot; &quot;M,&quot;&lt;/span&gt; and &lt;span class=&quot;formula&quot;&gt;&quot;T&quot;&lt;/span&gt; are the symbols for the ISQ base quantities &quot;length,&quot; &quot;mass,&quot; and &quot;time&quot; respectively. &lt;/p&gt;&lt;p&gt; The Dimension of any QuantityKind can be derived through the algorithm that is defined in E.5.2.15 SystemOfQuantities with SystemOfQuantities. The actual Dimension for a given QuantityKind depends on the choice of baseQuantityKind specified in a SystemOfQuantities. &lt;/p&gt;">
+        <annotatedElement xmi:idref="QUDV.Dimension"/>
+</ownedComment>
+    </packagedElement>
+    <packagedElement xmi:id="QUDV.GeneralConversionUnit" xmi:type="uml:Class" name="GeneralConversionUnit">
+      <generalization xmi:id="QUDV.GeneralConversionUnit._generalization.QUDV.ConversionBasedUnit" xmi:type="uml:Generalization">
+        <general xmi:idref="QUDV.ConversionBasedUnit"/>
+      </generalization>
+      <ownedAttribute xmi:id="QUDV.GeneralConversionUnit.expression" xmi:type="uml:Property" name="expression">
+        <lowerValue xmi:id="QUDV.GeneralConversionUnit.expression.lowerValue0" xmi:type="uml:LiteralInteger" name="" value="1"/>
+        <ownedComment xmi:id="QUDV.GeneralConversionUnit.expression._comment0" xmi:type="uml:Comment" body="Specifies the unit conversion relationship in some expression syntax.">
+          <annotatedElement xmi:idref="QUDV.GeneralConversionUnit.expression"/>
+        </ownedComment>
+        <type href="https://www.omg.org/spec/SysML/20240101/SysML.xmi#SysML_dataType.String"/>
+        <upperValue xmi:id="QUDV.GeneralConversionUnit.expression.upperValue0" xmi:type="uml:LiteralUnlimitedNatural" name="" value="1"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="QUDV.GeneralConversionUnit.expressionLanguageURI" xmi:type="uml:Property" name="expressionLanguageURI">
+        <lowerValue xmi:id="QUDV.GeneralConversionUnit.expressionLanguageURI.lowerValue0" xmi:type="uml:LiteralInteger" name=""/>
+        <ownedComment xmi:id="QUDV.GeneralConversionUnit.expressionLanguageURI._comment0" xmi:type="uml:Comment" body="URI that specifies the language for the expression syntax.">
+          <annotatedElement xmi:idref="QUDV.GeneralConversionUnit.expressionLanguageURI"/>
+        </ownedComment>
+        <type href="https://www.omg.org/spec/SysML/20240101/SysML.xmi#SysML_dataType.String"/>
+        <upperValue xmi:id="QUDV.GeneralConversionUnit.expressionLanguageURI.upperValue0" xmi:type="uml:LiteralUnlimitedNatural" name="" value="1"/>
+      </ownedAttribute>
+      <ownedComment xmi:id="QUDV.GeneralConversionUnit._comment0" xmi:type="uml:Comment" body="&lt;p&gt; A GeneralConversionUnit is a ConversionBasedUnit that represents a measurement unit that is defined with respect to another reference measurement unit through a conversion relationship expressed in some syntax through a general mathematical expression. &lt;/p&gt;&lt;p&gt; The unit conversion relationship is defined by the following equation: &lt;/p&gt; &lt;p class=&quot;formula&quot;&gt;value&lt;sub&gt;RU&lt;/sub&gt; / value&lt;sub&gt;CU&lt;/sub&gt; = f(value&lt;sub&gt;RU&lt;/sub&gt;, value&lt;sub&gt;CU&lt;/sub&gt;)&lt;/p&gt; &lt;p&gt; where: &lt;/p&gt;&lt;span class=&quot;formula&quot;&gt;value&lt;sub&gt;RU&lt;/sub&gt;&lt;/span&gt; is the quantity value expressed in the referenceUnit and&lt;/p&gt; &lt;p&gt; &lt;span class=&quot;formula&quot;&gt;value&lt;sub&gt;CU&lt;/sub&gt;&lt;/span&gt; is the quantity value expressed in the GeneralConversionUnit and &lt;/p&gt;&lt;p&gt; &lt;span class=&quot;formula&quot;&gt;f(value&lt;sub&gt;RU&lt;/sub&gt;, value&lt;sub&gt;CU&lt;/sub&gt;)&lt;/span&gt; is a mathematical expression that includes &lt;span class=&quot;formula&quot;&gt;value&lt;sub&gt;RU&lt;/sub&gt;&lt;/span&gt; and &lt;span class=&quot;formula&quot;&gt;value&lt;sub&gt;CU&lt;/sub&gt;&lt;/span&gt; &lt;/p&gt;">
+        <annotatedElement xmi:idref="QUDV.GeneralConversionUnit"/>
+</ownedComment>
+    </packagedElement>
+    <packagedElement xmi:id="QUDV.LinearConversionUnit" xmi:type="uml:Class" name="LinearConversionUnit">
+      <generalization xmi:id="QUDV.LinearConversionUnit._generalization.QUDV.ConversionBasedUnit" xmi:type="uml:Generalization">
+        <general xmi:idref="QUDV.ConversionBasedUnit"/>
+      </generalization>
+      <ownedAttribute xmi:id="QUDV.LinearConversionUnit.factor" xmi:type="uml:Property" name="factor">
+        <lowerValue xmi:id="QUDV.LinearConversionUnit.factor.lowerValue0" xmi:type="uml:LiteralInteger" name="" value="1"/>
+        <ownedComment xmi:id="QUDV.LinearConversionUnit.factor._comment0" xmi:type="uml:Comment" body="Number that specifies the factor in the unit conversion relationship.">
+          <annotatedElement xmi:idref="QUDV.LinearConversionUnit.factor"/>
+        </ownedComment>
+        <type href="https://www.omg.org/spec/SysML/20240101/SysML.xmi#SysML_dataType.Number"/>
+        <upperValue xmi:id="QUDV.LinearConversionUnit.factor.upperValue0" xmi:type="uml:LiteralUnlimitedNatural" name="" value="1"/>
+      </ownedAttribute>
+      <ownedComment xmi:id="QUDV.LinearConversionUnit._comment0" xmi:type="uml:Comment" body="&lt;p&gt; A LinearConversionUnit is a ConversionBasedUnit that represents a measurement unit that is defined with respect to another measurement reference unit through a linear conversion relationship with a conversion factor. &lt;/p&gt;&lt;p&gt; The unit conversion relationship is defined by the following equation: &lt;/p&gt; &lt;p class=&quot;formula&quot;&gt;value&lt;sub&gt;RU&lt;/sub&gt; = factor * value&lt;sub&gt;CU&lt;/sub&gt;&lt;/p&gt; &lt;p&gt; where: &lt;/p&gt;&lt;p&gt; &lt;span class=&quot;formula&quot;&gt;value&lt;sub&gt;RU&lt;/sub&gt;&lt;/span&gt; is the quantity value expressed in the referenceUnit, and, &lt;/p&gt;&lt;p&gt; &lt;span class=&quot;formula&quot;&gt;value&lt;sub&gt;CU&lt;/sub&gt;&lt;/span&gt; is the quantity value expressed in the LinearConversionUnit. &lt;/p&gt;&lt;p&gt;  For example, in the definition of the LinearConversionUnit for &quot;inch&quot; with respect to the referenceUnit &quot;metre,&quot; the factor would be &lt;span class=&quot;formula&quot;&gt;254/10000&lt;/span&gt;, because &lt;span class=&quot;formula&quot;&gt;0.0254 metre = 1 inch&lt;/span&gt;. &lt;/p&gt;">
+        <annotatedElement xmi:idref="QUDV.LinearConversionUnit"/>
+</ownedComment>
+      <ownedRule xmi:id="QUDV.LinearConversionUnit._rule.invertible" xmi:type="uml:Constraint" name="invertible">
+        <specification xmi:id="QUDV.LinearConversionUnit._rule.invertible.specification0" xmi:type="uml:OpaqueExpression" body="isInvertible = true" language="OCL2.0" name=""/>
+      </ownedRule>
+    </packagedElement>
+    <packagedElement xmi:id="QUDV.Prefix" xmi:type="uml:Class" name="Prefix">
+      <ownedAttribute xmi:id="QUDV.Prefix.factor" xmi:type="uml:Property" name="factor">
+        <lowerValue xmi:id="QUDV.Prefix.factor.lowerValue0" xmi:type="uml:LiteralInteger" name="" value="1"/>
+        <ownedComment xmi:id="QUDV.Prefix.factor._comment0" xmi:type="uml:Comment" body="Specifies the multiple or submultiple multiplication factor.">
+          <annotatedElement xmi:idref="QUDV.Prefix.factor"/>
+        </ownedComment>
+        <type xmi:idref="QUDV_dataType.Rational"/>
+        <upperValue xmi:id="QUDV.Prefix.factor.upperValue0" xmi:type="uml:LiteralUnlimitedNatural" name="" value="1"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="QUDV.Prefix.symbol" xmi:type="uml:Property" name="symbol">
+        <lowerValue xmi:id="QUDV.Prefix.symbol.lowerValue0" xmi:type="uml:LiteralInteger" name=""/>
+        <ownedComment xmi:id="QUDV.Prefix.symbol._comment0" xmi:type="uml:Comment" body="Short symbolic name of the prefix.">
+          <annotatedElement xmi:idref="QUDV.Prefix.symbol"/>
+        </ownedComment>
+        <type href="https://www.omg.org/spec/SysML/20240101/SysML.xmi#SysML_dataType.String"/>
+        <upperValue xmi:id="QUDV.Prefix.symbol.upperValue0" xmi:type="uml:LiteralUnlimitedNatural" name="" value="1"/>
+      </ownedAttribute>
+      <ownedComment xmi:id="QUDV.Prefix._comment0" xmi:type="uml:Comment" body="A Prefix represents a named multiple or submultiple multiplication factor used in the specification of a PrefixedUnit. A SystemOfUnits may specify a set of prefixes.">
+        <annotatedElement xmi:idref="QUDV.Prefix"/>
+      </ownedComment>
+    </packagedElement>
+    <packagedElement xmi:id="QUDV.PrefixedUnit" xmi:type="uml:Class" name="PrefixedUnit">
+      <generalization xmi:id="QUDV.PrefixedUnit._generalization.QUDV.ConversionBasedUnit" xmi:type="uml:Generalization">
+        <general xmi:idref="QUDV.ConversionBasedUnit"/>
+      </generalization>
+      <ownedAttribute xmi:id="QUDV.PrefixedUnit.noQuantityKind" xmi:type="uml:Property" name="noQuantityKind">
+        <association xmi:idref="QUDV.A_uantityKind_refixedUnit"/>
+        <lowerValue xmi:id="QUDV.PrefixedUnit.noQuantityKind.lowerValue0" xmi:type="uml:LiteralInteger" name=""/>
+        <redefinedProperty xmi:idref="QUDV.Unit.quantityKind"/>
+        <type xmi:idref="QUDV.QuantityKind"/>
+        <upperValue xmi:id="QUDV.PrefixedUnit.noQuantityKind.upperValue0" xmi:type="uml:LiteralUnlimitedNatural" name=""/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="QUDV.PrefixedUnit.prefix" xmi:type="uml:Property" name="prefix">
+        <association xmi:idref="QUDV.A_prefixedUnit_prefix"/>
+        <lowerValue xmi:id="QUDV.PrefixedUnit.prefix.lowerValue0" xmi:type="uml:LiteralInteger" name="" value="1"/>
+        <ownedComment xmi:id="QUDV.PrefixedUnit.prefix._comment0" xmi:type="uml:Comment" body="Specifies the prefix that defines the name, symbol, and factor of the multiple or submultiple.">
+          <annotatedElement xmi:idref="QUDV.PrefixedUnit.prefix"/>
+        </ownedComment>
+        <type xmi:idref="QUDV.Prefix"/>
+        <upperValue xmi:id="QUDV.PrefixedUnit.prefix.upperValue0" xmi:type="uml:LiteralUnlimitedNatural" name="" value="1"/>
+      </ownedAttribute>
+      <ownedComment xmi:id="QUDV.PrefixedUnit._comment0" xmi:type="uml:Comment" body="&lt;p&gt; A PrefixedUnit is a ConversionBasedUnit that represents a measurement unit that is defined with respect to another measurement reference unit through a linear conversion relationship with a named prefix that represents a multiple or submultiple of a unit. &lt;/p&gt;&lt;p&gt; [VIM] defines &quot;multiple of a unit&quot; as &quot;measurement obtained by multiplying a given measurement unit by an integer greater than one&quot; and &quot;submultiple of a unit&quot; as &quot;measurement unit obtained by dividing a given measurement unit by an integer greater than one.&quot; &lt;/p&gt;&lt;p&gt; The unit conversion relationship is defined by the following equation: &lt;/p&gt;&lt;p class=&quot;formula&quot;&gt; value&lt;sub&gt;RU&lt;/sub&gt; = factor * value&lt;sub&gt;CU&lt;/sub&gt; &lt;/p&gt;&lt;p&gt; where: &lt;/p&gt;&lt;p&gt; &lt;span class=&quot;formula&quot;&gt;value&lt;sub&gt;RU&lt;/sub&gt;&lt;/span&gt; is the quantity value expressed in the referenceUnit and &lt;/p&gt;&lt;p&gt; &lt;span class=&quot;formula&quot;&gt;value&lt;sub&gt;CU&lt;/sub&gt;&lt;/span&gt; is the quantity value expressed in the PrefixedUnit. &lt;/p&gt;&lt;p&gt; For example, in the definition of the PrefixedUnit for &quot;megabyte&quot; with respect to the referenceUnit &quot;byte,&quot; the prefix would be the Prefix for &quot;mega&quot; with a factor &lt;span class=&quot;formula&quot;&gt;10&lt;sup&gt;6&lt;/sup&gt;&lt;/span&gt;, because &lt;span class=&quot;formula&quot;&gt;10&lt;sup&gt;6&lt;/sup&gt; byte = 1 megabyte&lt;/span&gt;. &lt;/p&gt;&lt;p&gt; See [VIM] for all decimal and binary multiples and decimal submultiples defined in SI. &lt;/p&gt;">
+        <annotatedElement xmi:idref="QUDV.PrefixedUnit"/>
+</ownedComment>
+      <ownedRule xmi:id="QUDV.PrefixedUnit._rule.PU1" xmi:type="uml:Constraint" name="PU1">
+        <ownedComment xmi:id="QUDV.PrefixedUnit._rule.PU1._comment0" xmi:type="uml:Comment" body="The referenceUnit shall not be a PrefixedUnit, i.e., it is not allowed to prefix an already prefixed measurement unit. In general the referenceUnit should be a SimpleUnit.">
+          <annotatedElement xmi:idref="QUDV.PrefixedUnit._rule.PU1"/>
+        </ownedComment>
+        <specification xmi:id="QUDV.PrefixedUnit._rule.PU1.specification0" xmi:type="uml:OpaqueExpression" body="not referenceUnit.oclIsTypeOf(PrefixedUnit)" language="OCL2.0" name=""/>
+      </ownedRule>
+      <ownedRule xmi:id="QUDV.PrefixedUnit._rule.noQuantityKind" xmi:type="uml:Constraint" name="noQuantityKind">
+        <constrainedElement xmi:idref="QUDV.PrefixedUnit"/>
+        <ownedComment xmi:id="QUDV.PrefixedUnit._rule.noQuantityKind._comment0" xmi:type="uml:Comment" body="The PrefixedUnit has not quantity kind.">
+          <annotatedElement xmi:idref="QUDV.PrefixedUnit._rule.noQuantityKind"/>
+        </ownedComment>
+        <specification xmi:id="QUDV.PrefixedUnit._rule.noQuantityKind.specification0" xmi:type="uml:OpaqueExpression" body="self.quantityKind = null" language="English" name=""/>
+      </ownedRule>
+    </packagedElement>
+    <packagedElement xmi:id="QUDV.QuantityKind" xmi:type="uml:Class" isAbstract="true" name="QuantityKind">
+      <generalization xmi:id="QUDV.QuantityKind._generalization.SysML.QuantityKind" xmi:type="uml:Generalization">
+        <general href="https://www.omg.org/spec/SysML/20240101/SysML.xmi#SysML.QuantityKind"/>
+      </generalization>
+      <ownedAttribute xmi:id="QUDV.QuantityKind.dependsOnQuantityKinds" xmi:type="uml:Property" isDerived="true" isReadOnly="true" name="dependsOnQuantityKinds">
+        <lowerValue xmi:id="QUDV.QuantityKind.dependsOnQuantityKinds.lowerValue0" xmi:type="uml:LiteralInteger" name=""/>
+        <ownedComment xmi:id="QUDV.QuantityKind.dependsOnQuantityKinds._comment0" xmi:type="uml:Comment" body="The set of all QuantityKinds that this QuantityKind directly or indirectly depends on according to its definition.">
+          <annotatedElement xmi:idref="QUDV.QuantityKind.dependsOnQuantityKinds"/>
+        </ownedComment>
+        <ownedComment xmi:id="QUDV.QuantityKind.dependsOnQuantityKinds._comment1" xmi:type="uml:Comment" body="The set of all QuantityKinds that this QuantityKind directly or indirectly depends on according to its definition."/>
+        <type xmi:idref="QUDV.QuantityKind"/>
+        <upperValue xmi:id="QUDV.QuantityKind.dependsOnQuantityKinds.upperValue0" xmi:type="uml:LiteralUnlimitedNatural" name="" value="*"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="QUDV.QuantityKind.general" xmi:type="uml:Property" name="general">
+        <association xmi:idref="QUDV.A_generalQuantityKind_specificQuantityKind"/>
+        <lowerValue xmi:id="QUDV.QuantityKind.general.lowerValue0" xmi:type="uml:LiteralInteger" name=""/>
+        <ownedComment xmi:id="QUDV.QuantityKind.general._comment0" xmi:type="uml:Comment" body="A quantity can be defined to represent a combination of specific characteristics from one or more aspects defined by general QuantityKinds (see ISO 80000-1, 3.2).">
+          <annotatedElement xmi:idref="QUDV.QuantityKind.general"/>
+        </ownedComment>
+        <type xmi:idref="QUDV.QuantityKind"/>
+        <upperValue xmi:id="QUDV.QuantityKind.general.upperValue0" xmi:type="uml:LiteralUnlimitedNatural" name="" value="*"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="QUDV.QuantityKind.isNumberOfEntities" xmi:type="uml:Property" name="isNumberOfEntities">
+        <defaultValue xmi:id="QUDV.QuantityKind.isNumberOfEntities.defaultValue0" xmi:type="uml:LiteralBoolean" name=""/>
+        <lowerValue xmi:id="QUDV.QuantityKind.isNumberOfEntities.lowerValue0" xmi:type="uml:LiteralInteger" name="" value="1"/>
+        <ownedComment xmi:id="QUDV.QuantityKind.isNumberOfEntities._comment0" xmi:type="uml:Comment" body="If true, indicates that the QuantityKind represents a number of entities (see ISO 80000-1, 3.8, Note 4)."/>
+        <ownedComment xmi:id="QUDV.QuantityKind.isNumberOfEntities._comment1" xmi:type="uml:Comment" body="If true, indicates that the QuantityKind represents a number of entities (see ISO 80000-1, 3.8, Note 4).">
+          <annotatedElement xmi:idref="QUDV.QuantityKind.isNumberOfEntities"/>
+        </ownedComment>
+        <type href="https://www.omg.org/spec/SysML/20240101/SysML.xmi#SysML_dataType.Boolean"/>
+        <upperValue xmi:id="QUDV.QuantityKind.isNumberOfEntities.upperValue0" xmi:type="uml:LiteralUnlimitedNatural" name="" value="1"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="QUDV.QuantityKind.isQuantityOfDimensionOne" xmi:type="uml:Property" name="isQuantityOfDimensionOne">
+        <defaultValue xmi:id="QUDV.QuantityKind.isQuantityOfDimensionOne.defaultValue0" xmi:type="uml:LiteralBoolean" name=""/>
+        <lowerValue xmi:id="QUDV.QuantityKind.isQuantityOfDimensionOne.lowerValue0" xmi:type="uml:LiteralInteger" name="" value="1"/>
+        <ownedComment xmi:id="QUDV.QuantityKind.isQuantityOfDimensionOne._comment0" xmi:type="uml:Comment" body="If true, indicates that the QuantityKind has dimension one (see ISO 80000-1, 3.8)."/>
+        <ownedComment xmi:id="QUDV.QuantityKind.isQuantityOfDimensionOne._comment1" xmi:type="uml:Comment" body="If true, indicates that the QuantityKind has dimension one (see ISO 80000-1, 3.8).">
+          <annotatedElement xmi:idref="QUDV.QuantityKind.isQuantityOfDimensionOne"/>
+        </ownedComment>
+        <type href="https://www.omg.org/spec/SysML/20240101/SysML.xmi#SysML_dataType.Boolean"/>
+        <upperValue xmi:id="QUDV.QuantityKind.isQuantityOfDimensionOne.upperValue0" xmi:type="uml:LiteralUnlimitedNatural" name="" value="1"/>
+      </ownedAttribute>
+      <ownedComment xmi:id="QUDV.QuantityKind._comment0" xmi:type="uml:Comment" body="In QUDV, the concept of QuantityKind is an abstract specialization of SysML QuantityKind to support designating a primary QuantityKind for a given Unit within the scope of a system of units and quantities and to support a richer vocabulary for defining QuantityKinds.">
+        <annotatedElement xmi:idref="QUDV.QuantityKind"/>
+</ownedComment>
+      <ownedOperation xmi:id="QUDV.QuantityKind.dependsOnQuantityKinds_" xmi:type="uml:Operation" name="dependsOnQuantityKinds">
+        <ownedComment xmi:id="QUDV.QuantityKind.dependsOnQuantityKinds_._comment0" xmi:type="uml:Comment" body="Abstract operation specified in SimpleQuantityKind and DerivedQuantityKind to calculate the value of the derived property QuantityKind:/dependsOnQuantityKinds.">
+          <annotatedElement xmi:idref="QUDV.QuantityKind.dependsOnQuantityKinds_"/>
+        </ownedComment>
+        <ownedComment xmi:id="QUDV.QuantityKind.dependsOnQuantityKinds_._comment1" xmi:type="uml:Comment" body="Abstract operation specified in SpecializedQuantityKind, SimpleQuantityKind and DerivedQuantityKind to calculate the value of the derived property QuantityKind:/dependsOnQuantityKinds."/>
+        <ownedParameter xmi:id="QUDV.QuantityKind.dependsOnQuantityKinds_.result" xmi:type="uml:Parameter" direction="return" effect="create" name="result">
+          <lowerValue xmi:id="QUDV.QuantityKind.dependsOnQuantityKinds_.result.lowerValue0" xmi:type="uml:LiteralInteger" name=""/>
+          <type xmi:idref="QUDV.QuantityKind"/>
+          <upperValue xmi:id="QUDV.QuantityKind.dependsOnQuantityKinds_.result.upperValue0" xmi:type="uml:LiteralUnlimitedNatural" name="" value="*"/>
+        </ownedParameter>
+      </ownedOperation>
+      <ownedRule xmi:id="QUDV.QuantityKind._rule.acyclic_quantity_kind_dependencies" xmi:type="uml:Constraint" name="acyclic_quantity_kind_dependencies">
+        <ownedComment xmi:id="QUDV.QuantityKind._rule.acyclic_quantity_kind_dependencies._comment0" xmi:type="uml:Comment" body="A QuantityKind cannot be defined in terms of itself. This follows from the quantity calculus used for expressing a derived QuantityKind in terms of base QuantityKinds chosen for a SystemOfQuantities by means of non- contradictory equations (See ISO 80000-1, 4.3).">
+          <annotatedElement xmi:idref="QUDV.QuantityKind._rule.acyclic_quantity_kind_dependencies"/>
+</ownedComment>
+        <specification xmi:id="QUDV.QuantityKind._rule.acyclic_quantity_kind_dependencies.specification0" xmi:type="uml:OpaqueExpression" body="dependsOnQuantityKinds-&gt;excludes(self)" language="OCL2.0" name=""/>
+      </ownedRule>
+    </packagedElement>
+    <packagedElement xmi:id="QUDV.QuantityKindFactor" xmi:type="uml:Class" name="QuantityKindFactor">
+      <ownedAttribute xmi:id="QUDV.QuantityKindFactor.exponent" xmi:type="uml:Property" name="exponent">
+        <lowerValue xmi:id="QUDV.QuantityKindFactor.exponent.lowerValue0" xmi:type="uml:LiteralInteger" name="" value="1"/>
+        <ownedComment xmi:id="QUDV.QuantityKindFactor.exponent._comment0" xmi:type="uml:Comment" body="Rational number that specifies the exponent of the power to which the quantityKind is raised.">
+          <annotatedElement xmi:idref="QUDV.QuantityKindFactor.exponent"/>
+        </ownedComment>
+        <type xmi:idref="QUDV_dataType.Rational"/>
+        <upperValue xmi:id="QUDV.QuantityKindFactor.exponent.upperValue0" xmi:type="uml:LiteralUnlimitedNatural" name="" value="1"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="QUDV.QuantityKindFactor.quantityKind" xmi:type="uml:Property" name="quantityKind">
+        <association xmi:idref="QUDV.A_quantityKindFactor_quantityKind"/>
+        <lowerValue xmi:id="QUDV.QuantityKindFactor.quantityKind.lowerValue0" xmi:type="uml:LiteralInteger" name="" value="1"/>
+        <ownedComment xmi:id="QUDV.QuantityKindFactor.quantityKind._comment0" xmi:type="uml:Comment" body="Reference to the QuantityKind that participates in the factor.">
+          <annotatedElement xmi:idref="QUDV.QuantityKindFactor.quantityKind"/>
+        </ownedComment>
+        <type xmi:idref="QUDV.QuantityKind"/>
+        <upperValue xmi:id="QUDV.QuantityKindFactor.quantityKind.upperValue0" xmi:type="uml:LiteralUnlimitedNatural" name="" value="1"/>
+      </ownedAttribute>
+      <ownedComment xmi:id="QUDV.QuantityKindFactor._comment0" xmi:type="uml:Comment" body="A QuantityKindFactor represents a factor in the product of powers that defines a DerivedQuantityKind.">
+        <annotatedElement xmi:idref="QUDV.QuantityKindFactor"/>
+      </ownedComment>
+    </packagedElement>
+    <packagedElement xmi:id="QUDV_dataType.Rational" xmi:type="uml:DataType" name="Rational">
+      <ownedAttribute xmi:id="QUDV_dataType.Rational.denominator" xmi:type="uml:Property" name="denominator">
+        <lowerValue xmi:id="QUDV_dataType.Rational.denominator.lowerValue0" xmi:type="uml:LiteralInteger" name="" value="1"/>
+        <ownedComment xmi:id="QUDV_dataType.Rational.denominator._comment0" xmi:type="uml:Comment" body="An integer number used to express the denominator of a rational number.">
+          <annotatedElement xmi:idref="QUDV_dataType.Rational.denominator"/>
+        </ownedComment>
+        <type href="https://www.omg.org/spec/SysML/20240101/SysML.xmi#SysML_dataType.Integer"/>
+        <upperValue xmi:id="QUDV_dataType.Rational.denominator.upperValue0" xmi:type="uml:LiteralUnlimitedNatural" name="" value="1"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="QUDV_dataType.Rational.numerator" xmi:type="uml:Property" name="numerator">
+        <lowerValue xmi:id="QUDV_dataType.Rational.numerator.lowerValue0" xmi:type="uml:LiteralInteger" name="" value="1"/>
+        <ownedComment xmi:id="QUDV_dataType.Rational.numerator._comment0" xmi:type="uml:Comment" body="An integer number used to express the numerator of a rational number.">
+          <annotatedElement xmi:idref="QUDV_dataType.Rational.numerator"/>
+        </ownedComment>
+        <type href="https://www.omg.org/spec/SysML/20240101/SysML.xmi#SysML_dataType.Integer"/>
+        <upperValue xmi:id="QUDV_dataType.Rational.numerator.upperValue0" xmi:type="uml:LiteralUnlimitedNatural" name="" value="1"/>
+      </ownedAttribute>
+      <ownedComment xmi:id="QUDV_dataType.Rational._comment0" xmi:type="uml:Comment" body="A Rational value type represents the mathematical concept of a number that can be expressed as a quotient of two integers. It may be used to express the exact value of such values, without issues of rounding or other approximations if the result of the division were used instead.">
+        <annotatedElement xmi:idref="QUDV_dataType.Rational"/>
+</ownedComment>
+      <ownedOperation xmi:id="QUDV_dataType.Rational.equivalent_Rational" xmi:type="uml:Operation" name="equivalent">
+        <bodyCondition xmi:id="QUDV_dataType.Rational.equivalent_Rational._rule.unnamed1" xmi:type="uml:Constraint" name="unnamed1">
+          <specification xmi:id="QUDV_dataType.Rational.equivalent_Rational._rule.unnamed1.specification0" xmi:type="uml:OpaqueExpression" body="result = ( self.numerator * r.demonimator = r.numerator * self.denominator)" language="English" name=""/>
+        </bodyCondition>
+        <ownedParameter xmi:id="QUDV_dataType.Rational.equivalent_Rational.r" xmi:type="uml:Parameter" effect="create" name="r">
+          <lowerValue xmi:id="QUDV_dataType.Rational.equivalent_Rational.r.lowerValue0" xmi:type="uml:LiteralInteger" name="" value="1"/>
+          <type xmi:idref="QUDV_dataType.Rational"/>
+          <upperValue xmi:id="QUDV_dataType.Rational.equivalent_Rational.r.upperValue0" xmi:type="uml:LiteralUnlimitedNatural" name="" value="1"/>
+        </ownedParameter>
+        <ownedParameter xmi:id="QUDV_dataType.Rational.equivalent_Rational.result" xmi:type="uml:Parameter" direction="return" effect="create" name="result">
+          <lowerValue xmi:id="QUDV_dataType.Rational.equivalent_Rational.result.lowerValue0" xmi:type="uml:LiteralInteger" name="" value="1"/>
+          <upperValue xmi:id="QUDV_dataType.Rational.equivalent_Rational.result.upperValue0" xmi:type="uml:LiteralUnlimitedNatural" name="" value="1"/>
+        </ownedParameter>
+        <ownedRule xmi:idref="QUDV_dataType.Rational.equivalent_Rational._rule.unnamed1"/>
+      </ownedOperation>
+      <ownedOperation xmi:id="QUDV_dataType.Rational.plus_Rational" xmi:type="uml:Operation" name="plus">
+        <bodyCondition xmi:id="QUDV_dataType.Rational.plus_Rational._rule.unnamed1" xmi:type="uml:Constraint" name="unnamed1">
+          <specification xmi:id="QUDV_dataType.Rational.plus_Rational._rule.unnamed1.specification0" xmi:type="uml:OpaqueExpression" body="result.numerator = self.numerator * r.demonimator + r.numerator * self.denominator and result.denominator = self.denominator * r.denominator" language="English" name=""/>
+        </bodyCondition>
+        <ownedParameter xmi:id="QUDV_dataType.Rational.plus_Rational.r" xmi:type="uml:Parameter" effect="create" name="r">
+          <lowerValue xmi:id="QUDV_dataType.Rational.plus_Rational.r.lowerValue0" xmi:type="uml:LiteralInteger" name="" value="1"/>
+          <type xmi:idref="QUDV_dataType.Rational"/>
+          <upperValue xmi:id="QUDV_dataType.Rational.plus_Rational.r.upperValue0" xmi:type="uml:LiteralUnlimitedNatural" name="" value="1"/>
+        </ownedParameter>
+        <ownedParameter xmi:id="QUDV_dataType.Rational.plus_Rational.result" xmi:type="uml:Parameter" direction="return" effect="create" name="result">
+          <lowerValue xmi:id="QUDV_dataType.Rational.plus_Rational.result.lowerValue0" xmi:type="uml:LiteralInteger" name="" value="1"/>
+          <type xmi:idref="QUDV_dataType.Rational"/>
+          <upperValue xmi:id="QUDV_dataType.Rational.plus_Rational.result.upperValue0" xmi:type="uml:LiteralUnlimitedNatural" name="" value="1"/>
+        </ownedParameter>
+        <ownedRule xmi:idref="QUDV_dataType.Rational.plus_Rational._rule.unnamed1"/>
+      </ownedOperation>
+      <ownedOperation xmi:id="QUDV_dataType.Rational.times_Rational" xmi:type="uml:Operation" name="times">
+        <bodyCondition xmi:id="QUDV_dataType.Rational.times_Rational._rule.unnamed1" xmi:type="uml:Constraint" name="unnamed1">
+          <specification xmi:id="QUDV_dataType.Rational.times_Rational._rule.unnamed1.specification0" xmi:type="uml:OpaqueExpression" body="result.numerator = self.numerator * r.numerator and result.denominator = self.denominator * r.denominator" language="English" name=""/>
+        </bodyCondition>
+        <ownedParameter xmi:id="QUDV_dataType.Rational.times_Rational.r" xmi:type="uml:Parameter" effect="create" name="r">
+          <lowerValue xmi:id="QUDV_dataType.Rational.times_Rational.r.lowerValue0" xmi:type="uml:LiteralInteger" name="" value="1"/>
+          <type xmi:idref="QUDV_dataType.Rational"/>
+          <upperValue xmi:id="QUDV_dataType.Rational.times_Rational.r.upperValue0" xmi:type="uml:LiteralUnlimitedNatural" name="" value="1"/>
+        </ownedParameter>
+        <ownedParameter xmi:id="QUDV_dataType.Rational.times_Rational.result" xmi:type="uml:Parameter" direction="return" effect="create" name="result">
+          <lowerValue xmi:id="QUDV_dataType.Rational.times_Rational.result.lowerValue0" xmi:type="uml:LiteralInteger" name="" value="1"/>
+          <type xmi:idref="QUDV_dataType.Rational"/>
+          <upperValue xmi:id="QUDV_dataType.Rational.times_Rational.result.upperValue0" xmi:type="uml:LiteralUnlimitedNatural" name="" value="1"/>
+        </ownedParameter>
+        <ownedRule xmi:idref="QUDV_dataType.Rational.times_Rational._rule.unnamed1"/>
+      </ownedOperation>
+    </packagedElement>
+    <packagedElement xmi:id="QUDV.SimpleQuantityKind" xmi:type="uml:Class" name="SimpleQuantityKind">
+      <generalization xmi:id="QUDV.SimpleQuantityKind._generalization.QUDV.QuantityKind" xmi:type="uml:Generalization">
+        <general xmi:idref="QUDV.QuantityKind"/>
+      </generalization>
+      <ownedComment xmi:id="QUDV.SimpleQuantityKind._comment0" xmi:type="uml:Comment" body="A SimpleQuantityKind is a QuantityKind that represents a kind of quantity that does not depend on any other QuantityKind. Typically a base quantity would be specified as a SimpleQuantityKind.">
+        <annotatedElement xmi:idref="QUDV.SimpleQuantityKind"/>
+      </ownedComment>
+      <ownedOperation xmi:id="QUDV.SimpleQuantityKind.dependsOnQuantityKinds_" xmi:type="uml:Operation" name="dependsOnQuantityKinds">
+        <bodyCondition xmi:id="QUDV.SimpleQuantityKind.dependsOnQuantityKinds_._rule.body" xmi:type="uml:Constraint" name="body">
+          <constrainedElement xmi:idref="QUDV.SimpleQuantityKind.dependsOnQuantityKinds_"/>
+          <specification xmi:id="QUDV.SimpleQuantityKind.dependsOnQuantityKinds_._rule.body.specification0" xmi:type="uml:OpaqueExpression" body="result = Set{}" language="OCL2.0" name=""/>
+        </bodyCondition>
+        <ownedComment xmi:id="QUDV.SimpleQuantityKind.dependsOnQuantityKinds_._comment0" xmi:type="uml:Comment" body="A SimpleQuantityKind does not depend on any other QuantityKind.">
+          <annotatedElement xmi:idref="QUDV.SimpleQuantityKind.dependsOnQuantityKinds_"/>
+        </ownedComment>
+        <ownedComment xmi:id="QUDV.SimpleQuantityKind.dependsOnQuantityKinds_._comment1" xmi:type="uml:Comment" body="A SimpleQuantityKind does not depend on any other QuantityKind."/>
+        <ownedParameter xmi:id="QUDV.SimpleQuantityKind.dependsOnQuantityKinds_.result" xmi:type="uml:Parameter" direction="return" effect="create" name="result">
+          <lowerValue xmi:id="QUDV.SimpleQuantityKind.dependsOnQuantityKinds_.result.lowerValue0" xmi:type="uml:LiteralInteger" name=""/>
+          <type xmi:idref="QUDV.QuantityKind"/>
+          <upperValue xmi:id="QUDV.SimpleQuantityKind.dependsOnQuantityKinds_.result.upperValue0" xmi:type="uml:LiteralUnlimitedNatural" name="" value="*"/>
+        </ownedParameter>
+        <ownedRule xmi:idref="QUDV.SimpleQuantityKind.dependsOnQuantityKinds_._rule.body"/>
+        <redefinedOperation xmi:idref="QUDV.QuantityKind.dependsOnQuantityKinds_"/>
+      </ownedOperation>
+    </packagedElement>
+    <packagedElement xmi:id="QUDV.SimpleUnit" xmi:type="uml:Class" name="SimpleUnit">
+      <generalization xmi:id="QUDV.SimpleUnit._generalization.QUDV.Unit" xmi:type="uml:Generalization">
+        <general xmi:idref="QUDV.Unit"/>
+      </generalization>
+      <ownedComment xmi:id="QUDV.SimpleUnit._comment0" xmi:type="uml:Comment" body="A SimpleUnit is a Unit that represents a measurement unit that does not depend on any other Unit. Typically, a base unit would be specified as a SimpleUnit.">
+        <annotatedElement xmi:idref="QUDV.SimpleUnit"/>
+      </ownedComment>
+      <ownedOperation xmi:id="QUDV.SimpleUnit.dependsOnUnits_" xmi:type="uml:Operation" isQuery="true" name="dependsOnUnits">
+        <bodyCondition xmi:id="QUDV.SimpleUnit.dependsOnUnits_._rule.body" xmi:type="uml:Constraint" name="body">
+          <constrainedElement xmi:idref="QUDV.SimpleUnit.dependsOnUnits_"/>
+          <specification xmi:id="QUDV.SimpleUnit.dependsOnUnits_._rule.body.specification0" xmi:type="uml:OpaqueExpression" body="result = Set{}" language="OCL2.0" name=""/>
+        </bodyCondition>
+        <ownedComment xmi:id="QUDV.SimpleUnit.dependsOnUnits_._comment0" xmi:type="uml:Comment" body="A SimpleUnit is a Unit that represents a measurement unit that does not depend on any other Unit. Typically, a base unit would be specified as a SimpleUnit.">
+          <annotatedElement xmi:idref="QUDV.SimpleUnit.dependsOnUnits_"/>
+        </ownedComment>
+        <ownedComment xmi:id="QUDV.SimpleUnit.dependsOnUnits_._comment1" xmi:type="uml:Comment" body="A SimpleUnit, by definition, does not depend on any other Unit."/>
+        <ownedParameter xmi:id="QUDV.SimpleUnit.dependsOnUnits_.result" xmi:type="uml:Parameter" direction="return" effect="create" name="result">
+          <lowerValue xmi:id="QUDV.SimpleUnit.dependsOnUnits_.result.lowerValue0" xmi:type="uml:LiteralInteger" name=""/>
+          <type xmi:idref="QUDV.Unit"/>
+          <upperValue xmi:id="QUDV.SimpleUnit.dependsOnUnits_.result.upperValue0" xmi:type="uml:LiteralUnlimitedNatural" name="" value="*"/>
+        </ownedParameter>
+        <ownedRule xmi:idref="QUDV.SimpleUnit.dependsOnUnits_._rule.body"/>
+        <redefinedOperation xmi:idref="QUDV.Unit.dependsOnUnits_"/>
+      </ownedOperation>
+    </packagedElement>
+    <packagedElement xmi:id="QUDV.SystemOfQuantities" xmi:type="uml:Class" name="SystemOfQuantities">
+      <ownedAttribute xmi:id="QUDV.SystemOfQuantities.baseQuantityKind" xmi:type="uml:Property" isOrdered="true" name="baseQuantityKind">
+        <association xmi:idref="QUDV.A_systemOfQuantities_baseQuantityKind"/>
+        <lowerValue xmi:id="QUDV.SystemOfQuantities.baseQuantityKind.lowerValue0" xmi:type="uml:LiteralInteger" name=""/>
+        <ownedComment xmi:id="QUDV.SystemOfQuantities.baseQuantityKind._comment0" xmi:type="uml:Comment" body="Ordered set of QuantityKind that specifies the base quantities of the system of quantities. This is a subset of the complete quantityKind list. The base quantities define the basis for the quantity dimension of a kind of quantity.">
+          <annotatedElement xmi:idref="QUDV.SystemOfQuantities.baseQuantityKind"/>
+</ownedComment>
+        <subsettedProperty xmi:idref="QUDV.SystemOfQuantities.quantityKind"/>
+        <type xmi:idref="QUDV.QuantityKind"/>
+        <upperValue xmi:id="QUDV.SystemOfQuantities.baseQuantityKind.upperValue0" xmi:type="uml:LiteralUnlimitedNatural" name="" value="*"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="QUDV.SystemOfQuantities.definitionURI" xmi:type="uml:Property" name="definitionURI">
+        <lowerValue xmi:id="QUDV.SystemOfQuantities.definitionURI.lowerValue0" xmi:type="uml:LiteralInteger" name=""/>
+        <ownedComment xmi:id="QUDV.SystemOfQuantities.definitionURI._comment0" xmi:type="uml:Comment" body="URI that references an external definition of the system of quantities. Note that as part of [ISO/IEC80000] normative URIs for each of the ISQ quantities and SI units are being defined.">
+          <annotatedElement xmi:idref="QUDV.SystemOfQuantities.definitionURI"/>
+        </ownedComment>
+        <type href="https://www.omg.org/spec/SysML/20240101/SysML.xmi#SysML_dataType.String"/>
+        <upperValue xmi:id="QUDV.SystemOfQuantities.definitionURI.upperValue0" xmi:type="uml:LiteralUnlimitedNatural" name="" value="1"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="QUDV.SystemOfQuantities.description" xmi:type="uml:Property" name="description">
+        <lowerValue xmi:id="QUDV.SystemOfQuantities.description.lowerValue0" xmi:type="uml:LiteralInteger" name=""/>
+        <ownedComment xmi:id="QUDV.SystemOfQuantities.description._comment0" xmi:type="uml:Comment" body="Textual description of the system of quantities.">
+          <annotatedElement xmi:idref="QUDV.SystemOfQuantities.description"/>
+        </ownedComment>
+        <type href="https://www.omg.org/spec/SysML/20240101/SysML.xmi#SysML_dataType.String"/>
+        <upperValue xmi:id="QUDV.SystemOfQuantities.description.upperValue0" xmi:type="uml:LiteralUnlimitedNatural" name="" value="1"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="QUDV.SystemOfQuantities.dimension" xmi:type="uml:Property" isDerived="true" isOrdered="true" isReadOnly="true" isUnique="false" name="dimension">
+        <association xmi:idref="QUDV.A_systemOfQuantities_dimension"/>
+        <lowerValue xmi:id="QUDV.SystemOfQuantities.dimension.lowerValue0" xmi:type="uml:LiteralInteger" name=""/>
+        <ownedComment xmi:id="QUDV.SystemOfQuantities.dimension._comment0" xmi:type="uml:Comment" body="Derived ordered set of Dimension. The actual dimension of a QuantityKind depends on the list of baseQuantityKind that are specified in an actual SystemOfQuantities, see the DerivedDimensions constraint.">
+          <annotatedElement xmi:idref="QUDV.SystemOfQuantities.dimension"/>
+</ownedComment>
+        <type xmi:idref="QUDV.Dimension"/>
+        <upperValue xmi:id="QUDV.SystemOfQuantities.dimension.upperValue0" xmi:type="uml:LiteralUnlimitedNatural" name="" value="*"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="QUDV.SystemOfQuantities.includedSystemOfQuantities" xmi:type="uml:Property" name="includedSystemOfQuantities">
+        <association xmi:idref="QUDV.A_includedSystemOfQuantities_systemOfQuantities"/>
+        <lowerValue xmi:id="QUDV.SystemOfQuantities.includedSystemOfQuantities.lowerValue0" xmi:type="uml:LiteralInteger" name=""/>
+        <ownedComment xmi:id="QUDV.SystemOfQuantities.includedSystemOfQuantities._comment0" xmi:type="uml:Comment" body="Including a SystemOfQuantities means including all of the QuantityKind it defines and includes from other SystemOfQuantities.">
+          <annotatedElement xmi:idref="QUDV.SystemOfQuantities.includedSystemOfQuantities"/>
+        </ownedComment>
+        <type xmi:idref="QUDV.SystemOfQuantities"/>
+        <upperValue xmi:id="QUDV.SystemOfQuantities.includedSystemOfQuantities.upperValue0" xmi:type="uml:LiteralUnlimitedNatural" name="" value="*"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="QUDV.SystemOfQuantities.quantityKind" xmi:type="uml:Property" isOrdered="true" name="quantityKind">
+        <association xmi:idref="QUDV.A_systemOfQuantities_quantityKind"/>
+        <lowerValue xmi:id="QUDV.SystemOfQuantities.quantityKind.lowerValue0" xmi:type="uml:LiteralInteger" name=""/>
+        <ownedComment xmi:id="QUDV.SystemOfQuantities.quantityKind._comment0" xmi:type="uml:Comment" body="Ordered set of QuantityKind that specifies the kinds of quantity that are known in the system.">
+          <annotatedElement xmi:idref="QUDV.SystemOfQuantities.quantityKind"/>
+        </ownedComment>
+        <type xmi:idref="QUDV.QuantityKind"/>
+        <upperValue xmi:id="QUDV.SystemOfQuantities.quantityKind.upperValue0" xmi:type="uml:LiteralUnlimitedNatural" name="" value="*"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="QUDV.SystemOfQuantities.symbol" xmi:type="uml:Property" name="symbol">
+        <lowerValue xmi:id="QUDV.SystemOfQuantities.symbol.lowerValue0" xmi:type="uml:LiteralInteger" name=""/>
+        <ownedComment xmi:id="QUDV.SystemOfQuantities.symbol._comment0" xmi:type="uml:Comment" body="Short symbolic name of the system of quantities.">
+          <annotatedElement xmi:idref="QUDV.SystemOfQuantities.symbol"/>
+        </ownedComment>
+        <type href="https://www.omg.org/spec/SysML/20240101/SysML.xmi#SysML_dataType.String"/>
+        <upperValue xmi:id="QUDV.SystemOfQuantities.symbol.upperValue0" xmi:type="uml:LiteralUnlimitedNatural" name="" value="1"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="QUDV.SystemOfQuantities.usedSystemOfQuantities" xmi:type="uml:Property" name="usedSystemOfQuantities">
+        <association xmi:idref="QUDV.A_usedSystemOfQuantities_systemOfQuantities"/>
+        <lowerValue xmi:id="QUDV.SystemOfQuantities.usedSystemOfQuantities.lowerValue0" xmi:type="uml:LiteralInteger" name=""/>
+        <ownedComment xmi:id="QUDV.SystemOfQuantities.usedSystemOfQuantities._comment0" xmi:type="uml:Comment" body="A QuantityKind can be defined in a SystemOfQuantities in terms of QuantityKinds defined in that SystemOfQuantities or from other SystemOfQuantities it uses or includes. See for example the units used with the SI in ISO 80000-1, Table 5.">
+          <annotatedElement xmi:idref="QUDV.SystemOfQuantities.usedSystemOfQuantities"/>
+</ownedComment>
+        <type xmi:idref="QUDV.SystemOfQuantities"/>
+        <upperValue xmi:id="QUDV.SystemOfQuantities.usedSystemOfQuantities.upperValue0" xmi:type="uml:LiteralUnlimitedNatural" name="" value="*"/>
+      </ownedAttribute>
+      <ownedComment xmi:id="QUDV.SystemOfQuantities._comment0" xmi:type="uml:Comment" body="&lt;p&gt; A SystemOfQuantities represents the [VIM] concept of &quot;system of quantities&quot; that is defined as a &quot;set of quantities together with a set of non-contradictory equations relating those quantities.&quot; It collects a list of QuantityKind that specifies the kinds of quantity that are known in the system. &lt;/p&gt;&lt;p&gt; The International System of Quantities (ISQ) is an example of a SystemOfQuantities, defined in [ISO31] and [ISO/IEC80000]. &lt;/p&gt;">
+        <annotatedElement xmi:idref="QUDV.SystemOfQuantities"/>
+</ownedComment>
+      <ownedOperation xmi:id="QUDV.SystemOfQuantities.allAccessibleQuantityKinds_" xmi:type="uml:Operation" isQuery="true" name="allAccessibleQuantityKinds">
+        <bodyCondition xmi:id="QUDV.SystemOfQuantities.allAccessibleQuantityKinds_._rule.body" xmi:type="uml:Constraint" name="body">
+          <constrainedElement xmi:idref="QUDV.SystemOfQuantities.allAccessibleQuantityKinds_"/>
+          <specification xmi:id="QUDV.SystemOfQuantities.allAccessibleQuantityKinds_._rule.body.specification0" xmi:type="uml:OpaqueExpression" body="result=allAccessibleSystemOfQuantities()-&gt;collect(quantityKind)-&gt;flatten()-&gt;asSet()" language="OCL2.0" name=""/>
+        </bodyCondition>
+        <ownedComment xmi:id="QUDV.SystemOfQuantities.allAccessibleQuantityKinds_._comment0" xmi:type="uml:Comment" body="The query accessibleQuantityKinds() gives all the QuantityKinds directly defined in the SystemOfQuantities or transitively in any included or used SystemOfQuantities.">
+          <annotatedElement xmi:idref="QUDV.SystemOfQuantities.allAccessibleQuantityKinds_"/>
+        </ownedComment>
+        <ownedParameter xmi:id="QUDV.SystemOfQuantities.allAccessibleQuantityKinds_.result" xmi:type="uml:Parameter" direction="return" effect="create" name="result">
+          <lowerValue xmi:id="QUDV.SystemOfQuantities.allAccessibleQuantityKinds_.result.lowerValue0" xmi:type="uml:LiteralInteger" name=""/>
+          <type xmi:idref="QUDV.QuantityKind"/>
+          <upperValue xmi:id="QUDV.SystemOfQuantities.allAccessibleQuantityKinds_.result.upperValue0" xmi:type="uml:LiteralUnlimitedNatural" name="" value="*"/>
+        </ownedParameter>
+        <ownedRule xmi:idref="QUDV.SystemOfQuantities.allAccessibleQuantityKinds_._rule.body"/>
+      </ownedOperation>
+      <ownedOperation xmi:id="QUDV.SystemOfQuantities.allAccessibleSystemOfQuantities_" xmi:type="uml:Operation" isQuery="true" name="allAccessibleSystemOfQuantities">
+        <bodyCondition xmi:id="QUDV.SystemOfQuantities.allAccessibleSystemOfQuantities_._rule.body" xmi:type="uml:Constraint" name="body">
+          <specification xmi:id="QUDV.SystemOfQuantities.allAccessibleSystemOfQuantities_._rule.body.specification0" xmi:type="uml:OpaqueExpression" body="result=self-&gt;closure(includedSystemOfQuantities-&gt;union(usedSystemOfQuantities))-&gt;asSet()" language="OCL2.0" name=""/>
+        </bodyCondition>
+        <ownedComment xmi:id="QUDV.SystemOfQuantities.allAccessibleSystemOfQuantities_._comment0" xmi:type="uml:Comment" body="The query allAccessibleSystemOfQuantities() gives all the SystemOfQuantities directly or transitively included or used.">
+          <annotatedElement xmi:idref="QUDV.SystemOfQuantities.allAccessibleSystemOfQuantities_"/>
+        </ownedComment>
+        <ownedParameter xmi:id="QUDV.SystemOfQuantities.allAccessibleSystemOfQuantities_.result" xmi:type="uml:Parameter" direction="return" effect="create" name="result">
+          <lowerValue xmi:id="QUDV.SystemOfQuantities.allAccessibleSystemOfQuantities_.result.lowerValue0" xmi:type="uml:LiteralInteger" name=""/>
+          <type xmi:idref="QUDV.SystemOfQuantities"/>
+          <upperValue xmi:id="QUDV.SystemOfQuantities.allAccessibleSystemOfQuantities_.result.upperValue0" xmi:type="uml:LiteralUnlimitedNatural" name="" value="*"/>
+        </ownedParameter>
+        <ownedRule xmi:idref="QUDV.SystemOfQuantities.allAccessibleSystemOfQuantities_._rule.body"/>
+      </ownedOperation>
+      <ownedOperation xmi:id="QUDV.SystemOfQuantities.allBaseQuantityKinds_" xmi:type="uml:Operation" isQuery="true" name="allBaseQuantityKinds">
+        <bodyCondition xmi:id="QUDV.SystemOfQuantities.allBaseQuantityKinds_._rule.body" xmi:type="uml:Constraint" name="body">
+          <constrainedElement xmi:idref="QUDV.SystemOfQuantities.allBaseQuantityKinds_"/>
+          <specification xmi:id="QUDV.SystemOfQuantities.allBaseQuantityKinds_._rule.body.specification0" xmi:type="uml:OpaqueExpression" body="result=allIncludedSystemOfQuantities()-&gt;collect(baseQuantityKind)-&gt;flatten()-&gt;asSet()-&gt;union(baseQuantityKind)-&gt;asSet()" language="OCL2.0" name=""/>
+        </bodyCondition>
+        <ownedComment xmi:id="QUDV.SystemOfQuantities.allBaseQuantityKinds_._comment0" xmi:type="uml:Comment" body="The query allBaseQuantityKinds() gives all the QuantityKinds directly adopted or transitively adopted from any included SystemOfQuantities as base QuantityKinds.">
+          <annotatedElement xmi:idref="QUDV.SystemOfQuantities.allBaseQuantityKinds_"/>
+        </ownedComment>
+        <ownedParameter xmi:id="QUDV.SystemOfQuantities.allBaseQuantityKinds_.result" xmi:type="uml:Parameter" direction="return" effect="create" name="result">
+          <lowerValue xmi:id="QUDV.SystemOfQuantities.allBaseQuantityKinds_.result.lowerValue0" xmi:type="uml:LiteralInteger" name=""/>
+          <type xmi:idref="QUDV.QuantityKind"/>
+          <upperValue xmi:id="QUDV.SystemOfQuantities.allBaseQuantityKinds_.result.upperValue0" xmi:type="uml:LiteralUnlimitedNatural" name="" value="*"/>
+        </ownedParameter>
+        <ownedRule xmi:idref="QUDV.SystemOfQuantities.allBaseQuantityKinds_._rule.body"/>
+      </ownedOperation>
+      <ownedOperation xmi:id="QUDV.SystemOfQuantities.allIncludedSystemOfQuantities_" xmi:type="uml:Operation" isQuery="true" name="allIncludedSystemOfQuantities">
+        <bodyCondition xmi:id="QUDV.SystemOfQuantities.allIncludedSystemOfQuantities_._rule.body" xmi:type="uml:Constraint" name="body">
+          <specification xmi:id="QUDV.SystemOfQuantities.allIncludedSystemOfQuantities_._rule.body.specification0" xmi:type="uml:OpaqueExpression" body="result=self-&gt;closure(includedSystemOfQuantities)-&gt;asSet()" language="OCL2.0" name=""/>
+        </bodyCondition>
+        <ownedComment xmi:id="QUDV.SystemOfQuantities.allIncludedSystemOfQuantities_._comment0" xmi:type="uml:Comment" body="The query allIncludedSystemOfQuantities() gives all the SystemOfQuantities directly or transitively included.">
+          <annotatedElement xmi:idref="QUDV.SystemOfQuantities.allIncludedSystemOfQuantities_"/>
+        </ownedComment>
+        <ownedParameter xmi:id="QUDV.SystemOfQuantities.allIncludedSystemOfQuantities_.result" xmi:type="uml:Parameter" direction="return" effect="create" name="result">
+          <lowerValue xmi:id="QUDV.SystemOfQuantities.allIncludedSystemOfQuantities_.result.lowerValue0" xmi:type="uml:LiteralInteger" name=""/>
+          <type xmi:idref="QUDV.SystemOfQuantities"/>
+          <upperValue xmi:id="QUDV.SystemOfQuantities.allIncludedSystemOfQuantities_.result.upperValue0" xmi:type="uml:LiteralUnlimitedNatural" name="" value="*"/>
+        </ownedParameter>
+        <ownedRule xmi:idref="QUDV.SystemOfQuantities.allIncludedSystemOfQuantities_._rule.body"/>
+      </ownedOperation>
+      <ownedOperation xmi:id="QUDV.SystemOfQuantities.allQuantityKinds_" xmi:type="uml:Operation" isQuery="true" name="allQuantityKinds">
+        <bodyCondition xmi:id="QUDV.SystemOfQuantities.allQuantityKinds_._rule.body" xmi:type="uml:Constraint" name="body">
+          <constrainedElement xmi:idref="QUDV.SystemOfQuantities.allQuantityKinds_"/>
+          <specification xmi:id="QUDV.SystemOfQuantities.allQuantityKinds_._rule.body.specification0" xmi:type="uml:OpaqueExpression" body="result=allIncludedSystemOfQuantities()-&gt;collect(quantityKind)-&gt;flatten()-&gt;asSet()-&gt;union(quantityKind)-&gt;asSet()" language="OCL2.0" name=""/>
+        </bodyCondition>
+        <ownedComment xmi:id="QUDV.SystemOfQuantities.allQuantityKinds_._comment1" xmi:type="uml:Comment" body="The query allQuantityKinds() gives all the QuantityKinds in scope of a SystemOfQuantities; that is, each QuantityKind is either directly defined in the SystemOfQuantities, selectively used from another SystemOfQuantities or part of the scope of all the QuantityKinds included from another SystemOfQuantities.">
+          <annotatedElement xmi:idref="QUDV.SystemOfQuantities.allQuantityKinds_"/>
+</ownedComment>
+        <ownedComment xmi:id="QUDV.SystemOfQuantities.allQuantityKinds_._comment0" xmi:type="uml:Comment" body="             The query allQuantityKinds() gives all the QuantityKinds in scope of a SystemOfQuantities; that is, each QuantityKind is either directly defined in the SystemOfQuantities, selectively used from another SystemOfQuantities or part of the scope of all the QuantityKinds included from another SystemOfQuantities.           ">
+</ownedComment>
+        <ownedParameter xmi:id="QUDV.SystemOfQuantities.allQuantityKinds_.result" xmi:type="uml:Parameter" direction="return" effect="create" name="result">
+          <lowerValue xmi:id="QUDV.SystemOfQuantities.allQuantityKinds_.result.lowerValue0" xmi:type="uml:LiteralInteger" name=""/>
+          <type xmi:idref="QUDV.QuantityKind"/>
+          <upperValue xmi:id="QUDV.SystemOfQuantities.allQuantityKinds_.result.upperValue0" xmi:type="uml:LiteralUnlimitedNatural" name="" value="*"/>
+        </ownedParameter>
+        <ownedRule xmi:idref="QUDV.SystemOfQuantities.allQuantityKinds_._rule.body"/>
+      </ownedOperation>
+      <ownedOperation xmi:id="QUDV.SystemOfQuantities.getDimension_QuantityKind" xmi:type="uml:Operation" name="getDimension">
+        <ownedParameter xmi:id="QUDV.SystemOfQuantities.getDimension_QuantityKind.qk" xmi:type="uml:Parameter" effect="create" name="qk">
+          <lowerValue xmi:id="QUDV.SystemOfQuantities.getDimension_QuantityKind.qk.lowerValue0" xmi:type="uml:LiteralInteger" name="" value="1"/>
+          <type xmi:idref="QUDV.QuantityKind"/>
+          <upperValue xmi:id="QUDV.SystemOfQuantities.getDimension_QuantityKind.qk.upperValue0" xmi:type="uml:LiteralUnlimitedNatural" name="" value="1"/>
+        </ownedParameter>
+        <ownedParameter xmi:id="QUDV.SystemOfQuantities.getDimension_QuantityKind.result" xmi:type="uml:Parameter" direction="return" effect="create" name="result">
+          <lowerValue xmi:id="QUDV.SystemOfQuantities.getDimension_QuantityKind.result.lowerValue0" xmi:type="uml:LiteralInteger" name="" value="1"/>
+          <type xmi:idref="QUDV.Dimension"/>
+          <upperValue xmi:id="QUDV.SystemOfQuantities.getDimension_QuantityKind.result.upperValue0" xmi:type="uml:LiteralUnlimitedNatural" name="" value="1"/>
+        </ownedParameter>
+      </ownedOperation>
+      <ownedRule xmi:id="QUDV.SystemOfQuantities._rule.acyclicProvenance" xmi:type="uml:Constraint" name="acyclicProvenance">
+        <ownedComment xmi:id="QUDV.SystemOfQuantities._rule.acyclicProvenance._comment0" xmi:type="uml:Comment" body="For a QuantityKind to have a provenance to a single SystemOfQuantities, the use and includes relationships among SystemOfQuantities shall be acyclic.">
+          <annotatedElement xmi:idref="QUDV.SystemOfQuantities._rule.acyclicProvenance"/>
+        </ownedComment>
+        <specification xmi:id="QUDV.SystemOfQuantities._rule.acyclicProvenance.specification0" xmi:type="uml:OpaqueExpression" body="allAccessibleSystemOfQuantities()-&gt;excludes(self)" language="OCL2.0" name=""/>
+      </ownedRule>
+      <ownedRule xmi:id="QUDV.SystemOfQuantities._rule.allBaseQuantitiesAreQuantities" xmi:type="uml:Constraint" name="allBaseQuantitiesAreQuantities">
+        <ownedComment xmi:id="QUDV.SystemOfQuantities._rule.allBaseQuantitiesAreQuantities._comment0" xmi:type="uml:Comment" body="The set of all QuantityKinds in a given SystemOfQuantities shall be partitioned into two disjoint, covering subsets: the set of base QuantityKinds (typically chosen to be mutually independent) and its complement, the set of derived QuantityKinds, each of which can be expressed in terms of the base QuantityKinds (See ISO 80000-1, 4.3).">
+          <annotatedElement xmi:idref="QUDV.SystemOfQuantities._rule.allBaseQuantitiesAreQuantities"/>
+</ownedComment>
+        <specification xmi:id="QUDV.SystemOfQuantities._rule.allBaseQuantitiesAreQuantities.specification0" xmi:type="uml:OpaqueExpression" body="allQuantityKinds()-&gt;includesAll(allBaseQuantityKinds())" language="OCL2.0" name=""/>
+      </ownedRule>
+      <ownedRule xmi:id="QUDV.SystemOfQuantities._rule.includedSystemOfQuantities_transitivelyDisjoint_usedSystemOfQuantities" xmi:type="uml:Constraint" name="includedSystemOfQuantities_transitivelyDisjoint_usedSystemOfQuantities">
+        <ownedComment xmi:id="QUDV.SystemOfQuantities._rule.includedSystemOfQuantities_transitivelyDisjoint_usedSystemOfQuantities._comment0" xmi:type="uml:Comment" body="For a QuantityKind to have a provenance to a single SystemOfQuantities, all included systems of quantities shall be transitively disjoint with all used systems of quantities.">
+          <annotatedElement xmi:idref="QUDV.SystemOfQuantities._rule.includedSystemOfQuantities_transitivelyDisjoint_usedSystemOfQuantities"/>
+</ownedComment>
+        <specification xmi:id="QUDV.SystemOfQuantities._rule.includedSystemOfQuantities_transitivelyDisjoint_usedSystemOfQuantities.specification0" xmi:type="uml:OpaqueExpression" body="allIncludedSystemOfQuantities()-&gt;intersection(self.oclAsSet()-&gt;closure(usedSystemOfQuantities))-&gt;isEmpty()" language="OCL2.0" name="">
+</specification>
+      </ownedRule>
+      <ownedRule xmi:id="QUDV.SystemOfQuantities._rule.singleProvenance" xmi:type="uml:Constraint" name="singleProvenance">
+        <ownedComment xmi:id="QUDV.SystemOfQuantities._rule.singleProvenance._comment0" xmi:type="uml:Comment" body="Every QuantityKind shall be defined in only one SystemOfQuantities but it can be in the scope of several SystemOfQuantities. A given QuantityKind is in scope of a SystemOfQuantities either because it is defined or used in a SystemOfQuantities or because it is included from the scope of another SystemOfQuantities.">
+          <annotatedElement xmi:idref="QUDV.SystemOfQuantities._rule.singleProvenance"/>
+</ownedComment>
+        <specification xmi:id="QUDV.SystemOfQuantities._rule.singleProvenance.specification0" xmi:type="uml:OpaqueExpression" body="includedSystemOfQuantities-&gt;collect(allQuantityKinds())-&gt;intersection(quantityKind)-&gt;isEmpty()" language="OCL2.0" name=""/>
+      </ownedRule>
+    </packagedElement>
+    <packagedElement xmi:id="QUDV.SystemOfUnits" xmi:type="uml:Class" name="SystemOfUnits">
+      <ownedAttribute xmi:id="QUDV.SystemOfUnits.baseUnit" xmi:type="uml:Property" isOrdered="true" name="baseUnit">
+        <association xmi:idref="QUDV.A_systemOfUnits_baseUnit"/>
+        <lowerValue xmi:id="QUDV.SystemOfUnits.baseUnit.lowerValue0" xmi:type="uml:LiteralInteger" name=""/>
+        <ownedComment xmi:id="QUDV.SystemOfUnits.baseUnit._comment0" xmi:type="uml:Comment" body="Ordered set of Unit that specifies the base units of the system of units. A &quot;base unit&quot; is defined in [VIM] as a &quot;measurement unit that is adopted by convention for a base quantity.&quot; It is the (preferred) unit in which base quantities of the associated systemOfQuantities are expressed.">
+          <annotatedElement xmi:idref="QUDV.SystemOfUnits.baseUnit"/>
+</ownedComment>
+        <subsettedProperty xmi:idref="QUDV.SystemOfUnits.unit"/>
+        <type xmi:idref="QUDV.Unit"/>
+        <upperValue xmi:id="QUDV.SystemOfUnits.baseUnit.upperValue0" xmi:type="uml:LiteralUnlimitedNatural" name="" value="*"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="QUDV.SystemOfUnits.definitionURI" xmi:type="uml:Property" name="definitionURI">
+        <lowerValue xmi:id="QUDV.SystemOfUnits.definitionURI.lowerValue0" xmi:type="uml:LiteralInteger" name=""/>
+        <ownedComment xmi:id="QUDV.SystemOfUnits.definitionURI._comment0" xmi:type="uml:Comment" body="A URI that references an external definition of the system of units. Note that as part of [ISO/IEC80000] normative URIs for each of the quantities in the ISQ and units in the SI are being defined.">
+          <annotatedElement xmi:idref="QUDV.SystemOfUnits.definitionURI"/>
+        </ownedComment>
+        <type href="https://www.omg.org/spec/SysML/20240101/SysML.xmi#SysML_dataType.String"/>
+        <upperValue xmi:id="QUDV.SystemOfUnits.definitionURI.upperValue0" xmi:type="uml:LiteralUnlimitedNatural" name="" value="1"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="QUDV.SystemOfUnits.description" xmi:type="uml:Property" name="description">
+        <lowerValue xmi:id="QUDV.SystemOfUnits.description.lowerValue0" xmi:type="uml:LiteralInteger" name=""/>
+        <ownedComment xmi:id="QUDV.SystemOfUnits.description._comment0" xmi:type="uml:Comment" body="Textual description of the system of units.">
+          <annotatedElement xmi:idref="QUDV.SystemOfUnits.description"/>
+        </ownedComment>
+        <type href="https://www.omg.org/spec/SysML/20240101/SysML.xmi#SysML_dataType.String"/>
+        <upperValue xmi:id="QUDV.SystemOfUnits.description.upperValue0" xmi:type="uml:LiteralUnlimitedNatural" name="" value="1"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="QUDV.SystemOfUnits.includedSystemOfUnits" xmi:type="uml:Property" name="includedSystemOfUnits">
+        <association xmi:idref="QUDV.A_includedSystemOfUnits_systemOfUnits"/>
+        <lowerValue xmi:id="QUDV.SystemOfUnits.includedSystemOfUnits.lowerValue0" xmi:type="uml:LiteralInteger" name=""/>
+        <ownedComment xmi:id="QUDV.SystemOfUnits.includedSystemOfUnits._comment0" xmi:type="uml:Comment" body="Including a SystemOfQuantities means including all of the QuantityKind it defines and includes from other SystemOfQuantities.">
+          <annotatedElement xmi:idref="QUDV.SystemOfUnits.includedSystemOfUnits"/>
+        </ownedComment>
+        <type xmi:idref="QUDV.SystemOfUnits"/>
+        <upperValue xmi:id="QUDV.SystemOfUnits.includedSystemOfUnits.upperValue0" xmi:type="uml:LiteralUnlimitedNatural" name="" value="*"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="QUDV.SystemOfUnits.prefix" xmi:type="uml:Property" isOrdered="true" name="prefix">
+        <association xmi:idref="QUDV.A_systemOfUnits_prefix"/>
+        <lowerValue xmi:id="QUDV.SystemOfUnits.prefix.lowerValue0" xmi:type="uml:LiteralInteger" name=""/>
+        <ownedComment xmi:id="QUDV.SystemOfUnits.prefix._comment0" xmi:type="uml:Comment" body="Ordered set of Prefix that specifies the prefixes for multiples and submultiples of units in the system.">
+          <annotatedElement xmi:idref="QUDV.SystemOfUnits.prefix"/>
+        </ownedComment>
+        <type xmi:idref="QUDV.Prefix"/>
+        <upperValue xmi:id="QUDV.SystemOfUnits.prefix.upperValue0" xmi:type="uml:LiteralUnlimitedNatural" name="" value="*"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="QUDV.SystemOfUnits.symbol" xmi:type="uml:Property" name="symbol">
+        <lowerValue xmi:id="QUDV.SystemOfUnits.symbol.lowerValue0" xmi:type="uml:LiteralInteger" name=""/>
+        <ownedComment xmi:id="QUDV.SystemOfUnits.symbol._comment0" xmi:type="uml:Comment" body="Short symbolic name of the system of units.">
+          <annotatedElement xmi:idref="QUDV.SystemOfUnits.symbol"/>
+        </ownedComment>
+        <type href="https://www.omg.org/spec/SysML/20240101/SysML.xmi#SysML_dataType.String"/>
+        <upperValue xmi:id="QUDV.SystemOfUnits.symbol.upperValue0" xmi:type="uml:LiteralUnlimitedNatural" name="" value="1"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="QUDV.SystemOfUnits.systemOfQuantities" xmi:type="uml:Property" name="systemOfQuantities">
+        <association xmi:idref="QUDV.A_systemOfUnits_systemOfQuantities"/>
+        <lowerValue xmi:id="QUDV.SystemOfUnits.systemOfQuantities.lowerValue0" xmi:type="uml:LiteralInteger" name=""/>
+        <ownedComment xmi:id="QUDV.SystemOfUnits.systemOfQuantities._comment0" xmi:type="uml:Comment" body="Reference to the SystemOfQuantities for which the units are specified.">
+          <annotatedElement xmi:idref="QUDV.SystemOfUnits.systemOfQuantities"/>
+        </ownedComment>
+        <type xmi:idref="QUDV.SystemOfQuantities"/>
+        <upperValue xmi:id="QUDV.SystemOfUnits.systemOfQuantities.upperValue0" xmi:type="uml:LiteralUnlimitedNatural" name="" value="1"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="QUDV.SystemOfUnits.unit" xmi:type="uml:Property" isOrdered="true" name="unit">
+        <association xmi:idref="QUDV.A_systemOfUnits_unit"/>
+        <lowerValue xmi:id="QUDV.SystemOfUnits.unit.lowerValue0" xmi:type="uml:LiteralInteger" name=""/>
+        <ownedComment xmi:id="QUDV.SystemOfUnits.unit._comment0" xmi:type="uml:Comment" body="Ordered set of Unit that specifies the units that are known in the system.">
+          <annotatedElement xmi:idref="QUDV.SystemOfUnits.unit"/>
+        </ownedComment>
+        <type xmi:idref="QUDV.Unit"/>
+        <upperValue xmi:id="QUDV.SystemOfUnits.unit.upperValue0" xmi:type="uml:LiteralUnlimitedNatural" name="" value="*"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="QUDV.SystemOfUnits.usedSystemOfUnits" xmi:type="uml:Property" name="usedSystemOfUnits">
+        <association xmi:idref="QUDV.A_usedSystemOfUnits_systemOfUnits"/>
+        <lowerValue xmi:id="QUDV.SystemOfUnits.usedSystemOfUnits.lowerValue0" xmi:type="uml:LiteralInteger" name=""/>
+        <ownedComment xmi:id="QUDV.SystemOfUnits.usedSystemOfUnits._comment0" xmi:type="uml:Comment" body="A Unit can be defined in a SystemOfUnits in terms of Units defined in that SystemOfUnits or from other SystemOfUnits it uses or includes. See for example the units used with the SI in ISO 80000-1, Table 5.">
+          <annotatedElement xmi:idref="QUDV.SystemOfUnits.usedSystemOfUnits"/>
+</ownedComment>
+        <type xmi:idref="QUDV.SystemOfUnits"/>
+        <upperValue xmi:id="QUDV.SystemOfUnits.usedSystemOfUnits.upperValue0" xmi:type="uml:LiteralUnlimitedNatural" name="" value="*"/>
+      </ownedAttribute>
+      <ownedComment xmi:id="QUDV.SystemOfUnits._comment0" xmi:type="uml:Comment" body="A SystemOfUnits represents the [VIM] concept of &quot;system of units&quot; that is defined as &quot;set of base units and derived units, together with their multiples and submultiples, defined in accordance with given rules, for a given system of quantities.&quot; It collects a list of Units that are known in the system. A QUDV SystemOfUnits only optionally defines multiples and submultiples.">
+        <annotatedElement xmi:idref="QUDV.SystemOfUnits"/>
+</ownedComment>
+      <ownedOperation xmi:id="QUDV.SystemOfUnits.allAccessibleSystemOfUnits_" xmi:type="uml:Operation" isQuery="true" name="allAccessibleSystemOfUnits">
+        <bodyCondition xmi:id="QUDV.SystemOfUnits.allAccessibleSystemOfUnits_._rule.body" xmi:type="uml:Constraint" name="body">
+          <specification xmi:id="QUDV.SystemOfUnits.allAccessibleSystemOfUnits_._rule.body.specification0" xmi:type="uml:OpaqueExpression" body="result=self-&gt;closure(includedSystemOfUnits-&gt;union(usedSystemOfUnits))-&gt;asSet()" language="OCL2.0" name=""/>
+        </bodyCondition>
+        <ownedComment xmi:id="QUDV.SystemOfUnits.allAccessibleSystemOfUnits_._comment0" xmi:type="uml:Comment" body="The query allAccessibleSystemOfUnits() gives all the SystemOfUnits directly or transitively included or used.">
+          <annotatedElement xmi:idref="QUDV.SystemOfUnits.allAccessibleSystemOfUnits_"/>
+        </ownedComment>
+        <ownedParameter xmi:id="QUDV.SystemOfUnits.allAccessibleSystemOfUnits_.result" xmi:type="uml:Parameter" direction="return" effect="create" name="result">
+          <lowerValue xmi:id="QUDV.SystemOfUnits.allAccessibleSystemOfUnits_.result.lowerValue0" xmi:type="uml:LiteralInteger" name=""/>
+          <type xmi:idref="QUDV.SystemOfUnits"/>
+          <upperValue xmi:id="QUDV.SystemOfUnits.allAccessibleSystemOfUnits_.result.upperValue0" xmi:type="uml:LiteralUnlimitedNatural" name="" value="*"/>
+        </ownedParameter>
+        <ownedRule xmi:idref="QUDV.SystemOfUnits.allAccessibleSystemOfUnits_._rule.body"/>
+      </ownedOperation>
+      <ownedOperation xmi:id="QUDV.SystemOfUnits.allAccessibleUnits_" xmi:type="uml:Operation" isQuery="true" name="allAccessibleUnits">
+        <bodyCondition xmi:id="QUDV.SystemOfUnits.allAccessibleUnits_._rule.body" xmi:type="uml:Constraint" name="body">
+          <constrainedElement xmi:idref="QUDV.SystemOfUnits.allAccessibleUnits_"/>
+          <specification xmi:id="QUDV.SystemOfUnits.allAccessibleUnits_._rule.body.specification0" xmi:type="uml:OpaqueExpression" body="result=allAccessibleSystemOfUnits()-&gt;collect(unit)-&gt;flatten()-&gt;asSet()" language="OCL2.0" name=""/>
+        </bodyCondition>
+        <ownedComment xmi:id="QUDV.SystemOfUnits.allAccessibleUnits_._comment0" xmi:type="uml:Comment" body="The query accessibleUnits () gives all the units directly defined in a system of units or transitively in any included or used system of units.">
+          <annotatedElement xmi:idref="QUDV.SystemOfUnits.allAccessibleUnits_"/>
+        </ownedComment>
+        <ownedComment xmi:id="QUDV.SystemOfUnits.allAccessibleUnits_._comment1" xmi:type="uml:Comment" body="The query accessibleUnits() gives all the Units directly defined in a SystemOfUnits or transitively in any included or used SystemOfUnits."/>
+        <ownedParameter xmi:id="QUDV.SystemOfUnits.allAccessibleUnits_.result" xmi:type="uml:Parameter" direction="return" effect="create" name="result">
+          <lowerValue xmi:id="QUDV.SystemOfUnits.allAccessibleUnits_.result.lowerValue0" xmi:type="uml:LiteralInteger" name=""/>
+          <type xmi:idref="QUDV.Unit"/>
+          <upperValue xmi:id="QUDV.SystemOfUnits.allAccessibleUnits_.result.upperValue0" xmi:type="uml:LiteralUnlimitedNatural" name="" value="*"/>
+        </ownedParameter>
+        <ownedRule xmi:idref="QUDV.SystemOfUnits.allAccessibleUnits_._rule.body"/>
+      </ownedOperation>
+      <ownedOperation xmi:id="QUDV.SystemOfUnits.allBaseQuantityKinds_" xmi:type="uml:Operation" isQuery="true" name="allBaseQuantityKinds">
+        <bodyCondition xmi:id="QUDV.SystemOfUnits.allBaseQuantityKinds_._rule.unnamed1" xmi:type="uml:Constraint" name="unnamed1">
+          <specification xmi:id="QUDV.SystemOfUnits.allBaseQuantityKinds_._rule.unnamed1.specification0" xmi:type="uml:OpaqueExpression" body="result=getEffectiveSystemOfQuantities()-&gt;allBaseQuantityKinds()-&gt;flatten()-&gt;asSet()" language="English" name=""/>
+        </bodyCondition>
+        <ownedComment xmi:id="QUDV.SystemOfUnits.allBaseQuantityKinds_._comment0" xmi:type="uml:Comment" body="The query allBaseQuantityKinds() gives all the QuantityKinds directly adopted or transitively adopted from any included SystemOfQuantities as base QuantityKinds in the effective SystemOfQuantities associated to a SystemOfUnits.">
+</ownedComment>
+        <ownedComment xmi:id="QUDV.SystemOfUnits.allBaseQuantityKinds_._comment1" xmi:type="uml:Comment" body="The query allBaseQuantityKinds() gives all the QuantityKinds directly adopted or transitively adopted from any included SystemOfQuantities as base QuantityKinds in the effective SystemOfQuantities associated to a SystemOfUnits.">
+          <annotatedElement xmi:idref="QUDV.SystemOfUnits.allBaseQuantityKinds_"/>
+</ownedComment>
+        <ownedParameter xmi:id="QUDV.SystemOfUnits.allBaseQuantityKinds_.result" xmi:type="uml:Parameter" direction="return" effect="create" name="result">
+          <lowerValue xmi:id="QUDV.SystemOfUnits.allBaseQuantityKinds_.result.lowerValue0" xmi:type="uml:LiteralInteger" name=""/>
+          <type xmi:idref="QUDV.QuantityKind"/>
+          <upperValue xmi:id="QUDV.SystemOfUnits.allBaseQuantityKinds_.result.upperValue0" xmi:type="uml:LiteralUnlimitedNatural" name="" value="*"/>
+        </ownedParameter>
+        <ownedRule xmi:id="QUDV.SystemOfUnits.allBaseQuantityKinds_._rule." xmi:type="uml:Constraint" name=""/>
+        <ownedRule xmi:id="QUDV.SystemOfUnits.allBaseQuantityKinds_._rule.result" xmi:type="uml:Constraint" name="result">
+          <specification xmi:id="QUDV.SystemOfUnits.allBaseQuantityKinds_._rule.result.specification0" xmi:type="uml:OpaqueExpression" body="getEffectiveSystemOfQuantities().allBaseQuantityKinds()-&gt;flatten()-&gt;asSet()" language="OCL2.0" name=""/>
+        </ownedRule>
+        <ownedRule xmi:idref="QUDV.SystemOfUnits.allBaseQuantityKinds_._rule.unnamed1"/>
+      </ownedOperation>
+      <ownedOperation xmi:id="QUDV.SystemOfUnits.allBaseUnits_" xmi:type="uml:Operation" isQuery="true" name="allBaseUnits">
+        <bodyCondition xmi:id="QUDV.SystemOfUnits.allBaseUnits_._rule.body" xmi:type="uml:Constraint" name="body">
+          <constrainedElement xmi:idref="QUDV.SystemOfUnits.allBaseUnits_"/>
+          <specification xmi:id="QUDV.SystemOfUnits.allBaseUnits_._rule.body.specification0" xmi:type="uml:OpaqueExpression" body="result=allIncludedSystemOfUnits()-&gt;collect(baseUnit)-&gt;flatten()-&gt;asSet()-&gt;union(baseUnit)-&gt;asSet()" language="OCL2.0" name=""/>
+        </bodyCondition>
+        <ownedComment xmi:id="QUDV.SystemOfUnits.allBaseUnits_._comment0" xmi:type="uml:Comment" body="The query allBaseUnits() gives all the Units directly adopted or transitively adopted from any included SystemOfUnits as base Units.">
+          <annotatedElement xmi:idref="QUDV.SystemOfUnits.allBaseUnits_"/>
+        </ownedComment>
+        <ownedComment xmi:id="QUDV.SystemOfUnits.allBaseUnits_._comment1" xmi:type="uml:Comment" body="The query allBaseUnits() gives all the Units directly adopted or transitively adopted from any included SystemOfUnits as base Units."/>
+        <ownedParameter xmi:id="QUDV.SystemOfUnits.allBaseUnits_.result" xmi:type="uml:Parameter" direction="return" effect="create" name="result">
+          <lowerValue xmi:id="QUDV.SystemOfUnits.allBaseUnits_.result.lowerValue0" xmi:type="uml:LiteralInteger" name=""/>
+          <type xmi:idref="QUDV.Unit"/>
+          <upperValue xmi:id="QUDV.SystemOfUnits.allBaseUnits_.result.upperValue0" xmi:type="uml:LiteralUnlimitedNatural" name="" value="*"/>
+        </ownedParameter>
+        <ownedRule xmi:idref="QUDV.SystemOfUnits.allBaseUnits_._rule.body"/>
+      </ownedOperation>
+      <ownedOperation xmi:id="QUDV.SystemOfUnits.allIncludedSystemOfUnits_" xmi:type="uml:Operation" isQuery="true" name="allIncludedSystemOfUnits">
+        <bodyCondition xmi:id="QUDV.SystemOfUnits.allIncludedSystemOfUnits_._rule.body" xmi:type="uml:Constraint" name="body">
+          <specification xmi:id="QUDV.SystemOfUnits.allIncludedSystemOfUnits_._rule.body.specification0" xmi:type="uml:OpaqueExpression" body="result=self-&gt;closure(includedSystemOfUnits-&gt;union(usedSystemOfUnits))-&gt;asSet()" language="OCL2.0" name=""/>
+        </bodyCondition>
+        <ownedComment xmi:id="QUDV.SystemOfUnits.allIncludedSystemOfUnits_._comment0" xmi:type="uml:Comment" body="The query allIncludedSystemOfUnits() gives all the SystemOfUnits directly or transitively included.">
+          <annotatedElement xmi:idref="QUDV.SystemOfUnits.allIncludedSystemOfUnits_"/>
+        </ownedComment>
+        <ownedComment xmi:id="QUDV.SystemOfUnits.allIncludedSystemOfUnits_._comment1" xmi:type="uml:Comment" body="The query allIncludedSystemOfUnits() gives all the SystemOfUnits directly or transitively included."/>
+        <ownedParameter xmi:id="QUDV.SystemOfUnits.allIncludedSystemOfUnits_.result" xmi:type="uml:Parameter" direction="return" effect="create" name="result">
+          <lowerValue xmi:id="QUDV.SystemOfUnits.allIncludedSystemOfUnits_.result.lowerValue0" xmi:type="uml:LiteralInteger" name=""/>
+          <type xmi:idref="QUDV.SystemOfUnits"/>
+          <upperValue xmi:id="QUDV.SystemOfUnits.allIncludedSystemOfUnits_.result.upperValue0" xmi:type="uml:LiteralUnlimitedNatural" name="" value="*"/>
+        </ownedParameter>
+        <ownedRule xmi:idref="QUDV.SystemOfUnits.allIncludedSystemOfUnits_._rule.body"/>
+      </ownedOperation>
+      <ownedOperation xmi:id="QUDV.SystemOfUnits.allMeasurementUnitsDefinedForSomeQuantityKind_" xmi:type="uml:Operation" isQuery="true" name="allMeasurementUnitsDefinedForSomeQuantityKind">
+        <bodyCondition xmi:id="QUDV.SystemOfUnits.allMeasurementUnitsDefinedForSomeQuantityKind_._rule.body" xmi:type="uml:Constraint" name="body">
+          <specification xmi:id="QUDV.SystemOfUnits.allMeasurementUnitsDefinedForSomeQuantityKind_._rule.body.specification0" xmi:type="uml:OpaqueExpression" body="result=allUnits()-&gt;forAll(quantityKind &lt;&gt; null)" language="OCL2.0" name=""/>
+        </bodyCondition>
+        <ownedComment xmi:id="QUDV.SystemOfUnits.allMeasurementUnitsDefinedForSomeQuantityKind_._comment1" xmi:type="uml:Comment" body="The predicate allMeasurementUnitsDefinedForSomeQuantityKind() determines whether, in a SystemOfUnits, every Unit shall be defined, by convention, as a multiplicable reference for at least one QuantityKind (see ISO 80000-1, 3.9).">
+          <annotatedElement xmi:idref="QUDV.SystemOfUnits.allMeasurementUnitsDefinedForSomeQuantityKind_"/>
+</ownedComment>
+        <ownedComment xmi:id="QUDV.SystemOfUnits.allMeasurementUnitsDefinedForSomeQuantityKind_._comment0" xmi:type="uml:Comment" body="The predicate allMeasurementUnitsDefinedForSomeQuantityKind() determines whether, in a SystemOfUnits, every Unit must be defined, by convention, as a multiplicable reference for at least one QuantityKind (see ISO 80000-1, 3.9).">
+</ownedComment>
+        <ownedParameter xmi:id="QUDV.SystemOfUnits.allMeasurementUnitsDefinedForSomeQuantityKind_.result" xmi:type="uml:Parameter" direction="return" effect="create" name="result">
+          <lowerValue xmi:id="QUDV.SystemOfUnits.allMeasurementUnitsDefinedForSomeQuantityKind_.result.lowerValue0" xmi:type="uml:LiteralInteger" name="" value="1"/>
+          <type href="https://www.omg.org/spec/SysML/20240101/SysML.xmi#SysML_dataType.Boolean"/>
+          <upperValue xmi:id="QUDV.SystemOfUnits.allMeasurementUnitsDefinedForSomeQuantityKind_.result.upperValue0" xmi:type="uml:LiteralUnlimitedNatural" name="" value="1"/>
+        </ownedParameter>
+        <ownedRule xmi:idref="QUDV.SystemOfUnits.allMeasurementUnitsDefinedForSomeQuantityKind_._rule.body"/>
+      </ownedOperation>
+      <ownedOperation xmi:id="QUDV.SystemOfUnits.allPrefixes_" xmi:type="uml:Operation" isQuery="true" name="allPrefixes">
+        <bodyCondition xmi:id="QUDV.SystemOfUnits.allPrefixes_._rule.body" xmi:type="uml:Constraint" name="body">
+          <specification xmi:id="QUDV.SystemOfUnits.allPrefixes_._rule.body.specification0" xmi:type="uml:OpaqueExpression" body="result=allAccessibleSystemOfUnits()-&gt;including(self)-&gt;collect(prefix)-&gt;flatten()-&gt;asSet()" language="OCL2.0" name=""/>
+        </bodyCondition>
+        <ownedComment xmi:id="QUDV.SystemOfUnits.allPrefixes_._comment0" xmi:type="uml:Comment" body="The query allPrefixes() gives all the Prefixes in scope of a SystemOfUnits; that is, each Prefix is either directly defined in the SystemOfUnits or in any accessible SystemOfUnits.">
+          <annotatedElement xmi:idref="QUDV.SystemOfUnits.allPrefixes_"/>
+        </ownedComment>
+        <ownedComment xmi:id="QUDV.SystemOfUnits.allPrefixes_._comment1" xmi:type="uml:Comment" body="The query allPrefixes() gives all the Prefixes in scope of a SystemOfUnits; that is, each Prefix is either directly defined in the SystemOfUnits or in any accessible SystemOfUnits."/>
+        <ownedParameter xmi:id="QUDV.SystemOfUnits.allPrefixes_.result" xmi:type="uml:Parameter" direction="return" effect="create" name="result">
+          <lowerValue xmi:id="QUDV.SystemOfUnits.allPrefixes_.result.lowerValue0" xmi:type="uml:LiteralInteger" name=""/>
+          <type xmi:idref="QUDV.Prefix"/>
+          <upperValue xmi:id="QUDV.SystemOfUnits.allPrefixes_.result.upperValue0" xmi:type="uml:LiteralUnlimitedNatural" name="" value="*"/>
+        </ownedParameter>
+        <ownedRule xmi:idref="QUDV.SystemOfUnits.allPrefixes_._rule.body"/>
+      </ownedOperation>
+      <ownedOperation xmi:id="QUDV.SystemOfUnits.allUnits_" xmi:type="uml:Operation" isQuery="true" name="allUnits">
+        <bodyCondition xmi:id="QUDV.SystemOfUnits.allUnits_._rule.body" xmi:type="uml:Constraint" name="body">
+          <constrainedElement xmi:idref="QUDV.SystemOfUnits.allUnits_"/>
+          <specification xmi:id="QUDV.SystemOfUnits.allUnits_._rule.body.specification0" xmi:type="uml:OpaqueExpression" body="result=allIncludedSystemOfUnits()-&gt;collect(unit)-&gt;flatten()-&gt;asSet()-&gt;union(unit)-&gt;asSet()" language="OCL2.0" name=""/>
+        </bodyCondition>
+        <ownedComment xmi:id="QUDV.SystemOfUnits.allUnits_._comment0" xmi:type="uml:Comment" body="The query allUnits() gives all the Units in scope of a SystemOfUnits; that is, each Unit is either directly defined in the SystemOfUnits, selectively used from another SystemOfUnits or part of the scope of all the Units included from another SystemOfUnits.">
+          <annotatedElement xmi:idref="QUDV.SystemOfUnits.allUnits_"/>
+</ownedComment>
+        <ownedComment xmi:id="QUDV.SystemOfUnits.allUnits_._comment1" xmi:type="uml:Comment" body="The query allUnits() gives all the Units in scope of a SystemOfUnits; that is, each Unit is either directly defined in the SystemOfUnits, selectively used from another SystemOfUnits or part of the scope of all the Units included from another SystemOfUnits.">
+</ownedComment>
+        <ownedParameter xmi:id="QUDV.SystemOfUnits.allUnits_.result" xmi:type="uml:Parameter" direction="return" effect="create" name="result">
+          <lowerValue xmi:id="QUDV.SystemOfUnits.allUnits_.result.lowerValue0" xmi:type="uml:LiteralInteger" name=""/>
+          <type xmi:idref="QUDV.Unit"/>
+          <upperValue xmi:id="QUDV.SystemOfUnits.allUnits_.result.upperValue0" xmi:type="uml:LiteralUnlimitedNatural" name="" value="*"/>
+        </ownedParameter>
+        <ownedRule xmi:idref="QUDV.SystemOfUnits.allUnits_._rule.body"/>
+      </ownedOperation>
+      <ownedOperation xmi:id="QUDV.SystemOfUnits.getAdoptedBaseUnitForMeasurementUnit_Unit" xmi:type="uml:Operation" isQuery="true" name="getAdoptedBaseUnitForMeasurementUnit">
+        <bodyCondition xmi:id="QUDV.SystemOfUnits.getAdoptedBaseUnitForMeasurementUnit_Unit._rule.body" xmi:type="uml:Constraint" name="body">
+          <specification xmi:id="QUDV.SystemOfUnits.getAdoptedBaseUnitForMeasurementUnit_Unit._rule.body.specification0" xmi:type="uml:OpaqueExpression" body="result = let abu : Set(Unit) = allBaseUnits() in if (abu-&gt;includes(u)) then u else if (u.oclIsKindOf(PrefixedUnit)) then abu-&gt;intersection(u.oclAsType(PrefixedUnit).referenceUnit-&gt;asSet())-&gt;any(true) else null endif endif" language="OCL2.0" name="">
+</specification>
+        </bodyCondition>
+        <ownedComment xmi:id="QUDV.SystemOfUnits.getAdoptedBaseUnitForMeasurementUnit_Unit._comment0" xmi:type="uml:Comment" body="The query getAdoptedBaseUnitForMeasurementUnit() determines for a Unit u in scope of a SystemOfUnits the base Unit, if any, corresponding to u, which can be u itself if it is a baseUnit in that SystemOfUnits or its reference Unit if it is a base Unit and u is a PrefixUnit.">
+          <annotatedElement xmi:idref="QUDV.SystemOfUnits.getAdoptedBaseUnitForMeasurementUnit_Unit"/>
+</ownedComment>
+        <ownedComment xmi:id="QUDV.SystemOfUnits.getAdoptedBaseUnitForMeasurementUnit_Unit._comment1" xmi:type="uml:Comment" body="The query getAdoptedBaseUnitForMeasurementUnit() determines for a Unit u in scope of a SystemOfUnits the base Unit, if any, corresponding to u, which can be u itself if it is a baseUnit in that SystemOfUnits or its reference Unit if it is a base Unit and u is a PrefixUnit.">
+</ownedComment>
+        <ownedParameter xmi:id="QUDV.SystemOfUnits.getAdoptedBaseUnitForMeasurementUnit_Unit.result" xmi:type="uml:Parameter" direction="return" effect="create" name="result">
+          <lowerValue xmi:id="QUDV.SystemOfUnits.getAdoptedBaseUnitForMeasurementUnit_Unit.result.lowerValue0" xmi:type="uml:LiteralInteger" name=""/>
+          <type xmi:idref="QUDV.Unit"/>
+          <upperValue xmi:id="QUDV.SystemOfUnits.getAdoptedBaseUnitForMeasurementUnit_Unit.result.upperValue0" xmi:type="uml:LiteralUnlimitedNatural" name="" value="1"/>
+        </ownedParameter>
+        <ownedParameter xmi:id="QUDV.SystemOfUnits.getAdoptedBaseUnitForMeasurementUnit_Unit.u" xmi:type="uml:Parameter" effect="create" name="u">
+          <lowerValue xmi:id="QUDV.SystemOfUnits.getAdoptedBaseUnitForMeasurementUnit_Unit.u.lowerValue0" xmi:type="uml:LiteralInteger" name="" value="1"/>
+          <type xmi:idref="QUDV.Unit"/>
+          <upperValue xmi:id="QUDV.SystemOfUnits.getAdoptedBaseUnitForMeasurementUnit_Unit.u.upperValue0" xmi:type="uml:LiteralUnlimitedNatural" name="" value="1"/>
+        </ownedParameter>
+        <ownedRule xmi:idref="QUDV.SystemOfUnits.getAdoptedBaseUnitForMeasurementUnit_Unit._rule.body"/>
+      </ownedOperation>
+      <ownedOperation xmi:id="QUDV.SystemOfUnits.getAdoptedQuantityKindForAdoptedBaseUnitOfMeasurementUnit_Unit" xmi:type="uml:Operation" isQuery="true" name="getAdoptedQuantityKindForAdoptedBaseUnitOfMeasurementUnit">
+        <bodyCondition xmi:id="QUDV.SystemOfUnits.getAdoptedQuantityKindForAdoptedBaseUnitOfMeasurementUnit_Unit._rule.body" xmi:type="uml:Constraint" name="body">
+          <constrainedElement xmi:idref="QUDV.SystemOfUnits.getAdoptedQuantityKindForAdoptedBaseUnitOfMeasurementUnit_Unit"/>
+          <specification xmi:id="QUDV.SystemOfUnits.getAdoptedQuantityKindForAdoptedBaseUnitOfMeasurementUnit_Unit._rule.body.specification0" xmi:type="uml:OpaqueExpression" body="result=let bu : Unit = getAdoptedBaseUnitForMeasurementUnit(u) in if (bu = null) then Set{} else let qks : Set(QuantityKind) = getKindOfQuantitiesForMeasurementUnit(bu) in allBaseQuantityKinds()-&gt;intersection(qks) endif" language="OCL2.0" name="">
+</specification>
+        </bodyCondition>
+        <ownedComment xmi:id="QUDV.SystemOfUnits.getAdoptedQuantityKindForAdoptedBaseUnitOfMeasurementUnit_Unit._comment0" xmi:type="uml:Comment" body="The query getAdoptedQuantityKindForAdoptedBaseUnitOfMeasurementUnit() determines for a Unit u in scope of a SystemOfUnits the base QuantityKind, if any, corresponding to the base Unit of u.">
+          <annotatedElement xmi:idref="QUDV.SystemOfUnits.getAdoptedQuantityKindForAdoptedBaseUnitOfMeasurementUnit_Unit"/>
+</ownedComment>
+        <ownedComment xmi:id="QUDV.SystemOfUnits.getAdoptedQuantityKindForAdoptedBaseUnitOfMeasurementUnit_Unit._comment1" xmi:type="uml:Comment" body="The query getAdoptedQuantityKindForAdoptedBaseUnitOfMeasurementUnit() determines for a Unit u in scope of a SystemOfUnits the base QuantityKind, if any, corresponding to the base Unit of u.">
+</ownedComment>
+        <ownedParameter xmi:id="QUDV.SystemOfUnits.getAdoptedQuantityKindForAdoptedBaseUnitOfMeasurementUnit_Unit.result" xmi:type="uml:Parameter" direction="return" effect="create" name="result">
+          <lowerValue xmi:id="QUDV.SystemOfUnits.getAdoptedQuantityKindForAdoptedBaseUnitOfMeasurementUnit_Unit.result.lowerValue0" xmi:type="uml:LiteralInteger" name=""/>
+          <type xmi:idref="QUDV.QuantityKind"/>
+          <upperValue xmi:id="QUDV.SystemOfUnits.getAdoptedQuantityKindForAdoptedBaseUnitOfMeasurementUnit_Unit.result.upperValue0" xmi:type="uml:LiteralUnlimitedNatural" name="" value="*"/>
+        </ownedParameter>
+        <ownedParameter xmi:id="QUDV.SystemOfUnits.getAdoptedQuantityKindForAdoptedBaseUnitOfMeasurementUnit_Unit.u" xmi:type="uml:Parameter" effect="create" name="u">
+          <lowerValue xmi:id="QUDV.SystemOfUnits.getAdoptedQuantityKindForAdoptedBaseUnitOfMeasurementUnit_Unit.u.lowerValue0" xmi:type="uml:LiteralInteger" name="" value="1"/>
+          <type xmi:idref="QUDV.Unit"/>
+          <upperValue xmi:id="QUDV.SystemOfUnits.getAdoptedQuantityKindForAdoptedBaseUnitOfMeasurementUnit_Unit.u.upperValue0" xmi:type="uml:LiteralUnlimitedNatural" name="" value="1"/>
+        </ownedParameter>
+        <ownedRule xmi:idref="QUDV.SystemOfUnits.getAdoptedQuantityKindForAdoptedBaseUnitOfMeasurementUnit_Unit._rule.baseUnitParameter"/>
+        <ownedRule xmi:idref="QUDV.SystemOfUnits.getAdoptedQuantityKindForAdoptedBaseUnitOfMeasurementUnit_Unit._rule.body"/>
+        <ownedRule xmi:idref="QUDV.SystemOfUnits.getAdoptedQuantityKindForAdoptedBaseUnitOfMeasurementUnit_Unit._rule.knownPrimaryQuantityKind"/>
+        <postcondition xmi:id="QUDV.SystemOfUnits.getAdoptedQuantityKindForAdoptedBaseUnitOfMeasurementUnit_Unit._rule.knownPrimaryQuantityKind" xmi:type="uml:Constraint" name="knownPrimaryQuantityKind">
+          <constrainedElement xmi:idref="QUDV.SystemOfUnits.getAdoptedQuantityKindForAdoptedBaseUnitOfMeasurementUnit_Unit"/>
+          <specification xmi:id="QUDV.SystemOfUnits.getAdoptedQuantityKindForAdoptedBaseUnitOfMeasurementUnit_Unit._rule.knownPrimaryQuantityKind.specification0" xmi:type="uml:OpaqueExpression" body="getEffectiveSystemOfQuantities().allBaseQuantityKinds()-&gt;includesAll(result)" language="OCL2.0" name=""/>
+        </postcondition>
+        <precondition xmi:id="QUDV.SystemOfUnits.getAdoptedQuantityKindForAdoptedBaseUnitOfMeasurementUnit_Unit._rule.baseUnitParameter" xmi:type="uml:Constraint" name="baseUnitParameter">
+          <specification xmi:id="QUDV.SystemOfUnits.getAdoptedQuantityKindForAdoptedBaseUnitOfMeasurementUnit_Unit._rule.baseUnitParameter.specification0" xmi:type="uml:OpaqueExpression" body="allBaseUnits()-&gt;includes(u)" language="OCL2.0" name=""/>
+        </precondition>
+      </ownedOperation>
+      <ownedOperation xmi:id="QUDV.SystemOfUnits.getEffectiveSystemOfQuantities_" xmi:type="uml:Operation" isQuery="true" name="getEffectiveSystemOfQuantities">
+        <bodyCondition xmi:id="QUDV.SystemOfUnits.getEffectiveSystemOfQuantities_._rule.body" xmi:type="uml:Constraint" name="body">
+          <constrainedElement xmi:idref="QUDV.SystemOfUnits.getEffectiveSystemOfQuantities_"/>
+          <specification xmi:id="QUDV.SystemOfUnits.getEffectiveSystemOfQuantities_._rule.body.specification0" xmi:type="uml:OpaqueExpression" body="result=if systemOfQuantities = null then includedSystemOfUnits-&gt;collect(getEffectiveSystemOfQuantities())-&gt;flatten()-&gt;asSet()-&gt;any(true) else systemOfQuantities endif" language="OCL2.0" name="">
+</specification>
+        </bodyCondition>
+        <ownedComment xmi:id="QUDV.SystemOfUnits.getEffectiveSystemOfQuantities_._comment0" xmi:type="uml:Comment" body="The query getEffectiveSystemOfQuantities() determines for a SystemOfUnits the SystemOfQuantities, if any, that it is directly or indirectly associated with via included SystemOfUnits."/>
+        <ownedComment xmi:id="QUDV.SystemOfUnits.getEffectiveSystemOfQuantities_._comment1" xmi:type="uml:Comment" body="The query getEffectiveSystemOfQuantities() determines for a SystemOfUnits the SystemOfQuantities, if any, that it is directly or indirectly associated with via included SystemOfUnits.">
+          <annotatedElement xmi:idref="QUDV.SystemOfUnits.getEffectiveSystemOfQuantities_"/>
+        </ownedComment>
+        <ownedParameter xmi:id="QUDV.SystemOfUnits.getEffectiveSystemOfQuantities_.result" xmi:type="uml:Parameter" direction="return" effect="create" name="result">
+          <lowerValue xmi:id="QUDV.SystemOfUnits.getEffectiveSystemOfQuantities_.result.lowerValue0" xmi:type="uml:LiteralInteger" name=""/>
+          <type xmi:idref="QUDV.SystemOfQuantities"/>
+          <upperValue xmi:id="QUDV.SystemOfUnits.getEffectiveSystemOfQuantities_.result.upperValue0" xmi:type="uml:LiteralUnlimitedNatural" name="" value="1"/>
+        </ownedParameter>
+        <ownedRule xmi:idref="QUDV.SystemOfUnits.getEffectiveSystemOfQuantities_._rule.body"/>
+        <ownedRule xmi:idref="QUDV.SystemOfUnits.getEffectiveSystemOfQuantities_._rule.atMostOneSystemOfQuantities"/>
+        <precondition xmi:id="QUDV.SystemOfUnits.getEffectiveSystemOfQuantities_._rule.atMostOneSystemOfQuantities" xmi:type="uml:Constraint" name="atMostOneSystemOfQuantities">
+          <constrainedElement xmi:idref="QUDV.SystemOfUnits.getEffectiveSystemOfQuantities_"/>
+          <specification xmi:id="QUDV.SystemOfUnits.getEffectiveSystemOfQuantities_._rule.atMostOneSystemOfQuantities.specification0" xmi:type="uml:OpaqueExpression" body="systemOfQuantities = null implies includedSystemOfUnits-&gt;collect(getEffectiveSystemOfQuantities())-&gt;asSet()-&gt;size() &lt;= 1" language="OCL2.0" name="">
+</specification>
+        </precondition>
+      </ownedOperation>
+      <ownedOperation xmi:id="QUDV.SystemOfUnits.getKindOfQuantitiesForMeasurementUnit_Unit" xmi:type="uml:Operation" isQuery="true" name="getKindOfQuantitiesForMeasurementUnit">
+        <bodyCondition xmi:id="QUDV.SystemOfUnits.getKindOfQuantitiesForMeasurementUnit_Unit._rule.body" xmi:type="uml:Constraint" name="body">
+          <specification xmi:id="QUDV.SystemOfUnits.getKindOfQuantitiesForMeasurementUnit_Unit._rule.body.specification0" xmi:type="uml:OpaqueExpression" body="result=if (u.oclIsKindOf(SimpleUnit)) then u.quantityKind-&gt;collect(oclAsType(QuantityKind))-&gt;asSet() else if (u.oclIsKindOf(DerivedUnit)) then let du : DerivedUnit = u.oclAsType(DerivedUnit) in  if (du.quantityKind &lt;&gt; null) then du.quantityKind-&gt;collect(oclAsType(QuantityKind))-&gt;asSet() else getKindOfQuantitiesForMeasurementUnit(du.factor-&gt;any(true).unit) endif else if (u.oclIsKindOf(ConversionBasedUnit)) then let cu : ConversionBasedUnit = u.oclAsType(ConversionBasedUnit) in if (cu.oclIsKindOf(PrefixedUnit)) then getKindOfQuantitiesForMeasurementUnit(cu.referenceUnit) else if (cu.quantityKind &lt;&gt; null) then cu.quantityKind-&gt;collect(oclAsType(QuantityKind))-&gt;asSet() else getKindOfQuantitiesForMeasurementUnit(cu.referenceUnit) endif endif else Set(QuantityKind){} endif endif endif             " language="OCL2.0" name="">
+</specification>
+        </bodyCondition>
+        <ownedComment xmi:id="QUDV.SystemOfUnits.getKindOfQuantitiesForMeasurementUnit_Unit._comment0" xmi:type="uml:Comment" body="The query getKindOfQuantitiesForMeasurementUnit() determines for a Unit u in scope of a SystemOfUnits the set of QuantityKinds corresponding to u, if specified, or to the Units that u is defined in terms of, if any.">
+</ownedComment>
+        <ownedComment xmi:id="QUDV.SystemOfUnits.getKindOfQuantitiesForMeasurementUnit_Unit._comment1" xmi:type="uml:Comment" body="The query getKindOfQuantitiesForMeasurementUnit() determines for a Unit u in scope of a SystemOfUnits the set of QuantityKinds corresponding to u, if specified, or to the Units that u is defined in terms of, if any.">
+          <annotatedElement xmi:idref="QUDV.SystemOfUnits.getKindOfQuantitiesForMeasurementUnit_Unit"/>
+</ownedComment>
+        <ownedParameter xmi:id="QUDV.SystemOfUnits.getKindOfQuantitiesForMeasurementUnit_Unit.result" xmi:type="uml:Parameter" direction="return" effect="create" name="result">
+          <lowerValue xmi:id="QUDV.SystemOfUnits.getKindOfQuantitiesForMeasurementUnit_Unit.result.lowerValue0" xmi:type="uml:LiteralInteger" name=""/>
+          <type xmi:idref="QUDV.QuantityKind"/>
+          <upperValue xmi:id="QUDV.SystemOfUnits.getKindOfQuantitiesForMeasurementUnit_Unit.result.upperValue0" xmi:type="uml:LiteralUnlimitedNatural" name="" value="*"/>
+        </ownedParameter>
+        <ownedParameter xmi:id="QUDV.SystemOfUnits.getKindOfQuantitiesForMeasurementUnit_Unit.u" xmi:type="uml:Parameter" effect="create" name="u">
+          <lowerValue xmi:id="QUDV.SystemOfUnits.getKindOfQuantitiesForMeasurementUnit_Unit.u.lowerValue0" xmi:type="uml:LiteralInteger" name="" value="1"/>
+          <type xmi:idref="QUDV.Unit"/>
+          <upperValue xmi:id="QUDV.SystemOfUnits.getKindOfQuantitiesForMeasurementUnit_Unit.u.upperValue0" xmi:type="uml:LiteralUnlimitedNatural" name="" value="1"/>
+        </ownedParameter>
+        <ownedRule xmi:idref="QUDV.SystemOfUnits.getKindOfQuantitiesForMeasurementUnit_Unit._rule.body"/>
+      </ownedOperation>
+      <ownedOperation xmi:id="QUDV.SystemOfUnits.getUnit_untyped" xmi:type="uml:Operation" name="getUnit">
+        <bodyCondition xmi:id="QUDV.SystemOfUnits.getUnit_untyped._rule.body" xmi:type="uml:Constraint" name="body">
+          <specification xmi:id="QUDV.SystemOfUnits.getUnit_untyped._rule.body.specification0" xmi:type="uml:OpaqueExpression" body="result=allUnits()-&gt;select(u | u.name = name)-&gt;any(true)" language="OCL2.0" name=""/>
+        </bodyCondition>
+        <ownedParameter xmi:id="QUDV.SystemOfUnits.getUnit_untyped.name" xmi:type="uml:Parameter" effect="create" name="name">
+          <lowerValue xmi:id="QUDV.SystemOfUnits.getUnit_untyped.name.lowerValue0" xmi:type="uml:LiteralInteger" name="" value="1"/>
+          <upperValue xmi:id="QUDV.SystemOfUnits.getUnit_untyped.name.upperValue0" xmi:type="uml:LiteralUnlimitedNatural" name="" value="1"/>
+        </ownedParameter>
+        <ownedParameter xmi:id="QUDV.SystemOfUnits.getUnit_untyped.result" xmi:type="uml:Parameter" direction="return" effect="create" name="result">
+          <lowerValue xmi:id="QUDV.SystemOfUnits.getUnit_untyped.result.lowerValue0" xmi:type="uml:LiteralInteger" name=""/>
+          <type xmi:idref="QUDV.Unit"/>
+          <upperValue xmi:id="QUDV.SystemOfUnits.getUnit_untyped.result.upperValue0" xmi:type="uml:LiteralUnlimitedNatural" name="" value="1"/>
+        </ownedParameter>
+        <ownedRule xmi:idref="QUDV.SystemOfUnits.getUnit_untyped._rule.body"/>
+      </ownedOperation>
+      <ownedOperation xmi:id="QUDV.SystemOfUnits.isCoherent_" xmi:type="uml:Operation" name="isCoherent">
+        <bodyCondition xmi:id="QUDV.SystemOfUnits.isCoherent_._rule." xmi:type="uml:Constraint" name="">
+          <specification xmi:id="QUDV.SystemOfUnits.isCoherent_._rule..specification0" xmi:type="uml:OpaqueExpression" body="result = baseUnit-&gt;size() = systemOfQuantities.baseQuantityKind-&gt;size() and baseUnit -&gt;forAll(bU|systemOfQuantities.baseQuantityKind -&gt;one(bQK|bU.primaryQuantityKind=bQK)) and systemOfQuantities.baseQuantityKind -&gt;forAll(bQK|baseUnit-&gt;one(bU|bQK=bU.primaryQuantityKind))" language="English" name="">
+</specification>
+        </bodyCondition>
+        <ownedComment xmi:id="QUDV.SystemOfUnits.isCoherent_._comment0" xmi:type="uml:Comment" body="In a coherent system of units, there shall be only one base unit for each base quantity.">
+          <annotatedElement xmi:idref="QUDV.SystemOfUnits.isCoherent_"/>
+        </ownedComment>
+        <ownedParameter xmi:id="QUDV.SystemOfUnits.isCoherent_.result" xmi:type="uml:Parameter" direction="return" effect="create" name="result">
+          <lowerValue xmi:id="QUDV.SystemOfUnits.isCoherent_.result.lowerValue0" xmi:type="uml:LiteralInteger" name="" value="1"/>
+          <type href="https://www.omg.org/spec/SysML/20240101/SysML.xmi#SysML_dataType.Boolean"/>
+          <upperValue xmi:id="QUDV.SystemOfUnits.isCoherent_.result.upperValue0" xmi:type="uml:LiteralUnlimitedNatural" name="" value="1"/>
+        </ownedParameter>
+        <ownedRule xmi:idref="QUDV.SystemOfUnits.isCoherent_._rule."/>
+      </ownedOperation>
+      <ownedOperation xmi:id="QUDV.SystemOfUnits.isCoherent_DerivedUnit" xmi:type="uml:Operation" name="isCoherent">
+        <bodyCondition xmi:id="QUDV.SystemOfUnits.isCoherent_DerivedUnit._rule." xmi:type="uml:Constraint" name="">
+          <specification xmi:id="QUDV.SystemOfUnits.isCoherent_DerivedUnit._rule..specification0" xmi:type="uml:OpaqueExpression" body="result = baseUnit-&gt;includesAll(du.factor-&gt;collect(unit)) and du.factor-&gt;collect(exponent) -&gt;forAll(numerator=1 and denominator=1)" language="English" name=""/>
+        </bodyCondition>
+        <ownedComment xmi:id="QUDV.SystemOfUnits.isCoherent_DerivedUnit._comment0" xmi:type="uml:Comment" body="A coherent derived unit shall be a derived unit that, for a given system of quantities and for a chosen set of base units, is a product of powers of base units with no other proportionality factor than one.">
+          <annotatedElement xmi:idref="QUDV.SystemOfUnits.isCoherent_DerivedUnit"/>
+</ownedComment>
+        <ownedParameter xmi:id="QUDV.SystemOfUnits.isCoherent_DerivedUnit.du" xmi:type="uml:Parameter" effect="create" name="du">
+          <lowerValue xmi:id="QUDV.SystemOfUnits.isCoherent_DerivedUnit.du.lowerValue0" xmi:type="uml:LiteralInteger" name="" value="1"/>
+          <type xmi:idref="QUDV.DerivedUnit"/>
+          <upperValue xmi:id="QUDV.SystemOfUnits.isCoherent_DerivedUnit.du.upperValue0" xmi:type="uml:LiteralUnlimitedNatural" name="" value="1"/>
+        </ownedParameter>
+        <ownedParameter xmi:id="QUDV.SystemOfUnits.isCoherent_DerivedUnit.result" xmi:type="uml:Parameter" direction="return" effect="create" name="result">
+          <lowerValue xmi:id="QUDV.SystemOfUnits.isCoherent_DerivedUnit.result.lowerValue0" xmi:type="uml:LiteralInteger" name="" value="1"/>
+          <type href="https://www.omg.org/spec/SysML/20240101/SysML.xmi#SysML_dataType.Boolean"/>
+          <upperValue xmi:id="QUDV.SystemOfUnits.isCoherent_DerivedUnit.result.upperValue0" xmi:type="uml:LiteralUnlimitedNatural" name="" value="1"/>
+        </ownedParameter>
+        <ownedRule xmi:idref="QUDV.SystemOfUnits.isCoherent_DerivedUnit._rule."/>
+      </ownedOperation>
+      <ownedRule xmi:id="QUDV.SystemOfUnits._rule.SoU3_1" xmi:type="uml:Constraint" name="SoU3_1">
+        <ownedComment xmi:id="QUDV.SystemOfUnits._rule.SoU3_1._comment0" xmi:type="uml:Comment" body="In a well-formed SystemOfUnits, all of the prefixes of PrefixedUnits shall be defined in the SystemOfUnits.">
+          <annotatedElement xmi:idref="QUDV.SystemOfUnits._rule.SoU3_1"/>
+        </ownedComment>
+        <specification xmi:id="QUDV.SystemOfUnits._rule.SoU3_1.specification0" xmi:type="uml:OpaqueExpression" body="allPrefixes()-&gt;includesAll(allUnits()-&gt;select(oclIsTypeOf(PrefixedUnit))-&gt;collect(oclAsType(PrefixedUnit).prefix))" language="OCL2.0" name=""/>
+      </ownedRule>
+      <ownedRule xmi:id="QUDV.SystemOfUnits._rule.SoU3_2" xmi:type="uml:Constraint" name="SoU3_2">
+        <ownedComment xmi:id="QUDV.SystemOfUnits._rule.SoU3_2._comment0" xmi:type="uml:Comment" body="All the dependent Units of a SystemOfUnits shall be in the scope of that SystemOfUnits.">
+          <annotatedElement xmi:idref="QUDV.SystemOfUnits._rule.SoU3_2"/>
+        </ownedComment>
+        <specification xmi:id="QUDV.SystemOfUnits._rule.SoU3_2.specification0" xmi:type="uml:OpaqueExpression" body="allUnits()-&gt;includesAll(allUnits()-&gt;collect(dependsOnUnits())-&gt;flatten()-&gt;asSet())" language="OCL2.0" name=""/>
+      </ownedRule>
+      <ownedRule xmi:id="QUDV.SystemOfUnits._rule.SoU3_3" xmi:type="uml:Constraint" name="SoU3_3">
+        <ownedComment xmi:id="QUDV.SystemOfUnits._rule.SoU3_3._comment0" xmi:type="uml:Comment" body="All of the quantityKinds that are measurementUnits of Units in the SystemOfUnits shall be defined in the systemOfQuantities of that SystemOfUnits.">
+          <annotatedElement xmi:idref="QUDV.SystemOfUnits._rule.SoU3_3"/>
+        </ownedComment>
+        <specification xmi:id="QUDV.SystemOfUnits._rule.SoU3_3.specification0" xmi:type="uml:OpaqueExpression" body="getEffectiveSystemOfQuantities() = null or let aqk : Set(QuantityKind) = getEffectiveSystemOfQuantities().allQuantityKinds() in allUnits()-&gt;forAll(u | aqk-&gt;includesAll(getKindOfQuantitiesForMeasurementUnit(u)))" language="OCL2.0" name="">
+</specification>
+      </ownedRule>
+      <ownedRule xmi:id="QUDV.SystemOfUnits._rule.acyclicProvenance" xmi:type="uml:Constraint" name="acyclicProvenance">
+        <ownedComment xmi:id="QUDV.SystemOfUnits._rule.acyclicProvenance._comment0" xmi:type="uml:Comment" body="For a Unit to have a provenance to a single SystemOfUnits, the use and includes relationships among SystemOfUnits shall be acyclic.">
+          <annotatedElement xmi:idref="QUDV.SystemOfUnits._rule.acyclicProvenance"/>
+        </ownedComment>
+        <specification xmi:id="QUDV.SystemOfUnits._rule.acyclicProvenance.specification0" xmi:type="uml:OpaqueExpression" body="allAccessibleSystemOfUnits()-&gt;excludes(self)" language="OCL2.0" name=""/>
+      </ownedRule>
+      <ownedRule xmi:id="QUDV.SystemOfUnits._rule.allBaseUnitsAreUnits" xmi:type="uml:Constraint" name="allBaseUnitsAreUnits">
+        <ownedComment xmi:id="QUDV.SystemOfUnits._rule.allBaseUnitsAreUnits._comment0" xmi:type="uml:Comment" body="The set of all Units in a given SystemOfUnits shall be capable of being partitioned into two disjoint, covering subsets: the set of base Units (typically chosen to be mutually independent) and all its complement, the set of derived Units, each of which can be expressed in terms of the base Units (See ISO 80000-1, 6.4).">
+          <annotatedElement xmi:idref="QUDV.SystemOfUnits._rule.allBaseUnitsAreUnits"/>
+</ownedComment>
+        <specification xmi:id="QUDV.SystemOfUnits._rule.allBaseUnitsAreUnits.specification0" xmi:type="uml:OpaqueExpression" body="allUnits()-&gt;includesAll(allBaseUnits())" language="OCL2.0" name=""/>
+      </ownedRule>
+      <ownedRule xmi:id="QUDV.SystemOfUnits._rule.includedSystemOfUnits_transitivelyDisjoint_usedSystemOfUnits" xmi:type="uml:Constraint" name="includedSystemOfUnits_transitivelyDisjoint_usedSystemOfUnits">
+        <ownedComment xmi:id="QUDV.SystemOfUnits._rule.includedSystemOfUnits_transitivelyDisjoint_usedSystemOfUnits._comment0" xmi:type="uml:Comment" body="For a Unit to have a provenance to a single SystemOfUnits, all included systems of units shall be transitively disjoint with all used systems of units.">
+          <annotatedElement xmi:idref="QUDV.SystemOfUnits._rule.includedSystemOfUnits_transitivelyDisjoint_usedSystemOfUnits"/>
+</ownedComment>
+        <specification xmi:id="QUDV.SystemOfUnits._rule.includedSystemOfUnits_transitivelyDisjoint_usedSystemOfUnits.specification0" xmi:type="uml:OpaqueExpression" body="allIncludedSystemOfUnits()-&gt;intersection(self.oclAsSet()-&gt;closure(usedSystemOfUnits))-&gt;isEmpty()" language="OCL2.0" name=""/>
+      </ownedRule>
+      <ownedRule xmi:id="QUDV.SystemOfUnits._rule.singleProvenance" xmi:type="uml:Constraint" name="singleProvenance">
+        <ownedComment xmi:id="QUDV.SystemOfUnits._rule.singleProvenance._comment0" xmi:type="uml:Comment" body="Every Unit shall be defined in only one SystemOfUnits but it can be in the scope of several SystemOfUnits. A given Unit is in scope of a SystemOfUnits either because it is defined or used in a SystemOfUnits or because it is included from the scope of another SystemOfUnits.">
+          <annotatedElement xmi:idref="QUDV.SystemOfUnits._rule.singleProvenance"/>
+</ownedComment>
+        <specification xmi:id="QUDV.SystemOfUnits._rule.singleProvenance.specification0" xmi:type="uml:OpaqueExpression" body="includedSystemOfUnits-&gt;collect(allUnits())-&gt;intersection(unit)-&gt;isEmpty()" language="OCL2.0" name=""/>
+      </ownedRule>
+      <ownedRule xmi:id="QUDV.SystemOfUnits._rule.systemOfQuantitiesIncludesAllUnitsQuantityKinds" xmi:type="uml:Constraint" name="systemOfQuantitiesIncludesAllUnitsQuantityKinds">
+        <ownedComment xmi:id="QUDV.SystemOfUnits._rule.systemOfQuantitiesIncludesAllUnitsQuantityKinds._comment0" xmi:type="uml:Comment" body="For a Unit to have a provenance to a single SystemOfUnits, includedSystemsOfUnits must be transitively disjoint with usedSystemsOfUnits.">
+          <annotatedElement xmi:idref="QUDV.SystemOfUnits._rule.systemOfQuantitiesIncludesAllUnitsQuantityKinds"/>
+        </ownedComment>
+        <specification xmi:id="QUDV.SystemOfUnits._rule.systemOfQuantitiesIncludesAllUnitsQuantityKinds.specification0" xmi:type="uml:OpaqueExpression" body="let aqks : Set(QuantityKind) = getEffectiveSystemOfQuantities().allQuantityKinds() in allUnits()-&gt;forAll(u | getKindOfQuantitiesForMeasurementUnit(u)-&gt;intersection(aqks)-&gt;notEmpty())" language="OCL2.0" name="">
+</specification>
+      </ownedRule>
+    </packagedElement>
+    <packagedElement xmi:id="QUDV.Unit" xmi:type="uml:Class" isAbstract="true" name="Unit">
+      <generalization xmi:id="QUDV.Unit._generalization.SysML.Unit" xmi:type="uml:Generalization">
+        <general href="https://www.omg.org/spec/SysML/20240101/SysML.xmi#SysML.Unit"/>
+      </generalization>
+      <ownedAttribute xmi:id="QUDV.Unit.dependsOnUnits" xmi:type="uml:Property" isDerived="true" isReadOnly="true" name="dependsOnUnits">
+        <lowerValue xmi:id="QUDV.Unit.dependsOnUnits.lowerValue0" xmi:type="uml:LiteralInteger" name=""/>
+        <ownedComment xmi:id="QUDV.Unit.dependsOnUnits._comment0" xmi:type="uml:Comment" body="The set of all Units that this Unit directly or indirectly depends on according to its definition.">
+          <annotatedElement xmi:idref="QUDV.Unit.dependsOnUnits"/>
+        </ownedComment>
+        <ownedComment xmi:id="QUDV.Unit.dependsOnUnits._comment1" xmi:type="uml:Comment" body="The set of all Units that this Unit directly or indirectly depends on according to its definition."/>
+        <type xmi:idref="QUDV.Unit"/>
+        <upperValue xmi:id="QUDV.Unit.dependsOnUnits.upperValue0" xmi:type="uml:LiteralUnlimitedNatural" name="" value="*"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="QUDV.Unit.general" xmi:type="uml:Property" name="general">
+        <association xmi:idref="QUDV.A_generalUnit_specificUnit"/>
+        <lowerValue xmi:id="QUDV.Unit.general.lowerValue0" xmi:type="uml:LiteralInteger" name=""/>
+        <ownedComment xmi:id="QUDV.Unit.general._comment0" xmi:type="uml:Comment" body="A Unit can be defined as a specialization of zero or more Units. This capability is important for specifying the meaning of a unit for a quantity of dimension one (see ISO 80000-1, 3.8 and 3.10).">
+          <annotatedElement xmi:idref="QUDV.Unit.general"/>
+        </ownedComment>
+        <type xmi:idref="QUDV.Unit"/>
+        <upperValue xmi:id="QUDV.Unit.general.upperValue0" xmi:type="uml:LiteralUnlimitedNatural" name="" value="*"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="QUDV.Unit.isUnitCountOfEntities" xmi:type="uml:Property" name="isUnitCountOfEntities">
+        <defaultValue xmi:id="QUDV.Unit.isUnitCountOfEntities.defaultValue0" xmi:type="uml:LiteralBoolean" name=""/>
+        <lowerValue xmi:id="QUDV.Unit.isUnitCountOfEntities.lowerValue0" xmi:type="uml:LiteralInteger" name="" value="1"/>
+        <ownedComment xmi:id="QUDV.Unit.isUnitCountOfEntities._comment0" xmi:type="uml:Comment" body="If true, indicates that the measurement unit represents a number of entities (see ISO 80000-1, 3.10, Note 3)."/>
+        <ownedComment xmi:id="QUDV.Unit.isUnitCountOfEntities._comment1" xmi:type="uml:Comment" body="If true, indicates that the measurement unit represents a number of entities (see ISO 80000-1, 3.10, Note 3).">
+          <annotatedElement xmi:idref="QUDV.Unit.isUnitCountOfEntities"/>
+        </ownedComment>
+        <type href="https://www.omg.org/spec/SysML/20240101/SysML.xmi#SysML_dataType.Boolean"/>
+        <upperValue xmi:id="QUDV.Unit.isUnitCountOfEntities.upperValue0" xmi:type="uml:LiteralUnlimitedNatural" name="" value="1"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="QUDV.Unit.isUnitForQuantityOfDimensionOne" xmi:type="uml:Property" name="isUnitForQuantityOfDimensionOne">
+        <defaultValue xmi:id="QUDV.Unit.isUnitForQuantityOfDimensionOne.defaultValue0" xmi:type="uml:LiteralBoolean" name=""/>
+        <lowerValue xmi:id="QUDV.Unit.isUnitForQuantityOfDimensionOne.lowerValue0" xmi:type="uml:LiteralInteger" name="" value="1"/>
+        <ownedComment xmi:id="QUDV.Unit.isUnitForQuantityOfDimensionOne._comment0" xmi:type="uml:Comment" body="If true, indicates that the corresponding QuantityKind has dimension one (see ISO 80000-1, 3.8).">
+          <annotatedElement xmi:idref="QUDV.Unit.isUnitForQuantityOfDimensionOne"/>
+        </ownedComment>
+        <ownedComment xmi:id="QUDV.Unit.isUnitForQuantityOfDimensionOne._comment1" xmi:type="uml:Comment" body="If true, indicates that the corresponding QuantityKind has dimension one (see ISO 80000-1, 3.8)."/>
+        <type href="https://www.omg.org/spec/SysML/20240101/SysML.xmi#SysML_dataType.Boolean"/>
+        <upperValue xmi:id="QUDV.Unit.isUnitForQuantityOfDimensionOne.upperValue0" xmi:type="uml:LiteralUnlimitedNatural" name="" value="1"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="QUDV.Unit.quantityKind" xmi:type="uml:Property" name="quantityKind">
+        <association xmi:idref="QUDV.A_quantityKind_measurementUnit"/>
+        <lowerValue xmi:id="QUDV.Unit.quantityKind.lowerValue0" xmi:type="uml:LiteralInteger" name=""/>
+        <redefinedProperty href="https://www.omg.org/spec/SysML/20240101/SysML.xmi#SysML.Unit.quantityKind"/>
+        <type xmi:idref="QUDV.QuantityKind"/>
+        <upperValue xmi:id="QUDV.Unit.quantityKind.upperValue0" xmi:type="uml:LiteralUnlimitedNatural" name="" value="*"/>
+      </ownedAttribute>
+      <ownedComment xmi:id="QUDV.Unit._comment0" xmi:type="uml:Comment" body="In QUDV, the concept of Unit is an abstract specialization of SysML Unit to support designating a primary QuantityKind for a given Unit within the scope of a system of units and quantities and to support a richer vocabulary for defining Units.">
+        <annotatedElement xmi:idref="QUDV.Unit"/>
+</ownedComment>
+      <ownedOperation xmi:id="QUDV.Unit.dependsOnUnits_" xmi:type="uml:Operation" name="dependsOnUnits">
+        <ownedComment xmi:id="QUDV.Unit.dependsOnUnits_._comment0" xmi:type="uml:Comment" body="Abstract operation specified in SimpleQuantityKind and DerivedQuantityKind to calculate the value of the derived property QuantityKind:/dependsOnQuantityKinds.">
+          <annotatedElement xmi:idref="QUDV.Unit.dependsOnUnits_"/>
+        </ownedComment>
+        <ownedParameter xmi:id="QUDV.Unit.dependsOnUnits_.result" xmi:type="uml:Parameter" direction="return" effect="create" name="result">
+          <lowerValue xmi:id="QUDV.Unit.dependsOnUnits_.result.lowerValue0" xmi:type="uml:LiteralInteger" name=""/>
+          <type xmi:idref="QUDV.Unit"/>
+          <upperValue xmi:id="QUDV.Unit.dependsOnUnits_.result.upperValue0" xmi:type="uml:LiteralUnlimitedNatural" name="" value="*"/>
+        </ownedParameter>
+      </ownedOperation>
+      <ownedRule xmi:id="QUDV.Unit._rule.acyclic_unit_dependencies" xmi:type="uml:Constraint" name="acyclic_unit_dependencies">
+        <ownedComment xmi:id="QUDV.Unit._rule.acyclic_unit_dependencies._comment0" xmi:type="uml:Comment" body="A Unit cannot be defined in terms of itself. This follows from the requirement that, in a coherent SystemOfUnits, the Units of all derived QuantityKinds are expressed in terms of the base Units in accordance with the equations in the SystemOfQuantities (see ISO 80000-1, 6.4).">
+          <annotatedElement xmi:idref="QUDV.Unit._rule.acyclic_unit_dependencies"/>
+</ownedComment>
+        <specification xmi:id="QUDV.Unit._rule.acyclic_unit_dependencies.specification0" xmi:type="uml:OpaqueExpression" body="dependsOnUnits-&gt;excludes(self)" language="OCL2.0" name=""/>
+      </ownedRule>
+    </packagedElement>
+    <packagedElement xmi:id="QUDV.UnitFactor" xmi:type="uml:Class" name="UnitFactor">
+      <ownedAttribute xmi:id="QUDV.UnitFactor.exponent" xmi:type="uml:Property" name="exponent">
+        <lowerValue xmi:id="QUDV.UnitFactor.exponent.lowerValue0" xmi:type="uml:LiteralInteger" name="" value="1"/>
+        <ownedComment xmi:id="QUDV.UnitFactor.exponent._comment0" xmi:type="uml:Comment" body="Rational number that specifies the exponent of the power to which the unit is raised.">
+          <annotatedElement xmi:idref="QUDV.UnitFactor.exponent"/>
+        </ownedComment>
+        <type xmi:idref="QUDV_dataType.Rational"/>
+        <upperValue xmi:id="QUDV.UnitFactor.exponent.upperValue0" xmi:type="uml:LiteralUnlimitedNatural" name="" value="1"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="QUDV.UnitFactor.unit" xmi:type="uml:Property" name="unit">
+        <association xmi:idref="QUDV.A_unitFactor_unit"/>
+        <lowerValue xmi:id="QUDV.UnitFactor.unit.lowerValue0" xmi:type="uml:LiteralInteger" name="" value="1"/>
+        <ownedComment xmi:id="QUDV.UnitFactor.unit._comment0" xmi:type="uml:Comment" body="Reference to the Unit that participates in the factor.">
+          <annotatedElement xmi:idref="QUDV.UnitFactor.unit"/>
+        </ownedComment>
+        <type xmi:idref="QUDV.Unit"/>
+        <upperValue xmi:id="QUDV.UnitFactor.unit.upperValue0" xmi:type="uml:LiteralUnlimitedNatural" name="" value="1"/>
+      </ownedAttribute>
+      <ownedComment xmi:id="QUDV.UnitFactor._comment0" xmi:type="uml:Comment" body="A UnitFactor represents a factor in the product of powers that defines a DerivedUnit.">
+        <annotatedElement xmi:idref="QUDV.UnitFactor"/>
+      </ownedComment>
+    </packagedElement>
+    <profileApplication xmi:id="QUDV._profileApplication.StandardProfile" xmi:type="uml:ProfileApplication">
+      <appliedProfile href="http://www.omg.org/spec/UML/20161101/StandardProfile.xmi#_0"/>
+    </profileApplication>
+    <profileApplication xmi:id="QUDV._profileApplication.SysML" xmi:type="uml:ProfileApplication">
+      <appliedProfile href="https://www.omg.org/spec/SysML/20240101/SysML.xmi#SysML"/>
+    </profileApplication>
+  </uml:Package>
+  <SysML:Block xmi:id="SysML.Block_appliedOn_QUDV.Prefix" isEncapsulated="false">
+    <base_Class xmi:idref="QUDV.Prefix"/>
+  </SysML:Block>
+  <SysML:Block xmi:id="SysML.Block_appliedOn_QUDV.SimpleUnit" isEncapsulated="false">
+    <base_Class xmi:idref="QUDV.SimpleUnit"/>
+  </SysML:Block>
+  <SysML:Block xmi:id="SysML.Block_appliedOn_QUDV.AffineConversionUnit" isEncapsulated="false">
+    <base_Class xmi:idref="QUDV.AffineConversionUnit"/>
+  </SysML:Block>
+  <SysML:Block xmi:id="SysML.Block_appliedOn_QUDV.PrefixedUnit" isEncapsulated="false">
+    <base_Class xmi:idref="QUDV.PrefixedUnit"/>
+  </SysML:Block>
+  <SysML:Block xmi:id="SysML.Block_appliedOn_QUDV.DerivedUnit" isEncapsulated="false">
+    <base_Class xmi:idref="QUDV.DerivedUnit"/>
+  </SysML:Block>
+  <SysML:Block xmi:id="SysML.Block_appliedOn_QUDV.ConversionBasedUnit" isEncapsulated="false">
+    <base_Class xmi:idref="QUDV.ConversionBasedUnit"/>
+  </SysML:Block>
+  <SysML:Block xmi:id="SysML.Block_appliedOn_QUDV.SystemOfQuantities" isEncapsulated="false">
+    <base_Class xmi:idref="QUDV.SystemOfQuantities"/>
+  </SysML:Block>
+  <SysML:Block xmi:id="SysML.Block_appliedOn_QUDV.SimpleQuantityKind" isEncapsulated="false">
+    <base_Class xmi:idref="QUDV.SimpleQuantityKind"/>
+  </SysML:Block>
+  <StandardProfile:ModelLibrary xmi:id="StandardProfile.ModelLibrary_appliedOn_QUDV">
+    <base_Package xmi:idref="QUDV"/>
+  </StandardProfile:ModelLibrary>
+  <SysML:Block xmi:id="SysML.Block_appliedOn_QUDV.QuantityKindFactor" isEncapsulated="false">
+    <base_Class xmi:idref="QUDV.QuantityKindFactor"/>
+  </SysML:Block>
+  <SysML:Block xmi:id="SysML.Block_appliedOn_QUDV.DerivedQuantityKind" isEncapsulated="false">
+    <base_Class xmi:idref="QUDV.DerivedQuantityKind"/>
+  </SysML:Block>
+  <SysML:Block xmi:id="SysML.Block_appliedOn_QUDV.Unit" isEncapsulated="false">
+    <base_Class xmi:idref="QUDV.Unit"/>
+  </SysML:Block>
+  <SysML:ValueType xmi:id="SysML.ValueType_appliedOn_QUDV_dataType.Rational">
+    <base_DataType xmi:idref="QUDV_dataType.Rational"/>
+  </SysML:ValueType>
+  <SysML:Block xmi:id="SysML.Block_appliedOn_QUDV.SystemOfUnits" isEncapsulated="false">
+    <base_Class xmi:idref="QUDV.SystemOfUnits"/>
+  </SysML:Block>
+  <SysML:Block xmi:id="SysML.Block_appliedOn_QUDV.GeneralConversionUnit" isEncapsulated="false">
+    <base_Class xmi:idref="QUDV.GeneralConversionUnit"/>
+  </SysML:Block>
+  <SysML:Block xmi:id="SysML.Block_appliedOn_QUDV.QuantityKind" isEncapsulated="false">
+    <base_Class xmi:idref="QUDV.QuantityKind"/>
+  </SysML:Block>
+  <SysML:Block xmi:id="SysML.Block_appliedOn_QUDV.LinearConversionUnit" isEncapsulated="false">
+    <base_Class xmi:idref="QUDV.LinearConversionUnit"/>
+  </SysML:Block>
+  <SysML:Block xmi:id="SysML.Block_appliedOn_QUDV.Dimension" isEncapsulated="false">
+    <base_Class xmi:idref="QUDV.Dimension"/>
+  </SysML:Block>
+  <SysML:Block xmi:id="SysML.Block_appliedOn_QUDV.UnitFactor" isEncapsulated="false">
+    <base_Class xmi:idref="QUDV.UnitFactor"/>
+  </SysML:Block>
+  <mofext:Tag xmi:id="QUDV_mofTag0" xmi:type="mofext:Tag" name="org.omg.xmi.nsPrefix" element="QUDV"/>
+</xmi:XMI>

@@ -49,6 +49,9 @@
         <Content Include="..\resources\UML\PrimitiveTypes.xmi.xml" Link="TestData\PrimitiveTypes.xmi">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </Content>
+        <Content Include="..\resources\UML\StandardProfile.xmi.xml" Link="TestData\StandardProfile.xmi.xml">
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
         <Content Include="..\resources\UML\UML.xmi.xml" Link="TestData\UML.xmi">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </Content>
