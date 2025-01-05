@@ -404,12 +404,11 @@
                             </tr>
                             <tr>
                                 <td>Specializations</td>
-                                <td> TBD
-                                    <!--
-                                    {{#each class.SuperClass as | subClass |}}
-                                    <a href="#{{subClass.Name}}">{{subClass.Name}}</a>
-                                    {{/each}}
-                                    -->
+                                <td>
+                                    {{ #each (Class.QueryAllSpecializations class) as | specialization | }}
+                                    <a href="#{{specialization.Name}}">{{specialization.Name}}</a>
+                                    {{ /each }}
+
                                 </td>
                             </tr>
                         </tbody>

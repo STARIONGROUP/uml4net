@@ -202,6 +202,25 @@ namespace uml4net.HandleBars
 
                 return nonRedefinedProperties;
             });
+
+            handlebars.RegisterHelper("Class.QueryAllSpecializations", (context, _) =>
+            {
+                if (!(context.Value is IClass @class))
+                {
+                    throw new ArgumentException("The object is supposed to be an IClass");
+                }
+
+                var specializations = @class.QueryAllSpecializations()
+                    .OrderBy(x => x.Name)
+                    .ToList();
+
+                if (specializations.Count > 0)
+                {
+                    Console.WriteLine("");
+                }
+
+                return specializations;
+            });
         }
     }
 }

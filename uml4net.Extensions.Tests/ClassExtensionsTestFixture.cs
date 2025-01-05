@@ -22,13 +22,16 @@ namespace uml4net.Extensions.Tests
 {
     using System.IO;
     using System.Linq;
-
+    
     using Microsoft.Extensions.Logging;
 
     using NUnit.Framework;
-
+    
     using Serilog;
 
+    using uml4net.Classification;
+    using uml4net.CommonStructure;
+    using uml4net.Packages;
     using uml4net.StructuredClassifiers;
     using uml4net.xmi;
     using xmi.Readers;
@@ -77,6 +80,124 @@ namespace uml4net.Extensions.Tests
             var properties = dependency.QueryAllProperties();
 
             Assert.That(properties.Count, Is.EqualTo(17));
+        }
+
+        [Test]
+        public void Verify_that_QueryAllSpecializations_returns_expected_result_with_cache()
+        {
+            var animal = new Class { XmiId = "Animal", Name = "Animal", DocumentName = "test" };
+            var mammal = new Class { XmiId = "Mammal", Name = "Mammal", DocumentName = "test" };
+            var cat_1 = new Class { XmiId = "Cat_1", Name = "Cat 1", DocumentName = "test" };
+            var cat_2 = new Class { XmiId = "Cat_2", Name = "Cat 2", DocumentName = "test" };
+
+            var animal_is_generalization_of_mammal = new Generalization
+            {
+                XmiId = "animal_is_generalization_of_mammal",
+                DocumentName = "test",
+                General = animal,
+                Specific = mammal
+            };
+
+            var mammal_is_generalization_of_cat_1 = new Generalization
+            {
+                XmiId = "mammal_is_generalization_of_cat_1",
+                DocumentName = "test",
+                General = mammal,
+                Specific = cat_1
+            };
+
+            var mammal_is_generalization_of_cat_2 = new Generalization
+            {
+                XmiId = "mammal_is_generalization_of_cat_2",
+                DocumentName = "test",
+                General = mammal,
+                Specific = cat_2
+            };
+
+            cat_1.Generalization.Add(mammal_is_generalization_of_cat_1);
+            cat_2.Generalization.Add(mammal_is_generalization_of_cat_2);
+            animal.Generalization.Add(animal_is_generalization_of_mammal);
+
+            var cache = new XmiElementCache();
+
+            cache.TryAdd(animal);
+            cache.TryAdd(mammal);
+            cache.TryAdd(cat_1);
+            cache.TryAdd(cat_2);
+
+            cache.TryAdd(animal_is_generalization_of_mammal);
+            cache.TryAdd(mammal_is_generalization_of_cat_1);
+            cache.TryAdd(mammal_is_generalization_of_cat_2);
+
+            Assert.That(animal.QueryAllSpecializations(), Is.EquivalentTo([mammal]));
+            Assert.That(mammal.QueryAllSpecializations(), Is.EquivalentTo([cat_1, cat_2]));
+        }
+
+        [Test]
+        public void Verify_that_QueryAllSpecializations_returns_expected_result_without_cache()
+        {
+            var rootPackage = new Package
+            {
+                XmiId = "rootPackage",
+                DocumentName = "test"
+            };
+
+            var otherPackage = new Package
+            {
+                XmiId = "otherPackage",
+                DocumentName = "test"
+            };
+
+            var packageImport = new PackageImport
+            {
+                XmiId = "packageImport",
+                DocumentName = "test",
+                ImportedPackage = otherPackage
+            };
+
+            rootPackage.PackageImport.Add(packageImport);
+
+            var animal = new Class { XmiId = "Animal", Name = "Animal", DocumentName = "test" };
+            var mammal = new Class { XmiId = "Mammal", Name = "Mammal", DocumentName = "test" };
+            var cat_1 = new Class { XmiId = "Cat_1", Name = "Cat 1", DocumentName = "test" };
+            var cat_2 = new Class { XmiId = "Cat_2", Name = "Cat 2", DocumentName = "test" };
+
+            var animal_is_generalization_of_mammal = new Generalization
+            {
+                XmiId = "animal_is_generalization_of_mammal",
+                DocumentName = "test",
+                General = animal,
+                Specific = mammal
+            };
+
+            var mammal_is_generalization_of_cat_1 = new Generalization
+            {
+                XmiId = "mammal_is_generalization_of_cat_1",
+                DocumentName = "test",
+                General = mammal,
+                Specific = cat_1
+            };
+
+            var mammal_is_generalization_of_cat_2 = new Generalization
+            {
+                XmiId = "mammal_is_generalization_of_cat_2",
+                DocumentName = "test",
+                General = mammal,
+                Specific = cat_2
+            };
+
+            cat_1.Generalization.Add(mammal_is_generalization_of_cat_1);
+            cat_2.Generalization.Add(mammal_is_generalization_of_cat_2);
+            animal.Generalization.Add(animal_is_generalization_of_mammal);
+
+            rootPackage.PackagedElement.Add(animal);
+            rootPackage.PackagedElement.Add(mammal);
+
+            otherPackage.PackagedElement.Add(cat_1);
+            otherPackage.PackagedElement.Add(cat_2);
+
+            Assert.That(animal.QueryAllSpecializations(), Is.EquivalentTo([mammal]));
+            Assert.That(mammal.QueryAllSpecializations(), Is.EquivalentTo([cat_1, cat_2]));
         }
     }
 }

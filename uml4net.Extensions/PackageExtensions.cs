@@ -33,14 +33,15 @@ namespace uml4net.Extensions
     {
         /// <summary>
         /// Queries all the packages and subpackages recursively that are contained
-        /// by the root package
+        /// by the root package, including the root package itself.
         /// </summary>
         /// <param name="root">
-        /// The root <see cref="IPackage"/>
+        /// The root <see cref="IPackage"/>.
         /// </param>
         /// <returns>
-        /// A  ReadOnlyCollection of all the <see cref="IPackage"/>s that are contained
-        /// recursively by the root <see cref="IPackage"/>
+        /// A ReadOnlyCollection of all the <see cref="IPackage"/>s that are contained
+        /// recursively by the root <see cref="IPackage"/>, including the root package
+        /// itself.
         /// </returns>
         public static ReadOnlyCollection<IPackage> QueryPackages(this IPackage root)
         {

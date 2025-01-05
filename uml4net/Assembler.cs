@@ -74,7 +74,7 @@ namespace uml4net
         /// Resolves single and multi-value references for the given element using the provided cache.
         /// </summary>
         /// <param name="element">The element whose references are to be resolved.</param>
-        public void ResolveReferences(IXmiElement element)
+        private void ResolveReferences(IXmiElement element)
         {
             if (element == null)
             {
