@@ -2,7 +2,7 @@
 
   <PropertyGroup>
       <TargetFramework>netstandard2.0</TargetFramework>
-      <Version>1.0.2</Version>
+      <Version>2.0.0</Version>
       <LangVersion>12.0</LangVersion>
       <Company>Starion Group S.A.</Company>
       <Copyright>Copyright © Starion Group S.A.</Copyright>
@@ -24,7 +24,13 @@
       <PackageIcon>icon.png</PackageIcon>
       <PackageTags>UML modeltopia</PackageTags>
       <PackageReleaseNotes>
-          [Add] PackageIcon
+          [Add] ContainerList argument checking
+          [Implement] PropertyExtensions.QueryOpposite
+          [Implement] StereotypeExtensions.QueryProfile
+          [Refactor] IXmiReaderCache to IXmiElementCache, simplify XmiElementCache to and move to uml4net project; fixes #74
+          [Add] Cache property to IXmiElement and set this when adding a Poco to the cache
+          [Move] Assembler to core uml4net project
+          [Update] generated classes to throw InvalidOperationException when getter/setter is called on redefined property (including when it is derived, derived-union or readonly); fixes #68
       </PackageReleaseNotes>
   </PropertyGroup>
 

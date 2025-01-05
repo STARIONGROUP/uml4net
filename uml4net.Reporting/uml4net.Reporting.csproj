@@ -2,7 +2,7 @@
 
     <PropertyGroup>
         <TargetFramework>netstandard2.0</TargetFramework>
-        <Version>1.0.2</Version>
+        <Version>2.0.0</Version>
         <LangVersion>12.0</LangVersion>
         <Company>Starion Group S.A.</Company>
         <Copyright>Copyright © Starion Group S.A.</Copyright>
@@ -24,8 +24,9 @@
         <PackageIcon>icon.png</PackageIcon>
         <PackageTags>Uml modeltopia</PackageTags>
         <PackageReleaseNotes>
-            [Add] PackageIcon
-            [Update] to uml4net.HandleBars version 1.0.2
+            [Add] HTML report, add IsDerivedUnion, IsOrdered, IsReadOnly, IsRedefined, IsID; fixes #65
+            [Add] ClassExtensions.QueryAllSpecializations, use in ClassHelper "Class.QueryAllSpecializations" and include in HTML report; fixes #67
+            [Update] to uml4net.HandleBars version 2.0.0
         </PackageReleaseNotes>
     </PropertyGroup>
 
