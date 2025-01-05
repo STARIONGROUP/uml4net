@@ -6,7 +6,7 @@
     ╚██████╔╝██║ ╚═╝ ██║███████╗██║██║ ╚████║███████╗   ██║   
      ╚═════╝ ╚═╝     ╚═╝╚══════╝╚═╝╚═╝  ╚═══╝╚══════╝   ╚═╝   
                                                           
-  copyright 2024 Starion Group S.A. https://www.stariongroup.eu
+  copyright 2025 Starion Group S.A. https://www.stariongroup.eu
   email: info@stariongroup.eu
 
   uml4net TOOLS version: uml4netToolsVersion

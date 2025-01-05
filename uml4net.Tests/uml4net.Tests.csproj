@@ -5,7 +5,7 @@
       <Company>Starion Group S.A.</Company>
       <Authors>Sam Gerené; Nathanael Smiechowski</Authors>
       <Description>Nunit test suite for the uml4net library</Description>
-      <Copyright>Copyright 2019-2024 Starion Group S.A.</Copyright>
+      <Copyright>Copyright © Starion Group S.A.</Copyright>
       <RepositoryUrl>https://github.com/STARIONGROUP/uml4net.git</RepositoryUrl>
       <RepositoryType>Git</RepositoryType>
       <Nullable>disable</Nullable>

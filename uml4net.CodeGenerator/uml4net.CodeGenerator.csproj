@@ -7,7 +7,7 @@
         <Description>A Library to generate UML code code.</Description>
         <PackageId>uml4net.CodeGenerator</PackageId>
         <Company>Starion Group S.A.</Company>
-        <Copyright>Copyright © Starion Group S.A.</Copyright>
+        <Copyright>Copyright (C) 2019-2025 Starion Group S.A.</Copyright>
         <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
         <RepositoryUrl>https://github.com/STARIONGROUP/uml4net.git</RepositoryUrl>
         <RepositoryType>Git</RepositoryType>
