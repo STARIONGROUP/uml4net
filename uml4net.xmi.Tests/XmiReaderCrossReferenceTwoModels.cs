@@ -1,7 +1,7 @@
 ﻿// -------------------------------------------------------------------------------------------------
-//  <copyright file="DecisionModelNotationReaderTestFixture.cs" company="Starion Group S.A.">
+//  <copyright file="XmiReaderCrossReferenceTwoModels.cs" company="Starion Group S.A.">
 // 
-//    Copyright (C) 2019-2025 Starion Group S.A.
+//    Copyright 2019-2025 Starion Group S.A.
 // 
 //    Licensed under the Apache License, Version 2.0 (the "License");
 //    you may not use this file except in compliance with the License.
@@ -21,18 +21,19 @@
 namespace uml4net.xmi.Tests
 {
     using System.IO;
-
+    using System.Linq;
+    using Classification;
     using Microsoft.Extensions.Logging;
 
     using NUnit.Framework;
 
     using Serilog;
 
-    using uml4net.Packages;
+    using uml4net.StructuredClassifiers;
     using uml4net.xmi;
 
     [TestFixture]
-    public class DecisionModelNotationReaderTestFixture
+    public class XmiReaderCrossReferenceTwoModels
     {
         private ILoggerFactory loggerFactory;
 
@@ -51,7 +52,7 @@ namespace uml4net.xmi.Tests
         }
 
         [Test]
-        public void Verify_that_DMN_XMI_can_be_read()
+        public void Verify_that_doc1_and_doc2_can_be_read_where_the_contents_references_each_other()
         {
             var rootPath = Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData");
 
@@ -60,15 +61,17 @@ namespace uml4net.xmi.Tests
                 .WithLogger(this.loggerFactory)
                 .Build();
 
-            var xmiReaderResult = reader.Read(Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData", "dtc-23-02-13.xmi"));
+            var xmiReaderResult = reader.Read(Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData", "doc1.xml"));
 
             Assert.That(xmiReaderResult.Packages.Count, Is.EqualTo(2));
 
-            var model = xmiReaderResult.Root as IModel;
+            var class_2 = xmiReaderResult.Root.PackagedElement.OfType<IClass>().Single(x => x.FullyQualifiedIdentifier == "doc1.xml#class02");
+            Assert.That(class_2.DocumentName, Is.EqualTo("doc1.xml"));
 
-            Assert.That(model.Name, Is.EqualTo("Data"));
+            var class_1 = xmiReaderResult.Packages[1].PackagedElement.OfType<IClass>().Single(x => x.FullyQualifiedIdentifier == "doc2.xml#class01");
+            Assert.That(class_1.DocumentName, Is.EqualTo("doc2.xml"));
 
-            Assert.That(model.NestedPackage.Count, Is.EqualTo(4));
+            Assert.That(class_2.OwnedAttribute.OfType<IProperty>().Single().Type, Is.EqualTo(class_1) );
         }
     }
 }

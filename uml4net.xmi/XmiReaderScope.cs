@@ -23,7 +23,7 @@ namespace uml4net.xmi
     using Autofac;
     
     using Microsoft.Extensions.Logging;
-
+    using Resources;
     using uml4net.xmi.Readers;
     using uml4net.xmi.ReferenceResolver;
     using uml4net.xmi.Settings;
@@ -68,9 +68,11 @@ namespace uml4net.xmi
             // Required services
             this.ContainerBuilder.RegisterGeneric(typeof(Logger<>)).As(typeof(ILogger<>)).PropertiesAutowired(PropertyWiringOptions.AllowCircularDependencies);
             this.ContainerBuilder.RegisterInstance(this).As<IXmiReaderScope>().SingleInstance();
+            
             this.ContainerBuilder.RegisterType<Assembler>().As<IAssembler>();
             this.ContainerBuilder.RegisterType<XmiElementCache>().As<IXmiElementCache>().SingleInstance();
-            this.ContainerBuilder.RegisterType<ExternalReferenceResolver>().As<IExternalReferenceResolver>();
+            this.ContainerBuilder.RegisterType<ResourceLoader>().As<IResourceLoader>().SingleInstance();
+            this.ContainerBuilder.RegisterType<ExternalReferenceResolver>().As<IExternalReferenceResolver>().SingleInstance();
 
             // Readers
             this.ContainerBuilder.RegisterType<XmiElementReaderFacade>().As<IXmiElementReaderFacade>().SingleInstance();

@@ -64,7 +64,7 @@ namespace uml4net.xmi.Tests
                 .WithLogger(this.loggerFactory)
                 .Build();
 
-            var xmiReaderResult = reader.Read(Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData", "StandardProfile.xmi.xml"));
+            var xmiReaderResult = reader.Read(Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData", "StandardProfile.xmi"));
 
             Assert.That(xmiReaderResult.Packages.Count, Is.EqualTo(3));
 

@@ -19,6 +19,7 @@
     <ItemGroup>
         <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="9.0.0" />
         <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.12.0" />
+        <PackageReference Include="Moq" Version="4.20.72" />
         <PackageReference Include="NUnit" Version="4.3.1" />
         <PackageReference Include="NUnit.Console" Version="3.18.3" />
         <PackageReference Include="NUnit3TestAdapter" Version="4.6.0">
@@ -43,19 +44,28 @@
     </ItemGroup>
 
     <ItemGroup>
-        <Content Include="..\resources\Decision Model and Notation\dtc-23-02-13.xmi.xml" Link="TestData\dtc-23-02-13.xmi.xml">
+        <Content Include="..\resources\Decision Model and Notation\dtc-23-02-13.xmi" Link="TestData\dtc-23-02-13.xmi">
           <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </Content>
-        <Content Include="..\resources\UML\PrimitiveTypes.xmi.xml" Link="TestData\PrimitiveTypes.xmi">
+        <Content Include="..\resources\UML\PrimitiveTypes.xmi" Link="TestData\PrimitiveTypes.xmi">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </Content>
-        <Content Include="..\resources\UML\StandardProfile.xmi.xml" Link="TestData\StandardProfile.xmi.xml">
+        <Content Include="..\resources\UML\StandardProfile.xmi" Link="TestData\StandardProfile.xmi">
           <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </Content>
-        <Content Include="..\resources\UML\UML.xmi.xml" Link="TestData\UML.xmi">
+        <Content Include="..\resources\UML\UML.xmi" Link="TestData\UML.xmi">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </Content>
-      <None Include="..\resources\SySML2\SysML.uml" Link="TestData\SysML.uml">
+        <Content Include="..\resources\SySML2\SysML.uml" Link="TestData\SysML.uml">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Update="TestData\doc1.xml">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Update="TestData\doc2.xml">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
     </ItemGroup>

@@ -32,8 +32,15 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <None Remove="Resources\UML.xmi" />
+    </ItemGroup>
+
+    <ItemGroup>
         <None Include="..\README.md" Pack="true" PackagePath="\" />
         <None Include="..\icon.png" Pack="true" PackagePath="" />
+        <EmbeddedResource Include="..\resources\UML\PrimitiveTypes.xmi" Link="Resources\PrimitiveTypes.xmi" />
+        <EmbeddedResource Include="..\resources\UML\StandardProfile.xmi" Link="Resources\StandardProfile.xmi" />
+        <EmbeddedResource Include="Resources\UML.xmi" />
     </ItemGroup>
 
     <ItemGroup>

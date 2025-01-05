@@ -31,7 +31,12 @@ namespace uml4net.xmi.ReferenceResolver
         /// <summary>
         /// Asynchronously attempts to resolve external references and yields their context and stream.
         /// </summary>
-        /// <returns>An enumerable of tuples containing the context and stream of resolved references.</returns>
-        IEnumerable<(string Context, Stream Stream)> TryResolve();
+        /// <param name="documentName">
+        /// the name of the XMI document for which the external references are being resolved.
+        /// </param>
+        /// <returns>
+        /// A read-only List of tuples containing the context and stream of resolved references
+        /// </returns>
+        IReadOnlyList<(string Context, Stream Stream)> TryResolve(string documentName);
     }
 }

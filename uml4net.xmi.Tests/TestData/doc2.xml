@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8" ?> 
+<xmi:XMI xmlns:uml="http://www.omg.org/spec/UML/20131001" xmlns:xmi="http://www.omg.org/spec/XMI/20131001">
+    <documentation>
+        <shortDescription>demo for crossreferencing between doc1 and doc2</shortDescription>
+    </documentation>
+    <uml:Package xmi:type="uml:Package" xmi:id="doc2" name="doc2">
+        <uml:packagedElement xmi:id="class01" xmi:type="uml:Class">
+            <uml:ownedRule xmi:id="idC4" xmi:type="uml:Constraint" xmi:label="co4" xmi:uuid="DCE:mnop">
+                <specification xmi:type="uml:OpaqueExpression">
+                    <body>Fourth Constraint definition</body>
+                </specification>
+                <constrainedElement href="doc1.xml#idO1"/>
+            </uml:ownedRule>
+        </uml:packagedElement>
+    </uml:Package>
+</xmi:XMI>

@@ -256,7 +256,7 @@ namespace uml4net.xmi.Readers
             this.logger.LogTrace("xml read in {Time}", currentlyElapsedMilliseconds);
             sw.Stop();
 
-            this.TryResolveExternalReferences(xmiReaderResult);
+            this.TryResolveExternalReferences(xmiReaderResult, documentName);
 
             if (isRoot)
             {
@@ -270,13 +270,13 @@ namespace uml4net.xmi.Readers
         /// <param name="xmiReaderResult">
         /// The <see cref="XmiReaderResult"/> to which the read <see cref="IPackage"/>s are added
         /// </param>
-        private void TryResolveExternalReferences(XmiReaderResult xmiReaderResult)
+        private void TryResolveExternalReferences(XmiReaderResult xmiReaderResult, string documentName)
         {
             var stopwatch = Stopwatch.StartNew();
 
             this.logger.LogTrace("resolving the external references");
 
-            var x = this.externalReferenceResolver.TryResolve().ToList();
+            var x = this.externalReferenceResolver.TryResolve(documentName).ToList();
 
             foreach (var (context, externalResource) in x)
             {
