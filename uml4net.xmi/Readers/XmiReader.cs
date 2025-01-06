@@ -152,6 +152,9 @@ namespace uml4net.xmi.Readers
         /// <param name="stream">
         /// The <see cref="Stream"/> that contains the XMI content to be read.
         /// </param>
+        /// <param name="documentName">
+        /// The name of the document that is being read from.
+        /// </param>
         /// <returns>
         /// An <see cref="XmiReaderResult"/> that contains the root <see cref="IPackage"/> and other
         /// contained <see cref="IPackage"/>s representing contents of XMI stream
@@ -180,6 +183,9 @@ namespace uml4net.xmi.Readers
         /// </summary>
         /// <param name="stream">
         /// The <see cref="Stream"/> that contains the XMI content to be read.
+        /// </param>
+        /// <param name="documentName">
+        /// The name of the document that is being read from.
         /// </param>
         /// <param name="xmiReaderResult">
         /// The <see cref="XmiReaderResult"/> to which the read <see cref="IPackage"/>s are added
@@ -269,6 +275,9 @@ namespace uml4net.xmi.Readers
         /// </summary>
         /// <param name="xmiReaderResult">
         /// The <see cref="XmiReaderResult"/> to which the read <see cref="IPackage"/>s are added
+        /// </param>
+        /// <param name="documentName">
+        /// The name of the document that is being read from.
         /// </param>
         private void TryResolveExternalReferences(XmiReaderResult xmiReaderResult, string documentName)
         {
