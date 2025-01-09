@@ -26,10 +26,14 @@ namespace uml4net.xmi.Readers.Packages
     using Microsoft.Extensions.Logging;
     using POCO.CommonStructure;
     using POCO;
+    using POCO.Classification;
+    using POCO.Values;
     using uml4net.POCO.Packages;
     using Readers;
+    using Settings;
     using System.IO.Packaging;
     using System;
+    using System.Collections.Generic;
     using uml4net.POCO.StructuredClassifiers;
     using uml4net.POCO.SimpleClassifiers;
 
@@ -39,6 +43,11 @@ namespace uml4net.xmi.Readers.Packages
     /// </summary>
     public class ModelReader : XmiElementReader<IModel>, IXmiElementReader<IModel>
     {
+        /// <summary>
+        /// Gets INJECTED <see cref="IXmiReaderSettings"/>
+        /// </summary>
+        private readonly IXmiReaderSettings settings;
+
         /// <summary>
         /// Gets the INJECTED <see cref="IXmiElementReader{T}"/> of <see cref="IAssociation"/>
         /// </summary>
@@ -88,9 +97,11 @@ namespace uml4net.xmi.Readers.Packages
         /// <param name="logger">
         /// The (injected) <see cref="ILogger{T}"/> used to setup logging
         /// </param>
-        public ModelReader(IXmiReaderCache cache, ILogger<ModelReader> logger)
+        /// <param name="settings">The <see cref="IXmiReaderSettings"/></param>
+        public ModelReader(IXmiReaderCache cache, ILogger<ModelReader> logger, IXmiReaderSettings settings)
             : base(cache, logger)
         {
+            this.settings = settings;
         }
 
         /// <summary>
@@ -145,6 +156,12 @@ namespace uml4net.xmi.Readers.Packages
                             case "packagedElement":
                                 this.ReadPackagedElements(model, xmlReader);
                                 break;
+                            case var _ when this.settings.SupportedProfiles.Contains(xmlReader.Prefix):
+                                using (var customXmlReader = xmlReader.ReadSubtree())
+                                {
+                                    this.ReadCustomElement(customXmlReader, xmlReader.LocalName, xmlReader.NamespaceURI);
+                                }
+                                break;
                             default:
                                 var defaultLineInfo = xmlReader as IXmlLineInfo;
                                 throw new NotImplementedException($"ModelReader: {xmlReader.LocalName} at line:position {defaultLineInfo.LineNumber}:{defaultLineInfo.LinePosition}");
@@ -154,6 +171,44 @@ namespace uml4net.xmi.Readers.Packages
             }
 
             return model;
+        }
+
+        private void ReadCustomElement(XmlReader customXmlReader, string stereotypeName, string xmlReaderNamespaceUri)
+        {
+            if (!(customXmlReader.Read() && customXmlReader.MoveToFirstAttribute()))
+            {
+                this.Logger.LogWarning("Stereotype '{stereotypeName}' is unreadable (no attributes found).", stereotypeName);
+                return;
+            }
+
+            do
+            {
+                if (!customXmlReader.Name.StartsWith("base_"))
+                {
+                    continue;
+                }
+
+                if (!string.IsNullOrEmpty(customXmlReader.Value) 
+                    && this.Cache.TryResolveContext(customXmlReader.Value, out var resource)
+                    && this.Cache.TryGetValue(resource.Context, resource.ResourceId, out var reference))
+                {
+                        if (reference.GetType().Name == customXmlReader.Name.Substring(5))
+                        {
+                            IStereotype stereotype = new Stereotype();
+                            stereotype.OwnedAttribute.Add(new Property() { Name = "Name", DefaultValue = new LiteralString() { Value = stereotypeName } });
+                            stereotype.Name = stereotypeName;
+
+                            reference.Extensions.Add(stereotype);
+                        }
+                }
+                else
+                {
+                    throw new InvalidOperationException($"The attribute '{customXmlReader.Name}' has no value.");
+                }
+
+                break;
+            }
+            while (customXmlReader.MoveToNextAttribute());
         }
 
         /// <summary>

@@ -38,5 +38,10 @@ namespace uml4net.xmi.Settings
         /// Gets or sets the base directory path used as the local root for resolving referenced XMI files.
         /// </summary>
         string LocalReferenceBasePath { get; set; }
+
+        /// <summary>
+        /// Gets or sets the collection of supported profiles
+        /// </summary>
+        List<string> SupportedProfiles { get; set; }
     }
 }
