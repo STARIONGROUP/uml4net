@@ -24,7 +24,9 @@
         <PackageIcon>icon.png</PackageIcon>
         <PackageTags>UML HandleBars modeltopia</PackageTags>
         <PackageReleaseNotes>
-            [Update] to uml4net.Extensions version 2.0.0
+            [Update] PropertyHelper to read Enumerable PrimitiveTypes that are serialized as xml attribute; ; fixes #78
+
+            
         </PackageReleaseNotes>
     </PropertyGroup>
 
