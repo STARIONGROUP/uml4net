@@ -28,7 +28,7 @@ namespace uml4net.xmi.Readers
 
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Logging.Abstractions;
-    
+    using Settings;
     using uml4net.Packages;
     using uml4net.xmi;
     using uml4net.xmi.ReferenceResolver;
@@ -76,6 +76,11 @@ namespace uml4net.xmi.Readers
         private readonly IXmiElementReaderFacade xmiElementReaderFacade;
 
         /// <summary>
+        /// The (injected) <see cref="IXmiReaderSettings"/> used to configure reading
+        /// </summary>
+        private readonly IXmiReaderSettings xmiReaderSettings;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="XmiReader"/> class.
         /// </summary>
         /// <param name="assembler">
@@ -94,11 +99,12 @@ namespace uml4net.xmi.Readers
         /// <param name="externalReferenceResolver">The <see cref="IExternalReferenceResolver"/></param>
         /// <param name="scope">The <see cref="IXmiReaderScope"/></param>
         public XmiReader(IAssembler assembler, IXmiElementCache cache, IXmiElementReaderFacade xmiElementReaderFacade, ILoggerFactory loggerFactory,
-            IExternalReferenceResolver externalReferenceResolver, IXmiReaderScope scope)
+            IExternalReferenceResolver externalReferenceResolver, IXmiReaderScope scope, IXmiReaderSettings xmiReaderSettings)
         {
             this.assembler = assembler;
             this.cache = cache;
             this.xmiElementReaderFacade = xmiElementReaderFacade;
+            this.xmiReaderSettings = xmiReaderSettings;
             this.loggerFactory = loggerFactory;
             this.logger = this.loggerFactory == null ? NullLogger<XmiReader>.Instance : this.loggerFactory.CreateLogger<XmiReader>();
             this.externalReferenceResolver = externalReferenceResolver;
@@ -220,7 +226,7 @@ namespace uml4net.xmi.Readers
                         switch (xmlReader.LocalName)
                         {
                             case "Package":
-                                var package = (IPackage)xmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, xmlReader.NamespaceURI, cache, this.loggerFactory, "uml:Package");
+                                var package = (IPackage)xmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, xmlReader.NamespaceURI, cache, this.xmiReaderSettings, this.loggerFactory, "uml:Package");
                                 xmiReaderResult.Packages.Add(package);
 
                                 if (isRoot)
@@ -231,7 +237,7 @@ namespace uml4net.xmi.Readers
                                 break;
                             case "Model":
 
-                                var model = (IModel)xmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, xmlReader.NamespaceURI, this.cache, this.loggerFactory, "uml:Model");
+                                var model = (IModel)xmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, xmlReader.NamespaceURI, this.cache, this.xmiReaderSettings, this.loggerFactory, "uml:Model");
                                 xmiReaderResult.Packages.Add(model);
 
                                 if (isRoot)
@@ -241,7 +247,7 @@ namespace uml4net.xmi.Readers
 
                                 break;
                             case "Profile":
-                                var profile = (IProfile)xmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, xmlReader.NamespaceURI, this.cache, this.loggerFactory, "uml:Profile");
+                                var profile = (IProfile)xmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, xmlReader.NamespaceURI, this.cache, this.xmiReaderSettings, this.loggerFactory, "uml:Profile");
                                 xmiReaderResult.Packages.Add(profile);
 
                                 if (isRoot)

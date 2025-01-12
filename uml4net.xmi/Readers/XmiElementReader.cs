@@ -23,12 +23,12 @@ namespace uml4net.xmi.Readers
     using System;
     using System.Collections.Generic;
     using System.Xml;
-    
+
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Logging.Abstractions;
-
+    using Settings;
     using uml4net;
-    
+
     /// <summary>
     /// The abstract super class from which each XMI reader needs to derive
     /// </summary> 
@@ -61,6 +61,8 @@ namespace uml4net.xmi.Readers
         /// </summary>
         protected readonly IXmiElementReaderFacade XmiElementReaderFacade;
 
+        protected readonly IXmiReaderSettings XmiReaderSettings;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="XmiElementReader{T}"/> class.
         /// </summary>
@@ -74,10 +76,11 @@ namespace uml4net.xmi.Readers
         /// <param name="loggerFactory">
         /// The (injected) <see cref="ILoggerFactory"/> used to set up logging
         /// </param>
-        protected XmiElementReader(IXmiElementCache cache, IXmiElementReaderFacade xmiElementReaderFacade, ILoggerFactory loggerFactory)
+        protected XmiElementReader(IXmiElementCache cache, IXmiElementReaderFacade xmiElementReaderFacade, IXmiReaderSettings xmiReaderSettings, ILoggerFactory loggerFactory)
         {
             this.Cache = cache;
             this.XmiElementReaderFacade = xmiElementReaderFacade;
+            this.XmiReaderSettings = xmiReaderSettings;
 
             this.LoggerFactory = loggerFactory;
             this.Logger = loggerFactory == null ? NullLogger<XmiElementReader<TXmiElement>>.Instance : loggerFactory.CreateLogger<XmiElementReader<TXmiElement>>();
@@ -196,7 +199,7 @@ namespace uml4net.xmi.Readers
             {
                 throw new ArgumentNullException(nameof(xmiElement));
             }
-            
+
             if (localName != xmlReader.LocalName)
             {
                 throw new InvalidOperationException($"LocalName:{xmlReader.LocalName} is not equal to the provided localName:{localName}");

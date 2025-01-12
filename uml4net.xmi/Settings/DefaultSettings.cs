@@ -38,5 +38,23 @@ namespace uml4net.xmi.Settings
         /// Gets or sets the base directory path used as the local root for resolving referenced XMI files.
         /// </summary>
         public string LocalReferenceBasePath { get; set; } = "";
+
+        /// <summary>
+        /// Gets or sets the separator used to read properties serialized as a single string
+        /// </summary>
+        /// <remarks>
+        /// The values of the Properties may be serialized as a single string separated by
+        /// a separator, (by default by commas).
+        /// </remarks>
+        public char[] ValueSeparator { get; set; } = new[] { ',' };
+
+        /// <summary>
+        /// Gets or sets the separator used to read multivalued referenced properties serialized as a single string
+        /// </summary>
+        /// <remarks>
+        /// The values of multivalued Properties may be serialized as a single string separated ny
+        /// a separator, (by default by single space).
+        /// </remarks>
+        public char[] MultiReferenceValueSeparator { get; set; } = new[] { ' ' };
     }
 }

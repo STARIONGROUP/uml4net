@@ -279,8 +279,15 @@ namespace uml4net.xmi.ReferenceResolver
             var fileName = Path.GetFileName(uri.AbsolutePath);
 
             var localPath = Path.Combine(settings.LocalReferenceBasePath, fileName);
-            
-            return File.Exists(localPath) ? new Tuple<Stream, string>(File.OpenRead(localPath), fileName) : null;
+
+            if (!File.Exists(localPath))
+            {
+                logger.LogWarning("The resource at {LocalPath} could not be read as it does not exist", localPath);
+
+                return null;
+            }
+
+            return new Tuple<Stream, string>(File.OpenRead(localPath), fileName);
         }
 
         /// <summary>

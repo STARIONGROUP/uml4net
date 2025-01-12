@@ -32,6 +32,7 @@ namespace uml4net.xmi.Readers
     using Microsoft.Extensions.Logging;
 
     using uml4net.xmi.ReferenceResolver;
+    using uml4net.xmi.Settings;
 
     /// <summary>
     /// The purpose of the <see cref="XmiElementReaderFacade"/> is to read an <see cref="IXmiElement"/> from an
@@ -44,20 +45,20 @@ namespace uml4net.xmi.Readers
         /// A dictionary that contains functions that return <see cref="IXmiElement"/> based a key that represents the xmiType
         /// and a provided <see cref="IXmiElementCache"/>, <see cref="ILoggerFactory"/> and <see cref="XmlReader"/>
         /// </summary>
-        private readonly Dictionary<string, Func<IXmiElementCache, ILoggerFactory, XmlReader, string, string, IXmiElement>> readerCache;
+        private readonly Dictionary<string, Func<IXmiElementCache, IXmiReaderSettings, ILoggerFactory, XmlReader, string, string, IXmiElement>> readerCache;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="XmiElementReaderFacade"/>
         /// </summary>
         public XmiElementReaderFacade()
         {
-            readerCache = new Dictionary<string, Func<IXmiElementCache, ILoggerFactory, XmlReader, string, string, IXmiElement>>
+            readerCache = new Dictionary<string, Func<IXmiElementCache, IXmiReaderSettings, ILoggerFactory, XmlReader, string, string, IXmiElement>>
             {
                 {{ #each this as | class | }}
-                ["uml:{{ class.Name }}"] = (cache, loggerFactory, xmlReader, documentName, namespaceUri) =>
+                ["uml:{{ class.Name }}"] = (cache, xmiReaderSettings, loggerFactory, xmlReader, documentName, namespaceUri) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var {{ String.LowerCaseFirstLetter class.Name }}Reader = new {{ class.Name }}Reader(cache, this, loggerFactory);
+                    var {{ String.LowerCaseFirstLetter class.Name }}Reader = new {{ class.Name }}Reader(cache, this, xmiReaderSettings, loggerFactory);
                     return {{ String.LowerCaseFirstLetter class.Name }}Reader.Read(subXmlReader, documentName, namespaceUri);
                 },
                 {{/each}}
@@ -81,6 +82,9 @@ namespace uml4net.xmi.Readers
         /// <param name="cache">
         /// The <see cref="IXmiElementCache"/> in which all model instances are registered
         /// </param>
+        /// <param name = "xmiReaderSettings" >
+        /// The <see cref="IXmiReaderSettings"/> used to configure reading
+        /// </param>
         /// <param name="loggerFactory">
         /// The <see cref="ILoggerFactory"/> to set up logging
         /// </param>
@@ -94,7 +98,7 @@ namespace uml4net.xmi.Readers
         /// <exception cref="InvalidOperationException">
         /// thrown when the xmi:type is not supported and noXmiElementReader was found
         /// </exception>
-        public IXmiElement QueryXmiElement(XmlReader xmlReader, string documentName, string namespaceUri, IXmiElementCache cache, ILoggerFactory loggerFactory, string explicitTypeName = null)
+        public IXmiElement QueryXmiElement(XmlReader xmlReader, string documentName, string namespaceUri, IXmiElementCache cache, IXmiReaderSettings xmiReaderSettings, ILoggerFactory loggerFactory, string explicitTypeName = null)
         {
             if (xmlReader == null)
             {
@@ -104,6 +108,11 @@ namespace uml4net.xmi.Readers
             if (cache == null)
             {
                 throw new ArgumentNullException(nameof(cache));
+            }
+
+            if (xmiReaderSettings == null)
+            {
+                throw new ArgumentNullException(nameof(xmiReaderSettings));
             }
 
             if (string.IsNullOrEmpty(documentName))
@@ -130,7 +139,7 @@ namespace uml4net.xmi.Readers
 
             if (readerCache.TryGetValue(xmiType, out var readerFactory))
             {
-                return readerFactory(cache, loggerFactory, xmlReader, documentName, namespaceUri);
+                return readerFactory(cache, xmiReaderSettings, loggerFactory, xmlReader, documentName, namespaceUri);
             }
 
             throw new InvalidOperationException($"No reader found for xmi:type - {xmiType}");

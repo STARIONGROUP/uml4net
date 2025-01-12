@@ -487,6 +487,44 @@ namespace uml4net.HandleBars
                         return;
                     }
 
+                    if (property.QueryIsPrimitiveType() && property.QueryIsEnumerable())
+                    {
+                        var cSharpTypeName = property.QueryCSharpTypeName();
+
+                        switch (cSharpTypeName)
+                        {
+                            case "bool":
+                            case "double":
+                            case "int":
+                                sb.AppendLine($"var {property.Name}XmlAttribute = xmlReader.GetAttribute(\"{property.Name}\");");
+                                sb.AppendLine($"if (!string.IsNullOrEmpty({property.Name}XmlAttribute))");
+                                sb.AppendLine("{");
+                                sb.AppendLine($"    var {property.Name}XmlAttributeValues = {property.Name}XmlAttribute.Split(this.XmiReaderSettings.ValueSeparator);");
+                                sb.AppendLine($"    foreach (var {property.Name}XmlAttributeValue in {property.Name}XmlAttributeValues)");
+                                sb.AppendLine("    {");
+                                sb.AppendLine($"        poco.{property.Name.CapitalizeFirstLetter()}.Add({cSharpTypeName}.Parse({property.Name}XmlAttributeValue));");
+                                sb.AppendLine("    }");
+                                sb.AppendLine("}");
+                                break;
+                            case "string":
+                                sb.AppendLine($"var {property.Name}XmlAttribute = xmlReader.GetAttribute(\"{property.Name}\");");
+                                sb.AppendLine($"if (!string.IsNullOrEmpty({property.Name}XmlAttribute))");
+                                sb.AppendLine("{");
+                                sb.AppendLine($"    var {property.Name}XmlAttributeValues = {property.Name}XmlAttribute.Split(this.XmiReaderSettings.ValueSeparator);");
+                                sb.AppendLine($"    foreach (var {property.Name}XmlAttributeValue in {property.Name}XmlAttributeValues)");
+                                sb.AppendLine("    {");
+                                sb.AppendLine($"        poco.{property.Name.CapitalizeFirstLetter()}.Add({property.Name}XmlAttributeValue);");
+                                sb.AppendLine("    }");
+                                sb.AppendLine("}");
+                                break;
+                            default:
+                                throw new NotSupportedException($"{property.Name} has a Primitive Type that is not supported: {cSharpTypeName}");
+                        }
+
+                        writer.WriteSafeString(sb + Environment.NewLine);
+                        return;
+                    }
+
                     if (property.QueryIsDataType() && property.QueryIsEnumerable())
                     {
                         sb.AppendLine($"var {property.Name}XmlAttribute = xmlReader.GetAttribute(\"{property.Name}\");");
@@ -600,8 +638,8 @@ namespace uml4net.HandleBars
                     if (property.QueryIsReferenceProperty() && (property.SubsettedProperty.Count == 0))
                     {
                         sb.AppendLine(property.QueryIsTypeAbstract()
-                            ? $"var {property.Name}Value = (I{property.QueryTypeName()})this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.LoggerFactory);"
-                            : $"var {property.Name}Value = (I{property.QueryTypeName()})this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.LoggerFactory, \"uml:{property.QueryTypeName()}\");");
+                            ? $"var {property.Name}Value = (I{property.QueryTypeName()})this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.LoggerFactory);"
+                            : $"var {property.Name}Value = (I{property.QueryTypeName()})this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.LoggerFactory, \"uml:{property.QueryTypeName()}\");");
 
                         sb.AppendLine($"poco.{property.Name.CapitalizeFirstLetter()}.Add({property.Name}Value);");
                         
@@ -617,8 +655,8 @@ namespace uml4net.HandleBars
                         if (property.SubsettedProperty.Any(x => x.IsDerived || x.IsDerivedUnion || x.IsReadOnly))
                         {
                             sb.AppendLine(property.QueryIsTypeAbstract()
-                                ? $"var {property.Name}Value = (I{property.QueryTypeName()})this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.LoggerFactory);"
-                                : $"var {property.Name}Value = (I{property.QueryTypeName()})this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.LoggerFactory, \"uml:{property.QueryTypeName()}\");");
+                                ? $"var {property.Name}Value = (I{property.QueryTypeName()})this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.LoggerFactory);"
+                                : $"var {property.Name}Value = (I{property.QueryTypeName()})this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.LoggerFactory, \"uml:{property.QueryTypeName()}\");");
 
                             sb.AppendLine($"poco.{property.Name.CapitalizeFirstLetter()}.Add({property.Name}Value);");
 

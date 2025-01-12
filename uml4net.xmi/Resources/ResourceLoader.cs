@@ -46,10 +46,13 @@ namespace uml4net.xmi.Resources
             { "UML.xmi", "uml4net.xmi.Resources.UML.xmi" },
             { "UML", "uml4net.xmi.Resources.UML.xmi" },
 
-            { "http://www.omg.org/spec/UML/20131001/PrimitiveTypes.xmi", "uml4net.xmi.Resources.PrimitiveTypes.xmi" },
-            { "https://www.omg.org/spec/UML/20131001/PrimitiveTypes.xmi", "uml4net.xmi.Resources.PrimitiveTypes.xmi" },
+            { "http://www.omg.org/spec/UML/20161101/PrimitiveTypes.xmi", "uml4net.xmi.Resources.PrimitiveTypes.xmi" },
+            { "https://www.omg.org/spec/UML/20161101/PrimitiveTypes.xmi", "uml4net.xmi.Resources.PrimitiveTypes.xmi" },
             { "PrimitiveTypes.xmi", "uml4net.xmi.Resources.UML.xmi" },
             { "PrimitiveTypes", "uml4net.xmi.Resources.UML.xmi" },
+
+            { "http://www.omg.org/spec/UML/20131001/PrimitiveTypes.xmi", "uml4net.xmi.Resources.PrimitiveTypes.xmi" },
+            { "https://www.omg.org/spec/UML/20131001/PrimitiveTypes.xmi", "uml4net.xmi.Resources.PrimitiveTypes.xmi" }
         };
 
         /// <summary>

@@ -24,6 +24,7 @@ namespace uml4net.xmi.Readers
     using System.Xml;
 
     using Microsoft.Extensions.Logging;
+    using uml4net.xmi.Settings;
 
     /// <summary>
     /// The purpose of the <see cref="XmiElementReaderFacade"/> is to read an <see cref="IXmiElement"/> from an
@@ -61,6 +62,6 @@ namespace uml4net.xmi.Readers
         /// <exception cref="InvalidOperationException">
         /// thrown when the xmi:type is not supported and noXmiElementReader was found
         /// </exception>
-        public IXmiElement QueryXmiElement(XmlReader xmlReader, string documentName, string namespaceUri, IXmiElementCache cache, ILoggerFactory loggerFactory, string explicitTypeName = null);
+        public IXmiElement QueryXmiElement(XmlReader xmlReader, string documentName, string namespaceUri, IXmiElementCache cache, IXmiReaderSettings xmiReaderSettings, ILoggerFactory loggerFactory, string explicitTypeName = null);
     }
 }

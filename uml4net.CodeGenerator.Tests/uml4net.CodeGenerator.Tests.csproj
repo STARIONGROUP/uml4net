@@ -226,6 +226,9 @@
       <None Include="Expected\AutoGenInterfaces\IExpression.cs">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
+        <Content Include="Expected\AutoGenXmiReaders\LiteralUnlimitedNaturalReader.cs">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
     </ItemGroup>
 
     <ItemGroup>
@@ -233,16 +236,24 @@
     </ItemGroup>
 
     <ItemGroup>
-        <Content Include="..\resources\UML\PrimitiveTypes.xmi" Link="TestData\PrimitiveTypes.xmi">
+        <None Include="..\resources\UML\PrimitiveTypes.xmi" Link="TestData\PrimitiveTypes.xmi">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </Content>
-        <Content Include="..\resources\UML\UML.xmi" Link="TestData\UML.xmi">
+        </None>
+        <None Include="..\resources\UML\UML.xmi" Link="TestData\UML.xmi">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </Content>
-        <Content Include="Expected\AutoGenXmiReaders\LiteralUnlimitedNaturalReader.cs">
-          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </Content>
+        </None>
+
         <None Include="..\resources\SySML2\SysML.uml" Link="TestData\SysML.uml">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+
+        <None Include="..\resources\SySML2\ptc-24-02-19.xmi" Link="TestData\KerML.xmi">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Include="..\resources\SySML2\ad-23-02-11.xmi" Link="TestData\SysML.xmi">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Include="..\resources\SySML2\ptc-24-02-28.xmi" Link="TestData\SystemsModelingAPIandServicesPIM.xmi">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </None>
     </ItemGroup>
