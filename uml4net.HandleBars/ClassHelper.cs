@@ -132,21 +132,9 @@ namespace uml4net.HandleBars
                 }
 
                 var properties = @class.QueryAllProperties()
-                    .Where(x => !x.IsDerived || !x.IsDerivedUnion || !x.IsReadOnly)
-                    .OrderBy(x => x.Name);
-
-                return properties;
-            });
-
-            handlebars.RegisterHelper("Class.QueryAllNonDerivedNonReadOnlyProperties", (context, _) =>
-            {
-                if (!(context.Value is IClass @class))
-                {
-                    throw new ArgumentException("supposed to be IClass");
-                }
-
-                var properties = @class.QueryAllProperties()
-                    .Where(x => !x.IsDerived || !x.IsDerivedUnion || !x.IsReadOnly)
+                    .Where(x => !x.IsDerived)
+                    .Where(x => !x.IsDerivedUnion)
+                    .Where(x => !x.IsReadOnly)
                     .OrderBy(x => x.Name);
 
                 return properties;
