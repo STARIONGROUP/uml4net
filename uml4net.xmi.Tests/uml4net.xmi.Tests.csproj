@@ -62,6 +62,9 @@
         <Content Include="..\resources\SySML2\SysML.uml" Link="TestData\SysML.uml">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </Content>
+      <Content Include="..\resources\UML_with_unknown_element\SysML_with_unknown_element.uml" Link="TestData\SysML_with_unknown_element.uml">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
         <None Include="..\resources\SySML2\ptc-24-02-28.xmi" Link="TestData\SystemsModelingAPIandServicesPIM.xmi">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </None>
