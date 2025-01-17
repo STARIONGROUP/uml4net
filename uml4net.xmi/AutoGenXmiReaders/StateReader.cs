@@ -266,7 +266,15 @@ namespace uml4net.xmi.Readers
                                 }
                                 break;
                             default:
-                                throw new NotSupportedException($"StateReader: {xmlReader.LocalName} at line:position {defaultLineInfo.LineNumber}:{defaultLineInfo.LinePosition}");
+                                if (this.XmiReaderSettings.UseStrictReading)
+                                {
+                                    throw new NotSupportedException($"StateReader: {xmlReader.LocalName} at line:position {defaultLineInfo.LineNumber}:{defaultLineInfo.LinePosition}");
+                                }
+                                else
+                                {
+                                    this.Logger.LogWarning($"Not Supported: StateReader: {xmlReader.LocalName} at line:position {defaultLineInfo.LineNumber}:{defaultLineInfo.LinePosition}");
+                                }
+                                break;
                         }
                     }
                 }

@@ -310,7 +310,15 @@ namespace uml4net.xmi.Readers
                                 poco.Weight.Add(weightValue);
                                 break;
                             default:
-                                throw new NotSupportedException($"ObjectFlowReader: {xmlReader.LocalName} at line:position {defaultLineInfo.LineNumber}:{defaultLineInfo.LinePosition}");
+                                if (this.XmiReaderSettings.UseStrictReading)
+                                {
+                                    throw new NotSupportedException($"ObjectFlowReader: {xmlReader.LocalName} at line:position {defaultLineInfo.LineNumber}:{defaultLineInfo.LinePosition}");
+                                }
+                                else
+                                {
+                                    this.Logger.LogWarning($"Not Supported: ObjectFlowReader: {xmlReader.LocalName} at line:position {defaultLineInfo.LineNumber}:{defaultLineInfo.LinePosition}");
+                                }
+                                break;
                         }
                     }
                 }

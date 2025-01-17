@@ -46,7 +46,7 @@ namespace uml4net.xmi.Settings
         /// The values of the Properties may be serialized as a single string separated by
         /// a separator, (by default by commas).
         /// </remarks>
-        public char[] ValueSeparator { get; set; } = new[] { ',' };
+        public char[] ValueSeparator { get; set; } = [','];
 
         /// <summary>
         /// Gets or sets the separator used to read multivalued referenced properties serialized as a single string
@@ -55,6 +55,15 @@ namespace uml4net.xmi.Settings
         /// The values of multivalued Properties may be serialized as a single string separated ny
         /// a separator, (by default by single space).
         /// </remarks>
-        public char[] MultiReferenceValueSeparator { get; set; } = new[] { ' ' };
+        public char[] MultiReferenceValueSeparator { get; set; } = [' '];
+
+        /// <summary>
+        /// Gets or sets a value indicating whether to use strict reading.
+        /// </summary>
+        /// <remarks>
+        /// When Strict Reading is set to true the reader will throw an exception if it encounters an unknown element or attribute.
+        /// Otherwise, it will ignore the unknown element or attribute and log a warning.
+        /// </remarks>
+        public bool UseStrictReading { get; set; } = true;
     }
 }

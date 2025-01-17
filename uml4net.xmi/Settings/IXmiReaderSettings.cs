@@ -56,5 +56,14 @@ namespace uml4net.xmi.Settings
         /// a separator, (by default by single space).
         /// </remarks>
         char[] MultiReferenceValueSeparator { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether strict mode should be used while reading the document
+        /// </summary>
+        /// <remarks>
+        /// When Strict Reading is set to true the reader will throw an exception if it encounters an unknown element or attribute.
+        /// Otherwise, it will ignore the unknown element or attribute and log a warning.
+        /// </remarks>
+        bool UseStrictReading { get; set; }
     }
 }

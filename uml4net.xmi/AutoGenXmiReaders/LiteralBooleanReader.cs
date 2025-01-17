@@ -220,7 +220,15 @@ namespace uml4net.xmi.Readers
                                 }
                                 break;
                             default:
-                                throw new NotSupportedException($"LiteralBooleanReader: {xmlReader.LocalName} at line:position {defaultLineInfo.LineNumber}:{defaultLineInfo.LinePosition}");
+                                if (this.XmiReaderSettings.UseStrictReading)
+                                {
+                                    throw new NotSupportedException($"LiteralBooleanReader: {xmlReader.LocalName} at line:position {defaultLineInfo.LineNumber}:{defaultLineInfo.LinePosition}");
+                                }
+                                else
+                                {
+                                    this.Logger.LogWarning($"Not Supported: LiteralBooleanReader: {xmlReader.LocalName} at line:position {defaultLineInfo.LineNumber}:{defaultLineInfo.LinePosition}");
+                                }
+                                break;
                         }
                     }
                 }
