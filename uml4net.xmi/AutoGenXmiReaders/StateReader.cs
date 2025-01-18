@@ -272,7 +272,7 @@ namespace uml4net.xmi.Readers
                                 }
                                 else
                                 {
-                                    this.Logger.LogWarning($"Not Supported: StateReader: {xmlReader.LocalName} at line:position {defaultLineInfo.LineNumber}:{defaultLineInfo.LinePosition}");
+                                    this.Logger.LogWarning("Not Supported: StateReader: {LocalName} at line:position {LineNumber}:{LinePosition}", xmlReader.LocalName, defaultLineInfo.LineNumber, defaultLineInfo.LinePosition);
                                 }
                                 break;
                         }

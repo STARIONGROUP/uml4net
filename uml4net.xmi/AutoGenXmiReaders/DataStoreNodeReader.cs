@@ -325,7 +325,7 @@ namespace uml4net.xmi.Readers
                                 }
                                 else
                                 {
-                                    this.Logger.LogWarning($"Not Supported: DataStoreNodeReader: {xmlReader.LocalName} at line:position {defaultLineInfo.LineNumber}:{defaultLineInfo.LinePosition}");
+                                    this.Logger.LogWarning("Not Supported: DataStoreNodeReader: {LocalName} at line:position {LineNumber}:{LinePosition}", xmlReader.LocalName, defaultLineInfo.LineNumber, defaultLineInfo.LinePosition);
                                 }
                                 break;
                         }

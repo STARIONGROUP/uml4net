@@ -3,7 +3,7 @@
     <PropertyGroup Label="Package">
         <TargetFramework>net9.0</TargetFramework>
         <LangVersion>12.0</LangVersion>
-        <Version>2.0.1</Version>
+        <Version>2.1.0</Version>
         <Title>uml4net.Tools</Title>
         <Description>A command line application that processes a UML file and generates various reports.</Description>
         <OutputType>Exe</OutputType>
@@ -18,14 +18,14 @@
         <NeutralLanguage>en-US</NeutralLanguage>
         <SatelliteResourceLanguages>en-US</SatelliteResourceLanguages>
         <PackageReleaseNotes>
-            [Update] to uml4net.Reporting version 2.0.1
+            [Update] to uml4net.Reporting version 2.1.0
         </PackageReleaseNotes>
     </PropertyGroup>
 
     <PropertyGroup Label="Copyright">
         <Company>Starion Group S.A.</Company>
         <Copyright>Copyright © Starion Group S.A.</Copyright>
-        <Authors>Sam Gerené; Nathanael Smiechowski</Authors>
+        <Authors>Sam Gerené; Nathanael Smiechowski; Alexander Van Delft</Authors>
         <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
         <RequireLicenseAcceptance>true</RequireLicenseAcceptance>
     </PropertyGroup>

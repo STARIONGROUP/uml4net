@@ -226,7 +226,7 @@ namespace uml4net.xmi.Readers
                                 }
                                 else
                                 {
-                                    this.Logger.LogWarning($"Not Supported: LiteralBooleanReader: {xmlReader.LocalName} at line:position {defaultLineInfo.LineNumber}:{defaultLineInfo.LinePosition}");
+                                    this.Logger.LogWarning("Not Supported: LiteralBooleanReader: {LocalName} at line:position {LineNumber}:{LinePosition}", xmlReader.LocalName, defaultLineInfo.LineNumber, defaultLineInfo.LinePosition);
                                 }
                                 break;
                         }
