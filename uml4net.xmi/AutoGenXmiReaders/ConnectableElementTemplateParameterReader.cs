@@ -199,7 +199,7 @@ namespace uml4net.xmi.Readers
                                 }
                                 else
                                 {
-                                    this.Logger.LogWarning($"Not Supported: ConnectableElementTemplateParameterReader: {xmlReader.LocalName} at line:position {defaultLineInfo.LineNumber}:{defaultLineInfo.LinePosition}");
+                                    this.Logger.LogWarning("Not Supported: ConnectableElementTemplateParameterReader: {LocalName} at line:position {LineNumber}:{LinePosition}", xmlReader.LocalName, defaultLineInfo.LineNumber, defaultLineInfo.LinePosition);
                                 }
                                 break;
                         }

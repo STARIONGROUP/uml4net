@@ -19,7 +19,7 @@
         <RepositoryType>Git</RepositoryType>
         <NeutralLanguage>en-US</NeutralLanguage>
         <SatelliteResourceLanguages>en-US</SatelliteResourceLanguages>
-        <Authors>Sam Gerené; Nathanael Smiechowski</Authors>
+        <Authors>Sam Gerené; Nathanael Smiechowski; Alexander Van Delft</Authors>
         <PackageReadmeFile>README.md</PackageReadmeFile>
         <PackageIcon>icon.png</PackageIcon>
         <PackageTags>UML modeltopia</PackageTags>
