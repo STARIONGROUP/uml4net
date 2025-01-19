@@ -70,13 +70,18 @@ namespace uml4net.Reporting.Generators
         /// <param name="rootDirectory">
         /// The base directory path used as the local root for resolving referenced XMI files.
         /// </param>
+        /// <param name="useStrictReading">
+        /// A value indicating whether to use strict reading. When Strict Reading is set to true the
+        /// reader will throw an exception if it encounters an unknown element or attribute.
+        /// Otherwise, it will ignore the unknown element or attribute and log a warning.
+        /// </param>
         /// <param name="pathMap">
         /// a dictionary of key-value pairs used to map PATHMAP references to local xmi files
         /// </param>
         /// <returns>
         /// the content of an HTML report in a string
         /// </returns>
-        public string GenerateReport(FileInfo modelPath, DirectoryInfo rootDirectory, Dictionary<string,string> pathMap)
+        public string GenerateReport(FileInfo modelPath, DirectoryInfo rootDirectory, bool useStrictReading, Dictionary<string,string> pathMap)
         {
             if (modelPath == null)
             {
@@ -94,7 +99,7 @@ namespace uml4net.Reporting.Generators
 
             var template = this.Templates["uml-to-html-docs"];
 
-            var xmiReaderResult = this.LoadPackages(modelPath, rootDirectory, pathMap);
+            var xmiReaderResult = this.LoadPackages(modelPath, rootDirectory, useStrictReading, pathMap);
 
             var payload = CreateHandlebarsPayload(xmiReaderResult);
 
@@ -114,13 +119,18 @@ namespace uml4net.Reporting.Generators
         /// <param name="rootDirectory">
         /// The base directory path used as the local root for resolving referenced XMI files.
         /// </param>
+        /// <param name="useStrictReading">
+        /// A value indicating whether to use strict reading. When Strict Reading is set to true the
+        /// reader will throw an exception if it encounters an unknown element or attribute.
+        /// Otherwise, it will ignore the unknown element or attribute and log a warning.
+        /// </param>
         /// <param name="pathMap">
         /// a dictionary of key-value pairs used to map PATHMAP references to local xmi files
         /// </param>
         /// <param name="outputPath">
         /// the path, including filename, where the output is to be generated.
         /// </param>
-        public void GenerateReport(FileInfo modelPath, DirectoryInfo rootDirectory, Dictionary<string, string> pathMap, FileInfo outputPath)
+        public void GenerateReport(FileInfo modelPath, DirectoryInfo rootDirectory, bool useStrictReading, Dictionary<string, string> pathMap, FileInfo outputPath)
         {
             if (modelPath == null)
             {
@@ -134,7 +144,7 @@ namespace uml4net.Reporting.Generators
 
             var sw = Stopwatch.StartNew();
 
-            var generatedHtml = this.GenerateReport(modelPath, rootDirectory, pathMap);
+            var generatedHtml = this.GenerateReport(modelPath, rootDirectory, useStrictReading, pathMap);
 
             if (outputPath.Exists)
             {

@@ -76,7 +76,7 @@ namespace uml4net.Tools.Tests.Commands
 
             var result = await this.handler.InvokeAsync(invocationContext);
 
-            this.markdownReportGenerator.Verify(x => x.GenerateReport(It.IsAny<FileInfo>(), It.IsAny<DirectoryInfo>(), It.IsAny<Dictionary<string, string>>(), It.IsAny<FileInfo>()),
+            this.markdownReportGenerator.Verify(x => x.GenerateReport(It.IsAny<FileInfo>(), It.IsAny<DirectoryInfo>(), It.IsAny<bool>(), It.IsAny<Dictionary<string, string>>(), It.IsAny<FileInfo>()),
                 Times.Once);
 
             Assert.That(result, Is.EqualTo(0), "InvokeAsync should return 0 upon success.");

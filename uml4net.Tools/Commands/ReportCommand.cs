@@ -63,6 +63,14 @@ namespace uml4net.Tools.Commands
             autoOpenReportOption.AddAlias("-a");
             autoOpenReportOption.IsRequired = false;
             this.AddOption(autoOpenReportOption);
+
+            var useStrictReadingOption = new Option<bool>(
+                name: "--use-strict-reading",
+                description: "When Strict Reading is set to true the reader will throw an exception if it encounters an unknown element or attribute. Otherwise, it will ignore the unknown element or attribute and log a warning.",
+                getDefaultValue: () => true);
+            useStrictReadingOption.AddAlias("-s");
+            useStrictReadingOption.IsRequired = false;
+            this.AddOption(useStrictReadingOption);
         }
     }
 }

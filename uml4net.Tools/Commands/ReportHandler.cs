@@ -86,6 +86,15 @@ namespace uml4net.Tools.Commands
         public bool AutoOpenReport { get; set; }
 
         /// <summary>
+        /// Gets or sets a value indicating whether to use strict reading.
+        /// </summary>
+        /// <remarks>
+        /// When Strict Reading is set to true the reader will throw an exception if it encounters an unknown element or attribute.
+        /// Otherwise, it will ignore the unknown element or attribute and log a warning.
+        /// </remarks>
+        public bool UseStrictReading { get; set; }
+
+        /// <summary>
         /// Invokes the <see cref="ICommandHandler"/>
         /// </summary>
         /// <param name="context">
@@ -132,25 +141,30 @@ namespace uml4net.Tools.Commands
                     .SpinnerStyle(Style.Parse("green bold"))
                     .Start($"Preparing Warp Engines for {this.ReportGenerator.QueryReportType()} reporting...", ctx =>
                     {
-                        Thread.Sleep(1500);
+                        AnsiConsole.MarkupLine("[yellow]Initializing report parameters...[/]");
+                        AnsiConsole.WriteLine();
+                        AnsiConsole.MarkupLine($"[green] --no-logo: {Markup.Escape(this.NoLogo.ToString())}[/]");
+                        AnsiConsole.MarkupLine($"[green] --input-model: {Markup.Escape(this.InputModel.Name)}[/]");
+                        AnsiConsole.MarkupLine($"[green] --auto-open-report: {Markup.Escape(this.AutoOpenReport.ToString())}[/]");
+                        AnsiConsole.MarkupLine($"[green] --use-strict-reading: {Markup.Escape(this.UseStrictReading.ToString())}[/]");
+                        AnsiConsole.WriteLine();
+                        Task.Delay(500);
 
-                        ctx.Status($"Generating UML Model report at Warp 11, Captain..., SLOW DOWN!");
+                        ctx.Status("[yellow]Generating UML Model report...[/]");
+                        AnsiConsole.WriteLine();
+                        Task.Delay(1000);
+                        
+                        this.ReportGenerator.GenerateReport(this.InputModel, this.InputModel.Directory, this.UseStrictReading, this.pathMap,this.OutputReport);
 
-                        Thread.Sleep(1500);
-
-                        this.ReportGenerator.GenerateReport(this.InputModel, this.InputModel.Directory, this.pathMap,this.OutputReport);
-
-                        AnsiConsole.MarkupLine(
-                            $"[grey]LOG:[/] UML {this.ReportGenerator.QueryReportType()} report generated at [bold]{this.OutputReport.FullName}[/]");
-                        Thread.Sleep(1500);
+                        AnsiConsole.MarkupLine($"[grey]LOG:[/] UML {this.ReportGenerator.QueryReportType()} report generated at [bold]{this.OutputReport.FullName}[/]");
+                        AnsiConsole.WriteLine();
 
                         this.ExecuteAutoOpen(ctx);
 
                         ctx.Status("[green]Dropping to impulse speed[/]");
-                        Thread.Sleep(1500);
-
+                        Task.Delay(500);
+                        
                         return Task.FromResult(0);
-
                     });
             }
             catch (IOException ex)

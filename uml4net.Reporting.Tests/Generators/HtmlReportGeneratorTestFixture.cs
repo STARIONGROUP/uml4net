@@ -65,7 +65,7 @@ namespace uml4net.Reporting.Tests.Generators
 
             var pathmap = new Dictionary<string, string>();
 
-            Assert.That(() => this.htmlReportGenerator.GenerateReport(this.umlModelFileInfo, this.umlModelFileInfo.Directory, pathmap, reportFileInfo), Throws.Nothing);
+            Assert.That(() => this.htmlReportGenerator.GenerateReport(this.umlModelFileInfo, this.umlModelFileInfo.Directory, true, pathmap, reportFileInfo), Throws.Nothing);
         }
 
         [Test]
@@ -78,7 +78,7 @@ namespace uml4net.Reporting.Tests.Generators
             var pathmap = new Dictionary<string, string>();
             pathmap.Add("pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml", Path.Combine("TestData", "PrimitiveTypes.xmi"));
 
-            Assert.That(() => this.htmlReportGenerator.GenerateReport(this.sysml2ModelFileInfo, this.umlModelFileInfo.Directory, pathmap, reportFileInfo), Throws.Nothing);
+            Assert.That(() => this.htmlReportGenerator.GenerateReport(this.sysml2ModelFileInfo, this.umlModelFileInfo.Directory,true, pathmap, reportFileInfo), Throws.Nothing);
         }
     }
 }

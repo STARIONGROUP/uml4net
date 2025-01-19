@@ -99,7 +99,7 @@ namespace uml4net.Reporting.Tests.Generators
 
             var pathmap = new Dictionary<string, string>();
 
-            Assert.That(() => this.modelInspector.GenerateReport(this.modelFileInfo, this.modelFileInfo.Directory, pathmap, this.reportFileInfo), Throws.Nothing);
+            Assert.That(() => this.modelInspector.GenerateReport(this.modelFileInfo, this.modelFileInfo.Directory, true, pathmap, this.reportFileInfo), Throws.Nothing);
         }
 
         [Test]
