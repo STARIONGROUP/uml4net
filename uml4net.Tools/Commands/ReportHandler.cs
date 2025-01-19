@@ -32,6 +32,7 @@ namespace uml4net.Tools.Commands
     using uml4net.Tools.Resources;
 
     using Spectre.Console;
+    using System.Globalization;
 
     /// <summary>
     /// Abstract super class from which all Report <see cref="ICommandHandler"/>s need to derive
@@ -143,10 +144,10 @@ namespace uml4net.Tools.Commands
                     {
                         AnsiConsole.MarkupLine("[yellow]Initializing report parameters...[/]");
                         AnsiConsole.WriteLine();
-                        AnsiConsole.MarkupLine($"[green] --no-logo: {Markup.Escape(this.NoLogo.ToString())}[/]");
+                        AnsiConsole.MarkupLine($"[green] --no-logo: {Markup.Escape(this.NoLogo.ToString(CultureInfo.CurrentCulture))}[/]");
                         AnsiConsole.MarkupLine($"[green] --input-model: {Markup.Escape(this.InputModel.Name)}[/]");
-                        AnsiConsole.MarkupLine($"[green] --auto-open-report: {Markup.Escape(this.AutoOpenReport.ToString())}[/]");
-                        AnsiConsole.MarkupLine($"[green] --use-strict-reading: {Markup.Escape(this.UseStrictReading.ToString())}[/]");
+                        AnsiConsole.MarkupLine($"[green] --auto-open-report: {Markup.Escape(this.AutoOpenReport.ToString(CultureInfo.CurrentCulture))}[/]");
+                        AnsiConsole.MarkupLine($"[green] --use-strict-reading: {Markup.Escape(this.UseStrictReading.ToString(CultureInfo.CurrentCulture))}[/]");
                         AnsiConsole.WriteLine();
                         Task.Delay(500);
 
