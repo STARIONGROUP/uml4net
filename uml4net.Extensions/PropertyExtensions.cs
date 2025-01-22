@@ -176,6 +176,11 @@ namespace uml4net.Extensions
         /// <param name="mappings">Collection of tuples with Key and Value data to add to custom mappings, or overwrite default mappings</param>
         public static void AddOrOverwriteCSharpTypeMappings(params (string Key, string Value)[] mappings)
         {
+            if (mappings == null || mappings.Length == 0 || mappings.Any(x => x.Key == null || x.Value == null))
+            {
+                throw new ArgumentNullException(nameof(mappings));
+            }
+
             foreach (var kvp in mappings)
             {
                 if (CustomCSharpTypeMapping.TryGetValue(kvp.Key, out var curVal))

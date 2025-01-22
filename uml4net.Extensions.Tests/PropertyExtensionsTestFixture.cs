@@ -186,7 +186,6 @@ namespace uml4net.Extensions.Tests
                 Assert.That(dataType.QueryCSharpTypeName(), Is.EqualTo("CustomType2"));
             });
 
-
             //Using overwritten Default Type mapping
             PropertyExtensions.AddOrOverwriteCSharpTypeMappings(("Integer", "CustomInt"));
 
@@ -204,6 +203,20 @@ namespace uml4net.Extensions.Tests
                 Assert.That(lower.QueryCSharpTypeName(), Is.EqualTo("int"));
                 Assert.That(dataType.QueryCSharpTypeName(), Is.EqualTo("DataType"));
             });
+
+            //Add multiple mappings at once
+            PropertyExtensions.AddOrOverwriteCSharpTypeMappings(("DataType", "CustomType2"), ("Integer", "CustomInt"));
+
+            Assert.Multiple(() =>
+            {
+                Assert.That(lower.QueryCSharpTypeName(), Is.EqualTo("CustomInt"));
+                Assert.That(dataType.QueryCSharpTypeName(), Is.EqualTo("CustomType2"));
+            });
+
+            Assert.That(() => PropertyExtensions.AddOrOverwriteCSharpTypeMappings(), Throws.TypeOf<System.ArgumentNullException>());
+            Assert.That(() => PropertyExtensions.AddOrOverwriteCSharpTypeMappings((null, null)), Throws.TypeOf<System.ArgumentNullException>());
+            Assert.That(() => PropertyExtensions.AddOrOverwriteCSharpTypeMappings((string.Empty, null)), Throws.TypeOf<System.ArgumentNullException>());
+            Assert.That(() => PropertyExtensions.AddOrOverwriteCSharpTypeMappings((null, string.Empty)), Throws.TypeOf<System.ArgumentNullException>());
         }
 
         [Test]
