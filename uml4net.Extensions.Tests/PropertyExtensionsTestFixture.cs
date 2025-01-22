@@ -152,6 +152,61 @@ namespace uml4net.Extensions.Tests
         }
 
         [Test]
+        public void Verify_that_QueryCSharpTypeName_returns_expected_Result_when_Custom_mappings_are_added()
+        {
+            var structuredClassifiersPackage = this.xmiReaderResult.Root.NestedPackage.Single(x => x.Name == "Classification");
+
+            var property = structuredClassifiersPackage.PackagedElement.OfType<IClass>().Single(x => x.Name == "Property");
+
+            var lower = property.QueryAllProperties().Single(x => x.Name == "lower");
+            var dataType = property.QueryAllProperties().Single(x => x.Name == "datatype");
+
+            //Using only default mappings
+            Assert.Multiple(() =>
+            {
+                Assert.That(lower.QueryCSharpTypeName(), Is.EqualTo("int"));
+                Assert.That(dataType.QueryCSharpTypeName(), Is.EqualTo("DataType"));
+            });
+
+            //Using new Custom Type mapping
+            PropertyExtensions.AddOrOverwriteCSharpTypeMappings(("DataType", "CustomType"));
+
+            Assert.Multiple(() =>
+            {
+                Assert.That(lower.QueryCSharpTypeName(), Is.EqualTo("int"));
+                Assert.That(dataType.QueryCSharpTypeName(), Is.EqualTo("CustomType"));
+            });
+
+            //Using overwritten Custom Type mapping
+            PropertyExtensions.AddOrOverwriteCSharpTypeMappings(("DataType", "CustomType2"));
+
+            Assert.Multiple(() =>
+            {
+                Assert.That(lower.QueryCSharpTypeName(), Is.EqualTo("int"));
+                Assert.That(dataType.QueryCSharpTypeName(), Is.EqualTo("CustomType2"));
+            });
+
+
+            //Using overwritten Default Type mapping
+            PropertyExtensions.AddOrOverwriteCSharpTypeMappings(("Integer", "CustomInt"));
+
+            Assert.Multiple(() =>
+            {
+                Assert.That(lower.QueryCSharpTypeName(), Is.EqualTo("CustomInt"));
+                Assert.That(dataType.QueryCSharpTypeName(), Is.EqualTo("CustomType2"));
+            });
+
+            //After reset of custom mappings all should be using only default mappings again
+            PropertyExtensions.ResetCSharpTypeMappingsToDefault();
+
+            Assert.Multiple(() =>
+            {
+                Assert.That(lower.QueryCSharpTypeName(), Is.EqualTo("int"));
+                Assert.That(dataType.QueryCSharpTypeName(), Is.EqualTo("DataType"));
+            });
+        }
+
+        [Test]
         public void Verify_that_QueryIsEnumerable_returns_expected_Result()
         {
             var structuredClassifiersPackage = this.xmiReaderResult.Root.NestedPackage.Single(x => x.Name == "Classification");

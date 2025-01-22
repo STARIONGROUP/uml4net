@@ -24,7 +24,7 @@ namespace uml4net.Extensions
     using System.Collections.Generic;
     using System.Globalization;
     using System.Linq;
-    
+
     using uml4net.Classification;
     using uml4net.CommonStructure;
     using uml4net.SimpleClassifiers;
@@ -147,7 +147,7 @@ namespace uml4net.Extensions
         /// <summary>
         /// A mapping of the known SysML value types to C# types
         /// </summary>
-        private static readonly Dictionary<string, string> CSharpTypeMapping = new ()
+        private static readonly Dictionary<string, string> DefaultCSharpTypeMapping = new ()
         {
             {"Boolean", "bool"},
             {"Integer", "int"},
@@ -155,6 +155,84 @@ namespace uml4net.Extensions
             {"String", "string"},
             {"UnlimitedNatural", "string"},
         };
+
+        /// <summary>
+        /// A mapping of the custom SysML value types to C# types
+        /// </summary>
+        private static readonly Dictionary<string, string> CustomCSharpTypeMapping = new();
+
+        /// <summary>
+        /// A mapping of the known and custom SysML value types to C# types
+        /// </summary>
+        /// <remarks>
+        /// By default, contains all items from DefaultCSharpTypeMapping
+        /// </remarks>
+        private static readonly Dictionary<string, string> CSharpTypeMapping =
+            DefaultCSharpTypeMapping.ToDictionary(x => x.Key, x => x.Value);
+
+        /// <summary>
+        /// Adds or overwrites the C# type mappings
+        /// </summary>
+        /// <param name="mappings">Collection of tuples with Key and Value data to add to custom mappings, or overwrite default mappings</param>
+        public static void AddOrOverwriteCSharpTypeMappings(params (string Key, string Value)[] mappings)
+        {
+            foreach (var kvp in mappings)
+            {
+                if (CustomCSharpTypeMapping.TryGetValue(kvp.Key, out var curVal))
+                {
+                    if (curVal != kvp.Value)
+                    {
+                        CustomCSharpTypeMapping[kvp.Key] = kvp.Value;
+                    }
+                }
+                else
+                {
+                    CustomCSharpTypeMapping.Add(kvp.Key, kvp.Value);
+                }
+            }
+
+            RecalculateCSharpTypeMapping();
+        }
+
+        /// <summary>
+        /// Removes any added custom C# type mapping and resets to the default in <see cref="DefaultCSharpTypeMapping"/>
+        /// </summary>
+        public static void ResetCSharpTypeMappingsToDefault()
+        {
+            CustomCSharpTypeMapping.Clear();
+            RecalculateCSharpTypeMapping();
+        }
+
+        /// <summary>
+        /// Concatenates the default and custom type mappings from <see cref="CustomCSharpTypeMapping"/> and <see cref="DefaultCSharpTypeMapping"/> and stores the result in <see cref="CSharpTypeMapping"/>
+        /// </summary>
+        /// <remarks>
+        /// If the same key exist in <see cref="DefaultCSharpTypeMapping"/> and <see cref="CustomCSharpTypeMapping"/>, the value of the <see cref="CustomCSharpTypeMapping"/> mapping will be used.
+        /// </remarks>
+        private static void RecalculateCSharpTypeMapping()
+        {
+            CSharpTypeMapping.Clear();
+
+            foreach (var kvp in DefaultCSharpTypeMapping)
+            {
+                CSharpTypeMapping.Add(kvp.Key, kvp.Value);
+            }
+
+            foreach (var kvp in CustomCSharpTypeMapping)
+            {
+                if (CSharpTypeMapping.TryGetValue(kvp.Key, out var curVal))
+                {
+                    if (curVal != kvp.Value)
+                    {
+                        CSharpTypeMapping[kvp.Key] = kvp.Value;
+                    }
+                }
+                else
+                {
+                    CSharpTypeMapping.Add(kvp.Key, kvp.Value);
+                }
+            }
+        }
 
         /// <summary>
         /// Queries the C# type-name of the <see cref="IProperty"/>
