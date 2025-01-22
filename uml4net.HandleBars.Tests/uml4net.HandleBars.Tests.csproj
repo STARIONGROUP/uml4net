@@ -53,6 +53,9 @@
         <None Include="..\resources\SySML2\SysML.uml" Link="TestData\SysML.uml">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </None>
+      <None Include="..\resources\SySML2\ptc-24-02-28.xmi" Link="TestData\SystemsModelingAPIandServicesPIM.xmi">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
     </ItemGroup>
 
 </Project>
