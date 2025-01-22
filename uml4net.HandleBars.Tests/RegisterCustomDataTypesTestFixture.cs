@@ -79,6 +79,16 @@ namespace uml4net.HandleBars.Tests
             PropertyHelper.RegisterPropertyHelper(this.handlebarsContext);
         }
 
+        [TearDown]
+        public void TearDown()
+        {
+            this.handlebarsContext = null;
+            this.xmiReaderResult = null;
+
+            // Reset the custom datatype mappings, because Extensions.PropertyExtensions is static and settings will be shared between unit tests
+            Extensions.PropertyExtensions.ResetCSharpTypeMappingsToDefault();
+        }
+
         [Test]
         public void Verify_that_property_is_written_as_expected_for_interface_without_custom_datatype_mapping()
         {
