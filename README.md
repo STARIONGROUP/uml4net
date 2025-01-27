@@ -1,3 +1,5 @@
+![uml4net](https://raw.githubusercontent.com/STARIONGROUP/uml4net/master/uml4net-logo.png)
+
 ## Introduction
 
 Uml4net is a suite of dotnet core libraries and tools that are used to deserialize (read) a UML version 2.5.1 model in XMI form. Uml4net is typically used to support opinionated template based code-generation and is a part of `modeltopia`. Uml4net porivdes a number of libraries that are described in the following sections.
