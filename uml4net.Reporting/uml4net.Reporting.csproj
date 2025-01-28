@@ -21,7 +21,7 @@
         <SatelliteResourceLanguages>en-US</SatelliteResourceLanguages>
         <Authors>Sam Gerené; Nathanael Smiechowski; Alexander Van Delft</Authors>
         <PackageReadmeFile>README.md</PackageReadmeFile>
-        <PackageIcon>icon.png</PackageIcon>
+        <PackageIcon>uml4net-logo-strapline.png</PackageIcon>
         <PackageTags>Uml modeltopia</PackageTags>
         <PackageReleaseNotes>
             [Implement] useStrictReading
@@ -31,7 +31,7 @@
 
     <ItemGroup>
         <None Include="..\README.md" Pack="true" PackagePath="\" />
-        <None Include="..\icon.png" Pack="true" PackagePath="" />
+        <None Include="..\uml4net-logo-strapline.png" Pack="true" PackagePath="" />
         <Folder Include="Resources\" />
         <None Remove="Templates\uml-to-html-docs.hbs" />
         <EmbeddedResource Include="Templates\uml-to-html-docs.hbs" />

@@ -23,7 +23,7 @@
         <SatelliteResourceLanguages>en-US</SatelliteResourceLanguages>
         <Authors>Sam Gerené; Nathanael Smiechowski; Alexander Van Delft</Authors>
         <PackageReadmeFile>README.md</PackageReadmeFile>
-        <PackageIcon>icon.png</PackageIcon>
+        <PackageIcon>uml4net-logo-strapline.png</PackageIcon>
         <PackageTags>UML XMI modeltopia</PackageTags>
         <PackageReleaseNotes>
             [Update] to uml4net.Extensions version 2.0.1
@@ -36,7 +36,7 @@
 
     <ItemGroup>
         <None Include="..\README.md" Pack="true" PackagePath="\" />
-        <None Include="..\icon.png" Pack="true" PackagePath="" />
+        <None Include="..\uml4net-logo-strapline.png" Pack="true" PackagePath="" />
         <EmbeddedResource Include="..\resources\UML\PrimitiveTypes.xmi" Link="Resources\PrimitiveTypes.xmi" />
         <EmbeddedResource Include="..\resources\UML\StandardProfile.xmi" Link="Resources\StandardProfile.xmi" />
         <EmbeddedResource Include="Resources\UML.xmi" />
