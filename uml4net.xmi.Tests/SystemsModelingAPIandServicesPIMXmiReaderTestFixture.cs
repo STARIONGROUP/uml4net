@@ -31,6 +31,9 @@ namespace uml4net.xmi.Tests
     using uml4net.xmi;
     using Serilog;
     using System.Collections.Generic;
+    using Extensions;
+    using SimpleClassifiers;
+    using uml4net.CommonStructure;
 
     [TestFixture]
     public class SystemsModelingAPIandServicesPIMXmiReaderTestFixture
@@ -88,6 +91,21 @@ namespace uml4net.xmi.Tests
 
             Assert.That(model.XmiId, Is.EqualTo("_19_0_4_3fa0198_1689000259946_865221_0"));
             Assert.That(model.Name, Is.EqualTo("Systems Modeling API and Services PIM"));
+
+            var interfaces = model.QueryPackages().SelectMany(x => x.PackagedElement.OfType<IInterface>());
+
+            var data = interfaces.Single(x => x.Name == "Data");
+
+            Assert.That(interfaces.Count(), Is.EqualTo(1));
+
+            var realizations = model.QueryPackages().SelectMany(x => x.PackagedElement.OfType<IRealization>());
+
+            var externalRelationship = model.QueryPackages().SelectMany(x => x.PackagedElement.OfType<IClass>()).Single(x => x.Name == "ExternalRelationship");
+
+            var externalRelationshipInterface = externalRelationship.QueryInterfaces().Single();
+
+            Assert.That(externalRelationshipInterface, Is.EqualTo(data));
+
         }
     }
 }

@@ -23,8 +23,9 @@ namespace uml4net.Classification
     using System;
     using System.Collections.Generic;
     using System.Linq;
-
+    using SimpleClassifiers;
     using uml4net.CommonStructure;
+    using uml4net.Values;
 
     /// <summary>
     /// The <see cref="ClassifierExtensions"/> class provides extensions methods for <see cref="IClassifier"/>
@@ -44,6 +45,16 @@ namespace uml4net.Classification
         /// </returns>
         public static List<IProperty> QueryAttribute(this IClassifier element)
         {
+            if (element == null)
+            {
+                throw new ArgumentNullException(nameof(element));
+            }
+
+            if (element is IInterface @interface)
+            {
+                return @interface.OwnedAttribute.ToList();
+            }
+
             throw new NotSupportedException();
         }
 

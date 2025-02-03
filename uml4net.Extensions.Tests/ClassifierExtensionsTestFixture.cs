@@ -22,13 +22,13 @@ namespace uml4net.Extensions.Tests
 {
     using System.IO;
     using System.Linq;
-
+    using Classification;
     using Microsoft.Extensions.Logging;
 
     using NUnit.Framework;
 
     using Serilog;
-
+    using SimpleClassifiers;
     using uml4net.StructuredClassifiers;
     using uml4net.xmi;
     using uml4net.xmi.Readers;
@@ -87,6 +87,33 @@ namespace uml4net.Extensions.Tests
 
 
             Assert.That(classifiers.Count, Is.EqualTo(7));
+        }
+
+        [Test]
+        public void Verify_that_QueryAttribute_returns_expected_result()
+        {
+            var @interface = new Interface();
+
+            var property = new Property
+            {
+                XmiId = "test_id",
+                Name = "test",
+            };
+
+            @interface.OwnedAttribute.Add(property);
+
+            var properties = Classification.ClassifierExtensions.QueryAttribute(@interface);
+
+            Assert.That(properties.Single(), Is.EqualTo(property));
+        }
+
+        [Test]
+        public void Verify_that_QueryAttribute_returns_throws_exception_when_argument_is_Null()
+        {
+            IInterface @interface = null;
+
+            Assert.That(() => Classification.ClassifierExtensions.QueryAttribute(@interface),
+                Throws.ArgumentNullException);  
         }
     }
 }

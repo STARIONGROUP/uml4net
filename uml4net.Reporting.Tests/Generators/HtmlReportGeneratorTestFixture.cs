@@ -39,6 +39,8 @@ namespace uml4net.Reporting.Tests.Generators
 
         private FileInfo sysml2ModelFileInfo;
 
+        private FileInfo sysml2PimFileInfo;
+
         [SetUp]
         public void SetUp()
         {
@@ -54,6 +56,7 @@ namespace uml4net.Reporting.Tests.Generators
 
             this.umlModelFileInfo = new FileInfo(Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData", "UML.xmi"));
             this.sysml2ModelFileInfo = new FileInfo(Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData", "SysML.uml"));
+            this.sysml2PimFileInfo = new FileInfo(Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData", "SysML2Pim.uml"));
         }
 
         [Test]
@@ -79,6 +82,18 @@ namespace uml4net.Reporting.Tests.Generators
             pathmap.Add("pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml", Path.Combine("TestData", "PrimitiveTypes.xmi"));
 
             Assert.That(() => this.htmlReportGenerator.GenerateReport(this.sysml2ModelFileInfo, this.umlModelFileInfo.Directory,true, pathmap, reportFileInfo), Throws.Nothing);
+        }
+
+        [Test]
+        public void Verify_that_the_report_generator_generators_a_report_of_syml2pim()
+        {
+            this.htmlReportGenerator = new HtmlReportGenerator(this.loggerFactory);
+
+            Extensions.PropertyExtensions.AddOrOverwriteCSharpTypeMappings(("ISO8601DateTime", "DateTime"));
+
+            var reportFileInfo = new FileInfo(Path.Combine(TestContext.CurrentContext.TestDirectory, "sysml2-pim-html-report.html"));
+
+            Assert.That(() => this.htmlReportGenerator.GenerateReport(this.sysml2PimFileInfo, this.umlModelFileInfo.Directory, true, null, reportFileInfo), Throws.Nothing);
         }
     }
 }
