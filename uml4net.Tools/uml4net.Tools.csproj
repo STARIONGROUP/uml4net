@@ -3,7 +3,7 @@
     <PropertyGroup Label="Package">
         <TargetFramework>net9.0</TargetFramework>
         <LangVersion>12.0</LangVersion>
-        <Version>3.0.1</Version>
+        <Version>3.0.2</Version>
         <Title>uml4net.Tools</Title>
         <Description>A command line application that processes a UML file and generates various reports.</Description>
         <OutputType>Exe</OutputType>
@@ -19,7 +19,6 @@
         <SatelliteResourceLanguages>en-US</SatelliteResourceLanguages>
         <PackageReleaseNotes>
             [Update] to uml4net.Reporting version 3.0.2
-            [Update] package and application icon
         </PackageReleaseNotes>
     </PropertyGroup>
 
