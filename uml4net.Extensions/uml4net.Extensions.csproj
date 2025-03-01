@@ -38,6 +38,6 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="HtmlAgilityPack" Version="1.11.72" />
+        <PackageReference Include="HtmlAgilityPack" Version="1.11.74" />
     </ItemGroup>
 </Project>
