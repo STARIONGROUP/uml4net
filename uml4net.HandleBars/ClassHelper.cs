@@ -33,7 +33,7 @@ namespace uml4net.HandleBars
     public static class ClassHelper
     {
         /// <summary>
-        /// Registers the <see cref="IEnumerableHelper"/>
+        /// Registers the <see cref="ClassHelper"/>
         /// </summary>
         /// <param name="handlebars">
         /// The <see cref="IHandlebars"/> context with which the helper needs to be registered
