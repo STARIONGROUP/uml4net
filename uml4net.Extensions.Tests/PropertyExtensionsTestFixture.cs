@@ -31,6 +31,7 @@ namespace uml4net.Extensions.Tests
 
     using uml4net.StructuredClassifiers;
     using uml4net.xmi;
+    
     using xmi.Readers;
 
     [TestFixture]
