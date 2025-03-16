@@ -184,7 +184,7 @@ namespace uml4net.HandleBars
                 }
 
                 var typeName = (arguments.Single() as IProperty)?.Type?.Name?.ToLowerInvariant();
-                return typeName?.Contains("double");
+                return typeName is not null && (typeName.Contains("double") || typeName.Contains("real"));
             });
 
             handlebars.RegisterHelper("Property.QueryIsDateTime", (_, arguments) =>

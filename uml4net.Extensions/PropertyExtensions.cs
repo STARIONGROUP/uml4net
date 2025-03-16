@@ -138,6 +138,7 @@ namespace uml4net.Extensions
             return typeName.Contains("int") ||
                    typeName.Contains("float") ||
                    typeName.Contains("double") ||
+                   typeName.Contains("real") ||
                    typeName.Contains("decimal") ||
                    typeName.Contains("short") ||
                    typeName.Contains("long") ||
