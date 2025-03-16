@@ -198,6 +198,18 @@ namespace uml4net.HandleBars
                 return typeName?.Contains("date");
             });
 
+            handlebars.RegisterHelper("Property.QueryIsString", (context, arguments) =>
+            {
+                if (arguments.Length != 1)
+                {
+                    throw new HandlebarsException("{{#Property.QueryIsString}} helper must have exactly one argument");
+                }
+
+                var property = arguments.Single() as IProperty;
+
+                return property.QueryIsString();
+            });
+
             handlebars.RegisterHelper("Property.QueryHasDefaultValue", (_, arguments) =>
             {
                 if (arguments.Length != 1)
@@ -214,7 +226,7 @@ namespace uml4net.HandleBars
             {
                 if (!(context.Value is IProperty property))
                 {
-                    throw new ArgumentException("supposed to be IProperty");
+                    throw new ArgumentException("{{#Property.IsComposite}} - supposed to be IProperty");
                 }
 
                 return property.IsComposite;
@@ -231,6 +243,23 @@ namespace uml4net.HandleBars
                 var @class = parameters[1] as IClass;
 
                 return property.TryQueryRedefinedByProperty(@class, out _);
+            });
+
+            handlebars.RegisterHelper("Property.QueryIsDerivedOrDerivedUnionOrReadOnly", (_, arguments) =>
+            {
+                if (arguments.Length != 1)
+                {
+                    throw new HandlebarsException("{{#Property.QueryIsString}} helper must have exactly one argument");
+                }
+
+                var property = arguments.Single() as IProperty;
+
+                if (property.IsDerived || property.IsDerivedUnion || property.IsReadOnly)
+                {
+                    return true;
+                }
+
+                return false;
             });
 
             handlebars.RegisterHelper("Property.WriteTypeName", (writer, context, _) =>

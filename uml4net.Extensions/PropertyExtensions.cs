@@ -113,6 +113,30 @@ namespace uml4net.Extensions
         }
 
         /// <summary>
+        /// Queries whether the <see cref="IProperty"/> Type is string
+        /// </summary>
+        /// <param name="property">
+        /// the subject <see cref="IProperty"/>
+        /// </param>
+        /// <returns>
+        /// true if it maps, false if not
+        /// </returns>
+        public static bool QueryIsString(this IProperty property)
+        {
+            if (property == null)
+            {
+                throw new ArgumentNullException(nameof(property));
+            }
+
+            if (property.QueryIsPrimitiveType())
+            {
+                return property.Type.Name.Equals("string", StringComparison.InvariantCultureIgnoreCase);
+            }
+
+            return false;
+        }
+
+        /// <summary>
         /// Queries whether the type of the <see cref="IProperty"/> is a numeric type (e.g., int, double, decimal, float, etc.)
         /// </summary>
         /// <param name="property">
