@@ -22,9 +22,10 @@ namespace uml4net.Extensions
 {
     using System;
     using System.Collections.Generic;
+    
     using System.Globalization;
     using System.Linq;
-
+    
     using uml4net.Classification;
     using uml4net.CommonStructure;
     using uml4net.SimpleClassifiers;
@@ -460,6 +461,52 @@ namespace uml4net.Extensions
                 .FirstOrDefault(prop => prop.RedefinedProperty.Any(x => x.XmiId == property.XmiId));
 
             return redefinedByProperty != null;
+        }
+
+        /// <summary>
+        /// Queries whether the property is a redefined property. A redefined property redefines another property
+        /// </summary>
+        /// <param name="property">
+        /// the subject IProperty
+        /// </param>
+        /// <param name="allClasses">
+        /// a readonly list of <see cref="IClass"/> that may contain a <see cref="IClass"/>
+        /// that may redefine the subject <see cref="IProperty"/>
+        /// </param>
+        /// <returns>
+        /// true when the <see cref="IProperty"/> is redefined, false if not
+        /// </returns>
+        public static bool QueryHasBeenRedefined(this IProperty property, IReadOnlyList<IClass> allClasses)
+        {
+            foreach (var @class in allClasses)
+            {
+                if (property.Owner != @class)
+                {
+                    var redefinedByProperty = @class.QueryAllProperties()
+                        .FirstOrDefault(prop => prop.RedefinedProperty.Any(x => x.XmiId == property.XmiId));
+
+                    if (redefinedByProperty != null)
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Queries whether the property has been redefined by other properties
+        /// </summary>
+        /// <param name="property">
+        /// the subject IProperty
+        /// </param>
+        /// <returns>
+        /// true when the <see cref="IProperty"/> is redefined, false if not
+        /// </returns>
+        public static bool QueryIsRedefined(this IProperty property)
+        {
+            return property.RedefinedProperty.Any();
         }
 
         /// <summary>

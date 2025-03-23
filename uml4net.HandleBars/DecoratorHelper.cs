@@ -151,9 +151,9 @@ namespace uml4net.HandleBars
 
                 var attributes = new List<string>();
 
-                foreach (var redefinedProperty in property.SubsettedProperty)
+                foreach (var subsettedProperty in property.SubsettedProperty)
                 {
-                    attributes.Add($"[SubsettedProperty(propertyName: \"{redefinedProperty.XmiId}\")]");
+                    attributes.Add($"[SubsettedProperty(propertyName: \"{subsettedProperty.XmiId}\")]");
                 }
 
                 if (attributes.Any())

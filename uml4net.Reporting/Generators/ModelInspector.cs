@@ -26,12 +26,14 @@ namespace uml4net.Reporting.Generators
     using System.IO;
     using System.Linq;
     using System.Text;
-    
+
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Logging.Abstractions;
 
+    using uml4net.CommonStructure;
     using uml4net.Extensions;
     using uml4net.Packages;
+    using uml4net.SimpleClassifiers;
     using uml4net.StructuredClassifiers;
 
     /// <summary>
@@ -44,14 +46,6 @@ namespace uml4net.Reporting.Generators
         /// The <see cref="ILogger"/> used to log
         /// </summary>
         private readonly ILogger<ModelInspector> logger;
-
-        private readonly HashSet<IClass> interestingClasses = new();
-
-        private readonly List<string> referenceTypes = new();
-
-        private readonly List<string> valueTypes = new();
-
-        private readonly List<string> enumerations = new();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ModelInspector"/> class.
@@ -82,25 +76,115 @@ namespace uml4net.Reporting.Generators
         /// <param name="package">
         /// The <see cref="IPackage"/> that needs to be inspected
         /// </param>
-        /// <param name="recursive">
-        /// Assertion whether the sub packages should be inspected or not
-        /// </param>
         /// <returns>
         /// Returns a report of the classes of interest in the provided package 
         /// </returns>
-        public string Inspect(IPackage package, bool recursive = false)
+        public string Inspect(IPackage package)
         {
-            if (package == null)
+            var classPropertyVariations = new Dictionary<IClass, HashSet<string>>();
+
+            var classes = package.QueryPackages().SelectMany(x => x.PackagedElement.OfType<IClass>()).ToList();
+
+            // Step 1: Map class to property variations
+            foreach (var @class in classes)
             {
-                throw new ArgumentNullException(nameof(package));
+                var propertyVariations = new HashSet<string>();
+
+                foreach (var property in @class.OwnedAttribute)
+                {
+                    if (property.QueryIsReferenceProperty())
+                    {
+                        var referenceType = property.IsComposite ? $"REF:{property.Lower}:{property.Upper}:containment" : $"REF:{property.Lower}:{property.Upper}";
+
+                        if (property.SubsettedProperty.Any())
+                        {
+                            referenceType = $"{referenceType}:subsetted";
+                        }
+
+                        if (property.IsDerived)
+                        {
+                            referenceType = $"{referenceType}:isDerived";
+                        }
+
+                        if (property.QueryIsRedefined())
+                        {
+                            referenceType = $"{referenceType}:IsRedefined";
+                        }
+
+                        propertyVariations.Add(referenceType);
+                    }
+
+                    if (property.QueryIsValueProperty())
+                    {
+                        if (property.QueryIsEnum())
+                        {
+                            var enumeration = $"ENUM:{property.Lower}:{property.Upper}";
+
+                            if (property.SubsettedProperty.Any())
+                            {
+                                enumeration = $"{enumeration}:subsetted";
+                            }
+
+                            if (property.IsDerived)
+                            {
+                                enumeration = $"{enumeration}:isDerived";
+                            }
+
+                            if (property.QueryIsRedefined())
+                            {
+                                enumeration = $"{enumeration}:IsRedefined";
+                            }
+
+                            propertyVariations.Add(enumeration);
+                        }
+                        else
+                        {
+                            var valueType = $"VALUE:{property.QueryTypeName()}:{property.Lower}:{property.Upper}";
+
+                            if (property.SubsettedProperty.Any())
+                            {
+                                valueType = $"{valueType}:subsetted";
+                            }
+
+                            if (property.IsDerived)
+                            {
+                                valueType = $"{valueType}:isDerived";
+                            }
+
+                            if (property.QueryIsRedefined())
+                            {
+                                valueType = $"{valueType}:IsRedefined";
+                            }
+
+                            propertyVariations.Add(valueType);
+                        }
+                    }
+                }
+
+                classPropertyVariations.Add(@class, propertyVariations);
             }
 
-            this.logger.LogInformation("Start UML Model Inspection at Package {0}:{1}", package.XmiId, package.Name);
+            // Step 2: Get all unique property variations
+            var allPropertyVariations = new HashSet<string>(classPropertyVariations.Values.SelectMany(p => p));
 
-            this.interestingClasses.Clear();
-            this.referenceTypes.Clear();
-            this.valueTypes.Clear();
-            this.enumerations.Clear();
+            // Step 3: Greedy algorithm to cover all property variations with fewest classes
+            var result = new List<IClass>();
+            var covered = new HashSet<string>();
+
+            while (covered.Count < allPropertyVariations.Count)
+            {
+                // Pick the class that contributes the most uncovered properties
+                var bestClass = classPropertyVariations
+                    .OrderByDescending(kvp => kvp.Value.Count(p => !covered.Contains(p)))
+                    .First().Key;
+
+                result.Add(bestClass);
+
+                foreach (var prop in classPropertyVariations[bestClass])
+                    covered.Add(prop);
+
+                classPropertyVariations.Remove(bestClass); // avoid reusing the same class
+            }
 
             var sw = Stopwatch.StartNew();
 
@@ -109,46 +193,24 @@ namespace uml4net.Reporting.Generators
             sb.AppendLine($"----- PACKAGE {package.Name} ANALYSIS ------");
             sb.AppendLine("");
 
-            this.Inspect(package, sb, recursive);
-
             sb.AppendLine("");
             sb.AppendLine("----- MULTIPLICITY RESULTS ------");
             sb.AppendLine("");
 
-            this.logger.LogInformation("MULTIPLICITY RESULTS - Inspecting the Reference Types");
+            var orderedPropertyVariations = allPropertyVariations.OrderBy(x => x).ToList();
 
-            var orderedReferenceTypes = this.referenceTypes.OrderBy(x => x);
-
-            foreach (var referenceType in orderedReferenceTypes)
+            foreach (var orderedPropertyVariation in orderedPropertyVariations)
             {
-                sb.AppendLine($"reference type: {referenceType}");
-            }
-
-            this.logger.LogInformation("MULTIPLICITY RESULTS - Inspecting the Enumerations");
-
-            var orderedEnumerations = this.enumerations.OrderBy(x => x);
-
-            foreach (var enumeration in orderedEnumerations)
-            {
-                sb.AppendLine($"enumeration type: {enumeration}");
-            }
-
-            this.logger.LogInformation("MULTIPLICITY RESULTS - Inspecting the Value Types");
-
-            var orderedValueTypes = this.valueTypes.OrderBy(x => x);
-
-            foreach (var valueType in orderedValueTypes)
-            {
-                sb.AppendLine($"value type: {valueType}");
+                sb.AppendLine(orderedPropertyVariation);
             }
 
             sb.AppendLine("");
             sb.AppendLine("----- INTERESTING CLASSES ------");
             sb.AppendLine("");
 
-            this.logger.LogInformation("INTERESTING CLASSES - Listing interesting Classes");
+            var orderedClasses = result.OrderBy(x => x.Name).ToList();
 
-            foreach (var @class in this.interestingClasses.OrderBy(x => x.Name))
+            foreach (var @class in orderedClasses)
             {
                 var isAbstract = "";
                 if (@class.IsAbstract)
@@ -156,100 +218,10 @@ namespace uml4net.Reporting.Generators
                     isAbstract = " [Abstract]";
                 }
 
-                sb.AppendLine($"class {isAbstract}: {package.Name}:{@class.Name}");
+                sb.AppendLine($"class : {@class.QueryQualifiedName()}{isAbstract}");
             }
-
-            sb.AppendLine("");
-
-            this.logger.LogInformation("UML Model Inspection of Package {0}:{1} finished in {2} [ms]", package.XmiId, package.Name, sw.ElapsedMilliseconds);
 
             return sb.ToString();
-        }
-
-        /// <summary>
-        /// Recursively inspects the content of the provided <see cref="IPackage"/>
-        /// and adds the reported results to the provided <see cref="StringBuilder"/>
-        /// </summary>
-        /// <param name="package">
-        /// The <see cref="IPackage"/> which needs to be inspected
-        /// </param>
-        /// <param name="sb">
-        /// The <see cref="StringBuilder"/> to which the results of hte inspection are reported
-        /// </param>
-        /// <param name="recursive">
-        /// A value indicating whether the sub <see cref="IPackage"/>s need to be inspected as well
-        /// </param>
-        private void Inspect(IPackage package, StringBuilder sb, bool recursive)
-        {
-            this.logger.LogInformation("Inspecting the contents of Package {0}:{1}", package.XmiId, package.Name);
-
-            foreach (var @class in package.PackagedElement.OfType<IClass>().OrderBy(x => x.Name))
-            {
-                this.logger.LogTrace("Inspecting Class {0}:{1}", @class.XmiId, @class.Name);
-
-                foreach (var property in @class.OwnedAttribute)
-                {
-                    if (property.IsDerived)
-                    {
-                        continue;
-                    }
-
-                    if (property.QueryIsReferenceProperty())
-                    {
-                        var referenceType = property.IsComposite ? $"{property.Lower}:{property.Upper}:containment" : $"{property.Lower}:{property.Upper}";
-
-                        if (!this.referenceTypes.Contains(referenceType))
-                        {
-                            this.logger.LogTrace("Inspecting reference type {0}", referenceType);
-
-                            this.referenceTypes.Add(referenceType);
-                            this.interestingClasses.Add(@class);
-
-                            sb.AppendLine($"{package.Name}.{@class.Name} -- REF {referenceType}");
-                        }
-                    }
-
-                    if (property.QueryIsValueProperty())
-                    {
-                        if (property.QueryIsEnum())
-                        {
-                            var enumeration = $"{property.Lower}:{property.Upper}";
-
-                            this.logger.LogTrace("Inspecting Enumeration property {0}", enumeration);
-
-                            if (!this.enumerations.Contains(enumeration))
-                            {
-                                this.enumerations.Add(enumeration);
-                                this.interestingClasses.Add(@class);
-
-                                sb.AppendLine($"{@class.Name} -- ENUM {enumeration}");
-                            }
-                        }
-                        else
-                        {
-                            var valueType = $"{property.QueryTypeName()}:{property.Lower}:{ property.Upper}";
-
-                            if (!this.valueTypes.Contains(valueType))
-                            {
-                                this.logger.LogTrace("Inspecting value property {0}", valueType);
-
-                                this.valueTypes.Add(valueType);
-                                this.interestingClasses.Add(@class);
-
-                                sb.AppendLine($"{@class.Name} -- VAL {valueType}");
-                            }
-                        }
-                    }
-                }
-            }
-
-            if (recursive)
-            {
-                foreach (var subPackage in package.NestedPackage)
-                {
-                    this.Inspect(subPackage, sb, true);
-                }
-            }
         }
 
         /// <summary>
@@ -339,7 +311,6 @@ namespace uml4net.Reporting.Generators
             {
                 if (property.IsDerived)
                 {
-
                     if (property.QueryIsReferenceProperty())
                     {
                         var referenceType = $"{property.Name}:{property.QueryTypeName()} [{property.Lower}..{property.Upper}] - REFERENCE TYPE";
@@ -380,7 +351,7 @@ namespace uml4net.Reporting.Generators
         /// <returns>
         /// returns a report of the classes and properties that do not contain any documentation
         /// </returns>
-        public string AnalyzeDocumentation(IPackage package, bool recursive = false)
+        public string AnalyzeDocumentation(IPackage package)
         {
             if (package == null)
             {
@@ -398,7 +369,7 @@ namespace uml4net.Reporting.Generators
             sb.AppendLine("---------- Package.Class:Property ---------");
             sb.AppendLine("");
 
-            this.AnalyzeDocumentation(package, sb, recursive);
+            this.AnalyzeDocumentation(package, sb);
 
             sb.AppendLine("");
 
@@ -420,9 +391,11 @@ namespace uml4net.Reporting.Generators
         /// <param name="recursive">
         /// A value indicating whether the sub <see cref="IPackage"/>s need to be Analyzed as well
         /// </param>
-        private void AnalyzeDocumentation(IPackage package, StringBuilder sb, bool recursive = false)
+        private void AnalyzeDocumentation(IPackage package, StringBuilder sb)
         {
-            foreach (var @class in package.PackagedElement.OfType<IClass>().OrderBy(x => x.Name))
+            var classes = package.QueryPackages().SelectMany(x => x.PackagedElement.OfType<IClass>()).OrderBy(x => x.Name).ToList();
+
+            foreach (var @class in classes)
             {
                 if (string.IsNullOrEmpty(@class.QueryRawDocumentation()))
                 {
@@ -435,14 +408,6 @@ namespace uml4net.Reporting.Generators
                     {
                         sb.AppendLine($"{package.Name}.{@class.Name}:{property.Name}");
                     }
-                }
-            }
-
-            if (recursive)
-            {
-                foreach (var subPackage in package.NestedPackage)
-                {
-                    this.AnalyzeDocumentation(subPackage, sb, true);
                 }
             }
         }
@@ -513,11 +478,13 @@ namespace uml4net.Reporting.Generators
             
             var result = new StringBuilder();
 
+            result.Append(this.ReportHeader());
+
             foreach (var package in xmiReaderResult.Packages)
             {
-                result.Append(this.ReportHeader());
-                result.Append(this.Inspect(package, true));
-                result.Append(this.AnalyzeDocumentation(package, true));
+                result.Append(this.Inspect(package));
+                result.AppendLine();
+                result.Append(this.AnalyzeDocumentation(package));
             }
 
             if (outputPath.Exists)
@@ -547,15 +514,17 @@ namespace uml4net.Reporting.Generators
             header.AppendLine("contents of a UML model.");
             header.AppendLine("");
             header.AppendLine("1. This report shows the variation of value-types, reference-types");
-            header.AppendLine("   and enumerations");
+            header.AppendLine("   and enumerations.");
             header.AppendLine("2. The report provides an overview of the variation of");
-            header.AppendLine("   used multiplicities. ");
-            header.AppendLine("3. The report shows an overview of interesting classes.");
+            header.AppendLine("   used multiplicities.");
+            header.AppendLine("3. The report provides an overview of the variation of");
+            header.AppendLine("   used subsetted and redefined properties.");
+            header.AppendLine("4. The report shows an overview of interesting classes.");
             header.AppendLine("   Interesting classes are those classes that should be used");
             header.AppendLine("   when writing unit tests for code generation. By writing");
             header.AppendLine("   tests for these classes all variations of types and multiplicities");
             header.AppendLine("   are covered.");
-            header.AppendLine("4. The report lists each class and property that does not contain");
+            header.AppendLine("5. The report lists each class and property that does not contain");
             header.AppendLine("   any documentation.");
             header.AppendLine("");
             header.AppendLine($"Inspection Report generated on {DateTime.Now:f}");

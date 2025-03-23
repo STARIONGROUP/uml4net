@@ -357,5 +357,51 @@ namespace uml4net.Extensions.Tests
 
             Assert.That(redefinedByProperty, Is.Null);
         }
+
+        [Test]
+        public void Verify_that_QueryIsRedefined_returns_expected_Result()
+        {
+            var structuredClassifiersPackage = this.xmiReaderResult.Root.NestedPackage.Single(x => x.Name == "StructuredClassifiers");
+
+            var association = structuredClassifiersPackage.PackagedElement.OfType<IClass>().Single(x => x.Name == "Association");
+
+            var properties = association.QueryAllProperties();
+
+            var templateParameter = properties.Single(x => x.XmiId == "Classifier-templateParameter");
+
+            var result = templateParameter.QueryIsRedefined();
+
+            Assert.That(result, Is.True);
+
+            var endType = properties.Single(x => x.XmiId == "Association-endType");
+
+            result = endType.QueryIsRedefined();
+
+            Assert.That(result, Is.False);
+        }
+
+        [Test]
+        public void Verify_that_QueryHasBeenRedefined_returns_expected_result()
+        {
+            var allClasses = this.xmiReaderResult.Root.QueryPackages().SelectMany(x => x.PackagedElement.OfType<IClass>()).ToList();
+
+            var structuredClassifiersPackage = this.xmiReaderResult.Root.NestedPackage.Single(x => x.Name == "StructuredClassifiers");
+
+            var association = structuredClassifiersPackage.PackagedElement.OfType<IClass>().Single(x => x.Name == "Association");
+
+            var properties = association.QueryAllProperties();
+
+            var templateParameter = properties.Single(x => x.XmiId == "ParameterableElement-templateParameter");
+
+            var result = templateParameter.QueryHasBeenRedefined(allClasses);
+
+            Assert.That(result, Is.True);
+
+            var endType = properties.Single(x => x.XmiId == "Association-endType");
+
+            result = endType.QueryHasBeenRedefined(allClasses);
+
+            Assert.That(result, Is.False);
+        }
     }
 }

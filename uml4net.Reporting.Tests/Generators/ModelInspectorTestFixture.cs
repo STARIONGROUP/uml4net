@@ -20,10 +20,11 @@
 
 namespace uml4net.Reporting.Tests.Generators
 {
+    using System;
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
-
+    using System.Text;
     using Microsoft.Extensions.Logging;
 
     using NUnit.Framework;
@@ -85,7 +86,7 @@ namespace uml4net.Reporting.Tests.Generators
 
             this.modelInspector = new ModelInspector(this.loggerFactory);
 
-            var report = this.modelInspector.Inspect(xmiReaderResult.Root, true);
+            var report = this.modelInspector.Inspect(xmiReaderResult.Root);
 
             Log.Logger.Information(report);
 

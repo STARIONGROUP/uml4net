@@ -35,13 +35,10 @@ namespace uml4net.Reporting.Generators
         /// <param name="package">
         /// The <see cref="IPackage"/> that needs to be inspected
         /// </param>
-        /// <param name="recursive">
-        /// Assertion whether the sub packages should be inspected or not
-        /// </param>
         /// <returns>
         /// Returns a report of the classes of interest in the provided package 
         /// </returns>
-        public string Inspect(IPackage package, bool recursive = false);
+        public string Inspect(IPackage package);
 
         /// <summary>
         /// Inspect the provided <see cref="IClass"/> (by name) that is contained in the <see cref="IPackage"/>
@@ -66,12 +63,9 @@ namespace uml4net.Reporting.Generators
         /// <param name="package">
         /// The <see cref="IPackage"/> which needs to be inspected
         /// </param>
-        /// <param name="recursive">
-        /// A value indicating whether the sub <see cref="IPackage"/>s need to be Analyzed as well
-        /// </param>
         /// <returns>
         /// returns a report of the classes and properties that do not contain any documentation
         /// </returns>
-        public string AnalyzeDocumentation(IPackage package, bool recursive = false);
+        public string AnalyzeDocumentation(IPackage package);
     }
 }
