@@ -1,0 +1,65 @@
+<?xml  version='1.0' encoding='windows-1252' ?>
+<xmi:XMI xmlns:xmi="http://www.omg.org/spec/XMI/20110701" xmlns:uml="http://www.omg.org/spec/UML/20110701">
+	<xmi:Documentation exporter="Enterprise Architect" exporterVersion="6.5" exporterID="1703"/>
+	<uml:Model xmi:type="uml:Model" name="EA_Model">
+		<packagedElement xmi:type="uml:Package" xmi:id="EAPK_974A24AF_DDAB_4dd7_AED8_10D3CECC202C" name="XmiTest">
+			<packagedElement xmi:type="uml:Class" xmi:id="EAID_E7DEF3AB_2BF1_474f_A118_48F9DC5ED70A" name="Element">
+				<ownedAttribute xmi:type="uml:Property" xmi:id="EAID_957B58DC_9D90_4781_A642_E060CB7F142A" name="AnAttribute">
+					<type xmi:type="uml:PrimitiveType" href="http://www.omg.org/spec/UML/20110701/PrimitiveTypes.xmi#String"/>
+					<lowerValue xmi:type="uml:LiteralInteger" xmi:id="EAID_LI000001_9D90_4781_A642_E060CB7F142A" value="1"/>
+					<upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="EAID_LI000002_9D90_4781_A642_E060CB7F142A" value="1"/>
+				</ownedAttribute>
+			</packagedElement>
+		</packagedElement>
+	</uml:Model>
+	<xmi:Extension extender="Enterprise Architect" extenderID="6.5">
+		<elements>
+			<element xmi:idref="EAPK_974A24AF_DDAB_4dd7_AED8_10D3CECC202C" xmi:type="uml:Package" name="XmiTest" scope="public">
+				<model package2="EAID_974A24AF_DDAB_4dd7_AED8_10D3CECC202C" package="EAPK_F0BF5F8C_D141_4214_A089_E57B44CCFA56" tpos="0" ea_localid="3" ea_eleType="package"/>
+				<properties isSpecification="false" sType="Package" nType="0" scope="public"/>
+				<project author="atheate" version="1.0" phase="1.0" created="2025-03-24 12:17:36" modified="2025-03-24 12:17:36" complexity="1" status="Proposed"/>
+				<code gentype="Java"/>
+				<style appearance="BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=1;HSwimLanes=1;BorderStyle=0;"/>
+				<tags/>
+				<xrefs/>
+				<extendedProperties tagged="0" package_name="SignatureTemplate"/>
+				<packageproperties version="1.0"/>
+				<paths/>
+				<times created="2025-03-24 12:17:36" modified="2025-03-24 12:17:36"/>
+				<flags iscontrolled="0" isprotected="0" usedtd="0" logxml="0"/>
+			</element>
+			<element xmi:idref="EAID_E7DEF3AB_2BF1_474f_A118_48F9DC5ED70A" xmi:type="uml:Class" name="Element" scope="public">
+				<model package="EAPK_974A24AF_DDAB_4dd7_AED8_10D3CECC202C" tpos="0" ea_localid="9" ea_eleType="element"/>
+				<properties documentation="An Enterprise Architect documentation" isSpecification="false" sType="Class" nType="0" scope="public" isRoot="false" isLeaf="false" isAbstract="false" isActive="false"/>
+				<project author="atheate" version="1.0" phase="1.0" created="2025-03-24 13:58:24" modified="2025-03-24 13:59:18" complexity="1" status="Proposed"/>
+				<code gentype="&lt;none&gt;"/>
+				<style appearance="BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=1;HSwimLanes=1;BorderStyle=0;"/>
+				<tags/>
+				<xrefs/>
+				<extendedProperties tagged="0" package_name="XmiTest"/>
+				<attributes>
+					<attribute xmi:idref="EAID_957B58DC_9D90_4781_A642_E060CB7F142A" name="AnAttribute" scope="Public">
+						<initial/>
+						<documentation value="An documentation for an attribute"/>
+						<model ea_localid="2" ea_guid="{957B58DC-9D90-4781-A642-E060CB7F142A}"/>
+						<properties type="String" collection="false" static="0" duplicates="0" changeability="changeable"/>
+						<coords ordered="0"/>
+						<containment containment="Not Specified" position="0"/>
+						<stereotype/>
+						<bounds lower="1" upper="1"/>
+						<options/>
+						<style/>
+						<styleex value="volatile=0;"/>
+						<tags/>
+						<xrefs/>
+					</attribute>
+				</attributes>
+			</element>
+		</elements>
+		<connectors/>
+		<primitivetypes>
+			<packagedElement xmi:type="uml:Package" xmi:id="EAPrimitiveTypesPackage" name="EA_PrimitiveTypes_Package"/>
+		</primitivetypes>
+		<profiles/>
+	</xmi:Extension>
+</xmi:XMI>

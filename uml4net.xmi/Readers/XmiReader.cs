@@ -47,12 +47,12 @@ namespace uml4net.xmi.Readers
         /// <summary>
         /// The (injected) <see cref="ILogger{XmiReader}"/> used to perform logging
         /// </summary>
-        private readonly ILogger<XmiReader> logger;
+        protected readonly ILogger<XmiReader> Logger;
 
         /// <summary>
         /// The (injected) <see cref="ILoggerFactory"/> used to set up logging
         /// </summary>
-        private readonly ILoggerFactory loggerFactory;
+        protected readonly ILoggerFactory LoggerFactory;
 
         /// <summary>
         /// The <see cref="IExternalReferenceResolver"/>
@@ -67,18 +67,18 @@ namespace uml4net.xmi.Readers
         /// <summary>
         /// The <see cref="IXmiElementCache"/>
         /// </summary>
-        private readonly IXmiElementCache cache;
+        protected readonly IXmiElementCache Cache;
 
         /// <summary>
         /// The (injected) <see cref="IXmiElementReaderFacade"/> used to resolve any
         /// required <see cref="IXmiElementReader{T}"/>
         /// </summary>
-        private readonly IXmiElementReaderFacade xmiElementReaderFacade;
+        protected readonly IXmiElementReaderFacade XmiElementReaderFacade;
 
         /// <summary>
         /// The (injected) <see cref="IXmiReaderSettings"/> used to configure reading
         /// </summary>
-        private readonly IXmiReaderSettings xmiReaderSettings;
+        protected readonly IXmiReaderSettings XmiReaderSettings;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="XmiReader"/> class.
@@ -98,15 +98,16 @@ namespace uml4net.xmi.Readers
         /// </param>
         /// <param name="externalReferenceResolver">The <see cref="IExternalReferenceResolver"/></param>
         /// <param name="scope">The <see cref="IXmiReaderScope"/></param>
+        /// <param name="xmiReaderSettings">The injected <see cref="IXmiReaderSettings"/> that provides reading setting for XMI</param>
         public XmiReader(IAssembler assembler, IXmiElementCache cache, IXmiElementReaderFacade xmiElementReaderFacade, ILoggerFactory loggerFactory,
             IExternalReferenceResolver externalReferenceResolver, IXmiReaderScope scope, IXmiReaderSettings xmiReaderSettings)
         {
             this.assembler = assembler;
-            this.cache = cache;
-            this.xmiElementReaderFacade = xmiElementReaderFacade;
-            this.xmiReaderSettings = xmiReaderSettings;
-            this.loggerFactory = loggerFactory;
-            this.logger = this.loggerFactory == null ? NullLogger<XmiReader>.Instance : this.loggerFactory.CreateLogger<XmiReader>();
+            this.Cache = cache;
+            this.XmiElementReaderFacade = xmiElementReaderFacade;
+            this.XmiReaderSettings = xmiReaderSettings;
+            this.LoggerFactory = loggerFactory;
+            this.Logger = this.LoggerFactory == null ? NullLogger<XmiReader>.Instance : this.LoggerFactory.CreateLogger<XmiReader>();
             this.externalReferenceResolver = externalReferenceResolver;
             this.scope = scope;
         }
@@ -143,11 +144,11 @@ namespace uml4net.xmi.Readers
 
             var sw = Stopwatch.StartNew();
 
-            this.logger.LogTrace("start deserializing from {Path}", fileUri);
+            this.Logger.LogTrace("start deserializing from {Path}", fileUri);
 
             var result = this.Read(fileStream, fileInfo.Name);
 
-            this.logger.LogTrace("File {Path} deserialized in {Time} [ms]", fileUri, sw.ElapsedMilliseconds);
+            this.Logger.LogTrace("File {Path} deserialized in {Time} [ms]", fileUri, sw.ElapsedMilliseconds);
 
             return result;
         }
@@ -217,7 +218,7 @@ namespace uml4net.xmi.Readers
             {
                 var defaultLineInfo = xmlReader as IXmlLineInfo;
 
-                this.logger.LogTrace("starting to read xml");
+                this.Logger.LogTrace("starting to read xml");
 
                 while (xmlReader.Read())
                 {
@@ -226,7 +227,7 @@ namespace uml4net.xmi.Readers
                         switch (xmlReader.LocalName)
                         {
                             case "Package":
-                                var package = (IPackage)xmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, xmlReader.NamespaceURI, cache, this.xmiReaderSettings, this.loggerFactory, "uml:Package");
+                                var package = (IPackage)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, xmlReader.NamespaceURI, this.Cache, this.XmiReaderSettings, this.LoggerFactory, "uml:Package");
                                 xmiReaderResult.Packages.Add(package);
 
                                 if (isRoot)
@@ -237,7 +238,7 @@ namespace uml4net.xmi.Readers
                                 break;
                             case "Model":
 
-                                var model = (IModel)xmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, xmlReader.NamespaceURI, this.cache, this.xmiReaderSettings, this.loggerFactory, "uml:Model");
+                                var model = (IModel)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, xmlReader.NamespaceURI, this.Cache, this.XmiReaderSettings, this.LoggerFactory, "uml:Model");
                                 xmiReaderResult.Packages.Add(model);
 
                                 if (isRoot)
@@ -247,7 +248,7 @@ namespace uml4net.xmi.Readers
 
                                 break;
                             case "Profile":
-                                var profile = (IProfile)xmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, xmlReader.NamespaceURI, this.cache, this.xmiReaderSettings, this.loggerFactory, "uml:Profile");
+                                var profile = (IProfile)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, xmlReader.NamespaceURI, this.Cache, this.XmiReaderSettings, this.LoggerFactory, "uml:Profile");
                                 xmiReaderResult.Packages.Add(profile);
 
                                 if (isRoot)
@@ -256,8 +257,18 @@ namespace uml4net.xmi.Readers
                                 }
 
                                 break;
+                            case "Extension":
+                                using (var xmiExensionReader = xmlReader.ReadSubtree())
+                                {
+                                    if (this.ReadXmiExtension(xmiExensionReader,  documentName, xmlReader.NamespaceURI) is {} extension)
+                                    {
+                                        xmiReaderResult.Packages.Add(extension);
+                                    }
+                                }
+                                
+                                break;
                             default:
-                                this.logger.LogWarning("XmiReader: {LocalName} at line:position {Line}:{Position} was not read", xmlReader.LocalName, defaultLineInfo.LineNumber, defaultLineInfo.LinePosition);
+                                this.Logger.LogWarning("XmiReader: {LocalName} at line:position {Line}:{Position} was not read", xmlReader.LocalName, defaultLineInfo.LineNumber, defaultLineInfo.LinePosition);
                                 break;
                         }
                     }
@@ -265,7 +276,7 @@ namespace uml4net.xmi.Readers
             }
 
             var currentlyElapsedMilliseconds = sw.ElapsedMilliseconds;
-            this.logger.LogTrace("xml read in {Time}", currentlyElapsedMilliseconds);
+            this.Logger.LogTrace("xml read in {Time}", currentlyElapsedMilliseconds);
             sw.Stop();
 
             this.TryResolveExternalReferences(xmiReaderResult, documentName);
@@ -276,6 +287,30 @@ namespace uml4net.xmi.Readers
             }
         }
 
+        /// <summary>
+        /// Reads an XMI extension using the specified XML reader.
+        /// </summary>
+        /// <param name="xmlReader">
+        /// The <see cref="XmlReader" /> instance to read the XMI extension from.
+        /// </param>
+        /// <param name="documentName">
+        /// The name of the document that contains the <see cref="IXmiElement" />
+        /// </param>
+        /// <param name="namespaceUri">
+        /// The namespaceUri of the parent <see cref="XmlReader" />>.
+        /// Since <see cref="XmlReader.ReadSubtree" /> is used extensively the <see cref="XmlReader.NamespaceURI" />
+        /// returns the empty string when reading from a subtree, therefore it is passed from the caller
+        /// </param>     
+        /// <returns>
+        /// An instance of <see cref="IPackage" /> representing the read XMI extension,
+        /// or <c>default</c> if no extension is read.
+        /// </returns>
+        public virtual IPackage ReadXmiExtension(XmlReader xmlReader,  string documentName, string namespaceUri)
+        {
+            this.Logger.LogInformation("Reading this xmi:Extension is not supported by the current XmiReader.");
+            return default;
+        }
+        
         /// <summary>
         /// Asynchronously resolves external references and updates the cache with the retrieved resources.
         /// </summary>
@@ -289,7 +324,7 @@ namespace uml4net.xmi.Readers
         {
             var stopwatch = Stopwatch.StartNew();
 
-            this.logger.LogTrace("resolving the external references");
+            this.Logger.LogTrace("resolving the external references");
 
             var x = this.externalReferenceResolver.TryResolve(documentName).ToList();
 
@@ -298,7 +333,7 @@ namespace uml4net.xmi.Readers
                 this.Read(externalResource, context, xmiReaderResult, false);
             }
 
-            this.logger.LogTrace("External references synchronized in {Time}", stopwatch.ElapsedMilliseconds);
+            this.Logger.LogTrace("External references synchronized in {Time}", stopwatch.ElapsedMilliseconds);
 
             stopwatch.Stop();
         }
@@ -308,7 +343,7 @@ namespace uml4net.xmi.Readers
         /// </summary>
         public void Dispose()
         {
-            this.cache.Clear();
+            this.Cache.Clear();
             this.scope.Dispose();
         }
     }

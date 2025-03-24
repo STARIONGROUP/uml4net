@@ -1,0 +1,36 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <Description>A specific XMI Reader extension to support Enterprise Architect XMI reading</Description>
+        <Version>3.0.0</Version>
+        <PackageId>uml4net.xmi.Extensions.EnterpriseArchitect</PackageId>
+        <LangVersion>12.0</LangVersion>
+        <TargetFramework>netstandard2.0</TargetFramework>
+        <Company>Starion Group S.A.</Company>
+        <Copyright>Copyright © Starion Group S.A.</Copyright>
+        <PackageId>uml4net.xmi.Extensions.EnterpriseArchitect</PackageId>
+        <AssemblyTitle>uml4net.xmi.Extensions.EnterpriseArchitect</AssemblyTitle>
+        <Title>uml4net.xmi.Extensions.EnterpriseArchitect</Title>
+        <Description>A specific XMI Reader extension to support Enterprise Architect XMI reading</Description>
+        <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+        <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+        <IncludeSource>true</IncludeSource>
+        <IncludeSymbols>true</IncludeSymbols>
+        <PackageProjectUrl>https://uml4net.org</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/STARIONGROUP/uml4net.git</RepositoryUrl>
+        <RepositoryType>Git</RepositoryType>
+        <NeutralLanguage>en-US</NeutralLanguage>
+        <SatelliteResourceLanguages>en-US</SatelliteResourceLanguages>
+        <Authors>Sam Gerené; Nathanael Smiechowski; Alexander Van Delft</Authors>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
+        <PackageIcon>uml4net-logo-strapline.png</PackageIcon>
+        <PackageTags>UML XMI modeltopia</PackageTags>
+        <PackageReleaseNotes>
+        </PackageReleaseNotes>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\uml4net.xmi\uml4net.xmi.csproj"/>
+    </ItemGroup>
+
+</Project>
