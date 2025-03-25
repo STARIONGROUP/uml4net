@@ -94,6 +94,11 @@ namespace uml4net.Tools.Commands
         /// Otherwise, it will ignore the unknown element or attribute and log a warning.
         /// </remarks>
         public bool UseStrictReading { get; set; }
+        
+        /// <summary>
+        /// Asserts that the reader to be used should be the Enterprise Architect extension one
+        /// </summary>
+        public bool UseEaReader { get; set; }
 
         /// <summary>
         /// Invokes the <see cref="ICommandHandler"/>
@@ -134,9 +139,11 @@ namespace uml4net.Tools.Commands
                 AnsiConsole.WriteLine("");
                 return -1;
             }
-
+            
             try
             {
+                this.ReportGenerator.ShouldUseEnterpriseArchitectReader = this.UseEaReader;
+                
                 await AnsiConsole.Status()
                     .AutoRefresh(true)
                     .SpinnerStyle(Style.Parse("green bold"))

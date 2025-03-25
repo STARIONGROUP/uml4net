@@ -22,6 +22,8 @@ namespace uml4net
 {
     using System.Collections.Generic;
 
+    using uml4net.CommonStructure;
+
     /// <summary>
     /// The <see cref="IXmiElement"/> captures the XMI properties of each element in the
     /// XMI document
@@ -77,5 +79,10 @@ namespace uml4net
         /// Gets or sets the <see cref="IXmiElementCache"/>
         /// </summary>
         public IXmiElementCache Cache { get; set; }
+
+        /// <summary>
+        /// Gets or sets the extensions defined of this <see cref="IElement" />
+        /// </summary>
+        List<IElement> Extensions { get; set; }
     }
 }

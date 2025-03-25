@@ -73,6 +73,7 @@ namespace uml4net.xmi.Readers
         /// The (injected) <see cref="IXmiElementReaderFacade"/> used to resolve any
         /// required <see cref="IXmiElementReader{T}"/>
         /// </param>
+        /// <param name="xmiReaderSettings">The injected <see cref="IXmiReaderSettings" /> that provides Xmi Reader settings</param>
         /// <param name="loggerFactory">
         /// The (injected) <see cref="ILoggerFactory"/> used to set up logging
         /// </param>

@@ -28,6 +28,10 @@ The **uml4net.Reporting** library contains reporting generators. This library is
 
 The **uml4net.Tools** commandline application is used to generate reports on the content of the UML model. Find the documentation [here](https://github.com/STARIONGROUP/uml4net/wiki/uml4net.Tools).
 
+# uml4net.xmi.Extensions.EnterpriseArchitect
+
+The **uml4net.xmi.Extensions.EnterpriseArchitect** library is a specific XMI Reader extension to support Enterprise Architect XMI reading.
+
 ## Code Quality
 
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=STARIONGROUP_uml4net&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=STARIONGROUP_uml4net)
@@ -51,6 +55,7 @@ The package are available on Nuget at:
   - [uml4net.HandleBars](https://www.nuget.org/packages/uml4net.HandleBars): ![NuGet Version](https://img.shields.io/nuget/v/uml4net.HandleBars)
   - [uml4net.Reporting](https://www.nuget.org/packages/uml4net.Reporting): ![NuGet Version](https://img.shields.io/nuget/v/uml4net.Reporting)
   - [uml4net.Tools](https://www.nuget.org/packages/uml4net.Tools): ![NuGet Version](https://img.shields.io/nuget/v/uml4net.Tools)
+  - [uml4net.xmi.Extensions.EnterpriseArchitect](https://www.nuget.org/packages/uml4net.xmi.Extensions.EnterpriseArchitect): ![NuGet Version](https://img.shields.io/nuget/v/uml4net.xmi.Extensions.EnterpriseArchitect)
 
 ## Build Status
 

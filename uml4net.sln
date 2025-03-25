@@ -43,6 +43,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "uml4net.Tools.Tests", "uml4
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "uml4net.HandleBars.Tests", "uml4net.HandleBars.Tests\uml4net.HandleBars.Tests.csproj", "{3CD9DFB4-50FE-46FD-BE5F-C8D9B1F49607}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "uml4net.xmi.Extensions.EnterpriseArchitect", "uml4net.xmi.Extensions.EnterpriseArchitect\uml4net.xmi.Extensions.EnterpriseArchitect.csproj", "{CA93DA85-9D01-430A-8202-6E3B4B89A5EA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "uml4net.xmi.Extensions.EnterpriseArchitect.Tests", "uml4net.xmi.Extensions.EnterpriseArchitect.Tests\uml4net.xmi.Extensions.EnterpriseArchitect.Tests.csproj", "{8B2E995B-2A38-474E-85BD-EC5130EA96FB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -105,6 +109,14 @@ Global
 		{3CD9DFB4-50FE-46FD-BE5F-C8D9B1F49607}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3CD9DFB4-50FE-46FD-BE5F-C8D9B1F49607}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3CD9DFB4-50FE-46FD-BE5F-C8D9B1F49607}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CA93DA85-9D01-430A-8202-6E3B4B89A5EA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CA93DA85-9D01-430A-8202-6E3B4B89A5EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CA93DA85-9D01-430A-8202-6E3B4B89A5EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CA93DA85-9D01-430A-8202-6E3B4B89A5EA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8B2E995B-2A38-474E-85BD-EC5130EA96FB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8B2E995B-2A38-474E-85BD-EC5130EA96FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8B2E995B-2A38-474E-85BD-EC5130EA96FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8B2E995B-2A38-474E-85BD-EC5130EA96FB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
