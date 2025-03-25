@@ -47,7 +47,7 @@ namespace uml4net.xmi.Readers
         /// <summary>
         /// The (injected) <see cref="ILogger{XmiReader}"/> used to perform logging
         /// </summary>
-        protected readonly ILogger<XmiReader> Logger;
+        private readonly ILogger<XmiReader> logger;
 
         /// <summary>
         /// The (injected) <see cref="ILoggerFactory"/> used to set up logging
@@ -107,7 +107,7 @@ namespace uml4net.xmi.Readers
             this.XmiElementReaderFacade = xmiElementReaderFacade;
             this.XmiReaderSettings = xmiReaderSettings;
             this.LoggerFactory = loggerFactory;
-            this.Logger = this.LoggerFactory == null ? NullLogger<XmiReader>.Instance : this.LoggerFactory.CreateLogger<XmiReader>();
+            this.logger = this.LoggerFactory == null ? NullLogger<XmiReader>.Instance : this.LoggerFactory.CreateLogger<XmiReader>();
             this.externalReferenceResolver = externalReferenceResolver;
             this.scope = scope;
         }
@@ -144,11 +144,11 @@ namespace uml4net.xmi.Readers
 
             var sw = Stopwatch.StartNew();
 
-            this.Logger.LogTrace("start deserializing from {Path}", fileUri);
+            this.logger.LogTrace("start deserializing from {Path}", fileUri);
 
             var result = this.Read(fileStream, fileInfo.Name);
 
-            this.Logger.LogTrace("File {Path} deserialized in {Time} [ms]", fileUri, sw.ElapsedMilliseconds);
+            this.logger.LogTrace("File {Path} deserialized in {Time} [ms]", fileUri, sw.ElapsedMilliseconds);
 
             return result;
         }
@@ -218,7 +218,7 @@ namespace uml4net.xmi.Readers
             {
                 var defaultLineInfo = xmlReader as IXmlLineInfo;
 
-                this.Logger.LogTrace("starting to read xml");
+                this.logger.LogTrace("starting to read xml");
 
                 while (xmlReader.Read())
                 {
@@ -268,7 +268,7 @@ namespace uml4net.xmi.Readers
                                 
                                 break;
                             default:
-                                this.Logger.LogWarning("XmiReader: {LocalName} at line:position {Line}:{Position} was not read", xmlReader.LocalName, defaultLineInfo.LineNumber, defaultLineInfo.LinePosition);
+                                this.logger.LogWarning("XmiReader: {LocalName} at line:position {Line}:{Position} was not read", xmlReader.LocalName, defaultLineInfo.LineNumber, defaultLineInfo.LinePosition);
                                 break;
                         }
                     }
@@ -276,7 +276,7 @@ namespace uml4net.xmi.Readers
             }
 
             var currentlyElapsedMilliseconds = sw.ElapsedMilliseconds;
-            this.Logger.LogTrace("xml read in {Time}", currentlyElapsedMilliseconds);
+            this.logger.LogTrace("xml read in {Time}", currentlyElapsedMilliseconds);
             sw.Stop();
 
             this.TryResolveExternalReferences(xmiReaderResult, documentName);
@@ -307,7 +307,7 @@ namespace uml4net.xmi.Readers
         /// </returns>
         public virtual IPackage ReadXmiExtension(XmlReader xmlReader,  string documentName, string namespaceUri)
         {
-            this.Logger.LogInformation("Reading this xmi:Extension is not supported by the current XmiReader.");
+            this.logger.LogInformation("Reading this xmi:Extension is not supported by the current XmiReader.");
             return default;
         }
         
@@ -324,7 +324,7 @@ namespace uml4net.xmi.Readers
         {
             var stopwatch = Stopwatch.StartNew();
 
-            this.Logger.LogTrace("resolving the external references");
+            this.logger.LogTrace("resolving the external references");
 
             var x = this.externalReferenceResolver.TryResolve(documentName).ToList();
 
@@ -333,7 +333,7 @@ namespace uml4net.xmi.Readers
                 this.Read(externalResource, context, xmiReaderResult, false);
             }
 
-            this.Logger.LogTrace("External references synchronized in {Time}", stopwatch.ElapsedMilliseconds);
+            this.logger.LogTrace("External references synchronized in {Time}", stopwatch.ElapsedMilliseconds);
 
             stopwatch.Stop();
         }

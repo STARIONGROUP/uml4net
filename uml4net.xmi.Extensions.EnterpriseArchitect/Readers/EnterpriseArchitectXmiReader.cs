@@ -23,6 +23,7 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.Readers
     using System.Xml;
 
     using Microsoft.Extensions.Logging;
+    using Microsoft.Extensions.Logging.Abstractions;
 
     using uml4net.Packages;
     using uml4net.xmi;
@@ -36,6 +37,11 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.Readers
     /// </summary>
     public class EnterpriseArchitectXmiReader: XmiReader
     {
+        /// <summary>
+        /// The (injected) <see cref="ILogger{EnterpriseArchitectXmiReader}"/> used to perform logging
+        /// </summary>
+        private ILogger<EnterpriseArchitectXmiReader> logger;
+        
         /// <summary>
         /// Initializes a new instance of the <see cref="XmiReader"/> class.
         /// </summary>
@@ -58,6 +64,7 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.Readers
         public EnterpriseArchitectXmiReader(IAssembler assembler, IXmiElementCache cache, IXmiElementReaderFacade xmiElementReaderFacade, ILoggerFactory loggerFactory,
             IExternalReferenceResolver externalReferenceResolver, IXmiReaderScope scope, IXmiReaderSettings xmiReaderSettings) : base(assembler, cache, xmiElementReaderFacade, loggerFactory, externalReferenceResolver, scope, xmiReaderSettings)
         {
+            this.logger = this.LoggerFactory == null ? NullLogger<EnterpriseArchitectXmiReader>.Instance : this.LoggerFactory.CreateLogger<EnterpriseArchitectXmiReader>();
         }
 
         /// <summary>
@@ -121,7 +128,7 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.Readers
                             break;
                         }
                         default:
-                            this.Logger.LogTrace("EnterpriseArchitectXmiReader: {Name}", xmlReader.LocalName);
+                            this.logger.LogTrace("EnterpriseArchitectXmiReader: {Name}", xmlReader.LocalName);
                             break;
                     }
                 }
