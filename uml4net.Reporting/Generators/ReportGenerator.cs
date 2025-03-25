@@ -30,6 +30,7 @@ namespace uml4net.Reporting.Generators
    
     using uml4net.Packages;
     using uml4net.xmi;
+    using uml4net.xmi.Extensions.EnterpriseArchitect.Readers;
     using uml4net.xmi.Readers;
 
     /// <summary>
@@ -59,6 +60,11 @@ namespace uml4net.Reporting.Generators
 
             this.logger = this.loggerFactory == null ? NullLogger<ReportGenerator>.Instance : this.loggerFactory.CreateLogger<ReportGenerator>();
         }
+
+        /// <summary>
+        /// Gets or sets the assert that the <see cref="EnterpriseArchitectXmiReader"/> should be used
+        /// </summary>
+        public bool ShouldUseEnterpriseArchitectReader { get; set; }
 
         /// <summary>
         /// Verifies whether the extension of the <paramref name="outputPath"/> is valid or not
@@ -106,16 +112,21 @@ namespace uml4net.Reporting.Generators
 
             this.logger.LogInformation("Loading UML model from {0}", modelPath.FullName);
 
-            using var reader = XmiReaderBuilder.Create()
+            var readerBuilder = XmiReaderBuilder.Create()
                 .UsingSettings(x =>
                 {
                     x.LocalReferenceBasePath = rootDirectory.FullName;
                     x.UseStrictReading = useStrictReading;
                     x.PathMaps = pathMap;
                 })
-                .WithLogger(this.loggerFactory)
-                .Build();
+                .WithLogger(this.loggerFactory);
 
+            if (this.ShouldUseEnterpriseArchitectReader)
+            {
+                readerBuilder.WithReader<EnterpriseArchitectXmiReader>();
+            }
+
+            using var reader = readerBuilder.Build();
             return reader.Read(modelPath.FullName);
         }
     }

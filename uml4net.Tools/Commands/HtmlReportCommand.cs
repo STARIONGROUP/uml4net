@@ -40,9 +40,15 @@ namespace uml4net.Tools.Commands
                 name: "--output-report",
                 description: "The path to the html report file. Supported extensions are '.html'",
                 getDefaultValue: () => new FileInfo("html-report.html"));
+            
             reportFileOption.AddAlias("-o");
             reportFileOption.IsRequired = true;
+            
+            var eaUsage = new Option<bool>(name: "--use-eareader", description: "Use the Enterprise Architect Reader.");
+            eaUsage.AddAlias("-ea");
+            
             this.AddOption(reportFileOption);
+            this.AddOption(eaUsage);
         }
 
         /// <summary>
