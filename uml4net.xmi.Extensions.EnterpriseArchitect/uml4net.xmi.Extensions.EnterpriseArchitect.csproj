@@ -31,6 +31,8 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <None Include="..\README.md" Pack="true" PackagePath="\" />
+        <None Include="..\uml4net-logo-strapline.png" Pack="true" PackagePath="" />
         <ProjectReference Include="..\uml4net.xmi\uml4net.xmi.csproj"/>
     </ItemGroup>
 
