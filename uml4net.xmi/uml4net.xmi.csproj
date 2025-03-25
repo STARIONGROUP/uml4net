@@ -2,7 +2,7 @@
 
     <PropertyGroup>
         <Description>A .NET implementation of the OMG UML v2.5.1 specification.</Description>
-        <Version>3.0.0</Version>
+        <Version>3.1.0</Version>
         <PackageId>uml4net.xmi</PackageId>
         <LangVersion>12.0</LangVersion>
         <TargetFramework>netstandard2.0</TargetFramework>
@@ -26,7 +26,7 @@
         <PackageIcon>uml4net-logo-strapline.png</PackageIcon>
         <PackageTags>UML XMI modeltopia</PackageTags>
         <PackageReleaseNotes>
-            [Update] to uml4net.Extensions version 3.0.0
+            [ADD] Allow XMI extension reading capability by inheriting the default XmiReader
         </PackageReleaseNotes>
     </PropertyGroup>
 
