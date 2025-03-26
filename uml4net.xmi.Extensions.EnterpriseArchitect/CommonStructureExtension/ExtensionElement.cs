@@ -20,7 +20,10 @@
 
 namespace uml4net.xmi.Extensions.EnterpriseArchitect.CommonStructureExtension
 {
+    using System.Xml;
+
     using uml4net.CommonStructure;
+    using uml4net.xmi.Extensions.EnterpriseArchitect.Extensions;
 
     /// <summary>
     /// Represents an extension element within the system.
@@ -102,5 +105,33 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.CommonStructureExtension
         /// Gets or sets a value indicating whether this element is abstract.
         /// </summary>
         public bool IsAbstract { get; set; }
+
+        /// <summary>
+        /// Initialize a new <typeparamref name="TExtension"/> and assign basic values to it
+        /// </summary>
+        /// <param name="xmlReader">The <see cref="XmlReader"/></param>
+        /// <param name="cache">The <see cref="IXmiElementCache"/></param>
+        /// <param name="documentName">The associated document name</param>
+        /// <typeparam name="TExtension">Any instantiable <see cref="IExtensionElement"/></typeparam>
+        /// <returns>The intialized <typeparamref name="TExtension"/></returns>
+        public static TExtension InitializeElement<TExtension>(XmlReader xmlReader, IXmiElementCache cache, string documentName) where TExtension : IExtensionElement, new()
+        {
+            var element = new TExtension();
+
+            if (xmlReader.MoveToContent() != XmlNodeType.Element ||
+                xmlReader.GetAttribute("xmi:idref") is not { Length: > 0 } extendedElementId)
+            {
+                return element;
+            }
+
+            element.ExtendedElementId = extendedElementId;
+            element.XmiType = xmlReader.GetAttribute("xmi:type");
+            element.XmiId = $"{element.ExtendedElementId}_extension";
+
+            element.SetExtensionElement(cache, documentName);
+            cache.TryAdd(element);
+            
+            return element;
+        }
     }
 }

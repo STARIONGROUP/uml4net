@@ -120,7 +120,7 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.Readers
                                 }
 
                                 var extensionElementReader = new ExtensionElementReader(this.Cache, this.XmiElementReaderFacade, this.XmiReaderSettings, this.LoggerFactory);
-                                var elementReader = xmlReader.ReadSubtree();
+                                var elementReader = elementsReader.ReadSubtree();
                                 
                                 extension.Elements.Add(extensionElementReader.Read(elementReader, documentName, namespaceUri));
                             }

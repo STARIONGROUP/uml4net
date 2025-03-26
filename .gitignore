@@ -327,3 +327,5 @@ ASALocalRun/
 
 # MFractors (Xamarin productivity tool) working folder 
 .mfractor/
+
+uml4net.xmi.Extensions.EnterpriseArchitect.Tests/Resources/UML_EA.DTD
