@@ -22,7 +22,18 @@
 						<type xmi:type="uml:PrimitiveType" href="http://www.omg.org/spec/UML/20161101/PrimitiveTypes.xmi#String"/>
 					</ownedParameter>
 				</ownedOperation>
+				<ownedAttribute xmi:type="uml:Property" xmi:id="EAID_dst6EA90E_29A0_4dfb_AEC1_1B3FCC1A1FBF" association="EAID_636EA90E_29A0_4dfb_AEC1_1B3FCC1A1FBF">
+					<type xmi:idref="EAID_70AABD9A_7B01_45ef_9C0E_DA57C370B3E8"/>
+				</ownedAttribute>
 			</packagedElement>
+			<packagedElement xmi:type="uml:Association" xmi:id="EAID_636EA90E_29A0_4dfb_AEC1_1B3FCC1A1FBF">
+				<memberEnd xmi:idref="EAID_dst6EA90E_29A0_4dfb_AEC1_1B3FCC1A1FBF"/>
+				<memberEnd xmi:idref="EAID_src6EA90E_29A0_4dfb_AEC1_1B3FCC1A1FBF"/>
+				<ownedEnd xmi:type="uml:Property" xmi:id="EAID_src6EA90E_29A0_4dfb_AEC1_1B3FCC1A1FBF" association="EAID_636EA90E_29A0_4dfb_AEC1_1B3FCC1A1FBF">
+					<type xmi:idref="EAID_E7DEF3AB_2BF1_474f_A118_48F9DC5ED70A"/>
+				</ownedEnd>
+			</packagedElement>
+			<packagedElement xmi:type="uml:Class" xmi:id="EAID_70AABD9A_7B01_45ef_9C0E_DA57C370B3E8" name="SecondElement"/>
 		</packagedElement>
 	</uml:Model>
 	<xmi:Extension extender="Enterprise Architect" extenderID="6.5">
@@ -123,9 +134,61 @@
 						<xrefs/>
 					</operation>
 				</operations>
+				<links>
+					<Association xmi:id="EAID_636EA90E_29A0_4dfb_AEC1_1B3FCC1A1FBF" start="EAID_E7DEF3AB_2BF1_474f_A118_48F9DC5ED70A" end="EAID_70AABD9A_7B01_45ef_9C0E_DA57C370B3E8"/>
+				</links>
+			</element>
+			<element xmi:idref="EAID_70AABD9A_7B01_45ef_9C0E_DA57C370B3E8" xmi:type="uml:Class" name="SecondElement" scope="public">
+				<model package="EAPK_974A24AF_DDAB_4dd7_AED8_10D3CECC202C" tpos="0" ea_localid="10" ea_eleType="element"/>
+				<properties isSpecification="false" sType="Class" nType="0" scope="public" isRoot="false" isLeaf="false" isAbstract="false" isActive="false"/>
+				<project author="atheate" version="1.0" phase="1.0" created="2025-03-26 10:30:10" modified="2025-03-26 10:30:12" complexity="1" status="Proposed"/>
+				<code gentype="Java"/>
+				<style appearance="BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=1;HSwimLanes=1;BorderStyle=0;"/>
+				<tags/>
+				<xrefs/>
+				<extendedProperties tagged="0" package_name="XmiTest"/>
+				<links>
+					<Association xmi:id="EAID_636EA90E_29A0_4dfb_AEC1_1B3FCC1A1FBF" start="EAID_E7DEF3AB_2BF1_474f_A118_48F9DC5ED70A" end="EAID_70AABD9A_7B01_45ef_9C0E_DA57C370B3E8"/>
+				</links>
 			</element>
 		</elements>
-		<connectors/>
+		<connectors>
+			<connector xmi:idref="EAID_636EA90E_29A0_4dfb_AEC1_1B3FCC1A1FBF">
+				<source xmi:idref="EAID_E7DEF3AB_2BF1_474f_A118_48F9DC5ED70A">
+					<model ea_localid="9" type="Class" name="Element"/>
+					<role visibility="Public" targetScope="instance"/>
+					<type aggregation="none" containment="Unspecified"/>
+					<constraints/>
+					<modifiers isOrdered="false" changeable="none" isNavigable="false"/>
+					<style value="Union=0;Derived=0;AllowDuplicates=0;Owned=0;Navigable=Non-Navigable;"/>
+					<documentation/>
+					<xrefs/>
+					<tags/>
+				</source>
+				<target xmi:idref="EAID_70AABD9A_7B01_45ef_9C0E_DA57C370B3E8">
+					<model ea_localid="10" type="Class" name="SecondElement"/>
+					<role visibility="Public" targetScope="instance"/>
+					<type aggregation="none" containment="Unspecified"/>
+					<constraints/>
+					<modifiers isOrdered="false" changeable="none" isNavigable="false"/>
+					<style value="Union=0;Derived=0;AllowDuplicates=0;Owned=0;Navigable=Navigable;"/>
+					<documentation/>
+					<xrefs/>
+					<tags/>
+				</target>
+				<model ea_localid="10"/>
+				<properties ea_type="Association" direction="Source -&gt; Destination"/>
+				<modifiers isRoot="false" isLeaf="false"/>
+				<parameterSubstitutions/>
+				<documentation value="Gets or sets the reference to a &amp;lt;see cref=&quot;SecondElement&quot; /&amp;gt;"/>
+				<appearance linemode="1" linecolor="-1" linewidth="0" seqno="0" headStyle="0" lineStyle="0"/>
+				<labels/>
+				<extendedProperties virtualInheritance="0"/>
+				<style/>
+				<xrefs/>
+				<tags/>
+			</connector>
+		</connectors>
 		<primitivetypes>
 			<packagedElement xmi:type="uml:Package" xmi:id="EAPrimitiveTypesPackage" name="EA_PrimitiveTypes_Package"/>
 		</primitivetypes>

@@ -72,6 +72,7 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.Tests.Readers
             var operation = element!.OwnedOperation[0];
             var operationParameter = operation.OwnedParameter[0];
             var returnParameter = operation.OwnedParameter.Single(x => x.Direction == ParameterDirectionKind.Return);
+            var associationParameter = element!.OwnedAttribute.Single(x => x.Association != null);
             
             Assert.Multiple(() =>
             {
@@ -81,6 +82,7 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.Tests.Readers
                 Assert.That(operation.QueryDocumentationFromExtensions(), Is.EqualTo("The operation also have documentation"));
                 Assert.That(operationParameter.QueryDocumentationFromExtensions(), Is.EqualTo("The parameter documentation"));
                 Assert.That(returnParameter.QueryDocumentationFromExtensions(), Is.EqualTo("Return value"));
+                Assert.That(associationParameter.Association.QueryDocumentationFromExtensions(), Is.EqualTo("Gets or sets the reference to a &lt;see cref=\"SecondElement\" /&gt;"));
             });
         }
     }

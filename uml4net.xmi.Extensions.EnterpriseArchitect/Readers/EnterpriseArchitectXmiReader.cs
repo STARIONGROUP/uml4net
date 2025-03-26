@@ -127,6 +127,25 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.Readers
 
                             break;
                         }
+                        case "connectors":
+                        {
+                            using var connectorsXmlReader = xmlReader.ReadSubtree();
+
+                            while (connectorsXmlReader.Read())
+                            {
+                                if (connectorsXmlReader.NodeType != XmlNodeType.Element || connectorsXmlReader.LocalName != "connector")
+                                {
+                                    continue;
+                                }
+
+                                var connectorReader = new ConnectorReader(this.Cache, this.XmiElementReaderFacade, this.XmiReaderSettings, this.LoggerFactory);
+                                var connectorXmlReader = connectorsXmlReader.ReadSubtree();
+                                
+                                extension.Elements.Add(connectorReader.Read(connectorXmlReader, documentName, namespaceUri));
+                            }
+
+                            break;
+                        }
                         default:
                             this.logger.LogTrace("EnterpriseArchitectXmiReader: {Name}", xmlReader.LocalName);
                             break;

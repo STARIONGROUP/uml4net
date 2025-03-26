@@ -33,6 +33,12 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.CommonStructureExtension
         /// </summary>
         /// <value>A container list of <see cref="IExtensionElement" /> representing the elements.</value>
         IContainerList<IExtensionElement> Elements { get; set; }
+        
+        /// <summary>
+        /// Gets or sets the collection of extension elements associated with this extension, for connectors.
+        /// </summary>
+        /// <value>A container list of <see cref="IExtensionElement" /> representing the elements.</value>
+        IContainerList<IExtensionElement> Connectors { get; set; }
 
         /// <summary>
         /// Gets or sets the identifier for the extender associated with this extension.
