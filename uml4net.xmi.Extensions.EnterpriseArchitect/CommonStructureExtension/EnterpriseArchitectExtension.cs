@@ -32,6 +32,11 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.CommonStructureExtension
         /// Backing field for <see cref="Elements" />
         /// </summary>
         private IContainerList<IExtensionElement> elements;
+        
+        /// <summary>
+        /// Backing field for <see cref="Connectors" />
+        /// </summary>
+        private IContainerList<IExtensionElement> connectors;
 
         /// <summary>
         /// Gets or sets the collection of extension elements associated with this extension.
@@ -41,6 +46,16 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.CommonStructureExtension
         {
             get => this.elements ??= new ContainerList<IExtensionElement>(this);
             set => this.elements = value;
+        }
+
+        /// <summary>
+        /// Gets or sets the collection of extension elements associated with this extension, for connectors.
+        /// </summary>
+        /// <value>A container list of <see cref="IExtensionElement" /> representing the elements.</value>
+        public IContainerList<IExtensionElement> Connectors
+        {
+            get => this.connectors ??= new ContainerList<IExtensionElement>(this);
+            set => this.connectors = value;
         }
 
         /// <summary>

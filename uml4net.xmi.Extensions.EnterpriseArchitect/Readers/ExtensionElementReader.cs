@@ -108,7 +108,7 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.Readers
                             {
                                 if (attributesReader.NodeType != XmlNodeType.Element || attributesReader.LocalName != "attribute")
                                 {
-                                    continue;
+                                    continue;   
                                 }
 
                                 using var attributeXmlReader = attributesReader.ReadSubtree();
