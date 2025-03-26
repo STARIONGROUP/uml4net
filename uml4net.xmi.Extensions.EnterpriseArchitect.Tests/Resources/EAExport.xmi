@@ -1,14 +1,27 @@
 <?xml  version='1.0' encoding='windows-1252' ?>
-<xmi:XMI xmlns:xmi="http://www.omg.org/spec/XMI/20110701" xmlns:uml="http://www.omg.org/spec/UML/20110701">
+<xmi:XMI xmlns:xmi="http://www.omg.org/spec/XMI/20131001" xmlns:uml="http://www.omg.org/spec/UML/20161101" xmlns:umldi="http://www.omg.org/spec/UML/20161101/UMLDI" xmlns:dc="http://www.omg.org/spec/UML/20161101/UMLDC">
 	<xmi:Documentation exporter="Enterprise Architect" exporterVersion="6.5" exporterID="1703"/>
 	<uml:Model xmi:type="uml:Model" name="EA_Model">
 		<packagedElement xmi:type="uml:Package" xmi:id="EAPK_974A24AF_DDAB_4dd7_AED8_10D3CECC202C" name="XmiTest">
 			<packagedElement xmi:type="uml:Class" xmi:id="EAID_E7DEF3AB_2BF1_474f_A118_48F9DC5ED70A" name="Element">
 				<ownedAttribute xmi:type="uml:Property" xmi:id="EAID_957B58DC_9D90_4781_A642_E060CB7F142A" name="AnAttribute">
-					<type xmi:type="uml:PrimitiveType" href="http://www.omg.org/spec/UML/20110701/PrimitiveTypes.xmi#String"/>
+					<type xmi:type="uml:PrimitiveType" href="http://www.omg.org/spec/UML/20161101/PrimitiveTypes.xmi#String"/>
 					<lowerValue xmi:type="uml:LiteralInteger" xmi:id="EAID_LI000001_9D90_4781_A642_E060CB7F142A" value="1"/>
 					<upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="EAID_LI000002_9D90_4781_A642_E060CB7F142A" value="1"/>
 				</ownedAttribute>
+				<ownedAttribute xmi:type="uml:Property" xmi:id="EAID_09432622_34AB_4e04_B9E8_A00C6CCAF80A" name="AnotherAttribute">
+					<type xmi:type="uml:PrimitiveType" href="http://www.omg.org/spec/UML/20161101/PrimitiveTypes.xmi#Integer"/>
+					<lowerValue xmi:type="uml:LiteralInteger" xmi:id="EAID_LI000003_34AB_4e04_B9E8_A00C6CCAF80A" value="1"/>
+					<upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="EAID_LI000004_34AB_4e04_B9E8_A00C6CCAF80A" value="1"/>
+				</ownedAttribute>
+				<ownedOperation xmi:id="EAID_65D71FBE_61C0_4106_9FD0_7AA794BCF07A" name="Opertation">
+					<ownedParameter xmi:id="EAID_3A64E579_F287_4b50_99BC_E246744A5554" name="parameter">
+						<type xmi:type="uml:PrimitiveType" href="http://www.omg.org/spec/UML/20161101/PrimitiveTypes.xmi#Integer"/>
+					</ownedParameter>
+					<ownedParameter xmi:id="EAID_79BE5A5A_0927_42dc_B3BF_798FEE61046E" name="return" direction="return">
+						<type xmi:type="uml:PrimitiveType" href="http://www.omg.org/spec/UML/20161101/PrimitiveTypes.xmi#String"/>
+					</ownedParameter>
+				</ownedOperation>
 			</packagedElement>
 		</packagedElement>
 	</uml:Model>
@@ -53,7 +66,63 @@
 						<tags/>
 						<xrefs/>
 					</attribute>
+					<attribute xmi:idref="EAID_09432622_34AB_4e04_B9E8_A00C6CCAF80A" name="AnotherAttribute" scope="Public">
+						<initial/>
+						<documentation value="A note from EA"/>
+						<model ea_localid="3" ea_guid="{09432622-34AB-4e04-B9E8-A00C6CCAF80A}"/>
+						<properties type="Integer" collection="false" static="0" duplicates="0" changeability="changeable"/>
+						<coords ordered="0"/>
+						<containment containment="Not Specified" position="1"/>
+						<stereotype/>
+						<bounds lower="1" upper="1"/>
+						<options/>
+						<style/>
+						<styleex value="volatile=0;"/>
+						<tags/>
+						<xrefs/>
+					</attribute>
 				</attributes>
+				<operations>
+					<operation xmi:idref="EAID_65D71FBE_61C0_4106_9FD0_7AA794BCF07A" name="Opertation" scope="Public">
+						<properties position="0"/>
+						<stereotype/>
+						<model ea_guid="{65D71FBE-61C0-4106-9FD0-7AA794BCF07A}" ea_localid="1"/>
+						<type const="false" static="false" isAbstract="false" synchronised="0" concurrency="Sequential" pure="0" isQuery="false"/>
+						<behaviour/>
+						<code/>
+						<style/>
+						<styleex/>
+						<documentation value="The operation also have documentation"/>
+						<tags/>
+						<parameters>
+							<parameter xmi:idref="EAID_RETURNID_61C0_4106_9FD0_7AA794BCF07A" visibility="public">
+								<properties pos="0" const="false" ea_guid="{RETURNID-61C0-4106-9FD0-7AA794BCF07A}"/>
+								<style/>
+								<styleex/>
+								<documentation/>
+								<tags/>
+								<xrefs/>
+							</parameter>
+							<parameter xmi:idref="EAID_3A64E579_F287_4b50_99BC_E246744A5554" visibility="public">
+								<properties pos="0" type="Integer" const="false" ea_guid="{3A64E579-F287-4b50-99BC-E246744A5554}"/>
+								<style/>
+								<styleex/>
+								<documentation value="The parameter documentation"/>
+								<tags/>
+								<xrefs/>
+							</parameter>
+							<parameter xmi:idref="EAID_79BE5A5A_0927_42dc_B3BF_798FEE61046E" visibility="public">
+								<properties pos="1" type="String" const="false" ea_guid="{79BE5A5A-0927-42dc-B3BF-798FEE61046E}"/>
+								<style/>
+								<styleex/>
+								<documentation value="Return value"/>
+								<tags/>
+								<xrefs/>
+							</parameter>
+						</parameters>
+						<xrefs/>
+					</operation>
+				</operations>
 			</element>
 		</elements>
 		<connectors/>

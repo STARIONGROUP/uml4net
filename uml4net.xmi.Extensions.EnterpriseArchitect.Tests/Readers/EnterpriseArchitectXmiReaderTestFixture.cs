@@ -20,7 +20,9 @@
 
 namespace uml4net.xmi.Extensions.EnterpriseArchitect.Tests.Readers
 {
+    using System.Data;
     using System.IO;
+    using System.Linq;
 
     using Microsoft.Extensions.Logging;
 
@@ -28,6 +30,7 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.Tests.Readers
 
     using Serilog;
 
+    using uml4net.Classification;
     using uml4net.StructuredClassifiers;
     using uml4net.xmi.Extensions.EnterpriseArchitect.Extensions;
     using uml4net.xmi.Extensions.EnterpriseArchitect.Readers;
@@ -65,11 +68,19 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.Tests.Readers
             var xmiReaderResult = reader.Read(Path.Combine(TestContext.CurrentContext.TestDirectory, "Resources", "EAExport.xmi"));
             var element = xmiReaderResult.Packages[0].NestedPackage[0].PackagedElement[0] as Class;
             var attribute = element!.OwnedAttribute[0];
-
+            var secondAttribute = element!.OwnedAttribute[1];
+            var operation = element!.OwnedOperation[0];
+            var operationParameter = operation.OwnedParameter[0];
+            var returnParameter = operation.OwnedParameter.Single(x => x.Direction == ParameterDirectionKind.Return);
+            
             Assert.Multiple(() =>
             {
                 Assert.That(attribute.QueryDocumentationFromExtensions(), Is.EqualTo("An documentation for an attribute"));
                 Assert.That(element.QueryDocumentationFromExtensions(), Is.EqualTo("An Enterprise Architect documentation"));
+                Assert.That(secondAttribute.QueryDocumentationFromExtensions(), Is.EqualTo("A note from EA"));
+                Assert.That(operation.QueryDocumentationFromExtensions(), Is.EqualTo("The operation also have documentation"));
+                Assert.That(operationParameter.QueryDocumentationFromExtensions(), Is.EqualTo("The parameter documentation"));
+                Assert.That(returnParameter.QueryDocumentationFromExtensions(), Is.EqualTo("Return value"));
             });
         }
     }

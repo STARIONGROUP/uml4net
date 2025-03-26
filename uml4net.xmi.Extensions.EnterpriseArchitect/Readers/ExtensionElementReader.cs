@@ -72,20 +72,7 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.Readers
         /// </returns>
         public override IExtensionElement Read(XmlReader xmlReader, string documentName, string namespaceUri)
         {
-            var element = new ExtensionElement();
-
-            if (xmlReader.MoveToContent() != XmlNodeType.Element ||
-                xmlReader.GetAttribute("xmi:idref") is not { Length: > 0 } extendedElementId)
-            {
-                return element;
-            }
-
-            element.ExtendedElementId = extendedElementId;
-            element.XmiType = xmlReader.GetAttribute("xmi:type");
-            element.XmiId = $"{element.ExtendedElementId}_extension";
-
-            element.SetExtensionElement(this.Cache, documentName);
-            this.Cache.TryAdd(element);
+            var element = ExtensionElement.InitializeElement<ExtensionElement>(xmlReader, this.Cache, documentName);
 
             while (xmlReader.Read())
             {
@@ -94,10 +81,10 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.Readers
                     switch (xmlReader.LocalName)
                     {
                         case "ownedComment":
-                            var comment = (IComment)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, xmlReader.NamespaceURI, this.Cache, 
-                                this.XmiReaderSettings, this.LoggerFactory, "uml:Comment");
+                                var comment = (IComment)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, xmlReader.NamespaceURI, this.Cache, 
+                                    this.XmiReaderSettings, this.LoggerFactory, "uml:Comment");
 
-                            element.OwnedComment.Add(comment);
+                                element.OwnedComment.Add(comment);                                
 
                             break;
                         case "properties":
@@ -124,9 +111,31 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.Readers
                                     continue;
                                 }
 
+                                using var attributeXmlReader = attributesReader.ReadSubtree();
+
                                 var attributeReader = new AttributeReader(this.Cache, this.XmiElementReaderFacade, this.XmiReaderSettings, this.LoggerFactory);
-                                var attributeExtensions = attributeReader.Read(xmlReader, documentName, namespaceUri);
+                                var attributeExtensions = attributeReader.Read(attributeXmlReader, documentName, namespaceUri);
                                 element.OwnedElement.Add(attributeExtensions);
+                            }
+
+                            break;
+                        }
+                        case "operations":
+                        {
+                            using var operationsReader = xmlReader.ReadSubtree();
+
+                            while (operationsReader.Read())
+                            {
+                                if (operationsReader.NodeType != XmlNodeType.Element || operationsReader.LocalName != "operation")
+                                {
+                                    continue;
+                                }
+
+                                using var operationXmlReader = operationsReader.ReadSubtree();
+
+                                var operationReader = new OperationReader(this.Cache, this.XmiElementReaderFacade, this.XmiReaderSettings, this.LoggerFactory);
+                                var operationExtension = operationReader.Read(operationXmlReader, documentName, namespaceUri);
+                                element.OwnedElement.Add(operationExtension);
                             }
 
                             break;
