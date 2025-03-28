@@ -49,6 +49,9 @@
         <Content Include="..\resources\UML\UML.xmi" Link="TestData\UML.xmi">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </Content>
+      <Content Include="..\resources\XMI\EnterpriseArchitectAggregation.xmi" Link="TestData\EnterpriseArchitectAggregation.xmi">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
         <None Include="..\resources\SySML2\SysML.uml" Link="TestData\SysML.uml">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </None>

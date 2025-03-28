@@ -49,6 +49,12 @@ namespace uml4net.Classification
                 return true;
             }
 
+            if (property.Association is not null && property.Association.OwnedEnd is not null
+                                                 && property.Association.OwnedEnd.Any(o => o.Aggregation == AggregationKind.Composite))
+            {
+                return true;
+            }
+
             return false;
         }
 
