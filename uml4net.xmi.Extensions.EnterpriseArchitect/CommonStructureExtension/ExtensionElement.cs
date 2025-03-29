@@ -20,6 +20,7 @@
 
 namespace uml4net.xmi.Extensions.EnterpriseArchitect.CommonStructureExtension
 {
+    using System;
     using System.Xml;
 
     using uml4net.CommonStructure;
@@ -113,9 +114,19 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.CommonStructureExtension
         /// <param name="cache">The <see cref="IXmiElementCache"/></param>
         /// <param name="documentName">The associated document name</param>
         /// <typeparam name="TExtension">Any instantiable <see cref="IExtensionElement"/></typeparam>
-        /// <returns>The intialized <typeparamref name="TExtension"/></returns>
+        /// <returns>The initialized <typeparamref name="TExtension"/></returns>
         public static TExtension InitializeElement<TExtension>(XmlReader xmlReader, IXmiElementCache cache, string documentName) where TExtension : IExtensionElement, new()
         {
+            if (xmlReader == null)
+            {
+                throw new ArgumentNullException(nameof(xmlReader));
+            }
+
+            if (cache == null)
+            {
+                throw new ArgumentNullException(nameof(cache));
+            }
+
             var element = new TExtension();
 
             if (xmlReader.MoveToContent() != XmlNodeType.Element ||

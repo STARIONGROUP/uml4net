@@ -20,6 +20,7 @@
 
 namespace uml4net.xmi.Extensions.EnterpriseArchitect.Extensions
 {
+    using System;
     using System.Linq;
 
     using uml4net.CommonStructure;
@@ -44,6 +45,16 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.Extensions
         /// <param name="documentName">The current document name</param>
         public static void SetExtensionElement(this IExtensionElement extensionElement, IXmiElementCache cache, string documentName)
         {
+            if (extensionElement == null)
+            {
+                throw new ArgumentNullException(nameof(extensionElement));
+            }
+
+            if (cache == null)
+            {
+                throw new ArgumentNullException(nameof(cache));
+            }
+
             var id = extensionElement.XmiId.EndsWith(ExtensionIdSuffix)
                 ? extensionElement.XmiId.Substring(0, extensionElement.XmiId.Length - ExtensionIdSuffix.Length)
                 : extensionElement.XmiId;
@@ -64,6 +75,11 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.Extensions
         /// </returns>
         public static string QueryDocumentationFromExtensions(this IElement element)
         {
+            if (element == null)
+            {
+                throw new ArgumentNullException(nameof(element));
+            }
+
             return element.Extensions.OfType<IExtensionElement>()
                 .FirstOrDefault(x => !string.IsNullOrWhiteSpace(x.Documentation))?.Documentation;
         }

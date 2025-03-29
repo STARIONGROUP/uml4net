@@ -478,6 +478,16 @@ namespace uml4net.Extensions
         /// </returns>
         public static bool QueryHasBeenRedefined(this IProperty property, IReadOnlyList<IClass> allClasses)
         {
+            if (property == null)
+            {
+                throw new ArgumentNullException(nameof(property));
+            }
+
+            if (allClasses == null)
+            {
+                throw new ArgumentNullException(nameof(allClasses));
+            }
+
             foreach (var @class in allClasses)
             {
                 if (property.Owner != @class)
@@ -506,6 +516,11 @@ namespace uml4net.Extensions
         /// </returns>
         public static bool QueryIsRedefined(this IProperty property)
         {
+            if (property == null)
+            {
+                throw new ArgumentNullException(nameof(property));
+            }
+
             return property.RedefinedProperty.Any();
         }
 
@@ -520,6 +535,11 @@ namespace uml4net.Extensions
         /// </returns>
         public static bool QueryIsSubsetted(this IProperty property)
         {
+            if (property == null)
+            {
+                throw new ArgumentNullException(nameof(property));
+            }
+
             return property.SubsettedProperty.Any();
         }
 

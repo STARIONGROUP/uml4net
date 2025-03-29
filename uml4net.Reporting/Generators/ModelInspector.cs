@@ -83,6 +83,11 @@ namespace uml4net.Reporting.Generators
         /// </returns>
         public string Inspect(IPackage package)
         {
+            if (package == null)
+            {
+                throw new ArgumentNullException(nameof(package));
+            }
+
             // Step 1: Map class to property variations
             var classPropertyVariations = this.MapClassPropertyVariation(package);
 
@@ -278,6 +283,11 @@ namespace uml4net.Reporting.Generators
         /// </returns>
         public IReadOnlyCollection<IClass> QueryInterestingClasses(IPackage package)
         {
+            if (package == null)
+            {
+                throw new ArgumentNullException(nameof(package));
+            }
+
             // Step 1: Map class to property variations
             var classPropertyVariations = this.MapClassPropertyVariation(package);
 

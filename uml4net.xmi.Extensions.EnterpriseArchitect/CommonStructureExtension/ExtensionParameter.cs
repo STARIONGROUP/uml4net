@@ -26,6 +26,5 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.CommonStructureExtension
     /// </summary>
     public class ExtensionParameter: ExtensionElement, IExtensionParameter
     {
-        
     }
 }

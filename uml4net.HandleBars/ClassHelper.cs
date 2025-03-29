@@ -214,11 +214,6 @@ namespace uml4net.HandleBars
                     .OrderBy(x => x.Name)
                     .ToList();
 
-                if (specializations.Count > 0)
-                {
-                    Console.WriteLine("");
-                }
-
                 return specializations;
             });
         }
