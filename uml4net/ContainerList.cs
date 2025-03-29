@@ -105,7 +105,7 @@ namespace uml4net
 
             if (this.container == element)
             {
-                throw new InvalidOperationException("The container shall not be added as an element");
+                throw new InvalidOperationException("The container shall not be added as contained item to itself");
             }
 
             element.Possessor = this.container;
