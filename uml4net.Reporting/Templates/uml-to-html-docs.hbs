@@ -427,7 +427,7 @@
                         <tbody>
                             {{ #each (Class.QueryAllProperties class) as | property | }}
                             <tr>
-                                <td>{{ property.Name }}</td>
+                                <td id="{{ property.XmiId }}">{{ property.Name }}</td>
                                 <td>
                                     <a href="#{{ Property.WriteTypeName property}}">{{Property.WriteTypeName property}}</a> [{{ property.Lower }}..{{ property.Upper }}]
                                     {{#if (#Property.IsComposite property) }} {composite} {{/if}}
@@ -436,6 +436,11 @@
                                     {{#if property.IsOrdered }} {ordered} {{/if}}
                                     {{#if property.IsReadOnly }} {read-only} {{/if}}
                                     {{#if (#Property.IsRedefined property class)}} {redefined} {{/if}}
+                                    {{#if (#Property.QueryIsSubsetted property)}}
+                                        {{ #each property.SubsettedProperty as | subsettedProperty | }}
+                                            {subsetted: <a href="#{{subsettedProperty.XmiId}}">{{subsettedProperty.Owner.Name}}.{{subsettedProperty.Name}}</a>}
+                                        {{/each}}
+                                    {{/if}}
                                     {{#if property.IsID }} {ID} {{/if}}
                                 </td>
                                 <td>{{ property.DefaultValueLiteral }}</td>

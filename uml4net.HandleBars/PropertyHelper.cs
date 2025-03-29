@@ -245,6 +245,16 @@ namespace uml4net.HandleBars
                 return property.TryQueryRedefinedByProperty(@class, out _);
             });
 
+            handlebars.RegisterHelper("Property.QueryIsSubsetted", (context, _) =>
+            {
+                if (!(context.Value is IProperty property))
+                {
+                    throw new ArgumentException("{{#Property.QueryIsSubsetted}} - supposed to be IProperty");
+                }
+
+                return property.QueryIsSubsetted;
+            });
+
             handlebars.RegisterHelper("Property.QueryIsDerivedOrDerivedUnionOrReadOnly", (_, arguments) =>
             {
                 if (arguments.Length != 1)

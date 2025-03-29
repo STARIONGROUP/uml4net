@@ -510,6 +510,20 @@ namespace uml4net.Extensions
         }
 
         /// <summary>
+        /// Queries whether the property is subsetted
+        /// </summary>
+        /// <param name="property">
+        /// the subject IProperty
+        /// </param>
+        /// <returns>
+        /// true when the <see cref="IProperty"/> is subsetted, false if not
+        /// </returns>
+        public static bool QueryIsSubsetted(this IProperty property)
+        {
+            return property.SubsettedProperty.Any();
+        }
+
+        /// <summary>
         /// Adds or overwrites the C# type mappings
         /// </summary>
         /// <param name="mappings">Collection of tuples with Key and Value data to add to custom mappings, or overwrite default mappings</param>

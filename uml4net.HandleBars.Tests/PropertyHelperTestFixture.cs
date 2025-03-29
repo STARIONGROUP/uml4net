@@ -37,6 +37,7 @@ namespace uml4net.HandleBars.Tests
     using uml4net.StructuredClassifiers;
     using uml4net.xmi;
     using uml4net.xmi.Readers;
+    using uml4net.Activities;
 
     /// <summary>
     /// Suite of tests for the <see cref="DecoratorHelper"/> class

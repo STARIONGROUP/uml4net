@@ -79,7 +79,7 @@ namespace uml4net.Reporting.Generators
             uml4net.HandleBars.ClassHelper.RegisterClassHelper(this.Handlebars);
             uml4net.HandleBars.PropertyHelper.RegisterPropertyHelper(this.Handlebars);
             uml4net.HandleBars.GeneralizationHelper.RegisterGeneralizationHelper(this.Handlebars);
-            uml4net.HandleBars.DocumentationHelper.RegisteredDocumentationHelper(this.Handlebars);
+            uml4net.HandleBars.DocumentationHelper.RegisterDocumentationHelper(this.Handlebars);
         }
 
         /// <summary>

@@ -285,6 +285,22 @@ namespace uml4net.Extensions.Tests
         }
 
         [Test]
+        public void Verify_that_QueryIsSubsetted_returns_expected_result()
+        {
+            var commonStructurePackage = this.xmiReaderResult.Root.NestedPackage.Single(x => x.Name == "CommonStructure");
+
+            var @namespace = commonStructurePackage.PackagedElement.OfType<IClass>().Single(x => x.Name == "Namespace");
+
+            var elementImport = @namespace.OwnedAttribute.Single(x => x.Name == "elementImport");
+
+            Assert.That(elementImport.QueryIsSubsetted, Is.True);
+
+            var member = @namespace.OwnedAttribute.Single(x => x.Name == "member");
+
+            Assert.That(member.QueryIsSubsetted, Is.False);
+        }
+
+        [Test]
         public void Verify_that_QueryIsValueProperty_returns_expected_Result()
         {
             var structuredClassifiersPackage = this.xmiReaderResult.Root.NestedPackage.Single(x => x.Name == "Classification");

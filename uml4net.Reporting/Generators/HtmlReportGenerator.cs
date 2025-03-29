@@ -212,11 +212,11 @@ namespace uml4net.Reporting.Generators
 
             if (this.ShouldUseEnterpriseArchitectReader)
             {
-                DocumentationHelper.RegisteredDocumentationHelper(this.Handlebars);
+                DocumentationHelper.RegisterDocumentationHelper(this.Handlebars);
             }
             else
             {
-                HandleBars.DocumentationHelper.RegisteredDocumentationHelper(this.Handlebars);
+                HandleBars.DocumentationHelper.RegisterDocumentationHelper(this.Handlebars);
             }
         }
 

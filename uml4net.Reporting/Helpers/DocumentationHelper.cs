@@ -38,7 +38,7 @@ namespace uml4net.Reporting.Helpers
         /// <param name="handlebars">
         /// The <see cref="IHandlebars" /> context with which the helper needs to be registered
         /// </param>
-        public static void RegisteredDocumentationHelper(this IHandlebars handlebars)
+        public static void RegisterDocumentationHelper(this IHandlebars handlebars)
         {
             handlebars.RegisterHelper("Documentation", (writer, context, _) =>
             {
