@@ -20,7 +20,11 @@
 
 namespace uml4net.Reporting.Generators
 {
+    using System.Collections.Generic;
+
+    using uml4net.Classification;
     using uml4net.Packages;
+    using uml4net.StructuredClassifiers;
 
     /// <summary>
     /// The purpose of the <see cref="IModelInspector"/> is to iterate through the model and report on the various kinds of
@@ -39,6 +43,19 @@ namespace uml4net.Reporting.Generators
         /// Returns a report of the classes of interest in the provided package 
         /// </returns>
         public string Inspect(IPackage package);
+
+        /// <summary>
+        /// Inspect the content of the provided <see cref="IPackage"/> and returns a
+        /// read-only collection of interesting <see cref="IClass"/>
+        /// </summary>
+        /// <param name="package">
+        /// The <see cref="IPackage"/> that needs to be inspected
+        /// </param>
+        /// <returns>
+        /// A read-only collection of interesting <see cref="IClass"/> that cover the variations
+        /// of <see cref="IProperty"/>> and <see cref="IOperation"/> variations
+        /// </returns>
+        public IReadOnlyCollection<IClass> QueryInterestingClasses(IPackage package);
 
         /// <summary>
         /// Inspect the provided <see cref="IClass"/> (by name) that is contained in the <see cref="IPackage"/>

@@ -24,12 +24,14 @@ namespace uml4net.Reporting.Generators
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.IO;
+    using System.IO.Packaging;
     using System.Linq;
     using System.Text;
 
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Logging.Abstractions;
 
+    using uml4net.Classification;
     using uml4net.CommonStructure;
     using uml4net.Extensions;
     using uml4net.Packages;
@@ -81,11 +83,65 @@ namespace uml4net.Reporting.Generators
         /// </returns>
         public string Inspect(IPackage package)
         {
+            // Step 1: Map class to property variations
+            var classPropertyVariations = this.MapClassPropertyVariation(package);
+
+            // Step 2: Greedy algorithm to cover all property variations with the fewest classes
+            var result = this.ReduceClassPropertyVariationToInterestingClasses(classPropertyVariations);
+
+            var sb = new StringBuilder();
+
+            sb.AppendLine($"----- PACKAGE {package.Name} ANALYSIS ------");
+            sb.AppendLine("");
+
+            sb.AppendLine("");
+            sb.AppendLine("----- MULTIPLICITY RESULTS ------");
+            sb.AppendLine("");
+
+            var uniqueAndOrderedPropertyVariations = new HashSet<string>(classPropertyVariations.Values.SelectMany(p => p).ToList())
+                .OrderBy(x => x).ToList();
+
+            foreach (var orderedPropertyVariation in uniqueAndOrderedPropertyVariations)
+            {
+                sb.AppendLine(orderedPropertyVariation);
+            }
+
+            sb.AppendLine("");
+            sb.AppendLine("----- INTERESTING CLASSES ------");
+            sb.AppendLine("");
+
+            var orderedClasses = result.OrderBy(x => x.Name).ToList();
+
+            foreach (var @class in orderedClasses)
+            {
+                var isAbstract = "";
+                if (@class.IsAbstract)
+                {
+                    isAbstract = " [Abstract]";
+                }
+
+                sb.AppendLine($"class : {@class.QueryQualifiedName()}{isAbstract}");
+            }
+
+            return sb.ToString();
+        }
+
+        /// <summary>
+        /// Map class to property variations
+        /// </summary>
+        /// <param name="package">
+        /// The <see cref="IPackage"/> that needs to be inspected
+        /// </param>
+        /// <returns>
+        /// a Dictionary of <see cref="IClass"/> and associated <see cref="HashSet{T}"/> of property
+        /// variations for that class
+        /// </returns>
+        private Dictionary<IClass, HashSet<string>> MapClassPropertyVariation(IPackage package)
+        {
             var classPropertyVariations = new Dictionary<IClass, HashSet<string>>();
 
             var classes = package.QueryPackages().SelectMany(x => x.PackagedElement.OfType<IClass>()).ToList();
 
-            // Step 1: Map class to property variations
             foreach (var @class in classes)
             {
                 var propertyVariations = new HashSet<string>();
@@ -164,64 +220,72 @@ namespace uml4net.Reporting.Generators
                 classPropertyVariations.Add(@class, propertyVariations);
             }
 
-            // Step 2: Get all unique property variations
-            var allPropertyVariations = new HashSet<string>(classPropertyVariations.Values.SelectMany(p => p));
+            return classPropertyVariations;
+        }
 
-            // Step 3: Greedy algorithm to cover all property variations with fewest classes
+        /// <summary>
+        /// Reduces the <see cref="IClass"/>> and property variations in a greedy fashion such
+        /// that the least amount of classes is returned
+        /// </summary>
+        /// <param name="classPropertyVariations">
+        /// The <see cref="IClass"/>> and property variations in a greedy fashion such that needs to
+        /// be reduced.
+        /// </param>
+        /// <returns>
+        /// a reduced set of <see cref="IClass"/> and <see cref="IProperty"/> variations.
+        /// </returns>
+        private IReadOnlyList<IClass> ReduceClassPropertyVariationToInterestingClasses(Dictionary<IClass, HashSet<string>> classPropertyVariations)
+        {
+            var dictionaryClone = new Dictionary<IClass, HashSet<string>>(classPropertyVariations);
+
+            // Step 2: Get all unique property variations
+            var propertyVariations = dictionaryClone.Values.SelectMany(p => p).ToList();
+
+            var uniquePropertyVariations = new HashSet<string>(propertyVariations);
+
+            // Step 3: Greedy algorithm to cover all property variations with the fewest classes
             var result = new List<IClass>();
             var covered = new HashSet<string>();
 
-            while (covered.Count < allPropertyVariations.Count)
+            while (covered.Count < uniquePropertyVariations.Count)
             {
                 // Pick the class that contributes the most uncovered properties
-                var bestClass = classPropertyVariations
+                var bestClass = dictionaryClone
                     .OrderByDescending(kvp => kvp.Value.Count(p => !covered.Contains(p)))
                     .First().Key;
 
                 result.Add(bestClass);
 
-                foreach (var prop in classPropertyVariations[bestClass])
+                foreach (var prop in dictionaryClone[bestClass])
                     covered.Add(prop);
 
-                classPropertyVariations.Remove(bestClass); // avoid reusing the same class
+                dictionaryClone.Remove(bestClass); // avoid reusing the same class
             }
 
-            var sw = Stopwatch.StartNew();
+            return result;
+        }
 
-            var sb = new StringBuilder();
+        /// <summary>
+        /// Inspect the content of the provided <see cref="IPackage"/> and returns a
+        /// read-only collection of interesting <see cref="IClass"/>
+        /// </summary>
+        /// <param name="package">
+        /// The <see cref="IPackage"/> that needs to be inspected
+        /// </param>
+        /// <returns>
+        /// A read-only collection of interesting <see cref="IClass"/> that cover the variations
+        /// of <see cref="IProperty"/>> and <see cref="IOperation"/> variations
+        /// </returns>
+        public IReadOnlyCollection<IClass> QueryInterestingClasses(IPackage package)
+        {
+            // Step 1: Map class to property variations
+            var classPropertyVariations = this.MapClassPropertyVariation(package);
 
-            sb.AppendLine($"----- PACKAGE {package.Name} ANALYSIS ------");
-            sb.AppendLine("");
+            // Step 2: Greedy algorithm to cover all property variations with the fewest classes
+            var result = this.ReduceClassPropertyVariationToInterestingClasses(classPropertyVariations)
+                .OrderBy(x => x.Name).ToList();
 
-            sb.AppendLine("");
-            sb.AppendLine("----- MULTIPLICITY RESULTS ------");
-            sb.AppendLine("");
-
-            var orderedPropertyVariations = allPropertyVariations.OrderBy(x => x).ToList();
-
-            foreach (var orderedPropertyVariation in orderedPropertyVariations)
-            {
-                sb.AppendLine(orderedPropertyVariation);
-            }
-
-            sb.AppendLine("");
-            sb.AppendLine("----- INTERESTING CLASSES ------");
-            sb.AppendLine("");
-
-            var orderedClasses = result.OrderBy(x => x.Name).ToList();
-
-            foreach (var @class in orderedClasses)
-            {
-                var isAbstract = "";
-                if (@class.IsAbstract)
-                {
-                    isAbstract = " [Abstract]";
-                }
-
-                sb.AppendLine($"class : {@class.QueryQualifiedName()}{isAbstract}");
-            }
-
-            return sb.ToString();
+            return result;
         }
 
         /// <summary>

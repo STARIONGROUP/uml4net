@@ -48,8 +48,8 @@ namespace uml4net.Reporting.Tests.Generators
 
         private FileInfo reportFileInfo;
 
-        [OneTimeSetUp]
-        public void OneTimeSetUp()
+        [SetUp]
+        public void SetUp()
         {
             Log.Logger = new LoggerConfiguration()
                 .MinimumLevel.Verbose()
@@ -60,11 +60,7 @@ namespace uml4net.Reporting.Tests.Generators
             {
                 builder.AddSerilog();
             });
-        }
 
-        [SetUp]
-        public void SetUp()
-        {
             this.modelPath = Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData", "UML.xmi");
             this.modelFileInfo = new FileInfo(modelPath);
 
@@ -124,6 +120,38 @@ namespace uml4net.Reporting.Tests.Generators
             Assert.That(inspectionReport, Is.Not.Empty);
 
             Log.Logger.Information(inspectionReport);
+        }
+
+        [Test]
+        public void Verify_that_QueryInterestingClasses_returns_expected_result()
+        {
+            var rootPath = Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData");
+
+            var reader = XmiReaderBuilder.Create()
+                .UsingSettings(x => x.LocalReferenceBasePath = rootPath)
+                .WithLogger(this.loggerFactory)
+                .Build();
+
+            var xmiReaderResult = reader.Read(Path.Combine(rootPath, "UML.xmi"));
+
+            this.modelInspector = new ModelInspector(this.loggerFactory);
+
+            var interestingClasses = this.modelInspector.QueryInterestingClasses(xmiReaderResult.Root);
+
+            var expectedResult = new List<string>
+            {
+                "ActivityGroup", "Association", "Class", "Classifier",
+                "Connector", "CreateLinkAction", "DurationConstraint", "DurationObservation",
+                "Element", "Extension", "ExtensionEnd", "InformationFlow",
+                "LiteralInteger", "LiteralReal", "LiteralUnlimitedNatural", "MultiplicityElement",
+                "NamedElement", "OpaqueExpression", "Operation", "PackageableElement",
+                "RedefinableTemplateSignature","Relationship","TimeConstraint","Transition",
+                "UnmarshallAction"
+            };
+
+            var interestingClassesNames = interestingClasses.Select(x => x.Name);
+
+            Assert.That(interestingClassesNames, Is.EquivalentTo(expectedResult));
         }
     }
 }
