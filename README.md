@@ -16,6 +16,10 @@ The **uml4net.Extensions** library provides extensions methods to the uml4net li
 
 The **uml4net.xmi** library provides an XMI reader implementation to read UML XMI model files.
 
+# uml4net.xmi.Extensions.EnterpriseArchitect
+
+The **uml4net.xmi.Extensions.EnterpriseArchitect** library is a specific XMI Reader extension to support Enterprise Architect XMI reading.
+
 # uml4net.HandleBars
 
 The **uml4net.HandleBars** library provides [HandleBars](https://github.com/Handlebars-Net/Handlebars.Net) helpers to support code generation. This library is part of the uml4net ecosystem.
@@ -27,10 +31,6 @@ The **uml4net.Reporting** library contains reporting generators. This library is
 # uml4net.Tools
 
 The **uml4net.Tools** commandline application is used to generate reports on the content of the UML model. Find the documentation [here](https://github.com/STARIONGROUP/uml4net/wiki/uml4net.Tools).
-
-# uml4net.xmi.Extensions.EnterpriseArchitect
-
-The **uml4net.xmi.Extensions.EnterpriseArchitect** library is a specific XMI Reader extension to support Enterprise Architect XMI reading.
 
 ## Code Quality
 
