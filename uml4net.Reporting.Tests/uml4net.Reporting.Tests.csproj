@@ -3,7 +3,7 @@
     <PropertyGroup>
         <TargetFramework>net9.0</TargetFramework>
         <Company>Starion Group S.A.</Company>
-        <Authors>Sam Gerené; Nathanael Smiechowski; Alexander Van Delft</Authors>
+        <Authors>Sam Gerené; Nathanael Smiechowski; Alexander Van Delft; Antoine Théate</Authors>
         <Description>Nunit test suite for the uml4net.Reporting library</Description>
         <Copyright>Copyright © Starion Group S.A.</Copyright>
         <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
