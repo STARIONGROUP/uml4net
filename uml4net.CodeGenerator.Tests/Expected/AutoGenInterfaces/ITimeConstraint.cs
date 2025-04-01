@@ -56,13 +56,13 @@ namespace uml4net.Values
         /// constrainedElement. If firstEvent is false, then the corresponding observation event is the last
         /// time instant the execution is within the constrainedElement.
         /// </summary>
-        [Property(xmiId: "TimeConstraint-firstEvent", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: "true")]
+        [Property(xmiId: "TimeConstraint-firstEvent", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: "true")]
         public bool FirstEvent { get; set; }
 
         /// <summary>
         /// TheTimeInterval constraining the duration.
         /// </summary>
-        [Property(xmiId: "TimeConstraint-specification", aggregation: AggregationKind.Composite, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "TimeConstraint-specification", aggregation: AggregationKind.Composite, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [RedefinedProperty(propertyName: "IntervalConstraint-specification")]
         public new IContainerList<ITimeInterval> Specification { get; set; }
 

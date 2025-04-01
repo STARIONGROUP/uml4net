@@ -559,5 +559,30 @@ namespace uml4net.Extensions
         {
             TypeExtensions.ResetCSharpTypeMappingsToDefault();
         }
+
+        /// <summary>
+        /// Verifies that the current defined Default Value set is not the default C# one
+        /// </summary>
+        /// <param name="property">The <see cref="IProperty"/> to check the default value</param>
+        /// <returns>True if the defined defaultValue within the model is different the default C# one</returns>
+        public static bool QueryIsDefaultValueDifferentThanDefault(this IProperty property)
+        {
+            var defaultValue = property.QueryDefaultValueAsString();
+
+            if (defaultValue == "null")
+            {
+                return false;
+            }
+            
+            var valueSpecification = property.DefaultValue.FirstOrDefault();
+
+            return valueSpecification switch
+            {
+                ILiteralInteger or ILiteralReal => defaultValue != "0",
+                ILiteralBoolean => defaultValue != "false",
+                ILiteralString or ILiteralUnlimitedNatural => !string.IsNullOrEmpty(defaultValue),
+                _ => false
+            };
+        }
     }
 }

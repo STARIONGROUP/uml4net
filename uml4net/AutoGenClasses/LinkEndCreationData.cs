@@ -60,7 +60,7 @@ namespace uml4net.Actions
         /// <summary>
         /// The Association end for which this LinkEndData specifies values.
         /// </summary>
-        [Property(xmiId: "LinkEndData-end", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "LinkEndData-end", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [Implements(implementation: "ILinkEndData.End")]
         public IProperty End { get; set; }
 
@@ -70,7 +70,7 @@ namespace uml4net.Actions
         /// UnlimitedNatural, but the input cannot be zero. It is omitted for Association ends that are not
         /// ordered.
         /// </summary>
-        [Property(xmiId: "LinkEndCreationData-insertAt", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "LinkEndCreationData-insertAt", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [Implements(implementation: "ILinkEndCreationData.InsertAt")]
         public IInputPin InsertAt { get; set; }
 
@@ -78,14 +78,14 @@ namespace uml4net.Actions
         /// Specifies whether the existing links emanating from the object on this end should be destroyed
         /// before creating a new link.
         /// </summary>
-        [Property(xmiId: "LinkEndCreationData-isReplaceAll", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: "false")]
+        [Property(xmiId: "LinkEndCreationData-isReplaceAll", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: "false")]
         [Implements(implementation: "ILinkEndCreationData.IsReplaceAll")]
         public bool IsReplaceAll { get; set; }
 
         /// <summary>
         /// The Comments owned by this Element.
         /// </summary>
-        [Property(xmiId: "Element-ownedComment", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "Element-ownedComment", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Element-ownedElement")]
         [Implements(implementation: "IElement.OwnedComment")]
         public IContainerList<IComment> OwnedComment
@@ -102,21 +102,21 @@ namespace uml4net.Actions
         /// <summary>
         /// The Elements owned by this Element.
         /// </summary>
-        [Property(xmiId: "Element-ownedElement", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "Element-ownedElement", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: true, defaultValue: null)]
         [Implements(implementation: "IElement.OwnedElement")]
         public IContainerList<IElement> OwnedElement => this.QueryOwnedElement();
 
         /// <summary>
         /// The Element that owns this Element.
         /// </summary>
-        [Property(xmiId: "Element-owner", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "Element-owner", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: true, defaultValue: null)]
         [Implements(implementation: "IElement.Owner")]
         public IElement Owner => this.QueryOwner();
 
         /// <summary>
         /// A set of QualifierValues used to provide values for the qualifiers of the end.
         /// </summary>
-        [Property(xmiId: "LinkEndData-qualifier", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "LinkEndData-qualifier", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Element-ownedElement")]
         [Implements(implementation: "ILinkEndData.Qualifier")]
         public IContainerList<IQualifierValue> Qualifier
@@ -134,7 +134,7 @@ namespace uml4net.Actions
         /// The InputPin that provides the specified value for the given end. This InputPin is omitted if the
         /// LinkEndData specifies the "open" end for a ReadLinkAction.
         /// </summary>
-        [Property(xmiId: "LinkEndData-value", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "LinkEndData-value", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [Implements(implementation: "ILinkEndData.Value")]
         public IInputPin Value { get; set; }
 

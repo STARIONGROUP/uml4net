@@ -60,7 +60,7 @@ namespace uml4net.SimpleClassifiers
         /// <summary>
         /// Indicates the Dependencies that reference this NamedElement as a client.
         /// </summary>
-        [Property(xmiId: "NamedElement-clientDependency", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: true, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "NamedElement-clientDependency", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: true, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "A_source_directedRelationship-directedRelationship")]
         [Implements(implementation: "INamedElement.ClientDependency")]
         public List<IDependency> ClientDependency => this.QueryClientDependency();
@@ -70,14 +70,14 @@ namespace uml4net.SimpleClassifiers
         /// originating from a Class with isActive being false). Active instances control access to their own
         /// BehavioralFeatures.
         /// </summary>
-        [Property(xmiId: "BehavioralFeature-concurrency", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: "sequential")]
+        [Property(xmiId: "BehavioralFeature-concurrency", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: "sequential")]
         [Implements(implementation: "IBehavioralFeature.Concurrency")]
         public CallConcurrencyKind Concurrency { get; set; }
 
         /// <summary>
         /// References the ElementImports owned by the Namespace.
         /// </summary>
-        [Property(xmiId: "Namespace-elementImport", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "Namespace-elementImport", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "A_source_directedRelationship-directedRelationship")]
         [SubsettedProperty(propertyName: "Element-ownedElement")]
         [Implements(implementation: "INamespace.ElementImport")]
@@ -95,7 +95,7 @@ namespace uml4net.SimpleClassifiers
         /// <summary>
         /// The Classifiers that have this Feature as a feature.
         /// </summary>
-        [Property(xmiId: "Feature-featuringClassifier", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "Feature-featuringClassifier", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "A_member_memberNamespace-memberNamespace")]
         [Implements(implementation: "IFeature.FeaturingClassifier")]
         public IClassifier FeaturingClassifier => this.QueryFeaturingClassifier();
@@ -104,7 +104,7 @@ namespace uml4net.SimpleClassifiers
         /// References the PackageableElements that are members of this Namespace as a result of either
         /// PackageImports or ElementImports.
         /// </summary>
-        [Property(xmiId: "Namespace-importedMember", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "Namespace-importedMember", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Namespace-member")]
         [Implements(implementation: "INamespace.ImportedMember")]
         public List<IPackageableElement> ImportedMember => this.QueryImportedMember();
@@ -114,7 +114,7 @@ namespace uml4net.SimpleClassifiers
         /// more specific Classifier. If false, the BehavioralFeature must have an implementation in the
         /// Classifier or one must be inherited.
         /// </summary>
-        [Property(xmiId: "BehavioralFeature-isAbstract", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: "false")]
+        [Property(xmiId: "BehavioralFeature-isAbstract", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: "false")]
         [Implements(implementation: "IBehavioralFeature.IsAbstract")]
         public bool IsAbstract { get; set; }
 
@@ -122,7 +122,7 @@ namespace uml4net.SimpleClassifiers
         /// Indicates whether it is possible to further redefine a RedefinableElement. If the value is true,
         /// then it is not possible to further redefine the RedefinableElement.
         /// </summary>
-        [Property(xmiId: "RedefinableElement-isLeaf", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: "false")]
+        [Property(xmiId: "RedefinableElement-isLeaf", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: "false")]
         [Implements(implementation: "IRedefinableElement.IsLeaf")]
         public bool IsLeaf { get; set; }
 
@@ -130,7 +130,7 @@ namespace uml4net.SimpleClassifiers
         /// Specifies whether this Feature characterizes individual instances classified by the Classifier
         /// (false) or the Classifier itself (true).
         /// </summary>
-        [Property(xmiId: "Feature-isStatic", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: "false")]
+        [Property(xmiId: "Feature-isStatic", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: "false")]
         [Implements(implementation: "IFeature.IsStatic")]
         public bool IsStatic { get; set; }
 
@@ -138,7 +138,7 @@ namespace uml4net.SimpleClassifiers
         /// A collection of NamedElements identifiable within the Namespace, either by being owned or by being
         /// introduced by importing or inheritance.
         /// </summary>
-        [Property(xmiId: "Namespace-member", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "Namespace-member", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: true, defaultValue: null)]
         [Implements(implementation: "INamespace.Member")]
         public List<INamedElement> Member => this.QueryMember();
 
@@ -147,21 +147,21 @@ namespace uml4net.SimpleClassifiers
         /// pairing of a Classifier (as owner of the Behavior) and a BehavioralFeature (as specification of the
         /// Behavior).
         /// </summary>
-        [Property(xmiId: "BehavioralFeature-method", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "BehavioralFeature-method", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [Implements(implementation: "IBehavioralFeature.Method")]
         public List<IBehavior> Method { get; set; } = new();
 
         /// <summary>
         /// The name of the NamedElement.
         /// </summary>
-        [Property(xmiId: "NamedElement-name", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "NamedElement-name", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [Implements(implementation: "INamedElement.Name")]
         public string Name { get; set; }
 
         /// <summary>
         /// The StringExpression used to define the name of this NamedElement.
         /// </summary>
-        [Property(xmiId: "NamedElement-nameExpression", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "NamedElement-nameExpression", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Element-ownedElement")]
         [Implements(implementation: "INamedElement.NameExpression")]
         public IContainerList<IStringExpression> NameExpression
@@ -178,7 +178,7 @@ namespace uml4net.SimpleClassifiers
         /// <summary>
         /// Specifies the Namespace that owns the NamedElement.
         /// </summary>
-        [Property(xmiId: "NamedElement-namespace", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "NamedElement-namespace", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "A_member_memberNamespace-memberNamespace")]
         [SubsettedProperty(propertyName: "Element-owner")]
         [Implements(implementation: "INamedElement.Namespace")]
@@ -187,7 +187,7 @@ namespace uml4net.SimpleClassifiers
         /// <summary>
         /// The Comments owned by this Element.
         /// </summary>
-        [Property(xmiId: "Element-ownedComment", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "Element-ownedComment", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Element-ownedElement")]
         [Implements(implementation: "IElement.OwnedComment")]
         public IContainerList<IComment> OwnedComment
@@ -204,14 +204,14 @@ namespace uml4net.SimpleClassifiers
         /// <summary>
         /// The Elements owned by this Element.
         /// </summary>
-        [Property(xmiId: "Element-ownedElement", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "Element-ownedElement", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: true, defaultValue: null)]
         [Implements(implementation: "IElement.OwnedElement")]
         public IContainerList<IElement> OwnedElement => this.QueryOwnedElement();
 
         /// <summary>
         /// A collection of NamedElements owned by the Namespace.
         /// </summary>
-        [Property(xmiId: "Namespace-ownedMember", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "Namespace-ownedMember", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Element-ownedElement")]
         [SubsettedProperty(propertyName: "Namespace-member")]
         [Implements(implementation: "INamespace.OwnedMember")]
@@ -220,7 +220,7 @@ namespace uml4net.SimpleClassifiers
         /// <summary>
         /// The ordered set of formal Parameters of this BehavioralFeature.
         /// </summary>
-        [Property(xmiId: "BehavioralFeature-ownedParameter", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: true, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "BehavioralFeature-ownedParameter", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: true, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Namespace-ownedMember")]
         [Implements(implementation: "IBehavioralFeature.OwnedParameter")]
         public IContainerList<IParameter> OwnedParameter
@@ -237,7 +237,7 @@ namespace uml4net.SimpleClassifiers
         /// <summary>
         /// The ParameterSets owned by this BehavioralFeature.
         /// </summary>
-        [Property(xmiId: "BehavioralFeature-ownedParameterSet", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "BehavioralFeature-ownedParameterSet", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Namespace-ownedMember")]
         [Implements(implementation: "IBehavioralFeature.OwnedParameterSet")]
         public IContainerList<IParameterSet> OwnedParameterSet
@@ -254,7 +254,7 @@ namespace uml4net.SimpleClassifiers
         /// <summary>
         /// Specifies a set of Constraints owned by this Namespace.
         /// </summary>
-        [Property(xmiId: "Namespace-ownedRule", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "Namespace-ownedRule", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Namespace-ownedMember")]
         [Implements(implementation: "INamespace.OwnedRule")]
         public IContainerList<IConstraint> OwnedRule
@@ -271,14 +271,14 @@ namespace uml4net.SimpleClassifiers
         /// <summary>
         /// The Element that owns this Element.
         /// </summary>
-        [Property(xmiId: "Element-owner", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "Element-owner", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: true, defaultValue: null)]
         [Implements(implementation: "IElement.Owner")]
         public IElement Owner => this.QueryOwner();
 
         /// <summary>
         /// References the PackageImports owned by the Namespace.
         /// </summary>
-        [Property(xmiId: "Namespace-packageImport", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "Namespace-packageImport", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "A_source_directedRelationship-directedRelationship")]
         [SubsettedProperty(propertyName: "Element-ownedElement")]
         [Implements(implementation: "INamespace.PackageImport")]
@@ -298,42 +298,42 @@ namespace uml4net.SimpleClassifiers
         /// constructed from the names of the containing Namespaces starting at the root of the hierarchy and
         /// ending with the name of the NamedElement itself.
         /// </summary>
-        [Property(xmiId: "NamedElement-qualifiedName", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "NamedElement-qualifiedName", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [Implements(implementation: "INamedElement.QualifiedName")]
         public string QualifiedName => this.QueryQualifiedName();
 
         /// <summary>
         /// The Types representing exceptions that may be raised during an invocation of this BehavioralFeature.
         /// </summary>
-        [Property(xmiId: "BehavioralFeature-raisedException", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "BehavioralFeature-raisedException", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [Implements(implementation: "IBehavioralFeature.RaisedException")]
         public List<IType> RaisedException { get; set; } = new();
 
         /// <summary>
         /// The RedefinableElement that is being redefined by this element.
         /// </summary>
-        [Property(xmiId: "RedefinableElement-redefinedElement", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "RedefinableElement-redefinedElement", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: true, defaultValue: null)]
         [Implements(implementation: "IRedefinableElement.RedefinedElement")]
         public List<IRedefinableElement> RedefinedElement => this.QueryRedefinedElement();
 
         /// <summary>
         /// The contexts that this element may be redefined from.
         /// </summary>
-        [Property(xmiId: "RedefinableElement-redefinitionContext", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "RedefinableElement-redefinitionContext", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: true, defaultValue: null)]
         [Implements(implementation: "IRedefinableElement.RedefinitionContext")]
         public List<IClassifier> RedefinitionContext => this.QueryRedefinitionContext();
 
         /// <summary>
         /// The Signal that this Reception handles.
         /// </summary>
-        [Property(xmiId: "Reception-signal", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "Reception-signal", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [Implements(implementation: "IReception.Signal")]
         public ISignal Signal { get; set; }
 
         /// <summary>
         /// Determines whether and how the NamedElement is visible outside its owning Namespace.
         /// </summary>
-        [Property(xmiId: "NamedElement-visibility", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "NamedElement-visibility", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [Implements(implementation: "INamedElement.Visibility")]
         public VisibilityKind Visibility { get; set; }
 

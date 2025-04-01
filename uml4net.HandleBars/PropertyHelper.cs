@@ -31,6 +31,7 @@ namespace uml4net.HandleBars
     using uml4net.Extensions;
     using uml4net.Classification;
     using uml4net.StructuredClassifiers;
+    using uml4net.Values;
 
     /// <summary>
     /// A handlebars block helper for the <see cref="IProperty"/> interface
@@ -454,6 +455,12 @@ namespace uml4net.HandleBars
                         else
                         {
                             sb.Append("{ get; set; }");
+
+                            if (property.QueryIsDefaultValueDifferentThanDefault())
+                            {
+                                var defaultProperty = property.DefaultValue.FirstOrDefault();
+                                sb.Append(defaultProperty is ILiteralUnlimitedNatural or ILiteralString ? $" = \"{property.QueryDefaultValueAsString()}\";" : $" = {property.QueryDefaultValueAsString()};");
+                            }
                         }
                     }
                     else

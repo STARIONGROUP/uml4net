@@ -62,7 +62,7 @@ namespace uml4net.Classification
         /// <summary>
         /// The general classifier in the Generalization relationship.
         /// </summary>
-        [Property(xmiId: "Generalization-general", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "Generalization-general", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "DirectedRelationship-target")]
         [Implements(implementation: "IGeneralization.General")]
         public IClassifier General { get; set; }
@@ -71,7 +71,7 @@ namespace uml4net.Classification
         /// Represents a set of instances of Generalization.  A Generalization may appear in many
         /// GeneralizationSets.
         /// </summary>
-        [Property(xmiId: "Generalization-generalizationSet", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "Generalization-generalizationSet", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [Implements(implementation: "IGeneralization.GeneralizationSet")]
         public List<IGeneralizationSet> GeneralizationSet { get; set; } = new();
 
@@ -81,14 +81,14 @@ namespace uml4net.Classification
         /// of the general Classifier. If false, there is no such constraint on execution traces. If unset, the
         /// modeler has not stated whether there is such a constraint or not.
         /// </summary>
-        [Property(xmiId: "Generalization-isSubstitutable", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: "true")]
+        [Property(xmiId: "Generalization-isSubstitutable", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: "true")]
         [Implements(implementation: "IGeneralization.IsSubstitutable")]
-        public bool IsSubstitutable { get; set; }
+        public bool IsSubstitutable { get; set; } = true;
 
         /// <summary>
         /// The Comments owned by this Element.
         /// </summary>
-        [Property(xmiId: "Element-ownedComment", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "Element-ownedComment", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Element-ownedElement")]
         [Implements(implementation: "IElement.OwnedComment")]
         public IContainerList<IComment> OwnedComment
@@ -105,28 +105,28 @@ namespace uml4net.Classification
         /// <summary>
         /// The Elements owned by this Element.
         /// </summary>
-        [Property(xmiId: "Element-ownedElement", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "Element-ownedElement", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: true, defaultValue: null)]
         [Implements(implementation: "IElement.OwnedElement")]
         public IContainerList<IElement> OwnedElement => this.QueryOwnedElement();
 
         /// <summary>
         /// The Element that owns this Element.
         /// </summary>
-        [Property(xmiId: "Element-owner", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "Element-owner", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: true, defaultValue: null)]
         [Implements(implementation: "IElement.Owner")]
         public IElement Owner => this.QueryOwner();
 
         /// <summary>
         /// Specifies the elements related by the Relationship.
         /// </summary>
-        [Property(xmiId: "Relationship-relatedElement", aggregation: AggregationKind.None, lowerValue: 1, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "Relationship-relatedElement", aggregation: AggregationKind.None, lowerValue: 1, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: true, defaultValue: null)]
         [Implements(implementation: "IRelationship.RelatedElement")]
         public List<IElement> RelatedElement => this.QueryRelatedElement();
 
         /// <summary>
         /// Specifies the source Element(s) of the DirectedRelationship.
         /// </summary>
-        [Property(xmiId: "DirectedRelationship-source", aggregation: AggregationKind.None, lowerValue: 1, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "DirectedRelationship-source", aggregation: AggregationKind.None, lowerValue: 1, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Relationship-relatedElement")]
         [Implements(implementation: "IDirectedRelationship.Source")]
         public List<IElement> Source => this.QuerySource();
@@ -134,7 +134,7 @@ namespace uml4net.Classification
         /// <summary>
         /// The specializing Classifier in the Generalization relationship.
         /// </summary>
-        [Property(xmiId: "Generalization-specific", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "Generalization-specific", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "DirectedRelationship-source")]
         [SubsettedProperty(propertyName: "Element-owner")]
         [Implements(implementation: "IGeneralization.Specific")]
@@ -143,7 +143,7 @@ namespace uml4net.Classification
         /// <summary>
         /// Specifies the target Element(s) of the DirectedRelationship.
         /// </summary>
-        [Property(xmiId: "DirectedRelationship-target", aggregation: AggregationKind.None, lowerValue: 1, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "DirectedRelationship-target", aggregation: AggregationKind.None, lowerValue: 1, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Relationship-relatedElement")]
         [Implements(implementation: "IDirectedRelationship.Target")]
         public List<IElement> Target => this.QueryTarget();

@@ -64,7 +64,7 @@ namespace uml4net.Classification
         /// assignment of direction (that is, the designation of the client Element) is at the discretion of the
         /// modeler and is a stipulation.
         /// </summary>
-        [Property(xmiId: "Dependency-client", aggregation: AggregationKind.None, lowerValue: 1, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "Dependency-client", aggregation: AggregationKind.None, lowerValue: 1, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "DirectedRelationship-source")]
         [Implements(implementation: "IDependency.Client")]
         public List<INamedElement> Client { get; set; } = new();
@@ -72,7 +72,7 @@ namespace uml4net.Classification
         /// <summary>
         /// Indicates the Dependencies that reference this NamedElement as a client.
         /// </summary>
-        [Property(xmiId: "NamedElement-clientDependency", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: true, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "NamedElement-clientDependency", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: true, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "A_source_directedRelationship-directedRelationship")]
         [Implements(implementation: "INamedElement.ClientDependency")]
         public List<IDependency> ClientDependency => this.QueryClientDependency();
@@ -80,7 +80,7 @@ namespace uml4net.Classification
         /// <summary>
         /// The contract with which the substituting classifier complies.
         /// </summary>
-        [Property(xmiId: "Substitution-contract", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "Substitution-contract", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Dependency-supplier")]
         [Implements(implementation: "ISubstitution.Contract")]
         public IClassifier Contract { get; set; }
@@ -91,7 +91,7 @@ namespace uml4net.Classification
         /// cases, such as trace, it is usually informal and bidirectional. The mapping expression is optional
         /// and may be omitted if the precise relationship between the Elements is not specified.
         /// </summary>
-        [Property(xmiId: "Abstraction-mapping", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "Abstraction-mapping", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Element-ownedElement")]
         [Implements(implementation: "IAbstraction.Mapping")]
         public IContainerList<IOpaqueExpression> Mapping
@@ -108,14 +108,14 @@ namespace uml4net.Classification
         /// <summary>
         /// The name of the NamedElement.
         /// </summary>
-        [Property(xmiId: "NamedElement-name", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "NamedElement-name", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [Implements(implementation: "INamedElement.Name")]
         public string Name { get; set; }
 
         /// <summary>
         /// The StringExpression used to define the name of this NamedElement.
         /// </summary>
-        [Property(xmiId: "NamedElement-nameExpression", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "NamedElement-nameExpression", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Element-ownedElement")]
         [Implements(implementation: "INamedElement.NameExpression")]
         public IContainerList<IStringExpression> NameExpression
@@ -132,7 +132,7 @@ namespace uml4net.Classification
         /// <summary>
         /// Specifies the Namespace that owns the NamedElement.
         /// </summary>
-        [Property(xmiId: "NamedElement-namespace", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "NamedElement-namespace", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "A_member_memberNamespace-memberNamespace")]
         [SubsettedProperty(propertyName: "Element-owner")]
         [Implements(implementation: "INamedElement.Namespace")]
@@ -141,7 +141,7 @@ namespace uml4net.Classification
         /// <summary>
         /// The Comments owned by this Element.
         /// </summary>
-        [Property(xmiId: "Element-ownedComment", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "Element-ownedComment", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Element-ownedElement")]
         [Implements(implementation: "IElement.OwnedComment")]
         public IContainerList<IComment> OwnedComment
@@ -158,21 +158,21 @@ namespace uml4net.Classification
         /// <summary>
         /// The Elements owned by this Element.
         /// </summary>
-        [Property(xmiId: "Element-ownedElement", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "Element-ownedElement", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: true, defaultValue: null)]
         [Implements(implementation: "IElement.OwnedElement")]
         public IContainerList<IElement> OwnedElement => this.QueryOwnedElement();
 
         /// <summary>
         /// The Element that owns this Element.
         /// </summary>
-        [Property(xmiId: "Element-owner", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "Element-owner", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: true, defaultValue: null)]
         [Implements(implementation: "IElement.Owner")]
         public IElement Owner => this.QueryOwner();
 
         /// <summary>
         /// The formal TemplateParameter that owns this ParameterableElement.
         /// </summary>
-        [Property(xmiId: "ParameterableElement-owningTemplateParameter", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "ParameterableElement-owningTemplateParameter", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Element-owner")]
         [SubsettedProperty(propertyName: "ParameterableElement-templateParameter")]
         [Implements(implementation: "IParameterableElement.OwningTemplateParameter")]
@@ -183,21 +183,21 @@ namespace uml4net.Classification
         /// constructed from the names of the containing Namespaces starting at the root of the hierarchy and
         /// ending with the name of the NamedElement itself.
         /// </summary>
-        [Property(xmiId: "NamedElement-qualifiedName", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "NamedElement-qualifiedName", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [Implements(implementation: "INamedElement.QualifiedName")]
         public string QualifiedName => this.QueryQualifiedName();
 
         /// <summary>
         /// Specifies the elements related by the Relationship.
         /// </summary>
-        [Property(xmiId: "Relationship-relatedElement", aggregation: AggregationKind.None, lowerValue: 1, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "Relationship-relatedElement", aggregation: AggregationKind.None, lowerValue: 1, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: true, defaultValue: null)]
         [Implements(implementation: "IRelationship.RelatedElement")]
         public List<IElement> RelatedElement => this.QueryRelatedElement();
 
         /// <summary>
         /// Specifies the source Element(s) of the DirectedRelationship.
         /// </summary>
-        [Property(xmiId: "DirectedRelationship-source", aggregation: AggregationKind.None, lowerValue: 1, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "DirectedRelationship-source", aggregation: AggregationKind.None, lowerValue: 1, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Relationship-relatedElement")]
         [Implements(implementation: "IDirectedRelationship.Source")]
         public List<IElement> Source => this.QuerySource();
@@ -206,7 +206,7 @@ namespace uml4net.Classification
         /// Instances of the substituting classifier are runtime substitutable where instances of the contract
         /// classifier are expected.
         /// </summary>
-        [Property(xmiId: "Substitution-substitutingClassifier", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "Substitution-substitutingClassifier", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Dependency-client")]
         [SubsettedProperty(propertyName: "Element-owner")]
         [Implements(implementation: "ISubstitution.SubstitutingClassifier")]
@@ -216,7 +216,7 @@ namespace uml4net.Classification
         /// The Element(s) on which the client Element(s) depend in some respect. The modeler may stipulate a
         /// sense of Dependency direction suitable for their domain.
         /// </summary>
-        [Property(xmiId: "Dependency-supplier", aggregation: AggregationKind.None, lowerValue: 1, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "Dependency-supplier", aggregation: AggregationKind.None, lowerValue: 1, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "DirectedRelationship-target")]
         [Implements(implementation: "IDependency.Supplier")]
         public List<INamedElement> Supplier { get; set; } = new();
@@ -224,7 +224,7 @@ namespace uml4net.Classification
         /// <summary>
         /// Specifies the target Element(s) of the DirectedRelationship.
         /// </summary>
-        [Property(xmiId: "DirectedRelationship-target", aggregation: AggregationKind.None, lowerValue: 1, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "DirectedRelationship-target", aggregation: AggregationKind.None, lowerValue: 1, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Relationship-relatedElement")]
         [Implements(implementation: "IDirectedRelationship.Target")]
         public List<IElement> Target => this.QueryTarget();
@@ -232,7 +232,7 @@ namespace uml4net.Classification
         /// <summary>
         /// The TemplateParameter that exposes this ParameterableElement as a formal parameter.
         /// </summary>
-        [Property(xmiId: "ParameterableElement-templateParameter", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "ParameterableElement-templateParameter", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [Implements(implementation: "IParameterableElement.TemplateParameter")]
         public ITemplateParameter TemplateParameter { get; set; }
 
@@ -240,7 +240,7 @@ namespace uml4net.Classification
         /// A PackageableElement must have a visibility specified if it is owned by a Namespace. The default
         /// visibility is public.
         /// </summary>
-        [Property(xmiId: "PackageableElement-visibility", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: "public")]
+        [Property(xmiId: "PackageableElement-visibility", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: "public")]
         [RedefinedProperty(propertyName: "NamedElement-visibility")]
         [Implements(implementation: "IPackageableElement.Visibility")]
         public VisibilityKind Visibility { get; set; }
@@ -248,7 +248,7 @@ namespace uml4net.Classification
         /// <summary>
         /// Determines whether and how the NamedElement is visible outside its owning Namespace.
         /// </summary>
-        [Property(xmiId: "NamedElement-visibility", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "NamedElement-visibility", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [RedefinedByProperty("IPackageableElement.Visibility")]
         [Implements(implementation: "INamedElement.Visibility")]
         VisibilityKind INamedElement.Visibility

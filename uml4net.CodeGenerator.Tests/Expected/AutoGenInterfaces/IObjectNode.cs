@@ -55,27 +55,27 @@ namespace uml4net.Activities
         /// <summary>
         /// The States required to be associated with the values held by tokens on this ObjectNode.
         /// </summary>
-        [Property(xmiId: "ObjectNode-inState", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "ObjectNode-inState", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         public List<IState> InState { get; set; }
 
         /// <summary>
         /// Indicates whether the type of the ObjectNode is to be treated as representing control values that
         /// may traverse ControlFlows.
         /// </summary>
-        [Property(xmiId: "ObjectNode-isControlType", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: "false")]
+        [Property(xmiId: "ObjectNode-isControlType", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: "false")]
         public bool IsControlType { get; set; }
 
         /// <summary>
         /// Indicates how the tokens held by the ObjectNode are ordered for selection to traverse ActivityEdges
         /// outgoing from the ObjectNode.
         /// </summary>
-        [Property(xmiId: "ObjectNode-ordering", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: "FIFO")]
+        [Property(xmiId: "ObjectNode-ordering", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: "FIFO")]
         public ObjectNodeOrderingKind Ordering { get; set; }
 
         /// <summary>
         /// A Behavior used to select tokens to be offered on outgoing ActivityEdges.
         /// </summary>
-        [Property(xmiId: "ObjectNode-selection", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "ObjectNode-selection", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         public IBehavior Selection { get; set; }
 
         /// <summary>
@@ -83,7 +83,7 @@ namespace uml4net.Activities
         /// ObjectNode if the upperBound is reached. If no upperBound is specified, then there is no limit on
         /// how many tokens the ObjectNode can hold.
         /// </summary>
-        [Property(xmiId: "ObjectNode-upperBound", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "ObjectNode-upperBound", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Element-ownedElement")]
         public IContainerList<IValueSpecification> UpperBound { get; set; }
 

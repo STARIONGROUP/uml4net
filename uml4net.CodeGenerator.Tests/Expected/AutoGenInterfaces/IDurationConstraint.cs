@@ -56,13 +56,13 @@ namespace uml4net.Values
         /// constrainedElement[i]. If firstEvent[i] is false, then the corresponding observation event is the
         /// last time instant the execution is within constrainedElement[i].
         /// </summary>
-        [Property(xmiId: "DurationConstraint-firstEvent", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 2, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "DurationConstraint-firstEvent", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 2, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         public List<bool> FirstEvent { get; set; }
 
         /// <summary>
         /// The DurationInterval constraining the duration.
         /// </summary>
-        [Property(xmiId: "DurationConstraint-specification", aggregation: AggregationKind.Composite, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "DurationConstraint-specification", aggregation: AggregationKind.Composite, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [RedefinedProperty(propertyName: "IntervalConstraint-specification")]
         public new IContainerList<IDurationInterval> Specification { get; set; }
 

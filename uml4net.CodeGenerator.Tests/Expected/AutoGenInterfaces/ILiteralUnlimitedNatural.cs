@@ -53,7 +53,7 @@ namespace uml4net.Values
         /// <summary>
         /// The specified UnlimitedNatural value.
         /// </summary>
-        [Property(xmiId: "LiteralUnlimitedNatural-value", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: "")]
+        [Property(xmiId: "LiteralUnlimitedNatural-value", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: "")]
         public string Value { get; set; }
 
     }
