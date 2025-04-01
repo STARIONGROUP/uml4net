@@ -98,6 +98,15 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.Readers
                             }
 
                             break;
+
+                        case "xrefs":
+                            using (var xrefsReader = xmlReader.ReadSubtree())
+                            {
+                                xrefsReader.Read();
+                                element.Xrefs = xrefsReader.GetAttribute("value");
+                            }
+
+                            break;
                         default:
                             this.Logger.LogTrace("AttributeReader - Extension: {ElementName}", xmlReader.LocalName);
                             break;

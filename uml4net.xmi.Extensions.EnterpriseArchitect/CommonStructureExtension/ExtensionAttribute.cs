@@ -24,5 +24,11 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.CommonStructureExtension
     /// Represents an attribute within an extension element, providing additional metadata
     /// or functionality for integration with extended models.
     /// </summary>
-    public class ExtensionAttribute : ExtensionElement, IExtensionAttribute;
+    public class ExtensionAttribute : ExtensionElement, IExtensionAttribute
+    {
+        /// <summary>
+        /// Gets or sets the XREFS value from the extension 
+        /// </summary>
+        public string Xrefs { get; set; }
+    }
 }

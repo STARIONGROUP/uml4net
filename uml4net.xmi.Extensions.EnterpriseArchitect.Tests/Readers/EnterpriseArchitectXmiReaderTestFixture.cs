@@ -83,6 +83,10 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.Tests.Readers
                 Assert.That(operationParameter.QueryDocumentationFromExtensions(), Is.EqualTo("The parameter documentation"));
                 Assert.That(returnParameter.QueryDocumentationFromExtensions(), Is.EqualTo("Return value"));
                 Assert.That(associationParameter.Association.QueryDocumentationFromExtensions(), Is.EqualTo("Gets or sets the reference to a &lt;see cref=\"SecondElement\" /&gt;"));
+                Assert.That(attribute.IsID, Is.False);
+                Assert.That(attribute.QueryIsId, Is.True);
+                Assert.That(secondAttribute.IsID, Is.False);
+                Assert.That(secondAttribute.QueryIsId, Is.False);
             });
         }
     }
