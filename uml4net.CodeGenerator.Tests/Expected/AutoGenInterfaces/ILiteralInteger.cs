@@ -53,7 +53,7 @@ namespace uml4net.Values
         /// <summary>
         /// The specified Integer value.
         /// </summary>
-        [Property(xmiId: "LiteralInteger-value", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: "0")]
+        [Property(xmiId: "LiteralInteger-value", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: "0")]
         public int Value { get; set; }
 
     }

@@ -152,19 +152,19 @@ namespace uml4net.HandleBars.Tests
             var ownedCommentPropertyAttribute = handlebarsTemplate(ownedComment);
 
             Assert.That(ownedCommentPropertyAttribute,
-                Is.EqualTo("[Property(xmiId: \"Element-ownedComment\", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]" + Environment.NewLine));
+                Is.EqualTo("[Property(xmiId: \"Element-ownedComment\", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]" + Environment.NewLine));
 
             var memberEndPropertyAttribute = handlebarsTemplate(memberEnd);
 
             Assert.That(memberEndPropertyAttribute,
                 Is.EqualTo(
-                    "[Property(xmiId: \"Association-memberEnd\", aggregation: AggregationKind.None, lowerValue: 2, upperValue: int.MaxValue, isOrdered: true, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]" + Environment.NewLine));
+                    "[Property(xmiId: \"Association-memberEnd\", aggregation: AggregationKind.None, lowerValue: 2, upperValue: int.MaxValue, isOrdered: true, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]" + Environment.NewLine));
 
             var ownerPropertyAttribute = handlebarsTemplate(owner);
 
             Assert.That(ownerPropertyAttribute,
                 Is.EqualTo(
-                    "[Property(xmiId: \"Element-owner\", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: false, defaultValue: null)]" + Environment.NewLine));
+                    "[Property(xmiId: \"Element-owner\", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: true, defaultValue: null)]" + Environment.NewLine));
         }
 
         [Test]

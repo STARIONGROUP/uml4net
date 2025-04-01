@@ -60,9 +60,9 @@ namespace uml4net.Classification
         /// Constrains the required relationship between an actual parameter and the parameteredElement for this
         /// formal parameter.
         /// </summary>
-        [Property(xmiId: "ClassifierTemplateParameter-allowSubstitutable", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: "true")]
+        [Property(xmiId: "ClassifierTemplateParameter-allowSubstitutable", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: "true")]
         [Implements(implementation: "IClassifierTemplateParameter.AllowSubstitutable")]
-        public bool AllowSubstitutable { get; set; }
+        public bool AllowSubstitutable { get; set; } = true;
 
         /// <summary>
         /// The classifiers that constrain the argument that can be used for the parameter. If the
@@ -71,21 +71,21 @@ namespace uml4net.Classification
         /// specializations. If this property is empty, there are no constraints on the Classifier that can be
         /// used as an argument.
         /// </summary>
-        [Property(xmiId: "ClassifierTemplateParameter-constrainingClassifier", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "ClassifierTemplateParameter-constrainingClassifier", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [Implements(implementation: "IClassifierTemplateParameter.ConstrainingClassifier")]
         public List<IClassifier> ConstrainingClassifier { get; set; } = new();
 
         /// <summary>
         /// The ParameterableElement that is the default for this formal TemplateParameter.
         /// </summary>
-        [Property(xmiId: "TemplateParameter-default", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "TemplateParameter-default", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [Implements(implementation: "ITemplateParameter.Default")]
         public IParameterableElement Default { get; set; }
 
         /// <summary>
         /// The Comments owned by this Element.
         /// </summary>
-        [Property(xmiId: "Element-ownedComment", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "Element-ownedComment", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Element-ownedElement")]
         [Implements(implementation: "IElement.OwnedComment")]
         public IContainerList<IComment> OwnedComment
@@ -103,7 +103,7 @@ namespace uml4net.Classification
         /// The ParameterableElement that is owned by this TemplateParameter for the purpose of providing a
         /// default.
         /// </summary>
-        [Property(xmiId: "TemplateParameter-ownedDefault", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "TemplateParameter-ownedDefault", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Element-ownedElement")]
         [SubsettedProperty(propertyName: "TemplateParameter-default")]
         [Implements(implementation: "ITemplateParameter.OwnedDefault")]
@@ -121,7 +121,7 @@ namespace uml4net.Classification
         /// <summary>
         /// The Elements owned by this Element.
         /// </summary>
-        [Property(xmiId: "Element-ownedElement", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "Element-ownedElement", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: true, defaultValue: null)]
         [Implements(implementation: "IElement.OwnedElement")]
         public IContainerList<IElement> OwnedElement => this.QueryOwnedElement();
 
@@ -129,7 +129,7 @@ namespace uml4net.Classification
         /// The ParameterableElement that is owned by this TemplateParameter for the purpose of exposing it as
         /// the parameteredElement.
         /// </summary>
-        [Property(xmiId: "TemplateParameter-ownedParameteredElement", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "TemplateParameter-ownedParameteredElement", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Element-ownedElement")]
         [SubsettedProperty(propertyName: "TemplateParameter-parameteredElement")]
         [Implements(implementation: "ITemplateParameter.OwnedParameteredElement")]
@@ -147,14 +147,14 @@ namespace uml4net.Classification
         /// <summary>
         /// The Element that owns this Element.
         /// </summary>
-        [Property(xmiId: "Element-owner", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "Element-owner", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: true, defaultValue: null)]
         [Implements(implementation: "IElement.Owner")]
         public IElement Owner => this.QueryOwner();
 
         /// <summary>
         /// The Classifier exposed by this ClassifierTemplateParameter.
         /// </summary>
-        [Property(xmiId: "ClassifierTemplateParameter-parameteredElement", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "ClassifierTemplateParameter-parameteredElement", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [RedefinedProperty(propertyName: "TemplateParameter-parameteredElement")]
         [Implements(implementation: "IClassifierTemplateParameter.ParameteredElement")]
         public IClassifier ParameteredElement { get; set; }
@@ -162,7 +162,7 @@ namespace uml4net.Classification
         /// <summary>
         /// The ParameterableElement exposed by this TemplateParameter.
         /// </summary>
-        [Property(xmiId: "TemplateParameter-parameteredElement", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "TemplateParameter-parameteredElement", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [RedefinedByProperty("IClassifierTemplateParameter.ParameteredElement")]
         [Implements(implementation: "ITemplateParameter.ParameteredElement")]
         IParameterableElement ITemplateParameter.ParameteredElement
@@ -174,7 +174,7 @@ namespace uml4net.Classification
         /// <summary>
         /// The TemplateSignature that owns this TemplateParameter.
         /// </summary>
-        [Property(xmiId: "TemplateParameter-signature", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "TemplateParameter-signature", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "A_parameter_templateSignature-templateSignature")]
         [SubsettedProperty(propertyName: "Element-owner")]
         [Implements(implementation: "ITemplateParameter.Signature")]

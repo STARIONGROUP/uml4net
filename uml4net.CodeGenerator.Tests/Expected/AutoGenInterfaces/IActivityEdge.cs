@@ -53,7 +53,7 @@ namespace uml4net.Activities
         /// <summary>
         /// The Activity containing the ActivityEdge, if it is directly owned by an Activity.
         /// </summary>
-        [Property(xmiId: "ActivityEdge-activity", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "ActivityEdge-activity", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Element-owner")]
         public IActivity Activity { get; set; }
 
@@ -61,27 +61,27 @@ namespace uml4net.Activities
         /// A ValueSpecification that is evaluated to determine if a token can traverse the ActivityEdge. If an
         /// ActivityEdge has no guard, then there is no restriction on tokens traversing the edge.
         /// </summary>
-        [Property(xmiId: "ActivityEdge-guard", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "ActivityEdge-guard", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Element-ownedElement")]
         public IContainerList<IValueSpecification> Guard { get; set; }
 
         /// <summary>
         /// ActivityGroups containing the ActivityEdge.
         /// </summary>
-        [Property(xmiId: "ActivityEdge-inGroup", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "ActivityEdge-inGroup", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: true, defaultValue: null)]
         public List<IActivityGroup> InGroup { get; }
 
         /// <summary>
         /// ActivityPartitions containing the ActivityEdge.
         /// </summary>
-        [Property(xmiId: "ActivityEdge-inPartition", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "ActivityEdge-inPartition", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "ActivityEdge-inGroup")]
         public List<IActivityPartition> InPartition { get; set; }
 
         /// <summary>
         /// The StructuredActivityNode containing the ActivityEdge, if it is owned by a StructuredActivityNode.
         /// </summary>
-        [Property(xmiId: "ActivityEdge-inStructuredNode", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "ActivityEdge-inStructuredNode", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "ActivityEdge-inGroup")]
         [SubsettedProperty(propertyName: "Element-owner")]
         public IStructuredActivityNode InStructuredNode { get; set; }
@@ -89,34 +89,34 @@ namespace uml4net.Activities
         /// <summary>
         /// The InterruptibleActivityRegion for which this ActivityEdge is an interruptingEdge.
         /// </summary>
-        [Property(xmiId: "ActivityEdge-interrupts", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "ActivityEdge-interrupts", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         public IInterruptibleActivityRegion Interrupts { get; set; }
 
         /// <summary>
         /// ActivityEdges from a generalization of the Activity containing this ActivityEdge that are redefined
         /// by this ActivityEdge.
         /// </summary>
-        [Property(xmiId: "ActivityEdge-redefinedEdge", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "ActivityEdge-redefinedEdge", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "RedefinableElement-redefinedElement")]
         public List<IActivityEdge> RedefinedEdge { get; set; }
 
         /// <summary>
         /// The ActivityNode from which tokens are taken when they traverse the ActivityEdge.
         /// </summary>
-        [Property(xmiId: "ActivityEdge-source", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "ActivityEdge-source", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         public IActivityNode Source { get; set; }
 
         /// <summary>
         /// The ActivityNode to which tokens are put when they traverse the ActivityEdge.
         /// </summary>
-        [Property(xmiId: "ActivityEdge-target", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "ActivityEdge-target", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         public IActivityNode Target { get; set; }
 
         /// <summary>
         /// The minimum number of tokens that must traverse the ActivityEdge at the same time. If no weight is
         /// specified, this is equivalent to specifying a constant value of 1.
         /// </summary>
-        [Property(xmiId: "ActivityEdge-weight", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "ActivityEdge-weight", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Element-ownedElement")]
         public IContainerList<IValueSpecification> Weight { get; set; }
 

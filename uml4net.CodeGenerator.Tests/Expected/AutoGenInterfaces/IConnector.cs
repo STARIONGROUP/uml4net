@@ -55,14 +55,14 @@ namespace uml4net.StructuredClassifiers
         /// <summary>
         /// The set of Behaviors that specify the valid interaction patterns across the Connector.
         /// </summary>
-        [Property(xmiId: "Connector-contract", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "Connector-contract", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         public List<IBehavior> Contract { get; set; }
 
         /// <summary>
         /// A Connector has at least two ConnectorEnds, each representing the participation of instances of the
         /// Classifiers typing the ConnectableElements attached to the end. The set of ConnectorEnds is ordered.
         /// </summary>
-        [Property(xmiId: "Connector-end", aggregation: AggregationKind.Composite, lowerValue: 2, upperValue: int.MaxValue, isOrdered: true, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "Connector-end", aggregation: AggregationKind.Composite, lowerValue: 2, upperValue: int.MaxValue, isOrdered: true, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Element-ownedElement")]
         public IContainerList<IConnectorEnd> End { get; set; }
 
@@ -71,7 +71,7 @@ namespace uml4net.StructuredClassifiers
         /// Port which is not on a Part and which is not a behavior port is a delegation; otherwise it is an
         /// assembly.
         /// </summary>
-        [Property(xmiId: "Connector-kind", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "Connector-kind", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         public ConnectorKind Kind { get; }
 
         /// <summary>
@@ -80,14 +80,14 @@ namespace uml4net.StructuredClassifiers
         /// of the redefining Connector may specialize the types of the ConnectorEnds of the redefined
         /// Connector. The properties of the ConnectorEnds of the redefining Connector may be replaced.
         /// </summary>
-        [Property(xmiId: "Connector-redefinedConnector", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "Connector-redefinedConnector", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "RedefinableElement-redefinedElement")]
         public List<IConnector> RedefinedConnector { get; set; }
 
         /// <summary>
         /// An optional Association that classifies links corresponding to this Connector.
         /// </summary>
-        [Property(xmiId: "Connector-type", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "Connector-type", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         public IAssociation Type { get; set; }
 
     }
