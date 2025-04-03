@@ -2,7 +2,7 @@
 
     <PropertyGroup>
         <TargetFramework>netstandard2.0</TargetFramework>
-        <Version>4.2.0</Version>
+        <Version>4.3.0</Version>
         <LangVersion>12.0</LangVersion>
         <Company>Starion Group S.A.</Company>
         <Copyright>Copyright © Starion Group S.A.</Copyright>
@@ -24,9 +24,8 @@
         <PackageIcon>uml4net-logo-strapline.png</PackageIcon>
         <PackageTags>Uml modeltopia</PackageTags>
         <PackageReleaseNotes>
-            [BUMP] To uml4net.HandleBars 4.0.0
-            [BUMP] To uml4net.xmi.Extensions.EnterpriseArchitect 1.3.0
-            [ADD] IModelInspector.QueryInterestingClasses; fixes #88
+            [BUMP] To uml4net.HandleBars 4.1.0
+            [BUMP] To uml4net.xmi.Extensions.EnterpriseArchitect 1.4.0
             [Add] subsetted classes to HTML Report
         </PackageReleaseNotes>
     </PropertyGroup>
