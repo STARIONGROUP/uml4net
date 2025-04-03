@@ -1,6 +1,6 @@
 <?xml  version='1.0' encoding='windows-1252' ?>
 <xmi:XMI xmlns:xmi="http://www.omg.org/spec/XMI/20131001" xmlns:uml="http://www.omg.org/spec/UML/20161101" xmlns:umldi="http://www.omg.org/spec/UML/20161101/UMLDI" xmlns:dc="http://www.omg.org/spec/UML/20161101/UMLDC">
-	<xmi:Documentation exporter="Enterprise Architect" exporterVersion="6.5" exporterID="1703"/>
+	<xmi:Documentation exporter="Enterprise Architect" exporterVersion="6.5" exporterID="1704"/>
 	<uml:Model xmi:type="uml:Model" name="EA_Model">
 		<packagedElement xmi:type="uml:Package" xmi:id="EAPK_974A24AF_DDAB_4dd7_AED8_10D3CECC202C" name="XmiTest">
 			<packagedElement xmi:type="uml:Class" xmi:id="EAID_E7DEF3AB_2BF1_474f_A118_48F9DC5ED70A" name="Element">
@@ -75,7 +75,7 @@
 						<style/>
 						<styleex value="volatile=0;"/>
 						<tags/>
-						<xrefs/>
+						<xrefs value="$XREFPROP=$XID={CE6709FE-5161-4b56-ABDD-05AF6546F364}$XID;$NAM=CustomProperties$NAM;$TYP=attribute property$TYP;$VIS=Public$VIS;$PAR=0$PAR;$DES=@PROP=@NAME=isID@ENDNAME;@TYPE=Boolean@ENDTYPE;@VALU=1@ENDVALU;@PRMT=@ENDPRMT;@ENDPROP;$DES;$CLT={957B58DC-9D90-4781-A642-E060CB7F142A}$CLT;$SUP=&lt;none&gt;$SUP;$ENDXREF;"/>
 					</attribute>
 					<attribute xmi:idref="EAID_09432622_34AB_4e04_B9E8_A00C6CCAF80A" name="AnotherAttribute" scope="Public">
 						<initial/>

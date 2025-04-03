@@ -25,5 +25,11 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.CommonStructureExtension
     /// This interface extends <see cref="IExtensionElement" /> to provide
     /// additional behavior specific to extension attributes.
     /// </summary>
-    public interface IExtensionAttribute : IExtensionElement;
+    public interface IExtensionAttribute : IExtensionElement
+    {
+        /// <summary>
+        /// Gets or sets the XREFS value from the extension 
+        /// </summary>
+        string Xrefs { get; set; }
+    }
 }
