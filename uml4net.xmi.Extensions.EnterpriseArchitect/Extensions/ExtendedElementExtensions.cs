@@ -21,8 +21,10 @@
 namespace uml4net.xmi.Extensions.EnterpriseArchitect.Extensions
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
 
+    using uml4net.Classification;
     using uml4net.CommonStructure;
     using uml4net.xmi.Extensions.EnterpriseArchitect.CommonStructureExtension;
 
@@ -75,13 +77,31 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.Extensions
         /// </returns>
         public static string QueryDocumentationFromExtensions(this IElement element)
         {
-            if (element == null)
+            switch (element)
             {
-                throw new ArgumentNullException(nameof(element));
+                case null:
+                    throw new ArgumentNullException(nameof(element));
+                case IProperty { Association: not null } property:
+                {
+                    IEnumerable<IExtensionConnectorEmbeddedElement> embeddedElements;
+                
+                    if (element.XmiId.Contains("src"))
+                    {
+                        embeddedElements = property.Association.Extensions.OfType<IExtensionConnector>()
+                            .Select(x => x.Source);
+                    }
+                    else
+                    {
+                        embeddedElements = property.Association.Extensions.OfType<IExtensionConnector>()
+                            .Select(x => x.Target);
+                    }
+                
+                    return embeddedElements.FirstOrDefault(x => !string.IsNullOrEmpty(x.Documentation))?.Documentation;
+                }
+                default:
+                    return element.Extensions.OfType<IExtensionElement>()
+                        .FirstOrDefault(x => !string.IsNullOrWhiteSpace(x.Documentation))?.Documentation;
             }
-
-            return element.Extensions.OfType<IExtensionElement>()
-                .FirstOrDefault(x => !string.IsNullOrWhiteSpace(x.Documentation))?.Documentation;
         }
     }
 }

@@ -28,13 +28,13 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.CommonStructureExtension
     public interface IExtensionConnector : IExtensionElement
     {
         /// <summary>
-        /// Gets or sets the <see cref="IExtensionElement"/> for the source
+        /// Gets or sets the <see cref="IExtensionConnectorEmbeddedElement"/> for the source
         /// </summary>
-        IExtensionElement Source { get; set; }
+        IExtensionConnectorEmbeddedElement Source { get; set; }
         
         /// <summary>
-        /// Gets or sets the <see cref="IExtensionElement"/> for the target
+        /// Gets or sets the <see cref="IExtensionConnectorEmbeddedElement"/> for the target
         /// </summary>
-        IExtensionElement Target { get; set; }
+        IExtensionConnectorEmbeddedElement Target { get; set; }
     }
 }
