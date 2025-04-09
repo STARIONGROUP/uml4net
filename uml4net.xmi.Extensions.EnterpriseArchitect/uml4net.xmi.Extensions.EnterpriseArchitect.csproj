@@ -2,7 +2,7 @@
 
     <PropertyGroup>
         <Description>A specific XMI Reader extension to support Enterprise Architect XMI reading</Description>
-        <Version>1.4.0</Version>
+        <Version>1.5.0</Version>
         <PackageId>uml4net.xmi.Extensions.EnterpriseArchitect</PackageId>
         <LangVersion>12.0</LangVersion>
         <TargetFramework>netstandard2.0</TargetFramework>
@@ -26,7 +26,7 @@
         <PackageIcon>uml4net-logo-strapline.png</PackageIcon>
         <PackageTags>UML XMI modeltopia</PackageTags>
         <PackageReleaseNotes>
-            [Extend] the capability to deal with EA extensions
+            [Extend] the capability to deal with EA extensions for IProperty that are ends of IAssociation
         </PackageReleaseNotes>
     </PropertyGroup>
 
