@@ -1,5 +1,5 @@
 ﻿// -------------------------------------------------------------------------------------------------
-//  <copyright file="ExtensionConnector.cs" company="Starion Group S.A.">
+//  <copyright file="ExtensionConnectorEnd.cs" company="Starion Group S.A.">
 // 
 //    Copyright 2019-2025 Starion Group S.A.
 // 
@@ -21,19 +21,10 @@
 namespace uml4net.xmi.Extensions.EnterpriseArchitect.CommonStructureExtension
 {
     /// <summary>
-    /// Represents an connector within an extension element, providing additional metadata
+    /// Represents a connector embedded end within an extension element, providing additional metadata
     /// or functionality for integration with extended models.
     /// </summary>
-    public class ExtensionConnector: ExtensionElement, IExtensionConnector
+    public class ExtensionConnectorEmbeddedElement: ExtensionElement, IExtensionConnectorEmbeddedElement
     {
-        /// <summary>
-        /// Gets or sets the <see cref="IExtensionConnectorEmbeddedElement"/> for the source
-        /// </summary>
-        public IExtensionConnectorEmbeddedElement Source { get; set; }
-
-        /// <summary>
-        /// Gets or sets the <see cref="IExtensionConnectorEmbeddedElement"/> for the target
-        /// </summary>
-        public IExtensionConnectorEmbeddedElement Target { get; set; }
     }
 }

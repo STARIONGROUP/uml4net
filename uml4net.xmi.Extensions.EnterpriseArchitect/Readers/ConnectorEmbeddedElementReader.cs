@@ -1,5 +1,5 @@
 ﻿// -------------------------------------------------------------------------------------------------
-//  <copyright file="ConnectorReader.cs" company="Starion Group S.A.">
+//  <copyright file="ConnectorEndReader.cs" company="Starion Group S.A.">
 // 
 //    Copyright 2019-2025 Starion Group S.A.
 // 
@@ -29,12 +29,12 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.Readers
     using uml4net.xmi.Settings;
 
     /// <summary>
-    /// The <see cref="ConnectorReader" /> class reads connectors and connector nodes.
+    /// The <see cref="ConnectorEmbeddedElementReader" /> class reads connector source and target element, embedded into a Connector
     /// </summary>
-    public class ConnectorReader : XmiElementReader<IExtensionConnector>, IXmiElementReader<IExtensionConnector>
+    public class ConnectorEmbeddedElementReader: XmiElementReader<IExtensionConnectorEmbeddedElement>, IXmiElementReader<IExtensionConnectorEmbeddedElement>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="ConnectorReader"/> class.
+        /// Initializes a new instance of the <see cref="XmiElementReader{T}"/> class.
         /// </summary>
         /// <param name="cache">
         /// The cache in which each <see cref="IXmiElement"/>> is stored
@@ -47,12 +47,13 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.Readers
         /// <param name="loggerFactory">
         /// The (injected) <see cref="ILoggerFactory"/> used to set up logging
         /// </param>
-        public ConnectorReader(IXmiElementCache cache, IXmiElementReaderFacade xmiElementReaderFacade, IXmiReaderSettings xmiReaderSettings, ILoggerFactory loggerFactory) : base(cache, xmiElementReaderFacade, xmiReaderSettings, loggerFactory)
+        public ConnectorEmbeddedElementReader(IXmiElementCache cache, IXmiElementReaderFacade xmiElementReaderFacade, IXmiReaderSettings xmiReaderSettings, ILoggerFactory loggerFactory) 
+            : base(cache, xmiElementReaderFacade, xmiReaderSettings, loggerFactory)
         {
         }
 
         /// <summary>
-        /// Reads the <see cref="IExtensionConnector" /> object from its XML representation
+        /// Reads the <see cref="IExtensionConnectorEmbeddedElement" /> object from its XML representation
         /// </summary>
         /// <param name="xmlReader">
         /// an instance of <see cref="XmlReader"/>
@@ -66,12 +67,26 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.Readers
         /// returns the empty string when reading from a subtree, therefore it is passed from the caller
         /// </param>
         /// <returns>
-        /// an instance of <see cref="IExtensionConnector" />
+        /// an instance of <see cref="IExtensionConnectorEmbeddedElement" />
         /// </returns>
-        public override IExtensionConnector Read(XmlReader xmlReader, string documentName, string namespaceUri)
+        public override IExtensionConnectorEmbeddedElement Read(XmlReader xmlReader, string documentName, string namespaceUri)
         {
-            var element = ExtensionElement.InitializeElement<ExtensionConnector>(xmlReader, this.Cache, documentName);
+            var element = new ExtensionConnectorEmbeddedElement();
 
+            if (xmlReader.MoveToContent() != XmlNodeType.Element ||
+                xmlReader.GetAttribute("xmi:idref") is not { Length: > 0 } extendedElementId)
+            {
+                return element;
+            }
+
+            // The ExtendedElementId reference the class and not the attribute, we then omit to set the extension. A post-process will be required 
+            // to correctly retrieve the documentation for the property
+            element.ExtendedElementId = extendedElementId;
+            element.XmiType = xmlReader.GetAttribute("xmi:type");
+            element.XmiId = $"{element.ExtendedElementId}_extension";
+
+            this.Cache.TryAdd(element);
+            
             while (xmlReader.Read())
             {
                 if (xmlReader.NodeType == XmlNodeType.Element)
@@ -86,30 +101,15 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.Readers
                             }
 
                             break;
-                        case "source":
-                        {
-                            using var elementXmlReader = xmlReader.ReadSubtree();
-                            var connectorEmbeddedElementReader = new ConnectorEmbeddedElementReader(this.Cache, this.XmiElementReaderFacade, this.XmiReaderSettings, this.LoggerFactory);
-                            element.Source = connectorEmbeddedElementReader.Read(elementXmlReader, documentName, namespaceUri);
-
-                            break;
-                        }
-                        case "target":
-                        {
-                            using var elementXmlReader = xmlReader.ReadSubtree();
-                            var connectorEmbeddedElementReader = new ConnectorEmbeddedElementReader(this.Cache, this.XmiElementReaderFacade, this.XmiReaderSettings, this.LoggerFactory);
-                            element.Target = connectorEmbeddedElementReader.Read(elementXmlReader, documentName, namespaceUri);
-
-                            break;
-                        }
+                      
                         default:
-                            this.Logger.LogTrace("ConnectorReader - Extension: {ElementName}", xmlReader.LocalName);
+                            this.Logger.LogTrace("ConnectorEmbeddedElement - Extension: {ElementName}", xmlReader.LocalName);
                             break;
                     }
                 }
             }
 
             return element;
-        }
+        } 
     }
 }

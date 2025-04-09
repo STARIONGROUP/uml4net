@@ -20,7 +20,6 @@
 
 namespace uml4net.xmi.Extensions.EnterpriseArchitect.Tests.Readers
 {
-    using System.Data;
     using System.IO;
     using System.Linq;
 
@@ -66,13 +65,13 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.Tests.Readers
                 .Build();
 
             var xmiReaderResult = reader.Read(Path.Combine(TestContext.CurrentContext.TestDirectory, "Resources", "EAExport.xmi"));
-            var element = xmiReaderResult.Packages[0].NestedPackage[0].PackagedElement[0] as Class;
+            var element = xmiReaderResult.Packages[0].NestedPackage[0].PackagedElement.Single(x => x is Class { Name: "Element" })as Class;
             var attribute = element!.OwnedAttribute[0];
             var secondAttribute = element!.OwnedAttribute[1];
             var operation = element!.OwnedOperation[0];
             var operationParameter = operation.OwnedParameter[0];
             var returnParameter = operation.OwnedParameter.Single(x => x.Direction == ParameterDirectionKind.Return);
-            var associationParameter = element!.OwnedAttribute.Single(x => x.Association != null);
+            var associationParameters = element!.OwnedAttribute.Where(x => x.Association != null);
             
             Assert.Multiple(() =>
             {
@@ -82,11 +81,15 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.Tests.Readers
                 Assert.That(operation.QueryDocumentationFromExtensions(), Is.EqualTo("The operation also have documentation"));
                 Assert.That(operationParameter.QueryDocumentationFromExtensions(), Is.EqualTo("The parameter documentation"));
                 Assert.That(returnParameter.QueryDocumentationFromExtensions(), Is.EqualTo("Return value"));
-                Assert.That(associationParameter.Association.QueryDocumentationFromExtensions(), Is.EqualTo("Gets or sets the reference to a &lt;see cref=\"SecondElement\" /&gt;"));
                 Assert.That(attribute.IsID, Is.False);
                 Assert.That(attribute.QueryIsId, Is.True);
                 Assert.That(secondAttribute.IsID, Is.False);
                 Assert.That(secondAttribute.QueryIsId, Is.False);
+
+                foreach (var associationParameter in associationParameters)
+                {
+                    Assert.That(associationParameter.QueryDocumentationFromExtensions(), Is.EqualTo($"A doc for {associationParameter.Name}"));
+                }
             });
         }
     }
