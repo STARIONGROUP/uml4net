@@ -40,6 +40,7 @@ namespace uml4net.Reporting.Generators
     using uml4net.SimpleClassifiers;
     using uml4net.StructuredClassifiers;
     using uml4net.Packages;
+    using uml4net.xmi.Extensions.EnterpriseArchitect.Extensions;
 
     /// <summary>
     /// The purpose of the <see cref="XlReportGenerator"/> is to generate reports of a
@@ -213,7 +214,16 @@ namespace uml4net.Reporting.Generators
                     classDataRow["Type"] = "--";
                     classDataRow["Multiplicity"] = "--";
                     classDataRow["IsContainment"] = "--";
-                    classDataRow["Documentation"] = @class.QueryRawDocumentation();
+
+                    if (this.ShouldUseEnterpriseArchitectReader)
+                    {
+                        classDataRow["Documentation"] = @class.QueryDocumentationFromExtensions();
+                    }
+                    else
+                    {
+                        classDataRow["Documentation"] = @class.QueryRawDocumentation();
+                    }
+
                     classDataRow["Inheritance"] = "--";
                     dataTable.Rows.Add(classDataRow);
 
@@ -230,7 +240,16 @@ namespace uml4net.Reporting.Generators
                         propertyDataRow["Type"] = property.QueryTypeName();
                         propertyDataRow["Multiplicity"] = $"[{property.Lower}..{property.Upper}]";
                         propertyDataRow["IsContainment"] = property.IsComposite.ToString(CultureInfo.InvariantCulture);
-                        propertyDataRow["Documentation"] = property.QueryRawDocumentation();
+
+                        if (this.ShouldUseEnterpriseArchitectReader)
+                        {
+                            propertyDataRow["Documentation"] = property.QueryDocumentationFromExtensions();
+                        }
+                        else
+                        {
+                            propertyDataRow["Documentation"] = property.QueryRawDocumentation();
+                        }
+
                         propertyDataRow["Inheritance"] = ((INamedElement)property.Owner).Name;
                         dataTable.Rows.Add(propertyDataRow);
                     }
@@ -282,7 +301,16 @@ namespace uml4net.Reporting.Generators
                     classDataRow["Type"] = "--";
                     classDataRow["Multiplicity"] = "--";
                     classDataRow["IsContainment"] = "--";
-                    classDataRow["Documentation"] = @interface.QueryRawDocumentation();
+
+                    if (this.ShouldUseEnterpriseArchitectReader)
+                    {
+                        classDataRow["Documentation"] = @interface.QueryDocumentationFromExtensions();
+                    }
+                    else
+                    {
+                        classDataRow["Documentation"] = @interface.QueryRawDocumentation();
+                    }
+
                     dataTable.Rows.Add(classDataRow);
 
                     foreach (var property in @interface.OwnedAttribute)
@@ -298,7 +326,16 @@ namespace uml4net.Reporting.Generators
                         propertyDataRow["Type"] = property.QueryTypeName();
                         propertyDataRow["Multiplicity"] = $"[{property.Lower}..{property.Upper}]";
                         propertyDataRow["IsContainment"] = property.IsComposite.ToString(CultureInfo.InvariantCulture);
-                        propertyDataRow["Documentation"] = property.QueryRawDocumentation();
+
+                        if (this.ShouldUseEnterpriseArchitectReader)
+                        {
+                            propertyDataRow["Documentation"] = property.QueryDocumentationFromExtensions();
+                        }
+                        else
+                        {
+                            propertyDataRow["Documentation"] = property.QueryRawDocumentation();
+                        }
+
                         dataTable.Rows.Add(propertyDataRow);
                     }
                 }
@@ -340,7 +377,16 @@ namespace uml4net.Reporting.Generators
                     enumerationDataRow["Enumeration"] = enumeration.Name;
                     enumerationDataRow["Qualified Name"] = enumeration.QualifiedName;
                     enumerationDataRow["EnumerationLiteral"] = "--";
-                    enumerationDataRow["Documentation"] = enumeration.QueryRawDocumentation();
+
+                    if (this.ShouldUseEnterpriseArchitectReader)
+                    {
+                        enumerationDataRow["Documentation"] = enumeration.QueryDocumentationFromExtensions();
+                    }
+                    else
+                    {
+                        enumerationDataRow["Documentation"] = enumeration.QueryRawDocumentation();
+                    }
+
                     dataTable.Rows.Add(enumerationDataRow);
 
                     foreach (var enumerationLiteral in enumeration.OwnedLiteral)
@@ -348,7 +394,16 @@ namespace uml4net.Reporting.Generators
                         var enumerationLiteralDataRow = dataTable.NewRow();
                         enumerationLiteralDataRow["Enumeration"] = enumeration.Name;
                         enumerationLiteralDataRow["EnumerationLiteral"] = enumerationLiteral.Name;
-                        enumerationLiteralDataRow["Documentation"] = enumerationLiteral.QueryRawDocumentation();
+
+                        if (this.ShouldUseEnterpriseArchitectReader)
+                        {
+                            enumerationLiteralDataRow["Documentation"] = enumerationLiteral.QueryDocumentationFromExtensions();
+                        }
+                        else
+                        {
+                            enumerationLiteralDataRow["Documentation"] = enumerationLiteral.QueryRawDocumentation();
+                        }
+
                         dataTable.Rows.Add(enumerationLiteralDataRow);
                     }
                 }
@@ -388,7 +443,17 @@ namespace uml4net.Reporting.Generators
                 {
                     var dataTypeRow = dataTable.NewRow();
                     dataTypeRow["PrimitiveType"] = primitiveType.Name;
-                    dataTypeRow["Documentation"] = primitiveType.QueryRawDocumentation();
+
+                    if (this.ShouldUseEnterpriseArchitectReader)
+                    {
+                        dataTypeRow["Documentation"] = primitiveType.QueryDocumentationFromExtensions();
+                        
+                    }
+                    else
+                    {
+                        dataTypeRow["Documentation"] = primitiveType.QueryRawDocumentation();
+                    }
+
                     dataTable.Rows.Add(dataTypeRow);
                 }
             }
@@ -428,7 +493,16 @@ namespace uml4net.Reporting.Generators
                 {
                     var dataTypeRow = dataTable.NewRow();
                     dataTypeRow["DataType"] = eDataType.Name;
-                    dataTypeRow["Documentation"] = eDataType.QueryRawDocumentation();
+
+                    if (this.ShouldUseEnterpriseArchitectReader)
+                    {
+                        dataTypeRow["Documentation"] = eDataType.QueryDocumentationFromExtensions();
+                    }
+                    else
+                    {
+                        dataTypeRow["Documentation"] = eDataType.QueryRawDocumentation();
+                    }
+
                     dataTable.Rows.Add(dataTypeRow);
                 }
             }

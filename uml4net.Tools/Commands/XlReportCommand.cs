@@ -41,9 +41,14 @@ namespace uml4net.Tools.Commands
                 name: "--output-report",
                 description: "The path to the tabular report file. Supported extensions are '.xlsx', '.xlsm', '.xltx' and '.xltm'",
                 getDefaultValue: () => new FileInfo("tabular-report.xlsx"));
+
             reportFileOption.AddAlias("-o");
             reportFileOption.IsRequired = true;
             this.AddOption(reportFileOption);
+
+            var eaUsage = new Option<bool>(name: "--use-eareader", description: "Use the Enterprise Architect Reader.");
+            eaUsage.AddAlias("-ea");
+            this.AddOption(eaUsage);
         }
 
         /// <summary>
