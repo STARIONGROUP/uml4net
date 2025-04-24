@@ -2,7 +2,7 @@
 
     <PropertyGroup>
         <Description>A .NET implementation of the OMG UML v2.5.1 specification.</Description>
-        <Version>3.2.1</Version>
+        <Version>3.2.2</Version>
         <PackageId>uml4net.xmi</PackageId>
         <LangVersion>12.0</LangVersion>
         <TargetFramework>netstandard2.0</TargetFramework>
@@ -26,7 +26,8 @@
         <PackageIcon>uml4net-logo-strapline.png</PackageIcon>
         <PackageTags>UML XMI modeltopia</PackageTags>
         <PackageReleaseNotes>
-            [BUMP] To uml4net.Extensions 3.3.0
+            [BUMP] To uml4net.Extensions 3.3.1
+            [Update] Autofac
         </PackageReleaseNotes>
     </PropertyGroup>
 
@@ -53,7 +54,7 @@
     </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Autofac" Version="8.2.0" />
+    <PackageReference Include="Autofac" Version="8.2.1" />
   </ItemGroup>
 
 </Project>

@@ -2,7 +2,7 @@
 
     <PropertyGroup>
         <TargetFramework>netstandard2.0</TargetFramework>
-        <Version>3.3.0</Version>
+        <Version>3.3.1</Version>
         <LangVersion>12.0</LangVersion>
         <Company>Starion Group S.A.</Company>
         <Copyright>Copyright © Starion Group S.A.</Copyright>
@@ -24,8 +24,8 @@
         <PackageIcon>uml4net-logo-strapline.png</PackageIcon>
         <PackageTags>UML modeltopia</PackageTags>
         <PackageReleaseNotes>
-            [BUMP] To uml4net 2.3.0
-            [Add] PropertyExtensions.QueryIsDefaultValueDifferentThanDefault
+            [BUMP] To uml4net 2.3.1
+            [Update] HtmlAgilityPack
         </PackageReleaseNotes>
     </PropertyGroup>
 
@@ -39,6 +39,6 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="HtmlAgilityPack" Version="1.12.0" />
+        <PackageReference Include="HtmlAgilityPack" Version="1.12.1" />
     </ItemGroup>
 </Project>
