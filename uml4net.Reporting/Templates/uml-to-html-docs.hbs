@@ -442,6 +442,7 @@
                                         {{/each}}
                                     {{/if}}
                                     {{#if property.IsID }} {ID} {{/if}}
+                                    {{ #Property.WriteManyToManyAndOpposite property }}
                                 </td>
                                 <td>{{ property.DefaultValueLiteral }}</td>
                                 <td>{{ #RawDocumentation property }}</td>

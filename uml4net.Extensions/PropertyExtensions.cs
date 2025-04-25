@@ -584,5 +584,32 @@ namespace uml4net.Extensions
                 _ => false
             };
         }
+
+        /// <summary>
+        /// Queries whether the property is a part of a Many-to-Many association
+        /// </summary>
+        /// <param name="property">
+        /// The subject <see cref="IProperty"/> that is to be queried
+        /// </param>
+        /// <returns>
+        /// True when part of a Many-to-Many, false if not
+        /// </returns>
+        /// <exception cref="ArgumentNullException"></exception>
+        public static bool QueryIsMemberOfManyToMany(this IProperty property)
+        {
+            if (property == null)
+            {
+                throw new ArgumentNullException();
+            }
+
+            var opposite = property.QueryOpposite();
+
+            if (opposite == null)
+            {
+                return false;
+            }
+
+            return opposite.QueryUpperValue() > 1;
+        }
     }
 }

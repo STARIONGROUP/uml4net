@@ -24,7 +24,7 @@ namespace uml4net.HandleBars
     using System.Globalization;
     using System.Linq;
     using System.Text;
-
+    using CommonStructure;
     using HandlebarsDotNet;
 
     using uml4net.SimpleClassifiers;
@@ -271,6 +271,42 @@ namespace uml4net.HandleBars
                 }
 
                 return false;
+            });
+
+            handlebars.RegisterHelper("Property.QueryIsMemberOfManyToMany", (_, arguments) =>
+            {
+                if (arguments.Length != 1)
+                {
+                    throw new HandlebarsException("{{#Property.QueryIsMemberOfManyToMany}} helper must have exactly one argument");
+                }
+
+                var property = arguments.Single() as IProperty;
+
+                return property.QueryIsMemberOfManyToMany();
+            });
+
+            handlebars.RegisterHelper("Property.WriteManyToManyAndOpposite", (writer, context, _) =>
+            {
+                if (!(context.Value is IProperty property))
+                {
+                    throw new HandlebarsException("Property.WriteManyToManyAndOpposite - supposed to be IProperty");
+                }
+
+                var opposite = property.QueryOpposite();
+
+                if (opposite != null && opposite.QueryUpperValue() > 1)
+                {
+                    var owner = opposite.QueryOwner();
+
+                    if (owner is INamedElement namedElement)
+                    {
+                        writer.WriteSafeString($"{{many-to-many:{namedElement.Name}.{property.Name}}}");
+                    }
+                    else
+                    {
+                        writer.WriteSafeString($"{{many-to-many}}");
+                    }
+                }
             });
 
             handlebars.RegisterHelper("Property.WriteTypeName", (writer, context, _) =>

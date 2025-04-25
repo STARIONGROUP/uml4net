@@ -155,8 +155,7 @@ namespace uml4net.Reporting.Generators
                     {
                         var referenceType = property.IsComposite ? $"REF:{property.Lower}:{property.Upper}:containment" : $"REF:{property.Lower}:{property.Upper}";
 
-                        var otherEndProperty = property?.Association?.MemberEnd.SingleOrDefault(x => x != property);
-                        if (otherEndProperty != null && otherEndProperty.QueryUpperValue() > 1)
+                        if (property.QueryIsMemberOfManyToMany())
                         {
                             referenceType = $"{referenceType}:Many-to-Many";
                         }
@@ -361,8 +360,7 @@ namespace uml4net.Reporting.Generators
                     }
                     else
                     {
-                        var otherEndProperty = property?.Association?.MemberEnd.SingleOrDefault(x => x != property);
-                        if (otherEndProperty.QueryUpperValue() > 1)
+                        if (property.QueryIsMemberOfManyToMany())
                         {
                             referenceType = $"{property.Name}:{property.QueryTypeName()} [{property.Lower}..{property.Upper}] - REFERENCE TYPE - MANY-TO-MANY";
                         }
@@ -399,8 +397,7 @@ namespace uml4net.Reporting.Generators
                 {
                     if (property.QueryIsReferenceProperty())
                     {
-                        var otherEndProperty = property?.Association?.MemberEnd.SingleOrDefault(x => x != property);
-                        if (otherEndProperty.QueryUpperValue() > 1)
+                        if (property.QueryIsMemberOfManyToMany())
                         {
                             var referenceType = $"{property.Name}:{property.QueryTypeName()} [{property.Lower}..{property.Upper}] - REFERENCE TYPE - MANY-TO-MANY";
                             sb.AppendLine(referenceType);
