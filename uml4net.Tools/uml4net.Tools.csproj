@@ -3,7 +3,7 @@
     <PropertyGroup Label="Package">
         <TargetFramework>net9.0</TargetFramework>
         <LangVersion>12.0</LangVersion>
-        <Version>4.5.0</Version>
+        <Version>4.6.0</Version>
         <Title>uml4net.Tools</Title>
         <Description>A command line application that processes a UML file and generates various reports.</Description>
         <OutputType>Exe</OutputType>
@@ -18,10 +18,7 @@
         <NeutralLanguage>en-US</NeutralLanguage>
         <SatelliteResourceLanguages>en-US</SatelliteResourceLanguages>
         <PackageReleaseNotes>
-            [Bump] uml4net.Reporting to version 4.5.0
-            [Update] Spectre.Console
-            [Update] Microsoft.Extensions.Hosting
-            [Add] ea-extensions to xl report command; fixes #98
+            [Bump] uml4net.Reporting to version 4.6.0
         </PackageReleaseNotes>
     </PropertyGroup>
 

@@ -2,7 +2,7 @@
 
     <PropertyGroup>
         <TargetFramework>netstandard2.0</TargetFramework>
-        <Version>4.5.0</Version>
+        <Version>4.6.0</Version>
         <LangVersion>12.0</LangVersion>
         <Company>Starion Group S.A.</Company>
         <Copyright>Copyright © Starion Group S.A.</Copyright>
@@ -24,8 +24,8 @@
         <PackageIcon>uml4net-logo-strapline.png</PackageIcon>
         <PackageTags>Uml modeltopia</PackageTags>
         <PackageReleaseNotes>
-            [Add] ea-extensions to xl report; fixes #98
-            [BUMP] To uml4net.xmi.Extensions.EnterpriseArchitect 1.5.1
+            [Update] HTML Report to inlcude many-to-many; fixes #100
+            [Update] uml4net.HandleBars to version 4.2.0
         </PackageReleaseNotes>
     </PropertyGroup>
 
