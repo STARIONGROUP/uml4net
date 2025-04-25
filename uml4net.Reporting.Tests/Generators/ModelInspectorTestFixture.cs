@@ -20,11 +20,10 @@
 
 namespace uml4net.Reporting.Tests.Generators
 {
-    using System;
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
-    using System.Text;
+    
     using Microsoft.Extensions.Logging;
 
     using NUnit.Framework;
@@ -140,13 +139,14 @@ namespace uml4net.Reporting.Tests.Generators
 
             var expectedResult = new List<string>
             {
-                "ActivityGroup", "Association", "Class", "Classifier",
-                "Connector", "CreateLinkAction", "DurationConstraint", "DurationObservation",
+                "ActivityGroup", "Association", "Class", "Classifier", "Clause",
+                "ConnectableElementTemplateParameter","Connector", "CreateLinkAction",
+                "DecisionNode", "DurationConstraint", "DurationObservation",
                 "Element", "Extension", "ExtensionEnd", "InformationFlow",
                 "LiteralInteger", "LiteralReal", "LiteralUnlimitedNatural", "MultiplicityElement",
-                "NamedElement", "OpaqueExpression", "Operation", "PackageableElement",
-                "RedefinableTemplateSignature","Relationship","TimeConstraint","Transition",
-                "UnmarshallAction"
+                "NamedElement", "OpaqueExpression", "Operation", "PackageableElement", "Property",
+                "RedefinableTemplateSignature","Relationship","StructuredActivityNode",
+                "TemplateSignature", "TimeConstraint", "Transition","UnmarshallAction"
             };
 
             var interestingClassesNames = interestingClasses.Select(x => x.Name);

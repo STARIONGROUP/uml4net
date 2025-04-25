@@ -24,7 +24,6 @@ namespace uml4net.Reporting.Generators
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.IO;
-    using System.IO.Packaging;
     using System.Linq;
     using System.Text;
 
@@ -35,7 +34,6 @@ namespace uml4net.Reporting.Generators
     using uml4net.CommonStructure;
     using uml4net.Extensions;
     using uml4net.Packages;
-    using uml4net.SimpleClassifiers;
     using uml4net.StructuredClassifiers;
 
     /// <summary>
@@ -156,6 +154,12 @@ namespace uml4net.Reporting.Generators
                     if (property.QueryIsReferenceProperty())
                     {
                         var referenceType = property.IsComposite ? $"REF:{property.Lower}:{property.Upper}:containment" : $"REF:{property.Lower}:{property.Upper}";
+
+                        var otherEndProperty = property?.Association?.MemberEnd.SingleOrDefault(x => x != property);
+                        if (otherEndProperty != null && otherEndProperty.QueryUpperValue() > 1)
+                        {
+                            referenceType = $"{referenceType}:Many-to-Many";
+                        }
 
                         if (property.SubsettedProperty.Any())
                         {
@@ -357,7 +361,15 @@ namespace uml4net.Reporting.Generators
                     }
                     else
                     {
-                        referenceType = $"{property.Name}:{property.QueryTypeName()} [{property.Lower}..{property.Upper}] - REFERENCE TYPE";
+                        var otherEndProperty = property?.Association?.MemberEnd.SingleOrDefault(x => x != property);
+                        if (otherEndProperty.QueryUpperValue() > 1)
+                        {
+                            referenceType = $"{property.Name}:{property.QueryTypeName()} [{property.Lower}..{property.Upper}] - REFERENCE TYPE - MANY-TO-MANY";
+                        }
+                        else
+                        {
+                            referenceType = $"{property.Name}:{property.QueryTypeName()} [{property.Lower}..{property.Upper}] - REFERENCE TYPE";
+                        }
                     }
 
                     sb.AppendLine(referenceType);
@@ -387,8 +399,17 @@ namespace uml4net.Reporting.Generators
                 {
                     if (property.QueryIsReferenceProperty())
                     {
-                        var referenceType = $"{property.Name}:{property.QueryTypeName()} [{property.Lower}..{property.Upper}] - REFERENCE TYPE";
-                        sb.AppendLine(referenceType);
+                        var otherEndProperty = property?.Association?.MemberEnd.SingleOrDefault(x => x != property);
+                        if (otherEndProperty.QueryUpperValue() > 1)
+                        {
+                            var referenceType = $"{property.Name}:{property.QueryTypeName()} [{property.Lower}..{property.Upper}] - REFERENCE TYPE - MANY-TO-MANY";
+                            sb.AppendLine(referenceType);
+                        }
+                        else
+                        {
+                            var referenceType = $"{property.Name}:{property.QueryTypeName()} [{property.Lower}..{property.Upper}] - REFERENCE TYPE";
+                            sb.AppendLine(referenceType);
+                        }
                     }
 
                     if (property.QueryIsValueProperty())
