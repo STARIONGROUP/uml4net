@@ -602,6 +602,11 @@ namespace uml4net.Extensions
                 throw new ArgumentNullException();
             }
 
+            if (property.QueryUpperValue() < 2)
+            {
+                return false;
+            }
+
             var opposite = property.QueryOpposite();
 
             if (opposite == null)

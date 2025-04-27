@@ -292,20 +292,16 @@ namespace uml4net.HandleBars
                     throw new HandlebarsException("Property.WriteManyToManyAndOpposite - supposed to be IProperty");
                 }
 
+                if (property.QueryUpperValue() < 2)
+                {
+                    return;
+                }
+
                 var opposite = property.QueryOpposite();
 
                 if (opposite != null && opposite.QueryUpperValue() > 1)
                 {
-                    var owner = opposite.QueryOwner();
-
-                    if (owner is INamedElement namedElement)
-                    {
-                        writer.WriteSafeString($"{{many-to-many:{namedElement.Name}.{property.Name}}}");
-                    }
-                    else
-                    {
-                        writer.WriteSafeString($"{{many-to-many}}");
-                    }
+                    writer.WriteSafeString($"{{many-to-many:{opposite.QueryTypeName()}.{opposite.Name}}}");
                 }
             });
 
