@@ -53,24 +53,23 @@ namespace uml4net.Actions
         /// <summary>
         /// The InputPin on which the first input object is placed.
         /// </summary>
-        [Property(xmiId: "TestIdentityAction-first", aggregation: AggregationKind.Composite, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "TestIdentityAction-first", aggregation: AggregationKind.Composite, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Action-input")]
         public IContainerList<IInputPin> First { get; set; }
 
         /// <summary>
         /// The OutputPin whose Boolean value indicates whether the two input objects are identical.
         /// </summary>
-        [Property(xmiId: "TestIdentityAction-result", aggregation: AggregationKind.Composite, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "TestIdentityAction-result", aggregation: AggregationKind.Composite, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Action-output")]
         public IContainerList<IOutputPin> Result { get; set; }
 
         /// <summary>
         /// The OutputPin on which the second input object is placed.
         /// </summary>
-        [Property(xmiId: "TestIdentityAction-second", aggregation: AggregationKind.Composite, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "TestIdentityAction-second", aggregation: AggregationKind.Composite, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Action-input")]
         public IContainerList<IInputPin> Second { get; set; }
-
     }
 }
 

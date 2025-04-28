@@ -55,10 +55,9 @@ namespace uml4net.Actions
         /// The OutputPin on which the objects retrieved from the "open" end of those links whose values on
         /// other ends are given by the endData.
         /// </summary>
-        [Property(xmiId: "ReadLinkAction-result", aggregation: AggregationKind.Composite, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "ReadLinkAction-result", aggregation: AggregationKind.Composite, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Action-output")]
         public IContainerList<IOutputPin> Result { get; set; }
-
     }
 }
 

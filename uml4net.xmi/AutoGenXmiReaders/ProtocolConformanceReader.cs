@@ -147,12 +147,14 @@ namespace uml4net.xmi.Readers
                 }
 
                 var generalMachineXmlAttribute = xmlReader.GetAttribute("generalMachine");
+
                 if (!string.IsNullOrEmpty(generalMachineXmlAttribute))
                 {
                     poco.SingleValueReferencePropertyIdentifiers.Add("generalMachine", generalMachineXmlAttribute);
                 }
 
                 var specificMachineXmlAttribute = xmlReader.GetAttribute("specificMachine");
+
                 if (!string.IsNullOrEmpty(specificMachineXmlAttribute))
                 {
                     poco.SingleValueReferencePropertyIdentifiers.Add("specificMachine", specificMachineXmlAttribute);
@@ -184,6 +186,7 @@ namespace uml4net.xmi.Readers
                                 {
                                     this.Logger.LogWarning("Not Supported: ProtocolConformanceReader: {LocalName} at line:position {LineNumber}:{LinePosition}", xmlReader.LocalName, defaultLineInfo.LineNumber, defaultLineInfo.LinePosition);
                                 }
+
                                 break;
                         }
                     }

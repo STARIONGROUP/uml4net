@@ -147,12 +147,14 @@ namespace uml4net.xmi.Readers
                 }
 
                 var classifierXmlAttribute = xmlReader.GetAttribute("classifier");
+
                 if (!string.IsNullOrEmpty(classifierXmlAttribute))
                 {
                     poco.SingleValueReferencePropertyIdentifiers.Add("classifier", classifierXmlAttribute);
                 }
 
                 var extendedSignatureXmlAttribute = xmlReader.GetAttribute("extendedSignature");
+
                 if (!string.IsNullOrEmpty(extendedSignatureXmlAttribute))
                 {
                     var extendedSignatureXmlAttributeValues = extendedSignatureXmlAttribute.Split(SplitMultiReference, StringSplitOptions.RemoveEmptyEntries).ToList();
@@ -160,6 +162,7 @@ namespace uml4net.xmi.Readers
                 }
 
                 var isLeafXmlAttribute = xmlReader.GetAttribute("isLeaf");
+
                 if (!string.IsNullOrEmpty(isLeafXmlAttribute))
                 {
                     poco.IsLeaf = bool.Parse(isLeafXmlAttribute);
@@ -168,6 +171,7 @@ namespace uml4net.xmi.Readers
                 poco.Name = xmlReader.GetAttribute("name");
 
                 var parameterXmlAttribute = xmlReader.GetAttribute("parameter");
+
                 if (!string.IsNullOrEmpty(parameterXmlAttribute))
                 {
                     var parameterXmlAttributeValues = parameterXmlAttribute.Split(SplitMultiReference, StringSplitOptions.RemoveEmptyEntries).ToList();
@@ -175,6 +179,7 @@ namespace uml4net.xmi.Readers
                 }
 
                 var visibilityXmlAttribute = xmlReader.GetAttribute("visibility");
+
                 if (!string.IsNullOrEmpty(visibilityXmlAttribute))
                 {
                     poco.Visibility = (VisibilityKind)Enum.Parse(typeof(VisibilityKind), visibilityXmlAttribute, true);
@@ -195,10 +200,12 @@ namespace uml4net.xmi.Readers
                                 break;
                             case "isLeaf":
                                 var isLeafValue = xmlReader.ReadElementContentAsString();
+
                                 if (!string.IsNullOrEmpty(isLeafValue))
                                 {
                                     poco.IsLeaf = bool.Parse(isLeafValue);
                                 }
+
                                 break;
                             case "name":
                                 poco.Name = xmlReader.ReadElementContentAsString();
@@ -220,10 +227,12 @@ namespace uml4net.xmi.Readers
                                 break;
                             case "visibility":
                                 var visibilityValue = xmlReader.ReadElementContentAsString();
+
                                 if (!string.IsNullOrEmpty(visibilityValue))
                                 {
-                                    poco.Visibility = (VisibilityKind)Enum.Parse(typeof(VisibilityKind), visibilityValue, true); ;
+                                    poco.Visibility = (VisibilityKind)Enum.Parse(typeof(VisibilityKind), visibilityValue, true);
                                 }
+
                                 break;
                             default:
                                 if (this.XmiReaderSettings.UseStrictReading)
@@ -234,6 +243,7 @@ namespace uml4net.xmi.Readers
                                 {
                                     this.Logger.LogWarning("Not Supported: RedefinableTemplateSignatureReader: {LocalName} at line:position {LineNumber}:{LinePosition}", xmlReader.LocalName, defaultLineInfo.LineNumber, defaultLineInfo.LinePosition);
                                 }
+
                                 break;
                         }
                     }

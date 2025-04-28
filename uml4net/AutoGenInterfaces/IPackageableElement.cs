@@ -55,10 +55,9 @@ namespace uml4net.CommonStructure
         /// A PackageableElement must have a visibility specified if it is owned by a Namespace. The default
         /// visibility is public.
         /// </summary>
-        [Property(xmiId: "PackageableElement-visibility", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: "public")]
+        [Property(xmiId: "PackageableElement-visibility", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: "public")]
         [RedefinedProperty(propertyName: "NamedElement-visibility")]
         public new VisibilityKind Visibility { get; set; }
-
     }
 }
 

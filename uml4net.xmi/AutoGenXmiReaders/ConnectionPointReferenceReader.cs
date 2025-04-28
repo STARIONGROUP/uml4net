@@ -147,12 +147,14 @@ namespace uml4net.xmi.Readers
                 }
 
                 var containerXmlAttribute = xmlReader.GetAttribute("container");
+
                 if (!string.IsNullOrEmpty(containerXmlAttribute))
                 {
                     poco.SingleValueReferencePropertyIdentifiers.Add("container", containerXmlAttribute);
                 }
 
                 var entryXmlAttribute = xmlReader.GetAttribute("entry");
+
                 if (!string.IsNullOrEmpty(entryXmlAttribute))
                 {
                     var entryXmlAttributeValues = entryXmlAttribute.Split(SplitMultiReference, StringSplitOptions.RemoveEmptyEntries).ToList();
@@ -160,6 +162,7 @@ namespace uml4net.xmi.Readers
                 }
 
                 var exitXmlAttribute = xmlReader.GetAttribute("exit");
+
                 if (!string.IsNullOrEmpty(exitXmlAttribute))
                 {
                     var exitXmlAttributeValues = exitXmlAttribute.Split(SplitMultiReference, StringSplitOptions.RemoveEmptyEntries).ToList();
@@ -167,6 +170,7 @@ namespace uml4net.xmi.Readers
                 }
 
                 var isLeafXmlAttribute = xmlReader.GetAttribute("isLeaf");
+
                 if (!string.IsNullOrEmpty(isLeafXmlAttribute))
                 {
                     poco.IsLeaf = bool.Parse(isLeafXmlAttribute);
@@ -175,18 +179,21 @@ namespace uml4net.xmi.Readers
                 poco.Name = xmlReader.GetAttribute("name");
 
                 var redefinedVertexXmlAttribute = xmlReader.GetAttribute("redefinedVertex");
+
                 if (!string.IsNullOrEmpty(redefinedVertexXmlAttribute))
                 {
                     poco.SingleValueReferencePropertyIdentifiers.Add("redefinedVertex", redefinedVertexXmlAttribute);
                 }
 
                 var stateXmlAttribute = xmlReader.GetAttribute("state");
+
                 if (!string.IsNullOrEmpty(stateXmlAttribute))
                 {
                     poco.SingleValueReferencePropertyIdentifiers.Add("state", stateXmlAttribute);
                 }
 
                 var visibilityXmlAttribute = xmlReader.GetAttribute("visibility");
+
                 if (!string.IsNullOrEmpty(visibilityXmlAttribute))
                 {
                     poco.Visibility = (VisibilityKind)Enum.Parse(typeof(VisibilityKind), visibilityXmlAttribute, true);
@@ -210,10 +217,12 @@ namespace uml4net.xmi.Readers
                                 break;
                             case "isLeaf":
                                 var isLeafValue = xmlReader.ReadElementContentAsString();
+
                                 if (!string.IsNullOrEmpty(isLeafValue))
                                 {
                                     poco.IsLeaf = bool.Parse(isLeafValue);
                                 }
+
                                 break;
                             case "name":
                                 poco.Name = xmlReader.ReadElementContentAsString();
@@ -234,10 +243,12 @@ namespace uml4net.xmi.Readers
                                 break;
                             case "visibility":
                                 var visibilityValue = xmlReader.ReadElementContentAsString();
+
                                 if (!string.IsNullOrEmpty(visibilityValue))
                                 {
-                                    poco.Visibility = (VisibilityKind)Enum.Parse(typeof(VisibilityKind), visibilityValue, true); ;
+                                    poco.Visibility = (VisibilityKind)Enum.Parse(typeof(VisibilityKind), visibilityValue, true);
                                 }
+
                                 break;
                             default:
                                 if (this.XmiReaderSettings.UseStrictReading)
@@ -248,6 +259,7 @@ namespace uml4net.xmi.Readers
                                 {
                                     this.Logger.LogWarning("Not Supported: ConnectionPointReferenceReader: {LocalName} at line:position {LineNumber}:{LinePosition}", xmlReader.LocalName, defaultLineInfo.LineNumber, defaultLineInfo.LinePosition);
                                 }
+
                                 break;
                         }
                     }

@@ -53,46 +53,46 @@ namespace uml4net.Interactions
         /// <summary>
         /// The arguments of the Message.
         /// </summary>
-        [Property(xmiId: "Message-argument", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: true, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "Message-argument", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: true, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Element-ownedElement")]
         public IContainerList<IValueSpecification> Argument { get; set; }
 
         /// <summary>
         /// The Connector on which this Message is sent.
         /// </summary>
-        [Property(xmiId: "Message-connector", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "Message-connector", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         public IConnector Connector { get; set; }
 
         /// <summary>
         /// The enclosing Interaction owning the Message.
         /// </summary>
-        [Property(xmiId: "Message-interaction", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "Message-interaction", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "NamedElement-namespace")]
         public IInteraction Interaction { get; set; }
 
         /// <summary>
         /// The derived kind of the Message (complete, lost, found, or unknown).
         /// </summary>
-        [Property(xmiId: "Message-messageKind", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "Message-messageKind", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         public MessageKind MessageKind { get; }
 
         /// <summary>
         /// The sort of communication reflected by the Message.
         /// </summary>
-        [Property(xmiId: "Message-messageSort", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: "synchCall")]
+        [Property(xmiId: "Message-messageSort", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: "synchCall")]
         public MessageSort MessageSort { get; set; }
 
         /// <summary>
         /// References the Receiving of the Message.
         /// </summary>
-        [Property(xmiId: "Message-receiveEvent", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "Message-receiveEvent", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "A_message_messageEnd-messageEnd")]
         public IMessageEnd ReceiveEvent { get; set; }
 
         /// <summary>
         /// References the Sending of the Message.
         /// </summary>
-        [Property(xmiId: "Message-sendEvent", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "Message-sendEvent", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "A_message_messageEnd-messageEnd")]
         public IMessageEnd SendEvent { get; set; }
 
@@ -100,9 +100,8 @@ namespace uml4net.Interactions
         /// The signature of the Message is the specification of its content. It refers either an Operation or a
         /// Signal.
         /// </summary>
-        [Property(xmiId: "Message-signature", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "Message-signature", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         public INamedElement Signature { get; set; }
-
     }
 }
 

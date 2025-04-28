@@ -53,10 +53,9 @@ namespace uml4net.CommonStructure
         /// <summary>
         /// Specifies the owning Package of this Type, if any.
         /// </summary>
-        [Property(xmiId: "Type-package", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "Type-package", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "A_packagedElement_owningPackage-owningPackage")]
         public IPackage Package { get; set; }
-
     }
 }
 

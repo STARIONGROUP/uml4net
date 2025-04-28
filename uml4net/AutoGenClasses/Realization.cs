@@ -238,7 +238,6 @@ namespace uml4net.CommonStructure
             get => throw new InvalidOperationException("Redefined by property IPackageableElement.Visibility");
             set => throw new InvalidOperationException("Redefined by property IPackageableElement.Visibility");
         }
-
     }
 }
 

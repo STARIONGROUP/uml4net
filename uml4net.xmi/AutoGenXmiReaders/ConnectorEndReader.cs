@@ -147,24 +147,28 @@ namespace uml4net.xmi.Readers
                 }
 
                 var isOrderedXmlAttribute = xmlReader.GetAttribute("isOrdered");
+
                 if (!string.IsNullOrEmpty(isOrderedXmlAttribute))
                 {
                     poco.IsOrdered = bool.Parse(isOrderedXmlAttribute);
                 }
 
                 var isUniqueXmlAttribute = xmlReader.GetAttribute("isUnique");
+
                 if (!string.IsNullOrEmpty(isUniqueXmlAttribute))
                 {
                     poco.IsUnique = bool.Parse(isUniqueXmlAttribute);
                 }
 
                 var partWithPortXmlAttribute = xmlReader.GetAttribute("partWithPort");
+
                 if (!string.IsNullOrEmpty(partWithPortXmlAttribute))
                 {
                     poco.SingleValueReferencePropertyIdentifiers.Add("partWithPort", partWithPortXmlAttribute);
                 }
 
                 var roleXmlAttribute = xmlReader.GetAttribute("role");
+
                 if (!string.IsNullOrEmpty(roleXmlAttribute))
                 {
                     poco.SingleValueReferencePropertyIdentifiers.Add("role", roleXmlAttribute);
@@ -179,17 +183,21 @@ namespace uml4net.xmi.Readers
                         {
                             case "isOrdered":
                                 var isOrderedValue = xmlReader.ReadElementContentAsString();
+
                                 if (!string.IsNullOrEmpty(isOrderedValue))
                                 {
                                     poco.IsOrdered = bool.Parse(isOrderedValue);
                                 }
+
                                 break;
                             case "isUnique":
                                 var isUniqueValue = xmlReader.ReadElementContentAsString();
+
                                 if (!string.IsNullOrEmpty(isUniqueValue))
                                 {
                                     poco.IsUnique = bool.Parse(isUniqueValue);
                                 }
+
                                 break;
                             case "lowerValue":
                                 var lowerValueValue = (IValueSpecification)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.LoggerFactory);
@@ -218,6 +226,7 @@ namespace uml4net.xmi.Readers
                                 {
                                     this.Logger.LogWarning("Not Supported: ConnectorEndReader: {LocalName} at line:position {LineNumber}:{LinePosition}", xmlReader.LocalName, defaultLineInfo.LineNumber, defaultLineInfo.LinePosition);
                                 }
+
                                 break;
                         }
                     }

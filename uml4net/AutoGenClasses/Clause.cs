@@ -133,7 +133,6 @@ namespace uml4net.Actions
         [Property(xmiId: "Clause-test", aggregation: AggregationKind.None, lowerValue: 1, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [Implements(implementation: "IClause.Test")]
         public List<IExecutableNode> Test { get; set; } = new();
-
     }
 }
 

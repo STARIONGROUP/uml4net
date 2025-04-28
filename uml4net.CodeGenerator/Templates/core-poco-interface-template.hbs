@@ -54,7 +54,9 @@ namespace uml4net.{{this.Namespace.Name}}
         {{ #Decorator.WriteSubsettedPropertyAttribute property }}
         {{ #Decorator.WriteRedefinedPropertyAttribute property }}
         {{ #Property.WriteForInterface property }}
-
+        {{#unless @last}}
+        
+        {{/unless}}
         {{/each}}
     }
 }

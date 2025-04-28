@@ -176,7 +176,6 @@ namespace uml4net.StructuredClassifiers
         /// Backing field for <see cref="UpperValue"/>
         /// </summary>
         private IContainerList<IValueSpecification> upperValue;
-
     }
 }
 

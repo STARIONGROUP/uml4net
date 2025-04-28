@@ -53,10 +53,9 @@ namespace uml4net.Actions
         /// <summary>
         /// The LinkEndData that specifies the values to be placed on the Association ends for the new link.
         /// </summary>
-        [Property(xmiId: "CreateLinkAction-endData", aggregation: AggregationKind.Composite, lowerValue: 2, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "CreateLinkAction-endData", aggregation: AggregationKind.Composite, lowerValue: 2, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [RedefinedProperty(propertyName: "LinkAction-endData")]
         public new IContainerList<ILinkEndCreationData> EndData { get; set; }
-
     }
 }
 

@@ -58,23 +58,22 @@ namespace uml4net.Packages
         /// true, but otherwise it is false. Since the default value of ExtensionEnd::lower is 0, the default
         /// value of isRequired is false.
         /// </summary>
-        [Property(xmiId: "Extension-isRequired", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "Extension-isRequired", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         public bool IsRequired { get; }
 
         /// <summary>
         /// References the Class that is extended through an Extension. The property is derived from the type of
         /// the memberEnd that is not the ownedEnd.
         /// </summary>
-        [Property(xmiId: "Extension-metaclass", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "Extension-metaclass", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         public IClass Metaclass { get; }
 
         /// <summary>
         /// References the end of the extension that is typed by a Stereotype.
         /// </summary>
-        [Property(xmiId: "Extension-ownedEnd", aggregation: AggregationKind.Composite, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "Extension-ownedEnd", aggregation: AggregationKind.Composite, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [RedefinedProperty(propertyName: "Association-ownedEnd")]
         public new IContainerList<IExtensionEnd> OwnedEnd { get; set; }
-
     }
 }
 

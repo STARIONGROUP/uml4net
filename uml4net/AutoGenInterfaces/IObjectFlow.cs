@@ -55,27 +55,26 @@ namespace uml4net.Activities
         /// <summary>
         /// Indicates whether the objects in the ObjectFlow are passed by multicasting.
         /// </summary>
-        [Property(xmiId: "ObjectFlow-isMulticast", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: "false")]
+        [Property(xmiId: "ObjectFlow-isMulticast", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: "false")]
         public bool IsMulticast { get; set; }
 
         /// <summary>
         /// Indicates whether the objects in the ObjectFlow are gathered from respondents to multicasting.
         /// </summary>
-        [Property(xmiId: "ObjectFlow-isMultireceive", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: "false")]
+        [Property(xmiId: "ObjectFlow-isMultireceive", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: "false")]
         public bool IsMultireceive { get; set; }
 
         /// <summary>
         /// A Behavior used to select tokens from a source ObjectNode.
         /// </summary>
-        [Property(xmiId: "ObjectFlow-selection", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "ObjectFlow-selection", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         public IBehavior Selection { get; set; }
 
         /// <summary>
         /// A Behavior used to change or replace object tokens flowing along the ObjectFlow.
         /// </summary>
-        [Property(xmiId: "ObjectFlow-transformation", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "ObjectFlow-transformation", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         public IBehavior Transformation { get; set; }
-
     }
 }
 

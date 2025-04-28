@@ -147,6 +147,7 @@ namespace uml4net.xmi.Readers
                 }
 
                 var eventXmlAttribute = xmlReader.GetAttribute("event");
+
                 if (!string.IsNullOrEmpty(eventXmlAttribute))
                 {
                     poco.SingleValueReferencePropertyIdentifiers.Add("event", eventXmlAttribute);
@@ -155,6 +156,7 @@ namespace uml4net.xmi.Readers
                 poco.Name = xmlReader.GetAttribute("name");
 
                 var portXmlAttribute = xmlReader.GetAttribute("port");
+
                 if (!string.IsNullOrEmpty(portXmlAttribute))
                 {
                     var portXmlAttributeValues = portXmlAttribute.Split(SplitMultiReference, StringSplitOptions.RemoveEmptyEntries).ToList();
@@ -162,6 +164,7 @@ namespace uml4net.xmi.Readers
                 }
 
                 var visibilityXmlAttribute = xmlReader.GetAttribute("visibility");
+
                 if (!string.IsNullOrEmpty(visibilityXmlAttribute))
                 {
                     poco.Visibility = (VisibilityKind)Enum.Parse(typeof(VisibilityKind), visibilityXmlAttribute, true);
@@ -193,10 +196,12 @@ namespace uml4net.xmi.Readers
                                 break;
                             case "visibility":
                                 var visibilityValue = xmlReader.ReadElementContentAsString();
+
                                 if (!string.IsNullOrEmpty(visibilityValue))
                                 {
-                                    poco.Visibility = (VisibilityKind)Enum.Parse(typeof(VisibilityKind), visibilityValue, true); ;
+                                    poco.Visibility = (VisibilityKind)Enum.Parse(typeof(VisibilityKind), visibilityValue, true);
                                 }
+
                                 break;
                             default:
                                 if (this.XmiReaderSettings.UseStrictReading)
@@ -207,6 +212,7 @@ namespace uml4net.xmi.Readers
                                 {
                                     this.Logger.LogWarning("Not Supported: TriggerReader: {LocalName} at line:position {LineNumber}:{LinePosition}", xmlReader.LocalName, defaultLineInfo.LineNumber, defaultLineInfo.LinePosition);
                                 }
+
                                 break;
                         }
                     }

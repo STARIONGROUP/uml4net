@@ -55,7 +55,7 @@ namespace uml4net.Values
         /// <summary>
         /// The TimeObservation is determined by the entering or exiting of the event Element during execution.
         /// </summary>
-        [Property(xmiId: "TimeObservation-event", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "TimeObservation-event", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         public INamedElement Event { get; set; }
 
         /// <summary>
@@ -64,9 +64,8 @@ namespace uml4net.Values
         /// false, then the corresponding observation event is the time instant the execution exits the event
         /// Element.
         /// </summary>
-        [Property(xmiId: "TimeObservation-firstEvent", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: "true")]
+        [Property(xmiId: "TimeObservation-firstEvent", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: "true")]
         public bool FirstEvent { get; set; }
-
     }
 }
 

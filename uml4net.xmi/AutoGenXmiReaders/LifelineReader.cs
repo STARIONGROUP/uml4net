@@ -147,6 +147,7 @@ namespace uml4net.xmi.Readers
                 }
 
                 var coveredByXmlAttribute = xmlReader.GetAttribute("coveredBy");
+
                 if (!string.IsNullOrEmpty(coveredByXmlAttribute))
                 {
                     var coveredByXmlAttributeValues = coveredByXmlAttribute.Split(SplitMultiReference, StringSplitOptions.RemoveEmptyEntries).ToList();
@@ -154,12 +155,14 @@ namespace uml4net.xmi.Readers
                 }
 
                 var decomposedAsXmlAttribute = xmlReader.GetAttribute("decomposedAs");
+
                 if (!string.IsNullOrEmpty(decomposedAsXmlAttribute))
                 {
                     poco.SingleValueReferencePropertyIdentifiers.Add("decomposedAs", decomposedAsXmlAttribute);
                 }
 
                 var interactionXmlAttribute = xmlReader.GetAttribute("interaction");
+
                 if (!string.IsNullOrEmpty(interactionXmlAttribute))
                 {
                     poco.SingleValueReferencePropertyIdentifiers.Add("interaction", interactionXmlAttribute);
@@ -168,12 +171,14 @@ namespace uml4net.xmi.Readers
                 poco.Name = xmlReader.GetAttribute("name");
 
                 var representsXmlAttribute = xmlReader.GetAttribute("represents");
+
                 if (!string.IsNullOrEmpty(representsXmlAttribute))
                 {
                     poco.SingleValueReferencePropertyIdentifiers.Add("represents", representsXmlAttribute);
                 }
 
                 var visibilityXmlAttribute = xmlReader.GetAttribute("visibility");
+
                 if (!string.IsNullOrEmpty(visibilityXmlAttribute))
                 {
                     poco.Visibility = (VisibilityKind)Enum.Parse(typeof(VisibilityKind), visibilityXmlAttribute, true);
@@ -215,10 +220,12 @@ namespace uml4net.xmi.Readers
                                 break;
                             case "visibility":
                                 var visibilityValue = xmlReader.ReadElementContentAsString();
+
                                 if (!string.IsNullOrEmpty(visibilityValue))
                                 {
-                                    poco.Visibility = (VisibilityKind)Enum.Parse(typeof(VisibilityKind), visibilityValue, true); ;
+                                    poco.Visibility = (VisibilityKind)Enum.Parse(typeof(VisibilityKind), visibilityValue, true);
                                 }
+
                                 break;
                             default:
                                 if (this.XmiReaderSettings.UseStrictReading)
@@ -229,6 +236,7 @@ namespace uml4net.xmi.Readers
                                 {
                                     this.Logger.LogWarning("Not Supported: LifelineReader: {LocalName} at line:position {LineNumber}:{LinePosition}", xmlReader.LocalName, defaultLineInfo.LineNumber, defaultLineInfo.LinePosition);
                                 }
+
                                 break;
                         }
                     }

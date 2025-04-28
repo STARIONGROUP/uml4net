@@ -147,12 +147,14 @@ namespace uml4net.xmi.Readers
                 }
 
                 var generalXmlAttribute = xmlReader.GetAttribute("general");
+
                 if (!string.IsNullOrEmpty(generalXmlAttribute))
                 {
                     poco.SingleValueReferencePropertyIdentifiers.Add("general", generalXmlAttribute);
                 }
 
                 var generalizationSetXmlAttribute = xmlReader.GetAttribute("generalizationSet");
+
                 if (!string.IsNullOrEmpty(generalizationSetXmlAttribute))
                 {
                     var generalizationSetXmlAttributeValues = generalizationSetXmlAttribute.Split(SplitMultiReference, StringSplitOptions.RemoveEmptyEntries).ToList();
@@ -160,12 +162,14 @@ namespace uml4net.xmi.Readers
                 }
 
                 var isSubstitutableXmlAttribute = xmlReader.GetAttribute("isSubstitutable");
+
                 if (!string.IsNullOrEmpty(isSubstitutableXmlAttribute))
                 {
                     poco.IsSubstitutable = bool.Parse(isSubstitutableXmlAttribute);
                 }
 
                 var specificXmlAttribute = xmlReader.GetAttribute("specific");
+
                 if (!string.IsNullOrEmpty(specificXmlAttribute))
                 {
                     poco.SingleValueReferencePropertyIdentifiers.Add("specific", specificXmlAttribute);
@@ -186,10 +190,12 @@ namespace uml4net.xmi.Readers
                                 break;
                             case "isSubstitutable":
                                 var isSubstitutableValue = xmlReader.ReadElementContentAsString();
+
                                 if (!string.IsNullOrEmpty(isSubstitutableValue))
                                 {
                                     poco.IsSubstitutable = bool.Parse(isSubstitutableValue);
                                 }
+
                                 break;
                             case "ownedComment":
                                 var ownedCommentValue = (IComment)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.LoggerFactory, "uml:Comment");
@@ -207,6 +213,7 @@ namespace uml4net.xmi.Readers
                                 {
                                     this.Logger.LogWarning("Not Supported: GeneralizationReader: {LocalName} at line:position {LineNumber}:{LinePosition}", xmlReader.LocalName, defaultLineInfo.LineNumber, defaultLineInfo.LinePosition);
                                 }
+
                                 break;
                         }
                     }

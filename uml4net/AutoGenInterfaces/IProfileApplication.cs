@@ -53,14 +53,14 @@ namespace uml4net.Packages
         /// <summary>
         /// References the Profiles that are applied to a Package through this ProfileApplication.
         /// </summary>
-        [Property(xmiId: "ProfileApplication-appliedProfile", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "ProfileApplication-appliedProfile", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "DirectedRelationship-target")]
         public IProfile AppliedProfile { get; set; }
 
         /// <summary>
         /// The package that owns the profile application.
         /// </summary>
-        [Property(xmiId: "ProfileApplication-applyingPackage", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "ProfileApplication-applyingPackage", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "DirectedRelationship-source")]
         [SubsettedProperty(propertyName: "Element-owner")]
         public IPackage ApplyingPackage { get; set; }
@@ -69,9 +69,8 @@ namespace uml4net.Packages
         /// Specifies that the Profile filtering rules for the metaclasses of the referenced metamodel shall be
         /// strictly applied.
         /// </summary>
-        [Property(xmiId: "ProfileApplication-isStrict", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: "false")]
+        [Property(xmiId: "ProfileApplication-isStrict", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: "false")]
         public bool IsStrict { get; set; }
-
     }
 }
 

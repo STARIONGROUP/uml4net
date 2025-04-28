@@ -108,7 +108,6 @@ namespace uml4net.Activities
         [Property(xmiId: "Activity-variable", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Namespace-ownedMember")]
         public IContainerList<IVariable> Variable { get; set; }
-
     }
 }
 

@@ -54,10 +54,9 @@ namespace uml4net.Actions
         /// <summary>
         /// The Action used to provide the values of the ActionInputPin.
         /// </summary>
-        [Property(xmiId: "ActionInputPin-fromAction", aggregation: AggregationKind.Composite, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "ActionInputPin-fromAction", aggregation: AggregationKind.Composite, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Element-ownedElement")]
         public IContainerList<IAction> FromAction { get; set; }
-
     }
 }
 

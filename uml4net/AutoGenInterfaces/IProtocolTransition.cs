@@ -58,7 +58,7 @@ namespace uml4net.StateMachines
         /// the Transition is triggered. This post condition is part of the post condition of the Operation
         /// connected to the Transition.
         /// </summary>
-        [Property(xmiId: "ProtocolTransition-postCondition", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "ProtocolTransition-postCondition", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Namespace-ownedRule")]
         public IContainerList<IConstraint> PostCondition { get; set; }
 
@@ -67,7 +67,7 @@ namespace uml4net.StateMachines
         /// before triggering the Transition. This guard condition added to the source State will be evaluated
         /// as part of the precondition of the Operation referred by the Transition if any.
         /// </summary>
-        [Property(xmiId: "ProtocolTransition-preCondition", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "ProtocolTransition-preCondition", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Transition-guard")]
         public IContainerList<IConstraint> PreCondition { get; set; }
 
@@ -75,9 +75,8 @@ namespace uml4net.StateMachines
         /// This association refers to the associated Operation. It is derived from the Operation of the
         /// CallEvent Trigger when applicable.
         /// </summary>
-        [Property(xmiId: "ProtocolTransition-referred", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "ProtocolTransition-referred", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         public List<IOperation> Referred { get; }
-
     }
 }
 

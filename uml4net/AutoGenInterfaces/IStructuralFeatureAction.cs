@@ -53,16 +53,15 @@ namespace uml4net.Actions
         /// <summary>
         /// The InputPin from which the object whose StructuralFeature is to be read or written is obtained.
         /// </summary>
-        [Property(xmiId: "StructuralFeatureAction-object", aggregation: AggregationKind.Composite, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "StructuralFeatureAction-object", aggregation: AggregationKind.Composite, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Action-input")]
         public IContainerList<IInputPin> Object { get; set; }
 
         /// <summary>
         /// The StructuralFeature to be read or written.
         /// </summary>
-        [Property(xmiId: "StructuralFeatureAction-structuralFeature", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "StructuralFeatureAction-structuralFeature", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         public IStructuralFeature StructuralFeature { get; set; }
-
     }
 }
 

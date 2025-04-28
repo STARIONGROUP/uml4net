@@ -741,7 +741,6 @@ namespace uml4net.Packages
         [RedefinedProperty(propertyName: "NamedElement-visibility")]
         [Implements(implementation: "IPackageableElement.Visibility")]
         public VisibilityKind Visibility { get; set; }
-
     }
 }
 

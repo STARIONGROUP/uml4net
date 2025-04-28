@@ -147,12 +147,14 @@ namespace uml4net.xmi.Readers
                 }
 
                 var qualifierXmlAttribute = xmlReader.GetAttribute("qualifier");
+
                 if (!string.IsNullOrEmpty(qualifierXmlAttribute))
                 {
                     poco.SingleValueReferencePropertyIdentifiers.Add("qualifier", qualifierXmlAttribute);
                 }
 
                 var valueXmlAttribute = xmlReader.GetAttribute("value");
+
                 if (!string.IsNullOrEmpty(valueXmlAttribute))
                 {
                     poco.SingleValueReferencePropertyIdentifiers.Add("value", valueXmlAttribute);
@@ -184,6 +186,7 @@ namespace uml4net.xmi.Readers
                                 {
                                     this.Logger.LogWarning("Not Supported: QualifierValueReader: {LocalName} at line:position {LineNumber}:{LinePosition}", xmlReader.LocalName, defaultLineInfo.LineNumber, defaultLineInfo.LinePosition);
                                 }
+
                                 break;
                         }
                     }

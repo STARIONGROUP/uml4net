@@ -119,7 +119,6 @@ namespace uml4net.Classification
         /// Backing field for <see cref="Value"/>
         /// </summary>
         private IContainerList<IValueSpecification> value;
-
     }
 }
 

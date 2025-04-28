@@ -54,10 +54,9 @@ namespace uml4net.StructuredClassifiers
         /// <summary>
         /// The ConnectableElement for this ConnectableElementTemplateParameter.
         /// </summary>
-        [Property(xmiId: "ConnectableElementTemplateParameter-parameteredElement", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "ConnectableElementTemplateParameter-parameteredElement", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [RedefinedProperty(propertyName: "TemplateParameter-parameteredElement")]
         public new IConnectableElement ParameteredElement { get; set; }
-
     }
 }
 

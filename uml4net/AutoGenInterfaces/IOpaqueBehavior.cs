@@ -59,9 +59,8 @@ namespace uml4net.CommonBehavior
         /// <summary>
         /// Languages the body strings use in the same order as the body strings.
         /// </summary>
-        [Property(xmiId: "OpaqueBehavior-language", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: true, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "OpaqueBehavior-language", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: true, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         public List<string> Language { get; set; }
-
     }
 }
 

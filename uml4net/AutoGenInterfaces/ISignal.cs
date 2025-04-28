@@ -54,11 +54,10 @@ namespace uml4net.SimpleClassifiers
         /// <summary>
         /// The attributes owned by the Signal.
         /// </summary>
-        [Property(xmiId: "Signal-ownedAttribute", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: true, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "Signal-ownedAttribute", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: true, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Classifier-attribute")]
         [SubsettedProperty(propertyName: "Namespace-ownedMember")]
         public IContainerList<IProperty> OwnedAttribute { get; set; }
-
     }
 }
 

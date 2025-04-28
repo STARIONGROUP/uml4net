@@ -56,36 +56,35 @@ namespace uml4net.Interactions
         /// <summary>
         /// The actual gates of the InteractionUse.
         /// </summary>
-        [Property(xmiId: "InteractionUse-actualGate", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "InteractionUse-actualGate", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Element-ownedElement")]
         public IContainerList<IGate> ActualGate { get; set; }
 
         /// <summary>
         /// The actual arguments of the Interaction.
         /// </summary>
-        [Property(xmiId: "InteractionUse-argument", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: true, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "InteractionUse-argument", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: true, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Element-ownedElement")]
         public IContainerList<IValueSpecification> Argument { get; set; }
 
         /// <summary>
         /// Refers to the Interaction that defines its meaning.
         /// </summary>
-        [Property(xmiId: "InteractionUse-refersTo", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "InteractionUse-refersTo", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         public IInteraction RefersTo { get; set; }
 
         /// <summary>
         /// The value of the executed Interaction.
         /// </summary>
-        [Property(xmiId: "InteractionUse-returnValue", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "InteractionUse-returnValue", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Element-ownedElement")]
         public IContainerList<IValueSpecification> ReturnValue { get; set; }
 
         /// <summary>
         /// The recipient of the return value.
         /// </summary>
-        [Property(xmiId: "InteractionUse-returnValueRecipient", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "InteractionUse-returnValueRecipient", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         public IProperty ReturnValueRecipient { get; set; }
-
     }
 }
 

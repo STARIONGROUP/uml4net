@@ -158,7 +158,6 @@ namespace uml4net.CommonBehavior
         [Property(xmiId: "NamedElement-visibility", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [Implements(implementation: "INamedElement.Visibility")]
         public VisibilityKind Visibility { get; set; }
-
     }
 }
 

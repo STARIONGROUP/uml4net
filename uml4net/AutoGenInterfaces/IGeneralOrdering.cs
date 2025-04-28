@@ -56,15 +56,14 @@ namespace uml4net.Interactions
         /// <summary>
         /// The OccurrenceSpecification referenced comes after the OccurrenceSpecification referenced by before.
         /// </summary>
-        [Property(xmiId: "GeneralOrdering-after", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "GeneralOrdering-after", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         public IOccurrenceSpecification After { get; set; }
 
         /// <summary>
         /// The OccurrenceSpecification referenced comes before the OccurrenceSpecification referenced by after.
         /// </summary>
-        [Property(xmiId: "GeneralOrdering-before", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "GeneralOrdering-before", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         public IOccurrenceSpecification Before { get; set; }
-
     }
 }
 

@@ -53,16 +53,15 @@ namespace uml4net.Actions
         /// <summary>
         /// The Classifier to be instantiated.
         /// </summary>
-        [Property(xmiId: "CreateObjectAction-classifier", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "CreateObjectAction-classifier", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         public IClassifier Classifier { get; set; }
 
         /// <summary>
         /// The OutputPin on which the newly created object is placed.
         /// </summary>
-        [Property(xmiId: "CreateObjectAction-result", aggregation: AggregationKind.Composite, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "CreateObjectAction-result", aggregation: AggregationKind.Composite, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Action-output")]
         public IContainerList<IOutputPin> Result { get; set; }
-
     }
 }
 

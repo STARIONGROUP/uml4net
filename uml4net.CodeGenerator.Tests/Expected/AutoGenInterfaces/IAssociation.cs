@@ -89,7 +89,6 @@ namespace uml4net.StructuredClassifiers
         [SubsettedProperty(propertyName: "Classifier-feature")]
         [SubsettedProperty(propertyName: "Namespace-ownedMember")]
         public IContainerList<IProperty> OwnedEnd { get; set; }
-
     }
 }
 

@@ -54,7 +54,7 @@ namespace uml4net.Interactions
         /// <summary>
         /// References the Lifeline on which the OccurrenceSpecification appears.
         /// </summary>
-        [Property(xmiId: "OccurrenceSpecification-covered", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "OccurrenceSpecification-covered", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [RedefinedProperty(propertyName: "InteractionFragment-covered")]
         public new ILifeline Covered { get; set; }
 
@@ -62,16 +62,15 @@ namespace uml4net.Interactions
         /// References the GeneralOrderings that specify EventOcurrences that must occur after this
         /// OccurrenceSpecification.
         /// </summary>
-        [Property(xmiId: "OccurrenceSpecification-toAfter", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "OccurrenceSpecification-toAfter", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         public List<IGeneralOrdering> ToAfter { get; set; }
 
         /// <summary>
         /// References the GeneralOrderings that specify EventOcurrences that must occur before this
         /// OccurrenceSpecification.
         /// </summary>
-        [Property(xmiId: "OccurrenceSpecification-toBefore", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "OccurrenceSpecification-toBefore", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         public List<IGeneralOrdering> ToBefore { get; set; }
-
     }
 }
 

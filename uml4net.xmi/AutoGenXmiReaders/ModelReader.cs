@@ -149,18 +149,21 @@ namespace uml4net.xmi.Readers
                 poco.Name = xmlReader.GetAttribute("name");
 
                 var nestingPackageXmlAttribute = xmlReader.GetAttribute("nestingPackage");
+
                 if (!string.IsNullOrEmpty(nestingPackageXmlAttribute))
                 {
                     poco.SingleValueReferencePropertyIdentifiers.Add("nestingPackage", nestingPackageXmlAttribute);
                 }
 
                 var owningTemplateParameterXmlAttribute = xmlReader.GetAttribute("owningTemplateParameter");
+
                 if (!string.IsNullOrEmpty(owningTemplateParameterXmlAttribute))
                 {
                     poco.SingleValueReferencePropertyIdentifiers.Add("owningTemplateParameter", owningTemplateParameterXmlAttribute);
                 }
 
                 var templateParameterXmlAttribute = xmlReader.GetAttribute("templateParameter");
+
                 if (!string.IsNullOrEmpty(templateParameterXmlAttribute))
                 {
                     poco.SingleValueReferencePropertyIdentifiers.Add("templateParameter", templateParameterXmlAttribute);
@@ -171,6 +174,7 @@ namespace uml4net.xmi.Readers
                 poco.Viewpoint = xmlReader.GetAttribute("viewpoint");
 
                 var visibilityXmlAttribute = xmlReader.GetAttribute("visibility");
+
                 if (!string.IsNullOrEmpty(visibilityXmlAttribute))
                 {
                     poco.Visibility = (VisibilityKind)Enum.Parse(typeof(VisibilityKind), visibilityXmlAttribute, true);
@@ -243,10 +247,12 @@ namespace uml4net.xmi.Readers
                                 break;
                             case "visibility":
                                 var visibilityValue = xmlReader.ReadElementContentAsString();
+
                                 if (!string.IsNullOrEmpty(visibilityValue))
                                 {
-                                    poco.Visibility = (VisibilityKind)Enum.Parse(typeof(VisibilityKind), visibilityValue, true); ;
+                                    poco.Visibility = (VisibilityKind)Enum.Parse(typeof(VisibilityKind), visibilityValue, true);
                                 }
+
                                 break;
                             default:
                                 if (this.XmiReaderSettings.UseStrictReading)
@@ -257,6 +263,7 @@ namespace uml4net.xmi.Readers
                                 {
                                     this.Logger.LogWarning("Not Supported: ModelReader: {LocalName} at line:position {LineNumber}:{LinePosition}", xmlReader.LocalName, defaultLineInfo.LineNumber, defaultLineInfo.LinePosition);
                                 }
+
                                 break;
                         }
                     }

@@ -54,7 +54,7 @@ namespace uml4net.SimpleClassifiers
         /// <summary>
         /// References all the Classifiers that are defined (nested) within the Interface.
         /// </summary>
-        [Property(xmiId: "Interface-nestedClassifier", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: true, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "Interface-nestedClassifier", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: true, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "A_redefinitionContext_redefinableElement-redefinableElement")]
         [SubsettedProperty(propertyName: "Namespace-ownedMember")]
         public IContainerList<IClassifier> NestedClassifier { get; set; }
@@ -62,7 +62,7 @@ namespace uml4net.SimpleClassifiers
         /// <summary>
         /// The attributes (i.e., the Properties) owned by the Interface.
         /// </summary>
-        [Property(xmiId: "Interface-ownedAttribute", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: true, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "Interface-ownedAttribute", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: true, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Classifier-attribute")]
         [SubsettedProperty(propertyName: "Namespace-ownedMember")]
         public IContainerList<IProperty> OwnedAttribute { get; set; }
@@ -70,7 +70,7 @@ namespace uml4net.SimpleClassifiers
         /// <summary>
         /// The Operations owned by the Interface.
         /// </summary>
-        [Property(xmiId: "Interface-ownedOperation", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: true, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "Interface-ownedOperation", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: true, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "A_redefinitionContext_redefinableElement-redefinableElement")]
         [SubsettedProperty(propertyName: "Classifier-feature")]
         [SubsettedProperty(propertyName: "Namespace-ownedMember")]
@@ -79,7 +79,7 @@ namespace uml4net.SimpleClassifiers
         /// <summary>
         /// Receptions that objects providing this Interface are willing to accept.
         /// </summary>
-        [Property(xmiId: "Interface-ownedReception", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "Interface-ownedReception", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Classifier-feature")]
         [SubsettedProperty(propertyName: "Namespace-ownedMember")]
         public IContainerList<IReception> OwnedReception { get; set; }
@@ -88,17 +88,16 @@ namespace uml4net.SimpleClassifiers
         /// References a ProtocolStateMachine specifying the legal sequences of the invocation of the
         /// BehavioralFeatures described in the Interface.
         /// </summary>
-        [Property(xmiId: "Interface-protocol", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "Interface-protocol", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Namespace-ownedMember")]
         public IContainerList<IProtocolStateMachine> Protocol { get; set; }
 
         /// <summary>
         /// References all the Interfaces redefined by this Interface.
         /// </summary>
-        [Property(xmiId: "Interface-redefinedInterface", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "Interface-redefinedInterface", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Classifier-redefinedClassifier")]
         public List<IInterface> RedefinedInterface { get; set; }
-
     }
 }
 

@@ -129,9 +129,6 @@
       <None Include="Expected\AutoGenInterfaces\IOpaqueExpression.cs">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
-      <None Include="Expected\AutoGenInterfaces\IStateMachine.cs">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
       <None Include="Expected\AutoGenInterfaces\ITimeConstraint.cs">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>

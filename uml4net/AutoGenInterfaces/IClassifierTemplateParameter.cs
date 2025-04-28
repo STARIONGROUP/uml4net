@@ -54,7 +54,7 @@ namespace uml4net.Classification
         /// Constrains the required relationship between an actual parameter and the parameteredElement for this
         /// formal parameter.
         /// </summary>
-        [Property(xmiId: "ClassifierTemplateParameter-allowSubstitutable", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: "true")]
+        [Property(xmiId: "ClassifierTemplateParameter-allowSubstitutable", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: "true")]
         public bool AllowSubstitutable { get; set; }
 
         /// <summary>
@@ -64,16 +64,15 @@ namespace uml4net.Classification
         /// specializations. If this property is empty, there are no constraints on the Classifier that can be
         /// used as an argument.
         /// </summary>
-        [Property(xmiId: "ClassifierTemplateParameter-constrainingClassifier", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "ClassifierTemplateParameter-constrainingClassifier", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         public List<IClassifier> ConstrainingClassifier { get; set; }
 
         /// <summary>
         /// The Classifier exposed by this ClassifierTemplateParameter.
         /// </summary>
-        [Property(xmiId: "ClassifierTemplateParameter-parameteredElement", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "ClassifierTemplateParameter-parameteredElement", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [RedefinedProperty(propertyName: "TemplateParameter-parameteredElement")]
         public new IClassifier ParameteredElement { get; set; }
-
     }
 }
 

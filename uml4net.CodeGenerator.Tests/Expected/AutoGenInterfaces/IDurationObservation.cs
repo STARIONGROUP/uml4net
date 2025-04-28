@@ -68,7 +68,6 @@ namespace uml4net.Values
         /// </summary>
         [Property(xmiId: "DurationObservation-firstEvent", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 2, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         public List<bool> FirstEvent { get; set; }
-
     }
 }
 

@@ -54,17 +54,16 @@ namespace uml4net.Actions
         /// <summary>
         /// The OutputPin on which is put the input object as modified by the WriteStructuralFeatureAction.
         /// </summary>
-        [Property(xmiId: "WriteStructuralFeatureAction-result", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "WriteStructuralFeatureAction-result", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Action-output")]
         public IContainerList<IOutputPin> Result { get; set; }
 
         /// <summary>
         /// The InputPin that provides the value to be added or removed from the StructuralFeature.
         /// </summary>
-        [Property(xmiId: "WriteStructuralFeatureAction-value", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "WriteStructuralFeatureAction-value", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Action-input")]
         public IContainerList<IInputPin> Value { get; set; }
-
     }
 }
 

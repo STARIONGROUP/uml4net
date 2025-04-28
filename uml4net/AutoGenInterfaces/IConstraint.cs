@@ -55,23 +55,22 @@ namespace uml4net.CommonStructure
         /// <summary>
         /// The ordered set of Elements referenced by this Constraint.
         /// </summary>
-        [Property(xmiId: "Constraint-constrainedElement", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: true, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "Constraint-constrainedElement", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: true, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         public List<IElement> ConstrainedElement { get; set; }
 
         /// <summary>
         /// Specifies the Namespace that owns the Constraint.
         /// </summary>
-        [Property(xmiId: "Constraint-context", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "Constraint-context", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "NamedElement-namespace")]
         public INamespace Context { get; set; }
 
         /// <summary>
         /// A condition that must be true when evaluated in order for the Constraint to be satisfied.
         /// </summary>
-        [Property(xmiId: "Constraint-specification", aggregation: AggregationKind.Composite, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "Constraint-specification", aggregation: AggregationKind.Composite, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Element-ownedElement")]
         public IContainerList<IValueSpecification> Specification { get; set; }
-
     }
 }
 

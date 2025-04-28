@@ -55,18 +55,17 @@ namespace uml4net.CommonStructure
         /// The optional TemplateSignature specifying the formal TemplateParameters for this
         /// TemplateableElement. If a TemplateableElement has a TemplateSignature, then it is a template.
         /// </summary>
-        [Property(xmiId: "TemplateableElement-ownedTemplateSignature", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "TemplateableElement-ownedTemplateSignature", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Element-ownedElement")]
         public IContainerList<ITemplateSignature> OwnedTemplateSignature { get; set; }
 
         /// <summary>
         /// The optional TemplateBindings from this TemplateableElement to one or more templates.
         /// </summary>
-        [Property(xmiId: "TemplateableElement-templateBinding", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "TemplateableElement-templateBinding", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "A_source_directedRelationship-directedRelationship")]
         [SubsettedProperty(propertyName: "Element-ownedElement")]
         public IContainerList<ITemplateBinding> TemplateBinding { get; set; }
-
     }
 }
 

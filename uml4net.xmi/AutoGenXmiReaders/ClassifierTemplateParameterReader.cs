@@ -147,12 +147,14 @@ namespace uml4net.xmi.Readers
                 }
 
                 var allowSubstitutableXmlAttribute = xmlReader.GetAttribute("allowSubstitutable");
+
                 if (!string.IsNullOrEmpty(allowSubstitutableXmlAttribute))
                 {
                     poco.AllowSubstitutable = bool.Parse(allowSubstitutableXmlAttribute);
                 }
 
                 var constrainingClassifierXmlAttribute = xmlReader.GetAttribute("constrainingClassifier");
+
                 if (!string.IsNullOrEmpty(constrainingClassifierXmlAttribute))
                 {
                     var constrainingClassifierXmlAttributeValues = constrainingClassifierXmlAttribute.Split(SplitMultiReference, StringSplitOptions.RemoveEmptyEntries).ToList();
@@ -160,18 +162,21 @@ namespace uml4net.xmi.Readers
                 }
 
                 var defaultXmlAttribute = xmlReader.GetAttribute("default");
+
                 if (!string.IsNullOrEmpty(defaultXmlAttribute))
                 {
                     poco.SingleValueReferencePropertyIdentifiers.Add("default", defaultXmlAttribute);
                 }
 
                 var parameteredElementXmlAttribute = xmlReader.GetAttribute("parameteredElement");
+
                 if (!string.IsNullOrEmpty(parameteredElementXmlAttribute))
                 {
                     poco.SingleValueReferencePropertyIdentifiers.Add("parameteredElement", parameteredElementXmlAttribute);
                 }
 
                 var signatureXmlAttribute = xmlReader.GetAttribute("signature");
+
                 if (!string.IsNullOrEmpty(signatureXmlAttribute))
                 {
                     poco.SingleValueReferencePropertyIdentifiers.Add("signature", signatureXmlAttribute);
@@ -186,10 +191,12 @@ namespace uml4net.xmi.Readers
                         {
                             case "allowSubstitutable":
                                 var allowSubstitutableValue = xmlReader.ReadElementContentAsString();
+
                                 if (!string.IsNullOrEmpty(allowSubstitutableValue))
                                 {
                                     poco.AllowSubstitutable = bool.Parse(allowSubstitutableValue);
                                 }
+
                                 break;
                             case "constrainingClassifier":
                                 this.TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, "constrainingClassifier");
@@ -224,6 +231,7 @@ namespace uml4net.xmi.Readers
                                 {
                                     this.Logger.LogWarning("Not Supported: ClassifierTemplateParameterReader: {LocalName} at line:position {LineNumber}:{LinePosition}", xmlReader.LocalName, defaultLineInfo.LineNumber, defaultLineInfo.LinePosition);
                                 }
+
                                 break;
                         }
                     }

@@ -55,24 +55,23 @@ namespace uml4net.Actions
         /// <summary>
         /// The Trigger specifying the Operation whose call is being replied to.
         /// </summary>
-        [Property(xmiId: "ReplyAction-replyToCall", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "ReplyAction-replyToCall", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         public ITrigger ReplyToCall { get; set; }
 
         /// <summary>
         /// A list of InputPins providing the values for the output (inout, out, and return) Parameters of the
         /// Operation. These values are returned to the caller.
         /// </summary>
-        [Property(xmiId: "ReplyAction-replyValue", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: true, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "ReplyAction-replyValue", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: true, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Action-input")]
         public IContainerList<IInputPin> ReplyValue { get; set; }
 
         /// <summary>
         /// An InputPin that holds the return information value produced by an earlier AcceptCallAction.
         /// </summary>
-        [Property(xmiId: "ReplyAction-returnInformation", aggregation: AggregationKind.Composite, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "ReplyAction-returnInformation", aggregation: AggregationKind.Composite, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Action-input")]
         public IContainerList<IInputPin> ReturnInformation { get; set; }
-
     }
 }
 

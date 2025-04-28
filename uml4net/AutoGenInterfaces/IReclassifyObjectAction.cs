@@ -53,28 +53,27 @@ namespace uml4net.Actions
         /// <summary>
         /// Specifies whether existing Classifiers should be removed before adding the new Classifiers.
         /// </summary>
-        [Property(xmiId: "ReclassifyObjectAction-isReplaceAll", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: "false")]
+        [Property(xmiId: "ReclassifyObjectAction-isReplaceAll", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: "false")]
         public bool IsReplaceAll { get; set; }
 
         /// <summary>
         /// A set of Classifiers to be added to the Classifiers of the given object.
         /// </summary>
-        [Property(xmiId: "ReclassifyObjectAction-newClassifier", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "ReclassifyObjectAction-newClassifier", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         public List<IClassifier> NewClassifier { get; set; }
 
         /// <summary>
         /// The InputPin that holds the object to be reclassified.
         /// </summary>
-        [Property(xmiId: "ReclassifyObjectAction-object", aggregation: AggregationKind.Composite, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "ReclassifyObjectAction-object", aggregation: AggregationKind.Composite, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Action-input")]
         public IContainerList<IInputPin> Object { get; set; }
 
         /// <summary>
         /// A set of Classifiers to be removed from the Classifiers of the given object.
         /// </summary>
-        [Property(xmiId: "ReclassifyObjectAction-oldClassifier", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "ReclassifyObjectAction-oldClassifier", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         public List<IClassifier> OldClassifier { get; set; }
-
     }
 }
 

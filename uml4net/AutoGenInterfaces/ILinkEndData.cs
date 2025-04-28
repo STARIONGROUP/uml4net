@@ -56,13 +56,13 @@ namespace uml4net.Actions
         /// <summary>
         /// The Association end for which this LinkEndData specifies values.
         /// </summary>
-        [Property(xmiId: "LinkEndData-end", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "LinkEndData-end", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         public IProperty End { get; set; }
 
         /// <summary>
         /// A set of QualifierValues used to provide values for the qualifiers of the end.
         /// </summary>
-        [Property(xmiId: "LinkEndData-qualifier", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "LinkEndData-qualifier", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Element-ownedElement")]
         public IContainerList<IQualifierValue> Qualifier { get; set; }
 
@@ -70,9 +70,8 @@ namespace uml4net.Actions
         /// The InputPin that provides the specified value for the given end. This InputPin is omitted if the
         /// LinkEndData specifies the "open" end for a ReadLinkAction.
         /// </summary>
-        [Property(xmiId: "LinkEndData-value", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "LinkEndData-value", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         public IInputPin Value { get; set; }
-
     }
 }
 

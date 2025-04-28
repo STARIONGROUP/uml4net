@@ -59,8 +59,7 @@ namespace uml4net.Interactions
         /// <summary>
         /// The message is a reply message to an operation call.
         /// </summary>
-        Reply,
-
+        Reply
     }
 }
 

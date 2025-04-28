@@ -54,15 +54,14 @@ namespace uml4net.Actions
         /// <summary>
         /// The qualifier Property for which the value is to be specified.
         /// </summary>
-        [Property(xmiId: "QualifierValue-qualifier", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "QualifierValue-qualifier", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         public IProperty Qualifier { get; set; }
 
         /// <summary>
         /// The InputPin from which the specified value for the qualifier is taken.
         /// </summary>
-        [Property(xmiId: "QualifierValue-value", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "QualifierValue-value", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         public IInputPin Value { get; set; }
-
     }
 }
 

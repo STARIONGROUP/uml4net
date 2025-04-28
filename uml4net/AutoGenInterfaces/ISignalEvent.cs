@@ -53,9 +53,8 @@ namespace uml4net.CommonBehavior
         /// <summary>
         /// The specific Signal that is associated with this SignalEvent.
         /// </summary>
-        [Property(xmiId: "SignalEvent-signal", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "SignalEvent-signal", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         public ISignal Signal { get; set; }
-
     }
 }
 

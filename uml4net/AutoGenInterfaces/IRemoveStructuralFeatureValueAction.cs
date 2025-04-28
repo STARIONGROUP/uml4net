@@ -54,7 +54,7 @@ namespace uml4net.Actions
         /// <summary>
         /// Specifies whether to remove duplicates of the value in nonunique StructuralFeatures.
         /// </summary>
-        [Property(xmiId: "RemoveStructuralFeatureValueAction-isRemoveDuplicates", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: "false")]
+        [Property(xmiId: "RemoveStructuralFeatureValueAction-isRemoveDuplicates", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: "false")]
         public bool IsRemoveDuplicates { get; set; }
 
         /// <summary>
@@ -62,10 +62,9 @@ namespace uml4net.Actions
         /// structural features. The type of the removeAt InputPin is UnlimitedNatural, but the value cannot be
         /// zero or unlimited.
         /// </summary>
-        [Property(xmiId: "RemoveStructuralFeatureValueAction-removeAt", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "RemoveStructuralFeatureValueAction-removeAt", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Action-input")]
         public IContainerList<IInputPin> RemoveAt { get; set; }
-
     }
 }
 

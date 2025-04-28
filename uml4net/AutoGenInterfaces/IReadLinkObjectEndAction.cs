@@ -53,23 +53,22 @@ namespace uml4net.Actions
         /// <summary>
         /// The Association end to be read.
         /// </summary>
-        [Property(xmiId: "ReadLinkObjectEndAction-end", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "ReadLinkObjectEndAction-end", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         public IProperty End { get; set; }
 
         /// <summary>
         /// The input pin from which the link object is obtained.
         /// </summary>
-        [Property(xmiId: "ReadLinkObjectEndAction-object", aggregation: AggregationKind.Composite, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "ReadLinkObjectEndAction-object", aggregation: AggregationKind.Composite, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Action-input")]
         public IContainerList<IInputPin> Object { get; set; }
 
         /// <summary>
         /// The OutputPin where the result value is placed.
         /// </summary>
-        [Property(xmiId: "ReadLinkObjectEndAction-result", aggregation: AggregationKind.Composite, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "ReadLinkObjectEndAction-result", aggregation: AggregationKind.Composite, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Action-output")]
         public IContainerList<IOutputPin> Result { get; set; }
-
     }
 }
 

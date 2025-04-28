@@ -60,23 +60,22 @@ namespace uml4net.Actions
         /// <summary>
         /// The InputPins providing inputs to the OpaqueAction.
         /// </summary>
-        [Property(xmiId: "OpaqueAction-inputValue", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "OpaqueAction-inputValue", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Action-input")]
         public IContainerList<IInputPin> InputValue { get; set; }
 
         /// <summary>
         /// If provided, a specification of the language used for each of the body Strings.
         /// </summary>
-        [Property(xmiId: "OpaqueAction-language", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: true, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "OpaqueAction-language", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: true, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         public List<string> Language { get; set; }
 
         /// <summary>
         /// The OutputPins on which the OpaqueAction provides outputs.
         /// </summary>
-        [Property(xmiId: "OpaqueAction-outputValue", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "OpaqueAction-outputValue", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Action-output")]
         public IContainerList<IOutputPin> OutputValue { get; set; }
-
     }
 }
 

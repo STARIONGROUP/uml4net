@@ -56,7 +56,7 @@ namespace uml4net.Actions
         /// The type of the insertAt InputPin is UnlimitedNatural, but the value cannot be zero. It is omitted
         /// for unordered StructuralFeatures.
         /// </summary>
-        [Property(xmiId: "AddStructuralFeatureValueAction-insertAt", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "AddStructuralFeatureValueAction-insertAt", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Action-input")]
         public IContainerList<IInputPin> InsertAt { get; set; }
 
@@ -64,9 +64,8 @@ namespace uml4net.Actions
         /// Specifies whether existing values of the StructuralFeature should be removed before adding the new
         /// value.
         /// </summary>
-        [Property(xmiId: "AddStructuralFeatureValueAction-isReplaceAll", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: "false")]
+        [Property(xmiId: "AddStructuralFeatureValueAction-isReplaceAll", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: "false")]
         public bool IsReplaceAll { get; set; }
-
     }
 }
 

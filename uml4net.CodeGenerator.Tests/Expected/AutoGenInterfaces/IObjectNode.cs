@@ -86,7 +86,6 @@ namespace uml4net.Activities
         [Property(xmiId: "ObjectNode-upperBound", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Element-ownedElement")]
         public IContainerList<IValueSpecification> UpperBound { get; set; }
-
     }
 }
 

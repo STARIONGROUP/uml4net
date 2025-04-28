@@ -55,7 +55,7 @@ namespace uml4net.Packages
         /// This redefinition changes the default multiplicity of association ends, since model elements are
         /// usually extended by 0 or 1 instance of the extension stereotype.
         /// </summary>
-        [Property(xmiId: "ExtensionEnd-lower", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: true, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "ExtensionEnd-lower", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: true, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [RedefinedProperty(propertyName: "MultiplicityElement-lower")]
         public new int Lower { get; }
 
@@ -63,10 +63,9 @@ namespace uml4net.Packages
         /// References the type of the ExtensionEnd. Note that this association restricts the possible types of
         /// an ExtensionEnd to only be Stereotypes.
         /// </summary>
-        [Property(xmiId: "ExtensionEnd-type", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "ExtensionEnd-type", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [RedefinedProperty(propertyName: "TypedElement-type")]
         public new IStereotype Type { get; set; }
-
     }
 }
 

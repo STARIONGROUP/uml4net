@@ -54,7 +54,7 @@ namespace uml4net.CommonStructure
         /// <summary>
         /// The formal TemplateParameter that owns this ParameterableElement.
         /// </summary>
-        [Property(xmiId: "ParameterableElement-owningTemplateParameter", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "ParameterableElement-owningTemplateParameter", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Element-owner")]
         [SubsettedProperty(propertyName: "ParameterableElement-templateParameter")]
         public ITemplateParameter OwningTemplateParameter { get; set; }
@@ -62,9 +62,8 @@ namespace uml4net.CommonStructure
         /// <summary>
         /// The TemplateParameter that exposes this ParameterableElement as a formal parameter.
         /// </summary>
-        [Property(xmiId: "ParameterableElement-templateParameter", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "ParameterableElement-templateParameter", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         public ITemplateParameter TemplateParameter { get; set; }
-
     }
 }
 

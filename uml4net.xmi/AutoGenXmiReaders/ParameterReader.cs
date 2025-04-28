@@ -147,36 +147,42 @@ namespace uml4net.xmi.Readers
                 }
 
                 var directionXmlAttribute = xmlReader.GetAttribute("direction");
+
                 if (!string.IsNullOrEmpty(directionXmlAttribute))
                 {
                     poco.Direction = (ParameterDirectionKind)Enum.Parse(typeof(ParameterDirectionKind), directionXmlAttribute, true);
                 }
 
                 var effectXmlAttribute = xmlReader.GetAttribute("effect");
+
                 if (!string.IsNullOrEmpty(effectXmlAttribute))
                 {
                     poco.Effect = (ParameterEffectKind)Enum.Parse(typeof(ParameterEffectKind), effectXmlAttribute, true);
                 }
 
                 var isExceptionXmlAttribute = xmlReader.GetAttribute("isException");
+
                 if (!string.IsNullOrEmpty(isExceptionXmlAttribute))
                 {
                     poco.IsException = bool.Parse(isExceptionXmlAttribute);
                 }
 
                 var isOrderedXmlAttribute = xmlReader.GetAttribute("isOrdered");
+
                 if (!string.IsNullOrEmpty(isOrderedXmlAttribute))
                 {
                     poco.IsOrdered = bool.Parse(isOrderedXmlAttribute);
                 }
 
                 var isStreamXmlAttribute = xmlReader.GetAttribute("isStream");
+
                 if (!string.IsNullOrEmpty(isStreamXmlAttribute))
                 {
                     poco.IsStream = bool.Parse(isStreamXmlAttribute);
                 }
 
                 var isUniqueXmlAttribute = xmlReader.GetAttribute("isUnique");
+
                 if (!string.IsNullOrEmpty(isUniqueXmlAttribute))
                 {
                     poco.IsUnique = bool.Parse(isUniqueXmlAttribute);
@@ -185,18 +191,21 @@ namespace uml4net.xmi.Readers
                 poco.Name = xmlReader.GetAttribute("name");
 
                 var operationXmlAttribute = xmlReader.GetAttribute("operation");
+
                 if (!string.IsNullOrEmpty(operationXmlAttribute))
                 {
                     poco.SingleValueReferencePropertyIdentifiers.Add("operation", operationXmlAttribute);
                 }
 
                 var owningTemplateParameterXmlAttribute = xmlReader.GetAttribute("owningTemplateParameter");
+
                 if (!string.IsNullOrEmpty(owningTemplateParameterXmlAttribute))
                 {
                     poco.SingleValueReferencePropertyIdentifiers.Add("owningTemplateParameter", owningTemplateParameterXmlAttribute);
                 }
 
                 var parameterSetXmlAttribute = xmlReader.GetAttribute("parameterSet");
+
                 if (!string.IsNullOrEmpty(parameterSetXmlAttribute))
                 {
                     var parameterSetXmlAttributeValues = parameterSetXmlAttribute.Split(SplitMultiReference, StringSplitOptions.RemoveEmptyEntries).ToList();
@@ -204,18 +213,21 @@ namespace uml4net.xmi.Readers
                 }
 
                 var templateParameterXmlAttribute = xmlReader.GetAttribute("templateParameter");
+
                 if (!string.IsNullOrEmpty(templateParameterXmlAttribute))
                 {
                     poco.SingleValueReferencePropertyIdentifiers.Add("templateParameter", templateParameterXmlAttribute);
                 }
 
                 var typeXmlAttribute = xmlReader.GetAttribute("type");
+
                 if (!string.IsNullOrEmpty(typeXmlAttribute))
                 {
                     poco.SingleValueReferencePropertyIdentifiers.Add("type", typeXmlAttribute);
                 }
 
                 var visibilityXmlAttribute = xmlReader.GetAttribute("visibility");
+
                 if (!string.IsNullOrEmpty(visibilityXmlAttribute))
                 {
                     poco.Visibility = (VisibilityKind)Enum.Parse(typeof(VisibilityKind), visibilityXmlAttribute, true);
@@ -234,45 +246,57 @@ namespace uml4net.xmi.Readers
                                 break;
                             case "direction":
                                 var directionValue = xmlReader.ReadElementContentAsString();
+
                                 if (!string.IsNullOrEmpty(directionValue))
                                 {
-                                    poco.Direction = (ParameterDirectionKind)Enum.Parse(typeof(ParameterDirectionKind), directionValue, true); ;
+                                    poco.Direction = (ParameterDirectionKind)Enum.Parse(typeof(ParameterDirectionKind), directionValue, true);
                                 }
+
                                 break;
                             case "effect":
                                 var effectValue = xmlReader.ReadElementContentAsString();
+
                                 if (!string.IsNullOrEmpty(effectValue))
                                 {
-                                    poco.Effect = (ParameterEffectKind)Enum.Parse(typeof(ParameterEffectKind), effectValue, true); ;
+                                    poco.Effect = (ParameterEffectKind)Enum.Parse(typeof(ParameterEffectKind), effectValue, true);
                                 }
+
                                 break;
                             case "isException":
                                 var isExceptionValue = xmlReader.ReadElementContentAsString();
+
                                 if (!string.IsNullOrEmpty(isExceptionValue))
                                 {
                                     poco.IsException = bool.Parse(isExceptionValue);
                                 }
+
                                 break;
                             case "isOrdered":
                                 var isOrderedValue = xmlReader.ReadElementContentAsString();
+
                                 if (!string.IsNullOrEmpty(isOrderedValue))
                                 {
                                     poco.IsOrdered = bool.Parse(isOrderedValue);
                                 }
+
                                 break;
                             case "isStream":
                                 var isStreamValue = xmlReader.ReadElementContentAsString();
+
                                 if (!string.IsNullOrEmpty(isStreamValue))
                                 {
                                     poco.IsStream = bool.Parse(isStreamValue);
                                 }
+
                                 break;
                             case "isUnique":
                                 var isUniqueValue = xmlReader.ReadElementContentAsString();
+
                                 if (!string.IsNullOrEmpty(isUniqueValue))
                                 {
                                     poco.IsUnique = bool.Parse(isUniqueValue);
                                 }
+
                                 break;
                             case "lowerValue":
                                 var lowerValueValue = (IValueSpecification)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.LoggerFactory);
@@ -310,10 +334,12 @@ namespace uml4net.xmi.Readers
                                 break;
                             case "visibility":
                                 var visibilityValue = xmlReader.ReadElementContentAsString();
+
                                 if (!string.IsNullOrEmpty(visibilityValue))
                                 {
-                                    poco.Visibility = (VisibilityKind)Enum.Parse(typeof(VisibilityKind), visibilityValue, true); ;
+                                    poco.Visibility = (VisibilityKind)Enum.Parse(typeof(VisibilityKind), visibilityValue, true);
                                 }
+
                                 break;
                             default:
                                 if (this.XmiReaderSettings.UseStrictReading)
@@ -324,6 +350,7 @@ namespace uml4net.xmi.Readers
                                 {
                                     this.Logger.LogWarning("Not Supported: ParameterReader: {LocalName} at line:position {LineNumber}:{LinePosition}", xmlReader.LocalName, defaultLineInfo.LineNumber, defaultLineInfo.LinePosition);
                                 }
+
                                 break;
                         }
                     }

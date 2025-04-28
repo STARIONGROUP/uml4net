@@ -54,26 +54,26 @@ namespace uml4net.Activities
         /// <summary>
         /// ActivityEdges immediately contained in the ActivityGroup.
         /// </summary>
-        [Property(xmiId: "ActivityGroup-containedEdge", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "ActivityGroup-containedEdge", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: true, defaultValue: null)]
         public List<IActivityEdge> ContainedEdge { get; }
 
         /// <summary>
         /// ActivityNodes immediately contained in the ActivityGroup.
         /// </summary>
-        [Property(xmiId: "ActivityGroup-containedNode", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "ActivityGroup-containedNode", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: true, defaultValue: null)]
         public List<IActivityNode> ContainedNode { get; }
 
         /// <summary>
         /// The Activity containing the ActivityGroup, if it is directly owned by an Activity.
         /// </summary>
-        [Property(xmiId: "ActivityGroup-inActivity", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "ActivityGroup-inActivity", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Element-owner")]
         public IActivity InActivity { get; set; }
 
         /// <summary>
         /// Other ActivityGroups immediately contained in this ActivityGroup.
         /// </summary>
-        [Property(xmiId: "ActivityGroup-subgroup", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "ActivityGroup-subgroup", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Element-ownedElement")]
         public IContainerList<IActivityGroup> Subgroup { get; }
 
@@ -81,10 +81,9 @@ namespace uml4net.Activities
         /// The ActivityGroup immediately containing this ActivityGroup, if it is directly owned by another
         /// ActivityGroup.
         /// </summary>
-        [Property(xmiId: "ActivityGroup-superGroup", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "ActivityGroup-superGroup", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Element-owner")]
         public IActivityGroup SuperGroup { get; }
-
     }
 }
 

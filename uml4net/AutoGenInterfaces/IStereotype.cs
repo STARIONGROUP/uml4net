@@ -57,16 +57,15 @@ namespace uml4net.Packages
         /// icons. When this association is not null, it references the location of the icon content to be
         /// displayed within diagrams presenting the extended model elements.
         /// </summary>
-        [Property(xmiId: "Stereotype-icon", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "Stereotype-icon", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Element-ownedElement")]
         public IContainerList<IImage> Icon { get; set; }
 
         /// <summary>
         /// The profile that directly or indirectly contains this stereotype.
         /// </summary>
-        [Property(xmiId: "Stereotype-profile", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "Stereotype-profile", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         public IProfile Profile { get; }
-
     }
 }
 

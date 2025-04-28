@@ -147,6 +147,7 @@ namespace uml4net.xmi.Readers
                 }
 
                 var annotatedElementXmlAttribute = xmlReader.GetAttribute("annotatedElement");
+
                 if (!string.IsNullOrEmpty(annotatedElementXmlAttribute))
                 {
                     var annotatedElementXmlAttributeValues = annotatedElementXmlAttribute.Split(SplitMultiReference, StringSplitOptions.RemoveEmptyEntries).ToList();
@@ -181,6 +182,7 @@ namespace uml4net.xmi.Readers
                                 {
                                     this.Logger.LogWarning("Not Supported: CommentReader: {LocalName} at line:position {LineNumber}:{LinePosition}", xmlReader.LocalName, defaultLineInfo.LineNumber, defaultLineInfo.LinePosition);
                                 }
+
                                 break;
                         }
                     }

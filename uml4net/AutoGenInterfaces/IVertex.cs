@@ -54,36 +54,35 @@ namespace uml4net.StateMachines
         /// <summary>
         /// The Region that contains this Vertex.
         /// </summary>
-        [Property(xmiId: "Vertex-container", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "Vertex-container", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "NamedElement-namespace")]
         public IRegion Container { get; set; }
 
         /// <summary>
         /// Specifies the Transitions entering this Vertex.
         /// </summary>
-        [Property(xmiId: "Vertex-incoming", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "Vertex-incoming", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         public List<ITransition> Incoming { get; }
 
         /// <summary>
         /// Specifies the Transitions departing from this Vertex.
         /// </summary>
-        [Property(xmiId: "Vertex-outgoing", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "Vertex-outgoing", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         public List<ITransition> Outgoing { get; }
 
         /// <summary>
         /// References the Classifier in which context this element may be redefined.
         /// </summary>
-        [Property(xmiId: "State-redefinitionContext", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "State-redefinitionContext", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [RedefinedProperty(propertyName: "RedefinableElement-redefinitionContext")]
         public new IClassifier RedefinitionContext { get; }
 
         /// <summary>
         /// The Vertex of which this Vertex is a redefinition.
         /// </summary>
-        [Property(xmiId: "State-redefinedState", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "State-redefinedState", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "RedefinableElement-redefinedElement")]
         public IVertex RedefinedVertex { get; set; }
-
     }
 }
 

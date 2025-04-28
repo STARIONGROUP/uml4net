@@ -61,27 +61,27 @@ namespace uml4net.Classification
         /// <summary>
         /// Specifies the kind of aggregation that applies to the Property.
         /// </summary>
-        [Property(xmiId: "Property-aggregation", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: "none")]
+        [Property(xmiId: "Property-aggregation", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: "none")]
         public AggregationKind Aggregation { get; set; }
 
         /// <summary>
         /// The Association of which this Property is a member, if any.
         /// </summary>
-        [Property(xmiId: "Property-association", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "Property-association", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "A_member_memberNamespace-memberNamespace")]
         public IAssociation Association { get; set; }
 
         /// <summary>
         /// Designates the optional association end that owns a qualifier attribute.
         /// </summary>
-        [Property(xmiId: "Property-associationEnd", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "Property-associationEnd", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Element-owner")]
         public IProperty AssociationEnd { get; set; }
 
         /// <summary>
         /// The Class that owns this Property, if any.
         /// </summary>
-        [Property(xmiId: "Property-class", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "Property-class", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "A_attribute_classifier-classifier")]
         [SubsettedProperty(propertyName: "A_ownedAttribute_structuredClassifier-structuredClassifier")]
         [SubsettedProperty(propertyName: "NamedElement-namespace")]
@@ -90,7 +90,7 @@ namespace uml4net.Classification
         /// <summary>
         /// The DataType that owns this Property, if any.
         /// </summary>
-        [Property(xmiId: "Property-datatype", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "Property-datatype", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "A_attribute_classifier-classifier")]
         [SubsettedProperty(propertyName: "NamedElement-namespace")]
         public IDataType Datatype { get; set; }
@@ -99,14 +99,14 @@ namespace uml4net.Classification
         /// A ValueSpecification that is evaluated to give a default value for the Property when an instance of
         /// the owning Classifier is instantiated.
         /// </summary>
-        [Property(xmiId: "Property-defaultValue", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "Property-defaultValue", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Element-ownedElement")]
         public IContainerList<IValueSpecification> DefaultValue { get; set; }
 
         /// <summary>
         /// The Interface that owns this Property, if any.
         /// </summary>
-        [Property(xmiId: "Property-interface", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "Property-interface", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "A_attribute_classifier-classifier")]
         [SubsettedProperty(propertyName: "NamedElement-namespace")]
         public IInterface Interface { get; set; }
@@ -116,39 +116,39 @@ namespace uml4net.Classification
         /// contained in the attribute. This is a derived value, indicating whether the aggregation of the
         /// Property is composite or not.
         /// </summary>
-        [Property(xmiId: "Property-isComposite", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: true, isDerivedUnion: false, isUnique: false, defaultValue: "false")]
+        [Property(xmiId: "Property-isComposite", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: true, isDerivedUnion: false, isUnique: true, defaultValue: "false")]
         public bool IsComposite { get; }
 
         /// <summary>
         /// Specifies whether the Property is derived, i.e., whether its value or values can be computed from
         /// other information.
         /// </summary>
-        [Property(xmiId: "Property-isDerived", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: "false")]
+        [Property(xmiId: "Property-isDerived", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: "false")]
         public bool IsDerived { get; set; }
 
         /// <summary>
         /// Specifies whether the property is derived as the union of all of the Properties that are constrained
         /// to subset it.
         /// </summary>
-        [Property(xmiId: "Property-isDerivedUnion", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: "false")]
+        [Property(xmiId: "Property-isDerivedUnion", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: "false")]
         public bool IsDerivedUnion { get; set; }
 
         /// <summary>
         /// True indicates this property can be used to uniquely identify an instance of the containing Class.
         /// </summary>
-        [Property(xmiId: "Property-isID", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: "false")]
+        [Property(xmiId: "Property-isID", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: "false")]
         public bool IsID { get; set; }
 
         /// <summary>
         /// In the case where the Property is one end of a binary association this gives the other end.
         /// </summary>
-        [Property(xmiId: "Property-opposite", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: true, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "Property-opposite", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: true, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         public IProperty Opposite { get; }
 
         /// <summary>
         /// The owning association of this property, if any.
         /// </summary>
-        [Property(xmiId: "Property-owningAssociation", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "Property-owningAssociation", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Feature-featuringClassifier")]
         [SubsettedProperty(propertyName: "NamedElement-namespace")]
         [SubsettedProperty(propertyName: "Property-association")]
@@ -158,23 +158,22 @@ namespace uml4net.Classification
         /// <summary>
         /// An optional list of ordered qualifier attributes for the end.
         /// </summary>
-        [Property(xmiId: "Property-qualifier", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: true, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "Property-qualifier", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: true, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Element-ownedElement")]
         public IContainerList<IProperty> Qualifier { get; set; }
 
         /// <summary>
         /// The properties that are redefined by this property, if any.
         /// </summary>
-        [Property(xmiId: "Property-redefinedProperty", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "Property-redefinedProperty", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "RedefinableElement-redefinedElement")]
         public List<IProperty> RedefinedProperty { get; set; }
 
         /// <summary>
         /// The properties of which this Property is constrained to be a subset, if any.
         /// </summary>
-        [Property(xmiId: "Property-subsettedProperty", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "Property-subsettedProperty", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         public List<IProperty> SubsettedProperty { get; set; }
-
     }
 }
 

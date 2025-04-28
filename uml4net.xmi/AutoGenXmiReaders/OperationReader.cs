@@ -147,54 +147,63 @@ namespace uml4net.xmi.Readers
                 }
 
                 var classXmlAttribute = xmlReader.GetAttribute("class");
+
                 if (!string.IsNullOrEmpty(classXmlAttribute))
                 {
                     poco.SingleValueReferencePropertyIdentifiers.Add("class", classXmlAttribute);
                 }
 
                 var concurrencyXmlAttribute = xmlReader.GetAttribute("concurrency");
+
                 if (!string.IsNullOrEmpty(concurrencyXmlAttribute))
                 {
                     poco.Concurrency = (CallConcurrencyKind)Enum.Parse(typeof(CallConcurrencyKind), concurrencyXmlAttribute, true);
                 }
 
                 var datatypeXmlAttribute = xmlReader.GetAttribute("datatype");
+
                 if (!string.IsNullOrEmpty(datatypeXmlAttribute))
                 {
                     poco.SingleValueReferencePropertyIdentifiers.Add("datatype", datatypeXmlAttribute);
                 }
 
                 var interfaceXmlAttribute = xmlReader.GetAttribute("interface");
+
                 if (!string.IsNullOrEmpty(interfaceXmlAttribute))
                 {
                     poco.SingleValueReferencePropertyIdentifiers.Add("interface", interfaceXmlAttribute);
                 }
 
                 var isAbstractXmlAttribute = xmlReader.GetAttribute("isAbstract");
+
                 if (!string.IsNullOrEmpty(isAbstractXmlAttribute))
                 {
                     poco.IsAbstract = bool.Parse(isAbstractXmlAttribute);
                 }
 
                 var isLeafXmlAttribute = xmlReader.GetAttribute("isLeaf");
+
                 if (!string.IsNullOrEmpty(isLeafXmlAttribute))
                 {
                     poco.IsLeaf = bool.Parse(isLeafXmlAttribute);
                 }
 
                 var isQueryXmlAttribute = xmlReader.GetAttribute("isQuery");
+
                 if (!string.IsNullOrEmpty(isQueryXmlAttribute))
                 {
                     poco.IsQuery = bool.Parse(isQueryXmlAttribute);
                 }
 
                 var isStaticXmlAttribute = xmlReader.GetAttribute("isStatic");
+
                 if (!string.IsNullOrEmpty(isStaticXmlAttribute))
                 {
                     poco.IsStatic = bool.Parse(isStaticXmlAttribute);
                 }
 
                 var methodXmlAttribute = xmlReader.GetAttribute("method");
+
                 if (!string.IsNullOrEmpty(methodXmlAttribute))
                 {
                     var methodXmlAttributeValues = methodXmlAttribute.Split(SplitMultiReference, StringSplitOptions.RemoveEmptyEntries).ToList();
@@ -204,12 +213,14 @@ namespace uml4net.xmi.Readers
                 poco.Name = xmlReader.GetAttribute("name");
 
                 var owningTemplateParameterXmlAttribute = xmlReader.GetAttribute("owningTemplateParameter");
+
                 if (!string.IsNullOrEmpty(owningTemplateParameterXmlAttribute))
                 {
                     poco.SingleValueReferencePropertyIdentifiers.Add("owningTemplateParameter", owningTemplateParameterXmlAttribute);
                 }
 
                 var raisedExceptionXmlAttribute = xmlReader.GetAttribute("raisedException");
+
                 if (!string.IsNullOrEmpty(raisedExceptionXmlAttribute))
                 {
                     var raisedExceptionXmlAttributeValues = raisedExceptionXmlAttribute.Split(SplitMultiReference, StringSplitOptions.RemoveEmptyEntries).ToList();
@@ -217,6 +228,7 @@ namespace uml4net.xmi.Readers
                 }
 
                 var redefinedOperationXmlAttribute = xmlReader.GetAttribute("redefinedOperation");
+
                 if (!string.IsNullOrEmpty(redefinedOperationXmlAttribute))
                 {
                     var redefinedOperationXmlAttributeValues = redefinedOperationXmlAttribute.Split(SplitMultiReference, StringSplitOptions.RemoveEmptyEntries).ToList();
@@ -224,12 +236,14 @@ namespace uml4net.xmi.Readers
                 }
 
                 var templateParameterXmlAttribute = xmlReader.GetAttribute("templateParameter");
+
                 if (!string.IsNullOrEmpty(templateParameterXmlAttribute))
                 {
                     poco.SingleValueReferencePropertyIdentifiers.Add("templateParameter", templateParameterXmlAttribute);
                 }
 
                 var visibilityXmlAttribute = xmlReader.GetAttribute("visibility");
+
                 if (!string.IsNullOrEmpty(visibilityXmlAttribute))
                 {
                     poco.Visibility = (VisibilityKind)Enum.Parse(typeof(VisibilityKind), visibilityXmlAttribute, true);
@@ -247,16 +261,19 @@ namespace uml4net.xmi.Readers
                                 {
                                     this.Logger.LogWarning("The Operation.BodyCondition attribute was not processed at {DefaultLineInfo}", defaultLineInfo);
                                 }
+
                                 break;
                             case "class":
                                 this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "class");
                                 break;
                             case "concurrency":
                                 var concurrencyValue = xmlReader.ReadElementContentAsString();
+
                                 if (!string.IsNullOrEmpty(concurrencyValue))
                                 {
-                                    poco.Concurrency = (CallConcurrencyKind)Enum.Parse(typeof(CallConcurrencyKind), concurrencyValue, true); ;
+                                    poco.Concurrency = (CallConcurrencyKind)Enum.Parse(typeof(CallConcurrencyKind), concurrencyValue, true);
                                 }
+
                                 break;
                             case "datatype":
                                 this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "datatype");
@@ -270,31 +287,39 @@ namespace uml4net.xmi.Readers
                                 break;
                             case "isAbstract":
                                 var isAbstractValue = xmlReader.ReadElementContentAsString();
+
                                 if (!string.IsNullOrEmpty(isAbstractValue))
                                 {
                                     poco.IsAbstract = bool.Parse(isAbstractValue);
                                 }
+
                                 break;
                             case "isLeaf":
                                 var isLeafValue = xmlReader.ReadElementContentAsString();
+
                                 if (!string.IsNullOrEmpty(isLeafValue))
                                 {
                                     poco.IsLeaf = bool.Parse(isLeafValue);
                                 }
+
                                 break;
                             case "isQuery":
                                 var isQueryValue = xmlReader.ReadElementContentAsString();
+
                                 if (!string.IsNullOrEmpty(isQueryValue))
                                 {
                                     poco.IsQuery = bool.Parse(isQueryValue);
                                 }
+
                                 break;
                             case "isStatic":
                                 var isStaticValue = xmlReader.ReadElementContentAsString();
+
                                 if (!string.IsNullOrEmpty(isStaticValue))
                                 {
                                     poco.IsStatic = bool.Parse(isStaticValue);
                                 }
+
                                 break;
                             case "method":
                                 this.TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, "method");
@@ -338,12 +363,14 @@ namespace uml4net.xmi.Readers
                                 {
                                     this.Logger.LogWarning("The Operation.Postcondition attribute was not processed at {DefaultLineInfo}", defaultLineInfo);
                                 }
+
                                 break;
                             case "precondition":
                                 if (!this.TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, "precondition"))
                                 {
                                     this.Logger.LogWarning("The Operation.Precondition attribute was not processed at {DefaultLineInfo}", defaultLineInfo);
                                 }
+
                                 break;
                             case "raisedException":
                                 this.TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, "raisedException");
@@ -360,10 +387,12 @@ namespace uml4net.xmi.Readers
                                 break;
                             case "visibility":
                                 var visibilityValue = xmlReader.ReadElementContentAsString();
+
                                 if (!string.IsNullOrEmpty(visibilityValue))
                                 {
-                                    poco.Visibility = (VisibilityKind)Enum.Parse(typeof(VisibilityKind), visibilityValue, true); ;
+                                    poco.Visibility = (VisibilityKind)Enum.Parse(typeof(VisibilityKind), visibilityValue, true);
                                 }
+
                                 break;
                             default:
                                 if (this.XmiReaderSettings.UseStrictReading)
@@ -374,6 +403,7 @@ namespace uml4net.xmi.Readers
                                 {
                                     this.Logger.LogWarning("Not Supported: OperationReader: {LocalName} at line:position {LineNumber}:{LinePosition}", xmlReader.LocalName, defaultLineInfo.LineNumber, defaultLineInfo.LinePosition);
                                 }
+
                                 break;
                         }
                     }

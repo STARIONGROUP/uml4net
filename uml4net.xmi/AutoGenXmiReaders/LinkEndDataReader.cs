@@ -147,12 +147,14 @@ namespace uml4net.xmi.Readers
                 }
 
                 var endXmlAttribute = xmlReader.GetAttribute("end");
+
                 if (!string.IsNullOrEmpty(endXmlAttribute))
                 {
                     poco.SingleValueReferencePropertyIdentifiers.Add("end", endXmlAttribute);
                 }
 
                 var valueXmlAttribute = xmlReader.GetAttribute("value");
+
                 if (!string.IsNullOrEmpty(valueXmlAttribute))
                 {
                     poco.SingleValueReferencePropertyIdentifiers.Add("value", valueXmlAttribute);
@@ -188,6 +190,7 @@ namespace uml4net.xmi.Readers
                                 {
                                     this.Logger.LogWarning("Not Supported: LinkEndDataReader: {LocalName} at line:position {LineNumber}:{LinePosition}", xmlReader.LocalName, defaultLineInfo.LineNumber, defaultLineInfo.LinePosition);
                                 }
+
                                 break;
                         }
                     }

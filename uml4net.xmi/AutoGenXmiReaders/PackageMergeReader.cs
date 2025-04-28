@@ -147,12 +147,14 @@ namespace uml4net.xmi.Readers
                 }
 
                 var mergedPackageXmlAttribute = xmlReader.GetAttribute("mergedPackage");
+
                 if (!string.IsNullOrEmpty(mergedPackageXmlAttribute))
                 {
                     poco.SingleValueReferencePropertyIdentifiers.Add("mergedPackage", mergedPackageXmlAttribute);
                 }
 
                 var receivingPackageXmlAttribute = xmlReader.GetAttribute("receivingPackage");
+
                 if (!string.IsNullOrEmpty(receivingPackageXmlAttribute))
                 {
                     poco.SingleValueReferencePropertyIdentifiers.Add("receivingPackage", receivingPackageXmlAttribute);
@@ -184,6 +186,7 @@ namespace uml4net.xmi.Readers
                                 {
                                     this.Logger.LogWarning("Not Supported: PackageMergeReader: {LocalName} at line:position {LineNumber}:{LinePosition}", xmlReader.LocalName, defaultLineInfo.LineNumber, defaultLineInfo.LinePosition);
                                 }
+
                                 break;
                         }
                     }

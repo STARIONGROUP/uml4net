@@ -147,30 +147,35 @@ namespace uml4net.xmi.Readers
                 }
 
                 var concurrencyXmlAttribute = xmlReader.GetAttribute("concurrency");
+
                 if (!string.IsNullOrEmpty(concurrencyXmlAttribute))
                 {
                     poco.Concurrency = (CallConcurrencyKind)Enum.Parse(typeof(CallConcurrencyKind), concurrencyXmlAttribute, true);
                 }
 
                 var isAbstractXmlAttribute = xmlReader.GetAttribute("isAbstract");
+
                 if (!string.IsNullOrEmpty(isAbstractXmlAttribute))
                 {
                     poco.IsAbstract = bool.Parse(isAbstractXmlAttribute);
                 }
 
                 var isLeafXmlAttribute = xmlReader.GetAttribute("isLeaf");
+
                 if (!string.IsNullOrEmpty(isLeafXmlAttribute))
                 {
                     poco.IsLeaf = bool.Parse(isLeafXmlAttribute);
                 }
 
                 var isStaticXmlAttribute = xmlReader.GetAttribute("isStatic");
+
                 if (!string.IsNullOrEmpty(isStaticXmlAttribute))
                 {
                     poco.IsStatic = bool.Parse(isStaticXmlAttribute);
                 }
 
                 var methodXmlAttribute = xmlReader.GetAttribute("method");
+
                 if (!string.IsNullOrEmpty(methodXmlAttribute))
                 {
                     var methodXmlAttributeValues = methodXmlAttribute.Split(SplitMultiReference, StringSplitOptions.RemoveEmptyEntries).ToList();
@@ -180,6 +185,7 @@ namespace uml4net.xmi.Readers
                 poco.Name = xmlReader.GetAttribute("name");
 
                 var raisedExceptionXmlAttribute = xmlReader.GetAttribute("raisedException");
+
                 if (!string.IsNullOrEmpty(raisedExceptionXmlAttribute))
                 {
                     var raisedExceptionXmlAttributeValues = raisedExceptionXmlAttribute.Split(SplitMultiReference, StringSplitOptions.RemoveEmptyEntries).ToList();
@@ -187,12 +193,14 @@ namespace uml4net.xmi.Readers
                 }
 
                 var signalXmlAttribute = xmlReader.GetAttribute("signal");
+
                 if (!string.IsNullOrEmpty(signalXmlAttribute))
                 {
                     poco.SingleValueReferencePropertyIdentifiers.Add("signal", signalXmlAttribute);
                 }
 
                 var visibilityXmlAttribute = xmlReader.GetAttribute("visibility");
+
                 if (!string.IsNullOrEmpty(visibilityXmlAttribute))
                 {
                     poco.Visibility = (VisibilityKind)Enum.Parse(typeof(VisibilityKind), visibilityXmlAttribute, true);
@@ -207,10 +215,12 @@ namespace uml4net.xmi.Readers
                         {
                             case "concurrency":
                                 var concurrencyValue = xmlReader.ReadElementContentAsString();
+
                                 if (!string.IsNullOrEmpty(concurrencyValue))
                                 {
-                                    poco.Concurrency = (CallConcurrencyKind)Enum.Parse(typeof(CallConcurrencyKind), concurrencyValue, true); ;
+                                    poco.Concurrency = (CallConcurrencyKind)Enum.Parse(typeof(CallConcurrencyKind), concurrencyValue, true);
                                 }
+
                                 break;
                             case "elementImport":
                                 var elementImportValue = (IElementImport)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.LoggerFactory, "uml:ElementImport");
@@ -218,24 +228,30 @@ namespace uml4net.xmi.Readers
                                 break;
                             case "isAbstract":
                                 var isAbstractValue = xmlReader.ReadElementContentAsString();
+
                                 if (!string.IsNullOrEmpty(isAbstractValue))
                                 {
                                     poco.IsAbstract = bool.Parse(isAbstractValue);
                                 }
+
                                 break;
                             case "isLeaf":
                                 var isLeafValue = xmlReader.ReadElementContentAsString();
+
                                 if (!string.IsNullOrEmpty(isLeafValue))
                                 {
                                     poco.IsLeaf = bool.Parse(isLeafValue);
                                 }
+
                                 break;
                             case "isStatic":
                                 var isStaticValue = xmlReader.ReadElementContentAsString();
+
                                 if (!string.IsNullOrEmpty(isStaticValue))
                                 {
                                     poco.IsStatic = bool.Parse(isStaticValue);
                                 }
+
                                 break;
                             case "method":
                                 this.TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, "method");
@@ -275,10 +291,12 @@ namespace uml4net.xmi.Readers
                                 break;
                             case "visibility":
                                 var visibilityValue = xmlReader.ReadElementContentAsString();
+
                                 if (!string.IsNullOrEmpty(visibilityValue))
                                 {
-                                    poco.Visibility = (VisibilityKind)Enum.Parse(typeof(VisibilityKind), visibilityValue, true); ;
+                                    poco.Visibility = (VisibilityKind)Enum.Parse(typeof(VisibilityKind), visibilityValue, true);
                                 }
+
                                 break;
                             default:
                                 if (this.XmiReaderSettings.UseStrictReading)
@@ -289,6 +307,7 @@ namespace uml4net.xmi.Readers
                                 {
                                     this.Logger.LogWarning("Not Supported: ReceptionReader: {LocalName} at line:position {LineNumber}:{LinePosition}", xmlReader.LocalName, defaultLineInfo.LineNumber, defaultLineInfo.LinePosition);
                                 }
+
                                 break;
                         }
                     }

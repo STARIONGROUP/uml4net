@@ -54,17 +54,16 @@ namespace uml4net.Interactions
         /// <summary>
         /// The fragments of the operand.
         /// </summary>
-        [Property(xmiId: "InteractionOperand-fragment", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: true, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "InteractionOperand-fragment", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: true, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Namespace-ownedMember")]
         public IContainerList<IInteractionFragment> Fragment { get; set; }
 
         /// <summary>
         /// Constraint of the operand.
         /// </summary>
-        [Property(xmiId: "InteractionOperand-guard", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "InteractionOperand-guard", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Element-ownedElement")]
         public IContainerList<IInteractionConstraint> Guard { get; set; }
-
     }
 }
 

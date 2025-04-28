@@ -56,7 +56,7 @@ namespace uml4net.Classification
         /// <summary>
         /// The general classifier in the Generalization relationship.
         /// </summary>
-        [Property(xmiId: "Generalization-general", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "Generalization-general", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "DirectedRelationship-target")]
         public IClassifier General { get; set; }
 
@@ -64,7 +64,7 @@ namespace uml4net.Classification
         /// Represents a set of instances of Generalization.  A Generalization may appear in many
         /// GeneralizationSets.
         /// </summary>
-        [Property(xmiId: "Generalization-generalizationSet", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "Generalization-generalizationSet", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         public List<IGeneralizationSet> GeneralizationSet { get; set; }
 
         /// <summary>
@@ -73,17 +73,16 @@ namespace uml4net.Classification
         /// of the general Classifier. If false, there is no such constraint on execution traces. If unset, the
         /// modeler has not stated whether there is such a constraint or not.
         /// </summary>
-        [Property(xmiId: "Generalization-isSubstitutable", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: "true")]
+        [Property(xmiId: "Generalization-isSubstitutable", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: "true")]
         public bool IsSubstitutable { get; set; }
 
         /// <summary>
         /// The specializing Classifier in the Generalization relationship.
         /// </summary>
-        [Property(xmiId: "Generalization-specific", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "Generalization-specific", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "DirectedRelationship-source")]
         [SubsettedProperty(propertyName: "Element-owner")]
         public IClassifier Specific { get; set; }
-
     }
 }
 

@@ -58,7 +58,7 @@ namespace uml4net.Classification
         /// originating from a Class with isActive being false). Active instances control access to their own
         /// BehavioralFeatures.
         /// </summary>
-        [Property(xmiId: "BehavioralFeature-concurrency", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: "sequential")]
+        [Property(xmiId: "BehavioralFeature-concurrency", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: "sequential")]
         public CallConcurrencyKind Concurrency { get; set; }
 
         /// <summary>
@@ -66,7 +66,7 @@ namespace uml4net.Classification
         /// more specific Classifier. If false, the BehavioralFeature must have an implementation in the
         /// Classifier or one must be inherited.
         /// </summary>
-        [Property(xmiId: "BehavioralFeature-isAbstract", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: "false")]
+        [Property(xmiId: "BehavioralFeature-isAbstract", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: "false")]
         public bool IsAbstract { get; set; }
 
         /// <summary>
@@ -74,29 +74,28 @@ namespace uml4net.Classification
         /// pairing of a Classifier (as owner of the Behavior) and a BehavioralFeature (as specification of the
         /// Behavior).
         /// </summary>
-        [Property(xmiId: "BehavioralFeature-method", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "BehavioralFeature-method", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         public List<IBehavior> Method { get; set; }
 
         /// <summary>
         /// The ordered set of formal Parameters of this BehavioralFeature.
         /// </summary>
-        [Property(xmiId: "BehavioralFeature-ownedParameter", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: true, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "BehavioralFeature-ownedParameter", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: true, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Namespace-ownedMember")]
         public IContainerList<IParameter> OwnedParameter { get; set; }
 
         /// <summary>
         /// The ParameterSets owned by this BehavioralFeature.
         /// </summary>
-        [Property(xmiId: "BehavioralFeature-ownedParameterSet", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "BehavioralFeature-ownedParameterSet", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Namespace-ownedMember")]
         public IContainerList<IParameterSet> OwnedParameterSet { get; set; }
 
         /// <summary>
         /// The Types representing exceptions that may be raised during an invocation of this BehavioralFeature.
         /// </summary>
-        [Property(xmiId: "BehavioralFeature-raisedException", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "BehavioralFeature-raisedException", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         public List<IType> RaisedException { get; set; }
-
     }
 }
 

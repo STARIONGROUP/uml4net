@@ -53,7 +53,7 @@ namespace uml4net.CommonStructure
         /// <summary>
         /// The formal parameters that are owned by this TemplateSignature.
         /// </summary>
-        [Property(xmiId: "TemplateSignature-ownedParameter", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: true, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "TemplateSignature-ownedParameter", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: true, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Element-ownedElement")]
         [SubsettedProperty(propertyName: "TemplateSignature-parameter")]
         public IContainerList<ITemplateParameter> OwnedParameter { get; set; }
@@ -61,16 +61,15 @@ namespace uml4net.CommonStructure
         /// <summary>
         /// The ordered set of all formal TemplateParameters for this TemplateSignature.
         /// </summary>
-        [Property(xmiId: "TemplateSignature-parameter", aggregation: AggregationKind.None, lowerValue: 1, upperValue: int.MaxValue, isOrdered: true, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "TemplateSignature-parameter", aggregation: AggregationKind.None, lowerValue: 1, upperValue: int.MaxValue, isOrdered: true, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         public List<ITemplateParameter> Parameter { get; set; }
 
         /// <summary>
         /// The TemplateableElement that owns this TemplateSignature.
         /// </summary>
-        [Property(xmiId: "TemplateSignature-template", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "TemplateSignature-template", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Element-owner")]
         public ITemplateableElement Template { get; set; }
-
     }
 }
 

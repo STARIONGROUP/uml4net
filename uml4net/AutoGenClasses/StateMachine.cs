@@ -888,7 +888,6 @@ namespace uml4net.StateMachines
         [RedefinedProperty(propertyName: "NamedElement-visibility")]
         [Implements(implementation: "IPackageableElement.Visibility")]
         public VisibilityKind Visibility { get; set; }
-
     }
 }
 

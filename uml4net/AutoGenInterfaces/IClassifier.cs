@@ -54,7 +54,7 @@ namespace uml4net.Classification
         /// All of the Properties that are direct (i.e., not inherited or imported) attributes of the
         /// Classifier.
         /// </summary>
-        [Property(xmiId: "Classifier-attribute", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: true, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "Classifier-attribute", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: true, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "A_redefinitionContext_redefinableElement-redefinableElement")]
         [SubsettedProperty(propertyName: "Classifier-feature")]
         public List<IProperty> Attribute { get; }
@@ -62,7 +62,7 @@ namespace uml4net.Classification
         /// <summary>
         /// The CollaborationUses owned by the Classifier.
         /// </summary>
-        [Property(xmiId: "Classifier-collaborationUse", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "Classifier-collaborationUse", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Element-ownedElement")]
         public IContainerList<ICollaborationUse> CollaborationUse { get; set; }
 
@@ -70,21 +70,21 @@ namespace uml4net.Classification
         /// Specifies each Feature directly defined in the classifier. Note that there may be members of the
         /// Classifier that are of the type Feature but are not included, e.g., inherited features.
         /// </summary>
-        [Property(xmiId: "Classifier-feature", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "Classifier-feature", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Namespace-member")]
         public List<IFeature> Feature { get; }
 
         /// <summary>
         /// The generalizing Classifiers for this Classifier.
         /// </summary>
-        [Property(xmiId: "Classifier-general", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: true, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "Classifier-general", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: true, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         public List<IClassifier> General { get; }
 
         /// <summary>
         /// The Generalization relationships for this Classifier. These Generalizations navigate to more general
         /// Classifiers in the generalization hierarchy.
         /// </summary>
-        [Property(xmiId: "Classifier-generalization", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "Classifier-generalization", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "A_source_directedRelationship-directedRelationship")]
         [SubsettedProperty(propertyName: "Element-ownedElement")]
         public IContainerList<IGeneralization> Generalization { get; set; }
@@ -92,7 +92,7 @@ namespace uml4net.Classification
         /// <summary>
         /// All elements inherited by this Classifier from its general Classifiers.
         /// </summary>
-        [Property(xmiId: "Classifier-inheritedMember", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "Classifier-inheritedMember", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Namespace-member")]
         public List<INamedElement> InheritedMember { get; }
 
@@ -101,19 +101,19 @@ namespace uml4net.Classification
         /// abstract Classifier is intended to be used by other Classifiers e.g., as the target of Associations
         /// or Generalizations.
         /// </summary>
-        [Property(xmiId: "Classifier-isAbstract", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: "false")]
+        [Property(xmiId: "Classifier-isAbstract", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: "false")]
         public bool IsAbstract { get; set; }
 
         /// <summary>
         /// If true, the Classifier cannot be specialized.
         /// </summary>
-        [Property(xmiId: "Classifier-isFinalSpecialization", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: "false")]
+        [Property(xmiId: "Classifier-isFinalSpecialization", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: "false")]
         public bool IsFinalSpecialization { get; set; }
 
         /// <summary>
         /// The optional RedefinableTemplateSignature specifying the formal template parameters.
         /// </summary>
-        [Property(xmiId: "Classifier-ownedTemplateSignature", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "Classifier-ownedTemplateSignature", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "A_redefinitionContext_redefinableElement-redefinableElement")]
         [RedefinedProperty(propertyName: "TemplateableElement-ownedTemplateSignature")]
         public new IContainerList<IRedefinableTemplateSignature> OwnedTemplateSignature { get; set; }
@@ -121,34 +121,34 @@ namespace uml4net.Classification
         /// <summary>
         /// The UseCases owned by this classifier.
         /// </summary>
-        [Property(xmiId: "Classifier-ownedUseCase", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "Classifier-ownedUseCase", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Namespace-ownedMember")]
         public IContainerList<IUseCase> OwnedUseCase { get; set; }
 
         /// <summary>
         /// The GeneralizationSet of which this Classifier is a power type.
         /// </summary>
-        [Property(xmiId: "Classifier-powertypeExtent", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "Classifier-powertypeExtent", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         public List<IGeneralizationSet> PowertypeExtent { get; set; }
 
         /// <summary>
         /// The Classifiers redefined by this Classifier.
         /// </summary>
-        [Property(xmiId: "Classifier-redefinedClassifier", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "Classifier-redefinedClassifier", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "RedefinableElement-redefinedElement")]
         public List<IClassifier> RedefinedClassifier { get; set; }
 
         /// <summary>
         /// A CollaborationUse which indicates the Collaboration that represents this Classifier.
         /// </summary>
-        [Property(xmiId: "Classifier-representation", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "Classifier-representation", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Classifier-collaborationUse")]
         public ICollaborationUse Representation { get; set; }
 
         /// <summary>
         /// The Substitutions owned by this Classifier.
         /// </summary>
-        [Property(xmiId: "Classifier-substitution", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "Classifier-substitution", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Element-ownedElement")]
         [SubsettedProperty(propertyName: "NamedElement-clientDependency")]
         public IContainerList<ISubstitution> Substitution { get; set; }
@@ -156,16 +156,15 @@ namespace uml4net.Classification
         /// <summary>
         /// TheClassifierTemplateParameter that exposes this element as a formal parameter.
         /// </summary>
-        [Property(xmiId: "Classifier-templateParameter", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "Classifier-templateParameter", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [RedefinedProperty(propertyName: "ParameterableElement-templateParameter")]
         public new IClassifierTemplateParameter TemplateParameter { get; set; }
 
         /// <summary>
         /// The set of UseCases for which this Classifier is the subject.
         /// </summary>
-        [Property(xmiId: "Classifier-useCase", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "Classifier-useCase", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         public List<IUseCase> UseCases { get; set; }
-
     }
 }
 

@@ -56,35 +56,35 @@ namespace uml4net.Actions
         /// OutputPins after the completion of each execution of the bodyPart, before the next iteration of the
         /// loop begins or before the loop exits.
         /// </summary>
-        [Property(xmiId: "LoopNode-bodyOutput", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: true, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "LoopNode-bodyOutput", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: true, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         public List<IOutputPin> BodyOutput { get; set; }
 
         /// <summary>
         /// The set of ExecutableNodes that perform the repetitive computations of the loop. The bodyPart is
         /// executed as long as the test section produces a true value.
         /// </summary>
-        [Property(xmiId: "LoopNode-bodyPart", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "LoopNode-bodyPart", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         public List<IExecutableNode> BodyPart { get; set; }
 
         /// <summary>
         /// An OutputPin on an Action in the test section whose Boolean value determines whether to continue
         /// executing the loop bodyPart.
         /// </summary>
-        [Property(xmiId: "LoopNode-decider", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "LoopNode-decider", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         public IOutputPin Decider { get; set; }
 
         /// <summary>
         /// If true, the test is performed before the first execution of the bodyPart. If false, the bodyPart is
         /// executed once before the test is performed.
         /// </summary>
-        [Property(xmiId: "LoopNode-isTestedFirst", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: "false")]
+        [Property(xmiId: "LoopNode-isTestedFirst", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: "false")]
         public bool IsTestedFirst { get; set; }
 
         /// <summary>
         /// A list of OutputPins that hold the values of the loop variables during an execution of the loop.
         /// When the test fails, the values are moved to the result OutputPins of the loop.
         /// </summary>
-        [Property(xmiId: "LoopNode-loopVariable", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: true, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "LoopNode-loopVariable", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: true, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Element-ownedElement")]
         public IContainerList<IOutputPin> LoopVariable { get; set; }
 
@@ -92,7 +92,7 @@ namespace uml4net.Actions
         /// A list of InputPins whose values are moved into the loopVariable Pins before the first iteration of
         /// the loop.
         /// </summary>
-        [Property(xmiId: "LoopNode-loopVariableInput", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: true, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "LoopNode-loopVariableInput", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: true, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [RedefinedProperty(propertyName: "StructuredActivityNode-structuredNodeInput")]
         public new IContainerList<IInputPin> LoopVariableInput { get; set; }
 
@@ -100,7 +100,7 @@ namespace uml4net.Actions
         /// A list of OutputPins that receive the loopVariable values after the last iteration of the loop and
         /// constitute the output of the LoopNode.
         /// </summary>
-        [Property(xmiId: "LoopNode-result", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: true, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "LoopNode-result", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: true, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [RedefinedProperty(propertyName: "StructuredActivityNode-structuredNodeOutput")]
         public new IContainerList<IOutputPin> Result { get; set; }
 
@@ -108,15 +108,14 @@ namespace uml4net.Actions
         /// The set of ExecutableNodes executed before the first iteration of the loop, in order to initialize
         /// values or perform other setup computations.
         /// </summary>
-        [Property(xmiId: "LoopNode-setupPart", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "LoopNode-setupPart", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         public List<IExecutableNode> SetupPart { get; set; }
 
         /// <summary>
         /// The set of ExecutableNodes executed in order to provide the test result for the loop.
         /// </summary>
-        [Property(xmiId: "LoopNode-test", aggregation: AggregationKind.None, lowerValue: 1, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "LoopNode-test", aggregation: AggregationKind.None, lowerValue: 1, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         public List<IExecutableNode> Test { get; set; }
-
     }
 }
 

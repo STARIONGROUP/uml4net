@@ -56,7 +56,7 @@ namespace uml4net.Classification
         /// <summary>
         /// The contract with which the substituting classifier complies.
         /// </summary>
-        [Property(xmiId: "Substitution-contract", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "Substitution-contract", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Dependency-supplier")]
         public IClassifier Contract { get; set; }
 
@@ -64,11 +64,10 @@ namespace uml4net.Classification
         /// Instances of the substituting classifier are runtime substitutable where instances of the contract
         /// classifier are expected.
         /// </summary>
-        [Property(xmiId: "Substitution-substitutingClassifier", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "Substitution-substitutingClassifier", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Dependency-client")]
         [SubsettedProperty(propertyName: "Element-owner")]
         public IClassifier SubstitutingClassifier { get; set; }
-
     }
 }
 

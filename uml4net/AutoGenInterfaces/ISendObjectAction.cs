@@ -56,17 +56,16 @@ namespace uml4net.Actions
         /// The request object, which is transmitted to the target object. The object may be copied in
         /// transmission, so identity might not be preserved.
         /// </summary>
-        [Property(xmiId: "SendObjectAction-request", aggregation: AggregationKind.Composite, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "SendObjectAction-request", aggregation: AggregationKind.Composite, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [RedefinedProperty(propertyName: "InvocationAction-argument")]
         public new IContainerList<IInputPin> Request { get; set; }
 
         /// <summary>
         /// The target object to which the object is sent.
         /// </summary>
-        [Property(xmiId: "SendObjectAction-target", aggregation: AggregationKind.Composite, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "SendObjectAction-target", aggregation: AggregationKind.Composite, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Action-input")]
         public IContainerList<IInputPin> Target { get; set; }
-
     }
 }
 

@@ -55,7 +55,7 @@ namespace uml4net.Activities
         /// An ObjectNode within the handlerBody. When the ExceptionHandler catches an exception, the exception
         /// token is placed on this ObjectNode, causing the handlerBody to execute.
         /// </summary>
-        [Property(xmiId: "ExceptionHandler-exceptionInput", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "ExceptionHandler-exceptionInput", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         public IObjectNode ExceptionInput { get; set; }
 
         /// <summary>
@@ -63,13 +63,13 @@ namespace uml4net.Activities
         /// whose type is any exceptionType, the ExceptionHandler catches the exception and executes the
         /// handlerBody.
         /// </summary>
-        [Property(xmiId: "ExceptionHandler-exceptionType", aggregation: AggregationKind.None, lowerValue: 1, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "ExceptionHandler-exceptionType", aggregation: AggregationKind.None, lowerValue: 1, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         public List<IClassifier> ExceptionType { get; set; }
 
         /// <summary>
         /// An ExecutableNode that is executed if the ExceptionHandler catches an exception.
         /// </summary>
-        [Property(xmiId: "ExceptionHandler-handlerBody", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "ExceptionHandler-handlerBody", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         public IExecutableNode HandlerBody { get; set; }
 
         /// <summary>
@@ -77,10 +77,9 @@ namespace uml4net.Activities
         /// protectedNode and has a type matching one of the exceptionTypes, then it is caught by this
         /// ExceptionHandler.
         /// </summary>
-        [Property(xmiId: "ExceptionHandler-protectedNode", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "ExceptionHandler-protectedNode", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Element-owner")]
         public IExecutableNode ProtectedNode { get; set; }
-
     }
 }
 

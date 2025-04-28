@@ -56,7 +56,7 @@ namespace uml4net.StructuredClassifiers
         /// The Component that owns this ComponentRealization and which is implemented by its realizing
         /// Classifiers.
         /// </summary>
-        [Property(xmiId: "ComponentRealization-abstraction", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "ComponentRealization-abstraction", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Dependency-supplier")]
         [SubsettedProperty(propertyName: "Element-owner")]
         public IComponent Abstraction { get; set; }
@@ -64,10 +64,9 @@ namespace uml4net.StructuredClassifiers
         /// <summary>
         /// The Classifiers that are involved in the implementation of the Component that owns this Realization.
         /// </summary>
-        [Property(xmiId: "ComponentRealization-realizingClassifier", aggregation: AggregationKind.None, lowerValue: 1, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "ComponentRealization-realizingClassifier", aggregation: AggregationKind.None, lowerValue: 1, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Dependency-client")]
         public List<IClassifier> RealizingClassifier { get; set; }
-
     }
 }
 

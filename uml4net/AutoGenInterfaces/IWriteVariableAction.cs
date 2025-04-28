@@ -53,10 +53,9 @@ namespace uml4net.Actions
         /// <summary>
         /// The InputPin that gives the value to be added or removed from the Variable.
         /// </summary>
-        [Property(xmiId: "WriteVariableAction-value", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "WriteVariableAction-value", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Action-input")]
         public IContainerList<IInputPin> Value { get; set; }
-
     }
 }
 

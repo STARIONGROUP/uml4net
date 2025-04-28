@@ -54,17 +54,16 @@ namespace uml4net.Deployments
         /// The set of elements that are manifested in an Artifact that is involved in Deployment to a
         /// DeploymentTarget.
         /// </summary>
-        [Property(xmiId: "DeploymentTarget-deployedElement", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "DeploymentTarget-deployedElement", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         public List<IPackageableElement> DeployedElement { get; }
 
         /// <summary>
         /// The set of Deployments for a DeploymentTarget.
         /// </summary>
-        [Property(xmiId: "DeploymentTarget-deployment", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "DeploymentTarget-deployment", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Element-ownedElement")]
         [SubsettedProperty(propertyName: "NamedElement-clientDependency")]
         public IContainerList<IDeployment> Deployment { get; set; }
-
     }
 }
 

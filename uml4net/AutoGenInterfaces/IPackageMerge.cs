@@ -54,7 +54,7 @@ namespace uml4net.Packages
         /// <summary>
         /// References the Package that is to be merged with the receiving package of the PackageMerge.
         /// </summary>
-        [Property(xmiId: "PackageMerge-mergedPackage", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "PackageMerge-mergedPackage", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "DirectedRelationship-target")]
         public IPackage MergedPackage { get; set; }
 
@@ -62,11 +62,10 @@ namespace uml4net.Packages
         /// References the Package that is being extended with the contents of the merged package of the
         /// PackageMerge.
         /// </summary>
-        [Property(xmiId: "PackageMerge-receivingPackage", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "PackageMerge-receivingPackage", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "DirectedRelationship-source")]
         [SubsettedProperty(propertyName: "Element-owner")]
         public IPackage ReceivingPackage { get; set; }
-
     }
 }
 

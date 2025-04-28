@@ -197,7 +197,6 @@ namespace uml4net.CommonBehavior
         /// Backing field for <see cref="When"/>
         /// </summary>
         private IContainerList<ITimeExpression> when;
-
     }
 }
 

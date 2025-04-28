@@ -54,9 +54,8 @@ namespace uml4net.Activities
         /// <summary>
         /// The Parameter for which the ActivityParameterNode will be accepting or providing values.
         /// </summary>
-        [Property(xmiId: "ActivityParameterNode-parameter", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "ActivityParameterNode-parameter", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         public IParameter Parameter { get; set; }
-
     }
 }
 

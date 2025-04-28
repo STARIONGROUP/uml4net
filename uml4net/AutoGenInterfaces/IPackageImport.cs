@@ -55,14 +55,14 @@ namespace uml4net.CommonStructure
         /// <summary>
         /// Specifies the Package whose members are imported into a Namespace.
         /// </summary>
-        [Property(xmiId: "PackageImport-importedPackage", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "PackageImport-importedPackage", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "DirectedRelationship-target")]
         public IPackage ImportedPackage { get; set; }
 
         /// <summary>
         /// Specifies the Namespace that imports the members from a Package.
         /// </summary>
-        [Property(xmiId: "PackageImport-importingNamespace", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "PackageImport-importingNamespace", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "DirectedRelationship-source")]
         [SubsettedProperty(propertyName: "Element-owner")]
         public INamespace ImportingNamespace { get; set; }
@@ -73,9 +73,8 @@ namespace uml4net.CommonStructure
         /// public, the imported Elements will be visible outside the importingNamespace, while, if the
         /// PackageImport is private, they will not.
         /// </summary>
-        [Property(xmiId: "PackageImport-visibility", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: "public")]
+        [Property(xmiId: "PackageImport-visibility", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: "public")]
         public VisibilityKind Visibility { get; set; }
-
     }
 }
 

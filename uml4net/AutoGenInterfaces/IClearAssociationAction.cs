@@ -54,16 +54,15 @@ namespace uml4net.Actions
         /// <summary>
         /// The Association to be cleared.
         /// </summary>
-        [Property(xmiId: "ClearAssociationAction-association", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "ClearAssociationAction-association", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         public IAssociation Association { get; set; }
 
         /// <summary>
         /// The InputPin that gives the object whose participation in the Association is to be cleared.
         /// </summary>
-        [Property(xmiId: "ClearAssociationAction-object", aggregation: AggregationKind.Composite, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "ClearAssociationAction-object", aggregation: AggregationKind.Composite, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Action-input")]
         public IContainerList<IInputPin> Object { get; set; }
-
     }
 }
 

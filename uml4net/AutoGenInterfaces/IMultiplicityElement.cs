@@ -56,42 +56,41 @@ namespace uml4net.CommonStructure
         /// For a multivalued multiplicity, this attribute specifies whether the values in an instantiation of
         /// this MultiplicityElement are sequentially ordered.
         /// </summary>
-        [Property(xmiId: "MultiplicityElement-isOrdered", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: "false")]
+        [Property(xmiId: "MultiplicityElement-isOrdered", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: "false")]
         public bool IsOrdered { get; set; }
 
         /// <summary>
         /// For a multivalued multiplicity, this attributes specifies whether the values in an instantiation of
         /// this MultiplicityElement are unique.
         /// </summary>
-        [Property(xmiId: "MultiplicityElement-isUnique", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: "true")]
+        [Property(xmiId: "MultiplicityElement-isUnique", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: "true")]
         public bool IsUnique { get; set; }
 
         /// <summary>
         /// The lower bound of the multiplicity interval.
         /// </summary>
-        [Property(xmiId: "MultiplicityElement-lower", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: true, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "MultiplicityElement-lower", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: true, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         public int Lower { get; }
 
         /// <summary>
         /// The specification of the lower bound for this multiplicity.
         /// </summary>
-        [Property(xmiId: "MultiplicityElement-lowerValue", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "MultiplicityElement-lowerValue", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Element-ownedElement")]
         public IContainerList<IValueSpecification> LowerValue { get; set; }
 
         /// <summary>
         /// The upper bound of the multiplicity interval.
         /// </summary>
-        [Property(xmiId: "MultiplicityElement-upper", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: true, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "MultiplicityElement-upper", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: true, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         public string Upper { get; }
 
         /// <summary>
         /// The specification of the upper bound for this multiplicity.
         /// </summary>
-        [Property(xmiId: "MultiplicityElement-upperValue", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "MultiplicityElement-upperValue", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Element-ownedElement")]
         public IContainerList<IValueSpecification> UpperValue { get; set; }
-
     }
 }
 

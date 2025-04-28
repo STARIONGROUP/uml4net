@@ -29,9 +29,10 @@ namespace uml4net.{{this.Namespace.Name}}
     {
         {{ #each this.OwnedLiteral as | enumerationLiteral | }}
         {{ #Documentation enumerationLiteral }}
-        {{ String.CapitalizeFirstLetter enumerationLiteral.Name }}, 
+        {{ String.CapitalizeFirstLetter enumerationLiteral.Name }}{{#unless @last}},
 
-        {{/each}}
+        {{/unless}}
+    {{/each}}
     }
 }
 

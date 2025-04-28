@@ -59,16 +59,15 @@ namespace uml4net.Actions
         /// <summary>
         /// The Operation being invoked.
         /// </summary>
-        [Property(xmiId: "CallOperationAction-operation", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "CallOperationAction-operation", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         public IOperation Operation { get; set; }
 
         /// <summary>
         /// The InputPin that provides the target object to which the Operation call request is sent.
         /// </summary>
-        [Property(xmiId: "CallOperationAction-target", aggregation: AggregationKind.Composite, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "CallOperationAction-target", aggregation: AggregationKind.Composite, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Action-input")]
         public IContainerList<IInputPin> Target { get; set; }
-
     }
 }
 

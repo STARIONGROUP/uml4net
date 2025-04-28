@@ -54,17 +54,16 @@ namespace uml4net.CommonStructure
         /// <summary>
         /// Specifies the source Element(s) of the DirectedRelationship.
         /// </summary>
-        [Property(xmiId: "DirectedRelationship-source", aggregation: AggregationKind.None, lowerValue: 1, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "DirectedRelationship-source", aggregation: AggregationKind.None, lowerValue: 1, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Relationship-relatedElement")]
         public List<IElement> Source { get; }
 
         /// <summary>
         /// Specifies the target Element(s) of the DirectedRelationship.
         /// </summary>
-        [Property(xmiId: "DirectedRelationship-target", aggregation: AggregationKind.None, lowerValue: 1, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "DirectedRelationship-target", aggregation: AggregationKind.None, lowerValue: 1, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Relationship-relatedElement")]
         public List<IElement> Target { get; }
-
     }
 }
 

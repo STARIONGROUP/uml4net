@@ -56,16 +56,15 @@ namespace uml4net.Actions
         /// <summary>
         /// The Signal whose instance is transmitted to the target.
         /// </summary>
-        [Property(xmiId: "SendSignalAction-signal", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "SendSignalAction-signal", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         public ISignal Signal { get; set; }
 
         /// <summary>
         /// The InputPin that provides the target object to which the Signal instance is sent.
         /// </summary>
-        [Property(xmiId: "SendSignalAction-target", aggregation: AggregationKind.Composite, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "SendSignalAction-target", aggregation: AggregationKind.Composite, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Action-input")]
         public IContainerList<IInputPin> Target { get; set; }
-
     }
 }
 

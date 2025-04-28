@@ -843,7 +843,6 @@ namespace uml4net.CommonBehavior
         [RedefinedProperty(propertyName: "NamedElement-visibility")]
         [Implements(implementation: "IPackageableElement.Visibility")]
         public VisibilityKind Visibility { get; set; }
-
     }
 }
 

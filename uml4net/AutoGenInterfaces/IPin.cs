@@ -54,9 +54,8 @@ namespace uml4net.Actions
         /// <summary>
         /// Indicates whether the Pin provides data to the Action or just controls how the Action executes.
         /// </summary>
-        [Property(xmiId: "Pin-isControl", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: "false")]
+        [Property(xmiId: "Pin-isControl", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: "false")]
         public bool IsControl { get; set; }
-
     }
 }
 

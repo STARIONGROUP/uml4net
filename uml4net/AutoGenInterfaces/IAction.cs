@@ -56,13 +56,13 @@ namespace uml4net.Actions
         /// The context Classifier of the Behavior that contains this Action, or the Behavior itself if it has
         /// no context.
         /// </summary>
-        [Property(xmiId: "Action-context", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "Action-context", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         public IClassifier Context { get; }
 
         /// <summary>
         /// The ordered set of InputPins representing the inputs to the Action.
         /// </summary>
-        [Property(xmiId: "Action-input", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: true, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "Action-input", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: true, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Element-ownedElement")]
         public IContainerList<IInputPin> Input { get; }
 
@@ -71,30 +71,29 @@ namespace uml4net.Actions
         /// execution of the Action ongoing. If false, the Action cannot begin a new execution until any
         /// previous execution has completed.
         /// </summary>
-        [Property(xmiId: "Action-isLocallyReentrant", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: "false")]
+        [Property(xmiId: "Action-isLocallyReentrant", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: "false")]
         public bool IsLocallyReentrant { get; set; }
 
         /// <summary>
         /// A Constraint that must be satisfied when execution of the Action is completed.
         /// </summary>
-        [Property(xmiId: "Action-localPostcondition", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "Action-localPostcondition", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Element-ownedElement")]
         public IContainerList<IConstraint> LocalPostcondition { get; set; }
 
         /// <summary>
         /// A Constraint that must be satisfied when execution of the Action is started.
         /// </summary>
-        [Property(xmiId: "Action-localPrecondition", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "Action-localPrecondition", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Element-ownedElement")]
         public IContainerList<IConstraint> LocalPrecondition { get; set; }
 
         /// <summary>
         /// The ordered set of OutputPins representing outputs from the Action.
         /// </summary>
-        [Property(xmiId: "Action-output", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: true, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "Action-output", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: true, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Element-ownedElement")]
         public IContainerList<IOutputPin> Output { get; }
-
     }
 }
 

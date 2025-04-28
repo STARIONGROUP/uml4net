@@ -58,7 +58,7 @@ namespace uml4net.Actions
         /// The Activity immediately containing the StructuredActivityNode, if it is not contained in another
         /// StructuredActivityNode.
         /// </summary>
-        [Property(xmiId: "StructuredActivityNode-activity", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "StructuredActivityNode-activity", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [RedefinedProperty(propertyName: "ActivityGroup-inActivity")]
         [RedefinedProperty(propertyName: "ActivityNode-activity")]
         public new IActivity Activity { get; set; }
@@ -66,7 +66,7 @@ namespace uml4net.Actions
         /// <summary>
         /// The ActivityEdges immediately contained in the StructuredActivityNode.
         /// </summary>
-        [Property(xmiId: "StructuredActivityNode-edge", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "StructuredActivityNode-edge", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "ActivityGroup-containedEdge")]
         [SubsettedProperty(propertyName: "Element-ownedElement")]
         public IContainerList<IActivityEdge> Edge { get; set; }
@@ -77,13 +77,13 @@ namespace uml4net.Actions
         /// Actions that would result in accessing such objects are required to have their execution deferred
         /// until the completion of the StructuredActivityNode.
         /// </summary>
-        [Property(xmiId: "StructuredActivityNode-mustIsolate", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: "false")]
+        [Property(xmiId: "StructuredActivityNode-mustIsolate", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: "false")]
         public bool MustIsolate { get; set; }
 
         /// <summary>
         /// The ActivityNodes immediately contained in the StructuredActivityNode.
         /// </summary>
-        [Property(xmiId: "StructuredActivityNode-node", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "StructuredActivityNode-node", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "ActivityGroup-containedNode")]
         [SubsettedProperty(propertyName: "Element-ownedElement")]
         public IContainerList<IActivityNode> Node { get; set; }
@@ -91,24 +91,23 @@ namespace uml4net.Actions
         /// <summary>
         /// The InputPins owned by the StructuredActivityNode.
         /// </summary>
-        [Property(xmiId: "StructuredActivityNode-structuredNodeInput", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "StructuredActivityNode-structuredNodeInput", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Action-input")]
         public IContainerList<IInputPin> StructuredNodeInput { get; set; }
 
         /// <summary>
         /// The OutputPins owned by the StructuredActivityNode.
         /// </summary>
-        [Property(xmiId: "StructuredActivityNode-structuredNodeOutput", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "StructuredActivityNode-structuredNodeOutput", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Action-output")]
         public IContainerList<IOutputPin> StructuredNodeOutput { get; set; }
 
         /// <summary>
         /// The Variables defined in the scope of the StructuredActivityNode.
         /// </summary>
-        [Property(xmiId: "StructuredActivityNode-variable", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "StructuredActivityNode-variable", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Namespace-ownedMember")]
         public IContainerList<IVariable> Variable { get; set; }
-
     }
 }
 

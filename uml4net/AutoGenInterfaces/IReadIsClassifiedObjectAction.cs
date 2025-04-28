@@ -54,30 +54,29 @@ namespace uml4net.Actions
         /// <summary>
         /// The Classifier against which the classification of the input object is tested.
         /// </summary>
-        [Property(xmiId: "ReadIsClassifiedObjectAction-classifier", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "ReadIsClassifiedObjectAction-classifier", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         public IClassifier Classifier { get; set; }
 
         /// <summary>
         /// Indicates whether the input object must be directly classified by the given Classifier or whether it
         /// may also be an instance of a specialization of the given Classifier.
         /// </summary>
-        [Property(xmiId: "ReadIsClassifiedObjectAction-isDirect", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: "false")]
+        [Property(xmiId: "ReadIsClassifiedObjectAction-isDirect", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: "false")]
         public bool IsDirect { get; set; }
 
         /// <summary>
         /// The InputPin that holds the object whose classification is to be tested.
         /// </summary>
-        [Property(xmiId: "ReadIsClassifiedObjectAction-object", aggregation: AggregationKind.Composite, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "ReadIsClassifiedObjectAction-object", aggregation: AggregationKind.Composite, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Action-input")]
         public IContainerList<IInputPin> Object { get; set; }
 
         /// <summary>
         /// The OutputPin that holds the Boolean result of the test.
         /// </summary>
-        [Property(xmiId: "ReadIsClassifiedObjectAction-result", aggregation: AggregationKind.Composite, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "ReadIsClassifiedObjectAction-result", aggregation: AggregationKind.Composite, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Action-output")]
         public IContainerList<IOutputPin> Result { get; set; }
-
     }
 }
 

@@ -55,16 +55,15 @@ namespace uml4net.Actions
         /// ordered Variables. The type of the insertAt InputPin is UnlimitedNatural, but the value cannot be
         /// zero. It is omitted for unordered Variables.
         /// </summary>
-        [Property(xmiId: "AddVariableValueAction-insertAt", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "AddVariableValueAction-insertAt", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Action-input")]
         public IContainerList<IInputPin> InsertAt { get; set; }
 
         /// <summary>
         /// Specifies whether existing values of the Variable should be removed before adding the new value.
         /// </summary>
-        [Property(xmiId: "AddVariableValueAction-isReplaceAll", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: "false")]
+        [Property(xmiId: "AddVariableValueAction-isReplaceAll", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: "false")]
         public bool IsReplaceAll { get; set; }
-
     }
 }
 

@@ -53,9 +53,8 @@ namespace uml4net.Classification
         /// <summary>
         /// The InstanceSpecification that represents the specified value.
         /// </summary>
-        [Property(xmiId: "InstanceValue-instance", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "InstanceValue-instance", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         public IInstanceSpecification Instance { get; set; }
-
     }
 }
 

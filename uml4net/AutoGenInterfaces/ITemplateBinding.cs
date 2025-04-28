@@ -55,7 +55,7 @@ namespace uml4net.CommonStructure
         /// <summary>
         /// The TemplateableElement that is bound by this TemplateBinding.
         /// </summary>
-        [Property(xmiId: "TemplateBinding-boundElement", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "TemplateBinding-boundElement", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "DirectedRelationship-source")]
         [SubsettedProperty(propertyName: "Element-owner")]
         public ITemplateableElement BoundElement { get; set; }
@@ -63,17 +63,16 @@ namespace uml4net.CommonStructure
         /// <summary>
         /// The TemplateParameterSubstitutions owned by this TemplateBinding.
         /// </summary>
-        [Property(xmiId: "TemplateBinding-parameterSubstitution", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "TemplateBinding-parameterSubstitution", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Element-ownedElement")]
         public IContainerList<ITemplateParameterSubstitution> ParameterSubstitution { get; set; }
 
         /// <summary>
         /// The TemplateSignature for the template that is the target of this TemplateBinding.
         /// </summary>
-        [Property(xmiId: "TemplateBinding-signature", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "TemplateBinding-signature", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "DirectedRelationship-target")]
         public ITemplateSignature Signature { get; set; }
-
     }
 }
 

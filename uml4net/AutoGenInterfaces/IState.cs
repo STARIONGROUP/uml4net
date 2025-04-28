@@ -56,7 +56,7 @@ namespace uml4net.StateMachines
         /// reference references the corresponding definition of a connection point Pseudostate in the
         /// StateMachine referenced by the submachine State.
         /// </summary>
-        [Property(xmiId: "State-connection", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "State-connection", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Namespace-ownedMember")]
         public IContainerList<IConnectionPointReference> Connection { get; set; }
 
@@ -64,7 +64,7 @@ namespace uml4net.StateMachines
         /// The entry and exit Pseudostates of a composite State. These can only be entry or exit Pseudostates,
         /// and they must have different names. They can only be defined for composite States.
         /// </summary>
-        [Property(xmiId: "State-connectionPoint", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "State-connectionPoint", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Namespace-ownedMember")]
         public IContainerList<IPseudostate> ConnectionPoint { get; set; }
 
@@ -73,7 +73,7 @@ namespace uml4net.StateMachines
         /// Transitions out of the State (not consumed). A deferred Trigger is retained until the StateMachine
         /// reaches a State configuration where it is no longer deferred.
         /// </summary>
-        [Property(xmiId: "State-deferrableTrigger", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "State-deferrableTrigger", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Element-ownedElement")]
         public IContainerList<ITrigger> DeferrableTrigger { get; set; }
 
@@ -82,7 +82,7 @@ namespace uml4net.StateMachines
         /// is entered, and ceases either by itself when done, or when the State is exited, whichever comes
         /// first.
         /// </summary>
-        [Property(xmiId: "State-doActivity", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "State-doActivity", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Element-ownedElement")]
         public IContainerList<IBehavior> DoActivity { get; set; }
 
@@ -91,7 +91,7 @@ namespace uml4net.StateMachines
         /// taken to reach the State. If defined, entry Behaviors are always executed to completion prior to any
         /// internal Behavior or Transitions performed within the State.
         /// </summary>
-        [Property(xmiId: "State-entry", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "State-entry", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Element-ownedElement")]
         public IContainerList<IBehavior> Entry { get; set; }
 
@@ -100,7 +100,7 @@ namespace uml4net.StateMachines
         /// was taken out of the State. If defined, exit Behaviors are always executed to completion only after
         /// all internal and transition Behaviors have completed execution.
         /// </summary>
-        [Property(xmiId: "State-exit", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "State-exit", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Element-ownedElement")]
         public IContainerList<IBehavior> Exit { get; set; }
 
@@ -108,34 +108,34 @@ namespace uml4net.StateMachines
         /// A state with isComposite=true is said to be a composite State. A composite State is a State that
         /// contains at least one Region.
         /// </summary>
-        [Property(xmiId: "State-isComposite", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "State-isComposite", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         public bool IsComposite { get; }
 
         /// <summary>
         /// A State with isOrthogonal=true is said to be an orthogonal composite State An orthogonal composite
         /// State contains two or more Regions.
         /// </summary>
-        [Property(xmiId: "State-isOrthogonal", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "State-isOrthogonal", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         public bool IsOrthogonal { get; }
 
         /// <summary>
         /// A State with isSimple=true is said to be a simple State A simple State does not have any Regions and
         /// it does not refer to any submachine StateMachine.
         /// </summary>
-        [Property(xmiId: "State-isSimple", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "State-isSimple", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         public bool IsSimple { get; }
 
         /// <summary>
         /// A State with isSubmachineState=true is said to be a submachine State Such a State refers to another
         /// StateMachine(submachine).
         /// </summary>
-        [Property(xmiId: "State-isSubmachineState", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "State-isSubmachineState", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         public bool IsSubmachineState { get; }
 
         /// <summary>
         /// The Regions owned directly by the State.
         /// </summary>
-        [Property(xmiId: "State-region", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "State-region", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Namespace-ownedMember")]
         public IContainerList<IRegion> Region { get; set; }
 
@@ -144,16 +144,15 @@ namespace uml4net.StateMachines
         /// ProtocolStateMachines state invariants are additional conditions to the preconditions of the
         /// outgoing Transitions, and to the postcondition of the incoming Transitions.
         /// </summary>
-        [Property(xmiId: "State-stateInvariant", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "State-stateInvariant", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Namespace-ownedRule")]
         public IContainerList<IConstraint> StateInvariant { get; set; }
 
         /// <summary>
         /// The StateMachine that is to be inserted in place of the (submachine) State.
         /// </summary>
-        [Property(xmiId: "State-submachine", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "State-submachine", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         public IStateMachine Submachine { get; set; }
-
     }
 }
 

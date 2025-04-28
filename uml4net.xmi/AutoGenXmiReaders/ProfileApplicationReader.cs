@@ -147,18 +147,21 @@ namespace uml4net.xmi.Readers
                 }
 
                 var appliedProfileXmlAttribute = xmlReader.GetAttribute("appliedProfile");
+
                 if (!string.IsNullOrEmpty(appliedProfileXmlAttribute))
                 {
                     poco.SingleValueReferencePropertyIdentifiers.Add("appliedProfile", appliedProfileXmlAttribute);
                 }
 
                 var applyingPackageXmlAttribute = xmlReader.GetAttribute("applyingPackage");
+
                 if (!string.IsNullOrEmpty(applyingPackageXmlAttribute))
                 {
                     poco.SingleValueReferencePropertyIdentifiers.Add("applyingPackage", applyingPackageXmlAttribute);
                 }
 
                 var isStrictXmlAttribute = xmlReader.GetAttribute("isStrict");
+
                 if (!string.IsNullOrEmpty(isStrictXmlAttribute))
                 {
                     poco.IsStrict = bool.Parse(isStrictXmlAttribute);
@@ -179,10 +182,12 @@ namespace uml4net.xmi.Readers
                                 break;
                             case "isStrict":
                                 var isStrictValue = xmlReader.ReadElementContentAsString();
+
                                 if (!string.IsNullOrEmpty(isStrictValue))
                                 {
                                     poco.IsStrict = bool.Parse(isStrictValue);
                                 }
+
                                 break;
                             case "ownedComment":
                                 var ownedCommentValue = (IComment)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.LoggerFactory, "uml:Comment");
@@ -197,6 +202,7 @@ namespace uml4net.xmi.Readers
                                 {
                                     this.Logger.LogWarning("Not Supported: ProfileApplicationReader: {LocalName} at line:position {LineNumber}:{LinePosition}", xmlReader.LocalName, defaultLineInfo.LineNumber, defaultLineInfo.LinePosition);
                                 }
+
                                 break;
                         }
                     }

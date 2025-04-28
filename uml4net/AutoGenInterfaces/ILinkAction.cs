@@ -54,17 +54,16 @@ namespace uml4net.Actions
         /// <summary>
         /// The LinkEndData identifying the values on the ends of the links acting on by this LinkAction.
         /// </summary>
-        [Property(xmiId: "LinkAction-endData", aggregation: AggregationKind.Composite, lowerValue: 2, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "LinkAction-endData", aggregation: AggregationKind.Composite, lowerValue: 2, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Element-ownedElement")]
         public IContainerList<ILinkEndData> EndData { get; set; }
 
         /// <summary>
         /// InputPins used by the LinkEndData of the LinkAction.
         /// </summary>
-        [Property(xmiId: "LinkAction-inputValue", aggregation: AggregationKind.Composite, lowerValue: 1, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "LinkAction-inputValue", aggregation: AggregationKind.Composite, lowerValue: 1, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Action-input")]
         public IContainerList<IInputPin> InputValue { get; set; }
-
     }
 }
 

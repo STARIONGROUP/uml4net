@@ -56,9 +56,8 @@ namespace uml4net.Actions
         /// <summary>
         /// The Signal whose instances are to be sent.
         /// </summary>
-        [Property(xmiId: "BroadcastSignalAction-signal", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "BroadcastSignalAction-signal", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         public ISignal Signal { get; set; }
-
     }
 }
 

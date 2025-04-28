@@ -147,12 +147,14 @@ namespace uml4net.xmi.Readers
                 }
 
                 var definingFeatureXmlAttribute = xmlReader.GetAttribute("definingFeature");
+
                 if (!string.IsNullOrEmpty(definingFeatureXmlAttribute))
                 {
                     poco.SingleValueReferencePropertyIdentifiers.Add("definingFeature", definingFeatureXmlAttribute);
                 }
 
                 var owningInstanceXmlAttribute = xmlReader.GetAttribute("owningInstance");
+
                 if (!string.IsNullOrEmpty(owningInstanceXmlAttribute))
                 {
                     poco.SingleValueReferencePropertyIdentifiers.Add("owningInstance", owningInstanceXmlAttribute);
@@ -188,6 +190,7 @@ namespace uml4net.xmi.Readers
                                 {
                                     this.Logger.LogWarning("Not Supported: SlotReader: {LocalName} at line:position {LineNumber}:{LinePosition}", xmlReader.LocalName, defaultLineInfo.LineNumber, defaultLineInfo.LinePosition);
                                 }
+
                                 break;
                         }
                     }

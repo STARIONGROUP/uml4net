@@ -65,7 +65,6 @@ namespace uml4net.Values
         [Property(xmiId: "TimeConstraint-specification", aggregation: AggregationKind.Composite, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [RedefinedProperty(propertyName: "IntervalConstraint-specification")]
         public new IContainerList<ITimeInterval> Specification { get; set; }
-
     }
 }
 

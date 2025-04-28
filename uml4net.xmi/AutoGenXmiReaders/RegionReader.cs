@@ -147,12 +147,14 @@ namespace uml4net.xmi.Readers
                 }
 
                 var extendedRegionXmlAttribute = xmlReader.GetAttribute("extendedRegion");
+
                 if (!string.IsNullOrEmpty(extendedRegionXmlAttribute))
                 {
                     poco.SingleValueReferencePropertyIdentifiers.Add("extendedRegion", extendedRegionXmlAttribute);
                 }
 
                 var isLeafXmlAttribute = xmlReader.GetAttribute("isLeaf");
+
                 if (!string.IsNullOrEmpty(isLeafXmlAttribute))
                 {
                     poco.IsLeaf = bool.Parse(isLeafXmlAttribute);
@@ -161,18 +163,21 @@ namespace uml4net.xmi.Readers
                 poco.Name = xmlReader.GetAttribute("name");
 
                 var stateXmlAttribute = xmlReader.GetAttribute("state");
+
                 if (!string.IsNullOrEmpty(stateXmlAttribute))
                 {
                     poco.SingleValueReferencePropertyIdentifiers.Add("state", stateXmlAttribute);
                 }
 
                 var stateMachineXmlAttribute = xmlReader.GetAttribute("stateMachine");
+
                 if (!string.IsNullOrEmpty(stateMachineXmlAttribute))
                 {
                     poco.SingleValueReferencePropertyIdentifiers.Add("stateMachine", stateMachineXmlAttribute);
                 }
 
                 var visibilityXmlAttribute = xmlReader.GetAttribute("visibility");
+
                 if (!string.IsNullOrEmpty(visibilityXmlAttribute))
                 {
                     poco.Visibility = (VisibilityKind)Enum.Parse(typeof(VisibilityKind), visibilityXmlAttribute, true);
@@ -194,10 +199,12 @@ namespace uml4net.xmi.Readers
                                 break;
                             case "isLeaf":
                                 var isLeafValue = xmlReader.ReadElementContentAsString();
+
                                 if (!string.IsNullOrEmpty(isLeafValue))
                                 {
                                     poco.IsLeaf = bool.Parse(isLeafValue);
                                 }
+
                                 break;
                             case "name":
                                 poco.Name = xmlReader.ReadElementContentAsString();
@@ -234,10 +241,12 @@ namespace uml4net.xmi.Readers
                                 break;
                             case "visibility":
                                 var visibilityValue = xmlReader.ReadElementContentAsString();
+
                                 if (!string.IsNullOrEmpty(visibilityValue))
                                 {
-                                    poco.Visibility = (VisibilityKind)Enum.Parse(typeof(VisibilityKind), visibilityValue, true); ;
+                                    poco.Visibility = (VisibilityKind)Enum.Parse(typeof(VisibilityKind), visibilityValue, true);
                                 }
+
                                 break;
                             default:
                                 if (this.XmiReaderSettings.UseStrictReading)
@@ -248,6 +257,7 @@ namespace uml4net.xmi.Readers
                                 {
                                     this.Logger.LogWarning("Not Supported: RegionReader: {LocalName} at line:position {LineNumber}:{LinePosition}", xmlReader.LocalName, defaultLineInfo.LineNumber, defaultLineInfo.LinePosition);
                                 }
+
                                 break;
                         }
                     }
