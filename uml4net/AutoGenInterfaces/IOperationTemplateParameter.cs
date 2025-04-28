@@ -53,10 +53,9 @@ namespace uml4net.Classification
         /// <summary>
         /// The Operation exposed by this OperationTemplateParameter.
         /// </summary>
-        [Property(xmiId: "OperationTemplateParameter-parameteredElement", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "OperationTemplateParameter-parameteredElement", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [RedefinedProperty(propertyName: "TemplateParameter-parameteredElement")]
         public new IOperation ParameteredElement { get; set; }
-
     }
 }
 

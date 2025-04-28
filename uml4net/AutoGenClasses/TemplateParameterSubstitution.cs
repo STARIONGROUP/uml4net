@@ -128,7 +128,6 @@ namespace uml4net.CommonStructure
         [SubsettedProperty(propertyName: "Element-owner")]
         [Implements(implementation: "ITemplateParameterSubstitution.TemplateBinding")]
         public ITemplateBinding TemplateBinding { get; set; }
-
     }
 }
 

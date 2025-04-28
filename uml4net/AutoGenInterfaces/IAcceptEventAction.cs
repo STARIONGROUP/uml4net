@@ -54,23 +54,22 @@ namespace uml4net.Actions
         /// Indicates whether there is a single OutputPin for a SignalEvent occurrence, or multiple OutputPins
         /// for attribute values of the instance of the Signal associated with a SignalEvent occurrence.
         /// </summary>
-        [Property(xmiId: "AcceptEventAction-isUnmarshall", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: "false")]
+        [Property(xmiId: "AcceptEventAction-isUnmarshall", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: "false")]
         public bool IsUnmarshall { get; set; }
 
         /// <summary>
         /// OutputPins holding the values received from an Event occurrence.
         /// </summary>
-        [Property(xmiId: "AcceptEventAction-result", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: true, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "AcceptEventAction-result", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: true, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Action-output")]
         public IContainerList<IOutputPin> Result { get; set; }
 
         /// <summary>
         /// The Triggers specifying the Events of which the AcceptEventAction waits for occurrences.
         /// </summary>
-        [Property(xmiId: "AcceptEventAction-trigger", aggregation: AggregationKind.Composite, lowerValue: 1, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "AcceptEventAction-trigger", aggregation: AggregationKind.Composite, lowerValue: 1, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Element-ownedElement")]
         public IContainerList<ITrigger> Trigger { get; set; }
-
     }
 }
 

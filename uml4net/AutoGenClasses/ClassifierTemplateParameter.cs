@@ -179,7 +179,6 @@ namespace uml4net.Classification
         [SubsettedProperty(propertyName: "Element-owner")]
         [Implements(implementation: "ITemplateParameter.Signature")]
         public ITemplateSignature Signature { get; set; }
-
     }
 }
 

@@ -147,24 +147,28 @@ namespace uml4net.xmi.Readers
                 }
 
                 var endXmlAttribute = xmlReader.GetAttribute("end");
+
                 if (!string.IsNullOrEmpty(endXmlAttribute))
                 {
                     poco.SingleValueReferencePropertyIdentifiers.Add("end", endXmlAttribute);
                 }
 
                 var insertAtXmlAttribute = xmlReader.GetAttribute("insertAt");
+
                 if (!string.IsNullOrEmpty(insertAtXmlAttribute))
                 {
                     poco.SingleValueReferencePropertyIdentifiers.Add("insertAt", insertAtXmlAttribute);
                 }
 
                 var isReplaceAllXmlAttribute = xmlReader.GetAttribute("isReplaceAll");
+
                 if (!string.IsNullOrEmpty(isReplaceAllXmlAttribute))
                 {
                     poco.IsReplaceAll = bool.Parse(isReplaceAllXmlAttribute);
                 }
 
                 var valueXmlAttribute = xmlReader.GetAttribute("value");
+
                 if (!string.IsNullOrEmpty(valueXmlAttribute))
                 {
                     poco.SingleValueReferencePropertyIdentifiers.Add("value", valueXmlAttribute);
@@ -185,10 +189,12 @@ namespace uml4net.xmi.Readers
                                 break;
                             case "isReplaceAll":
                                 var isReplaceAllValue = xmlReader.ReadElementContentAsString();
+
                                 if (!string.IsNullOrEmpty(isReplaceAllValue))
                                 {
                                     poco.IsReplaceAll = bool.Parse(isReplaceAllValue);
                                 }
+
                                 break;
                             case "ownedComment":
                                 var ownedCommentValue = (IComment)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.LoggerFactory, "uml:Comment");
@@ -210,6 +216,7 @@ namespace uml4net.xmi.Readers
                                 {
                                     this.Logger.LogWarning("Not Supported: LinkEndCreationDataReader: {LocalName} at line:position {LineNumber}:{LinePosition}", xmlReader.LocalName, defaultLineInfo.LineNumber, defaultLineInfo.LinePosition);
                                 }
+
                                 break;
                         }
                     }

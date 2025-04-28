@@ -62,13 +62,13 @@ namespace uml4net.StructuredClassifiers
         /// BehavioralFeature targeted at a behavior Port will be handled by the instance of the owning
         /// EncapsulatedClassifier itself, rather than by any instances that it may contain.
         /// </summary>
-        [Property(xmiId: "Port-isBehavior", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: "false")]
+        [Property(xmiId: "Port-isBehavior", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: "false")]
         public bool IsBehavior { get; set; }
 
         /// <summary>
         /// Specifies the way that the provided and required Interfaces are derived from the Port’s Type.
         /// </summary>
-        [Property(xmiId: "Port-isConjugated", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: "false")]
+        [Property(xmiId: "Port-isConjugated", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: "false")]
         public bool IsConjugated { get; set; }
 
         /// <summary>
@@ -78,13 +78,13 @@ namespace uml4net.StructuredClassifiers
         /// therefore, be altered or deleted along with the internal implementation of the
         /// EncapsulatedClassifier and other properties that are considered part of its implementation.
         /// </summary>
-        [Property(xmiId: "Port-isService", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: "true")]
+        [Property(xmiId: "Port-isService", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: "true")]
         public bool IsService { get; set; }
 
         /// <summary>
         /// An optional ProtocolStateMachine which describes valid interactions at this interaction point.
         /// </summary>
-        [Property(xmiId: "Port-protocol", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "Port-protocol", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         public IProtocolStateMachine Protocol { get; set; }
 
         /// <summary>
@@ -96,7 +96,7 @@ namespace uml4net.StructuredClassifiers
         /// Port is typed by an Interface. If isConjugated is true, it is derived as the union of the sets of
         /// Interfaces used by the type of the Port and its supertypes.
         /// </summary>
-        [Property(xmiId: "Port-provided", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "Port-provided", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         public List<IInterface> Provided { get; }
 
         /// <summary>
@@ -104,7 +104,7 @@ namespace uml4net.StructuredClassifiers
         /// Port may have additional Interfaces to those that are associated with the redefined Port or it may
         /// replace an Interface by one of its subtypes.
         /// </summary>
-        [Property(xmiId: "Port-redefinedPort", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "Port-redefinedPort", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Property-redefinedProperty")]
         public List<IPort> RedefinedPort { get; set; }
 
@@ -116,9 +116,8 @@ namespace uml4net.StructuredClassifiers
         /// as the union of the sets of Interfaces realized by the type of the Port and its supertypes, or
         /// directly from the type of the Port if the Port is typed by an Interface.
         /// </summary>
-        [Property(xmiId: "Port-required", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "Port-required", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         public List<IInterface> Required { get; }
-
     }
 }
 

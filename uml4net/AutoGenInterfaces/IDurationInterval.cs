@@ -53,17 +53,16 @@ namespace uml4net.Values
         /// <summary>
         /// Refers to the Duration denoting the maximum value of the range.
         /// </summary>
-        [Property(xmiId: "DurationInterval-max", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "DurationInterval-max", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [RedefinedProperty(propertyName: "Interval-max")]
         public new IDuration Max { get; set; }
 
         /// <summary>
         /// Refers to the Duration denoting the minimum value of the range.
         /// </summary>
-        [Property(xmiId: "DurationInterval-min", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "DurationInterval-min", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [RedefinedProperty(propertyName: "Interval-min")]
         public new IDuration Min { get; set; }
-
     }
 }
 

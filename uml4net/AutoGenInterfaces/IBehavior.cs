@@ -64,14 +64,14 @@ namespace uml4net.CommonBehavior
         /// the context BehavioredClassifier as well as the Elements visible to the context Classifier are
         /// visible to the Behavior.
         /// </summary>
-        [Property(xmiId: "Behavior-context", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "Behavior-context", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "RedefinableElement-redefinitionContext")]
         public IBehavioredClassifier Context { get; }
 
         /// <summary>
         /// Tells whether the Behavior can be invoked while it is still executing from a previous invocation.
         /// </summary>
-        [Property(xmiId: "Behavior-isReentrant", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: "true")]
+        [Property(xmiId: "Behavior-isReentrant", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: "true")]
         public bool IsReentrant { get; set; }
 
         /// <summary>
@@ -79,14 +79,14 @@ namespace uml4net.CommonBehavior
         /// can be given when the Behavior is invoked and of the values which will be returned when the Behavior
         /// completes its execution.
         /// </summary>
-        [Property(xmiId: "Behavior-ownedParameter", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: true, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "Behavior-ownedParameter", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: true, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Namespace-ownedMember")]
         public IContainerList<IParameter> OwnedParameter { get; set; }
 
         /// <summary>
         /// The ParameterSets owned by this Behavior.
         /// </summary>
-        [Property(xmiId: "Behavior-ownedParameterSet", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "Behavior-ownedParameterSet", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Namespace-ownedMember")]
         public IContainerList<IParameterSet> OwnedParameterSet { get; set; }
 
@@ -94,14 +94,14 @@ namespace uml4net.CommonBehavior
         /// An optional set of Constraints specifying what is fulfilled after the execution of the Behavior is
         /// completed, if its precondition was fulfilled before its invocation.
         /// </summary>
-        [Property(xmiId: "Behavior-postcondition", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "Behavior-postcondition", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Namespace-ownedRule")]
         public IContainerList<IConstraint> Postcondition { get; set; }
 
         /// <summary>
         /// An optional set of Constraints specifying what must be fulfilled before the Behavior is invoked.
         /// </summary>
-        [Property(xmiId: "Behavior-precondition", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "Behavior-precondition", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Namespace-ownedRule")]
         public IContainerList<IConstraint> Precondition { get; set; }
 
@@ -112,7 +112,7 @@ namespace uml4net.CommonBehavior
         /// specification, in which case it either is the classifierBehavior of a BehavioredClassifier or it can
         /// only be invoked by another Behavior of the Classifier.
         /// </summary>
-        [Property(xmiId: "Behavior-specification", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "Behavior-specification", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         public IBehavioralFeature Specification { get; set; }
 
         /// <summary>
@@ -120,10 +120,9 @@ namespace uml4net.CommonBehavior
         /// subtype of Behavior. If the Behavior implements a BehavioralFeature, it replaces the redefined
         /// Behavior. If the Behavior is a classifierBehavior, it extends the redefined Behavior.
         /// </summary>
-        [Property(xmiId: "Behavior-redefinedBehavior", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "Behavior-redefinedBehavior", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Classifier-redefinedClassifier")]
         public List<IBehavior> RedefinedBehavior { get; set; }
-
     }
 }
 

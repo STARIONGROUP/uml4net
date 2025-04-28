@@ -161,7 +161,6 @@ namespace uml4net.StructuredClassifiers
         [SubsettedProperty(propertyName: "Element-owner")]
         [Implements(implementation: "ITemplateParameter.Signature")]
         public ITemplateSignature Signature { get; set; }
-
     }
 }
 

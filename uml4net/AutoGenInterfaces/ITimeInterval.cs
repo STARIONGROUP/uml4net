@@ -53,17 +53,16 @@ namespace uml4net.Values
         /// <summary>
         /// Refers to the TimeExpression denoting the maximum value of the range.
         /// </summary>
-        [Property(xmiId: "TimeInterval-max", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "TimeInterval-max", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [RedefinedProperty(propertyName: "Interval-max")]
         public new ITimeExpression Max { get; set; }
 
         /// <summary>
         /// Refers to the TimeExpression denoting the minimum value of the range.
         /// </summary>
-        [Property(xmiId: "TimeInterval-min", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "TimeInterval-min", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [RedefinedProperty(propertyName: "Interval-min")]
         public new ITimeExpression Min { get; set; }
-
     }
 }
 

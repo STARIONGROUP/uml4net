@@ -55,7 +55,6 @@ namespace uml4net.Values
         /// </summary>
         [Property(xmiId: "LiteralReal-value", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         public double Value { get; set; }
-
     }
 }
 

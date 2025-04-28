@@ -57,7 +57,7 @@ namespace uml4net.Classification
         /// The Classifier or Classifiers of the represented instance. If multiple Classifiers are specified,
         /// the instance is classified by all of them.
         /// </summary>
-        [Property(xmiId: "InstanceSpecification-classifier", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "InstanceSpecification-classifier", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         public List<IClassifier> Classifier { get; set; }
 
         /// <summary>
@@ -66,17 +66,16 @@ namespace uml4net.Classification
         /// necessary to model a Slot for every StructuralFeature, in which case the InstanceSpecification is a
         /// partial description.
         /// </summary>
-        [Property(xmiId: "InstanceSpecification-slot", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "InstanceSpecification-slot", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Element-ownedElement")]
         public IContainerList<ISlot> Slot { get; set; }
 
         /// <summary>
         /// A specification of how to compute, derive, or construct the instance.
         /// </summary>
-        [Property(xmiId: "InstanceSpecification-specification", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "InstanceSpecification-specification", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Element-ownedElement")]
         public IContainerList<IValueSpecification> Specification { get; set; }
-
     }
 }
 

@@ -34,11 +34,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="AutoGenEnumeration\" />
-      <Folder Include="AutoGenInterfaces\" />
-    </ItemGroup>
-
-    <ItemGroup>
         <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="9.0.4" />
     </ItemGroup>
 

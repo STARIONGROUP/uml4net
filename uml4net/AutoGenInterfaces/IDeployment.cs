@@ -57,25 +57,24 @@ namespace uml4net.Deployments
         /// The specification of properties that parameterize the deployment and execution of one or more
         /// Artifacts.
         /// </summary>
-        [Property(xmiId: "Deployment-configuration", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "Deployment-configuration", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Element-ownedElement")]
         public IContainerList<IDeploymentSpecification> Configuration { get; set; }
 
         /// <summary>
         /// The Artifacts that are deployed onto a Node. This association specializes the supplier association.
         /// </summary>
-        [Property(xmiId: "Deployment-deployedArtifact", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "Deployment-deployedArtifact", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Dependency-supplier")]
         public List<IDeployedArtifact> DeployedArtifact { get; set; }
 
         /// <summary>
         /// The DeployedTarget which is the target of a Deployment.
         /// </summary>
-        [Property(xmiId: "Deployment-location", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "Deployment-location", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Dependency-client")]
         [SubsettedProperty(propertyName: "Element-owner")]
         public IDeploymentTarget Location { get; set; }
-
     }
 }
 

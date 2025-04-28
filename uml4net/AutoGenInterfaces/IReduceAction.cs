@@ -54,7 +54,7 @@ namespace uml4net.Actions
         /// <summary>
         /// The InputPin that provides the collection to be reduced.
         /// </summary>
-        [Property(xmiId: "ReduceAction-collection", aggregation: AggregationKind.Composite, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "ReduceAction-collection", aggregation: AggregationKind.Composite, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Action-input")]
         public IContainerList<IInputPin> Collection { get; set; }
 
@@ -62,23 +62,22 @@ namespace uml4net.Actions
         /// Indicates whether the order of the input collection should determine the order in which the reducer
         /// Behavior is applied to its elements.
         /// </summary>
-        [Property(xmiId: "ReduceAction-isOrdered", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: "false")]
+        [Property(xmiId: "ReduceAction-isOrdered", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: "false")]
         public bool IsOrdered { get; set; }
 
         /// <summary>
         /// A Behavior that is repreatedly applied to two elements of the input collection to produce a value
         /// that is of the same type as elements of the collection.
         /// </summary>
-        [Property(xmiId: "ReduceAction-reducer", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "ReduceAction-reducer", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         public IBehavior Reducer { get; set; }
 
         /// <summary>
         /// The output pin on which the result value is placed.
         /// </summary>
-        [Property(xmiId: "ReduceAction-result", aggregation: AggregationKind.Composite, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "ReduceAction-result", aggregation: AggregationKind.Composite, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Action-output")]
         public IContainerList<IOutputPin> Result { get; set; }
-
     }
 }
 

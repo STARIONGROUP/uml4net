@@ -57,7 +57,7 @@ namespace uml4net.Values
         /// event Element during execution, or the entering/exiting of one event Element and the
         /// entering/exiting of a second.
         /// </summary>
-        [Property(xmiId: "DurationObservation-event", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 2, isOrdered: true, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "DurationObservation-event", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 2, isOrdered: true, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         public List<INamedElement> Event { get; set; }
 
         /// <summary>
@@ -66,9 +66,8 @@ namespace uml4net.Values
         /// firstEvent[i] is false, then the corresponding observation event is the time instant the execution
         /// exits event[i].
         /// </summary>
-        [Property(xmiId: "DurationObservation-firstEvent", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 2, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "DurationObservation-firstEvent", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 2, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         public List<bool> FirstEvent { get; set; }
-
     }
 }
 

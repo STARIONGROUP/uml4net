@@ -53,10 +53,9 @@ namespace uml4net.Values
         /// <summary>
         /// The Interval that specifies the condition of the IntervalConstraint.
         /// </summary>
-        [Property(xmiId: "IntervalConstraint-specification", aggregation: AggregationKind.Composite, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "IntervalConstraint-specification", aggregation: AggregationKind.Composite, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [RedefinedProperty(propertyName: "Constraint-specification")]
         public new IContainerList<IInterval> Specification { get; set; }
-
     }
 }
 

@@ -147,7 +147,6 @@ namespace uml4net.CommonStructure
         [SubsettedProperty(propertyName: "Element-owner")]
         [Implements(implementation: "ITemplateParameter.Signature")]
         public ITemplateSignature Signature { get; set; }
-
     }
 }
 

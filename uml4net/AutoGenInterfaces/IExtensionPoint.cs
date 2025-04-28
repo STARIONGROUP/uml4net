@@ -54,10 +54,9 @@ namespace uml4net.UseCases
         /// <summary>
         /// The UseCase that owns this ExtensionPoint.
         /// </summary>
-        [Property(xmiId: "ExtensionPoint-useCase", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "ExtensionPoint-useCase", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "NamedElement-namespace")]
         public IUseCase UseCase { get; set; }
-
     }
 }
 

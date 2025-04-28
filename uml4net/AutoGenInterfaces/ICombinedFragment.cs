@@ -55,23 +55,22 @@ namespace uml4net.Interactions
         /// <summary>
         /// Specifies the gates that form the interface between this CombinedFragment and its surroundings
         /// </summary>
-        [Property(xmiId: "CombinedFragment-cfragmentGate", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "CombinedFragment-cfragmentGate", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Element-ownedElement")]
         public IContainerList<IGate> CfragmentGate { get; set; }
 
         /// <summary>
         /// Specifies the operation which defines the semantics of this combination of InteractionFragments.
         /// </summary>
-        [Property(xmiId: "CombinedFragment-interactionOperator", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: "seq")]
+        [Property(xmiId: "CombinedFragment-interactionOperator", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: "seq")]
         public InteractionOperatorKind InteractionOperator { get; set; }
 
         /// <summary>
         /// The set of operands of the combined fragment.
         /// </summary>
-        [Property(xmiId: "CombinedFragment-operand", aggregation: AggregationKind.Composite, lowerValue: 1, upperValue: int.MaxValue, isOrdered: true, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "CombinedFragment-operand", aggregation: AggregationKind.Composite, lowerValue: 1, upperValue: int.MaxValue, isOrdered: true, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Element-ownedElement")]
         public IContainerList<IInteractionOperand> Operand { get; set; }
-
     }
 }
 

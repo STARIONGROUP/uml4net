@@ -49,8 +49,7 @@ namespace uml4net.Classification
         /// <summary>
         /// Indicates that Parameter values are passed as return values back to the caller.
         /// </summary>
-        Return,
-
+        Return
     }
 }
 

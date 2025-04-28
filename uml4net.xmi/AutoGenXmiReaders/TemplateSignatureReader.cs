@@ -147,6 +147,7 @@ namespace uml4net.xmi.Readers
                 }
 
                 var parameterXmlAttribute = xmlReader.GetAttribute("parameter");
+
                 if (!string.IsNullOrEmpty(parameterXmlAttribute))
                 {
                     var parameterXmlAttributeValues = parameterXmlAttribute.Split(SplitMultiReference, StringSplitOptions.RemoveEmptyEntries).ToList();
@@ -154,6 +155,7 @@ namespace uml4net.xmi.Readers
                 }
 
                 var templateXmlAttribute = xmlReader.GetAttribute("template");
+
                 if (!string.IsNullOrEmpty(templateXmlAttribute))
                 {
                     poco.SingleValueReferencePropertyIdentifiers.Add("template", templateXmlAttribute);
@@ -189,6 +191,7 @@ namespace uml4net.xmi.Readers
                                 {
                                     this.Logger.LogWarning("Not Supported: TemplateSignatureReader: {LocalName} at line:position {LineNumber}:{LinePosition}", xmlReader.LocalName, defaultLineInfo.LineNumber, defaultLineInfo.LinePosition);
                                 }
+
                                 break;
                         }
                     }

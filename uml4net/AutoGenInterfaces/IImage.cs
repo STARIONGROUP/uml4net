@@ -55,7 +55,7 @@ namespace uml4net.Packages
         /// bitmap, image such as a GIF file, or drawing 'instructions' using a standard such as Scalable Vector
         /// Graphic (SVG) (which is XML based).
         /// </summary>
-        [Property(xmiId: "Image-content", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "Image-content", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         public string Content { get; set; }
 
         /// <summary>
@@ -64,16 +64,15 @@ namespace uml4net.Packages
         /// also reserved. This option can be used as an alternative to express the reserved values above, for
         /// example "SVG" could instead be expressed as "MIME: image/svg+xml".
         /// </summary>
-        [Property(xmiId: "Image-format", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "Image-format", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         public string Format { get; set; }
 
         /// <summary>
         /// This contains a location that can be used by a tool to locate the image as an alternative to
         /// embedding it in the stereotype.
         /// </summary>
-        [Property(xmiId: "Image-location", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "Image-location", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         public string Location { get; set; }
-
     }
 }
 

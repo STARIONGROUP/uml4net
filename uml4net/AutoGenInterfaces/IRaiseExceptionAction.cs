@@ -54,10 +54,9 @@ namespace uml4net.Actions
         /// <summary>
         /// An InputPin whose value becomes the exception object.
         /// </summary>
-        [Property(xmiId: "RaiseExceptionAction-exception", aggregation: AggregationKind.Composite, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "RaiseExceptionAction-exception", aggregation: AggregationKind.Composite, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Action-input")]
         public IContainerList<IInputPin> Exception { get; set; }
-
     }
 }
 

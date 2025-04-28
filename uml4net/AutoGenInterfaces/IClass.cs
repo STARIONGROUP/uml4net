@@ -56,14 +56,14 @@ namespace uml4net.StructuredClassifiers
         /// specify additional properties of the metaclass. The property is derived from the Extensions whose
         /// memberEnds are typed by the Class.
         /// </summary>
-        [Property(xmiId: "Class-extension", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "Class-extension", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         public List<IExtension> Extension { get; }
 
         /// <summary>
         /// If true, the Class does not provide a complete declaration and cannot be instantiated. An abstract
         /// Class is typically used as a target of Associations or Generalizations.
         /// </summary>
-        [Property(xmiId: "Class-isAbstract", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: "false")]
+        [Property(xmiId: "Class-isAbstract", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: "false")]
         [RedefinedProperty(propertyName: "Classifier-isAbstract")]
         public new bool IsAbstract { get; set; }
 
@@ -72,13 +72,13 @@ namespace uml4net.StructuredClassifiers
         /// Class is referred to as an active Class. If false, then such a Class is referred to as a passive
         /// Class.
         /// </summary>
-        [Property(xmiId: "Class-isActive", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: "false")]
+        [Property(xmiId: "Class-isActive", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: "false")]
         public bool IsActive { get; set; }
 
         /// <summary>
         /// The Classifiers owned by the Class that are not ownedBehaviors.
         /// </summary>
-        [Property(xmiId: "Class-nestedClassifier", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: true, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "Class-nestedClassifier", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: true, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "A_redefinitionContext_redefinableElement-redefinableElement")]
         [SubsettedProperty(propertyName: "Namespace-ownedMember")]
         public IContainerList<IClassifier> NestedClassifier { get; set; }
@@ -86,7 +86,7 @@ namespace uml4net.StructuredClassifiers
         /// <summary>
         /// The attributes (i.e., the Properties) owned by the Class.
         /// </summary>
-        [Property(xmiId: "Class-ownedAttribute", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: true, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "Class-ownedAttribute", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: true, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Classifier-attribute")]
         [SubsettedProperty(propertyName: "Namespace-ownedMember")]
         [RedefinedProperty(propertyName: "StructuredClassifier-ownedAttribute")]
@@ -95,7 +95,7 @@ namespace uml4net.StructuredClassifiers
         /// <summary>
         /// The Operations owned by the Class.
         /// </summary>
-        [Property(xmiId: "Class-ownedOperation", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: true, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "Class-ownedOperation", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: true, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "A_redefinitionContext_redefinableElement-redefinableElement")]
         [SubsettedProperty(propertyName: "Classifier-feature")]
         [SubsettedProperty(propertyName: "Namespace-ownedMember")]
@@ -104,7 +104,7 @@ namespace uml4net.StructuredClassifiers
         /// <summary>
         /// The Receptions owned by the Class.
         /// </summary>
-        [Property(xmiId: "Class-ownedReception", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "Class-ownedReception", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Classifier-feature")]
         [SubsettedProperty(propertyName: "Namespace-ownedMember")]
         public IContainerList<IReception> OwnedReception { get; set; }
@@ -112,10 +112,9 @@ namespace uml4net.StructuredClassifiers
         /// <summary>
         /// The superclasses of a Class, derived from its Generalizations.
         /// </summary>
-        [Property(xmiId: "Class-superClass", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: true, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "Class-superClass", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: true, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [RedefinedProperty(propertyName: "Classifier-general")]
         public new List<IClass> SuperClass { get; }
-
     }
 }
 

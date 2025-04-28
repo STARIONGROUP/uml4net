@@ -243,7 +243,6 @@ namespace uml4net.Deployments
             get => throw new InvalidOperationException("Redefined by property IPackageableElement.Visibility");
             set => throw new InvalidOperationException("Redefined by property IPackageableElement.Visibility");
         }
-
     }
 }
 

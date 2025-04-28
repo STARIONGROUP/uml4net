@@ -57,21 +57,21 @@ namespace uml4net.UseCases
         /// to take place. If no constraint is associated with the Extend relationship, the extension is
         /// unconditional.
         /// </summary>
-        [Property(xmiId: "Extend-condition", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "Extend-condition", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Element-ownedElement")]
         public IContainerList<IConstraint> Condition { get; set; }
 
         /// <summary>
         /// The UseCase that is being extended.
         /// </summary>
-        [Property(xmiId: "Extend-extendedCase", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "Extend-extendedCase", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "DirectedRelationship-target")]
         public IUseCase ExtendedCase { get; set; }
 
         /// <summary>
         /// The UseCase that represents the extension and owns the Extend relationship.
         /// </summary>
-        [Property(xmiId: "Extend-extension", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "Extend-extension", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "DirectedRelationship-source")]
         [SubsettedProperty(propertyName: "NamedElement-namespace")]
         public IUseCase Extension { get; set; }
@@ -83,9 +83,8 @@ namespace uml4net.UseCases
         /// with the second point, and so on. Note that, in most practical cases, the extending UseCase has just
         /// a single behavior fragment, so that the list of ExtensionPoints is trivial.
         /// </summary>
-        [Property(xmiId: "Extend-extensionLocation", aggregation: AggregationKind.None, lowerValue: 1, upperValue: int.MaxValue, isOrdered: true, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "Extend-extensionLocation", aggregation: AggregationKind.None, lowerValue: 1, upperValue: int.MaxValue, isOrdered: true, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         public List<IExtensionPoint> ExtensionLocation { get; set; }
-
     }
 }
 

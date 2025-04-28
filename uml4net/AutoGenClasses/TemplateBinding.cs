@@ -145,7 +145,6 @@ namespace uml4net.CommonStructure
         [SubsettedProperty(propertyName: "Relationship-relatedElement")]
         [Implements(implementation: "IDirectedRelationship.Target")]
         public List<IElement> Target => this.QueryTarget();
-
     }
 }
 

@@ -56,9 +56,8 @@ namespace uml4net.Interactions
         /// True: when the Continuation is at the end of the enclosing InteractionFragment and False when it is
         /// in the beginning.
         /// </summary>
-        [Property(xmiId: "Continuation-setting", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: "true")]
+        [Property(xmiId: "Continuation-setting", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: "true")]
         public bool Setting { get; set; }
-
     }
 }
 

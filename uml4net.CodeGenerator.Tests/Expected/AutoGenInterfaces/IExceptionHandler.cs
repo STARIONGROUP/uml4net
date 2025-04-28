@@ -80,7 +80,6 @@ namespace uml4net.Activities
         [Property(xmiId: "ExceptionHandler-protectedNode", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Element-owner")]
         public IExecutableNode ProtectedNode { get; set; }
-
     }
 }
 

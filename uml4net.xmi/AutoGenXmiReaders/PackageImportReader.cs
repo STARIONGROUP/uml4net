@@ -147,18 +147,21 @@ namespace uml4net.xmi.Readers
                 }
 
                 var importedPackageXmlAttribute = xmlReader.GetAttribute("importedPackage");
+
                 if (!string.IsNullOrEmpty(importedPackageXmlAttribute))
                 {
                     poco.SingleValueReferencePropertyIdentifiers.Add("importedPackage", importedPackageXmlAttribute);
                 }
 
                 var importingNamespaceXmlAttribute = xmlReader.GetAttribute("importingNamespace");
+
                 if (!string.IsNullOrEmpty(importingNamespaceXmlAttribute))
                 {
                     poco.SingleValueReferencePropertyIdentifiers.Add("importingNamespace", importingNamespaceXmlAttribute);
                 }
 
                 var visibilityXmlAttribute = xmlReader.GetAttribute("visibility");
+
                 if (!string.IsNullOrEmpty(visibilityXmlAttribute))
                 {
                     poco.Visibility = (VisibilityKind)Enum.Parse(typeof(VisibilityKind), visibilityXmlAttribute, true);
@@ -183,10 +186,12 @@ namespace uml4net.xmi.Readers
                                 break;
                             case "visibility":
                                 var visibilityValue = xmlReader.ReadElementContentAsString();
+
                                 if (!string.IsNullOrEmpty(visibilityValue))
                                 {
-                                    poco.Visibility = (VisibilityKind)Enum.Parse(typeof(VisibilityKind), visibilityValue, true); ;
+                                    poco.Visibility = (VisibilityKind)Enum.Parse(typeof(VisibilityKind), visibilityValue, true);
                                 }
+
                                 break;
                             default:
                                 if (this.XmiReaderSettings.UseStrictReading)
@@ -197,6 +202,7 @@ namespace uml4net.xmi.Readers
                                 {
                                     this.Logger.LogWarning("Not Supported: PackageImportReader: {LocalName} at line:position {LineNumber}:{LinePosition}", xmlReader.LocalName, defaultLineInfo.LineNumber, defaultLineInfo.LinePosition);
                                 }
+
                                 break;
                         }
                     }

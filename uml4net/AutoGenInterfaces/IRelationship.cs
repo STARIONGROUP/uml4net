@@ -53,9 +53,8 @@ namespace uml4net.CommonStructure
         /// <summary>
         /// Specifies the elements related by the Relationship.
         /// </summary>
-        [Property(xmiId: "Relationship-relatedElement", aggregation: AggregationKind.None, lowerValue: 1, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "Relationship-relatedElement", aggregation: AggregationKind.None, lowerValue: 1, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: true, defaultValue: null)]
         public List<IElement> RelatedElement { get; }
-
     }
 }
 

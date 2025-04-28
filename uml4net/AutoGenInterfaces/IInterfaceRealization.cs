@@ -55,7 +55,7 @@ namespace uml4net.SimpleClassifiers
         /// <summary>
         /// References the Interface specifying the conformance contract.
         /// </summary>
-        [Property(xmiId: "InterfaceRealization-contract", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "InterfaceRealization-contract", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Dependency-supplier")]
         public IInterface Contract { get; set; }
 
@@ -63,11 +63,10 @@ namespace uml4net.SimpleClassifiers
         /// References the BehavioredClassifier that owns this InterfaceRealization, i.e., the
         /// BehavioredClassifier that realizes the Interface to which it refers.
         /// </summary>
-        [Property(xmiId: "InterfaceRealization-implementingClassifier", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "InterfaceRealization-implementingClassifier", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Dependency-client")]
         [SubsettedProperty(propertyName: "Element-owner")]
         public IBehavioredClassifier ImplementingClassifier { get; set; }
-
     }
 }
 

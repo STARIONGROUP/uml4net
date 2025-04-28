@@ -54,23 +54,22 @@ namespace uml4net.Classification
         /// <summary>
         /// The StructuralFeature that specifies the values that may be held by the Slot.
         /// </summary>
-        [Property(xmiId: "Slot-definingFeature", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "Slot-definingFeature", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         public IStructuralFeature DefiningFeature { get; set; }
 
         /// <summary>
         /// The InstanceSpecification that owns this Slot.
         /// </summary>
-        [Property(xmiId: "Slot-owningInstance", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "Slot-owningInstance", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Element-owner")]
         public IInstanceSpecification OwningInstance { get; set; }
 
         /// <summary>
         /// The value or values held by the Slot.
         /// </summary>
-        [Property(xmiId: "Slot-value", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: true, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "Slot-value", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: true, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Element-ownedElement")]
         public IContainerList<IValueSpecification> Value { get; set; }
-
     }
 }
 

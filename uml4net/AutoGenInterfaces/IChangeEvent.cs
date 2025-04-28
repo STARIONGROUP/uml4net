@@ -54,10 +54,9 @@ namespace uml4net.CommonBehavior
         /// A Boolean-valued ValueSpecification that will result in a ChangeEvent whenever its value changes
         /// from false to true.
         /// </summary>
-        [Property(xmiId: "ChangeEvent-changeExpression", aggregation: AggregationKind.Composite, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "ChangeEvent-changeExpression", aggregation: AggregationKind.Composite, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Element-ownedElement")]
         public IContainerList<IValueSpecification> ChangeExpression { get; set; }
-
     }
 }
 

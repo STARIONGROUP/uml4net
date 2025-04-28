@@ -57,10 +57,9 @@ namespace uml4net.Actions
         /// An InputPin that holds the object that is either a Behavior to be started or has a
         /// classifierBehavior to be started.
         /// </summary>
-        [Property(xmiId: "StartObjectBehaviorAction-object", aggregation: AggregationKind.Composite, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "StartObjectBehaviorAction-object", aggregation: AggregationKind.Composite, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Action-input")]
         public IContainerList<IInputPin> Object { get; set; }
-
     }
 }
 

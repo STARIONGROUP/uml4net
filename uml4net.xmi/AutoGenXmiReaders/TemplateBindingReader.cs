@@ -147,12 +147,14 @@ namespace uml4net.xmi.Readers
                 }
 
                 var boundElementXmlAttribute = xmlReader.GetAttribute("boundElement");
+
                 if (!string.IsNullOrEmpty(boundElementXmlAttribute))
                 {
                     poco.SingleValueReferencePropertyIdentifiers.Add("boundElement", boundElementXmlAttribute);
                 }
 
                 var signatureXmlAttribute = xmlReader.GetAttribute("signature");
+
                 if (!string.IsNullOrEmpty(signatureXmlAttribute))
                 {
                     poco.SingleValueReferencePropertyIdentifiers.Add("signature", signatureXmlAttribute);
@@ -188,6 +190,7 @@ namespace uml4net.xmi.Readers
                                 {
                                     this.Logger.LogWarning("Not Supported: TemplateBindingReader: {LocalName} at line:position {LineNumber}:{LinePosition}", xmlReader.LocalName, defaultLineInfo.LineNumber, defaultLineInfo.LinePosition);
                                 }
+
                                 break;
                         }
                     }

@@ -53,8 +53,7 @@ namespace uml4net.CommonStructure
         /// Package, a NamedElement marked as having package visibility is not visible.  Only NamedElements that
         /// are not owned by Packages can be marked as having package visibility.
         /// </summary>
-        Package,
-
+        Package
     }
 }
 

@@ -293,7 +293,6 @@ namespace uml4net.Activities
         /// Backing field for <see cref="Weight"/>
         /// </summary>
         private IContainerList<IValueSpecification> weight;
-
     }
 }
 

@@ -54,7 +54,7 @@ namespace uml4net.Classification
         /// <summary>
         /// Designates the instances of Generalization that are members of this GeneralizationSet.
         /// </summary>
-        [Property(xmiId: "GeneralizationSet-generalization", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "GeneralizationSet-generalization", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         public List<IGeneralization> Generalization { get; set; }
 
         /// <summary>
@@ -65,7 +65,7 @@ namespace uml4net.Classification
         /// general Classifier that are not instances of at least one of its specific Classifiers defined for
         /// the GeneralizationSet.
         /// </summary>
-        [Property(xmiId: "GeneralizationSet-isCovering", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: "false")]
+        [Property(xmiId: "GeneralizationSet-isCovering", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: "false")]
         public bool IsCovering { get; set; }
 
         /// <summary>
@@ -75,16 +75,15 @@ namespace uml4net.Classification
         /// false, the specific Classifiers in a particular GeneralizationSet have one or more members in
         /// common; that is, their intersection is not empty.
         /// </summary>
-        [Property(xmiId: "GeneralizationSet-isDisjoint", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: "false")]
+        [Property(xmiId: "GeneralizationSet-isDisjoint", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: "false")]
         public bool IsDisjoint { get; set; }
 
         /// <summary>
         /// Designates the Classifier that is defined as the power type for the associated GeneralizationSet, if
         /// there is one.
         /// </summary>
-        [Property(xmiId: "GeneralizationSet-powertype", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "GeneralizationSet-powertype", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         public IClassifier Powertype { get; set; }
-
     }
 }
 

@@ -37,8 +37,7 @@ namespace uml4net.StructuredClassifiers
         /// <summary>
         /// Indicates that the Connector is a delegation Connector.
         /// </summary>
-        Delegation,
-
+        Delegation
     }
 }
 

@@ -54,20 +54,20 @@ namespace uml4net.CommonStructure
         /// <summary>
         /// The ParameterableElement that is the actual parameter for this TemplateParameterSubstitution.
         /// </summary>
-        [Property(xmiId: "TemplateParameterSubstitution-actual", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "TemplateParameterSubstitution-actual", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         public IParameterableElement Actual { get; set; }
 
         /// <summary>
         /// The formal TemplateParameter that is associated with this TemplateParameterSubstitution.
         /// </summary>
-        [Property(xmiId: "TemplateParameterSubstitution-formal", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "TemplateParameterSubstitution-formal", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         public ITemplateParameter Formal { get; set; }
 
         /// <summary>
         /// The ParameterableElement that is owned by this TemplateParameterSubstitution as its actual
         /// parameter.
         /// </summary>
-        [Property(xmiId: "TemplateParameterSubstitution-ownedActual", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "TemplateParameterSubstitution-ownedActual", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Element-ownedElement")]
         [SubsettedProperty(propertyName: "TemplateParameterSubstitution-actual")]
         public IContainerList<IParameterableElement> OwnedActual { get; set; }
@@ -75,10 +75,9 @@ namespace uml4net.CommonStructure
         /// <summary>
         /// The TemplateBinding that owns this TemplateParameterSubstitution.
         /// </summary>
-        [Property(xmiId: "TemplateParameterSubstitution-templateBinding", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "TemplateParameterSubstitution-templateBinding", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Element-owner")]
         public ITemplateBinding TemplateBinding { get; set; }
-
     }
 }
 

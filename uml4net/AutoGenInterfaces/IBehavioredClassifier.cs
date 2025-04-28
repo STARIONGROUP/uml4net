@@ -54,7 +54,7 @@ namespace uml4net.SimpleClassifiers
         /// <summary>
         /// A Behavior that specifies the behavior of the BehavioredClassifier itself.
         /// </summary>
-        [Property(xmiId: "BehavioredClassifier-classifierBehavior", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "BehavioredClassifier-classifierBehavior", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "BehavioredClassifier-ownedBehavior")]
         public IBehavior ClassifierBehavior { get; set; }
 
@@ -62,7 +62,7 @@ namespace uml4net.SimpleClassifiers
         /// The set of InterfaceRealizations owned by the BehavioredClassifier. Interface realizations reference
         /// the Interfaces of which the BehavioredClassifier is an implementation.
         /// </summary>
-        [Property(xmiId: "BehavioredClassifier-interfaceRealization", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "BehavioredClassifier-interfaceRealization", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Element-ownedElement")]
         [SubsettedProperty(propertyName: "NamedElement-clientDependency")]
         public IContainerList<IInterfaceRealization> InterfaceRealization { get; set; }
@@ -70,10 +70,9 @@ namespace uml4net.SimpleClassifiers
         /// <summary>
         /// Behaviors owned by a BehavioredClassifier.
         /// </summary>
-        [Property(xmiId: "BehavioredClassifier-ownedBehavior", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "BehavioredClassifier-ownedBehavior", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Namespace-ownedMember")]
         public IContainerList<IBehavior> OwnedBehavior { get; set; }
-
     }
 }
 

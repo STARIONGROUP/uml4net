@@ -147,6 +147,7 @@ namespace uml4net.xmi.Readers
                 }
 
                 var coveredXmlAttribute = xmlReader.GetAttribute("covered");
+
                 if (!string.IsNullOrEmpty(coveredXmlAttribute))
                 {
                     var coveredXmlAttributeValues = coveredXmlAttribute.Split(SplitMultiReference, StringSplitOptions.RemoveEmptyEntries).ToList();
@@ -154,18 +155,21 @@ namespace uml4net.xmi.Readers
                 }
 
                 var enclosingInteractionXmlAttribute = xmlReader.GetAttribute("enclosingInteraction");
+
                 if (!string.IsNullOrEmpty(enclosingInteractionXmlAttribute))
                 {
                     poco.SingleValueReferencePropertyIdentifiers.Add("enclosingInteraction", enclosingInteractionXmlAttribute);
                 }
 
                 var enclosingOperandXmlAttribute = xmlReader.GetAttribute("enclosingOperand");
+
                 if (!string.IsNullOrEmpty(enclosingOperandXmlAttribute))
                 {
                     poco.SingleValueReferencePropertyIdentifiers.Add("enclosingOperand", enclosingOperandXmlAttribute);
                 }
 
                 var interactionOperatorXmlAttribute = xmlReader.GetAttribute("interactionOperator");
+
                 if (!string.IsNullOrEmpty(interactionOperatorXmlAttribute))
                 {
                     poco.InteractionOperator = (InteractionOperatorKind)Enum.Parse(typeof(InteractionOperatorKind), interactionOperatorXmlAttribute, true);
@@ -174,6 +178,7 @@ namespace uml4net.xmi.Readers
                 poco.Name = xmlReader.GetAttribute("name");
 
                 var visibilityXmlAttribute = xmlReader.GetAttribute("visibility");
+
                 if (!string.IsNullOrEmpty(visibilityXmlAttribute))
                 {
                     poco.Visibility = (VisibilityKind)Enum.Parse(typeof(VisibilityKind), visibilityXmlAttribute, true);
@@ -205,10 +210,12 @@ namespace uml4net.xmi.Readers
                                 break;
                             case "interactionOperator":
                                 var interactionOperatorValue = xmlReader.ReadElementContentAsString();
+
                                 if (!string.IsNullOrEmpty(interactionOperatorValue))
                                 {
-                                    poco.InteractionOperator = (InteractionOperatorKind)Enum.Parse(typeof(InteractionOperatorKind), interactionOperatorValue, true); ;
+                                    poco.InteractionOperator = (InteractionOperatorKind)Enum.Parse(typeof(InteractionOperatorKind), interactionOperatorValue, true);
                                 }
+
                                 break;
                             case "name":
                                 poco.Name = xmlReader.ReadElementContentAsString();
@@ -227,10 +234,12 @@ namespace uml4net.xmi.Readers
                                 break;
                             case "visibility":
                                 var visibilityValue = xmlReader.ReadElementContentAsString();
+
                                 if (!string.IsNullOrEmpty(visibilityValue))
                                 {
-                                    poco.Visibility = (VisibilityKind)Enum.Parse(typeof(VisibilityKind), visibilityValue, true); ;
+                                    poco.Visibility = (VisibilityKind)Enum.Parse(typeof(VisibilityKind), visibilityValue, true);
                                 }
+
                                 break;
                             default:
                                 if (this.XmiReaderSettings.UseStrictReading)
@@ -241,6 +250,7 @@ namespace uml4net.xmi.Readers
                                 {
                                     this.Logger.LogWarning("Not Supported: CombinedFragmentReader: {LocalName} at line:position {LineNumber}:{LinePosition}", xmlReader.LocalName, defaultLineInfo.LineNumber, defaultLineInfo.LinePosition);
                                 }
+
                                 break;
                         }
                     }

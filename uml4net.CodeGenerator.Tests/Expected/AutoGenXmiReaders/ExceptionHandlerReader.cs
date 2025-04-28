@@ -147,12 +147,14 @@ namespace uml4net.xmi.Readers
                 }
 
                 var exceptionInputXmlAttribute = xmlReader.GetAttribute("exceptionInput");
+
                 if (!string.IsNullOrEmpty(exceptionInputXmlAttribute))
                 {
                     poco.SingleValueReferencePropertyIdentifiers.Add("exceptionInput", exceptionInputXmlAttribute);
                 }
 
                 var exceptionTypeXmlAttribute = xmlReader.GetAttribute("exceptionType");
+
                 if (!string.IsNullOrEmpty(exceptionTypeXmlAttribute))
                 {
                     var exceptionTypeXmlAttributeValues = exceptionTypeXmlAttribute.Split(SplitMultiReference, StringSplitOptions.RemoveEmptyEntries).ToList();
@@ -160,12 +162,14 @@ namespace uml4net.xmi.Readers
                 }
 
                 var handlerBodyXmlAttribute = xmlReader.GetAttribute("handlerBody");
+
                 if (!string.IsNullOrEmpty(handlerBodyXmlAttribute))
                 {
                     poco.SingleValueReferencePropertyIdentifiers.Add("handlerBody", handlerBodyXmlAttribute);
                 }
 
                 var protectedNodeXmlAttribute = xmlReader.GetAttribute("protectedNode");
+
                 if (!string.IsNullOrEmpty(protectedNodeXmlAttribute))
                 {
                     poco.SingleValueReferencePropertyIdentifiers.Add("protectedNode", protectedNodeXmlAttribute);
@@ -203,6 +207,7 @@ namespace uml4net.xmi.Readers
                                 {
                                     this.Logger.LogWarning("Not Supported: ExceptionHandlerReader: {LocalName} at line:position {LineNumber}:{LinePosition}", xmlReader.LocalName, defaultLineInfo.LineNumber, defaultLineInfo.LinePosition);
                                 }
+
                                 break;
                         }
                     }

@@ -147,6 +147,7 @@ namespace uml4net.xmi.Readers
                 }
 
                 var conveyedXmlAttribute = xmlReader.GetAttribute("conveyed");
+
                 if (!string.IsNullOrEmpty(conveyedXmlAttribute))
                 {
                     var conveyedXmlAttributeValues = conveyedXmlAttribute.Split(SplitMultiReference, StringSplitOptions.RemoveEmptyEntries).ToList();
@@ -154,6 +155,7 @@ namespace uml4net.xmi.Readers
                 }
 
                 var informationSourceXmlAttribute = xmlReader.GetAttribute("informationSource");
+
                 if (!string.IsNullOrEmpty(informationSourceXmlAttribute))
                 {
                     var informationSourceXmlAttributeValues = informationSourceXmlAttribute.Split(SplitMultiReference, StringSplitOptions.RemoveEmptyEntries).ToList();
@@ -161,6 +163,7 @@ namespace uml4net.xmi.Readers
                 }
 
                 var informationTargetXmlAttribute = xmlReader.GetAttribute("informationTarget");
+
                 if (!string.IsNullOrEmpty(informationTargetXmlAttribute))
                 {
                     var informationTargetXmlAttributeValues = informationTargetXmlAttribute.Split(SplitMultiReference, StringSplitOptions.RemoveEmptyEntries).ToList();
@@ -170,12 +173,14 @@ namespace uml4net.xmi.Readers
                 poco.Name = xmlReader.GetAttribute("name");
 
                 var owningTemplateParameterXmlAttribute = xmlReader.GetAttribute("owningTemplateParameter");
+
                 if (!string.IsNullOrEmpty(owningTemplateParameterXmlAttribute))
                 {
                     poco.SingleValueReferencePropertyIdentifiers.Add("owningTemplateParameter", owningTemplateParameterXmlAttribute);
                 }
 
                 var realizationXmlAttribute = xmlReader.GetAttribute("realization");
+
                 if (!string.IsNullOrEmpty(realizationXmlAttribute))
                 {
                     var realizationXmlAttributeValues = realizationXmlAttribute.Split(SplitMultiReference, StringSplitOptions.RemoveEmptyEntries).ToList();
@@ -183,6 +188,7 @@ namespace uml4net.xmi.Readers
                 }
 
                 var realizingActivityEdgeXmlAttribute = xmlReader.GetAttribute("realizingActivityEdge");
+
                 if (!string.IsNullOrEmpty(realizingActivityEdgeXmlAttribute))
                 {
                     var realizingActivityEdgeXmlAttributeValues = realizingActivityEdgeXmlAttribute.Split(SplitMultiReference, StringSplitOptions.RemoveEmptyEntries).ToList();
@@ -190,6 +196,7 @@ namespace uml4net.xmi.Readers
                 }
 
                 var realizingConnectorXmlAttribute = xmlReader.GetAttribute("realizingConnector");
+
                 if (!string.IsNullOrEmpty(realizingConnectorXmlAttribute))
                 {
                     var realizingConnectorXmlAttributeValues = realizingConnectorXmlAttribute.Split(SplitMultiReference, StringSplitOptions.RemoveEmptyEntries).ToList();
@@ -197,6 +204,7 @@ namespace uml4net.xmi.Readers
                 }
 
                 var realizingMessageXmlAttribute = xmlReader.GetAttribute("realizingMessage");
+
                 if (!string.IsNullOrEmpty(realizingMessageXmlAttribute))
                 {
                     var realizingMessageXmlAttributeValues = realizingMessageXmlAttribute.Split(SplitMultiReference, StringSplitOptions.RemoveEmptyEntries).ToList();
@@ -204,12 +212,14 @@ namespace uml4net.xmi.Readers
                 }
 
                 var templateParameterXmlAttribute = xmlReader.GetAttribute("templateParameter");
+
                 if (!string.IsNullOrEmpty(templateParameterXmlAttribute))
                 {
                     poco.SingleValueReferencePropertyIdentifiers.Add("templateParameter", templateParameterXmlAttribute);
                 }
 
                 var visibilityXmlAttribute = xmlReader.GetAttribute("visibility");
+
                 if (!string.IsNullOrEmpty(visibilityXmlAttribute))
                 {
                     poco.Visibility = (VisibilityKind)Enum.Parse(typeof(VisibilityKind), visibilityXmlAttribute, true);
@@ -262,10 +272,12 @@ namespace uml4net.xmi.Readers
                                 break;
                             case "visibility":
                                 var visibilityValue = xmlReader.ReadElementContentAsString();
+
                                 if (!string.IsNullOrEmpty(visibilityValue))
                                 {
-                                    poco.Visibility = (VisibilityKind)Enum.Parse(typeof(VisibilityKind), visibilityValue, true); ;
+                                    poco.Visibility = (VisibilityKind)Enum.Parse(typeof(VisibilityKind), visibilityValue, true);
                                 }
+
                                 break;
                             default:
                                 if (this.XmiReaderSettings.UseStrictReading)
@@ -276,6 +288,7 @@ namespace uml4net.xmi.Readers
                                 {
                                     this.Logger.LogWarning("Not Supported: InformationFlowReader: {LocalName} at line:position {LineNumber}:{LinePosition}", xmlReader.LocalName, defaultLineInfo.LineNumber, defaultLineInfo.LinePosition);
                                 }
+
                                 break;
                         }
                     }

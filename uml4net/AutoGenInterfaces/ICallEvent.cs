@@ -53,9 +53,8 @@ namespace uml4net.CommonBehavior
         /// <summary>
         /// Designates the Operation whose invocation raised the CalEvent.
         /// </summary>
-        [Property(xmiId: "CallEvent-operation", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "CallEvent-operation", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         public IOperation Operation { get; set; }
-
     }
 }
 

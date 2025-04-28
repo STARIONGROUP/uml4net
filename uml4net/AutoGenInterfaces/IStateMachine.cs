@@ -58,21 +58,21 @@ namespace uml4net.StateMachines
         /// The connection points defined for this StateMachine. They represent the interface of the
         /// StateMachine when used as part of submachine State
         /// </summary>
-        [Property(xmiId: "StateMachine-connectionPoint", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "StateMachine-connectionPoint", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Namespace-ownedMember")]
         public IContainerList<IPseudostate> ConnectionPoint { get; set; }
 
         /// <summary>
         /// The StateMachines of which this is an extension.
         /// </summary>
-        [Property(xmiId: "StateMachine-extendedStateMachine", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "StateMachine-extendedStateMachine", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [RedefinedProperty(propertyName: "Behavior-redefinedBehavior")]
         public new List<IStateMachine> ExtendedStateMachine { get; set; }
 
         /// <summary>
         /// The Regions owned directly by the StateMachine.
         /// </summary>
-        [Property(xmiId: "StateMachine-region", aggregation: AggregationKind.Composite, lowerValue: 1, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "StateMachine-region", aggregation: AggregationKind.Composite, lowerValue: 1, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Namespace-ownedMember")]
         public IContainerList<IRegion> Region { get; set; }
 
@@ -80,9 +80,8 @@ namespace uml4net.StateMachines
         /// References the submachine(s) in case of a submachine State. Multiple machines are referenced in case
         /// of a concurrent State.
         /// </summary>
-        [Property(xmiId: "StateMachine-submachineState", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "StateMachine-submachineState", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         public List<IState> SubmachineState { get; set; }
-
     }
 }
 

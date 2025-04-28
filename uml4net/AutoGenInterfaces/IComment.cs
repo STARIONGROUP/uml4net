@@ -53,15 +53,14 @@ namespace uml4net.CommonStructure
         /// <summary>
         /// References the Element(s) being commented.
         /// </summary>
-        [Property(xmiId: "Comment-annotatedElement", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "Comment-annotatedElement", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         public List<IElement> AnnotatedElement { get; set; }
 
         /// <summary>
         /// Specifies a string that is the comment.
         /// </summary>
-        [Property(xmiId: "Comment-body", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "Comment-body", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         public string Body { get; set; }
-
     }
 }
 

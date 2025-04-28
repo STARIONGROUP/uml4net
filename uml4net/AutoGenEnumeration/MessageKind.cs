@@ -47,8 +47,7 @@ namespace uml4net.Interactions
         /// <summary>
         /// sendEvent and receiveEvent absent (should not appear)
         /// </summary>
-        Unknown,
-
+        Unknown
     }
 }
 

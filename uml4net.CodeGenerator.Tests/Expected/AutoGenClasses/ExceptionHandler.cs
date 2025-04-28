@@ -121,7 +121,6 @@ namespace uml4net.Activities
         [SubsettedProperty(propertyName: "Element-owner")]
         [Implements(implementation: "IExceptionHandler.ProtectedNode")]
         public IExecutableNode ProtectedNode { get; set; }
-
     }
 }
 

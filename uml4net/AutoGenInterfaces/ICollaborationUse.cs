@@ -57,7 +57,7 @@ namespace uml4net.StructuredClassifiers
         /// ConnectableElement may be bound to multiple roles in the same CollaborationUse (that is, it may play
         /// multiple roles).
         /// </summary>
-        [Property(xmiId: "CollaborationUse-roleBinding", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "CollaborationUse-roleBinding", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Element-ownedElement")]
         public IContainerList<IDependency> RoleBinding { get; set; }
 
@@ -66,9 +66,8 @@ namespace uml4net.StructuredClassifiers
         /// between its roles which are mapped to ConnectableElements relating to the Classifier owning the
         /// CollaborationUse.
         /// </summary>
-        [Property(xmiId: "CollaborationUse-type", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "CollaborationUse-type", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         public ICollaboration Type { get; set; }
-
     }
 }
 

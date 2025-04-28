@@ -48,8 +48,7 @@ namespace uml4net.Activities
         /// <summary>
         /// Indicates that tokens are queued in a first in, first out manner.
         /// </summary>
-        FIFO,
-
+        FIFO
     }
 }
 

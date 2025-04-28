@@ -56,41 +56,40 @@ namespace uml4net.Actions
         /// The set of ExecutableNodes that are executed if the test evaluates to true and the Clause is chosen
         /// over other Clauses within the ConditionalNode that also have tests that evaluate to true.
         /// </summary>
-        [Property(xmiId: "Clause-body", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "Clause-body", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         public List<IExecutableNode> Body { get; set; }
 
         /// <summary>
         /// The OutputPins on Actions within the body section whose values are moved to the result OutputPins of
         /// the containing ConditionalNode after execution of the body.
         /// </summary>
-        [Property(xmiId: "Clause-bodyOutput", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: true, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "Clause-bodyOutput", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: true, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         public List<IOutputPin> BodyOutput { get; set; }
 
         /// <summary>
         /// An OutputPin on an Action in the test section whose Boolean value determines the result of the test.
         /// </summary>
-        [Property(xmiId: "Clause-decider", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "Clause-decider", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         public IOutputPin Decider { get; set; }
 
         /// <summary>
         /// A set of Clauses whose tests must all evaluate to false before this Clause can evaluate its test.
         /// </summary>
-        [Property(xmiId: "Clause-predecessorClause", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "Clause-predecessorClause", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         public List<IClause> PredecessorClause { get; set; }
 
         /// <summary>
         /// A set of Clauses that may not evaluate their tests unless the test for this Clause evaluates to
         /// false.
         /// </summary>
-        [Property(xmiId: "Clause-successorClause", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "Clause-successorClause", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         public List<IClause> SuccessorClause { get; set; }
 
         /// <summary>
         /// The set of ExecutableNodes that are executed in order to provide a test result for the Clause.
         /// </summary>
-        [Property(xmiId: "Clause-test", aggregation: AggregationKind.None, lowerValue: 1, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "Clause-test", aggregation: AggregationKind.None, lowerValue: 1, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         public List<IExecutableNode> Test { get; set; }
-
     }
 }
 

@@ -147,6 +147,7 @@ namespace uml4net.xmi.Readers
                 }
 
                 var bodyXmlAttribute = xmlReader.GetAttribute("body");
+
                 if (!string.IsNullOrEmpty(bodyXmlAttribute))
                 {
                     var bodyXmlAttributeValues = bodyXmlAttribute.Split(SplitMultiReference, StringSplitOptions.RemoveEmptyEntries).ToList();
@@ -154,6 +155,7 @@ namespace uml4net.xmi.Readers
                 }
 
                 var bodyOutputXmlAttribute = xmlReader.GetAttribute("bodyOutput");
+
                 if (!string.IsNullOrEmpty(bodyOutputXmlAttribute))
                 {
                     var bodyOutputXmlAttributeValues = bodyOutputXmlAttribute.Split(SplitMultiReference, StringSplitOptions.RemoveEmptyEntries).ToList();
@@ -161,12 +163,14 @@ namespace uml4net.xmi.Readers
                 }
 
                 var deciderXmlAttribute = xmlReader.GetAttribute("decider");
+
                 if (!string.IsNullOrEmpty(deciderXmlAttribute))
                 {
                     poco.SingleValueReferencePropertyIdentifiers.Add("decider", deciderXmlAttribute);
                 }
 
                 var predecessorClauseXmlAttribute = xmlReader.GetAttribute("predecessorClause");
+
                 if (!string.IsNullOrEmpty(predecessorClauseXmlAttribute))
                 {
                     var predecessorClauseXmlAttributeValues = predecessorClauseXmlAttribute.Split(SplitMultiReference, StringSplitOptions.RemoveEmptyEntries).ToList();
@@ -174,6 +178,7 @@ namespace uml4net.xmi.Readers
                 }
 
                 var successorClauseXmlAttribute = xmlReader.GetAttribute("successorClause");
+
                 if (!string.IsNullOrEmpty(successorClauseXmlAttribute))
                 {
                     var successorClauseXmlAttributeValues = successorClauseXmlAttribute.Split(SplitMultiReference, StringSplitOptions.RemoveEmptyEntries).ToList();
@@ -181,6 +186,7 @@ namespace uml4net.xmi.Readers
                 }
 
                 var testXmlAttribute = xmlReader.GetAttribute("test");
+
                 if (!string.IsNullOrEmpty(testXmlAttribute))
                 {
                     var testXmlAttributeValues = testXmlAttribute.Split(SplitMultiReference, StringSplitOptions.RemoveEmptyEntries).ToList();
@@ -225,6 +231,7 @@ namespace uml4net.xmi.Readers
                                 {
                                     this.Logger.LogWarning("Not Supported: ClauseReader: {LocalName} at line:position {LineNumber}:{LinePosition}", xmlReader.LocalName, defaultLineInfo.LineNumber, defaultLineInfo.LinePosition);
                                 }
+
                                 break;
                         }
                     }

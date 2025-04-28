@@ -54,7 +54,7 @@ namespace uml4net.Actions
         /// <summary>
         /// The ExpansionNodes that hold the input collections for the ExpansionRegion.
         /// </summary>
-        [Property(xmiId: "ExpansionRegion-inputElement", aggregation: AggregationKind.None, lowerValue: 1, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "ExpansionRegion-inputElement", aggregation: AggregationKind.None, lowerValue: 1, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         public List<IExpansionNode> InputElement { get; set; }
 
         /// <summary>
@@ -62,15 +62,14 @@ namespace uml4net.Actions
         /// If iterative, executions are sequential. If stream, a stream of values flows into a single
         /// execution.
         /// </summary>
-        [Property(xmiId: "ExpansionRegion-mode", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: "iterative")]
+        [Property(xmiId: "ExpansionRegion-mode", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: "iterative")]
         public ExpansionKind Mode { get; set; }
 
         /// <summary>
         /// The ExpansionNodes that form the output collections of the ExpansionRegion.
         /// </summary>
-        [Property(xmiId: "ExpansionRegion-outputElement", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "ExpansionRegion-outputElement", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         public List<IExpansionNode> OutputElement { get; set; }
-
     }
 }
 

@@ -56,7 +56,7 @@ namespace uml4net.Deployments
         /// <summary>
         /// The deployment with which the DeploymentSpecification is associated.
         /// </summary>
-        [Property(xmiId: "DeploymentSpecification-deployment", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "DeploymentSpecification-deployment", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Element-owner")]
         public IDeployment Deployment { get; set; }
 
@@ -64,15 +64,14 @@ namespace uml4net.Deployments
         /// The location where an Artifact is deployed onto a Node. This is typically a 'directory' or 'memory
         /// address.'
         /// </summary>
-        [Property(xmiId: "DeploymentSpecification-deploymentLocation", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "DeploymentSpecification-deploymentLocation", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         public string DeploymentLocation { get; set; }
 
         /// <summary>
         /// The location where a component Artifact executes. This may be a local or remote location.
         /// </summary>
-        [Property(xmiId: "DeploymentSpecification-executionLocation", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "DeploymentSpecification-executionLocation", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         public string ExecutionLocation { get; set; }
-
     }
 }
 

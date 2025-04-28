@@ -60,47 +60,46 @@ namespace uml4net.InformationFlows
         /// <summary>
         /// Specifies the information items that may circulate on this information flow.
         /// </summary>
-        [Property(xmiId: "InformationFlow-conveyed", aggregation: AggregationKind.None, lowerValue: 1, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "InformationFlow-conveyed", aggregation: AggregationKind.None, lowerValue: 1, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         public List<IClassifier> Conveyed { get; set; }
 
         /// <summary>
         /// Defines from which source the conveyed InformationItems are initiated.
         /// </summary>
-        [Property(xmiId: "InformationFlow-informationSource", aggregation: AggregationKind.None, lowerValue: 1, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "InformationFlow-informationSource", aggregation: AggregationKind.None, lowerValue: 1, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "DirectedRelationship-source")]
         public List<INamedElement> InformationSource { get; set; }
 
         /// <summary>
         /// Defines to which target the conveyed InformationItems are directed.
         /// </summary>
-        [Property(xmiId: "InformationFlow-informationTarget", aggregation: AggregationKind.None, lowerValue: 1, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "InformationFlow-informationTarget", aggregation: AggregationKind.None, lowerValue: 1, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "DirectedRelationship-target")]
         public List<INamedElement> InformationTarget { get; set; }
 
         /// <summary>
         /// Determines which Relationship will realize the specified flow.
         /// </summary>
-        [Property(xmiId: "InformationFlow-realization", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "InformationFlow-realization", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         public List<IRelationship> Realization { get; set; }
 
         /// <summary>
         /// Determines which ActivityEdges will realize the specified flow.
         /// </summary>
-        [Property(xmiId: "InformationFlow-realizingActivityEdge", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "InformationFlow-realizingActivityEdge", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         public List<IActivityEdge> RealizingActivityEdge { get; set; }
 
         /// <summary>
         /// Determines which Connectors will realize the specified flow.
         /// </summary>
-        [Property(xmiId: "InformationFlow-realizingConnector", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "InformationFlow-realizingConnector", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         public List<IConnector> RealizingConnector { get; set; }
 
         /// <summary>
         /// Determines which Messages will realize the specified flow.
         /// </summary>
-        [Property(xmiId: "InformationFlow-realizingMessage", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "InformationFlow-realizingMessage", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         public List<IMessage> RealizingMessage { get; set; }
-
     }
 }
 

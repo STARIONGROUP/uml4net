@@ -62,7 +62,9 @@ namespace uml4net.{{this.Namespace.Name}}
         {{ #Decorator.WriteRedefinedByPropertyAttribute property ../ }}
         {{ #Decorator.WriteImplementsAttribute property }}
         {{ #Property.WriteForClass property ../ }}
-
+        {{#unless @last}}
+            
+        {{/unless}}
         {{/each}}
     }
 }

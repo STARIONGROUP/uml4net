@@ -54,14 +54,14 @@ namespace uml4net.Activities
         /// <summary>
         /// ActivityEdges expressing flow between the nodes of the Activity.
         /// </summary>
-        [Property(xmiId: "Activity-edge", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "Activity-edge", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Element-ownedElement")]
         public IContainerList<IActivityEdge> Edge { get; set; }
 
         /// <summary>
         /// Top-level ActivityGroups in the Activity.
         /// </summary>
-        [Property(xmiId: "Activity-group", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "Activity-group", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Element-ownedElement")]
         public IContainerList<IActivityGroup> Group { get; set; }
 
@@ -71,33 +71,33 @@ namespace uml4net.Activities
         /// execution engine to optimize model execution. If the assertion is violated by the Activity, then the
         /// model is ill-formed.)
         /// </summary>
-        [Property(xmiId: "Activity-isReadOnly", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: "false")]
+        [Property(xmiId: "Activity-isReadOnly", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: "false")]
         public bool IsReadOnly { get; set; }
 
         /// <summary>
         /// If true, all invocations of the Activity are handled by the same execution.
         /// </summary>
-        [Property(xmiId: "Activity-isSingleExecution", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: "false")]
+        [Property(xmiId: "Activity-isSingleExecution", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: "false")]
         public bool IsSingleExecution { get; set; }
 
         /// <summary>
         /// ActivityNodes coordinated by the Activity.
         /// </summary>
-        [Property(xmiId: "Activity-node", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "Activity-node", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Element-ownedElement")]
         public IContainerList<IActivityNode> Node { get; set; }
 
         /// <summary>
         /// Top-level ActivityPartitions in the Activity.
         /// </summary>
-        [Property(xmiId: "Activity-partition", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "Activity-partition", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Activity-group")]
         public List<IActivityPartition> Partition { get; set; }
 
         /// <summary>
         /// Top-level StructuredActivityNodes in the Activity.
         /// </summary>
-        [Property(xmiId: "Activity-structuredNode", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "Activity-structuredNode", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Activity-group")]
         [SubsettedProperty(propertyName: "Activity-node")]
         public IContainerList<IStructuredActivityNode> StructuredNode { get; set; }
@@ -105,10 +105,9 @@ namespace uml4net.Activities
         /// <summary>
         /// Top-level Variables defined by the Activity.
         /// </summary>
-        [Property(xmiId: "Activity-variable", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "Activity-variable", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Namespace-ownedMember")]
         public IContainerList<IVariable> Variable { get; set; }
-
     }
 }
 

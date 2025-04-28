@@ -53,16 +53,15 @@ namespace uml4net.Values
         /// <summary>
         /// A ValueSpecification that evaluates to the value of the Duration.
         /// </summary>
-        [Property(xmiId: "Duration-expr", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "Duration-expr", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Element-ownedElement")]
         public IContainerList<IValueSpecification> Expr { get; set; }
 
         /// <summary>
         /// Refers to the Observations that are involved in the computation of the Duration value
         /// </summary>
-        [Property(xmiId: "Duration-observation", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "Duration-observation", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         public List<IObservation> Observation { get; set; }
-
     }
 }
 

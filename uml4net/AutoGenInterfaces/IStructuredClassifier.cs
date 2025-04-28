@@ -54,7 +54,7 @@ namespace uml4net.StructuredClassifiers
         /// <summary>
         /// The Properties owned by the StructuredClassifier.
         /// </summary>
-        [Property(xmiId: "StructuredClassifier-ownedAttribute", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: true, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "StructuredClassifier-ownedAttribute", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: true, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Classifier-attribute")]
         [SubsettedProperty(propertyName: "Namespace-ownedMember")]
         [SubsettedProperty(propertyName: "StructuredClassifier-role")]
@@ -63,7 +63,7 @@ namespace uml4net.StructuredClassifiers
         /// <summary>
         /// The connectors owned by the StructuredClassifier.
         /// </summary>
-        [Property(xmiId: "StructuredClassifier-ownedConnector", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "StructuredClassifier-ownedConnector", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "A_redefinitionContext_redefinableElement-redefinableElement")]
         [SubsettedProperty(propertyName: "Classifier-feature")]
         [SubsettedProperty(propertyName: "Namespace-ownedMember")]
@@ -73,16 +73,15 @@ namespace uml4net.StructuredClassifiers
         /// The Properties specifying instances that the StructuredClassifier owns by composition. This
         /// collection is derived, selecting those owned Properties where isComposite is true.
         /// </summary>
-        [Property(xmiId: "StructuredClassifier-part", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "StructuredClassifier-part", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         public List<IProperty> Part { get; }
 
         /// <summary>
         /// The roles that instances may play in this StructuredClassifier.
         /// </summary>
-        [Property(xmiId: "StructuredClassifier-role", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "StructuredClassifier-role", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Namespace-member")]
         public List<IConnectableElement> Role { get; }
-
     }
 }
 

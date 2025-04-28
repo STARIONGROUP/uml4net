@@ -78,7 +78,6 @@ namespace uml4net.Values
         /// </summary>
         [Property(xmiId: "OpaqueExpression-result", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         public IParameter Result { get; }
-
     }
 }
 

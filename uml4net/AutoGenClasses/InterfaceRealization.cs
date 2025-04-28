@@ -255,7 +255,6 @@ namespace uml4net.SimpleClassifiers
             get => throw new InvalidOperationException("Redefined by property IPackageableElement.Visibility");
             set => throw new InvalidOperationException("Redefined by property IPackageableElement.Visibility");
         }
-
     }
 }
 

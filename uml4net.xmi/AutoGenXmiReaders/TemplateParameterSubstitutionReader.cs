@@ -147,18 +147,21 @@ namespace uml4net.xmi.Readers
                 }
 
                 var actualXmlAttribute = xmlReader.GetAttribute("actual");
+
                 if (!string.IsNullOrEmpty(actualXmlAttribute))
                 {
                     poco.SingleValueReferencePropertyIdentifiers.Add("actual", actualXmlAttribute);
                 }
 
                 var formalXmlAttribute = xmlReader.GetAttribute("formal");
+
                 if (!string.IsNullOrEmpty(formalXmlAttribute))
                 {
                     poco.SingleValueReferencePropertyIdentifiers.Add("formal", formalXmlAttribute);
                 }
 
                 var templateBindingXmlAttribute = xmlReader.GetAttribute("templateBinding");
+
                 if (!string.IsNullOrEmpty(templateBindingXmlAttribute))
                 {
                     poco.SingleValueReferencePropertyIdentifiers.Add("templateBinding", templateBindingXmlAttribute);
@@ -197,6 +200,7 @@ namespace uml4net.xmi.Readers
                                 {
                                     this.Logger.LogWarning("Not Supported: TemplateParameterSubstitutionReader: {LocalName} at line:position {LineNumber}:{LinePosition}", xmlReader.LocalName, defaultLineInfo.LineNumber, defaultLineInfo.LinePosition);
                                 }
+
                                 break;
                         }
                     }

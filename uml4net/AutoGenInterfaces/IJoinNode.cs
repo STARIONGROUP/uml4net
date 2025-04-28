@@ -54,7 +54,7 @@ namespace uml4net.Activities
         /// Indicates whether incoming tokens having objects with the same identity are combined into one by the
         /// JoinNode.
         /// </summary>
-        [Property(xmiId: "JoinNode-isCombineDuplicate", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: "true")]
+        [Property(xmiId: "JoinNode-isCombineDuplicate", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: "true")]
         public bool IsCombineDuplicate { get; set; }
 
         /// <summary>
@@ -62,10 +62,9 @@ namespace uml4net.Activities
         /// outgoing ActivityEdge. If no joinSpec is specified, then the JoinNode will offer an outgoing token
         /// if tokens are offered on all of its incoming ActivityEdges (an "and" condition).
         /// </summary>
-        [Property(xmiId: "JoinNode-joinSpec", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "JoinNode-joinSpec", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Element-ownedElement")]
         public IContainerList<IValueSpecification> JoinSpec { get; set; }
-
     }
 }
 

@@ -54,9 +54,8 @@ namespace uml4net.Interactions
         /// <summary>
         /// The set of messages that apply to this fragment.
         /// </summary>
-        [Property(xmiId: "ConsiderIgnoreFragment-message", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "ConsiderIgnoreFragment-message", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         public List<INamedElement> Message { get; set; }
-
     }
 }
 

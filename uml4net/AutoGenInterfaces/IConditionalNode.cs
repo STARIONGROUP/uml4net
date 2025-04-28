@@ -54,7 +54,7 @@ namespace uml4net.Actions
         /// <summary>
         /// The set of Clauses composing the ConditionalNode.
         /// </summary>
-        [Property(xmiId: "ConditionalNode-clause", aggregation: AggregationKind.Composite, lowerValue: 1, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "ConditionalNode-clause", aggregation: AggregationKind.Composite, lowerValue: 1, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Element-ownedElement")]
         public IContainerList<IClause> Clause { get; set; }
 
@@ -62,24 +62,23 @@ namespace uml4net.Actions
         /// If true, the modeler asserts that the test for at least one Clause of the ConditionalNode will
         /// succeed.
         /// </summary>
-        [Property(xmiId: "ConditionalNode-isAssured", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: "false")]
+        [Property(xmiId: "ConditionalNode-isAssured", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: "false")]
         public bool IsAssured { get; set; }
 
         /// <summary>
         /// If true, the modeler asserts that the test for at most one Clause of the ConditionalNode will
         /// succeed.
         /// </summary>
-        [Property(xmiId: "ConditionalNode-isDeterminate", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: "false")]
+        [Property(xmiId: "ConditionalNode-isDeterminate", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: "false")]
         public bool IsDeterminate { get; set; }
 
         /// <summary>
         /// The OutputPins that onto which are moved values from the bodyOutputs of the Clause selected for
         /// execution.
         /// </summary>
-        [Property(xmiId: "ConditionalNode-result", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: true, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "ConditionalNode-result", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: true, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [RedefinedProperty(propertyName: "StructuredActivityNode-structuredNodeOutput")]
         public new IContainerList<IOutputPin> Result { get; set; }
-
     }
 }
 

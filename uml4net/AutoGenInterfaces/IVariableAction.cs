@@ -53,9 +53,8 @@ namespace uml4net.Actions
         /// <summary>
         /// The Variable to be read or written.
         /// </summary>
-        [Property(xmiId: "VariableAction-variable", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "VariableAction-variable", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         public IVariable Variable { get; set; }
-
     }
 }
 

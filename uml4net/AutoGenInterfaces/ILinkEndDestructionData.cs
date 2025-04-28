@@ -56,15 +56,14 @@ namespace uml4net.Actions
         /// Association end. The type of the destroyAt InputPin is UnlimitedNatural, but the value cannot be
         /// zero or unlimited.
         /// </summary>
-        [Property(xmiId: "LinkEndDestructionData-destroyAt", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "LinkEndDestructionData-destroyAt", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         public IInputPin DestroyAt { get; set; }
 
         /// <summary>
         /// Specifies whether to destroy duplicates of the value in nonunique Association ends.
         /// </summary>
-        [Property(xmiId: "LinkEndDestructionData-isDestroyDuplicates", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: "false")]
+        [Property(xmiId: "LinkEndDestructionData-isDestroyDuplicates", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: "false")]
         public bool IsDestroyDuplicates { get; set; }
-
     }
 }
 

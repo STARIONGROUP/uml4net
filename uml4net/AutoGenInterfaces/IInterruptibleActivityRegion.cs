@@ -55,16 +55,15 @@ namespace uml4net.Activities
         /// The ActivityEdges leaving the InterruptibleActivityRegion on which a traversing token will result in
         /// the termination of other tokens flowing in the InterruptibleActivityRegion.
         /// </summary>
-        [Property(xmiId: "InterruptibleActivityRegion-interruptingEdge", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "InterruptibleActivityRegion-interruptingEdge", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         public List<IActivityEdge> InterruptingEdge { get; set; }
 
         /// <summary>
         /// ActivityNodes immediately contained in the InterruptibleActivityRegion.
         /// </summary>
-        [Property(xmiId: "InterruptibleActivityRegion-node", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "InterruptibleActivityRegion-node", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "ActivityGroup-containedNode")]
         public List<IActivityNode> Node { get; set; }
-
     }
 }
 

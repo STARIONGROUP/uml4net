@@ -55,16 +55,15 @@ namespace uml4net.Activities
         /// A Behavior that is executed to provide an input to guard ValueSpecifications on ActivityEdges
         /// outgoing from the DecisionNode.
         /// </summary>
-        [Property(xmiId: "DecisionNode-decisionInput", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "DecisionNode-decisionInput", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         public IBehavior DecisionInput { get; set; }
 
         /// <summary>
         /// An additional ActivityEdge incoming to the DecisionNode that provides a decision input value for the
         /// guards ValueSpecifications on ActivityEdges outgoing from the DecisionNode.
         /// </summary>
-        [Property(xmiId: "DecisionNode-decisionInputFlow", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "DecisionNode-decisionInputFlow", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         public IObjectFlow DecisionInputFlow { get; set; }
-
     }
 }
 

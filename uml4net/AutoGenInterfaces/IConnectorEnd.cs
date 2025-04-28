@@ -55,14 +55,14 @@ namespace uml4net.StructuredClassifiers
         /// owing this ConnectorEnd, if any. It is derived by selecting the end at the same place in the
         /// ordering of Association ends as this ConnectorEnd.
         /// </summary>
-        [Property(xmiId: "ConnectorEnd-definingEnd", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "ConnectorEnd-definingEnd", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         public IProperty DefiningEnd { get; }
 
         /// <summary>
         /// Indicates the role of the internal structure of a Classifier with the Port to which the ConnectorEnd
         /// is attached.
         /// </summary>
-        [Property(xmiId: "ConnectorEnd-partWithPort", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "ConnectorEnd-partWithPort", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         public IProperty PartWithPort { get; set; }
 
         /// <summary>
@@ -70,9 +70,8 @@ namespace uml4net.StructuredClassifiers
         /// is created, a link may (depending on the multiplicities) be created to an instance of the Classifier
         /// that types this ConnectableElement.
         /// </summary>
-        [Property(xmiId: "ConnectorEnd-role", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "ConnectorEnd-role", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         public IConnectableElement Role { get; set; }
-
     }
 }
 

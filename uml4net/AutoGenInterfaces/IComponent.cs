@@ -56,7 +56,7 @@ namespace uml4net.StructuredClassifiers
         /// specified by the Component does not exist, that is, the Component is instantiated indirectly,
         /// through the instantiation of its realizing Classifiers or parts.
         /// </summary>
-        [Property(xmiId: "Component-isIndirectlyInstantiated", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: "true")]
+        [Property(xmiId: "Component-isIndirectlyInstantiated", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: "true")]
         public bool IsIndirectlyInstantiated { get; set; }
 
         /// <summary>
@@ -65,7 +65,7 @@ namespace uml4net.StructuredClassifiers
         /// These may include e.g., Classes, Interfaces, Components, Packages, UseCases, Dependencies (e.g.,
         /// mappings), and Artifacts.
         /// </summary>
-        [Property(xmiId: "Component-packagedElement", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "Component-packagedElement", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Namespace-ownedMember")]
         public IContainerList<IPackageableElement> PackagedElement { get; set; }
 
@@ -74,14 +74,14 @@ namespace uml4net.StructuredClassifiers
         /// the Component or any of its realizingClassifiers, or they may be the Interfaces that are provided by
         /// its public Ports.
         /// </summary>
-        [Property(xmiId: "Component-provided", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "Component-provided", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         public List<IInterface> Provided { get; }
 
         /// <summary>
         /// The set of Realizations owned by the Component. Realizations reference the Classifiers of which the
         /// Component is an abstraction; i.e., that realize its behavior.
         /// </summary>
-        [Property(xmiId: "Component-realization", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "Component-realization", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "A_supplier_supplierDependency-supplierDependency")]
         [SubsettedProperty(propertyName: "Element-ownedElement")]
         public IContainerList<IComponentRealization> Realization { get; set; }
@@ -92,9 +92,8 @@ namespace uml4net.StructuredClassifiers
         /// or any of its realizingClassifiers, or they may be the Interfaces that are required by its public
         /// Ports.
         /// </summary>
-        [Property(xmiId: "Component-required", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "Component-required", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         public List<IInterface> Required { get; }
-
     }
 }
 

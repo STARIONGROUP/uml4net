@@ -67,8 +67,7 @@ namespace uml4net.StateMachines
 
         /// <summary>
         /// </summary>
-        Terminate,
-
+        Terminate
     }
 }
 

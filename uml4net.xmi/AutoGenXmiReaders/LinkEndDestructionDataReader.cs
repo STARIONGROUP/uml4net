@@ -147,24 +147,28 @@ namespace uml4net.xmi.Readers
                 }
 
                 var destroyAtXmlAttribute = xmlReader.GetAttribute("destroyAt");
+
                 if (!string.IsNullOrEmpty(destroyAtXmlAttribute))
                 {
                     poco.SingleValueReferencePropertyIdentifiers.Add("destroyAt", destroyAtXmlAttribute);
                 }
 
                 var endXmlAttribute = xmlReader.GetAttribute("end");
+
                 if (!string.IsNullOrEmpty(endXmlAttribute))
                 {
                     poco.SingleValueReferencePropertyIdentifiers.Add("end", endXmlAttribute);
                 }
 
                 var isDestroyDuplicatesXmlAttribute = xmlReader.GetAttribute("isDestroyDuplicates");
+
                 if (!string.IsNullOrEmpty(isDestroyDuplicatesXmlAttribute))
                 {
                     poco.IsDestroyDuplicates = bool.Parse(isDestroyDuplicatesXmlAttribute);
                 }
 
                 var valueXmlAttribute = xmlReader.GetAttribute("value");
+
                 if (!string.IsNullOrEmpty(valueXmlAttribute))
                 {
                     poco.SingleValueReferencePropertyIdentifiers.Add("value", valueXmlAttribute);
@@ -185,10 +189,12 @@ namespace uml4net.xmi.Readers
                                 break;
                             case "isDestroyDuplicates":
                                 var isDestroyDuplicatesValue = xmlReader.ReadElementContentAsString();
+
                                 if (!string.IsNullOrEmpty(isDestroyDuplicatesValue))
                                 {
                                     poco.IsDestroyDuplicates = bool.Parse(isDestroyDuplicatesValue);
                                 }
+
                                 break;
                             case "ownedComment":
                                 var ownedCommentValue = (IComment)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.LoggerFactory, "uml:Comment");
@@ -210,6 +216,7 @@ namespace uml4net.xmi.Readers
                                 {
                                     this.Logger.LogWarning("Not Supported: LinkEndDestructionDataReader: {LocalName} at line:position {LineNumber}:{LinePosition}", xmlReader.LocalName, defaultLineInfo.LineNumber, defaultLineInfo.LinePosition);
                                 }
+
                                 break;
                         }
                     }
