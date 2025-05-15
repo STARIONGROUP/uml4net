@@ -28,7 +28,7 @@ namespace uml4net.CommonStructure
     /// <summary>
     /// The <see cref="RelationshipExtensions"/> class provides extensions methods for <see cref="IRelationship"/>
     /// </summary>
-    public static class RelationshipExtensions
+    internal static class RelationshipExtensions
     {
         /// <summary>
         /// Queries the elements related by the Relationship.
@@ -39,7 +39,7 @@ namespace uml4net.CommonStructure
         /// <returns>
         /// The elements related by the Relationship.
         /// </returns>
-        public static List<IElement> QueryRelatedElement(this IRelationship relationship)
+        internal static List<IElement> QueryRelatedElement(this IRelationship relationship)
         {
             if (relationship == null)
             {

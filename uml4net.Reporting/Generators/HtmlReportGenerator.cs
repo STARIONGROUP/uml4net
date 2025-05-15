@@ -209,6 +209,7 @@ namespace uml4net.Reporting.Generators
             ClassHelper.RegisterClassHelper(this.Handlebars);
             PropertyHelper.RegisterPropertyHelper(this.Handlebars);
             GeneralizationHelper.RegisterGeneralizationHelper(this.Handlebars);
+            ClassifierHelper.RegisterClassifierHelper(this.Handlebars);
 
             if (this.ShouldUseEnterpriseArchitectReader)
             {

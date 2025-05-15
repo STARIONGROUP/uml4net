@@ -28,7 +28,7 @@ namespace uml4net.StateMachines
     /// <summary>
     /// The <see cref="ProtocolTransitionExtensions"/> class provides extensions methods for <see cref="IProtocolTransition"/>
     /// </summary>
-    public static class ProtocolTransitionExtensions
+    internal static class ProtocolTransitionExtensions
     {
         /// <summary>
         /// Queries the association refers to the associated Operation. It is derived from the Operation of the
@@ -41,7 +41,7 @@ namespace uml4net.StateMachines
         /// The association refers to the associated Operation. It is derived from the Operation of the
         /// CallEvent Trigger when applicable.
         /// </returns>
-        public static List<IOperation> QueryReferred(this IProtocolTransition protocolTransition)
+        internal static List<IOperation> QueryReferred(this IProtocolTransition protocolTransition)
         {
             throw new NotSupportedException();
         }

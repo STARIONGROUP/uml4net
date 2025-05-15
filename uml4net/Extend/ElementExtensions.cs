@@ -21,11 +21,11 @@
 namespace uml4net.CommonStructure
 {
     using System;
-    
+
     /// <summary>
     /// The <see cref="ElementExtensions"/> class provides extensions methods for <see cref="IElement"/>
     /// </summary>
-    public static class ElementExtensions
+    internal static class ElementExtensions
     {
         /// <summary>
         /// Gets the owning <see cref="IElement"/> that contains the specified <paramref name="element"/>.
@@ -35,7 +35,7 @@ namespace uml4net.CommonStructure
         /// The <see cref="IElement"/> that acts as the container for the specified <paramref name="element"/>, 
         /// or <c>null</c> if the element does not have a container.
         /// </returns>
-        public static IElement QueryOwner(this IElement element)
+        internal static IElement QueryOwner(this IElement element)
         {
             if (element == null)
             {
@@ -54,7 +54,7 @@ namespace uml4net.CommonStructure
         /// <returns>
         /// The Elements owned by this Element.
         /// </returns>
-        public static IContainerList<IElement> QueryOwnedElement(this IElement element)
+        internal static IContainerList<IElement> QueryOwnedElement(this IElement element)
         {
             throw new NotSupportedException();
         }

@@ -28,7 +28,7 @@ namespace uml4net.StructuredClassifiers
     /// <summary>
     /// The <see cref="StructuredClassifierExtensions"/> class provides extensions methods for <see cref="IStructuredClassifier"/>
     /// </summary>
-    public static class StructuredClassifierExtensions
+    internal static class StructuredClassifierExtensions
     {
         /// <summary>
         /// Queries the Properties specifying instances that the StructuredClassifier owns by composition. This
@@ -41,7 +41,7 @@ namespace uml4net.StructuredClassifiers
         /// The Properties specifying instances that the StructuredClassifier owns by composition. This
         /// collection is derived, selecting those owned Properties where isComposite is true.
         /// </returns>
-        public static List<IProperty> QueryPart(this IStructuredClassifier structuredClassifier)
+        internal static List<IProperty> QueryPart(this IStructuredClassifier structuredClassifier)
         {
             throw new NotSupportedException();
         }
@@ -55,7 +55,7 @@ namespace uml4net.StructuredClassifiers
         /// <returns>
         /// The roles that instances may play in this StructuredClassifier.
         /// </returns>
-        public static List<IConnectableElement> QueryRole(this IStructuredClassifier structuredClassifier)
+        internal static List<IConnectableElement> QueryRole(this IStructuredClassifier structuredClassifier)
         {
             throw new NotSupportedException();
         }

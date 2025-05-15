@@ -28,7 +28,7 @@ namespace uml4net.StructuredClassifiers
     /// <summary>
     /// The <see cref="ComponentExtensions"/> class provides extensions methods for <see cref="IComponent"/>
     /// </summary>
-    public static class ComponentExtensions
+    internal static class ComponentExtensions
     {
         /// <summary>
         /// Queries The Interfaces that the Component exposes to its environment. These Interfaces may be Realized by
@@ -43,7 +43,7 @@ namespace uml4net.StructuredClassifiers
         /// the Component or any of its realizingClassifiers, or they may be the Interfaces that are provided by
         /// its public Ports.
         /// </returns>
-        public static List<IInterface> QueryProvided(this IComponent component)
+        internal static List<IInterface> QueryProvided(this IComponent component)
         {
             throw new NotSupportedException();
         }
@@ -63,7 +63,7 @@ namespace uml4net.StructuredClassifiers
         /// or any of its realizingClassifiers, or they may be the Interfaces that are required by its public
         /// Ports.
         /// </returns>
-        public static List<IInterface> QueryRequired(this IComponent component)
+        internal static List<IInterface> QueryRequired(this IComponent component)
         {
             throw new NotSupportedException();
         }

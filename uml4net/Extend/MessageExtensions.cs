@@ -25,7 +25,7 @@ namespace uml4net.Interactions
     /// <summary>
     /// The <see cref="MessageExtensions"/> class provides extensions methods for <see cref="IMessage"/>
     /// </summary>
-    public static class MessageExtensions
+    internal static class MessageExtensions
     {
         /// <summary>
         /// Queries The derived kind of the Message (complete, lost, found, or unknown).
@@ -36,7 +36,7 @@ namespace uml4net.Interactions
         /// <returns>
         /// The derived kind of the Message (complete, lost, found, or unknown).
         /// </returns>
-        public static MessageKind QueryMessageKind(this IMessage message)
+        internal static MessageKind QueryMessageKind(this IMessage message)
         {
             throw new NotSupportedException();
         }

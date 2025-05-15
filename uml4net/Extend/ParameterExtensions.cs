@@ -25,7 +25,7 @@ namespace uml4net.Classification
     /// <summary>
     /// The <see cref="ParameterExtensions"/> class provides extensions methods for <see cref="IParameter"/>
     /// </summary>
-    public static class ParameterExtensions
+    internal static class ParameterExtensions
     {
         /// <summary>
         /// Queries A String that represents a value to be used when no argument is supplied for the Parameter.
@@ -36,7 +36,7 @@ namespace uml4net.Classification
         /// <returns>
         /// A String that represents a value to be used when no argument is supplied for the Parameter.
         /// </returns>
-        public static string QueryDefault(this IParameter parameter)
+        internal static string QueryDefault(this IParameter parameter)
         {
             throw new NotSupportedException();
         }

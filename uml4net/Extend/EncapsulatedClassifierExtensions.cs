@@ -25,7 +25,7 @@ namespace uml4net.StructuredClassifiers
     /// <summary>
     /// The <see cref="EncapsulatedClassifierExtensions"/> class provides extensions methods for <see cref="IEncapsulatedClassifier"/>
     /// </summary>
-    public static class EncapsulatedClassifierExtensions
+    internal static class EncapsulatedClassifierExtensions
     {
         /// <summary>
         /// Queries The Ports owned by the EncapsulatedClassifier.
@@ -36,7 +36,7 @@ namespace uml4net.StructuredClassifiers
         /// <returns>
         /// The Ports owned by the EncapsulatedClassifier.
         /// </returns>
-        public static IContainerList<IPort> QueryOwnedPort(this IEncapsulatedClassifier encapsulatedClassifier)
+        internal static IContainerList<IPort> QueryOwnedPort(this IEncapsulatedClassifier encapsulatedClassifier)
         {
             throw new NotSupportedException();
         }

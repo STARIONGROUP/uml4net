@@ -25,7 +25,7 @@ namespace uml4net.Classification
     /// <summary>
     /// The <see cref="FeatureExtensions"/> class provides extensions methods for <see cref="IFeature"/>
     /// </summary>
-    public static class FeatureExtensions
+    internal static class FeatureExtensions
     {
         /// <summary>
         /// Queries The Classifiers that have this Feature as a feature.
@@ -36,7 +36,7 @@ namespace uml4net.Classification
         /// <returns>
         /// The Classifiers that have this Feature as a feature.
         /// </returns>
-        public static IClassifier QueryFeaturingClassifier(this IFeature feature)
+        internal static IClassifier QueryFeaturingClassifier(this IFeature feature)
         {
             throw new NotSupportedException();
         }

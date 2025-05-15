@@ -27,7 +27,7 @@ namespace uml4net.Actions
     /// <summary>
     /// The <see cref="ActionExtensions"/> class provides extensions methods for <see cref="IAction"/>
     /// </summary>
-    public static class ActionExtensions
+    internal static class ActionExtensions
     {
         /// <summary>
         /// Queries the context Classifier of the Behavior that contains this Action, or the Behavior itself if it has
@@ -39,7 +39,7 @@ namespace uml4net.Actions
         /// <returns>
         /// a <see cref="IClassifier"/>
         /// </returns>
-        public static IClassifier QueryContext(this IAction action)
+        internal static IClassifier QueryContext(this IAction action)
         {
             throw new NotSupportedException();
         }
@@ -53,9 +53,8 @@ namespace uml4net.Actions
         /// <returns>
         /// The ordered set of InputPins representing the inputs to the Action.
         /// </returns>
-        public static IContainerList<IInputPin> QueryInput(this IAction action)
+        internal static IContainerList<IInputPin> QueryInput(this IAction action)
         {
-
             throw new NotSupportedException();
         }
 
@@ -68,7 +67,7 @@ namespace uml4net.Actions
         /// <returns>
         /// 
         /// </returns>
-        public static IContainerList<IOutputPin> QueryOutput(this IAction action)
+        internal static IContainerList<IOutputPin> QueryOutput(this IAction action)
         {
             throw new NotSupportedException();
         }

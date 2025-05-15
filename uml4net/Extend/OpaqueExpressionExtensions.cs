@@ -26,7 +26,7 @@ namespace uml4net.Values
     /// <summary>
     /// The <see cref="OpaqueExpressionExtensions"/> class provides extensions methods for <see cref="IOpaqueExpression"/>
     /// </summary>
-    public static class OpaqueExpressionExtensions
+    internal static class OpaqueExpressionExtensions
     {
         /// <summary>
         /// Queries If an OpaqueExpression is specified using a UML Behavior, then this refers to the single required
@@ -41,7 +41,7 @@ namespace uml4net.Values
         /// return Parameter of that Behavior. When the Behavior completes execution, the values on this
         /// Parameter give the result of evaluating the OpaqueExpression.
         /// </returns>
-        public static IParameter QueryResult(this IOpaqueExpression opaqueExpression)
+        internal static IParameter QueryResult(this IOpaqueExpression opaqueExpression)
         {
             throw new NotSupportedException();
         }

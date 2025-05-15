@@ -22,11 +22,11 @@ namespace uml4net.CommonStructure
 {
     using System;
     using System.Collections.Generic;
-    
+
     /// <summary>
     /// The <see cref="NamedElementExtensions"/> class provides extensions methods for <see cref="INamedElement"/>
     /// </summary>
-    public static class NamedElementExtensions
+    internal static class NamedElementExtensions
     {
         /// <summary>
         /// Queries the Dependencies that reference this NamedElement as a client.
@@ -37,7 +37,7 @@ namespace uml4net.CommonStructure
         /// <returns>
         /// the Dependencies that reference this NamedElement as a client.
         /// </returns>
-        public static List<IDependency> QueryClientDependency(this INamedElement namedElement)
+        internal static List<IDependency> QueryClientDependency(this INamedElement namedElement)
         {
             throw new NotSupportedException();
         }
@@ -53,7 +53,7 @@ namespace uml4net.CommonStructure
         /// A collection of NamedElements identifiable within the Namespace, either by being owned or by being
         /// introduced by importing or inheritance.
         /// </returns>
-        public static List<INamedElement> QueryMember(this INamedElement namedElement)
+        internal static List<INamedElement> QueryMember(this INamedElement namedElement)
         {
             throw new NotSupportedException();
         }
@@ -72,7 +72,7 @@ namespace uml4net.CommonStructure
         /// As a Namespace is itself a NamedElement, the fully qualified name of a NamedElement may include multiple
         /// Namespace names, such as N1::N2::x
         /// </remarks>
-        public static string QueryQualifiedName(this INamedElement namedElement)
+        internal static string QueryQualifiedName(this INamedElement namedElement)
         {
             if (namedElement == null)
             {
@@ -110,7 +110,7 @@ namespace uml4net.CommonStructure
         /// <returns>
         /// The <see cref="INamespace"/> that owns the <see cref="INamedElement"/>
         /// </returns>
-        public static INamespace QueryNamespace(this INamedElement namedElement)
+        internal static INamespace QueryNamespace(this INamedElement namedElement)
         {
             if (namedElement == null)
             {
@@ -141,7 +141,7 @@ namespace uml4net.CommonStructure
         /// <returns>
         /// A collection of NamedElements owned by the Namespace.
         /// </returns>
-        public static IContainerList<INamedElement> QueryOwnedMember(this INamedElement namedElement)
+        internal static IContainerList<INamedElement> QueryOwnedMember(this INamedElement namedElement)
         {
             throw new NotSupportedException();
         }

@@ -20,6 +20,7 @@
 
 namespace uml4net.Reporting.Tests.Generators
 {
+    using System;
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
@@ -139,16 +140,18 @@ namespace uml4net.Reporting.Tests.Generators
 
             var expectedResult = new List<string>
             {
-                "ActivityGroup", "Association", "Class", "Classifier", "Clause",
-                "Connector","CreateLinkAction", "DurationConstraint", "DurationObservation",
-                "Element", "Extension", "ExtensionEnd", "InformationFlow",
+                "ActivityGroup", "Association", "Behavior", "Class", "Classifier", "Clause",
+                "ComponentRealization","Connector","CreateLinkAction", "DurationConstraint", "DurationObservation",
+                "Element", "Extend", "Extension", "ExtensionEnd",
                 "LiteralInteger", "LiteralReal", "LiteralUnlimitedNatural", "MultiplicityElement",
                 "NamedElement", "OpaqueExpression", "Operation", "PackageableElement",
-                "RedefinableTemplateSignature","Relationship","TimeConstraint",
+                "RedefinableTemplateSignature","Relationship","StructuredActivityNode", "TimeConstraint",
                 "Transition","UnmarshallAction"
             };
 
             var interestingClassesNames = interestingClasses.Select(x => x.Name);
+
+            string result = string.Join(",", interestingClassesNames);
 
             Assert.That(interestingClassesNames, Is.EquivalentTo(expectedResult));
         }

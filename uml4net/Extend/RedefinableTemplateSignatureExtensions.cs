@@ -28,7 +28,7 @@ namespace uml4net.Classification
     /// <summary>
     /// The <see cref="RedefinableTemplateSignatureExtensions"/> class provides extensions methods for <see cref="IRedefinableTemplateSignature"/>
     /// </summary>
-    public static class RedefinableTemplateSignatureExtensions
+    internal static class RedefinableTemplateSignatureExtensions
     {
         /// <summary>
         /// Queries The formal template parameters of the extended signatures
@@ -39,7 +39,7 @@ namespace uml4net.Classification
         /// <returns>
         /// The formal template parameters of the extended signatures
         /// </returns>
-        public static List<ITemplateParameter> QueryInheritedParameter(this IRedefinableTemplateSignature redefinableTemplateSignature)
+        internal static List<ITemplateParameter> QueryInheritedParameter(this IRedefinableTemplateSignature redefinableTemplateSignature)
         {
             throw new NotSupportedException();
         }

@@ -25,7 +25,7 @@ namespace uml4net.SimpleClassifiers
     /// <summary>
     /// The <see cref="EnumerationLiteralExtensions"/> class provides extensions methods for <see cref="IEnumerationLiteral"/>
     /// </summary>
-    public static class EnumerationLiteralExtensions
+    internal static class EnumerationLiteralExtensions
     {
         /// <summary>
         /// Queries the classifier of this EnumerationLiteral derived to be equal to its Enumeration.
@@ -36,7 +36,7 @@ namespace uml4net.SimpleClassifiers
         /// <returns>
         /// The classifier of this EnumerationLiteral derived to be equal to its Enumeration.
         /// </returns>
-        public static IEnumeration QueryClassifier(this IEnumerationLiteral enumerationLiteral)
+        internal static IEnumeration QueryClassifier(this IEnumerationLiteral enumerationLiteral)
         {
             throw new NotSupportedException();
         }

@@ -408,7 +408,14 @@
                                     {{ #each (Class.QueryAllSpecializations class) as | specialization | }}
                                     <a href="#{{specialization.Name}}">{{specialization.Name}}</a>
                                     {{ /each }}
-
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Containers</td>
+                                <td>
+                                    {{ #each (#Classifier.QueryContainers class) as | container | }}
+                                    <a href="#{{container.Name}}">{{container.Name}}</a>
+                                    {{ /each }}
                                 </td>
                             </tr>
                         </tbody>

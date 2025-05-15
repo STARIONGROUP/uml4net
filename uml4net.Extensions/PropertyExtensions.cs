@@ -594,27 +594,40 @@ namespace uml4net.Extensions
         /// <returns>
         /// True when part of a Many-to-Many, false if not
         /// </returns>
-        /// <exception cref="ArgumentNullException"></exception>
         public static bool QueryIsMemberOfManyToMany(this IProperty property)
         {
             if (property == null)
             {
-                throw new ArgumentNullException();
+                throw new ArgumentNullException(nameof(property));
             }
 
-            if (property.QueryUpperValue() < 2)
+            // only reference types can be part of a many-to-many relationship
+            if (property.QueryIsDataType())
             {
                 return false;
             }
 
-            var opposite = property.QueryOpposite();
+            var thisUpperValue = property.QueryUpperValue();
 
-            if (opposite == null)
+            // in case a reference property is defined on a class as an owned attribute not
+            // using an association AND it has a multiplicity upper-value larger than 1 we assume it
+            // takes part in a many-to-many relationship
+            if (thisUpperValue > 1 && property.Opposite == null)
             {
-                return false;
+                return true;
             }
 
-            return opposite.QueryUpperValue() > 1;
+            // When the property is part of an association (binary relationship) and in case the
+            // lower value is larger than 1 on both ends, this property takes part in a many-to-many
+            // relationship
+            var oppositeUpperValue = property.Opposite?.QueryUpperValue();
+
+            if (thisUpperValue > 1 && oppositeUpperValue.HasValue && oppositeUpperValue.Value > 1)
+            {
+                return true;
+            }
+
+            return false;
         }
     }
 }

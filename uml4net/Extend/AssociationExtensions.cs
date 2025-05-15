@@ -28,7 +28,7 @@ namespace uml4net.StructuredClassifiers
     /// <summary>
     /// The <see cref="AssociationExtensions"/> class provides extensions methods for <see cref="IAssociation"/>
     /// </summary>
-    public static class AssociationExtensions
+    internal static class AssociationExtensions
     {
         /// <summary>
         /// Queries the Classifiers that are used as types of the ends of the Association
@@ -39,9 +39,16 @@ namespace uml4net.StructuredClassifiers
         /// <returns>
         /// The Classifiers that are used as types of the ends of the Association.
         /// </returns>
-        public static List<IType> QueryEndType(this IAssociation association)
+        internal static List<IType> QueryEndType(this IAssociation association)
         {
-            throw new NotSupportedException();
+            var result = new List<IType>();
+
+            foreach (var property in association.OwnedEnd)
+            {
+                result.Add(property.Type); 
+            }
+
+            return result;
         }
     }
 }

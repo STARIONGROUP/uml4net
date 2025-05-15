@@ -25,7 +25,7 @@ namespace uml4net.StateMachines
     /// <summary>
     /// The <see cref="StateExtensions"/> class provides extensions methods for <see cref="IState"/>
     /// </summary>
-    public static class StateExtensions
+    internal static class StateExtensions
     {
         /// <summary>
         /// Queries a state with isComposite=true is said to be a composite State. A composite State is a State that
@@ -38,7 +38,7 @@ namespace uml4net.StateMachines
         /// A state with isComposite=true is said to be a composite State. A composite State is a State that
         /// contains at least one Region.
         /// </returns>
-        public static bool QueryIsComposite(this IState state)
+        internal static bool QueryIsComposite(this IState state)
         {
             throw new NotSupportedException();
         }
@@ -54,7 +54,7 @@ namespace uml4net.StateMachines
         /// A State with isSimple=true is said to be a simple State A simple State does not have any Regions and
         /// it does not refer to any submachine StateMachine.
         /// </returns>
-        public static bool QueryIsSimple(this IState state)
+        internal static bool QueryIsSimple(this IState state)
         {
             throw new NotSupportedException();
         }
@@ -70,7 +70,7 @@ namespace uml4net.StateMachines
         /// A State with isSubmachineState=true is said to be a submachine State Such a State refers to another
         /// StateMachine(submachine).
         /// </returns>
-        public static bool QueryIsSubmachineState(this IState state)
+        internal static bool QueryIsSubmachineState(this IState state)
         {
             throw new NotSupportedException();
         }
@@ -86,7 +86,7 @@ namespace uml4net.StateMachines
         /// A State with isOrthogonal=true is said to be an orthogonal composite State An orthogonal composite
         /// State contains two or more Regions.
         /// </returns>
-        public static bool QueryIsOrthogonal(this IState state)
+        internal static bool QueryIsOrthogonal(this IState state)
         {
             throw new NotSupportedException();
         }

@@ -26,7 +26,7 @@ namespace uml4net.Classification
     /// <summary>
     /// The <see cref="PropertyExtensions"/> class provides extensions methods for <see cref="IProperty"/>
     /// </summary>
-    public static class PropertyExtensions
+    internal static class PropertyExtensions
     {
         /// <summary>
         /// Asserts whether the aggregation of the <see cref="IProperty"/> is composite or not.
@@ -37,7 +37,7 @@ namespace uml4net.Classification
         /// <returns>
         /// true if the aggregation is composite, false if not
         /// </returns>
-        public static bool QueryIsComposite(this IProperty property)
+        internal static bool QueryIsComposite(this IProperty property)
         {
             if (property == null)
             {
@@ -49,8 +49,9 @@ namespace uml4net.Classification
                 return true;
             }
 
-            if (property.Association is not null && property.Association.OwnedEnd is not null
-                                                 && property.Association.OwnedEnd.Any(o => o.Aggregation == AggregationKind.Composite))
+            if (property.Association is not null 
+                && property.Association.OwnedEnd is not null
+                && property.Association.OwnedEnd.Any(x => x.Aggregation == AggregationKind.Composite))
             {
                 return true;
             }
@@ -67,7 +68,7 @@ namespace uml4net.Classification
         /// <returns>
         /// In the case where the Property is one end of a binary association this gives the other end.
         /// </returns>
-        public static IProperty QueryOpposite(this IProperty property)
+        internal static IProperty QueryOpposite(this IProperty property)
         {
             if (property == null)
             {

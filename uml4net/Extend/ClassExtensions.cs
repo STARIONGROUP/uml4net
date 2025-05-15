@@ -28,7 +28,7 @@ namespace uml4net.StructuredClassifiers
     /// <summary>
     /// The <see cref="ClassExtensions"/> class provides extensions methods for <see cref="IClass"/>
     /// </summary>
-    public static class ClassExtensions
+    internal static class ClassExtensions
     {
         /// <summary>
         /// Queries whether this property is used when the Class is acting as a metaclass. It references the Extensions that
@@ -43,7 +43,7 @@ namespace uml4net.StructuredClassifiers
         /// specify additional properties of the metaclass. The property is derived from the Extensions whose
         /// memberEnds are typed by the Class.
         /// </returns>
-        public static List<IExtension> QueryExtension(this IClass @class)
+        internal static List<IExtension> QueryExtension(this IClass @class)
         {
             throw new NotSupportedException();
         }
@@ -58,7 +58,7 @@ namespace uml4net.StructuredClassifiers
         /// A list of <see cref="IClass"/> objects representing the immediate superclasses of the specified class. 
         /// If no superclasses are defined, returns an empty list.
         /// </returns>
-        public static List<IClass> QuerySuperClass(this IClass @class)
+        internal static List<IClass> QuerySuperClass(this IClass @class)
         {
             if (@class == null)
             {

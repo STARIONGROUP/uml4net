@@ -26,7 +26,7 @@ namespace uml4net.Activities
     /// <summary>
     /// The <see cref="ActivityEdgeExtensions"/> class provides extensions methods for <see cref="IActivityEdge"/>
     /// </summary>
-    public static class ActivityEdgeExtensions
+    internal static class ActivityEdgeExtensions
     {
         /// <summary>
         /// Queries the ActivityGroups containing the ActivityEdge.
@@ -37,7 +37,7 @@ namespace uml4net.Activities
         /// <returns>
         /// a <see cref="List{IActivityGroup}"/>
         /// </returns>
-        public static List<IActivityGroup> QueryInGroup(this IActivityEdge activityEdge)
+        internal static List<IActivityGroup> QueryInGroup(this IActivityEdge activityEdge)
         {
             throw new NotSupportedException();
         }

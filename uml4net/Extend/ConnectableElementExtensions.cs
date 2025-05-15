@@ -26,7 +26,7 @@ namespace uml4net.StructuredClassifiers
     /// <summary>
     /// The <see cref="ConnectableElementExtensions"/> class provides extensions methods for <see cref="IConnectableElement"/>
     /// </summary>
-    public static class ConnectableElementExtensions
+    internal static class ConnectableElementExtensions
     {
         /// <summary>
         /// Queries A set of ConnectorEnds that attach to this ConnectableElement.
@@ -37,7 +37,7 @@ namespace uml4net.StructuredClassifiers
         /// <returns>
         /// A set of ConnectorEnds that attach to this ConnectableElement.
         /// </returns>
-        public static List<IConnectorEnd> QueryEnd(this IConnectableElement connectableElement)
+        internal static List<IConnectorEnd> QueryEnd(this IConnectableElement connectableElement)
         {
             throw new NotSupportedException();
         }

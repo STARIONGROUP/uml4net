@@ -28,7 +28,7 @@ namespace uml4net.Classification
     /// <summary>
     /// The <see cref="OperationExtensions"/> class provides extensions methods for <see cref="IOperation"/>
     /// </summary>
-    public static class OperationExtensions
+    internal static class OperationExtensions
     {
         /// <summary>
         /// Queries whether the return parameter is ordered or not, if present.  This information is derived
@@ -41,7 +41,7 @@ namespace uml4net.Classification
         /// whether the return parameter is ordered or not, if present.  This information is derived
         /// from the return result for this Operation.
         /// </returns>
-        public static bool QueryIsOrdered(this IOperation operation)
+        internal static bool QueryIsOrdered(this IOperation operation)
         {
             throw new NotSupportedException();
         }
@@ -57,7 +57,7 @@ namespace uml4net.Classification
         /// whether the return parameter is unique or not, if present. This information is derived
         /// from the return result for this Operation.
         /// </returns>
-        public static bool QueryIsUnique(this IOperation operation)
+        internal static bool QueryIsUnique(this IOperation operation)
         {
             throw new NotSupportedException();
         }
@@ -73,7 +73,7 @@ namespace uml4net.Classification
         /// the lower multiplicity of the return parameter, if present. This information is derived
         /// from the return result for this Operation.
         /// </returns>
-        public static int QueryLower(this IOperation operation)
+        internal static int QueryLower(this IOperation operation)
         {
             throw new NotSupportedException();
         }
@@ -89,7 +89,7 @@ namespace uml4net.Classification
         /// The return type of the operation, if present. This information is derived from the return result for
         /// this Operation.
         /// </returns>
-        public static IType QueryType(this IOperation operation)
+        internal static IType QueryType(this IOperation operation)
         {
             throw new NotSupportedException();
         }
@@ -105,7 +105,7 @@ namespace uml4net.Classification
         /// The upper multiplicity of the return parameter, if present. This information is derived from the
         /// return result for this Operation.
         /// </returns>
-        public static string QueryUpper(this IOperation operation)
+        internal static string QueryUpper(this IOperation operation)
         {
             throw new NotSupportedException();
         }

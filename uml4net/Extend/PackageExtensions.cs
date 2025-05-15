@@ -29,7 +29,7 @@ namespace uml4net.Packages
     /// <summary>
     /// The <see cref="PackageExtensions"/> class provides extensions methods for <see cref="IPackage"/>
     /// </summary>
-    public static class PackageExtensions
+    internal static class PackageExtensions
     {
         /// <summary>
         /// Retrieves a collection of nested <see cref="IPackage"/> elements contained within the specified <paramref name="package"/>.
@@ -39,7 +39,7 @@ namespace uml4net.Packages
         /// A <see cref="List{T}"/> of <see cref="IPackage"/> elements representing the nested packages 
         /// within the specified <paramref name="package"/>.
         /// </returns>
-        public static IContainerList<IPackage> QueryNestedPackage(this IPackage package)
+        internal static IContainerList<IPackage> QueryNestedPackage(this IPackage package)
         {
             if (package == null)
             {
@@ -65,7 +65,7 @@ namespace uml4net.Packages
         /// <returns>
         /// The Stereotypes that are owned by the Package.
         /// </returns>
-        public static IContainerList<IStereotype> QueryOwnedStereotype(this IPackage package)
+        internal static IContainerList<IStereotype> QueryOwnedStereotype(this IPackage package)
         {
             if (package == null)
             {
@@ -91,7 +91,7 @@ namespace uml4net.Packages
         /// <returns>
         /// The packaged elements that are Types.
         /// </returns>
-        public static IContainerList<IType> QueryOwnedType(this IPackage package)
+        internal static IContainerList<IType> QueryOwnedType(this IPackage package)
         {
             if (package == null)
             {

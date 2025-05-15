@@ -27,7 +27,7 @@ namespace uml4net.Packages
     /// <summary>
     /// The <see cref="ExtensionExtensions"/> class provides extensions methods for <see cref="IExtension"/>
     /// </summary>
-    public static class ExtensionExtensions
+    internal static class ExtensionExtensions
     {
         /// <summary>
         /// Queries whether an instance of the extending stereotype must be created when an instance of the
@@ -46,7 +46,7 @@ namespace uml4net.Packages
         /// true, but otherwise it is false. Since the default value of ExtensionEnd::lower is 0, the default
         /// value of isRequired is false.
         /// </returns>
-        public static bool QueryIsRequired(this IExtension extension)
+        internal static bool QueryIsRequired(this IExtension extension)
         {
             throw new NotSupportedException();
         }
@@ -62,7 +62,7 @@ namespace uml4net.Packages
         /// the Class that is extended through an Extension. The property is derived from the type of
         /// the memberEnd that is not the ownedEnd.
         /// </returns>
-        public static IClass QueryMetaclass(this IExtension extension)
+        internal static IClass QueryMetaclass(this IExtension extension)
         {
             throw new NotSupportedException();
         }

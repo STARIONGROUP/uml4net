@@ -27,7 +27,7 @@ namespace uml4net.StateMachines
     /// <summary>
     /// The <see cref="TransitionExtensions"/> class provides extensions methods for <see cref="ITransition"/>
     /// </summary>
-    public static class TransitionExtensions
+    internal static class TransitionExtensions
     {
         /// <summary>
         /// References the Classifier in which context this element may be redefined.
@@ -38,7 +38,7 @@ namespace uml4net.StateMachines
         /// <returns>
         /// The Classifier in which context this element may be redefined.
         /// </returns>
-        public static IClassifier QueryRedefinitionContext(this ITransition transition)
+        internal static IClassifier QueryRedefinitionContext(this ITransition transition)
         {
             throw new NotSupportedException();
         }

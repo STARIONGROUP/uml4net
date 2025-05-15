@@ -26,7 +26,7 @@ namespace uml4net.Classification
     /// <summary>
     /// The <see cref="RedefinableElementExtensions"/> class provides extensions methods for <see cref="IRedefinableElement"/>
     /// </summary>
-    public static class RedefinableElementExtensions
+    internal static class RedefinableElementExtensions
     {
         /// <summary>
         /// Queries The RedefinableElement that is being redefined by this element.
@@ -37,7 +37,7 @@ namespace uml4net.Classification
         /// <returns>
         /// The RedefinableElement that is being redefined by this element.
         /// </returns>
-        public static List<IRedefinableElement> QueryRedefinedElement(this IRedefinableElement redefinableElement)
+        internal static List<IRedefinableElement> QueryRedefinedElement(this IRedefinableElement redefinableElement)
         {
             throw new NotSupportedException();
         }
@@ -51,7 +51,7 @@ namespace uml4net.Classification
         /// <returns>
         /// The contexts that this element may be redefined from.
         /// </returns>
-        public static List<IClassifier> QueryRedefinitionContext(this IRedefinableElement redefinableElement)
+        internal static List<IClassifier> QueryRedefinitionContext(this IRedefinableElement redefinableElement)
         {
             throw new NotSupportedException();
         }

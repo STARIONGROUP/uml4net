@@ -28,7 +28,7 @@ namespace uml4net.StructuredClassifiers
     /// <summary>
     /// The <see cref="PortExtensions"/> class provides extensions methods for <see cref="IPort"/>
     /// </summary>
-    public static class PortExtensions
+    internal static class PortExtensions
     {
         /// <summary>
         /// Queries  The Interfaces specifying the set of Operations and Receptions that the EncapsulatedCclassifier
@@ -51,7 +51,7 @@ namespace uml4net.StructuredClassifiers
         /// Port is typed by an Interface. If isConjugated is true, it is derived as the union of the sets of
         /// Interfaces used by the type of the Port and its supertypes.
         /// </returns>
-        public static List<IInterface> QueryProvided(this IPort port)
+        internal static List<IInterface> QueryProvided(this IPort port)
         {
             throw new NotSupportedException();
         }
@@ -75,10 +75,9 @@ namespace uml4net.StructuredClassifiers
         /// as the union of the sets of Interfaces realized by the type of the Port and its supertypes, or
         /// directly from the type of the Port if the Port is typed by an Interface.
         /// </returns>
-        public static List<IInterface> QueryRequired(this IPort port)
+        internal static List<IInterface> QueryRequired(this IPort port)
         {
             throw new NotSupportedException();
         }
-
     }
 }

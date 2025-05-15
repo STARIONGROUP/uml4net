@@ -28,7 +28,7 @@ namespace uml4net.Deployments
     /// <summary>
     /// The <see cref="DeploymentTargetExtensions"/> class provides extensions methods for <see cref="IDeploymentTarget"/>
     /// </summary>
-    public static class DeploymentTargetExtensions
+    internal static class DeploymentTargetExtensions
     {
         /// <summary>
         /// Queries The set of elements that are manifested in an Artifact that is involved in Deployment to a
@@ -41,7 +41,7 @@ namespace uml4net.Deployments
         /// The set of elements that are manifested in an Artifact that is involved in Deployment to a
         /// DeploymentTarget.
         /// </returns>
-        public static List<IPackageableElement> QueryDeployedElement(this IDeploymentTarget deploymentTarget)
+        internal static List<IPackageableElement> QueryDeployedElement(this IDeploymentTarget deploymentTarget)
         {
             throw new NotSupportedException();
         }

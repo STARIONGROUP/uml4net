@@ -28,7 +28,7 @@ namespace uml4net.StateMachines
     /// <summary>
     /// The <see cref="VertexExtensions"/> class provides extensions methods for <see cref="IVertex"/>
     /// </summary>
-    public static class VertexExtensions
+    internal static class VertexExtensions
     {
         /// <summary>
         /// Specifies the Transitions entering this Vertex.
@@ -39,7 +39,7 @@ namespace uml4net.StateMachines
         /// <returns>
         /// The Transitions entering this Vertex.
         /// </returns>
-        public static List<ITransition> QueryIncoming(this IVertex vertex)
+        internal static List<ITransition> QueryIncoming(this IVertex vertex)
         {
             throw new NotSupportedException();
         }
@@ -53,7 +53,7 @@ namespace uml4net.StateMachines
         /// <returns>
         ///
         /// </returns>
-        public static List<ITransition> QueryOutgoing(this IVertex vertex)
+        internal static List<ITransition> QueryOutgoing(this IVertex vertex)
         {
             throw new NotSupportedException();
         }
@@ -65,9 +65,9 @@ namespace uml4net.StateMachines
         /// The subject <see cref="IVertex"/>
         /// </param>
         /// <returns>
-        /// The the Transitions departing from this Vertex.
+        /// The Transitions departing from this Vertex.
         /// </returns>
-        public static IClassifier QueryRedefinitionContext(this IVertex vertex)
+        internal static IClassifier QueryRedefinitionContext(this IVertex vertex)
         {
             throw new NotSupportedException();
         }

@@ -26,7 +26,7 @@ namespace uml4net.Packages
     /// <summary>
     /// The <see cref="StereotypeExtensions"/> class provides extensions methods for <see cref="IStereotype"/>
     /// </summary>
-    public static class StereotypeExtensions
+    internal static class StereotypeExtensions
     {
         /// <summary>
         /// Queries the profile that directly or indirectly contains this stereotype.
@@ -37,7 +37,7 @@ namespace uml4net.Packages
         /// <returns>
         /// The profile that directly or indirectly contains this stereotype.
         /// </returns>
-        public static IProfile QueryProfile(this IStereotype stereotype)
+        internal static IProfile QueryProfile(this IStereotype stereotype)
         {
             var owner = stereotype.Owner;
             while (owner is not IProfile)

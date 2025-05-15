@@ -296,7 +296,7 @@ namespace uml4net.Reporting.Generators
                     classDataRow["Class"] = @interface.Name;
                     classDataRow["Qualified Name"] = @interface.QualifiedName;
                     classDataRow["IsAbstract"] = @interface.IsAbstract.ToString(CultureInfo.InvariantCulture);
-                    classDataRow["Generalizations"] = string.Join(", ", @interface.QueryGeneral().Select(o => o.Name));
+                    classDataRow["Generalizations"] = string.Join(", ", @interface.General.Select(o => o.Name));
                     classDataRow["Property"] = "--";
                     classDataRow["Type"] = "--";
                     classDataRow["Multiplicity"] = "--";

@@ -23,7 +23,8 @@ namespace uml4net.Extensions
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
-    
+    using System.Linq;
+
     using uml4net.Packages;
 
     /// <summary>
@@ -62,5 +63,66 @@ namespace uml4net.Extensions
 
             return result.AsReadOnly();
         }
+
+        /// <summary>
+        /// recursively queries all the nested and imported packages of the
+        /// specified root <see cref="IPackage"/>
+        /// </summary>
+        /// <param name="root">
+        /// The root <see cref="IPackage"/> for which the nested and imported
+        /// <see cref="IPackage"/>s are queried
+        /// </param>
+        /// <returns>
+        /// A readonly collection of <see cref="IPackage"/> including the root <see cref="IPackage"/>
+        /// </returns>
+        public static ReadOnlyCollection<IPackage> QueryAllNestedAndImportedPackages(this IPackage root)
+        {
+            if (root == null)
+            {
+                throw new ArgumentNullException(nameof(root));
+            }
+
+            var result = new List<IPackage>();
+            var visited = new HashSet<IPackage>();
+            var stack = new Stack<IPackage>();
+
+            stack.Push(root);
+
+            while (stack.Count > 0)
+            {
+                var current = stack.Pop();
+
+                if (!visited.Add(current))
+                {
+                    continue; // already visited
+                }
+
+                foreach (var subPackage in current.QueryPackages())
+                {
+                    stack.Push(subPackage);
+                }
+
+                foreach (var packageImport in current.PackageImport)
+                {
+                    if (packageImport.ImportedPackage != null)
+                    {
+                        var importedPackage = packageImport.ImportedPackage;
+
+                        stack.Push(importedPackage);
+
+                        foreach (var subPackage in importedPackage.QueryPackages())
+                        {
+                            stack.Push(subPackage);
+                        }
+                    }
+                }
+
+                result.Add(current);
+            }
+
+            return result.AsReadOnly();
+        }
+
+        
     }
 }

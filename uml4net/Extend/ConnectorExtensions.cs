@@ -25,7 +25,7 @@ namespace uml4net.StructuredClassifiers
     /// <summary>
     /// The <see cref="ConnectorExtensions"/> class provides extensions methods for <see cref="IConnector"/>
     /// </summary>
-    public static class ConnectorExtensions
+    internal static class ConnectorExtensions
     {
         /// <summary>
         /// Queries the kind of Connector. This is derived: a Connector with one or more ends connected to a
@@ -40,7 +40,7 @@ namespace uml4net.StructuredClassifiers
         /// Port which is not on a Part and which is not a behavior port is a delegation; otherwise it is an
         /// assembly.
         /// </returns>
-        public static ConnectorKind QueryKind(this IConnector connector)
+        internal static ConnectorKind QueryKind(this IConnector connector)
         {
             throw new NotSupportedException();
         }

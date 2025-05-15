@@ -21,10 +21,11 @@
 namespace uml4net.Tests.Extend
 {
     using System.Collections.Generic;
-
+    using System.Linq;
     using NUnit.Framework;
 
     using uml4net.Classification;
+    using uml4net.SimpleClassifiers;
     using uml4net.StructuredClassifiers;
 
     [TestFixture]
@@ -51,6 +52,31 @@ namespace uml4net.Tests.Extend
             Assert.That(superClasses, Is.EquivalentTo(new List<IClass>() { mammal }));
         }
 
+        [Test]
+        public void Verify_that_QueryAttribute_returns_expected_result()
+        {
+            var @interface = new Interface();
 
+            var property = new Property
+            {
+                XmiId = "test_id",
+                Name = "test",
+            };
+
+            @interface.OwnedAttribute.Add(property);
+
+            var properties = Classification.ClassifierExtensions.QueryAttribute(@interface);
+
+            Assert.That(properties.Single(), Is.EqualTo(property));
+        }
+
+        [Test]
+        public void Verify_that_QueryAttribute_returns_throws_exception_when_argument_is_Null()
+        {
+            IInterface @interface = null;
+
+            Assert.That(() => Classification.ClassifierExtensions.QueryAttribute(@interface),
+                Throws.ArgumentNullException);
+        }
     }
 }

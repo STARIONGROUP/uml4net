@@ -22,11 +22,11 @@ namespace uml4net.Activities
 {
     using System;
     using System.Collections.Generic;
-    
+
     /// <summary>
     /// The <see cref="ActivityNodeExtensions"/> class provides extensions methods for <see cref="IActivityNode"/>
     /// </summary>
-    public static class ActivityNodeExtensions
+    internal static class ActivityNodeExtensions
     {
         /// <summary>
         /// Queries the ActivityGroups containing the ActivityNode.
@@ -37,7 +37,7 @@ namespace uml4net.Activities
         /// <returns>
         /// The ActivityGroups containing the ActivityNode.
         /// </returns>
-        public static List<IActivityGroup> QueryInGroup(this IActivityNode activityNode)
+        internal static List<IActivityGroup> QueryInGroup(this IActivityNode activityNode)
         {
             throw new NotSupportedException();
         }

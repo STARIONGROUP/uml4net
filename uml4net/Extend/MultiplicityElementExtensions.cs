@@ -24,11 +24,11 @@ namespace uml4net.CommonStructure
     using System.Linq;
 
     using uml4net.Values;
-    
+
     /// <summary>
     /// The <see cref="MultiplicityElementExtensions"/> class provides extensions methods for <see cref="IMultiplicityElement"/>
     /// </summary>
-    public static class MultiplicityElementExtensions
+    internal static class MultiplicityElementExtensions
     {
         /// <summary>
         /// Queries the lower value of the <paramref name="multiplicityElement"/>
@@ -39,7 +39,7 @@ namespace uml4net.CommonStructure
         /// <returns>
         /// an integer
         /// </returns>
-        public static int QueryLower(this IMultiplicityElement multiplicityElement)
+        internal static int QueryLower(this IMultiplicityElement multiplicityElement)
         {
             if (multiplicityElement == null)
             {
@@ -69,7 +69,7 @@ namespace uml4net.CommonStructure
         /// <returns>
         /// an instance of <see cref="ILiteralUnlimitedNatural"/> or null
         /// </returns>
-        public static string QueryUpper(this IMultiplicityElement multiplicityElement)
+        internal static string QueryUpper(this IMultiplicityElement multiplicityElement)
         {
             if (multiplicityElement == null)
             {

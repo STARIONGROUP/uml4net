@@ -20,9 +20,11 @@
 
 namespace uml4net.Extensions.Tests
 {
+    using System.Collections.Generic;
     using System.IO;
     using System.Linq;
     using Classification;
+    using CommonStructure;
     using Microsoft.Extensions.Logging;
 
     using NUnit.Framework;
@@ -85,35 +87,28 @@ namespace uml4net.Extensions.Tests
                 Log.Logger.Information(classifier.Name);
             }
 
-
             Assert.That(classifiers.Count, Is.EqualTo(7));
         }
 
         [Test]
-        public void Verify_that_QueryAttribute_returns_expected_result()
+        public void Verify_that_QueryContainers_returns_expected_result()
         {
-            var @interface = new Interface();
+            var packages = this.xmiReaderResult.Root.QueryAllNestedAndImportedPackages();
 
-            var property = new Property
+            var propertyClass = packages.SelectMany(x => x.PackagedElement.OfType<IClass>())
+                .Single(x => x.Name == "Property");
+
+            var containers = propertyClass.QueryContainers();
+
+            var containerNames = containers.OfType<INamedElement>().Select(x => x.Name);
+
+            var expected = new List<string>
             {
-                XmiId = "test_id",
-                Name = "test",
+                "Artifact", "Association", "Class", "DataType", 
+                "Interface", "Signal", "StructuredClassifier"
             };
 
-            @interface.OwnedAttribute.Add(property);
-
-            var properties = Classification.ClassifierExtensions.QueryAttribute(@interface);
-
-            Assert.That(properties.Single(), Is.EqualTo(property));
-        }
-
-        [Test]
-        public void Verify_that_QueryAttribute_returns_throws_exception_when_argument_is_Null()
-        {
-            IInterface @interface = null;
-
-            Assert.That(() => Classification.ClassifierExtensions.QueryAttribute(@interface),
-                Throws.ArgumentNullException);  
+            Assert.That(expected, Is.EquivalentTo(containerNames));
         }
     }
 }

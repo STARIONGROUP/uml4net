@@ -123,7 +123,7 @@ namespace uml4net.Reporting.Generators
                     isAbstract = " [Abstract]";
                 }
 
-                sb.AppendLine($"class : {@class.QueryQualifiedName()}{isAbstract}");
+                sb.AppendLine($"class : {@class.QualifiedName}{isAbstract}");
             }
 
             return sb.ToString();
@@ -173,6 +173,11 @@ namespace uml4net.Reporting.Generators
                         if (property.QueryIsRedefined())
                         {
                             referenceType = $"{referenceType}:IsRedefined";
+                        }
+
+                        if (property.Opposite != null && property.Opposite.IsComposite)
+                        {
+                            referenceType = $"{referenceType}:Contained";
                         }
 
                         propertyVariations.Add(referenceType);

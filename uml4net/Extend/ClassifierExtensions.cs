@@ -23,14 +23,16 @@ namespace uml4net.Classification
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using SimpleClassifiers;
+
     using uml4net.CommonStructure;
+    using uml4net.SimpleClassifiers;
+    using uml4net.StructuredClassifiers;
     using uml4net.Values;
 
     /// <summary>
     /// The <see cref="ClassifierExtensions"/> class provides extensions methods for <see cref="IClassifier"/>
     /// </summary>
-    public static class ClassifierExtensions
+    internal static class ClassifierExtensions
     {
         /// <summary>
         /// Queries All of the Properties that are direct (i.e., not inherited or imported) attributes of the
@@ -43,7 +45,7 @@ namespace uml4net.Classification
         /// All of the Properties that are direct (i.e., not inherited or imported) attributes of the
         /// Classifier.
         /// </returns>
-        public static List<IProperty> QueryAttribute(this IClassifier element)
+        internal static List<IProperty> QueryAttribute(this IClassifier element)
         {
             if (element == null)
             {
@@ -55,7 +57,27 @@ namespace uml4net.Classification
                 return @interface.OwnedAttribute.ToList();
             }
 
-            throw new NotSupportedException();
+            if (element is IClass @class)
+            {
+                return @class.OwnedAttribute.ToList();
+            }
+
+            if (element is IEnumeration enumeration)
+            {
+                return enumeration.OwnedAttribute.ToList();
+            }
+
+            if (element is IAssociation association)
+            {
+                return association.OwnedEnd.ToList();
+            }
+
+            if (element is IDataType dataType)
+            {
+                return dataType.OwnedAttribute.ToList();
+            }
+
+            throw new NotSupportedException($"The Type is not yet supported {element.GetType()}");
         }
 
         /// <summary>
@@ -69,7 +91,7 @@ namespace uml4net.Classification
         /// each Feature directly defined in the classifier. Note that there may be members of the
         /// Classifier that are of the type Feature but are not included, e.g., inherited features.
         /// </returns>
-        public static List<IFeature> QueryFeature(this IClassifier element)
+        internal static List<IFeature> QueryFeature(this IClassifier element)
         {
             throw new NotSupportedException();
         }
@@ -82,7 +104,7 @@ namespace uml4net.Classification
         /// A list of <see cref="IClassifier"/> objects that represent the generalizations of the specified <paramref name="element"/>. 
         /// If the element does not have any generalizations, an empty list will be returned.
         /// </returns>
-        public static List<IClassifier> QueryGeneral(this IClassifier element)
+        internal static List<IClassifier> QueryGeneral(this IClassifier element)
         {
             if (element == null)
             {
@@ -91,8 +113,6 @@ namespace uml4net.Classification
 
             return element.Generalization.Select(x => x.General).ToList();
         }
-
-        
 
         /// <summary>
         /// Queries All elements inherited by this Classifier from its general Classifiers
@@ -103,7 +123,7 @@ namespace uml4net.Classification
         /// <returns>
         /// All elements inherited by this Classifier from its general Classifiers.
         /// </returns>
-        public static List<INamedElement> QueryInheritedMember(this IClassifier element)
+        internal static List<INamedElement> QueryInheritedMember(this IClassifier element)
         {
             throw new NotSupportedException();
         }

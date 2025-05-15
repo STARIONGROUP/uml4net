@@ -27,7 +27,7 @@ namespace uml4net.StructuredClassifiers
     /// <summary>
     /// The <see cref="ConnectorEndExtensions"/> class provides extensions methods for <see cref="IConnectorEnd"/>
     /// </summary>
-    public static class ConnectorEndExtensions
+    internal static class ConnectorEndExtensions
     {
         /// <summary>
         /// Queries A derived property referencing the corresponding end on the Association which types the Connector
@@ -44,7 +44,7 @@ namespace uml4net.StructuredClassifiers
         /// ordering of Association ends as this ConnectorEnd.
         /// </summary>
         /// </returns>
-        public static IProperty QueryDefiningEnd(this IConnectorEnd connectorEnd)
+        internal static IProperty QueryDefiningEnd(this IConnectorEnd connectorEnd)
         {
             throw new NotSupportedException();
         }

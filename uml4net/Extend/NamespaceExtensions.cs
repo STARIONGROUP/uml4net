@@ -26,7 +26,7 @@ namespace uml4net.CommonStructure
     /// <summary>
     /// The <see cref="NamespaceExtensions"/> class provides extensions methods for <see cref="INamespace"/>
     /// </summary>
-    public static class NamespaceExtensions
+    internal static class NamespaceExtensions
     {
         /// <summary>
         /// Queries the PackageableElements that are members of this Namespace as a result of either
@@ -39,7 +39,7 @@ namespace uml4net.CommonStructure
         /// the PackageableElements that are members of this Namespace as a result of either
         /// PackageImports or ElementImports.
         /// </returns>
-        public static List<IPackageableElement> QueryImportedMember(this INamespace @namespace)
+        internal static List<IPackageableElement> QueryImportedMember(this INamespace @namespace)
         {
             throw new NotSupportedException();
         }

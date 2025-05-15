@@ -26,6 +26,8 @@ namespace uml4net.Extensions
     using System.Linq;
 
     using uml4net.Classification;
+    using uml4net.CommonStructure;
+    using uml4net.StructuredClassifiers;
 
     /// <summary>
     /// The <see cref="ClassifierExtensions"/> class provides extensions methods for the <see cref="IClassifier"/>
@@ -60,6 +62,55 @@ namespace uml4net.Extensions
             }
 
             return result.Distinct().ToList().AsReadOnly();
+        }
+
+        /// <summary>
+        /// Queries the <see cref="IClassifier"/>s that are the containers of the subject
+        /// <see cref="IClassifier"/> and returns them ordered by name
+        /// </summary>
+        /// <param name="subject">
+        /// The <see cref="IClassifier"/> for which the containers are queried
+        /// </param>
+        /// <returns>
+        /// a names sorted read-only collection of <see cref="IClassifier"/>
+        /// </returns>
+        /// <remarks>
+        /// a container is a <see cref="IClassifier"/> that has an owned <see cref="IProperty"/>
+        /// that takes part in a <see cref="AggregationKind.Composite"/> relationship (as container)
+        /// with the subject <see cref="IClassifier"/>
+        /// </remarks>
+        public static ReadOnlyCollection<IClassifier> QueryContainers(this IClassifier subject)
+        {
+            var result = new List<IClassifier>();
+
+            var root = subject.QueryRootPackage();
+
+            var allPackages = root.QueryAllNestedAndImportedPackages();
+
+            var classifiers = allPackages
+                .SelectMany(x => x.OwnedType.OfType<IClassifier>())
+                .Except(new List<IClassifier> {subject})
+                .ToList();
+
+            foreach (var classifier in classifiers)
+            {
+                var containmentProperties = classifier.Attribute
+                    .Where(x => x.Aggregation == AggregationKind.Composite)
+                    .ToList();
+
+                foreach (var property in containmentProperties)
+                {
+                    if (property.Type.XmiId == subject.XmiId)
+                    {
+                        result.Add(classifier);
+                    }
+                }
+            }
+
+            return result.Distinct()
+                .OrderBy(x => x.Name)
+                .ToList()
+                .AsReadOnly();
         }
     }
 }

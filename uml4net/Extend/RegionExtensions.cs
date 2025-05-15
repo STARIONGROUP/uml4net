@@ -27,7 +27,7 @@ namespace uml4net.StateMachines
     /// <summary>
     /// The <see cref="RegionExtensions"/> class provides extensions methods for <see cref="IRegion"/>
     /// </summary>
-    public static class RegionExtensions
+    internal static class RegionExtensions
     {
         /// <summary>
         /// Queries the Classifier in which context this element may be redefined.
@@ -38,7 +38,7 @@ namespace uml4net.StateMachines
         /// <returns>
         /// The Classifier in which context this element may be redefined.
         /// </returns>
-        public static IClassifier QueryRedefinitionContext(this IRegion region)
+        internal static IClassifier QueryRedefinitionContext(this IRegion region)
         {
             throw new NotSupportedException();
         }

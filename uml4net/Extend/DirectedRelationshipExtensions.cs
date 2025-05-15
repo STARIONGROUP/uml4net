@@ -28,7 +28,7 @@ namespace uml4net.CommonStructure
     /// <summary>
     /// The <see cref="DirectedRelationshipExtensions"/> class provides extensions methods for <see cref="IDirectedRelationship"/>
     /// </summary>
-    public static class DirectedRelationshipExtensions
+    internal static class DirectedRelationshipExtensions
     {
         /// <summary>
         /// Queries the target Element(s) of the DirectedRelationship.
@@ -39,7 +39,7 @@ namespace uml4net.CommonStructure
         /// <returns>
         /// the target Element(s) of the DirectedRelationship.
         /// </returns>
-        public static List<IElement> QueryTarget(this IDirectedRelationship directedRelationship)
+        internal static List<IElement> QueryTarget(this IDirectedRelationship directedRelationship)
         {
             if (directedRelationship == null)
             {
@@ -63,7 +63,7 @@ namespace uml4net.CommonStructure
         /// <returns>
         /// the source Element(s) of the DirectedRelationship.
         /// </returns>
-        public static List<IElement> QuerySource(this IDirectedRelationship directedRelationship)
+        internal static List<IElement> QuerySource(this IDirectedRelationship directedRelationship)
         {
             if (directedRelationship == null)
             {

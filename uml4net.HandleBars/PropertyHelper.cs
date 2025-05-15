@@ -292,14 +292,31 @@ namespace uml4net.HandleBars
                     throw new HandlebarsException("Property.WriteManyToManyAndOpposite - supposed to be IProperty");
                 }
 
-                if (property.QueryUpperValue() < 2)
+                // only reference types can be part of a many-to-many relationship
+                if (property.QueryIsDataType())
                 {
                     return;
                 }
 
-                var opposite = property.QueryOpposite();
+                var thisUpperValue = property.QueryUpperValue();
 
-                if (opposite != null && opposite.QueryUpperValue() > 1)
+                if (thisUpperValue < 2)
+                {
+                    return;
+                }
+
+                var opposite = property.Opposite;
+
+                // in case a reference property is defined on a class as an owned attribute not
+                // using an association AND it has a multiplicity upper-value larger than 1 we assume it
+                // takes part in a many-to-many relationship
+                if (opposite == null)
+                {
+                    writer.WriteSafeString($"{{many-to-many}}");
+                    return;
+                }
+
+                if (opposite.QueryUpperValue() > 1)
                 {
                     writer.WriteSafeString($"{{many-to-many:{opposite.QueryTypeName()}.{opposite.Name}}}");
                 }

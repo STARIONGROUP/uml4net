@@ -27,7 +27,7 @@ namespace uml4net.CommonBehavior
     /// <summary>
     /// The <see cref="BehaviorExtensions"/> class provides extensions methods for <see cref="IBehavior"/>
     /// </summary>
-    public static class BehaviorExtensions
+    internal static class BehaviorExtensions
     {
         /// <summary>
         /// Queries the BehavioredClassifier that is the context for the execution of the Behavior. A Behavior that is
@@ -54,7 +54,7 @@ namespace uml4net.CommonBehavior
         /// the context BehavioredClassifier as well as the Elements visible to the context Classifier are
         /// visible to the Behavior.
         /// </returns>
-        public static IBehavioredClassifier QueryContext(this IBehavior behavior)
+        internal static IBehavioredClassifier QueryContext(this IBehavior behavior)
         {
             throw new NotSupportedException();
         }
