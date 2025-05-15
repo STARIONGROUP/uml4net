@@ -23,14 +23,14 @@ namespace uml4net.Extensions.Tests
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
-    using Classification;
-    using CommonStructure;
+
     using Microsoft.Extensions.Logging;
 
     using NUnit.Framework;
 
     using Serilog;
-    using SimpleClassifiers;
+
+    using uml4net.CommonStructure;
     using uml4net.StructuredClassifiers;
     using uml4net.xmi;
     using uml4net.xmi.Readers;

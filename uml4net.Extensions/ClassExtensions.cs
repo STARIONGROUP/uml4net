@@ -24,8 +24,9 @@ namespace uml4net.Extensions
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Linq;
-    using CommonStructure;
+
     using uml4net.Classification;
+    using uml4net.CommonStructure;
     using uml4net.Packages;
     using uml4net.StructuredClassifiers;
 
