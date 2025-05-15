@@ -105,7 +105,7 @@ namespace uml4net.Extensions.Tests
             var expected = new List<string>
             {
                 "Artifact", "Association", "Class", "DataType", 
-                "Interface", "Signal", "StructuredClassifier"
+                "Interface", "Property", "Signal", "StructuredClassifier"
             };
 
             Assert.That(expected, Is.EquivalentTo(containerNames));
