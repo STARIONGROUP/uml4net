@@ -94,7 +94,6 @@ namespace uml4net.Extensions
 
             var classifiers = allPackages
                 .SelectMany(x => x.OwnedType.OfType<IClassifier>())
-                .Except(new List<IClassifier> {subject})
                 .ToList();
 
             foreach (var classifier in classifiers)
