@@ -2,7 +2,7 @@
 
     <PropertyGroup>
         <TargetFramework>netstandard2.0</TargetFramework>
-        <Version>4.6.1</Version>
+        <Version>5.0.0</Version>
         <LangVersion>12.0</LangVersion>
         <Company>Starion Group S.A.</Company>
         <Copyright>Copyright © Starion Group S.A.</Copyright>
@@ -24,8 +24,10 @@
         <PackageIcon>uml4net-logo-strapline.png</PackageIcon>
         <PackageTags>Uml modeltopia</PackageTags>
         <PackageReleaseNotes>
-            [Update] HTML Report to inlcude many-to-many; fixes #100
-            [Update] uml4net.HandleBars to version 4.2.0
+            [Update] uml4net.HandleBars to version 5.0.0
+            [Update] uml4net.xmi.Extensions.EnterpriseArchitect to version 2.0.0
+            [Update] HTML Report to improve many-to-many and add containment
+            [Improve] ModelInspector to include property variations when property is contained
         </PackageReleaseNotes>
     </PropertyGroup>
 

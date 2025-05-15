@@ -2,7 +2,7 @@
 
   <PropertyGroup>
       <TargetFramework>netstandard2.0</TargetFramework>
-      <Version>2.3.1</Version>
+      <Version>3.0.0</Version>
       <LangVersion>12.0</LangVersion>
       <Company>Starion Group S.A.</Company>
       <Copyright>Copyright © Starion Group S.A.</Copyright>
@@ -24,6 +24,7 @@
       <PackageIcon>uml4net-logo-strapline.png</PackageIcon>
       <PackageTags>UML modeltopia</PackageTags>
       <PackageReleaseNotes>
+          [Refactor] extension methods that implement derived properties to be internal (no longer available as part of public API)
           [Update] Microsoft.Extensions.Logging.Abstractions
       </PackageReleaseNotes>
   </PropertyGroup>

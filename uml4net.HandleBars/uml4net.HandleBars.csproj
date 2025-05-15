@@ -2,7 +2,7 @@
 
     <PropertyGroup>
         <TargetFramework>netstandard2.0</TargetFramework>
-        <Version>4.2.1</Version>
+        <Version>5.0.0</Version>
         <LangVersion>12.0</LangVersion>
         <Company>Starion Group S.A.</Company>
         <Copyright>Copyright © Starion Group S.A.</Copyright>
@@ -24,8 +24,8 @@
         <PackageIcon>uml4net-logo-strapline.png</PackageIcon>
         <PackageTags>UML HandleBars modeltopia</PackageTags>
         <PackageReleaseNotes>
-            [Add] PropertyHelper -> QueryIsMemberOfManyToMany; fixes #100
-            {Update] uml4net.Extensions to version 3.4.0
+            [Update] uml4net.Extensions to version 4.0.0
+            [Add] ClassifierHelper
         </PackageReleaseNotes>
     </PropertyGroup>
 
