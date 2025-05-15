@@ -81,6 +81,11 @@ namespace uml4net.Extensions
         /// </remarks>
         public static ReadOnlyCollection<IClassifier> QueryContainers(this IClassifier subject)
         {
+            if (subject == null)
+            {
+                throw new ArgumentNullException(nameof(subject));
+            }
+
             var result = new List<IClassifier>();
 
             var root = subject.QueryRootPackage();
