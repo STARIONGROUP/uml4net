@@ -26,8 +26,6 @@ namespace uml4net.Extensions
     using System.Linq;
 
     using uml4net.Classification;
-    using uml4net.CommonStructure;
-    using uml4net.StructuredClassifiers;
 
     /// <summary>
     /// The <see cref="ClassifierExtensions"/> class provides extensions methods for the <see cref="IClassifier"/>
@@ -104,7 +102,7 @@ namespace uml4net.Extensions
 
                 foreach (var property in containmentProperties)
                 {
-                    if (property.Type.XmiId == subject.XmiId)
+                    if (property.Type == subject)
                     {
                         result.Add(classifier);
                     }

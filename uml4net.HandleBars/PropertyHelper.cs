@@ -24,7 +24,7 @@ namespace uml4net.HandleBars
     using System.Globalization;
     using System.Linq;
     using System.Text;
-    using CommonStructure;
+
     using HandlebarsDotNet;
 
     using uml4net.SimpleClassifiers;
@@ -46,6 +46,7 @@ namespace uml4net.HandleBars
         /// </param>
         public static void RegisterPropertyHelper(this IHandlebars handlebars)
         {
+            // Queries whether the Property is an IEnumerable
             handlebars.RegisterHelper("Property.QueryIsEnumerable", (context, arguments) =>
             {
                 if (arguments.Length != 1)
@@ -106,6 +107,7 @@ namespace uml4net.HandleBars
                 }
             });
 
+            // Queries whether the Property is an Enum (Enumeration)
             handlebars.RegisterHelper("Property.QueryIsEnum", (_, arguments) =>
             {
                 if (arguments.Length != 1)
@@ -118,18 +120,7 @@ namespace uml4net.HandleBars
                 return property.QueryIsEnum();
             });
 
-            handlebars.RegisterHelper("Property.IsEnum", (_, arguments) =>
-            {
-                if (arguments.Length != 1)
-                {
-                    throw new HandlebarsException("{{#Property.IsEnum}} helper must have exactly one argument");
-                }
-
-                var property = arguments.Single() as IProperty;
-
-                return property.QueryIsEnum();
-            });
-
+            // Queries whether the Property is of type bool (Boolean)
             handlebars.RegisterHelper("Property.QueryIsBool", (_, arguments) =>
             {
                 if (arguments.Length != 1)
@@ -142,6 +133,7 @@ namespace uml4net.HandleBars
                 return property.QueryIsBool();
             });
 
+            // Queries whether the Property has a numeric Type (e.g. int, float, double...)
             handlebars.RegisterHelper("Property.QueryIsNumeric", (_, arguments) =>
             {
                 if (arguments.Length != 1)
@@ -154,6 +146,7 @@ namespace uml4net.HandleBars
                 return property.QueryIsNumeric();
             });
 
+            // Queries whether the property is of type integer (contains the string "int" in its type name)
             handlebars.RegisterHelper("Property.QueryIsInteger", (_, arguments) =>
             {
                 if (arguments.Length != 1)
@@ -166,6 +159,7 @@ namespace uml4net.HandleBars
                 return property?.Type?.Name.ToLowerInvariant().Contains("int");
             });
 
+            // Queries whether the property is of type integer (contains the string "single" or "float" in its type name
             handlebars.RegisterHelper("Property.QueryIsFloat", (_, arguments) =>
             {
                 if (arguments.Length != 1)
@@ -176,7 +170,8 @@ namespace uml4net.HandleBars
                 var typeName = (arguments.Single() as IProperty)?.Type?.Name?.ToLowerInvariant();
                 return typeName is not null && (typeName.Contains("single") || typeName.Contains("float"));
             });
-            
+
+            // Queries whether the property is of type integer (contains the string "double" or "real" in its type name)
             handlebars.RegisterHelper("Property.QueryIsDouble", (_, arguments) =>
             {
                 if (arguments.Length != 1)
@@ -188,17 +183,19 @@ namespace uml4net.HandleBars
                 return typeName is not null && (typeName.Contains("double") || typeName.Contains("real"));
             });
 
+            // Queries whether the property is of type DateTime (contains the string "date" in its type name)
             handlebars.RegisterHelper("Property.QueryIsDateTime", (_, arguments) =>
             {
                 if (arguments.Length != 1)
                 {
-                    throw new HandlebarsException("{{#Property.QueryIsDouble}} helper must have exactly one argument");
+                    throw new HandlebarsException("{{#Property.QueryIsDateTime}} helper must have exactly one argument");
                 }
 
                 var typeName = (arguments.Single() as IProperty)?.Type?.Name?.ToLowerInvariant();
                 return typeName?.Contains("date");
             });
 
+            // Queries whether the property is of type string (contains the string "string" in its type name)
             handlebars.RegisterHelper("Property.QueryIsString", (context, arguments) =>
             {
                 if (arguments.Length != 1)
@@ -211,6 +208,7 @@ namespace uml4net.HandleBars
                 return property.QueryIsString();
             });
 
+            // Queries whether the Property has a default value specified
             handlebars.RegisterHelper("Property.QueryHasDefaultValue", (_, arguments) =>
             {
                 if (arguments.Length != 1)
@@ -223,6 +221,7 @@ namespace uml4net.HandleBars
                 return property.QueryHasDefaultValue();
             });
 
+            // Queries whether the Property is a Composite property (AggregationKind.Composite)
             handlebars.RegisterHelper("Property.IsComposite", (context, _) =>
             {
                 if (!(context.Value is IProperty property))
@@ -233,6 +232,7 @@ namespace uml4net.HandleBars
                 return property.IsComposite;
             });
 
+            // Queries whether the Property is redefined
             handlebars.RegisterHelper("Property.IsRedefined", (context, parameters) =>
             {
                 if (parameters.Length != 2)
@@ -246,6 +246,7 @@ namespace uml4net.HandleBars
                 return property.TryQueryRedefinedByProperty(@class, out _);
             });
 
+            // Queries whether the Property is subsetted
             handlebars.RegisterHelper("Property.QueryIsSubsetted", (context, _) =>
             {
                 if (!(context.Value is IProperty property))
@@ -256,6 +257,7 @@ namespace uml4net.HandleBars
                 return property.QueryIsSubsetted;
             });
 
+            // Queries whether the Property is Derived, DerivedUnion or ReadOnly
             handlebars.RegisterHelper("Property.QueryIsDerivedOrDerivedUnionOrReadOnly", (_, arguments) =>
             {
                 if (arguments.Length != 1)
@@ -273,6 +275,7 @@ namespace uml4net.HandleBars
                 return false;
             });
 
+            // Queries whether the Property takes part in a many-to-many relationship
             handlebars.RegisterHelper("Property.QueryIsMemberOfManyToMany", (_, arguments) =>
             {
                 if (arguments.Length != 1)
@@ -316,6 +319,9 @@ namespace uml4net.HandleBars
                     return;
                 }
 
+                // When the property is part of an association(binary relationship) and in case the
+                // upper value is larger than 1 on both ends, this property takes part in a many-to-many
+                // relationship
                 if (opposite.QueryUpperValue() > 1)
                 {
                     writer.WriteSafeString($"{{many-to-many:{opposite.QueryTypeName()}.{opposite.Name}}}");

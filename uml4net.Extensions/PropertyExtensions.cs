@@ -38,6 +38,23 @@ namespace uml4net.Extensions
     public static class PropertyExtensions
     {
         /// <summary>
+        /// Adds or overwrites the C# type mappings
+        /// </summary>
+        /// <param name="mappings">Collection of tuples with Key and Value data to add to custom mappings, or overwrite default mappings</param>
+        public static void AddOrOverwriteCSharpTypeMappings(params (string Key, string Value)[] mappings)
+        {
+            TypeExtensions.AddOrOverwriteCSharpTypeMappings(mappings);
+        }
+
+        /// <summary>
+        /// Removes any added custom C# type mapping and resets to the default in <see cref="DefaultCSharpTypeMapping"/>
+        /// </summary>
+        public static void ResetCSharpTypeMappingsToDefault()
+        {
+            TypeExtensions.ResetCSharpTypeMappingsToDefault();
+        }
+
+        /// <summary>
         /// Queries whether the type of the <see cref="IProperty"/> is an <see cref="IDataType"/>
         /// </summary>
         /// <param name="property">
@@ -467,7 +484,7 @@ namespace uml4net.Extensions
         /// Queries whether the property is a redefined property. A redefined property redefines another property
         /// </summary>
         /// <param name="property">
-        /// the subject IProperty
+        /// the subject <see cref="IProperty"/>
         /// </param>
         /// <param name="allClasses">
         /// a readonly list of <see cref="IClass"/> that may contain a <see cref="IClass"/>
@@ -509,7 +526,7 @@ namespace uml4net.Extensions
         /// Queries whether the property has been redefined by other properties
         /// </summary>
         /// <param name="property">
-        /// the subject IProperty
+        /// the subject <see cref="IProperty"/>
         /// </param>
         /// <returns>
         /// true when the <see cref="IProperty"/> is redefined, false if not
@@ -528,7 +545,7 @@ namespace uml4net.Extensions
         /// Queries whether the property is subsetted
         /// </summary>
         /// <param name="property">
-        /// the subject IProperty
+        /// the subject <see cref="IProperty"/>
         /// </param>
         /// <returns>
         /// true when the <see cref="IProperty"/> is subsetted, false if not
@@ -544,20 +561,29 @@ namespace uml4net.Extensions
         }
 
         /// <summary>
-        /// Adds or overwrites the C# type mappings
+        /// Queries whether the property is a contained property, meaning
+        /// that it is on the opposite of a property where <see cref="AggregationKind"/>
+        /// is equal to <see cref="AggregationKind.Composite"/>
         /// </summary>
-        /// <param name="mappings">Collection of tuples with Key and Value data to add to custom mappings, or overwrite default mappings</param>
-        public static void AddOrOverwriteCSharpTypeMappings(params (string Key, string Value)[] mappings)
+        /// <param name="property">
+        ///  the subject <see cref="IProperty"/>
+        /// </param>
+        /// <returns>
+        /// true when the property is contained, false if not
+        /// </returns>
+        public static bool QueryIsContained(this IProperty property)
         {
-            TypeExtensions.AddOrOverwriteCSharpTypeMappings(mappings);
-        }
+            if (property == null)
+            {
+                throw new ArgumentNullException(nameof(property));
+            }
 
-        /// <summary>
-        /// Removes any added custom C# type mapping and resets to the default in <see cref="DefaultCSharpTypeMapping"/>
-        /// </summary>
-        public static void ResetCSharpTypeMappingsToDefault()
-        {
-            TypeExtensions.ResetCSharpTypeMappingsToDefault();
+            if (property.Opposite != null && property.Opposite.IsComposite)
+            {
+                return true;
+            }
+
+            return false;
         }
 
         /// <summary>
@@ -594,6 +620,14 @@ namespace uml4net.Extensions
         /// <returns>
         /// True when part of a Many-to-Many, false if not
         /// </returns>
+        /// <remarks>
+        /// NOTE 1: In case a reference property is defined on a class as an owned attribute not
+        /// using an association AND it has a multiplicity upper-value larger than 1 we assume it
+        /// takes part in a many-to-many relationship
+        /// NOTE 2: When the property is part of an association (binary relationship) and in case the
+        /// upper value is larger than 1 on both ends, this property takes part in a many-to-many
+        /// relationship
+        /// </remarks>
         public static bool QueryIsMemberOfManyToMany(this IProperty property)
         {
             if (property == null)
@@ -618,7 +652,7 @@ namespace uml4net.Extensions
             }
 
             // When the property is part of an association (binary relationship) and in case the
-            // lower value is larger than 1 on both ends, this property takes part in a many-to-many
+            // upper value is larger than 1 on both ends, this property takes part in a many-to-many
             // relationship
             var oppositeUpperValue = property.Opposite?.QueryUpperValue();
 

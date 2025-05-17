@@ -153,7 +153,7 @@ namespace uml4net.Reporting.Generators
                 {
                     if (property.QueryIsReferenceProperty())
                     {
-                        var referenceType = property.IsComposite ? $"REF:{property.Lower}:{property.Upper}:containment" : $"REF:{property.Lower}:{property.Upper}";
+                        var referenceType = property.IsComposite ? $"REF:{property.Lower}:{property.Upper}:composite" : $"REF:{property.Lower}:{property.Upper}";
 
                         if (property.QueryIsMemberOfManyToMany())
                         {
@@ -175,7 +175,7 @@ namespace uml4net.Reporting.Generators
                             referenceType = $"{referenceType}:IsRedefined";
                         }
 
-                        if (property.Opposite != null && property.Opposite.IsComposite)
+                        if (property.QueryIsContained())
                         {
                             referenceType = $"{referenceType}:Contained";
                         }
@@ -361,7 +361,7 @@ namespace uml4net.Reporting.Generators
 
                     if (property.IsComposite)
                     {
-                        referenceType = $"{property.Name}:{property.QueryTypeName()} [{property.Lower}..{property.Upper}] - CONTAINED REFERENCE TYPE";
+                        referenceType = $"{property.Name}:{property.QueryTypeName()} [{property.Lower}..{property.Upper}] - COMPOSITE REFERENCE TYPE";
                     }
                     else
                     {

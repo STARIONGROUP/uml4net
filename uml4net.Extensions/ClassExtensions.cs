@@ -26,7 +26,6 @@ namespace uml4net.Extensions
     using System.Linq;
 
     using uml4net.Classification;
-    using uml4net.CommonStructure;
     using uml4net.Packages;
     using uml4net.StructuredClassifiers;
 
