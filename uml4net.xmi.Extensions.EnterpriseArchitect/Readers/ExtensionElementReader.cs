@@ -81,10 +81,10 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.Readers
                     switch (xmlReader.LocalName)
                     {
                         case "ownedComment":
-                                var comment = (IComment)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, xmlReader.NamespaceURI, this.Cache, 
-                                    this.XmiReaderSettings, this.LoggerFactory, "uml:Comment");
+                            var comment = (IComment)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, xmlReader.NamespaceURI, this.Cache,
+                                this.XmiReaderSettings, this.LoggerFactory, "uml:Comment");
 
-                                element.OwnedComment.Add(comment);                                
+                            element.OwnedComment.Add(comment);
 
                             break;
                         case "properties":
@@ -108,7 +108,7 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.Readers
                             {
                                 if (attributesReader.NodeType != XmlNodeType.Element || attributesReader.LocalName != "attribute")
                                 {
-                                    continue;   
+                                    continue;
                                 }
 
                                 using var attributeXmlReader = attributesReader.ReadSubtree();
@@ -136,6 +136,24 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.Readers
                                 var operationReader = new OperationReader(this.Cache, this.XmiElementReaderFacade, this.XmiReaderSettings, this.LoggerFactory);
                                 var operationExtension = operationReader.Read(operationXmlReader, documentName, namespaceUri);
                                 element.OwnedElement.Add(operationExtension);
+                            }
+
+                            break;
+                        }
+                        case "tags":
+                        {
+                            using var tagsReader = xmlReader.ReadSubtree();
+
+                            while (tagsReader.Read())
+                            {
+                                if (tagsReader.NodeType != XmlNodeType.Element || tagsReader.LocalName != "tag")
+                                {
+                                    continue;
+                                }
+
+                                var tagReader = new TagReader(this.Cache, this.XmiElementReaderFacade, this.XmiReaderSettings, this.LoggerFactory);
+                                var tagExtension = tagReader.Read(tagsReader, documentName, namespaceUri);
+                                element.Tags.Add(tagExtension);
                             }
 
                             break;

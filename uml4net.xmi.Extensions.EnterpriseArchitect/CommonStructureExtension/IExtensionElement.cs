@@ -63,5 +63,10 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.CommonStructureExtension
         /// Gets or sets a value indicating whether this element is abstract.
         /// </summary>
         bool IsAbstract { get; set; }
+
+        /// <summary>
+        /// Gets the collection of <see cref="IExtensionTag" />
+        /// </summary>
+        IContainerList<IExtensionTag> Tags { get; set; }
     }
 }
