@@ -67,6 +67,6 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.CommonStructureExtension
         /// <summary>
         /// Gets the collection of <see cref="IExtensionTag" />
         /// </summary>
-        IContainerList<IExtensionTag> Tags { get; set; }
+        IContainerList<IExtensionTag> Tags { get; }
     }
 }
