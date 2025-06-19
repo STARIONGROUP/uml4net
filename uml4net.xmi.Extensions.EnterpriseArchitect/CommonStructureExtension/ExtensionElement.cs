@@ -44,6 +44,11 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.CommonStructureExtension
         private IContainerList<IElement> ownedElement;
 
         /// <summary>
+        /// Backing field for <see cref="Tags"/>
+        /// </summary>
+        private IContainerList<IExtensionTag> tags;
+        
+        /// <summary>
         /// Gets or sets the container of this element.
         /// </summary>
         public IElement Container { get; set; }
@@ -106,6 +111,15 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.CommonStructureExtension
         /// Gets or sets a value indicating whether this element is abstract.
         /// </summary>
         public bool IsAbstract { get; set; }
+
+        /// <summary>
+        /// Gets the collection of <see cref="IExtensionTag" />
+        /// </summary>
+        public IContainerList<IExtensionTag> Tags
+        {
+            get => this.tags ??= new ContainerList<IExtensionTag>(this);
+            set => this.tags = value;
+        }
 
         /// <summary>
         /// Initialize a new <typeparamref name="TExtension"/> and assign basic values to it

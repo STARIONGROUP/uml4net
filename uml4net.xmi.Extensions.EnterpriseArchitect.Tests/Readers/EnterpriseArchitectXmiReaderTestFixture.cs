@@ -31,6 +31,7 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.Tests.Readers
 
     using uml4net.Classification;
     using uml4net.StructuredClassifiers;
+    using uml4net.xmi.Extensions.EnterpriseArchitect.CommonStructureExtension;
     using uml4net.xmi.Extensions.EnterpriseArchitect.Extensions;
     using uml4net.xmi.Extensions.EnterpriseArchitect.Readers;
 
@@ -72,6 +73,8 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.Tests.Readers
             var operationParameter = operation.OwnedParameter[0];
             var returnParameter = operation.OwnedParameter.Single(x => x.Direction == ParameterDirectionKind.Return);
             var associationParameters = element!.OwnedAttribute.Where(x => x.Association != null);
+            var elementWithTags = xmiReaderResult.Packages[0].NestedPackage[0].NestedPackage[0].PackagedElement.Single(x => x is Class { Name: "ClassWithTaggedValues" })as Class;
+            var extensionElement = (elementWithTags!.Extensions[0] as IExtensionElement)!;
             
             Assert.Multiple(() =>
             {
@@ -90,6 +93,12 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.Tests.Readers
                 {
                     Assert.That(associationParameter.QueryDocumentationFromExtensions(), Is.EqualTo($"A doc for {associationParameter.Name}"));
                 }
+
+                Assert.That(extensionElement.Tags, Has.Count.EqualTo(2));
+                Assert.That(extensionElement.Tags[0].Name, Is.EqualTo("EAUML::PackageRef"));
+                Assert.That(extensionElement.Tags[0].Value, Is.EqualTo("{A059C88E-4BDF-46ec-9651-03CBB56A4410}"));
+                Assert.That(extensionElement.Tags[1].Name, Is.EqualTo("SearchName"));
+                Assert.That(extensionElement.Tags[1].Value, Is.EqualTo("Extended"));
             });
         }
     }
