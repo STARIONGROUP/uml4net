@@ -36,7 +36,7 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure
     /// <summary>
     /// </summary>
     [Class(xmiId: "EAID_BD15887E_6A6C_8203_918D_9DEAC1C80886", isAbstract: false, isFinalSpecialization: false, isActive: false)]
-    [GeneratedCode("uml4ne.extension", "latest")]
+    [GeneratedCode("uml4net.extension", "latest")]
     public partial class Extension : Package, IExtension
     {
         /// <summary>

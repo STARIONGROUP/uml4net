@@ -36,7 +36,7 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure
     /// <summary>
     /// </summary>
     [Class(xmiId: "EAID_8F4AA108_C56F_B0BD_9409_9E62F45635D4", isAbstract: false, isFinalSpecialization: false, isActive: false)]
-    [GeneratedCode("uml4ne.extension", "latest")]
+    [GeneratedCode("uml4net.extension", "latest")]
     public partial class Nesting : XmiElement, INesting
     {
         /// <summary>

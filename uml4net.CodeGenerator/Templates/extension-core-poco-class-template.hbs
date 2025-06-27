@@ -35,7 +35,7 @@ using uml4net.Packages;
 
 {{ #Documentation this }}
 {{ #Decorator.WriteClassAttribute this }}
-[GeneratedCode("uml4ne.extension", "latest")]
+[GeneratedCode("uml4net.extension", "latest")]
 {{ Enum.ToString this.Visibility }} partial class {{this.Name}} : {{#if (ExtensionHelper.IsExtensionClass)}}Package{{else}}XmiElement{{/if}}, I{{this.Name}}
 {
     /// <summary>
