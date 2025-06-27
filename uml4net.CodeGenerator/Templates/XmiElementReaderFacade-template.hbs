@@ -45,14 +45,14 @@ namespace uml4net.xmi.Readers
         /// A dictionary that contains functions that return <see cref="IXmiElement"/> based a key that represents the xmiType
         /// and a provided <see cref="IXmiElementCache"/>, <see cref="ILoggerFactory"/> and <see cref="XmlReader"/>
         /// </summary>
-        private readonly Dictionary<string, Func<IXmiElementCache, IXmiReaderSettings, ILoggerFactory, XmlReader, string, string, IXmiElement>> readerCache;
+        protected readonly Dictionary<string, Func<IXmiElementCache, IXmiReaderSettings, ILoggerFactory, XmlReader, string, string, IXmiElement>> ReaderCache;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="XmiElementReaderFacade"/>
         /// </summary>
         public XmiElementReaderFacade()
         {
-            readerCache = new Dictionary<string, Func<IXmiElementCache, IXmiReaderSettings, ILoggerFactory, XmlReader, string, string, IXmiElement>>
+            this.ReaderCache = new Dictionary<string, Func<IXmiElementCache, IXmiReaderSettings, ILoggerFactory, XmlReader, string, string, IXmiElement>>
             {
                 {{ #each this as | class | }}
                 ["uml:{{ class.Name }}"] = (cache, xmiReaderSettings, loggerFactory, xmlReader, documentName, namespaceUri) =>
@@ -92,13 +92,17 @@ namespace uml4net.xmi.Readers
         /// the name of the type using the convention of the XMI file. This must be specified in case the XMI document does not include the
         /// xmi:type attribute since the type can be inferred from the property itself.
         /// </param>
+        /// <param name="ignoreXmiType">
+        /// Asserts that the xmi:type value should be ignored even if the attribute is present inside the XMI element.
+        /// Should be use in case of extension part reading.
+        /// </param>
         /// <returns>
         /// an instance of <see cref="IXmiElement"/>
         /// </returns>
         /// <exception cref="InvalidOperationException">
         /// thrown when the xmi:type is not supported and noXmiElementReader was found
         /// </exception>
-        public IXmiElement QueryXmiElement(XmlReader xmlReader, string documentName, string namespaceUri, IXmiElementCache cache, IXmiReaderSettings xmiReaderSettings, ILoggerFactory loggerFactory, string explicitTypeName = null)
+        public IXmiElement QueryXmiElement(XmlReader xmlReader, string documentName, string namespaceUri, IXmiElementCache cache, IXmiReaderSettings xmiReaderSettings, ILoggerFactory loggerFactory, string explicitTypeName = null, bool ignoreXmiType = false)
         {
             if (xmlReader == null)
             {
@@ -124,10 +128,15 @@ namespace uml4net.xmi.Readers
             {
                 throw new ArgumentNullException(nameof(namespaceUri));
             }
+            
+            if(string.IsNullOrEmpty(explicitTypeName) && ignoreXmiType)
+            {
+                throw new InvalidOperationException($"While ignoring the xmi:type, the {nameof(explicitTypeName)} should be provided");
+            }
 
             var xmiType = xmlReader.GetAttribute("xmi:type");
 
-            if (xmiType == null && explicitTypeName != null)
+            if ((xmiType == null && explicitTypeName != null) || ignoreXmiType)
             {
                 xmiType = explicitTypeName;
             }
@@ -137,7 +146,7 @@ namespace uml4net.xmi.Readers
                 throw new InvalidOperationException($"The xmi:type is not specified");
             }
 
-            if (readerCache.TryGetValue(xmiType, out var readerFactory))
+            if (this.ReaderCache.TryGetValue(xmiType, out var readerFactory))
             {
                 return readerFactory(cache, xmiReaderSettings, loggerFactory, xmlReader, documentName, namespaceUri);
             }

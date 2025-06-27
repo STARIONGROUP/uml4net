@@ -1,0 +1,97 @@
+﻿// -------------------------------------------------------------------------------------------------
+// <copyright file="IConnectorEnd.cs" company="Starion Group S.A.">
+//
+//   Copyright (C) 2019-2025 Starion Group S.A.
+//
+//   Licensed under the Apache License, Version 2.0 (the "License");
+//   you may not use this file except in compliance with the License.
+//   You may obtain a copy of the License at
+//
+//       http://www.apache.org/licenses/LICENSE-2.0
+//
+//   Unless required by applicable law or agreed to in writing, software
+//   distributed under the License is distributed on an "AS IS" BASIS,
+//   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+//   See the License for the specific language governing permissions and
+//   limitations under the License.
+//
+// </copyright>
+// ------------------------------------------------------------------------------------------------
+
+// ------------------------------------------------------------------------------------------------
+// --------THIS IS AN AUTOMATICALLY GENERATED FILE. ANY MANUAL CHANGES WILL BE OVERWRITTEN!--------
+// ------------------------------------------------------------------------------------------------
+
+namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure
+{
+    using System;
+    using System.CodeDom.Compiler;
+    using System.Collections.Generic;
+
+    using uml4net.Decorators;
+    using uml4net.Actions;
+    using uml4net.Activities;
+    using uml4net.Classification;
+    using uml4net.CommonBehavior;
+    using uml4net.CommonStructure;
+    using uml4net.Deployments;
+    using uml4net.InformationFlows;
+    using uml4net.Interactions;
+    using uml4net.Packages;
+    using uml4net.SimpleClassifiers;
+    using uml4net.StateMachines;
+    using uml4net.StructuredClassifiers;
+    using uml4net.UseCases;
+    using uml4net.Values;
+
+    /// <summary>
+    /// </summary>
+    [Class(xmiId: "EAID_80AD1F93_B9D1_8742_BAEE_4732F4BCF72B", isAbstract: false, isFinalSpecialization: false, isActive: false)]
+    [GeneratedCode("uml4net", "latest")]
+    public partial interface IConnectorEnd : IElementReference, IDocumentedElement, uml4net.CommonStructure.IElement
+    {
+        /// <summary>
+        /// </summary>
+        [Property(xmiId: "EAID_src2E56AD_D1F9_0C44_AB53_DB2A78AC44C1", aggregation: AggregationKind.Composite, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        public IContainerList<IXrefs> Xrefs { get; set; }
+
+        /// <summary>
+        /// </summary>
+        [Property(xmiId: "EAID_srcAAE1BD_4327_5F48_A3FC_69310C0E53C2", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        public IContainerList<ITagsCollection> Tags { get; set; }
+
+        /// <summary>
+        /// </summary>
+        [Property(xmiId: "EAID_srcDBBDF2_31FB_BC9D_8681_95DDEEAB31F8", aggregation: AggregationKind.Composite, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        public IContainerList<IConnectorEndType> Type { get; set; }
+
+        /// <summary>
+        /// </summary>
+        [Property(xmiId: "EAID_srcF86C1F_7AB7_F024_A19D_7FDC7AFACC87", aggregation: AggregationKind.Composite, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        public IContainerList<IStyle> Style { get; set; }
+
+        /// <summary>
+        /// </summary>
+        [Property(xmiId: "EAID_src1B8EF2_CA40_412A_9040_37B3DFF453E1", aggregation: AggregationKind.Composite, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        public IContainerList<IConstraints> Constraints { get; set; }
+
+        /// <summary>
+        /// </summary>
+        [Property(xmiId: "EAID_src26F873_298D_C17A_A9A0_ECC4C96BEFD6", aggregation: AggregationKind.Composite, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        public IContainerList<IRole> Role { get; set; }
+
+        /// <summary>
+        /// </summary>
+        [Property(xmiId: "EAID_src622164_C256_D3B6_A45A_ADB28EF4503E", aggregation: AggregationKind.Composite, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        public IContainerList<IModifiers> Modifiers { get; set; }
+
+        /// <summary>
+        /// </summary>
+        [Property(xmiId: "EAID_srcCD812D_9C77_03EE_A658_B148DC3D0C27", aggregation: AggregationKind.Composite, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        public IContainerList<IModel> Model { get; set; }
+    }
+}
+
+// ------------------------------------------------------------------------------------------------
+// --------THIS IS AN AUTOMATICALLY GENERATED FILE. ANY MANUAL CHANGES WILL BE OVERWRITTEN!--------
+// ------------------------------------------------------------------------------------------------

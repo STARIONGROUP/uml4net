@@ -24,6 +24,7 @@ namespace uml4net.xmi.Readers
     using System.Xml;
 
     using Microsoft.Extensions.Logging;
+    
     using uml4net.xmi.Settings;
 
     /// <summary>
@@ -49,6 +50,9 @@ namespace uml4net.xmi.Readers
         /// <param name="cache">
         /// The <see cref="IXmiElementCache"/> in which all model instances are registered
         /// </param>
+        /// <param name = "xmiReaderSettings" >
+        /// The <see cref="IXmiReaderSettings"/> used to configure reading
+        /// </param>
         /// <param name="loggerFactory">
         /// The <see cref="ILoggerFactory"/> to set up logging
         /// </param>
@@ -56,12 +60,16 @@ namespace uml4net.xmi.Readers
         /// the name of the type using the convention of the XMI file. This must be specified in case the XMI document does not include the
         /// xmi:type attribute since the type can be inferred from the property itself.
         /// </param>
+        /// <param name="ignoreXmiType">
+        /// Asserts that the xmi:type value should be ignored even if the attribute is present inside the XMI element.
+        /// Should be use in case of extension part reading.
+        /// </param>
         /// <returns>
         /// an instance of <see cref="IXmiElement"/>
         /// </returns>
         /// <exception cref="InvalidOperationException">
         /// thrown when the xmi:type is not supported and noXmiElementReader was found
         /// </exception>
-        public IXmiElement QueryXmiElement(XmlReader xmlReader, string documentName, string namespaceUri, IXmiElementCache cache, IXmiReaderSettings xmiReaderSettings, ILoggerFactory loggerFactory, string explicitTypeName = null);
+        IXmiElement QueryXmiElement(XmlReader xmlReader, string documentName, string namespaceUri, IXmiElementCache cache, IXmiReaderSettings xmiReaderSettings, ILoggerFactory loggerFactory, string explicitTypeName = null, bool ignoreXmiType = false);
     }
 }

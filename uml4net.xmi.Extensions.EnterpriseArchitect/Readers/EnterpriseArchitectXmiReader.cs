@@ -20,6 +20,7 @@
 
 namespace uml4net.xmi.Extensions.EnterpriseArchitect.Readers
 {
+    using System.Linq;
     using System.Xml;
 
     using Microsoft.Extensions.Logging;
@@ -27,21 +28,19 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.Readers
 
     using uml4net.Packages;
     using uml4net.xmi;
-    using uml4net.xmi.Extensions.EnterpriseArchitect.CommonStructureExtension;
+    using uml4net.xmi.Extensions.EntrepriseArchitect.Structure;
     using uml4net.xmi.Readers;
     using uml4net.xmi.ReferenceResolver;
     using uml4net.xmi.Settings;
+
+    using Extension = uml4net.xmi.Extensions.EntrepriseArchitect.Structure.Extension;
+    using IExtension = uml4net.xmi.Extensions.EntrepriseArchitect.Structure.IExtension;
 
     /// <summary>
     /// The <see cref="EnterpriseArchitectXmiReader" /> class reads XMI extensions nodes.
     /// </summary>
     public class EnterpriseArchitectXmiReader: XmiReader
     {
-        /// <summary>
-        /// The (injected) <see cref="ILogger{EnterpriseArchitectXmiReader}"/> used to perform logging
-        /// </summary>
-        private ILogger<EnterpriseArchitectXmiReader> logger;
-        
         /// <summary>
         /// Initializes a new instance of the <see cref="XmiReader"/> class.
         /// </summary>
@@ -64,12 +63,11 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.Readers
         public EnterpriseArchitectXmiReader(IAssembler assembler, IXmiElementCache cache, IXmiElementReaderFacade xmiElementReaderFacade, ILoggerFactory loggerFactory,
             IExternalReferenceResolver externalReferenceResolver, IXmiReaderScope scope, IXmiReaderSettings xmiReaderSettings) : base(assembler, cache, xmiElementReaderFacade, loggerFactory, externalReferenceResolver, scope, xmiReaderSettings)
         {
-            this.logger = this.LoggerFactory == null ? NullLogger<EnterpriseArchitectXmiReader>.Instance : this.LoggerFactory.CreateLogger<EnterpriseArchitectXmiReader>();
         }
 
         /// <summary>
         /// Reads an XMI extension from the provided <see cref="XmlReader" /> and returns an instance of
-        /// <see cref="IEnterpriseArchitectExtension" /> populated with the extension data.
+        /// <see cref="IExtension" /> populated with the extension data.
         /// </summary>
         /// <param name="xmlReader">
         /// The <see cref="XmlReader" /> instance used to parse the XMI data.
@@ -83,7 +81,7 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.Readers
         /// returns the empty string when reading from a subtree, therefore it is passed from the caller
         /// </param>     
         /// <returns>
-        /// An instance of <see cref="IPackage" />, specifically an <see cref="IEnterpriseArchitectExtension" />
+        /// An instance of <see cref="IPackage" />, specifically an <see cref="IExtension" />
         /// containing the extension information.
         /// </returns>
         /// <remarks>
@@ -92,68 +90,25 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.Readers
         /// </remarks>
         public override IPackage ReadXmiExtension(XmlReader xmlReader, string documentName, string namespaceUri)
         {
-            IEnterpriseArchitectExtension extension = new EnterpriseArchitectExtension();
-
             if (xmlReader.MoveToContent() != XmlNodeType.Element)
             {
-                return extension;
+                return new Extension();
             }
 
-            extension.Extender = xmlReader.GetAttribute("extender");
-            extension.ExtenderId = xmlReader.GetAttribute("extenderID");
+            var extensionElement = (IExtension)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this .LoggerFactory, "Extension");
 
-            while (xmlReader.Read())
+            foreach (var elementReference in this.Cache.Values.OfType<IElementReference>().Where(x => x.SingleValueReferencePropertyIdentifiers.Count != 0))
             {
-                if (xmlReader.NodeType == XmlNodeType.Element)
+                if (!this.Cache.TryGetValue(elementReference.SingleValueReferencePropertyIdentifiers.Single().Value, out var extendedElement))
                 {
-                    switch (xmlReader.LocalName)
-                    {
-                        case "elements":
-                        {
-                            using var elementsReader = xmlReader.ReadSubtree();
-
-                            while (elementsReader.Read())
-                            {
-                                if (elementsReader.NodeType != XmlNodeType.Element || elementsReader.LocalName != "element")
-                                {
-                                    continue;
-                                }
-
-                                var extensionElementReader = new ExtensionElementReader(this.Cache, this.XmiElementReaderFacade, this.XmiReaderSettings, this.LoggerFactory);
-                                var elementReader = elementsReader.ReadSubtree();
-                                
-                                extension.Elements.Add(extensionElementReader.Read(elementReader, documentName, namespaceUri));
-                            }
-
-                            break;
-                        }
-                        case "connectors":
-                        {
-                            using var connectorsXmlReader = xmlReader.ReadSubtree();
-
-                            while (connectorsXmlReader.Read())
-                            {
-                                if (connectorsXmlReader.NodeType != XmlNodeType.Element || connectorsXmlReader.LocalName != "connector")
-                                {
-                                    continue;
-                                }
-
-                                var connectorReader = new ConnectorReader(this.Cache, this.XmiElementReaderFacade, this.XmiReaderSettings, this.LoggerFactory);
-                                var connectorXmlReader = connectorsXmlReader.ReadSubtree();
-                                
-                                extension.Elements.Add(connectorReader.Read(connectorXmlReader, documentName, namespaceUri));
-                            }
-
-                            break;
-                        }
-                        default:
-                            this.logger.LogTrace("EnterpriseArchitectXmiReader: {Name}", xmlReader.LocalName);
-                            break;
-                    }
+                    continue;
                 }
-            }
 
-            return extension;
+                elementReference.ExtendedElement = extendedElement;
+                extendedElement.Extensions.Add(elementReference);
+            }
+            
+            return extensionElement;
         }
     }
 }

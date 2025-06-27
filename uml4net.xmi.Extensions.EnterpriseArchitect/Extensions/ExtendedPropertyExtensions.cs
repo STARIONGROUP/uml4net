@@ -23,7 +23,7 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.Extensions
     using System.Linq;
 
     using uml4net.Classification;
-    using uml4net.xmi.Extensions.EnterpriseArchitect.CommonStructureExtension;
+    using uml4net.xmi.Extensions.EntrepriseArchitect.Structure;
 
     /// <summary>
     /// Extensions methods for <see cref="IProperty" />
@@ -42,8 +42,9 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.Extensions
         /// <returns>True if the <see cref="IProperty.IsID"/> is set or if the xrefs of a linked extension contains the <see cref="IsIdPattern"/></returns>
         public static bool QueryIsId(this IProperty property)
         {
-            return property.IsID ||  property.Extensions.OfType<IExtensionAttribute>()
-                .Any(x => !string.IsNullOrEmpty(x.Xrefs) && x.Xrefs.Contains(IsIdPattern));
+            return property.IsID ||  property.Extensions.OfType<IAttribute>()
+                .SelectMany(x => x.Xrefs)
+                .Any(x => !string.IsNullOrEmpty(x.Value) && x.Value.Contains(IsIdPattern));
         }
     }
 }

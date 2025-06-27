@@ -123,5 +123,22 @@ namespace uml4net.xmi
             scope.ContainerBuilder.RegisterType<TReader>().As<IXmiReader>().PropertiesAutowired();
             return scope;
         }
+        
+        /// <summary>
+        /// Configures the specified <see cref="XmiReaderScope" /> to use the specified reader type instead of the default
+        /// <see cref="XmiReader" />
+        /// </summary>
+        /// <typeparam name="TFacade">The type of the reader to register, which must implement <see cref="IXmiReader" />.</typeparam>
+        /// <param name="scope">The current <see cref="XmiReaderScope" /> instance.</param>
+        /// <returns>The modified <see cref="XmiReaderScope" /> instance with the specified reader registered.</returns>
+        /// <remarks>
+        /// Registers <typeparamref name="TFacade" /> in the <paramref name="scope" />'s container as an implementation
+        /// of <see cref="IXmiReader" />, with properties auto-wired.
+        /// </remarks>
+        public static XmiReaderScope WithFacade<TFacade>(this XmiReaderScope scope) where TFacade : IXmiElementReaderFacade
+        {
+            scope.ContainerBuilder.RegisterType<TFacade>().As<IXmiElementReaderFacade>().PropertiesAutowired();
+            return scope;
+        }
     }
 }

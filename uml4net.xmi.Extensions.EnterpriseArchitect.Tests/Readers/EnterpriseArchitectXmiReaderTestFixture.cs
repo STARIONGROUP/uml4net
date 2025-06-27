@@ -20,7 +20,6 @@
 
 namespace uml4net.xmi.Extensions.EnterpriseArchitect.Tests.Readers
 {
-    using System.IO;
     using System.Linq;
 
     using Microsoft.Extensions.Logging;
@@ -31,9 +30,12 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.Tests.Readers
 
     using uml4net.Classification;
     using uml4net.StructuredClassifiers;
-    using uml4net.xmi.Extensions.EnterpriseArchitect.CommonStructureExtension;
     using uml4net.xmi.Extensions.EnterpriseArchitect.Extensions;
     using uml4net.xmi.Extensions.EnterpriseArchitect.Readers;
+    using uml4net.xmi.Extensions.EntrepriseArchitect.Structure;
+    using uml4net.xmi.Extensions.EntrepriseArchitect.Structure.Readers;
+
+    using Path = System.IO.Path;
 
     [TestFixture]
     public class EnterpriseArchitectXmiReaderTestFixture
@@ -62,6 +64,7 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.Tests.Readers
             var reader = XmiReaderBuilder.Create()
                 .UsingSettings(x => x.LocalReferenceBasePath = rootPath)
                 .WithReader<EnterpriseArchitectXmiReader>()
+                .WithFacade<XmiElementExtensionReaderFacade>()
                 .WithLogger(this.loggerFactory)
                 .Build();
 
@@ -74,7 +77,8 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.Tests.Readers
             var returnParameter = operation.OwnedParameter.Single(x => x.Direction == ParameterDirectionKind.Return);
             var associationParameters = element!.OwnedAttribute.Where(x => x.Association != null);
             var elementWithTags = xmiReaderResult.Packages[0].NestedPackage[0].NestedPackage[0].PackagedElement.Single(x => x is Class { Name: "ClassWithTaggedValues" })as Class;
-            var extensionElement = (elementWithTags!.Extensions[0] as IExtensionElement)!;
+            var extensionElement = (elementWithTags!.Extensions[0] as Element)!;
+            var tags = extensionElement.Tags.Single().Tag;
             
             Assert.Multiple(() =>
             {
@@ -94,11 +98,11 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.Tests.Readers
                     Assert.That(associationParameter.QueryDocumentationFromExtensions(), Is.EqualTo($"A doc for {associationParameter.Name}"));
                 }
 
-                Assert.That(extensionElement.Tags, Has.Count.EqualTo(2));
-                Assert.That(extensionElement.Tags[0].Name, Is.EqualTo("EAUML::PackageRef"));
-                Assert.That(extensionElement.Tags[0].Value, Is.EqualTo("{A059C88E-4BDF-46ec-9651-03CBB56A4410}"));
-                Assert.That(extensionElement.Tags[1].Name, Is.EqualTo("SearchName"));
-                Assert.That(extensionElement.Tags[1].Value, Is.EqualTo("Extended"));
+                Assert.That(tags, Has.Count.EqualTo(2));
+                Assert.That(tags[0].Name, Is.EqualTo("EAUML::PackageRef"));
+                Assert.That(tags[0].Value, Is.EqualTo("{A059C88E-4BDF-46ec-9651-03CBB56A4410}"));
+                Assert.That(tags[1].Name, Is.EqualTo("SearchName"));
+                Assert.That(tags[1].Value, Is.EqualTo("Extended"));
             });
         }
     }

@@ -25,7 +25,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Generators\" />
       <Folder Include="Transformers\" />
     </ItemGroup>
 
@@ -48,6 +47,15 @@
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
       <None Update="Templates\XmiElementReaderFacade-template.hbs">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Update="Templates\extension-core-poco-class-template.hbs">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Update="Templates\extension-reader-facade-template.hbs">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Update="Templates\extension-xmi-reader-template.hbs">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
     </ItemGroup>

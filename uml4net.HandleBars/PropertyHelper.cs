@@ -689,9 +689,9 @@ namespace uml4net.HandleBars
 
             handlebars.RegisterHelper("Property.WriteXmlElementForXmiReader", (writer, context, parameters) =>
             {
-                if (parameters.Length != 2)
+                if (parameters.Length != 2 && parameters.Length != 3)
                 {
-                    throw new HandlebarsException("{{#Property.WriteXmlElementForXmiReader}} helper must have exactly two arguments");
+                    throw new HandlebarsException("{{#Property.WriteXmlElementForXmiReader}} helper must have two or 3 arguments arguments");
                 }
 
                 var property = parameters[0] as IProperty;
@@ -700,6 +700,13 @@ namespace uml4net.HandleBars
                 if (property == null || @class == null)
                 {
                     throw new ArgumentNullException();
+                }
+
+                var isForExtension = false;
+
+                if (parameters.Length == 3)
+                {
+                    isForExtension = (bool)parameters[2];
                 }
 
                 if (property.IsDerived || property.IsDerivedUnion || property.IsReadOnly)
@@ -740,7 +747,7 @@ namespace uml4net.HandleBars
                     {
                         sb.AppendLine(property.QueryIsTypeAbstract()
                             ? $"var {property.Name}Value = (I{property.QueryTypeName()})this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.LoggerFactory);"
-                            : $"var {property.Name}Value = (I{property.QueryTypeName()})this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.LoggerFactory, \"uml:{property.QueryTypeName()}\");");
+                            : $"var {property.Name}Value = (I{property.QueryTypeName()})this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.LoggerFactory, \"{(isForExtension? "" : "uml:")}{property.QueryTypeName()}\"{(isForExtension?", true":"")});");
 
                         sb.AppendLine($"poco.{property.Name.CapitalizeFirstLetter()}.Add({property.Name}Value);");
                         
@@ -757,7 +764,7 @@ namespace uml4net.HandleBars
                         {
                             sb.AppendLine(property.QueryIsTypeAbstract()
                                 ? $"var {property.Name}Value = (I{property.QueryTypeName()})this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.LoggerFactory);"
-                                : $"var {property.Name}Value = (I{property.QueryTypeName()})this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.LoggerFactory, \"uml:{property.QueryTypeName()}\");");
+                                : $"var {property.Name}Value = (I{property.QueryTypeName()})this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.LoggerFactory, \"{(isForExtension? "" : "uml:")}{property.QueryTypeName()}\"{(isForExtension?", true":"")});");
 
                             sb.AppendLine($"poco.{property.Name.CapitalizeFirstLetter()}.Add({property.Name}Value);");
                         }
