@@ -49,31 +49,9 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure.Readers
             switch (xmlReader.LocalName.LowerCaseFirstLetter())
             {
                 case "primitivetypes":
-                {
-                    xmlReader.Skip();
-                    
-                    /*xmlReader.Read();
-                    var packagedElementValue = (IPackageableElement)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.LoggerFactory);
-                    poco.PrimitivesTypes.Add(packagedElementValue);*/
-                    return true;
-                }
                 case "profiles":
                 {
                     xmlReader.Skip();
-                    
-                   /*using var profilesReader = xmlReader.ReadSubtree();
-
-                    while (profilesReader.Read())
-                    {
-                        if (profilesReader.NodeType != XmlNodeType.Element || profilesReader.LocalName != "uml:Profile")
-                        {
-                            continue;
-                        }
-                        
-                        var profile = (IProfile)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.LoggerFactory);
-                        poco.Profiles.Add(profile);
-                    }*/
-
                     return true;
                 }
                 default:

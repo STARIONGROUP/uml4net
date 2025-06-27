@@ -25,8 +25,8 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure
 
     public partial interface IExtension
     {
-        IContainerList<IPackageableElement> PrimitivesTypes { get; set; }
+        IContainerList<IPackageableElement> PrimitivesTypes { get; }
 
-        IContainerList<IProfile> Profiles { get; set; }
+        IContainerList<IProfile> Profiles { get; }
     }
 }

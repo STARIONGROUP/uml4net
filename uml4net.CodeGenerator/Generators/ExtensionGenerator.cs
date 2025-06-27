@@ -39,10 +39,10 @@ namespace uml4net.CodeGenerator.Generators
         /// Generates POCO classes
         /// </summary>
         /// <param name="xmiReaderResult">
-        /// the <see cref="XmiReaderResult"/> that contains the UML model to generate from
+        /// the <see cref="XmiReaderResult" /> that contains the UML model to generate from
         /// </param>
         /// <param name="outputDirectory">
-        /// The target <see cref="DirectoryInfo"/>
+        /// The target <see cref="DirectoryInfo" />
         /// </param>
         /// <returns>
         /// an awaitable task
@@ -51,108 +51,67 @@ namespace uml4net.CodeGenerator.Generators
         {
             ArgumentNullException.ThrowIfNull(xmiReaderResult);
             ArgumentNullException.ThrowIfNull(outputDirectory);
-            
+
             return this.GenerateExtensionClassesInternalAsync(xmiReaderResult, outputDirectory);
         }
 
         /// <summary>
-        /// Generates POCO classes
+        /// Generates the XmiElementExtensionReaderFacade based on the <see cref="IClass" /> instances
+        /// that are in the provided <see cref="XmiReaderResult" />
         /// </summary>
         /// <param name="xmiReaderResult">
-        /// the <see cref="XmiReaderResult"/> that contains the UML model to generate from
+        /// the <see cref="XmiReaderResult" /> that contains the UML model to generate from
         /// </param>
         /// <param name="outputDirectory">
-        /// The target <see cref="DirectoryInfo"/>
+        /// The target <see cref="DirectoryInfo" />
         /// </param>
         /// <returns>
-        /// an awaitable task
+        /// an awaitable <see cref="Task" />
         /// </returns>
-        private async Task GenerateExtensionClassesInternalAsync(XmiReaderResult xmiReaderResult, DirectoryInfo outputDirectory)
-        {
-            var template =  this.Templates["extension-core-poco-class-template"];
-
-            var classes = xmiReaderResult.Root.QueryPackages()
-                .SelectMany(x => x.PackagedElement.OfType<IClass>())
-                .Where(x => !x.IsAbstract)
-                .ToList();
-
-            foreach (var cls in classes)
-            {
-                var generatedCode = template(cls);
-
-                generatedCode = this.CodeCleanup(generatedCode);
-
-                var fileName = $"{cls.Name.CapitalizeFirstLetter()}.cs";
-
-                await WriteAsync(generatedCode, outputDirectory, fileName);
-            }
-        }        
-        
-        /// <summary>
-        /// Generates the XmiElementExtensionReaderFacade based on the <see cref="IClass"/> instances
-        /// that are in the provided <see cref="XmiReaderResult"/>
-        /// </summary>
-        /// <param name="xmiReaderResult">
-        /// the <see cref="XmiReaderResult"/> that contains the UML model to generate from
-        /// </param>
-        /// <param name="outputDirectory">
-        /// The target <see cref="DirectoryInfo"/>
-        /// </param>
-        /// <returns>
-        /// an awaitable <see cref="Task"/>
-        /// </returns>
-        public async Task GenerateXmiElementReaderFacadeAsync(XmiReaderResult xmiReaderResult, DirectoryInfo outputDirectory)
+        public Task GenerateXmiElementReaderFacadeAsync(XmiReaderResult xmiReaderResult, DirectoryInfo outputDirectory)
         {
             ArgumentNullException.ThrowIfNull(xmiReaderResult);
             ArgumentNullException.ThrowIfNull(outputDirectory);
 
-            var classes = xmiReaderResult.Root.QueryPackages()
-                .SelectMany(x => x.PackagedElement.OfType<IClass>())
-                .Where(x => !x.IsAbstract)
-                .ToList();
-
-            var template = this.Templates["extension-reader-facade-template"];
-
-            var generatedCode = template(new {Namespace = classes.First().Namespace.Name, Classes = classes});
-            generatedCode = this.CodeCleanup(generatedCode);
-
-            const string fileName = "XmiElementExtensionReaderFacade.cs";
-
-            await WriteAsync(generatedCode, outputDirectory, fileName);
+            return this.GenerateXmiElementReaderFacadeInternalAsync(xmiReaderResult, outputDirectory);
         }
-        
+
         /// <summary>
-        /// Generates the <see cref="Class"/> XMI Reader instances for extension
-        /// that are in the provided <see cref="XmiReaderResult"/>
+        /// Generates the <see cref="Class" /> XMI Reader instances for extension
+        /// that are in the provided <see cref="XmiReaderResult" />
         /// </summary>
         /// <param name="xmiReaderResult">
-        /// the <see cref="XmiReaderResult"/> that contains the UML model to generate from
+        /// the <see cref="XmiReaderResult" /> that contains the UML model to generate from
         /// </param>
         /// <param name="outputDirectory">
-        /// The target <see cref="DirectoryInfo"/>
+        /// The target <see cref="DirectoryInfo" />
         /// </param>
         /// <returns>
-        /// an awaitable <see cref="Task"/>
+        /// an awaitable <see cref="Task" />
         /// </returns>
         public async Task GenerateXmiReadersAsync(XmiReaderResult xmiReaderResult, DirectoryInfo outputDirectory)
         {
             ArgumentNullException.ThrowIfNull(xmiReaderResult);
             ArgumentNullException.ThrowIfNull(outputDirectory);
-            
-            var classes = xmiReaderResult.Root.QueryPackages()
-                .SelectMany(x => x.PackagedElement.OfType<IClass>())
-                .Where(x => !x.IsAbstract)
-                .ToList();
-            
-            var template = this.Templates["extension-xmi-reader-template"];
 
-            foreach (var @class in classes)
-            {
-                var generatedCode = template(@class);
-                generatedCode = this.CodeCleanup(generatedCode);
-                var fileName = $"{@class.Name}Reader.cs";
-                await WriteAsync(generatedCode, outputDirectory, fileName);
-            }
+            await this.GenerateXmiReadersInternalAsync(xmiReaderResult, outputDirectory);
+        }
+
+        /// <summary>
+        /// Generates code specific to the concrete implementation
+        /// </summary>
+        /// <param name="xmiReaderResult">
+        /// the <see cref="XmiReaderResult" /> that contains the UML model to generate from
+        /// </param>
+        /// <param name="outputDirectory">
+        /// The target <see cref="DirectoryInfo" />
+        /// </param>
+        /// <returns>
+        /// an awaitable <see cref="Task" />
+        /// </returns>
+        public override Task GenerateAsync(XmiReaderResult xmiReaderResult, DirectoryInfo outputDirectory)
+        {
+            return Task.CompletedTask;
         }
 
         /// <summary>
@@ -176,20 +135,97 @@ namespace uml4net.CodeGenerator.Generators
         }
 
         /// <summary>
-        /// Generates code specific to the concrete implementation
+        /// Generates POCO classes
         /// </summary>
         /// <param name="xmiReaderResult">
-        /// the <see cref="XmiReaderResult"/> that contains the UML model to generate from
+        /// the <see cref="XmiReaderResult" /> that contains the UML model to generate from
         /// </param>
         /// <param name="outputDirectory">
-        /// The target <see cref="DirectoryInfo"/>
+        /// The target <see cref="DirectoryInfo" />
         /// </param>
         /// <returns>
-        /// an awaitable <see cref="Task"/>
+        /// an awaitable task
         /// </returns>
-        public override Task GenerateAsync(XmiReaderResult xmiReaderResult, DirectoryInfo outputDirectory)
+        private async Task GenerateExtensionClassesInternalAsync(XmiReaderResult xmiReaderResult, DirectoryInfo outputDirectory)
         {
-            return Task.CompletedTask;
+            var template = this.Templates["extension-core-poco-class-template"];
+
+            var classes = xmiReaderResult.Root.QueryPackages()
+                .SelectMany(x => x.PackagedElement.OfType<IClass>())
+                .Where(x => !x.IsAbstract)
+                .ToList();
+
+            foreach (var cls in classes)
+            {
+                var generatedCode = template(cls);
+
+                generatedCode = this.CodeCleanup(generatedCode);
+
+                var fileName = $"{cls.Name.CapitalizeFirstLetter()}.cs";
+
+                await WriteAsync(generatedCode, outputDirectory, fileName);
+            }
+        }
+
+        /// <summary>
+        /// Generates the XmiElementExtensionReaderFacade based on the <see cref="IClass" /> instances
+        /// that are in the provided <see cref="XmiReaderResult" />
+        /// </summary>
+        /// <param name="xmiReaderResult">
+        /// the <see cref="XmiReaderResult" /> that contains the UML model to generate from
+        /// </param>
+        /// <param name="outputDirectory">
+        /// The target <see cref="DirectoryInfo" />
+        /// </param>
+        /// <returns>
+        /// an awaitable <see cref="Task" />
+        /// </returns>
+        private async Task GenerateXmiElementReaderFacadeInternalAsync(XmiReaderResult xmiReaderResult, DirectoryInfo outputDirectory)
+        {
+            var classes = xmiReaderResult.Root.QueryPackages()
+                .SelectMany(x => x.PackagedElement.OfType<IClass>())
+                .Where(x => !x.IsAbstract)
+                .ToList();
+
+            var template = this.Templates["extension-reader-facade-template"];
+
+            var generatedCode = template(new { Namespace = classes[0].Namespace.Name, Classes = classes });
+            generatedCode = this.CodeCleanup(generatedCode);
+
+            const string fileName = "XmiElementExtensionReaderFacade.cs";
+
+            await WriteAsync(generatedCode, outputDirectory, fileName);
+        }
+
+        /// <summary>
+        /// Generates the <see cref="Class" /> XMI Reader instances for extension
+        /// that are in the provided <see cref="XmiReaderResult" />
+        /// </summary>
+        /// <param name="xmiReaderResult">
+        /// the <see cref="XmiReaderResult" /> that contains the UML model to generate from
+        /// </param>
+        /// <param name="outputDirectory">
+        /// The target <see cref="DirectoryInfo" />
+        /// </param>
+        /// <returns>
+        /// an awaitable <see cref="Task" />
+        /// </returns>
+        private async Task GenerateXmiReadersInternalAsync(XmiReaderResult xmiReaderResult, DirectoryInfo outputDirectory)
+        {
+            var classes = xmiReaderResult.Root.QueryPackages()
+                .SelectMany(x => x.PackagedElement.OfType<IClass>())
+                .Where(x => !x.IsAbstract)
+                .ToList();
+
+            var template = this.Templates["extension-xmi-reader-template"];
+
+            foreach (var @class in classes)
+            {
+                var generatedCode = template(@class);
+                generatedCode = this.CodeCleanup(generatedCode);
+                var fileName = $"{@class.Name}Reader.cs";
+                await WriteAsync(generatedCode, outputDirectory, fileName);
+            }
         }
     }
 }
