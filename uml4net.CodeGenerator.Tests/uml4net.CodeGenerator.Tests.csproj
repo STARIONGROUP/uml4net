@@ -223,6 +223,10 @@
       <None Include="Expected\AutoGenInterfaces\IExpression.cs">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
+      <Content Include="..\resources\Enterprise Architect Extensions\EnterpriseArchitectExtensions.xmi">
+        <Link>TestData\EnterpriseArchitectExtensions.xmi</Link>
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
         <Content Include="Expected\AutoGenXmiReaders\LiteralUnlimitedNaturalReader.cs">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </Content>
