@@ -2,7 +2,7 @@
 
     <PropertyGroup>
         <Description>A specific XMI Reader extension to support Enterprise Architect XMI reading</Description>
-        <Version>2.1.0</Version>
+        <Version>3.0.0</Version>
         <PackageId>uml4net.xmi.Extensions.EnterpriseArchitect</PackageId>
         <LangVersion>12.0</LangVersion>
         <TargetFramework>netstandard2.0</TargetFramework>
@@ -26,7 +26,7 @@
         <PackageIcon>uml4net-logo-strapline.png</PackageIcon>
         <PackageTags>UML XMI modeltopia</PackageTags>
         <PackageReleaseNotes>
-            [ADD] Tags Read capabilities 
+            [ADD] Allow the possibility to read the entire Extension part via code-generated XMI reader 
         </PackageReleaseNotes>
     </PropertyGroup>
 
