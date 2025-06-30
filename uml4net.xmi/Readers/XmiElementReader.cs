@@ -239,5 +239,26 @@ namespace uml4net.xmi.Readers
 
             return false;
         }
+
+        /// <summary>
+        /// Handles the read of XMI Element manually, when a specific case cannot be code-generated
+        /// </summary>
+        /// <param name="poco">The <typeparamref name="TXmiElement"/> instance</param>
+        /// <param name="xmlReader">The <see cref="XmlReader"/></param>
+        /// <param name="documentName">
+        /// The name of the document that contains the <see cref="IXmiElement"/>
+        /// </param>
+        /// <param name="namespaceUri">
+        /// The namespaceUri of the parent <see cref="XmlReader"/>>.
+        /// Since <see cref="XmlReader.ReadSubtree"/> is used extensively the <see cref="XmlReader.NamespaceURI"/>
+        /// returns the empty string when reading from a subtree, therefore it is passed from the caller
+        /// </param>
+        /// <returns>
+        /// True if the manual code could handle the Xmi read
+        /// </returns>
+        protected virtual bool HandleManualXmlRead(TXmiElement poco, XmlReader xmlReader, string documentName, string namespaceUri)
+        {
+            return false;
+        }    
     }
 }

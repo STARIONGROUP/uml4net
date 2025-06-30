@@ -48,9 +48,11 @@ namespace uml4net.HandleBars
                     throw new ArgumentException("The context shall be a IClass");
                 }
 
-                if (@class.Generalization.Any())
+                var superClasses = @class.SuperClass.Select(x => $"I{x.Name}").ToList();
+
+                if (superClasses.Any())
                 {
-                    var result = $": {string.Join(", ", @class.SuperClass.Select(x => $"I{x.Name}"))}";
+                    var result = $": {string.Join(", ", superClasses)}";
 
                     writer.WriteSafeString(result);
                 }
