@@ -1,3 +1,16 @@
+---
+name: "Bug or Feature Report"
+about: "Report a bug or request a feature for uml4net"
+title: "[Bug|Feature]: "
+labels: []
+assignees: []
+---
+
+### What type of issue is this?
+
+- [ ] Bug report
+- [ ] Feature request
+
 ### Prerequisites
 
 - [ ] I have written a descriptive issue title
@@ -13,9 +26,7 @@
 ### System Configuration
 <!-- Tell us about the environment where you are experiencing the bug -->
 
-- uml4net version:
-  - [ ] uml4net:         
-  - [ ] Other:              
+- uml4net version:   
 - Environment (Operating system, version and so on):
 - .NET Framework version:
 - Additional information:
