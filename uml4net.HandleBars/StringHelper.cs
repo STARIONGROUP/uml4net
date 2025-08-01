@@ -60,6 +60,18 @@ namespace uml4net.HandleBars
 
                 writer.WriteSafeString(value.LowerCaseFirstLetter());
             });
+
+            handlebars.RegisterHelper("String.Length", (writer, _, parameters) =>
+            {
+                if (parameters.Length != 1)
+                {
+                    throw new HandlebarsException("{{#String.Length}} helper must have exactly one argument");
+                }
+
+                var value = parameters[0] as string;
+
+                writer.WriteSafeString(value.Length);
+            });
         }
     }
 }

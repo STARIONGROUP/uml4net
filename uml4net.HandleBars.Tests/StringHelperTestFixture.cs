@@ -1,7 +1,7 @@
 ﻿// -------------------------------------------------------------------------------------------------
-//  <copyright file="BooleanHelperTestFixture.cs" company="Starion Group S.A.">
+//  <copyright file="StringHelperTestFixture.cs" company="Starion Group S.A.">
 // 
-//    Copyright (C) 2019-2025 Starion Group S.A.
+//    Copyright 2019-2025 Starion Group S.A.
 // 
 //    Licensed under the Apache License, Version 2.0 (the "License");
 //    you may not use this file except in compliance with the License.
@@ -9,7 +9,7 @@
 // 
 //        http://www.apache.org/licenses/LICENSE-2.0
 // 
-//    Unless required by applicable law or agreed to in writing, softwareUseCases
+//    Unless required by applicable law or agreed to in writing, software
 //    distributed under the License is distributed on an "AS IS" BASIS,
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
@@ -26,11 +26,8 @@ namespace uml4net.HandleBars.Tests
 
     using NUnit.Framework;
 
-    /// <summary>
-    /// Suite of tests for the <see cref="BooleanHelper"/> class
-    /// </summary>
     [TestFixture]
-    public class BooleanHelperTestFixture
+    public class StringHelperTestFixture
     {
         private IHandlebars handlebarsContenxt;
 
@@ -40,24 +37,43 @@ namespace uml4net.HandleBars.Tests
             this.handlebarsContenxt = Handlebars.Create();
             this.handlebarsContenxt.Configuration.FormatProvider = CultureInfo.InvariantCulture;
 
-            BooleanHelper.RegisterBooleanHelper(this.handlebarsContenxt);
+            StringHelper.RegisterStringHelper(this.handlebarsContenxt);
         }
 
         [Test]
-        public void Verify_that_ToLowerCase_returns_expected_result()
+        public void Verify_that_CapitalizeFirstLetter_returns_Expected_result()
         {
-            var template = "{{ #Boolean.ToLowerCase this }}";
+            var template = "{{ #String.CapitalizeFirstLetter this }}";
 
             var action = this.handlebarsContenxt.Compile(template);
 
-            var trueResult = action(true);
+            var result = action("starion");
 
-            Assert.That(trueResult, Is.EqualTo("true"));
+            Assert.That(result, Is.EqualTo("Starion"));
+        }
 
-            var falseResult = action(false);
+        [Test]
+        public void Verify_that_LowerCaseFirstLetter_returns_Expected_result()
+        {
+            var template = "{{ #String.LowerCaseFirstLetter this }}";
 
-            Assert.That(falseResult, Is.EqualTo("false"));
+            var action = this.handlebarsContenxt.Compile(template);
 
+            var result = action("Starion");
+
+            Assert.That(result, Is.EqualTo("starion"));
+        }
+
+        [Test]
+        public void Verify_that_Length_returns_Expected_result()
+        {
+            var template = "{{ #String.Length this }}";
+
+            var action = this.handlebarsContenxt.Compile(template);
+
+            var length = action("Starion");
+
+            Assert.That(length, Is.EqualTo("7"));
         }
     }
 }
