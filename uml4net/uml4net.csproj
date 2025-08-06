@@ -23,6 +23,8 @@
       <PackageReadmeFile>README.md</PackageReadmeFile>
       <PackageIcon>uml4net-logo-strapline.png</PackageIcon>
       <PackageTags>UML modeltopia</PackageTags>
+      <GenerateDocumentationFile>true</GenerateDocumentationFile>
+      <GenerateSBOM>true</GenerateSBOM>
       <PackageReleaseNotes>
           [Refactor] extension methods that implement derived properties to be internal (no longer available as part of public API)
           [Update] Microsoft.Extensions.Logging.Abstractions
@@ -36,6 +38,7 @@
 
     <ItemGroup>
         <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="9.0.8" />
+        <PackageReference Include="Microsoft.Sbom.Targets" Version="4.1.0" PrivateAssets="all" />
     </ItemGroup>
 
 </Project>

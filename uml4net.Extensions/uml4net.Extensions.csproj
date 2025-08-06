@@ -23,6 +23,8 @@
         <PackageReadmeFile>README.md</PackageReadmeFile>
         <PackageIcon>uml4net-logo-strapline.png</PackageIcon>
         <PackageTags>UML modeltopia</PackageTags>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+        <GenerateSBOM>true</GenerateSBOM>
         <PackageReleaseNotes>
             [Fix] ClassifierExtensions.QueryContainers
         </PackageReleaseNotes>
@@ -39,5 +41,6 @@
 
     <ItemGroup>
         <PackageReference Include="HtmlAgilityPack" Version="1.12.2" />
+        <PackageReference Include="Microsoft.Sbom.Targets" Version="4.1.0" PrivateAssets="all" />
     </ItemGroup>
 </Project>

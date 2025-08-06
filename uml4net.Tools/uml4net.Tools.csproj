@@ -17,6 +17,7 @@
         <PackageTags>UML XMI modeltopia</PackageTags>
         <NeutralLanguage>en-US</NeutralLanguage>
         <SatelliteResourceLanguages>en-US</SatelliteResourceLanguages>
+        <GenerateSBOM>true</GenerateSBOM>
         <PackageReleaseNotes>
             [Bump] uml4net.Reporting to version 5.0.2
         </PackageReleaseNotes>
@@ -51,6 +52,7 @@
         <PackageReference Include="System.CommandLine" Version="2.0.0-beta4.22272.1" />
         <PackageReference Include="System.CommandLine.Hosting" Version="0.4.0-alpha.22272.1" />
         <PackageReference Include="Spectre.Console" Version="0.50.0" />
+        <PackageReference Include="Microsoft.Sbom.Targets" Version="4.1.0" PrivateAssets="all" />
     </ItemGroup>
 
     <ItemGroup Label="Transitive Dependency overrides">
