@@ -24,7 +24,6 @@
 
 namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure
 {
-    using System;
     using System.CodeDom.Compiler;
     using System.Collections.Generic;
 
@@ -77,8 +76,23 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure
 
         /// <summary>
         /// </summary>
+        [Property(xmiId: "EAID_srcA73D13_C0FB_445f_892D_AE9C6FF1BD6A", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        public IContainerList<ITemplateBinding> TemplateBinding { get; set; }
+
+        /// <summary>
+        /// </summary>
         [Property(xmiId: "EAID_srcC87A37_7100_4360_B75E_CCA9B591076A", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         public IContainerList<IAbstraction> Abstraction { get; set; }
+
+        /// <summary>
+        /// </summary>
+        [Property(xmiId: "EAID_src651CB9_65AD_4e09_B0EA_2BB5E0A40F1D", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        public IContainerList<INoteLink> NoteLink { get; set; }
+
+        /// <summary>
+        /// </summary>
+        [Property(xmiId: "EAID_src297E45_68BF_40e4_8686_F85EB6092677", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        public IContainerList<IGeneralization> Generalization { get; set; }
     }
 }
 

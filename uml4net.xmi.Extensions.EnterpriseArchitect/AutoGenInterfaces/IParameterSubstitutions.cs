@@ -24,7 +24,6 @@
 
 namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure
 {
-    using System;
     using System.CodeDom.Compiler;
     using System.Collections.Generic;
 
@@ -50,6 +49,10 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure
     [GeneratedCode("uml4net", "latest")]
     public partial interface IParameterSubstitutions : uml4net.CommonStructure.IElement
     {
+        /// <summary>
+        /// </summary>
+        [Property(xmiId: "EAID_srcEF7360_D1CC_4b99_99F5_EA66C4DF4198", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        public IContainerList<IParameterSubstitution> ParameterSubstitution { get; set; }
     }
 }
 

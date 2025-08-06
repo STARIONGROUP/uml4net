@@ -24,7 +24,6 @@
 
 namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure
 {
-    using System;
     using System.CodeDom.Compiler;
     using System.Collections.Generic;
 

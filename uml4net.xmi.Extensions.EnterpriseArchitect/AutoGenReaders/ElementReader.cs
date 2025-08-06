@@ -211,6 +211,10 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure.Readers
                                 var tagsValue = (ITagsCollection)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.LoggerFactory, "TagsCollection", true);
                                 poco.Tags.Add(tagsValue);
                                 break;
+                            case "templateParameters":
+                                var templateParametersValue = (ITemplateParametersCollection)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.LoggerFactory, "TemplateParametersCollection", true);
+                                poco.TemplateParameters.Add(templateParametersValue);
+                                break;
                             case "times":
                                 var timesValue = (ITimes)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.LoggerFactory, "Times", true);
                                 poco.Times.Add(timesValue);

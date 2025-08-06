@@ -59,6 +59,20 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure
         /// </summary>
         public CommonStructure.IElement Possessor { get; set; }
 
+        /// <summary>
+        /// </summary>
+        [Property(xmiId: "EAID_srcEF7360_D1CC_4b99_99F5_EA66C4DF4198", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Implements(implementation: "IParameterSubstitutions.ParameterSubstitution")]
+        public IContainerList<IParameterSubstitution> ParameterSubstitution
+        {
+            get => this.parameterSubstitution ??= new ContainerList<IParameterSubstitution>(this);
+            set => this.parameterSubstitution = value;
+        }
+
+        /// <summary>
+        /// Backing field for <see cref="ParameterSubstitution"/>
+        /// </summary>
+        private IContainerList<IParameterSubstitution> parameterSubstitution;
     }
 }
 

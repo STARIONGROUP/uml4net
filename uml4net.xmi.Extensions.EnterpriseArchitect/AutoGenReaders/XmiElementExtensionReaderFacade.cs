@@ -242,6 +242,13 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure.Readers
                 return flagsReader.Read(subXmlReader, documentName, namespaceUri);
             };
 
+            this.ReaderCache["Generalization"] = (cache, xmiReaderSettings, loggerFactory, xmlReader, documentName, namespaceUri) =>
+            {
+                using var subXmlReader = xmlReader.ReadSubtree();
+                var generalizationReader = new GeneralizationReader(cache, this, xmiReaderSettings, loggerFactory);
+                return generalizationReader.Read(subXmlReader, documentName, namespaceUri);
+            };
+
             this.ReaderCache["Initial"] = (cache, xmiReaderSettings, loggerFactory, xmlReader, documentName, namespaceUri) =>
             {
                 using var subXmlReader = xmlReader.ReadSubtree();
@@ -282,6 +289,13 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure.Readers
                 using var subXmlReader = xmlReader.ReadSubtree();
                 var nestingReader = new NestingReader(cache, this, xmiReaderSettings, loggerFactory);
                 return nestingReader.Read(subXmlReader, documentName, namespaceUri);
+            };
+
+            this.ReaderCache["NoteLink"] = (cache, xmiReaderSettings, loggerFactory, xmlReader, documentName, namespaceUri) =>
+            {
+                using var subXmlReader = xmlReader.ReadSubtree();
+                var noteLinkReader = new NoteLinkReader(cache, this, xmiReaderSettings, loggerFactory);
+                return noteLinkReader.Read(subXmlReader, documentName, namespaceUri);
             };
 
             this.ReaderCache["Operation"] = (cache, xmiReaderSettings, loggerFactory, xmlReader, documentName, namespaceUri) =>
@@ -338,6 +352,13 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure.Readers
                 using var subXmlReader = xmlReader.ReadSubtree();
                 var parametersCollectionReader = new ParametersCollectionReader(cache, this, xmiReaderSettings, loggerFactory);
                 return parametersCollectionReader.Read(subXmlReader, documentName, namespaceUri);
+            };
+
+            this.ReaderCache["ParameterSubstitution"] = (cache, xmiReaderSettings, loggerFactory, xmlReader, documentName, namespaceUri) =>
+            {
+                using var subXmlReader = xmlReader.ReadSubtree();
+                var parameterSubstitutionReader = new ParameterSubstitutionReader(cache, this, xmiReaderSettings, loggerFactory);
+                return parameterSubstitutionReader.Read(subXmlReader, documentName, namespaceUri);
             };
 
             this.ReaderCache["ParameterSubstitutions"] = (cache, xmiReaderSettings, loggerFactory, xmlReader, documentName, namespaceUri) =>
@@ -408,6 +429,20 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure.Readers
                 using var subXmlReader = xmlReader.ReadSubtree();
                 var tagsCollectionReader = new TagsCollectionReader(cache, this, xmiReaderSettings, loggerFactory);
                 return tagsCollectionReader.Read(subXmlReader, documentName, namespaceUri);
+            };
+
+            this.ReaderCache["TemplateBinding"] = (cache, xmiReaderSettings, loggerFactory, xmlReader, documentName, namespaceUri) =>
+            {
+                using var subXmlReader = xmlReader.ReadSubtree();
+                var templateBindingReader = new TemplateBindingReader(cache, this, xmiReaderSettings, loggerFactory);
+                return templateBindingReader.Read(subXmlReader, documentName, namespaceUri);
+            };
+
+            this.ReaderCache["TemplateParametersCollection"] = (cache, xmiReaderSettings, loggerFactory, xmlReader, documentName, namespaceUri) =>
+            {
+                using var subXmlReader = xmlReader.ReadSubtree();
+                var templateParametersCollectionReader = new TemplateParametersCollectionReader(cache, this, xmiReaderSettings, loggerFactory);
+                return templateParametersCollectionReader.Read(subXmlReader, documentName, namespaceUri);
             };
 
             this.ReaderCache["Times"] = (cache, xmiReaderSettings, loggerFactory, xmlReader, documentName, namespaceUri) =>

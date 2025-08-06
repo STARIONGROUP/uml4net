@@ -139,6 +139,10 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure.Readers
                     {
                         switch (xmlReader.LocalName.LowerCaseFirstLetter())
                         {
+                            case "parameterSubstitution":
+                                var parameterSubstitutionValue = (IParameterSubstitution)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.LoggerFactory, "ParameterSubstitution", true);
+                                poco.ParameterSubstitution.Add(parameterSubstitutionValue);
+                                break;
                             default:
                                 var couldHandleReadElement = this.HandleManualXmlRead(poco, xmlReader, documentName, namespaceUri);
 

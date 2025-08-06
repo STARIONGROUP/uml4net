@@ -132,19 +132,9 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure.Readers
                     this.Logger.LogCritical("Failed to add element type [{Poco}] with id [{Id}] as it was already in the Cache. The XMI document seems to have duplicate xmi:id values", "Bounds", poco.XmiId);
                 }
 
-                var lowerXmlAttribute = xmlReader.GetAttribute("lower");
+                poco.Lower = xmlReader.GetAttribute("lower");
 
-                if (!string.IsNullOrEmpty(lowerXmlAttribute))
-                {
-                    poco.Lower = int.Parse(lowerXmlAttribute);
-                }
-
-                var upperXmlAttribute = xmlReader.GetAttribute("upper");
-
-                if (!string.IsNullOrEmpty(upperXmlAttribute))
-                {
-                    poco.Upper = int.Parse(upperXmlAttribute);
-                }
+                poco.Upper = xmlReader.GetAttribute("upper");
 
 
                 while (xmlReader.Read())
@@ -154,22 +144,10 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure.Readers
                         switch (xmlReader.LocalName.LowerCaseFirstLetter())
                         {
                             case "lower":
-                                var lowerValue = xmlReader.ReadElementContentAsString();
-
-                                if (!string.IsNullOrEmpty(lowerValue))
-                                {
-                                    poco.Lower = int.Parse(lowerValue);
-                                }
-
+                                poco.Lower = xmlReader.ReadElementContentAsString();
                                 break;
                             case "upper":
-                                var upperValue = xmlReader.ReadElementContentAsString();
-
-                                if (!string.IsNullOrEmpty(upperValue))
-                                {
-                                    poco.Upper = int.Parse(upperValue);
-                                }
-
+                                poco.Upper = xmlReader.ReadElementContentAsString();
                                 break;
                             default:
                                 var couldHandleReadElement = this.HandleManualXmlRead(poco, xmlReader, documentName, namespaceUri);
