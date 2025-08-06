@@ -24,7 +24,6 @@
 
 namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure
 {
-    using System;
     using System.CodeDom.Compiler;
     using System.Collections.Generic;
 
@@ -53,12 +52,12 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure
         /// <summary>
         /// </summary>
         [Property(xmiId: "EAID_8051C8F2_A4EE_7AA8_87DE_3482D06680AA", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
-        public int Lower { get; set; }
+        public string Lower { get; set; }
 
         /// <summary>
         /// </summary>
         [Property(xmiId: "EAID_B43AB739_ADA3_577E_8E38_9AF2F937BAE5", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
-        public int Upper { get; set; }
+        public string Upper { get; set; }
     }
 }
 

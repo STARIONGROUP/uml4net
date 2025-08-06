@@ -274,6 +274,21 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure
 
         /// <summary>
         /// </summary>
+        [Property(xmiId: "EAID_src50F7AD_5DFF_40c4_B473_232336BF3E8D", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Implements(implementation: "IElement.TemplateParameters")]
+        public IContainerList<ITemplateParametersCollection> TemplateParameters
+        {
+            get => this.templateParameters ??= new ContainerList<ITemplateParametersCollection>(this);
+            set => this.templateParameters = value;
+        }
+
+        /// <summary>
+        /// Backing field for <see cref="TemplateParameters"/>
+        /// </summary>
+        private IContainerList<ITemplateParametersCollection> templateParameters;
+
+        /// <summary>
+        /// </summary>
         [Property(xmiId: "EAID_src423E98_7EFC_50D3_B556_5D67372DBB7E", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [Implements(implementation: "IElement.Times")]
         public IContainerList<ITimes> Times

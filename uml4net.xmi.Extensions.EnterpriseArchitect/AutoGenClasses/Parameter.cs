@@ -61,6 +61,12 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure
 
         /// <summary>
         /// </summary>
+        [Property(xmiId: "EAID_B5BAAD11_4059_43b0_AD1F_7BA120ED913C", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Implements(implementation: "IParameter.Constrains")]
+        public string Constrains { get; set; }
+
+        /// <summary>
+        /// </summary>
         [Property(xmiId: "EAID_src54B7A4_2540_8975_AEE4_82E775F27BA5", aggregation: AggregationKind.Composite, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [Implements(implementation: "IDocumentedElement.Documentation")]
         public IContainerList<IDocumentation> Documentation

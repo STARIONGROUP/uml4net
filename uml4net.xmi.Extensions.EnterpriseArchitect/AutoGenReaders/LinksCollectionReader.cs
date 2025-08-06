@@ -155,13 +155,25 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure.Readers
                                 var dependencyValue = (IDependency)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.LoggerFactory, "Dependency", true);
                                 poco.Dependency.Add(dependencyValue);
                                 break;
+                            case "generalization":
+                                var generalizationValue = (IGeneralization)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.LoggerFactory, "Generalization", true);
+                                poco.Generalization.Add(generalizationValue);
+                                break;
                             case "nesting":
                                 var nestingValue = (INesting)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.LoggerFactory, "Nesting", true);
                                 poco.Nesting.Add(nestingValue);
                                 break;
+                            case "noteLink":
+                                var noteLinkValue = (INoteLink)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.LoggerFactory, "NoteLink", true);
+                                poco.NoteLink.Add(noteLinkValue);
+                                break;
                             case "realisation":
                                 var realisationValue = (IRealisation)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.LoggerFactory, "Realisation", true);
                                 poco.Realisation.Add(realisationValue);
+                                break;
+                            case "templateBinding":
+                                var templateBindingValue = (ITemplateBinding)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.LoggerFactory, "TemplateBinding", true);
+                                poco.TemplateBinding.Add(templateBindingValue);
                                 break;
                             default:
                                 var couldHandleReadElement = this.HandleManualXmlRead(poco, xmlReader, documentName, namespaceUri);

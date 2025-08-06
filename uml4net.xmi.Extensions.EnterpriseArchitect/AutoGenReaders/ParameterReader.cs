@@ -132,6 +132,8 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure.Readers
                     this.Logger.LogCritical("Failed to add element type [{Poco}] with id [{Id}] as it was already in the Cache. The XMI document seems to have duplicate xmi:id values", "Parameter", poco.XmiId);
                 }
 
+                poco.Constrains = xmlReader.GetAttribute("constrains");
+
                 var extendedElementXmlAttribute = xmlReader.GetAttribute("extendedElement");
 
                 if (!string.IsNullOrEmpty(extendedElementXmlAttribute))
@@ -148,6 +150,9 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure.Readers
                     {
                         switch (xmlReader.LocalName.LowerCaseFirstLetter())
                         {
+                            case "constrains":
+                                poco.Constrains = xmlReader.ReadElementContentAsString();
+                                break;
                             case "documentation":
                                 var documentationValue = (IDocumentation)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.LoggerFactory, "Documentation", true);
                                 poco.Documentation.Add(documentationValue);

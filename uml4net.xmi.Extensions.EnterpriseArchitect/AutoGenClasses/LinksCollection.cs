@@ -121,6 +121,21 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure
 
         /// <summary>
         /// </summary>
+        [Property(xmiId: "EAID_src297E45_68BF_40e4_8686_F85EB6092677", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Implements(implementation: "ILinksCollection.Generalization")]
+        public IContainerList<IGeneralization> Generalization
+        {
+            get => this.generalization ??= new ContainerList<IGeneralization>(this);
+            set => this.generalization = value;
+        }
+
+        /// <summary>
+        /// Backing field for <see cref="Generalization"/>
+        /// </summary>
+        private IContainerList<IGeneralization> generalization;
+
+        /// <summary>
+        /// </summary>
         [Property(xmiId: "EAID_srcD57C83_8F6B_46d7_BB69_BD3460C8A307", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [Implements(implementation: "ILinksCollection.Nesting")]
         public IContainerList<INesting> Nesting
@@ -136,6 +151,21 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure
 
         /// <summary>
         /// </summary>
+        [Property(xmiId: "EAID_src651CB9_65AD_4e09_B0EA_2BB5E0A40F1D", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Implements(implementation: "ILinksCollection.NoteLink")]
+        public IContainerList<INoteLink> NoteLink
+        {
+            get => this.noteLink ??= new ContainerList<INoteLink>(this);
+            set => this.noteLink = value;
+        }
+
+        /// <summary>
+        /// Backing field for <see cref="NoteLink"/>
+        /// </summary>
+        private IContainerList<INoteLink> noteLink;
+
+        /// <summary>
+        /// </summary>
         [Property(xmiId: "EAID_src7F468F_F87A_4661_BCE7_737B6A6C7413", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [Implements(implementation: "ILinksCollection.Realisation")]
         public IContainerList<IRealisation> Realisation
@@ -148,6 +178,21 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure
         /// Backing field for <see cref="Realisation"/>
         /// </summary>
         private IContainerList<IRealisation> realisation;
+
+        /// <summary>
+        /// </summary>
+        [Property(xmiId: "EAID_srcA73D13_C0FB_445f_892D_AE9C6FF1BD6A", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Implements(implementation: "ILinksCollection.TemplateBinding")]
+        public IContainerList<ITemplateBinding> TemplateBinding
+        {
+            get => this.templateBinding ??= new ContainerList<ITemplateBinding>(this);
+            set => this.templateBinding = value;
+        }
+
+        /// <summary>
+        /// Backing field for <see cref="TemplateBinding"/>
+        /// </summary>
+        private IContainerList<ITemplateBinding> templateBinding;
     }
 }
 
