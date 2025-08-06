@@ -32,9 +32,10 @@ namespace uml4net.Tools
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Logging.Console;
     using Microsoft.Extensions.Hosting;
-    
+
     using Spectre.Console;
 
+    using uml4net.Reporting.Drawing;
     using uml4net.Reporting.Generators;
     using uml4net.Tools.Commands;
     using uml4net.Tools.Middlewares;
@@ -62,6 +63,7 @@ namespace uml4net.Tools
                     , builder => builder
                         .ConfigureServices((services) =>
                         {
+                            services.AddSingleton<IInheritanceDiagramRenderer, InheritanceDiagramRenderer>();
                             services.AddSingleton<IXlReportGenerator, XlReportGenerator>();
                             services.AddSingleton<IModelInspector, ModelInspector>();
                             services.AddSingleton<IHtmlReportGenerator, HtmlReportGenerator>();

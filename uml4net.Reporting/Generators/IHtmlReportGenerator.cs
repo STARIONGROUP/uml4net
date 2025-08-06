@@ -46,9 +46,12 @@ namespace uml4net.Reporting.Generators
         /// <param name="pathMap">
         /// a dictionary of key-value pairs used to map PATHMAP references to local xmi files
         /// </param>
+        /// <param name="customHtml">
+        /// Custom HTML that will be displayed below the Starion logo
+        /// </param>
         /// <returns>
         /// the content of an HTML report in a string
         /// </returns>
-        public string GenerateReport(FileInfo modelPath, DirectoryInfo rootDirectory, bool useStrictReading, Dictionary<string, string> pathMap);
+        public string GenerateReport(FileInfo modelPath, DirectoryInfo rootDirectory, bool useStrictReading, Dictionary<string, string> pathMap, string customHtml = "");
     }
 }

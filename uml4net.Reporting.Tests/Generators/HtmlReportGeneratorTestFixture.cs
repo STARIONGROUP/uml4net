@@ -23,8 +23,9 @@ namespace uml4net.Reporting.Tests.Generators
     using System.Collections.Generic;
     using System.IO;
     using Microsoft.Extensions.Logging;
-
+    using Moq;
     using NUnit.Framework;
+    using Reporting.Drawing;
     using Reporting.Generators;
     using Serilog;
 
@@ -32,6 +33,8 @@ namespace uml4net.Reporting.Tests.Generators
     public class HtmlReportGeneratorTestFixture
     {
         private ILoggerFactory loggerFactory;
+
+        private InheritanceDiagramRenderer inheritanceDiagramRenderer;
 
         private HtmlReportGenerator htmlReportGenerator;
 
@@ -54,6 +57,8 @@ namespace uml4net.Reporting.Tests.Generators
                 builder.AddSerilog();
             });
 
+            this.inheritanceDiagramRenderer = new InheritanceDiagramRenderer(loggerFactory.CreateLogger<InheritanceDiagramRenderer>());
+
             this.umlModelFileInfo = new FileInfo(Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData", "UML.xmi"));
             this.sysml2ModelFileInfo = new FileInfo(Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData", "SysML.uml"));
             this.sysml2PimFileInfo = new FileInfo(Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData", "SysML2Pim.uml"));
@@ -62,7 +67,7 @@ namespace uml4net.Reporting.Tests.Generators
         [Test]
         public void Verify_that_the_report_generator_generates_a_report_of_uml()
         {
-            this.htmlReportGenerator = new HtmlReportGenerator(this.loggerFactory);
+            this.htmlReportGenerator = new HtmlReportGenerator(this.inheritanceDiagramRenderer, this.loggerFactory);
 
             var reportFileInfo = new FileInfo(Path.Combine(TestContext.CurrentContext.TestDirectory, "uml-html-report.html"));
 
@@ -74,7 +79,7 @@ namespace uml4net.Reporting.Tests.Generators
         [Test]
         public void Verify_that_the_report_generator_generates_a_report_of_sysml2()
         {
-            this.htmlReportGenerator = new HtmlReportGenerator(this.loggerFactory);
+            this.htmlReportGenerator = new HtmlReportGenerator(this.inheritanceDiagramRenderer, this.loggerFactory);
 
             var reportFileInfo = new FileInfo(Path.Combine(TestContext.CurrentContext.TestDirectory, "sysml2-html-report.html"));
 
@@ -85,9 +90,28 @@ namespace uml4net.Reporting.Tests.Generators
         }
 
         [Test]
+        public void Verify_that_the_report_generator_generates_a_report_of_sysml2_with_Custom_html()
+        {
+            this.htmlReportGenerator = new HtmlReportGenerator(this.inheritanceDiagramRenderer, this.loggerFactory);
+
+            var reportFileInfo = new FileInfo(Path.Combine(TestContext.CurrentContext.TestDirectory, "sysml2-html-report.html"));
+
+            var pathmap = new Dictionary<string, string>();
+            pathmap.Add("pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml", Path.Combine("TestData", "PrimitiveTypes.xmi"));
+
+            var customHtml = """
+                             <H1>OMG SysML&#174; Version 2 <a href="https://github.com/Systems-Modeling/SysML-v2-Pilot-Implementation/blob/master/org.omg.sysml/model/SysML_xmi.uml">UML based Meta Model Documentation</a></H1>
+                             <H3><a href="https://github.com/Systems-Modeling/SysML-v2-Pilot-Implementation/releases/tag/2025-06" target="_blank">Release 2025-06</a></H3>
+                             <p class="small">Powered By <a href="https://www.stariongroup.eu" target="_blank">Starion Group</a>, 2022-2025</p>
+                             """;
+
+            Assert.That(() => this.htmlReportGenerator.GenerateReport(this.sysml2ModelFileInfo, this.umlModelFileInfo.Directory, true, pathmap, reportFileInfo), Throws.Nothing);
+        }
+
+        [Test]
         public void Verify_that_the_report_generator_generators_a_report_of_syml2pim()
         {
-            this.htmlReportGenerator = new HtmlReportGenerator(this.loggerFactory);
+            this.htmlReportGenerator = new HtmlReportGenerator(this.inheritanceDiagramRenderer, this.loggerFactory);
 
             Extensions.PropertyExtensions.AddOrOverwriteCSharpTypeMappings(("ISO8601DateTime", "DateTime"));
 

@@ -81,6 +81,9 @@ namespace uml4net.Reporting.Generators
         /// <returns>
         /// the content of an HTML report in a string
         /// </returns>
+        /// <param name="customContent">
+        /// Custom content that is ignored in this generator
+        /// </param>
         public string GenerateReport(FileInfo modelPath, DirectoryInfo rootDirectory, bool useStrictReading, Dictionary<string, string> pathMap)
         {
             throw new NotImplementedException();
@@ -106,7 +109,10 @@ namespace uml4net.Reporting.Generators
         /// <param name="outputPath">
         /// the path, including filename, where the output is to be generated.
         /// </param>
-        public void GenerateReport(FileInfo modelPath, DirectoryInfo rootDirectory, bool useStrictReading, Dictionary<string, string> pathMap, FileInfo outputPath)
+        /// <param name="customContent">
+        /// Custom content that is ignored in this generator
+        /// </param>
+        public void GenerateReport(FileInfo modelPath, DirectoryInfo rootDirectory, bool useStrictReading, Dictionary<string, string> pathMap, FileInfo outputPath, string customContent = "")
         {
             if (outputPath == null)
             {

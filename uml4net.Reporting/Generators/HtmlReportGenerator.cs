@@ -24,10 +24,10 @@ namespace uml4net.Reporting.Generators
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.IO;
-
+    using Drawing;
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Logging.Abstractions;
-
+    using Payload;
     using uml4net.HandleBars;
 
     using DocumentationHelper = uml4net.Reporting.Helpers.DocumentationHelper;
@@ -44,13 +44,24 @@ namespace uml4net.Reporting.Generators
         private readonly ILogger<HtmlReportGenerator> logger;
 
         /// <summary>
+        /// The (injected) <see cref="IInheritanceDiagramRenderer"/> used to render
+        /// the inheritance diagram of the UML model
+        /// </summary>
+        private readonly IInheritanceDiagramRenderer inheritanceDiagramRenderer;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="HtmlReportGenerator" /> class.
         /// </summary>
+        /// <param name="inheritanceDiagramRenderer">
+        /// The (injected) <see cref="IInheritanceDiagramRenderer"/> used to render and
+        /// SVG diagram of the uml model
+        /// </param>
         /// <param name="loggerFactory">
         /// The (injected) <see cref="ILoggerFactory" /> used to set up logging
         /// </param>
-        public HtmlReportGenerator(ILoggerFactory loggerFactory = null) : base(loggerFactory)
+        public HtmlReportGenerator(IInheritanceDiagramRenderer inheritanceDiagramRenderer, ILoggerFactory loggerFactory = null) : base(loggerFactory)
         {
+            this.inheritanceDiagramRenderer = inheritanceDiagramRenderer;
             this.logger = loggerFactory == null ? NullLogger<HtmlReportGenerator>.Instance : loggerFactory.CreateLogger<HtmlReportGenerator>();
         }
 
@@ -82,10 +93,13 @@ namespace uml4net.Reporting.Generators
         /// <param name="pathMap">
         /// a dictionary of key-value pairs used to map PATHMAP references to local xmi files
         /// </param>
+        /// <param name="customHtml">
+        /// Custom HTML that will be displayed below the Starion logo
+        /// </param>
         /// <returns>
         /// the content of an HTML report in a string
         /// </returns>
-        public string GenerateReport(FileInfo modelPath, DirectoryInfo rootDirectory, bool useStrictReading, Dictionary<string, string> pathMap)
+        public string GenerateReport(FileInfo modelPath, DirectoryInfo rootDirectory, bool useStrictReading, Dictionary<string, string> pathMap, string customHtml = "")
         {
             if (modelPath == null)
             {
@@ -107,9 +121,16 @@ namespace uml4net.Reporting.Generators
 
             var xmiReaderResult = this.LoadPackages(modelPath, rootDirectory, useStrictReading, pathMap);
 
-            var payload = CreateHandlebarsPayload(xmiReaderResult);
+            var payload = HandlebarsPayloadFactory.CreateHandlebarsPayload(xmiReaderResult);
 
-            var generatedHtml = template(payload);
+            var inheritanceDiagramSvg = this.inheritanceDiagramRenderer.SvgRender(xmiReaderResult);
+
+            var generatedHtml = template(new
+            {
+                Payload = payload,
+                InheritanceDiagramSvg = inheritanceDiagramSvg,
+                CustomHtml = customHtml
+            });
 
             this.logger.LogInformation("Generated HTML report in {ElapsedTime} [ms]", sw.ElapsedMilliseconds);
 
@@ -136,7 +157,10 @@ namespace uml4net.Reporting.Generators
         /// <param name="outputPath">
         /// the path, including filename, where the output is to be generated.
         /// </param>
-        public void GenerateReport(FileInfo modelPath, DirectoryInfo rootDirectory, bool useStrictReading, Dictionary<string, string> pathMap, FileInfo outputPath)
+        /// <param name="customContent">
+        /// Custom HTML that will be displayed below the Starion logo
+        /// </param>
+        public void GenerateReport(FileInfo modelPath, DirectoryInfo rootDirectory, bool useStrictReading, Dictionary<string, string> pathMap, FileInfo outputPath, string customContent = "")
         {
             if (modelPath == null)
             {
@@ -152,7 +176,7 @@ namespace uml4net.Reporting.Generators
 
             var sw = Stopwatch.StartNew();
 
-            var generatedHtml = this.GenerateReport(modelPath, rootDirectory, useStrictReading, pathMap);
+            var generatedHtml = this.GenerateReport(modelPath, rootDirectory, useStrictReading, pathMap, customContent);
 
             if (outputPath.Exists)
             {

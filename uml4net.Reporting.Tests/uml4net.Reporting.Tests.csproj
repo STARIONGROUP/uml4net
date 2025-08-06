@@ -57,4 +57,8 @@
         </None>
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Drawing\" />
+    </ItemGroup>
+
 </Project>

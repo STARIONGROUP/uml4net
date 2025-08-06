@@ -36,7 +36,7 @@ namespace uml4net.Reporting.Generators
         /// Gets or sets the assert that the <see cref="EnterpriseArchitectXmiReader"/> should be used
         /// </summary>
         bool ShouldUseEnterpriseArchitectReader { get; set; }
-        
+
         /// <summary>
         /// Generates a report that contains all classes, attributes and their documentation
         /// </summary>
@@ -57,7 +57,10 @@ namespace uml4net.Reporting.Generators
         /// <param name="outputPath">
         /// the path, including filename, where the output is to be generated.
         /// </param>
-        public void GenerateReport(FileInfo modelPath, DirectoryInfo rootDirectory, bool useStrictReading, Dictionary<string, string> pathMap, FileInfo outputPath);
+        /// <param name="customContent">
+        /// Custom content that will be displayed below the Starion logo
+        /// </param>
+        public void GenerateReport(FileInfo modelPath, DirectoryInfo rootDirectory, bool useStrictReading, Dictionary<string, string> pathMap, FileInfo outputPath, string customContent = "");
 
         /// <summary>
         /// Verifies whether the extension of the <paramref name="outputPath"/> is valid or not
