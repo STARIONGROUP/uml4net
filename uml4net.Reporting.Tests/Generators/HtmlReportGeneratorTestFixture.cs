@@ -100,9 +100,11 @@ namespace uml4net.Reporting.Tests.Generators
             pathmap.Add("pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml", Path.Combine("TestData", "PrimitiveTypes.xmi"));
 
             var customHtml = """
-                             <H1>OMG SysML&#174; Version 2 <a href="https://github.com/Systems-Modeling/SysML-v2-Pilot-Implementation/blob/master/org.omg.sysml/model/SysML_xmi.uml">UML based Meta Model Documentation</a></H1>
-                             <H3><a href="https://github.com/Systems-Modeling/SysML-v2-Pilot-Implementation/releases/tag/2025-06" target="_blank">Release 2025-06</a></H3>
-                             <p class="small">Powered By <a href="https://www.stariongroup.eu" target="_blank">Starion Group</a>, 2022-2025</p>
+                             <div style="text-align: center;">
+                             <H1>OMG SysML&#174; Version 2 <a href="https://github.com/Systems-Modeling/SysML-v2-Pilot-Implementation/blob/master/org.omg.sysml/model/SysML_xmi.uml" target="_blank" rel="noopener noreferrer">UML based Meta Model Documentation</a></H1>
+                             <H3><a href="https://github.com/Systems-Modeling/SysML-v2-Pilot-Implementation/releases/tag/2025-06" target="_blank" rel="noopener noreferrer">Release 2025-06</a></H3>
+                             <p class="small">Powered By <a href="https://www.stariongroup.eu" target="_blank" rel="noopener noreferrer">Starion Group</a>, 2022-2025</p>
+                             <div>
                              """;
 
             Assert.That(() => this.htmlReportGenerator.GenerateReport(this.sysml2ModelFileInfo, this.umlModelFileInfo.Directory, true, pathmap, reportFileInfo, customHtml), Throws.Nothing);
