@@ -2,7 +2,7 @@
 
     <PropertyGroup>
         <Description>A .NET implementation of the OMG UML v2.5.1 specification.</Description>
-        <Version>4.0.2</Version>
+        <Version>4.0.3</Version>
         <PackageId>uml4net.xmi</PackageId>
         <LangVersion>12.0</LangVersion>
         <TargetFramework>netstandard2.0</TargetFramework>
@@ -28,7 +28,9 @@
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
         <GenerateSBOM>true</GenerateSBOM>
         <PackageReleaseNotes>
-            [Update] Allow inheritance for the XmiElementReaderFacade
+            [Update] to uml4net version 3.0.1
+            [Update] to Autofac version 8.4.0
+            [Add] SBOM to nuget package
         </PackageReleaseNotes>
     </PropertyGroup>
 

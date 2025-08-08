@@ -2,7 +2,7 @@
 
     <PropertyGroup>
         <TargetFramework>netstandard2.0</TargetFramework>
-        <Version>4.0.1</Version>
+        <Version>4.0.2</Version>
         <LangVersion>12.0</LangVersion>
         <Company>Starion Group S.A.</Company>
         <Copyright>Copyright © Starion Group S.A.</Copyright>
@@ -26,7 +26,9 @@
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
         <GenerateSBOM>true</GenerateSBOM>
         <PackageReleaseNotes>
-            [Fix] ClassifierExtensions.QueryContainers
+            [Update] to uml4net version 3.0.1
+            [Update] HtmlAgilityPack to version 1.12.2
+            [Add] SBOM to nuget package
         </PackageReleaseNotes>
     </PropertyGroup>
 
