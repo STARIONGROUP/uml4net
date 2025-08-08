@@ -87,10 +87,10 @@ namespace uml4net.Reporting.Generators
             }
 
             // Step 1: Map class to property variations
-            var classPropertyVariations = this.MapClassPropertyVariation(package);
+            var classPropertyVariations = MapClassPropertyVariation(package);
 
             // Step 2: Greedy algorithm to cover all property variations with the fewest classes
-            var result = this.ReduceClassPropertyVariationToInterestingClasses(classPropertyVariations);
+            var result = ReduceClassPropertyVariationToInterestingClasses(classPropertyVariations);
 
             var sb = new StringBuilder();
 
@@ -139,7 +139,7 @@ namespace uml4net.Reporting.Generators
         /// a Dictionary of <see cref="IClass"/> and associated <see cref="HashSet{T}"/> of property
         /// variations for that class
         /// </returns>
-        private Dictionary<IClass, HashSet<string>> MapClassPropertyVariation(IPackage package)
+        private static Dictionary<IClass, HashSet<string>> MapClassPropertyVariation(IPackage package)
         {
             var classPropertyVariations = new Dictionary<IClass, HashSet<string>>();
 
@@ -247,7 +247,7 @@ namespace uml4net.Reporting.Generators
         /// <returns>
         /// a reduced set of <see cref="IClass"/> and <see cref="IProperty"/> variations.
         /// </returns>
-        private IReadOnlyList<IClass> ReduceClassPropertyVariationToInterestingClasses(Dictionary<IClass, HashSet<string>> classPropertyVariations)
+        private static IReadOnlyList<IClass> ReduceClassPropertyVariationToInterestingClasses(Dictionary<IClass, HashSet<string>> classPropertyVariations)
         {
             var dictionaryClone = new Dictionary<IClass, HashSet<string>>(classPropertyVariations);
 
@@ -297,10 +297,10 @@ namespace uml4net.Reporting.Generators
             }
 
             // Step 1: Map class to property variations
-            var classPropertyVariations = this.MapClassPropertyVariation(package);
+            var classPropertyVariations = MapClassPropertyVariation(package);
 
             // Step 2: Greedy algorithm to cover all property variations with the fewest classes
-            var result = this.ReduceClassPropertyVariationToInterestingClasses(classPropertyVariations)
+            var result = ReduceClassPropertyVariationToInterestingClasses(classPropertyVariations)
                 .OrderBy(x => x.Name).ToList();
 
             return result;
@@ -463,7 +463,7 @@ namespace uml4net.Reporting.Generators
             sb.AppendLine("---------- Package.Class:Property ---------");
             sb.AppendLine("");
 
-            this.AnalyzeDocumentation(package, sb);
+            AnalyzeDocumentation(package, sb);
 
             sb.AppendLine("");
 
@@ -482,7 +482,7 @@ namespace uml4net.Reporting.Generators
         /// <param name="sb">
         /// The <see cref="StringBuilder"/> to which the analysis results are written
         /// </param>
-        private void AnalyzeDocumentation(IPackage package, StringBuilder sb)
+        private static void AnalyzeDocumentation(IPackage package, StringBuilder sb)
         {
             var classes = package.QueryPackages().SelectMany(x => x.PackagedElement.OfType<IClass>()).OrderBy(x => x.Name).ToList();
 

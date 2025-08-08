@@ -366,11 +366,11 @@ namespace uml4net.Reporting.Drawing
                     }
                     break;
 
-                case RoundedRect roundedRect:
+                case RoundedRect:
                     this.logger.LogWarning("RoundedRect is not (yet) supported");
                     break;
 
-                case Ellipse ellipse:
+                case Ellipse:
                     this.logger.LogWarning("Ellipse is not (yet) supported");
                     break;
 

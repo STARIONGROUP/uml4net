@@ -37,11 +37,6 @@ namespace uml4net.Reporting.Generators
     public class XmiInspector : IXmiInspector
     {
         /// <summary>
-        /// The (injected) <see cref="ILoggerFactory"/> used to set up logging
-        /// </summary>
-        private readonly ILoggerFactory loggerFactory;
-
-        /// <summary>
         /// The <see cref="ILogger"/> used to log
         /// </summary>
         private readonly ILogger<XmiInspector> logger;
@@ -54,9 +49,7 @@ namespace uml4net.Reporting.Generators
         /// </param>
         public XmiInspector(ILoggerFactory loggerFactory = null)
         {
-            this.loggerFactory = loggerFactory;
-
-            this.logger = this.loggerFactory == null ? NullLogger<XmiInspector>.Instance : this.loggerFactory.CreateLogger<XmiInspector>();
+            this.logger = loggerFactory == null ? NullLogger<XmiInspector>.Instance : loggerFactory.CreateLogger<XmiInspector>();
         }
 
         /// <summary>

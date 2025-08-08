@@ -22,16 +22,15 @@ namespace uml4net.Extensions
 {
     using System;
     using System.Collections.Generic;
-    
     using System.Globalization;
     using System.Linq;
-    
+
     using uml4net.Classification;
     using uml4net.CommonStructure;
     using uml4net.SimpleClassifiers;
     using uml4net.StructuredClassifiers;
     using uml4net.Values;
-    
+
     /// <summary>
     /// Extension methods for <see cref="IProperty"/> class
     /// </summary>

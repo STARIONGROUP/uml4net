@@ -42,7 +42,7 @@ namespace uml4net.Tools.Commands
         /// <summary>
         /// The PathMap dictionary from which path maps can be resolved
         /// </summary>
-        private Dictionary<string, string> pathMap = [];
+        private readonly Dictionary<string, string> pathMap = [];
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ReportHandler"/>

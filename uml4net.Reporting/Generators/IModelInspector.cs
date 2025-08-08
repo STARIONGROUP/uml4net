@@ -45,19 +45,6 @@ namespace uml4net.Reporting.Generators
         public string Inspect(IPackage package);
 
         /// <summary>
-        /// Inspect the content of the provided <see cref="IPackage"/> and returns a
-        /// read-only collection of interesting <see cref="IClass"/>
-        /// </summary>
-        /// <param name="package">
-        /// The <see cref="IPackage"/> that needs to be inspected
-        /// </param>
-        /// <returns>
-        /// A read-only collection of interesting <see cref="IClass"/> that cover the variations
-        /// of <see cref="IProperty"/>> and <see cref="IOperation"/> variations
-        /// </returns>
-        public IReadOnlyCollection<IClass> QueryInterestingClasses(IPackage package);
-
-        /// <summary>
         /// Inspect the provided <see cref="IClass"/> (by name) that is contained in the <see cref="IPackage"/>
         /// and returns the variation of data-types, enums and multiplicity as an Analysis report
         /// </summary>
@@ -72,6 +59,19 @@ namespace uml4net.Reporting.Generators
         /// returns a report detailing the various combinations of properties of the provided class
         /// </returns>
         public string Inspect(IPackage package, string className);
+
+        /// <summary>
+        /// Inspect the content of the provided <see cref="IPackage"/> and returns a
+        /// read-only collection of interesting <see cref="IClass"/>
+        /// </summary>
+        /// <param name="package">
+        /// The <see cref="IPackage"/> that needs to be inspected
+        /// </param>
+        /// <returns>
+        /// A read-only collection of interesting <see cref="IClass"/> that cover the variations
+        /// of <see cref="IProperty"/>> and <see cref="IOperation"/> variations
+        /// </returns>
+        public IReadOnlyCollection<IClass> QueryInterestingClasses(IPackage package);
 
         /// <summary>
         /// Recursively analyzes the documentation of the model and prints the names of all classes 

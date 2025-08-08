@@ -56,7 +56,7 @@ namespace uml4net
         {
             if (element == null)
             {
-                throw new ArgumentNullException();
+                throw new ArgumentNullException(nameof(element));
             }
 
             if (this.cache.ContainsKey(element.FullyQualifiedIdentifier))

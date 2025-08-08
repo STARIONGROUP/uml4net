@@ -544,7 +544,7 @@ namespace uml4net.HandleBars
 
                 if (property == null || @class == null)
                 {
-                    throw new ArgumentNullException();
+                    throw new ArgumentException("the parameters could not be converted to a IProperty and IClass");
                 }
 
                 if (property.IsDerived || property.IsDerivedUnion || property.IsReadOnly)
@@ -699,7 +699,7 @@ namespace uml4net.HandleBars
 
                 if (property == null || @class == null)
                 {
-                    throw new ArgumentNullException();
+                    throw new ArgumentException("the parameters could not be converted to a IProperty and IClass");
                 }
 
                 var isForExtension = false;
