@@ -47,7 +47,7 @@ namespace uml4net.Extensions
         }
 
         /// <summary>
-        /// Removes any added custom C# type mapping and resets to the default in <see cref="DefaultCSharpTypeMapping"/>
+        /// Removes any added custom C# type mapping and resets to the default in DefaultCSharpTypeMapping
         /// </summary>
         public static void ResetCSharpTypeMappingsToDefault()
         {
@@ -213,7 +213,7 @@ namespace uml4net.Extensions
         /// The subject <see cref="IStructuralFeature"/>
         /// </param>
         /// <returns>
-        /// true if <see cref="IStructuralFeature.Upper"/> = -1 or > 1, false if not
+        /// true if IStructuralFeature.Upper = -1 or > 1, false if not
         /// </returns>
         public static bool QueryIsEnumerable(this IProperty property)
         {
@@ -241,7 +241,7 @@ namespace uml4net.Extensions
         }
 
         /// <summary>
-        /// Queries whether the specified <see cref="IStructuralFeature.Name"/> is equal to the name of the containing <see cref="IClass"/>
+        /// Queries whether the specified IStructuralFeature.Name is equal to the name of the containing <see cref="IClass"/>
         /// </summary>
         /// <param name="structuralFeature">
         /// The subject <see cref="IStructuralFeature"/>
@@ -435,7 +435,7 @@ namespace uml4net.Extensions
         /// The subject <see cref="IProperty"/>
         /// </param>
         /// <returns>
-        /// true if <see cref="IProperty.Lower"/> = 0, false if not
+        /// true if IProperty.Lower = 0, false if not
         /// </returns>
         public static bool QueryIsNullable(this IProperty property)
         {

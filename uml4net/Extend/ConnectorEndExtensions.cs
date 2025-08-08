@@ -34,7 +34,6 @@ namespace uml4net.StructuredClassifiers
         /// owing this ConnectorEnd, if any. It is derived by selecting the end at the same place in the
         /// ordering of Association ends as this ConnectorEnd.
         /// </summary>
-        /// </summary>
         /// <param name="connectorEnd">
         /// The subject <see cref="IConnectorEnd"/>
         /// </param>
@@ -42,7 +41,6 @@ namespace uml4net.StructuredClassifiers
         /// A derived property referencing the corresponding end on the Association which types the Connector
         /// owing this ConnectorEnd, if any. It is derived by selecting the end at the same place in the
         /// ordering of Association ends as this ConnectorEnd.
-        /// </summary>
         /// </returns>
         internal static IProperty QueryDefiningEnd(this IConnectorEnd connectorEnd)
         {

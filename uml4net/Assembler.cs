@@ -60,7 +60,7 @@ namespace uml4net
         /// <summary>
         /// Synchronizes the <see cref="IXmiElement"/>s in the <see cref="IXmiElementCache"/> by assigning
         /// the reference properties that are encoded by <see cref="IXmiElement.SingleValueReferencePropertyIdentifiers"/>
-        /// and by <see cref="IXmiElement.MultiValueReferencePropertyIdentifiers>"/>
+        /// and by <see cref="IXmiElement.MultiValueReferencePropertyIdentifiers"/>
         /// </summary>
         public void Synchronize()
         {

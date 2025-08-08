@@ -29,10 +29,13 @@ namespace uml4net.xmi.ReferenceResolver
     
     using uml4net.xmi.Resources;
     using uml4net.xmi.Settings;
-    
+
     /// <summary>
     /// Resolves external references for XMI elements using provided settings and cache.
     /// </summary>
+    /// <param name="resourceLoader">
+    /// The (injected) <see cref="IResourceLoader"/> used for loading embedded resources
+    /// </param>
     /// <param name="cache">
     /// The (injected) cache containing XMI reader information.
     /// </param>

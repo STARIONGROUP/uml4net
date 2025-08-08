@@ -46,6 +46,9 @@ namespace uml4net.xmi.Readers
         /// <param name="stream">
         /// The <see cref="Stream"/> that contains the XMI content to be read.
         /// </param>
+        /// <param name="documentName">
+        /// The name of the document that is being read from.
+        /// </param>
         /// <returns>
         /// An <see cref="XmiReaderResult"/> representing the deserialized packages from the XMI stream.
         /// </returns>

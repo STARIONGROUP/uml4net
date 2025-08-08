@@ -442,9 +442,6 @@ namespace uml4net.Reporting.Generators
         /// <param name="package">
         /// The <see cref="IPackage"/> which needs to be inspected
         /// </param>
-        /// <param name="recursive">
-        /// A value indicating whether the sub <see cref="IPackage"/>s need to be Analyzed as well
-        /// </param>
         /// <returns>
         /// returns a report of the classes and properties that do not contain any documentation
         /// </returns>
@@ -484,9 +481,6 @@ namespace uml4net.Reporting.Generators
         /// </param>
         /// <param name="sb">
         /// The <see cref="StringBuilder"/> to which the analysis results are written
-        /// </param>
-        /// <param name="recursive">
-        /// A value indicating whether the sub <see cref="IPackage"/>s need to be Analyzed as well
         /// </param>
         private void AnalyzeDocumentation(IPackage package, StringBuilder sb)
         {

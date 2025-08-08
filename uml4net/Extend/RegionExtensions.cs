@@ -33,7 +33,7 @@ namespace uml4net.StateMachines
         /// Queries the Classifier in which context this element may be redefined.
         /// </summary>
         /// <param name="region">
-        /// The subject <see cref="region"/>
+        /// The subject <see cref="IRegion"/>
         /// </param>
         /// <returns>
         /// The Classifier in which context this element may be redefined.

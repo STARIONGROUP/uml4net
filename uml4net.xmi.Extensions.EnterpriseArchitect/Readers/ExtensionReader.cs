@@ -33,6 +33,9 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure.Readers
         /// <summary>
         /// Handles the read of XMI Element manually, when a specific case cannot be code-generated
         /// </summary>
+        /// <param name="xmlReader">
+        /// The <see cref="XmlReader" /> instance used to parse the XMI data.
+        /// </param>
         /// <param name="documentName">
         /// The name of the document that contains the <see cref="IXmiElement" />
         /// </param>
@@ -40,6 +43,9 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure.Readers
         /// The namespaceUri of the parent <see cref="XmlReader" />>.
         /// Since <see cref="XmlReader.ReadSubtree" /> is used extensively the <see cref="XmlReader.NamespaceURI" />
         /// returns the empty string when reading from a subtree, therefore it is passed from the caller
+        /// </param>
+        /// <param name="poco">
+        /// The <see cref="Packages.IExtension"/> object that is being read
         /// </param>
         /// <returns>
         /// True if the manual code could handle the Xmi read

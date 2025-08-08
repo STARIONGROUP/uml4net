@@ -74,7 +74,7 @@ namespace uml4net.Extensions
         }
 
         /// <summary>
-        /// Queries the documentation from the <see cref="element"/> and
+        /// Queries the documentation from the <paramref name="element"/>> and
         /// returns it as a string
         /// </summary>
         /// <param name="element">

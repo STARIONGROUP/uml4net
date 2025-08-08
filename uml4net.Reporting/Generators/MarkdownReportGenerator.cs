@@ -81,9 +81,6 @@ namespace uml4net.Reporting.Generators
         /// <returns>
         /// the content of an HTML report in a string
         /// </returns>
-        /// <param name="customContent">
-        /// Custom content that is ignored in this generator
-        /// </param>
         public string GenerateReport(FileInfo modelPath, DirectoryInfo rootDirectory, bool useStrictReading, Dictionary<string, string> pathMap)
         {
             throw new NotImplementedException();

@@ -32,7 +32,7 @@ namespace uml4net.CommonStructure
         /// Queries the PackageableElements that are members of this Namespace as a result of either
         /// PackageImports or ElementImports.
         /// </summary>
-        /// <param name="@namespace">
+        /// <param name="namespace">
         /// The subject <see cref="INamespace"/>
         /// </param>
         /// <returns>

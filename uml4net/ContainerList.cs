@@ -36,11 +36,13 @@ namespace uml4net
         /// Backing field for the container of this <see cref="ContainerList{T}"/>
         /// </summary>
         private readonly IElement container;
-        
+
         /// <summary>
         /// Initializes a new <see cref="ContainerList{T}"/>
         /// </summary>
-        /// <typeparam name="T">the type of <see cref="IElement"/> that this List contains</typeparam>
+        /// <param name="container">
+        /// the type of <see cref="IElement"/> that this List contains
+        /// </param>
         public ContainerList(IElement container)
         {
             this.container = container;

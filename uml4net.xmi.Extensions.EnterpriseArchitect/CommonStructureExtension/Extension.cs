@@ -23,25 +23,34 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure
     using uml4net.CommonStructure;
     using uml4net.Packages;
 
+    /// <summary>
+    /// hand-coded properties for the <see cref="Extension"/> class.
+    /// </summary>
     public partial class Extension
     {
         /// <summary>
         /// Backing field for <see cref="PrimitivesTypes"/>
         /// </summary>
         private IContainerList<IPackageableElement> primitivesTypes;
-        
-        public IContainerList<IPackageableElement>  PrimitivesTypes        
+
+        /// <summary>
+        /// The contained <see cref="IPackageableElement"/>s
+        /// </summary>
+        public IContainerList<IPackageableElement>  PrimitivesTypes
         {
             get => this.primitivesTypes ??= new ContainerList<IPackageableElement>(this);
             set => this.primitivesTypes = value;
         }
-        
+
         /// <summary>
         /// Backing field for <see cref="Profiles"/>
         /// </summary>
         private IContainerList<IProfile> profiles;
-        
-        public IContainerList<IProfile>  Profiles        
+
+        /// <summary>
+        /// The contained <see cref="IProfile"/>s
+        /// </summary>
+        public IContainerList<IProfile>  Profiles
         {
             get => this.profiles ??= new ContainerList<IProfile>(this);
             set => this.profiles = value;

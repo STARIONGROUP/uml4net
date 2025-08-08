@@ -36,7 +36,7 @@ namespace uml4net.StructuredClassifiers
         /// specify additional properties of the metaclass. The property is derived from the Extensions whose
         /// memberEnds are typed by the Class.
         /// </summary>
-        /// <param name="@class">
+        /// <param name="class">
         /// The subject <see cref="IClass"/>
         /// </param>
         /// <returns>

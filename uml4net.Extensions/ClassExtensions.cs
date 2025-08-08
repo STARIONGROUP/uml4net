@@ -64,7 +64,7 @@ namespace uml4net.Extensions
         }
 
         /// <summary>
-        /// Queries all the specializations (immediate subclasses) of the <paramref name="@class"/>
+        /// Queries all the specializations (immediate subclasses) of the <paramref name="class"/>
         /// </summary>
         /// <param name="class">
         /// The <see cref="IClass"/> for which all the immediate specializations are to be queried

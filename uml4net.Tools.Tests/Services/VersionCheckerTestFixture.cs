@@ -37,7 +37,7 @@ namespace uml4net.Tools.Tests.Services
     {
         private VersionChecker versionChecker;
 
-        private ILoggerFactory? loggerFactory;
+        private ILoggerFactory loggerFactory;
 
         [OneTimeSetUp]
         public void OneTimeSetUp()

@@ -23,10 +23,19 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure
     using uml4net.CommonStructure;
     using uml4net.Packages;
 
+    /// <summary>
+    /// hand-coded properties for the <see cref="IExtension"/> interface.
+    /// </summary>
     public partial interface IExtension
     {
+        /// <summary>
+        /// The contained <see cref="IPackageableElement"/>s
+        /// </summary>
         IContainerList<IPackageableElement> PrimitivesTypes { get; }
 
+        /// <summary>
+        /// The contained <see cref="IProfile"/>s
+        /// </summary>
         IContainerList<IProfile> Profiles { get; }
     }
 }

@@ -105,7 +105,7 @@ namespace uml4net.Reporting.Tests.Generators
                              <p class="small">Powered By <a href="https://www.stariongroup.eu" target="_blank">Starion Group</a>, 2022-2025</p>
                              """;
 
-            Assert.That(() => this.htmlReportGenerator.GenerateReport(this.sysml2ModelFileInfo, this.umlModelFileInfo.Directory, true, pathmap, reportFileInfo), Throws.Nothing);
+            Assert.That(() => this.htmlReportGenerator.GenerateReport(this.sysml2ModelFileInfo, this.umlModelFileInfo.Directory, true, pathmap, reportFileInfo, customHtml), Throws.Nothing);
         }
 
         [Test]
