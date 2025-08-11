@@ -2,7 +2,7 @@
 
     <PropertyGroup>
         <TargetFramework>netstandard2.0</TargetFramework>
-        <Version>5.2.0</Version>
+        <Version>5.2.1</Version>
         <LangVersion>12.0</LangVersion>
         <Company>Starion Group S.A.</Company>
         <Copyright>Copyright © Starion Group S.A.</Copyright>
@@ -12,8 +12,10 @@
         <Description>HandleBars Helpers for use in combination with the uml4net library to support HandleBarHelpers based code generation</Description>
         <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>        
         <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
-        <IncludeSource>true</IncludeSource>
         <IncludeSymbols>true</IncludeSymbols>
+        <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+        <PublishRepositoryUrl>true</PublishRepositoryUrl>
+        <EmbedUntrackedSources>true</EmbedUntrackedSources>
         <PackageProjectUrl>https://uml4net.org</PackageProjectUrl>
         <RepositoryUrl>https://github.com/STARIONGROUP/uml4net.git</RepositoryUrl>
         <RepositoryType>Git</RepositoryType>
@@ -26,10 +28,7 @@
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
         <GenerateSBOM>true</GenerateSBOM>
         <PackageReleaseNotes>
-            [Update] to uml4net version 3.0.1
-            [Update] Handlebars.Net.Helpers to version 2.5.2
-            [Add] String.Length helper
-            [Add] SBOM to nuget package
+            [Update] how symbols and sources are made available (using sourcelink)
         </PackageReleaseNotes>
     </PropertyGroup>
 
@@ -45,6 +44,7 @@
     <ItemGroup>
         <PackageReference Include="Handlebars.Net.Helpers" Version="2.5.2" />
         <PackageReference Include="Microsoft.Sbom.Targets" Version="4.1.0" PrivateAssets="all" />
+        <PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0" PrivateAssets="All"/>
     </ItemGroup>
 
 </Project>

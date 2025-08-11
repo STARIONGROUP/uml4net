@@ -2,7 +2,7 @@
 
     <PropertyGroup>
         <Description>A .NET implementation of the OMG UML v2.5.1 specification.</Description>
-        <Version>4.0.3</Version>
+        <Version>4.0.4</Version>
         <PackageId>uml4net.xmi</PackageId>
         <LangVersion>12.0</LangVersion>
         <TargetFramework>netstandard2.0</TargetFramework>
@@ -14,8 +14,10 @@
         <Description>An XMI implementation for the .NET implementation of the OMG UML v2.5.1 specification.</Description>
         <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
         <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
-        <IncludeSource>true</IncludeSource>
         <IncludeSymbols>true</IncludeSymbols>
+        <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+        <PublishRepositoryUrl>true</PublishRepositoryUrl>
+        <EmbedUntrackedSources>true</EmbedUntrackedSources>
         <PackageProjectUrl>https://uml4net.org</PackageProjectUrl>
         <RepositoryUrl>https://github.com/STARIONGROUP/uml4net.git</RepositoryUrl>
         <RepositoryType>Git</RepositoryType>
@@ -28,9 +30,7 @@
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
         <GenerateSBOM>true</GenerateSBOM>
         <PackageReleaseNotes>
-            [Update] to uml4net version 3.0.1
-            [Update] to Autofac version 8.4.0
-            [Add] SBOM to nuget package
+            [Update] how symbols and sources are made available (using sourcelink)
         </PackageReleaseNotes>
     </PropertyGroup>
 
@@ -59,6 +59,7 @@
   <ItemGroup>
     <PackageReference Include="Autofac" Version="8.4.0" />
     <PackageReference Include="Microsoft.Sbom.Targets" Version="4.1.0" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0" PrivateAssets="All"/>
   </ItemGroup>
 
 </Project>

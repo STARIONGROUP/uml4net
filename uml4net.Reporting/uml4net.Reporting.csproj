@@ -2,7 +2,7 @@
 
     <PropertyGroup>
         <TargetFramework>netstandard2.0</TargetFramework>
-        <Version>5.1.0</Version>
+        <Version>5.1.1</Version>
         <LangVersion>12.0</LangVersion>
         <Company>Starion Group S.A.</Company>
         <Copyright>Copyright © Starion Group S.A.</Copyright>
@@ -12,8 +12,10 @@
         <Description>UML Reporting use in combination with the uml4net library to generate reports</Description>
         <RequireLicenseAcceptance>true</RequireLicenseAcceptance>
         <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
-        <IncludeSource>true</IncludeSource>
         <IncludeSymbols>true</IncludeSymbols>
+        <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+        <PublishRepositoryUrl>true</PublishRepositoryUrl>
+        <EmbedUntrackedSources>true</EmbedUntrackedSources>
         <PackageProjectUrl>https://uml4net.org</PackageProjectUrl>
         <RepositoryUrl>https://github.com/STARIONGROUP/uml4net.git</RepositoryUrl>
         <RepositoryType>Git</RepositoryType>
@@ -26,9 +28,7 @@
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
         <GenerateSBOM>true</GenerateSBOM>
         <PackageReleaseNotes>
-            [Update] uml4net.HandleBars to version 5.2.0
-            [Add] inheritance diagram to HTML report
-            [Add] SBOM to nuget package
+            [Update] how symbols and sources are made available (using sourcelink)
         </PackageReleaseNotes>
     </PropertyGroup>
 
@@ -45,6 +45,7 @@
         <PackageReference Include="Microsoft.Msagl" Version="1.1.6" />
         <PackageReference Include="Svg" Version="3.4.7" />
         <PackageReference Include="Microsoft.Sbom.Targets" Version="4.1.0" PrivateAssets="all" />
+        <PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0" PrivateAssets="All"/>
     </ItemGroup>
 
     <ItemGroup>
