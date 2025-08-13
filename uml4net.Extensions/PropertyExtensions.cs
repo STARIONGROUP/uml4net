@@ -541,6 +541,20 @@ namespace uml4net.Extensions
         }
 
         /// <summary>
+        /// Queries whether the <see cref="Property"/> is a scalar
+        /// </summary>
+        /// <param name="property">
+        /// The subject <see cref="Property"/>
+        /// </param>
+        /// <returns>
+        /// true if <see cref="IProperty.Lower"/> and <see cref="IProperty.Upper"/> = 1, false if not
+        /// </returns>
+        public static bool QueryIsScalar(this IProperty property)
+        {
+            return property.Lower == 1 && property.Upper == "1";
+        }
+
+        /// <summary>
         /// Queries whether the property is subsetted
         /// </summary>
         /// <param name="property">

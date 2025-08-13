@@ -58,7 +58,7 @@ namespace uml4net.HandleBars
 
                 return property.QueryIsEnumerable();
             });
-            
+
             handlebars.RegisterHelper("Property.IsEnumerable", (output, options, context, arguments) =>
             {
                 if (arguments.Length != 1)
@@ -74,6 +74,45 @@ namespace uml4net.HandleBars
                 {
                     options.Template(output, context);
                 }
+            });
+
+            // Queries whether the Property is a reference property
+            handlebars.RegisterHelper("Property.QueryIsReferenceProperty", (_, arguments) =>
+            {
+                if (arguments.Length != 1)
+                {
+                    throw new HandlebarsException("{{#Property.QueryIsReferenceProperty}} helper must have exactly one argument");
+                }
+
+                var property = arguments.Single() as IProperty;
+
+                return property.QueryIsReferenceProperty();
+            });
+
+            // Queries whether the Property is nullable
+            handlebars.RegisterHelper("Property.QueryIsNullable", (_, arguments) =>
+            {
+                if (arguments.Length != 1)
+                {
+                    throw new HandlebarsException("{{#Property.QueryIsNullable}} helper must have exactly one argument");
+                }
+
+                var property = arguments.Single() as IProperty;
+
+                return property.QueryIsNullable();
+            });
+
+            // Queries whether the Property is scalar (true when both lower and upper are '1`
+            handlebars.RegisterHelper("Property.QueryIsScalar", (_, arguments) =>
+            {
+                if (arguments.Length != 1)
+                {
+                    throw new HandlebarsException("{{#Property.QueryIsScalar}} helper must have exactly one argument");
+                }
+
+                var property = arguments.Single() as IProperty;
+
+                return property.QueryIsScalar();
             });
 
             handlebars.RegisterHelper("Property.QueryStructuralFeatureNameEqualsEnclosingType", (_, arguments) =>
