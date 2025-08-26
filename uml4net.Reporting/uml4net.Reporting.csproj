@@ -28,6 +28,7 @@
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
         <GenerateSBOM>true</GenerateSBOM>
         <PackageReleaseNotes>
+            [Update] Microsoft.Sbom.Targets version 4.1.1
             [Fix] report generators on xmi files that include EA extensions; fixes #113
         </PackageReleaseNotes>
     </PropertyGroup>
@@ -44,7 +45,7 @@
         <PackageReference Include="ClosedXML" Version="0.105.0" />
         <PackageReference Include="Microsoft.Msagl" Version="1.1.6" />
         <PackageReference Include="Svg" Version="3.4.7" />
-        <PackageReference Include="Microsoft.Sbom.Targets" Version="4.1.0" PrivateAssets="all" />
+        <PackageReference Include="Microsoft.Sbom.Targets" Version="4.1.1" PrivateAssets="all" />
         <PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0" PrivateAssets="All" />
     </ItemGroup>
 
