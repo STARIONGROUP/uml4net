@@ -24,11 +24,14 @@ namespace uml4net.Reporting.Generators
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.IO;
-    using Drawing;
+    
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Logging.Abstractions;
-    using Payload;
+
     using uml4net.HandleBars;
+
+    using uml4net.Reporting.Drawing;
+    using uml4net.Reporting.Payload;
 
     using DocumentationHelper = uml4net.Reporting.Helpers.DocumentationHelper;
 

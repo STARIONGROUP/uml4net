@@ -44,6 +44,8 @@ namespace uml4net.Reporting.Tests.Generators
 
         private FileInfo sysml2PimFileInfo;
 
+        private FileInfo eAExportFileInfo;
+
         [SetUp]
         public void SetUp()
         {
@@ -62,6 +64,7 @@ namespace uml4net.Reporting.Tests.Generators
             this.umlModelFileInfo = new FileInfo(Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData", "UML.xmi"));
             this.sysml2ModelFileInfo = new FileInfo(Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData", "SysML.uml"));
             this.sysml2PimFileInfo = new FileInfo(Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData", "SysML2Pim.uml"));
+            this.eAExportFileInfo = new FileInfo(Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData", "EAExport.xmi"));
         }
 
         [Test]
@@ -120,6 +123,17 @@ namespace uml4net.Reporting.Tests.Generators
             var reportFileInfo = new FileInfo(Path.Combine(TestContext.CurrentContext.TestDirectory, "sysml2-pim-html-report.html"));
 
             Assert.That(() => this.htmlReportGenerator.GenerateReport(this.sysml2PimFileInfo, this.umlModelFileInfo.Directory, true, null, reportFileInfo), Throws.Nothing);
+        }
+
+        [Test]
+        public void Verify_that_the_report_generator_generators_a_report_of_ea_model()
+        {
+            this.htmlReportGenerator = new HtmlReportGenerator(this.inheritanceDiagramRenderer, this.loggerFactory);
+            this.htmlReportGenerator.ShouldUseEnterpriseArchitectReader = true;
+
+            var reportFileInfo = new FileInfo(Path.Combine(TestContext.CurrentContext.TestDirectory, "EAExport.html"));
+
+            Assert.That(() => this.htmlReportGenerator.GenerateReport(this.eAExportFileInfo, this.umlModelFileInfo.Directory, true, null, reportFileInfo), Throws.Nothing);
         }
     }
 }

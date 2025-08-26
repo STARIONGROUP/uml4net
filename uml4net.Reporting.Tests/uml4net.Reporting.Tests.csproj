@@ -55,6 +55,9 @@
         <None Include="..\resources\SySML2\ptc-24-02-28.xmi" Link="TestData\SysML2Pim.uml">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </None>
+        <None Include="..\resources\Enterprise Architect Extensions\EAExport.xmi" Link="TestData\EAExport.xmi">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
     </ItemGroup>
 
     <ItemGroup>

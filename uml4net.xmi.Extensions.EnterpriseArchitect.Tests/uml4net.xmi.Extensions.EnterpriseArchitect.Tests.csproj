@@ -48,9 +48,12 @@
     </ItemGroup>
 
     <ItemGroup>
-      <None Update="Resources\EAExport.xmi">
+      <None Include="..\resources\Enterprise Architect Extensions\EAExport.xmi" Link="Resources\EAExport.xmi">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
+    </ItemGroup>
+
+    <ItemGroup>
       <None Update="Resources\DataStructure.xmi">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>

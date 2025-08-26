@@ -155,5 +155,19 @@ namespace uml4net.Reporting.Tests.Generators
 
             Assert.That(interestingClassesNames, Is.EquivalentTo(expectedResult));
         }
+
+        [Test]
+        public void Verify_that_generate_report_returns_expected_result_for_Ea_model()
+        {
+            var eaModelPath = Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData", "EAExport.xmi");
+            var EAModelFileInfo = new FileInfo(eaModelPath);
+
+            this.modelInspector = new ModelInspector(this.loggerFactory);
+            this.modelInspector.ShouldUseEnterpriseArchitectReader = true;
+
+            var pathmap = new Dictionary<string, string>();
+
+            Assert.That(() => this.modelInspector.GenerateReport(this.modelFileInfo, this.modelFileInfo.Directory, true, pathmap, this.reportFileInfo), Throws.Nothing);
+        }
     }
 }

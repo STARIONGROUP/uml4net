@@ -26,7 +26,7 @@ namespace uml4net.Reporting.Generators
     using System.IO;
     using System.Linq;
     using System.Text;
-
+    using DocumentFormat.OpenXml.Office.PowerPoint.Y2021.M06.Main;
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Logging.Abstractions;
 
@@ -35,6 +35,7 @@ namespace uml4net.Reporting.Generators
     using uml4net.Extensions;
     using uml4net.Packages;
     using uml4net.StructuredClassifiers;
+    using xmi.Extensions.EnterpriseArchitect.Extensions;
 
     /// <summary>
     /// The purpose of the <see cref="ModelInspector"/> is to iterate through the model and report on the various kinds of
@@ -463,7 +464,7 @@ namespace uml4net.Reporting.Generators
             sb.AppendLine("---------- Package.Class:Property ---------");
             sb.AppendLine("");
 
-            AnalyzeDocumentation(package, sb);
+            this.AnalyzeDocumentation(package, sb);
 
             sb.AppendLine("");
 
@@ -482,20 +483,24 @@ namespace uml4net.Reporting.Generators
         /// <param name="sb">
         /// The <see cref="StringBuilder"/> to which the analysis results are written
         /// </param>
-        private static void AnalyzeDocumentation(IPackage package, StringBuilder sb)
+        private void AnalyzeDocumentation(IPackage package, StringBuilder sb)
         {
             var classes = package.QueryPackages().SelectMany(x => x.PackagedElement.OfType<IClass>()).OrderBy(x => x.Name).ToList();
 
             foreach (var @class in classes)
             {
-                if (string.IsNullOrEmpty(@class.QueryRawDocumentation()))
+                var classDocs = this.ShouldUseEnterpriseArchitectReader ? @class.QueryDocumentationFromExtensions() : @class.QueryRawDocumentation();
+
+                if (string.IsNullOrEmpty(classDocs))
                 {
                     sb.AppendLine($"{package.Name}.{@class.Name}");
                 }
 
                 foreach (var property in @class.OwnedAttribute.OrderBy(x => x.Name))
                 {
-                    if (string.IsNullOrEmpty(property.QueryRawDocumentation()))
+                    var propertyDocs = this.ShouldUseEnterpriseArchitectReader ? property.QueryDocumentationFromExtensions() : property.QueryRawDocumentation();
+
+                    if (string.IsNullOrEmpty(propertyDocs))
                     {
                         sb.AppendLine($"{package.Name}.{@class.Name}:{property.Name}");
                     }
