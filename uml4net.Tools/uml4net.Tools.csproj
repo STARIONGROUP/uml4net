@@ -53,6 +53,8 @@
         <PackageReference Include="System.CommandLine" Version="2.0.0-beta4.22272.1" />
         <PackageReference Include="System.CommandLine.Hosting" Version="0.4.0-alpha.22272.1" />
         <PackageReference Include="Spectre.Console" Version="0.50.0" />
+        <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="9.0.8" />
+        <PackageReference Include="Microsoft.Extensions.Logging.File" Version="9.0.8" />
         <PackageReference Include="Microsoft.Sbom.Targets" Version="4.1.1" PrivateAssets="all" />
     </ItemGroup>
 

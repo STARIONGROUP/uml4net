@@ -30,7 +30,6 @@ namespace uml4net.Tools
 
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Logging;
-    using Microsoft.Extensions.Logging.Console;
     using Microsoft.Extensions.Hosting;
 
     using Spectre.Console;
@@ -47,6 +46,21 @@ namespace uml4net.Tools
     [ExcludeFromCodeCoverage]
     public static class Program
     {
+        private enum LogTarget
+        {
+            Console,
+            File,
+        }
+
+        private static readonly Option<LogLevel> logLevelOption = new(
+            new[] { "--log-level", "-l" },
+            getDefaultValue: () => LogLevel.Information,
+            description: "Specifies minimum logging level. Accepted values: Trace, Debug, Information, Warning, Error, Critical, None.");
+
+        private static readonly Option<LogTarget> logTargetOption = new(
+            new[] { "--log-target", "-t" },
+            getDefaultValue: () => LogTarget.Console,
+            description: "Specifies logging target. Accepted values: Console, File.");
         /// <summary>
         /// Main entry point for the command line application
         /// </summary>
@@ -57,9 +71,26 @@ namespace uml4net.Tools
         {
             var commandLineBuilder = BuildCommandLine()
                 .UseHost(_ => Host.CreateDefaultBuilder(args)
-                        .ConfigureLogging(loggingBuilder =>
-                            loggingBuilder.AddFilter<ConsoleLoggerProvider>(level =>
-                                level == LogLevel.None))
+                        .ConfigureLogging((context, loggingBuilder) =>
+                        {
+                            var invocation = context.GetInvocationContext();
+                            var parsedLevel = invocation.ParseResult.GetValueForOption(logLevelOption);
+                            var target = invocation.ParseResult.GetValueForOption(logTargetOption);
+
+                            loggingBuilder.ClearProviders();
+
+                            switch (target)
+                            {
+                                case LogTarget.File:
+                                    loggingBuilder.AddFile("uml4net.log");
+                                    break;
+                                default:
+                                    loggingBuilder.AddSimpleConsole();
+                                    break;
+                            }
+
+                            loggingBuilder.SetMinimumLevel(parsedLevel);
+                        })
                     , builder => builder
                         .ConfigureServices((services) =>
                         {
@@ -118,6 +149,8 @@ namespace uml4net.Tools
         private static RootCommand CreateCommandChain()
         {
             var root = new RootCommand("uml4net Tools");
+            root.AddGlobalOption(logLevelOption);
+            root.AddGlobalOption(logTargetOption);
 
             var reportCommand = new XlReportCommand();
             root.AddCommand(reportCommand);
