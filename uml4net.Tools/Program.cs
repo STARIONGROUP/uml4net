@@ -32,6 +32,9 @@ namespace uml4net.Tools
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Hosting;
 
+    using Serilog;
+    using Serilog.Events;
+
     using Spectre.Console;
 
     using uml4net.Reporting.Drawing;
@@ -46,21 +49,27 @@ namespace uml4net.Tools
     [ExcludeFromCodeCoverage]
     public static class Program
     {
+        /// <summary>
+        /// The supported LogTarget
+        /// </summary>
         private enum LogTarget
         {
+            /// <summary>
+            /// log to the console
+            /// </summary>
             Console,
+
+            /// <summary>
+            /// log to a file
+            /// </summary>
             File,
         }
 
-        private static readonly Option<LogLevel> logLevelOption = new(
-            new[] { "--log-level", "-l" },
-            getDefaultValue: () => LogLevel.Information,
+        private static readonly Option<LogLevel> LogLevelOption = new(
+            new[] { "--log-level", "-ll" },
+            getDefaultValue: () => LogLevel.None,
             description: "Specifies minimum logging level. Accepted values: Trace, Debug, Information, Warning, Error, Critical, None.");
 
-        private static readonly Option<LogTarget> logTargetOption = new(
-            new[] { "--log-target", "-t" },
-            getDefaultValue: () => LogTarget.Console,
-            description: "Specifies logging target. Accepted values: Console, File.");
         /// <summary>
         /// Main entry point for the command line application
         /// </summary>
@@ -74,20 +83,17 @@ namespace uml4net.Tools
                         .ConfigureLogging((context, loggingBuilder) =>
                         {
                             var invocation = context.GetInvocationContext();
-                            var parsedLevel = invocation.ParseResult.GetValueForOption(logLevelOption);
-                            var target = invocation.ParseResult.GetValueForOption(logTargetOption);
-
+                            var parsedLevel = invocation.ParseResult.GetValueForOption(LogLevelOption);
+                            
                             loggingBuilder.ClearProviders();
 
-                            switch (target)
-                            {
-                                case LogTarget.File:
-                                    loggingBuilder.AddFile("uml4net.log");
-                                    break;
-                                default:
-                                    loggingBuilder.AddSimpleConsole();
-                                    break;
-                            }
+                            var loggerConfig = new LoggerConfiguration()
+                                .MinimumLevel.Is(Map(parsedLevel));
+
+                            loggerConfig.WriteTo.File("uml4net.logs", rollingInterval: RollingInterval.Day);
+
+                            var serilogLogger = loggerConfig.CreateLogger();
+                            loggingBuilder.AddSerilog(serilogLogger, dispose: true);
 
                             loggingBuilder.SetMinimumLevel(parsedLevel);
                         })
@@ -149,8 +155,7 @@ namespace uml4net.Tools
         private static RootCommand CreateCommandChain()
         {
             var root = new RootCommand("uml4net Tools");
-            root.AddGlobalOption(logLevelOption);
-            root.AddGlobalOption(logTargetOption);
+            root.AddGlobalOption(LogLevelOption);
 
             var reportCommand = new XlReportCommand();
             root.AddCommand(reportCommand);
@@ -166,5 +171,26 @@ namespace uml4net.Tools
 
             return root;
         }
+
+        /// <summary>
+        /// Maps a microsoft <see cref="LogLevel"/> to a serilog <see cref="LogEventLevel"/>
+        /// </summary>
+        /// <param name="lvl">
+        /// microsoft <see cref="LogLevel"/> that is to be mapped
+        /// </param>
+        /// <returns>
+        /// the mapped (resulting) serilog <see cref="LogEventLevel"/>
+        /// </returns>
+        private static LogEventLevel Map(LogLevel lvl) => lvl switch
+        {
+            LogLevel.Trace => LogEventLevel.Verbose,
+            LogLevel.Debug => LogEventLevel.Debug,
+            LogLevel.Information => LogEventLevel.Information,
+            LogLevel.Warning => LogEventLevel.Warning,
+            LogLevel.Error => LogEventLevel.Error,
+            LogLevel.Critical => LogEventLevel.Fatal,
+            LogLevel.None => LogEventLevel.Information, // pick a sensible default
+            _ => LogEventLevel.Information
+        };
     }
 }
