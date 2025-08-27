@@ -149,6 +149,7 @@ namespace uml4net.Tools.Commands
                     .SpinnerStyle(Style.Parse("green bold"))
                     .Start($"Preparing Warp Engines for {this.ReportGenerator.QueryReportType()} reporting...", ctx =>
                     {
+                        AnsiConsole.WriteLine();
                         AnsiConsole.MarkupLine("[yellow]Initializing report parameters...[/]");
                         AnsiConsole.WriteLine();
                         AnsiConsole.MarkupLine($"[green] --no-logo: {Markup.Escape(this.NoLogo.ToString(CultureInfo.CurrentCulture))}[/]");
@@ -222,7 +223,6 @@ namespace uml4net.Tools.Commands
                 AnsiConsole.WriteLine("");
                 return false;
             }
-
 
             foreach (var pair in this.PathMaps)
             {

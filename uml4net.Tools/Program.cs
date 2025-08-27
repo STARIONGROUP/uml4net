@@ -30,8 +30,10 @@ namespace uml4net.Tools
 
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Logging;
-    using Microsoft.Extensions.Logging.Console;
     using Microsoft.Extensions.Hosting;
+
+    using Serilog;
+    using Serilog.Events;
 
     using Spectre.Console;
 
@@ -48,6 +50,14 @@ namespace uml4net.Tools
     public static class Program
     {
         /// <summary>
+        /// log level option
+        /// </summary>
+        private static readonly Option<LogLevel> LogLevelOption = new(
+            new[] { "--log-level", "-ll" },
+            getDefaultValue: () => LogLevel.None,
+            description: "Specifies minimum logging level. Accepted values: Trace, Debug, Information, Warning, Error, Critical, None.");
+
+        /// <summary>
         /// Main entry point for the command line application
         /// </summary>
         /// <param name="args">
@@ -57,9 +67,28 @@ namespace uml4net.Tools
         {
             var commandLineBuilder = BuildCommandLine()
                 .UseHost(_ => Host.CreateDefaultBuilder(args)
-                        .ConfigureLogging(loggingBuilder =>
-                            loggingBuilder.AddFilter<ConsoleLoggerProvider>(level =>
-                                level == LogLevel.None))
+                        .ConfigureLogging((context, loggingBuilder) =>
+                        {
+                            var invocation = context.GetInvocationContext();
+                            var parsedLevel = invocation.ParseResult.GetValueForOption(LogLevelOption);
+
+                            loggingBuilder.ClearProviders();
+
+                            var template =
+                                "[{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz}] [{Level:u3}] ({SourceContext}) {Message:lj}{NewLine}{Exception}";
+
+                            var loggerConfig = new LoggerConfiguration()
+                                .Enrich.FromLogContext()
+                                .MinimumLevel.Is(Map(parsedLevel))
+                                .WriteTo.File("uml4net.logs",
+                                    rollingInterval: RollingInterval.Day,
+                                    outputTemplate: template);
+
+                            var serilogLogger = loggerConfig.CreateLogger();
+                            loggingBuilder.AddSerilog(serilogLogger, dispose: true);
+
+                            loggingBuilder.SetMinimumLevel(parsedLevel);
+                        })
                     , builder => builder
                         .ConfigureServices((services) =>
                         {
@@ -118,6 +147,7 @@ namespace uml4net.Tools
         private static RootCommand CreateCommandChain()
         {
             var root = new RootCommand("uml4net Tools");
+            root.AddGlobalOption(LogLevelOption);
 
             var reportCommand = new XlReportCommand();
             root.AddCommand(reportCommand);
@@ -133,5 +163,26 @@ namespace uml4net.Tools
 
             return root;
         }
+
+        /// <summary>
+        /// Maps a microsoft <see cref="LogLevel"/> to a serilog <see cref="LogEventLevel"/>
+        /// </summary>
+        /// <param name="lvl">
+        /// microsoft <see cref="LogLevel"/> that is to be mapped
+        /// </param>
+        /// <returns>
+        /// the mapped (resulting) serilog <see cref="LogEventLevel"/>
+        /// </returns>
+        private static LogEventLevel Map(LogLevel lvl) => lvl switch
+        {
+            LogLevel.Trace => LogEventLevel.Verbose,
+            LogLevel.Debug => LogEventLevel.Debug,
+            LogLevel.Information => LogEventLevel.Information,
+            LogLevel.Warning => LogEventLevel.Warning,
+            LogLevel.Error => LogEventLevel.Error,
+            LogLevel.Critical => LogEventLevel.Fatal,
+            LogLevel.None => LogEventLevel.Information, // pick a sensible default
+            _ => LogEventLevel.Information
+        };
     }
 }
