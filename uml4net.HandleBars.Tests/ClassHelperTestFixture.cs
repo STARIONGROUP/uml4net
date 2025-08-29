@@ -81,7 +81,7 @@ namespace uml4net.HandleBars.Tests
         [Test]
         public void Verify_that_QueryOwnedAttributeOrdered_returns_expected_order()
         {
-            var template = "{{#each (Class.QueryOwnedAttributeOrdered this) as | property |}}{{ property.Name }};{{/each}}";
+            var template = "{{#each (#Class.QueryOwnedAttributeOrdered this) as | property |}}{{ property.Name }};{{/each}}";
 
             var action = this.handlebarsContenxt.Compile(template);
 
@@ -96,7 +96,7 @@ namespace uml4net.HandleBars.Tests
         [Test]
         public void Verify_that_QueryOwnedAttributeOrdered_throws_when_not_provided_with_class()
         {
-            var template = "{{#each (Class.QueryOwnedAttributeOrdered this) as | property |}}{{ property.Name }};{{/each}}";
+            var template = "{{#each (#Class.QueryOwnedAttributeOrdered this) as | property |}}{{ property.Name }};{{/each}}";
 
             var action = this.handlebarsContenxt.Compile(template);
 
@@ -110,7 +110,7 @@ namespace uml4net.HandleBars.Tests
         [Test]
         public void Verify_that_QueryAllProperties_returns_expected_result()
         {
-            var template = "{{#each (Class.QueryAllProperties this) as | property |}}{{ property.Name }};{{/each}}";
+            var template = "{{#each (#Class.QueryAllProperties this) as | property |}}{{ property.Name }};{{/each}}";
 
             var action = this.handlebarsContenxt.Compile(template);
 
@@ -119,13 +119,13 @@ namespace uml4net.HandleBars.Tests
 
             var result = action(activity);
 
-            Assert.That(result, Is.EqualTo("context;edge;group;isReadOnly;isReentrant;isSingleExecution;node;ownedParameter;ownedParameterSet;partition;postcondition;precondition;redefinedBehavior;specification;structuredNode;variable;"));
+            Assert.That(result, Is.EqualTo("attribute;classifierBehavior;clientDependency;collaborationUse;context;edge;elementImport;extension;feature;general;generalization;group;importedMember;inheritedMember;interfaceRealization;isAbstract;isAbstract;isActive;isFinalSpecialization;isLeaf;isReadOnly;isReentrant;isSingleExecution;member;name;nameExpression;namespace;nestedClassifier;node;ownedAttribute;ownedAttribute;ownedBehavior;ownedComment;ownedConnector;ownedElement;ownedMember;ownedOperation;ownedParameter;ownedParameterSet;ownedPort;ownedReception;ownedRule;ownedTemplateSignature;ownedTemplateSignature;ownedUseCase;owner;owningTemplateParameter;package;packageImport;part;partition;postcondition;powertypeExtent;precondition;qualifiedName;redefinedBehavior;redefinedClassifier;redefinedElement;redefinitionContext;representation;role;specification;structuredNode;substitution;superClass;templateBinding;templateParameter;templateParameter;useCase;variable;visibility;visibility;"));
         }
 
         [Test]
         public void Verify_that_QueryAllContainedProperties_returns_expected_result()
         {
-            var template = "{{#each (Class.QueryAllContainedProperties this) as | property |}}{{ property.Name }};{{/each}}";
+            var template = "{{#each (#Class.QueryAllContainedProperties this) as | property |}}{{ property.Name }};{{/each}}";
 
             var action = this.handlebarsContenxt.Compile(template);
 
@@ -134,13 +134,13 @@ namespace uml4net.HandleBars.Tests
 
             var result = action(activity);
 
-            Assert.That(result, Is.EqualTo("edge;group;node;ownedParameter;ownedParameterSet;postcondition;precondition;structuredNode;variable;"));
+            Assert.That(result, Is.EqualTo("collaborationUse;edge;elementImport;generalization;group;interfaceRealization;nameExpression;nestedClassifier;node;ownedAttribute;ownedAttribute;ownedBehavior;ownedComment;ownedConnector;ownedElement;ownedMember;ownedOperation;ownedParameter;ownedParameterSet;ownedPort;ownedReception;ownedRule;ownedTemplateSignature;ownedTemplateSignature;ownedUseCase;packageImport;postcondition;precondition;structuredNode;substitution;templateBinding;variable;"));
         }
 
         [Test]
         public void Verify_that_QueryAllNonDerivedNonReadOnlyNonContainedReferenceEnumerableProperties_returns_expected_result()
         {
-            var template = "{{#each (Class.QueryAllNonDerivedNonReadOnlyNonContainedReferenceEnumerableProperties this) as | property |}}{{ property.Name }};{{/each}}";
+            var template = "{{#each (#Class.QueryAllNonDerivedNonReadOnlyNonContainedReferenceEnumerableProperties this) as | property |}}{{ property.Name }};{{/each}}";
 
             var action = this.handlebarsContenxt.Compile(template);
 
@@ -149,13 +149,13 @@ namespace uml4net.HandleBars.Tests
 
             var result = action(behavior);
 
-            Assert.That(result, Is.EqualTo("redefinedBehavior;"));
+            Assert.That(result, Is.EqualTo("powertypeExtent;redefinedBehavior;redefinedClassifier;useCase;"));
         }
 
         [Test]
         public void Verify_that_QueryAllSpecializations_returns_expected_result()
         {
-            var template = "{{#each (Class.QueryAllSpecializations this) as | cls |}}{{ cls.Name }};{{/each}}";
+            var template = "{{#each (#Class.QueryAllSpecializations this) as | cls |}}{{ cls.Name }};{{/each}}";
 
             var action = this.handlebarsContenxt.Compile(template);
 
