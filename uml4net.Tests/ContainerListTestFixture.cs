@@ -68,5 +68,47 @@ namespace uml4net.Tests
 
             Assert.That(() => package.PackagedElement.Add(@class), Throws.InvalidOperationException);
         }
+
+        [Test]
+        public void Verify_that_when_element_is_removed_its_possessor_is_set_to_null()
+        {
+            var package = new Package();
+
+            var @class = new Class();
+
+            package.PackagedElement.Add(@class);
+
+            package.PackagedElement.Remove(@class);
+
+            Assert.That(@class.Possessor, Is.Null);
+        }
+
+        [Test]
+        public void Verify_that_when_element_is_removed_by_index_its_possessor_is_set_to_null()
+        {
+            var package = new Package();
+
+            var @class = new Class();
+
+            package.PackagedElement.Add(@class);
+
+            package.PackagedElement.RemoveAt(0);
+
+            Assert.That(@class.Possessor, Is.Null);
+        }
+
+        [Test]
+        public void Verify_that_when_container_list_is_cleared_containee_possessor_is_set_to_null()
+        {
+            var package = new Package();
+
+            var @class = new Class();
+
+            package.PackagedElement.Add(@class);
+
+            package.PackagedElement.Clear();
+
+            Assert.That(@class.Possessor, Is.Null);
+        }
     }
 }

@@ -200,5 +200,64 @@ namespace uml4net
                 base[index] = value;
             }
         }
+
+        /// <summary>
+        /// Removes the first occurrence of a specific <typeparamref name="T"/> from the list and
+        /// resets its <see cref="IElement.Possessor"/> to <c>null</c> when removal succeeds.
+        /// </summary>
+        /// <param name="element">The object to remove from the list.</param>
+        /// <returns>
+        /// <see langword="true"/> if <paramref name="element"/> was successfully removed from the list;
+        /// otherwise, <see langword="false"/>.
+        /// </returns>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="element"/> is <c>null</c>.</exception>
+        public new bool Remove(T element)
+        {
+            if (element == null)
+            {
+                throw new ArgumentNullException(nameof(element));
+            }
+
+            if (!base.Remove(element))
+            {
+                return false;
+            }
+
+            element.Possessor = null;
+
+            return true;
+        }
+
+        /// <summary>
+        /// Removes the element at the specified index and resets its <see cref="IElement.Possessor"/> to <c>null</c>.
+        /// </summary>
+        /// <param name="index">The zero-based index of the element to remove.</param>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// Thrown when <paramref name="index"/> is less than 0 or is equal to or greater than <see cref="List{T}.Count"/>.
+        /// </exception>
+        public new void RemoveAt(int index)
+        {
+            if (index < 0 || index >= base.Count)
+            {
+                throw new ArgumentOutOfRangeException(nameof(index), $"index is {index}, valid range is 0 to {this.Count - 1}");
+            }
+
+            var element = base[index];
+            base.RemoveAt(index);
+            element.Possessor = null;
+        }
+
+        /// <summary>
+        /// Removes all items from the list and sets their <see cref="IElement.Possessor"/> to <c>null</c>.
+        /// </summary>
+        public new void Clear()
+        {
+            foreach (var element in this)
+            {
+                element.Possessor = null;
+            }
+
+            base.Clear();
+        }
     }
 }
