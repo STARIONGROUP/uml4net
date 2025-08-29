@@ -33,11 +33,9 @@ namespace uml4net.HandleBars.Tests
 
     using Serilog;
 
-    using uml4net.Classification;
     using uml4net.StructuredClassifiers;
     using uml4net.xmi;
     using uml4net.xmi.Readers;
-    using uml4net.Activities;
 
     [TestFixture]
     public class GeneralizationHelperTestFixture
@@ -97,6 +95,68 @@ namespace uml4net.HandleBars.Tests
         public void Verify_that_expected_interface_implementation_throws_exception_when_not_provided_with_class()
         {
             var template = "{{ #Generalization.Interfaces this }}";
+
+            var handlebarsTemplate = this.handlebarsContenxt.Compile(template);
+
+            var apiModelPackage = this.xmiReaderResult.Root.NestedPackage.Single(x => x.Name == "API_Model");
+
+            var project = apiModelPackage.PackagedElement.OfType<IClass>().Single(x => x.Name == "Project");
+            var property = project.OwnedAttribute.First();
+
+            Assert.That(() => handlebarsTemplate(property), Throws.TypeOf<ArgumentException>());
+        }
+
+        [Test]
+        public void Verify_that_expected_interface_implementation_and_interfaces_are_written_as_expected()
+        {
+            var template = "{{ #Generalization.InterfaceImplementationAndInterfaces this }}";
+
+            var handlebarsTemplate = this.handlebarsContenxt.Compile(template);
+
+            var apiModelPackage = this.xmiReaderResult.Root.NestedPackage.Single(x => x.Name == "API_Model");
+
+            var project = apiModelPackage.PackagedElement.OfType<IClass>().Single(x => x.Name == "Project");
+
+            var interfaces = handlebarsTemplate(project);
+
+            Assert.That(interfaces, Is.EqualTo(": IRecord"));
+        }
+
+        [Test]
+        public void Verify_that_expected_interface_implementation_and_interfaces_throws_exception_when_not_provided_with_class()
+        {
+            var template = "{{ #Generalization.InterfaceImplementationAndInterfaces this }}";
+
+            var handlebarsTemplate = this.handlebarsContenxt.Compile(template);
+
+            var apiModelPackage = this.xmiReaderResult.Root.NestedPackage.Single(x => x.Name == "API_Model");
+
+            var project = apiModelPackage.PackagedElement.OfType<IClass>().Single(x => x.Name == "Project");
+            var property = project.OwnedAttribute.First();
+
+            Assert.That(() => handlebarsTemplate(property), Throws.TypeOf<ArgumentException>());
+        }
+
+        [Test]
+        public void Verify_that_expected_class_implementation_is_written_as_expected()
+        {
+            var template = "{{ #Generalization.Classes this }}";
+
+            var handlebarsTemplate = this.handlebarsContenxt.Compile(template);
+
+            var apiModelPackage = this.xmiReaderResult.Root.NestedPackage.Single(x => x.Name == "API_Model");
+
+            var project = apiModelPackage.PackagedElement.OfType<IClass>().Single(x => x.Name == "Project");
+
+            var classes = handlebarsTemplate(project);
+
+            Assert.That(classes, Is.EqualTo(": IProject"));
+        }
+
+        [Test]
+        public void Verify_that_expected_class_implementation_throws_exception_when_not_provided_with_class()
+        {
+            var template = "{{ #Generalization.Classes this }}";
 
             var handlebarsTemplate = this.handlebarsContenxt.Compile(template);
 
