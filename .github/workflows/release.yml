@@ -3,7 +3,7 @@ name: Nuget-Release
 on:
   push:
     tags:
-      - '*'        # trigger on any tag; we'll filter to SemVer inside
+      - '*'        # trigger on any tag; we'll filter SemVer inside
 
 permissions:
   contents: write
@@ -29,7 +29,7 @@ jobs:
             echo "Not a SemVer release tag: $TAG"
           fi
 
-      - name: Setup dotnet
+      - name: Setup .NET
         if: steps.filter.outputs.is_release == 'true'
         uses: actions/setup-dotnet@v4
         with:
@@ -51,13 +51,12 @@ jobs:
           sed -i "s/^  version:.*/  version: \"${VERSION}\"/" CITATION.cff
           sed -i "s/^  date-released:.*/  date-released: \"${DATE}\"/" CITATION.cff
 
-      - name: Commit CITATION.cff
+      - name: Commit CITATION.cff (if changed)
         if: steps.filter.outputs.is_release == 'true'
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add CITATION.cff
-          # Only commit if there are changes (avoid failing when no diff)
           if ! git diff --cached --quiet; then
             git commit -m "chore: release ${VERSION}"
             git push origin HEAD:${GITHUB_EVENT_REPOSITORY_DEFAULT_BRANCH}
@@ -67,7 +66,61 @@ jobs:
         env:
           GITHUB_EVENT_REPOSITORY_DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
 
-      - name: Pack Nuget
+      - name: Install xmlstarlet (for parsing csproj)
+        if: steps.filter.outputs.is_release == 'true'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y xmlstarlet
+
+      - name: Generate RELEASE_NOTES.md from csproj PackageReleaseNotes
+        if: steps.filter.outputs.is_release == 'true'
+        run: |
+          set -euo pipefail
+          echo "The following items have been fixed in this release:" > RELEASE_NOTES.md
+          echo "" >> RELEASE_NOTES.md
+
+          # Collect all csproj files deterministically
+          mapfile -t CSPROJS < <(git ls-files '*.csproj' | sort)
+
+          for csproj in "${CSPROJS[@]}"; do
+            # Prefer <PackageId>, fallback to file name
+            pkg_id="$(xmlstarlet sel -t -v '(//Project/PropertyGroup/PackageId)[1]' "$csproj" 2>/dev/null || true)"
+            if [ -z "$pkg_id" ]; then
+              pkg_id="$(basename "$csproj" .csproj)"
+            fi
+
+            # Prefer per-project <Version>, fallback to tag version
+            pkg_version="$(xmlstarlet sel -t -v '(//Project/PropertyGroup/Version)[1]' "$csproj" 2>/dev/null || true)"
+            if [ -z "$pkg_version" ]; then
+              pkg_version="${VERSION}"
+            fi
+
+            # Extract multiline PackageReleaseNotes (may be empty)
+            notes="$(xmlstarlet sel -t -v '(//Project/PropertyGroup/PackageReleaseNotes)[1]' "$csproj" 2>/dev/null || true)"
+
+            # Normalize line endings
+            notes="$(printf "%s" "$notes" | sed -e 's/\r$//')"
+
+            if [ -n "$notes" ]; then
+              printf "**%s [%s]**\n" "$pkg_id" "$pkg_version" >> RELEASE_NOTES.md
+              # Write each non-empty line as a Markdown bullet, avoiding double bullets
+              while IFS= read -r line; do
+                # Trim whitespace
+                trimmed="$(printf "%s" "$line" | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')"
+                if [ -n "$trimmed" ]; then
+                  # Remove a leading bullet if present, then add our standard bullet
+                  cleaned="$(printf "%s" "$trimmed" | sed 's/^- \{0,1\}//')"
+                  printf "  - %s\n" "$cleaned" >> RELEASE_NOTES.md
+                fi
+              done <<< "$notes"
+              echo "" >> RELEASE_NOTES.md
+            fi
+          done
+
+          echo "----- RELEASE_NOTES.md -----"
+          cat RELEASE_NOTES.md
+
+      - name: Pack
         if: steps.filter.outputs.is_release == 'true'
         run: dotnet pack -c Release -o ReleaseBuilds uml4net.sln
 
@@ -76,3 +129,14 @@ jobs:
         env:
           NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
         run: dotnet nuget push ReleaseBuilds/*.nupkg -k "$NUGET_API_KEY" -s https://api.nuget.org/v3/index.json --skip-duplicate
+
+      - name: Create draft GitHub release
+        if: steps.filter.outputs.is_release == 'true'
+        uses: softprops/action-gh-release@v2
+        with:
+          draft: true
+          name: "uml4net ${VERSION}"
+          body_path: RELEASE_NOTES.md
+          tag_name: ${{ github.ref_name }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
