@@ -37,9 +37,10 @@ namespace uml4net.Activities
         /// <returns>
         /// The ActivityEdges immediately contained in the ActivityGroup.
         /// </returns>
+        [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
         internal static List<IActivityEdge> QueryContainedEdge(this IActivityGroup activityGroup)
         {
-            throw new NotSupportedException();
+            throw new NotSupportedException("Create a GitHub issue when this method is required");
         }
 
         /// <summary>
@@ -51,9 +52,10 @@ namespace uml4net.Activities
         /// <returns>
         /// The ActivityNodes immediately contained in the ActivityGroup.
         /// </returns>
+        [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
         internal static List<IActivityNode> QueryContainedNode(this IActivityGroup activityGroup)
         {
-            throw new NotSupportedException();
+            throw new NotSupportedException("Create a GitHub issue when this method is required");
         }
 
         /// <summary>
@@ -65,9 +67,10 @@ namespace uml4net.Activities
         /// <returns>
         /// The Other ActivityGroups immediately contained in this ActivityGroup.
         /// </returns>
+        [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
         internal static IContainerList<IActivityGroup> QuerySubgroup(this IActivityGroup activityGroup)
         {
-            throw new NotSupportedException();
+            throw new NotSupportedException("Create a GitHub issue when this method is required");
         }
 
         /// <summary>
@@ -81,9 +84,10 @@ namespace uml4net.Activities
         /// The ActivityGroup immediately containing this ActivityGroup, if it is directly owned by another
         /// ActivityGroup.
         /// </returns>
+        [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
         internal static IActivityGroup QuerySuperGroup(this IActivityGroup activityGroup)
         {
-            throw new NotSupportedException();
+            throw new NotSupportedException("Create a GitHub issue when this method is required");
         }
     }
 }

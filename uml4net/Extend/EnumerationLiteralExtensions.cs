@@ -36,9 +36,10 @@ namespace uml4net.SimpleClassifiers
         /// <returns>
         /// The classifier of this EnumerationLiteral derived to be equal to its Enumeration.
         /// </returns>
+        [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
         internal static IEnumeration QueryClassifier(this IEnumerationLiteral enumerationLiteral)
         {
-            throw new NotSupportedException();
+            throw new NotSupportedException("Create a GitHub issue when this method is required");
         }
     }
 }

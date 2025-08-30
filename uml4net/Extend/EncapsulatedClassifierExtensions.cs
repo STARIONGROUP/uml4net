@@ -36,9 +36,10 @@ namespace uml4net.StructuredClassifiers
         /// <returns>
         /// The Ports owned by the EncapsulatedClassifier.
         /// </returns>
+        [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
         internal static IContainerList<IPort> QueryOwnedPort(this IEncapsulatedClassifier encapsulatedClassifier)
         {
-            throw new NotSupportedException();
+            throw new NotSupportedException("Create a GitHub issue when this method is required");
         }
     }
 }

@@ -91,9 +91,10 @@ namespace uml4net.Classification
         /// each Feature directly defined in the classifier. Note that there may be members of the
         /// Classifier that are of the type Feature but are not included, e.g., inherited features.
         /// </returns>
+        [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
         internal static List<IFeature> QueryFeature(this IClassifier element)
         {
-            throw new NotSupportedException();
+            throw new NotSupportedException("Create a GitHub issue when this method is required");
         }
 
         /// <summary>
@@ -104,6 +105,7 @@ namespace uml4net.Classification
         /// A list of <see cref="IClassifier"/> objects that represent the generalizations of the specified <paramref name="element"/>. 
         /// If the element does not have any generalizations, an empty list will be returned.
         /// </returns>
+        [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
         internal static List<IClassifier> QueryGeneral(this IClassifier element)
         {
             if (element == null)
@@ -123,9 +125,10 @@ namespace uml4net.Classification
         /// <returns>
         /// All elements inherited by this Classifier from its general Classifiers.
         /// </returns>
+        [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
         internal static List<INamedElement> QueryInheritedMember(this IClassifier element)
         {
-            throw new NotSupportedException();
+            throw new NotSupportedException("Create a GitHub issue when this method is required");
         }
     }
 }

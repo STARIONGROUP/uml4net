@@ -36,9 +36,10 @@ namespace uml4net.Classification
         /// <returns>
         /// The Classifiers that have this Feature as a feature.
         /// </returns>
+        [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
         internal static IClassifier QueryFeaturingClassifier(this IFeature feature)
         {
-            throw new NotSupportedException();
+            throw new NotSupportedException("Create a GitHub issue when this method is required");
         }
     }
 }

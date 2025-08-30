@@ -39,23 +39,10 @@ namespace uml4net.StateMachines
         /// <returns>
         /// The Transitions entering this Vertex.
         /// </returns>
+        [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
         internal static List<ITransition> QueryIncoming(this IVertex vertex)
         {
-            throw new NotSupportedException();
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="vertex">
-        /// The subject <see cref="IVertex"/>
-        /// </param>
-        /// <returns>
-        ///
-        /// </returns>
-        internal static List<ITransition> QueryOutgoing(this IVertex vertex)
-        {
-            throw new NotSupportedException();
+            throw new NotSupportedException("Create a GitHub issue when this method is required");
         }
 
         /// <summary>
@@ -67,9 +54,24 @@ namespace uml4net.StateMachines
         /// <returns>
         /// The Transitions departing from this Vertex.
         /// </returns>
+        [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
+        internal static List<ITransition> QueryOutgoing(this IVertex vertex)
+        {
+            throw new NotSupportedException("Create a GitHub issue when this method is required");
+        }
+
+        /// <summary>
+        /// Classifier in which context this element may be redefined.
+        /// </summary>
+        /// <param name="vertex">
+        /// The subject <see cref="IVertex"/>
+        /// </param>
+        /// <returns>
+        /// Classifier in which context this element may be redefined.
+        /// </returns>
         internal static IClassifier QueryRedefinitionContext(this IVertex vertex)
         {
-            throw new NotSupportedException();
+            throw new NotSupportedException("Create a GitHub issue when this method is required");
         }
     }
 }

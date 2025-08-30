@@ -41,9 +41,10 @@ namespace uml4net.Classification
         /// whether the return parameter is ordered or not, if present.  This information is derived
         /// from the return result for this Operation.
         /// </returns>
+        [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
         internal static bool QueryIsOrdered(this IOperation operation)
         {
-            throw new NotSupportedException();
+            throw new NotSupportedException("Create a GitHub issue when this method is required");
         }
 
         /// <summary>
@@ -57,9 +58,10 @@ namespace uml4net.Classification
         /// whether the return parameter is unique or not, if present. This information is derived
         /// from the return result for this Operation.
         /// </returns>
+        [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
         internal static bool QueryIsUnique(this IOperation operation)
         {
-            throw new NotSupportedException();
+            throw new NotSupportedException("Create a GitHub issue when this method is required");
         }
 
         /// <summary>
@@ -73,9 +75,10 @@ namespace uml4net.Classification
         /// the lower multiplicity of the return parameter, if present. This information is derived
         /// from the return result for this Operation.
         /// </returns>
+        [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
         internal static int QueryLower(this IOperation operation)
         {
-            throw new NotSupportedException();
+            throw new NotSupportedException("Create a GitHub issue when this method is required");
         }
 
         /// <summary>
@@ -89,9 +92,10 @@ namespace uml4net.Classification
         /// The return type of the operation, if present. This information is derived from the return result for
         /// this Operation.
         /// </returns>
+        [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
         internal static IType QueryType(this IOperation operation)
         {
-            throw new NotSupportedException();
+            throw new NotSupportedException("Create a GitHub issue when this method is required");
         }
 
         /// <summary>
@@ -105,9 +109,10 @@ namespace uml4net.Classification
         /// The upper multiplicity of the return parameter, if present. This information is derived from the
         /// return result for this Operation.
         /// </returns>
+        [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
         internal static string QueryUpper(this IOperation operation)
         {
-            throw new NotSupportedException();
+            throw new NotSupportedException("Create a GitHub issue when this method is required");
         }
     }
 }

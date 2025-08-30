@@ -37,9 +37,10 @@ namespace uml4net.CommonStructure
         /// <returns>
         /// the Dependencies that reference this NamedElement as a client.
         /// </returns>
+        [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
         internal static List<IDependency> QueryClientDependency(this INamedElement namedElement)
         {
-            throw new NotSupportedException();
+            throw new NotSupportedException("Create a GitHub issue when this method is required");
         }
 
         /// <summary>
@@ -53,9 +54,10 @@ namespace uml4net.CommonStructure
         /// A collection of NamedElements identifiable within the Namespace, either by being owned or by being
         /// introduced by importing or inheritance.
         /// </returns>
+        [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
         internal static List<INamedElement> QueryMember(this INamedElement namedElement)
         {
-            throw new NotSupportedException();
+            throw new NotSupportedException("Create a GitHub issue when this method is required");
         }
 
         /// <summary>
@@ -141,9 +143,10 @@ namespace uml4net.CommonStructure
         /// <returns>
         /// A collection of NamedElements owned by the Namespace.
         /// </returns>
+        [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
         internal static IContainerList<INamedElement> QueryOwnedMember(this INamedElement namedElement)
         {
-            throw new NotSupportedException();
+            throw new NotSupportedException("Create a GitHub issue when this method is required");
         }
     }
 }

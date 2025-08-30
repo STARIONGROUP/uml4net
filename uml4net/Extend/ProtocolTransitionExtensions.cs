@@ -41,9 +41,10 @@ namespace uml4net.StateMachines
         /// The association refers to the associated Operation. It is derived from the Operation of the
         /// CallEvent Trigger when applicable.
         /// </returns>
+        [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
         internal static List<IOperation> QueryReferred(this IProtocolTransition protocolTransition)
         {
-            throw new NotSupportedException();
+            throw new NotSupportedException("Create a GitHub issue when this method is required");
         }
     }
 }

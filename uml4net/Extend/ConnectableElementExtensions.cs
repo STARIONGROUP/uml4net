@@ -37,9 +37,10 @@ namespace uml4net.StructuredClassifiers
         /// <returns>
         /// A set of ConnectorEnds that attach to this ConnectableElement.
         /// </returns>
+        [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
         internal static List<IConnectorEnd> QueryEnd(this IConnectableElement connectableElement)
         {
-            throw new NotSupportedException();
+            throw new NotSupportedException("Create a GitHub issue when this method is required");
         }
     }
 }

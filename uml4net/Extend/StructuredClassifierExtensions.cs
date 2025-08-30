@@ -41,9 +41,10 @@ namespace uml4net.StructuredClassifiers
         /// The Properties specifying instances that the StructuredClassifier owns by composition. This
         /// collection is derived, selecting those owned Properties where isComposite is true.
         /// </returns>
+        [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
         internal static List<IProperty> QueryPart(this IStructuredClassifier structuredClassifier)
         {
-            throw new NotSupportedException();
+            throw new NotSupportedException("Create a GitHub issue when this method is required");
         }
 
         /// <summary>
@@ -55,9 +56,10 @@ namespace uml4net.StructuredClassifiers
         /// <returns>
         /// The roles that instances may play in this StructuredClassifier.
         /// </returns>
+        [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
         internal static List<IConnectableElement> QueryRole(this IStructuredClassifier structuredClassifier)
         {
-            throw new NotSupportedException();
+            throw new NotSupportedException("Create a GitHub issue when this method is required");
         }
     }
 }

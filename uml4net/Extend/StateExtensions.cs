@@ -38,9 +38,10 @@ namespace uml4net.StateMachines
         /// A state with isComposite=true is said to be a composite State. A composite State is a State that
         /// contains at least one Region.
         /// </returns>
+        [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
         internal static bool QueryIsComposite(this IState state)
         {
-            throw new NotSupportedException();
+            throw new NotSupportedException("Create a GitHub issue when this method is required");
         }
 
         /// <summary>
@@ -54,9 +55,10 @@ namespace uml4net.StateMachines
         /// A State with isSimple=true is said to be a simple State A simple State does not have any Regions and
         /// it does not refer to any submachine StateMachine.
         /// </returns>
+        [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
         internal static bool QueryIsSimple(this IState state)
         {
-            throw new NotSupportedException();
+            throw new NotSupportedException("Create a GitHub issue when this method is required");
         }
 
         /// <summary>
@@ -70,9 +72,10 @@ namespace uml4net.StateMachines
         /// A State with isSubmachineState=true is said to be a submachine State Such a State refers to another
         /// StateMachine(submachine).
         /// </returns>
+        [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
         internal static bool QueryIsSubmachineState(this IState state)
         {
-            throw new NotSupportedException();
+            throw new NotSupportedException("Create a GitHub issue when this method is required");
         }
 
         /// <summary>
@@ -86,9 +89,10 @@ namespace uml4net.StateMachines
         /// A State with isOrthogonal=true is said to be an orthogonal composite State An orthogonal composite
         /// State contains two or more Regions.
         /// </returns>
+        [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
         internal static bool QueryIsOrthogonal(this IState state)
         {
-            throw new NotSupportedException();
+            throw new NotSupportedException("Create a GitHub issue when this method is required");
         }
     }
 }

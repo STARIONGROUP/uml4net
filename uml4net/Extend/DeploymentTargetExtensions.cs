@@ -41,9 +41,10 @@ namespace uml4net.Deployments
         /// The set of elements that are manifested in an Artifact that is involved in Deployment to a
         /// DeploymentTarget.
         /// </returns>
+        [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
         internal static List<IPackageableElement> QueryDeployedElement(this IDeploymentTarget deploymentTarget)
         {
-            throw new NotSupportedException();
+            throw new NotSupportedException("Create a GitHub issue when this method is required");
         }
     }
 }

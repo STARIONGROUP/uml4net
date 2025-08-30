@@ -37,9 +37,10 @@ namespace uml4net.Classification
         /// <returns>
         /// The RedefinableElement that is being redefined by this element.
         /// </returns>
+        [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
         internal static List<IRedefinableElement> QueryRedefinedElement(this IRedefinableElement redefinableElement)
         {
-            throw new NotSupportedException();
+            throw new NotSupportedException("Create a GitHub issue when this method is required");
         }
 
         /// <summary>
@@ -51,9 +52,10 @@ namespace uml4net.Classification
         /// <returns>
         /// The contexts that this element may be redefined from.
         /// </returns>
+        [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
         internal static List<IClassifier> QueryRedefinitionContext(this IRedefinableElement redefinableElement)
         {
-            throw new NotSupportedException();
+            throw new NotSupportedException("Create a GitHub issue when this method is required");
         }
     }
 }

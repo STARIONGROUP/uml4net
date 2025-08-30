@@ -36,9 +36,10 @@ namespace uml4net.Classification
         /// <returns>
         /// A String that represents a value to be used when no argument is supplied for the Parameter.
         /// </returns>
+        [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
         internal static string QueryDefault(this IParameter parameter)
         {
-            throw new NotSupportedException();
+            throw new NotSupportedException("Create a GitHub issue when this method is required");
         }
     }
 }

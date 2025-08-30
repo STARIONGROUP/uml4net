@@ -54,9 +54,10 @@ namespace uml4net.CommonBehavior
         /// the context BehavioredClassifier as well as the Elements visible to the context Classifier are
         /// visible to the Behavior.
         /// </returns>
+        [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
         internal static IBehavioredClassifier QueryContext(this IBehavior behavior)
         {
-            throw new NotSupportedException();
+            throw new NotSupportedException("Create a GitHub issue when this method is required");
         }
     }
 }

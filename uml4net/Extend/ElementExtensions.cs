@@ -54,9 +54,10 @@ namespace uml4net.CommonStructure
         /// <returns>
         /// The Elements owned by this Element.
         /// </returns>
+        [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
         internal static IContainerList<IElement> QueryOwnedElement(this IElement element)
         {
-            throw new NotSupportedException();
+            throw new NotSupportedException("Create a GitHub issue when this method is required");
         }
     }
 }

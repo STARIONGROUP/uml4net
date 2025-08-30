@@ -38,9 +38,10 @@ namespace uml4net.StateMachines
         /// <returns>
         /// The Classifier in which context this element may be redefined.
         /// </returns>
+        [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
         internal static IClassifier QueryRedefinitionContext(this IRegion region)
         {
-            throw new NotSupportedException();
+            throw new NotSupportedException("Create a GitHub issue when this method is required");
         }
     }
 }

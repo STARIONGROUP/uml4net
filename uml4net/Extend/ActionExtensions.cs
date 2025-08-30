@@ -39,9 +39,10 @@ namespace uml4net.Actions
         /// <returns>
         /// a <see cref="IClassifier"/>
         /// </returns>
+        [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
         internal static IClassifier QueryContext(this IAction action)
         {
-            throw new NotSupportedException();
+            throw new NotSupportedException("Create a GitHub issue when this method is required");
         }
 
         /// <summary>
@@ -53,9 +54,10 @@ namespace uml4net.Actions
         /// <returns>
         /// The ordered set of InputPins representing the inputs to the Action.
         /// </returns>
+        [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
         internal static IContainerList<IInputPin> QueryInput(this IAction action)
         {
-            throw new NotSupportedException();
+            throw new NotSupportedException("Create a GitHub issue when this method is required");
         }
 
         /// <summary>
@@ -67,9 +69,10 @@ namespace uml4net.Actions
         /// <returns>
         /// 
         /// </returns>
+        [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
         internal static IContainerList<IOutputPin> QueryOutput(this IAction action)
         {
-            throw new NotSupportedException();
+            throw new NotSupportedException("Create a GitHub issue when this method is required");
         }
     }
 }

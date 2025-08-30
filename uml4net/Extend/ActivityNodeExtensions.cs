@@ -37,9 +37,10 @@ namespace uml4net.Activities
         /// <returns>
         /// The ActivityGroups containing the ActivityNode.
         /// </returns>
+        [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
         internal static List<IActivityGroup> QueryInGroup(this IActivityNode activityNode)
         {
-            throw new NotSupportedException();
+            throw new NotSupportedException("Create a GitHub issue when this method is required");
         }
     }
 }

@@ -46,9 +46,10 @@ namespace uml4net.Packages
         /// true, but otherwise it is false. Since the default value of ExtensionEnd::lower is 0, the default
         /// value of isRequired is false.
         /// </returns>
+        [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
         internal static bool QueryIsRequired(this IExtension extension)
         {
-            throw new NotSupportedException();
+            throw new NotSupportedException("Create a GitHub issue when this method is required");
         }
 
         /// <summary>
@@ -62,9 +63,10 @@ namespace uml4net.Packages
         /// the Class that is extended through an Extension. The property is derived from the type of
         /// the memberEnd that is not the ownedEnd.
         /// </returns>
+        [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
         internal static IClass QueryMetaclass(this IExtension extension)
         {
-            throw new NotSupportedException();
+            throw new NotSupportedException("Create a GitHub issue when this method is required");
         }
     }
 }

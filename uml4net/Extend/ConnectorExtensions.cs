@@ -40,9 +40,10 @@ namespace uml4net.StructuredClassifiers
         /// Port which is not on a Part and which is not a behavior port is a delegation; otherwise it is an
         /// assembly.
         /// </returns>
+        [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
         internal static ConnectorKind QueryKind(this IConnector connector)
         {
-            throw new NotSupportedException();
+            throw new NotSupportedException("Create a GitHub issue when this method is required");
         }
     }
 }

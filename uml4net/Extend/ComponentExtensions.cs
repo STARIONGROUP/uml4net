@@ -43,9 +43,10 @@ namespace uml4net.StructuredClassifiers
         /// the Component or any of its realizingClassifiers, or they may be the Interfaces that are provided by
         /// its public Ports.
         /// </returns>
+        [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
         internal static List<IInterface> QueryProvided(this IComponent component)
         {
-            throw new NotSupportedException();
+            throw new NotSupportedException("Create a GitHub issue when this method is required");
         }
 
         /// <summary>
@@ -63,9 +64,10 @@ namespace uml4net.StructuredClassifiers
         /// or any of its realizingClassifiers, or they may be the Interfaces that are required by its public
         /// Ports.
         /// </returns>
+        [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
         internal static List<IInterface> QueryRequired(this IComponent component)
         {
-            throw new NotSupportedException();
+            throw new NotSupportedException("Create a GitHub issue when this method is required");
         }
     }
 }

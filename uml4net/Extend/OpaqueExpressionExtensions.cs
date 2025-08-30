@@ -41,9 +41,10 @@ namespace uml4net.Values
         /// return Parameter of that Behavior. When the Behavior completes execution, the values on this
         /// Parameter give the result of evaluating the OpaqueExpression.
         /// </returns>
+        [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
         internal static IParameter QueryResult(this IOpaqueExpression opaqueExpression)
         {
-            throw new NotSupportedException();
+            throw new NotSupportedException("Create a GitHub issue when this method is required");
         }
     }
 }

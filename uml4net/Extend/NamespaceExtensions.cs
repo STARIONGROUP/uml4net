@@ -39,9 +39,10 @@ namespace uml4net.CommonStructure
         /// the PackageableElements that are members of this Namespace as a result of either
         /// PackageImports or ElementImports.
         /// </returns>
+        [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
         internal static List<IPackageableElement> QueryImportedMember(this INamespace @namespace)
         {
-            throw new NotSupportedException();
+            throw new NotSupportedException("Create a GitHub issue when this method is required");
         }
     }
 }

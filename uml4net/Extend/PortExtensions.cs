@@ -51,9 +51,10 @@ namespace uml4net.StructuredClassifiers
         /// Port is typed by an Interface. If isConjugated is true, it is derived as the union of the sets of
         /// Interfaces used by the type of the Port and its supertypes.
         /// </returns>
+        [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
         internal static List<IInterface> QueryProvided(this IPort port)
         {
-            throw new NotSupportedException();
+            throw new NotSupportedException("Create a GitHub issue when this method is required");
         }
 
         /// <summary>
@@ -75,9 +76,10 @@ namespace uml4net.StructuredClassifiers
         /// as the union of the sets of Interfaces realized by the type of the Port and its supertypes, or
         /// directly from the type of the Port if the Port is typed by an Interface.
         /// </returns>
+        [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
         internal static List<IInterface> QueryRequired(this IPort port)
         {
-            throw new NotSupportedException();
+            throw new NotSupportedException("Create a GitHub issue when this method is required");
         }
     }
 }
