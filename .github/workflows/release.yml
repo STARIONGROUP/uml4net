@@ -1,114 +1,113 @@
 name: Nuget-Release
 
 on:
-  push:
-    tags:
-      - '*'        # trigger on any tag; we'll filter SemVer inside
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'SemVer (e.g., 1.2.3 or 1.2.3-beta.1)'
+        required: true
+        type: string
 
 permissions:
   contents: write
 
 jobs:
-  publish:
+  release:
     runs-on: ubuntu-latest
+    env:
+      DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
+
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          ref: ${{ env.DEFAULT_BRANCH }}
 
-      # Gate: only continue for SemVer tags (e.g., 1.2.3 or 1.2.3-beta.1)
-      - name: Check tag is a release (SemVer)
-        id: filter
+      - name: Validate version (SemVer)
+        id: semver
         run: |
-          TAG="${GITHUB_REF#refs/tags/}"
-          if [[ "$TAG" =~ ^[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z\.-]+)?$ ]]; then
-            echo "is_release=true" >> "$GITHUB_OUTPUT"
-            echo "VERSION=$TAG" >> "$GITHUB_ENV"
+          set -euo pipefail
+          VERSION="${{ github.event.inputs.version }}"
+          if [[ "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z\.-]+)?$ ]]; then
+            echo "VERSION=$VERSION" >> "$GITHUB_ENV"
+            if [[ "$VERSION" == *-* ]]; then
+              echo "PRERELEASE=true" >> "$GITHUB_ENV"
+            else
+              echo "PRERELEASE=false" >> "$GITHUB_ENV"
+            fi
           else
-            echo "is_release=false" >> "$GITHUB_OUTPUT"
-            echo "Not a SemVer release tag: $TAG"
+            echo "Provided version '$VERSION' is not SemVer." >&2
+            exit 1
           fi
 
       - name: Setup .NET
-        if: steps.filter.outputs.is_release == 'true'
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '9.0.x'
 
       - name: Set date
-        if: steps.filter.outputs.is_release == 'true'
         run: |
           DATE=$(date +'%Y-%m-%d')
           echo "DATE=$DATE" >> $GITHUB_ENV
 
-      - name: Update CITATION.cff
-        if: steps.filter.outputs.is_release == 'true'
+      - name: Update CITATION.cff (version + date)
         run: |
-          # Top-level fields
+          # Top-level
           sed -i "s/^version:.*/version: \"${VERSION}\"/" CITATION.cff
           sed -i "s/^date-released:.*/date-released: \"${DATE}\"/" CITATION.cff
-          # preferred-citation fields (two-space indent)
+          # preferred-citation (two-space indent)
           sed -i "s/^  version:.*/  version: \"${VERSION}\"/" CITATION.cff
           sed -i "s/^  date-released:.*/  date-released: \"${DATE}\"/" CITATION.cff
 
-      - name: Commit CITATION.cff (if changed)
-        if: steps.filter.outputs.is_release == 'true'
+      - name: Commit CITATION.cff to default branch
         run: |
+          set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add CITATION.cff
+
           if ! git diff --cached --quiet; then
-            git commit -m "chore: release ${VERSION}"
-            git push origin HEAD:${GITHUB_EVENT_REPOSITORY_DEFAULT_BRANCH}
+            git commit -m "chore: release ${VERSION} (update CITATION.cff)"
+            git push origin HEAD:${DEFAULT_BRANCH}
           else
-            echo "No changes to CITATION.cff to commit."
+            echo "No changes to CITATION.cff."
           fi
-        env:
-          GITHUB_EVENT_REPOSITORY_DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
 
       - name: Install xmlstarlet (for parsing csproj)
-        if: steps.filter.outputs.is_release == 'true'
         run: |
           sudo apt-get update
           sudo apt-get install -y xmlstarlet
 
-      - name: Generate RELEASE_NOTES.md from csproj PackageReleaseNotes
-        if: steps.filter.outputs.is_release == 'true'
+      - name: Build RELEASE_NOTES.md from PackageReleaseNotes
         run: |
           set -euo pipefail
           echo "The following items have been fixed in this release:" > RELEASE_NOTES.md
           echo "" >> RELEASE_NOTES.md
 
-          # Collect all csproj files deterministically
           mapfile -t CSPROJS < <(git ls-files '*.csproj' | sort)
 
           for csproj in "${CSPROJS[@]}"; do
-            # Prefer <PackageId>, fallback to file name
+            # PackageId (fallback to file name)
             pkg_id="$(xmlstarlet sel -t -v '(//Project/PropertyGroup/PackageId)[1]' "$csproj" 2>/dev/null || true)"
             if [ -z "$pkg_id" ]; then
               pkg_id="$(basename "$csproj" .csproj)"
             fi
 
-            # Prefer per-project <Version>, fallback to tag version
+            # Version (fallback to the workflow input)
             pkg_version="$(xmlstarlet sel -t -v '(//Project/PropertyGroup/Version)[1]' "$csproj" 2>/dev/null || true)"
             if [ -z "$pkg_version" ]; then
               pkg_version="${VERSION}"
             fi
 
-            # Extract multiline PackageReleaseNotes (may be empty)
+            # Multiline PackageReleaseNotes
             notes="$(xmlstarlet sel -t -v '(//Project/PropertyGroup/PackageReleaseNotes)[1]' "$csproj" 2>/dev/null || true)"
-
-            # Normalize line endings
             notes="$(printf "%s" "$notes" | sed -e 's/\r$//')"
 
             if [ -n "$notes" ]; then
               printf "**%s [%s]**\n" "$pkg_id" "$pkg_version" >> RELEASE_NOTES.md
-              # Write each non-empty line as a Markdown bullet, avoiding double bullets
               while IFS= read -r line; do
-                # Trim whitespace
                 trimmed="$(printf "%s" "$line" | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')"
                 if [ -n "$trimmed" ]; then
-                  # Remove a leading bullet if present, then add our standard bullet
                   cleaned="$(printf "%s" "$trimmed" | sed 's/^- \{0,1\}//')"
                   printf "  - %s\n" "$cleaned" >> RELEASE_NOTES.md
                 fi
@@ -121,22 +120,25 @@ jobs:
           cat RELEASE_NOTES.md
 
       - name: Pack
-        if: steps.filter.outputs.is_release == 'true'
         run: dotnet pack -c Release -o ReleaseBuilds uml4net.sln
 
       - name: Push to NuGet
-        if: steps.filter.outputs.is_release == 'true'
         env:
           NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
         run: dotnet nuget push ReleaseBuilds/*.nupkg -k "$NUGET_API_KEY" -s https://api.nuget.org/v3/index.json --skip-duplicate
 
+      - name: Create annotated tag at this commit
+        run: |
+          git tag -a "${VERSION}" -m "Release ${VERSION}"
+          git push origin "refs/tags/${VERSION}"
+
       - name: Create draft GitHub release
-        if: steps.filter.outputs.is_release == 'true'
         uses: softprops/action-gh-release@v2
         with:
           draft: true
+          prerelease: ${{ env.PRERELEASE }}
           name: "uml4net ${VERSION}"
+          tag_name: "${{ env.VERSION }}"
           body_path: RELEASE_NOTES.md
-          tag_name: ${{ github.ref_name }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
