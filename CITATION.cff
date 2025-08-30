@@ -1,0 +1,48 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+
+title: "uml4net: A .NET implementation of the OMG UML v2.5.1 specification"
+abstract: "Uml4net is a suite of .NET libraries and tools for working with UML 2.5.1 models in XMI form and supporting code generation."
+version: "1.0.0"
+date-released: "2025-08-30"
+url: "https://github.com/stariongroup/uml4net"
+
+authors:
+  - given-names: "Sam"
+    family-names: "Gerené"
+    affiliation: "Starion Group S.A."
+    orcid: "https://orcid.org/0009-0000-1848-550X"
+  - given-names: Antoine
+    family-names: Théate
+    affiliation: "Starion Group S.A."
+  - given-names: Nathanael
+    family-names: Smiechowski
+    affiliation: "Starion Group S.A."
+  - given-names: Alexander
+    family-names: Van Delft
+    affiliation: "Starion Group S.A."
+  - name: "Starion Group S.A."
+
+repository-code: "https://github.com/stariongroup/uml4net"
+license: "Apache-2.0"
+
+preferred-citation:
+  type: software
+  title: "uml4net: A .NET implementation of the OMG UML v2.5.1 specification"
+  authors:
+    - given-names: "Sam"
+      family-names: "Gerené"
+      orcid: "https://orcid.org/0009-0000-1848-550X"
+    - given-names: Antoine
+      family-names: Théate
+      affiliation: "Starion Group S.A."
+    - given-names: Nathanael
+      family-names: Smiechowski
+      affiliation: "Starion Group S.A."
+    - given-names: Alexander
+      family-names: Van Delft
+      affiliation: "Starion Group S.A."
+    - name: "Starion Group S.A."
+  version: "1.0.0"
+  url: "https://github.com/stariongroup/uml4net"
+  date-released: "2025-08-30"

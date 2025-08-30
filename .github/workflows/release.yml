@@ -1,0 +1,78 @@
+name: Nuget-Release
+
+on:
+  push:
+    tags:
+      - '*'        # trigger on any tag; we'll filter to SemVer inside
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      # Gate: only continue for SemVer tags (e.g., 1.2.3 or 1.2.3-beta.1)
+      - name: Check tag is a release (SemVer)
+        id: filter
+        run: |
+          TAG="${GITHUB_REF#refs/tags/}"
+          if [[ "$TAG" =~ ^[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z\.-]+)?$ ]]; then
+            echo "is_release=true" >> "$GITHUB_OUTPUT"
+            echo "VERSION=$TAG" >> "$GITHUB_ENV"
+          else
+            echo "is_release=false" >> "$GITHUB_OUTPUT"
+            echo "Not a SemVer release tag: $TAG"
+          fi
+
+      - name: Setup dotnet
+        if: steps.filter.outputs.is_release == 'true'
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '9.0.x'
+
+      - name: Set date
+        if: steps.filter.outputs.is_release == 'true'
+        run: |
+          DATE=$(date +'%Y-%m-%d')
+          echo "DATE=$DATE" >> $GITHUB_ENV
+
+      - name: Update CITATION.cff
+        if: steps.filter.outputs.is_release == 'true'
+        run: |
+          # Top-level fields
+          sed -i "s/^version:.*/version: \"${VERSION}\"/" CITATION.cff
+          sed -i "s/^date-released:.*/date-released: \"${DATE}\"/" CITATION.cff
+          # preferred-citation fields (two-space indent)
+          sed -i "s/^  version:.*/  version: \"${VERSION}\"/" CITATION.cff
+          sed -i "s/^  date-released:.*/  date-released: \"${DATE}\"/" CITATION.cff
+
+      - name: Commit CITATION.cff
+        if: steps.filter.outputs.is_release == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add CITATION.cff
+          # Only commit if there are changes (avoid failing when no diff)
+          if ! git diff --cached --quiet; then
+            git commit -m "chore: release ${VERSION}"
+            git push origin HEAD:${GITHUB_EVENT_REPOSITORY_DEFAULT_BRANCH}
+          else
+            echo "No changes to CITATION.cff to commit."
+          fi
+        env:
+          GITHUB_EVENT_REPOSITORY_DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
+
+      - name: Pack Nuget
+        if: steps.filter.outputs.is_release == 'true'
+        run: dotnet pack -c Release -o ReleaseBuilds uml4net.sln
+
+      - name: Push to NuGet
+        if: steps.filter.outputs.is_release == 'true'
+        env:
+          NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
+        run: dotnet nuget push ReleaseBuilds/*.nupkg -k "$NUGET_API_KEY" -s https://api.nuget.org/v3/index.json --skip-duplicate
