@@ -63,7 +63,7 @@ namespace uml4net.Tools.Services
         /// </summary>
         /// <returns>
         /// an instance of <see cref="GitHubRelease"/> or null if not found or a connection
-        /// error occured
+        /// error occurred
         /// </returns>
         public async Task<GitHubRelease> QueryLatestReleaseAsync()
         {
@@ -73,7 +73,7 @@ namespace uml4net.Tools.Services
             {
                 this.httpClient.DefaultRequestHeaders.UserAgent.ParseAdd("uml4net.Tools");
 
-                var response = await this.httpClient.GetAsync(requestUrl);
+                using var response = await this.httpClient.GetAsync(requestUrl);
 
                 if (response.IsSuccessStatusCode)
                 {

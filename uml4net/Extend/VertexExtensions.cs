@@ -69,6 +69,7 @@ namespace uml4net.StateMachines
         /// <returns>
         /// Classifier in which context this element may be redefined.
         /// </returns>
+        [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
         internal static IClassifier QueryRedefinitionContext(this IVertex vertex)
         {
             throw new NotSupportedException("Create a GitHub issue when this method is required");
