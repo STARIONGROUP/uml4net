@@ -205,25 +205,25 @@ namespace uml4net
         /// Removes the first occurrence of a specific <typeparamref name="T"/> from the list and
         /// resets its <see cref="IElement.Possessor"/> to <c>null</c> when removal succeeds.
         /// </summary>
-        /// <param name="element">The object to remove from the list.</param>
+        /// <param name="item">The object to remove from the list.</param>
         /// <returns>
-        /// <see langword="true"/> if <paramref name="element"/> was successfully removed from the list;
+        /// <see langword="true"/> if <paramref name="item"/> was successfully removed from the list;
         /// otherwise, <see langword="false"/>.
         /// </returns>
-        /// <exception cref="ArgumentNullException">Thrown when <paramref name="element"/> is <c>null</c>.</exception>
-        public new bool Remove(T element)
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="item"/> is <c>null</c>.</exception>
+        public new bool Remove(T item)
         {
-            if (element == null)
+            if (item == null)
             {
-                throw new ArgumentNullException(nameof(element));
+                throw new ArgumentNullException(nameof(item));
             }
 
-            if (!base.Remove(element))
+            if (!base.Remove(item))
             {
                 return false;
             }
 
-            element.Possessor = null;
+            item.Possessor = null;
 
             return true;
         }

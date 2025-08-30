@@ -128,14 +128,18 @@ namespace uml4net.Extensions
         }
 
         /// <summary>
-        /// G
+        /// Queries the C# Type name of the <see cref="IType"/>
         /// </summary>
-        /// <param name="type"></param>
-        /// <returns></returns>
+        /// <param name="type">
+        /// The <see cref="IType"/> for which the C# Type name is to be queried
+        /// </param>
+        /// <returns>
+        /// a string representation of the C# Type name
+        /// </returns>
         public static string QueryCSharpTypeName(this IType type)
         {
             var typeName = type?.Name ?? string.Empty;
-            return !CSharpTypeMapping.TryGetValue(typeName, out var cSharptypeName) ? typeName : cSharptypeName;
+            return !CSharpTypeMapping.TryGetValue(typeName, out var cSharpTypeName) ? typeName : cSharpTypeName;
         }
     }
 }
