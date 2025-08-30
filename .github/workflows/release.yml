@@ -127,18 +127,40 @@ jobs:
           NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
         run: dotnet nuget push ReleaseBuilds/*.nupkg -k "$NUGET_API_KEY" -s https://api.nuget.org/v3/index.json --skip-duplicate
 
+      - name: Publish uml4net.Tools (win-x64 single-file, self-contained)
+        run: |
+          dotnet publish -c Release uml4net.Tools/uml4net.Tools.csproj \
+            -r win-x64 --self-contained true -p:PublishSingleFile=true \
+            -o ReleaseBuilds
+
+      - name: Append binary SHA256 to release notes
+        run: |
+          set -euo pipefail
+          BIN="ReleaseBuilds/uml4net.Tools.exe"
+          if [ -f "$BIN" ]; then
+            HASH=$(sha256sum "$BIN" | awk '{print $1}')
+            echo "" >> RELEASE_NOTES.md
+            echo "\`uml4net.Tools.exe\` - SHA256: $HASH" >> RELEASE_NOTES.md
+            echo "Computed SHA256: $HASH"
+          else
+            echo "Binary $BIN not found." >&2
+            exit 1
+          fi
+
       - name: Create annotated tag at this commit
         run: |
           git tag -a "${VERSION}" -m "Release ${VERSION}"
           git push origin "refs/tags/${VERSION}"
 
-      - name: Create draft GitHub release
+      - name: Create draft GitHub release (attach EXE)
         uses: softprops/action-gh-release@v2
         with:
           draft: true
           prerelease: ${{ env.PRERELEASE }}
-          name: "uml4net ${{ env.VERSION }}" 
-          tag_name: "${{ env.VERSION }}"
+          name: "uml4net ${{ env.VERSION }}"
+          tag_name: ${{ env.VERSION }}
           body_path: RELEASE_NOTES.md
+          files: |
+            ReleaseBuilds/uml4net.Tools.exe
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
