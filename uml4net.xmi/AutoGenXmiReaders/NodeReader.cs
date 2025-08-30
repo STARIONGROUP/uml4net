@@ -30,6 +30,7 @@ namespace uml4net.xmi.Readers
     using System.Xml;
 
     using Microsoft.Extensions.Logging;
+    using Microsoft.Extensions.Logging.Abstractions;
 
     using uml4net;
     using uml4net.Actions;
@@ -57,6 +58,11 @@ namespace uml4net.xmi.Readers
     public class NodeReader : XmiElementReader<INode>, IXmiElementReader<INode>
     {
         /// <summary>
+        /// The (injected) logger
+        /// </summary>
+        private readonly ILogger<NodeReader> logger;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="NodeReader"/> class.
         /// </summary>
         /// <param name="cache">
@@ -75,6 +81,7 @@ namespace uml4net.xmi.Readers
         public NodeReader(IXmiElementCache cache, IXmiElementReaderFacade xmiElementReaderFacade, IXmiReaderSettings xmiReaderSettings, ILoggerFactory loggerFactory)
             : base(cache, xmiElementReaderFacade, xmiReaderSettings, loggerFactory)
         {
+            this.logger = loggerFactory == null ? NullLogger<NodeReader>.Instance : loggerFactory.CreateLogger<NodeReader>();
         }
 
         /// <summary>
@@ -109,12 +116,14 @@ namespace uml4net.xmi.Readers
                 throw new ArgumentException(nameof(namespaceUri));
             }
 
-            var defaultLineInfo = xmlReader as IXmlLineInfo;
+            var xmlLineInfo = xmlReader as IXmlLineInfo;
 
             INode poco = new Node();
 
             if (xmlReader.MoveToContent() == XmlNodeType.Element)
             {
+                this.logger.LogTrace("reading Node at line:position {LineNumber}:{LinePosition}", xmlLineInfo.LineNumber, xmlLineInfo.LinePosition);
+
                 var xmiType = xmlReader.GetAttribute("xmi:type");
 
                 if (!string.IsNullOrEmpty(xmiType) && xmiType != "uml:Node")
@@ -143,7 +152,7 @@ namespace uml4net.xmi.Readers
 
                 if (!this.Cache.TryAdd(poco))
                 {
-                    this.Logger.LogCritical("Failed to add element type [{Poco}] with id [{Id}] as it was already in the Cache. The XMI document seems to have duplicate xmi:id values", "Node", poco.XmiId);
+                    this.logger.LogCritical("Failed to add element type [{Poco}] with id [{Id}] as it was already in the Cache. The XMI document seems to have duplicate xmi:id values", "Node", poco.XmiId);
                 }
 
                 var classifierBehaviorXmlAttribute = xmlReader.GetAttribute("classifierBehavior");
@@ -404,11 +413,11 @@ namespace uml4net.xmi.Readers
                             default:
                                 if (this.XmiReaderSettings.UseStrictReading)
                                 {
-                                    throw new NotSupportedException($"NodeReader: {xmlReader.LocalName} at line:position {defaultLineInfo.LineNumber}:{defaultLineInfo.LinePosition}");
+                                    throw new NotSupportedException($"NodeReader: {xmlReader.LocalName} at line:position {xmlLineInfo.LineNumber}:{xmlLineInfo.LinePosition}");
                                 }
                                 else
                                 {
-                                    this.Logger.LogWarning("Not Supported: NodeReader: {LocalName} at line:position {LineNumber}:{LinePosition}", xmlReader.LocalName, defaultLineInfo.LineNumber, defaultLineInfo.LinePosition);
+                                    this.logger.LogWarning("Not Supported: NodeReader: {LocalName} at line:position {LineNumber}:{LinePosition}", xmlReader.LocalName, xmlLineInfo.LineNumber, xmlLineInfo.LinePosition);
                                 }
 
                                 break;

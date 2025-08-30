@@ -30,6 +30,7 @@ namespace uml4net.xmi.Readers
     using System.Xml;
 
     using Microsoft.Extensions.Logging;
+    using Microsoft.Extensions.Logging.Abstractions;
 
     using uml4net;
     using uml4net.Actions;
@@ -57,6 +58,11 @@ namespace uml4net.xmi.Readers
     public class RegionReader : XmiElementReader<IRegion>, IXmiElementReader<IRegion>
     {
         /// <summary>
+        /// The (injected) logger
+        /// </summary>
+        private readonly ILogger<RegionReader> logger;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="RegionReader"/> class.
         /// </summary>
         /// <param name="cache">
@@ -75,6 +81,7 @@ namespace uml4net.xmi.Readers
         public RegionReader(IXmiElementCache cache, IXmiElementReaderFacade xmiElementReaderFacade, IXmiReaderSettings xmiReaderSettings, ILoggerFactory loggerFactory)
             : base(cache, xmiElementReaderFacade, xmiReaderSettings, loggerFactory)
         {
+            this.logger = loggerFactory == null ? NullLogger<RegionReader>.Instance : loggerFactory.CreateLogger<RegionReader>();
         }
 
         /// <summary>
@@ -109,12 +116,14 @@ namespace uml4net.xmi.Readers
                 throw new ArgumentException(nameof(namespaceUri));
             }
 
-            var defaultLineInfo = xmlReader as IXmlLineInfo;
+            var xmlLineInfo = xmlReader as IXmlLineInfo;
 
             IRegion poco = new Region();
 
             if (xmlReader.MoveToContent() == XmlNodeType.Element)
             {
+                this.logger.LogTrace("reading Region at line:position {LineNumber}:{LinePosition}", xmlLineInfo.LineNumber, xmlLineInfo.LinePosition);
+
                 var xmiType = xmlReader.GetAttribute("xmi:type");
 
                 if (!string.IsNullOrEmpty(xmiType) && xmiType != "uml:Region")
@@ -143,7 +152,7 @@ namespace uml4net.xmi.Readers
 
                 if (!this.Cache.TryAdd(poco))
                 {
-                    this.Logger.LogCritical("Failed to add element type [{Poco}] with id [{Id}] as it was already in the Cache. The XMI document seems to have duplicate xmi:id values", "Region", poco.XmiId);
+                    this.logger.LogCritical("Failed to add element type [{Poco}] with id [{Id}] as it was already in the Cache. The XMI document seems to have duplicate xmi:id values", "Region", poco.XmiId);
                 }
 
                 var extendedRegionXmlAttribute = xmlReader.GetAttribute("extendedRegion");
@@ -251,11 +260,11 @@ namespace uml4net.xmi.Readers
                             default:
                                 if (this.XmiReaderSettings.UseStrictReading)
                                 {
-                                    throw new NotSupportedException($"RegionReader: {xmlReader.LocalName} at line:position {defaultLineInfo.LineNumber}:{defaultLineInfo.LinePosition}");
+                                    throw new NotSupportedException($"RegionReader: {xmlReader.LocalName} at line:position {xmlLineInfo.LineNumber}:{xmlLineInfo.LinePosition}");
                                 }
                                 else
                                 {
-                                    this.Logger.LogWarning("Not Supported: RegionReader: {LocalName} at line:position {LineNumber}:{LinePosition}", xmlReader.LocalName, defaultLineInfo.LineNumber, defaultLineInfo.LinePosition);
+                                    this.logger.LogWarning("Not Supported: RegionReader: {LocalName} at line:position {LineNumber}:{LinePosition}", xmlReader.LocalName, xmlLineInfo.LineNumber, xmlLineInfo.LinePosition);
                                 }
 
                                 break;

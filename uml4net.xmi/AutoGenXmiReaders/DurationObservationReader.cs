@@ -30,6 +30,7 @@ namespace uml4net.xmi.Readers
     using System.Xml;
 
     using Microsoft.Extensions.Logging;
+    using Microsoft.Extensions.Logging.Abstractions;
 
     using uml4net;
     using uml4net.Actions;
@@ -57,6 +58,11 @@ namespace uml4net.xmi.Readers
     public class DurationObservationReader : XmiElementReader<IDurationObservation>, IXmiElementReader<IDurationObservation>
     {
         /// <summary>
+        /// The (injected) logger
+        /// </summary>
+        private readonly ILogger<DurationObservationReader> logger;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="DurationObservationReader"/> class.
         /// </summary>
         /// <param name="cache">
@@ -75,6 +81,7 @@ namespace uml4net.xmi.Readers
         public DurationObservationReader(IXmiElementCache cache, IXmiElementReaderFacade xmiElementReaderFacade, IXmiReaderSettings xmiReaderSettings, ILoggerFactory loggerFactory)
             : base(cache, xmiElementReaderFacade, xmiReaderSettings, loggerFactory)
         {
+            this.logger = loggerFactory == null ? NullLogger<DurationObservationReader>.Instance : loggerFactory.CreateLogger<DurationObservationReader>();
         }
 
         /// <summary>
@@ -109,12 +116,14 @@ namespace uml4net.xmi.Readers
                 throw new ArgumentException(nameof(namespaceUri));
             }
 
-            var defaultLineInfo = xmlReader as IXmlLineInfo;
+            var xmlLineInfo = xmlReader as IXmlLineInfo;
 
             IDurationObservation poco = new DurationObservation();
 
             if (xmlReader.MoveToContent() == XmlNodeType.Element)
             {
+                this.logger.LogTrace("reading DurationObservation at line:position {LineNumber}:{LinePosition}", xmlLineInfo.LineNumber, xmlLineInfo.LinePosition);
+
                 var xmiType = xmlReader.GetAttribute("xmi:type");
 
                 if (!string.IsNullOrEmpty(xmiType) && xmiType != "uml:DurationObservation")
@@ -143,7 +152,7 @@ namespace uml4net.xmi.Readers
 
                 if (!this.Cache.TryAdd(poco))
                 {
-                    this.Logger.LogCritical("Failed to add element type [{Poco}] with id [{Id}] as it was already in the Cache. The XMI document seems to have duplicate xmi:id values", "DurationObservation", poco.XmiId);
+                    this.logger.LogCritical("Failed to add element type [{Poco}] with id [{Id}] as it was already in the Cache. The XMI document seems to have duplicate xmi:id values", "DurationObservation", poco.XmiId);
                 }
 
                 var eventXmlAttribute = xmlReader.GetAttribute("event");
@@ -236,11 +245,11 @@ namespace uml4net.xmi.Readers
                             default:
                                 if (this.XmiReaderSettings.UseStrictReading)
                                 {
-                                    throw new NotSupportedException($"DurationObservationReader: {xmlReader.LocalName} at line:position {defaultLineInfo.LineNumber}:{defaultLineInfo.LinePosition}");
+                                    throw new NotSupportedException($"DurationObservationReader: {xmlReader.LocalName} at line:position {xmlLineInfo.LineNumber}:{xmlLineInfo.LinePosition}");
                                 }
                                 else
                                 {
-                                    this.Logger.LogWarning("Not Supported: DurationObservationReader: {LocalName} at line:position {LineNumber}:{LinePosition}", xmlReader.LocalName, defaultLineInfo.LineNumber, defaultLineInfo.LinePosition);
+                                    this.logger.LogWarning("Not Supported: DurationObservationReader: {LocalName} at line:position {LineNumber}:{LinePosition}", xmlReader.LocalName, xmlLineInfo.LineNumber, xmlLineInfo.LinePosition);
                                 }
 
                                 break;

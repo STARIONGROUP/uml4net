@@ -30,6 +30,7 @@ namespace uml4net.xmi.Readers
     using System.Xml;
 
     using Microsoft.Extensions.Logging;
+    using Microsoft.Extensions.Logging.Abstractions;
 
     using uml4net;
     using uml4net.Actions;
@@ -57,6 +58,11 @@ namespace uml4net.xmi.Readers
     public class FunctionBehaviorReader : XmiElementReader<IFunctionBehavior>, IXmiElementReader<IFunctionBehavior>
     {
         /// <summary>
+        /// The (injected) logger
+        /// </summary>
+        private readonly ILogger<FunctionBehaviorReader> logger;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="FunctionBehaviorReader"/> class.
         /// </summary>
         /// <param name="cache">
@@ -75,6 +81,7 @@ namespace uml4net.xmi.Readers
         public FunctionBehaviorReader(IXmiElementCache cache, IXmiElementReaderFacade xmiElementReaderFacade, IXmiReaderSettings xmiReaderSettings, ILoggerFactory loggerFactory)
             : base(cache, xmiElementReaderFacade, xmiReaderSettings, loggerFactory)
         {
+            this.logger = loggerFactory == null ? NullLogger<FunctionBehaviorReader>.Instance : loggerFactory.CreateLogger<FunctionBehaviorReader>();
         }
 
         /// <summary>
@@ -109,12 +116,14 @@ namespace uml4net.xmi.Readers
                 throw new ArgumentException(nameof(namespaceUri));
             }
 
-            var defaultLineInfo = xmlReader as IXmlLineInfo;
+            var xmlLineInfo = xmlReader as IXmlLineInfo;
 
             IFunctionBehavior poco = new FunctionBehavior();
 
             if (xmlReader.MoveToContent() == XmlNodeType.Element)
             {
+                this.logger.LogTrace("reading FunctionBehavior at line:position {LineNumber}:{LinePosition}", xmlLineInfo.LineNumber, xmlLineInfo.LinePosition);
+
                 var xmiType = xmlReader.GetAttribute("xmi:type");
 
                 if (!string.IsNullOrEmpty(xmiType) && xmiType != "uml:FunctionBehavior")
@@ -143,7 +152,7 @@ namespace uml4net.xmi.Readers
 
                 if (!this.Cache.TryAdd(poco))
                 {
-                    this.Logger.LogCritical("Failed to add element type [{Poco}] with id [{Id}] as it was already in the Cache. The XMI document seems to have duplicate xmi:id values", "FunctionBehavior", poco.XmiId);
+                    this.logger.LogCritical("Failed to add element type [{Poco}] with id [{Id}] as it was already in the Cache. The XMI document seems to have duplicate xmi:id values", "FunctionBehavior", poco.XmiId);
                 }
 
                 var bodyXmlAttribute = xmlReader.GetAttribute("body");
@@ -433,7 +442,7 @@ namespace uml4net.xmi.Readers
                             case "postcondition":
                                 if (!this.TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, "postcondition"))
                                 {
-                                    this.Logger.LogWarning("The FunctionBehavior.Postcondition attribute was not processed at {DefaultLineInfo}", defaultLineInfo);
+                                    this.logger.LogWarning("The FunctionBehavior.Postcondition attribute was not processed at {XmlLineInfo}", xmlLineInfo);
                                 }
 
                                 break;
@@ -443,7 +452,7 @@ namespace uml4net.xmi.Readers
                             case "precondition":
                                 if (!this.TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, "precondition"))
                                 {
-                                    this.Logger.LogWarning("The FunctionBehavior.Precondition attribute was not processed at {DefaultLineInfo}", defaultLineInfo);
+                                    this.logger.LogWarning("The FunctionBehavior.Precondition attribute was not processed at {XmlLineInfo}", xmlLineInfo);
                                 }
 
                                 break;
@@ -485,11 +494,11 @@ namespace uml4net.xmi.Readers
                             default:
                                 if (this.XmiReaderSettings.UseStrictReading)
                                 {
-                                    throw new NotSupportedException($"FunctionBehaviorReader: {xmlReader.LocalName} at line:position {defaultLineInfo.LineNumber}:{defaultLineInfo.LinePosition}");
+                                    throw new NotSupportedException($"FunctionBehaviorReader: {xmlReader.LocalName} at line:position {xmlLineInfo.LineNumber}:{xmlLineInfo.LinePosition}");
                                 }
                                 else
                                 {
-                                    this.Logger.LogWarning("Not Supported: FunctionBehaviorReader: {LocalName} at line:position {LineNumber}:{LinePosition}", xmlReader.LocalName, defaultLineInfo.LineNumber, defaultLineInfo.LinePosition);
+                                    this.logger.LogWarning("Not Supported: FunctionBehaviorReader: {LocalName} at line:position {LineNumber}:{LinePosition}", xmlReader.LocalName, xmlLineInfo.LineNumber, xmlLineInfo.LinePosition);
                                 }
 
                                 break;

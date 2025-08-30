@@ -1,19 +1,19 @@
 ﻿// -------------------------------------------------------------------------------------------------
 // <copyright file="OperationReader.cs" company="Starion Group S.A.">
 //
-//   Copyright (C) 2019-2025 Starion Group S.A.
+//    Copyright (C) 2019-2025 Starion Group S.A.
 //
-//   Licensed under the Apache License, Version 2.0 (the "License");
-//   you may not use this file except in compliance with the License.
-//   You may obtain a copy of the License at
+//    Licensed under the Apache License, Version 2.0 (the "License");
+//    you may not use this file except in compliance with the License.
+//    You may obtain a copy of the License at
 //
-//       http://www.apache.org/licenses/LICENSE-2.0
+//        http://www.apache.org/licenses/LICENSE-2.0
 //
-//   Unless required by applicable law or agreed to in writing, software
-//   distributed under the License is distributed on an "AS IS" BASIS,
-//   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-//   See the License for the specific language governing permissions and
-//   limitations under the License.
+//    Unless required by applicable law or agreed to in writing, software
+//    distributed under the License is distributed on an "AS IS" BASIS,
+//    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+//    See the License for the specific language governing permissions and
+//    limitations under the License.
 //
 // </copyright>
 // ------------------------------------------------------------------------------------------------
@@ -30,6 +30,7 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure.Readers
     using System.Xml;
 
     using Microsoft.Extensions.Logging;
+    using Microsoft.Extensions.Logging.Abstractions;
 
     using uml4net;
     using uml4net.Extensions;
@@ -44,6 +45,11 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure.Readers
     [GeneratedCode("uml4net", "latest")]
     public partial class OperationReader : XmiElementReader<IOperation>, IXmiElementReader<IOperation>
     {
+        /// <summary>
+        /// The (injected) logger
+        /// </summary>
+        private readonly ILogger<OperationReader> logger;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="OperationReader"/> class.
         /// </summary>
@@ -63,6 +69,7 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure.Readers
         public OperationReader(IXmiElementCache cache, IXmiElementReaderFacade xmiElementReaderFacade, IXmiReaderSettings xmiReaderSettings, ILoggerFactory loggerFactory)
         : base(cache, xmiElementReaderFacade, xmiReaderSettings, loggerFactory)
         {
+            this.logger = loggerFactory == null ? NullLogger<OperationReader>.Instance : loggerFactory.CreateLogger<OperationReader>();
         }
 
         /// <summary>
@@ -97,14 +104,15 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure.Readers
                 throw new ArgumentException(nameof(namespaceUri));
             }
 
-            var defaultLineInfo = xmlReader as IXmlLineInfo;
+            var xmlLineInfo = xmlReader as IXmlLineInfo;
 
             IOperation poco = new xmi.Extensions.EntrepriseArchitect.Structure.Operation();
 
             if (xmlReader.MoveToContent() == XmlNodeType.Element)
             {
-                var xmiType = "Operation";
+                this.logger.LogTrace("reading Operation at line:position {LineNumber}:{LinePosition}", xmlLineInfo.LineNumber, xmlLineInfo.LinePosition);
 
+                var xmiType = "Operation";
 
                 if (!string.IsNullOrEmpty(xmlReader.NamespaceURI))
                 {
@@ -129,7 +137,7 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure.Readers
 
                 if (!this.Cache.TryAdd(poco))
                 {
-                    this.Logger.LogCritical("Failed to add element type [{Poco}] with id [{Id}] as it was already in the Cache. The XMI document seems to have duplicate xmi:id values", "Operation", poco.XmiId);
+                    this.logger.LogCritical("Failed to add element type [{Poco}] with id [{Id}] as it was already in the Cache. The XMI document seems to have duplicate xmi:id values", "Operation", poco.XmiId);
                 }
 
                 var extendedElementXmlAttribute = xmlReader.GetAttribute("extendedElement");
@@ -217,11 +225,11 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure.Readers
 
                                 if (this.XmiReaderSettings.UseStrictReading)
                                 {
-                                    throw new NotSupportedException($"OperationReader: {xmlReader.LocalName} at line:position {defaultLineInfo.LineNumber}:{defaultLineInfo.LinePosition}");
+                                    throw new NotSupportedException($"OperationReader: {xmlReader.LocalName} at line:position {xmlLineInfo.LineNumber}:{xmlLineInfo.LinePosition}");
                                 }
                                 else
                                 {
-                                    this.Logger.LogWarning("Not Supported: OperationReader: {LocalName} at line:position {LineNumber}:{LinePosition}", xmlReader.LocalName, defaultLineInfo.LineNumber, defaultLineInfo.LinePosition);
+                                    this.logger.LogWarning("Not Supported: OperationReader: {LocalName} at line:position {LineNumber}:{LinePosition}", xmlReader.LocalName, xmlLineInfo.LineNumber, xmlLineInfo.LinePosition);
                                 }
 
                                 break;

@@ -144,11 +144,11 @@ namespace uml4net.xmi.Readers
 
             var sw = Stopwatch.StartNew();
 
-            this.logger.LogTrace("start deserializing from {Path}", fileUri);
+            this.logger.LogInformation("start deserializing from {Path}", fileUri);
 
             var result = this.Read(fileStream, fileInfo.Name);
 
-            this.logger.LogTrace("File {Path} deserialized in {Time} [ms]", fileUri, sw.ElapsedMilliseconds);
+            this.logger.LogInformation("File {Path} deserialized in {Time} [ms]", fileUri, sw.ElapsedMilliseconds);
 
             return result;
         }
@@ -216,7 +216,7 @@ namespace uml4net.xmi.Readers
 
             using (var xmlReader = XmlReader.Create(reader, settings))
             {
-                var defaultLineInfo = xmlReader as IXmlLineInfo;
+                var xmlLineInfo = xmlReader as IXmlLineInfo;
 
                 this.logger.LogTrace("starting to read xml");
 
@@ -268,7 +268,7 @@ namespace uml4net.xmi.Readers
                                 
                                 break;
                             default:
-                                this.logger.LogWarning("XmiReader: {LocalName} at line:position {Line}:{Position} was not read", xmlReader.LocalName, defaultLineInfo.LineNumber, defaultLineInfo.LinePosition);
+                                this.logger.LogWarning("XmiReader: {LocalName} at line:position {Line}:{Position} was not read", xmlReader.LocalName, xmlLineInfo.LineNumber, xmlLineInfo.LinePosition);
                                 break;
                         }
                     }

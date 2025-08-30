@@ -20,14 +20,13 @@
 
 namespace uml4net.xmi.Readers
 {
+    using Microsoft.Extensions.Logging;
     using System;
     using System.Collections.Generic;
     using System.Xml;
-
-    using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Logging.Abstractions;
-    using Settings;
     using uml4net;
+    using uml4net.xmi.Settings;
 
     /// <summary>
     /// The abstract super class from which each XMI reader needs to derive
@@ -44,11 +43,6 @@ namespace uml4net.xmi.Readers
         /// The (injected) <see cref="ILoggerFactory"/> used to set up logging
         /// </summary>
         protected readonly ILoggerFactory LoggerFactory;
-
-        /// <summary>
-        /// The (injected) <see cref="ILogger"/> used to set up logging
-        /// </summary>
-        protected readonly ILogger<XmiElementReader<TXmiElement>> Logger;
 
         /// <summary>
         /// The (injected) <see cref="IXmiElementCache"/> used cache the <see cref="IXmiElement"/>s
@@ -89,7 +83,6 @@ namespace uml4net.xmi.Readers
             this.XmiReaderSettings = xmiReaderSettings;
 
             this.LoggerFactory = loggerFactory;
-            this.Logger = loggerFactory == null ? NullLogger<XmiElementReader<TXmiElement>>.Instance : loggerFactory.CreateLogger<XmiElementReader<TXmiElement>>();
         }
 
         /// <summary>
@@ -106,7 +99,6 @@ namespace uml4net.xmi.Readers
             this.Cache = cache;
 
             this.LoggerFactory = loggerFactory;
-            this.Logger = loggerFactory == null ? NullLogger<XmiElementReader<TXmiElement>>.Instance : loggerFactory.CreateLogger<XmiElementReader<TXmiElement>>();
         }
 
         /// <summary>
@@ -164,6 +156,8 @@ namespace uml4net.xmi.Readers
 
             if (subXmlReader.MoveToContent() == XmlNodeType.Element)
             {
+                var xmlLineInfo = subXmlReader as IXmlLineInfo;
+
                 var reference = subXmlReader.GetAttribute("href");
                 if (!string.IsNullOrEmpty(reference))
                 {
@@ -175,7 +169,7 @@ namespace uml4net.xmi.Readers
                 }
                 else
                 {
-                    throw new InvalidOperationException($"{localName} xml-attribute reference could not be read");
+                    throw new InvalidOperationException($"{localName} xml-attribute reference could not be read at {xmlLineInfo?.LineNumber}:{xmlLineInfo?.LinePosition}");
                 }
             }
         }

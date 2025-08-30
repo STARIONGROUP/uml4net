@@ -811,7 +811,7 @@ namespace uml4net.HandleBars
                         {
                             sb.AppendLine($"if (!this.TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, \"{property.Name}\"))");
                             sb.AppendLine("{");
-                            sb.AppendLine($"    this.Logger.LogWarning(\"The {@class.Name}.{property.Name.CapitalizeFirstLetter()} attribute was not processed at {{DefaultLineInfo}}\", defaultLineInfo);");
+                            sb.AppendLine($"    this.logger.LogWarning(\"The {@class.Name}.{property.Name.CapitalizeFirstLetter()} attribute was not processed at {{XmlLineInfo}}\", xmlLineInfo);");
                             sb.AppendLine($"}}{Environment.NewLine}");
                         }
 
