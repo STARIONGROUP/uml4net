@@ -137,7 +137,7 @@ jobs:
         with:
           draft: true
           prerelease: ${{ env.PRERELEASE }}
-          name: "uml4net ${VERSION}"
+          name: "uml4net ${{ env.VERSION }}" 
           tag_name: "${{ env.VERSION }}"
           body_path: RELEASE_NOTES.md
         env:
