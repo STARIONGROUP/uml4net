@@ -73,7 +73,7 @@ namespace uml4net.Tools.Services
             {
                 this.httpClient.DefaultRequestHeaders.UserAgent.ParseAdd("uml4net.Tools");
 
-                var response = await this.httpClient.GetAsync(requestUrl);
+                using var response = await this.httpClient.GetAsync(requestUrl);
 
                 if (response.IsSuccessStatusCode)
                 {
