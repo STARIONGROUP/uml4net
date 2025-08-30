@@ -21,8 +21,11 @@
 namespace uml4net.Tests.Decorators
 {
     using NUnit.Framework;
+
     using uml4net.Decorators;
     using uml4net.Classification;
+
+    using PropertyAttribute = uml4net.Decorators.PropertyAttribute;
 
     /// <summary>
     /// Suite of tests for the <see cref="PropertyAttribute"/> type.
@@ -33,7 +36,7 @@ namespace uml4net.Tests.Decorators
         [Test]
         public void Verify_that_constructor_sets_all_properties()
         {
-            var attribute = new PropertyAttribute(
+            var attribute = new uml4net.Decorators.PropertyAttribute(
                 "id",
                 AggregationKind.Composite,
                 0,
