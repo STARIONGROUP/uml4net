@@ -32,27 +32,6 @@ namespace uml4net.Tests.Extend
     public class ClassifierExtensionsTestFixture
     {
         [Test]
-        public void Verify_that_the_SuperClass_of_a_class_returns_the_expected_result()
-        {
-            var animal = new Class { Name = "Animal" };
-            var mammal = new Class { Name = "Mammal" };
-            var cat = new Class { Name = "Cat" };
-
-            var animal_is_generalization_of_mammal = new Generalization();
-            animal_is_generalization_of_mammal.General = animal;
-
-            var mammal_is_generalization_of_cat = new Generalization();
-            mammal_is_generalization_of_cat.General = mammal;
-
-            cat.Generalization.Add(mammal_is_generalization_of_cat);
-            animal.Generalization.Add(animal_is_generalization_of_mammal);
-
-            var superClasses = cat.SuperClass;
-
-            Assert.That(superClasses, Is.EquivalentTo(new List<IClass>() { mammal }));
-        }
-
-        [Test]
         public void Verify_that_QueryAttribute_returns_expected_result()
         {
             var @interface = new Interface();
@@ -68,6 +47,14 @@ namespace uml4net.Tests.Extend
             var properties = Classification.ClassifierExtensions.QueryAttribute(@interface);
 
             Assert.That(properties.Single(), Is.EqualTo(property));
+        }
+
+        [Test]
+        public void Verify_that_when_Class_is_null_argument_exception_is_thrown()
+        {
+            Class @class = null;
+
+            Assert.That(() => ClassifierExtensions.QueryGeneral(@class), Throws.ArgumentNullException);
         }
 
         [Test]

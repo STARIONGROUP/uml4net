@@ -23,6 +23,7 @@ namespace uml4net.Tests.Extend
     using NUnit.Framework;
 
     using uml4net.Classification;
+    using uml4net.CommonStructure;
     using uml4net.StructuredClassifiers;
 
     [TestFixture]
@@ -48,6 +49,12 @@ namespace uml4net.Tests.Extend
 
             Assert.That(animal_is_generalization_of_mammal.RelatedElement, Is.EquivalentTo([animal, mammal]));
             Assert.That(mammal_is_generalization_of_cat.RelatedElement, Is.EquivalentTo([mammal, cat]));
+        }
+
+        [Test]
+        public void Verify_that_when_relationship_is_null_exception_is_thrown()
+        {
+            Assert.That(() => RelationshipExtensions.QueryRelatedElement(null), Throws.ArgumentNullException);
         }
     }
 }
