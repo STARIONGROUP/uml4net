@@ -54,4 +54,7 @@
       <ProjectReference Include="..\uml4net.xmi.Extensions.EnterpriseArchitect\uml4net.xmi.Extensions.EnterpriseArchitect.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+        <InternalsVisibleTo Include="$(MSBuildProjectName).Tests"/>
+    </ItemGroup>
 </Project>
