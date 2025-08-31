@@ -66,4 +66,7 @@
       <ProjectReference Include="..\uml4net.Reporting\uml4net.Reporting.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+        <InternalsVisibleTo Include="$(MSBuildProjectName).Tests"/>
+    </ItemGroup>
 </Project>

@@ -20,17 +20,20 @@
 
 namespace uml4net.xmi.Tests.ReferenceResolver
 {
-    using System.Collections.Generic;
+    
     using System.IO;
-    using System.Linq;
-    using Classification;
+    
+    
     using Microsoft.Extensions.Logging;
-    using Moq;
+    
     using NUnit.Framework;
     using Resources;
     using Serilog;
     using Settings;
+
+    using uml4net.Classification;
     using uml4net.xmi.ReferenceResolver;
+    using xmi.Resources;
 
     [TestFixture]
     public class ExternalReferenceResolverTestFixture
