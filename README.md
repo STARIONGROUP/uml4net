@@ -70,6 +70,18 @@ Development | ![Build Status](https://github.com/STARIONGROUP/uml4net/actions/wo
 
 The Object Management Group (OMG) is an international technology standards consortium. It was founded in 1989 with the goal of creating and maintaining vendor-neutral, interoperable, and portable standards for distributed computing. UML is one of the standards provided by OMG at http://www.omg.org/spec/UML/
 
+## Software Bill of Materials (SBOM)
+
+As part of our commitment to security and transparency, this project includes a Software Bill of Materials (SBOM) in the associated NuGet packages. The SBOM provides a detailed inventory of the components and dependencies included in the package, allowing you to track and verify the software components, their licenses, and versions.
+
+**Why SBOM?**
+
+- **Improved Transparency**: Gain insight into the open-source and third-party components included in this package.
+- **Security Assurance**: By providing an SBOM, we enable users to more easily track vulnerabilities associated with the included components.
+- **Compliance**: SBOMs help ensure compliance with licensing requirements and make it easier to audit the project's dependencies.
+
+You can find the SBOM in the NuGet package itself, which is automatically generated and embedded during the build process.
+
 # License
 
 The uml4net libraries are provided to the community under the Apache License 2.0.
