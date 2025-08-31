@@ -74,7 +74,8 @@ namespace uml4net.CodeGenerator.Transformers
 
                 foreach (var @class in classes)
                 {
-                    var property = @class.QueryAllProperties().SingleOrDefault(x => x.Name.ToLowerInvariant()  == @class.Name.ToLowerInvariant());
+                    var property = @class.QueryAllProperties()
+                        .SingleOrDefault(x => string.Equals(x.Name, @class.Name, StringComparison.OrdinalIgnoreCase));
                     if (property != null)
                     {
                         var owner = property.Owner as INamedElement;

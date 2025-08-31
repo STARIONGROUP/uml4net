@@ -222,7 +222,7 @@ namespace uml4net.Extensions
                     }
                 }
 
-                if (unwantedTags.Any(tag => tag == node.Name))
+                if (unwantedTags.Any(tag => string.Equals(tag, node.Name, StringComparison.OrdinalIgnoreCase)))
                 {
                     if (childNodes != null)
                     {
