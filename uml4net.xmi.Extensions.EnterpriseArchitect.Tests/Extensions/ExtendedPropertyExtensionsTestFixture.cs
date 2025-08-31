@@ -56,5 +56,16 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.Tests.Extensions
             var property = new Property();
             Assert.That(property.QueryIsId(), Is.False);
         }
+
+        [Test]
+        public void QueryIsId_ReturnsFalse_WhenXrefDoesNotContainPattern()
+        {
+            var attribute = new Attribute();
+            attribute.Xrefs.Add(new Xrefs { Value = "something else" });
+            var property = new Property();
+            property.Extensions.Add(attribute);
+
+            Assert.That(property.QueryIsId(), Is.False);
+        }
     }
 }
