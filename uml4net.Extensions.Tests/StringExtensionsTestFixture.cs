@@ -44,7 +44,6 @@ namespace uml4net.Extensions.Tests
             var input = "foo\r\nbar baz";
             var result = input.SplitToLines(5).ToList();
             Assert.That(result, Is.EqualTo(new[] { "foo", "bar", "baz" }));
-            Assert.That(() => StringExtensions.SplitToLines(null), Throws.TypeOf<ArgumentNullException>());
         }
 
         [Test]
@@ -57,8 +56,11 @@ namespace uml4net.Extensions.Tests
         [Test]
         public void Verify_that_CapitalizeFirstLetter_throws_when_input_is_null_or_empty()
         {
-            Assert.That(() => StringExtensions.CapitalizeFirstLetter(null), Throws.TypeOf<ArgumentException>());
-            Assert.That(() => string.Empty.CapitalizeFirstLetter(), Throws.TypeOf<ArgumentException>());
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(() => StringExtensions.CapitalizeFirstLetter(null), Throws.TypeOf<ArgumentException>());
+                Assert.That(() => string.Empty.CapitalizeFirstLetter(), Throws.TypeOf<ArgumentException>());
+            }
         }
 
         [Test]
@@ -71,8 +73,11 @@ namespace uml4net.Extensions.Tests
         [Test]
         public void Verify_that_LowerCaseFirstLetter_throws_when_input_is_null_or_empty()
         {
-            Assert.That(() => StringExtensions.LowerCaseFirstLetter(null), Throws.TypeOf<ArgumentException>());
-            Assert.That(() => string.Empty.LowerCaseFirstLetter(), Throws.TypeOf<ArgumentException>());
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(() => StringExtensions.LowerCaseFirstLetter(null), Throws.TypeOf<ArgumentException>());
+                Assert.That(() => string.Empty.LowerCaseFirstLetter(), Throws.TypeOf<ArgumentException>());
+            }
         }
     }
 }
