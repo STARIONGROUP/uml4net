@@ -33,7 +33,7 @@ namespace uml4net.Reporting.Generators
     public interface IReportGenerator
     {
         /// <summary>
-        /// Gets or sets the assert that the <see cref="EnterpriseArchitectXmiReader"/> should be used
+        /// Gets or sets the assertion that the <see cref="EnterpriseArchitectXmiReader"/> should be used
         /// </summary>
         bool ShouldUseEnterpriseArchitectReader { get; set; }
 
@@ -45,6 +45,12 @@ namespace uml4net.Reporting.Generators
         /// </param>
         /// <param name="rootDirectory">
         /// The base directory path used as the local root for resolving referenced XMI files.
+        /// </param>
+        /// <param name="rootPackageXmiId">
+        /// the unique identifier of the root package to report in
+        /// </param>
+        /// <param name="rootPackageName">
+        /// the name of the root package to report in
         /// </param>
         /// <param name="useStrictReading">
         /// A value indicating whether to use strict reading. When Strict Reading is set to true the
@@ -60,7 +66,7 @@ namespace uml4net.Reporting.Generators
         /// <param name="customContent">
         /// Custom content that will be displayed below the Starion logo
         /// </param>
-        public void GenerateReport(FileInfo modelPath, DirectoryInfo rootDirectory, bool useStrictReading, Dictionary<string, string> pathMap, FileInfo outputPath, string customContent = "");
+        public void GenerateReport(FileInfo modelPath, DirectoryInfo rootDirectory, string rootPackageXmiId, string rootPackageName, bool useStrictReading, Dictionary<string, string> pathMap, FileInfo outputPath, string customContent = "");
 
         /// <summary>
         /// Verifies whether the extension of the <paramref name="outputPath"/> is valid or not

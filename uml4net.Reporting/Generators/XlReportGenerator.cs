@@ -84,6 +84,12 @@ namespace uml4net.Reporting.Generators
         /// <param name="rootDirectory">
         /// The base directory path used as the local root for resolving referenced XMI files.
         /// </param>
+        /// <param name="rootPackageXmiId">
+        /// the unique identifier of the root package to report in
+        /// </param>
+        /// <param name="rootPackageName">
+        /// the name of the root package to report in
+        /// </param>
         /// <param name="useStrictReading">
         /// A value indicating whether to use strict reading. When Strict Reading is set to true the
         /// reader will throw an exception if it encounters an unknown element or attribute.
@@ -96,9 +102,9 @@ namespace uml4net.Reporting.Generators
         /// the path, including filename, where the output is to be generated.
         /// </param>
         /// <param name="customContent">
-        /// Custom content that is ignored in this generatpr
+        /// Custom content that is ignored in this generator
         /// </param>
-        public void GenerateReport(FileInfo modelPath, DirectoryInfo rootDirectory, bool useStrictReading, Dictionary<string, string> pathMap, FileInfo outputPath, string customContent = "")
+        public void GenerateReport(FileInfo modelPath, DirectoryInfo rootDirectory, string rootPackageXmiId, string rootPackageName, bool useStrictReading, Dictionary<string, string> pathMap, FileInfo outputPath, string customContent = "")
         {
             if (modelPath == null)
             {
@@ -121,14 +127,16 @@ namespace uml4net.Reporting.Generators
 
             var xmiReaderResult = this.LoadPackages(modelPath, rootDirectory, useStrictReading, pathMap);
 
-            var packages = xmiReaderResult.Root.QueryPackages().ToList();
+            var root = xmiReaderResult.QueryRoot(rootPackageXmiId, rootPackageName);
+
+            var packages = root.QueryPackages().ToList();
             packages.AddRange(xmiReaderResult.Packages);
 
             packages = packages.Distinct().ToList();
 
             using (var workbook = new XLWorkbook())
             {
-                this.AddInfoSheet(workbook, xmiReaderResult.Root);
+                this.AddInfoSheet(workbook, root);
 
                 this.AddIClassSheet(workbook, packages);
 

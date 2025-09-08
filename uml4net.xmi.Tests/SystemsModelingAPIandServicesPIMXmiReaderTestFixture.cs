@@ -67,7 +67,7 @@ namespace uml4net.xmi.Tests
 
             Assert.That(xmiReaderResult.Packages.Count, Is.EqualTo(2));
 
-            var model = xmiReaderResult.Root as IModel;
+            var model = xmiReaderResult.QueryRoot("_19_0_4_3fa0198_1689000259946_865221_0") as IModel;
 
             Assert.That(model.XmiId, Is.EqualTo("_19_0_4_3fa0198_1689000259946_865221_0"));
             Assert.That(model.Name, Is.EqualTo("Systems Modeling API and Services PIM"));
@@ -87,7 +87,7 @@ namespace uml4net.xmi.Tests
 
             Assert.That(xmiReaderResult.Packages.Count, Is.EqualTo(4));
 
-            var model = xmiReaderResult.Root as IModel;
+            var model = xmiReaderResult.QueryRoot("_19_0_4_3fa0198_1689000259946_865221_0") as IModel;
 
             Assert.That(model.XmiId, Is.EqualTo("_19_0_4_3fa0198_1689000259946_865221_0"));
             Assert.That(model.Name, Is.EqualTo("Systems Modeling API and Services PIM"));

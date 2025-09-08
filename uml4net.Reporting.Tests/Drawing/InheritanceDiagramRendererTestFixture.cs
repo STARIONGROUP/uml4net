@@ -68,7 +68,7 @@ namespace uml4net.Reporting.Tests.Drawing
         {
             var xmiReaderResult = this.LoadModel("UML.xmi");
 
-            var svg = this.inheritanceDiagramRenderer.SvgRender(xmiReaderResult);
+            var svg = this.inheritanceDiagramRenderer.SvgRender(xmiReaderResult, "_0", "UML");
 
             Log.Logger.Information(svg);
 

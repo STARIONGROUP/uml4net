@@ -60,9 +60,11 @@ namespace uml4net.xmi.Tests
 
             var xmiReaderResult = reader.Read(Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData", "SysML.uml"));
 
+
+
             Assert.That(xmiReaderResult.Packages.Count, Is.EqualTo(1));
 
-            var model = xmiReaderResult.Root as IModel;
+            var model = xmiReaderResult.QueryRoot("_kUROkM9FEe6Zc_le1peNgQ") as IModel;
 
             Assert.That(model.XmiId, Is.EqualTo("_kUROkM9FEe6Zc_le1peNgQ"));
             Assert.That(model.Name, Is.EqualTo("sysml"));
@@ -80,7 +82,7 @@ namespace uml4net.xmi.Tests
 
             var xmiReaderResult = reader.Read(Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData", "SysML.uml"));
 
-            var model = xmiReaderResult.Root as IModel;
+            var model = xmiReaderResult.QueryRoot("_kUROkM9FEe6Zc_le1peNgQ") as IModel;
 
             var sysmlTypClass = model.PackagedElement.OfType<IClass>().FirstOrDefault(x => x.Name == "Type");
             var isAbstractProperty = sysmlTypClass?.OwnedAttribute.FirstOrDefault(x => x.Name == "isAbstract");

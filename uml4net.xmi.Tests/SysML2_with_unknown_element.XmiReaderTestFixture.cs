@@ -78,7 +78,7 @@ namespace uml4net.xmi.Tests
 
             Assert.That(xmiReaderResult.Packages.Count, Is.EqualTo(1));
 
-            var model = xmiReaderResult.Root as IModel;
+            var model = xmiReaderResult.QueryRoot("_kUROkM9FEe6Zc_le1peNgQ") as IModel;
 
             Assert.That(model.XmiId, Is.EqualTo("_kUROkM9FEe6Zc_le1peNgQ"));
             Assert.That(model.Name, Is.EqualTo("sysml"));

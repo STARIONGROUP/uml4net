@@ -82,7 +82,9 @@ namespace uml4net.HandleBars.Tests
 
             var handlebarsTemplate = this.handlebarsContenxt.Compile(template);
 
-            var apiModelPackage = this.xmiReaderResult.Root.NestedPackage.Single(x => x.Name == "API_Model");
+            var root = this.xmiReaderResult.QueryRoot(xmiId: "_19_0_4_3fa0198_1689000259946_865221_0", name: "Systems Modeling API and Services PIM");
+
+            var apiModelPackage = root.NestedPackage.Single(x => x.Name == "API_Model");
 
             var project = apiModelPackage.PackagedElement.OfType<IClass>().Single(x => x.Name == "Project");
 
@@ -98,7 +100,9 @@ namespace uml4net.HandleBars.Tests
 
             var handlebarsTemplate = this.handlebarsContenxt.Compile(template);
 
-            var apiModelPackage = this.xmiReaderResult.Root.NestedPackage.Single(x => x.Name == "API_Model");
+            var root = this.xmiReaderResult.QueryRoot(xmiId: "_19_0_4_3fa0198_1689000259946_865221_0", name: "Systems Modeling API and Services PIM");
+
+            var apiModelPackage = root.NestedPackage.Single(x => x.Name == "API_Model");
 
             var project = apiModelPackage.PackagedElement.OfType<IClass>().Single(x => x.Name == "Project");
             var property = project.OwnedAttribute.First();
@@ -113,7 +117,9 @@ namespace uml4net.HandleBars.Tests
 
             var handlebarsTemplate = this.handlebarsContenxt.Compile(template);
 
-            var apiModelPackage = this.xmiReaderResult.Root.NestedPackage.Single(x => x.Name == "API_Model");
+            var root = this.xmiReaderResult.QueryRoot(xmiId: "_19_0_4_3fa0198_1689000259946_865221_0", name: "Systems Modeling API and Services PIM");
+
+            var apiModelPackage = root.NestedPackage.Single(x => x.Name == "API_Model");
 
             var project = apiModelPackage.PackagedElement.OfType<IClass>().Single(x => x.Name == "Project");
 
@@ -129,7 +135,9 @@ namespace uml4net.HandleBars.Tests
 
             var handlebarsTemplate = this.handlebarsContenxt.Compile(template);
 
-            var apiModelPackage = this.xmiReaderResult.Root.NestedPackage.Single(x => x.Name == "API_Model");
+            var root = this.xmiReaderResult.QueryRoot(xmiId: "_19_0_4_3fa0198_1689000259946_865221_0", name: "Systems Modeling API and Services PIM");
+
+            var apiModelPackage = root.NestedPackage.Single(x => x.Name == "API_Model");
 
             var project = apiModelPackage.PackagedElement.OfType<IClass>().Single(x => x.Name == "Project");
             var property = project.OwnedAttribute.First();
@@ -144,7 +152,9 @@ namespace uml4net.HandleBars.Tests
 
             var handlebarsTemplate = this.handlebarsContenxt.Compile(template);
 
-            var apiModelPackage = this.xmiReaderResult.Root.NestedPackage.Single(x => x.Name == "API_Model");
+            var root = this.xmiReaderResult.QueryRoot(xmiId: "_19_0_4_3fa0198_1689000259946_865221_0", name: "Systems Modeling API and Services PIM");
+
+            var apiModelPackage = root.NestedPackage.Single(x => x.Name == "API_Model");
 
             var project = apiModelPackage.PackagedElement.OfType<IClass>().Single(x => x.Name == "Project");
 
@@ -160,7 +170,9 @@ namespace uml4net.HandleBars.Tests
 
             var handlebarsTemplate = this.handlebarsContenxt.Compile(template);
 
-            var apiModelPackage = this.xmiReaderResult.Root.NestedPackage.Single(x => x.Name == "API_Model");
+            var root = this.xmiReaderResult.QueryRoot(xmiId: "_19_0_4_3fa0198_1689000259946_865221_0", name: "Systems Modeling API and Services PIM");
+
+            var apiModelPackage = root.NestedPackage.Single(x => x.Name == "API_Model");
 
             var project = apiModelPackage.PackagedElement.OfType<IClass>().Single(x => x.Name == "Project");
             var property = project.OwnedAttribute.First();

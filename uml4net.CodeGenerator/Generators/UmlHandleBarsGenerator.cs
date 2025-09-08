@@ -37,12 +37,18 @@ namespace uml4net.CodeGenerator.Generators
         /// <param name="xmiReaderResult">
         /// the <see cref="XmiReaderResult"/> that contains the UML model to generate from
         /// </param>
+        /// <param name="xmiId">
+        /// the unique identifier of the root package to report in
+        /// </param>
+        /// <param name="name">
+        /// the name of the root package to report in
+        /// </param>
         /// <param name="outputDirectory">
         /// The target <see cref="DirectoryInfo"/>
         /// </param>
         /// <returns>
         /// an awaitable <see cref="Task"/>
         /// </returns>
-        public abstract Task GenerateAsync(XmiReaderResult xmiReaderResult, DirectoryInfo outputDirectory);
+        public abstract Task GenerateAsync(XmiReaderResult xmiReaderResult, string xmiId, string name, DirectoryInfo outputDirectory);
     }
 }

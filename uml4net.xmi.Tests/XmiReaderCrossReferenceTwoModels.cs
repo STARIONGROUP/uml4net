@@ -65,7 +65,7 @@ namespace uml4net.xmi.Tests
 
             Assert.That(xmiReaderResult.Packages.Count, Is.EqualTo(2));
 
-            var class_2 = xmiReaderResult.Root.PackagedElement.OfType<IClass>().Single(x => x.FullyQualifiedIdentifier == "doc1.xml#class02");
+            var class_2 = xmiReaderResult.QueryRoot("doc1").PackagedElement.OfType<IClass>().Single(x => x.FullyQualifiedIdentifier == "doc1.xml#class02");
             Assert.That(class_2.DocumentName, Is.EqualTo("doc1.xml"));
 
             var class_1 = xmiReaderResult.Packages[1].PackagedElement.OfType<IClass>().Single(x => x.FullyQualifiedIdentifier == "doc2.xml#class01");

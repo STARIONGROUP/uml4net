@@ -71,7 +71,9 @@ namespace uml4net.Extensions.Tests
         [Test]
         public void Verify_that_QueryIsEnum_returns_expected_Result()
         {
-            var structuredClassifiersPackage = this.xmiReaderResult.Root.NestedPackage.Single(x => x.Name == "StructuredClassifiers");
+            var root = this.xmiReaderResult.QueryRoot(xmiId: "_0", name: "UML");
+
+            var structuredClassifiersPackage = root.NestedPackage.Single(x => x.Name == "StructuredClassifiers");
 
             var connector = structuredClassifiersPackage.PackagedElement.OfType<IClass>().Single(x => x.Name == "Connector");
 
@@ -87,7 +89,9 @@ namespace uml4net.Extensions.Tests
         [Test]
         public void Verify_that_QueryIsPrimitiveType_returns_expected_Result()
         {
-            var structuredClassifiersPackage = this.xmiReaderResult.Root.NestedPackage.Single(x => x.Name == "StructuredClassifiers");
+            var root = this.xmiReaderResult.QueryRoot(xmiId: "_0", name: "UML");
+
+            var structuredClassifiersPackage = root.NestedPackage.Single(x => x.Name == "StructuredClassifiers");
 
             var connector = structuredClassifiersPackage.PackagedElement.OfType<IClass>().Single(x => x.Name == "Connector");
 
@@ -103,7 +107,9 @@ namespace uml4net.Extensions.Tests
         [Test]
         public void Verify_that_QueryIsBool_returns_expected_Result()
         {
-            var structuredClassifiersPackage = this.xmiReaderResult.Root.NestedPackage.Single(x => x.Name == "StructuredClassifiers");
+            var root = this.xmiReaderResult.QueryRoot(xmiId: "_0", name: "UML");
+
+            var structuredClassifiersPackage = root.NestedPackage.Single(x => x.Name == "StructuredClassifiers");
 
             var connector = structuredClassifiersPackage.PackagedElement.OfType<IClass>().Single(x => x.Name == "Connector");
 
@@ -119,7 +125,9 @@ namespace uml4net.Extensions.Tests
         [Test]
         public void Verify_that_QueryIsNumeric_returns_expected_Result()
         {
-            var structuredClassifiersPackage = this.xmiReaderResult.Root.NestedPackage.Single(x => x.Name == "Classification");
+            var root = this.xmiReaderResult.QueryRoot(xmiId: "_0", name: "UML");
+
+            var structuredClassifiersPackage = root.NestedPackage.Single(x => x.Name == "Classification");
 
             var property = structuredClassifiersPackage.PackagedElement.OfType<IClass>().Single(x => x.Name == "Property");
 
@@ -135,7 +143,9 @@ namespace uml4net.Extensions.Tests
         [Test]
         public void Verify_that_QueryCSharpTypeName_returns_expected_Result()
         {
-            var structuredClassifiersPackage = this.xmiReaderResult.Root.NestedPackage.Single(x => x.Name == "Classification");
+            var root = this.xmiReaderResult.QueryRoot(xmiId: "_0", name: "UML");
+
+            var structuredClassifiersPackage = root.NestedPackage.Single(x => x.Name == "Classification");
 
             var property = structuredClassifiersPackage.PackagedElement.OfType<IClass>().Single(x => x.Name == "Property");
 
@@ -155,7 +165,9 @@ namespace uml4net.Extensions.Tests
         [Test]
         public void Verify_that_QueryCSharpTypeName_returns_expected_Result_when_Custom_mappings_are_added()
         {
-            var structuredClassifiersPackage = this.xmiReaderResult.Root.NestedPackage.Single(x => x.Name == "Classification");
+            var root = this.xmiReaderResult.QueryRoot(xmiId: "_0", name: "UML");
+
+            var structuredClassifiersPackage = root.NestedPackage.Single(x => x.Name == "Classification");
 
             var property = structuredClassifiersPackage.PackagedElement.OfType<IClass>().Single(x => x.Name == "Property");
 
@@ -223,7 +235,9 @@ namespace uml4net.Extensions.Tests
         [Test]
         public void Verify_that_QueryIsEnumerable_returns_expected_Result()
         {
-            var structuredClassifiersPackage = this.xmiReaderResult.Root.NestedPackage.Single(x => x.Name == "Classification");
+            var root = this.xmiReaderResult.QueryRoot(xmiId: "_0", name: "UML");
+
+            var structuredClassifiersPackage = root.NestedPackage.Single(x => x.Name == "Classification");
 
             var property = structuredClassifiersPackage.PackagedElement.OfType<IClass>().Single(x => x.Name == "Property");
 
@@ -239,7 +253,9 @@ namespace uml4net.Extensions.Tests
         [Test]
         public void Verify_that_QueryIsContainment_returns_expected_Result()
         {
-            var structuredClassifiersPackage = this.xmiReaderResult.Root.NestedPackage.Single(x => x.Name == "Classification");
+            var root = this.xmiReaderResult.QueryRoot(xmiId: "_0", name: "UML");
+
+            var structuredClassifiersPackage = root.NestedPackage.Single(x => x.Name == "Classification");
 
             var property = structuredClassifiersPackage.PackagedElement.OfType<IClass>().Single(x => x.Name == "Property");
 
@@ -255,7 +271,9 @@ namespace uml4net.Extensions.Tests
         [Test]
         public void Verify_that_QueryTypeName_returns_expected_Result()
         {
-            var structuredClassifiersPackage = this.xmiReaderResult.Root.NestedPackage.Single(x => x.Name == "Classification");
+            var root = this.xmiReaderResult.QueryRoot(xmiId: "_0", name: "UML");
+
+            var structuredClassifiersPackage = root.NestedPackage.Single(x => x.Name == "Classification");
 
             var property = structuredClassifiersPackage.PackagedElement.OfType<IClass>().Single(x => x.Name == "Property");
 
@@ -271,7 +289,9 @@ namespace uml4net.Extensions.Tests
         [Test]
         public void Verify_that_QueryIsReferenceProperty_returns_expected_Result()
         {
-            var structuredClassifiersPackage = this.xmiReaderResult.Root.NestedPackage.Single(x => x.Name == "Classification");
+            var root = this.xmiReaderResult.QueryRoot(xmiId: "_0", name: "UML");
+
+            var structuredClassifiersPackage = root.NestedPackage.Single(x => x.Name == "Classification");
 
             var property = structuredClassifiersPackage.PackagedElement.OfType<IClass>().Single(x => x.Name == "Property");
 
@@ -287,7 +307,9 @@ namespace uml4net.Extensions.Tests
         [Test]
         public void Verify_that_QueryIsSubsetted_returns_expected_result()
         {
-            var commonStructurePackage = this.xmiReaderResult.Root.NestedPackage.Single(x => x.Name == "CommonStructure");
+            var root = this.xmiReaderResult.QueryRoot(xmiId: "_0", name: "UML");
+
+            var commonStructurePackage = root.NestedPackage.Single(x => x.Name == "CommonStructure");
 
             var @namespace = commonStructurePackage.PackagedElement.OfType<IClass>().Single(x => x.Name == "Namespace");
 
@@ -303,7 +325,9 @@ namespace uml4net.Extensions.Tests
         [Test]
         public void Verify_that_QueryIsValueProperty_returns_expected_Result()
         {
-            var structuredClassifiersPackage = this.xmiReaderResult.Root.NestedPackage.Single(x => x.Name == "Classification");
+            var root = this.xmiReaderResult.QueryRoot(xmiId: "_0", name: "UML");
+
+            var structuredClassifiersPackage = root.NestedPackage.Single(x => x.Name == "Classification");
 
             var property = structuredClassifiersPackage.PackagedElement.OfType<IClass>().Single(x => x.Name == "Property");
 
@@ -319,7 +343,9 @@ namespace uml4net.Extensions.Tests
         [Test]
         public void Verify_that_QueryIsNullable_returns_expected_Result()
         {
-            var structuredClassifiersPackage = this.xmiReaderResult.Root.NestedPackage.Single(x => x.Name == "Classification");
+            var root = this.xmiReaderResult.QueryRoot(xmiId: "_0", name: "UML");
+
+            var structuredClassifiersPackage = root.NestedPackage.Single(x => x.Name == "Classification");
 
             var property = structuredClassifiersPackage.PackagedElement.OfType<IClass>().Single(x => x.Name == "Property");
 
@@ -335,7 +361,9 @@ namespace uml4net.Extensions.Tests
         [Test]
         public void Verify_that_QueryUpperValue_returns_expected_Result()
         {
-            var structuredClassifiersPackage = this.xmiReaderResult.Root.NestedPackage.Single(x => x.Name == "Classification");
+            var root = this.xmiReaderResult.QueryRoot(xmiId: "_0", name: "UML");
+
+            var structuredClassifiersPackage = root.NestedPackage.Single(x => x.Name == "Classification");
 
             var property = structuredClassifiersPackage.PackagedElement.OfType<IClass>().Single(x => x.Name == "Property");
 
@@ -351,7 +379,9 @@ namespace uml4net.Extensions.Tests
         [Test]
         public void Verify_that_TryQueryRedefinedByProperty_returns_expected_Result()
         {
-            var structuredClassifiersPackage = this.xmiReaderResult.Root.NestedPackage.Single(x => x.Name == "StructuredClassifiers");
+            var root = this.xmiReaderResult.QueryRoot(xmiId: "_0", name: "UML");
+
+            var structuredClassifiersPackage = root.NestedPackage.Single(x => x.Name == "StructuredClassifiers");
 
             var association = structuredClassifiersPackage.PackagedElement.OfType<IClass>().Single(x => x.Name == "Association");
 
@@ -377,7 +407,9 @@ namespace uml4net.Extensions.Tests
         [Test]
         public void Verify_that_QueryIsRedefined_returns_expected_Result()
         {
-            var structuredClassifiersPackage = this.xmiReaderResult.Root.NestedPackage.Single(x => x.Name == "StructuredClassifiers");
+            var root = this.xmiReaderResult.QueryRoot(xmiId: "_0", name: "UML");
+
+            var structuredClassifiersPackage = root.NestedPackage.Single(x => x.Name == "StructuredClassifiers");
 
             var association = structuredClassifiersPackage.PackagedElement.OfType<IClass>().Single(x => x.Name == "Association");
 
@@ -399,9 +431,11 @@ namespace uml4net.Extensions.Tests
         [Test]
         public void Verify_that_QueryHasBeenRedefined_returns_expected_result()
         {
-            var allClasses = this.xmiReaderResult.Root.QueryPackages().SelectMany(x => x.PackagedElement.OfType<IClass>()).ToList();
+            var root = this.xmiReaderResult.QueryRoot(xmiId: "_0", name: "UML");
 
-            var structuredClassifiersPackage = this.xmiReaderResult.Root.NestedPackage.Single(x => x.Name == "StructuredClassifiers");
+            var allClasses = root.QueryPackages().SelectMany(x => x.PackagedElement.OfType<IClass>()).ToList();
+
+            var structuredClassifiersPackage = root.NestedPackage.Single(x => x.Name == "StructuredClassifiers");
 
             var association = structuredClassifiersPackage.PackagedElement.OfType<IClass>().Single(x => x.Name == "Association");
 

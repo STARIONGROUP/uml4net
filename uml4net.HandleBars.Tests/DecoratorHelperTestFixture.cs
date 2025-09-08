@@ -86,8 +86,9 @@ namespace uml4net.HandleBars.Tests
 
             var handlebarsTemplate = this.handlebarsContenxt.Compile(template);
 
-            var structuredClassifiersPackage =
-                this.xmiReaderResult.Root.NestedPackage.Single(x => x.Name == "StructuredClassifiers");
+            var root = this.xmiReaderResult.QueryRoot(xmiId: "_0", name: "UML");
+
+            var structuredClassifiersPackage = root.NestedPackage.Single(x => x.Name == "StructuredClassifiers");
 
             Assert.That(() => handlebarsTemplate(structuredClassifiersPackage), Throws.TypeOf<ArgumentException>());
         }
@@ -99,8 +100,9 @@ namespace uml4net.HandleBars.Tests
 
             var handlebarsTemplate = this.handlebarsContenxt.Compile(template);
 
-            var structuredClassifiersPackage =
-                this.xmiReaderResult.Root.NestedPackage.Single(x => x.Name == "StructuredClassifiers");
+            var root = this.xmiReaderResult.QueryRoot(xmiId: "_0", name: "UML");
+
+            var structuredClassifiersPackage = root.NestedPackage.Single(x => x.Name == "StructuredClassifiers");
 
             var association = structuredClassifiersPackage.PackagedElement.OfType<IClass>()
                 .Single(x => x.Name == "Association");
@@ -126,8 +128,9 @@ namespace uml4net.HandleBars.Tests
 
             var handlebarsTemplate = this.handlebarsContenxt.Compile(template);
 
-            var structuredClassifiersPackage =
-                this.xmiReaderResult.Root.NestedPackage.Single(x => x.Name == "StructuredClassifiers");
+            var root = this.xmiReaderResult.QueryRoot(xmiId: "_0", name: "UML");
+
+            var structuredClassifiersPackage = root.NestedPackage.Single(x => x.Name == "StructuredClassifiers");
 
             Assert.That(() => handlebarsTemplate(structuredClassifiersPackage), Throws.TypeOf<ArgumentException>());
         }
@@ -139,8 +142,9 @@ namespace uml4net.HandleBars.Tests
             
             var handlebarsTemplate = this.handlebarsContenxt.Compile(template);
 
-            var structuredClassifiersPackage =
-                this.xmiReaderResult.Root.NestedPackage.Single(x => x.Name == "StructuredClassifiers");
+            var root = this.xmiReaderResult.QueryRoot(xmiId: "_0", name: "UML");
+
+            var structuredClassifiersPackage = root.NestedPackage.Single(x => x.Name == "StructuredClassifiers");
 
             var association = structuredClassifiersPackage.PackagedElement.OfType<IClass>()
                 .Single(x => x.Name == "Association");
@@ -174,8 +178,9 @@ namespace uml4net.HandleBars.Tests
 
             var handlebarsTemplate = this.handlebarsContenxt.Compile(template);
 
-            var structuredClassifiersPackage =
-                this.xmiReaderResult.Root.NestedPackage.Single(x => x.Name == "StructuredClassifiers");
+            var root = this.xmiReaderResult.QueryRoot(xmiId: "_0", name: "UML");
+
+            var structuredClassifiersPackage = root.NestedPackage.Single(x => x.Name == "StructuredClassifiers");
 
             Assert.That(() => handlebarsTemplate(structuredClassifiersPackage), Throws.TypeOf<ArgumentException>());
         }
@@ -187,7 +192,9 @@ namespace uml4net.HandleBars.Tests
 
             var handlebarsTemplate = this.handlebarsContenxt.Compile(template);
 
-            var structuredClassifiersPackage = this.xmiReaderResult.Root.NestedPackage.Single(x => x.Name == "StructuredClassifiers");
+            var root = this.xmiReaderResult.QueryRoot(xmiId: "_0", name: "UML");
+
+            var structuredClassifiersPackage = root.NestedPackage.Single(x => x.Name == "StructuredClassifiers");
 
             var association = structuredClassifiersPackage.PackagedElement.OfType<IClass>().Single(x => x.Name == "Association");
 
@@ -205,8 +212,9 @@ namespace uml4net.HandleBars.Tests
 
             var handlebarsTemplate = this.handlebarsContenxt.Compile(template);
 
-            var structuredClassifiersPackage =
-                this.xmiReaderResult.Root.NestedPackage.Single(x => x.Name == "StructuredClassifiers");
+            var root = this.xmiReaderResult.QueryRoot(xmiId: "_0", name: "UML");
+
+            var structuredClassifiersPackage = root.NestedPackage.Single(x => x.Name == "StructuredClassifiers");
 
             Assert.That(() => handlebarsTemplate(structuredClassifiersPackage), Throws.TypeOf<ArgumentException>());
         }
@@ -218,7 +226,9 @@ namespace uml4net.HandleBars.Tests
 
             var handlebarsTemplate = this.handlebarsContenxt.Compile(template);
 
-            var structuredClassifiersPackage = this.xmiReaderResult.Root.NestedPackage.Single(x => x.Name == "StructuredClassifiers");
+            var root = this.xmiReaderResult.QueryRoot(xmiId: "_0", name: "UML");
+
+            var structuredClassifiersPackage = root.NestedPackage.Single(x => x.Name == "StructuredClassifiers");
 
             var association = structuredClassifiersPackage.PackagedElement.OfType<IClass>().Single(x => x.Name == "Association");
 
@@ -268,7 +278,9 @@ namespace uml4net.HandleBars.Tests
 
             var handlebarsTemplate = this.handlebarsContenxt.Compile(template);
 
-            var structuredClassifiersPackage = this.xmiReaderResult.Root.NestedPackage.Single(x => x.Name == "StructuredClassifiers");
+            var root = this.xmiReaderResult.QueryRoot(xmiId: "_0", name: "UML");
+
+            var structuredClassifiersPackage = root.NestedPackage.Single(x => x.Name == "StructuredClassifiers");
 
             var association = structuredClassifiersPackage.PackagedElement.OfType<IClass>().Single(x => x.Name == "Association");
 

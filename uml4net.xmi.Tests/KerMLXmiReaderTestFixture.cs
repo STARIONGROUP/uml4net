@@ -64,7 +64,7 @@ namespace uml4net.xmi.Tests
 
             Assert.That(xmiReaderResult.Packages.Count, Is.EqualTo(2));
 
-            var package = xmiReaderResult.Root as IPackage;
+            var package = xmiReaderResult.QueryRoot("KerML") as IPackage;
 
             Assert.That(package.XmiId, Is.EqualTo("KerML"));
             Assert.That(package.Name, Is.EqualTo("KerML"));

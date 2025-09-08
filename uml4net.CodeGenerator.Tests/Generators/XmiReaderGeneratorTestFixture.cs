@@ -75,7 +75,7 @@ namespace uml4net.CodeGenerator.Tests.Generators
             this.xmiReaderResult = reader.Read(Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData", "UML.xmi"));
 
             var modelTransformer = new ModelTransformer(loggerFactory);
-            modelTransformer.TryTransform(this.xmiReaderResult, out var updatedElements);
+            modelTransformer.TryTransform(this.xmiReaderResult, "_0", "UML", out var updatedElements);
 
             var directoryInfo = new DirectoryInfo(TestContext.CurrentContext.TestDirectory);
 
@@ -97,7 +97,9 @@ namespace uml4net.CodeGenerator.Tests.Generators
             "StateMachine",
             "TimeConstraint")] string className)
         {
-            var classes = xmiReaderResult.Root.QueryPackages()
+            var root = this.xmiReaderResult.QueryRoot(xmiId:"_0", name: "UML");
+
+            var classes = root.QueryPackages()
                 .SelectMany(x => x.PackagedElement.OfType<IClass>())
                 .Where(x => !x.IsAbstract)
                 .ToList();
@@ -114,15 +116,14 @@ namespace uml4net.CodeGenerator.Tests.Generators
         [Test]
         public void Verify_that_concrete_xmi_reader_classes_are_generated()
         {
-            Assert.That(async () => await this.xmiReaderGenerator.GenerateAsync(xmiReaderResult, this.xmiReaderDirectoryInfo),
+            Assert.That(async () => await this.xmiReaderGenerator.GenerateAsync(xmiReaderResult, "_0", "UML", this.xmiReaderDirectoryInfo),
                 Throws.Nothing);
         }
 
         [Test]
         public void Verify_that_GenerateXmiElementReaderFacade_is_generated()
         {
-            Assert.That(async () => await this.xmiReaderGenerator.GenerateXmiElementReaderFacadeAsync(xmiReaderResult,
-                    this.xmiReaderDirectoryInfo),
+            Assert.That(async () => await this.xmiReaderGenerator.GenerateXmiElementReaderFacadeAsync(xmiReaderResult, "_0", "UML", this.xmiReaderDirectoryInfo),
                 Throws.Nothing);
         }
     }

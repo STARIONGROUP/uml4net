@@ -67,12 +67,18 @@ namespace uml4net.Reporting.Drawing
         /// <param name="xmiReaderResult">
         /// The <see cref="XmiReaderResult"/> that contains the UML model
         /// </param>
+        /// <param name="xmiId">
+        /// the unique identifier of the root package to generate
+        /// </param>
+        /// <param name="rootName">
+        /// the name of the root package to generate
+        /// </param>
         /// <param name="stream">
         /// The target <see cref="Stream"/> to write to
         /// </param>
-        public void SvgRender(XmiReaderResult xmiReaderResult, Stream stream)
+        public void SvgRender(XmiReaderResult xmiReaderResult, string xmiId, string rootName, Stream stream)
         {
-            var payload = HandlebarsPayloadFactory.CreateHandlebarsPayload(xmiReaderResult);
+            var payload = HandlebarsPayloadFactory.CreateHandlebarsPayload(xmiReaderResult, xmiId, rootName);
 
             var geometryGraph = this.GenerateGeometryGraph(payload);
 
@@ -87,14 +93,20 @@ namespace uml4net.Reporting.Drawing
         /// <param name="xmiReaderResult">
         /// The <see cref="XmiReaderResult"/> that contains the UML model
         /// </param>
+        /// <param name="xmiId">
+        /// the unique identifier of the root package to generate
+        /// </param>
+        /// <param name="rootName">
+        /// the name of the root package to generate
+        /// </param>
         /// <returns>
         /// a string that contains the diagram in SVG format
         /// </returns>
-        public string SvgRender(XmiReaderResult xmiReaderResult)
+        public string SvgRender(XmiReaderResult xmiReaderResult, string xmiId, string rootName)
         {
             using var ms = new MemoryStream();
 
-            this.SvgRender(xmiReaderResult, ms);
+            this.SvgRender(xmiReaderResult, xmiId, rootName, ms);
 
             ms.Position = 0;
             using var reader = new StreamReader(ms);

@@ -38,6 +38,12 @@ namespace uml4net.Reporting.Generators
         /// <param name="rootDirectory">
         /// The base directory path used as the local root for resolving referenced XMI files.
         /// </param>
+        /// <param name="rootPackageXmiId">
+        /// the unique identifier of the root package to report in
+        /// </param>
+        /// <param name="rootPackageName">
+        /// the name of the root package to report in
+        /// </param>
         /// <param name="useStrictReading">
         /// A value indicating whether to use strict reading. When Strict Reading is set to true the
         /// reader will throw an exception if it encounters an unknown element or attribute.
@@ -49,6 +55,6 @@ namespace uml4net.Reporting.Generators
         /// <returns>
         /// the content of a Markdown report in a string
         /// </returns>
-        public string GenerateReport(FileInfo modelPath, DirectoryInfo rootDirectory, bool useStrictReading, Dictionary<string, string> pathMap);
+        public string GenerateReport(FileInfo modelPath, DirectoryInfo rootDirectory, string rootPackageXmiId, string rootPackageName, bool useStrictReading, Dictionary<string, string> pathMap);
     }
 }

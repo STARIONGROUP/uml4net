@@ -24,6 +24,7 @@ namespace uml4net.Tools.Commands
     using System.Collections.Generic;
     using System.CommandLine.Invocation;
     using System.Diagnostics;
+    using System.Globalization;
     using System.IO;
     using System.Threading;
     using System.Threading.Tasks;
@@ -32,7 +33,6 @@ namespace uml4net.Tools.Commands
     using uml4net.Tools.Resources;
 
     using Spectre.Console;
-    using System.Globalization;
 
     /// <summary>
     /// Abstract super class from which all Report <see cref="ICommandHandler"/>s need to derive
@@ -69,6 +69,16 @@ namespace uml4net.Tools.Commands
         /// Gets or sets the <see cref="FileInfo"/> where the UML model is located that is to be read
         /// </summary>
         public FileInfo InputModel { get; set; }
+
+        /// <summary>
+        /// Gets or sets the unique identifier of the root package to report on
+        /// </summary>
+        public string RootPackageXmiId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the name of the root package to report on
+        /// </summary>
+        public string RootPackageName { get; set; }
 
         /// <summary>
         /// Gets or sets the pathmap string
@@ -163,7 +173,7 @@ namespace uml4net.Tools.Commands
                         AnsiConsole.WriteLine();
                         Task.Delay(1000);
                         
-                        this.ReportGenerator.GenerateReport(this.InputModel, this.InputModel.Directory, this.UseStrictReading, this.pathMap,this.OutputReport);
+                        this.ReportGenerator.GenerateReport(this.InputModel, this.InputModel.Directory, this.RootPackageXmiId, this.RootPackageName, this.UseStrictReading, this.pathMap,this.OutputReport);
 
                         AnsiConsole.MarkupLine($"[grey]LOG:[/] UML {this.ReportGenerator.QueryReportType()} report generated at [bold]{this.OutputReport.FullName}[/]");
                         AnsiConsole.WriteLine();
@@ -242,6 +252,14 @@ namespace uml4net.Tools.Commands
                 }
 
                 this.pathMap[parts[0]] = parts[1];
+            }
+
+            if (string.IsNullOrEmpty(this.RootPackageXmiId) && string.IsNullOrEmpty(this.RootPackageName))
+            {
+                AnsiConsole.WriteLine("");
+                AnsiConsole.MarkupLine($"[red]Both xmi-id and root-namespace are empty. Provide at least one[/]");
+                AnsiConsole.WriteLine("");
+                return false;
             }
 
             return true;
