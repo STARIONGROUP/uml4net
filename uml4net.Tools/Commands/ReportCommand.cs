@@ -71,6 +71,22 @@ namespace uml4net.Tools.Commands
             useStrictReadingOption.AddAlias("-s");
             useStrictReadingOption.IsRequired = false;
             this.AddOption(useStrictReadingOption);
+
+            var xmiIdOption = new Option<string>(
+                name: "--root-package-xmi-id",
+                description: "The unique identifier of the of the root package to report on",
+                getDefaultValue: () => "");
+            xmiIdOption.AddAlias("-rmi");
+            xmiIdOption.IsRequired = false;
+            this.AddOption(xmiIdOption);
+
+            var rootPackageNameOption = new Option<string>(
+                name: "--root-package-name",
+                description: "The name of the of the root package to report on",
+                getDefaultValue: () => "");
+            rootPackageNameOption.AddAlias("-rn");
+            rootPackageNameOption.IsRequired = false;
+            this.AddOption(rootPackageNameOption);
         }
     }
 }

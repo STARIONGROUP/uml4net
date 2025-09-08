@@ -87,7 +87,9 @@ namespace uml4net.HandleBars.Tests
 
             var handlebarsTemplate = this.handlebarsContenxt.Compile(template);
 
-            var activitiesPackage = this.xmiReaderResult.Root.NestedPackage.Single(x => x.Name == "Activities");
+            var root = this.xmiReaderResult.QueryRoot(xmiId: "_0", name: "UML");
+
+            var activitiesPackage = root.NestedPackage.Single(x => x.Name == "Activities");
 
             var activity = activitiesPackage.PackagedElement.OfType<IClass>().Single(x => x.Name == "Activity");
 

@@ -68,7 +68,7 @@ namespace uml4net.Reporting.Tests.Generators
 
             var pathmap = new Dictionary<string, string>();
 
-            Assert.That(() => this.xlReportGenerator.GenerateReport(this.umlModelFileInfo, this.umlModelFileInfo.Directory, true, pathmap, reportFileInfo), Throws.Nothing);
+            Assert.That(() => this.xlReportGenerator.GenerateReport(this.umlModelFileInfo, this.umlModelFileInfo.Directory, "_0", "UML",true, pathmap, reportFileInfo), Throws.Nothing);
         }
 
         [Test]
@@ -81,7 +81,7 @@ namespace uml4net.Reporting.Tests.Generators
             var pathmap = new Dictionary<string, string>();
             pathmap.Add("pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml", Path.Combine("TestData", "PrimitiveTypes.xmi"));
 
-            Assert.That(() => this.xlReportGenerator.GenerateReport(this.sysml2ModelFileInfo, this.umlModelFileInfo.Directory, true, pathmap, reportFileInfo), Throws.Nothing);
+            Assert.That(() => this.xlReportGenerator.GenerateReport(this.sysml2ModelFileInfo, this.umlModelFileInfo.Directory, "_kUROkM9FEe6Zc_le1peNgQ", "sysml", true, pathmap, reportFileInfo), Throws.Nothing);
         }
 
         [Test]
@@ -93,11 +93,11 @@ namespace uml4net.Reporting.Tests.Generators
 
             var reportFileInfo = new FileInfo(Path.Combine(TestContext.CurrentContext.TestDirectory, "sysml2-xl-report.xlsx"));
 
-            Assert.That(() => this.xlReportGenerator.GenerateReport(null, this.umlModelFileInfo.Directory, true, pathmap, reportFileInfo), Throws.ArgumentNullException);
+            Assert.That(() => this.xlReportGenerator.GenerateReport(null, this.umlModelFileInfo.Directory, "_0", "UML",true, pathmap, reportFileInfo), Throws.ArgumentNullException);
 
-            Assert.That(() => this.xlReportGenerator.GenerateReport(this.sysml2ModelFileInfo, null, true, pathmap, reportFileInfo), Throws.ArgumentNullException);
+            Assert.That(() => this.xlReportGenerator.GenerateReport(this.sysml2ModelFileInfo, null, "_0", "UML",true, pathmap, reportFileInfo), Throws.ArgumentNullException);
 
-            Assert.That(() => this.xlReportGenerator.GenerateReport(this.sysml2ModelFileInfo, this.umlModelFileInfo.Directory, true, pathmap, null), Throws.ArgumentNullException);
+            Assert.That(() => this.xlReportGenerator.GenerateReport(this.sysml2ModelFileInfo, this.umlModelFileInfo.Directory, "_0", "UML",true, pathmap, null), Throws.ArgumentNullException);
 
         }
     }

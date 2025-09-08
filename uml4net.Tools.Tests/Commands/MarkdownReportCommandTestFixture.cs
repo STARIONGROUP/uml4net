@@ -69,14 +69,14 @@ namespace uml4net.Tools.Tests.Commands
         {
             var invocationContext = new InvocationContext(null!);
 
-            this.handler.InputModel =
-                new FileInfo(Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData", "UML.xmi"));
-            this.handler.OutputReport =
-                new FileInfo(Path.Combine(TestContext.CurrentContext.TestDirectory, "md-report.md"));
+            this.handler.InputModel = new FileInfo(Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData", "UML.xmi"));
+            this.handler.OutputReport = new FileInfo(Path.Combine(TestContext.CurrentContext.TestDirectory, "md-report.md"));
+            this.handler.RootPackageXmiId = "_0";
+            this.handler.RootPackageName = "UML";
 
             var result = await this.handler.InvokeAsync(invocationContext);
 
-            this.markdownReportGenerator.Verify(x => x.GenerateReport(It.IsAny<FileInfo>(), It.IsAny<DirectoryInfo>(), It.IsAny<bool>(), It.IsAny<Dictionary<string, string>>(), It.IsAny<FileInfo>(), It.IsAny<String>()),
+            this.markdownReportGenerator.Verify(x => x.GenerateReport(It.IsAny<FileInfo>(), It.IsAny<DirectoryInfo>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<bool>(), It.IsAny<Dictionary<string, string>>(), It.IsAny<FileInfo>(), It.IsAny<String>()),
                 Times.Once);
 
             Assert.That(result, Is.EqualTo(0), "InvokeAsync should return 0 upon success.");

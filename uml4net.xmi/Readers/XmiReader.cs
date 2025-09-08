@@ -28,11 +28,13 @@ namespace uml4net.xmi.Readers
 
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Logging.Abstractions;
-    using Settings;
+
     using uml4net.Packages;
+
     using uml4net.xmi;
     using uml4net.xmi.ReferenceResolver;
-    
+    using uml4net.xmi.Settings;
+
     /// <summary>
     /// The purpose of the <see cref="XmiReader"/> is to provide a means to read (deserialize)
     /// a UML 2.5.1 model from XMI
@@ -96,9 +98,15 @@ namespace uml4net.xmi.Readers
         /// <param name="loggerFactory">
         /// The (injected) <see cref="ILoggerFactory"/> used to set up logging
         /// </param>
-        /// <param name="externalReferenceResolver">The <see cref="IExternalReferenceResolver"/></param>
-        /// <param name="scope">The <see cref="IXmiReaderScope"/></param>
-        /// <param name="xmiReaderSettings">The injected <see cref="IXmiReaderSettings"/> that provides reading setting for XMI</param>
+        /// <param name="externalReferenceResolver">
+        /// The <see cref="IExternalReferenceResolver"/> used for resolving external references associated with XMI elements.
+        /// </param>
+        /// <param name="scope">
+        /// The <see cref="IXmiReaderScope"/> used for managing the lifecycle of services used during the XMI reading process.
+        /// </param>
+        /// <param name="xmiReaderSettings">
+        /// The injected <see cref="IXmiReaderSettings"/> that provides reading setting for XMI
+        /// </param>
         public XmiReader(IAssembler assembler, IXmiElementCache cache, IXmiElementReaderFacade xmiElementReaderFacade, ILoggerFactory loggerFactory,
             IExternalReferenceResolver externalReferenceResolver, IXmiReaderScope scope, IXmiReaderSettings xmiReaderSettings)
         {
@@ -124,12 +132,7 @@ namespace uml4net.xmi.Readers
         /// </returns>
         public XmiReaderResult Read(string fileUri)
         {
-            if (fileUri == null)
-            {
-                throw new ArgumentNullException(nameof(fileUri));
-            }
-
-            if (fileUri.Length == 0)
+            if (string.IsNullOrEmpty(fileUri))
             {
                 throw new ArgumentException(nameof(fileUri));
             }
@@ -220,58 +223,68 @@ namespace uml4net.xmi.Readers
 
                 this.logger.LogTrace("starting to read xml");
 
-                while (xmlReader.Read())
+                xmlReader.MoveToContent();
+
+                var isRootXmiElement = XmlNamespaces.QuerySupportedNamespaces(xmlReader.NamespaceURI) == SupportedNamespaces.Xmi;
+                var isRootUmlObject = XmlNamespaces.QuerySupportedNamespaces(xmlReader.NamespaceURI) == SupportedNamespaces.Uml;
+
+                if (isRootXmiElement && !isRootUmlObject)
+                {
+                    var xmiRootReader = new XmiRootReader(this.Cache, this.XmiElementReaderFacade, this.XmiReaderSettings, this.LoggerFactory);
+                    using var subXmlReader = xmlReader.ReadSubtree();
+                    var xmiRoot = xmiRootReader.Read(subXmlReader, documentName, xmlReader.NamespaceURI);
+
+                    xmiReaderResult.XmiRoot = xmiRoot;
+
+                    xmiReaderResult.Packages.AddRange(xmiRoot.Content.OfType<IPackage>());
+                }
+
+                if (isRootUmlObject && !isRootXmiElement)
                 {
                     if (xmlReader.NodeType == XmlNodeType.Element)
                     {
                         switch (xmlReader.LocalName)
                         {
+                            case "package":
                             case "Package":
                                 var package = (IPackage)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, xmlReader.NamespaceURI, this.Cache, this.XmiReaderSettings, this.LoggerFactory, "uml:Package");
                                 xmiReaderResult.Packages.Add(package);
 
-                                if (isRoot)
-                                {
-                                    xmiReaderResult.Root = package;
-                                }
-
                                 break;
+                            case "model":
                             case "Model":
 
                                 var model = (IModel)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, xmlReader.NamespaceURI, this.Cache, this.XmiReaderSettings, this.LoggerFactory, "uml:Model");
                                 xmiReaderResult.Packages.Add(model);
 
-                                if (isRoot)
-                                {
-                                    xmiReaderResult.Root = model;
-                                }
-
                                 break;
+                            case "profile":
                             case "Profile":
                                 var profile = (IProfile)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, xmlReader.NamespaceURI, this.Cache, this.XmiReaderSettings, this.LoggerFactory, "uml:Profile");
                                 xmiReaderResult.Packages.Add(profile);
 
-                                if (isRoot)
-                                {
-                                    xmiReaderResult.Root = profile;
-                                }
-
                                 break;
+                            case "extension":
                             case "Extension":
-                                using (var xmiExensionReader = xmlReader.ReadSubtree())
+                                using (var xmiExtensionReader = xmlReader.ReadSubtree())
                                 {
-                                    if (this.ReadXmiExtension(xmiExensionReader,  documentName, xmlReader.NamespaceURI) is {} extension)
+                                    if (this.ReadXmiExtension(xmiExtensionReader, documentName, xmlReader.NamespaceURI) is { } extension)
                                     {
                                         xmiReaderResult.Packages.Add(extension);
                                     }
                                 }
-                                
+
                                 break;
                             default:
                                 this.logger.LogWarning("XmiReader: {LocalName} at line:position {Line}:{Position} was not read", xmlReader.LocalName, xmlLineInfo.LineNumber, xmlLineInfo.LinePosition);
                                 break;
                         }
                     }
+                }
+
+                if (!isRootXmiElement && !isRootUmlObject)
+                {
+                    throw new InvalidDataException("The root of the document is neither xmi:XMI or one of the UML root objects (Package, Model, Extension)");
                 }
             }
 

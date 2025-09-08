@@ -73,7 +73,9 @@ namespace uml4net.Extensions.Tests
         [Test]
         public void Verify_that_QueryAllProperties_returns_expected_result()
         {
-            var commonStructuresPackage = this.xmiReaderResult.Root.NestedPackage.Single(x => x.Name == "CommonStructure");
+            var root = this.xmiReaderResult.QueryRoot(xmiId: "_0", name: "UML");
+
+            var commonStructuresPackage = root.NestedPackage.Single(x => x.Name == "CommonStructure");
 
             var dependency = commonStructuresPackage.PackagedElement.OfType<IClass>().Single(x => x.Name == "Dependency");
 

@@ -60,13 +60,19 @@ namespace uml4net.CodeGenerator.Transformers
         /// <param name="xmiReaderResult">
         /// The <see cref="XmiReaderResult"/> that contains the UML model that may be transformed
         /// </param>
-        public bool TryTransform(XmiReaderResult xmiReaderResult, out List<IElement> updatedElements)
+        /// <param name="xmiId">
+        /// the unique identifier of the root package to report in
+        /// </param>
+        /// <param name="name">
+        /// the name of the root package to report in
+        /// </param>
+        public bool TryTransform(XmiReaderResult xmiReaderResult, string xmiId, string name, out List<IElement> updatedElements)
         {
             ArgumentNullException.ThrowIfNull(xmiReaderResult);
 
             updatedElements = new List<IElement>();
 
-            var packages = xmiReaderResult.Root.QueryPackages();
+            var packages = xmiReaderResult.QueryRoot(xmiId, name).QueryPackages();
 
             foreach (var package in packages)
             {

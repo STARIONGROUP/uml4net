@@ -97,7 +97,7 @@ namespace uml4net.xmi.Tests
 
             Assert.That(xmiReaderResult.Packages.Count, Is.EqualTo(2));
 
-            var package = xmiReaderResult.Root;
+            var package = xmiReaderResult.QueryRoot("_0", "UML");
 
             Assert.That(package.XmiId, Is.EqualTo("_0"));
             Assert.That(package.XmiType, Is.EqualTo("uml:Package"));

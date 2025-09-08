@@ -96,7 +96,10 @@ namespace uml4net.HandleBars.Tests
 
             var handlebarsTemplate = this.handlebarsContext.Compile(template);
 
-            var apiModelPackage = this.xmiReaderResult.Root.NestedPackage.Single(x => x.Name == "API_Model");
+            var root = this.xmiReaderResult.QueryRoot("_19_0_4_3fa0198_1689000259946_865221_0");
+
+            // var apiModelPackage = this.xmiReaderResult.Root.NestedPackage.Single(x => x.Name == "API_Model");
+            var apiModelPackage = root.NestedPackage.Single(x => x.Name == "API_Model");
 
             var commitReferenceElement = apiModelPackage.PackagedElement.OfType<IClass>().Single(x => x.Name == "CommitReference");
 
@@ -116,7 +119,10 @@ namespace uml4net.HandleBars.Tests
 
             var handlebarsTemplate = this.handlebarsContext.Compile(template);
 
-            var apiModelPackage = this.xmiReaderResult.Root.NestedPackage.Single(x => x.Name == "API_Model");
+            // var apiModelPackage = this.xmiReaderResult.Root.NestedPackage.Single(x => x.Name == "API_Model");
+
+            var root = this.xmiReaderResult.QueryRoot("_19_0_4_3fa0198_1689000259946_865221_0");
+            var apiModelPackage = root.NestedPackage.Single(x => x.Name == "API_Model");
 
             var commitReferenceElement = apiModelPackage.PackagedElement.OfType<IClass>().Single(x => x.Name == "CommitReference");
 

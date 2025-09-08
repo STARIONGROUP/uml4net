@@ -20,22 +20,15 @@
 
 namespace uml4net.Reporting.Generators
 {
-    using System;
     using System.Collections.Generic;
-    using System.Linq;
-    
+
     using HandlebarsDotNet;
     using HandlebarsDotNet.Helpers;
 
     using Microsoft.Extensions.Logging;
 
-    using uml4net.Extensions;
-    using uml4net.StructuredClassifiers;
-    using uml4net.SimpleClassifiers;
-    using uml4net.Reporting.Payload;
     using uml4net.Reporting.Resources;
-    using uml4net.xmi.Readers;
-
+    
     /// <summary>
     /// Abstract super class from which all <see cref="HandlebarsDotNet"/> generators
     /// need to derive

@@ -76,7 +76,7 @@ namespace uml4net.Reporting.Tests.Generators
 
             var pathmap = new Dictionary<string, string>();
 
-            Assert.That(() => this.htmlReportGenerator.GenerateReport(this.umlModelFileInfo, this.umlModelFileInfo.Directory, true, pathmap, reportFileInfo), Throws.Nothing);
+            Assert.That(() => this.htmlReportGenerator.GenerateReport(this.umlModelFileInfo, this.umlModelFileInfo.Directory, "_0", "UML", true, pathmap, reportFileInfo), Throws.Nothing);
         }
 
         [Test]
@@ -89,7 +89,7 @@ namespace uml4net.Reporting.Tests.Generators
             var pathmap = new Dictionary<string, string>();
             pathmap.Add("pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml", Path.Combine("TestData", "PrimitiveTypes.xmi"));
 
-            Assert.That(() => this.htmlReportGenerator.GenerateReport(this.sysml2ModelFileInfo, this.umlModelFileInfo.Directory,true, pathmap, reportFileInfo), Throws.Nothing);
+            Assert.That(() => this.htmlReportGenerator.GenerateReport(this.sysml2ModelFileInfo, this.umlModelFileInfo.Directory, "_kUROkM9FEe6Zc_le1peNgQ", "sysml", true, pathmap, reportFileInfo), Throws.Nothing);
         }
 
         [Test]
@@ -110,7 +110,7 @@ namespace uml4net.Reporting.Tests.Generators
                              <div>
                              """;
 
-            Assert.That(() => this.htmlReportGenerator.GenerateReport(this.sysml2ModelFileInfo, this.umlModelFileInfo.Directory, true, pathmap, reportFileInfo, customHtml), Throws.Nothing);
+            Assert.That(() => this.htmlReportGenerator.GenerateReport(this.sysml2ModelFileInfo, this.umlModelFileInfo.Directory, "_kUROkM9FEe6Zc_le1peNgQ", "sysml", true, pathmap, reportFileInfo, customHtml), Throws.Nothing);
         }
 
         [Test]
@@ -122,7 +122,7 @@ namespace uml4net.Reporting.Tests.Generators
 
             var reportFileInfo = new FileInfo(Path.Combine(TestContext.CurrentContext.TestDirectory, "sysml2-pim-html-report.html"));
 
-            Assert.That(() => this.htmlReportGenerator.GenerateReport(this.sysml2PimFileInfo, this.umlModelFileInfo.Directory, true, null, reportFileInfo), Throws.Nothing);
+            Assert.That(() => this.htmlReportGenerator.GenerateReport(this.sysml2PimFileInfo, this.umlModelFileInfo.Directory, "_19_0_4_3fa0198_1689000259946_865221_0", "Systems Modeling API and Services PIM", true, null, reportFileInfo), Throws.Nothing);
         }
 
         [Test]
@@ -133,7 +133,7 @@ namespace uml4net.Reporting.Tests.Generators
 
             var reportFileInfo = new FileInfo(Path.Combine(TestContext.CurrentContext.TestDirectory, "EAExport.html"));
 
-            Assert.That(() => this.htmlReportGenerator.GenerateReport(this.eAExportFileInfo, this.umlModelFileInfo.Directory, true, null, reportFileInfo), Throws.Nothing);
+            Assert.That(() => this.htmlReportGenerator.GenerateReport(this.eAExportFileInfo, this.umlModelFileInfo.Directory, "", "EA_Model", true, null, reportFileInfo), Throws.Nothing);
         }
     }
 }

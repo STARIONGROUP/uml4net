@@ -41,19 +41,27 @@ namespace uml4net.CodeGenerator.Generators
         /// <param name="xmiReaderResult">
         /// the <see cref="XmiReaderResult"/> that contains the UML model to generate from
         /// </param>
+        /// <param name="rootPackageXmiId">
+        /// the unique identifier of the root package to report in
+        /// </param>
+        /// <param name="rootPackageName">
+        /// the name of the root package to report in
+        /// </param>
         /// <param name="outputDirectory">
         /// The target <see cref="DirectoryInfo"/>
         /// </param>
         /// <returns>
         /// an awaitable <see cref="Task"/>
         /// </returns>
-        public override async Task GenerateAsync(XmiReaderResult xmiReaderResult, DirectoryInfo outputDirectory)
+        public override async Task GenerateAsync(XmiReaderResult xmiReaderResult, string rootPackageXmiId, string rootPackageName, DirectoryInfo outputDirectory)
         {
             ArgumentNullException.ThrowIfNull(xmiReaderResult);
 
             ArgumentNullException.ThrowIfNull(outputDirectory);
 
-            var classes = xmiReaderResult.Root.QueryPackages()
+            var root = xmiReaderResult.QueryRoot(rootPackageXmiId, rootPackageName);
+
+            var classes = root.QueryPackages()
                 .SelectMany(x => x.PackagedElement.OfType<IClass>())
                 .Where(x => !x.IsAbstract)
                 .ToList();
@@ -105,19 +113,27 @@ namespace uml4net.CodeGenerator.Generators
         /// <param name="xmiReaderResult">
         /// the <see cref="XmiReaderResult"/> that contains the UML model to generate from
         /// </param>
+        /// <param name="rootPackageXmiId">
+        /// the unique identifier of the root package to report in
+        /// </param>
+        /// <param name="rootPackageName">
+        /// the name of the root package to report in
+        /// </param>
         /// <param name="outputDirectory">
         /// The target <see cref="DirectoryInfo"/>
         /// </param>
         /// <returns>
         /// an awaitable <see cref="Task"/>
         /// </returns>
-        public async Task GenerateXmiElementReaderFacadeAsync(XmiReaderResult xmiReaderResult, DirectoryInfo outputDirectory)
+        public async Task GenerateXmiElementReaderFacadeAsync(XmiReaderResult xmiReaderResult, string rootPackageXmiId, string rootPackageName, DirectoryInfo outputDirectory)
         {
             ArgumentNullException.ThrowIfNull(xmiReaderResult);
 
             ArgumentNullException.ThrowIfNull(outputDirectory);
 
-            var classes = xmiReaderResult.Root.QueryPackages()
+            var root = xmiReaderResult.QueryRoot(rootPackageXmiId, rootPackageName);
+
+            var classes = root.QueryPackages()
                 .SelectMany(x => x.PackagedElement.OfType<IClass>())
                 .Where(x => !x.IsAbstract)
                 .ToList();

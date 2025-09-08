@@ -82,7 +82,9 @@ namespace uml4net.Reporting.Tests.Generators
 
             this.modelInspector = new ModelInspector(this.loggerFactory);
 
-            var report = this.modelInspector.Inspect(xmiReaderResult.Root);
+            var root = xmiReaderResult.QueryRoot(xmiId: "_0", name: "UML");
+
+            var report = this.modelInspector.Inspect(root);
 
             Log.Logger.Information(report);
 
@@ -96,7 +98,7 @@ namespace uml4net.Reporting.Tests.Generators
 
             var pathmap = new Dictionary<string, string>();
 
-            Assert.That(() => this.modelInspector.GenerateReport(this.modelFileInfo, this.modelFileInfo.Directory, true, pathmap, this.reportFileInfo), Throws.Nothing);
+            Assert.That(() => this.modelInspector.GenerateReport(this.modelFileInfo, this.modelFileInfo.Directory, "_0", "UML", true, pathmap, this.reportFileInfo), Throws.Nothing);
         }
 
         [Test]
@@ -111,7 +113,9 @@ namespace uml4net.Reporting.Tests.Generators
 
             var xmiReaderResult = reader.Read(Path.Combine(rootPath, "UML.xmi"));
 
-            var classificationPackage = xmiReaderResult.Root.PackagedElement.OfType<IPackage>().Single(x => x.Name == "Classification") ;
+            var root = xmiReaderResult.QueryRoot(xmiId: "_0", name: "UML");
+
+            var classificationPackage = root.PackagedElement.OfType<IPackage>().Single(x => x.Name == "Classification") ;
 
             this.modelInspector = new ModelInspector(this.loggerFactory);
 
@@ -136,7 +140,9 @@ namespace uml4net.Reporting.Tests.Generators
 
             this.modelInspector = new ModelInspector(this.loggerFactory);
 
-            var interestingClasses = this.modelInspector.QueryInterestingClasses(xmiReaderResult.Root);
+            var root = xmiReaderResult.QueryRoot(xmiId: "_0", name: "UML");
+
+            var interestingClasses = this.modelInspector.QueryInterestingClasses(root);
 
             var expectedResult = new List<string>
             {
@@ -167,7 +173,7 @@ namespace uml4net.Reporting.Tests.Generators
 
             var pathmap = new Dictionary<string, string>();
 
-            Assert.That(() => this.modelInspector.GenerateReport(this.modelFileInfo, this.modelFileInfo.Directory, true, pathmap, this.reportFileInfo), Throws.Nothing);
+            Assert.That(() => this.modelInspector.GenerateReport(this.modelFileInfo, this.modelFileInfo.Directory, "_0", "UML", true, pathmap, this.reportFileInfo), Throws.Nothing);
         }
     }
 }

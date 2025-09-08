@@ -23,7 +23,9 @@ namespace uml4net.Reporting.Payload
     using System;
     using System.Collections.Generic;
     using System.Linq;
+
     using Classification;
+
     using uml4net.Extensions;
     using uml4net.SimpleClassifiers;
     using uml4net.StructuredClassifiers;
@@ -42,10 +44,16 @@ namespace uml4net.Reporting.Payload
         /// <param name="xmiReaderResult">
         /// the subject <see cref="XmiReaderResult"/>
         /// </param>
+        /// <param name="xmiId">
+        /// the unique identifier of the root package to report in
+        /// </param>
+        /// <param name="name">
+        /// the name of the root package to report in
+        /// </param>
         /// <returns>
         /// an instance of <see cref="HandlebarsPayload"/>
         /// </returns>
-        public static HandlebarsPayload CreateHandlebarsPayload(XmiReaderResult xmiReaderResult)
+        public static HandlebarsPayload CreateHandlebarsPayload(XmiReaderResult xmiReaderResult, string xmiId, string name)
         {
             if (xmiReaderResult == null)
             {
@@ -84,7 +92,9 @@ namespace uml4net.Reporting.Payload
             var orderedClasses = classes.OrderBy(x => x.Name);
             var orderedInterfaces = interfaces.OrderBy(x => x.Name);
 
-            var payload = new HandlebarsPayload(xmiReaderResult.Root, xmiReaderResult.Packages, orderedEnumerations, orderedPrimitiveTypes, orderedDataTypes, orderedClasses, orderedInterfaces);
+            var root = xmiReaderResult.QueryRoot(xmiId, name);
+
+            var payload = new HandlebarsPayload(root, xmiReaderResult.Packages, orderedEnumerations, orderedPrimitiveTypes, orderedDataTypes, orderedClasses, orderedInterfaces);
 
             return payload;
         }

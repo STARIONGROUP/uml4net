@@ -20,9 +20,13 @@
 
 namespace uml4net.xmi.Readers
 {
+    using System;
     using System.Collections.Generic;
+    using System.Linq;
 
     using uml4net.Packages;
+
+    using uml4net.xmi.Xmi;
 
     /// <summary>
     /// The purpose of the <see cref="XmiReaderResult"/> is capture the result of reading a UML model
@@ -31,14 +35,49 @@ namespace uml4net.xmi.Readers
     public class XmiReaderResult
     {
         /// <summary>
-        /// Gets or sets the root <see cref="IPackage"/>. This is the <see cref="IPackage"/> that is the container
-        /// of the UML model file that was initially read
+        /// Queries the root package with the specified ID
         /// </summary>
-        public IPackage Root { get; set; }
+        /// <param name="xmiId">
+        /// The XmiId of the <see cref="IPackage"/> that is queried
+        /// </param>
+        /// <param name="name">
+        /// the name of the package that is queried
+        /// </param>
+        /// <returns>
+        /// An instance of <see cref="IPackage"/>
+        /// </returns>
+        public IPackage QueryRoot(string xmiId, string name = null)
+        {
+            if (string.IsNullOrEmpty(xmiId) && string.IsNullOrEmpty(name))
+            {
+                throw new ArgumentNullException($"xmiId and name shall not both be null or empty");
+            }
+
+            if (string.IsNullOrEmpty(xmiId))
+            {
+                return this.Packages.Single(x => x.Name == name);
+            }
+
+            if (string.IsNullOrEmpty(name))
+            {
+                return this.Packages.Single(x => x.XmiId == xmiId);
+            }
+
+            return this.Packages.Single(x => x.XmiId == xmiId && x.Name == name);
+        }
 
         /// <summary>
-        /// Gets or sets all the <see cref="IPackage"/>s that have been read, this includes the <see cref="Root"/>
+        /// Gets or sets all the top-level <see cref="IPackage"/>s that have been read, this includes the Root
         /// </summary>
-        public List<IPackage> Packages { get; set; } = new ();
+        /// <remarks>
+        /// a top-level package is a package that is either the only package in the document when there is no
+        /// <see cref="XmiRoot"/>> wrapper element, or a package that is directly contained by the <see cref="XmiRoot"/>
+        /// </remarks>
+        public List<IPackage> Packages { get; set; } = [];
+
+        /// <summary>
+        /// The <see cref="XmiRoot"/> that has been read, if any
+        /// </summary>
+        public XmiRoot XmiRoot { get; set; }
     }
 }

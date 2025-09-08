@@ -64,7 +64,7 @@ namespace uml4net.xmi.Tests
 
             Assert.That(xmiReaderResult.Packages.Count, Is.EqualTo(2));
 
-            var model = xmiReaderResult.Root as IModel;
+            var model = xmiReaderResult.QueryRoot("_17_0_2_3_ea50349_1435105765209_262546_0") as IModel;
 
             Assert.That(model.Name, Is.EqualTo("Data"));
 

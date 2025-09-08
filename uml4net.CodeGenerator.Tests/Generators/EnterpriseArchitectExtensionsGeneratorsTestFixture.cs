@@ -59,7 +59,7 @@ namespace uml4net.CodeGenerator.Tests.Generators
             this.xmiReaderResult = reader.Read(Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData", "EnterpriseArchitectExtensions.xmi"));
 
             var modelTransformer = new ModelTransformer(this.loggerFactory);
-            modelTransformer.TryTransform(this.xmiReaderResult, out var updatedElements);
+            modelTransformer.TryTransform(this.xmiReaderResult, "", "EA_Model", out var updatedElements);
 
             var directoryInfo = new DirectoryInfo(TestContext.CurrentContext.TestDirectory);
 
@@ -86,7 +86,7 @@ namespace uml4net.CodeGenerator.Tests.Generators
         public async Task VerifyExtensionClassesGenerated()
         {
             await Assert.ThatAsync(
-                () => this.extensionGenerator.GenerateExtensionClassesAsync(this.xmiReaderResult, this.classesDirectoryInfo),
+                () => this.extensionGenerator.GenerateExtensionClassesAsync(this.xmiReaderResult, null, "EA_Model", this.classesDirectoryInfo),
                 Throws.Nothing);
         }
 
@@ -94,7 +94,7 @@ namespace uml4net.CodeGenerator.Tests.Generators
         public async Task VerifyEnumerationsGenerated()
         {
             await Assert.ThatAsync(
-                () => this.extensionGenerator.GenerateEnumerationsAsync(this.xmiReaderResult, this.enumerationDirectoryInfo),
+                () => this.extensionGenerator.GenerateEnumerationsAsync(this.xmiReaderResult, null, "EA_Model", this.enumerationDirectoryInfo),
                 Throws.Nothing);
         }
 
@@ -102,22 +102,21 @@ namespace uml4net.CodeGenerator.Tests.Generators
         public void VerifyInterfacesGenerated()
         {
             Assert.That(
-                async () => await this.extensionGenerator.GenerateInterfacesAsync(this.xmiReaderResult, this.interfaceDirectoryInfo),
+                async () => await this.extensionGenerator.GenerateInterfacesAsync(this.xmiReaderResult, null, "EA_Model", this.interfaceDirectoryInfo),
                 Throws.Nothing);
         }
         
         [Test]
         public void VerifyReadersAreGenerated()
         {
-            Assert.That(async () => await this.extensionGenerator.GenerateXmiReadersAsync(this.xmiReaderResult, this.xmiReaderDirectoryInfo),
+            Assert.That(async () => await this.extensionGenerator.GenerateXmiReadersAsync(this.xmiReaderResult, null, "EA_Model", this.xmiReaderDirectoryInfo),
                 Throws.Nothing);
         }
 
         [Test]
         public void VerifyFacadeReaderGenerated()
         {
-            Assert.That(async () => await this.extensionGenerator.GenerateXmiElementReaderFacadeAsync(this.xmiReaderResult,
-                    this.xmiReaderDirectoryInfo),
+            Assert.That(async () => await this.extensionGenerator.GenerateXmiElementReaderFacadeAsync(this.xmiReaderResult, null, "EA_Model", this.xmiReaderDirectoryInfo),
                 Throws.Nothing);
         }
     }

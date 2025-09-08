@@ -75,7 +75,9 @@ namespace uml4net.Extensions.Tests
         [Test]
         public void Verify_that_QueryIsContainment_returns_expected_Result()
         {
-            var package1 = this.xmiReaderResult.Root.NestedPackage.Single(x => x.Name == "Package1");
+            var root = this.xmiReaderResult.QueryRoot(xmiId: null, name: "EA_Model");
+
+            var package1 = root.NestedPackage.Single(x => x.Name == "Package1");
             
             var class2 = package1.PackagedElement.OfType<IClass>().Single(x => x.Name == "Class2");
 

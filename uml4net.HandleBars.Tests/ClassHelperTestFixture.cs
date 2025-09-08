@@ -85,7 +85,9 @@ namespace uml4net.HandleBars.Tests
 
             var action = this.handlebarsContenxt.Compile(template);
 
-            var activitiesPackage = this.xmiReaderResult.Root.NestedPackage.Single(x => x.Name == "Activities");
+            var root = this.xmiReaderResult.QueryRoot(xmiId: "_0", name: "UML");
+
+            var activitiesPackage = root.NestedPackage.Single(x => x.Name == "Activities");
             var activity = activitiesPackage.PackagedElement.OfType<IClass>().Single(x => x.Name == "Activity");
 
             var result = action(activity);
@@ -100,7 +102,9 @@ namespace uml4net.HandleBars.Tests
 
             var action = this.handlebarsContenxt.Compile(template);
 
-            var activitiesPackage = this.xmiReaderResult.Root.NestedPackage.Single(x => x.Name == "Activities");
+            var root = this.xmiReaderResult.QueryRoot(xmiId: "_0", name: "UML");
+
+            var activitiesPackage = root.NestedPackage.Single(x => x.Name == "Activities");
             var activity = activitiesPackage.PackagedElement.OfType<IClass>().Single(x => x.Name == "Activity");
             var property = activity.OwnedAttribute.First();
 
@@ -114,7 +118,9 @@ namespace uml4net.HandleBars.Tests
 
             var action = this.handlebarsContenxt.Compile(template);
 
-            var activitiesPackage = this.xmiReaderResult.Root.NestedPackage.Single(x => x.Name == "Activities");
+            var root = this.xmiReaderResult.QueryRoot(xmiId: "_0", name: "UML");
+
+            var activitiesPackage = root.NestedPackage.Single(x => x.Name == "Activities");
             var activity = activitiesPackage.PackagedElement.OfType<IClass>().Single(x => x.Name == "Activity");
 
             var result = action(activity);
@@ -129,7 +135,9 @@ namespace uml4net.HandleBars.Tests
 
             var action = this.handlebarsContenxt.Compile(template);
 
-            var activitiesPackage = this.xmiReaderResult.Root.NestedPackage.Single(x => x.Name == "Activities");
+            var root = this.xmiReaderResult.QueryRoot(xmiId: "_0", name: "UML");
+
+            var activitiesPackage = root.NestedPackage.Single(x => x.Name == "Activities");
             var activity = activitiesPackage.PackagedElement.OfType<IClass>().Single(x => x.Name == "Activity");
 
             var result = action(activity);
@@ -144,7 +152,9 @@ namespace uml4net.HandleBars.Tests
 
             var action = this.handlebarsContenxt.Compile(template);
 
-            var commonBehaviorPackage = this.xmiReaderResult.Root.NestedPackage.Single(x => x.Name == "CommonBehavior");
+            var root = this.xmiReaderResult.QueryRoot(xmiId: "_0", name: "UML");
+
+            var commonBehaviorPackage = root.NestedPackage.Single(x => x.Name == "CommonBehavior");
             var behavior = commonBehaviorPackage.PackagedElement.OfType<IClass>().Single(x => x.Name == "Behavior");
 
             var result = action(behavior);
@@ -159,7 +169,9 @@ namespace uml4net.HandleBars.Tests
 
             var action = this.handlebarsContenxt.Compile(template);
 
-            var commonBehaviorPackage = this.xmiReaderResult.Root.NestedPackage.Single(x => x.Name == "CommonBehavior");
+            var root = this.xmiReaderResult.QueryRoot(xmiId: "_0", name: "UML");
+
+            var commonBehaviorPackage = root.NestedPackage.Single(x => x.Name == "CommonBehavior");
             var behavior = commonBehaviorPackage.PackagedElement.OfType<IClass>().Single(x => x.Name == "Behavior");
 
             var result = action(behavior);
