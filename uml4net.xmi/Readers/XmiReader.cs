@@ -132,12 +132,7 @@ namespace uml4net.xmi.Readers
         /// </returns>
         public XmiReaderResult Read(string fileUri)
         {
-            if (fileUri == null)
-            {
-                throw new ArgumentNullException(nameof(fileUri));
-            }
-
-            if (fileUri.Length == 0)
+            if (string.IsNullOrEmpty(fileUri))
             {
                 throw new ArgumentException(nameof(fileUri));
             }
