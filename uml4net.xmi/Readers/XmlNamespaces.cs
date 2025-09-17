@@ -75,7 +75,7 @@ namespace uml4net.xmi.Readers
                 || trimmedNameSpaceUri.StartsWith("https://www.eclipse.org/uml2/"))
             {
                 if (trimmedNameSpaceUri.EndsWith("/UML", StringComparison.OrdinalIgnoreCase) 
-                    | trimmedNameSpaceUri.EndsWith("/UML/", StringComparison.OrdinalIgnoreCase))
+                    || trimmedNameSpaceUri.EndsWith("/UML/", StringComparison.OrdinalIgnoreCase))
                 {
                     return SupportedNamespaces.Uml;
                 }

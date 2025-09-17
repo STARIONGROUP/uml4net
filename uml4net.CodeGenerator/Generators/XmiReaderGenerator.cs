@@ -41,10 +41,10 @@ namespace uml4net.CodeGenerator.Generators
         /// <param name="xmiReaderResult">
         /// the <see cref="XmiReaderResult"/> that contains the UML model to generate from
         /// </param>
-        /// <param name="xmiId">
+        /// <param name="rootPackageXmiId">
         /// the unique identifier of the root package to report in
         /// </param>
-        /// <param name="rootName">
+        /// <param name="rootPackageName">
         /// the name of the root package to report in
         /// </param>
         /// <param name="outputDirectory">
@@ -53,13 +53,13 @@ namespace uml4net.CodeGenerator.Generators
         /// <returns>
         /// an awaitable <see cref="Task"/>
         /// </returns>
-        public override async Task GenerateAsync(XmiReaderResult xmiReaderResult, string xmiId, string rootName, DirectoryInfo outputDirectory)
+        public override async Task GenerateAsync(XmiReaderResult xmiReaderResult, string rootPackageXmiId, string rootPackageName, DirectoryInfo outputDirectory)
         {
             ArgumentNullException.ThrowIfNull(xmiReaderResult);
 
             ArgumentNullException.ThrowIfNull(outputDirectory);
 
-            var root = xmiReaderResult.QueryRoot(xmiId, rootName);
+            var root = xmiReaderResult.QueryRoot(rootPackageXmiId, rootPackageName);
 
             var classes = root.QueryPackages()
                 .SelectMany(x => x.PackagedElement.OfType<IClass>())
@@ -113,10 +113,10 @@ namespace uml4net.CodeGenerator.Generators
         /// <param name="xmiReaderResult">
         /// the <see cref="XmiReaderResult"/> that contains the UML model to generate from
         /// </param>
-        /// <param name="xmiId">
+        /// <param name="rootPackageXmiId">
         /// the unique identifier of the root package to report in
         /// </param>
-        /// <param name="rootName">
+        /// <param name="rootPackageName">
         /// the name of the root package to report in
         /// </param>
         /// <param name="outputDirectory">
@@ -125,13 +125,13 @@ namespace uml4net.CodeGenerator.Generators
         /// <returns>
         /// an awaitable <see cref="Task"/>
         /// </returns>
-        public async Task GenerateXmiElementReaderFacadeAsync(XmiReaderResult xmiReaderResult, string xmiId, string rootName, DirectoryInfo outputDirectory)
+        public async Task GenerateXmiElementReaderFacadeAsync(XmiReaderResult xmiReaderResult, string rootPackageXmiId, string rootPackageName, DirectoryInfo outputDirectory)
         {
             ArgumentNullException.ThrowIfNull(xmiReaderResult);
 
             ArgumentNullException.ThrowIfNull(outputDirectory);
 
-            var root = xmiReaderResult.QueryRoot(xmiId, rootName);
+            var root = xmiReaderResult.QueryRoot(rootPackageXmiId, rootPackageName);
 
             var classes = root.QueryPackages()
                 .SelectMany(x => x.PackagedElement.OfType<IClass>())

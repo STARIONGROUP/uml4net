@@ -127,7 +127,7 @@ namespace uml4net.xmi.Readers
                     {
                         if (xmlReader.Name == "xmi:Extension")
                         {
-                            this.logger.LogInformation("Extensions in the Documentation Element are currently ignored - line:position {Line}:{Position}", xmlLineInfo.LineNumber, xmlLineInfo.LinePosition);
+                            this.logger.LogInformation("Extensions in the Documentation Element are currently ignored - line:position {Line}:{Position}", xmlLineInfo?.LineNumber, xmlLineInfo?.LinePosition);
                             xmlReader.Skip();
                         }
 
@@ -192,11 +192,11 @@ namespace uml4net.xmi.Readers
                             default:
                                 if (this.xmiReaderSettings.UseStrictReading)
                                 {
-                                    throw new NotSupportedException($"DocumentationReader: {xmlReader.LocalName} at line:position {xmlLineInfo.LineNumber}:{xmlLineInfo.LinePosition}");
+                                    throw new NotSupportedException($"DocumentationReader: {xmlReader.LocalName} at line:position {xmlLineInfo?.LineNumber}:{xmlLineInfo?.LinePosition}");
                                 }
                                 else
                                 {
-                                    this.logger.LogWarning("Not Supported: DocumentationReader: {LocalName} at line:position {LineNumber}:{LinePosition}", xmlReader.LocalName, xmlLineInfo.LineNumber, xmlLineInfo.LinePosition);
+                                    this.logger.LogWarning("Not Supported: DocumentationReader: {LocalName} at line:position {LineNumber}:{LinePosition}", xmlReader.LocalName, xmlLineInfo?.LineNumber, xmlLineInfo?.LinePosition);
                                 }
 
                                 break;
