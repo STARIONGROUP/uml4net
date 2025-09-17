@@ -26,16 +26,16 @@ namespace uml4net.Reporting.Generators
     using System.IO;
     using System.Linq;
     using System.Text;
-    using DocumentFormat.OpenXml.Office.PowerPoint.Y2021.M06.Main;
+
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Logging.Abstractions;
 
     using uml4net.Classification;
-    using uml4net.CommonStructure;
     using uml4net.Extensions;
     using uml4net.Packages;
     using uml4net.StructuredClassifiers;
-    using xmi.Extensions.EnterpriseArchitect.Extensions;
+
+    using uml4net.xmi.Extensions.EnterpriseArchitect.Extensions;
 
     /// <summary>
     /// The purpose of the <see cref="ModelInspector"/> is to iterate through the model and report on the various kinds of
@@ -543,10 +543,10 @@ namespace uml4net.Reporting.Generators
         /// <param name="rootDirectory">
         /// The base directory path used as the local root for resolving referenced XMI files.
         /// </param>
-        /// <param name="xmiId">
+        /// <param name="rootPackageXmiId">
         /// the unique identifier of the root package to report in
         /// </param>
-        /// <param name="rootName">
+        /// <param name="rootPackageName">
         /// the name of the root package to report in
         /// </param>
         /// <param name="useStrictReading">
@@ -561,9 +561,9 @@ namespace uml4net.Reporting.Generators
         /// the path, including filename, where the output is to be generated.
         /// </param>
         /// <param name="customContent">
-        /// Custom content that is ignored in this generatpr
+        /// Custom content that is ignored in this generator
         /// </param>
-        public void GenerateReport(FileInfo modelPath, DirectoryInfo rootDirectory, string xmiId, string rootName,  bool useStrictReading, Dictionary<string, string> pathMap, FileInfo outputPath, string customContent = "")
+        public void GenerateReport(FileInfo modelPath, DirectoryInfo rootDirectory, string rootPackageXmiId, string rootPackageName,  bool useStrictReading, Dictionary<string, string> pathMap, FileInfo outputPath, string customContent = "")
         {
             if (modelPath == null)
             {

@@ -88,10 +88,10 @@ namespace uml4net.Reporting.Generators
         /// <param name="rootDirectory">
         /// The base directory path used as the local root for resolving referenced XMI files.
         /// </param>
-        /// <param name="xmiId">
+        /// <param name="rootPackageXmiId">
         /// the unique identifier of the root package to report in
         /// </param>
-        /// <param name="rootName">
+        /// <param name="rootPackageName">
         /// the name of the root package to report in
         /// </param>
         /// <param name="useStrictReading">
@@ -108,7 +108,7 @@ namespace uml4net.Reporting.Generators
         /// <returns>
         /// the content of an HTML report in a string
         /// </returns>
-        public string GenerateReport(FileInfo modelPath, DirectoryInfo rootDirectory, string xmiId, string rootName, bool useStrictReading, Dictionary<string, string> pathMap, string customHtml = "")
+        public string GenerateReport(FileInfo modelPath, DirectoryInfo rootDirectory, string rootPackageXmiId, string rootPackageName, bool useStrictReading, Dictionary<string, string> pathMap, string customHtml = "")
         {
             if (modelPath == null)
             {
@@ -130,9 +130,9 @@ namespace uml4net.Reporting.Generators
 
             var xmiReaderResult = this.LoadPackages(modelPath, rootDirectory, useStrictReading, pathMap);
 
-            var payload = HandlebarsPayloadFactory.CreateHandlebarsPayload(xmiReaderResult, xmiId, rootName);
+            var payload = HandlebarsPayloadFactory.CreateHandlebarsPayload(xmiReaderResult, rootPackageXmiId, rootPackageName);
 
-            var inheritanceDiagramSvg = this.inheritanceDiagramRenderer.SvgRender(xmiReaderResult, xmiId, rootName);
+            var inheritanceDiagramSvg = this.inheritanceDiagramRenderer.SvgRender(xmiReaderResult, rootPackageXmiId, rootPackageName);
 
             var generatedHtml = template(new
             {

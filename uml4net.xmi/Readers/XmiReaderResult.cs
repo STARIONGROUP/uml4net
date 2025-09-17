@@ -50,7 +50,7 @@ namespace uml4net.xmi.Readers
         {
             if (string.IsNullOrEmpty(xmiId) && string.IsNullOrEmpty(name))
             {
-                throw new ArgumentNullException($"{nameof(xmiId)} and {nameof(name)} shall not both be null or empty");
+                throw new ArgumentNullException($"xmiId and name shall not both be null or empty");
             }
 
             if (string.IsNullOrEmpty(xmiId))
@@ -67,7 +67,7 @@ namespace uml4net.xmi.Readers
         }
 
         /// <summary>
-        /// Gets or sets all the top-level <see cref="IPackage"/>s that have been read, this includes the <see cref="Root"/>
+        /// Gets or sets all the top-level <see cref="IPackage"/>s that have been read, this includes the Root
         /// </summary>
         /// <remarks>
         /// a top-level package is a package that is either the only package in the document when there is no

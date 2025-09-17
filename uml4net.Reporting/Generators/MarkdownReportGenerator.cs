@@ -101,10 +101,10 @@ namespace uml4net.Reporting.Generators
         /// <param name="rootDirectory">
         /// The base directory path used as the local root for resolving referenced XMI files.
         /// </param>
-        /// <param name="xmiId">
+        /// <param name="rootPackageXmiId">
         /// the unique identifier of the root package to report in
         /// </param>
-        /// <param name="rootName">
+        /// <param name="rootPackageName">
         /// the name of the root package to report in
         /// </param>
         /// <param name="useStrictReading">
@@ -121,7 +121,7 @@ namespace uml4net.Reporting.Generators
         /// <param name="customContent">
         /// Custom content that is ignored in this generator
         /// </param>
-        public void GenerateReport(FileInfo modelPath, DirectoryInfo rootDirectory, string xmiId, string rootName, bool useStrictReading, Dictionary<string, string> pathMap, FileInfo outputPath, string customContent = "")
+        public void GenerateReport(FileInfo modelPath, DirectoryInfo rootDirectory, string rootPackageXmiId, string rootPackageName, bool useStrictReading, Dictionary<string, string> pathMap, FileInfo outputPath, string customContent = "")
         {
             if (outputPath == null)
             {
@@ -130,7 +130,7 @@ namespace uml4net.Reporting.Generators
 
             var sw = Stopwatch.StartNew();
 
-            var generatedHtml = this.GenerateReport(modelPath, rootDirectory, xmiId, rootName, useStrictReading, pathMap);
+            var generatedHtml = this.GenerateReport(modelPath, rootDirectory, rootPackageXmiId, rootPackageName, useStrictReading, pathMap);
 
             if (outputPath.Exists)
             {
