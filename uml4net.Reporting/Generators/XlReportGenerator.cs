@@ -40,7 +40,8 @@ namespace uml4net.Reporting.Generators
     using uml4net.SimpleClassifiers;
     using uml4net.StructuredClassifiers;
     using uml4net.Packages;
-    using uml4net.xmi.Extensions.EnterpriseArchitect.Extensions;
+
+    // using uml4net.xmi.Extensions.EnterpriseArchitect.Extensions;
 
     /// <summary>
     /// The purpose of the <see cref="XlReportGenerator"/> is to generate reports of a
@@ -228,7 +229,8 @@ namespace uml4net.Reporting.Generators
 
                     if (this.ShouldUseEnterpriseArchitectReader)
                     {
-                        classDataRow["Documentation"] = @class.QueryDocumentationFromExtensions();
+                        // classDataRow["Documentation"] = @class.QueryDocumentationFromExtensions();
+                        this.logger.LogWarning("EA extension disabled");
                     }
                     else
                     {
@@ -254,7 +256,8 @@ namespace uml4net.Reporting.Generators
 
                         if (this.ShouldUseEnterpriseArchitectReader)
                         {
-                            propertyDataRow["Documentation"] = property.QueryDocumentationFromExtensions();
+                            //propertyDataRow["Documentation"] = property.QueryDocumentationFromExtensions();
+                            this.logger.LogWarning("EA extension disabled");
                         }
                         else
                         {
@@ -315,7 +318,8 @@ namespace uml4net.Reporting.Generators
 
                     if (this.ShouldUseEnterpriseArchitectReader)
                     {
-                        classDataRow["Documentation"] = @interface.QueryDocumentationFromExtensions();
+                        //classDataRow["Documentation"] = @interface.QueryDocumentationFromExtensions();
+                        this.logger.LogWarning("EA extension disabled");
                     }
                     else
                     {
@@ -340,7 +344,8 @@ namespace uml4net.Reporting.Generators
 
                         if (this.ShouldUseEnterpriseArchitectReader)
                         {
-                            propertyDataRow["Documentation"] = property.QueryDocumentationFromExtensions();
+                            // propertyDataRow["Documentation"] = property.QueryDocumentationFromExtensions();
+                            this.logger.LogWarning("EA extension disabled");
                         }
                         else
                         {
@@ -391,7 +396,8 @@ namespace uml4net.Reporting.Generators
 
                     if (this.ShouldUseEnterpriseArchitectReader)
                     {
-                        enumerationDataRow["Documentation"] = enumeration.QueryDocumentationFromExtensions();
+                        // enumerationDataRow["Documentation"] = enumeration.QueryDocumentationFromExtensions();
+                        this.logger.LogWarning("EA extension disabled");
                     }
                     else
                     {
@@ -408,7 +414,8 @@ namespace uml4net.Reporting.Generators
 
                         if (this.ShouldUseEnterpriseArchitectReader)
                         {
-                            enumerationLiteralDataRow["Documentation"] = enumerationLiteral.QueryDocumentationFromExtensions();
+                            // enumerationLiteralDataRow["Documentation"] = enumerationLiteral.QueryDocumentationFromExtensions();
+                            this.logger.LogWarning("EA extension disabled");
                         }
                         else
                         {
@@ -457,8 +464,8 @@ namespace uml4net.Reporting.Generators
 
                     if (this.ShouldUseEnterpriseArchitectReader)
                     {
-                        dataTypeRow["Documentation"] = primitiveType.QueryDocumentationFromExtensions();
-                        
+                        //dataTypeRow["Documentation"] = primitiveType.QueryDocumentationFromExtensions();
+                        this.logger.LogWarning("EA extension disabled");
                     }
                     else
                     {
@@ -507,7 +514,8 @@ namespace uml4net.Reporting.Generators
 
                     if (this.ShouldUseEnterpriseArchitectReader)
                     {
-                        dataTypeRow["Documentation"] = eDataType.QueryDocumentationFromExtensions();
+                        // dataTypeRow["Documentation"] = eDataType.QueryDocumentationFromExtensions();
+                        this.logger.LogWarning("EA extension disabled");
                     }
                     else
                     {

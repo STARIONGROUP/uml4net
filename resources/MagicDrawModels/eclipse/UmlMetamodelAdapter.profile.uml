@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmi:XMI xmi:version="20131001" xmlns:xmi="http://www.omg.org/spec/XMI/20131001" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:MagicDrawProfile="http://www.omg.org/spec/UML/20131001/MagicDrawProfile" xmlns:UmlMetamodelAdapter="http:///schemas/UmlMetamodelAdapter/_KY_GQGiGEfCvx_1ek-6rtA/0" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:uml="http://www.eclipse.org/uml2/5.0.0/UML" xsi:schemaLocation="http://www.omg.org/spec/UML/20131001/MagicDrawProfile UML_Standard_Profile.MagicDraw_Profile.profile.uml#_KadF72iGEfCvx_1ek-6rtA http:///schemas/UmlMetamodelAdapter/_KY_GQGiGEfCvx_1ek-6rtA/0 #_KbzJx2iGEfCvx_1ek-6rtA">
+  <uml:Profile xmi:id="_19_0_4_43701b0_1635525686831_594626_4887" name="UmlMetamodelAdapter" visibility="public" URI="" metamodelReference="_19_0_4_43701b0_1635525686834_494054_4892">
+    <eAnnotations xmi:id="_KbzJxmiGEfCvx_1ek-6rtA" source="http://www.eclipse.org/uml2/2.0.0/UML">
+      <contents xmi:type="ecore:EPackage" xmi:id="_KbzJx2iGEfCvx_1ek-6rtA" name="UmlMetamodelAdapter" nsURI="http:///schemas/UmlMetamodelAdapter/_KY_GQGiGEfCvx_1ek-6rtA/0" nsPrefix="UmlMetamodelAdapter">
+        <eClassifiers xmi:type="ecore:EClass" xmi:id="_KbzJyGiGEfCvx_1ek-6rtA" name="generation_options">
+          <eAnnotations xmi:id="_KbzwwGiGEfCvx_1ek-6rtA" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_19_0_4_43701b0_1635525686832_187818_4888"/>
+          <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_KbzwwWiGEfCvx_1ek-6rtA" name="base_Package" ordered="false" lowerBound="1">
+            <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Package"/>
+          </eStructuralFeatures>
+          <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_Kbzww2iGEfCvx_1ek-6rtA" name="pluralize_role_names" ordered="false" lowerBound="1"/>
+          <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_KbzwxGiGEfCvx_1ek-6rtA" name="snakecase_role_names" ordered="false" lowerBound="1"/>
+        </eClassifiers>
+        <eClassifiers xmi:type="ecore:EClass" xmi:id="_KbzwxWiGEfCvx_1ek-6rtA" name="metainformation">
+          <eAnnotations xmi:id="_KbzwxmiGEfCvx_1ek-6rtA" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_19_0_4_43701b0_1635525686833_919960_4890"/>
+          <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_Kbzwx2iGEfCvx_1ek-6rtA" name="base_Element" ordered="false" lowerBound="1">
+            <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Element"/>
+          </eStructuralFeatures>
+          <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_KbzwyWiGEfCvx_1ek-6rtA" name="project_name" ordered="false" lowerBound="1">
+            <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//String"/>
+          </eStructuralFeatures>
+          <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_Kbzwy2iGEfCvx_1ek-6rtA" name="version" ordered="false" lowerBound="1">
+            <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//String"/>
+          </eStructuralFeatures>
+        </eClassifiers>
+      </contents>
+    </eAnnotations>
+    <packageImport xmi:id="_19_0_4_43701b0_1635525686834_494054_4892">
+      <importedPackage xmi:type="uml:Model" href="pathmap://UML_METAMODELS/UML.metamodel.uml#_0"/>
+    </packageImport>
+    <packageImport xmi:id="_0primitiveTypesUmlMetamodelAdapter">
+      <importedPackage xmi:type="uml:Model" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#_0"/>
+    </packageImport>
+    <packageImport xmi:id="_0javaPrimitiveTypesUmlMetamodelAdapter">
+      <importedPackage xmi:type="uml:Model" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#_0"/>
+    </packageImport>
+    <packagedElement xmi:type="uml:Stereotype" xmi:id="_19_0_4_43701b0_1635525686832_187818_4888" name="generation_options" visibility="public">
+      <ownedAttribute xmi:id="_19_0_4_43701b0_1635525686834_210266_4894" name="base_Package" visibility="private" association="_19_0_4_43701b0_1635525686833_158601_4889">
+        <type xmi:type="uml:Class" href="pathmap://UML_METAMODELS/UML.metamodel.uml#Package"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_19_0_4_43701b0_1635525686835_155426_4895" name="pluralize_role_names" visibility="private"/>
+      <ownedAttribute xmi:id="_19_0_4_43701b0_1635525686835_288954_4896" name="snakecase_role_names" visibility="private"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Extension" xmi:id="_19_0_4_43701b0_1635525686833_158601_4889" name="" visibility="public" memberEnd="_19_0_4_43701b0_1635525686834_210266_4894 _19_0_4_43701b0_1635525686836_667419_4897" navigableOwnedEnd="_19_0_4_43701b0_1635525686836_667419_4897">
+      <ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="_19_0_4_43701b0_1635525686836_667419_4897" name="extension_generation_options" visibility="private" type="_19_0_4_43701b0_1635525686832_187818_4888" aggregation="composite" association="_19_0_4_43701b0_1635525686833_158601_4889">
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_19_0_4_43701b0_1635525686837_500210_4904" name="" visibility="public"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_19_0_4_43701b0_1635525686837_192063_4903" name="" visibility="public" value="1"/>
+      </ownedEnd>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Stereotype" xmi:id="_19_0_4_43701b0_1635525686833_919960_4890" name="metainformation" visibility="public">
+      <ownedAttribute xmi:id="_19_0_4_43701b0_1635525686836_747186_4898" name="base_Element" visibility="private" association="_19_0_4_43701b0_1635525686833_603273_4891">
+        <type xmi:type="uml:Class" href="pathmap://UML_METAMODELS/UML.metamodel.uml#Element"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_19_0_4_43701b0_1635525686836_721519_4899" name="project_name" visibility="private">
+        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_19_0_4_43701b0_1635525686836_728319_4900" name="version" visibility="private">
+        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+      </ownedAttribute>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Extension" xmi:id="_19_0_4_43701b0_1635525686833_603273_4891" name="" visibility="public" memberEnd="_19_0_4_43701b0_1635525686836_747186_4898 _19_0_4_43701b0_1635525686836_240511_4901" navigableOwnedEnd="_19_0_4_43701b0_1635525686836_240511_4901">
+      <ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="_19_0_4_43701b0_1635525686836_240511_4901" name="extension_metainformation" visibility="private" type="_19_0_4_43701b0_1635525686833_919960_4890" aggregation="composite" association="_19_0_4_43701b0_1635525686833_603273_4891">
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_19_0_4_43701b0_1635525686838_573443_4906" name="" visibility="public"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_19_0_4_43701b0_1635525686838_466788_4905" name="" visibility="public" value="1"/>
+      </ownedEnd>
+    </packagedElement>
+    <profileApplication xmi:id="_19_0_4_43701b0_1635525686831_594626_4887profileApplicationUmlMetamodelAdapter" appliedProfile="_19_0_4_43701b0_1635525686831_594626_4887">
+      <eAnnotations xmi:id="_KlnNAGiGEfCvx_1ek-6rtA" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_KbzJx2iGEfCvx_1ek-6rtA"/>
+    </profileApplication>
+    <profileApplication xmi:id="_be00301_1073394351331_445580_2profileApplicationUmlMetamodelAdapter">
+      <eAnnotations xmi:id="_Kl12gWiGEfCvx_1ek-6rtA" source="http://www.eclipse.org/uml2/2.0.0/UML">
+        <references xmi:type="ecore:EPackage" href="UML_Standard_Profile.MagicDraw_Profile.profile.uml#_KadF72iGEfCvx_1ek-6rtA"/>
+      </eAnnotations>
+      <appliedProfile href="UML_Standard_Profile.MagicDraw_Profile.profile.uml#_be00301_1073394351331_445580_2"/>
+    </profileApplication>
+  </uml:Profile>
+  <UmlMetamodelAdapter:metainformation xmi:id="_KlnNAWiGEfCvx_1ek-6rtA" base_Element="_19_0_4_43701b0_1635525686831_594626_4887" version="0.0.0"/>
+  <MagicDrawProfile:auxiliaryResource xmi:id="_Kl2dkGiGEfCvx_1ek-6rtA" base_Element="_19_0_4_43701b0_1635525686831_594626_4887"/>
+</xmi:XMI>

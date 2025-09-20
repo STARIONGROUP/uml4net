@@ -76,8 +76,12 @@ namespace uml4net.xmi.Readers
         public List<IPackage> Packages { get; set; } = [];
 
         /// <summary>
-        /// The <see cref="XmiRoot"/> that has been read, if any
+        /// The <see cref="XmiRoot"/> that has been read
         /// </summary>
+        /// <remarks>
+        /// In case the root document does not contain a XMI element, an <see cref="XmiRoot"/>
+        /// instance is created and set by the <see cref="XmiReader"/>
+        /// </remarks>
         public XmiRoot XmiRoot { get; set; }
     }
 }

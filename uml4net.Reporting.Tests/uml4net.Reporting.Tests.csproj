@@ -58,6 +58,9 @@
         <None Include="..\resources\Enterprise Architect Extensions\EAExport.xmi" Link="TestData\EAExport.xmi">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </None>
+        <None Include="..\resources\MagicDrawModels\BallotDefinition UML Model.xml" Link="TestData\BallotDefinitionUMLModel.xml">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
     </ItemGroup>
 
     <ItemGroup>

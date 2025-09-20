@@ -22,13 +22,14 @@ namespace uml4net.xmi.Tests
 {
     using System.IO;
     using System.Linq;
-    using Classification;
+
     using Microsoft.Extensions.Logging;
 
     using NUnit.Framework;
 
     using Serilog;
 
+    using uml4net.Classification;
     using uml4net.StructuredClassifiers;
     using uml4net.xmi;
 
@@ -62,6 +63,9 @@ namespace uml4net.xmi.Tests
                 .Build();
 
             var xmiReaderResult = reader.Read(Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData", "doc1.xml"));
+
+            Assert.That(xmiReaderResult.XmiRoot, Is.Not.Null);
+            Assert.That(xmiReaderResult.XmiRoot.Documentation.ShortDescription.First(), Is.EqualTo("demo for crossreferencing between doc1 and doc2"));
 
             Assert.That(xmiReaderResult.Packages.Count, Is.EqualTo(2));
 

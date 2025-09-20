@@ -66,6 +66,8 @@ namespace uml4net.xmi.Tests
 
             var xmiReaderResult = reader.Read(Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData", "StandardProfile.xmi"));
 
+            Assert.That(xmiReaderResult.XmiRoot, Is.Not.Null);
+
             Assert.That(xmiReaderResult.Packages.Count, Is.EqualTo(3));
 
             Assert.That(xmiReaderResult.QueryRoot("_0", "StandardProfile").Name, Is.EqualTo("StandardProfile"));

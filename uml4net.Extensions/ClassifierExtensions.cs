@@ -55,7 +55,10 @@ namespace uml4net.Extensions
             {
                 foreach (var generalization in classifier.Generalization)
                 {
-                    result.AddRange(generalization.General.QueryAllGeneralClassifiers());
+                    if (generalization.General != null)
+                    {
+                        result.AddRange(generalization.General.QueryAllGeneralClassifiers());
+                    }
                 }
             }
 

@@ -60,7 +60,7 @@ namespace uml4net.xmi.Tests
 
             var xmiReaderResult = reader.Read(Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData", "SysML.uml"));
 
-
+            Assert.That(xmiReaderResult.XmiRoot, Is.Not.Null);
 
             Assert.That(xmiReaderResult.Packages.Count, Is.EqualTo(1));
 
@@ -81,6 +81,8 @@ namespace uml4net.xmi.Tests
                 .Build();
 
             var xmiReaderResult = reader.Read(Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData", "SysML.uml"));
+
+            Assert.That(xmiReaderResult.XmiRoot, Is.Not.Null);
 
             var model = xmiReaderResult.QueryRoot("_kUROkM9FEe6Zc_le1peNgQ") as IModel;
 

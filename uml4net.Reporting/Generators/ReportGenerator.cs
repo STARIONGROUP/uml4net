@@ -30,8 +30,8 @@ namespace uml4net.Reporting.Generators
    
     using uml4net.Packages;
     using uml4net.xmi;
-    using uml4net.xmi.Extensions.EnterpriseArchitect.Readers;
-    using uml4net.xmi.Extensions.EntrepriseArchitect.Structure.Readers;
+    //using uml4net.xmi.Extensions.EnterpriseArchitect.Readers;
+    //using uml4net.xmi.Extensions.EntrepriseArchitect.Structure.Readers;
     using uml4net.xmi.Readers;
 
     /// <summary>
@@ -124,8 +124,8 @@ namespace uml4net.Reporting.Generators
 
             if (this.ShouldUseEnterpriseArchitectReader)
             {
-                readerBuilder.WithReader<EnterpriseArchitectXmiReader>();
-                readerBuilder.WithFacade<XmiElementExtensionReaderFacade>();
+                //readerBuilder.WithReader<EnterpriseArchitectXmiReader>();
+                //readerBuilder.WithFacade<XmiElementExtensionReaderFacade>();
             }
 
             using var reader = readerBuilder.Build();

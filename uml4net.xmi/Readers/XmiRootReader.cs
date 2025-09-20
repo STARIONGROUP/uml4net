@@ -30,7 +30,7 @@ namespace uml4net.xmi.Readers
     using uml4net.xmi.Xmi;
 
     /// <summary>
-    /// The purpose of the <see cref="XmiRootReader"/> is to read an instance of <see cref="Documentation"/>
+    /// The purpose of the <see cref="XmiRootReader"/> is to read an instance of <see cref="XmiRoot"/>
     /// from the XMI document
     /// </summary>
     public class XmiRootReader
@@ -50,6 +50,12 @@ namespace uml4net.xmi.Readers
         /// The <see cref="IXmiReaderSettings"/> used to configure reading
         /// </summary>
         private readonly IXmiReaderSettings xmiReaderSettings;
+
+        /// <summary>
+        /// The (injected) <see cref="INameSpaceResolver"/> used to resolve a namespace to one of the
+        /// <see cref="KnowNamespacePrefixes"/> constants
+        /// </summary>
+        private readonly INameSpaceResolver nameSpaceResolver;
 
         /// <summary>
         /// The <see cref="ILoggerFactory"/> used to set up logging
@@ -74,14 +80,19 @@ namespace uml4net.xmi.Readers
         /// <param name="xmiReaderSettings">
         /// The <see cref="IXmiReaderSettings"/> used to configure reading
         /// </param>
+        /// <param name="nameSpaceResolver">
+        /// The (injected) <see cref="INameSpaceResolver"/> used to resolve a namespace to one of the
+        /// <see cref="KnowNamespacePrefixes"/> constants
+        /// </param>
         /// <param name="loggerFactory">
         /// The (injected) <see cref="ILoggerFactory"/> used to set up logging
         /// </param>
-        public XmiRootReader(IXmiElementCache cache, IXmiElementReaderFacade xmiElementReaderFacade, IXmiReaderSettings xmiReaderSettings, ILoggerFactory loggerFactory)
+        public XmiRootReader(IXmiElementCache cache, IXmiElementReaderFacade xmiElementReaderFacade, IXmiReaderSettings xmiReaderSettings, INameSpaceResolver nameSpaceResolver, ILoggerFactory loggerFactory)
         {
             this.cache = cache;
             this.xmiElementReaderFacade = xmiElementReaderFacade;
             this.xmiReaderSettings = xmiReaderSettings;
+            this.nameSpaceResolver = nameSpaceResolver;
             this.loggerFactory = loggerFactory;
             this.logger = loggerFactory == null ? NullLogger<XmiRootReader>.Instance : loggerFactory.CreateLogger<XmiRootReader>();
         }
@@ -98,10 +109,13 @@ namespace uml4net.xmi.Readers
         /// <param name="namespaceUri">
         /// the namespace that the <see cref="IXmiElement"/> belongs to
         /// </param>
+        /// <param name="xmiRoot">
+        /// An instance of <see cref="XmiRoot"/> that may be the result of a read action
+        /// </param>
         /// <returns>
-        /// an instance of <see cref="Documentation"/>
+        /// an instance of <see cref="XmiRoot"/>
         /// </returns>
-        public XmiRoot Read(XmlReader xmlReader, string documentName, string namespaceUri)
+        public XmiRoot Read(XmlReader xmlReader, string documentName, string namespaceUri, XmiRoot xmiRoot)
         {
             if (xmlReader == null)
             {
@@ -110,7 +124,13 @@ namespace uml4net.xmi.Readers
 
             var xmlLineInfo = xmlReader as IXmlLineInfo;
 
-            var xmiRoot = new XmiRoot();
+            var processRootProperties = false;
+
+            if (xmiRoot == null)
+            {
+                processRootProperties = true;
+                xmiRoot = new XmiRoot();
+            }
 
             if (xmlReader.MoveToContent() == XmlNodeType.Element)
             {
@@ -120,58 +140,62 @@ namespace uml4net.xmi.Readers
                 {
                     if (xmlReader.NodeType == XmlNodeType.Element)
                     {
-                        var supportedNamespace = XmlNamespaces.QuerySupportedNamespaces(string.IsNullOrEmpty(xmlReader.NamespaceURI) ? namespaceUri : xmlReader.NamespaceURI);
+                        var activeNamespaceUri = string.IsNullOrEmpty(xmlReader.NamespaceURI) ? namespaceUri : xmlReader.NamespaceURI;
 
-                        switch (supportedNamespace)
-                            {
-                                case SupportedNamespaces.Xmi:
+                        var activeNameSpace = this.nameSpaceResolver.ResolvePrefix(activeNamespaceUri);
 
-                                    switch (xmlReader.LocalName)
-                                    {
-                                        case "extension":
-                                        case "Extension":
-                                            this.logger.LogInformation("Extensions elements contained in the XmiRoot Element are currently ignored - line:position {Line}:{Position}", xmlLineInfo?.LineNumber, xmlLineInfo?.LinePosition);
-                                            xmlReader.Skip();
-                                            break;
-                                        case "difference":
-                                        case "Difference":
-                                            this.logger.LogInformation("Difference elements contained in the XmiRoot Element are currently ignored - line:position {Line}:{Position}", xmlLineInfo?.LineNumber, xmlLineInfo?.LinePosition);
-                                            xmlReader.Skip();
-                                            break;
-                                        case "documentation":
-                                        case "Documentation":
-                                            using (var subXmlReader = xmlReader.ReadSubtree())
-                                            {
-                                                var documentationReader = new DocumentationReader(xmiReaderSettings, this.loggerFactory);
-                                                var documentation = documentationReader.Read(subXmlReader);
-                                                xmiRoot.Documentation = documentation;
-                                            }
-                                            break;
-                                    }
+                        switch (activeNameSpace, xmlReader.LocalName)
+                        {
+                            case ( KnowNamespacePrefixes.Xmi, "extension"):
+                            case (KnowNamespacePrefixes.Xmi, "Extension"):
+                                this.logger.LogInformation("Extensions elements contained in the XmiRoot Element are currently ignored - line:position {Line}:{Position}", xmlLineInfo?.LineNumber, xmlLineInfo?.LinePosition);
+                                xmlReader.Skip();
+                                break;
+                            case (KnowNamespacePrefixes.Xmi, "difference"):
+                            case (KnowNamespacePrefixes.Xmi, "Difference"):
+                                this.logger.LogInformation("Difference elements contained in the XmiRoot Element are currently ignored - line:position {Line}:{Position}", xmlLineInfo?.LineNumber, xmlLineInfo?.LinePosition);
+                                xmlReader.Skip();
+                                break;
+                            case (KnowNamespacePrefixes.Xmi, "documentation"):
+                            case (KnowNamespacePrefixes.Xmi, "Documentation"):
+                                if (processRootProperties)
+                                {
+                                    using var subXmlReader = xmlReader.ReadSubtree();
+                                    var documentationReader = new DocumentationReader(this.xmiReaderSettings, this.nameSpaceResolver, this.loggerFactory);
+                                    var documentation = documentationReader.Read(subXmlReader, activeNamespaceUri);
+                                    xmiRoot.Documentation = documentation;
+                                }
 
-                                    break;
-                                case SupportedNamespaces.Uml:
-                                    this.logger.LogTrace("reading at line:position {LineNumber}:{LinePosition}", xmlLineInfo?.LineNumber, xmlLineInfo?.LinePosition);
-                                    var explicitTypeName = $"uml:{xmlReader.LocalName}";
-                                    var xmiElement = this.xmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, xmlReader.NamespaceURI, this.cache, this.xmiReaderSettings, this.loggerFactory, explicitTypeName);
-                                    xmiRoot.Content.Add(xmiElement);
-                                    break;
-                                case SupportedNamespaces.UmlStandardProfile:
-                                    this.logger.LogWarning("StandardProfile reading is not yet supported, skipping element at line:position {LineNumber}:{LinePosition}", xmlLineInfo?.LineNumber, xmlLineInfo?.LinePosition);
-                                    xmlReader.Skip();
-                                    break;
-                                case SupportedNamespaces.UmlDiagramInterchange:
-                                    this.logger.LogWarning("DiagramInterchange reading is not yet supported, skipping element at line:position {LineNumber}:{LinePosition}", xmlLineInfo?.LineNumber, xmlLineInfo?.LinePosition);
-                                    xmlReader.Skip();
-                                    break;
-                            case SupportedNamespaces.Other:
-                                    this.logger.LogWarning("unknown namespaced-element at line:position {LineNumber}:{LinePosition} skipped", xmlLineInfo?.LineNumber, xmlLineInfo?.LinePosition);
-                                    xmlReader.Skip();
-                                    break;
-                            }
+                                break;
+                            case (KnowNamespacePrefixes.Uml, _):
+                                this.logger.LogTrace("reading at line:position {LineNumber}:{LinePosition}", xmlLineInfo?.LineNumber, xmlLineInfo?.LinePosition);
+                                var explicitTypeName = $"uml:{xmlReader.LocalName}";
+                                var xmiElement = this.xmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, xmlReader.NamespaceURI, this.cache, this.xmiReaderSettings, this.nameSpaceResolver, this.loggerFactory, explicitTypeName);
+                                xmiRoot.Content.Add(xmiElement);
+                                break;
+                            case (KnowNamespacePrefixes.StandardProfile, _):
+                                this.logger.LogWarning("StandardProfile reading is not yet supported, skipping element at line:position {LineNumber}:{LinePosition}", xmlLineInfo?.LineNumber, xmlLineInfo?.LinePosition);
+                                xmlReader.Skip();
+                                break;
+                            case (KnowNamespacePrefixes.UmlDi, _):
+                                this.logger.LogWarning("DiagramInterchange reading is not yet supported, skipping element at line:position {LineNumber}:{LinePosition}", xmlLineInfo?.LineNumber, xmlLineInfo?.LinePosition);
+                                xmlReader.Skip();
+                                break;
+                            case (KnowNamespacePrefixes.MofExt, _):
+                                this.logger.LogWarning("MofExt reading is not yet supported, skipping element at line:position {LineNumber}:{LinePosition}", xmlLineInfo?.LineNumber, xmlLineInfo?.LinePosition);
+                                xmlReader.Skip();
+                                break;
+                            case (KnowNamespacePrefixes.PrimitiveTypes, _):
+                                this.logger.LogWarning("PrimitiveTypes reading is not yet supported, skipping element at line:position {LineNumber}:{LinePosition}", xmlLineInfo?.LineNumber, xmlLineInfo?.LinePosition);
+                                xmlReader.Skip();
+                                break;
+                            case (KnowNamespacePrefixes.Other, _):
+                                this.logger.LogWarning("unknown namespaced-element at line:position {LineNumber}:{LinePosition} skipped", xmlLineInfo?.LineNumber, xmlLineInfo?.LinePosition);
+                                xmlReader.Skip();
+                                break;
+                        }
                     }
                 }
-
             }
 
             return xmiRoot;

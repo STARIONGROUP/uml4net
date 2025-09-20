@@ -70,6 +70,6 @@ namespace uml4net.xmi.Readers
         /// <exception cref="InvalidOperationException">
         /// thrown when the xmi:type is not supported and noXmiElementReader was found
         /// </exception>
-        IXmiElement QueryXmiElement(XmlReader xmlReader, string documentName, string namespaceUri, IXmiElementCache cache, IXmiReaderSettings xmiReaderSettings, ILoggerFactory loggerFactory, string explicitTypeName = null, bool ignoreXmiType = false);
+        IXmiElement QueryXmiElement(XmlReader xmlReader, string documentName, string namespaceUri, IXmiElementCache cache, IXmiReaderSettings xmiReaderSettings, INameSpaceResolver nameSpaceResolver, ILoggerFactory loggerFactory, string explicitTypeName = null, bool ignoreXmiType = false);
     }
 }

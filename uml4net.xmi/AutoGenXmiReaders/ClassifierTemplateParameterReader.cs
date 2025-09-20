@@ -75,11 +75,15 @@ namespace uml4net.xmi.Readers
         /// <param name="xmiReaderSettings">
         /// The <see cref="IXmiReaderSettings"/> used to configure reading
         /// </param>
+        /// <param name="nameSpaceResolver">
+        /// The (injected) <see cref="INameSpaceResolver"/> used to resolve a namespace to one of the
+        /// <see cref="KnowNamespacePrefixes"/>
+        /// </param>
         /// <param name="loggerFactory">
         /// The (injected) <see cref="ILoggerFactory"/> used to set up logging
         /// </param>
-        public ClassifierTemplateParameterReader(IXmiElementCache cache, IXmiElementReaderFacade xmiElementReaderFacade, IXmiReaderSettings xmiReaderSettings, ILoggerFactory loggerFactory)
-            : base(cache, xmiElementReaderFacade, xmiReaderSettings, loggerFactory)
+        public ClassifierTemplateParameterReader(IXmiElementCache cache, IXmiElementReaderFacade xmiElementReaderFacade, IXmiReaderSettings xmiReaderSettings, INameSpaceResolver nameSpaceResolver, ILoggerFactory loggerFactory)
+            : base(cache, xmiElementReaderFacade, xmiReaderSettings, nameSpaceResolver, loggerFactory)
         {
             this.logger = loggerFactory == null ? NullLogger<ClassifierTemplateParameterReader>.Instance : loggerFactory.CreateLogger<ClassifierTemplateParameterReader>();
         }
@@ -122,9 +126,9 @@ namespace uml4net.xmi.Readers
 
             if (xmlReader.MoveToContent() == XmlNodeType.Element)
             {
-                this.logger.LogTrace("reading ClassifierTemplateParameter at line:position {LineNumber}:{LinePosition}", xmlLineInfo.LineNumber, xmlLineInfo.LinePosition);
+                this.logger.LogTrace("reading ClassifierTemplateParameter at line:position {LineNumber}:{LinePosition}", xmlLineInfo?.LineNumber, xmlLineInfo?.LinePosition);
 
-                var xmiType = xmlReader.GetAttribute("xmi:type");
+                var xmiType = xmlReader.GetAttribute("type", this.NameSpaceResolver.XmiNameSpace);
 
                 if (!string.IsNullOrEmpty(xmiType) && xmiType != "uml:ClassifierTemplateParameter")
                 {
@@ -140,11 +144,13 @@ namespace uml4net.xmi.Readers
                     namespaceUri = xmlReader.NamespaceURI;
                 }
 
+                this.NameSpaceResolver.ResolveAndSetNamespace(namespaceUri);
+
                 poco.XmiType = xmiType;
 
-                poco.XmiId = xmlReader.GetAttribute("xmi:id");
+                poco.XmiId = xmlReader.GetAttribute("id", this.NameSpaceResolver.XmiNameSpace);
 
-                poco.XmiGuid = xmlReader.GetAttribute("xmi:uuid");
+                poco.XmiGuid = xmlReader.GetAttribute("uuid", this.NameSpaceResolver.XmiNameSpace);
 
                 poco.DocumentName = documentName;
 
@@ -155,14 +161,14 @@ namespace uml4net.xmi.Readers
                     this.logger.LogCritical("Failed to add element type [{Poco}] with id [{Id}] as it was already in the Cache. The XMI document seems to have duplicate xmi:id values", "ClassifierTemplateParameter", poco.XmiId);
                 }
 
-                var allowSubstitutableXmlAttribute = xmlReader.GetAttribute("allowSubstitutable");
+                var allowSubstitutableXmlAttribute = xmlReader.GetAttribute("allowSubstitutable") ?? xmlReader.GetAttribute("allowSubstitutable", this.NameSpaceResolver.UmlNameSpace);
 
                 if (!string.IsNullOrEmpty(allowSubstitutableXmlAttribute))
                 {
                     poco.AllowSubstitutable = bool.Parse(allowSubstitutableXmlAttribute);
                 }
 
-                var constrainingClassifierXmlAttribute = xmlReader.GetAttribute("constrainingClassifier");
+                var constrainingClassifierXmlAttribute = xmlReader.GetAttribute("constrainingClassifier") ?? xmlReader.GetAttribute("constrainingClassifier", this.NameSpaceResolver.UmlNameSpace);
 
                 if (!string.IsNullOrEmpty(constrainingClassifierXmlAttribute))
                 {
@@ -170,21 +176,21 @@ namespace uml4net.xmi.Readers
                     poco.MultiValueReferencePropertyIdentifiers.Add("constrainingClassifier", constrainingClassifierXmlAttributeValues);
                 }
 
-                var defaultXmlAttribute = xmlReader.GetAttribute("default");
+                var defaultXmlAttribute = xmlReader.GetAttribute("default") ?? xmlReader.GetAttribute("default", this.NameSpaceResolver.UmlNameSpace);
 
                 if (!string.IsNullOrEmpty(defaultXmlAttribute))
                 {
                     poco.SingleValueReferencePropertyIdentifiers.Add("default", defaultXmlAttribute);
                 }
 
-                var parameteredElementXmlAttribute = xmlReader.GetAttribute("parameteredElement");
+                var parameteredElementXmlAttribute = xmlReader.GetAttribute("parameteredElement") ?? xmlReader.GetAttribute("parameteredElement", this.NameSpaceResolver.UmlNameSpace);
 
                 if (!string.IsNullOrEmpty(parameteredElementXmlAttribute))
                 {
                     poco.SingleValueReferencePropertyIdentifiers.Add("parameteredElement", parameteredElementXmlAttribute);
                 }
 
-                var signatureXmlAttribute = xmlReader.GetAttribute("signature");
+                var signatureXmlAttribute = xmlReader.GetAttribute("signature") ?? xmlReader.GetAttribute("signature", this.NameSpaceResolver.UmlNameSpace);
 
                 if (!string.IsNullOrEmpty(signatureXmlAttribute))
                 {
@@ -196,9 +202,13 @@ namespace uml4net.xmi.Readers
                 {
                     if (xmlReader.NodeType == XmlNodeType.Element)
                     {
-                        switch (xmlReader.LocalName)
+                        var activeNamespaceUri = string.IsNullOrEmpty(xmlReader.NamespaceURI) ? namespaceUri : xmlReader.NamespaceURI;
+
+                        var activePrefix = this.NameSpaceResolver.ResolvePrefix(activeNamespaceUri);
+
+                        switch (activePrefix, xmlReader.LocalName)
                         {
-                            case "allowSubstitutable":
+                            case (KnowNamespacePrefixes.Uml, "allowSubstitutable"):
                                 var allowSubstitutableValue = xmlReader.ReadElementContentAsString();
 
                                 if (!string.IsNullOrEmpty(allowSubstitutableValue))
@@ -207,29 +217,33 @@ namespace uml4net.xmi.Readers
                                 }
 
                                 break;
-                            case "constrainingClassifier":
+                            case (KnowNamespacePrefixes.Uml, "constrainingClassifier"):
                                 this.TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, "constrainingClassifier");
                                 break;
-                            case "default":
+                            case (KnowNamespacePrefixes.Uml, "default"):
                                 this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "default");
                                 break;
-                            case "ownedComment":
-                                var ownedCommentValue = (IComment)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.LoggerFactory, "uml:Comment");
+                            case (KnowNamespacePrefixes.Uml, "ownedComment"):
+                                var ownedCommentValue = (IComment)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.NameSpaceResolver, this.LoggerFactory, "uml:Comment");
                                 poco.OwnedComment.Add(ownedCommentValue);
                                 break;
-                            case "ownedDefault":
-                                var ownedDefaultValue = (IParameterableElement)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.LoggerFactory);
+                            case (KnowNamespacePrefixes.Uml, "ownedDefault"):
+                                var ownedDefaultValue = (IParameterableElement)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.NameSpaceResolver, this.LoggerFactory);
                                 poco.OwnedDefault.Add(ownedDefaultValue);
                                 break;
-                            case "ownedParameteredElement":
-                                var ownedParameteredElementValue = (IParameterableElement)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.LoggerFactory);
+                            case (KnowNamespacePrefixes.Uml, "ownedParameteredElement"):
+                                var ownedParameteredElementValue = (IParameterableElement)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.NameSpaceResolver, this.LoggerFactory);
                                 poco.OwnedParameteredElement.Add(ownedParameteredElementValue);
                                 break;
-                            case "parameteredElement":
+                            case (KnowNamespacePrefixes.Uml, "parameteredElement"):
                                 this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "parameteredElement");
                                 break;
-                            case "signature":
+                            case (KnowNamespacePrefixes.Uml, "signature"):
                                 this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "signature");
+                                break;
+                            case (KnowNamespacePrefixes.Xmi, "Extension"):
+                                this.logger.LogInformation("Extension not yet supported)");
+                                xmlReader.Skip();
                                 break;
                             default:
                                 if (this.XmiReaderSettings.UseStrictReading)

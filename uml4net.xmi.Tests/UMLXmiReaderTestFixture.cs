@@ -66,6 +66,8 @@ namespace uml4net.xmi.Tests
 
             var xmiReaderResult = reader.Read(Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData", "PrimitiveTypes.xmi"));
 
+            Assert.That(xmiReaderResult.XmiRoot, Is.Not.Null);
+
             Assert.That(xmiReaderResult.Packages.Count, Is.EqualTo(1));
 
             var package = xmiReaderResult.Packages.First();
@@ -94,6 +96,9 @@ namespace uml4net.xmi.Tests
                 .Build();
 
             var xmiReaderResult = reader.Read(Path.Combine(rootPath, "UML.xmi"));
+
+            Assert.That(xmiReaderResult.XmiRoot, Is.Not.Null);
+            Assert.That(xmiReaderResult.XmiRoot.Documentation.ShortDescription.First(), Is.EqualTo("UML.xmi: XMI representation of the metamodel for UML 2.5.1."));
 
             Assert.That(xmiReaderResult.Packages.Count, Is.EqualTo(2));
 

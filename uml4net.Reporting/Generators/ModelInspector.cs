@@ -35,7 +35,7 @@ namespace uml4net.Reporting.Generators
     using uml4net.Packages;
     using uml4net.StructuredClassifiers;
 
-    using uml4net.xmi.Extensions.EnterpriseArchitect.Extensions;
+    // using uml4net.xmi.Extensions.EnterpriseArchitect.Extensions;
 
     /// <summary>
     /// The purpose of the <see cref="ModelInspector"/> is to iterate through the model and report on the various kinds of
@@ -489,7 +489,8 @@ namespace uml4net.Reporting.Generators
 
             foreach (var @class in classes)
             {
-                var classDocs = this.ShouldUseEnterpriseArchitectReader ? @class.QueryDocumentationFromExtensions() : @class.QueryRawDocumentation();
+                //var classDocs = this.ShouldUseEnterpriseArchitectReader ? @class.QueryDocumentationFromExtensions() : @class.QueryRawDocumentation();
+                var classDocs = @class.QueryRawDocumentation();
 
                 if (string.IsNullOrEmpty(classDocs))
                 {
@@ -498,7 +499,8 @@ namespace uml4net.Reporting.Generators
 
                 foreach (var property in @class.OwnedAttribute.OrderBy(x => x.Name))
                 {
-                    var propertyDocs = this.ShouldUseEnterpriseArchitectReader ? property.QueryDocumentationFromExtensions() : property.QueryRawDocumentation();
+                    // var propertyDocs = this.ShouldUseEnterpriseArchitectReader ? property.QueryDocumentationFromExtensions() : property.QueryRawDocumentation();
+                    var propertyDocs = property.QueryRawDocumentation();
 
                     if (string.IsNullOrEmpty(propertyDocs))
                     {

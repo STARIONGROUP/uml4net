@@ -75,11 +75,15 @@ namespace uml4net.xmi.Readers
         /// <param name="xmiReaderSettings">
         /// The <see cref="IXmiReaderSettings"/> used to configure reading
         /// </param>
+        /// <param name="nameSpaceResolver">
+        /// The (injected) <see cref="INameSpaceResolver"/> used to resolve a namespace to one of the
+        /// <see cref="KnowNamespacePrefixes"/>
+        /// </param>
         /// <param name="loggerFactory">
         /// The (injected) <see cref="ILoggerFactory"/> used to set up logging
         /// </param>
-        public GeneralizationReader(IXmiElementCache cache, IXmiElementReaderFacade xmiElementReaderFacade, IXmiReaderSettings xmiReaderSettings, ILoggerFactory loggerFactory)
-            : base(cache, xmiElementReaderFacade, xmiReaderSettings, loggerFactory)
+        public GeneralizationReader(IXmiElementCache cache, IXmiElementReaderFacade xmiElementReaderFacade, IXmiReaderSettings xmiReaderSettings, INameSpaceResolver nameSpaceResolver, ILoggerFactory loggerFactory)
+            : base(cache, xmiElementReaderFacade, xmiReaderSettings, nameSpaceResolver, loggerFactory)
         {
             this.logger = loggerFactory == null ? NullLogger<GeneralizationReader>.Instance : loggerFactory.CreateLogger<GeneralizationReader>();
         }
@@ -122,9 +126,9 @@ namespace uml4net.xmi.Readers
 
             if (xmlReader.MoveToContent() == XmlNodeType.Element)
             {
-                this.logger.LogTrace("reading Generalization at line:position {LineNumber}:{LinePosition}", xmlLineInfo.LineNumber, xmlLineInfo.LinePosition);
+                this.logger.LogTrace("reading Generalization at line:position {LineNumber}:{LinePosition}", xmlLineInfo?.LineNumber, xmlLineInfo?.LinePosition);
 
-                var xmiType = xmlReader.GetAttribute("xmi:type");
+                var xmiType = xmlReader.GetAttribute("type", this.NameSpaceResolver.XmiNameSpace);
 
                 if (!string.IsNullOrEmpty(xmiType) && xmiType != "uml:Generalization")
                 {
@@ -140,11 +144,13 @@ namespace uml4net.xmi.Readers
                     namespaceUri = xmlReader.NamespaceURI;
                 }
 
+                this.NameSpaceResolver.ResolveAndSetNamespace(namespaceUri);
+
                 poco.XmiType = xmiType;
 
-                poco.XmiId = xmlReader.GetAttribute("xmi:id");
+                poco.XmiId = xmlReader.GetAttribute("id", this.NameSpaceResolver.XmiNameSpace);
 
-                poco.XmiGuid = xmlReader.GetAttribute("xmi:uuid");
+                poco.XmiGuid = xmlReader.GetAttribute("uuid", this.NameSpaceResolver.XmiNameSpace);
 
                 poco.DocumentName = documentName;
 
@@ -155,14 +161,14 @@ namespace uml4net.xmi.Readers
                     this.logger.LogCritical("Failed to add element type [{Poco}] with id [{Id}] as it was already in the Cache. The XMI document seems to have duplicate xmi:id values", "Generalization", poco.XmiId);
                 }
 
-                var generalXmlAttribute = xmlReader.GetAttribute("general");
+                var generalXmlAttribute = xmlReader.GetAttribute("general") ?? xmlReader.GetAttribute("general", this.NameSpaceResolver.UmlNameSpace);
 
                 if (!string.IsNullOrEmpty(generalXmlAttribute))
                 {
                     poco.SingleValueReferencePropertyIdentifiers.Add("general", generalXmlAttribute);
                 }
 
-                var generalizationSetXmlAttribute = xmlReader.GetAttribute("generalizationSet");
+                var generalizationSetXmlAttribute = xmlReader.GetAttribute("generalizationSet") ?? xmlReader.GetAttribute("generalizationSet", this.NameSpaceResolver.UmlNameSpace);
 
                 if (!string.IsNullOrEmpty(generalizationSetXmlAttribute))
                 {
@@ -170,14 +176,14 @@ namespace uml4net.xmi.Readers
                     poco.MultiValueReferencePropertyIdentifiers.Add("generalizationSet", generalizationSetXmlAttributeValues);
                 }
 
-                var isSubstitutableXmlAttribute = xmlReader.GetAttribute("isSubstitutable");
+                var isSubstitutableXmlAttribute = xmlReader.GetAttribute("isSubstitutable") ?? xmlReader.GetAttribute("isSubstitutable", this.NameSpaceResolver.UmlNameSpace);
 
                 if (!string.IsNullOrEmpty(isSubstitutableXmlAttribute))
                 {
                     poco.IsSubstitutable = bool.Parse(isSubstitutableXmlAttribute);
                 }
 
-                var specificXmlAttribute = xmlReader.GetAttribute("specific");
+                var specificXmlAttribute = xmlReader.GetAttribute("specific") ?? xmlReader.GetAttribute("specific", this.NameSpaceResolver.UmlNameSpace);
 
                 if (!string.IsNullOrEmpty(specificXmlAttribute))
                 {
@@ -189,15 +195,19 @@ namespace uml4net.xmi.Readers
                 {
                     if (xmlReader.NodeType == XmlNodeType.Element)
                     {
-                        switch (xmlReader.LocalName)
+                        var activeNamespaceUri = string.IsNullOrEmpty(xmlReader.NamespaceURI) ? namespaceUri : xmlReader.NamespaceURI;
+
+                        var activePrefix = this.NameSpaceResolver.ResolvePrefix(activeNamespaceUri);
+
+                        switch (activePrefix, xmlReader.LocalName)
                         {
-                            case "general":
+                            case (KnowNamespacePrefixes.Uml, "general"):
                                 this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "general");
                                 break;
-                            case "generalizationSet":
+                            case (KnowNamespacePrefixes.Uml, "generalizationSet"):
                                 this.TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, "generalizationSet");
                                 break;
-                            case "isSubstitutable":
+                            case (KnowNamespacePrefixes.Uml, "isSubstitutable"):
                                 var isSubstitutableValue = xmlReader.ReadElementContentAsString();
 
                                 if (!string.IsNullOrEmpty(isSubstitutableValue))
@@ -206,12 +216,16 @@ namespace uml4net.xmi.Readers
                                 }
 
                                 break;
-                            case "ownedComment":
-                                var ownedCommentValue = (IComment)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.LoggerFactory, "uml:Comment");
+                            case (KnowNamespacePrefixes.Uml, "ownedComment"):
+                                var ownedCommentValue = (IComment)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.NameSpaceResolver, this.LoggerFactory, "uml:Comment");
                                 poco.OwnedComment.Add(ownedCommentValue);
                                 break;
-                            case "specific":
+                            case (KnowNamespacePrefixes.Uml, "specific"):
                                 this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "specific");
+                                break;
+                            case (KnowNamespacePrefixes.Xmi, "Extension"):
+                                this.logger.LogInformation("Extension not yet supported)");
+                                xmlReader.Skip();
                                 break;
                             default:
                                 if (this.XmiReaderSettings.UseStrictReading)

@@ -32,22 +32,25 @@ namespace uml4net.xmi.Tests.Readers
     [TestFixture]
     public class DocumentationReaderTestFixture
     {
-        private DocumentationReader documentationReader;
-
         private IXmiReaderSettings xmiReaderSettings;
+
+        private NameSpaceResolver nameSpaceResolver;
+
+        private DocumentationReader documentationReader;
 
         [SetUp]
         public void SetUp()
         {
             this.xmiReaderSettings = new DefaultSettings();
+            this.nameSpaceResolver = new NameSpaceResolver();
 
-            this.documentationReader = new DocumentationReader(this.xmiReaderSettings, NullLoggerFactory.Instance);
+            this.documentationReader = new DocumentationReader(this.xmiReaderSettings, this.nameSpaceResolver,NullLoggerFactory.Instance);
         }
 
         [Test]
         public void Verify_that_null_arguments_throws_exception()
         {
-            Assert.That(() => this.documentationReader.Read(null), Throws.TypeOf<ArgumentNullException>() );
+            Assert.That(() => this.documentationReader.Read(null, ""), Throws.TypeOf<ArgumentNullException>() );
         }
     }
 }
