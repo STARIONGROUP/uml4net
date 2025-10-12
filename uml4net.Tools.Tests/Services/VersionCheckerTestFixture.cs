@@ -82,10 +82,13 @@ namespace uml4net.Tools.Tests.Services
         {
             var result = await this.versionChecker.QueryLatestReleaseAsync();
 
-            Assert.That(result, Is.Not.Null);
-            Assert.That(result.TagName, Is.EqualTo("1.2.3"));
-            Assert.That(result.Body, Is.EqualTo("notes"));
-            Assert.That(result.HtmlUrl, Is.EqualTo("https://example.com"));
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(result, Is.Not.Null);
+                Assert.That(result.TagName, Is.EqualTo("1.2.3"));
+                Assert.That(result.Body, Is.EqualTo("notes"));
+                Assert.That(result.HtmlUrl, Is.EqualTo("https://example.com"));
+            }
         }
 
         private class TimeoutHandler : HttpMessageHandler

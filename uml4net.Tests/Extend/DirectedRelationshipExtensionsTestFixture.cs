@@ -47,8 +47,11 @@ namespace uml4net.Tests.Extend
             cat.Generalization.Add(mammal_is_generalization_of_cat);
             animal.Generalization.Add(animal_is_generalization_of_mammal);
 
-            Assert.That(animal_is_generalization_of_mammal.Source, Is.EquivalentTo([mammal] ));
-            Assert.That(animal_is_generalization_of_mammal.Target, Is.EquivalentTo([animal]));
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(animal_is_generalization_of_mammal.Source, Is.EquivalentTo([mammal]));
+                Assert.That(animal_is_generalization_of_mammal.Target, Is.EquivalentTo([animal]));
+            }
         }
 
         [Test]
@@ -56,8 +59,11 @@ namespace uml4net.Tests.Extend
         {
             IDirectedRelationship directedRelationship = null;
 
-            Assert.That(() => DirectedRelationshipExtensions.QuerySource(directedRelationship), Throws.ArgumentNullException);
-            Assert.That(() => DirectedRelationshipExtensions.QueryTarget(directedRelationship), Throws.ArgumentNullException);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(() => DirectedRelationshipExtensions.QuerySource(directedRelationship), Throws.ArgumentNullException);
+                Assert.That(() => DirectedRelationshipExtensions.QueryTarget(directedRelationship), Throws.ArgumentNullException);
+            }
         }
     }
 }

@@ -26,14 +26,16 @@ namespace uml4net.xmi.Tests
     using Microsoft.Extensions.Logging;
 
     using NUnit.Framework;
-    using uml4net.StructuredClassifiers;
-    using uml4net.Packages;
-    using uml4net.xmi;
+    
     using Serilog;
-    using System.Collections.Generic;
-    using Extensions;
-    using SimpleClassifiers;
+
     using uml4net.CommonStructure;
+    using uml4net.Extensions;
+    using uml4net.Packages;
+    using uml4net.SimpleClassifiers;
+    using uml4net.StructuredClassifiers;
+    
+    using uml4net.xmi;
 
     [TestFixture]
     public class SystemsModelingAPIandServicesPIMXmiReaderTestFixture
@@ -63,16 +65,19 @@ namespace uml4net.xmi.Tests
                 .WithLogger(this.loggerFactory)
                 .Build();
 
-            var xmiReaderResult = reader.Read(Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData", "SystemsModelingAPIandServicesPIM.xmi"));
+            var xmiReaderResult = reader.Read(Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData",
+                "SystemsModelingAPIandServicesPIM.xmi"));
 
-            Assert.That(xmiReaderResult.XmiRoot, Is.Not.Null);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(xmiReaderResult.XmiRoot, Is.Not.Null);
+                Assert.That(xmiReaderResult.Packages.Count, Is.EqualTo(2));
 
-            Assert.That(xmiReaderResult.Packages.Count, Is.EqualTo(2));
+                var model = xmiReaderResult.QueryRoot("_19_0_4_3fa0198_1689000259946_865221_0") as IModel;
 
-            var model = xmiReaderResult.QueryRoot("_19_0_4_3fa0198_1689000259946_865221_0") as IModel;
-
-            Assert.That(model.XmiId, Is.EqualTo("_19_0_4_3fa0198_1689000259946_865221_0"));
-            Assert.That(model.Name, Is.EqualTo("Systems Modeling API and Services PIM"));
+                Assert.That(model.XmiId, Is.EqualTo("_19_0_4_3fa0198_1689000259946_865221_0"));
+                Assert.That(model.Name, Is.EqualTo("Systems Modeling API and Services PIM"));
+            }
         }
 
         [Test]
@@ -87,27 +92,30 @@ namespace uml4net.xmi.Tests
 
             var xmiReaderResult = reader.Read(Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData", "SystemsModelingAPIandServicesPIM.xmi"));
 
-            Assert.That(xmiReaderResult.Packages.Count, Is.EqualTo(4));
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(xmiReaderResult.Packages.Count, Is.EqualTo(4));
 
-            var model = xmiReaderResult.QueryRoot("_19_0_4_3fa0198_1689000259946_865221_0") as IModel;
+                var model = xmiReaderResult.QueryRoot("_19_0_4_3fa0198_1689000259946_865221_0") as IModel;
 
-            Assert.That(model.XmiId, Is.EqualTo("_19_0_4_3fa0198_1689000259946_865221_0"));
-            Assert.That(model.Name, Is.EqualTo("Systems Modeling API and Services PIM"));
+                Assert.That(model.XmiId, Is.EqualTo("_19_0_4_3fa0198_1689000259946_865221_0"));
+                Assert.That(model.Name, Is.EqualTo("Systems Modeling API and Services PIM"));
 
-            var interfaces = model.QueryPackages().SelectMany(x => x.PackagedElement.OfType<IInterface>());
+                var interfaces = model.QueryPackages().SelectMany(x => x.PackagedElement.OfType<IInterface>());
 
-            var data = interfaces.Single(x => x.Name == "Data");
+                var data = interfaces.Single(x => x.Name == "Data");
 
-            Assert.That(interfaces.Count(), Is.EqualTo(1));
+                Assert.That(interfaces.Count(), Is.EqualTo(1));
 
-            var realizations = model.QueryPackages().SelectMany(x => x.PackagedElement.OfType<IRealization>());
+                var realizations = model.QueryPackages().SelectMany(x => x.PackagedElement.OfType<IRealization>());
 
-            var externalRelationship = model.QueryPackages().SelectMany(x => x.PackagedElement.OfType<IClass>()).Single(x => x.Name == "ExternalRelationship");
+                var externalRelationship = model.QueryPackages().SelectMany(x => x.PackagedElement.OfType<IClass>())
+                    .Single(x => x.Name == "ExternalRelationship");
 
-            var externalRelationshipInterface = externalRelationship.QueryInterfaces().Single();
+                var externalRelationshipInterface = externalRelationship.QueryInterfaces().Single();
 
-            Assert.That(externalRelationshipInterface, Is.EqualTo(data));
-
+                Assert.That(externalRelationshipInterface, Is.EqualTo(data));
+            }
         }
     }
 }

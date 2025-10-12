@@ -51,15 +51,13 @@ namespace uml4net.Tests
 
             Assert.That(this.cache.TryAdd(@class), Is.False);
 
-            Assert.Multiple(() =>
+            using (Assert.EnterMultipleScope())
             {
                 Assert.That(this.cache.TryGetValue("test#class", out var value), Is.True);
                 Assert.That(value, Is.EqualTo(@class));
-            });
-
+            }
 
             Assert.That(() => this.cache.TryGetValue("", out var nothing), Throws.ArgumentException);
-
             Assert.That(this.cache.TryGetValue("abc", out var element), Is.False);
         }
 

@@ -62,17 +62,19 @@ namespace uml4net.xmi.Tests
 
             var xmiReaderResult = reader.Read(Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData", "dtc-23-02-13.xmi"));
 
-            Assert.That(xmiReaderResult.XmiRoot, Is.Not.Null);
-            Assert.That(xmiReaderResult.XmiRoot.Documentation.Exporter, Is.EqualTo("MagicDraw Clean XMI Exporter"));
-            Assert.That(xmiReaderResult.XmiRoot.Documentation.ExporterVersion, Is.EqualTo("19.0 v9"));
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(xmiReaderResult.XmiRoot, Is.Not.Null);
+                Assert.That(xmiReaderResult.XmiRoot.Documentation.Exporter, Is.EqualTo("MagicDraw Clean XMI Exporter"));
+                Assert.That(xmiReaderResult.XmiRoot.Documentation.ExporterVersion, Is.EqualTo("19.0 v9"));
+                Assert.That(xmiReaderResult.Packages.Count, Is.EqualTo(2));
 
-            Assert.That(xmiReaderResult.Packages.Count, Is.EqualTo(2));
+                var model = xmiReaderResult.QueryRoot("_17_0_2_3_ea50349_1435105765209_262546_0") as IModel;
 
-            var model = xmiReaderResult.QueryRoot("_17_0_2_3_ea50349_1435105765209_262546_0") as IModel;
+                Assert.That(model.Name, Is.EqualTo("Data"));
 
-            Assert.That(model.Name, Is.EqualTo("Data"));
-
-            Assert.That(model.NestedPackage.Count, Is.EqualTo(4));
+                Assert.That(model.NestedPackage.Count, Is.EqualTo(4));
+            }
         }
     }
 }

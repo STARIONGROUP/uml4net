@@ -59,7 +59,7 @@ namespace uml4net.Tests.Extend
 
             package_1_1.PackagedElement.Add(stereoType);
             package_1.PackagedElement.Add(package_1_1);
-            
+
             Assert.That(() => stereoType.Profile, Throws.TypeOf<DataException>());
         }
     }

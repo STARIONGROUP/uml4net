@@ -22,19 +22,15 @@ namespace uml4net.xmi.Tests
 {
     using System;
     using System.IO;
-    using System.Linq;
 
     using Microsoft.Extensions.Logging;
 
     using NUnit.Framework;
-    using uml4net.StructuredClassifiers;
+
+    using Moq;
+
     using uml4net.Packages;
     using uml4net.xmi;
-    using Serilog;
-    using System.Collections.Generic;
-    using Moq;
-    using Autofac.Core;
-    using Readers;
 
     [TestFixture]
     public class SysML2_with_unknown_elementXmiReaderTestFixture
@@ -76,14 +72,16 @@ namespace uml4net.xmi.Tests
             var xmiReaderResult = reader.Read(Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData",
                 "SysML_with_unknown_element.uml"));
 
-            Assert.That(xmiReaderResult.XmiRoot, Is.Not.Null);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(xmiReaderResult.XmiRoot, Is.Not.Null);
+                Assert.That(xmiReaderResult.Packages.Count, Is.EqualTo(1));
 
-            Assert.That(xmiReaderResult.Packages.Count, Is.EqualTo(1));
+                var model = xmiReaderResult.QueryRoot("_kUROkM9FEe6Zc_le1peNgQ") as IModel;
 
-            var model = xmiReaderResult.QueryRoot("_kUROkM9FEe6Zc_le1peNgQ") as IModel;
-
-            Assert.That(model.XmiId, Is.EqualTo("_kUROkM9FEe6Zc_le1peNgQ"));
-            Assert.That(model.Name, Is.EqualTo("sysml"));
+                Assert.That(model.XmiId, Is.EqualTo("_kUROkM9FEe6Zc_le1peNgQ"));
+                Assert.That(model.Name, Is.EqualTo("sysml"));
+            }
         }
     }
 }

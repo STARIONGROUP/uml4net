@@ -65,28 +65,32 @@ namespace uml4net.xmi.Tests
                 .WithLogger(this.loggerFactory)
                 .Build();
 
-            var xmiReaderResult = reader.Read(Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData", "BallotDefinition UML Model.xml"));
+            var xmiReaderResult = reader.Read(Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData",
+                "BallotDefinition UML Model.xml"));
 
-            Assert.That(xmiReaderResult.XmiRoot, Is.Not.Null);
-            Assert.That(xmiReaderResult.XmiRoot.Documentation.Exporter, Is.EqualTo("MagicDraw UML"));
-            Assert.That(xmiReaderResult.XmiRoot.Documentation.ExporterVersion, Is.EqualTo("19.0 v9"));
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(xmiReaderResult.XmiRoot, Is.Not.Null);
+                Assert.That(xmiReaderResult.XmiRoot.Documentation.Exporter, Is.EqualTo("MagicDraw UML"));
+                Assert.That(xmiReaderResult.XmiRoot.Documentation.ExporterVersion, Is.EqualTo("19.0 v9"));
+                Assert.That(xmiReaderResult.Packages.Count, Is.EqualTo(2));
 
-            Assert.That(xmiReaderResult.Packages.Count, Is.EqualTo(2));
+                var rootPackage = xmiReaderResult.QueryRoot("eee_1045467100313_135436_1");
 
-            var rootPackage = xmiReaderResult.QueryRoot("eee_1045467100313_135436_1");
-            
-            Assert.That(rootPackage.Name, Is.EqualTo("Data"));
-            Assert.That(rootPackage.PackagedElement.Count, Is.EqualTo(3));
+                Assert.That(rootPackage.Name, Is.EqualTo("Data"));
+                Assert.That(rootPackage.PackagedElement.Count, Is.EqualTo(3));
 
-            var primitiveTypes =  xmiReaderResult.Packages.Single(x => x.Name == "PrimitiveTypes");
+                var primitiveTypes = xmiReaderResult.Packages.Single(x => x.Name == "PrimitiveTypes");
 
-            var booleanPrimitiveType = primitiveTypes.PackagedElement.OfType<IPrimitiveType>().Single(x => x.XmiId == "Boolean");
+                var booleanPrimitiveType = primitiveTypes.PackagedElement.OfType<IPrimitiveType>()
+                    .Single(x => x.XmiId == "Boolean");
 
-            Assert.That(booleanPrimitiveType.Name, Is.EqualTo("Boolean"));
+                Assert.That(booleanPrimitiveType.Name, Is.EqualTo("Boolean"));
 
-            var comment = booleanPrimitiveType.OwnedComment.Single();
+                var comment = booleanPrimitiveType.OwnedComment.Single();
 
-            Assert.That(comment.AnnotatedElement, Contains.Item(booleanPrimitiveType));
+                Assert.That(comment.AnnotatedElement, Contains.Item(booleanPrimitiveType));
+            }
         }
     }
 }

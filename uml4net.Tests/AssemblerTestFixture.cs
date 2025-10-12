@@ -61,7 +61,6 @@ namespace uml4net.Tests
         [Test]
         public void Synchronize_ShouldSetSingleValueReference()
         {
-            // Arrange
             var classElement = new Class
             {
                 XmiId = Guid.NewGuid().ToString(),
@@ -81,22 +80,20 @@ namespace uml4net.Tests
             Assert.That(this.cache.TryAdd(stringExpression), Is.True);
 
             Assert.That(classElement.NameExpression, Is.Empty);
-            
+
             this.assembler.Synchronize();
-            
-            // Assert
-            Assert.Multiple(() =>
+
+            using (Assert.EnterMultipleScope())
             {
                 Assert.That(classElement.NameExpression, Is.Not.Empty);
                 Assert.That(classElement.NameExpression.First(), Is.SameAs(stringExpression));
                 Assert.That(classElement.NameExpression.First().Name, Is.EqualTo(stringExpression.Name));
-            });
+            }
         }
 
         [Test]
         public void Synchronize_ShouldSetMultiValueReference()
         {
-            // Arrange
             var classElement = new Class
             {
                 XmiId = Guid.NewGuid().ToString(),
@@ -119,28 +116,30 @@ namespace uml4net.Tests
             };
 
             classElement.MultiValueReferencePropertyIdentifiers.Add("OwnedComment", [comment1.XmiId, comment2.XmiId]);
-            Assert.That(this.cache.TryAdd(classElement), Is.True);
-            Assert.That(this.cache.TryAdd(comment1), Is.True);
-            Assert.That(this.cache.TryAdd(comment2), Is.True);
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(this.cache.TryAdd(classElement), Is.True);
+                Assert.That(this.cache.TryAdd(comment1), Is.True);
+                Assert.That(this.cache.TryAdd(comment2), Is.True);
+            }
 
             this.assembler.Synchronize();
 
-            // Assert
-            Assert.Multiple(() =>
+            using (Assert.EnterMultipleScope())
             {
                 Assert.That(classElement.OwnedComment.Count, Is.EqualTo(2));
                 Assert.That(classElement.OwnedComment.Contains(comment1));
                 Assert.That(classElement.OwnedComment.Contains(comment2));
-            });
+            }
         }
 
         [Test]
         public void Synchronize_ShouldSetMultiValueReferenceFromExternalXmi()
         {
-            // Arrange
             const string externalXmi0 = "otherxmi";
             const string externalXmi1 = "anotherone";
-            
+
             var classElement0 = new Class 
             { 
                 XmiId = Guid.NewGuid().ToString(),
@@ -192,20 +191,21 @@ namespace uml4net.Tests
 
             classElement0.MultiValueReferencePropertyIdentifiers.Add("OwnedComment", [comment1.XmiId, comment2.XmiId]);
             classElement0.MultiValueReferencePropertyIdentifiers.Add("OwnedAttribute", [$"{externalXmi0}#{attribute0.XmiId}", $"{externalXmi1}#{attribute1.XmiId}"]);
-            
-            Assert.That(this.cache.TryAdd(classElement0), Is.True);
-            Assert.That(this.cache.TryAdd(comment1), Is.True);
-            Assert.That(this.cache.TryAdd(comment2), Is.True);
-            Assert.That(this.cache.TryAdd(attribute0), Is.True);
-            Assert.That(this.cache.TryAdd(attribute1), Is.True);
-            Assert.That(this.cache.TryAdd(classElement1), Is.True);
-            Assert.That(this.cache.TryAdd(stringType), Is.True);
 
-            // Act
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(this.cache.TryAdd(classElement0), Is.True);
+                Assert.That(this.cache.TryAdd(comment1), Is.True);
+                Assert.That(this.cache.TryAdd(comment2), Is.True);
+                Assert.That(this.cache.TryAdd(attribute0), Is.True);
+                Assert.That(this.cache.TryAdd(attribute1), Is.True);
+                Assert.That(this.cache.TryAdd(classElement1), Is.True);
+                Assert.That(this.cache.TryAdd(stringType), Is.True);
+            }
+
             this.assembler.Synchronize();
 
-            // Assert
-            Assert.Multiple(() =>
+            using (Assert.EnterMultipleScope())
             {
                 Assert.That(classElement0.OwnedComment.Count, Is.EqualTo(2));
                 Assert.That(classElement0.OwnedComment.Contains(comment1));
@@ -214,13 +214,12 @@ namespace uml4net.Tests
                 Assert.That(classElement0.OwnedAttribute.Contains(attribute1));
                 Assert.That(classElement0.OwnedAttribute.Single(x => x.XmiId == attribute1.XmiId).Type, Is.SameAs(classElement1));
                 Assert.That(classElement0.OwnedAttribute.Single(x => x.XmiId == attribute0.XmiId).Type, Is.SameAs(stringType));
-            });
+            }
         }
 
         [Test]
         public void Synchronize_ShouldSetSingleValueReferenceAndMultipleValuesReference()
         {
-            // Arrange
             var classElement = new Class
             {
                 XmiId = Guid.NewGuid().ToString(),
@@ -252,8 +251,7 @@ namespace uml4net.Tests
 
             this.assembler.Synchronize();
 
-            // Assert
-            Assert.Multiple(() =>
+            using (Assert.EnterMultipleScope())
             {
                 Assert.That(classElement.OwnedComment.Count, Is.EqualTo(2));
                 Assert.That(classElement.OwnedComment.Contains(comment1));
@@ -261,13 +259,12 @@ namespace uml4net.Tests
                 Assert.That(classElement.NameExpression, Is.Not.Empty);
                 Assert.That(classElement.NameExpression.First(), Is.SameAs(stringExpression));
                 Assert.That(classElement.NameExpression.First().Name, Is.EqualTo(stringExpression.Name));
-            });
+            }
         }
 
         [Test]
         public void Synchronize_ShouldSetExpectedReferenceToExpectedReference()
         {
-            // Arrange
             var classElement0 = new Class
             {
                 XmiId = Guid.NewGuid().ToString(),
@@ -310,8 +307,7 @@ namespace uml4net.Tests
 
             this.assembler.Synchronize();
 
-            // Assert
-            Assert.Multiple(() =>
+            using (Assert.EnterMultipleScope())
             {
                 Assert.That(classElement1.NameExpression, Is.Empty);
                 Assert.That(classElement0.OwnedComment.Count, Is.EqualTo(1));
@@ -320,7 +316,7 @@ namespace uml4net.Tests
                 Assert.That(classElement1.OwnedComment.Contains(comment1));
                 Assert.That(classElement0.NameExpression, Is.Not.Empty);
                 Assert.That(classElement0.NameExpression.First().Name, Is.EqualTo(stringExpression.Name));
-            });
+            }
         }
 
         [Test]
@@ -355,16 +351,17 @@ namespace uml4net.Tests
             var invalidElement = new Comment { XmiId = Guid.NewGuid().ToString(), Body = "Not a comment",
                 DocumentName = this.documentName
             };
+
             classElement.SingleValueReferencePropertyIdentifiers.Add("NameExpression", invalidElement.XmiId);
             Assert.That(this.cache.TryAdd(classElement), Is.True);
             Assert.That(this.cache.TryAdd(invalidElement), Is.True);
 
-            Assert.Multiple(() =>
+            using (Assert.EnterMultipleScope())
             {
                 Assert.Throws<InvalidOperationException>(() => this.assembler.Synchronize());
                 Assert.That(classElement.OwnedComment, Is.Empty);
                 Assert.That(classElement.NameExpression, Is.Empty);
-            });
+            }
         }
 
         [Test]

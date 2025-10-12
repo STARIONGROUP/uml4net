@@ -48,16 +48,19 @@ namespace uml4net.Tests.Decorators
                 false,
                 "default");
 
-            Assert.That(attribute.XmiId, Is.EqualTo("id"));
-            Assert.That(attribute.Aggregation, Is.EqualTo(AggregationKind.Composite));
-            Assert.That(attribute.LowerValue, Is.EqualTo(0));
-            Assert.That(attribute.UpperValue, Is.EqualTo(2));
-            Assert.That(attribute.IsOrdered, Is.True);
-            Assert.That(attribute.IsReadOnly, Is.True);
-            Assert.That(attribute.IsDerived, Is.True);
-            Assert.That(attribute.IsDerivedUnion, Is.True);
-            Assert.That(attribute.IsUnique, Is.False);
-            Assert.That(attribute.DefaultValue, Is.EqualTo("default"));
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(attribute.XmiId, Is.EqualTo("id"));
+                Assert.That(attribute.Aggregation, Is.EqualTo(AggregationKind.Composite));
+                Assert.That(attribute.LowerValue, Is.EqualTo(0));
+                Assert.That(attribute.UpperValue, Is.EqualTo(2));
+                Assert.That(attribute.IsOrdered, Is.True);
+                Assert.That(attribute.IsReadOnly, Is.True);
+                Assert.That(attribute.IsDerived, Is.True);
+                Assert.That(attribute.IsDerivedUnion, Is.True);
+                Assert.That(attribute.IsUnique, Is.False);
+                Assert.That(attribute.DefaultValue, Is.EqualTo("default"));
+            }
         }
 
         [Test]
@@ -65,16 +68,19 @@ namespace uml4net.Tests.Decorators
         {
             var attribute = new PropertyAttribute();
 
-            Assert.That(attribute.XmiId, Is.EqualTo(string.Empty));
-            Assert.That(attribute.Aggregation, Is.EqualTo(AggregationKind.None));
-            Assert.That(attribute.LowerValue, Is.EqualTo(1));
-            Assert.That(attribute.UpperValue, Is.EqualTo(1));
-            Assert.That(attribute.IsOrdered, Is.False);
-            Assert.That(attribute.IsReadOnly, Is.False);
-            Assert.That(attribute.IsDerived, Is.False);
-            Assert.That(attribute.IsDerivedUnion, Is.False);
-            Assert.That(attribute.IsUnique, Is.True);
-            Assert.That(attribute.DefaultValue, Is.Null);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(attribute.XmiId, Is.EqualTo(string.Empty));
+                Assert.That(attribute.Aggregation, Is.EqualTo(AggregationKind.None));
+                Assert.That(attribute.LowerValue, Is.EqualTo(1));
+                Assert.That(attribute.UpperValue, Is.EqualTo(1));
+                Assert.That(attribute.IsOrdered, Is.False);
+                Assert.That(attribute.IsReadOnly, Is.False);
+                Assert.That(attribute.IsDerived, Is.False);
+                Assert.That(attribute.IsDerivedUnion, Is.False);
+                Assert.That(attribute.IsUnique, Is.True);
+                Assert.That(attribute.DefaultValue, Is.Null);
+            }
         }
     }
 }

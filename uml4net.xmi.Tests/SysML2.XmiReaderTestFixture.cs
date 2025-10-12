@@ -20,17 +20,19 @@
 
 namespace uml4net.xmi.Tests
 {
+    using System.Collections.Generic;
     using System.IO;
     using System.Linq;
 
     using Microsoft.Extensions.Logging;
 
     using NUnit.Framework;
+
+    using Serilog;
+
     using uml4net.StructuredClassifiers;
     using uml4net.Packages;
     using uml4net.xmi;
-    using Serilog;
-    using System.Collections.Generic;
 
     [TestFixture]
     public class SysML2XmiReaderTestFixture
@@ -58,16 +60,19 @@ namespace uml4net.xmi.Tests
                 .WithLogger(this.loggerFactory)
                 .Build();
 
-            var xmiReaderResult = reader.Read(Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData", "SysML.uml"));
+            var xmiReaderResult =
+                reader.Read(Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData", "SysML.uml"));
 
-            Assert.That(xmiReaderResult.XmiRoot, Is.Not.Null);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(xmiReaderResult.XmiRoot, Is.Not.Null);
+                Assert.That(xmiReaderResult.Packages.Count, Is.EqualTo(1));
 
-            Assert.That(xmiReaderResult.Packages.Count, Is.EqualTo(1));
+                var model = xmiReaderResult.QueryRoot("_kUROkM9FEe6Zc_le1peNgQ") as IModel;
 
-            var model = xmiReaderResult.QueryRoot("_kUROkM9FEe6Zc_le1peNgQ") as IModel;
-
-            Assert.That(model.XmiId, Is.EqualTo("_kUROkM9FEe6Zc_le1peNgQ"));
-            Assert.That(model.Name, Is.EqualTo("sysml"));
+                Assert.That(model.XmiId, Is.EqualTo("_kUROkM9FEe6Zc_le1peNgQ"));
+                Assert.That(model.Name, Is.EqualTo("sysml"));
+            }
         }
 
         [TestCase(true)]
@@ -89,7 +94,7 @@ namespace uml4net.xmi.Tests
             var sysmlTypClass = model.PackagedElement.OfType<IClass>().FirstOrDefault(x => x.Name == "Type");
             var isAbstractProperty = sysmlTypClass?.OwnedAttribute.FirstOrDefault(x => x.Name == "isAbstract");
 
-            Assert.Multiple(() =>
+            using (Assert.EnterMultipleScope())
             {
                 Assert.That(xmiReaderResult.Packages.Count, Is.EqualTo(usingSettings ? 2 : 1));
 
@@ -99,7 +104,7 @@ namespace uml4net.xmi.Tests
                 Assert.That(sysmlTypClass, Is.Not.Null);
                 Assert.That(isAbstractProperty, Is.Not.Null);
                 Assert.That(isAbstractProperty.Type, usingSettings ? Is.Not.Null : Is.Null);
-            });
+            }
         }
     }
 }

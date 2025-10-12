@@ -32,8 +32,12 @@ namespace uml4net.xmi.Tests.Resources
         {
             var loader = new ResourceLoader();
             var result = loader.TryLoadKnownResource("http://www.omg.org/spec/UML/20161101/UML.xmi#fragment", out var stream);
-            Assert.That(result, Is.True);
-            Assert.That(stream, Is.Not.Null);
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(result, Is.True);
+                Assert.That(stream, Is.Not.Null);
+            }
         }
 
         [Test]

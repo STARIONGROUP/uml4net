@@ -93,12 +93,14 @@ namespace uml4net.Reporting.Tests.Generators
 
             var reportFileInfo = new FileInfo(Path.Combine(TestContext.CurrentContext.TestDirectory, "sysml2-xl-report.xlsx"));
 
-            Assert.That(() => this.xlReportGenerator.GenerateReport(null, this.umlModelFileInfo.Directory, "_0", "UML",true, pathmap, reportFileInfo), Throws.ArgumentNullException);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(() => this.xlReportGenerator.GenerateReport(null, this.umlModelFileInfo.Directory, "_0", "UML", true, pathmap, reportFileInfo), Throws.ArgumentNullException);
 
-            Assert.That(() => this.xlReportGenerator.GenerateReport(this.sysml2ModelFileInfo, null, "_0", "UML",true, pathmap, reportFileInfo), Throws.ArgumentNullException);
+                Assert.That(() => this.xlReportGenerator.GenerateReport(this.sysml2ModelFileInfo, null, "_0", "UML", true, pathmap, reportFileInfo), Throws.ArgumentNullException);
 
-            Assert.That(() => this.xlReportGenerator.GenerateReport(this.sysml2ModelFileInfo, this.umlModelFileInfo.Directory, "_0", "UML",true, pathmap, null), Throws.ArgumentNullException);
-
+                Assert.That(() => this.xlReportGenerator.GenerateReport(this.sysml2ModelFileInfo, this.umlModelFileInfo.Directory, "_0", "UML", true, pathmap, null), Throws.ArgumentNullException);
+            }
         }
     }
 }

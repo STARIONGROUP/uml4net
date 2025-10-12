@@ -39,9 +39,12 @@ namespace uml4net.Tests.Extend
             rootPackage.PackagedElement.Add(package);
             package.PackagedElement.Add(@class);
 
-            Assert.That(rootPackage.QualifiedName, Is.EqualTo("root"));
-            Assert.That(package.QualifiedName, Is.EqualTo("root::sub"));
-            Assert.That(@class.QualifiedName, Is.EqualTo("root::sub::class_A"));
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(rootPackage.QualifiedName, Is.EqualTo("root"));
+                Assert.That(package.QualifiedName, Is.EqualTo("root::sub"));
+                Assert.That(@class.QualifiedName, Is.EqualTo("root::sub::class_A"));
+            }
         }
 
         [Test]
@@ -54,9 +57,12 @@ namespace uml4net.Tests.Extend
             rootPackage.PackagedElement.Add(package);
             package.PackagedElement.Add(@class);
 
-            Assert.That(@class.Namespace, Is.EqualTo(package));
-            Assert.That(package.Namespace, Is.EqualTo(rootPackage));
-            Assert.That(rootPackage.Namespace, Is.Null);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(@class.Namespace, Is.EqualTo(package));
+                Assert.That(package.Namespace, Is.EqualTo(rootPackage));
+                Assert.That(rootPackage.Namespace, Is.Null);
+            }
         }
 
         [Test]
@@ -64,11 +70,11 @@ namespace uml4net.Tests.Extend
         {
             Class @class = null;
 
-            Assert.That(() => NamedElementExtensions.QueryQualifiedName(@class),
-                Throws.ArgumentNullException);
-
-            Assert.That(() => NamedElementExtensions.QueryNamespace(@class),
-                Throws.ArgumentNullException);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(() => NamedElementExtensions.QueryQualifiedName(@class), Throws.ArgumentNullException);
+                Assert.That(() => NamedElementExtensions.QueryNamespace(@class), Throws.ArgumentNullException);
+            }
         }
     }
 }

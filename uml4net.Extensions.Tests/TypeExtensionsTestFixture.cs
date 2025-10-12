@@ -148,10 +148,13 @@ namespace uml4net.Extensions.Tests
         [Test]
         public void Verify_that_AddOrOverwriteCSharpTypeMappings_throws_when_invalid_input()
         {
-            Assert.That(() => TypeExtensions.AddOrOverwriteCSharpTypeMappings(null), Throws.TypeOf<ArgumentNullException>());
-            Assert.That(() => TypeExtensions.AddOrOverwriteCSharpTypeMappings(Array.Empty<(string Key, string Value)>()), Throws.TypeOf<ArgumentNullException>());
-            Assert.That(() => TypeExtensions.AddOrOverwriteCSharpTypeMappings((null, "int")), Throws.TypeOf<ArgumentNullException>());
-            Assert.That(() => TypeExtensions.AddOrOverwriteCSharpTypeMappings(("Foo", null)), Throws.TypeOf<ArgumentNullException>());
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(() => TypeExtensions.AddOrOverwriteCSharpTypeMappings(null), Throws.TypeOf<ArgumentNullException>());
+                Assert.That(() => TypeExtensions.AddOrOverwriteCSharpTypeMappings(Array.Empty<(string Key, string Value)>()), Throws.TypeOf<ArgumentNullException>());
+                Assert.That(() => TypeExtensions.AddOrOverwriteCSharpTypeMappings((null, "int")), Throws.TypeOf<ArgumentNullException>());
+                Assert.That(() => TypeExtensions.AddOrOverwriteCSharpTypeMappings(("Foo", null)), Throws.TypeOf<ArgumentNullException>());
+            }
         }
     }
 }

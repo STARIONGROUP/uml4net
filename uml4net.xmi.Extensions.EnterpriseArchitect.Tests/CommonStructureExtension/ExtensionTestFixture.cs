@@ -42,8 +42,11 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.Tests.CommonStructureExtens
             var first = extension.PrimitivesTypes;
             var second = extension.PrimitivesTypes;
 
-            Assert.That(first, Is.Not.Null);
-            Assert.That(second, Is.SameAs(first));
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(first, Is.Not.Null);
+                Assert.That(second, Is.SameAs(first));
+            }
         }
 
         [Test]
