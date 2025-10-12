@@ -93,6 +93,12 @@ namespace uml4net.Extensions.Tests
         }
 
         [Test]
+        public void Verify_that_QueryAllGeneralClassifiers_throws_when_classifier_is_null()
+        {
+            Assert.That(() => ClassifierExtensions.QueryAllGeneralClassifiers(null), Throws.ArgumentNullException);
+        }
+
+        [Test]
         public void Verify_that_QueryContainers_returns_expected_result()
         {
             var root = this.xmiReaderResult.QueryRoot(xmiId: "_0", name: "UML");
@@ -113,6 +119,12 @@ namespace uml4net.Extensions.Tests
             };
 
             Assert.That(expected, Is.EquivalentTo(containerNames));
+        }
+
+        [Test]
+        public void Verify_that_QueryContainers_throws_when_classifier_is_null()
+        {
+            Assert.That(() => ClassifierExtensions.QueryContainers(null), Throws.ArgumentNullException);
         }
     }
 }

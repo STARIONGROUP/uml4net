@@ -22,7 +22,7 @@ namespace uml4net.Extensions.Tests
 {
     using System.IO;
     using System.Linq;
-
+    using Classification;
     using Microsoft.Extensions.Logging;
 
     using NUnit.Framework;
@@ -66,6 +66,29 @@ namespace uml4net.Extensions.Tests
                 .Build();
 
             this.xmiReaderResult = reader.Read(Path.Combine(rootPath, "UML.xmi"));
+        }
+
+        [Test]
+        public void Verify_that_Query_methods_Throw_exception_when_property_is_null()
+        {
+            Assert.That(() => PropertyExtensions.QueryIsDataType(null), Throws.ArgumentNullException);
+            Assert.That(() => PropertyExtensions.QueryIsEnum(null), Throws.ArgumentNullException);
+            Assert.That(() => PropertyExtensions.QueryIsPrimitiveType(null), Throws.ArgumentNullException);
+            Assert.That(() => PropertyExtensions.QueryIsBool(null), Throws.ArgumentNullException);
+            Assert.That(() => PropertyExtensions.QueryIsString(null), Throws.ArgumentNullException);
+            Assert.That(() => PropertyExtensions.QueryIsNumeric(null), Throws.ArgumentNullException);
+            Assert.That(() => PropertyExtensions.QueryCSharpTypeName(null), Throws.ArgumentNullException);
+            Assert.That(() => PropertyExtensions.QueryIsEnumerable(null), Throws.ArgumentNullException);
+            Assert.That(() => PropertyExtensions.QueryStructuralFeatureNameEqualsEnclosingType(null, null), Throws.ArgumentNullException);
+            Assert.That(() => PropertyExtensions.QueryStructuralFeatureNameEqualsEnclosingType(new Property(), null), Throws.ArgumentNullException);
+            Assert.That(() => PropertyExtensions.QueryHasDefaultValue(null), Throws.ArgumentNullException);
+            Assert.That(() => PropertyExtensions.QueryDefaultValueAsString(null), Throws.ArgumentNullException);
+            Assert.That(() => PropertyExtensions.QueryTypeName(null), Throws.ArgumentNullException);
+            Assert.That(() => PropertyExtensions.QueryCSharpFullTypeName(null), Throws.ArgumentNullException);
+            Assert.That(() => PropertyExtensions.QueryIsReferenceProperty(null), Throws.ArgumentNullException);
+            Assert.That(() => PropertyExtensions.QueryIsTypeAbstract(null), Throws.ArgumentNullException);
+            Assert.That(() => PropertyExtensions.QueryIsValueProperty(null), Throws.ArgumentNullException);
+            Assert.That(() => PropertyExtensions.QueryIsNullable(null), Throws.ArgumentNullException);
         }
 
         [Test]

@@ -85,6 +85,12 @@ namespace uml4net.Extensions.Tests
         }
 
         [Test]
+        public void Verify_that_QueryAllProperties_throws_when_class_is_null()
+        {
+            Assert.That(() => ClassExtensions.QueryAllProperties(null), Throws.ArgumentNullException);
+        }
+
+        [Test]
         public void Verify_that_QueryAllSpecializations_returns_expected_result_with_cache()
         {
             var animal = new Class { XmiId = "Animal", Name = "Animal", DocumentName = "test" };
@@ -200,6 +206,12 @@ namespace uml4net.Extensions.Tests
 
             Assert.That(animal.QueryAllSpecializations(), Is.EquivalentTo([mammal]));
             Assert.That(mammal.QueryAllSpecializations(), Is.EquivalentTo([cat_1, cat_2]));
+        }
+
+        [Test]
+        public void Verify_that_QueryAllSpecializations_throws_when_class_is_null()
+        {
+            Assert.That(() => ClassExtensions.QueryAllSpecializations(null), Throws.ArgumentNullException);
         }
     }
 }
