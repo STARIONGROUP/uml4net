@@ -20,13 +20,15 @@
 
 namespace uml4net.Tests
 {
+    using System;
     using System.Linq;
 
     using NUnit.Framework;
 
-    using uml4net.StructuredClassifiers;
+    using uml4net.CommonStructure;
     using uml4net.Packages;
-    
+    using uml4net.StructuredClassifiers;
+
     [TestFixture]
     public class ContainerListTestFixture
     {
