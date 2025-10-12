@@ -74,6 +74,18 @@
         <None Include="..\resources\Enterprise Architect Extensions\EAExport.xmi" Link="TestData\EAExport.xmi">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </None>
+        <None Include="..\resources\XMI\documentation-as-attributes.xmi" Link="TestData\documentation-as-attributes.xmi">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Include="..\resources\XMI\documentation-as-elements.xmi" Link="TestData\documentation-as-elements.xmi">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Include="..\resources\XMI\documentation-as-attributes-invalid-datetime.xmi" Link="TestData\documentation-as-attributes-invalid-datetime.xmi">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Include="..\resources\XMI\documentation-as-elements-invalid-datetime.xmi" Link="TestData\documentation-as-elements-invalid-datetime.xmi">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
     </ItemGroup>
 
     <ItemGroup>

@@ -133,7 +133,16 @@ namespace uml4net.xmi.Readers
                 var timestampAttributeValue = xmlReader.GetAttribute("timestamp") ?? xmlReader.GetAttribute("timestamp", namespaceUri);
                 if (!string.IsNullOrEmpty(timestampAttributeValue))
                 {
-                    documentation.TimeStamp = XmlConvert.ToDateTime(timestampAttributeValue, XmlDateTimeSerializationMode.RoundtripKind);
+                    try
+                    {
+                        documentation.TimeStamp = XmlConvert.ToDateTime(timestampAttributeValue, XmlDateTimeSerializationMode.RoundtripKind);
+                    }
+                    catch (FormatException formatException)
+                    {
+                        documentation.TimeStamp = DateTime.MinValue;
+
+                        this.logger.LogWarning(formatException,"The Documentation Timestamp value could not be converted: {TimeStampValue}", timestampAttributeValue);
+                    }
                 }
 
                 while (xmlReader.Read())
@@ -205,6 +214,22 @@ namespace uml4net.xmi.Readers
                                 if (!string.IsNullOrEmpty(ownerElementValue))
                                 {
                                     documentation.Owner.Add(ownerElementValue);
+                                }
+                                break;
+                            case (KnowNamespacePrefixes.Xmi, "timestamp"):
+                                var timestampElementValue = xmlReader.ReadElementContentAsString();
+                                if (!string.IsNullOrEmpty(timestampElementValue))
+                                {
+                                    try
+                                    {
+                                        documentation.TimeStamp = XmlConvert.ToDateTime(timestampElementValue, XmlDateTimeSerializationMode.RoundtripKind);
+                                    }
+                                    catch (FormatException formatException)
+                                    {
+                                        documentation.TimeStamp = DateTime.MinValue;
+
+                                        this.logger.LogWarning(formatException,"The Documentation Timestamp value could not be converted: {TimeStampValue}", timestampElementValue);
+                                    }
                                 }
                                 break;
                             default:

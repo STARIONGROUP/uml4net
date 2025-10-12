@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmi:XMI xmlns:xmi="http://www.omg.org/spec/XMI/20131001" xmlns:uml="http://www.omg.org/spec/UML/20161101">
+
+    <xmi:Documentation
+        contact="info@stariongroup.eu"
+        exporter="uml4net"
+        exporterVersion="1.0.0"
+        exporterID="4.5.6"
+        timestamp="invalid-time"
+        longDescription="long description"
+        shortDescription="short description"
+        notice="notice"
+        owner="Starion Group S.A." />
+
+    <uml:Package xmi:id="_P1" name="PrimitiveTypes">
+        <packagedElement xmi:type="uml:DataType" xmi:id="_DT1" name="Integer"/>
+        <packagedElement xmi:type="uml:DataType" xmi:id="_DT2" name="Boolean"/>
+    </uml:Package>
+
+</xmi:XMI>

@@ -94,5 +94,14 @@ namespace uml4net.xmi.Tests.Readers
         {
             Assert.That(this.nameSpaceResolver.ResolvePrefix(uri), Is.EqualTo("other"));
         }
+
+        [Test]
+        public void Verify_that_Register_behaves_as_expected()
+        {
+            Assert.That(() => this.nameSpaceResolver.Register("https://www.stariongroup.eu", "sg"), Throws.Nothing);
+
+            Assert.That(this.nameSpaceResolver.ResolvePrefix("https://www.stariongroup.eu"), Is.EqualTo("sg"));
+
+        }
     }
 }

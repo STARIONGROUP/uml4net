@@ -24,7 +24,7 @@ namespace uml4net.Reporting.Generators
     using System.Collections.Generic;
     using System.IO;
 
-    // using uml4net.xmi.Extensions.EnterpriseArchitect.Readers;
+    using uml4net.xmi.Extensions.EnterpriseArchitect.Readers;
 
     /// <summary>
     /// The purpose of the <see cref="IReportGenerator"/> is to generate a report of an

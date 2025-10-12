@@ -63,11 +63,15 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure.Readers
         /// <param name="xmiReaderSettings">
         /// The <see cref="IXmiReaderSettings"/> used to configure reading
         /// </param>
+        /// <param name="nameSpaceResolver">
+        /// The (injected) <see cref="INameSpaceResolver"/> used to resolve a namespace to one of the
+        /// <see cref="KnowNamespacePrefixes"/>
+        /// </param>
         /// <param name="loggerFactory">
         /// The (injected) <see cref="ILoggerFactory"/> used to set up logging
         /// </param>
-        public CoordsReader(IXmiElementCache cache, IXmiElementReaderFacade xmiElementReaderFacade, IXmiReaderSettings xmiReaderSettings, ILoggerFactory loggerFactory)
-        : base(cache, xmiElementReaderFacade, xmiReaderSettings, loggerFactory)
+        public CoordsReader(IXmiElementCache cache, IXmiElementReaderFacade xmiElementReaderFacade, IXmiReaderSettings xmiReaderSettings, INameSpaceResolver nameSpaceResolver, ILoggerFactory loggerFactory)
+        : base(cache, xmiElementReaderFacade, xmiReaderSettings, nameSpaceResolver, loggerFactory)
         {
             this.logger = loggerFactory == null ? NullLogger<CoordsReader>.Instance : loggerFactory.CreateLogger<CoordsReader>();
         }
@@ -110,7 +114,7 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure.Readers
 
             if (xmlReader.MoveToContent() == XmlNodeType.Element)
             {
-                this.logger.LogTrace("reading Coords at line:position {LineNumber}:{LinePosition}", xmlLineInfo.LineNumber, xmlLineInfo.LinePosition);
+                this.logger.LogTrace("reading Coords at line:position {LineNumber}:{LinePosition}", xmlLineInfo?.LineNumber, xmlLineInfo?.LinePosition);
 
                 var xmiType = "Coords";
 
@@ -140,14 +144,14 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure.Readers
                     this.logger.LogCritical("Failed to add element type [{Poco}] with id [{Id}] as it was already in the Cache. The XMI document seems to have duplicate xmi:id values", "Coords", poco.XmiId);
                 }
 
-                var orderedXmlAttribute = xmlReader.GetAttribute("ordered");
+                var orderedXmlAttribute = xmlReader.GetAttribute("ordered") ?? xmlReader.GetAttribute("ordered", this.NameSpaceResolver.UmlNameSpace);
 
                 if (!string.IsNullOrEmpty(orderedXmlAttribute))
                 {
                     poco.Ordered = int.Parse(orderedXmlAttribute);
                 }
 
-                var scaleXmlAttribute = xmlReader.GetAttribute("scale");
+                var scaleXmlAttribute = xmlReader.GetAttribute("scale") ?? xmlReader.GetAttribute("scale", this.NameSpaceResolver.UmlNameSpace);
 
                 if (!string.IsNullOrEmpty(scaleXmlAttribute))
                 {

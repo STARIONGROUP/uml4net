@@ -63,11 +63,15 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure.Readers
         /// <param name="xmiReaderSettings">
         /// The <see cref="IXmiReaderSettings"/> used to configure reading
         /// </param>
+        /// <param name="nameSpaceResolver">
+        /// The (injected) <see cref="INameSpaceResolver"/> used to resolve a namespace to one of the
+        /// <see cref="KnowNamespacePrefixes"/>
+        /// </param>
         /// <param name="loggerFactory">
         /// The (injected) <see cref="ILoggerFactory"/> used to set up logging
         /// </param>
-        public FlagsReader(IXmiElementCache cache, IXmiElementReaderFacade xmiElementReaderFacade, IXmiReaderSettings xmiReaderSettings, ILoggerFactory loggerFactory)
-        : base(cache, xmiElementReaderFacade, xmiReaderSettings, loggerFactory)
+        public FlagsReader(IXmiElementCache cache, IXmiElementReaderFacade xmiElementReaderFacade, IXmiReaderSettings xmiReaderSettings, INameSpaceResolver nameSpaceResolver, ILoggerFactory loggerFactory)
+        : base(cache, xmiElementReaderFacade, xmiReaderSettings, nameSpaceResolver, loggerFactory)
         {
             this.logger = loggerFactory == null ? NullLogger<FlagsReader>.Instance : loggerFactory.CreateLogger<FlagsReader>();
         }
@@ -110,7 +114,7 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure.Readers
 
             if (xmlReader.MoveToContent() == XmlNodeType.Element)
             {
-                this.logger.LogTrace("reading Flags at line:position {LineNumber}:{LinePosition}", xmlLineInfo.LineNumber, xmlLineInfo.LinePosition);
+                this.logger.LogTrace("reading Flags at line:position {LineNumber}:{LinePosition}", xmlLineInfo?.LineNumber, xmlLineInfo?.LinePosition);
 
                 var xmiType = "Flags";
 
@@ -140,35 +144,35 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure.Readers
                     this.logger.LogCritical("Failed to add element type [{Poco}] with id [{Id}] as it was already in the Cache. The XMI document seems to have duplicate xmi:id values", "Flags", poco.XmiId);
                 }
 
-                var batchsaveXmlAttribute = xmlReader.GetAttribute("batchsave");
+                var batchsaveXmlAttribute = xmlReader.GetAttribute("batchsave") ?? xmlReader.GetAttribute("batchsave", this.NameSpaceResolver.UmlNameSpace);
 
                 if (!string.IsNullOrEmpty(batchsaveXmlAttribute))
                 {
                     poco.Batchsave = int.Parse(batchsaveXmlAttribute);
                 }
 
-                var iscontrolledXmlAttribute = xmlReader.GetAttribute("iscontrolled");
+                var iscontrolledXmlAttribute = xmlReader.GetAttribute("iscontrolled") ?? xmlReader.GetAttribute("iscontrolled", this.NameSpaceResolver.UmlNameSpace);
 
                 if (!string.IsNullOrEmpty(iscontrolledXmlAttribute))
                 {
                     poco.Iscontrolled = int.Parse(iscontrolledXmlAttribute);
                 }
 
-                var isprotectedXmlAttribute = xmlReader.GetAttribute("isprotected");
+                var isprotectedXmlAttribute = xmlReader.GetAttribute("isprotected") ?? xmlReader.GetAttribute("isprotected", this.NameSpaceResolver.UmlNameSpace);
 
                 if (!string.IsNullOrEmpty(isprotectedXmlAttribute))
                 {
                     poco.Isprotected = int.Parse(isprotectedXmlAttribute);
                 }
 
-                var logxmlXmlAttribute = xmlReader.GetAttribute("logxml");
+                var logxmlXmlAttribute = xmlReader.GetAttribute("logxml") ?? xmlReader.GetAttribute("logxml", this.NameSpaceResolver.UmlNameSpace);
 
                 if (!string.IsNullOrEmpty(logxmlXmlAttribute))
                 {
                     poco.Logxml = int.Parse(logxmlXmlAttribute);
                 }
 
-                var usedtdXmlAttribute = xmlReader.GetAttribute("usedtd");
+                var usedtdXmlAttribute = xmlReader.GetAttribute("usedtd") ?? xmlReader.GetAttribute("usedtd", this.NameSpaceResolver.UmlNameSpace);
 
                 if (!string.IsNullOrEmpty(usedtdXmlAttribute))
                 {

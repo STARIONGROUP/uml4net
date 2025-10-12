@@ -63,11 +63,15 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure.Readers
         /// <param name="xmiReaderSettings">
         /// The <see cref="IXmiReaderSettings"/> used to configure reading
         /// </param>
+        /// <param name="nameSpaceResolver">
+        /// The (injected) <see cref="INameSpaceResolver"/> used to resolve a namespace to one of the
+        /// <see cref="KnowNamespacePrefixes"/>
+        /// </param>
         /// <param name="loggerFactory">
         /// The (injected) <see cref="ILoggerFactory"/> used to set up logging
         /// </param>
-        public ProjectReader(IXmiElementCache cache, IXmiElementReaderFacade xmiElementReaderFacade, IXmiReaderSettings xmiReaderSettings, ILoggerFactory loggerFactory)
-        : base(cache, xmiElementReaderFacade, xmiReaderSettings, loggerFactory)
+        public ProjectReader(IXmiElementCache cache, IXmiElementReaderFacade xmiElementReaderFacade, IXmiReaderSettings xmiReaderSettings, INameSpaceResolver nameSpaceResolver, ILoggerFactory loggerFactory)
+        : base(cache, xmiElementReaderFacade, xmiReaderSettings, nameSpaceResolver, loggerFactory)
         {
             this.logger = loggerFactory == null ? NullLogger<ProjectReader>.Instance : loggerFactory.CreateLogger<ProjectReader>();
         }
@@ -110,7 +114,7 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure.Readers
 
             if (xmlReader.MoveToContent() == XmlNodeType.Element)
             {
-                this.logger.LogTrace("reading Project at line:position {LineNumber}:{LinePosition}", xmlLineInfo.LineNumber, xmlLineInfo.LinePosition);
+                this.logger.LogTrace("reading Project at line:position {LineNumber}:{LinePosition}", xmlLineInfo?.LineNumber, xmlLineInfo?.LinePosition);
 
                 var xmiType = "Project";
 
@@ -140,29 +144,29 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure.Readers
                     this.logger.LogCritical("Failed to add element type [{Poco}] with id [{Id}] as it was already in the Cache. The XMI document seems to have duplicate xmi:id values", "Project", poco.XmiId);
                 }
 
-                poco.Author = xmlReader.GetAttribute("author");
+                poco.Author = xmlReader.GetAttribute("author") ?? xmlReader.GetAttribute("author", this.NameSpaceResolver.UmlNameSpace);
 
-                var complexityXmlAttribute = xmlReader.GetAttribute("complexity");
+                var complexityXmlAttribute = xmlReader.GetAttribute("complexity") ?? xmlReader.GetAttribute("complexity", this.NameSpaceResolver.UmlNameSpace);
 
                 if (!string.IsNullOrEmpty(complexityXmlAttribute))
                 {
                     poco.Complexity = int.Parse(complexityXmlAttribute);
                 }
 
-                poco.Created = xmlReader.GetAttribute("created");
+                poco.Created = xmlReader.GetAttribute("created") ?? xmlReader.GetAttribute("created", this.NameSpaceResolver.UmlNameSpace);
 
-                poco.Modified = xmlReader.GetAttribute("modified");
+                poco.Modified = xmlReader.GetAttribute("modified") ?? xmlReader.GetAttribute("modified", this.NameSpaceResolver.UmlNameSpace);
 
-                poco.Phase = xmlReader.GetAttribute("phase");
+                poco.Phase = xmlReader.GetAttribute("phase") ?? xmlReader.GetAttribute("phase", this.NameSpaceResolver.UmlNameSpace);
 
-                var statusXmlAttribute = xmlReader.GetAttribute("status");
+                var statusXmlAttribute = xmlReader.GetAttribute("status") ?? xmlReader.GetAttribute("status", this.NameSpaceResolver.UmlNameSpace);
 
                 if (!string.IsNullOrEmpty(statusXmlAttribute))
                 {
                     poco.Status = (Status)Enum.Parse(typeof(Status), statusXmlAttribute, true);
                 }
 
-                poco.Version = xmlReader.GetAttribute("version");
+                poco.Version = xmlReader.GetAttribute("version") ?? xmlReader.GetAttribute("version", this.NameSpaceResolver.UmlNameSpace);
 
 
                 while (xmlReader.Read())

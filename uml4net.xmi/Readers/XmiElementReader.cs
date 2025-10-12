@@ -20,11 +20,12 @@
 
 namespace uml4net.xmi.Readers
 {
-    using Microsoft.Extensions.Logging;
     using System;
     using System.Collections.Generic;
     using System.Xml;
-    using Microsoft.Extensions.Logging.Abstractions;
+
+    using Microsoft.Extensions.Logging;
+
     using uml4net;
     using uml4net.xmi.Settings;
 
@@ -62,7 +63,7 @@ namespace uml4net.xmi.Readers
 
         /// <summary>
         /// The (injected) <see cref="INameSpaceResolver"/> used to resolve a namespace to one of the
-        /// <see cref="SupportedNamespaces"/>
+        /// <see cref="KnowNamespacePrefixes"/>
         /// </summary>
         protected readonly INameSpaceResolver NameSpaceResolver;
 
@@ -79,9 +80,9 @@ namespace uml4net.xmi.Readers
         /// <param name="xmiReaderSettings">
         /// The injected <see cref="IXmiReaderSettings" /> that provides Xmi Reader settings
         /// </param>
-        /// <param>
+        /// <param  name="nameSpaceResolver">
         /// The (injected) <see cref="INameSpaceResolver"/> used to resolve a namespace to one of the
-        /// <see cref="SupportedNamespaces"/>
+        /// <see cref="KnowNamespacePrefixes"/>
         /// </param>
         /// <param name="loggerFactory">
         /// The (injected) <see cref="ILoggerFactory"/> used to set up logging
@@ -268,6 +269,6 @@ namespace uml4net.xmi.Readers
         protected virtual bool HandleManualXmlRead(TXmiElement poco, XmlReader xmlReader, string documentName, string namespaceUri)
         {
             return false;
-        }    
+        }
     }
 }

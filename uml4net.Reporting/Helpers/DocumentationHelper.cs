@@ -25,8 +25,8 @@ namespace uml4net.Reporting.Helpers
     using HandlebarsDotNet;
 
     using uml4net.CommonStructure;
-    
-    // using uml4net.xmi.Extensions.EnterpriseArchitect.Extensions;
+
+    using uml4net.xmi.Extensions.EnterpriseArchitect.Extensions;
 
     /// <summary>
     /// a block helper
@@ -50,10 +50,10 @@ namespace uml4net.Reporting.Helpers
 
                 writer.WriteSafeString($"/// <summary>{Environment.NewLine}");
 
-                //foreach (var line in eModelElement.QueryDocumentationFromExtensions().Split('\n'))
-                //{
-                //    writer.WriteSafeString($"/// {line}{Environment.NewLine}");
-                //}
+                foreach (var line in eModelElement.QueryDocumentationFromExtensions().Split('\n'))
+                {
+                    writer.WriteSafeString($"/// {line}{Environment.NewLine}");
+                }
 
                 writer.WriteSafeString($"/// </summary>{Environment.NewLine}");
             });
@@ -65,7 +65,7 @@ namespace uml4net.Reporting.Helpers
                     throw new ArgumentException("supposed to be IElement");
                 }
 
-                var rawDocumentation = string.Empty; // element.QueryDocumentationFromExtensions();
+                var rawDocumentation = element.QueryDocumentationFromExtensions();
 
                 if (string.IsNullOrEmpty(rawDocumentation))
                 {
