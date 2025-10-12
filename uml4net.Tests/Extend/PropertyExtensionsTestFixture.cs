@@ -20,12 +20,9 @@
 
 namespace uml4net.Tests.Extend
 {
-    using System.Collections.Generic;
-
     using NUnit.Framework;
 
     using uml4net.Classification;
-    using uml4net.Packages;
     using uml4net.StructuredClassifiers;
 
     [TestFixture]
@@ -36,11 +33,11 @@ namespace uml4net.Tests.Extend
         {
             IProperty property = null;
 
-            Assert.That(() => PropertyExtensions.QueryIsComposite(property),
-                Throws.ArgumentNullException);
-
-            Assert.That(() => PropertyExtensions.QueryOpposite(property),
-                Throws.ArgumentNullException);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(() => PropertyExtensions.QueryIsComposite(property), Throws.ArgumentNullException);
+                Assert.That(() => PropertyExtensions.QueryOpposite(property), Throws.ArgumentNullException);
+            }
         }
 
         [Test]

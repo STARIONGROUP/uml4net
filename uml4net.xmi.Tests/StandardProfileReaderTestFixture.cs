@@ -21,7 +21,6 @@
 namespace uml4net.xmi.Tests
 {
     using System.IO;
-    using System.Linq;
 
     using Microsoft.Extensions.Logging;
 
@@ -29,10 +28,6 @@ namespace uml4net.xmi.Tests
 
     using Serilog;
 
-    using uml4net.Values;
-    using uml4net.Packages;
-    using uml4net.SimpleClassifiers;
-    using uml4net.StructuredClassifiers;
     using uml4net.xmi;
 
     [TestFixture]
@@ -66,11 +61,12 @@ namespace uml4net.xmi.Tests
 
             var xmiReaderResult = reader.Read(Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData", "StandardProfile.xmi"));
 
-            Assert.That(xmiReaderResult.XmiRoot, Is.Not.Null);
-
-            Assert.That(xmiReaderResult.Packages.Count, Is.EqualTo(3));
-
-            Assert.That(xmiReaderResult.QueryRoot("_0", "StandardProfile").Name, Is.EqualTo("StandardProfile"));
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(xmiReaderResult.XmiRoot, Is.Not.Null);
+                Assert.That(xmiReaderResult.Packages.Count, Is.EqualTo(3));
+                Assert.That(xmiReaderResult.QueryRoot("_0", "StandardProfile").Name, Is.EqualTo("StandardProfile"));
+            }
         }
     }
 }

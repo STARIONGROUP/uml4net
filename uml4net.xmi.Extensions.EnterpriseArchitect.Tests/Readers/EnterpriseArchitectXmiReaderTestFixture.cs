@@ -80,8 +80,8 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.Tests.Readers
             var elementWithTags = xmiReaderResult.Packages[0].NestedPackage[0].NestedPackage[0].PackagedElement.Single(x => x is Class { Name: "ClassWithTaggedValues" })as Class;
             var extensionElement = (elementWithTags!.Extensions[0] as Element)!;
             var tags = extensionElement.Tags.Single().Tag;
-            
-            Assert.Multiple(() =>
+
+            using (Assert.EnterMultipleScope())
             {
                 Assert.That(attribute.QueryDocumentationFromExtensions(), Is.EqualTo("An documentation for an attribute"));
                 Assert.That(element.QueryDocumentationFromExtensions(), Is.EqualTo("An Enterprise Architect documentation"));
@@ -104,7 +104,7 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.Tests.Readers
                 Assert.That(tags[0].Value, Is.EqualTo("{A059C88E-4BDF-46ec-9651-03CBB56A4410}"));
                 Assert.That(tags[1].Name, Is.EqualTo("SearchName"));
                 Assert.That(tags[1].Value, Is.EqualTo("Extended"));
-            });
+            }
         }
     }
 }

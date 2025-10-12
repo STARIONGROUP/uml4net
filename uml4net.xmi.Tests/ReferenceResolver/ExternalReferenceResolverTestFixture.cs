@@ -20,20 +20,18 @@
 
 namespace uml4net.xmi.Tests.ReferenceResolver
 {
-    
     using System.IO;
-    
-    
+
     using Microsoft.Extensions.Logging;
-    
+
     using NUnit.Framework;
-    using Resources;
+    
     using Serilog;
     using Settings;
 
     using uml4net.Classification;
     using uml4net.xmi.ReferenceResolver;
-    using xmi.Resources;
+    using uml4net.xmi.Resources;
 
     [TestFixture]
     public class ExternalReferenceResolverTestFixture
@@ -101,12 +99,14 @@ namespace uml4net.xmi.Tests.ReferenceResolver
 
             var resolvedKnowReferences = this.referenceResolver.TryResolve("test");
 
-            Assert.That(resolvedKnowReferences.Count, Is.EqualTo(4));
-
-            Assert.That(resolvedKnowReferences[0].Context, Is.EqualTo("http://www.omg.org/spec/UML/20131001/PrimitiveTypes.xmi"));
-            Assert.That(resolvedKnowReferences[1].Context, Is.EqualTo("PrimitiveTypes.xmi"));
-            Assert.That(resolvedKnowReferences[2].Context, Is.EqualTo("https://www.omg.org/spec/UML/20131001/PrimitiveTypes.xmi"));
-            Assert.That(resolvedKnowReferences[3].Context, Is.EqualTo("PrimitiveTypes"));
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(resolvedKnowReferences.Count, Is.EqualTo(4));
+                Assert.That(resolvedKnowReferences[0].Context, Is.EqualTo("http://www.omg.org/spec/UML/20131001/PrimitiveTypes.xmi"));
+                Assert.That(resolvedKnowReferences[1].Context, Is.EqualTo("PrimitiveTypes.xmi"));
+                Assert.That(resolvedKnowReferences[2].Context, Is.EqualTo("https://www.omg.org/spec/UML/20131001/PrimitiveTypes.xmi"));
+                Assert.That(resolvedKnowReferences[3].Context, Is.EqualTo("PrimitiveTypes"));
+            }
         }
 
         [Test]
@@ -125,9 +125,11 @@ namespace uml4net.xmi.Tests.ReferenceResolver
 
             var resolvedKnowReferences = this.referenceResolver.TryResolve("test");
 
-            Assert.That(resolvedKnowReferences.Count, Is.EqualTo(1));
-
-            Assert.That(resolvedKnowReferences[0].Context, Is.EqualTo("https://www.omg.org/spec/UML/20131001/PrimitiveTypes.xmi"));
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(resolvedKnowReferences.Count, Is.EqualTo(1));
+                Assert.That(resolvedKnowReferences[0].Context, Is.EqualTo("https://www.omg.org/spec/UML/20131001/PrimitiveTypes.xmi"));
+            }
         }
 
         [Test]
@@ -151,11 +153,13 @@ namespace uml4net.xmi.Tests.ReferenceResolver
 
             var resolvedKnowReferences = this.referenceResolver.TryResolve("test");
 
-            Assert.That(resolvedKnowReferences.Count, Is.EqualTo(3));
-
-            Assert.That(resolvedKnowReferences[0].Context, Is.EqualTo("https://www.omg.org/spec/UML/PrimitiveTypes.xmi"));
-            Assert.That(resolvedKnowReferences[1].Context, Is.EqualTo("http://www.omg.org/spec/UML/PrimitiveTypes.xmi"));
-            Assert.That(resolvedKnowReferences[2].Context, Is.EqualTo("ftp://www.omg.org/spec/UML/PrimitiveTypes.xmi"));
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(resolvedKnowReferences.Count, Is.EqualTo(3));
+                Assert.That(resolvedKnowReferences[0].Context, Is.EqualTo("https://www.omg.org/spec/UML/PrimitiveTypes.xmi"));
+                Assert.That(resolvedKnowReferences[1].Context, Is.EqualTo("http://www.omg.org/spec/UML/PrimitiveTypes.xmi"));
+                Assert.That(resolvedKnowReferences[2].Context, Is.EqualTo("ftp://www.omg.org/spec/UML/PrimitiveTypes.xmi"));
+            }
         }
 
         [Test]
@@ -178,9 +182,11 @@ namespace uml4net.xmi.Tests.ReferenceResolver
 
             var resolvedKnowReferences = this.referenceResolver.TryResolve("test");
 
-            Assert.That(resolvedKnowReferences.Count, Is.EqualTo(1));
-
-            Assert.That(resolvedKnowReferences[0].Context, Is.EqualTo(resoureceName));
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(resolvedKnowReferences.Count, Is.EqualTo(1));
+                Assert.That(resolvedKnowReferences[0].Context, Is.EqualTo(resoureceName));
+            }
         }
 
         [Test]

@@ -45,9 +45,12 @@ namespace uml4net.Tests
         {
             var package = new Package();
 
-            Assert.That(() => package.PackagedElement.Add(null), Throws.ArgumentNullException);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(() => package.PackagedElement.Add(null), Throws.ArgumentNullException);
 
-            Assert.That(() => package.PackagedElement.AddRange(null), Throws.ArgumentNullException);
+                Assert.That(() => package.PackagedElement.AddRange(null), Throws.ArgumentNullException);
+            }
         }
 
         [Test]
@@ -68,11 +71,11 @@ namespace uml4net.Tests
             var newContainer = new Package();
             var copiedList = new ContainerList<IPackageableElement>(originalContainer.PackagedElement, newContainer, true);
 
-            Assert.Multiple(() =>
+            using (Assert.EnterMultipleScope())
             {
                 Assert.That(copiedList.Single(), Is.SameAs(element));
                 Assert.That(element.Possessor, Is.SameAs(newContainer));
-            });
+            }
         }
 
         [Test]
@@ -147,11 +150,11 @@ namespace uml4net.Tests
 
             package.PackagedElement.Add(@class);
 
-            Assert.Multiple(() =>
+            using (Assert.EnterMultipleScope())
             {
                 Assert.That(package.PackagedElement.Remove(outsider), Is.False);
                 Assert.That(outsider.Possessor, Is.Not.Null);
-            });
+            }
         }
 
         [Test]
@@ -182,13 +185,13 @@ namespace uml4net.Tests
             var package = new Package();
             package.PackagedElement.Add(new Class());
 
-            Assert.Multiple(() =>
+            using (Assert.EnterMultipleScope())
             {
                 Assert.That(() => package.PackagedElement[-1], Throws.InstanceOf<ArgumentOutOfRangeException>());
                 Assert.That(() => package.PackagedElement[1], Throws.InstanceOf<ArgumentOutOfRangeException>());
                 Assert.That(() => package.PackagedElement[-1] = new Class(), Throws.InstanceOf<ArgumentOutOfRangeException>());
                 Assert.That(() => package.PackagedElement[1] = new Class(), Throws.InstanceOf<ArgumentOutOfRangeException>());
-            });
+            }
         }
 
         [Test]
@@ -204,11 +207,11 @@ namespace uml4net.Tests
             var replacement = new Class();
             package.PackagedElement[0] = replacement;
 
-            Assert.Multiple(() =>
+            using (Assert.EnterMultipleScope())
             {
                 Assert.That(replacement.Possessor, Is.SameAs(package));
                 Assert.That(() => package.PackagedElement[0] = second, Throws.InvalidOperationException);
-            });
+            }
         }
 
         [Test]

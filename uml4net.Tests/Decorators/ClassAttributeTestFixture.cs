@@ -34,10 +34,13 @@ namespace uml4net.Tests.Decorators
         {
             var attribute = new ClassAttribute("id", true, true, true);
 
-            Assert.That(attribute.XmiId, Is.EqualTo("id"));
-            Assert.That(attribute.IsAbstract, Is.True);
-            Assert.That(attribute.IsFinalSpecialization, Is.True);
-            Assert.That(attribute.IsActive, Is.True);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(attribute.XmiId, Is.EqualTo("id"));
+                Assert.That(attribute.IsAbstract, Is.True);
+                Assert.That(attribute.IsFinalSpecialization, Is.True);
+                Assert.That(attribute.IsActive, Is.True);
+            }
         }
 
         [Test]
@@ -45,10 +48,13 @@ namespace uml4net.Tests.Decorators
         {
             var attribute = new ClassAttribute();
 
-            Assert.That(attribute.XmiId, Is.EqualTo(string.Empty));
-            Assert.That(attribute.IsAbstract, Is.False);
-            Assert.That(attribute.IsFinalSpecialization, Is.False);
-            Assert.That(attribute.IsActive, Is.False);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(attribute.XmiId, Is.EqualTo(string.Empty));
+                Assert.That(attribute.IsAbstract, Is.False);
+                Assert.That(attribute.IsFinalSpecialization, Is.False);
+                Assert.That(attribute.IsActive, Is.False);
+            }
         }
     }
 }

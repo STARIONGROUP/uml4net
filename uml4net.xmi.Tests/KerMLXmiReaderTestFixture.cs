@@ -60,16 +60,19 @@ namespace uml4net.xmi.Tests
                 .WithLogger(this.loggerFactory)
                 .Build();
 
-            var xmiReaderResult = reader.Read(Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData", "KerML.xmi"));
+            var xmiReaderResult =
+                reader.Read(Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData", "KerML.xmi"));
 
-            Assert.That(xmiReaderResult.XmiRoot, Is.Not.Null);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(xmiReaderResult.XmiRoot, Is.Not.Null);
+                Assert.That(xmiReaderResult.Packages.Count, Is.EqualTo(2));
 
-            Assert.That(xmiReaderResult.Packages.Count, Is.EqualTo(2));
+                var package = xmiReaderResult.QueryRoot("KerML") as IPackage;
 
-            var package = xmiReaderResult.QueryRoot("KerML") as IPackage;
-
-            Assert.That(package.XmiId, Is.EqualTo("KerML"));
-            Assert.That(package.Name, Is.EqualTo("KerML"));
+                Assert.That(package.XmiId, Is.EqualTo("KerML"));
+                Assert.That(package.Name, Is.EqualTo("KerML"));
+            }
         }
     }
 }

@@ -60,20 +60,23 @@ namespace uml4net.xmi.Tests
                 .WithLogger(this.loggerFactory)
                 .Build();
 
-            var xmiReaderResult = reader.Read(Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData", "EAExport.xmi"));
+            var xmiReaderResult =
+                reader.Read(Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData", "EAExport.xmi"));
 
-            Assert.That(xmiReaderResult.XmiRoot, Is.Not.Null);
-            Assert.That(xmiReaderResult.XmiRoot.Documentation.Exporter, Is.EqualTo("Enterprise Architect"));
-            Assert.That(xmiReaderResult.XmiRoot.Documentation.ExporterVersion, Is.EqualTo("6.5"));
-            Assert.That(xmiReaderResult.XmiRoot.Documentation.ExporterID, Is.EqualTo("1704"));
+            using (Assert.EnterMultipleScope())
+            {
 
-            Assert.That(xmiReaderResult.Packages.Count, Is.EqualTo(2));
+                Assert.That(xmiReaderResult.XmiRoot, Is.Not.Null);
+                Assert.That(xmiReaderResult.XmiRoot.Documentation.Exporter, Is.EqualTo("Enterprise Architect"));
+                Assert.That(xmiReaderResult.XmiRoot.Documentation.ExporterVersion, Is.EqualTo("6.5"));
+                Assert.That(xmiReaderResult.XmiRoot.Documentation.ExporterID, Is.EqualTo("1704"));
+                Assert.That(xmiReaderResult.Packages.Count, Is.EqualTo(2));
 
-            var model = xmiReaderResult.QueryRoot(null, "EA_Model") as IModel;
+                var model = xmiReaderResult.QueryRoot(null, "EA_Model") as IModel;
 
-            Assert.That(model.Name, Is.EqualTo("EA_Model"));
-
-            Assert.That(model.NestedPackage.Count, Is.EqualTo(1));
+                Assert.That(model.Name, Is.EqualTo("EA_Model"));
+                Assert.That(model.NestedPackage.Count, Is.EqualTo(1));
+            }
         }
     }
 }

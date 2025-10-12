@@ -29,11 +29,10 @@ namespace uml4net.Reporting.Tests.Helpers
 
     using uml4net.StructuredClassifiers;
     using uml4net.Reporting.Helpers;
-    
-    // using xmi.Extensions.EntrepriseArchitect.Structure;
+
+    using xmi.Extensions.EntrepriseArchitect.Structure;
 
     using IElement = CommonStructure.IElement;
-
 
     [TestFixture]
     public class DocumentationHelperTestFixture
@@ -50,35 +49,31 @@ namespace uml4net.Reporting.Tests.Helpers
         [Test]
         public void Documentation_helper_writes_expected_format()
         {
-            Assert.Inconclusive("pending EA extensions fix");
+            var eaElement = new Element();
+            eaElement.Properties.Add(new ElementProperties { Documentation = "My documentation" });
+            var element = new Class { Extensions = new List<IElement> { eaElement } };
 
-            //var eaElement = new Element();
-            //eaElement.Properties.Add(new ElementProperties { Documentation = "My documentation" });
-            //var element = new Class { Extensions = new List<IElement> { eaElement } };
+            var template = this.handlebars.Compile("{{#Documentation this}}");
+            var result = template(element);
 
-            //var template = this.handlebars.Compile("{{#Documentation this}}");
-            //var result = template(element);
-
-            //var expected = $"/// <summary>{Environment.NewLine}/// My documentation{Environment.NewLine}/// </summary>{Environment.NewLine}";
-            //Assert.That(result, Is.EqualTo(expected));
+            var expected = $"/// <summary>{Environment.NewLine}/// My documentation{Environment.NewLine}/// </summary>{Environment.NewLine}";
+            Assert.That(result, Is.EqualTo(expected));
         }
 
         [Test]
         public void RawDocumentation_returns_content_or_default()
         {
-            Assert.Inconclusive("pending EA extensions fix");
+            var template = this.handlebars.Compile("{{#RawDocumentation this}}");
 
-            //var template = this.handlebars.Compile("{{#RawDocumentation this}}");
+            var eaElement = new Element();
+            eaElement.Properties.Add(new ElementProperties { Documentation = "Doc" });
+            var element = new Class { Extensions = new List<IElement> { eaElement } };
+            var resultWithDoc = template(element);
+            Assert.That(resultWithDoc, Is.EqualTo("Doc"));
 
-            //var eaElement = new Element();
-            //eaElement.Properties.Add(new ElementProperties { Documentation = "Doc" });
-            //var element = new Class { Extensions = new List<IElement> { eaElement } };
-            //var resultWithDoc = template(element);
-            //Assert.That(resultWithDoc, Is.EqualTo("Doc"));
-
-            //var noDocElement = new Class { Extensions = new List<IElement>() };
-            //var resultWithoutDoc = template(noDocElement);
-            //Assert.That(resultWithoutDoc, Is.EqualTo("No Documentation Provided"));
+            var noDocElement = new Class { Extensions = new List<IElement>() };
+            var resultWithoutDoc = template(noDocElement);
+            Assert.That(resultWithoutDoc, Is.EqualTo("No Documentation Provided"));
         }
 
         [Test]
@@ -87,8 +82,11 @@ namespace uml4net.Reporting.Tests.Helpers
             var docTemplate = this.handlebars.Compile("{{#Documentation this}}");
             var rawTemplate = this.handlebars.Compile("{{#RawDocumentation this}}");
 
-            Assert.That(() => docTemplate("not an element"), Throws.ArgumentException);
-            Assert.That(() => rawTemplate(42), Throws.ArgumentException);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(() => docTemplate("not an element"), Throws.ArgumentException);
+                Assert.That(() => rawTemplate(42), Throws.ArgumentException);
+            }
         }
     }
 }

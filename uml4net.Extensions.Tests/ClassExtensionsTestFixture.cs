@@ -137,8 +137,11 @@ namespace uml4net.Extensions.Tests
             cache.TryAdd(mammal_is_generalization_of_cat_1);
             cache.TryAdd(mammal_is_generalization_of_cat_2);
 
-            Assert.That(animal.QueryAllSpecializations(), Is.EquivalentTo([mammal]));
-            Assert.That(mammal.QueryAllSpecializations(), Is.EquivalentTo([cat_1, cat_2]));
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(animal.QueryAllSpecializations(), Is.EquivalentTo([mammal]));
+                Assert.That(mammal.QueryAllSpecializations(), Is.EquivalentTo([cat_1, cat_2]));
+            }
         }
 
         [Test]
@@ -204,8 +207,11 @@ namespace uml4net.Extensions.Tests
             otherPackage.PackagedElement.Add(cat_1);
             otherPackage.PackagedElement.Add(cat_2);
 
-            Assert.That(animal.QueryAllSpecializations(), Is.EquivalentTo([mammal]));
-            Assert.That(mammal.QueryAllSpecializations(), Is.EquivalentTo([cat_1, cat_2]));
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(animal.QueryAllSpecializations(), Is.EquivalentTo([mammal]));
+                Assert.That(mammal.QueryAllSpecializations(), Is.EquivalentTo([cat_1, cat_2]));
+            }
         }
 
         [Test]

@@ -20,14 +20,11 @@
 
 namespace uml4net.Tests.Extend
 {
-    using System.Collections.Generic;
-
     using NUnit.Framework;
 
     using uml4net.Classification;
     using uml4net.CommonStructure;
-    using uml4net.StructuredClassifiers;
-    using Values;
+    using uml4net.Values;
 
     [TestFixture]
     public class MultiplicityElementExtensionsTestFixture
@@ -37,11 +34,11 @@ namespace uml4net.Tests.Extend
         {
             Property property = null;
 
-            Assert.That(() => MultiplicityElementExtensions.QueryLower(property),
-                Throws.ArgumentNullException);
-
-            Assert.That(() => MultiplicityElementExtensions.QueryUpper(property),
-                Throws.ArgumentNullException);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(() => MultiplicityElementExtensions.QueryLower(property), Throws.ArgumentNullException);
+                Assert.That(() => MultiplicityElementExtensions.QueryUpper(property), Throws.ArgumentNullException);
+            }
         }
 
         [Test]

@@ -55,6 +55,7 @@ namespace uml4net.xmi.Tests.Readers
             using var xr = XmlReader.Create(new System.IO.StringReader("<type href='refId'/>"), new XmlReaderSettings());
             xr.MoveToContent();
             reader.InvokeCollect(xr, element, "type");
+
             Assert.That(element.SingleValueReferencePropertyIdentifiers["type"], Is.EqualTo("refId"));
         }
 
@@ -66,8 +67,12 @@ namespace uml4net.xmi.Tests.Readers
             using var xr = XmlReader.Create(new System.IO.StringReader("<ref href='id1'/>"), new XmlReaderSettings());
             xr.MoveToContent();
             var result = reader.InvokeTryCollect(xr, element, "ref");
-            Assert.That(result, Is.True);
-            Assert.That(element.MultiValueReferencePropertyIdentifiers["ref"], Has.Member("id1"));
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(result, Is.True);
+                Assert.That(element.MultiValueReferencePropertyIdentifiers["ref"], Has.Member("id1"));
+            }
         }
     }
 }

@@ -66,23 +66,25 @@ namespace uml4net.xmi.Tests
 
             var xmiReaderResult = reader.Read(Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData", "PrimitiveTypes.xmi"));
 
-            Assert.That(xmiReaderResult.XmiRoot, Is.Not.Null);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(xmiReaderResult.XmiRoot, Is.Not.Null);
+                Assert.That(xmiReaderResult.Packages.Count, Is.EqualTo(1));
 
-            Assert.That(xmiReaderResult.Packages.Count, Is.EqualTo(1));
+                var package = xmiReaderResult.Packages.First();
 
-            var package = xmiReaderResult.Packages.First();
+                Assert.That(package.XmiId, Is.EqualTo("_0"));
+                Assert.That(package.Name, Is.EqualTo("PrimitiveTypes"));
+                Assert.That(package.PackagedElement.Count, Is.EqualTo(5));
 
-            Assert.That(package.XmiId, Is.EqualTo("_0"));
-            Assert.That(package.Name, Is.EqualTo("PrimitiveTypes"));
-            Assert.That(package.PackagedElement.Count, Is.EqualTo(5));
+                var booleanPrimitiveType = package.PackagedElement.OfType<IPrimitiveType>().Single(x => x.XmiId == "Boolean");
 
-            var booleanPrimitiveType = package.PackagedElement.OfType<IPrimitiveType>().Single(x => x.XmiId == "Boolean");
+                Assert.That(booleanPrimitiveType.Name, Is.EqualTo("Boolean"));
 
-            Assert.That(booleanPrimitiveType.Name, Is.EqualTo("Boolean"));
+                var comment = booleanPrimitiveType.OwnedComment.Single();
 
-            var comment = booleanPrimitiveType.OwnedComment.Single();
-
-            Assert.That(comment.AnnotatedElement, Contains.Item(booleanPrimitiveType));
+                Assert.That(comment.AnnotatedElement, Contains.Item(booleanPrimitiveType));
+            }
         }
 
         [Test]

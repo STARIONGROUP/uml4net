@@ -22,10 +22,12 @@ namespace uml4net.Tests.Extend
 {
     using System.Collections.Generic;
     using System.Linq;
-    using CommonStructure;
+    
     using NUnit.Framework;
-    using SimpleClassifiers;
+
+    using uml4net.CommonStructure;
     using uml4net.Packages;
+    using uml4net.SimpleClassifiers;
     using uml4net.StructuredClassifiers;
 
     [TestFixture]
@@ -45,9 +47,7 @@ namespace uml4net.Tests.Extend
             root.PackagedElement.Add(@class_1);
             root.PackagedElement.Add(@class_2);
 
-            Assert.That(root.NestedPackage.ToList() , 
-                Is.EquivalentTo( new List<IPackage> { subPackage_1 , subPackage_2} ));
-
+            Assert.That(root.NestedPackage.ToList(), Is.EquivalentTo( new List<IPackage> { subPackage_1 , subPackage_2} ));
         }
 
         [Test]
@@ -63,8 +63,7 @@ namespace uml4net.Tests.Extend
             root.PackagedElement.Add(stereoType_1);
             root.PackagedElement.Add(stereoType_2);
 
-            Assert.That(root.OwnedStereotype.ToList(),
-                Is.EquivalentTo(new List<IStereotype> { stereoType_1, stereoType_2 }));
+            Assert.That(root.OwnedStereotype.ToList(), Is.EquivalentTo(new List<IStereotype> { stereoType_1, stereoType_2 }));
         }
 
         [Test]
@@ -82,8 +81,7 @@ namespace uml4net.Tests.Extend
             root.PackagedElement.Add(primitiveType);
             root.PackagedElement.Add(enumeration);
 
-            Assert.That(root.OwnedType.ToList(),
-                Is.EquivalentTo(new List<IType> { @class, primitiveType, enumeration }));
+            Assert.That(root.OwnedType.ToList(), Is.EquivalentTo(new List<IType> { @class, primitiveType, enumeration }));
         }
 
         [Test]
@@ -91,14 +89,12 @@ namespace uml4net.Tests.Extend
         {
             IPackage package = null;
 
-            Assert.That(() => PackageExtensions.QueryNestedPackage(package),
-                Throws.ArgumentNullException);
-
-            Assert.That(() => PackageExtensions.QueryOwnedStereotype(package),
-                Throws.ArgumentNullException);
-
-            Assert.That(() => PackageExtensions.QueryOwnedType(package),
-                Throws.ArgumentNullException);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(() => PackageExtensions.QueryNestedPackage(package), Throws.ArgumentNullException);
+                Assert.That(() => PackageExtensions.QueryOwnedStereotype(package), Throws.ArgumentNullException);
+                Assert.That(() => PackageExtensions.QueryOwnedType(package), Throws.ArgumentNullException);
+            }
         }
     }
 }

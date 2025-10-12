@@ -47,8 +47,11 @@ namespace uml4net.Tests.Extend
             cat.Generalization.Add(mammal_is_generalization_of_cat);
             animal.Generalization.Add(animal_is_generalization_of_mammal);
 
-            Assert.That(animal_is_generalization_of_mammal.RelatedElement, Is.EquivalentTo([animal, mammal]));
-            Assert.That(mammal_is_generalization_of_cat.RelatedElement, Is.EquivalentTo([mammal, cat]));
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(animal_is_generalization_of_mammal.RelatedElement, Is.EquivalentTo([animal, mammal]));
+                Assert.That(mammal_is_generalization_of_cat.RelatedElement, Is.EquivalentTo([mammal, cat]));
+            }
         }
 
         [Test]

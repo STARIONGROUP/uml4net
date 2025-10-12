@@ -21,6 +21,7 @@
 namespace uml4net.Tests.Extend
 {
     using NUnit.Framework;
+
     using uml4net.StructuredClassifiers;
     using uml4net.Classification;
 

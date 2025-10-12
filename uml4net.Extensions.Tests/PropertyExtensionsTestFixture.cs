@@ -71,24 +71,27 @@ namespace uml4net.Extensions.Tests
         [Test]
         public void Verify_that_Query_methods_Throw_exception_when_property_is_null()
         {
-            Assert.That(() => PropertyExtensions.QueryIsDataType(null), Throws.ArgumentNullException);
-            Assert.That(() => PropertyExtensions.QueryIsEnum(null), Throws.ArgumentNullException);
-            Assert.That(() => PropertyExtensions.QueryIsPrimitiveType(null), Throws.ArgumentNullException);
-            Assert.That(() => PropertyExtensions.QueryIsBool(null), Throws.ArgumentNullException);
-            Assert.That(() => PropertyExtensions.QueryIsString(null), Throws.ArgumentNullException);
-            Assert.That(() => PropertyExtensions.QueryIsNumeric(null), Throws.ArgumentNullException);
-            Assert.That(() => PropertyExtensions.QueryCSharpTypeName(null), Throws.ArgumentNullException);
-            Assert.That(() => PropertyExtensions.QueryIsEnumerable(null), Throws.ArgumentNullException);
-            Assert.That(() => PropertyExtensions.QueryStructuralFeatureNameEqualsEnclosingType(null, null), Throws.ArgumentNullException);
-            Assert.That(() => PropertyExtensions.QueryStructuralFeatureNameEqualsEnclosingType(new Property(), null), Throws.ArgumentNullException);
-            Assert.That(() => PropertyExtensions.QueryHasDefaultValue(null), Throws.ArgumentNullException);
-            Assert.That(() => PropertyExtensions.QueryDefaultValueAsString(null), Throws.ArgumentNullException);
-            Assert.That(() => PropertyExtensions.QueryTypeName(null), Throws.ArgumentNullException);
-            Assert.That(() => PropertyExtensions.QueryCSharpFullTypeName(null), Throws.ArgumentNullException);
-            Assert.That(() => PropertyExtensions.QueryIsReferenceProperty(null), Throws.ArgumentNullException);
-            Assert.That(() => PropertyExtensions.QueryIsTypeAbstract(null), Throws.ArgumentNullException);
-            Assert.That(() => PropertyExtensions.QueryIsValueProperty(null), Throws.ArgumentNullException);
-            Assert.That(() => PropertyExtensions.QueryIsNullable(null), Throws.ArgumentNullException);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(() => PropertyExtensions.QueryIsDataType(null), Throws.ArgumentNullException);
+                Assert.That(() => PropertyExtensions.QueryIsEnum(null), Throws.ArgumentNullException);
+                Assert.That(() => PropertyExtensions.QueryIsPrimitiveType(null), Throws.ArgumentNullException);
+                Assert.That(() => PropertyExtensions.QueryIsBool(null), Throws.ArgumentNullException);
+                Assert.That(() => PropertyExtensions.QueryIsString(null), Throws.ArgumentNullException);
+                Assert.That(() => PropertyExtensions.QueryIsNumeric(null), Throws.ArgumentNullException);
+                Assert.That(() => PropertyExtensions.QueryCSharpTypeName(null), Throws.ArgumentNullException);
+                Assert.That(() => PropertyExtensions.QueryIsEnumerable(null), Throws.ArgumentNullException);
+                Assert.That(() => PropertyExtensions.QueryStructuralFeatureNameEqualsEnclosingType(null, null), Throws.ArgumentNullException);
+                Assert.That(() => PropertyExtensions.QueryStructuralFeatureNameEqualsEnclosingType(new Property(), null), Throws.ArgumentNullException);
+                Assert.That(() => PropertyExtensions.QueryHasDefaultValue(null), Throws.ArgumentNullException);
+                Assert.That(() => PropertyExtensions.QueryDefaultValueAsString(null), Throws.ArgumentNullException);
+                Assert.That(() => PropertyExtensions.QueryTypeName(null), Throws.ArgumentNullException);
+                Assert.That(() => PropertyExtensions.QueryCSharpFullTypeName(null), Throws.ArgumentNullException);
+                Assert.That(() => PropertyExtensions.QueryIsReferenceProperty(null), Throws.ArgumentNullException);
+                Assert.That(() => PropertyExtensions.QueryIsTypeAbstract(null), Throws.ArgumentNullException);
+                Assert.That(() => PropertyExtensions.QueryIsValueProperty(null), Throws.ArgumentNullException);
+                Assert.That(() => PropertyExtensions.QueryIsNullable(null), Throws.ArgumentNullException);
+            }
         }
 
         [Test]
@@ -198,61 +201,64 @@ namespace uml4net.Extensions.Tests
             var dataType = property.QueryAllProperties().Single(x => x.Name == "datatype");
 
             //Using only default mappings
-            Assert.Multiple(() =>
+            using (Assert.EnterMultipleScope())
             {
                 Assert.That(lower.QueryCSharpTypeName(), Is.EqualTo("int"));
                 Assert.That(dataType.QueryCSharpTypeName(), Is.EqualTo("DataType"));
-            });
+            }
 
             //Using new Custom Type mapping
             PropertyExtensions.AddOrOverwriteCSharpTypeMappings(("DataType", "CustomType"));
 
-            Assert.Multiple(() =>
+            using (Assert.EnterMultipleScope())
             {
                 Assert.That(lower.QueryCSharpTypeName(), Is.EqualTo("int"));
                 Assert.That(dataType.QueryCSharpTypeName(), Is.EqualTo("CustomType"));
-            });
+            }
 
             //Using overwritten Custom Type mapping
             PropertyExtensions.AddOrOverwriteCSharpTypeMappings(("DataType", "CustomType2"));
 
-            Assert.Multiple(() =>
+            using (Assert.EnterMultipleScope())
             {
                 Assert.That(lower.QueryCSharpTypeName(), Is.EqualTo("int"));
                 Assert.That(dataType.QueryCSharpTypeName(), Is.EqualTo("CustomType2"));
-            });
+            }
 
             //Using overwritten Default Type mapping
             PropertyExtensions.AddOrOverwriteCSharpTypeMappings(("Integer", "CustomInt"));
 
-            Assert.Multiple(() =>
+            using (Assert.EnterMultipleScope())
             {
                 Assert.That(lower.QueryCSharpTypeName(), Is.EqualTo("CustomInt"));
                 Assert.That(dataType.QueryCSharpTypeName(), Is.EqualTo("CustomType2"));
-            });
+            }
 
             //After reset of custom mappings all should be using only default mappings again
             PropertyExtensions.ResetCSharpTypeMappingsToDefault();
 
-            Assert.Multiple(() =>
+            using (Assert.EnterMultipleScope())
             {
                 Assert.That(lower.QueryCSharpTypeName(), Is.EqualTo("int"));
                 Assert.That(dataType.QueryCSharpTypeName(), Is.EqualTo("DataType"));
-            });
+            }
 
             //Add multiple mappings at once
             PropertyExtensions.AddOrOverwriteCSharpTypeMappings(("DataType", "CustomType2"), ("Integer", "CustomInt"));
 
-            Assert.Multiple(() =>
+            using (Assert.EnterMultipleScope())
             {
                 Assert.That(lower.QueryCSharpTypeName(), Is.EqualTo("CustomInt"));
                 Assert.That(dataType.QueryCSharpTypeName(), Is.EqualTo("CustomType2"));
-            });
+            }
 
-            Assert.That(() => PropertyExtensions.AddOrOverwriteCSharpTypeMappings(), Throws.TypeOf<System.ArgumentNullException>());
-            Assert.That(() => PropertyExtensions.AddOrOverwriteCSharpTypeMappings((null, null)), Throws.TypeOf<System.ArgumentNullException>());
-            Assert.That(() => PropertyExtensions.AddOrOverwriteCSharpTypeMappings((string.Empty, null)), Throws.TypeOf<System.ArgumentNullException>());
-            Assert.That(() => PropertyExtensions.AddOrOverwriteCSharpTypeMappings((null, string.Empty)), Throws.TypeOf<System.ArgumentNullException>());
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(() => PropertyExtensions.AddOrOverwriteCSharpTypeMappings(), Throws.TypeOf<System.ArgumentNullException>());
+                Assert.That(() => PropertyExtensions.AddOrOverwriteCSharpTypeMappings((null, null)), Throws.TypeOf<System.ArgumentNullException>());
+                Assert.That(() => PropertyExtensions.AddOrOverwriteCSharpTypeMappings((string.Empty, null)), Throws.TypeOf<System.ArgumentNullException>());
+                Assert.That(() => PropertyExtensions.AddOrOverwriteCSharpTypeMappings((null, string.Empty)), Throws.TypeOf<System.ArgumentNullException>());
+            }
         }
 
         [Test]

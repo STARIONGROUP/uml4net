@@ -87,15 +87,18 @@ namespace uml4net.xmi.Tests.Readers
 
             var documentation = xmiReaderResult.XmiRoot.Documentation;
 
-            Assert.That(documentation.Contact, Is.EqualTo("info@stariongroup.eu"));
-            Assert.That(documentation.Exporter, Is.EqualTo("uml4net"));
-            Assert.That(documentation.ExporterVersion, Is.EqualTo("1.0.0"));
-            Assert.That(documentation.ExporterID, Is.EqualTo("4.5.6"));
-            Assert.That(documentation.LongDescription.First(), Is.EqualTo("long description"));
-            Assert.That(documentation.ShortDescription.First(), Is.EqualTo("short description"));
-            Assert.That(documentation.Notice.First(), Is.EqualTo("notice"));
-            Assert.That(documentation.Owner.First(), Is.EqualTo("Starion Group S.A."));
-            Assert.That(documentation.TimeStamp, Is.EqualTo(new DateTime(2025,10,12)));
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(documentation.Contact, Is.EqualTo("info@stariongroup.eu"));
+                Assert.That(documentation.Exporter, Is.EqualTo("uml4net"));
+                Assert.That(documentation.ExporterVersion, Is.EqualTo("1.0.0"));
+                Assert.That(documentation.ExporterID, Is.EqualTo("4.5.6"));
+                Assert.That(documentation.LongDescription.First(), Is.EqualTo("long description"));
+                Assert.That(documentation.ShortDescription.First(), Is.EqualTo("short description"));
+                Assert.That(documentation.Notice.First(), Is.EqualTo("notice"));
+                Assert.That(documentation.Owner.First(), Is.EqualTo("Starion Group S.A."));
+                Assert.That(documentation.TimeStamp, Is.EqualTo(new DateTime(2025, 10, 12)));
+            }
         }
 
         [Test]
@@ -108,19 +111,23 @@ namespace uml4net.xmi.Tests.Readers
                 .WithLogger(this.loggerFactory)
                 .Build();
 
-            var xmiReaderResult = reader.Read(Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData", "documentation-as-attributes-invalid-datetime.xmi"));
+            var xmiReaderResult = reader.Read(Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData",
+                "documentation-as-attributes-invalid-datetime.xmi"));
 
             var documentation = xmiReaderResult.XmiRoot.Documentation;
 
-            Assert.That(documentation.Contact, Is.EqualTo("info@stariongroup.eu"));
-            Assert.That(documentation.Exporter, Is.EqualTo("uml4net"));
-            Assert.That(documentation.ExporterVersion, Is.EqualTo("1.0.0"));
-            Assert.That(documentation.ExporterID, Is.EqualTo("4.5.6"));
-            Assert.That(documentation.LongDescription.First(), Is.EqualTo("long description"));
-            Assert.That(documentation.ShortDescription.First(), Is.EqualTo("short description"));
-            Assert.That(documentation.Notice.First(), Is.EqualTo("notice"));
-            Assert.That(documentation.Owner.First(), Is.EqualTo("Starion Group S.A."));
-            Assert.That(documentation.TimeStamp, Is.EqualTo(DateTime.MinValue));
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(documentation.Contact, Is.EqualTo("info@stariongroup.eu"));
+                Assert.That(documentation.Exporter, Is.EqualTo("uml4net"));
+                Assert.That(documentation.ExporterVersion, Is.EqualTo("1.0.0"));
+                Assert.That(documentation.ExporterID, Is.EqualTo("4.5.6"));
+                Assert.That(documentation.LongDescription.First(), Is.EqualTo("long description"));
+                Assert.That(documentation.ShortDescription.First(), Is.EqualTo("short description"));
+                Assert.That(documentation.Notice.First(), Is.EqualTo("notice"));
+                Assert.That(documentation.Owner.First(), Is.EqualTo("Starion Group S.A."));
+                Assert.That(documentation.TimeStamp, Is.EqualTo(DateTime.MinValue));
+            }
         }
 
         [Test]
@@ -133,19 +140,23 @@ namespace uml4net.xmi.Tests.Readers
                 .WithLogger(this.loggerFactory)
                 .Build();
 
-            var xmiReaderResult = reader.Read(Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData", "documentation-as-elements.xmi"));
+            var xmiReaderResult = reader.Read(Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData",
+                "documentation-as-elements.xmi"));
 
             var documentation = xmiReaderResult.XmiRoot.Documentation;
 
-            Assert.That(documentation.Contact, Is.EqualTo("info@stariongroup.eu"));
-            Assert.That(documentation.Exporter, Is.EqualTo("uml4net"));
-            Assert.That(documentation.ExporterVersion, Is.EqualTo("1.0.0"));
-            Assert.That(documentation.ExporterID, Is.EqualTo("4.5.6"));
-            Assert.That(documentation.LongDescription.First(), Is.EqualTo("long description"));
-            Assert.That(documentation.ShortDescription.First(), Is.EqualTo("short description"));
-            Assert.That(documentation.Notice.First(), Is.EqualTo("notice"));
-            Assert.That(documentation.Owner.First(), Is.EqualTo("Starion Group S.A."));
-            Assert.That(documentation.TimeStamp, Is.EqualTo(new DateTime(2025, 10, 12)));
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(documentation.Contact, Is.EqualTo("info@stariongroup.eu"));
+                Assert.That(documentation.Exporter, Is.EqualTo("uml4net"));
+                Assert.That(documentation.ExporterVersion, Is.EqualTo("1.0.0"));
+                Assert.That(documentation.ExporterID, Is.EqualTo("4.5.6"));
+                Assert.That(documentation.LongDescription.First(), Is.EqualTo("long description"));
+                Assert.That(documentation.ShortDescription.First(), Is.EqualTo("short description"));
+                Assert.That(documentation.Notice.First(), Is.EqualTo("notice"));
+                Assert.That(documentation.Owner.First(), Is.EqualTo("Starion Group S.A."));
+                Assert.That(documentation.TimeStamp, Is.EqualTo(new DateTime(2025, 10, 12)));
+            }
         }
 
         [Test]
@@ -158,19 +169,23 @@ namespace uml4net.xmi.Tests.Readers
                 .WithLogger(this.loggerFactory)
                 .Build();
 
-            var xmiReaderResult = reader.Read(Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData", "documentation-as-elements-invalid-datetime.xmi"));
+            var xmiReaderResult = reader.Read(Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData",
+                "documentation-as-elements-invalid-datetime.xmi"));
 
             var documentation = xmiReaderResult.XmiRoot.Documentation;
 
-            Assert.That(documentation.Contact, Is.EqualTo("info@stariongroup.eu"));
-            Assert.That(documentation.Exporter, Is.EqualTo("uml4net"));
-            Assert.That(documentation.ExporterVersion, Is.EqualTo("1.0.0"));
-            Assert.That(documentation.ExporterID, Is.EqualTo("4.5.6"));
-            Assert.That(documentation.LongDescription.First(), Is.EqualTo("long description"));
-            Assert.That(documentation.ShortDescription.First(), Is.EqualTo("short description"));
-            Assert.That(documentation.Notice.First(), Is.EqualTo("notice"));
-            Assert.That(documentation.Owner.First(), Is.EqualTo("Starion Group S.A."));
-            Assert.That(documentation.TimeStamp, Is.EqualTo(DateTime.MinValue));
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(documentation.Contact, Is.EqualTo("info@stariongroup.eu"));
+                Assert.That(documentation.Exporter, Is.EqualTo("uml4net"));
+                Assert.That(documentation.ExporterVersion, Is.EqualTo("1.0.0"));
+                Assert.That(documentation.ExporterID, Is.EqualTo("4.5.6"));
+                Assert.That(documentation.LongDescription.First(), Is.EqualTo("long description"));
+                Assert.That(documentation.ShortDescription.First(), Is.EqualTo("short description"));
+                Assert.That(documentation.Notice.First(), Is.EqualTo("notice"));
+                Assert.That(documentation.Owner.First(), Is.EqualTo("Starion Group S.A."));
+                Assert.That(documentation.TimeStamp, Is.EqualTo(DateTime.MinValue));
+            }
         }
     }
 }
