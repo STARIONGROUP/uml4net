@@ -20,11 +20,12 @@
 
 namespace uml4net.xmi.Readers
 {
-    using Microsoft.Extensions.Logging;
     using System;
     using System.Collections.Generic;
     using System.Xml;
-    using Microsoft.Extensions.Logging.Abstractions;
+
+    using Microsoft.Extensions.Logging;
+
     using uml4net;
     using uml4net.xmi.Settings;
 
@@ -61,6 +62,12 @@ namespace uml4net.xmi.Readers
         protected readonly IXmiReaderSettings XmiReaderSettings;
 
         /// <summary>
+        /// The (injected) <see cref="INameSpaceResolver"/> used to resolve a namespace to one of the
+        /// <see cref="KnowNamespacePrefixes"/>
+        /// </summary>
+        protected readonly INameSpaceResolver NameSpaceResolver;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="XmiElementReader{T}"/> class.
         /// </summary>
         /// <param name="cache">
@@ -73,15 +80,19 @@ namespace uml4net.xmi.Readers
         /// <param name="xmiReaderSettings">
         /// The injected <see cref="IXmiReaderSettings" /> that provides Xmi Reader settings
         /// </param>
+        /// <param  name="nameSpaceResolver">
+        /// The (injected) <see cref="INameSpaceResolver"/> used to resolve a namespace to one of the
+        /// <see cref="KnowNamespacePrefixes"/>
+        /// </param>
         /// <param name="loggerFactory">
         /// The (injected) <see cref="ILoggerFactory"/> used to set up logging
         /// </param>
-        protected XmiElementReader(IXmiElementCache cache, IXmiElementReaderFacade xmiElementReaderFacade, IXmiReaderSettings xmiReaderSettings, ILoggerFactory loggerFactory)
+        protected XmiElementReader(IXmiElementCache cache, IXmiElementReaderFacade xmiElementReaderFacade, IXmiReaderSettings xmiReaderSettings, INameSpaceResolver nameSpaceResolver, ILoggerFactory loggerFactory)
         {
             this.Cache = cache;
             this.XmiElementReaderFacade = xmiElementReaderFacade;
             this.XmiReaderSettings = xmiReaderSettings;
-
+            this.NameSpaceResolver = nameSpaceResolver;
             this.LoggerFactory = loggerFactory;
         }
 
@@ -258,6 +269,6 @@ namespace uml4net.xmi.Readers
         protected virtual bool HandleManualXmlRead(TXmiElement poco, XmlReader xmlReader, string documentName, string namespaceUri)
         {
             return false;
-        }    
+        }
     }
 }

@@ -63,11 +63,15 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure.Readers
         /// <param name="xmiReaderSettings">
         /// The <see cref="IXmiReaderSettings"/> used to configure reading
         /// </param>
+        /// <param name="nameSpaceResolver">
+        /// The (injected) <see cref="INameSpaceResolver"/> used to resolve a namespace to one of the
+        /// <see cref="KnowNamespacePrefixes"/>
+        /// </param>
         /// <param name="loggerFactory">
         /// The (injected) <see cref="ILoggerFactory"/> used to set up logging
         /// </param>
-        public LinksCollectionReader(IXmiElementCache cache, IXmiElementReaderFacade xmiElementReaderFacade, IXmiReaderSettings xmiReaderSettings, ILoggerFactory loggerFactory)
-        : base(cache, xmiElementReaderFacade, xmiReaderSettings, loggerFactory)
+        public LinksCollectionReader(IXmiElementCache cache, IXmiElementReaderFacade xmiElementReaderFacade, IXmiReaderSettings xmiReaderSettings, INameSpaceResolver nameSpaceResolver, ILoggerFactory loggerFactory)
+        : base(cache, xmiElementReaderFacade, xmiReaderSettings, nameSpaceResolver, loggerFactory)
         {
             this.logger = loggerFactory == null ? NullLogger<LinksCollectionReader>.Instance : loggerFactory.CreateLogger<LinksCollectionReader>();
         }
@@ -110,7 +114,7 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure.Readers
 
             if (xmlReader.MoveToContent() == XmlNodeType.Element)
             {
-                this.logger.LogTrace("reading LinksCollection at line:position {LineNumber}:{LinePosition}", xmlLineInfo.LineNumber, xmlLineInfo.LinePosition);
+                this.logger.LogTrace("reading LinksCollection at line:position {LineNumber}:{LinePosition}", xmlLineInfo?.LineNumber, xmlLineInfo?.LinePosition);
 
                 var xmiType = "LinksCollection";
 
@@ -148,39 +152,39 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure.Readers
                         switch (xmlReader.LocalName.LowerCaseFirstLetter())
                         {
                             case "abstraction":
-                                var abstractionValue = (IAbstraction)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.LoggerFactory, "Abstraction", true);
+                                var abstractionValue = (IAbstraction)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.NameSpaceResolver, this.LoggerFactory, "Abstraction", true);
                                 poco.Abstraction.Add(abstractionValue);
                                 break;
                             case "aggregation":
-                                var aggregationValue = (IAggregation)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.LoggerFactory, "Aggregation", true);
+                                var aggregationValue = (IAggregation)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.NameSpaceResolver, this.LoggerFactory, "Aggregation", true);
                                 poco.Aggregation.Add(aggregationValue);
                                 break;
                             case "association":
-                                var associationValue = (IAssociation)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.LoggerFactory, "Association", true);
+                                var associationValue = (IAssociation)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.NameSpaceResolver, this.LoggerFactory, "Association", true);
                                 poco.Association.Add(associationValue);
                                 break;
                             case "dependency":
-                                var dependencyValue = (IDependency)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.LoggerFactory, "Dependency", true);
+                                var dependencyValue = (IDependency)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.NameSpaceResolver, this.LoggerFactory, "Dependency", true);
                                 poco.Dependency.Add(dependencyValue);
                                 break;
                             case "generalization":
-                                var generalizationValue = (IGeneralization)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.LoggerFactory, "Generalization", true);
+                                var generalizationValue = (IGeneralization)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.NameSpaceResolver, this.LoggerFactory, "Generalization", true);
                                 poco.Generalization.Add(generalizationValue);
                                 break;
                             case "nesting":
-                                var nestingValue = (INesting)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.LoggerFactory, "Nesting", true);
+                                var nestingValue = (INesting)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.NameSpaceResolver, this.LoggerFactory, "Nesting", true);
                                 poco.Nesting.Add(nestingValue);
                                 break;
                             case "noteLink":
-                                var noteLinkValue = (INoteLink)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.LoggerFactory, "NoteLink", true);
+                                var noteLinkValue = (INoteLink)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.NameSpaceResolver, this.LoggerFactory, "NoteLink", true);
                                 poco.NoteLink.Add(noteLinkValue);
                                 break;
                             case "realisation":
-                                var realisationValue = (IRealisation)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.LoggerFactory, "Realisation", true);
+                                var realisationValue = (IRealisation)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.NameSpaceResolver, this.LoggerFactory, "Realisation", true);
                                 poco.Realisation.Add(realisationValue);
                                 break;
                             case "templateBinding":
-                                var templateBindingValue = (ITemplateBinding)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.LoggerFactory, "TemplateBinding", true);
+                                var templateBindingValue = (ITemplateBinding)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.NameSpaceResolver, this.LoggerFactory, "TemplateBinding", true);
                                 poco.TemplateBinding.Add(templateBindingValue);
                                 break;
                             default:

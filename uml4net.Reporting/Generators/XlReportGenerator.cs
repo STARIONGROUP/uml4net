@@ -40,6 +40,7 @@ namespace uml4net.Reporting.Generators
     using uml4net.SimpleClassifiers;
     using uml4net.StructuredClassifiers;
     using uml4net.Packages;
+
     using uml4net.xmi.Extensions.EnterpriseArchitect.Extensions;
 
     /// <summary>
@@ -458,7 +459,6 @@ namespace uml4net.Reporting.Generators
                     if (this.ShouldUseEnterpriseArchitectReader)
                     {
                         dataTypeRow["Documentation"] = primitiveType.QueryDocumentationFromExtensions();
-                        
                     }
                     else
                     {

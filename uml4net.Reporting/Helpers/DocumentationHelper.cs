@@ -25,6 +25,7 @@ namespace uml4net.Reporting.Helpers
     using HandlebarsDotNet;
 
     using uml4net.CommonStructure;
+
     using uml4net.xmi.Extensions.EnterpriseArchitect.Extensions;
 
     /// <summary>

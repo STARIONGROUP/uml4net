@@ -63,11 +63,15 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure.Readers
         /// <param name="xmiReaderSettings">
         /// The <see cref="IXmiReaderSettings"/> used to configure reading
         /// </param>
+        /// <param name="nameSpaceResolver">
+        /// The (injected) <see cref="INameSpaceResolver"/> used to resolve a namespace to one of the
+        /// <see cref="KnowNamespacePrefixes"/>
+        /// </param>
         /// <param name="loggerFactory">
         /// The (injected) <see cref="ILoggerFactory"/> used to set up logging
         /// </param>
-        public NoteLinkReader(IXmiElementCache cache, IXmiElementReaderFacade xmiElementReaderFacade, IXmiReaderSettings xmiReaderSettings, ILoggerFactory loggerFactory)
-        : base(cache, xmiElementReaderFacade, xmiReaderSettings, loggerFactory)
+        public NoteLinkReader(IXmiElementCache cache, IXmiElementReaderFacade xmiElementReaderFacade, IXmiReaderSettings xmiReaderSettings, INameSpaceResolver nameSpaceResolver, ILoggerFactory loggerFactory)
+        : base(cache, xmiElementReaderFacade, xmiReaderSettings, nameSpaceResolver, loggerFactory)
         {
             this.logger = loggerFactory == null ? NullLogger<NoteLinkReader>.Instance : loggerFactory.CreateLogger<NoteLinkReader>();
         }
@@ -110,7 +114,7 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure.Readers
 
             if (xmlReader.MoveToContent() == XmlNodeType.Element)
             {
-                this.logger.LogTrace("reading NoteLink at line:position {LineNumber}:{LinePosition}", xmlLineInfo.LineNumber, xmlLineInfo.LinePosition);
+                this.logger.LogTrace("reading NoteLink at line:position {LineNumber}:{LinePosition}", xmlLineInfo?.LineNumber, xmlLineInfo?.LinePosition);
 
                 var xmiType = "NoteLink";
 
@@ -140,16 +144,16 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure.Readers
                     this.logger.LogCritical("Failed to add element type [{Poco}] with id [{Id}] as it was already in the Cache. The XMI document seems to have duplicate xmi:id values", "NoteLink", poco.XmiId);
                 }
 
-                poco.End = xmlReader.GetAttribute("end");
+                poco.End = xmlReader.GetAttribute("end") ?? xmlReader.GetAttribute("end", this.NameSpaceResolver.UmlNameSpace);
 
-                var extendedElementXmlAttribute = xmlReader.GetAttribute("extendedElement");
+                var extendedElementXmlAttribute = xmlReader.GetAttribute("extendedElement") ?? xmlReader.GetAttribute("extendedElement", this.NameSpaceResolver.UmlNameSpace);
 
                 if (!string.IsNullOrEmpty(extendedElementXmlAttribute))
                 {
                     poco.SingleValueReferencePropertyIdentifiers.Add("extendedElement", extendedElementXmlAttribute);
                 }
 
-                poco.Start = xmlReader.GetAttribute("start");
+                poco.Start = xmlReader.GetAttribute("start") ?? xmlReader.GetAttribute("start", this.NameSpaceResolver.UmlNameSpace);
 
 
                 while (xmlReader.Read())

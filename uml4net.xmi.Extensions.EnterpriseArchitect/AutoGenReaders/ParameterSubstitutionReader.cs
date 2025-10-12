@@ -63,11 +63,15 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure.Readers
         /// <param name="xmiReaderSettings">
         /// The <see cref="IXmiReaderSettings"/> used to configure reading
         /// </param>
+        /// <param name="nameSpaceResolver">
+        /// The (injected) <see cref="INameSpaceResolver"/> used to resolve a namespace to one of the
+        /// <see cref="KnowNamespacePrefixes"/>
+        /// </param>
         /// <param name="loggerFactory">
         /// The (injected) <see cref="ILoggerFactory"/> used to set up logging
         /// </param>
-        public ParameterSubstitutionReader(IXmiElementCache cache, IXmiElementReaderFacade xmiElementReaderFacade, IXmiReaderSettings xmiReaderSettings, ILoggerFactory loggerFactory)
-        : base(cache, xmiElementReaderFacade, xmiReaderSettings, loggerFactory)
+        public ParameterSubstitutionReader(IXmiElementCache cache, IXmiElementReaderFacade xmiElementReaderFacade, IXmiReaderSettings xmiReaderSettings, INameSpaceResolver nameSpaceResolver, ILoggerFactory loggerFactory)
+        : base(cache, xmiElementReaderFacade, xmiReaderSettings, nameSpaceResolver, loggerFactory)
         {
             this.logger = loggerFactory == null ? NullLogger<ParameterSubstitutionReader>.Instance : loggerFactory.CreateLogger<ParameterSubstitutionReader>();
         }
@@ -110,7 +114,7 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure.Readers
 
             if (xmlReader.MoveToContent() == XmlNodeType.Element)
             {
-                this.logger.LogTrace("reading ParameterSubstitution at line:position {LineNumber}:{LinePosition}", xmlLineInfo.LineNumber, xmlLineInfo.LinePosition);
+                this.logger.LogTrace("reading ParameterSubstitution at line:position {LineNumber}:{LinePosition}", xmlLineInfo?.LineNumber, xmlLineInfo?.LinePosition);
 
                 var xmiType = "ParameterSubstitution";
 
@@ -140,20 +144,20 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure.Readers
                     this.logger.LogCritical("Failed to add element type [{Poco}] with id [{Id}] as it was already in the Cache. The XMI document seems to have duplicate xmi:id values", "ParameterSubstitution", poco.XmiId);
                 }
 
-                poco.Actual = xmlReader.GetAttribute("actual");
+                poco.Actual = xmlReader.GetAttribute("actual") ?? xmlReader.GetAttribute("actual", this.NameSpaceResolver.UmlNameSpace);
 
-                poco.ActualName = xmlReader.GetAttribute("actualName");
+                poco.ActualName = xmlReader.GetAttribute("actualName") ?? xmlReader.GetAttribute("actualName", this.NameSpaceResolver.UmlNameSpace);
 
-                var extendedElementXmlAttribute = xmlReader.GetAttribute("extendedElement");
+                var extendedElementXmlAttribute = xmlReader.GetAttribute("extendedElement") ?? xmlReader.GetAttribute("extendedElement", this.NameSpaceResolver.UmlNameSpace);
 
                 if (!string.IsNullOrEmpty(extendedElementXmlAttribute))
                 {
                     poco.SingleValueReferencePropertyIdentifiers.Add("extendedElement", extendedElementXmlAttribute);
                 }
 
-                poco.Formal = xmlReader.GetAttribute("formal");
+                poco.Formal = xmlReader.GetAttribute("formal") ?? xmlReader.GetAttribute("formal", this.NameSpaceResolver.UmlNameSpace);
 
-                poco.FormalName = xmlReader.GetAttribute("formalName");
+                poco.FormalName = xmlReader.GetAttribute("formalName") ?? xmlReader.GetAttribute("formalName", this.NameSpaceResolver.UmlNameSpace);
 
 
                 while (xmlReader.Read())
@@ -178,7 +182,7 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure.Readers
                                 poco.FormalName = xmlReader.ReadElementContentAsString();
                                 break;
                             case "xrefs":
-                                var xrefsValue = (IXrefs)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.LoggerFactory, "Xrefs", true);
+                                var xrefsValue = (IXrefs)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.NameSpaceResolver, this.LoggerFactory, "Xrefs", true);
                                 poco.Xrefs.Add(xrefsValue);
                                 break;
                             default:

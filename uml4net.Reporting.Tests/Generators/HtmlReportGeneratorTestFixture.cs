@@ -44,6 +44,8 @@ namespace uml4net.Reporting.Tests.Generators
 
         private FileInfo sysml2PimFileInfo;
 
+        private FileInfo magicDrawFileInfo;
+
         private FileInfo eAExportFileInfo;
 
         [SetUp]
@@ -65,6 +67,7 @@ namespace uml4net.Reporting.Tests.Generators
             this.sysml2ModelFileInfo = new FileInfo(Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData", "SysML.uml"));
             this.sysml2PimFileInfo = new FileInfo(Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData", "SysML2Pim.uml"));
             this.eAExportFileInfo = new FileInfo(Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData", "EAExport.xmi"));
+            this.magicDrawFileInfo = new FileInfo(Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData", "BallotDefinitionUMLModel.xml"));
         }
 
         [Test]
@@ -134,6 +137,16 @@ namespace uml4net.Reporting.Tests.Generators
             var reportFileInfo = new FileInfo(Path.Combine(TestContext.CurrentContext.TestDirectory, "EAExport.html"));
 
             Assert.That(() => this.htmlReportGenerator.GenerateReport(this.eAExportFileInfo, this.umlModelFileInfo.Directory, "", "EA_Model", true, null, reportFileInfo), Throws.Nothing);
+        }
+
+        [Test]
+        public void Verify_that_the_report_generator_generators_a_report_of_md_model()
+        {
+            this.htmlReportGenerator = new HtmlReportGenerator(this.inheritanceDiagramRenderer, this.loggerFactory);
+            
+            var reportFileInfo = new FileInfo(Path.Combine(TestContext.CurrentContext.TestDirectory, "MDExport.html"));
+
+            Assert.That(() => this.htmlReportGenerator.GenerateReport(this.magicDrawFileInfo, this.umlModelFileInfo.Directory, "", "Data", true, null, reportFileInfo), Throws.Nothing);
         }
     }
 }

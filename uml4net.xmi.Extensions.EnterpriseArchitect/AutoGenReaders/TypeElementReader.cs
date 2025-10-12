@@ -63,11 +63,15 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure.Readers
         /// <param name="xmiReaderSettings">
         /// The <see cref="IXmiReaderSettings"/> used to configure reading
         /// </param>
+        /// <param name="nameSpaceResolver">
+        /// The (injected) <see cref="INameSpaceResolver"/> used to resolve a namespace to one of the
+        /// <see cref="KnowNamespacePrefixes"/>
+        /// </param>
         /// <param name="loggerFactory">
         /// The (injected) <see cref="ILoggerFactory"/> used to set up logging
         /// </param>
-        public TypeElementReader(IXmiElementCache cache, IXmiElementReaderFacade xmiElementReaderFacade, IXmiReaderSettings xmiReaderSettings, ILoggerFactory loggerFactory)
-        : base(cache, xmiElementReaderFacade, xmiReaderSettings, loggerFactory)
+        public TypeElementReader(IXmiElementCache cache, IXmiElementReaderFacade xmiElementReaderFacade, IXmiReaderSettings xmiReaderSettings, INameSpaceResolver nameSpaceResolver, ILoggerFactory loggerFactory)
+        : base(cache, xmiElementReaderFacade, xmiReaderSettings, nameSpaceResolver, loggerFactory)
         {
             this.logger = loggerFactory == null ? NullLogger<TypeElementReader>.Instance : loggerFactory.CreateLogger<TypeElementReader>();
         }
@@ -110,7 +114,7 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure.Readers
 
             if (xmlReader.MoveToContent() == XmlNodeType.Element)
             {
-                this.logger.LogTrace("reading TypeElement at line:position {LineNumber}:{LinePosition}", xmlLineInfo.LineNumber, xmlLineInfo.LinePosition);
+                this.logger.LogTrace("reading TypeElement at line:position {LineNumber}:{LinePosition}", xmlLineInfo?.LineNumber, xmlLineInfo?.LinePosition);
 
                 var xmiType = "TypeElement";
 
@@ -140,60 +144,60 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure.Readers
                     this.logger.LogCritical("Failed to add element type [{Poco}] with id [{Id}] as it was already in the Cache. The XMI document seems to have duplicate xmi:id values", "TypeElement", poco.XmiId);
                 }
 
-                poco.Concurrency = xmlReader.GetAttribute("concurrency");
+                poco.Concurrency = xmlReader.GetAttribute("concurrency") ?? xmlReader.GetAttribute("concurrency", this.NameSpaceResolver.UmlNameSpace);
 
-                var constXmlAttribute = xmlReader.GetAttribute("const");
+                var constXmlAttribute = xmlReader.GetAttribute("const") ?? xmlReader.GetAttribute("const", this.NameSpaceResolver.UmlNameSpace);
 
                 if (!string.IsNullOrEmpty(constXmlAttribute))
                 {
                     poco.Const = bool.Parse(constXmlAttribute);
                 }
 
-                var isAbstractXmlAttribute = xmlReader.GetAttribute("isAbstract");
+                var isAbstractXmlAttribute = xmlReader.GetAttribute("isAbstract") ?? xmlReader.GetAttribute("isAbstract", this.NameSpaceResolver.UmlNameSpace);
 
                 if (!string.IsNullOrEmpty(isAbstractXmlAttribute))
                 {
                     poco.IsAbstract = bool.Parse(isAbstractXmlAttribute);
                 }
 
-                var isQueryXmlAttribute = xmlReader.GetAttribute("isQuery");
+                var isQueryXmlAttribute = xmlReader.GetAttribute("isQuery") ?? xmlReader.GetAttribute("isQuery", this.NameSpaceResolver.UmlNameSpace);
 
                 if (!string.IsNullOrEmpty(isQueryXmlAttribute))
                 {
                     poco.IsQuery = bool.Parse(isQueryXmlAttribute);
                 }
 
-                var pureXmlAttribute = xmlReader.GetAttribute("pure");
+                var pureXmlAttribute = xmlReader.GetAttribute("pure") ?? xmlReader.GetAttribute("pure", this.NameSpaceResolver.UmlNameSpace);
 
                 if (!string.IsNullOrEmpty(pureXmlAttribute))
                 {
                     poco.Pure = int.Parse(pureXmlAttribute);
                 }
 
-                var returnarrayXmlAttribute = xmlReader.GetAttribute("returnarray");
+                var returnarrayXmlAttribute = xmlReader.GetAttribute("returnarray") ?? xmlReader.GetAttribute("returnarray", this.NameSpaceResolver.UmlNameSpace);
 
                 if (!string.IsNullOrEmpty(returnarrayXmlAttribute))
                 {
                     poco.Returnarray = int.Parse(returnarrayXmlAttribute);
                 }
 
-                var staticXmlAttribute = xmlReader.GetAttribute("static");
+                var staticXmlAttribute = xmlReader.GetAttribute("static") ?? xmlReader.GetAttribute("static", this.NameSpaceResolver.UmlNameSpace);
 
                 if (!string.IsNullOrEmpty(staticXmlAttribute))
                 {
                     poco.Static = bool.Parse(staticXmlAttribute);
                 }
 
-                poco.Stereotype = xmlReader.GetAttribute("stereotype");
+                poco.Stereotype = xmlReader.GetAttribute("stereotype") ?? xmlReader.GetAttribute("stereotype", this.NameSpaceResolver.UmlNameSpace);
 
-                var synchronisedXmlAttribute = xmlReader.GetAttribute("synchronised");
+                var synchronisedXmlAttribute = xmlReader.GetAttribute("synchronised") ?? xmlReader.GetAttribute("synchronised", this.NameSpaceResolver.UmlNameSpace);
 
                 if (!string.IsNullOrEmpty(synchronisedXmlAttribute))
                 {
                     poco.Synchronised = int.Parse(synchronisedXmlAttribute);
                 }
 
-                poco.Type = xmlReader.GetAttribute("type");
+                poco.Type = xmlReader.GetAttribute("type") ?? xmlReader.GetAttribute("type", this.NameSpaceResolver.UmlNameSpace);
 
 
                 while (xmlReader.Read())

@@ -63,11 +63,15 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure.Readers
         /// <param name="xmiReaderSettings">
         /// The <see cref="IXmiReaderSettings"/> used to configure reading
         /// </param>
+        /// <param name="nameSpaceResolver">
+        /// The (injected) <see cref="INameSpaceResolver"/> used to resolve a namespace to one of the
+        /// <see cref="KnowNamespacePrefixes"/>
+        /// </param>
         /// <param name="loggerFactory">
         /// The (injected) <see cref="ILoggerFactory"/> used to set up logging
         /// </param>
-        public ExtendedPropertiesReader(IXmiElementCache cache, IXmiElementReaderFacade xmiElementReaderFacade, IXmiReaderSettings xmiReaderSettings, ILoggerFactory loggerFactory)
-        : base(cache, xmiElementReaderFacade, xmiReaderSettings, loggerFactory)
+        public ExtendedPropertiesReader(IXmiElementCache cache, IXmiElementReaderFacade xmiElementReaderFacade, IXmiReaderSettings xmiReaderSettings, INameSpaceResolver nameSpaceResolver, ILoggerFactory loggerFactory)
+        : base(cache, xmiElementReaderFacade, xmiReaderSettings, nameSpaceResolver, loggerFactory)
         {
             this.logger = loggerFactory == null ? NullLogger<ExtendedPropertiesReader>.Instance : loggerFactory.CreateLogger<ExtendedPropertiesReader>();
         }
@@ -110,7 +114,7 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure.Readers
 
             if (xmlReader.MoveToContent() == XmlNodeType.Element)
             {
-                this.logger.LogTrace("reading ExtendedProperties at line:position {LineNumber}:{LinePosition}", xmlLineInfo.LineNumber, xmlLineInfo.LinePosition);
+                this.logger.LogTrace("reading ExtendedProperties at line:position {LineNumber}:{LinePosition}", xmlLineInfo?.LineNumber, xmlLineInfo?.LinePosition);
 
                 var xmiType = "ExtendedProperties";
 
@@ -140,11 +144,11 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure.Readers
                     this.logger.LogCritical("Failed to add element type [{Poco}] with id [{Id}] as it was already in the Cache. The XMI document seems to have duplicate xmi:id values", "ExtendedProperties", poco.XmiId);
                 }
 
-                poco.Diagram = xmlReader.GetAttribute("diagram");
+                poco.Diagram = xmlReader.GetAttribute("diagram") ?? xmlReader.GetAttribute("diagram", this.NameSpaceResolver.UmlNameSpace);
 
-                poco.PackageName = xmlReader.GetAttribute("packageName");
+                poco.PackageName = xmlReader.GetAttribute("packageName") ?? xmlReader.GetAttribute("packageName", this.NameSpaceResolver.UmlNameSpace);
 
-                var taggedXmlAttribute = xmlReader.GetAttribute("tagged");
+                var taggedXmlAttribute = xmlReader.GetAttribute("tagged") ?? xmlReader.GetAttribute("tagged", this.NameSpaceResolver.UmlNameSpace);
 
                 if (!string.IsNullOrEmpty(taggedXmlAttribute))
                 {

@@ -47,10 +47,10 @@ public class XmiElementExtensionReaderFacade : XmiElementReaderFacade
 public XmiElementExtensionReaderFacade()
 {
 {{ #each this.Classes as | class | }}
-this.ReaderCache["{{ class.Name }}"] = (cache, xmiReaderSettings, loggerFactory, xmlReader, documentName, namespaceUri) =>
+this.ReaderCache["{{ class.Name }}"] = (cache, xmiReaderSettings, nameSpaceResolver, loggerFactory, xmlReader, documentName, namespaceUri) =>
 {
 using var subXmlReader = xmlReader.ReadSubtree();
-var {{ String.LowerCaseFirstLetter class.Name }}Reader = new {{ class.Name }}Reader(cache, this, xmiReaderSettings, loggerFactory);
+var {{ String.LowerCaseFirstLetter class.Name }}Reader = new {{ class.Name }}Reader(cache, this, xmiReaderSettings, nameSpaceResolver, loggerFactory);
 return {{ String.LowerCaseFirstLetter class.Name }}Reader.Read(subXmlReader, documentName, namespaceUri);
 };
 {{#unless @last}}

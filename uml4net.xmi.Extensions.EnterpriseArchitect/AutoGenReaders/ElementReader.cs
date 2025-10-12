@@ -63,11 +63,15 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure.Readers
         /// <param name="xmiReaderSettings">
         /// The <see cref="IXmiReaderSettings"/> used to configure reading
         /// </param>
+        /// <param name="nameSpaceResolver">
+        /// The (injected) <see cref="INameSpaceResolver"/> used to resolve a namespace to one of the
+        /// <see cref="KnowNamespacePrefixes"/>
+        /// </param>
         /// <param name="loggerFactory">
         /// The (injected) <see cref="ILoggerFactory"/> used to set up logging
         /// </param>
-        public ElementReader(IXmiElementCache cache, IXmiElementReaderFacade xmiElementReaderFacade, IXmiReaderSettings xmiReaderSettings, ILoggerFactory loggerFactory)
-        : base(cache, xmiElementReaderFacade, xmiReaderSettings, loggerFactory)
+        public ElementReader(IXmiElementCache cache, IXmiElementReaderFacade xmiElementReaderFacade, IXmiReaderSettings xmiReaderSettings, INameSpaceResolver nameSpaceResolver, ILoggerFactory loggerFactory)
+        : base(cache, xmiElementReaderFacade, xmiReaderSettings, nameSpaceResolver, loggerFactory)
         {
             this.logger = loggerFactory == null ? NullLogger<ElementReader>.Instance : loggerFactory.CreateLogger<ElementReader>();
         }
@@ -110,7 +114,7 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure.Readers
 
             if (xmlReader.MoveToContent() == XmlNodeType.Element)
             {
-                this.logger.LogTrace("reading Element at line:position {LineNumber}:{LinePosition}", xmlLineInfo.LineNumber, xmlLineInfo.LinePosition);
+                this.logger.LogTrace("reading Element at line:position {LineNumber}:{LinePosition}", xmlLineInfo?.LineNumber, xmlLineInfo?.LinePosition);
 
                 var xmiType = "Element";
 
@@ -140,16 +144,16 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure.Readers
                     this.logger.LogCritical("Failed to add element type [{Poco}] with id [{Id}] as it was already in the Cache. The XMI document seems to have duplicate xmi:id values", "Element", poco.XmiId);
                 }
 
-                var extendedElementXmlAttribute = xmlReader.GetAttribute("extendedElement");
+                var extendedElementXmlAttribute = xmlReader.GetAttribute("extendedElement") ?? xmlReader.GetAttribute("extendedElement", this.NameSpaceResolver.UmlNameSpace);
 
                 if (!string.IsNullOrEmpty(extendedElementXmlAttribute))
                 {
                     poco.SingleValueReferencePropertyIdentifiers.Add("extendedElement", extendedElementXmlAttribute);
                 }
 
-                poco.Name = xmlReader.GetAttribute("name");
+                poco.Name = xmlReader.GetAttribute("name") ?? xmlReader.GetAttribute("name", this.NameSpaceResolver.UmlNameSpace);
 
-                poco.Scope = xmlReader.GetAttribute("scope");
+                poco.Scope = xmlReader.GetAttribute("scope") ?? xmlReader.GetAttribute("scope", this.NameSpaceResolver.UmlNameSpace);
 
 
                 while (xmlReader.Read())
@@ -159,76 +163,76 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure.Readers
                         switch (xmlReader.LocalName.LowerCaseFirstLetter())
                         {
                             case "attributes":
-                                var attributesValue = (IAttributesCollection)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.LoggerFactory, "AttributesCollection", true);
+                                var attributesValue = (IAttributesCollection)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.NameSpaceResolver, this.LoggerFactory, "AttributesCollection", true);
                                 poco.Attributes.Add(attributesValue);
                                 break;
                             case "code":
-                                var codeValue = (ICode)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.LoggerFactory, "Code", true);
+                                var codeValue = (ICode)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.NameSpaceResolver, this.LoggerFactory, "Code", true);
                                 poco.Code.Add(codeValue);
                                 break;
                             case "extendedElement":
                                 this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "extendedElement");
                                 break;
                             case "extendedProperties":
-                                var extendedPropertiesValue = (IExtendedProperties)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.LoggerFactory, "ExtendedProperties", true);
+                                var extendedPropertiesValue = (IExtendedProperties)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.NameSpaceResolver, this.LoggerFactory, "ExtendedProperties", true);
                                 poco.ExtendedProperties.Add(extendedPropertiesValue);
                                 break;
                             case "flags":
-                                var flagsValue = (IFlags)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.LoggerFactory, "Flags", true);
+                                var flagsValue = (IFlags)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.NameSpaceResolver, this.LoggerFactory, "Flags", true);
                                 poco.Flags.Add(flagsValue);
                                 break;
                             case "links":
-                                var linksValue = (ILinksCollection)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.LoggerFactory, "LinksCollection", true);
+                                var linksValue = (ILinksCollection)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.NameSpaceResolver, this.LoggerFactory, "LinksCollection", true);
                                 poco.Links.Add(linksValue);
                                 break;
                             case "model":
-                                var modelValue = (IModel)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.LoggerFactory, "Model", true);
+                                var modelValue = (IModel)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.NameSpaceResolver, this.LoggerFactory, "Model", true);
                                 poco.Model.Add(modelValue);
                                 break;
                             case "name":
                                 poco.Name = xmlReader.ReadElementContentAsString();
                                 break;
                             case "operations":
-                                var operationsValue = (IOperations)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.LoggerFactory, "Operations", true);
+                                var operationsValue = (IOperations)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.NameSpaceResolver, this.LoggerFactory, "Operations", true);
                                 poco.Operations.Add(operationsValue);
                                 break;
                             case "packageproperties":
-                                var packagepropertiesValue = (IPackageProperties)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.LoggerFactory, "PackageProperties", true);
+                                var packagepropertiesValue = (IPackageProperties)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.NameSpaceResolver, this.LoggerFactory, "PackageProperties", true);
                                 poco.Packageproperties.Add(packagepropertiesValue);
                                 break;
                             case "paths":
-                                var pathsValue = (IPaths)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.LoggerFactory, "Paths", true);
+                                var pathsValue = (IPaths)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.NameSpaceResolver, this.LoggerFactory, "Paths", true);
                                 poco.Paths.Add(pathsValue);
                                 break;
                             case "project":
-                                var projectValue = (IProject)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.LoggerFactory, "Project", true);
+                                var projectValue = (IProject)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.NameSpaceResolver, this.LoggerFactory, "Project", true);
                                 poco.Project.Add(projectValue);
                                 break;
                             case "properties":
-                                var propertiesValue = (IElementProperties)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.LoggerFactory, "ElementProperties", true);
+                                var propertiesValue = (IElementProperties)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.NameSpaceResolver, this.LoggerFactory, "ElementProperties", true);
                                 poco.Properties.Add(propertiesValue);
                                 break;
                             case "scope":
                                 poco.Scope = xmlReader.ReadElementContentAsString();
                                 break;
                             case "style":
-                                var styleValue = (IAppearanceStyle)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.LoggerFactory, "AppearanceStyle", true);
+                                var styleValue = (IAppearanceStyle)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.NameSpaceResolver, this.LoggerFactory, "AppearanceStyle", true);
                                 poco.Style.Add(styleValue);
                                 break;
                             case "tags":
-                                var tagsValue = (ITagsCollection)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.LoggerFactory, "TagsCollection", true);
+                                var tagsValue = (ITagsCollection)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.NameSpaceResolver, this.LoggerFactory, "TagsCollection", true);
                                 poco.Tags.Add(tagsValue);
                                 break;
                             case "templateParameters":
-                                var templateParametersValue = (ITemplateParametersCollection)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.LoggerFactory, "TemplateParametersCollection", true);
+                                var templateParametersValue = (ITemplateParametersCollection)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.NameSpaceResolver, this.LoggerFactory, "TemplateParametersCollection", true);
                                 poco.TemplateParameters.Add(templateParametersValue);
                                 break;
                             case "times":
-                                var timesValue = (ITimes)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.LoggerFactory, "Times", true);
+                                var timesValue = (ITimes)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.NameSpaceResolver, this.LoggerFactory, "Times", true);
                                 poco.Times.Add(timesValue);
                                 break;
                             case "xrefs":
-                                var xrefsValue = (IXrefs)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.LoggerFactory, "Xrefs", true);
+                                var xrefsValue = (IXrefs)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.NameSpaceResolver, this.LoggerFactory, "Xrefs", true);
                                 poco.Xrefs.Add(xrefsValue);
                                 break;
                             default:

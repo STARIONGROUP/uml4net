@@ -63,11 +63,15 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure.Readers
         /// <param name="xmiReaderSettings">
         /// The <see cref="IXmiReaderSettings"/> used to configure reading
         /// </param>
+        /// <param name="nameSpaceResolver">
+        /// The (injected) <see cref="INameSpaceResolver"/> used to resolve a namespace to one of the
+        /// <see cref="KnowNamespacePrefixes"/>
+        /// </param>
         /// <param name="loggerFactory">
         /// The (injected) <see cref="ILoggerFactory"/> used to set up logging
         /// </param>
-        public ConnectorAppearanceReader(IXmiElementCache cache, IXmiElementReaderFacade xmiElementReaderFacade, IXmiReaderSettings xmiReaderSettings, ILoggerFactory loggerFactory)
-        : base(cache, xmiElementReaderFacade, xmiReaderSettings, loggerFactory)
+        public ConnectorAppearanceReader(IXmiElementCache cache, IXmiElementReaderFacade xmiElementReaderFacade, IXmiReaderSettings xmiReaderSettings, INameSpaceResolver nameSpaceResolver, ILoggerFactory loggerFactory)
+        : base(cache, xmiElementReaderFacade, xmiReaderSettings, nameSpaceResolver, loggerFactory)
         {
             this.logger = loggerFactory == null ? NullLogger<ConnectorAppearanceReader>.Instance : loggerFactory.CreateLogger<ConnectorAppearanceReader>();
         }
@@ -110,7 +114,7 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure.Readers
 
             if (xmlReader.MoveToContent() == XmlNodeType.Element)
             {
-                this.logger.LogTrace("reading ConnectorAppearance at line:position {LineNumber}:{LinePosition}", xmlLineInfo.LineNumber, xmlLineInfo.LinePosition);
+                this.logger.LogTrace("reading ConnectorAppearance at line:position {LineNumber}:{LinePosition}", xmlLineInfo?.LineNumber, xmlLineInfo?.LinePosition);
 
                 var xmiType = "ConnectorAppearance";
 
@@ -140,42 +144,42 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure.Readers
                     this.logger.LogCritical("Failed to add element type [{Poco}] with id [{Id}] as it was already in the Cache. The XMI document seems to have duplicate xmi:id values", "ConnectorAppearance", poco.XmiId);
                 }
 
-                var headStyleXmlAttribute = xmlReader.GetAttribute("headStyle");
+                var headStyleXmlAttribute = xmlReader.GetAttribute("headStyle") ?? xmlReader.GetAttribute("headStyle", this.NameSpaceResolver.UmlNameSpace);
 
                 if (!string.IsNullOrEmpty(headStyleXmlAttribute))
                 {
                     poco.HeadStyle = int.Parse(headStyleXmlAttribute);
                 }
 
-                var linecolorXmlAttribute = xmlReader.GetAttribute("linecolor");
+                var linecolorXmlAttribute = xmlReader.GetAttribute("linecolor") ?? xmlReader.GetAttribute("linecolor", this.NameSpaceResolver.UmlNameSpace);
 
                 if (!string.IsNullOrEmpty(linecolorXmlAttribute))
                 {
                     poco.Linecolor = int.Parse(linecolorXmlAttribute);
                 }
 
-                var linemodeXmlAttribute = xmlReader.GetAttribute("linemode");
+                var linemodeXmlAttribute = xmlReader.GetAttribute("linemode") ?? xmlReader.GetAttribute("linemode", this.NameSpaceResolver.UmlNameSpace);
 
                 if (!string.IsNullOrEmpty(linemodeXmlAttribute))
                 {
                     poco.Linemode = int.Parse(linemodeXmlAttribute);
                 }
 
-                var lineStyleXmlAttribute = xmlReader.GetAttribute("lineStyle");
+                var lineStyleXmlAttribute = xmlReader.GetAttribute("lineStyle") ?? xmlReader.GetAttribute("lineStyle", this.NameSpaceResolver.UmlNameSpace);
 
                 if (!string.IsNullOrEmpty(lineStyleXmlAttribute))
                 {
                     poco.LineStyle = int.Parse(lineStyleXmlAttribute);
                 }
 
-                var linewidthXmlAttribute = xmlReader.GetAttribute("linewidth");
+                var linewidthXmlAttribute = xmlReader.GetAttribute("linewidth") ?? xmlReader.GetAttribute("linewidth", this.NameSpaceResolver.UmlNameSpace);
 
                 if (!string.IsNullOrEmpty(linewidthXmlAttribute))
                 {
                     poco.Linewidth = int.Parse(linewidthXmlAttribute);
                 }
 
-                var seqnoXmlAttribute = xmlReader.GetAttribute("seqno");
+                var seqnoXmlAttribute = xmlReader.GetAttribute("seqno") ?? xmlReader.GetAttribute("seqno", this.NameSpaceResolver.UmlNameSpace);
 
                 if (!string.IsNullOrEmpty(seqnoXmlAttribute))
                 {

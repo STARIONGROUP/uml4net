@@ -21,7 +21,6 @@
 namespace uml4net.xmi.Readers
 {
     using System;
-    using System.Linq;
     using System.Xml;
 
     using Microsoft.Extensions.Logging;
@@ -43,6 +42,12 @@ namespace uml4net.xmi.Readers
         private readonly IXmiReaderSettings xmiReaderSettings;
 
         /// <summary>
+        /// The (injected) <see cref="INameSpaceResolver"/> used to resolve a namespace to one of the
+        /// <see cref="KnowNamespacePrefixes"/> constants
+        /// </summary>
+        private readonly INameSpaceResolver nameSpaceResolver;
+
+        /// <summary>
         /// The (injected) logger
         /// </summary>
         private readonly ILogger<DocumentationReader> logger;
@@ -53,12 +58,17 @@ namespace uml4net.xmi.Readers
         /// <param name="xmiReaderSettings">
         /// The <see cref="IXmiReaderSettings"/> used to configure reading
         /// </param>
+        /// <param name="nameSpaceResolver">
+        /// The (injected) <see cref="INameSpaceResolver"/> used to resolve a namespace to one of the
+        /// <see cref="KnowNamespacePrefixes"/> constants
+        /// </param>
         /// <param name="loggerFactory">
         /// The (injected) <see cref="ILoggerFactory"/> used to set up logging
         /// </param>
-        public DocumentationReader(IXmiReaderSettings xmiReaderSettings, ILoggerFactory loggerFactory)
+        public DocumentationReader(IXmiReaderSettings xmiReaderSettings, INameSpaceResolver nameSpaceResolver, ILoggerFactory loggerFactory)
         {
             this.xmiReaderSettings = xmiReaderSettings;
+            this.nameSpaceResolver = nameSpaceResolver;
             this.logger = loggerFactory == null ? NullLogger<DocumentationReader>.Instance : loggerFactory.CreateLogger<DocumentationReader>();
         }
 
@@ -68,10 +78,13 @@ namespace uml4net.xmi.Readers
         /// <param name="xmlReader">
         /// an instance of <see cref="XmlReader"/>
         /// </param>
+        /// <param name="namespaceUri">
+        /// the namespace that the <see cref="IXmiElement"/> belongs to
+        /// </param>
         /// <returns>
         /// an instance of <see cref="Documentation"/>
         /// </returns>
-        public Documentation Read(XmlReader xmlReader)
+        public Documentation Read(XmlReader xmlReader, string namespaceUri)
         {
             if (xmlReader == null)
             {
@@ -86,107 +99,137 @@ namespace uml4net.xmi.Readers
             {
                 this.logger.LogTrace("reading Documentation at line:position {LineNumber}:{LinePosition}", xmlLineInfo?.LineNumber, xmlLineInfo?.LinePosition);
 
-                documentation.Contact = xmlReader.GetAttribute("contact");
-                documentation.Exporter = xmlReader.GetAttribute("exporter");
-                documentation.ExporterID = xmlReader.GetAttribute("exporterID");
-                documentation.ExporterVersion = xmlReader.GetAttribute("exporterVersion");
+                namespaceUri = string.IsNullOrEmpty(xmlReader.NamespaceURI) ? namespaceUri : xmlReader.NamespaceURI;
 
-                var longDescriptionAttributeValue = xmlReader.GetAttribute("longDescription");
+                documentation.Contact = xmlReader.GetAttribute("contact") ?? xmlReader.GetAttribute("contact", namespaceUri);
+                documentation.Exporter = xmlReader.GetAttribute("exporter") ?? xmlReader.GetAttribute("exporter", namespaceUri);
+                documentation.ExporterID = xmlReader.GetAttribute("exporterID") ?? xmlReader.GetAttribute("exporterID", namespaceUri);
+                documentation.ExporterVersion = xmlReader.GetAttribute("exporterVersion") ?? xmlReader.GetAttribute("exporterVersion", namespaceUri);
+
+                var longDescriptionAttributeValue = xmlReader.GetAttribute("longDescription") ?? xmlReader.GetAttribute("longDescription", namespaceUri);
                 if (!string.IsNullOrEmpty(longDescriptionAttributeValue))
                 {
                     documentation.LongDescription.Add(longDescriptionAttributeValue);
                 }
 
-                var shortDescriptionAttributeValue = xmlReader.GetAttribute("shortDescription");
+                var shortDescriptionAttributeValue = xmlReader.GetAttribute("shortDescription") ?? xmlReader.GetAttribute("shortDescription", namespaceUri);
                 if (!string.IsNullOrEmpty(shortDescriptionAttributeValue))
                 {
                     documentation.ShortDescription.Add(shortDescriptionAttributeValue);
                 }
 
-                var noticeAttributeValue = xmlReader.GetAttribute("notice");
+                var noticeAttributeValue = xmlReader.GetAttribute("notice") ?? xmlReader.GetAttribute("notice", namespaceUri);
                 if (!string.IsNullOrEmpty(noticeAttributeValue))
                 {
                     documentation.Notice.Add(noticeAttributeValue);
                 }
 
-                var ownerAttributeValue = xmlReader.GetAttribute("owner");
+                var ownerAttributeValue = xmlReader.GetAttribute("owner") ?? xmlReader.GetAttribute("owner", namespaceUri);
                 if (!string.IsNullOrEmpty(ownerAttributeValue))
                 {
                     documentation.Owner.Add(ownerAttributeValue);
                 }
 
-                var timestampAttributeValue = xmlReader.GetAttribute("timestamp");
+                var timestampAttributeValue = xmlReader.GetAttribute("timestamp") ?? xmlReader.GetAttribute("timestamp", namespaceUri);
                 if (!string.IsNullOrEmpty(timestampAttributeValue))
                 {
-                    documentation.TimeStamp = XmlConvert.ToDateTime(timestampAttributeValue, XmlDateTimeSerializationMode.RoundtripKind);
+                    try
+                    {
+                        documentation.TimeStamp = XmlConvert.ToDateTime(timestampAttributeValue, XmlDateTimeSerializationMode.RoundtripKind);
+                    }
+                    catch (FormatException formatException)
+                    {
+                        documentation.TimeStamp = DateTime.MinValue;
+
+                        this.logger.LogWarning(formatException,"The Documentation Timestamp value could not be converted: {TimeStampValue}", timestampAttributeValue);
+                    }
                 }
 
                 while (xmlReader.Read())
                 {
                     if (xmlReader.NodeType == XmlNodeType.Element)
                     {
-                        if (xmlReader.Name == "xmi:Extension")
-                        {
-                            this.logger.LogInformation("Extensions in the Documentation Element are currently ignored - line:position {Line}:{Position}", xmlLineInfo?.LineNumber, xmlLineInfo?.LinePosition);
-                            xmlReader.Skip();
-                        }
+                        var activeNamespaceUri = string.IsNullOrEmpty(xmlReader.NamespaceURI) ? namespaceUri : xmlReader.NamespaceURI;
 
-                        switch (xmlReader.LocalName)
+                        var activePrefix = this.nameSpaceResolver.ResolvePrefix(activeNamespaceUri);
+
+                        switch (activePrefix, xmlReader.LocalName)
                         {
-                            case "contact":
+                            case (KnowNamespacePrefixes.Xmi, "Extension"):
+                                this.logger.LogInformation("Extensions in the Documentation Element are currently ignored - line:position {Line}:{Position}", xmlLineInfo?.LineNumber, xmlLineInfo?.LinePosition);
+                                xmlReader.Skip();
+                                break;
+
+                            case (KnowNamespacePrefixes.Xmi, "contact"):
                                 var contactElementValue = xmlReader.ReadElementContentAsString();
                                 if (!string.IsNullOrEmpty(contactElementValue))
                                 {
                                     documentation.Contact = contactElementValue;
                                 }
                                 break;
-                            case "exporter":
+                            case (KnowNamespacePrefixes.Xmi, "exporter"):
                                 var exporterElementValue = xmlReader.ReadElementContentAsString();
                                 if (!string.IsNullOrEmpty(exporterElementValue))
                                 {
                                     documentation.Exporter = exporterElementValue;
                                 }
                                 break;
-                            case "exporterID":
+                            case (KnowNamespacePrefixes.Xmi, "exporterID"):
                                 var exporterIDElementValue = xmlReader.ReadElementContentAsString();
                                 if (!string.IsNullOrEmpty(exporterIDElementValue))
                                 {
                                     documentation.ExporterID = exporterIDElementValue;
                                 }
                                 break;
-                            case "exporterVersion":
+                            case (KnowNamespacePrefixes.Xmi, "exporterVersion"):
                                 var exporterVersionElementValue = xmlReader.ReadElementContentAsString();
                                 if (!string.IsNullOrEmpty(exporterVersionElementValue))
                                 {
                                     documentation.ExporterVersion = exporterVersionElementValue;
                                 }
                                 break;
-                            case "longDescription":
+                            case (KnowNamespacePrefixes.Xmi, "longDescription"):
                                 var longDescriptionElementValue = xmlReader.ReadElementContentAsString();
                                 if (!string.IsNullOrEmpty(longDescriptionElementValue))
                                 {
                                     documentation.LongDescription.Add(longDescriptionElementValue);
                                 }
                                 break;
-                            case "shortDescription":
+                            case (KnowNamespacePrefixes.Xmi, "shortDescription"):
                                 var shortDescriptionElementValue = xmlReader.ReadElementContentAsString();
                                 if (!string.IsNullOrEmpty(shortDescriptionElementValue))
                                 {
                                     documentation.ShortDescription.Add(shortDescriptionElementValue);
                                 }
                                 break;
-                            case "notice":
+                            case (KnowNamespacePrefixes.Xmi, "notice"):
                                 var noticeElementValue = xmlReader.ReadElementContentAsString();
                                 if (!string.IsNullOrEmpty(noticeElementValue))
                                 {
                                     documentation.Notice.Add(noticeElementValue);
                                 }
                                 break;
-                            case "owner":
+                            case (KnowNamespacePrefixes.Xmi, "owner"):
                                 var ownerElementValue = xmlReader.ReadElementContentAsString();
                                 if (!string.IsNullOrEmpty(ownerElementValue))
                                 {
                                     documentation.Owner.Add(ownerElementValue);
+                                }
+                                break;
+                            case (KnowNamespacePrefixes.Xmi, "timestamp"):
+                                var timestampElementValue = xmlReader.ReadElementContentAsString();
+                                if (!string.IsNullOrEmpty(timestampElementValue))
+                                {
+                                    try
+                                    {
+                                        documentation.TimeStamp = XmlConvert.ToDateTime(timestampElementValue, XmlDateTimeSerializationMode.RoundtripKind);
+                                    }
+                                    catch (FormatException formatException)
+                                    {
+                                        documentation.TimeStamp = DateTime.MinValue;
+
+                                        this.logger.LogWarning(formatException,"The Documentation Timestamp value could not be converted: {TimeStampValue}", timestampElementValue);
+                                    }
                                 }
                                 break;
                             default:

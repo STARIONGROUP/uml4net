@@ -53,6 +53,10 @@ namespace uml4net.xmi.Readers
         /// <param name = "xmiReaderSettings" >
         /// The <see cref="IXmiReaderSettings"/> used to configure reading
         /// </param>
+        /// <param name="nameSpaceResolver">
+        /// The (injected) <see cref="INameSpaceResolver"/> used to resolve a namespace to one of the
+        /// <see cref="KnowNamespacePrefixes"/> constants
+        /// </param>
         /// <param name="loggerFactory">
         /// The <see cref="ILoggerFactory"/> to set up logging
         /// </param>
@@ -62,7 +66,7 @@ namespace uml4net.xmi.Readers
         /// </param>
         /// <param name="ignoreXmiType">
         /// Asserts that the xmi:type value should be ignored even if the attribute is present inside the XMI element.
-        /// Should be use in case of extension part reading.
+        /// Should be used in case of extension part reading.
         /// </param>
         /// <returns>
         /// an instance of <see cref="IXmiElement"/>
@@ -70,6 +74,6 @@ namespace uml4net.xmi.Readers
         /// <exception cref="InvalidOperationException">
         /// thrown when the xmi:type is not supported and noXmiElementReader was found
         /// </exception>
-        IXmiElement QueryXmiElement(XmlReader xmlReader, string documentName, string namespaceUri, IXmiElementCache cache, IXmiReaderSettings xmiReaderSettings, ILoggerFactory loggerFactory, string explicitTypeName = null, bool ignoreXmiType = false);
+        IXmiElement QueryXmiElement(XmlReader xmlReader, string documentName, string namespaceUri, IXmiElementCache cache, IXmiReaderSettings xmiReaderSettings, INameSpaceResolver nameSpaceResolver, ILoggerFactory loggerFactory, string explicitTypeName = null, bool ignoreXmiType = false);
     }
 }

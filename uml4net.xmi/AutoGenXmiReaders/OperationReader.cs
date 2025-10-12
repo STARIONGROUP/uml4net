@@ -75,11 +75,15 @@ namespace uml4net.xmi.Readers
         /// <param name="xmiReaderSettings">
         /// The <see cref="IXmiReaderSettings"/> used to configure reading
         /// </param>
+        /// <param name="nameSpaceResolver">
+        /// The (injected) <see cref="INameSpaceResolver"/> used to resolve a namespace to one of the
+        /// <see cref="KnowNamespacePrefixes"/>
+        /// </param>
         /// <param name="loggerFactory">
         /// The (injected) <see cref="ILoggerFactory"/> used to set up logging
         /// </param>
-        public OperationReader(IXmiElementCache cache, IXmiElementReaderFacade xmiElementReaderFacade, IXmiReaderSettings xmiReaderSettings, ILoggerFactory loggerFactory)
-            : base(cache, xmiElementReaderFacade, xmiReaderSettings, loggerFactory)
+        public OperationReader(IXmiElementCache cache, IXmiElementReaderFacade xmiElementReaderFacade, IXmiReaderSettings xmiReaderSettings, INameSpaceResolver nameSpaceResolver, ILoggerFactory loggerFactory)
+            : base(cache, xmiElementReaderFacade, xmiReaderSettings, nameSpaceResolver, loggerFactory)
         {
             this.logger = loggerFactory == null ? NullLogger<OperationReader>.Instance : loggerFactory.CreateLogger<OperationReader>();
         }
@@ -122,9 +126,9 @@ namespace uml4net.xmi.Readers
 
             if (xmlReader.MoveToContent() == XmlNodeType.Element)
             {
-                this.logger.LogTrace("reading Operation at line:position {LineNumber}:{LinePosition}", xmlLineInfo.LineNumber, xmlLineInfo.LinePosition);
+                this.logger.LogTrace("reading Operation at line:position {LineNumber}:{LinePosition}", xmlLineInfo?.LineNumber, xmlLineInfo?.LinePosition);
 
-                var xmiType = xmlReader.GetAttribute("xmi:type");
+                var xmiType = xmlReader.GetAttribute("type", this.NameSpaceResolver.XmiNameSpace);
 
                 if (!string.IsNullOrEmpty(xmiType) && xmiType != "uml:Operation")
                 {
@@ -140,11 +144,13 @@ namespace uml4net.xmi.Readers
                     namespaceUri = xmlReader.NamespaceURI;
                 }
 
+                this.NameSpaceResolver.ResolveAndSetNamespace(namespaceUri);
+
                 poco.XmiType = xmiType;
 
-                poco.XmiId = xmlReader.GetAttribute("xmi:id");
+                poco.XmiId = xmlReader.GetAttribute("id", this.NameSpaceResolver.XmiNameSpace);
 
-                poco.XmiGuid = xmlReader.GetAttribute("xmi:uuid");
+                poco.XmiGuid = xmlReader.GetAttribute("uuid", this.NameSpaceResolver.XmiNameSpace);
 
                 poco.DocumentName = documentName;
 
@@ -155,63 +161,63 @@ namespace uml4net.xmi.Readers
                     this.logger.LogCritical("Failed to add element type [{Poco}] with id [{Id}] as it was already in the Cache. The XMI document seems to have duplicate xmi:id values", "Operation", poco.XmiId);
                 }
 
-                var classXmlAttribute = xmlReader.GetAttribute("class");
+                var classXmlAttribute = xmlReader.GetAttribute("class") ?? xmlReader.GetAttribute("class", this.NameSpaceResolver.UmlNameSpace);
 
                 if (!string.IsNullOrEmpty(classXmlAttribute))
                 {
                     poco.SingleValueReferencePropertyIdentifiers.Add("class", classXmlAttribute);
                 }
 
-                var concurrencyXmlAttribute = xmlReader.GetAttribute("concurrency");
+                var concurrencyXmlAttribute = xmlReader.GetAttribute("concurrency") ?? xmlReader.GetAttribute("concurrency", this.NameSpaceResolver.UmlNameSpace);
 
                 if (!string.IsNullOrEmpty(concurrencyXmlAttribute))
                 {
                     poco.Concurrency = (CallConcurrencyKind)Enum.Parse(typeof(CallConcurrencyKind), concurrencyXmlAttribute, true);
                 }
 
-                var datatypeXmlAttribute = xmlReader.GetAttribute("datatype");
+                var datatypeXmlAttribute = xmlReader.GetAttribute("datatype") ?? xmlReader.GetAttribute("datatype", this.NameSpaceResolver.UmlNameSpace);
 
                 if (!string.IsNullOrEmpty(datatypeXmlAttribute))
                 {
                     poco.SingleValueReferencePropertyIdentifiers.Add("datatype", datatypeXmlAttribute);
                 }
 
-                var interfaceXmlAttribute = xmlReader.GetAttribute("interface");
+                var interfaceXmlAttribute = xmlReader.GetAttribute("interface") ?? xmlReader.GetAttribute("interface", this.NameSpaceResolver.UmlNameSpace);
 
                 if (!string.IsNullOrEmpty(interfaceXmlAttribute))
                 {
                     poco.SingleValueReferencePropertyIdentifiers.Add("interface", interfaceXmlAttribute);
                 }
 
-                var isAbstractXmlAttribute = xmlReader.GetAttribute("isAbstract");
+                var isAbstractXmlAttribute = xmlReader.GetAttribute("isAbstract") ?? xmlReader.GetAttribute("isAbstract", this.NameSpaceResolver.UmlNameSpace);
 
                 if (!string.IsNullOrEmpty(isAbstractXmlAttribute))
                 {
                     poco.IsAbstract = bool.Parse(isAbstractXmlAttribute);
                 }
 
-                var isLeafXmlAttribute = xmlReader.GetAttribute("isLeaf");
+                var isLeafXmlAttribute = xmlReader.GetAttribute("isLeaf") ?? xmlReader.GetAttribute("isLeaf", this.NameSpaceResolver.UmlNameSpace);
 
                 if (!string.IsNullOrEmpty(isLeafXmlAttribute))
                 {
                     poco.IsLeaf = bool.Parse(isLeafXmlAttribute);
                 }
 
-                var isQueryXmlAttribute = xmlReader.GetAttribute("isQuery");
+                var isQueryXmlAttribute = xmlReader.GetAttribute("isQuery") ?? xmlReader.GetAttribute("isQuery", this.NameSpaceResolver.UmlNameSpace);
 
                 if (!string.IsNullOrEmpty(isQueryXmlAttribute))
                 {
                     poco.IsQuery = bool.Parse(isQueryXmlAttribute);
                 }
 
-                var isStaticXmlAttribute = xmlReader.GetAttribute("isStatic");
+                var isStaticXmlAttribute = xmlReader.GetAttribute("isStatic") ?? xmlReader.GetAttribute("isStatic", this.NameSpaceResolver.UmlNameSpace);
 
                 if (!string.IsNullOrEmpty(isStaticXmlAttribute))
                 {
                     poco.IsStatic = bool.Parse(isStaticXmlAttribute);
                 }
 
-                var methodXmlAttribute = xmlReader.GetAttribute("method");
+                var methodXmlAttribute = xmlReader.GetAttribute("method") ?? xmlReader.GetAttribute("method", this.NameSpaceResolver.UmlNameSpace);
 
                 if (!string.IsNullOrEmpty(methodXmlAttribute))
                 {
@@ -219,16 +225,16 @@ namespace uml4net.xmi.Readers
                     poco.MultiValueReferencePropertyIdentifiers.Add("method", methodXmlAttributeValues);
                 }
 
-                poco.Name = xmlReader.GetAttribute("name");
+                poco.Name = xmlReader.GetAttribute("name") ?? xmlReader.GetAttribute("name", this.NameSpaceResolver.UmlNameSpace);
 
-                var owningTemplateParameterXmlAttribute = xmlReader.GetAttribute("owningTemplateParameter");
+                var owningTemplateParameterXmlAttribute = xmlReader.GetAttribute("owningTemplateParameter") ?? xmlReader.GetAttribute("owningTemplateParameter", this.NameSpaceResolver.UmlNameSpace);
 
                 if (!string.IsNullOrEmpty(owningTemplateParameterXmlAttribute))
                 {
                     poco.SingleValueReferencePropertyIdentifiers.Add("owningTemplateParameter", owningTemplateParameterXmlAttribute);
                 }
 
-                var raisedExceptionXmlAttribute = xmlReader.GetAttribute("raisedException");
+                var raisedExceptionXmlAttribute = xmlReader.GetAttribute("raisedException") ?? xmlReader.GetAttribute("raisedException", this.NameSpaceResolver.UmlNameSpace);
 
                 if (!string.IsNullOrEmpty(raisedExceptionXmlAttribute))
                 {
@@ -236,7 +242,7 @@ namespace uml4net.xmi.Readers
                     poco.MultiValueReferencePropertyIdentifiers.Add("raisedException", raisedExceptionXmlAttributeValues);
                 }
 
-                var redefinedOperationXmlAttribute = xmlReader.GetAttribute("redefinedOperation");
+                var redefinedOperationXmlAttribute = xmlReader.GetAttribute("redefinedOperation") ?? xmlReader.GetAttribute("redefinedOperation", this.NameSpaceResolver.UmlNameSpace);
 
                 if (!string.IsNullOrEmpty(redefinedOperationXmlAttribute))
                 {
@@ -244,14 +250,14 @@ namespace uml4net.xmi.Readers
                     poco.MultiValueReferencePropertyIdentifiers.Add("redefinedOperation", redefinedOperationXmlAttributeValues);
                 }
 
-                var templateParameterXmlAttribute = xmlReader.GetAttribute("templateParameter");
+                var templateParameterXmlAttribute = xmlReader.GetAttribute("templateParameter") ?? xmlReader.GetAttribute("templateParameter", this.NameSpaceResolver.UmlNameSpace);
 
                 if (!string.IsNullOrEmpty(templateParameterXmlAttribute))
                 {
                     poco.SingleValueReferencePropertyIdentifiers.Add("templateParameter", templateParameterXmlAttribute);
                 }
 
-                var visibilityXmlAttribute = xmlReader.GetAttribute("visibility");
+                var visibilityXmlAttribute = xmlReader.GetAttribute("visibility") ?? xmlReader.GetAttribute("visibility", this.NameSpaceResolver.UmlNameSpace);
 
                 if (!string.IsNullOrEmpty(visibilityXmlAttribute))
                 {
@@ -263,19 +269,23 @@ namespace uml4net.xmi.Readers
                 {
                     if (xmlReader.NodeType == XmlNodeType.Element)
                     {
-                        switch (xmlReader.LocalName)
+                        var activeNamespaceUri = string.IsNullOrEmpty(xmlReader.NamespaceURI) ? namespaceUri : xmlReader.NamespaceURI;
+
+                        var activePrefix = this.NameSpaceResolver.ResolvePrefix(activeNamespaceUri);
+
+                        switch (activePrefix, xmlReader.LocalName)
                         {
-                            case "bodyCondition":
+                            case (KnowNamespacePrefixes.Uml, "bodyCondition"):
                                 if (!this.TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, "bodyCondition"))
                                 {
                                     this.logger.LogWarning("The Operation.BodyCondition attribute was not processed at {XmlLineInfo}", xmlLineInfo);
                                 }
 
                                 break;
-                            case "class":
+                            case (KnowNamespacePrefixes.Uml, "class"):
                                 this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "class");
                                 break;
-                            case "concurrency":
+                            case (KnowNamespacePrefixes.Uml, "concurrency"):
                                 var concurrencyValue = xmlReader.ReadElementContentAsString();
 
                                 if (!string.IsNullOrEmpty(concurrencyValue))
@@ -284,17 +294,17 @@ namespace uml4net.xmi.Readers
                                 }
 
                                 break;
-                            case "datatype":
+                            case (KnowNamespacePrefixes.Uml, "datatype"):
                                 this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "datatype");
                                 break;
-                            case "elementImport":
-                                var elementImportValue = (IElementImport)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.LoggerFactory, "uml:ElementImport");
+                            case (KnowNamespacePrefixes.Uml, "elementImport"):
+                                var elementImportValue = (IElementImport)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.NameSpaceResolver, this.LoggerFactory, "uml:ElementImport");
                                 poco.ElementImport.Add(elementImportValue);
                                 break;
-                            case "interface":
+                            case (KnowNamespacePrefixes.Uml, "interface"):
                                 this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "interface");
                                 break;
-                            case "isAbstract":
+                            case (KnowNamespacePrefixes.Uml, "isAbstract"):
                                 var isAbstractValue = xmlReader.ReadElementContentAsString();
 
                                 if (!string.IsNullOrEmpty(isAbstractValue))
@@ -303,7 +313,7 @@ namespace uml4net.xmi.Readers
                                 }
 
                                 break;
-                            case "isLeaf":
+                            case (KnowNamespacePrefixes.Uml, "isLeaf"):
                                 var isLeafValue = xmlReader.ReadElementContentAsString();
 
                                 if (!string.IsNullOrEmpty(isLeafValue))
@@ -312,7 +322,7 @@ namespace uml4net.xmi.Readers
                                 }
 
                                 break;
-                            case "isQuery":
+                            case (KnowNamespacePrefixes.Uml, "isQuery"):
                                 var isQueryValue = xmlReader.ReadElementContentAsString();
 
                                 if (!string.IsNullOrEmpty(isQueryValue))
@@ -321,7 +331,7 @@ namespace uml4net.xmi.Readers
                                 }
 
                                 break;
-                            case "isStatic":
+                            case (KnowNamespacePrefixes.Uml, "isStatic"):
                                 var isStaticValue = xmlReader.ReadElementContentAsString();
 
                                 if (!string.IsNullOrEmpty(isStaticValue))
@@ -330,71 +340,71 @@ namespace uml4net.xmi.Readers
                                 }
 
                                 break;
-                            case "method":
+                            case (KnowNamespacePrefixes.Uml, "method"):
                                 this.TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, "method");
                                 break;
-                            case "name":
+                            case (KnowNamespacePrefixes.Uml, "name"):
                                 poco.Name = xmlReader.ReadElementContentAsString();
                                 break;
-                            case "nameExpression":
-                                var nameExpressionValue = (IStringExpression)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.LoggerFactory, "uml:StringExpression");
+                            case (KnowNamespacePrefixes.Uml, "nameExpression"):
+                                var nameExpressionValue = (IStringExpression)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.NameSpaceResolver, this.LoggerFactory, "uml:StringExpression");
                                 poco.NameExpression.Add(nameExpressionValue);
                                 break;
-                            case "ownedComment":
-                                var ownedCommentValue = (IComment)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.LoggerFactory, "uml:Comment");
+                            case (KnowNamespacePrefixes.Uml, "ownedComment"):
+                                var ownedCommentValue = (IComment)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.NameSpaceResolver, this.LoggerFactory, "uml:Comment");
                                 poco.OwnedComment.Add(ownedCommentValue);
                                 break;
-                            case "ownedParameter":
-                                var ownedParameterValue = (IParameter)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.LoggerFactory, "uml:Parameter");
+                            case (KnowNamespacePrefixes.Uml, "ownedParameter"):
+                                var ownedParameterValue = (IParameter)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.NameSpaceResolver, this.LoggerFactory, "uml:Parameter");
                                 poco.OwnedParameter.Add(ownedParameterValue);
                                 break;
-                            case "ownedParameterSet":
-                                var ownedParameterSetValue = (IParameterSet)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.LoggerFactory, "uml:ParameterSet");
+                            case (KnowNamespacePrefixes.Uml, "ownedParameterSet"):
+                                var ownedParameterSetValue = (IParameterSet)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.NameSpaceResolver, this.LoggerFactory, "uml:ParameterSet");
                                 poco.OwnedParameterSet.Add(ownedParameterSetValue);
                                 break;
-                            case "ownedRule":
-                                var ownedRuleValue = (IConstraint)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.LoggerFactory, "uml:Constraint");
+                            case (KnowNamespacePrefixes.Uml, "ownedRule"):
+                                var ownedRuleValue = (IConstraint)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.NameSpaceResolver, this.LoggerFactory, "uml:Constraint");
                                 poco.OwnedRule.Add(ownedRuleValue);
                                 break;
-                            case "ownedTemplateSignature":
-                                var ownedTemplateSignatureValue = (ITemplateSignature)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.LoggerFactory, "uml:TemplateSignature");
+                            case (KnowNamespacePrefixes.Uml, "ownedTemplateSignature"):
+                                var ownedTemplateSignatureValue = (ITemplateSignature)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.NameSpaceResolver, this.LoggerFactory, "uml:TemplateSignature");
                                 poco.OwnedTemplateSignature.Add(ownedTemplateSignatureValue);
                                 break;
-                            case "owningTemplateParameter":
+                            case (KnowNamespacePrefixes.Uml, "owningTemplateParameter"):
                                 this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "owningTemplateParameter");
                                 break;
-                            case "packageImport":
-                                var packageImportValue = (IPackageImport)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.LoggerFactory, "uml:PackageImport");
+                            case (KnowNamespacePrefixes.Uml, "packageImport"):
+                                var packageImportValue = (IPackageImport)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.NameSpaceResolver, this.LoggerFactory, "uml:PackageImport");
                                 poco.PackageImport.Add(packageImportValue);
                                 break;
-                            case "postcondition":
+                            case (KnowNamespacePrefixes.Uml, "postcondition"):
                                 if (!this.TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, "postcondition"))
                                 {
                                     this.logger.LogWarning("The Operation.Postcondition attribute was not processed at {XmlLineInfo}", xmlLineInfo);
                                 }
 
                                 break;
-                            case "precondition":
+                            case (KnowNamespacePrefixes.Uml, "precondition"):
                                 if (!this.TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, "precondition"))
                                 {
                                     this.logger.LogWarning("The Operation.Precondition attribute was not processed at {XmlLineInfo}", xmlLineInfo);
                                 }
 
                                 break;
-                            case "raisedException":
+                            case (KnowNamespacePrefixes.Uml, "raisedException"):
                                 this.TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, "raisedException");
                                 break;
-                            case "redefinedOperation":
+                            case (KnowNamespacePrefixes.Uml, "redefinedOperation"):
                                 this.TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, "redefinedOperation");
                                 break;
-                            case "templateBinding":
-                                var templateBindingValue = (ITemplateBinding)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.LoggerFactory, "uml:TemplateBinding");
+                            case (KnowNamespacePrefixes.Uml, "templateBinding"):
+                                var templateBindingValue = (ITemplateBinding)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.NameSpaceResolver, this.LoggerFactory, "uml:TemplateBinding");
                                 poco.TemplateBinding.Add(templateBindingValue);
                                 break;
-                            case "templateParameter":
+                            case (KnowNamespacePrefixes.Uml, "templateParameter"):
                                 this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "templateParameter");
                                 break;
-                            case "visibility":
+                            case (KnowNamespacePrefixes.Uml, "visibility"):
                                 var visibilityValue = xmlReader.ReadElementContentAsString();
 
                                 if (!string.IsNullOrEmpty(visibilityValue))
@@ -402,6 +412,10 @@ namespace uml4net.xmi.Readers
                                     poco.Visibility = (VisibilityKind)Enum.Parse(typeof(VisibilityKind), visibilityValue, true);
                                 }
 
+                                break;
+                            case (KnowNamespacePrefixes.Xmi, "Extension"):
+                                this.logger.LogInformation("Extension not yet supported)");
+                                xmlReader.Skip();
                                 break;
                             default:
                                 if (this.XmiReaderSettings.UseStrictReading)

@@ -1,5 +1,5 @@
 ﻿// -------------------------------------------------------------------------------------------------
-//  <copyright file="SupportedNamespaces.cs" company="Starion Group S.A.">
+//  <copyright file="KnowNamespacePrefixes.cs" company="Starion Group S.A.">
 // 
 //    Copyright 2019-2025 Starion Group S.A.
 // 
@@ -21,34 +21,43 @@
 namespace uml4net.xmi.Readers
 {
     /// <summary>
-    /// <see cref="SupportedNamespaces"/> enumerates the possible supported namespaces of an
-    /// XMI document
+    /// know namespace prefixes
     /// </summary>
-    public enum SupportedNamespaces
+    public static class KnowNamespacePrefixes
     {
         /// <summary>
-        /// Assertion that the supported namespace is XMI
+        /// The xmi prefix
         /// </summary>
-        Xmi,
+        public const string Xmi = "xmi";
 
         /// <summary>
-        /// Assertion that the supported namespace is UML
+        /// The uml prefix
         /// </summary>
-        Uml,
+        public const string Uml = "uml";
 
         /// <summary>
-        /// Assertion that the supported namespace is UML/.../StandardProfile
+        /// The uml diagram prefix
         /// </summary>
-        UmlStandardProfile,
+        public const string UmlDi = "umldi";
 
         /// <summary>
-        /// Assertion that the supported namespace is UML/.../UMLDI
+        /// The mofext prefix
         /// </summary>
-        UmlDiagramInterchange,
+        public const string MofExt = "mofext";
 
         /// <summary>
-        /// Assertion that the namespace is in fact not supported
+        /// The PrimitiveTypes prefix
         /// </summary>
-        Other
+        public const string PrimitiveTypes = "PrimitiveTypes";
+
+        /// <summary>
+        /// The StandardProfile prefix
+        /// </summary>
+        public const string StandardProfile = "StandardProfile";
+
+        /// <summary>
+        /// The other prefix, used when it is unknown
+        /// </summary>
+        public const string Other = "other";
     }
 }

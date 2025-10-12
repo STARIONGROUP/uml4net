@@ -24,9 +24,9 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.Readers
     using System.Xml;
 
     using Microsoft.Extensions.Logging;
-    using Microsoft.Extensions.Logging.Abstractions;
 
     using uml4net.Packages;
+
     using uml4net.xmi;
     using uml4net.xmi.Extensions.EntrepriseArchitect.Structure;
     using uml4net.xmi.Readers;
@@ -60,8 +60,12 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.Readers
         /// <param name="externalReferenceResolver">The <see cref="IExternalReferenceResolver"/></param>
         /// <param name="scope">The <see cref="IXmiReaderScope"/></param>
         /// <param name="xmiReaderSettings">The injected <see cref="IXmiReaderSettings"/> that provides reading setting for XMI</param>
+        /// <param name="nameSpaceResolver">
+        /// The (injected) <see cref="INameSpaceResolver"/> used to resolve a namespace to one of the
+        /// <see cref="KnowNamespacePrefixes"/>
+        /// </param>
         public EnterpriseArchitectXmiReader(IAssembler assembler, IXmiElementCache cache, IXmiElementReaderFacade xmiElementReaderFacade, ILoggerFactory loggerFactory,
-            IExternalReferenceResolver externalReferenceResolver, IXmiReaderScope scope, IXmiReaderSettings xmiReaderSettings) : base(assembler, cache, xmiElementReaderFacade, loggerFactory, externalReferenceResolver, scope, xmiReaderSettings)
+            IExternalReferenceResolver externalReferenceResolver, IXmiReaderScope scope, IXmiReaderSettings xmiReaderSettings, INameSpaceResolver nameSpaceResolver) : base(assembler, cache, xmiElementReaderFacade, loggerFactory, externalReferenceResolver, scope, xmiReaderSettings, nameSpaceResolver)
         {
         }
 
@@ -95,7 +99,7 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.Readers
                 return new Extension();
             }
 
-            var extensionElement = (IExtension)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this .LoggerFactory, "Extension");
+            var extensionElement = (IExtension)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.nameSpaceResolver, this .LoggerFactory, "Extension");
 
             foreach (var elementReference in this.Cache.Values.OfType<IElementReference>().Where(x => x.SingleValueReferencePropertyIdentifiers.Count != 0))
             {

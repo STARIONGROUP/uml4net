@@ -21,13 +21,16 @@
 namespace uml4net.xmi.Tests.Readers
 {
     using System.IO;
+
     using Microsoft.Extensions.Logging.Abstractions;
+
     using Moq;
 
     using NUnit.Framework;
-    using Settings;
+
+    using uml4net.xmi.Settings;
     using uml4net.xmi.Readers;
-    using xmi.ReferenceResolver;
+    using uml4net.xmi.ReferenceResolver;
 
     [TestFixture]
     public class XmiReaderTestFixture
@@ -44,7 +47,7 @@ namespace uml4net.xmi.Tests.Readers
 
         private XmiReader xmiReader;
 
-
+        private NameSpaceResolver nameSpaceResolver;
 
         [SetUp]
         public void SetUp()
@@ -54,12 +57,13 @@ namespace uml4net.xmi.Tests.Readers
             this.xmiElementReaderFacade = new Mock<IXmiElementReaderFacade>();
             this.externalReferenceResolver = new Mock<IExternalReferenceResolver>();
             this.xmiReaderScope = new Mock<IXmiReaderScope>();
+            this.nameSpaceResolver = new NameSpaceResolver();
 
             this.xmiReader = new XmiReader(this.assembler.Object,
                 this.xmiElementCache.Object,
                 this.xmiElementReaderFacade.Object,
                 NullLoggerFactory.Instance,
-                this.externalReferenceResolver.Object, xmiReaderScope.Object, new DefaultSettings());
+                this.externalReferenceResolver.Object, xmiReaderScope.Object, new DefaultSettings(), this.nameSpaceResolver);
         }
 
         [Test]

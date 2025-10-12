@@ -1,5 +1,5 @@
 ﻿// -------------------------------------------------------------------------------------------------
-//  <copyright file="XmlNamespacesTestFixture.cs" company="Starion Group S.A.">
+//  <copyright file="NameSpaceResolverTestFixture.cs" company="Starion Group S.A.">
 // 
 //    Copyright 2019-2025 Starion Group S.A.
 // 
@@ -25,57 +25,65 @@ namespace uml4net.xmi.Tests.Readers
     using uml4net.xmi.Readers;
 
     [TestFixture]
-    public class XmlNamespacesTestFixture
+    public class NameSpaceResolverTestFixture
     {
+        private NameSpaceResolver nameSpaceResolver;
+
+        [SetUp]
+        public void SetUp()
+        {
+            this.nameSpaceResolver = new NameSpaceResolver();
+        }
+
         [Test]
         public void QuerySupportedNamespaces_Returns_Other_When_Null_Or_Whitespace()
         {
-            Assert.That(XmlNamespaces.QuerySupportedNamespaces(null), Is.EqualTo(SupportedNamespaces.Other));
-            Assert.That(XmlNamespaces.QuerySupportedNamespaces(string.Empty), Is.EqualTo(SupportedNamespaces.Other));
-            Assert.That(XmlNamespaces.QuerySupportedNamespaces("   \t\r\n  "), Is.EqualTo(SupportedNamespaces.Other));
+            Assert.That(this.nameSpaceResolver.ResolvePrefix(null), Is.EqualTo("other"));
+            Assert.That(this.nameSpaceResolver.ResolvePrefix(string.Empty), Is.EqualTo("other"));
+            Assert.That(this.nameSpaceResolver.ResolvePrefix("   \t\r\n  "), Is.EqualTo("other"));
         }
 
         [Test]
         public void QuerySupportedNamespaces_Trims_Input()
         {
             var input = "   http://www.omg.org/spec/XMI/20161101   ";
-            var result = XmlNamespaces.QuerySupportedNamespaces(input);
-            Assert.That(result, Is.EqualTo(SupportedNamespaces.Xmi));
+            var result = this.nameSpaceResolver.ResolvePrefix(input);
+            Assert.That(result, Is.EqualTo("xmi"));
         }
 
         [TestCase("http://www.omg.org/spec/XMI/20161101")]
         [TestCase("https://www.omg.org/spec/XMI/20161101")]
         public void QuerySupportedNamespaces_Recognizes_Xmi(string uri)
         {
-            Assert.That(XmlNamespaces.QuerySupportedNamespaces(uri), Is.EqualTo(SupportedNamespaces.Xmi));
+            Assert.That(this.nameSpaceResolver.ResolvePrefix(uri), Is.EqualTo("xmi"));
         }
 
         [TestCase("http://www.omg.org/spec/UML/20161101")]
         [TestCase("https://www.omg.org/spec/UML/20161101")]
         public void QuerySupportedNamespaces_Recognizes_Uml_Base(string uri)
         {
-            Assert.That(XmlNamespaces.QuerySupportedNamespaces(uri), Is.EqualTo(SupportedNamespaces.Uml));
+            Assert.That(this.nameSpaceResolver.ResolvePrefix(uri), Is.EqualTo("uml"));
         }
 
         [TestCase("http://www.omg.org/spec/UML/20131001/StandardProfile")]
         [TestCase("https://www.omg.org/spec/UML/20131001/StandardProfile")]
         public void QuerySupportedNamespaces_Recognizes_Uml_StandardProfile(string uri)
         {
-            Assert.That(XmlNamespaces.QuerySupportedNamespaces(uri), Is.EqualTo(SupportedNamespaces.UmlStandardProfile));
+            Assert.That(this.nameSpaceResolver.ResolvePrefix(uri), Is.EqualTo("StandardProfile"));
         }
 
         [TestCase("http://www.omg.org/spec/UML/20131001/UMLDI")]
         [TestCase("http://www.omg.org/spec/UML/20131001/UMLDI/")]
         public void QuerySupportedNamespaces_Maps_UMLDI_To_UmlStandardProfile(string uri)
         {
-            Assert.That(XmlNamespaces.QuerySupportedNamespaces(uri), Is.EqualTo(SupportedNamespaces.UmlStandardProfile));
+            Assert.That(this.nameSpaceResolver.ResolvePrefix(uri), Is.EqualTo("umldi"));
         }
 
         [TestCase("http://www.eclipse.org/uml2/5.0.0/UML")]
         [TestCase("https://www.eclipse.org/uml2/5.0.0/UML")]
         public void QuerySupportedNamespaces_Recognizes_Eclipse_Uml2_Uml(string uri)
         {
-            Assert.That(XmlNamespaces.QuerySupportedNamespaces(uri), Is.EqualTo(SupportedNamespaces.Uml));
+            Assert.That(this.nameSpaceResolver.ResolvePrefix(uri), Is.EqualTo("uml"));
         }
 
         [TestCase("http://www.eclipse.org/uml2/5.0.0")]
@@ -84,7 +92,16 @@ namespace uml4net.xmi.Tests.Readers
         [TestCase("http://www.omg.org/spec/XMI")] // missing trailing slash and version 
         public void QuerySupportedNamespaces_Returns_Other_For_Unknowns(string uri)
         {
-            Assert.That(XmlNamespaces.QuerySupportedNamespaces(uri), Is.EqualTo(SupportedNamespaces.Other));
+            Assert.That(this.nameSpaceResolver.ResolvePrefix(uri), Is.EqualTo("other"));
+        }
+
+        [Test]
+        public void Verify_that_Register_behaves_as_expected()
+        {
+            Assert.That(() => this.nameSpaceResolver.Register("https://www.stariongroup.eu", "sg"), Throws.Nothing);
+
+            Assert.That(this.nameSpaceResolver.ResolvePrefix("https://www.stariongroup.eu"), Is.EqualTo("sg"));
+
         }
     }
 }

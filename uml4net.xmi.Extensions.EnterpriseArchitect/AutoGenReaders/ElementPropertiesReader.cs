@@ -63,11 +63,15 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure.Readers
         /// <param name="xmiReaderSettings">
         /// The <see cref="IXmiReaderSettings"/> used to configure reading
         /// </param>
+        /// <param name="nameSpaceResolver">
+        /// The (injected) <see cref="INameSpaceResolver"/> used to resolve a namespace to one of the
+        /// <see cref="KnowNamespacePrefixes"/>
+        /// </param>
         /// <param name="loggerFactory">
         /// The (injected) <see cref="ILoggerFactory"/> used to set up logging
         /// </param>
-        public ElementPropertiesReader(IXmiElementCache cache, IXmiElementReaderFacade xmiElementReaderFacade, IXmiReaderSettings xmiReaderSettings, ILoggerFactory loggerFactory)
-        : base(cache, xmiElementReaderFacade, xmiReaderSettings, loggerFactory)
+        public ElementPropertiesReader(IXmiElementCache cache, IXmiElementReaderFacade xmiElementReaderFacade, IXmiReaderSettings xmiReaderSettings, INameSpaceResolver nameSpaceResolver, ILoggerFactory loggerFactory)
+        : base(cache, xmiElementReaderFacade, xmiReaderSettings, nameSpaceResolver, loggerFactory)
         {
             this.logger = loggerFactory == null ? NullLogger<ElementPropertiesReader>.Instance : loggerFactory.CreateLogger<ElementPropertiesReader>();
         }
@@ -110,7 +114,7 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure.Readers
 
             if (xmlReader.MoveToContent() == XmlNodeType.Element)
             {
-                this.logger.LogTrace("reading ElementProperties at line:position {LineNumber}:{LinePosition}", xmlLineInfo.LineNumber, xmlLineInfo.LinePosition);
+                this.logger.LogTrace("reading ElementProperties at line:position {LineNumber}:{LinePosition}", xmlLineInfo?.LineNumber, xmlLineInfo?.LinePosition);
 
                 var xmiType = "ElementProperties";
 
@@ -140,27 +144,27 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure.Readers
                     this.logger.LogCritical("Failed to add element type [{Poco}] with id [{Id}] as it was already in the Cache. The XMI document seems to have duplicate xmi:id values", "ElementProperties", poco.XmiId);
                 }
 
-                poco.Documentation = xmlReader.GetAttribute("documentation");
+                poco.Documentation = xmlReader.GetAttribute("documentation") ?? xmlReader.GetAttribute("documentation", this.NameSpaceResolver.UmlNameSpace);
 
-                var isSpecificationXmlAttribute = xmlReader.GetAttribute("isSpecification");
+                var isSpecificationXmlAttribute = xmlReader.GetAttribute("isSpecification") ?? xmlReader.GetAttribute("isSpecification", this.NameSpaceResolver.UmlNameSpace);
 
                 if (!string.IsNullOrEmpty(isSpecificationXmlAttribute))
                 {
                     poco.IsSpecification = bool.Parse(isSpecificationXmlAttribute);
                 }
 
-                var nTypeXmlAttribute = xmlReader.GetAttribute("nType");
+                var nTypeXmlAttribute = xmlReader.GetAttribute("nType") ?? xmlReader.GetAttribute("nType", this.NameSpaceResolver.UmlNameSpace);
 
                 if (!string.IsNullOrEmpty(nTypeXmlAttribute))
                 {
                     poco.NType = int.Parse(nTypeXmlAttribute);
                 }
 
-                poco.Scope = xmlReader.GetAttribute("scope");
+                poco.Scope = xmlReader.GetAttribute("scope") ?? xmlReader.GetAttribute("scope", this.NameSpaceResolver.UmlNameSpace);
 
-                poco.Stereotype = xmlReader.GetAttribute("stereotype");
+                poco.Stereotype = xmlReader.GetAttribute("stereotype") ?? xmlReader.GetAttribute("stereotype", this.NameSpaceResolver.UmlNameSpace);
 
-                poco.SType = xmlReader.GetAttribute("sType");
+                poco.SType = xmlReader.GetAttribute("sType") ?? xmlReader.GetAttribute("sType", this.NameSpaceResolver.UmlNameSpace);
 
 
                 while (xmlReader.Read())

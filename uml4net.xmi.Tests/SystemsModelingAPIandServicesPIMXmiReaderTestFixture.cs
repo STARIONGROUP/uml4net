@@ -65,6 +65,8 @@ namespace uml4net.xmi.Tests
 
             var xmiReaderResult = reader.Read(Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData", "SystemsModelingAPIandServicesPIM.xmi"));
 
+            Assert.That(xmiReaderResult.XmiRoot, Is.Not.Null);
+
             Assert.That(xmiReaderResult.Packages.Count, Is.EqualTo(2));
 
             var model = xmiReaderResult.QueryRoot("_19_0_4_3fa0198_1689000259946_865221_0") as IModel;

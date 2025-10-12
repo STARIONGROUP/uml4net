@@ -490,7 +490,7 @@ namespace uml4net.Reporting.Generators
             foreach (var @class in classes)
             {
                 var classDocs = this.ShouldUseEnterpriseArchitectReader ? @class.QueryDocumentationFromExtensions() : @class.QueryRawDocumentation();
-
+                
                 if (string.IsNullOrEmpty(classDocs))
                 {
                     sb.AppendLine($"{package.Name}.{@class.Name}");

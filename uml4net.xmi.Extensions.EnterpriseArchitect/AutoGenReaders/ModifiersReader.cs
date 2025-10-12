@@ -63,11 +63,15 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure.Readers
         /// <param name="xmiReaderSettings">
         /// The <see cref="IXmiReaderSettings"/> used to configure reading
         /// </param>
+        /// <param name="nameSpaceResolver">
+        /// The (injected) <see cref="INameSpaceResolver"/> used to resolve a namespace to one of the
+        /// <see cref="KnowNamespacePrefixes"/>
+        /// </param>
         /// <param name="loggerFactory">
         /// The (injected) <see cref="ILoggerFactory"/> used to set up logging
         /// </param>
-        public ModifiersReader(IXmiElementCache cache, IXmiElementReaderFacade xmiElementReaderFacade, IXmiReaderSettings xmiReaderSettings, ILoggerFactory loggerFactory)
-        : base(cache, xmiElementReaderFacade, xmiReaderSettings, loggerFactory)
+        public ModifiersReader(IXmiElementCache cache, IXmiElementReaderFacade xmiElementReaderFacade, IXmiReaderSettings xmiReaderSettings, INameSpaceResolver nameSpaceResolver, ILoggerFactory loggerFactory)
+        : base(cache, xmiElementReaderFacade, xmiReaderSettings, nameSpaceResolver, loggerFactory)
         {
             this.logger = loggerFactory == null ? NullLogger<ModifiersReader>.Instance : loggerFactory.CreateLogger<ModifiersReader>();
         }
@@ -110,7 +114,7 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure.Readers
 
             if (xmlReader.MoveToContent() == XmlNodeType.Element)
             {
-                this.logger.LogTrace("reading Modifiers at line:position {LineNumber}:{LinePosition}", xmlLineInfo.LineNumber, xmlLineInfo.LinePosition);
+                this.logger.LogTrace("reading Modifiers at line:position {LineNumber}:{LinePosition}", xmlLineInfo?.LineNumber, xmlLineInfo?.LinePosition);
 
                 var xmiType = "Modifiers";
 
@@ -140,30 +144,30 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure.Readers
                     this.logger.LogCritical("Failed to add element type [{Poco}] with id [{Id}] as it was already in the Cache. The XMI document seems to have duplicate xmi:id values", "Modifiers", poco.XmiId);
                 }
 
-                poco.Changeable = xmlReader.GetAttribute("changeable");
+                poco.Changeable = xmlReader.GetAttribute("changeable") ?? xmlReader.GetAttribute("changeable", this.NameSpaceResolver.UmlNameSpace);
 
-                var isLeafXmlAttribute = xmlReader.GetAttribute("isLeaf");
+                var isLeafXmlAttribute = xmlReader.GetAttribute("isLeaf") ?? xmlReader.GetAttribute("isLeaf", this.NameSpaceResolver.UmlNameSpace);
 
                 if (!string.IsNullOrEmpty(isLeafXmlAttribute))
                 {
                     poco.IsLeaf = bool.Parse(isLeafXmlAttribute);
                 }
 
-                var isNavigableXmlAttribute = xmlReader.GetAttribute("isNavigable");
+                var isNavigableXmlAttribute = xmlReader.GetAttribute("isNavigable") ?? xmlReader.GetAttribute("isNavigable", this.NameSpaceResolver.UmlNameSpace);
 
                 if (!string.IsNullOrEmpty(isNavigableXmlAttribute))
                 {
                     poco.IsNavigable = bool.Parse(isNavigableXmlAttribute);
                 }
 
-                var isOrderedXmlAttribute = xmlReader.GetAttribute("isOrdered");
+                var isOrderedXmlAttribute = xmlReader.GetAttribute("isOrdered") ?? xmlReader.GetAttribute("isOrdered", this.NameSpaceResolver.UmlNameSpace);
 
                 if (!string.IsNullOrEmpty(isOrderedXmlAttribute))
                 {
                     poco.IsOrdered = bool.Parse(isOrderedXmlAttribute);
                 }
 
-                var isRootXmlAttribute = xmlReader.GetAttribute("isRoot");
+                var isRootXmlAttribute = xmlReader.GetAttribute("isRoot") ?? xmlReader.GetAttribute("isRoot", this.NameSpaceResolver.UmlNameSpace);
 
                 if (!string.IsNullOrEmpty(isRootXmlAttribute))
                 {

@@ -75,11 +75,15 @@ namespace uml4net.xmi.Readers
         /// <param name="xmiReaderSettings">
         /// The <see cref="IXmiReaderSettings"/> used to configure reading
         /// </param>
+        /// <param name="nameSpaceResolver">
+        /// The (injected) <see cref="INameSpaceResolver"/> used to resolve a namespace to one of the
+        /// <see cref="KnowNamespacePrefixes"/>
+        /// </param>
         /// <param name="loggerFactory">
         /// The (injected) <see cref="ILoggerFactory"/> used to set up logging
         /// </param>
-        public LinkEndDestructionDataReader(IXmiElementCache cache, IXmiElementReaderFacade xmiElementReaderFacade, IXmiReaderSettings xmiReaderSettings, ILoggerFactory loggerFactory)
-            : base(cache, xmiElementReaderFacade, xmiReaderSettings, loggerFactory)
+        public LinkEndDestructionDataReader(IXmiElementCache cache, IXmiElementReaderFacade xmiElementReaderFacade, IXmiReaderSettings xmiReaderSettings, INameSpaceResolver nameSpaceResolver, ILoggerFactory loggerFactory)
+            : base(cache, xmiElementReaderFacade, xmiReaderSettings, nameSpaceResolver, loggerFactory)
         {
             this.logger = loggerFactory == null ? NullLogger<LinkEndDestructionDataReader>.Instance : loggerFactory.CreateLogger<LinkEndDestructionDataReader>();
         }
@@ -122,9 +126,9 @@ namespace uml4net.xmi.Readers
 
             if (xmlReader.MoveToContent() == XmlNodeType.Element)
             {
-                this.logger.LogTrace("reading LinkEndDestructionData at line:position {LineNumber}:{LinePosition}", xmlLineInfo.LineNumber, xmlLineInfo.LinePosition);
+                this.logger.LogTrace("reading LinkEndDestructionData at line:position {LineNumber}:{LinePosition}", xmlLineInfo?.LineNumber, xmlLineInfo?.LinePosition);
 
-                var xmiType = xmlReader.GetAttribute("xmi:type");
+                var xmiType = xmlReader.GetAttribute("type", this.NameSpaceResolver.XmiNameSpace);
 
                 if (!string.IsNullOrEmpty(xmiType) && xmiType != "uml:LinkEndDestructionData")
                 {
@@ -140,11 +144,13 @@ namespace uml4net.xmi.Readers
                     namespaceUri = xmlReader.NamespaceURI;
                 }
 
+                this.NameSpaceResolver.ResolveAndSetNamespace(namespaceUri);
+
                 poco.XmiType = xmiType;
 
-                poco.XmiId = xmlReader.GetAttribute("xmi:id");
+                poco.XmiId = xmlReader.GetAttribute("id", this.NameSpaceResolver.XmiNameSpace);
 
-                poco.XmiGuid = xmlReader.GetAttribute("xmi:uuid");
+                poco.XmiGuid = xmlReader.GetAttribute("uuid", this.NameSpaceResolver.XmiNameSpace);
 
                 poco.DocumentName = documentName;
 
@@ -155,28 +161,28 @@ namespace uml4net.xmi.Readers
                     this.logger.LogCritical("Failed to add element type [{Poco}] with id [{Id}] as it was already in the Cache. The XMI document seems to have duplicate xmi:id values", "LinkEndDestructionData", poco.XmiId);
                 }
 
-                var destroyAtXmlAttribute = xmlReader.GetAttribute("destroyAt");
+                var destroyAtXmlAttribute = xmlReader.GetAttribute("destroyAt") ?? xmlReader.GetAttribute("destroyAt", this.NameSpaceResolver.UmlNameSpace);
 
                 if (!string.IsNullOrEmpty(destroyAtXmlAttribute))
                 {
                     poco.SingleValueReferencePropertyIdentifiers.Add("destroyAt", destroyAtXmlAttribute);
                 }
 
-                var endXmlAttribute = xmlReader.GetAttribute("end");
+                var endXmlAttribute = xmlReader.GetAttribute("end") ?? xmlReader.GetAttribute("end", this.NameSpaceResolver.UmlNameSpace);
 
                 if (!string.IsNullOrEmpty(endXmlAttribute))
                 {
                     poco.SingleValueReferencePropertyIdentifiers.Add("end", endXmlAttribute);
                 }
 
-                var isDestroyDuplicatesXmlAttribute = xmlReader.GetAttribute("isDestroyDuplicates");
+                var isDestroyDuplicatesXmlAttribute = xmlReader.GetAttribute("isDestroyDuplicates") ?? xmlReader.GetAttribute("isDestroyDuplicates", this.NameSpaceResolver.UmlNameSpace);
 
                 if (!string.IsNullOrEmpty(isDestroyDuplicatesXmlAttribute))
                 {
                     poco.IsDestroyDuplicates = bool.Parse(isDestroyDuplicatesXmlAttribute);
                 }
 
-                var valueXmlAttribute = xmlReader.GetAttribute("value");
+                var valueXmlAttribute = xmlReader.GetAttribute("value") ?? xmlReader.GetAttribute("value", this.NameSpaceResolver.UmlNameSpace);
 
                 if (!string.IsNullOrEmpty(valueXmlAttribute))
                 {
@@ -188,15 +194,19 @@ namespace uml4net.xmi.Readers
                 {
                     if (xmlReader.NodeType == XmlNodeType.Element)
                     {
-                        switch (xmlReader.LocalName)
+                        var activeNamespaceUri = string.IsNullOrEmpty(xmlReader.NamespaceURI) ? namespaceUri : xmlReader.NamespaceURI;
+
+                        var activePrefix = this.NameSpaceResolver.ResolvePrefix(activeNamespaceUri);
+
+                        switch (activePrefix, xmlReader.LocalName)
                         {
-                            case "destroyAt":
+                            case (KnowNamespacePrefixes.Uml, "destroyAt"):
                                 this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "destroyAt");
                                 break;
-                            case "end":
+                            case (KnowNamespacePrefixes.Uml, "end"):
                                 this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "end");
                                 break;
-                            case "isDestroyDuplicates":
+                            case (KnowNamespacePrefixes.Uml, "isDestroyDuplicates"):
                                 var isDestroyDuplicatesValue = xmlReader.ReadElementContentAsString();
 
                                 if (!string.IsNullOrEmpty(isDestroyDuplicatesValue))
@@ -205,16 +215,20 @@ namespace uml4net.xmi.Readers
                                 }
 
                                 break;
-                            case "ownedComment":
-                                var ownedCommentValue = (IComment)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.LoggerFactory, "uml:Comment");
+                            case (KnowNamespacePrefixes.Uml, "ownedComment"):
+                                var ownedCommentValue = (IComment)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.NameSpaceResolver, this.LoggerFactory, "uml:Comment");
                                 poco.OwnedComment.Add(ownedCommentValue);
                                 break;
-                            case "qualifier":
-                                var qualifierValue = (IQualifierValue)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.LoggerFactory, "uml:QualifierValue");
+                            case (KnowNamespacePrefixes.Uml, "qualifier"):
+                                var qualifierValue = (IQualifierValue)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.NameSpaceResolver, this.LoggerFactory, "uml:QualifierValue");
                                 poco.Qualifier.Add(qualifierValue);
                                 break;
-                            case "value":
+                            case (KnowNamespacePrefixes.Uml, "value"):
                                 this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "value");
+                                break;
+                            case (KnowNamespacePrefixes.Xmi, "Extension"):
+                                this.logger.LogInformation("Extension not yet supported)");
+                                xmlReader.Skip();
                                 break;
                             default:
                                 if (this.XmiReaderSettings.UseStrictReading)
