@@ -21,7 +21,7 @@
 namespace uml4net.xmi.Tests.Readers
 {
     using System.IO;
-
+    using Extender;
     using Microsoft.Extensions.Logging.Abstractions;
 
     using Moq;
@@ -45,6 +45,8 @@ namespace uml4net.xmi.Tests.Readers
 
         private Mock<IXmiReaderScope> xmiReaderScope;
 
+        private Mock<IExtenderReaderRegistry> extenderReaderRegistry;
+
         private XmiReader xmiReader;
 
         private NameSpaceResolver nameSpaceResolver;
@@ -56,6 +58,8 @@ namespace uml4net.xmi.Tests.Readers
             this.xmiElementCache = new Mock<IXmiElementCache>();
             this.xmiElementReaderFacade = new Mock<IXmiElementReaderFacade>();
             this.externalReferenceResolver = new Mock<IExternalReferenceResolver>();
+            this.extenderReaderRegistry = new Mock<IExtenderReaderRegistry>();
+
             this.xmiReaderScope = new Mock<IXmiReaderScope>();
             this.nameSpaceResolver = new NameSpaceResolver();
 
@@ -63,7 +67,7 @@ namespace uml4net.xmi.Tests.Readers
                 this.xmiElementCache.Object,
                 this.xmiElementReaderFacade.Object,
                 NullLoggerFactory.Instance,
-                this.externalReferenceResolver.Object, xmiReaderScope.Object, new DefaultSettings(), this.nameSpaceResolver);
+                this.externalReferenceResolver.Object, xmiReaderScope.Object, new DefaultSettings(), this.nameSpaceResolver, this.extenderReaderRegistry.Object);
         }
 
         [Test]

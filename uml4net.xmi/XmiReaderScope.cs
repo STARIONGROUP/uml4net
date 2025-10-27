@@ -21,9 +21,10 @@
 namespace uml4net.xmi
 {
     using Autofac;
-    
+
     using Microsoft.Extensions.Logging;
 
+    using uml4net.xmi.Extender;
     using uml4net.xmi.Readers;
     using uml4net.xmi.ReferenceResolver;
     using uml4net.xmi.Resources;
@@ -78,7 +79,10 @@ namespace uml4net.xmi
 
             // Readers
             this.ContainerBuilder.RegisterType<XmiElementReaderFacade>().As<IXmiElementReaderFacade>().SingleInstance();
-            this.ContainerBuilder.RegisterType<XmiReader>().As<IXmiReader>().PropertiesAutowired(PropertyWiringOptions.AllowCircularDependencies); 
+            this.ContainerBuilder.RegisterType<XmiReader>().As<IXmiReader>().PropertiesAutowired(PropertyWiringOptions.AllowCircularDependencies);
+
+            // Extender Reader
+            this.ContainerBuilder.RegisterType<ExtenderReaderRegistry>().As<IExtenderReaderRegistry>().SingleInstance();
         }
 
         /// <summary>

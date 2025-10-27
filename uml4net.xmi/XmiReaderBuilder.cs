@@ -20,10 +20,14 @@
 
 namespace uml4net.xmi
 {
+    using System;
+    using System.Reflection;
+
     using Autofac;
 
     using Microsoft.Extensions.Logging;
 
+    using uml4net.xmi.Extender;
     using uml4net.xmi.Readers;
     using uml4net.xmi.Settings;
 
@@ -138,6 +142,35 @@ namespace uml4net.xmi
         public static XmiReaderScope WithFacade<TFacade>(this XmiReaderScope scope) where TFacade : IXmiElementReaderFacade
         {
             scope.ContainerBuilder.RegisterType<TFacade>().As<IXmiElementReaderFacade>().PropertiesAutowired();
+            return scope;
+        }
+
+        /// <summary>
+        /// Registers an <see cref="IExtenderReader"/> implementation with Autofac using its
+        /// associated <see cref="ExtenderReaderAttribute"/> metadata.
+        /// </summary>
+        /// <typeparam name="TExtender">The type of the extender reader to register.</typeparam>
+        /// <param name="scope">The fluent reader scope for chaining registration calls.</param>
+        /// <returns>The same <see cref="XmiReaderScope"/> instance for chaining.</returns>
+        /// <exception cref="InvalidOperationException">
+        /// Thrown if the <typeparamref name="TExtender"/> type is not decorated with <see cref="ExtenderReaderAttribute"/>.
+        /// </exception>
+        public static XmiReaderScope WithExtender<TExtender>(this XmiReaderScope scope) where TExtender : IExtenderReader
+        {
+            var type = typeof(TExtender);
+            var attr = type.GetCustomAttribute<ExtenderReaderAttribute>();
+            if (attr == null)
+            {
+                throw new InvalidOperationException($"{type.FullName} must be annotated with [ExtenderReader] to be registered.");
+            }
+
+            scope.ContainerBuilder
+                .RegisterType<TExtender>()
+                .As<IExtenderReader>()
+                .WithMetadata("Extender", attr.Extender)
+                .WithMetadata("ExtenderId", attr.ExtenderId ?? string.Empty)
+                .SingleInstance();
+
             return scope;
         }
     }

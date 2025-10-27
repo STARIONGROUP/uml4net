@@ -20,19 +20,16 @@
 
 namespace uml4net.xmi.Extensions.EnterpriseArchitect.Readers
 {
+    using Microsoft.Extensions.Logging;
     using System.Linq;
     using System.Xml;
-
-    using Microsoft.Extensions.Logging;
-
     using uml4net.Packages;
-
     using uml4net.xmi;
+    using uml4net.xmi.Extender;
     using uml4net.xmi.Extensions.EntrepriseArchitect.Structure;
     using uml4net.xmi.Readers;
     using uml4net.xmi.ReferenceResolver;
     using uml4net.xmi.Settings;
-
     using Extension = uml4net.xmi.Extensions.EntrepriseArchitect.Structure.Extension;
     using IExtension = uml4net.xmi.Extensions.EntrepriseArchitect.Structure.IExtension;
 
@@ -65,7 +62,7 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.Readers
         /// <see cref="KnowNamespacePrefixes"/>
         /// </param>
         public EnterpriseArchitectXmiReader(IAssembler assembler, IXmiElementCache cache, IXmiElementReaderFacade xmiElementReaderFacade, ILoggerFactory loggerFactory,
-            IExternalReferenceResolver externalReferenceResolver, IXmiReaderScope scope, IXmiReaderSettings xmiReaderSettings, INameSpaceResolver nameSpaceResolver) : base(assembler, cache, xmiElementReaderFacade, loggerFactory, externalReferenceResolver, scope, xmiReaderSettings, nameSpaceResolver)
+            IExternalReferenceResolver externalReferenceResolver, IXmiReaderScope scope, IXmiReaderSettings xmiReaderSettings, INameSpaceResolver nameSpaceResolver, IExtenderReaderRegistry extenderReaderRegistry) : base(assembler, cache, xmiElementReaderFacade, loggerFactory, externalReferenceResolver, scope, xmiReaderSettings, nameSpaceResolver, extenderReaderRegistry)
         {
         }
 
@@ -109,7 +106,7 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.Readers
                 }
 
                 elementReference.ExtendedElement = extendedElement;
-                extendedElement.Extensions.Add(elementReference);
+                //extendedElement.Extensions.Add(elementReference);
             }
             
             return extensionElement;

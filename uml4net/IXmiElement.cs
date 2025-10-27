@@ -25,9 +25,20 @@ namespace uml4net
     using uml4net.CommonStructure;
 
     /// <summary>
-    /// The <see cref="IXmiElement"/> captures the XMI properties of each element in the
-    /// XMI document
+    /// Represents the abstract base interface for all elements that can appear within an XMI document,
+    /// including both model elements and XMI-specific constructs such as extensions, documentation, and differences.
     /// </summary>
+    /// <remarks>
+    /// <para>
+    /// The <c>IXmiElement</c> interface provides a unified contract for identifying and processing
+    /// elements in an XMI serialization. It is typically implemented by all concrete types that
+    /// participate in the construction of an object graph derived from an XMI-compliant document.
+    /// </para>
+    /// <para>
+    /// Conforming to the <c>IXmiElement</c> interface ensures compatibility with generic XMI parsers,
+    /// model navigators, serializers, and validators operating over arbitrary metamodels derived from MOF.
+    /// </para>
+    /// </remarks>
     public interface IXmiElement
     {
         /// <summary>
@@ -83,6 +94,6 @@ namespace uml4net
         /// <summary>
         /// Gets or sets the extensions defined of this <see cref="IElement" />
         /// </summary>
-        List<IElement> Extensions { get; set; }
+        List<XmiExtension> Extensions { get; set; }
     }
 }

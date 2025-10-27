@@ -20,19 +20,17 @@
 
 namespace uml4net.xmi.Readers
 {
+    using Microsoft.Extensions.Logging;
+    using Microsoft.Extensions.Logging.Abstractions;
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.IO;
     using System.Linq;
     using System.Xml;
-
-    using Microsoft.Extensions.Logging;
-    using Microsoft.Extensions.Logging.Abstractions;
-
     using uml4net.Packages;
-
     using uml4net.xmi;
+    using uml4net.xmi.Extender;
     using uml4net.xmi.ReferenceResolver;
     using uml4net.xmi.Settings;
     using Xmi;
@@ -90,6 +88,8 @@ namespace uml4net.xmi.Readers
         /// </summary>
         protected readonly IXmiReaderSettings XmiReaderSettings;
 
+        protected readonly IExtenderReaderRegistry extenderReaderRegistry;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="XmiReader"/> class.
         /// </summary>
@@ -120,7 +120,7 @@ namespace uml4net.xmi.Readers
         /// <see cref="KnowNamespacePrefixes"/> constants
         /// </param>
         public XmiReader(IAssembler assembler, IXmiElementCache cache, IXmiElementReaderFacade xmiElementReaderFacade, ILoggerFactory loggerFactory,
-            IExternalReferenceResolver externalReferenceResolver, IXmiReaderScope scope, IXmiReaderSettings xmiReaderSettings, INameSpaceResolver nameSpaceResolver)
+            IExternalReferenceResolver externalReferenceResolver, IXmiReaderScope scope, IXmiReaderSettings xmiReaderSettings, INameSpaceResolver nameSpaceResolver, IExtenderReaderRegistry extenderReaderRegistry)
         {
             this.assembler = assembler;
             this.Cache = cache;
@@ -131,6 +131,7 @@ namespace uml4net.xmi.Readers
             this.externalReferenceResolver = externalReferenceResolver;
             this.scope = scope;
             this.nameSpaceResolver = nameSpaceResolver;
+            this.extenderReaderRegistry = extenderReaderRegistry;
         }
 
         /// <summary>
@@ -253,7 +254,7 @@ namespace uml4net.xmi.Readers
 
                 if (isRootXmiElement && !isRootUmlObject)
                 {
-                    var xmiRootReader = new XmiRootReader(this.Cache, this.XmiElementReaderFacade, this.XmiReaderSettings, this.nameSpaceResolver, this.LoggerFactory);
+                    var xmiRootReader = new XmiRootReader(this.Cache, this.XmiElementReaderFacade, this.XmiReaderSettings, this.nameSpaceResolver, this.extenderReaderRegistry, this.LoggerFactory);
                     using var subXmlReader = xmlReader.ReadSubtree();
 
                     if (isRoot)

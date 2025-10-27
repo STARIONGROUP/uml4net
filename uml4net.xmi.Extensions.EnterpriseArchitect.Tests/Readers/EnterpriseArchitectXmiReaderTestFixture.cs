@@ -60,51 +60,53 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.Tests.Readers
         [Ignore("Xmi Reader requires refactoring")]
         public void VerifyCanReadEnterpriseArchitectExtension()
         {
-            var rootPath = Path.Combine(TestContext.CurrentContext.TestDirectory, "Resources");
+            Assert.Inconclusive();
 
-            var reader = XmiReaderBuilder.Create()
-                .UsingSettings(x => x.LocalReferenceBasePath = rootPath)
-                .WithReader<EnterpriseArchitectXmiReader>()
-                .WithFacade<XmiElementExtensionReaderFacade>()
-                .WithLogger(this.loggerFactory)
-                .Build();
+            //var rootPath = Path.Combine(TestContext.CurrentContext.TestDirectory, "Resources");
 
-            var xmiReaderResult = reader.Read(Path.Combine(TestContext.CurrentContext.TestDirectory, "Resources", "EAExport.xmi"));
-            var element = xmiReaderResult.Packages[0].NestedPackage[0].PackagedElement.Single(x => x is Class { Name: "Element" })as Class;
-            var attribute = element!.OwnedAttribute[0];
-            var secondAttribute = element!.OwnedAttribute[1];
-            var operation = element!.OwnedOperation[0];
-            var operationParameter = operation.OwnedParameter[0];
-            var returnParameter = operation.OwnedParameter.Single(x => x.Direction == ParameterDirectionKind.Return);
-            var associationParameters = element!.OwnedAttribute.Where(x => x.Association != null);
-            var elementWithTags = xmiReaderResult.Packages[0].NestedPackage[0].NestedPackage[0].PackagedElement.Single(x => x is Class { Name: "ClassWithTaggedValues" })as Class;
-            var extensionElement = (elementWithTags!.Extensions[0] as Element)!;
-            var tags = extensionElement.Tags.Single().Tag;
+            //var reader = XmiReaderBuilder.Create()
+            //    .UsingSettings(x => x.LocalReferenceBasePath = rootPath)
+            //    .WithReader<EnterpriseArchitectXmiReader>()
+            //    .WithFacade<XmiElementExtensionReaderFacade>()
+            //    .WithLogger(this.loggerFactory)
+            //    .Build();
 
-            using (Assert.EnterMultipleScope())
-            {
-                Assert.That(attribute.QueryDocumentationFromExtensions(), Is.EqualTo("An documentation for an attribute"));
-                Assert.That(element.QueryDocumentationFromExtensions(), Is.EqualTo("An Enterprise Architect documentation"));
-                Assert.That(secondAttribute.QueryDocumentationFromExtensions(), Is.EqualTo("A note from EA"));
-                Assert.That(operation.QueryDocumentationFromExtensions(), Is.EqualTo("The operation also have documentation"));
-                Assert.That(operationParameter.QueryDocumentationFromExtensions(), Is.EqualTo("The parameter documentation"));
-                Assert.That(returnParameter.QueryDocumentationFromExtensions(), Is.EqualTo("Return value"));
-                Assert.That(attribute.IsID, Is.False);
-                Assert.That(attribute.QueryIsId, Is.True);
-                Assert.That(secondAttribute.IsID, Is.False);
-                Assert.That(secondAttribute.QueryIsId, Is.False);
+            //var xmiReaderResult = reader.Read(Path.Combine(TestContext.CurrentContext.TestDirectory, "Resources", "EAExport.xmi"));
+            //var element = xmiReaderResult.Packages[0].NestedPackage[0].PackagedElement.Single(x => x is Class { Name: "Element" })as Class;
+            //var attribute = element!.OwnedAttribute[0];
+            //var secondAttribute = element!.OwnedAttribute[1];
+            //var operation = element!.OwnedOperation[0];
+            //var operationParameter = operation.OwnedParameter[0];
+            //var returnParameter = operation.OwnedParameter.Single(x => x.Direction == ParameterDirectionKind.Return);
+            //var associationParameters = element!.OwnedAttribute.Where(x => x.Association != null);
+            //var elementWithTags = xmiReaderResult.Packages[0].NestedPackage[0].NestedPackage[0].PackagedElement.Single(x => x is Class { Name: "ClassWithTaggedValues" })as Class;
+            //var extensionElement = (elementWithTags!.Extensions[0] as Element)!;
+            //var tags = extensionElement.Tags.Single().Tag;
 
-                foreach (var associationParameter in associationParameters)
-                {
-                    Assert.That(associationParameter.QueryDocumentationFromExtensions(), Is.EqualTo($"A doc for {associationParameter.Name}"));
-                }
+            //using (Assert.EnterMultipleScope())
+            //{
+            //    Assert.That(attribute.QueryDocumentationFromExtensions(), Is.EqualTo("An documentation for an attribute"));
+            //    Assert.That(element.QueryDocumentationFromExtensions(), Is.EqualTo("An Enterprise Architect documentation"));
+            //    Assert.That(secondAttribute.QueryDocumentationFromExtensions(), Is.EqualTo("A note from EA"));
+            //    Assert.That(operation.QueryDocumentationFromExtensions(), Is.EqualTo("The operation also have documentation"));
+            //    Assert.That(operationParameter.QueryDocumentationFromExtensions(), Is.EqualTo("The parameter documentation"));
+            //    Assert.That(returnParameter.QueryDocumentationFromExtensions(), Is.EqualTo("Return value"));
+            //    Assert.That(attribute.IsID, Is.False);
+            //    Assert.That(attribute.QueryIsId, Is.True);
+            //    Assert.That(secondAttribute.IsID, Is.False);
+            //    Assert.That(secondAttribute.QueryIsId, Is.False);
 
-                Assert.That(tags, Has.Count.EqualTo(2));
-                Assert.That(tags[0].Name, Is.EqualTo("EAUML::PackageRef"));
-                Assert.That(tags[0].Value, Is.EqualTo("{A059C88E-4BDF-46ec-9651-03CBB56A4410}"));
-                Assert.That(tags[1].Name, Is.EqualTo("SearchName"));
-                Assert.That(tags[1].Value, Is.EqualTo("Extended"));
-            }
+            //    foreach (var associationParameter in associationParameters)
+            //    {
+            //        Assert.That(associationParameter.QueryDocumentationFromExtensions(), Is.EqualTo($"A doc for {associationParameter.Name}"));
+            //    }
+
+            //    Assert.That(tags, Has.Count.EqualTo(2));
+            //    Assert.That(tags[0].Name, Is.EqualTo("EAUML::PackageRef"));
+            //    Assert.That(tags[0].Value, Is.EqualTo("{A059C88E-4BDF-46ec-9651-03CBB56A4410}"));
+            //    Assert.That(tags[1].Name, Is.EqualTo("SearchName"));
+            //    Assert.That(tags[1].Value, Is.EqualTo("Extended"));
+            //}
         }
     }
 }

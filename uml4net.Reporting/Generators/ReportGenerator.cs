@@ -20,16 +20,15 @@
 
 namespace uml4net.Reporting.Generators
 {
-    using System.IO;
-
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Logging.Abstractions;
-
     using System;
     using System.Collections.Generic;
+    using System.IO;
    
     using uml4net.Packages;
     using uml4net.xmi;
+    using uml4net.xmi.Extensions.EnterpriseArchitect.Extender;
     using uml4net.xmi.Extensions.EnterpriseArchitect.Readers;
     using uml4net.xmi.Extensions.EntrepriseArchitect.Structure.Readers;
     using uml4net.xmi.Readers;
@@ -127,6 +126,8 @@ namespace uml4net.Reporting.Generators
                 readerBuilder.WithReader<EnterpriseArchitectXmiReader>();
                 readerBuilder.WithFacade<XmiElementExtensionReaderFacade>();
             }
+
+            readerBuilder.WithExtender<EnterpriseArchitectExtenderReader>();
 
             using var reader = readerBuilder.Build();
             return reader.Read(modelPath.FullName);

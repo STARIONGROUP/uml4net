@@ -20,12 +20,11 @@
 
 namespace uml4net.xmi.Readers
 {
-    using System;
-    using System.Xml;
-
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Logging.Abstractions;
-
+    using System;
+    using System.Xml;
+    using Extender;
     using uml4net.xmi.Settings;
     using uml4net.xmi.Xmi;
 
@@ -57,6 +56,8 @@ namespace uml4net.xmi.Readers
         /// </summary>
         private readonly INameSpaceResolver nameSpaceResolver;
 
+        private readonly IExtenderReaderRegistry extenderReaderRegistry;
+
         /// <summary>
         /// The <see cref="ILoggerFactory"/> used to set up logging
         /// </summary>
@@ -87,12 +88,13 @@ namespace uml4net.xmi.Readers
         /// <param name="loggerFactory">
         /// The (injected) <see cref="ILoggerFactory"/> used to set up logging
         /// </param>
-        public XmiRootReader(IXmiElementCache cache, IXmiElementReaderFacade xmiElementReaderFacade, IXmiReaderSettings xmiReaderSettings, INameSpaceResolver nameSpaceResolver, ILoggerFactory loggerFactory)
+        public XmiRootReader(IXmiElementCache cache, IXmiElementReaderFacade xmiElementReaderFacade, IXmiReaderSettings xmiReaderSettings, INameSpaceResolver nameSpaceResolver, IExtenderReaderRegistry extenderReaderRegistry, ILoggerFactory loggerFactory)
         {
             this.cache = cache;
             this.xmiElementReaderFacade = xmiElementReaderFacade;
             this.xmiReaderSettings = xmiReaderSettings;
             this.nameSpaceResolver = nameSpaceResolver;
+            this.extenderReaderRegistry = extenderReaderRegistry;
             this.loggerFactory = loggerFactory;
             this.logger = loggerFactory == null ? NullLogger<XmiRootReader>.Instance : loggerFactory.CreateLogger<XmiRootReader>();
         }
@@ -146,10 +148,13 @@ namespace uml4net.xmi.Readers
 
                         switch (activeNameSpace, xmlReader.LocalName)
                         {
-                            case ( KnowNamespacePrefixes.Xmi, "extension"):
+                            case (KnowNamespacePrefixes.Xmi, "extension"):
                             case (KnowNamespacePrefixes.Xmi, "Extension"):
-                                this.logger.LogInformation("Extensions elements contained in the XmiRoot Element are currently ignored - line:position {Line}:{Position}", xmlLineInfo?.LineNumber, xmlLineInfo?.LinePosition);
-                                xmlReader.Skip();
+                                {
+                                    using var xmiExtensionXmlReader = xmlReader.ReadSubtree();
+                                    var xmiExtensionReader = new XmiExtensionReader(this.xmiReaderSettings, this.nameSpaceResolver, this.extenderReaderRegistry, this.loggerFactory);
+                                    xmiExtensionReader.Read(xmiExtensionXmlReader, documentName, namespaceUri);
+                                }
                                 break;
                             case (KnowNamespacePrefixes.Xmi, "difference"):
                             case (KnowNamespacePrefixes.Xmi, "Difference"):
