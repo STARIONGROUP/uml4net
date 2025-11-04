@@ -3,7 +3,7 @@
     <PropertyGroup Label="Package">
         <TargetFramework>net9.0</TargetFramework>
         <LangVersion>12.0</LangVersion>
-        <Version>5.2.3</Version>
+        <Version>5.2.4</Version>
         <Title>uml4net.Tools</Title>
         <Description>A command line application that processes a UML file and generates various reports.</Description>
         <OutputType>Exe</OutputType>
@@ -20,7 +20,8 @@
         <GenerateSBOM>true</GenerateSBOM>
         <PackageReleaseNotes>
           [Update] PropertiesReaders bugfix for handling whitespace values: use IsNullOrWhiteSpace instead of IsNullOrEmpty.
-          [Update] uml4net.Reporting to version 5.2.3
+          [Bump] uml4net.xmi 4.0.6
+          [Update] uml4net.Reporting to version 5.2.4
         </PackageReleaseNotes>
     </PropertyGroup>
 
