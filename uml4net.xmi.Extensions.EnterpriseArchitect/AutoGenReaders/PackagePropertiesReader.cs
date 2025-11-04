@@ -146,7 +146,7 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure.Readers
 
                 var tposXmlAttribute = xmlReader.GetAttribute("tpos") ?? xmlReader.GetAttribute("tpos", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(tposXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(tposXmlAttribute))
                 {
                     poco.Tpos = int.Parse(tposXmlAttribute);
                 }
@@ -163,7 +163,7 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure.Readers
                             case "tpos":
                                 var tposValue = xmlReader.ReadElementContentAsString();
 
-                                if (!string.IsNullOrEmpty(tposValue))
+                                if (!string.IsNullOrWhiteSpace(tposValue))
                                 {
                                     poco.Tpos = int.Parse(tposValue);
                                 }

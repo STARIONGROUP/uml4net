@@ -163,14 +163,14 @@ namespace uml4net.xmi.Readers
 
                 var activityXmlAttribute = xmlReader.GetAttribute("activity") ?? xmlReader.GetAttribute("activity", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(activityXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(activityXmlAttribute))
                 {
                     poco.SingleValueReferencePropertyIdentifiers.Add("activity", activityXmlAttribute);
                 }
 
                 var inPartitionXmlAttribute = xmlReader.GetAttribute("inPartition") ?? xmlReader.GetAttribute("inPartition", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(inPartitionXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(inPartitionXmlAttribute))
                 {
                     var inPartitionXmlAttributeValues = inPartitionXmlAttribute.Split(SplitMultiReference, StringSplitOptions.RemoveEmptyEntries).ToList();
                     poco.MultiValueReferencePropertyIdentifiers.Add("inPartition", inPartitionXmlAttributeValues);
@@ -178,21 +178,21 @@ namespace uml4net.xmi.Readers
 
                 var inStructuredNodeXmlAttribute = xmlReader.GetAttribute("inStructuredNode") ?? xmlReader.GetAttribute("inStructuredNode", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(inStructuredNodeXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(inStructuredNodeXmlAttribute))
                 {
                     poco.SingleValueReferencePropertyIdentifiers.Add("inStructuredNode", inStructuredNodeXmlAttribute);
                 }
 
                 var interruptsXmlAttribute = xmlReader.GetAttribute("interrupts") ?? xmlReader.GetAttribute("interrupts", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(interruptsXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(interruptsXmlAttribute))
                 {
                     poco.SingleValueReferencePropertyIdentifiers.Add("interrupts", interruptsXmlAttribute);
                 }
 
                 var isLeafXmlAttribute = xmlReader.GetAttribute("isLeaf") ?? xmlReader.GetAttribute("isLeaf", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(isLeafXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(isLeafXmlAttribute))
                 {
                     poco.IsLeaf = bool.Parse(isLeafXmlAttribute);
                 }
@@ -201,7 +201,7 @@ namespace uml4net.xmi.Readers
 
                 var redefinedEdgeXmlAttribute = xmlReader.GetAttribute("redefinedEdge") ?? xmlReader.GetAttribute("redefinedEdge", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(redefinedEdgeXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(redefinedEdgeXmlAttribute))
                 {
                     var redefinedEdgeXmlAttributeValues = redefinedEdgeXmlAttribute.Split(SplitMultiReference, StringSplitOptions.RemoveEmptyEntries).ToList();
                     poco.MultiValueReferencePropertyIdentifiers.Add("redefinedEdge", redefinedEdgeXmlAttributeValues);
@@ -209,21 +209,21 @@ namespace uml4net.xmi.Readers
 
                 var sourceXmlAttribute = xmlReader.GetAttribute("source") ?? xmlReader.GetAttribute("source", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(sourceXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(sourceXmlAttribute))
                 {
                     poco.SingleValueReferencePropertyIdentifiers.Add("source", sourceXmlAttribute);
                 }
 
                 var targetXmlAttribute = xmlReader.GetAttribute("target") ?? xmlReader.GetAttribute("target", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(targetXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(targetXmlAttribute))
                 {
                     poco.SingleValueReferencePropertyIdentifiers.Add("target", targetXmlAttribute);
                 }
 
                 var visibilityXmlAttribute = xmlReader.GetAttribute("visibility") ?? xmlReader.GetAttribute("visibility", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(visibilityXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(visibilityXmlAttribute))
                 {
                     poco.Visibility = (VisibilityKind)Enum.Parse(typeof(VisibilityKind), visibilityXmlAttribute, true);
                 }
@@ -258,7 +258,7 @@ namespace uml4net.xmi.Readers
                             case (KnowNamespacePrefixes.Uml, "isLeaf"):
                                 var isLeafValue = xmlReader.ReadElementContentAsString();
 
-                                if (!string.IsNullOrEmpty(isLeafValue))
+                                if (!string.IsNullOrWhiteSpace(isLeafValue))
                                 {
                                     poco.IsLeaf = bool.Parse(isLeafValue);
                                 }
@@ -287,7 +287,7 @@ namespace uml4net.xmi.Readers
                             case (KnowNamespacePrefixes.Uml, "visibility"):
                                 var visibilityValue = xmlReader.ReadElementContentAsString();
 
-                                if (!string.IsNullOrEmpty(visibilityValue))
+                                if (!string.IsNullOrWhiteSpace(visibilityValue))
                                 {
                                     poco.Visibility = (VisibilityKind)Enum.Parse(typeof(VisibilityKind), visibilityValue, true);
                                 }

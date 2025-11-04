@@ -163,7 +163,7 @@ namespace uml4net.xmi.Readers
 
                 var constrainedElementXmlAttribute = xmlReader.GetAttribute("constrainedElement") ?? xmlReader.GetAttribute("constrainedElement", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(constrainedElementXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(constrainedElementXmlAttribute))
                 {
                     var constrainedElementXmlAttributeValues = constrainedElementXmlAttribute.Split(SplitMultiReference, StringSplitOptions.RemoveEmptyEntries).ToList();
                     poco.MultiValueReferencePropertyIdentifiers.Add("constrainedElement", constrainedElementXmlAttributeValues);
@@ -171,14 +171,14 @@ namespace uml4net.xmi.Readers
 
                 var contextXmlAttribute = xmlReader.GetAttribute("context") ?? xmlReader.GetAttribute("context", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(contextXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(contextXmlAttribute))
                 {
                     poco.SingleValueReferencePropertyIdentifiers.Add("context", contextXmlAttribute);
                 }
 
                 var firstEventXmlAttribute = xmlReader.GetAttribute("firstEvent") ?? xmlReader.GetAttribute("firstEvent", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(firstEventXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(firstEventXmlAttribute))
                 {
                     poco.FirstEvent = bool.Parse(firstEventXmlAttribute);
                 }
@@ -187,21 +187,21 @@ namespace uml4net.xmi.Readers
 
                 var owningTemplateParameterXmlAttribute = xmlReader.GetAttribute("owningTemplateParameter") ?? xmlReader.GetAttribute("owningTemplateParameter", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(owningTemplateParameterXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(owningTemplateParameterXmlAttribute))
                 {
                     poco.SingleValueReferencePropertyIdentifiers.Add("owningTemplateParameter", owningTemplateParameterXmlAttribute);
                 }
 
                 var templateParameterXmlAttribute = xmlReader.GetAttribute("templateParameter") ?? xmlReader.GetAttribute("templateParameter", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(templateParameterXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(templateParameterXmlAttribute))
                 {
                     poco.SingleValueReferencePropertyIdentifiers.Add("templateParameter", templateParameterXmlAttribute);
                 }
 
                 var visibilityXmlAttribute = xmlReader.GetAttribute("visibility") ?? xmlReader.GetAttribute("visibility", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(visibilityXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(visibilityXmlAttribute))
                 {
                     poco.Visibility = (VisibilityKind)Enum.Parse(typeof(VisibilityKind), visibilityXmlAttribute, true);
                 }
@@ -226,7 +226,7 @@ namespace uml4net.xmi.Readers
                             case (KnowNamespacePrefixes.Uml, "firstEvent"):
                                 var firstEventValue = xmlReader.ReadElementContentAsString();
 
-                                if (!string.IsNullOrEmpty(firstEventValue))
+                                if (!string.IsNullOrWhiteSpace(firstEventValue))
                                 {
                                     poco.FirstEvent = bool.Parse(firstEventValue);
                                 }
@@ -256,7 +256,7 @@ namespace uml4net.xmi.Readers
                             case (KnowNamespacePrefixes.Uml, "visibility"):
                                 var visibilityValue = xmlReader.ReadElementContentAsString();
 
-                                if (!string.IsNullOrEmpty(visibilityValue))
+                                if (!string.IsNullOrWhiteSpace(visibilityValue))
                                 {
                                     poco.Visibility = (VisibilityKind)Enum.Parse(typeof(VisibilityKind), visibilityValue, true);
                                 }

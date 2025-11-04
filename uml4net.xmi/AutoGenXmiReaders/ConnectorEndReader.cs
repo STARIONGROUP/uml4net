@@ -163,28 +163,28 @@ namespace uml4net.xmi.Readers
 
                 var isOrderedXmlAttribute = xmlReader.GetAttribute("isOrdered") ?? xmlReader.GetAttribute("isOrdered", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(isOrderedXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(isOrderedXmlAttribute))
                 {
                     poco.IsOrdered = bool.Parse(isOrderedXmlAttribute);
                 }
 
                 var isUniqueXmlAttribute = xmlReader.GetAttribute("isUnique") ?? xmlReader.GetAttribute("isUnique", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(isUniqueXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(isUniqueXmlAttribute))
                 {
                     poco.IsUnique = bool.Parse(isUniqueXmlAttribute);
                 }
 
                 var partWithPortXmlAttribute = xmlReader.GetAttribute("partWithPort") ?? xmlReader.GetAttribute("partWithPort", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(partWithPortXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(partWithPortXmlAttribute))
                 {
                     poco.SingleValueReferencePropertyIdentifiers.Add("partWithPort", partWithPortXmlAttribute);
                 }
 
                 var roleXmlAttribute = xmlReader.GetAttribute("role") ?? xmlReader.GetAttribute("role", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(roleXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(roleXmlAttribute))
                 {
                     poco.SingleValueReferencePropertyIdentifiers.Add("role", roleXmlAttribute);
                 }
@@ -203,7 +203,7 @@ namespace uml4net.xmi.Readers
                             case (KnowNamespacePrefixes.Uml, "isOrdered"):
                                 var isOrderedValue = xmlReader.ReadElementContentAsString();
 
-                                if (!string.IsNullOrEmpty(isOrderedValue))
+                                if (!string.IsNullOrWhiteSpace(isOrderedValue))
                                 {
                                     poco.IsOrdered = bool.Parse(isOrderedValue);
                                 }
@@ -212,7 +212,7 @@ namespace uml4net.xmi.Readers
                             case (KnowNamespacePrefixes.Uml, "isUnique"):
                                 var isUniqueValue = xmlReader.ReadElementContentAsString();
 
-                                if (!string.IsNullOrEmpty(isUniqueValue))
+                                if (!string.IsNullOrWhiteSpace(isUniqueValue))
                                 {
                                     poco.IsUnique = bool.Parse(isUniqueValue);
                                 }

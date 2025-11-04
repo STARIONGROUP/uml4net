@@ -148,28 +148,28 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure.Readers
 
                 var isLeafXmlAttribute = xmlReader.GetAttribute("isLeaf") ?? xmlReader.GetAttribute("isLeaf", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(isLeafXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(isLeafXmlAttribute))
                 {
                     poco.IsLeaf = bool.Parse(isLeafXmlAttribute);
                 }
 
                 var isNavigableXmlAttribute = xmlReader.GetAttribute("isNavigable") ?? xmlReader.GetAttribute("isNavigable", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(isNavigableXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(isNavigableXmlAttribute))
                 {
                     poco.IsNavigable = bool.Parse(isNavigableXmlAttribute);
                 }
 
                 var isOrderedXmlAttribute = xmlReader.GetAttribute("isOrdered") ?? xmlReader.GetAttribute("isOrdered", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(isOrderedXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(isOrderedXmlAttribute))
                 {
                     poco.IsOrdered = bool.Parse(isOrderedXmlAttribute);
                 }
 
                 var isRootXmlAttribute = xmlReader.GetAttribute("isRoot") ?? xmlReader.GetAttribute("isRoot", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(isRootXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(isRootXmlAttribute))
                 {
                     poco.IsRoot = bool.Parse(isRootXmlAttribute);
                 }
@@ -187,7 +187,7 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure.Readers
                             case "isLeaf":
                                 var isLeafValue = xmlReader.ReadElementContentAsString();
 
-                                if (!string.IsNullOrEmpty(isLeafValue))
+                                if (!string.IsNullOrWhiteSpace(isLeafValue))
                                 {
                                     poco.IsLeaf = bool.Parse(isLeafValue);
                                 }
@@ -196,7 +196,7 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure.Readers
                             case "isNavigable":
                                 var isNavigableValue = xmlReader.ReadElementContentAsString();
 
-                                if (!string.IsNullOrEmpty(isNavigableValue))
+                                if (!string.IsNullOrWhiteSpace(isNavigableValue))
                                 {
                                     poco.IsNavigable = bool.Parse(isNavigableValue);
                                 }
@@ -205,7 +205,7 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure.Readers
                             case "isOrdered":
                                 var isOrderedValue = xmlReader.ReadElementContentAsString();
 
-                                if (!string.IsNullOrEmpty(isOrderedValue))
+                                if (!string.IsNullOrWhiteSpace(isOrderedValue))
                                 {
                                     poco.IsOrdered = bool.Parse(isOrderedValue);
                                 }
@@ -214,7 +214,7 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure.Readers
                             case "isRoot":
                                 var isRootValue = xmlReader.ReadElementContentAsString();
 
-                                if (!string.IsNullOrEmpty(isRootValue))
+                                if (!string.IsNullOrWhiteSpace(isRootValue))
                                 {
                                     poco.IsRoot = bool.Parse(isRootValue);
                                 }

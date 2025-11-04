@@ -148,7 +148,7 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure.Readers
 
                 var complexityXmlAttribute = xmlReader.GetAttribute("complexity") ?? xmlReader.GetAttribute("complexity", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(complexityXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(complexityXmlAttribute))
                 {
                     poco.Complexity = int.Parse(complexityXmlAttribute);
                 }
@@ -161,7 +161,7 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure.Readers
 
                 var statusXmlAttribute = xmlReader.GetAttribute("status") ?? xmlReader.GetAttribute("status", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(statusXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(statusXmlAttribute))
                 {
                     poco.Status = (Status)Enum.Parse(typeof(Status), statusXmlAttribute, true);
                 }
@@ -181,7 +181,7 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure.Readers
                             case "complexity":
                                 var complexityValue = xmlReader.ReadElementContentAsString();
 
-                                if (!string.IsNullOrEmpty(complexityValue))
+                                if (!string.IsNullOrWhiteSpace(complexityValue))
                                 {
                                     poco.Complexity = int.Parse(complexityValue);
                                 }
@@ -199,7 +199,7 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure.Readers
                             case "status":
                                 var statusValue = xmlReader.ReadElementContentAsString();
 
-                                if (!string.IsNullOrEmpty(statusValue))
+                                if (!string.IsNullOrWhiteSpace(statusValue))
                                 {
                                     poco.Status = (Status)Enum.Parse(typeof(Status), statusValue, true);
                                 }

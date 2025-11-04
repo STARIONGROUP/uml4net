@@ -163,21 +163,21 @@ namespace uml4net.xmi.Readers
 
                 var activityScopeXmlAttribute = xmlReader.GetAttribute("activityScope") ?? xmlReader.GetAttribute("activityScope", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(activityScopeXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(activityScopeXmlAttribute))
                 {
                     poco.SingleValueReferencePropertyIdentifiers.Add("activityScope", activityScopeXmlAttribute);
                 }
 
                 var isOrderedXmlAttribute = xmlReader.GetAttribute("isOrdered") ?? xmlReader.GetAttribute("isOrdered", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(isOrderedXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(isOrderedXmlAttribute))
                 {
                     poco.IsOrdered = bool.Parse(isOrderedXmlAttribute);
                 }
 
                 var isUniqueXmlAttribute = xmlReader.GetAttribute("isUnique") ?? xmlReader.GetAttribute("isUnique", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(isUniqueXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(isUniqueXmlAttribute))
                 {
                     poco.IsUnique = bool.Parse(isUniqueXmlAttribute);
                 }
@@ -186,35 +186,35 @@ namespace uml4net.xmi.Readers
 
                 var owningTemplateParameterXmlAttribute = xmlReader.GetAttribute("owningTemplateParameter") ?? xmlReader.GetAttribute("owningTemplateParameter", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(owningTemplateParameterXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(owningTemplateParameterXmlAttribute))
                 {
                     poco.SingleValueReferencePropertyIdentifiers.Add("owningTemplateParameter", owningTemplateParameterXmlAttribute);
                 }
 
                 var scopeXmlAttribute = xmlReader.GetAttribute("scope") ?? xmlReader.GetAttribute("scope", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(scopeXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(scopeXmlAttribute))
                 {
                     poco.SingleValueReferencePropertyIdentifiers.Add("scope", scopeXmlAttribute);
                 }
 
                 var templateParameterXmlAttribute = xmlReader.GetAttribute("templateParameter") ?? xmlReader.GetAttribute("templateParameter", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(templateParameterXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(templateParameterXmlAttribute))
                 {
                     poco.SingleValueReferencePropertyIdentifiers.Add("templateParameter", templateParameterXmlAttribute);
                 }
 
                 var typeXmlAttribute = xmlReader.GetAttribute("type") ?? xmlReader.GetAttribute("type", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(typeXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(typeXmlAttribute))
                 {
                     poco.SingleValueReferencePropertyIdentifiers.Add("type", typeXmlAttribute);
                 }
 
                 var visibilityXmlAttribute = xmlReader.GetAttribute("visibility") ?? xmlReader.GetAttribute("visibility", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(visibilityXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(visibilityXmlAttribute))
                 {
                     poco.Visibility = (VisibilityKind)Enum.Parse(typeof(VisibilityKind), visibilityXmlAttribute, true);
                 }
@@ -236,7 +236,7 @@ namespace uml4net.xmi.Readers
                             case (KnowNamespacePrefixes.Uml, "isOrdered"):
                                 var isOrderedValue = xmlReader.ReadElementContentAsString();
 
-                                if (!string.IsNullOrEmpty(isOrderedValue))
+                                if (!string.IsNullOrWhiteSpace(isOrderedValue))
                                 {
                                     poco.IsOrdered = bool.Parse(isOrderedValue);
                                 }
@@ -245,7 +245,7 @@ namespace uml4net.xmi.Readers
                             case (KnowNamespacePrefixes.Uml, "isUnique"):
                                 var isUniqueValue = xmlReader.ReadElementContentAsString();
 
-                                if (!string.IsNullOrEmpty(isUniqueValue))
+                                if (!string.IsNullOrWhiteSpace(isUniqueValue))
                                 {
                                     poco.IsUnique = bool.Parse(isUniqueValue);
                                 }
@@ -285,7 +285,7 @@ namespace uml4net.xmi.Readers
                             case (KnowNamespacePrefixes.Uml, "visibility"):
                                 var visibilityValue = xmlReader.ReadElementContentAsString();
 
-                                if (!string.IsNullOrEmpty(visibilityValue))
+                                if (!string.IsNullOrWhiteSpace(visibilityValue))
                                 {
                                     poco.Visibility = (VisibilityKind)Enum.Parse(typeof(VisibilityKind), visibilityValue, true);
                                 }

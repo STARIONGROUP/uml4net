@@ -163,14 +163,14 @@ namespace uml4net.xmi.Readers
 
                 var classifierXmlAttribute = xmlReader.GetAttribute("classifier") ?? xmlReader.GetAttribute("classifier", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(classifierXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(classifierXmlAttribute))
                 {
                     poco.SingleValueReferencePropertyIdentifiers.Add("classifier", classifierXmlAttribute);
                 }
 
                 var extendedSignatureXmlAttribute = xmlReader.GetAttribute("extendedSignature") ?? xmlReader.GetAttribute("extendedSignature", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(extendedSignatureXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(extendedSignatureXmlAttribute))
                 {
                     var extendedSignatureXmlAttributeValues = extendedSignatureXmlAttribute.Split(SplitMultiReference, StringSplitOptions.RemoveEmptyEntries).ToList();
                     poco.MultiValueReferencePropertyIdentifiers.Add("extendedSignature", extendedSignatureXmlAttributeValues);
@@ -178,7 +178,7 @@ namespace uml4net.xmi.Readers
 
                 var isLeafXmlAttribute = xmlReader.GetAttribute("isLeaf") ?? xmlReader.GetAttribute("isLeaf", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(isLeafXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(isLeafXmlAttribute))
                 {
                     poco.IsLeaf = bool.Parse(isLeafXmlAttribute);
                 }
@@ -187,7 +187,7 @@ namespace uml4net.xmi.Readers
 
                 var parameterXmlAttribute = xmlReader.GetAttribute("parameter") ?? xmlReader.GetAttribute("parameter", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(parameterXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(parameterXmlAttribute))
                 {
                     var parameterXmlAttributeValues = parameterXmlAttribute.Split(SplitMultiReference, StringSplitOptions.RemoveEmptyEntries).ToList();
                     poco.MultiValueReferencePropertyIdentifiers.Add("parameter", parameterXmlAttributeValues);
@@ -195,7 +195,7 @@ namespace uml4net.xmi.Readers
 
                 var visibilityXmlAttribute = xmlReader.GetAttribute("visibility") ?? xmlReader.GetAttribute("visibility", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(visibilityXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(visibilityXmlAttribute))
                 {
                     poco.Visibility = (VisibilityKind)Enum.Parse(typeof(VisibilityKind), visibilityXmlAttribute, true);
                 }
@@ -220,7 +220,7 @@ namespace uml4net.xmi.Readers
                             case (KnowNamespacePrefixes.Uml, "isLeaf"):
                                 var isLeafValue = xmlReader.ReadElementContentAsString();
 
-                                if (!string.IsNullOrEmpty(isLeafValue))
+                                if (!string.IsNullOrWhiteSpace(isLeafValue))
                                 {
                                     poco.IsLeaf = bool.Parse(isLeafValue);
                                 }
@@ -247,7 +247,7 @@ namespace uml4net.xmi.Readers
                             case (KnowNamespacePrefixes.Uml, "visibility"):
                                 var visibilityValue = xmlReader.ReadElementContentAsString();
 
-                                if (!string.IsNullOrEmpty(visibilityValue))
+                                if (!string.IsNullOrWhiteSpace(visibilityValue))
                                 {
                                     poco.Visibility = (VisibilityKind)Enum.Parse(typeof(VisibilityKind), visibilityValue, true);
                                 }

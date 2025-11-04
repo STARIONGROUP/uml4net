@@ -163,28 +163,28 @@ namespace uml4net.xmi.Readers
 
                 var endXmlAttribute = xmlReader.GetAttribute("end") ?? xmlReader.GetAttribute("end", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(endXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(endXmlAttribute))
                 {
                     poco.SingleValueReferencePropertyIdentifiers.Add("end", endXmlAttribute);
                 }
 
                 var insertAtXmlAttribute = xmlReader.GetAttribute("insertAt") ?? xmlReader.GetAttribute("insertAt", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(insertAtXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(insertAtXmlAttribute))
                 {
                     poco.SingleValueReferencePropertyIdentifiers.Add("insertAt", insertAtXmlAttribute);
                 }
 
                 var isReplaceAllXmlAttribute = xmlReader.GetAttribute("isReplaceAll") ?? xmlReader.GetAttribute("isReplaceAll", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(isReplaceAllXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(isReplaceAllXmlAttribute))
                 {
                     poco.IsReplaceAll = bool.Parse(isReplaceAllXmlAttribute);
                 }
 
                 var valueXmlAttribute = xmlReader.GetAttribute("value") ?? xmlReader.GetAttribute("value", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(valueXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(valueXmlAttribute))
                 {
                     poco.SingleValueReferencePropertyIdentifiers.Add("value", valueXmlAttribute);
                 }
@@ -209,7 +209,7 @@ namespace uml4net.xmi.Readers
                             case (KnowNamespacePrefixes.Uml, "isReplaceAll"):
                                 var isReplaceAllValue = xmlReader.ReadElementContentAsString();
 
-                                if (!string.IsNullOrEmpty(isReplaceAllValue))
+                                if (!string.IsNullOrWhiteSpace(isReplaceAllValue))
                                 {
                                     poco.IsReplaceAll = bool.Parse(isReplaceAllValue);
                                 }

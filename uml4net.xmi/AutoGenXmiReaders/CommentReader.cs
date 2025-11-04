@@ -163,7 +163,7 @@ namespace uml4net.xmi.Readers
 
                 var annotatedElementXmlAttribute = xmlReader.GetAttribute("annotatedElement") ?? xmlReader.GetAttribute("annotatedElement", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(annotatedElementXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(annotatedElementXmlAttribute))
                 {
                     var annotatedElementXmlAttributeValues = annotatedElementXmlAttribute.Split(SplitMultiReference, StringSplitOptions.RemoveEmptyEntries).ToList();
                     poco.MultiValueReferencePropertyIdentifiers.Add("annotatedElement", annotatedElementXmlAttributeValues);

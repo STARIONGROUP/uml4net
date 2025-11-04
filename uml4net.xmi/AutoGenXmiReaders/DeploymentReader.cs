@@ -163,7 +163,7 @@ namespace uml4net.xmi.Readers
 
                 var clientXmlAttribute = xmlReader.GetAttribute("client") ?? xmlReader.GetAttribute("client", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(clientXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(clientXmlAttribute))
                 {
                     var clientXmlAttributeValues = clientXmlAttribute.Split(SplitMultiReference, StringSplitOptions.RemoveEmptyEntries).ToList();
                     poco.MultiValueReferencePropertyIdentifiers.Add("client", clientXmlAttributeValues);
@@ -171,7 +171,7 @@ namespace uml4net.xmi.Readers
 
                 var deployedArtifactXmlAttribute = xmlReader.GetAttribute("deployedArtifact") ?? xmlReader.GetAttribute("deployedArtifact", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(deployedArtifactXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(deployedArtifactXmlAttribute))
                 {
                     var deployedArtifactXmlAttributeValues = deployedArtifactXmlAttribute.Split(SplitMultiReference, StringSplitOptions.RemoveEmptyEntries).ToList();
                     poco.MultiValueReferencePropertyIdentifiers.Add("deployedArtifact", deployedArtifactXmlAttributeValues);
@@ -179,7 +179,7 @@ namespace uml4net.xmi.Readers
 
                 var locationXmlAttribute = xmlReader.GetAttribute("location") ?? xmlReader.GetAttribute("location", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(locationXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(locationXmlAttribute))
                 {
                     poco.SingleValueReferencePropertyIdentifiers.Add("location", locationXmlAttribute);
                 }
@@ -188,14 +188,14 @@ namespace uml4net.xmi.Readers
 
                 var owningTemplateParameterXmlAttribute = xmlReader.GetAttribute("owningTemplateParameter") ?? xmlReader.GetAttribute("owningTemplateParameter", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(owningTemplateParameterXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(owningTemplateParameterXmlAttribute))
                 {
                     poco.SingleValueReferencePropertyIdentifiers.Add("owningTemplateParameter", owningTemplateParameterXmlAttribute);
                 }
 
                 var supplierXmlAttribute = xmlReader.GetAttribute("supplier") ?? xmlReader.GetAttribute("supplier", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(supplierXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(supplierXmlAttribute))
                 {
                     var supplierXmlAttributeValues = supplierXmlAttribute.Split(SplitMultiReference, StringSplitOptions.RemoveEmptyEntries).ToList();
                     poco.MultiValueReferencePropertyIdentifiers.Add("supplier", supplierXmlAttributeValues);
@@ -203,14 +203,14 @@ namespace uml4net.xmi.Readers
 
                 var templateParameterXmlAttribute = xmlReader.GetAttribute("templateParameter") ?? xmlReader.GetAttribute("templateParameter", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(templateParameterXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(templateParameterXmlAttribute))
                 {
                     poco.SingleValueReferencePropertyIdentifiers.Add("templateParameter", templateParameterXmlAttribute);
                 }
 
                 var visibilityXmlAttribute = xmlReader.GetAttribute("visibility") ?? xmlReader.GetAttribute("visibility", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(visibilityXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(visibilityXmlAttribute))
                 {
                     poco.Visibility = (VisibilityKind)Enum.Parse(typeof(VisibilityKind), visibilityXmlAttribute, true);
                 }
@@ -262,7 +262,7 @@ namespace uml4net.xmi.Readers
                             case (KnowNamespacePrefixes.Uml, "visibility"):
                                 var visibilityValue = xmlReader.ReadElementContentAsString();
 
-                                if (!string.IsNullOrEmpty(visibilityValue))
+                                if (!string.IsNullOrWhiteSpace(visibilityValue))
                                 {
                                     poco.Visibility = (VisibilityKind)Enum.Parse(typeof(VisibilityKind), visibilityValue, true);
                                 }

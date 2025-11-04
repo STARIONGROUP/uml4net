@@ -163,14 +163,14 @@ namespace uml4net.xmi.Readers
 
                 var behaviorXmlAttribute = xmlReader.GetAttribute("behavior") ?? xmlReader.GetAttribute("behavior", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(behaviorXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(behaviorXmlAttribute))
                 {
                     poco.SingleValueReferencePropertyIdentifiers.Add("behavior", behaviorXmlAttribute);
                 }
 
                 var bodyXmlAttribute = xmlReader.GetAttribute("body") ?? xmlReader.GetAttribute("body", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(bodyXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(bodyXmlAttribute))
                 {
                     var bodyXmlAttributeValues = bodyXmlAttribute.Split(this.XmiReaderSettings.ValueSeparator);
                     foreach (var bodyXmlAttributeValue in bodyXmlAttributeValues)
@@ -181,7 +181,7 @@ namespace uml4net.xmi.Readers
 
                 var languageXmlAttribute = xmlReader.GetAttribute("language") ?? xmlReader.GetAttribute("language", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(languageXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(languageXmlAttribute))
                 {
                     var languageXmlAttributeValues = languageXmlAttribute.Split(this.XmiReaderSettings.ValueSeparator);
                     foreach (var languageXmlAttributeValue in languageXmlAttributeValues)
@@ -194,28 +194,28 @@ namespace uml4net.xmi.Readers
 
                 var owningTemplateParameterXmlAttribute = xmlReader.GetAttribute("owningTemplateParameter") ?? xmlReader.GetAttribute("owningTemplateParameter", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(owningTemplateParameterXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(owningTemplateParameterXmlAttribute))
                 {
                     poco.SingleValueReferencePropertyIdentifiers.Add("owningTemplateParameter", owningTemplateParameterXmlAttribute);
                 }
 
                 var templateParameterXmlAttribute = xmlReader.GetAttribute("templateParameter") ?? xmlReader.GetAttribute("templateParameter", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(templateParameterXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(templateParameterXmlAttribute))
                 {
                     poco.SingleValueReferencePropertyIdentifiers.Add("templateParameter", templateParameterXmlAttribute);
                 }
 
                 var typeXmlAttribute = xmlReader.GetAttribute("type") ?? xmlReader.GetAttribute("type", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(typeXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(typeXmlAttribute))
                 {
                     poco.SingleValueReferencePropertyIdentifiers.Add("type", typeXmlAttribute);
                 }
 
                 var visibilityXmlAttribute = xmlReader.GetAttribute("visibility") ?? xmlReader.GetAttribute("visibility", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(visibilityXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(visibilityXmlAttribute))
                 {
                     poco.Visibility = (VisibilityKind)Enum.Parse(typeof(VisibilityKind), visibilityXmlAttribute, true);
                 }
@@ -265,7 +265,7 @@ namespace uml4net.xmi.Readers
                             case (KnowNamespacePrefixes.Uml, "visibility"):
                                 var visibilityValue = xmlReader.ReadElementContentAsString();
 
-                                if (!string.IsNullOrEmpty(visibilityValue))
+                                if (!string.IsNullOrWhiteSpace(visibilityValue))
                                 {
                                     poco.Visibility = (VisibilityKind)Enum.Parse(typeof(VisibilityKind), visibilityValue, true);
                                 }

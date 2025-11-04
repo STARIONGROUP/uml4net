@@ -163,7 +163,7 @@ namespace uml4net.xmi.Readers
 
                 var messageXmlAttribute = xmlReader.GetAttribute("message") ?? xmlReader.GetAttribute("message", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(messageXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(messageXmlAttribute))
                 {
                     poco.SingleValueReferencePropertyIdentifiers.Add("message", messageXmlAttribute);
                 }
@@ -172,7 +172,7 @@ namespace uml4net.xmi.Readers
 
                 var visibilityXmlAttribute = xmlReader.GetAttribute("visibility") ?? xmlReader.GetAttribute("visibility", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(visibilityXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(visibilityXmlAttribute))
                 {
                     poco.Visibility = (VisibilityKind)Enum.Parse(typeof(VisibilityKind), visibilityXmlAttribute, true);
                 }
@@ -205,7 +205,7 @@ namespace uml4net.xmi.Readers
                             case (KnowNamespacePrefixes.Uml, "visibility"):
                                 var visibilityValue = xmlReader.ReadElementContentAsString();
 
-                                if (!string.IsNullOrEmpty(visibilityValue))
+                                if (!string.IsNullOrWhiteSpace(visibilityValue))
                                 {
                                     poco.Visibility = (VisibilityKind)Enum.Parse(typeof(VisibilityKind), visibilityValue, true);
                                 }

@@ -163,14 +163,14 @@ namespace uml4net.xmi.Readers
 
                 var generalXmlAttribute = xmlReader.GetAttribute("general") ?? xmlReader.GetAttribute("general", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(generalXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(generalXmlAttribute))
                 {
                     poco.SingleValueReferencePropertyIdentifiers.Add("general", generalXmlAttribute);
                 }
 
                 var generalizationSetXmlAttribute = xmlReader.GetAttribute("generalizationSet") ?? xmlReader.GetAttribute("generalizationSet", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(generalizationSetXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(generalizationSetXmlAttribute))
                 {
                     var generalizationSetXmlAttributeValues = generalizationSetXmlAttribute.Split(SplitMultiReference, StringSplitOptions.RemoveEmptyEntries).ToList();
                     poco.MultiValueReferencePropertyIdentifiers.Add("generalizationSet", generalizationSetXmlAttributeValues);
@@ -178,14 +178,14 @@ namespace uml4net.xmi.Readers
 
                 var isSubstitutableXmlAttribute = xmlReader.GetAttribute("isSubstitutable") ?? xmlReader.GetAttribute("isSubstitutable", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(isSubstitutableXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(isSubstitutableXmlAttribute))
                 {
                     poco.IsSubstitutable = bool.Parse(isSubstitutableXmlAttribute);
                 }
 
                 var specificXmlAttribute = xmlReader.GetAttribute("specific") ?? xmlReader.GetAttribute("specific", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(specificXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(specificXmlAttribute))
                 {
                     poco.SingleValueReferencePropertyIdentifiers.Add("specific", specificXmlAttribute);
                 }
@@ -210,7 +210,7 @@ namespace uml4net.xmi.Readers
                             case (KnowNamespacePrefixes.Uml, "isSubstitutable"):
                                 var isSubstitutableValue = xmlReader.ReadElementContentAsString();
 
-                                if (!string.IsNullOrEmpty(isSubstitutableValue))
+                                if (!string.IsNullOrWhiteSpace(isSubstitutableValue))
                                 {
                                     poco.IsSubstitutable = bool.Parse(isSubstitutableValue);
                                 }

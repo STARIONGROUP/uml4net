@@ -163,7 +163,7 @@ namespace uml4net.xmi.Readers
 
                 var bodyXmlAttribute = xmlReader.GetAttribute("body") ?? xmlReader.GetAttribute("body", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(bodyXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(bodyXmlAttribute))
                 {
                     var bodyXmlAttributeValues = bodyXmlAttribute.Split(SplitMultiReference, StringSplitOptions.RemoveEmptyEntries).ToList();
                     poco.MultiValueReferencePropertyIdentifiers.Add("body", bodyXmlAttributeValues);
@@ -171,7 +171,7 @@ namespace uml4net.xmi.Readers
 
                 var bodyOutputXmlAttribute = xmlReader.GetAttribute("bodyOutput") ?? xmlReader.GetAttribute("bodyOutput", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(bodyOutputXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(bodyOutputXmlAttribute))
                 {
                     var bodyOutputXmlAttributeValues = bodyOutputXmlAttribute.Split(SplitMultiReference, StringSplitOptions.RemoveEmptyEntries).ToList();
                     poco.MultiValueReferencePropertyIdentifiers.Add("bodyOutput", bodyOutputXmlAttributeValues);
@@ -179,14 +179,14 @@ namespace uml4net.xmi.Readers
 
                 var deciderXmlAttribute = xmlReader.GetAttribute("decider") ?? xmlReader.GetAttribute("decider", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(deciderXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(deciderXmlAttribute))
                 {
                     poco.SingleValueReferencePropertyIdentifiers.Add("decider", deciderXmlAttribute);
                 }
 
                 var predecessorClauseXmlAttribute = xmlReader.GetAttribute("predecessorClause") ?? xmlReader.GetAttribute("predecessorClause", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(predecessorClauseXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(predecessorClauseXmlAttribute))
                 {
                     var predecessorClauseXmlAttributeValues = predecessorClauseXmlAttribute.Split(SplitMultiReference, StringSplitOptions.RemoveEmptyEntries).ToList();
                     poco.MultiValueReferencePropertyIdentifiers.Add("predecessorClause", predecessorClauseXmlAttributeValues);
@@ -194,7 +194,7 @@ namespace uml4net.xmi.Readers
 
                 var successorClauseXmlAttribute = xmlReader.GetAttribute("successorClause") ?? xmlReader.GetAttribute("successorClause", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(successorClauseXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(successorClauseXmlAttribute))
                 {
                     var successorClauseXmlAttributeValues = successorClauseXmlAttribute.Split(SplitMultiReference, StringSplitOptions.RemoveEmptyEntries).ToList();
                     poco.MultiValueReferencePropertyIdentifiers.Add("successorClause", successorClauseXmlAttributeValues);
@@ -202,7 +202,7 @@ namespace uml4net.xmi.Readers
 
                 var testXmlAttribute = xmlReader.GetAttribute("test") ?? xmlReader.GetAttribute("test", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(testXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(testXmlAttribute))
                 {
                     var testXmlAttributeValues = testXmlAttribute.Split(SplitMultiReference, StringSplitOptions.RemoveEmptyEntries).ToList();
                     poco.MultiValueReferencePropertyIdentifiers.Add("test", testXmlAttributeValues);

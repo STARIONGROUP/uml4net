@@ -148,14 +148,14 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure.Readers
 
                 var isSpecificationXmlAttribute = xmlReader.GetAttribute("isSpecification") ?? xmlReader.GetAttribute("isSpecification", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(isSpecificationXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(isSpecificationXmlAttribute))
                 {
                     poco.IsSpecification = bool.Parse(isSpecificationXmlAttribute);
                 }
 
                 var nTypeXmlAttribute = xmlReader.GetAttribute("nType") ?? xmlReader.GetAttribute("nType", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(nTypeXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(nTypeXmlAttribute))
                 {
                     poco.NType = int.Parse(nTypeXmlAttribute);
                 }
@@ -179,7 +179,7 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure.Readers
                             case "isSpecification":
                                 var isSpecificationValue = xmlReader.ReadElementContentAsString();
 
-                                if (!string.IsNullOrEmpty(isSpecificationValue))
+                                if (!string.IsNullOrWhiteSpace(isSpecificationValue))
                                 {
                                     poco.IsSpecification = bool.Parse(isSpecificationValue);
                                 }
@@ -188,7 +188,7 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure.Readers
                             case "nType":
                                 var nTypeValue = xmlReader.ReadElementContentAsString();
 
-                                if (!string.IsNullOrEmpty(nTypeValue))
+                                if (!string.IsNullOrWhiteSpace(nTypeValue))
                                 {
                                     poco.NType = int.Parse(nTypeValue);
                                 }

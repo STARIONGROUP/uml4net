@@ -148,7 +148,7 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure.Readers
 
                 var positionXmlAttribute = xmlReader.GetAttribute("position") ?? xmlReader.GetAttribute("position", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(positionXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(positionXmlAttribute))
                 {
                     poco.Position = int.Parse(positionXmlAttribute);
                 }
@@ -166,7 +166,7 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure.Readers
                             case "position":
                                 var positionValue = xmlReader.ReadElementContentAsString();
 
-                                if (!string.IsNullOrEmpty(positionValue))
+                                if (!string.IsNullOrWhiteSpace(positionValue))
                                 {
                                     poco.Position = int.Parse(positionValue);
                                 }

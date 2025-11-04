@@ -148,42 +148,42 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure.Readers
 
                 var constXmlAttribute = xmlReader.GetAttribute("const") ?? xmlReader.GetAttribute("const", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(constXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(constXmlAttribute))
                 {
                     poco.Const = bool.Parse(constXmlAttribute);
                 }
 
                 var isAbstractXmlAttribute = xmlReader.GetAttribute("isAbstract") ?? xmlReader.GetAttribute("isAbstract", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(isAbstractXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(isAbstractXmlAttribute))
                 {
                     poco.IsAbstract = bool.Parse(isAbstractXmlAttribute);
                 }
 
                 var isQueryXmlAttribute = xmlReader.GetAttribute("isQuery") ?? xmlReader.GetAttribute("isQuery", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(isQueryXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(isQueryXmlAttribute))
                 {
                     poco.IsQuery = bool.Parse(isQueryXmlAttribute);
                 }
 
                 var pureXmlAttribute = xmlReader.GetAttribute("pure") ?? xmlReader.GetAttribute("pure", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(pureXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(pureXmlAttribute))
                 {
                     poco.Pure = int.Parse(pureXmlAttribute);
                 }
 
                 var returnarrayXmlAttribute = xmlReader.GetAttribute("returnarray") ?? xmlReader.GetAttribute("returnarray", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(returnarrayXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(returnarrayXmlAttribute))
                 {
                     poco.Returnarray = int.Parse(returnarrayXmlAttribute);
                 }
 
                 var staticXmlAttribute = xmlReader.GetAttribute("static") ?? xmlReader.GetAttribute("static", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(staticXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(staticXmlAttribute))
                 {
                     poco.Static = bool.Parse(staticXmlAttribute);
                 }
@@ -192,7 +192,7 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure.Readers
 
                 var synchronisedXmlAttribute = xmlReader.GetAttribute("synchronised") ?? xmlReader.GetAttribute("synchronised", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(synchronisedXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(synchronisedXmlAttribute))
                 {
                     poco.Synchronised = int.Parse(synchronisedXmlAttribute);
                 }
@@ -212,7 +212,7 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure.Readers
                             case "const":
                                 var constValue = xmlReader.ReadElementContentAsString();
 
-                                if (!string.IsNullOrEmpty(constValue))
+                                if (!string.IsNullOrWhiteSpace(constValue))
                                 {
                                     poco.Const = bool.Parse(constValue);
                                 }
@@ -221,7 +221,7 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure.Readers
                             case "isAbstract":
                                 var isAbstractValue = xmlReader.ReadElementContentAsString();
 
-                                if (!string.IsNullOrEmpty(isAbstractValue))
+                                if (!string.IsNullOrWhiteSpace(isAbstractValue))
                                 {
                                     poco.IsAbstract = bool.Parse(isAbstractValue);
                                 }
@@ -230,7 +230,7 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure.Readers
                             case "isQuery":
                                 var isQueryValue = xmlReader.ReadElementContentAsString();
 
-                                if (!string.IsNullOrEmpty(isQueryValue))
+                                if (!string.IsNullOrWhiteSpace(isQueryValue))
                                 {
                                     poco.IsQuery = bool.Parse(isQueryValue);
                                 }
@@ -239,7 +239,7 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure.Readers
                             case "pure":
                                 var pureValue = xmlReader.ReadElementContentAsString();
 
-                                if (!string.IsNullOrEmpty(pureValue))
+                                if (!string.IsNullOrWhiteSpace(pureValue))
                                 {
                                     poco.Pure = int.Parse(pureValue);
                                 }
@@ -248,7 +248,7 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure.Readers
                             case "returnarray":
                                 var returnarrayValue = xmlReader.ReadElementContentAsString();
 
-                                if (!string.IsNullOrEmpty(returnarrayValue))
+                                if (!string.IsNullOrWhiteSpace(returnarrayValue))
                                 {
                                     poco.Returnarray = int.Parse(returnarrayValue);
                                 }
@@ -257,7 +257,7 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure.Readers
                             case "static":
                                 var staticValue = xmlReader.ReadElementContentAsString();
 
-                                if (!string.IsNullOrEmpty(staticValue))
+                                if (!string.IsNullOrWhiteSpace(staticValue))
                                 {
                                     poco.Static = bool.Parse(staticValue);
                                 }
@@ -269,7 +269,7 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure.Readers
                             case "synchronised":
                                 var synchronisedValue = xmlReader.ReadElementContentAsString();
 
-                                if (!string.IsNullOrEmpty(synchronisedValue))
+                                if (!string.IsNullOrWhiteSpace(synchronisedValue))
                                 {
                                     poco.Synchronised = int.Parse(synchronisedValue);
                                 }
