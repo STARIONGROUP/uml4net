@@ -163,35 +163,35 @@ namespace uml4net.xmi.Readers
 
                 var concurrencyXmlAttribute = xmlReader.GetAttribute("concurrency") ?? xmlReader.GetAttribute("concurrency", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(concurrencyXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(concurrencyXmlAttribute))
                 {
                     poco.Concurrency = (CallConcurrencyKind)Enum.Parse(typeof(CallConcurrencyKind), concurrencyXmlAttribute, true);
                 }
 
                 var isAbstractXmlAttribute = xmlReader.GetAttribute("isAbstract") ?? xmlReader.GetAttribute("isAbstract", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(isAbstractXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(isAbstractXmlAttribute))
                 {
                     poco.IsAbstract = bool.Parse(isAbstractXmlAttribute);
                 }
 
                 var isLeafXmlAttribute = xmlReader.GetAttribute("isLeaf") ?? xmlReader.GetAttribute("isLeaf", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(isLeafXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(isLeafXmlAttribute))
                 {
                     poco.IsLeaf = bool.Parse(isLeafXmlAttribute);
                 }
 
                 var isStaticXmlAttribute = xmlReader.GetAttribute("isStatic") ?? xmlReader.GetAttribute("isStatic", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(isStaticXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(isStaticXmlAttribute))
                 {
                     poco.IsStatic = bool.Parse(isStaticXmlAttribute);
                 }
 
                 var methodXmlAttribute = xmlReader.GetAttribute("method") ?? xmlReader.GetAttribute("method", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(methodXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(methodXmlAttribute))
                 {
                     var methodXmlAttributeValues = methodXmlAttribute.Split(SplitMultiReference, StringSplitOptions.RemoveEmptyEntries).ToList();
                     poco.MultiValueReferencePropertyIdentifiers.Add("method", methodXmlAttributeValues);
@@ -201,7 +201,7 @@ namespace uml4net.xmi.Readers
 
                 var raisedExceptionXmlAttribute = xmlReader.GetAttribute("raisedException") ?? xmlReader.GetAttribute("raisedException", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(raisedExceptionXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(raisedExceptionXmlAttribute))
                 {
                     var raisedExceptionXmlAttributeValues = raisedExceptionXmlAttribute.Split(SplitMultiReference, StringSplitOptions.RemoveEmptyEntries).ToList();
                     poco.MultiValueReferencePropertyIdentifiers.Add("raisedException", raisedExceptionXmlAttributeValues);
@@ -209,14 +209,14 @@ namespace uml4net.xmi.Readers
 
                 var signalXmlAttribute = xmlReader.GetAttribute("signal") ?? xmlReader.GetAttribute("signal", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(signalXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(signalXmlAttribute))
                 {
                     poco.SingleValueReferencePropertyIdentifiers.Add("signal", signalXmlAttribute);
                 }
 
                 var visibilityXmlAttribute = xmlReader.GetAttribute("visibility") ?? xmlReader.GetAttribute("visibility", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(visibilityXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(visibilityXmlAttribute))
                 {
                     poco.Visibility = (VisibilityKind)Enum.Parse(typeof(VisibilityKind), visibilityXmlAttribute, true);
                 }
@@ -235,7 +235,7 @@ namespace uml4net.xmi.Readers
                             case (KnowNamespacePrefixes.Uml, "concurrency"):
                                 var concurrencyValue = xmlReader.ReadElementContentAsString();
 
-                                if (!string.IsNullOrEmpty(concurrencyValue))
+                                if (!string.IsNullOrWhiteSpace(concurrencyValue))
                                 {
                                     poco.Concurrency = (CallConcurrencyKind)Enum.Parse(typeof(CallConcurrencyKind), concurrencyValue, true);
                                 }
@@ -248,7 +248,7 @@ namespace uml4net.xmi.Readers
                             case (KnowNamespacePrefixes.Uml, "isAbstract"):
                                 var isAbstractValue = xmlReader.ReadElementContentAsString();
 
-                                if (!string.IsNullOrEmpty(isAbstractValue))
+                                if (!string.IsNullOrWhiteSpace(isAbstractValue))
                                 {
                                     poco.IsAbstract = bool.Parse(isAbstractValue);
                                 }
@@ -257,7 +257,7 @@ namespace uml4net.xmi.Readers
                             case (KnowNamespacePrefixes.Uml, "isLeaf"):
                                 var isLeafValue = xmlReader.ReadElementContentAsString();
 
-                                if (!string.IsNullOrEmpty(isLeafValue))
+                                if (!string.IsNullOrWhiteSpace(isLeafValue))
                                 {
                                     poco.IsLeaf = bool.Parse(isLeafValue);
                                 }
@@ -266,7 +266,7 @@ namespace uml4net.xmi.Readers
                             case (KnowNamespacePrefixes.Uml, "isStatic"):
                                 var isStaticValue = xmlReader.ReadElementContentAsString();
 
-                                if (!string.IsNullOrEmpty(isStaticValue))
+                                if (!string.IsNullOrWhiteSpace(isStaticValue))
                                 {
                                     poco.IsStatic = bool.Parse(isStaticValue);
                                 }
@@ -311,7 +311,7 @@ namespace uml4net.xmi.Readers
                             case (KnowNamespacePrefixes.Uml, "visibility"):
                                 var visibilityValue = xmlReader.ReadElementContentAsString();
 
-                                if (!string.IsNullOrEmpty(visibilityValue))
+                                if (!string.IsNullOrWhiteSpace(visibilityValue))
                                 {
                                     poco.Visibility = (VisibilityKind)Enum.Parse(typeof(VisibilityKind), visibilityValue, true);
                                 }

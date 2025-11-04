@@ -148,42 +148,42 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure.Readers
 
                 var collectionXmlAttribute = xmlReader.GetAttribute("collection") ?? xmlReader.GetAttribute("collection", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(collectionXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(collectionXmlAttribute))
                 {
                     poco.Collection = bool.Parse(collectionXmlAttribute);
                 }
 
                 var derivedXmlAttribute = xmlReader.GetAttribute("derived") ?? xmlReader.GetAttribute("derived", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(derivedXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(derivedXmlAttribute))
                 {
                     poco.Derived = int.Parse(derivedXmlAttribute);
                 }
 
                 var duplicatesXmlAttribute = xmlReader.GetAttribute("duplicates") ?? xmlReader.GetAttribute("duplicates", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(duplicatesXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(duplicatesXmlAttribute))
                 {
                     poco.Duplicates = int.Parse(duplicatesXmlAttribute);
                 }
 
                 var lengthXmlAttribute = xmlReader.GetAttribute("length") ?? xmlReader.GetAttribute("length", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(lengthXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(lengthXmlAttribute))
                 {
                     poco.Length = int.Parse(lengthXmlAttribute);
                 }
 
                 var precisionXmlAttribute = xmlReader.GetAttribute("precision") ?? xmlReader.GetAttribute("precision", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(precisionXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(precisionXmlAttribute))
                 {
                     poco.Precision = int.Parse(precisionXmlAttribute);
                 }
 
                 var staticXmlAttribute = xmlReader.GetAttribute("static") ?? xmlReader.GetAttribute("static", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(staticXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(staticXmlAttribute))
                 {
                     poco.Static = int.Parse(staticXmlAttribute);
                 }
@@ -203,7 +203,7 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure.Readers
                             case "collection":
                                 var collectionValue = xmlReader.ReadElementContentAsString();
 
-                                if (!string.IsNullOrEmpty(collectionValue))
+                                if (!string.IsNullOrWhiteSpace(collectionValue))
                                 {
                                     poco.Collection = bool.Parse(collectionValue);
                                 }
@@ -212,7 +212,7 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure.Readers
                             case "derived":
                                 var derivedValue = xmlReader.ReadElementContentAsString();
 
-                                if (!string.IsNullOrEmpty(derivedValue))
+                                if (!string.IsNullOrWhiteSpace(derivedValue))
                                 {
                                     poco.Derived = int.Parse(derivedValue);
                                 }
@@ -221,7 +221,7 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure.Readers
                             case "duplicates":
                                 var duplicatesValue = xmlReader.ReadElementContentAsString();
 
-                                if (!string.IsNullOrEmpty(duplicatesValue))
+                                if (!string.IsNullOrWhiteSpace(duplicatesValue))
                                 {
                                     poco.Duplicates = int.Parse(duplicatesValue);
                                 }
@@ -230,7 +230,7 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure.Readers
                             case "length":
                                 var lengthValue = xmlReader.ReadElementContentAsString();
 
-                                if (!string.IsNullOrEmpty(lengthValue))
+                                if (!string.IsNullOrWhiteSpace(lengthValue))
                                 {
                                     poco.Length = int.Parse(lengthValue);
                                 }
@@ -239,7 +239,7 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure.Readers
                             case "precision":
                                 var precisionValue = xmlReader.ReadElementContentAsString();
 
-                                if (!string.IsNullOrEmpty(precisionValue))
+                                if (!string.IsNullOrWhiteSpace(precisionValue))
                                 {
                                     poco.Precision = int.Parse(precisionValue);
                                 }
@@ -248,7 +248,7 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure.Readers
                             case "static":
                                 var staticValue = xmlReader.ReadElementContentAsString();
 
-                                if (!string.IsNullOrEmpty(staticValue))
+                                if (!string.IsNullOrWhiteSpace(staticValue))
                                 {
                                     poco.Static = int.Parse(staticValue);
                                 }

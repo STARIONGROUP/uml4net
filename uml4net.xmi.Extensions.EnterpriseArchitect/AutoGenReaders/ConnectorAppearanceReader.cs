@@ -146,42 +146,42 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure.Readers
 
                 var headStyleXmlAttribute = xmlReader.GetAttribute("headStyle") ?? xmlReader.GetAttribute("headStyle", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(headStyleXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(headStyleXmlAttribute))
                 {
                     poco.HeadStyle = int.Parse(headStyleXmlAttribute);
                 }
 
                 var linecolorXmlAttribute = xmlReader.GetAttribute("linecolor") ?? xmlReader.GetAttribute("linecolor", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(linecolorXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(linecolorXmlAttribute))
                 {
                     poco.Linecolor = int.Parse(linecolorXmlAttribute);
                 }
 
                 var linemodeXmlAttribute = xmlReader.GetAttribute("linemode") ?? xmlReader.GetAttribute("linemode", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(linemodeXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(linemodeXmlAttribute))
                 {
                     poco.Linemode = int.Parse(linemodeXmlAttribute);
                 }
 
                 var lineStyleXmlAttribute = xmlReader.GetAttribute("lineStyle") ?? xmlReader.GetAttribute("lineStyle", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(lineStyleXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(lineStyleXmlAttribute))
                 {
                     poco.LineStyle = int.Parse(lineStyleXmlAttribute);
                 }
 
                 var linewidthXmlAttribute = xmlReader.GetAttribute("linewidth") ?? xmlReader.GetAttribute("linewidth", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(linewidthXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(linewidthXmlAttribute))
                 {
                     poco.Linewidth = int.Parse(linewidthXmlAttribute);
                 }
 
                 var seqnoXmlAttribute = xmlReader.GetAttribute("seqno") ?? xmlReader.GetAttribute("seqno", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(seqnoXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(seqnoXmlAttribute))
                 {
                     poco.Seqno = int.Parse(seqnoXmlAttribute);
                 }
@@ -196,7 +196,7 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure.Readers
                             case "headStyle":
                                 var headStyleValue = xmlReader.ReadElementContentAsString();
 
-                                if (!string.IsNullOrEmpty(headStyleValue))
+                                if (!string.IsNullOrWhiteSpace(headStyleValue))
                                 {
                                     poco.HeadStyle = int.Parse(headStyleValue);
                                 }
@@ -205,7 +205,7 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure.Readers
                             case "linecolor":
                                 var linecolorValue = xmlReader.ReadElementContentAsString();
 
-                                if (!string.IsNullOrEmpty(linecolorValue))
+                                if (!string.IsNullOrWhiteSpace(linecolorValue))
                                 {
                                     poco.Linecolor = int.Parse(linecolorValue);
                                 }
@@ -214,7 +214,7 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure.Readers
                             case "linemode":
                                 var linemodeValue = xmlReader.ReadElementContentAsString();
 
-                                if (!string.IsNullOrEmpty(linemodeValue))
+                                if (!string.IsNullOrWhiteSpace(linemodeValue))
                                 {
                                     poco.Linemode = int.Parse(linemodeValue);
                                 }
@@ -223,7 +223,7 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure.Readers
                             case "lineStyle":
                                 var lineStyleValue = xmlReader.ReadElementContentAsString();
 
-                                if (!string.IsNullOrEmpty(lineStyleValue))
+                                if (!string.IsNullOrWhiteSpace(lineStyleValue))
                                 {
                                     poco.LineStyle = int.Parse(lineStyleValue);
                                 }
@@ -232,7 +232,7 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure.Readers
                             case "linewidth":
                                 var linewidthValue = xmlReader.ReadElementContentAsString();
 
-                                if (!string.IsNullOrEmpty(linewidthValue))
+                                if (!string.IsNullOrWhiteSpace(linewidthValue))
                                 {
                                     poco.Linewidth = int.Parse(linewidthValue);
                                 }
@@ -241,7 +241,7 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure.Readers
                             case "seqno":
                                 var seqnoValue = xmlReader.ReadElementContentAsString();
 
-                                if (!string.IsNullOrEmpty(seqnoValue))
+                                if (!string.IsNullOrWhiteSpace(seqnoValue))
                                 {
                                     poco.Seqno = int.Parse(seqnoValue);
                                 }

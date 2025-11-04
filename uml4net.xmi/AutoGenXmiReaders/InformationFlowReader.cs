@@ -163,7 +163,7 @@ namespace uml4net.xmi.Readers
 
                 var conveyedXmlAttribute = xmlReader.GetAttribute("conveyed") ?? xmlReader.GetAttribute("conveyed", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(conveyedXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(conveyedXmlAttribute))
                 {
                     var conveyedXmlAttributeValues = conveyedXmlAttribute.Split(SplitMultiReference, StringSplitOptions.RemoveEmptyEntries).ToList();
                     poco.MultiValueReferencePropertyIdentifiers.Add("conveyed", conveyedXmlAttributeValues);
@@ -171,7 +171,7 @@ namespace uml4net.xmi.Readers
 
                 var informationSourceXmlAttribute = xmlReader.GetAttribute("informationSource") ?? xmlReader.GetAttribute("informationSource", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(informationSourceXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(informationSourceXmlAttribute))
                 {
                     var informationSourceXmlAttributeValues = informationSourceXmlAttribute.Split(SplitMultiReference, StringSplitOptions.RemoveEmptyEntries).ToList();
                     poco.MultiValueReferencePropertyIdentifiers.Add("informationSource", informationSourceXmlAttributeValues);
@@ -179,7 +179,7 @@ namespace uml4net.xmi.Readers
 
                 var informationTargetXmlAttribute = xmlReader.GetAttribute("informationTarget") ?? xmlReader.GetAttribute("informationTarget", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(informationTargetXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(informationTargetXmlAttribute))
                 {
                     var informationTargetXmlAttributeValues = informationTargetXmlAttribute.Split(SplitMultiReference, StringSplitOptions.RemoveEmptyEntries).ToList();
                     poco.MultiValueReferencePropertyIdentifiers.Add("informationTarget", informationTargetXmlAttributeValues);
@@ -189,14 +189,14 @@ namespace uml4net.xmi.Readers
 
                 var owningTemplateParameterXmlAttribute = xmlReader.GetAttribute("owningTemplateParameter") ?? xmlReader.GetAttribute("owningTemplateParameter", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(owningTemplateParameterXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(owningTemplateParameterXmlAttribute))
                 {
                     poco.SingleValueReferencePropertyIdentifiers.Add("owningTemplateParameter", owningTemplateParameterXmlAttribute);
                 }
 
                 var realizationXmlAttribute = xmlReader.GetAttribute("realization") ?? xmlReader.GetAttribute("realization", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(realizationXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(realizationXmlAttribute))
                 {
                     var realizationXmlAttributeValues = realizationXmlAttribute.Split(SplitMultiReference, StringSplitOptions.RemoveEmptyEntries).ToList();
                     poco.MultiValueReferencePropertyIdentifiers.Add("realization", realizationXmlAttributeValues);
@@ -204,7 +204,7 @@ namespace uml4net.xmi.Readers
 
                 var realizingActivityEdgeXmlAttribute = xmlReader.GetAttribute("realizingActivityEdge") ?? xmlReader.GetAttribute("realizingActivityEdge", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(realizingActivityEdgeXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(realizingActivityEdgeXmlAttribute))
                 {
                     var realizingActivityEdgeXmlAttributeValues = realizingActivityEdgeXmlAttribute.Split(SplitMultiReference, StringSplitOptions.RemoveEmptyEntries).ToList();
                     poco.MultiValueReferencePropertyIdentifiers.Add("realizingActivityEdge", realizingActivityEdgeXmlAttributeValues);
@@ -212,7 +212,7 @@ namespace uml4net.xmi.Readers
 
                 var realizingConnectorXmlAttribute = xmlReader.GetAttribute("realizingConnector") ?? xmlReader.GetAttribute("realizingConnector", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(realizingConnectorXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(realizingConnectorXmlAttribute))
                 {
                     var realizingConnectorXmlAttributeValues = realizingConnectorXmlAttribute.Split(SplitMultiReference, StringSplitOptions.RemoveEmptyEntries).ToList();
                     poco.MultiValueReferencePropertyIdentifiers.Add("realizingConnector", realizingConnectorXmlAttributeValues);
@@ -220,7 +220,7 @@ namespace uml4net.xmi.Readers
 
                 var realizingMessageXmlAttribute = xmlReader.GetAttribute("realizingMessage") ?? xmlReader.GetAttribute("realizingMessage", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(realizingMessageXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(realizingMessageXmlAttribute))
                 {
                     var realizingMessageXmlAttributeValues = realizingMessageXmlAttribute.Split(SplitMultiReference, StringSplitOptions.RemoveEmptyEntries).ToList();
                     poco.MultiValueReferencePropertyIdentifiers.Add("realizingMessage", realizingMessageXmlAttributeValues);
@@ -228,14 +228,14 @@ namespace uml4net.xmi.Readers
 
                 var templateParameterXmlAttribute = xmlReader.GetAttribute("templateParameter") ?? xmlReader.GetAttribute("templateParameter", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(templateParameterXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(templateParameterXmlAttribute))
                 {
                     poco.SingleValueReferencePropertyIdentifiers.Add("templateParameter", templateParameterXmlAttribute);
                 }
 
                 var visibilityXmlAttribute = xmlReader.GetAttribute("visibility") ?? xmlReader.GetAttribute("visibility", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(visibilityXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(visibilityXmlAttribute))
                 {
                     poco.Visibility = (VisibilityKind)Enum.Parse(typeof(VisibilityKind), visibilityXmlAttribute, true);
                 }
@@ -292,7 +292,7 @@ namespace uml4net.xmi.Readers
                             case (KnowNamespacePrefixes.Uml, "visibility"):
                                 var visibilityValue = xmlReader.ReadElementContentAsString();
 
-                                if (!string.IsNullOrEmpty(visibilityValue))
+                                if (!string.IsNullOrWhiteSpace(visibilityValue))
                                 {
                                     poco.Visibility = (VisibilityKind)Enum.Parse(typeof(VisibilityKind), visibilityValue, true);
                                 }

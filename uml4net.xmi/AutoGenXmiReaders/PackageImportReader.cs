@@ -163,21 +163,21 @@ namespace uml4net.xmi.Readers
 
                 var importedPackageXmlAttribute = xmlReader.GetAttribute("importedPackage") ?? xmlReader.GetAttribute("importedPackage", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(importedPackageXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(importedPackageXmlAttribute))
                 {
                     poco.SingleValueReferencePropertyIdentifiers.Add("importedPackage", importedPackageXmlAttribute);
                 }
 
                 var importingNamespaceXmlAttribute = xmlReader.GetAttribute("importingNamespace") ?? xmlReader.GetAttribute("importingNamespace", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(importingNamespaceXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(importingNamespaceXmlAttribute))
                 {
                     poco.SingleValueReferencePropertyIdentifiers.Add("importingNamespace", importingNamespaceXmlAttribute);
                 }
 
                 var visibilityXmlAttribute = xmlReader.GetAttribute("visibility") ?? xmlReader.GetAttribute("visibility", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(visibilityXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(visibilityXmlAttribute))
                 {
                     poco.Visibility = (VisibilityKind)Enum.Parse(typeof(VisibilityKind), visibilityXmlAttribute, true);
                 }
@@ -206,7 +206,7 @@ namespace uml4net.xmi.Readers
                             case (KnowNamespacePrefixes.Uml, "visibility"):
                                 var visibilityValue = xmlReader.ReadElementContentAsString();
 
-                                if (!string.IsNullOrEmpty(visibilityValue))
+                                if (!string.IsNullOrWhiteSpace(visibilityValue))
                                 {
                                     poco.Visibility = (VisibilityKind)Enum.Parse(typeof(VisibilityKind), visibilityValue, true);
                                 }

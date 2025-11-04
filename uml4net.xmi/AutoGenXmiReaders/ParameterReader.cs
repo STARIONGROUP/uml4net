@@ -163,42 +163,42 @@ namespace uml4net.xmi.Readers
 
                 var directionXmlAttribute = xmlReader.GetAttribute("direction") ?? xmlReader.GetAttribute("direction", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(directionXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(directionXmlAttribute))
                 {
                     poco.Direction = (ParameterDirectionKind)Enum.Parse(typeof(ParameterDirectionKind), directionXmlAttribute, true);
                 }
 
                 var effectXmlAttribute = xmlReader.GetAttribute("effect") ?? xmlReader.GetAttribute("effect", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(effectXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(effectXmlAttribute))
                 {
                     poco.Effect = (ParameterEffectKind)Enum.Parse(typeof(ParameterEffectKind), effectXmlAttribute, true);
                 }
 
                 var isExceptionXmlAttribute = xmlReader.GetAttribute("isException") ?? xmlReader.GetAttribute("isException", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(isExceptionXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(isExceptionXmlAttribute))
                 {
                     poco.IsException = bool.Parse(isExceptionXmlAttribute);
                 }
 
                 var isOrderedXmlAttribute = xmlReader.GetAttribute("isOrdered") ?? xmlReader.GetAttribute("isOrdered", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(isOrderedXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(isOrderedXmlAttribute))
                 {
                     poco.IsOrdered = bool.Parse(isOrderedXmlAttribute);
                 }
 
                 var isStreamXmlAttribute = xmlReader.GetAttribute("isStream") ?? xmlReader.GetAttribute("isStream", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(isStreamXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(isStreamXmlAttribute))
                 {
                     poco.IsStream = bool.Parse(isStreamXmlAttribute);
                 }
 
                 var isUniqueXmlAttribute = xmlReader.GetAttribute("isUnique") ?? xmlReader.GetAttribute("isUnique", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(isUniqueXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(isUniqueXmlAttribute))
                 {
                     poco.IsUnique = bool.Parse(isUniqueXmlAttribute);
                 }
@@ -207,21 +207,21 @@ namespace uml4net.xmi.Readers
 
                 var operationXmlAttribute = xmlReader.GetAttribute("operation") ?? xmlReader.GetAttribute("operation", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(operationXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(operationXmlAttribute))
                 {
                     poco.SingleValueReferencePropertyIdentifiers.Add("operation", operationXmlAttribute);
                 }
 
                 var owningTemplateParameterXmlAttribute = xmlReader.GetAttribute("owningTemplateParameter") ?? xmlReader.GetAttribute("owningTemplateParameter", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(owningTemplateParameterXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(owningTemplateParameterXmlAttribute))
                 {
                     poco.SingleValueReferencePropertyIdentifiers.Add("owningTemplateParameter", owningTemplateParameterXmlAttribute);
                 }
 
                 var parameterSetXmlAttribute = xmlReader.GetAttribute("parameterSet") ?? xmlReader.GetAttribute("parameterSet", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(parameterSetXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(parameterSetXmlAttribute))
                 {
                     var parameterSetXmlAttributeValues = parameterSetXmlAttribute.Split(SplitMultiReference, StringSplitOptions.RemoveEmptyEntries).ToList();
                     poco.MultiValueReferencePropertyIdentifiers.Add("parameterSet", parameterSetXmlAttributeValues);
@@ -229,21 +229,21 @@ namespace uml4net.xmi.Readers
 
                 var templateParameterXmlAttribute = xmlReader.GetAttribute("templateParameter") ?? xmlReader.GetAttribute("templateParameter", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(templateParameterXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(templateParameterXmlAttribute))
                 {
                     poco.SingleValueReferencePropertyIdentifiers.Add("templateParameter", templateParameterXmlAttribute);
                 }
 
                 var typeXmlAttribute = xmlReader.GetAttribute("type") ?? xmlReader.GetAttribute("type", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(typeXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(typeXmlAttribute))
                 {
                     poco.SingleValueReferencePropertyIdentifiers.Add("type", typeXmlAttribute);
                 }
 
                 var visibilityXmlAttribute = xmlReader.GetAttribute("visibility") ?? xmlReader.GetAttribute("visibility", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(visibilityXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(visibilityXmlAttribute))
                 {
                     poco.Visibility = (VisibilityKind)Enum.Parse(typeof(VisibilityKind), visibilityXmlAttribute, true);
                 }
@@ -266,7 +266,7 @@ namespace uml4net.xmi.Readers
                             case (KnowNamespacePrefixes.Uml, "direction"):
                                 var directionValue = xmlReader.ReadElementContentAsString();
 
-                                if (!string.IsNullOrEmpty(directionValue))
+                                if (!string.IsNullOrWhiteSpace(directionValue))
                                 {
                                     poco.Direction = (ParameterDirectionKind)Enum.Parse(typeof(ParameterDirectionKind), directionValue, true);
                                 }
@@ -275,7 +275,7 @@ namespace uml4net.xmi.Readers
                             case (KnowNamespacePrefixes.Uml, "effect"):
                                 var effectValue = xmlReader.ReadElementContentAsString();
 
-                                if (!string.IsNullOrEmpty(effectValue))
+                                if (!string.IsNullOrWhiteSpace(effectValue))
                                 {
                                     poco.Effect = (ParameterEffectKind)Enum.Parse(typeof(ParameterEffectKind), effectValue, true);
                                 }
@@ -284,7 +284,7 @@ namespace uml4net.xmi.Readers
                             case (KnowNamespacePrefixes.Uml, "isException"):
                                 var isExceptionValue = xmlReader.ReadElementContentAsString();
 
-                                if (!string.IsNullOrEmpty(isExceptionValue))
+                                if (!string.IsNullOrWhiteSpace(isExceptionValue))
                                 {
                                     poco.IsException = bool.Parse(isExceptionValue);
                                 }
@@ -293,7 +293,7 @@ namespace uml4net.xmi.Readers
                             case (KnowNamespacePrefixes.Uml, "isOrdered"):
                                 var isOrderedValue = xmlReader.ReadElementContentAsString();
 
-                                if (!string.IsNullOrEmpty(isOrderedValue))
+                                if (!string.IsNullOrWhiteSpace(isOrderedValue))
                                 {
                                     poco.IsOrdered = bool.Parse(isOrderedValue);
                                 }
@@ -302,7 +302,7 @@ namespace uml4net.xmi.Readers
                             case (KnowNamespacePrefixes.Uml, "isStream"):
                                 var isStreamValue = xmlReader.ReadElementContentAsString();
 
-                                if (!string.IsNullOrEmpty(isStreamValue))
+                                if (!string.IsNullOrWhiteSpace(isStreamValue))
                                 {
                                     poco.IsStream = bool.Parse(isStreamValue);
                                 }
@@ -311,7 +311,7 @@ namespace uml4net.xmi.Readers
                             case (KnowNamespacePrefixes.Uml, "isUnique"):
                                 var isUniqueValue = xmlReader.ReadElementContentAsString();
 
-                                if (!string.IsNullOrEmpty(isUniqueValue))
+                                if (!string.IsNullOrWhiteSpace(isUniqueValue))
                                 {
                                     poco.IsUnique = bool.Parse(isUniqueValue);
                                 }
@@ -354,7 +354,7 @@ namespace uml4net.xmi.Readers
                             case (KnowNamespacePrefixes.Uml, "visibility"):
                                 var visibilityValue = xmlReader.ReadElementContentAsString();
 
-                                if (!string.IsNullOrEmpty(visibilityValue))
+                                if (!string.IsNullOrWhiteSpace(visibilityValue))
                                 {
                                     poco.Visibility = (VisibilityKind)Enum.Parse(typeof(VisibilityKind), visibilityValue, true);
                                 }

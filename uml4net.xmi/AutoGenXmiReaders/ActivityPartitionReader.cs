@@ -163,7 +163,7 @@ namespace uml4net.xmi.Readers
 
                 var edgeXmlAttribute = xmlReader.GetAttribute("edge") ?? xmlReader.GetAttribute("edge", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(edgeXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(edgeXmlAttribute))
                 {
                     var edgeXmlAttributeValues = edgeXmlAttribute.Split(SplitMultiReference, StringSplitOptions.RemoveEmptyEntries).ToList();
                     poco.MultiValueReferencePropertyIdentifiers.Add("edge", edgeXmlAttributeValues);
@@ -171,21 +171,21 @@ namespace uml4net.xmi.Readers
 
                 var inActivityXmlAttribute = xmlReader.GetAttribute("inActivity") ?? xmlReader.GetAttribute("inActivity", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(inActivityXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(inActivityXmlAttribute))
                 {
                     poco.SingleValueReferencePropertyIdentifiers.Add("inActivity", inActivityXmlAttribute);
                 }
 
                 var isDimensionXmlAttribute = xmlReader.GetAttribute("isDimension") ?? xmlReader.GetAttribute("isDimension", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(isDimensionXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(isDimensionXmlAttribute))
                 {
                     poco.IsDimension = bool.Parse(isDimensionXmlAttribute);
                 }
 
                 var isExternalXmlAttribute = xmlReader.GetAttribute("isExternal") ?? xmlReader.GetAttribute("isExternal", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(isExternalXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(isExternalXmlAttribute))
                 {
                     poco.IsExternal = bool.Parse(isExternalXmlAttribute);
                 }
@@ -194,7 +194,7 @@ namespace uml4net.xmi.Readers
 
                 var nodeXmlAttribute = xmlReader.GetAttribute("node") ?? xmlReader.GetAttribute("node", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(nodeXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(nodeXmlAttribute))
                 {
                     var nodeXmlAttributeValues = nodeXmlAttribute.Split(SplitMultiReference, StringSplitOptions.RemoveEmptyEntries).ToList();
                     poco.MultiValueReferencePropertyIdentifiers.Add("node", nodeXmlAttributeValues);
@@ -202,21 +202,21 @@ namespace uml4net.xmi.Readers
 
                 var representsXmlAttribute = xmlReader.GetAttribute("represents") ?? xmlReader.GetAttribute("represents", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(representsXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(representsXmlAttribute))
                 {
                     poco.SingleValueReferencePropertyIdentifiers.Add("represents", representsXmlAttribute);
                 }
 
                 var superPartitionXmlAttribute = xmlReader.GetAttribute("superPartition") ?? xmlReader.GetAttribute("superPartition", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(superPartitionXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(superPartitionXmlAttribute))
                 {
                     poco.SingleValueReferencePropertyIdentifiers.Add("superPartition", superPartitionXmlAttribute);
                 }
 
                 var visibilityXmlAttribute = xmlReader.GetAttribute("visibility") ?? xmlReader.GetAttribute("visibility", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(visibilityXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(visibilityXmlAttribute))
                 {
                     poco.Visibility = (VisibilityKind)Enum.Parse(typeof(VisibilityKind), visibilityXmlAttribute, true);
                 }
@@ -241,7 +241,7 @@ namespace uml4net.xmi.Readers
                             case (KnowNamespacePrefixes.Uml, "isDimension"):
                                 var isDimensionValue = xmlReader.ReadElementContentAsString();
 
-                                if (!string.IsNullOrEmpty(isDimensionValue))
+                                if (!string.IsNullOrWhiteSpace(isDimensionValue))
                                 {
                                     poco.IsDimension = bool.Parse(isDimensionValue);
                                 }
@@ -250,7 +250,7 @@ namespace uml4net.xmi.Readers
                             case (KnowNamespacePrefixes.Uml, "isExternal"):
                                 var isExternalValue = xmlReader.ReadElementContentAsString();
 
-                                if (!string.IsNullOrEmpty(isExternalValue))
+                                if (!string.IsNullOrWhiteSpace(isExternalValue))
                                 {
                                     poco.IsExternal = bool.Parse(isExternalValue);
                                 }
@@ -283,7 +283,7 @@ namespace uml4net.xmi.Readers
                             case (KnowNamespacePrefixes.Uml, "visibility"):
                                 var visibilityValue = xmlReader.ReadElementContentAsString();
 
-                                if (!string.IsNullOrEmpty(visibilityValue))
+                                if (!string.IsNullOrWhiteSpace(visibilityValue))
                                 {
                                     poco.Visibility = (VisibilityKind)Enum.Parse(typeof(VisibilityKind), visibilityValue, true);
                                 }

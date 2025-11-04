@@ -163,14 +163,14 @@ namespace uml4net.xmi.Readers
 
                 var qualifierXmlAttribute = xmlReader.GetAttribute("qualifier") ?? xmlReader.GetAttribute("qualifier", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(qualifierXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(qualifierXmlAttribute))
                 {
                     poco.SingleValueReferencePropertyIdentifiers.Add("qualifier", qualifierXmlAttribute);
                 }
 
                 var valueXmlAttribute = xmlReader.GetAttribute("value") ?? xmlReader.GetAttribute("value", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(valueXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(valueXmlAttribute))
                 {
                     poco.SingleValueReferencePropertyIdentifiers.Add("value", valueXmlAttribute);
                 }

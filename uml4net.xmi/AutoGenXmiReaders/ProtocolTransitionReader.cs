@@ -163,21 +163,21 @@ namespace uml4net.xmi.Readers
 
                 var containerXmlAttribute = xmlReader.GetAttribute("container") ?? xmlReader.GetAttribute("container", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(containerXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(containerXmlAttribute))
                 {
                     poco.SingleValueReferencePropertyIdentifiers.Add("container", containerXmlAttribute);
                 }
 
                 var isLeafXmlAttribute = xmlReader.GetAttribute("isLeaf") ?? xmlReader.GetAttribute("isLeaf", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(isLeafXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(isLeafXmlAttribute))
                 {
                     poco.IsLeaf = bool.Parse(isLeafXmlAttribute);
                 }
 
                 var kindXmlAttribute = xmlReader.GetAttribute("kind") ?? xmlReader.GetAttribute("kind", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(kindXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(kindXmlAttribute))
                 {
                     poco.Kind = (TransitionKind)Enum.Parse(typeof(TransitionKind), kindXmlAttribute, true);
                 }
@@ -186,28 +186,28 @@ namespace uml4net.xmi.Readers
 
                 var redefinedTransitionXmlAttribute = xmlReader.GetAttribute("redefinedTransition") ?? xmlReader.GetAttribute("redefinedTransition", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(redefinedTransitionXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(redefinedTransitionXmlAttribute))
                 {
                     poco.SingleValueReferencePropertyIdentifiers.Add("redefinedTransition", redefinedTransitionXmlAttribute);
                 }
 
                 var sourceXmlAttribute = xmlReader.GetAttribute("source") ?? xmlReader.GetAttribute("source", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(sourceXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(sourceXmlAttribute))
                 {
                     poco.SingleValueReferencePropertyIdentifiers.Add("source", sourceXmlAttribute);
                 }
 
                 var targetXmlAttribute = xmlReader.GetAttribute("target") ?? xmlReader.GetAttribute("target", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(targetXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(targetXmlAttribute))
                 {
                     poco.SingleValueReferencePropertyIdentifiers.Add("target", targetXmlAttribute);
                 }
 
                 var visibilityXmlAttribute = xmlReader.GetAttribute("visibility") ?? xmlReader.GetAttribute("visibility", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(visibilityXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(visibilityXmlAttribute))
                 {
                     poco.Visibility = (VisibilityKind)Enum.Parse(typeof(VisibilityKind), visibilityXmlAttribute, true);
                 }
@@ -244,7 +244,7 @@ namespace uml4net.xmi.Readers
                             case (KnowNamespacePrefixes.Uml, "isLeaf"):
                                 var isLeafValue = xmlReader.ReadElementContentAsString();
 
-                                if (!string.IsNullOrEmpty(isLeafValue))
+                                if (!string.IsNullOrWhiteSpace(isLeafValue))
                                 {
                                     poco.IsLeaf = bool.Parse(isLeafValue);
                                 }
@@ -253,7 +253,7 @@ namespace uml4net.xmi.Readers
                             case (KnowNamespacePrefixes.Uml, "kind"):
                                 var kindValue = xmlReader.ReadElementContentAsString();
 
-                                if (!string.IsNullOrEmpty(kindValue))
+                                if (!string.IsNullOrWhiteSpace(kindValue))
                                 {
                                     poco.Kind = (TransitionKind)Enum.Parse(typeof(TransitionKind), kindValue, true);
                                 }
@@ -308,7 +308,7 @@ namespace uml4net.xmi.Readers
                             case (KnowNamespacePrefixes.Uml, "visibility"):
                                 var visibilityValue = xmlReader.ReadElementContentAsString();
 
-                                if (!string.IsNullOrEmpty(visibilityValue))
+                                if (!string.IsNullOrWhiteSpace(visibilityValue))
                                 {
                                     poco.Visibility = (VisibilityKind)Enum.Parse(typeof(VisibilityKind), visibilityValue, true);
                                 }

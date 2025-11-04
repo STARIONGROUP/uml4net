@@ -163,7 +163,7 @@ namespace uml4net.xmi.Readers
 
                 var generalizationXmlAttribute = xmlReader.GetAttribute("generalization") ?? xmlReader.GetAttribute("generalization", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(generalizationXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(generalizationXmlAttribute))
                 {
                     var generalizationXmlAttributeValues = generalizationXmlAttribute.Split(SplitMultiReference, StringSplitOptions.RemoveEmptyEntries).ToList();
                     poco.MultiValueReferencePropertyIdentifiers.Add("generalization", generalizationXmlAttributeValues);
@@ -171,14 +171,14 @@ namespace uml4net.xmi.Readers
 
                 var isCoveringXmlAttribute = xmlReader.GetAttribute("isCovering") ?? xmlReader.GetAttribute("isCovering", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(isCoveringXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(isCoveringXmlAttribute))
                 {
                     poco.IsCovering = bool.Parse(isCoveringXmlAttribute);
                 }
 
                 var isDisjointXmlAttribute = xmlReader.GetAttribute("isDisjoint") ?? xmlReader.GetAttribute("isDisjoint", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(isDisjointXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(isDisjointXmlAttribute))
                 {
                     poco.IsDisjoint = bool.Parse(isDisjointXmlAttribute);
                 }
@@ -187,28 +187,28 @@ namespace uml4net.xmi.Readers
 
                 var owningTemplateParameterXmlAttribute = xmlReader.GetAttribute("owningTemplateParameter") ?? xmlReader.GetAttribute("owningTemplateParameter", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(owningTemplateParameterXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(owningTemplateParameterXmlAttribute))
                 {
                     poco.SingleValueReferencePropertyIdentifiers.Add("owningTemplateParameter", owningTemplateParameterXmlAttribute);
                 }
 
                 var powertypeXmlAttribute = xmlReader.GetAttribute("powertype") ?? xmlReader.GetAttribute("powertype", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(powertypeXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(powertypeXmlAttribute))
                 {
                     poco.SingleValueReferencePropertyIdentifiers.Add("powertype", powertypeXmlAttribute);
                 }
 
                 var templateParameterXmlAttribute = xmlReader.GetAttribute("templateParameter") ?? xmlReader.GetAttribute("templateParameter", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(templateParameterXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(templateParameterXmlAttribute))
                 {
                     poco.SingleValueReferencePropertyIdentifiers.Add("templateParameter", templateParameterXmlAttribute);
                 }
 
                 var visibilityXmlAttribute = xmlReader.GetAttribute("visibility") ?? xmlReader.GetAttribute("visibility", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(visibilityXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(visibilityXmlAttribute))
                 {
                     poco.Visibility = (VisibilityKind)Enum.Parse(typeof(VisibilityKind), visibilityXmlAttribute, true);
                 }
@@ -230,7 +230,7 @@ namespace uml4net.xmi.Readers
                             case (KnowNamespacePrefixes.Uml, "isCovering"):
                                 var isCoveringValue = xmlReader.ReadElementContentAsString();
 
-                                if (!string.IsNullOrEmpty(isCoveringValue))
+                                if (!string.IsNullOrWhiteSpace(isCoveringValue))
                                 {
                                     poco.IsCovering = bool.Parse(isCoveringValue);
                                 }
@@ -239,7 +239,7 @@ namespace uml4net.xmi.Readers
                             case (KnowNamespacePrefixes.Uml, "isDisjoint"):
                                 var isDisjointValue = xmlReader.ReadElementContentAsString();
 
-                                if (!string.IsNullOrEmpty(isDisjointValue))
+                                if (!string.IsNullOrWhiteSpace(isDisjointValue))
                                 {
                                     poco.IsDisjoint = bool.Parse(isDisjointValue);
                                 }
@@ -268,7 +268,7 @@ namespace uml4net.xmi.Readers
                             case (KnowNamespacePrefixes.Uml, "visibility"):
                                 var visibilityValue = xmlReader.ReadElementContentAsString();
 
-                                if (!string.IsNullOrEmpty(visibilityValue))
+                                if (!string.IsNullOrWhiteSpace(visibilityValue))
                                 {
                                     poco.Visibility = (VisibilityKind)Enum.Parse(typeof(VisibilityKind), visibilityValue, true);
                                 }

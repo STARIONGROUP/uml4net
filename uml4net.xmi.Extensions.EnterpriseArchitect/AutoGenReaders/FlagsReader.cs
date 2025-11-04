@@ -146,35 +146,35 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure.Readers
 
                 var batchsaveXmlAttribute = xmlReader.GetAttribute("batchsave") ?? xmlReader.GetAttribute("batchsave", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(batchsaveXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(batchsaveXmlAttribute))
                 {
                     poco.Batchsave = int.Parse(batchsaveXmlAttribute);
                 }
 
                 var iscontrolledXmlAttribute = xmlReader.GetAttribute("iscontrolled") ?? xmlReader.GetAttribute("iscontrolled", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(iscontrolledXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(iscontrolledXmlAttribute))
                 {
                     poco.Iscontrolled = int.Parse(iscontrolledXmlAttribute);
                 }
 
                 var isprotectedXmlAttribute = xmlReader.GetAttribute("isprotected") ?? xmlReader.GetAttribute("isprotected", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(isprotectedXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(isprotectedXmlAttribute))
                 {
                     poco.Isprotected = int.Parse(isprotectedXmlAttribute);
                 }
 
                 var logxmlXmlAttribute = xmlReader.GetAttribute("logxml") ?? xmlReader.GetAttribute("logxml", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(logxmlXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(logxmlXmlAttribute))
                 {
                     poco.Logxml = int.Parse(logxmlXmlAttribute);
                 }
 
                 var usedtdXmlAttribute = xmlReader.GetAttribute("usedtd") ?? xmlReader.GetAttribute("usedtd", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(usedtdXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(usedtdXmlAttribute))
                 {
                     poco.Usedtd = int.Parse(usedtdXmlAttribute);
                 }
@@ -189,7 +189,7 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure.Readers
                             case "batchsave":
                                 var batchsaveValue = xmlReader.ReadElementContentAsString();
 
-                                if (!string.IsNullOrEmpty(batchsaveValue))
+                                if (!string.IsNullOrWhiteSpace(batchsaveValue))
                                 {
                                     poco.Batchsave = int.Parse(batchsaveValue);
                                 }
@@ -198,7 +198,7 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure.Readers
                             case "iscontrolled":
                                 var iscontrolledValue = xmlReader.ReadElementContentAsString();
 
-                                if (!string.IsNullOrEmpty(iscontrolledValue))
+                                if (!string.IsNullOrWhiteSpace(iscontrolledValue))
                                 {
                                     poco.Iscontrolled = int.Parse(iscontrolledValue);
                                 }
@@ -207,7 +207,7 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure.Readers
                             case "isprotected":
                                 var isprotectedValue = xmlReader.ReadElementContentAsString();
 
-                                if (!string.IsNullOrEmpty(isprotectedValue))
+                                if (!string.IsNullOrWhiteSpace(isprotectedValue))
                                 {
                                     poco.Isprotected = int.Parse(isprotectedValue);
                                 }
@@ -216,7 +216,7 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure.Readers
                             case "logxml":
                                 var logxmlValue = xmlReader.ReadElementContentAsString();
 
-                                if (!string.IsNullOrEmpty(logxmlValue))
+                                if (!string.IsNullOrWhiteSpace(logxmlValue))
                                 {
                                     poco.Logxml = int.Parse(logxmlValue);
                                 }
@@ -225,7 +225,7 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure.Readers
                             case "usedtd":
                                 var usedtdValue = xmlReader.ReadElementContentAsString();
 
-                                if (!string.IsNullOrEmpty(usedtdValue))
+                                if (!string.IsNullOrWhiteSpace(usedtdValue))
                                 {
                                     poco.Usedtd = int.Parse(usedtdValue);
                                 }

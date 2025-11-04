@@ -163,21 +163,21 @@ namespace uml4net.xmi.Readers
 
                 var defaultXmlAttribute = xmlReader.GetAttribute("default") ?? xmlReader.GetAttribute("default", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(defaultXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(defaultXmlAttribute))
                 {
                     poco.SingleValueReferencePropertyIdentifiers.Add("default", defaultXmlAttribute);
                 }
 
                 var parameteredElementXmlAttribute = xmlReader.GetAttribute("parameteredElement") ?? xmlReader.GetAttribute("parameteredElement", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(parameteredElementXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(parameteredElementXmlAttribute))
                 {
                     poco.SingleValueReferencePropertyIdentifiers.Add("parameteredElement", parameteredElementXmlAttribute);
                 }
 
                 var signatureXmlAttribute = xmlReader.GetAttribute("signature") ?? xmlReader.GetAttribute("signature", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(signatureXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(signatureXmlAttribute))
                 {
                     poco.SingleValueReferencePropertyIdentifiers.Add("signature", signatureXmlAttribute);
                 }

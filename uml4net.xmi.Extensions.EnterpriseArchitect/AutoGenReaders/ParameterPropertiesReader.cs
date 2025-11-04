@@ -148,7 +148,7 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure.Readers
 
                 var constXmlAttribute = xmlReader.GetAttribute("const") ?? xmlReader.GetAttribute("const", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(constXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(constXmlAttribute))
                 {
                     poco.Const = bool.Parse(constXmlAttribute);
                 }
@@ -157,7 +157,7 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure.Readers
 
                 var posXmlAttribute = xmlReader.GetAttribute("pos") ?? xmlReader.GetAttribute("pos", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(posXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(posXmlAttribute))
                 {
                     poco.Pos = int.Parse(posXmlAttribute);
                 }
@@ -177,7 +177,7 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure.Readers
                             case "const":
                                 var constValue = xmlReader.ReadElementContentAsString();
 
-                                if (!string.IsNullOrEmpty(constValue))
+                                if (!string.IsNullOrWhiteSpace(constValue))
                                 {
                                     poco.Const = bool.Parse(constValue);
                                 }
@@ -189,7 +189,7 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure.Readers
                             case "pos":
                                 var posValue = xmlReader.ReadElementContentAsString();
 
-                                if (!string.IsNullOrEmpty(posValue))
+                                if (!string.IsNullOrWhiteSpace(posValue))
                                 {
                                     poco.Pos = int.Parse(posValue);
                                 }

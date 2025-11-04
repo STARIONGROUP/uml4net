@@ -163,14 +163,14 @@ namespace uml4net.xmi.Readers
 
                 var mergedPackageXmlAttribute = xmlReader.GetAttribute("mergedPackage") ?? xmlReader.GetAttribute("mergedPackage", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(mergedPackageXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(mergedPackageXmlAttribute))
                 {
                     poco.SingleValueReferencePropertyIdentifiers.Add("mergedPackage", mergedPackageXmlAttribute);
                 }
 
                 var receivingPackageXmlAttribute = xmlReader.GetAttribute("receivingPackage") ?? xmlReader.GetAttribute("receivingPackage", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(receivingPackageXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(receivingPackageXmlAttribute))
                 {
                     poco.SingleValueReferencePropertyIdentifiers.Add("receivingPackage", receivingPackageXmlAttribute);
                 }

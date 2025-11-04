@@ -150,7 +150,7 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure.Readers
 
                 var ea_localidXmlAttribute = xmlReader.GetAttribute("ea_localid") ?? xmlReader.GetAttribute("ea_localid", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(ea_localidXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(ea_localidXmlAttribute))
                 {
                     poco.Ea_localid = int.Parse(ea_localidXmlAttribute);
                 }
@@ -163,7 +163,7 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure.Readers
 
                 var tposXmlAttribute = xmlReader.GetAttribute("tpos") ?? xmlReader.GetAttribute("tpos", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(tposXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(tposXmlAttribute))
                 {
                     poco.Tpos = int.Parse(tposXmlAttribute);
                 }
@@ -186,7 +186,7 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure.Readers
                             case "ea_localid":
                                 var ea_localidValue = xmlReader.ReadElementContentAsString();
 
-                                if (!string.IsNullOrEmpty(ea_localidValue))
+                                if (!string.IsNullOrWhiteSpace(ea_localidValue))
                                 {
                                     poco.Ea_localid = int.Parse(ea_localidValue);
                                 }
@@ -204,7 +204,7 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure.Readers
                             case "tpos":
                                 var tposValue = xmlReader.ReadElementContentAsString();
 
-                                if (!string.IsNullOrEmpty(tposValue))
+                                if (!string.IsNullOrWhiteSpace(tposValue))
                                 {
                                     poco.Tpos = int.Parse(tposValue);
                                 }

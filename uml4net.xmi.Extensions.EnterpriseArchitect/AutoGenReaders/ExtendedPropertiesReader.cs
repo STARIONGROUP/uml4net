@@ -150,7 +150,7 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure.Readers
 
                 var taggedXmlAttribute = xmlReader.GetAttribute("tagged") ?? xmlReader.GetAttribute("tagged", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(taggedXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(taggedXmlAttribute))
                 {
                     poco.Tagged = int.Parse(taggedXmlAttribute);
                 }
@@ -171,7 +171,7 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure.Readers
                             case "tagged":
                                 var taggedValue = xmlReader.ReadElementContentAsString();
 
-                                if (!string.IsNullOrEmpty(taggedValue))
+                                if (!string.IsNullOrWhiteSpace(taggedValue))
                                 {
                                     poco.Tagged = int.Parse(taggedValue);
                                 }

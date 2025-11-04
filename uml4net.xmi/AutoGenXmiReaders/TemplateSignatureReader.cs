@@ -163,7 +163,7 @@ namespace uml4net.xmi.Readers
 
                 var parameterXmlAttribute = xmlReader.GetAttribute("parameter") ?? xmlReader.GetAttribute("parameter", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(parameterXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(parameterXmlAttribute))
                 {
                     var parameterXmlAttributeValues = parameterXmlAttribute.Split(SplitMultiReference, StringSplitOptions.RemoveEmptyEntries).ToList();
                     poco.MultiValueReferencePropertyIdentifiers.Add("parameter", parameterXmlAttributeValues);
@@ -171,7 +171,7 @@ namespace uml4net.xmi.Readers
 
                 var templateXmlAttribute = xmlReader.GetAttribute("template") ?? xmlReader.GetAttribute("template", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(templateXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(templateXmlAttribute))
                 {
                     poco.SingleValueReferencePropertyIdentifiers.Add("template", templateXmlAttribute);
                 }

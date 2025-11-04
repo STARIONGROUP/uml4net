@@ -605,7 +605,7 @@ namespace uml4net.HandleBars
                     if (property.QueryIsReferenceProperty() && !property.QueryIsEnumerable())
                     {
                         sb.AppendLine($"var {property.Name}XmlAttribute =  xmlReader.GetAttribute(\"{property.Name}\") ?? xmlReader.GetAttribute(\"{property.Name}\", this.NameSpaceResolver.UmlNameSpace);");
-                        sb.AppendLine($"{Environment.NewLine}if (!string.IsNullOrEmpty({property.Name}XmlAttribute))");
+                        sb.AppendLine($"{Environment.NewLine}if (!string.IsNullOrWhiteSpace({property.Name}XmlAttribute))");
                         sb.AppendLine("{");
                         sb.AppendLine($"poco.SingleValueReferencePropertyIdentifiers.Add(\"{property.Name}\", {property.Name}XmlAttribute);");
                         sb.AppendLine("}");
@@ -617,7 +617,7 @@ namespace uml4net.HandleBars
                     if (property.QueryIsReferenceProperty() && property.QueryIsEnumerable())
                     {
                         sb.AppendLine($"var {property.Name}XmlAttribute = xmlReader.GetAttribute(\"{property.Name}\") ?? xmlReader.GetAttribute(\"{property.Name}\", this.NameSpaceResolver.UmlNameSpace);");
-                        sb.AppendLine($"{Environment.NewLine}if (!string.IsNullOrEmpty({property.Name}XmlAttribute))");
+                        sb.AppendLine($"{Environment.NewLine}if (!string.IsNullOrWhiteSpace({property.Name}XmlAttribute))");
                         sb.AppendLine("{");
                         sb.AppendLine($"var {property.Name}XmlAttributeValues = {property.Name}XmlAttribute.Split(SplitMultiReference, StringSplitOptions.RemoveEmptyEntries).ToList();");
                         sb.AppendLine($"poco.MultiValueReferencePropertyIdentifiers.Add(\"{property.Name}\", {property.Name}XmlAttributeValues);");
@@ -637,7 +637,7 @@ namespace uml4net.HandleBars
                             case "double":
                             case "int":
                                 sb.AppendLine($"var {property.Name}XmlAttribute = xmlReader.GetAttribute(\"{property.Name}\") ?? xmlReader.GetAttribute(\"{property.Name}\", this.NameSpaceResolver.UmlNameSpace);");
-                                sb.AppendLine($"{Environment.NewLine}if (!string.IsNullOrEmpty({property.Name}XmlAttribute))");
+                                sb.AppendLine($"{Environment.NewLine}if (!string.IsNullOrWhiteSpace({property.Name}XmlAttribute))");
                                 sb.AppendLine("{");
                                 sb.AppendLine($"    var {property.Name}XmlAttributeValues = {property.Name}XmlAttribute.Split(this.XmiReaderSettings.ValueSeparator);");
                                 sb.AppendLine($"    foreach (var {property.Name}XmlAttributeValue in {property.Name}XmlAttributeValues)");
@@ -648,7 +648,7 @@ namespace uml4net.HandleBars
                                 break;
                             case "string":
                                 sb.AppendLine($"var {property.Name}XmlAttribute = xmlReader.GetAttribute(\"{property.Name}\") ?? xmlReader.GetAttribute(\"{property.Name}\", this.NameSpaceResolver.UmlNameSpace);");
-                                sb.AppendLine($"{Environment.NewLine}if (!string.IsNullOrEmpty({property.Name}XmlAttribute))");
+                                sb.AppendLine($"{Environment.NewLine}if (!string.IsNullOrWhiteSpace({property.Name}XmlAttribute))");
                                 sb.AppendLine("{");
                                 sb.AppendLine($"    var {property.Name}XmlAttributeValues = {property.Name}XmlAttribute.Split(this.XmiReaderSettings.ValueSeparator);");
                                 sb.AppendLine($"    foreach (var {property.Name}XmlAttributeValue in {property.Name}XmlAttributeValues)");
@@ -668,7 +668,7 @@ namespace uml4net.HandleBars
                     if (property.QueryIsDataType() && property.QueryIsEnumerable())
                     {
                         sb.AppendLine($"var {property.Name}XmlAttribute = xmlReader.GetAttribute(\"{property.Name}\") ?? xmlReader.GetAttribute(\"{property.Name}\", this.NameSpaceResolver.UmlNameSpace);");
-                        sb.AppendLine($"{Environment.NewLine}if (!string.IsNullOrEmpty({property.Name}XmlAttribute))");
+                        sb.AppendLine($"{Environment.NewLine}if (!string.IsNullOrWhiteSpace({property.Name}XmlAttribute))");
                         sb.AppendLine("{");
                         sb.AppendLine($"throw new NotSupportedException(\"DataTypes encoded as XML attributes are not (yet) supported: {@class.Name}.{property.Name}\");");
                         sb.AppendLine("}");
@@ -687,7 +687,7 @@ namespace uml4net.HandleBars
                             case "double":
                             case "int":
                                 sb.AppendLine($"var {property.Name}XmlAttribute = xmlReader.GetAttribute(\"{property.Name}\") ?? xmlReader.GetAttribute(\"{property.Name}\", this.NameSpaceResolver.UmlNameSpace);");
-                                sb.AppendLine($"{Environment.NewLine}if (!string.IsNullOrEmpty({property.Name}XmlAttribute))");
+                                sb.AppendLine($"{Environment.NewLine}if (!string.IsNullOrWhiteSpace({property.Name}XmlAttribute))");
                                 sb.AppendLine("{");
                                 sb.AppendLine($"poco.{property.Name.CapitalizeFirstLetter()} = {cSharpTypeName}.Parse({property.Name}XmlAttribute);");
                                 sb.AppendLine("}");
@@ -708,7 +708,7 @@ namespace uml4net.HandleBars
                         var typeName = property.QueryTypeName();
 
                         sb.AppendLine($"var {property.Name}XmlAttribute = xmlReader.GetAttribute(\"{property.Name}\") ?? xmlReader.GetAttribute(\"{property.Name}\", this.NameSpaceResolver.UmlNameSpace);");
-                        sb.AppendLine($"{Environment.NewLine}if (!string.IsNullOrEmpty({property.Name}XmlAttribute))");
+                        sb.AppendLine($"{Environment.NewLine}if (!string.IsNullOrWhiteSpace({property.Name}XmlAttribute))");
                         sb.AppendLine("{");
                         sb.AppendLine($"poco.{property.Name.CapitalizeFirstLetter()} = ({typeName})Enum.Parse(typeof({typeName}), {property.Name}XmlAttribute, true);");
                         sb.AppendLine("}");
@@ -839,7 +839,7 @@ namespace uml4net.HandleBars
                             case "double":
                             case "int":
                                 sb.AppendLine($"var {property.Name}Value = xmlReader.ReadElementContentAsString();");
-                                sb.AppendLine($"{Environment.NewLine}if (!string.IsNullOrEmpty({property.Name}Value))");
+                                sb.AppendLine($"{Environment.NewLine}if (!string.IsNullOrWhiteSpace({property.Name}Value))");
                                 sb.AppendLine("{");
                                 sb.AppendLine($"poco.{property.Name.CapitalizeFirstLetter()}.Add({cSharpTypeName}.Parse({property.Name}Value));");
                                 sb.AppendLine($"}}{Environment.NewLine}");
@@ -869,7 +869,7 @@ namespace uml4net.HandleBars
                             case "double":
                             case "int":
                                 sb.AppendLine($"var {property.Name}Value = xmlReader.ReadElementContentAsString();");
-                                sb.AppendLine($"{Environment.NewLine}if (!string.IsNullOrEmpty({property.Name}Value))");
+                                sb.AppendLine($"{Environment.NewLine}if (!string.IsNullOrWhiteSpace({property.Name}Value))");
                                 sb.AppendLine("{");
                                 sb.AppendLine($"poco.{property.Name.CapitalizeFirstLetter()} = {cSharpTypeName}.Parse({property.Name}Value);");
                                 sb.AppendLine($"}}{Environment.NewLine}");
@@ -893,7 +893,7 @@ namespace uml4net.HandleBars
                         var typeName = property.QueryTypeName();
 
                         sb.AppendLine($"var {property.Name}Value = xmlReader.ReadElementContentAsString();");
-                        sb.AppendLine($"{Environment.NewLine}if (!string.IsNullOrEmpty({property.Name}Value))");
+                        sb.AppendLine($"{Environment.NewLine}if (!string.IsNullOrWhiteSpace({property.Name}Value))");
                         sb.AppendLine("{");
                         sb.AppendLine($"poco.{property.Name.CapitalizeFirstLetter()} = ({typeName})Enum.Parse(typeof({typeName}), {property.Name}Value, true);");
                         sb.AppendLine("}");

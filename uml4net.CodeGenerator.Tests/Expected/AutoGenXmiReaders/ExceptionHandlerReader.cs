@@ -163,14 +163,14 @@ namespace uml4net.xmi.Readers
 
                 var exceptionInputXmlAttribute = xmlReader.GetAttribute("exceptionInput") ?? xmlReader.GetAttribute("exceptionInput", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(exceptionInputXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(exceptionInputXmlAttribute))
                 {
                     poco.SingleValueReferencePropertyIdentifiers.Add("exceptionInput", exceptionInputXmlAttribute);
                 }
 
                 var exceptionTypeXmlAttribute = xmlReader.GetAttribute("exceptionType") ?? xmlReader.GetAttribute("exceptionType", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(exceptionTypeXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(exceptionTypeXmlAttribute))
                 {
                     var exceptionTypeXmlAttributeValues = exceptionTypeXmlAttribute.Split(SplitMultiReference, StringSplitOptions.RemoveEmptyEntries).ToList();
                     poco.MultiValueReferencePropertyIdentifiers.Add("exceptionType", exceptionTypeXmlAttributeValues);
@@ -178,14 +178,14 @@ namespace uml4net.xmi.Readers
 
                 var handlerBodyXmlAttribute = xmlReader.GetAttribute("handlerBody") ?? xmlReader.GetAttribute("handlerBody", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(handlerBodyXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(handlerBodyXmlAttribute))
                 {
                     poco.SingleValueReferencePropertyIdentifiers.Add("handlerBody", handlerBodyXmlAttribute);
                 }
 
                 var protectedNodeXmlAttribute = xmlReader.GetAttribute("protectedNode") ?? xmlReader.GetAttribute("protectedNode", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(protectedNodeXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(protectedNodeXmlAttribute))
                 {
                     poco.SingleValueReferencePropertyIdentifiers.Add("protectedNode", protectedNodeXmlAttribute);
                 }

@@ -146,14 +146,14 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure.Readers
 
                 var orderedXmlAttribute = xmlReader.GetAttribute("ordered") ?? xmlReader.GetAttribute("ordered", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(orderedXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(orderedXmlAttribute))
                 {
                     poco.Ordered = int.Parse(orderedXmlAttribute);
                 }
 
                 var scaleXmlAttribute = xmlReader.GetAttribute("scale") ?? xmlReader.GetAttribute("scale", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(scaleXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(scaleXmlAttribute))
                 {
                     poco.Scale = int.Parse(scaleXmlAttribute);
                 }
@@ -168,7 +168,7 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure.Readers
                             case "ordered":
                                 var orderedValue = xmlReader.ReadElementContentAsString();
 
-                                if (!string.IsNullOrEmpty(orderedValue))
+                                if (!string.IsNullOrWhiteSpace(orderedValue))
                                 {
                                     poco.Ordered = int.Parse(orderedValue);
                                 }
@@ -177,7 +177,7 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure.Readers
                             case "scale":
                                 var scaleValue = xmlReader.ReadElementContentAsString();
 
-                                if (!string.IsNullOrEmpty(scaleValue))
+                                if (!string.IsNullOrWhiteSpace(scaleValue))
                                 {
                                     poco.Scale = int.Parse(scaleValue);
                                 }

@@ -163,21 +163,21 @@ namespace uml4net.xmi.Readers
 
                 var appliedProfileXmlAttribute = xmlReader.GetAttribute("appliedProfile") ?? xmlReader.GetAttribute("appliedProfile", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(appliedProfileXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(appliedProfileXmlAttribute))
                 {
                     poco.SingleValueReferencePropertyIdentifiers.Add("appliedProfile", appliedProfileXmlAttribute);
                 }
 
                 var applyingPackageXmlAttribute = xmlReader.GetAttribute("applyingPackage") ?? xmlReader.GetAttribute("applyingPackage", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(applyingPackageXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(applyingPackageXmlAttribute))
                 {
                     poco.SingleValueReferencePropertyIdentifiers.Add("applyingPackage", applyingPackageXmlAttribute);
                 }
 
                 var isStrictXmlAttribute = xmlReader.GetAttribute("isStrict") ?? xmlReader.GetAttribute("isStrict", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(isStrictXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(isStrictXmlAttribute))
                 {
                     poco.IsStrict = bool.Parse(isStrictXmlAttribute);
                 }
@@ -202,7 +202,7 @@ namespace uml4net.xmi.Readers
                             case (KnowNamespacePrefixes.Uml, "isStrict"):
                                 var isStrictValue = xmlReader.ReadElementContentAsString();
 
-                                if (!string.IsNullOrEmpty(isStrictValue))
+                                if (!string.IsNullOrWhiteSpace(isStrictValue))
                                 {
                                     poco.IsStrict = bool.Parse(isStrictValue);
                                 }

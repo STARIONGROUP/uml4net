@@ -163,7 +163,7 @@ namespace uml4net.xmi.Readers
 
                 var eventXmlAttribute = xmlReader.GetAttribute("event") ?? xmlReader.GetAttribute("event", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(eventXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(eventXmlAttribute))
                 {
                     poco.SingleValueReferencePropertyIdentifiers.Add("event", eventXmlAttribute);
                 }
@@ -172,7 +172,7 @@ namespace uml4net.xmi.Readers
 
                 var portXmlAttribute = xmlReader.GetAttribute("port") ?? xmlReader.GetAttribute("port", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(portXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(portXmlAttribute))
                 {
                     var portXmlAttributeValues = portXmlAttribute.Split(SplitMultiReference, StringSplitOptions.RemoveEmptyEntries).ToList();
                     poco.MultiValueReferencePropertyIdentifiers.Add("port", portXmlAttributeValues);
@@ -180,7 +180,7 @@ namespace uml4net.xmi.Readers
 
                 var visibilityXmlAttribute = xmlReader.GetAttribute("visibility") ?? xmlReader.GetAttribute("visibility", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(visibilityXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(visibilityXmlAttribute))
                 {
                     poco.Visibility = (VisibilityKind)Enum.Parse(typeof(VisibilityKind), visibilityXmlAttribute, true);
                 }
@@ -216,7 +216,7 @@ namespace uml4net.xmi.Readers
                             case (KnowNamespacePrefixes.Uml, "visibility"):
                                 var visibilityValue = xmlReader.ReadElementContentAsString();
 
-                                if (!string.IsNullOrEmpty(visibilityValue))
+                                if (!string.IsNullOrWhiteSpace(visibilityValue))
                                 {
                                     poco.Visibility = (VisibilityKind)Enum.Parse(typeof(VisibilityKind), visibilityValue, true);
                                 }

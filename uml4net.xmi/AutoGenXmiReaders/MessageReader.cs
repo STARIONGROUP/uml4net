@@ -163,21 +163,21 @@ namespace uml4net.xmi.Readers
 
                 var connectorXmlAttribute = xmlReader.GetAttribute("connector") ?? xmlReader.GetAttribute("connector", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(connectorXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(connectorXmlAttribute))
                 {
                     poco.SingleValueReferencePropertyIdentifiers.Add("connector", connectorXmlAttribute);
                 }
 
                 var interactionXmlAttribute = xmlReader.GetAttribute("interaction") ?? xmlReader.GetAttribute("interaction", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(interactionXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(interactionXmlAttribute))
                 {
                     poco.SingleValueReferencePropertyIdentifiers.Add("interaction", interactionXmlAttribute);
                 }
 
                 var messageSortXmlAttribute = xmlReader.GetAttribute("messageSort") ?? xmlReader.GetAttribute("messageSort", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(messageSortXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(messageSortXmlAttribute))
                 {
                     poco.MessageSort = (MessageSort)Enum.Parse(typeof(MessageSort), messageSortXmlAttribute, true);
                 }
@@ -186,28 +186,28 @@ namespace uml4net.xmi.Readers
 
                 var receiveEventXmlAttribute = xmlReader.GetAttribute("receiveEvent") ?? xmlReader.GetAttribute("receiveEvent", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(receiveEventXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(receiveEventXmlAttribute))
                 {
                     poco.SingleValueReferencePropertyIdentifiers.Add("receiveEvent", receiveEventXmlAttribute);
                 }
 
                 var sendEventXmlAttribute = xmlReader.GetAttribute("sendEvent") ?? xmlReader.GetAttribute("sendEvent", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(sendEventXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(sendEventXmlAttribute))
                 {
                     poco.SingleValueReferencePropertyIdentifiers.Add("sendEvent", sendEventXmlAttribute);
                 }
 
                 var signatureXmlAttribute = xmlReader.GetAttribute("signature") ?? xmlReader.GetAttribute("signature", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(signatureXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(signatureXmlAttribute))
                 {
                     poco.SingleValueReferencePropertyIdentifiers.Add("signature", signatureXmlAttribute);
                 }
 
                 var visibilityXmlAttribute = xmlReader.GetAttribute("visibility") ?? xmlReader.GetAttribute("visibility", this.NameSpaceResolver.UmlNameSpace);
 
-                if (!string.IsNullOrEmpty(visibilityXmlAttribute))
+                if (!string.IsNullOrWhiteSpace(visibilityXmlAttribute))
                 {
                     poco.Visibility = (VisibilityKind)Enum.Parse(typeof(VisibilityKind), visibilityXmlAttribute, true);
                 }
@@ -236,7 +236,7 @@ namespace uml4net.xmi.Readers
                             case (KnowNamespacePrefixes.Uml, "messageSort"):
                                 var messageSortValue = xmlReader.ReadElementContentAsString();
 
-                                if (!string.IsNullOrEmpty(messageSortValue))
+                                if (!string.IsNullOrWhiteSpace(messageSortValue))
                                 {
                                     poco.MessageSort = (MessageSort)Enum.Parse(typeof(MessageSort), messageSortValue, true);
                                 }
@@ -265,7 +265,7 @@ namespace uml4net.xmi.Readers
                             case (KnowNamespacePrefixes.Uml, "visibility"):
                                 var visibilityValue = xmlReader.ReadElementContentAsString();
 
-                                if (!string.IsNullOrEmpty(visibilityValue))
+                                if (!string.IsNullOrWhiteSpace(visibilityValue))
                                 {
                                     poco.Visibility = (VisibilityKind)Enum.Parse(typeof(VisibilityKind), visibilityValue, true);
                                 }
