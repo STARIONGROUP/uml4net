@@ -47,9 +47,9 @@ namespace uml4net.CodeGenerator.Helpers
 
                 var superClasses = @class.SuperClass.Select(x => $"I{x.Name}").ToList();
 
-                if (@class.Namespace.Name.Contains("Extension", StringComparison.InvariantCulture))
+                if (@class.Namespace.Name.Contains("Extension", StringComparison.InvariantCulture) && @class.Name == "Extension")
                 {
-                    superClasses.Add(@class.Name == "Extension"? "uml4net.Packages.IPackage": "uml4net.CommonStructure.IElement");
+                    superClasses.Add("uml4net.Packages.IPackage");
                 }
 
                 if (superClasses.Count != 0)

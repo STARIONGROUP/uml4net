@@ -49,10 +49,10 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.Extensions
                     throw new ArgumentNullException(nameof(element));
                 case IProperty { Association: not null } property:
                 {
-                    var embeddedElements = property.Association.Extensions.OfType<IConnector>()
-                        .SelectMany(x => element.XmiId.Contains("src") ? x.Source : x.Target); 
+                    var embeddedElements = property.Association.Extensions.SelectMany(x => x.Content).OfType<IConnector>()
+                        .Select(x => element.XmiId.Contains("src") ? x.Source : x.Target); 
 
-                    var documentation = embeddedElements.SelectMany(x => x.Documentation)
+                    var documentation = embeddedElements.Select(x => x.Documentation)
                         .Where(x => !string.IsNullOrEmpty(x.Value))
                         .Select(x => x.Value);
                     
@@ -62,13 +62,13 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.Extensions
                 default:
                     var documentations = new List<string>();
                     
-                    documentations.AddRange(element.Extensions.OfType<uml4net.xmi.Extensions.EntrepriseArchitect.Structure.IElement>()
-                        .SelectMany(x => x.Properties)
+                    documentations.AddRange(element.Extensions.SelectMany(x => x.Content).OfType<uml4net.xmi.Extensions.EntrepriseArchitect.Structure.IElement>()
+                        .Select(x => x.Properties)
                         .Where(x => !string.IsNullOrWhiteSpace(x.Documentation))
                         .Select(x => x.Documentation));
                     
-                    documentations.AddRange(element.Extensions.OfType<IDocumentedElement>()
-                        .SelectMany(x => x.Documentation)
+                    documentations.AddRange(element.Extensions.SelectMany(x => x.Content).OfType<IDocumentedElement>()
+                        .Select(x => x.Documentation)
                         .Where(x => !string.IsNullOrWhiteSpace(x.Value))
                         .Select(x => x.Value));
                     

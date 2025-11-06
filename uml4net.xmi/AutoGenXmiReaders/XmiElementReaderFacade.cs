@@ -31,7 +31,6 @@ namespace uml4net.xmi.Readers
 
     using Microsoft.Extensions.Logging;
 
-    using uml4net.xmi.ReferenceResolver;
     using uml4net.xmi.Settings;
 
     /// <summary>
@@ -1235,7 +1234,7 @@ namespace uml4net.xmi.Readers
         /// <param name = "xmiReaderSettings" >
         /// The <see cref="IXmiReaderSettings"/> used to configure reading
         /// </param>
-        /// <param>
+        /// <param name="nameSpaceResolver">
         /// The (injected) <see cref="INameSpaceResolver"/> used to resolve a namespace to one of the
         /// <see cref="SupportedNamespaces"/>
         /// </param>
@@ -1275,7 +1274,7 @@ namespace uml4net.xmi.Readers
 
             if (nameSpaceResolver == null)
             {
-                throw new ArgumentNullException(nameof(xmiReaderSettings));
+                throw new ArgumentNullException(nameof(nameSpaceResolver));
             }
 
             if (string.IsNullOrEmpty(documentName))

@@ -47,7 +47,7 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure
     /// </summary>
     [Class(xmiId: "EAID_BCB8EEBE_E533_D371_A45A_7997441EA00B", isAbstract: false, isFinalSpecialization: false, isActive: false)]
     [GeneratedCode("uml4net", "latest")]
-    public partial interface IProject : ITimes, uml4net.CommonStructure.IElement
+    public partial interface IProject : ITimes
     {
         /// <summary>
         /// </summary>

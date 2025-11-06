@@ -37,28 +37,8 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure
     /// </summary>
     [Class(xmiId: "EAID_B65B5DC9_F4C0_4ffa_823A_C007001FF08E", isAbstract: false, isFinalSpecialization: false, isActive: false)]
     [GeneratedCode("uml4net.extension", "latest")]
-    public partial class ParameterSubstitution : XmiElement, IParameterSubstitution
+    public partial class ParameterSubstitution : IParameterSubstitution
     {
-        /// <summary>
-        /// The Comments owned by this Element.
-        /// </summary>
-        public IContainerList<IComment> OwnedComment { get; set; }
-
-        /// <summary>
-        /// The Elements owned by this Element.
-        /// </summary>
-        public IContainerList<CommonStructure.IElement> OwnedElement { get; }
-
-        /// <summary>
-        /// The Element that owns this Element.
-        /// </summary>
-        public CommonStructure.IElement Owner { get; }
-
-        /// <summary>
-        /// Gets or sets the container of this <see cref="IElement"/>
-        /// </summary>
-        public CommonStructure.IElement Possessor { get; set; }
-
         /// <summary>
         /// </summary>
         [Property(xmiId: "EAID_14BE3DFB_5C7B_4e62_B7A3_85C03D2A1DDF", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
@@ -91,18 +71,9 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure
 
         /// <summary>
         /// </summary>
-        [Property(xmiId: "EAID_src895EB4_1EB4_494f_879E_FDD25E0950DA", aggregation: AggregationKind.Composite, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "EAID_dst664DEA_30CC_4ebc_9866_DC70B318DFC0", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [Implements(implementation: "IParameterSubstitution.Xrefs")]
-        public IContainerList<IXrefs> Xrefs
-        {
-            get => this.xrefs ??= new ContainerList<IXrefs>(this);
-            set => this.xrefs = value;
-        }
-
-        /// <summary>
-        /// Backing field for <see cref="Xrefs"/>
-        /// </summary>
-        private IContainerList<IXrefs> xrefs;
+        public IXrefs Xrefs { get; set; }
     }
 }
 

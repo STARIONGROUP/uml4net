@@ -1,5 +1,5 @@
 ﻿// -------------------------------------------------------------------------------------------------
-// <copyright file="XmiElementExtensionReaderFacade.cs" company="Starion Group S.A.">
+// <copyright file="ExtensionContentReaderFacade.cs" company="Starion Group S.A.">
     //
     //   Copyright (C) 2019-2025 Starion Group S.A.
     //
@@ -24,41 +24,123 @@
 
 namespace uml4net.{{this.Namespace}}.Readers
 {
-using System;
-using System.CodeDom.Compiler;
-using System.Collections.Generic;
-using System.Xml;
-
-using Microsoft.Extensions.Logging;
-
-using uml4net.xmi.Readers;
-using uml4net.xmi.Settings;
-
-/// <summary>
-/// The purpose of the <see cref="XmiElementReaderFacade"/> is to read an <see cref="IXmiElement"/> from an
-/// <see cref="XmlReader"/>
-/// </summary>
-[GeneratedCode("uml4net.extension", "latest")]
-public class XmiElementExtensionReaderFacade : XmiElementReaderFacade
-{
-/// <summary>
-    /// Initializes a new instance of the <see cref="XmiElementReaderFacade"/>
-    /// </summary>
-public XmiElementExtensionReaderFacade()
-{
-{{ #each this.Classes as | class | }}
-this.ReaderCache["{{ class.Name }}"] = (cache, xmiReaderSettings, nameSpaceResolver, loggerFactory, xmlReader, documentName, namespaceUri) =>
-{
-using var subXmlReader = xmlReader.ReadSubtree();
-var {{ String.LowerCaseFirstLetter class.Name }}Reader = new {{ class.Name }}Reader(cache, this, xmiReaderSettings, nameSpaceResolver, loggerFactory);
-return {{ String.LowerCaseFirstLetter class.Name }}Reader.Read(subXmlReader, documentName, namespaceUri);
-};
-{{#unless @last}}
+    using System;
+    using System.CodeDom.Compiler;
+    using System.Collections.Generic;
+    using System.Xml;
     
-{{/unless}}
-{{~/each}}
-}
-}
+    using Microsoft.Extensions.Logging;
+
+    using uml4net.xmi.Readers;
+    using uml4net.xmi.Settings;
+
+    /// <summary>
+    /// The <see cref="ExtensionContentReaderFacade"/> provides extension content read capabilities via <see cref="IExtensionContentReader{TContent}"/> call
+    /// </summary>
+    [GeneratedCode("uml4net", "latest")]
+    public class ExtensionContentReaderFacade : IExtensionContentReaderFacade
+    {
+        /// <summary>
+        /// A dictionary that contains functions that return extension content based a key that represents the type
+        /// and a provided <see cref="IXmiElementCache"/>, <see cref="ILoggerFactory"/> and <see cref="XmlReader"/>
+        /// </summary>
+        protected readonly Dictionary<string, Func<IXmiElementCache, IXmiReaderSettings, INameSpaceResolver, ILoggerFactory, XmlReader, string, string, object>> readerCache;
+    
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ExtensionContentReaderFacade"/>
+        /// </summary>
+        public ExtensionContentReaderFacade()
+        {
+            this.readerCache = new Dictionary<string, Func<IXmiElementCache, IXmiReaderSettings, INameSpaceResolver, ILoggerFactory, XmlReader, string, string, object>>
+            {
+            {{ #each this.Classes as | class | }}
+            ["{{ class.Name }}"] = (cache, xmiReaderSettings, nameSpaceResolver, loggerFactory, xmlReader, documentName, namespaceUri) =>
+                {
+                    using var subXmlReader = xmlReader.ReadSubtree();
+                    var {{ String.LowerCaseFirstLetter class.Name }}Reader = new {{ class.Name }}Reader(cache, this, xmiReaderSettings, nameSpaceResolver, loggerFactory);
+                    return {{ String.LowerCaseFirstLetter class.Name }}Reader.Read(subXmlReader, documentName, namespaceUri);
+                },
+            {{/each}}
+            };
+        }
+    
+        /// <summary>
+        /// Queries an instance of an <see cref="IXmiElement"/> based on the position of the <see cref="XmlReader"/>. When the reader
+        /// is at an XML Element and has an attribute of xmi:type, the value of that attribute is used to select the appropriate
+        /// XmiElementReader from which the <see cref="IXmiElement"/> is returned.
+        /// </summary>
+        /// <param name="xmlReader">
+        /// An instance of <see cref="XmlReader"/>
+        /// </param>
+        /// <param name="documentName">
+        /// The name of the document that contains the <see cref="IXmiElement"/>
+        /// </param>
+        /// <param name="namespaceUri">
+        /// the namespace that the <see cref="IXmiElement"/> belongs to
+        /// </param>
+        /// <param name="cache">
+        /// The <see cref="IXmiElementCache"/> in which all model instances are registered
+        /// </param>
+        /// <param name="xmiReaderSettings" >
+        /// The <see cref="IXmiReaderSettings"/> used to configure reading
+        /// </param>
+        /// <param name="nameSpaceResolver">
+        /// The (injected) <see cref="INameSpaceResolver"/> used to resolve a namespace to one of the
+        /// <see cref="SupportedNamespaces"/>
+        /// </param>
+        /// <param name="loggerFactory">
+        /// The <see cref="ILoggerFactory"/> to set up logging
+        /// </param>
+        /// <returns>
+        /// an instance of <typeparamref name="TContent "/>
+        /// </returns>
+        /// <typeparam name="TContent">Any supported type</typeparam>
+        /// <exception cref="InvalidOperationException">
+        /// thrown when the xmi:type is not supported and noXmiElementReader was found
+        /// </exception>
+        public TContent QueryExtensionContent<TContent>(XmlReader xmlReader, string documentName, string namespaceUri, IXmiElementCache cache, IXmiReaderSettings xmiReaderSettings, INameSpaceResolver nameSpaceResolver, ILoggerFactory loggerFactory)
+        {
+            if (xmlReader == null)
+            {
+                throw new ArgumentNullException(nameof(xmlReader));
+            }
+            
+            if (cache == null)
+            {
+                throw new ArgumentNullException(nameof(cache));
+            }
+            
+            if (xmiReaderSettings == null)
+            {
+                throw new ArgumentNullException(nameof(xmiReaderSettings));
+            }
+            
+            if (nameSpaceResolver == null)
+            {
+                throw new ArgumentNullException(nameof(nameSpaceResolver));
+            }
+            
+            if (string.IsNullOrEmpty(documentName))
+            {
+                throw new ArgumentNullException(nameof(documentName));
+            }
+            
+            if (string.IsNullOrEmpty(namespaceUri))
+            {
+                throw new ArgumentNullException(nameof(namespaceUri));
+            }
+            
+            var extensionTypeName = typeof(TContent).Name;
+
+            if (this.readerCache.TryGetValue(extensionTypeName, out var readerFactory)
+                && readerFactory(cache, xmiReaderSettings, nameSpaceResolver, loggerFactory, xmlReader, documentName, namespaceUri) is TContent content)
+            {
+                return content;
+            }
+            
+            throw new InvalidOperationException($"No reader found for extension type - {extensionTypeName}");
+        }
+    }
 }
 
 // ------------------------------------------------------------------------------------------------

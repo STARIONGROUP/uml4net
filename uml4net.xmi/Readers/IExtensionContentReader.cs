@@ -1,5 +1,5 @@
 ﻿// -------------------------------------------------------------------------------------------------
-//  <copyright file="IExtenderReader.cs" company="Starion Group S.A.">
+//  <copyright file="IExtensionContentReader.cs" company="Starion Group S.A.">
 // 
 //    Copyright 2019-2025 Starion Group S.A.
 // 
@@ -18,26 +18,27 @@
 //  </copyright>
 //  ------------------------------------------------------------------------------------------------
 
-namespace uml4net.xmi.Extender
+namespace uml4net.xmi.Readers
 {
-    using System.Collections.Generic;
+    using System.Xml;
 
     /// <summary>
-    /// The purpose of the <see cref="IExtenderReader"/> interface is to implement readers for tool-vendor specific
-    /// <see cref="XmiExtension"/>s.
+    /// The <see cref="IExtensionContentReader{TContent}"/> provides XML content read for elements that are part of an extension
     /// </summary>
-    public interface IExtenderReader
+    /// <typeparam name="TContent">Any type</typeparam>
+    public interface IExtensionContentReader<out TContent>
     {
         /// <summary>
-        /// Reads the content of a xmi:Extension section 
+        /// Reads the <typeparamref name="TContent"/> object from its XML representation
         /// </summary>
-        /// <param name="extensionXmi">The xmi:Extension section from where extension objects are stored</param>
-        /// <returns>A collection of extension <see cref="object"/></returns>
-        List<object> ReadContent(string extensionXmi);
-
-        /// <summary>
-        /// Performs post-processing of a UMl model using content of the extension
-        /// </summary>
-        void PostProcess();
+        /// <param name="xmlReader">
+        /// an instance of <see cref="XmlReader"/>
+        /// </param>
+        /// <param name="documentName">The actual document name</param>
+        /// <param name="namespaceUri">The uri namespace</param>
+        /// <returns>
+        /// an instance of <typeparamref name="TContent"/>
+        /// </returns>
+        public TContent Read(XmlReader xmlReader, string documentName, string namespaceUri);
     }
 }

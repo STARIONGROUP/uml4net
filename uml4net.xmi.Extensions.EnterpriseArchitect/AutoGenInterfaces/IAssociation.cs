@@ -47,7 +47,7 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure
     /// </summary>
     [Class(xmiId: "EAID_986B19ED_193B_A073_9EAA_1595D0C9620D", isAbstract: false, isFinalSpecialization: false, isActive: false)]
     [GeneratedCode("uml4net", "latest")]
-    public partial interface IAssociation : ILink, uml4net.CommonStructure.IElement
+    public partial interface IAssociation : ILink
     {
     }
 }

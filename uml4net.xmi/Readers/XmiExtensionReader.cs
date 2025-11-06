@@ -46,6 +46,9 @@ namespace uml4net.xmi.Readers
         /// </summary>
         private readonly INameSpaceResolver nameSpaceResolver;
 
+        /// <summary>
+        /// The injected <see cref="IExtenderReaderRegistry"/> that provides <see cref="IExtenderReader"/> resolve features
+        /// </summary>
         private readonly IExtenderReaderRegistry extenderReaderRegistry;
 
         /// <summary>
@@ -63,6 +66,7 @@ namespace uml4net.xmi.Readers
         /// The (injected) <see cref="INameSpaceResolver"/> used to resolve a namespace to one of the
         /// <see cref="KnowNamespacePrefixes"/> constants
         /// </param>
+        /// <param name="extenderReaderRegistry">The injected <see cref="IExtenderReaderRegistry"/> that provides <see cref="IExtenderReader"/> resolve features</param>
         /// <param name="loggerFactory">
         /// The (injected) <see cref="ILoggerFactory"/> used to set up logging
         /// </param>
@@ -154,6 +158,7 @@ namespace uml4net.xmi.Readers
                             subtreeReader.Read();
 
                             var stringWriter = new StringWriter();
+                            
                             using (var xmlWriter = XmlWriter.Create(stringWriter, new XmlWriterSettings { OmitXmlDeclaration = true }))
                             {
                                 xmlWriter.WriteNode(subtreeReader, true);

@@ -61,6 +61,7 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.Readers
         /// The (injected) <see cref="INameSpaceResolver"/> used to resolve a namespace to one of the
         /// <see cref="KnowNamespacePrefixes"/>
         /// </param>
+        /// <param name="extenderReaderRegistry">The injected <see cref="IExtenderReaderRegistry"/> that provides <see cref="IExtenderReader"/> resolve features</param>
         public EnterpriseArchitectXmiReader(IAssembler assembler, IXmiElementCache cache, IXmiElementReaderFacade xmiElementReaderFacade, ILoggerFactory loggerFactory,
             IExternalReferenceResolver externalReferenceResolver, IXmiReaderScope scope, IXmiReaderSettings xmiReaderSettings, INameSpaceResolver nameSpaceResolver, IExtenderReaderRegistry extenderReaderRegistry) : base(assembler, cache, xmiElementReaderFacade, loggerFactory, externalReferenceResolver, scope, xmiReaderSettings, nameSpaceResolver, extenderReaderRegistry)
         {
@@ -91,7 +92,8 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.Readers
         /// </remarks>
         public override IPackage ReadXmiExtension(XmlReader xmlReader, string documentName, string namespaceUri)
         {
-            if (xmlReader.MoveToContent() != XmlNodeType.Element)
+            return new Package();
+            /*if (xmlReader.MoveToContent() != XmlNodeType.Element)
             {
                 return new Extension();
             }
@@ -106,10 +108,10 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.Readers
                 }
 
                 elementReference.ExtendedElement = extendedElement;
-                //extendedElement.Extensions.Add(elementReference);
+                extendedElement.Extensions.Add(elementReference);
             }
-            
-            return extensionElement;
+
+            return extensionElement;*/
         }
     }
 }

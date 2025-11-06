@@ -37,6 +37,9 @@ namespace uml4net.xmi.Extender
     /// </remarks>
     public class ExtenderReaderRegistry : IExtenderReaderRegistry
     {
+        /// <summary>
+        /// Gets the injected collection of available <see cref="IExtenderReader"/>
+        /// </summary>
         private readonly IEnumerable<Meta<IExtenderReader>> extenderReaders;
 
         /// <summary>

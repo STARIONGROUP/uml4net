@@ -47,7 +47,7 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure
     /// </summary>
     [Class(xmiId: "EAID_A6328F5F_8D23_924E_BA21_A2D627336B0E", isAbstract: false, isFinalSpecialization: false, isActive: false)]
     [GeneratedCode("uml4net", "latest")]
-    public partial interface IParameter : IDocumentedElement, IElementReference, uml4net.CommonStructure.IElement
+    public partial interface IParameter : IDocumentedElement, IElementReference
     {
         /// <summary>
         /// </summary>
@@ -61,28 +61,28 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure
 
         /// <summary>
         /// </summary>
-        [Property(xmiId: "EAID_srcA36D9F_0F88_8FD8_9884_8A56CBB1646B", aggregation: AggregationKind.Composite, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
-        public IContainerList<IStyle> Style { get; set; }
+        [Property(xmiId: "EAID_dstE05164_898C_45b7_BF52_89E37749E0CD", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        public IStyle Style { get; set; }
 
         /// <summary>
         /// </summary>
-        [Property(xmiId: "EAID_srcF8AABB_8F38_48EE_BFE4_81F857A57910", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
-        public IContainerList<ITagsCollection> Tags { get; set; }
+        [Property(xmiId: "EAID_dstBD8452_989A_4d9c_A967_4816F2E69D0A", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        public IStyle Styleex { get; set; }
 
         /// <summary>
         /// </summary>
-        [Property(xmiId: "EAID_srcEF220F_8380_6BC4_A3BA_28B446A4EA82", aggregation: AggregationKind.Composite, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
-        public IContainerList<IXrefs> Xrefs { get; set; }
+        [Property(xmiId: "EAID_dstFEE613_B4E4_4408_8F47_5C6BC81F520C", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        public IXrefs Xrefs { get; set; }
 
         /// <summary>
         /// </summary>
-        [Property(xmiId: "EAID_src230EE9_E339_77F7_970D_B44227A264C0", aggregation: AggregationKind.Composite, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
-        public IContainerList<IParameterProperties> Properties { get; set; }
+        [Property(xmiId: "EAID_dst95A0E8_CA34_4f67_AD67_722099808AE0", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        public IParameterProperties Properties { get; set; }
 
         /// <summary>
         /// </summary>
-        [Property(xmiId: "EAID_src2BB311_640E_0B3D_A39C_92B9DEF95389", aggregation: AggregationKind.Composite, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
-        public IContainerList<IStyle> Styleex { get; set; }
+        [Property(xmiId: "EAID_srcC4DA5C_40A2_45c6_9CFF_4F69A3AD43D4", aggregation: AggregationKind.Shared, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        public List<ITag> Tags { get; set; }
     }
 }
 

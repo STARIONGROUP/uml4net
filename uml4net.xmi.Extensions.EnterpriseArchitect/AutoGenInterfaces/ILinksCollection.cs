@@ -47,52 +47,52 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure
     /// </summary>
     [Class(xmiId: "EAID_10315761_90A5_4510_9E09_A1BAF2E57137", isAbstract: false, isFinalSpecialization: false, isActive: false)]
     [GeneratedCode("uml4net", "latest")]
-    public partial interface ILinksCollection : uml4net.CommonStructure.IElement
+    public partial interface ILinksCollection
     {
         /// <summary>
         /// </summary>
-        [Property(xmiId: "EAID_srcD57C83_8F6B_46d7_BB69_BD3460C8A307", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
-        public IContainerList<INesting> Nesting { get; set; }
+        [Property(xmiId: "EAID_srcD57C83_8F6B_46d7_BB69_BD3460C8A307", aggregation: AggregationKind.Shared, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        public List<INesting> Nesting { get; set; }
 
         /// <summary>
         /// </summary>
-        [Property(xmiId: "EAID_srcECEA59_6A04_403b_8E82_09EF23BDA1DD", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
-        public IContainerList<IAssociation> Association { get; set; }
+        [Property(xmiId: "EAID_srcECEA59_6A04_403b_8E82_09EF23BDA1DD", aggregation: AggregationKind.Shared, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        public List<IAssociation> Association { get; set; }
 
         /// <summary>
         /// </summary>
-        [Property(xmiId: "EAID_src2794E4_E960_447a_A950_065B0BF699CA", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
-        public IContainerList<IAggregation> Aggregation { get; set; }
+        [Property(xmiId: "EAID_src2794E4_E960_447a_A950_065B0BF699CA", aggregation: AggregationKind.Shared, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        public List<IAggregation> Aggregation { get; set; }
 
         /// <summary>
         /// </summary>
-        [Property(xmiId: "EAID_src10B0FC_977C_46a6_8A0D_F548095B8526", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
-        public IContainerList<IDependency> Dependency { get; set; }
+        [Property(xmiId: "EAID_src10B0FC_977C_46a6_8A0D_F548095B8526", aggregation: AggregationKind.Shared, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        public List<IDependency> Dependency { get; set; }
 
         /// <summary>
         /// </summary>
-        [Property(xmiId: "EAID_src7F468F_F87A_4661_BCE7_737B6A6C7413", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
-        public IContainerList<IRealisation> Realisation { get; set; }
+        [Property(xmiId: "EAID_src7F468F_F87A_4661_BCE7_737B6A6C7413", aggregation: AggregationKind.Shared, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        public List<IRealisation> Realisation { get; set; }
 
         /// <summary>
         /// </summary>
-        [Property(xmiId: "EAID_srcA73D13_C0FB_445f_892D_AE9C6FF1BD6A", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
-        public IContainerList<ITemplateBinding> TemplateBinding { get; set; }
+        [Property(xmiId: "EAID_srcA73D13_C0FB_445f_892D_AE9C6FF1BD6A", aggregation: AggregationKind.Shared, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        public List<ITemplateBinding> TemplateBinding { get; set; }
 
         /// <summary>
         /// </summary>
-        [Property(xmiId: "EAID_srcC87A37_7100_4360_B75E_CCA9B591076A", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
-        public IContainerList<IAbstraction> Abstraction { get; set; }
+        [Property(xmiId: "EAID_srcC87A37_7100_4360_B75E_CCA9B591076A", aggregation: AggregationKind.Shared, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        public List<IAbstraction> Abstraction { get; set; }
 
         /// <summary>
         /// </summary>
-        [Property(xmiId: "EAID_src651CB9_65AD_4e09_B0EA_2BB5E0A40F1D", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
-        public IContainerList<INoteLink> NoteLink { get; set; }
+        [Property(xmiId: "EAID_src651CB9_65AD_4e09_B0EA_2BB5E0A40F1D", aggregation: AggregationKind.Shared, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        public List<INoteLink> NoteLink { get; set; }
 
         /// <summary>
         /// </summary>
-        [Property(xmiId: "EAID_src297E45_68BF_40e4_8686_F85EB6092677", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
-        public IContainerList<IGeneralization> Generalization { get; set; }
+        [Property(xmiId: "EAID_src297E45_68BF_40e4_8686_F85EB6092677", aggregation: AggregationKind.Shared, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        public List<IGeneralization> Generalization { get; set; }
     }
 }
 

@@ -42,8 +42,8 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.Extensions
         /// <returns>True if the <see cref="IProperty.IsID"/> is set or if the xrefs of a linked extension contains the <see cref="IsIdPattern"/></returns>
         public static bool QueryIsId(this IProperty property)
         {
-            return property.IsID ||  property.Extensions.OfType<IAttribute>()
-                .SelectMany(x => x.Xrefs)
+            return property.IsID ||  property.Extensions.SelectMany(x => x.Content).OfType<IAttribute>()
+                .Select(x => x.Xrefs)
                 .Any(x => !string.IsNullOrEmpty(x.Value) && x.Value.Contains(IsIdPattern));
         }
     }

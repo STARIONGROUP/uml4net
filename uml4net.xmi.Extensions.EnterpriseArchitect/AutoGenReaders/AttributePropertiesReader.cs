@@ -43,7 +43,7 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure.Readers
     /// from the XMI document
     /// </summary>
     [GeneratedCode("uml4net", "latest")]
-    public partial class AttributePropertiesReader : XmiElementReader<IAttributeProperties>, IXmiElementReader<IAttributeProperties>
+    public partial class AttributePropertiesReader : ExtensionContentReader<IAttributeProperties>
     {
         /// <summary>
         /// The (injected) logger
@@ -56,9 +56,9 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure.Readers
         /// <param name="cache">
         /// The (injected) <see cref="IXmiElementCache"/>> in which each <see cref="IXmiElement"/>> is stored
         /// </param>
-        /// <param name="xmiElementReaderFacade">
-        /// The (injected) <see cref="IXmiElementReaderFacade"/> used to resolve any
-        /// required <see cref="IXmiElementReader{T}"/>
+        /// <param name="extensionContentReaderFacade">
+        /// The (injected) <see cref="IExtensionContentReaderFacade"/> used to resolve any
+        /// required <see cref="IExtensionContentReader{T}"/>
         /// </param>
         /// <param name="xmiReaderSettings">
         /// The <see cref="IXmiReaderSettings"/> used to configure reading
@@ -70,8 +70,8 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure.Readers
         /// <param name="loggerFactory">
         /// The (injected) <see cref="ILoggerFactory"/> used to set up logging
         /// </param>
-        public AttributePropertiesReader(IXmiElementCache cache, IXmiElementReaderFacade xmiElementReaderFacade, IXmiReaderSettings xmiReaderSettings, INameSpaceResolver nameSpaceResolver, ILoggerFactory loggerFactory)
-        : base(cache, xmiElementReaderFacade, xmiReaderSettings, nameSpaceResolver, loggerFactory)
+        public AttributePropertiesReader(IXmiElementCache cache, IExtensionContentReaderFacade extensionContentReaderFacade, IXmiReaderSettings xmiReaderSettings, INameSpaceResolver nameSpaceResolver, ILoggerFactory loggerFactory)
+        : base(cache, extensionContentReaderFacade, xmiReaderSettings, nameSpaceResolver, loggerFactory)
         {
             this.logger = loggerFactory == null ? NullLogger<AttributePropertiesReader>.Instance : loggerFactory.CreateLogger<AttributePropertiesReader>();
         }
@@ -116,168 +116,13 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure.Readers
             {
                 this.logger.LogTrace("reading AttributeProperties at line:position {LineNumber}:{LinePosition}", xmlLineInfo?.LineNumber, xmlLineInfo?.LinePosition);
 
-                var xmiType = "AttributeProperties";
+                var xmiType = "Extension - AttributeProperties";
 
                 if (!string.IsNullOrEmpty(xmlReader.NamespaceURI))
                 {
                     namespaceUri = xmlReader.NamespaceURI;
                 }
 
-                poco.XmiType = xmiType;
-
-                var idRef = xmlReader.GetAttribute("xmi:idref");
-                poco.XmiId = $"Extension-{(string.IsNullOrEmpty(idRef) ? Guid.NewGuid() : idRef)}";
-
-                if (!string.IsNullOrEmpty(idRef))
-                {
-                    poco.SingleValueReferencePropertyIdentifiers.Add("extendedElement", $"{documentName}#{idRef}");
-                }
-
-                poco.XmiGuid = Guid.NewGuid().ToString();
-
-                poco.DocumentName = documentName;
-
-                poco.XmiNamespaceUri = namespaceUri;
-
-                if (!this.Cache.TryAdd(poco))
-                {
-                    this.logger.LogCritical("Failed to add element type [{Poco}] with id [{Id}] as it was already in the Cache. The XMI document seems to have duplicate xmi:id values", "AttributeProperties", poco.XmiId);
-                }
-
-                poco.Changeability = xmlReader.GetAttribute("changeability") ?? xmlReader.GetAttribute("changeability", this.NameSpaceResolver.UmlNameSpace);
-
-                var collectionXmlAttribute = xmlReader.GetAttribute("collection") ?? xmlReader.GetAttribute("collection", this.NameSpaceResolver.UmlNameSpace);
-
-                if (!string.IsNullOrWhiteSpace(collectionXmlAttribute))
-                {
-                    poco.Collection = bool.Parse(collectionXmlAttribute);
-                }
-
-                var derivedXmlAttribute = xmlReader.GetAttribute("derived") ?? xmlReader.GetAttribute("derived", this.NameSpaceResolver.UmlNameSpace);
-
-                if (!string.IsNullOrWhiteSpace(derivedXmlAttribute))
-                {
-                    poco.Derived = int.Parse(derivedXmlAttribute);
-                }
-
-                var duplicatesXmlAttribute = xmlReader.GetAttribute("duplicates") ?? xmlReader.GetAttribute("duplicates", this.NameSpaceResolver.UmlNameSpace);
-
-                if (!string.IsNullOrWhiteSpace(duplicatesXmlAttribute))
-                {
-                    poco.Duplicates = int.Parse(duplicatesXmlAttribute);
-                }
-
-                var lengthXmlAttribute = xmlReader.GetAttribute("length") ?? xmlReader.GetAttribute("length", this.NameSpaceResolver.UmlNameSpace);
-
-                if (!string.IsNullOrWhiteSpace(lengthXmlAttribute))
-                {
-                    poco.Length = int.Parse(lengthXmlAttribute);
-                }
-
-                var precisionXmlAttribute = xmlReader.GetAttribute("precision") ?? xmlReader.GetAttribute("precision", this.NameSpaceResolver.UmlNameSpace);
-
-                if (!string.IsNullOrWhiteSpace(precisionXmlAttribute))
-                {
-                    poco.Precision = int.Parse(precisionXmlAttribute);
-                }
-
-                var staticXmlAttribute = xmlReader.GetAttribute("static") ?? xmlReader.GetAttribute("static", this.NameSpaceResolver.UmlNameSpace);
-
-                if (!string.IsNullOrWhiteSpace(staticXmlAttribute))
-                {
-                    poco.Static = int.Parse(staticXmlAttribute);
-                }
-
-                poco.Type = xmlReader.GetAttribute("type") ?? xmlReader.GetAttribute("type", this.NameSpaceResolver.UmlNameSpace);
-
-
-                while (xmlReader.Read())
-                {
-                    if (xmlReader.NodeType == XmlNodeType.Element)
-                    {
-                        switch (xmlReader.LocalName.LowerCaseFirstLetter())
-                        {
-                            case "changeability":
-                                poco.Changeability = xmlReader.ReadElementContentAsString();
-                                break;
-                            case "collection":
-                                var collectionValue = xmlReader.ReadElementContentAsString();
-
-                                if (!string.IsNullOrWhiteSpace(collectionValue))
-                                {
-                                    poco.Collection = bool.Parse(collectionValue);
-                                }
-
-                                break;
-                            case "derived":
-                                var derivedValue = xmlReader.ReadElementContentAsString();
-
-                                if (!string.IsNullOrWhiteSpace(derivedValue))
-                                {
-                                    poco.Derived = int.Parse(derivedValue);
-                                }
-
-                                break;
-                            case "duplicates":
-                                var duplicatesValue = xmlReader.ReadElementContentAsString();
-
-                                if (!string.IsNullOrWhiteSpace(duplicatesValue))
-                                {
-                                    poco.Duplicates = int.Parse(duplicatesValue);
-                                }
-
-                                break;
-                            case "length":
-                                var lengthValue = xmlReader.ReadElementContentAsString();
-
-                                if (!string.IsNullOrWhiteSpace(lengthValue))
-                                {
-                                    poco.Length = int.Parse(lengthValue);
-                                }
-
-                                break;
-                            case "precision":
-                                var precisionValue = xmlReader.ReadElementContentAsString();
-
-                                if (!string.IsNullOrWhiteSpace(precisionValue))
-                                {
-                                    poco.Precision = int.Parse(precisionValue);
-                                }
-
-                                break;
-                            case "static":
-                                var staticValue = xmlReader.ReadElementContentAsString();
-
-                                if (!string.IsNullOrWhiteSpace(staticValue))
-                                {
-                                    poco.Static = int.Parse(staticValue);
-                                }
-
-                                break;
-                            case "type":
-                                poco.Type = xmlReader.ReadElementContentAsString();
-                                break;
-                            default:
-                                var couldHandleReadElement = this.HandleManualXmlRead(poco, xmlReader, documentName, namespaceUri);
-
-                                if (couldHandleReadElement)
-                                {
-                                    break;
-                                }
-
-                                if (this.XmiReaderSettings.UseStrictReading)
-                                {
-                                    throw new NotSupportedException($"AttributePropertiesReader: {xmlReader.LocalName} at line:position {xmlLineInfo.LineNumber}:{xmlLineInfo.LinePosition}");
-                                }
-                                else
-                                {
-                                    this.logger.LogWarning("Not Supported: AttributePropertiesReader: {LocalName} at line:position {LineNumber}:{LinePosition}", xmlReader.LocalName, xmlLineInfo.LineNumber, xmlLineInfo.LinePosition);
-                                }
-
-                                break;
-                        }
-                    }
-                }
             }
 
             return poco;

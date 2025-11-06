@@ -50,7 +50,7 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure.Readers
         /// <returns>
         /// True if the manual code could handle the Xmi read
         /// </returns>
-        protected override bool HandleManualXmlRead(IExtension poco, XmlReader xmlReader, string documentName, string namespaceUri)
+        protected bool HandleManualXmlRead(IExtension poco, XmlReader xmlReader, string documentName, string namespaceUri)
         {
             switch (xmlReader.LocalName.LowerCaseFirstLetter())
             {
