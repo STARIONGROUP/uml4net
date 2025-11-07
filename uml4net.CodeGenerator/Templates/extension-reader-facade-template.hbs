@@ -44,21 +44,21 @@ namespace uml4net.{{this.Namespace}}.Readers
         /// A dictionary that contains functions that return extension content based a key that represents the type
         /// and a provided <see cref="IXmiElementCache"/>, <see cref="ILoggerFactory"/> and <see cref="XmlReader"/>
         /// </summary>
-        protected readonly Dictionary<string, Func<IXmiElementCache, IXmiReaderSettings, INameSpaceResolver, ILoggerFactory, XmlReader, string, string, object>> readerCache;
+        protected readonly Dictionary<string, Func<IXmiElementCache, IXmiReaderSettings, INameSpaceResolver, ILoggerFactory, XmlReader, string, object>> readerCache;
     
         /// <summary>
         /// Initializes a new instance of the <see cref="ExtensionContentReaderFacade"/>
         /// </summary>
         public ExtensionContentReaderFacade()
         {
-            this.readerCache = new Dictionary<string, Func<IXmiElementCache, IXmiReaderSettings, INameSpaceResolver, ILoggerFactory, XmlReader, string, string, object>>
+            this.readerCache = new Dictionary<string, Func<IXmiElementCache, IXmiReaderSettings, INameSpaceResolver, ILoggerFactory, XmlReader, string, object>>
             {
             {{ #each this.Classes as | class | }}
-            ["{{ class.Name }}"] = (cache, xmiReaderSettings, nameSpaceResolver, loggerFactory, xmlReader, documentName, namespaceUri) =>
+            ["{{ class.Name }}"] = (cache, xmiReaderSettings, nameSpaceResolver, loggerFactory, xmlReader, documentName) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var {{ String.LowerCaseFirstLetter class.Name }}Reader = new {{ class.Name }}Reader(cache, this, xmiReaderSettings, nameSpaceResolver, loggerFactory);
-                    return {{ String.LowerCaseFirstLetter class.Name }}Reader.Read(subXmlReader, documentName, namespaceUri);
+                    var {{ String.LowerCaseFirstLetter class.Name }}Reader = new {{ class.Name }}Reader(this, xmiReaderSettings, nameSpaceResolver, cache, loggerFactory);
+                    return {{ String.LowerCaseFirstLetter class.Name }}Reader.Read(subXmlReader, documentName);
                 },
             {{/each}}
             };
@@ -72,15 +72,6 @@ namespace uml4net.{{this.Namespace}}.Readers
         /// <param name="xmlReader">
         /// An instance of <see cref="XmlReader"/>
         /// </param>
-        /// <param name="documentName">
-        /// The name of the document that contains the <see cref="IXmiElement"/>
-        /// </param>
-        /// <param name="namespaceUri">
-        /// the namespace that the <see cref="IXmiElement"/> belongs to
-        /// </param>
-        /// <param name="cache">
-        /// The <see cref="IXmiElementCache"/> in which all model instances are registered
-        /// </param>
         /// <param name="xmiReaderSettings" >
         /// The <see cref="IXmiReaderSettings"/> used to configure reading
         /// </param>
@@ -88,6 +79,8 @@ namespace uml4net.{{this.Namespace}}.Readers
         /// The (injected) <see cref="INameSpaceResolver"/> used to resolve a namespace to one of the
         /// <see cref="SupportedNamespaces"/>
         /// </param>
+        /// <param name="cache">The <see cref="IXmiElementCache"/> that provides cached <see cref="IXmiElement"/> retriveal</param>
+        /// <param name="documentName">The name of the document that is currently read</param>
         /// <param name="loggerFactory">
         /// The <see cref="ILoggerFactory"/> to set up logging
         /// </param>
@@ -98,16 +91,11 @@ namespace uml4net.{{this.Namespace}}.Readers
         /// <exception cref="InvalidOperationException">
         /// thrown when the xmi:type is not supported and noXmiElementReader was found
         /// </exception>
-        public TContent QueryExtensionContent<TContent>(XmlReader xmlReader, string documentName, string namespaceUri, IXmiElementCache cache, IXmiReaderSettings xmiReaderSettings, INameSpaceResolver nameSpaceResolver, ILoggerFactory loggerFactory)
+        public TContent QueryExtensionContent<TContent>(XmlReader xmlReader, IXmiReaderSettings xmiReaderSettings, INameSpaceResolver nameSpaceResolver, IXmiElementCache cache, string documentName, ILoggerFactory loggerFactory)
         {
             if (xmlReader == null)
             {
                 throw new ArgumentNullException(nameof(xmlReader));
-            }
-            
-            if (cache == null)
-            {
-                throw new ArgumentNullException(nameof(cache));
             }
             
             if (xmiReaderSettings == null)
@@ -119,21 +107,17 @@ namespace uml4net.{{this.Namespace}}.Readers
             {
                 throw new ArgumentNullException(nameof(nameSpaceResolver));
             }
-            
-            if (string.IsNullOrEmpty(documentName))
+
+            if (cache == null)
             {
-                throw new ArgumentNullException(nameof(documentName));
+                throw new ArgumentNullException(nameof(cache));
             }
-            
-            if (string.IsNullOrEmpty(namespaceUri))
-            {
-                throw new ArgumentNullException(nameof(namespaceUri));
-            }
-            
-            var extensionTypeName = typeof(TContent).Name;
+
+            var type = typeof(TContent);
+            var extensionTypeName = type.IsInterface ? xmlReader.LocalName : typeof(TContent).Name;
 
             if (this.readerCache.TryGetValue(extensionTypeName, out var readerFactory)
-                && readerFactory(cache, xmiReaderSettings, nameSpaceResolver, loggerFactory, xmlReader, documentName, namespaceUri) is TContent content)
+                && readerFactory(cache, xmiReaderSettings, nameSpaceResolver, loggerFactory, xmlReader, documentName) is TContent content)
             {
                 return content;
             }

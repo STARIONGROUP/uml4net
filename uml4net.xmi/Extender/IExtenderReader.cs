@@ -32,8 +32,9 @@ namespace uml4net.xmi.Extender
         /// Reads the content of a xmi:Extension section 
         /// </summary>
         /// <param name="extensionXmi">The xmi:Extension section from where extension objects are stored</param>
+        /// <param name="documentName">The name of the document that is currently read</param>
         /// <returns>A collection of extension <see cref="object"/></returns>
-        List<object> ReadContent(string extensionXmi);
+        List<object> ReadContent(string extensionXmi, string documentName);
 
         /// <summary>
         /// Performs post-processing of a UMl model using content of the extension

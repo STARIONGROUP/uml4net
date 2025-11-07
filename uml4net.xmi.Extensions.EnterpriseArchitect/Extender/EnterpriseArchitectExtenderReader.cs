@@ -20,6 +20,7 @@
 
 namespace uml4net.xmi.Extensions.EnterpriseArchitect.Extender
 {
+    using System;
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.IO;
@@ -28,12 +29,14 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.Extender
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Logging.Abstractions;
 
+    using uml4net.Extensions;
     using uml4net.xmi.Extender;
+    using uml4net.xmi.Extensions.EntrepriseArchitect.Structure;
     using uml4net.xmi.Readers;
     using uml4net.xmi.Settings;
 
     /// <summary>
-    /// An <see cref="IExtenderReader"/> implementation that processes <c>xmi:Extension</c> elements
+    /// An <see cref="IExtenderReader" /> implementation that processes <c>xmi:Extension</c> elements
     /// produced by <strong>Sparx Systems Enterprise Architect</strong> version <c>6.5</c>.
     /// </summary>
     /// <remarks>
@@ -45,51 +48,74 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.Extender
     public class EnterpriseArchitectExtenderReader : IExtenderReader
     {
         /// <summary>
-        /// The (injected) <see cref="ILogger{XmiReader}"/> used to perform logging
+        /// The injected <see cref="IExtensionContentReaderFacade" /> that provides extension content read capabailities
+        /// </summary>
+        protected readonly IExtensionContentReaderFacade ExtensionContentReaderFacade;
+
+        /// <summary>
+        /// The (injected) <see cref="ILogger{XmiReader}" /> used to perform logging
         /// </summary>
         private readonly ILogger<XmiReader> logger;
 
         /// <summary>
-        /// The (injected) <see cref="ILoggerFactory"/> used to set up logging
+        /// The (injected) <see cref="ILoggerFactory" /> used to set up logging
         /// </summary>
         protected readonly ILoggerFactory LoggerFactory;
 
         /// <summary>
-        /// The <see cref="IXmiReaderScope"/>
+        /// The <see cref="IXmiReaderScope" />
         /// </summary>
         private readonly IXmiReaderScope scope;
 
         /// <summary>
-        /// The (injected) <see cref="IXmiReaderSettings"/> used to configure reading
+        /// The (injected) <see cref="IXmiReaderSettings" /> used to configure reading
         /// </summary>
         protected readonly IXmiReaderSettings XmiReaderSettings;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="XmiReader"/> class.
+        /// The injected <see cref="IXmiElementCache"/> that provides cached elements retrieval
+        /// </summary>
+        protected readonly IXmiElementCache Cache;
+
+        /// <summary>
+        /// The injected <see cref="INameSpaceResolver"/> that helps resolving namespace uri
+        /// </summary>
+        protected readonly INameSpaceResolver NameSpaceResolver;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="XmiReader" /> class.
         /// </summary>
         /// <param name="loggerFactory">
-        /// The (injected) <see cref="ILoggerFactory"/> used to set up logging
+        /// The (injected) <see cref="ILoggerFactory" /> used to set up logging
         /// </param>
-        /// <param name="scope">The <see cref="IXmiReaderScope"/></param>
-        /// <param name="xmiReaderSettings">The injected <see cref="IXmiReaderSettings"/> that provides reading setting for XMI</param>
-        public EnterpriseArchitectExtenderReader(IXmiReaderScope scope, IXmiReaderSettings xmiReaderSettings, ILoggerFactory loggerFactory)
+        /// <param name="scope">The <see cref="IXmiReaderScope" /></param>
+        /// <param name="xmiReaderSettings">The injected <see cref="IXmiReaderSettings" /> that provides reading setting for XMI</param>
+        /// <param name="extensionContentReaderFacade">The injected <see cref="IExtensionContentReaderFacade" /> that provides extension content read capabailities</param>
+        /// <param name="cache">The injected <see cref="IXmiElementCache"/> that provides cached elements retrieval</param>
+        /// <param name="nameSpaceResolver">The injected <see cref="INameSpaceResolver"/> that helps resolving namespace uri</param>
+        public EnterpriseArchitectExtenderReader(IXmiReaderScope scope, IXmiReaderSettings xmiReaderSettings, ILoggerFactory loggerFactory, IExtensionContentReaderFacade extensionContentReaderFacade,
+             IXmiElementCache cache, INameSpaceResolver nameSpaceResolver)
         {
             this.XmiReaderSettings = xmiReaderSettings;
             this.LoggerFactory = loggerFactory;
             this.logger = this.LoggerFactory == null ? NullLogger<XmiReader>.Instance : this.LoggerFactory.CreateLogger<XmiReader>();
             this.scope = scope;
+            this.ExtensionContentReaderFacade = extensionContentReaderFacade;
+            this.Cache = cache;
+            this.NameSpaceResolver = nameSpaceResolver;
         }
 
         /// <summary>
-        /// Reads the content of the Enterprise Architect <see cref="XmiExtension"/>
+        /// Reads the content of the Enterprise Architect <see cref="XmiExtension" />
         /// </summary>
         /// <param name="extensionXmi">
-        /// the xml content of the <see cref="XmiExtension"/>
+        /// the xml content of the <see cref="XmiExtension" />
         /// </param>
+        /// <param name="documentName">The name of the document that is currently read</param>
         /// <returns>
-        /// the contents as a <see cref="List{Object}"/>
+        /// the contents as a <see cref="List{Object}" />
         /// </returns>
-        public List<object> ReadContent(string extensionXmi)
+        public List<object> ReadContent(string extensionXmi, string documentName)
         {
             var sw = Stopwatch.StartNew();
 
@@ -99,7 +125,38 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.Extender
 
             using (var xmlReader = XmlReader.Create(new StringReader(extensionXmi)))
             {
-                // process content of Extensions
+                if (xmlReader.MoveToContent() != XmlNodeType.Element)
+                {
+                    return result;
+                }
+                
+                switch (xmlReader.LocalName.LowerCaseFirstLetter())
+                {
+                    case "elements":
+                    {
+                        using var elementsReader = xmlReader.ReadSubtree();
+
+                        while (elementsReader.Read())
+                        {
+                            if (elementsReader.NodeType != XmlNodeType.Element || elementsReader.LocalName != "element")
+                            {
+                                continue;
+                            }
+
+                            result.Add(this.ExtensionContentReaderFacade.QueryExtensionContent<Element>(xmlReader, this.XmiReaderSettings, this.NameSpaceResolver, this.Cache, documentName, this.LoggerFactory));
+                        }
+
+                        break;
+                    }
+                    case "connectors":
+                        break;
+                    case "primitivetypes":
+                    case "profiles":
+                    {
+                        xmlReader.Skip();
+                        break;
+                    }
+                }
             }
 
             this.logger.LogDebug("Enterprise Architect 6.5 extension read in {ElapsedMilliseconds} [ms]", sw.ElapsedMilliseconds);
@@ -115,7 +172,7 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.Extender
             // here we can update the documentation  based on docs in EA extension -> then
             // we do not need a separate QueryDocs method.
 
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
     }
 }

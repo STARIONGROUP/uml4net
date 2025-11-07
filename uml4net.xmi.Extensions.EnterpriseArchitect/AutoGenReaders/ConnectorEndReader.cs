@@ -53,13 +53,7 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure.Readers
         /// <summary>
         /// Initializes a new instance of the <see cref="ConnectorEndReader"/> class.
         /// </summary>
-        /// <param name="cache">
-        /// The (injected) <see cref="IXmiElementCache"/>> in which each <see cref="IXmiElement"/>> is stored
-        /// </param>
-        /// <param name="extensionContentReaderFacade">
-        /// The (injected) <see cref="IExtensionContentReaderFacade"/> used to resolve any
-        /// required <see cref="IExtensionContentReader{T}"/>
-        /// </param>
+        /// <param name="extensionContentReaderFacade">The <see cref="IExtensionContentReaderFacade"/> that allow other <see cref="ExtensionContentReader{TContent}"/> read capabilities</param>
         /// <param name="xmiReaderSettings">
         /// The <see cref="IXmiReaderSettings"/> used to configure reading
         /// </param>
@@ -67,11 +61,12 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure.Readers
         /// The (injected) <see cref="INameSpaceResolver"/> used to resolve a namespace to one of the
         /// <see cref="KnowNamespacePrefixes"/>
         /// </param>
+        /// <param name="cache">The <see cref="IXmiElementCache"/> that provides cached <see cref="IXmiElement"/> retriveal</param>
         /// <param name="loggerFactory">
         /// The (injected) <see cref="ILoggerFactory"/> used to set up logging
         /// </param>
-        public ConnectorEndReader(IXmiElementCache cache, IExtensionContentReaderFacade extensionContentReaderFacade, IXmiReaderSettings xmiReaderSettings, INameSpaceResolver nameSpaceResolver, ILoggerFactory loggerFactory)
-        : base(cache, extensionContentReaderFacade, xmiReaderSettings, nameSpaceResolver, loggerFactory)
+        public ConnectorEndReader(IExtensionContentReaderFacade extensionContentReaderFacade, IXmiReaderSettings xmiReaderSettings, INameSpaceResolver nameSpaceResolver, IXmiElementCache cache, ILoggerFactory loggerFactory)
+        : base(extensionContentReaderFacade, xmiReaderSettings, nameSpaceResolver, cache, loggerFactory)
         {
             this.logger = loggerFactory == null ? NullLogger<ConnectorEndReader>.Instance : loggerFactory.CreateLogger<ConnectorEndReader>();
         }
@@ -82,30 +77,15 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure.Readers
         /// <param name="xmlReader">
         /// an instance of <see cref="XmlReader"/>
         /// </param>
-        /// <param name="documentName">
-        /// The name of the document that contains the <see cref="IConnectorEnd"/>
-        /// </param>
-        /// <param name="namespaceUri">
-        /// the namespace that the <see cref="IConnectorEnd"/> belongs to
-        /// </param>
+        /// <param name="documentName">The name of the document that is currently read</param>
         /// <returns>
         /// an instance of <see cref="IConnectorEnd"/>
         /// </returns>
-        public override IConnectorEnd Read(XmlReader xmlReader, string documentName, string namespaceUri)
+        public override IConnectorEnd Read(XmlReader xmlReader, string documentName)
         {
             if (xmlReader == null)
             {
                 throw new ArgumentNullException(nameof(xmlReader));
-            }
-
-            if (string.IsNullOrEmpty(documentName))
-            {
-                throw new ArgumentException(nameof(documentName));
-            }
-
-            if (string.IsNullOrEmpty(namespaceUri))
-            {
-                throw new ArgumentException(nameof(namespaceUri));
             }
 
             var xmlLineInfo = xmlReader as IXmlLineInfo;
@@ -116,13 +96,73 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure.Readers
             {
                 this.logger.LogTrace("reading ConnectorEnd at line:position {LineNumber}:{LinePosition}", xmlLineInfo?.LineNumber, xmlLineInfo?.LinePosition);
 
-                var xmiType = "Extension - ConnectorEnd";
 
-                if (!string.IsNullOrEmpty(xmlReader.NamespaceURI))
+                var idRef = xmlReader.GetAttribute("xmi:idref");
+
+                if (!string.IsNullOrWhiteSpace(idRef) && this.Cache.TryGetValue($"{documentName}#{idRef}", out var extendedElement))
                 {
-                    namespaceUri = xmlReader.NamespaceURI;
+                    poco.ExtendedElement = extendedElement;
                 }
 
+                while (xmlReader.Read())
+                {
+                    if (xmlReader.NodeType == XmlNodeType.Element)
+                    {
+                        switch (xmlReader.LocalName)
+                        {
+                            case "constraints":
+                                {
+                                    poco.Constraints = this.ExtensionContentReaderFacade.QueryExtensionContent<Constraints>(xmlReader, this.XmiReaderSettings, this.NameSpaceResolver, this.Cache, documentName, this.LoggerFactory);
+                                    break;
+                                }
+                            case "documentation":
+                                {
+                                    poco.Documentation = this.ExtensionContentReaderFacade.QueryExtensionContent<Documentation>(xmlReader, this.XmiReaderSettings, this.NameSpaceResolver, this.Cache, documentName, this.LoggerFactory);
+                                    break;
+                                }
+                            case "model":
+                                {
+                                    poco.Model = this.ExtensionContentReaderFacade.QueryExtensionContent<Model>(xmlReader, this.XmiReaderSettings, this.NameSpaceResolver, this.Cache, documentName, this.LoggerFactory);
+                                    break;
+                                }
+                            case "modifiers":
+                                {
+                                    poco.Modifiers = this.ExtensionContentReaderFacade.QueryExtensionContent<Modifiers>(xmlReader, this.XmiReaderSettings, this.NameSpaceResolver, this.Cache, documentName, this.LoggerFactory);
+                                    break;
+                                }
+                            case "role":
+                                {
+                                    poco.Role = this.ExtensionContentReaderFacade.QueryExtensionContent<Role>(xmlReader, this.XmiReaderSettings, this.NameSpaceResolver, this.Cache, documentName, this.LoggerFactory);
+                                    break;
+                                }
+                            case "style":
+                                {
+                                    poco.Style = this.ExtensionContentReaderFacade.QueryExtensionContent<Style>(xmlReader, this.XmiReaderSettings, this.NameSpaceResolver, this.Cache, documentName, this.LoggerFactory);
+                                    break;
+                                }
+                            case "type":
+                                {
+                                    poco.Type = this.ExtensionContentReaderFacade.QueryExtensionContent<ConnectorEndType>(xmlReader, this.XmiReaderSettings, this.NameSpaceResolver, this.Cache, documentName, this.LoggerFactory);
+                                    break;
+                                }
+                            case "xrefs":
+                                {
+                                    poco.Xrefs = this.ExtensionContentReaderFacade.QueryExtensionContent<Xrefs>(xmlReader, this.XmiReaderSettings, this.NameSpaceResolver, this.Cache, documentName, this.LoggerFactory);
+                                    break;
+                                }
+                            default:
+                                if (this.XmiReaderSettings.UseStrictReading)
+                                {
+                                    throw new NotSupportedException($"ConnectorEndReader: {xmlReader.LocalName} at line:position {xmlLineInfo?.LineNumber}:{xmlLineInfo.LinePosition}");
+                                }
+                                else
+                                {
+                                    this.logger.LogWarning("Not Supported: ConnectorEndReader: {LocalName} at line:position {LineNumber}:{LinePosition}", xmlReader.LocalName, xmlLineInfo?.LineNumber, xmlLineInfo?.LinePosition);
+                                }
+                                break;
+                        }
+                    }
+                }
             }
 
             return poco;

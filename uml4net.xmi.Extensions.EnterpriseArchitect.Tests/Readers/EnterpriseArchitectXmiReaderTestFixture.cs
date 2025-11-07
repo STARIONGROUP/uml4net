@@ -30,6 +30,7 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.Tests.Readers
 
     using uml4net.Classification;
     using uml4net.StructuredClassifiers;
+    using uml4net.xmi.Extensions.EnterpriseArchitect.Extender;
     using uml4net.xmi.Extensions.EnterpriseArchitect.Extensions;
     using uml4net.xmi.Extensions.EnterpriseArchitect.Readers;
     using uml4net.xmi.Extensions.EntrepriseArchitect.Structure;
@@ -57,21 +58,19 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.Tests.Readers
         }
 
         [Test]
-        [Ignore("Xmi Reader requires refactoring")]
         public void VerifyCanReadEnterpriseArchitectExtension()
         {
-            Assert.Inconclusive();
+            var rootPath = Path.Combine(TestContext.CurrentContext.TestDirectory, "Resources");
 
-            //var rootPath = Path.Combine(TestContext.CurrentContext.TestDirectory, "Resources");
+            var reader = XmiReaderBuilder.Create()
+                .UsingSettings(x => x.LocalReferenceBasePath = rootPath)
+                .WithExtender<EnterpriseArchitectExtenderReader>()
+                .WithExtensionContentReaderFacade<ExtensionContentReaderFacade>()
+                .WithLogger(this.loggerFactory)
+                .Build();
 
-            //var reader = XmiReaderBuilder.Create()
-            //    .UsingSettings(x => x.LocalReferenceBasePath = rootPath)
-            //    .WithReader<EnterpriseArchitectXmiReader>()
-            //    .WithFacade<XmiElementExtensionReaderFacade>()
-            //    .WithLogger(this.loggerFactory)
-            //    .Build();
-
-            //var xmiReaderResult = reader.Read(Path.Combine(TestContext.CurrentContext.TestDirectory, "Resources", "EAExport.xmi"));
+            var xmiReaderResult = reader.Read(Path.Combine(TestContext.CurrentContext.TestDirectory, "Resources", "EAExport.xmi"));
+            
             //var element = xmiReaderResult.Packages[0].NestedPackage[0].PackagedElement.Single(x => x is Class { Name: "Element" })as Class;
             //var attribute = element!.OwnedAttribute[0];
             //var secondAttribute = element!.OwnedAttribute[1];

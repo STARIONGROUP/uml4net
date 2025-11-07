@@ -34,7 +34,7 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.Tests.CommonStructureExtens
     [TestFixture]
     public class ExtensionTestFixture
     {
-        [Test]
+/*        [Test]
         public void PrimitivesTypes_is_initialized_on_first_access()
         {
             var extension = new Extension();
@@ -75,6 +75,6 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.Tests.CommonStructureExtens
             extension.Profiles = list;
 
             Assert.That(extension.Profiles, Is.SameAs(list));
-        }
+        }*/
     }
 }

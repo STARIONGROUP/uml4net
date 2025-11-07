@@ -166,7 +166,7 @@ namespace uml4net.xmi.Readers
 
                             xmiExtension.ContentRawXmi = stringWriter.ToString();
 
-                            xmiExtension.Content = extenderReader.ReadContent(xmiExtension.ContentRawXmi);
+                            xmiExtension.Content = extenderReader.ReadContent(xmiExtension.ContentRawXmi, documentName);
                         }
                     }
                 }

@@ -35,23 +35,19 @@ namespace uml4net.xmi.Readers
         /// Queries the extension content 
         /// </summary>
         /// <param name="xmlReader">The <see cref="XmlReader"/> that provides XML read capabilities</param>
-        /// <param name="documentName">The actual document name</param>
-        /// <param name="namespaceUri">The uri namespace</param>
-        /// <param name="cache">
-        /// The <see cref="IXmiElementCache"/> in which all model instances are registered
-        /// </param>
         /// <param name="xmiReaderSettings" >
         /// The <see cref="IXmiReaderSettings"/> used to configure reading
         /// </param>
         /// <param name="nameSpaceResolver">
         /// The (injected) <see cref="INameSpaceResolver"/> used to resolve a namespace to one of the 
         /// </param>
+        /// <param name="xmiElementCache">The <see cref="IXmiElementCache"/> that provides cached <see cref="IXmiElement"/> retriveal</param>
+        /// <param name="documentName">The name of the document that is currently read</param>
         /// <param name="loggerFactory">
         /// The <see cref="ILoggerFactory"/> to set up logging
         /// </param>
         /// <typeparam name="TContent">Any supported type by the facade</typeparam>
         /// <returns>The read <typeparamref name="TContent"/></returns>
-        TContent QueryExtensionContent<TContent>(XmlReader xmlReader, string documentName, string namespaceUri, IXmiElementCache cache,
-            IXmiReaderSettings xmiReaderSettings, INameSpaceResolver nameSpaceResolver, ILoggerFactory loggerFactory);
+        TContent QueryExtensionContent<TContent>(XmlReader xmlReader, IXmiReaderSettings xmiReaderSettings, INameSpaceResolver nameSpaceResolver, IXmiElementCache xmiElementCache, string documentName, ILoggerFactory loggerFactory);
     }
 }

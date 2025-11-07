@@ -34,11 +34,10 @@ namespace uml4net.xmi.Readers
         /// <param name="xmlReader">
         /// an instance of <see cref="XmlReader"/>
         /// </param>
-        /// <param name="documentName">The actual document name</param>
-        /// <param name="namespaceUri">The uri namespace</param>
+        /// <param name="documentName">The name of the document that is currently read</param>
         /// <returns>
         /// an instance of <typeparamref name="TContent"/>
         /// </returns>
-        public TContent Read(XmlReader xmlReader, string documentName, string namespaceUri);
+        public TContent Read(XmlReader xmlReader, string documentName);
     }
 }

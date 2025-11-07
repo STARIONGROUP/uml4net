@@ -53,13 +53,7 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure.Readers
         /// <summary>
         /// Initializes a new instance of the <see cref="ConnectorAppearanceReader"/> class.
         /// </summary>
-        /// <param name="cache">
-        /// The (injected) <see cref="IXmiElementCache"/>> in which each <see cref="IXmiElement"/>> is stored
-        /// </param>
-        /// <param name="extensionContentReaderFacade">
-        /// The (injected) <see cref="IExtensionContentReaderFacade"/> used to resolve any
-        /// required <see cref="IExtensionContentReader{T}"/>
-        /// </param>
+        /// <param name="extensionContentReaderFacade">The <see cref="IExtensionContentReaderFacade"/> that allow other <see cref="ExtensionContentReader{TContent}"/> read capabilities</param>
         /// <param name="xmiReaderSettings">
         /// The <see cref="IXmiReaderSettings"/> used to configure reading
         /// </param>
@@ -67,11 +61,12 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure.Readers
         /// The (injected) <see cref="INameSpaceResolver"/> used to resolve a namespace to one of the
         /// <see cref="KnowNamespacePrefixes"/>
         /// </param>
+        /// <param name="cache">The <see cref="IXmiElementCache"/> that provides cached <see cref="IXmiElement"/> retriveal</param>
         /// <param name="loggerFactory">
         /// The (injected) <see cref="ILoggerFactory"/> used to set up logging
         /// </param>
-        public ConnectorAppearanceReader(IXmiElementCache cache, IExtensionContentReaderFacade extensionContentReaderFacade, IXmiReaderSettings xmiReaderSettings, INameSpaceResolver nameSpaceResolver, ILoggerFactory loggerFactory)
-        : base(cache, extensionContentReaderFacade, xmiReaderSettings, nameSpaceResolver, loggerFactory)
+        public ConnectorAppearanceReader(IExtensionContentReaderFacade extensionContentReaderFacade, IXmiReaderSettings xmiReaderSettings, INameSpaceResolver nameSpaceResolver, IXmiElementCache cache, ILoggerFactory loggerFactory)
+        : base(extensionContentReaderFacade, xmiReaderSettings, nameSpaceResolver, cache, loggerFactory)
         {
             this.logger = loggerFactory == null ? NullLogger<ConnectorAppearanceReader>.Instance : loggerFactory.CreateLogger<ConnectorAppearanceReader>();
         }
@@ -82,30 +77,15 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure.Readers
         /// <param name="xmlReader">
         /// an instance of <see cref="XmlReader"/>
         /// </param>
-        /// <param name="documentName">
-        /// The name of the document that contains the <see cref="IConnectorAppearance"/>
-        /// </param>
-        /// <param name="namespaceUri">
-        /// the namespace that the <see cref="IConnectorAppearance"/> belongs to
-        /// </param>
+        /// <param name="documentName">The name of the document that is currently read</param>
         /// <returns>
         /// an instance of <see cref="IConnectorAppearance"/>
         /// </returns>
-        public override IConnectorAppearance Read(XmlReader xmlReader, string documentName, string namespaceUri)
+        public override IConnectorAppearance Read(XmlReader xmlReader, string documentName)
         {
             if (xmlReader == null)
             {
                 throw new ArgumentNullException(nameof(xmlReader));
-            }
-
-            if (string.IsNullOrEmpty(documentName))
-            {
-                throw new ArgumentException(nameof(documentName));
-            }
-
-            if (string.IsNullOrEmpty(namespaceUri))
-            {
-                throw new ArgumentException(nameof(namespaceUri));
             }
 
             var xmlLineInfo = xmlReader as IXmlLineInfo;
@@ -116,13 +96,63 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure.Readers
             {
                 this.logger.LogTrace("reading ConnectorAppearance at line:position {LineNumber}:{LinePosition}", xmlLineInfo?.LineNumber, xmlLineInfo?.LinePosition);
 
-                var xmiType = "Extension - ConnectorAppearance";
-
-                if (!string.IsNullOrEmpty(xmlReader.NamespaceURI))
+                var headStyleValue = xmlReader.GetAttribute("headStyle");
+                if (!string.IsNullOrWhiteSpace(headStyleValue))
                 {
-                    namespaceUri = xmlReader.NamespaceURI;
+                    poco.HeadStyle = int.Parse(headStyleValue);
                 }
 
+                var linecolorValue = xmlReader.GetAttribute("linecolor");
+                if (!string.IsNullOrWhiteSpace(linecolorValue))
+                {
+                    poco.Linecolor = int.Parse(linecolorValue);
+                }
+
+                var linemodeValue = xmlReader.GetAttribute("linemode");
+                if (!string.IsNullOrWhiteSpace(linemodeValue))
+                {
+                    poco.Linemode = int.Parse(linemodeValue);
+                }
+
+                var lineStyleValue = xmlReader.GetAttribute("lineStyle");
+                if (!string.IsNullOrWhiteSpace(lineStyleValue))
+                {
+                    poco.LineStyle = int.Parse(lineStyleValue);
+                }
+
+                var linewidthValue = xmlReader.GetAttribute("linewidth");
+                if (!string.IsNullOrWhiteSpace(linewidthValue))
+                {
+                    poco.Linewidth = int.Parse(linewidthValue);
+                }
+
+                var seqnoValue = xmlReader.GetAttribute("seqno");
+                if (!string.IsNullOrWhiteSpace(seqnoValue))
+                {
+                    poco.Seqno = int.Parse(seqnoValue);
+                }
+
+
+
+                while (xmlReader.Read())
+                {
+                    if (xmlReader.NodeType == XmlNodeType.Element)
+                    {
+                        switch (xmlReader.LocalName)
+                        {
+                            default:
+                                if (this.XmiReaderSettings.UseStrictReading)
+                                {
+                                    throw new NotSupportedException($"ConnectorAppearanceReader: {xmlReader.LocalName} at line:position {xmlLineInfo?.LineNumber}:{xmlLineInfo.LinePosition}");
+                                }
+                                else
+                                {
+                                    this.logger.LogWarning("Not Supported: ConnectorAppearanceReader: {LocalName} at line:position {LineNumber}:{LinePosition}", xmlReader.LocalName, xmlLineInfo?.LineNumber, xmlLineInfo?.LinePosition);
+                                }
+                                break;
+                        }
+                    }
+                }
             }
 
             return poco;

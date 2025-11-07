@@ -53,13 +53,7 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure.Readers
         /// <summary>
         /// Initializes a new instance of the <see cref="FlagsReader"/> class.
         /// </summary>
-        /// <param name="cache">
-        /// The (injected) <see cref="IXmiElementCache"/>> in which each <see cref="IXmiElement"/>> is stored
-        /// </param>
-        /// <param name="extensionContentReaderFacade">
-        /// The (injected) <see cref="IExtensionContentReaderFacade"/> used to resolve any
-        /// required <see cref="IExtensionContentReader{T}"/>
-        /// </param>
+        /// <param name="extensionContentReaderFacade">The <see cref="IExtensionContentReaderFacade"/> that allow other <see cref="ExtensionContentReader{TContent}"/> read capabilities</param>
         /// <param name="xmiReaderSettings">
         /// The <see cref="IXmiReaderSettings"/> used to configure reading
         /// </param>
@@ -67,11 +61,12 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure.Readers
         /// The (injected) <see cref="INameSpaceResolver"/> used to resolve a namespace to one of the
         /// <see cref="KnowNamespacePrefixes"/>
         /// </param>
+        /// <param name="cache">The <see cref="IXmiElementCache"/> that provides cached <see cref="IXmiElement"/> retriveal</param>
         /// <param name="loggerFactory">
         /// The (injected) <see cref="ILoggerFactory"/> used to set up logging
         /// </param>
-        public FlagsReader(IXmiElementCache cache, IExtensionContentReaderFacade extensionContentReaderFacade, IXmiReaderSettings xmiReaderSettings, INameSpaceResolver nameSpaceResolver, ILoggerFactory loggerFactory)
-        : base(cache, extensionContentReaderFacade, xmiReaderSettings, nameSpaceResolver, loggerFactory)
+        public FlagsReader(IExtensionContentReaderFacade extensionContentReaderFacade, IXmiReaderSettings xmiReaderSettings, INameSpaceResolver nameSpaceResolver, IXmiElementCache cache, ILoggerFactory loggerFactory)
+        : base(extensionContentReaderFacade, xmiReaderSettings, nameSpaceResolver, cache, loggerFactory)
         {
             this.logger = loggerFactory == null ? NullLogger<FlagsReader>.Instance : loggerFactory.CreateLogger<FlagsReader>();
         }
@@ -82,30 +77,15 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure.Readers
         /// <param name="xmlReader">
         /// an instance of <see cref="XmlReader"/>
         /// </param>
-        /// <param name="documentName">
-        /// The name of the document that contains the <see cref="IFlags"/>
-        /// </param>
-        /// <param name="namespaceUri">
-        /// the namespace that the <see cref="IFlags"/> belongs to
-        /// </param>
+        /// <param name="documentName">The name of the document that is currently read</param>
         /// <returns>
         /// an instance of <see cref="IFlags"/>
         /// </returns>
-        public override IFlags Read(XmlReader xmlReader, string documentName, string namespaceUri)
+        public override IFlags Read(XmlReader xmlReader, string documentName)
         {
             if (xmlReader == null)
             {
                 throw new ArgumentNullException(nameof(xmlReader));
-            }
-
-            if (string.IsNullOrEmpty(documentName))
-            {
-                throw new ArgumentException(nameof(documentName));
-            }
-
-            if (string.IsNullOrEmpty(namespaceUri))
-            {
-                throw new ArgumentException(nameof(namespaceUri));
             }
 
             var xmlLineInfo = xmlReader as IXmlLineInfo;
@@ -116,13 +96,57 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure.Readers
             {
                 this.logger.LogTrace("reading Flags at line:position {LineNumber}:{LinePosition}", xmlLineInfo?.LineNumber, xmlLineInfo?.LinePosition);
 
-                var xmiType = "Extension - Flags";
-
-                if (!string.IsNullOrEmpty(xmlReader.NamespaceURI))
+                var batchsaveValue = xmlReader.GetAttribute("batchsave");
+                if (!string.IsNullOrWhiteSpace(batchsaveValue))
                 {
-                    namespaceUri = xmlReader.NamespaceURI;
+                    poco.Batchsave = int.Parse(batchsaveValue);
                 }
 
+                var iscontrolledValue = xmlReader.GetAttribute("iscontrolled");
+                if (!string.IsNullOrWhiteSpace(iscontrolledValue))
+                {
+                    poco.Iscontrolled = int.Parse(iscontrolledValue);
+                }
+
+                var isprotectedValue = xmlReader.GetAttribute("isprotected");
+                if (!string.IsNullOrWhiteSpace(isprotectedValue))
+                {
+                    poco.Isprotected = int.Parse(isprotectedValue);
+                }
+
+                var logxmlValue = xmlReader.GetAttribute("logxml");
+                if (!string.IsNullOrWhiteSpace(logxmlValue))
+                {
+                    poco.Logxml = int.Parse(logxmlValue);
+                }
+
+                var usedtdValue = xmlReader.GetAttribute("usedtd");
+                if (!string.IsNullOrWhiteSpace(usedtdValue))
+                {
+                    poco.Usedtd = int.Parse(usedtdValue);
+                }
+
+
+
+                while (xmlReader.Read())
+                {
+                    if (xmlReader.NodeType == XmlNodeType.Element)
+                    {
+                        switch (xmlReader.LocalName)
+                        {
+                            default:
+                                if (this.XmiReaderSettings.UseStrictReading)
+                                {
+                                    throw new NotSupportedException($"FlagsReader: {xmlReader.LocalName} at line:position {xmlLineInfo?.LineNumber}:{xmlLineInfo.LinePosition}");
+                                }
+                                else
+                                {
+                                    this.logger.LogWarning("Not Supported: FlagsReader: {LocalName} at line:position {LineNumber}:{LinePosition}", xmlReader.LocalName, xmlLineInfo?.LineNumber, xmlLineInfo?.LinePosition);
+                                }
+                                break;
+                        }
+                    }
+                }
             }
 
             return poco;

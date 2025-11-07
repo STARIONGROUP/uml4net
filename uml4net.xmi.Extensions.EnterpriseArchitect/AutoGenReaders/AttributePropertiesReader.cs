@@ -53,13 +53,7 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure.Readers
         /// <summary>
         /// Initializes a new instance of the <see cref="AttributePropertiesReader"/> class.
         /// </summary>
-        /// <param name="cache">
-        /// The (injected) <see cref="IXmiElementCache"/>> in which each <see cref="IXmiElement"/>> is stored
-        /// </param>
-        /// <param name="extensionContentReaderFacade">
-        /// The (injected) <see cref="IExtensionContentReaderFacade"/> used to resolve any
-        /// required <see cref="IExtensionContentReader{T}"/>
-        /// </param>
+        /// <param name="extensionContentReaderFacade">The <see cref="IExtensionContentReaderFacade"/> that allow other <see cref="ExtensionContentReader{TContent}"/> read capabilities</param>
         /// <param name="xmiReaderSettings">
         /// The <see cref="IXmiReaderSettings"/> used to configure reading
         /// </param>
@@ -67,11 +61,12 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure.Readers
         /// The (injected) <see cref="INameSpaceResolver"/> used to resolve a namespace to one of the
         /// <see cref="KnowNamespacePrefixes"/>
         /// </param>
+        /// <param name="cache">The <see cref="IXmiElementCache"/> that provides cached <see cref="IXmiElement"/> retriveal</param>
         /// <param name="loggerFactory">
         /// The (injected) <see cref="ILoggerFactory"/> used to set up logging
         /// </param>
-        public AttributePropertiesReader(IXmiElementCache cache, IExtensionContentReaderFacade extensionContentReaderFacade, IXmiReaderSettings xmiReaderSettings, INameSpaceResolver nameSpaceResolver, ILoggerFactory loggerFactory)
-        : base(cache, extensionContentReaderFacade, xmiReaderSettings, nameSpaceResolver, loggerFactory)
+        public AttributePropertiesReader(IExtensionContentReaderFacade extensionContentReaderFacade, IXmiReaderSettings xmiReaderSettings, INameSpaceResolver nameSpaceResolver, IXmiElementCache cache, ILoggerFactory loggerFactory)
+        : base(extensionContentReaderFacade, xmiReaderSettings, nameSpaceResolver, cache, loggerFactory)
         {
             this.logger = loggerFactory == null ? NullLogger<AttributePropertiesReader>.Instance : loggerFactory.CreateLogger<AttributePropertiesReader>();
         }
@@ -82,30 +77,15 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure.Readers
         /// <param name="xmlReader">
         /// an instance of <see cref="XmlReader"/>
         /// </param>
-        /// <param name="documentName">
-        /// The name of the document that contains the <see cref="IAttributeProperties"/>
-        /// </param>
-        /// <param name="namespaceUri">
-        /// the namespace that the <see cref="IAttributeProperties"/> belongs to
-        /// </param>
+        /// <param name="documentName">The name of the document that is currently read</param>
         /// <returns>
         /// an instance of <see cref="IAttributeProperties"/>
         /// </returns>
-        public override IAttributeProperties Read(XmlReader xmlReader, string documentName, string namespaceUri)
+        public override IAttributeProperties Read(XmlReader xmlReader, string documentName)
         {
             if (xmlReader == null)
             {
                 throw new ArgumentNullException(nameof(xmlReader));
-            }
-
-            if (string.IsNullOrEmpty(documentName))
-            {
-                throw new ArgumentException(nameof(documentName));
-            }
-
-            if (string.IsNullOrEmpty(namespaceUri))
-            {
-                throw new ArgumentException(nameof(namespaceUri));
             }
 
             var xmlLineInfo = xmlReader as IXmlLineInfo;
@@ -116,13 +96,67 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure.Readers
             {
                 this.logger.LogTrace("reading AttributeProperties at line:position {LineNumber}:{LinePosition}", xmlLineInfo?.LineNumber, xmlLineInfo?.LinePosition);
 
-                var xmiType = "Extension - AttributeProperties";
-
-                if (!string.IsNullOrEmpty(xmlReader.NamespaceURI))
+                var changeabilityValue = xmlReader.GetAttribute("changeability");
+                poco.Changeability = changeabilityValue;
+                var collectionValue = xmlReader.GetAttribute("collection");
+                if (!string.IsNullOrWhiteSpace(collectionValue))
                 {
-                    namespaceUri = xmlReader.NamespaceURI;
+                    poco.Collection = bool.Parse(collectionValue);
                 }
 
+                var derivedValue = xmlReader.GetAttribute("derived");
+                if (!string.IsNullOrWhiteSpace(derivedValue))
+                {
+                    poco.Derived = int.Parse(derivedValue);
+                }
+
+                var duplicatesValue = xmlReader.GetAttribute("duplicates");
+                if (!string.IsNullOrWhiteSpace(duplicatesValue))
+                {
+                    poco.Duplicates = int.Parse(duplicatesValue);
+                }
+
+                var lengthValue = xmlReader.GetAttribute("length");
+                if (!string.IsNullOrWhiteSpace(lengthValue))
+                {
+                    poco.Length = int.Parse(lengthValue);
+                }
+
+                var precisionValue = xmlReader.GetAttribute("precision");
+                if (!string.IsNullOrWhiteSpace(precisionValue))
+                {
+                    poco.Precision = int.Parse(precisionValue);
+                }
+
+                var staticValue = xmlReader.GetAttribute("static");
+                if (!string.IsNullOrWhiteSpace(staticValue))
+                {
+                    poco.Static = int.Parse(staticValue);
+                }
+
+                var typeValue = xmlReader.GetAttribute("type");
+                poco.Type = typeValue;
+
+
+                while (xmlReader.Read())
+                {
+                    if (xmlReader.NodeType == XmlNodeType.Element)
+                    {
+                        switch (xmlReader.LocalName)
+                        {
+                            default:
+                                if (this.XmiReaderSettings.UseStrictReading)
+                                {
+                                    throw new NotSupportedException($"AttributePropertiesReader: {xmlReader.LocalName} at line:position {xmlLineInfo?.LineNumber}:{xmlLineInfo.LinePosition}");
+                                }
+                                else
+                                {
+                                    this.logger.LogWarning("Not Supported: AttributePropertiesReader: {LocalName} at line:position {LineNumber}:{LinePosition}", xmlReader.LocalName, xmlLineInfo?.LineNumber, xmlLineInfo?.LinePosition);
+                                }
+                                break;
+                        }
+                    }
+                }
             }
 
             return poco;

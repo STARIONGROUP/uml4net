@@ -92,7 +92,12 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.Readers
         /// </remarks>
         public override IPackage ReadXmiExtension(XmlReader xmlReader, string documentName, string namespaceUri)
         {
-            return new Package();
+            var extensionPackage = new Package();
+            
+            if (xmlReader.MoveToContent() != XmlNodeType.Element)
+            {
+                return extensionPackage;
+            }
             /*if (xmlReader.MoveToContent() != XmlNodeType.Element)
             {
                 return new Extension();
@@ -112,6 +117,8 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.Readers
             }
 
             return extensionElement;*/
+            
+            return extensionPackage;
         }
     }
 }

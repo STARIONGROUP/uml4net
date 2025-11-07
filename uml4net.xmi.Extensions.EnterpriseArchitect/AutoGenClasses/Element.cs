@@ -41,9 +41,9 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure
     {
         /// <summary>
         /// </summary>
-        [Property(xmiId: "EAID_srcFB13EF_6F86_4b26_8575_254200A6DEBF", aggregation: AggregationKind.Shared, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "EAID_srcFB13EF_6F86_4b26_8575_254200A6DEBF", aggregation: AggregationKind.Shared, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [Implements(implementation: "IElement.Attributes")]
-        public IAttribute Attributes { get; set; }
+        public List<IAttribute> Attributes { get; set; } = new();
 
         /// <summary>
         /// </summary>
@@ -71,9 +71,9 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure
 
         /// <summary>
         /// </summary>
-        [Property(xmiId: "EAID_dst37C619_C146_4dda_A797_3339A455EC44", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "EAID_srcD6C61F_DECE_464f_A46E_D99E60EE87E1", aggregation: AggregationKind.Shared, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [Implements(implementation: "IElement.Links")]
-        public ILinksCollection Links { get; set; }
+        public List<ILink> Links { get; set; } = new();
 
         /// <summary>
         /// </summary>
@@ -128,6 +128,12 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure
         [Property(xmiId: "EAID_dstB766CB_26E9_4f63_BC14_997AA16FA576", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [Implements(implementation: "IElement.Style")]
         public IAppearanceStyle Style { get; set; }
+
+        /// <summary>
+        /// </summary>
+        [Property(xmiId: "EAID_srcF0988F_3B4F_4db7_890E_F96F32C4DC24", aggregation: AggregationKind.Shared, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Implements(implementation: "IElement.Tags")]
+        public List<ITag> Tags { get; set; } = new();
 
         /// <summary>
         /// </summary>
