@@ -462,7 +462,7 @@ namespace uml4net.Reporting.Generators
             sb.AppendLine("---------- Package.Class:Property ---------");
             sb.AppendLine("");
 
-            this.AnalyzeDocumentation(package, sb);
+            AnalyzeDocumentation(package, sb);
 
             sb.AppendLine("");
 
@@ -481,7 +481,7 @@ namespace uml4net.Reporting.Generators
         /// <param name="sb">
         /// The <see cref="StringBuilder"/> to which the analysis results are written
         /// </param>
-        private void AnalyzeDocumentation(IPackage package, StringBuilder sb)
+        private static void AnalyzeDocumentation(IPackage package, StringBuilder sb)
         {
             var classes = package.QueryPackages().SelectMany(x => x.PackagedElement.OfType<IClass>()).OrderBy(x => x.Name).ToList();
 
