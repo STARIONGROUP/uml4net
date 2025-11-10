@@ -33,8 +33,6 @@ namespace uml4net.Reporting.Generators
     using uml4net.Reporting.Drawing;
     using uml4net.Reporting.Payload;
 
-    using DocumentationHelper = uml4net.Reporting.Helpers.DocumentationHelper;
-
     /// <summary>
     /// The purpose of the <see cref="HtmlReportGenerator" /> is to generate an HTML report of a
     /// UML Model
@@ -249,15 +247,7 @@ namespace uml4net.Reporting.Generators
             PropertyHelper.RegisterPropertyHelper(this.Handlebars);
             GeneralizationHelper.RegisterGeneralizationHelper(this.Handlebars);
             ClassifierHelper.RegisterClassifierHelper(this.Handlebars);
-
-            if (this.ShouldUseEnterpriseArchitectReader)
-            {
-                DocumentationHelper.RegisterDocumentationHelper(this.Handlebars);
-            }
-            else
-            {
-                HandleBars.DocumentationHelper.RegisterDocumentationHelper(this.Handlebars);
-            }
+            HandleBars.DocumentationHelper.RegisterDocumentationHelper(this.Handlebars);
         }
 
         /// <summary>

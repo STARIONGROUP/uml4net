@@ -56,6 +56,9 @@ namespace uml4net.xmi.Readers
         /// </summary>
         private readonly INameSpaceResolver nameSpaceResolver;
 
+        /// <summary>
+        /// The injected <see cref="IExtenderReaderRegistry"/> that provides <see cref="IExtenderReader"/> resolve
+        /// </summary>
         private readonly IExtenderReaderRegistry extenderReaderRegistry;
 
         /// <summary>
@@ -85,6 +88,7 @@ namespace uml4net.xmi.Readers
         /// The (injected) <see cref="INameSpaceResolver"/> used to resolve a namespace to one of the
         /// <see cref="KnowNamespacePrefixes"/> constants
         /// </param>
+        /// <param name="extenderReaderRegistry">The injected <see cref="IExtenderReaderRegistry"/> that provides <see cref="IExtenderReader"/> resolve</param>
         /// <param name="loggerFactory">
         /// The (injected) <see cref="ILoggerFactory"/> used to set up logging
         /// </param>
@@ -153,8 +157,9 @@ namespace uml4net.xmi.Readers
                                 {
                                     using var xmiExtensionXmlReader = xmlReader.ReadSubtree();
                                     var xmiExtensionReader = new XmiExtensionReader(this.xmiReaderSettings, this.nameSpaceResolver, this.extenderReaderRegistry, this.loggerFactory);
-                                    xmiExtensionReader.Read(xmiExtensionXmlReader, documentName, namespaceUri);
+                                    xmiRoot.Extensions.Add(xmiExtensionReader.Read(xmiExtensionXmlReader, documentName, namespaceUri));
                                 }
+                                
                                 break;
                             case (KnowNamespacePrefixes.Xmi, "difference"):
                             case (KnowNamespacePrefixes.Xmi, "Difference"):
@@ -175,7 +180,7 @@ namespace uml4net.xmi.Readers
                             case (KnowNamespacePrefixes.Uml, _):
                                 this.logger.LogTrace("reading at line:position {LineNumber}:{LinePosition}", xmlLineInfo?.LineNumber, xmlLineInfo?.LinePosition);
                                 var explicitTypeName = $"uml:{xmlReader.LocalName}";
-                                var xmiElement = this.xmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, xmlReader.NamespaceURI, this.cache, this.xmiReaderSettings, this.nameSpaceResolver, this.loggerFactory, explicitTypeName);
+                                var xmiElement = this.xmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, xmlReader.NamespaceURI, this.cache, this.xmiReaderSettings, this.nameSpaceResolver, this.extenderReaderRegistry, this.loggerFactory, explicitTypeName);
                                 xmiRoot.Content.Add(xmiElement);
                                 break;
                             case (KnowNamespacePrefixes.StandardProfile, _):

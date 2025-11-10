@@ -31,6 +31,7 @@ namespace uml4net.xmi.Readers
 
     using Microsoft.Extensions.Logging;
 
+    using uml4net.xmi.Extender;
     using uml4net.xmi.Settings;
 
     /// <summary>
@@ -44,20 +45,20 @@ namespace uml4net.xmi.Readers
         /// A dictionary that contains functions that return <see cref="IXmiElement"/> based a key that represents the xmiType
         /// and a provided <see cref="IXmiElementCache"/>, <see cref="ILoggerFactory"/> and <see cref="XmlReader"/>
         /// </summary>
-        protected readonly Dictionary<string, Func<IXmiElementCache, IXmiReaderSettings, INameSpaceResolver, ILoggerFactory, XmlReader, string, string, IXmiElement>> ReaderCache;
+        protected readonly Dictionary<string, Func<IXmiElementCache, IXmiReaderSettings, INameSpaceResolver, IExtenderReaderRegistry, ILoggerFactory, XmlReader, string, string, IXmiElement>> ReaderCache;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="XmiElementReaderFacade"/>
         /// </summary>
         public XmiElementReaderFacade()
         {
-            this.ReaderCache = new Dictionary<string, Func<IXmiElementCache, IXmiReaderSettings, INameSpaceResolver, ILoggerFactory, XmlReader, string, string, IXmiElement>>
+            this.ReaderCache = new Dictionary<string, Func<IXmiElementCache, IXmiReaderSettings, INameSpaceResolver, IExtenderReaderRegistry, ILoggerFactory, XmlReader, string, string, IXmiElement>>
             {
                 {{ #each this as | class | }}
-                ["uml:{{ class.Name }}"] = (cache, xmiReaderSettings, nameSpaceResolver, loggerFactory, xmlReader, documentName, namespaceUri) =>
+                ["uml:{{ class.Name }}"] = (cache, xmiReaderSettings, nameSpaceResolver, extenderReaderRegistry, loggerFactory, xmlReader, documentName, namespaceUri) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var {{ String.LowerCaseFirstLetter class.Name }}Reader = new {{ class.Name }}Reader(cache, this, xmiReaderSettings, nameSpaceResolver, loggerFactory);
+                    var {{ String.LowerCaseFirstLetter class.Name }}Reader = new {{ class.Name }}Reader(cache, this, xmiReaderSettings, nameSpaceResolver, extenderReaderRegistry, loggerFactory);
                     return {{ String.LowerCaseFirstLetter class.Name }}Reader.Read(subXmlReader, documentName, namespaceUri);
                 },
                 {{/each}}
@@ -99,13 +100,16 @@ namespace uml4net.xmi.Readers
         /// Asserts that the xmi:type value should be ignored even if the attribute is present inside the XMI element.
         /// Should be use in case of extension part reading.
         /// </param>
+        /// <param name="extenderReaderRegistry">
+        /// The <see cref="IExtenderReaderRegistry" /> that provides <see cref="IExtenderReader" /> resolve
+        /// </param>
         /// <returns>
         /// an instance of <see cref="IXmiElement"/>
         /// </returns>
         /// <exception cref="InvalidOperationException">
         /// thrown when the xmi:type is not supported and noXmiElementReader was found
         /// </exception>
-        public IXmiElement QueryXmiElement(XmlReader xmlReader, string documentName, string namespaceUri, IXmiElementCache cache, IXmiReaderSettings xmiReaderSettings, INameSpaceResolver nameSpaceResolver, ILoggerFactory loggerFactory, string explicitTypeName = null, bool ignoreXmiType = false)
+        public IXmiElement QueryXmiElement(XmlReader xmlReader, string documentName, string namespaceUri, IXmiElementCache cache, IXmiReaderSettings xmiReaderSettings, INameSpaceResolver nameSpaceResolver, IExtenderReaderRegistry extenderReaderRegistry, ILoggerFactory loggerFactory, string explicitTypeName = null, bool ignoreXmiType = false)
         {
             if (xmlReader == null)
             {
@@ -136,6 +140,11 @@ namespace uml4net.xmi.Readers
             {
                 throw new ArgumentNullException(nameof(namespaceUri));
             }
+
+            if (extenderReaderRegistry == null)
+            {
+                throw new ArgumentNullException(nameof(extenderReaderRegistry));
+            }
             
             if(string.IsNullOrEmpty(explicitTypeName) && ignoreXmiType)
             {
@@ -156,7 +165,7 @@ namespace uml4net.xmi.Readers
 
             if (this.ReaderCache.TryGetValue(xmiType, out var readerFactory))
             {
-                return readerFactory(cache, xmiReaderSettings, nameSpaceResolver, loggerFactory, xmlReader, documentName, namespaceUri);
+                return readerFactory(cache, xmiReaderSettings, nameSpaceResolver, extenderReaderRegistry, loggerFactory, xmlReader, documentName, namespaceUri);
             }
 
             throw new InvalidOperationException($"No reader found for xmi:type - {xmiType}");

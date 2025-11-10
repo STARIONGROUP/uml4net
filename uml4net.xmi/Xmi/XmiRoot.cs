@@ -84,6 +84,6 @@ namespace uml4net.xmi.Xmi
         /// <summary>
         /// Gets or sets the extensions defined of this <see cref="XmiRoot" />
         /// </summary>
-        List<XmiExtension> Extensions { get; set; }
+        public List<XmiExtension> Extensions { get; set; } = [];
     }
 }

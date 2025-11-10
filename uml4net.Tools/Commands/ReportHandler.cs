@@ -152,8 +152,6 @@ namespace uml4net.Tools.Commands
             
             try
             {
-                this.ReportGenerator.ShouldUseEnterpriseArchitectReader = this.UseEaReader;
-                
                 await AnsiConsole.Status()
                     .AutoRefresh(true)
                     .SpinnerStyle(Style.Parse("green bold"))

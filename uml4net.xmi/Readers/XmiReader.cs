@@ -204,6 +204,24 @@ namespace uml4net.xmi.Readers
 
             this.Read(stream, documentName, xmiReaderResult, true);
 
+            var extensions = new List<IXmiExtension>();
+            extensions.AddRange(xmiReaderResult.XmiRoot.Extensions);
+            extensions.AddRange(this.Cache.Values.SelectMany(x => x.Extensions));
+
+            foreach (var xmiExtension in extensions)
+            {
+                var extenderReader = this.ExtenderReaderRegistry.Resolve(xmiExtension.Extender, xmiExtension.ExtenderId);
+                
+                if(extenderReader == null)
+                {
+                    this.logger.LogInformation("The ExtenderReader for {Extender}:{ExtenderID} does not exist, the Extension cannot be PostProcessed", xmiExtension.Extender, xmiExtension.ExtenderId);
+                }
+                else
+                {
+                    extenderReader.PostProcess(xmiExtension);
+                }
+            }
+            
             return xmiReaderResult;
         }
 
@@ -311,7 +329,7 @@ namespace uml4net.xmi.Readers
                             case (KnowNamespacePrefixes.Uml, "Package"):
                             case (KnowNamespacePrefixes.Uml, "Model"):
                             case (KnowNamespacePrefixes.Uml, "Profile"):
-                                var package = (IPackage)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, xmlReader.NamespaceURI, this.Cache, this.XmiReaderSettings, this.nameSpaceResolver, this.LoggerFactory, $"uml:{xmlReader.LocalName}");
+                                var package = (IPackage)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, xmlReader.NamespaceURI, this.Cache, this.XmiReaderSettings, this.nameSpaceResolver, this.ExtenderReaderRegistry, this.LoggerFactory, $"uml:{xmlReader.LocalName}");
                                 xmiReaderResult.Packages.Add(package);
 
                                 if (isRoot)

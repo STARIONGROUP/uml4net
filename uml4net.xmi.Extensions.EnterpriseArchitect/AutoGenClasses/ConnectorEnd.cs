@@ -22,7 +22,7 @@
 // --------THIS IS AN AUTOMATICALLY GENERATED FILE. ANY MANUAL CHANGES WILL BE OVERWRITTEN!--------
 // ------------------------------------------------------------------------------------------------
 
-namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure
+namespace uml4net.xmi.Extensions.EnterpriseArchitect.Structure
 {
     using System;
     using System.CodeDom.Compiler;
@@ -80,6 +80,12 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure
         [Property(xmiId: "EAID_dstB40348_50AB_4b8c_9235_DE854F2B8DBD", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [Implements(implementation: "IConnectorEnd.Style")]
         public IStyle Style { get; set; }
+
+        /// <summary>
+        /// </summary>
+        [Property(xmiId: "EAID_src25771C_307D_4f20_A087_D533AE803601", aggregation: AggregationKind.Shared, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Implements(implementation: "IConnectorEnd.Tags")]
+        public List<ITag> Tags { get; set; } = new();
 
         /// <summary>
         /// </summary>

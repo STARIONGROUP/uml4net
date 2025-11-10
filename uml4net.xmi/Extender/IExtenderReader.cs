@@ -39,6 +39,7 @@ namespace uml4net.xmi.Extender
         /// <summary>
         /// Performs post-processing of a UMl model using content of the extension
         /// </summary>
-        void PostProcess();
+        /// <param name="readExtension">The <see cref="IXmiExtension"/> that has been read</param>
+        void PostProcess(IXmiExtension readExtension);
     }
 }

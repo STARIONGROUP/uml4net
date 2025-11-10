@@ -22,7 +22,7 @@
 // --------THIS IS AN AUTOMATICALLY GENERATED FILE. ANY MANUAL CHANGES WILL BE OVERWRITTEN!--------
 // ------------------------------------------------------------------------------------------------
 
-namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure
+namespace uml4net.xmi.Extensions.EnterpriseArchitect.Structure
 {
     using System;
     using System.CodeDom.Compiler;

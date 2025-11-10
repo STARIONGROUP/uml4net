@@ -24,7 +24,8 @@ namespace uml4net.xmi.Readers
     using System.Xml;
 
     using Microsoft.Extensions.Logging;
-    
+
+    using uml4net.xmi.Extender;
     using uml4net.xmi.Settings;
 
     /// <summary>
@@ -68,12 +69,15 @@ namespace uml4net.xmi.Readers
         /// Asserts that the xmi:type value should be ignored even if the attribute is present inside the XMI element.
         /// Should be used in case of extension part reading.
         /// </param>
+        /// <param name="extenderReaderRegistry">
+        /// The <see cref="IExtenderReaderRegistry" /> that provides <see cref="IExtenderReader" /> resolve
+        /// </param>
         /// <returns>
         /// an instance of <see cref="IXmiElement"/>
         /// </returns>
         /// <exception cref="InvalidOperationException">
         /// thrown when the xmi:type is not supported and noXmiElementReader was found
         /// </exception>
-        IXmiElement QueryXmiElement(XmlReader xmlReader, string documentName, string namespaceUri, IXmiElementCache cache, IXmiReaderSettings xmiReaderSettings, INameSpaceResolver nameSpaceResolver, ILoggerFactory loggerFactory, string explicitTypeName = null, bool ignoreXmiType = false);
+        IXmiElement QueryXmiElement(XmlReader xmlReader, string documentName, string namespaceUri, IXmiElementCache cache, IXmiReaderSettings xmiReaderSettings, INameSpaceResolver nameSpaceResolver, IExtenderReaderRegistry extenderReaderRegistry, ILoggerFactory loggerFactory, string explicitTypeName = null, bool ignoreXmiType = false);
     }
 }

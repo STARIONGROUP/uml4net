@@ -113,7 +113,8 @@ namespace uml4net.xmi.Readers
             var xmlLineInfo = xmlReader as IXmlLineInfo;
 
             var xmiExtension = new XmiExtension();
-
+            IExtenderReader extenderReader = null;
+            
             if (xmlReader.MoveToContent() == XmlNodeType.Element)
             {
                 this.logger.LogTrace("reading XmiExtension at line:position {LineNumber}:{LinePosition}", xmlLineInfo?.LineNumber, xmlLineInfo?.LinePosition);
@@ -140,7 +141,7 @@ namespace uml4net.xmi.Readers
                 xmiExtension.Extender = xmlReader.GetAttribute("extender") ?? xmlReader.GetAttribute("extender", namespaceUri);
                 xmiExtension.ExtenderId = xmlReader.GetAttribute("extenderID") ?? xmlReader.GetAttribute("extenderID", namespaceUri);
 
-                var extenderReader = this.extenderReaderRegistry.Resolve(xmiExtension.Extender, xmiExtension.ExtenderId);
+                extenderReader = this.extenderReaderRegistry.Resolve(xmiExtension.Extender, xmiExtension.ExtenderId);
 
                 if (extenderReader == null)
                 {
@@ -165,13 +166,12 @@ namespace uml4net.xmi.Readers
                             }
 
                             xmiExtension.ContentRawXmi = stringWriter.ToString();
-
-                            xmiExtension.Content = extenderReader.ReadContent(xmiExtension.ContentRawXmi, documentName);
+                            xmiExtension.Content.AddRange(extenderReader.ReadContent(xmiExtension.ContentRawXmi, documentName));
                         }
                     }
                 }
             }
-
+            
             return xmiExtension;
         }
     }

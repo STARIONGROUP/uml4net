@@ -169,7 +169,6 @@ namespace uml4net.Reporting.Tests.Generators
             var EAModelFileInfo = new FileInfo(eaModelPath);
 
             this.modelInspector = new ModelInspector(this.loggerFactory);
-            this.modelInspector.ShouldUseEnterpriseArchitectReader = true;
 
             var pathmap = new Dictionary<string, string>();
 

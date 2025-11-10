@@ -22,7 +22,7 @@
 // --------THIS IS AN AUTOMATICALLY GENERATED FILE. ANY MANUAL CHANGES WILL BE OVERWRITTEN!--------
 // ------------------------------------------------------------------------------------------------
 
-namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure.Readers
+namespace uml4net.xmi.Extensions.EnterpriseArchitect.Structure.Readers
 {
     using System;
     using System.CodeDom.Compiler;
@@ -34,7 +34,7 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure.Readers
 
     using uml4net;
     using uml4net.Extensions;
-    using uml4net.xmi.Extensions.EntrepriseArchitect.Structure;
+    using uml4net.xmi.Extensions.EnterpriseArchitect.Structure;
     using uml4net.xmi.Readers;
     using uml4net.xmi.Settings;
 
@@ -90,7 +90,7 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure.Readers
 
             var xmlLineInfo = xmlReader as IXmlLineInfo;
 
-            ICode poco = new xmi.Extensions.EntrepriseArchitect.Structure.Code();
+            ICode poco = new xmi.Extensions.EnterpriseArchitect.Structure.Code();
 
             if (xmlReader.MoveToContent() == XmlNodeType.Element)
             {

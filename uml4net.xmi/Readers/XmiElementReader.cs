@@ -27,6 +27,7 @@ namespace uml4net.xmi.Readers
     using Microsoft.Extensions.Logging;
 
     using uml4net;
+    using uml4net.xmi.Extender;
     using uml4net.xmi.Settings;
 
     /// <summary>
@@ -68,6 +69,11 @@ namespace uml4net.xmi.Readers
         protected readonly INameSpaceResolver NameSpaceResolver;
 
         /// <summary>
+        /// The injected <see cref="IExtenderReaderRegistry"/> that provides <see cref="IExtenderReader"/> resolve
+        /// </summary>
+        protected readonly IExtenderReaderRegistry ExtenderReaderRegistry;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="XmiElementReader{T}"/> class.
         /// </summary>
         /// <param name="cache">
@@ -84,16 +90,18 @@ namespace uml4net.xmi.Readers
         /// The (injected) <see cref="INameSpaceResolver"/> used to resolve a namespace to one of the
         /// <see cref="KnowNamespacePrefixes"/>
         /// </param>
+        /// <param name="extenderReaderRegistry">The injected <see cref="IExtenderReaderRegistry"/> that provides <see cref="IExtenderReader"/> resolve</param>
         /// <param name="loggerFactory">
         /// The (injected) <see cref="ILoggerFactory"/> used to set up logging
         /// </param>
-        protected XmiElementReader(IXmiElementCache cache, IXmiElementReaderFacade xmiElementReaderFacade, IXmiReaderSettings xmiReaderSettings, INameSpaceResolver nameSpaceResolver, ILoggerFactory loggerFactory)
+        protected XmiElementReader(IXmiElementCache cache, IXmiElementReaderFacade xmiElementReaderFacade, IXmiReaderSettings xmiReaderSettings, INameSpaceResolver nameSpaceResolver, IExtenderReaderRegistry extenderReaderRegistry, ILoggerFactory loggerFactory)
         {
             this.Cache = cache;
             this.XmiElementReaderFacade = xmiElementReaderFacade;
             this.XmiReaderSettings = xmiReaderSettings;
             this.NameSpaceResolver = nameSpaceResolver;
             this.LoggerFactory = loggerFactory;
+            this.ExtenderReaderRegistry = extenderReaderRegistry;
         }
 
         /// <summary>

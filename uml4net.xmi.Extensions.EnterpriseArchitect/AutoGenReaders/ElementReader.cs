@@ -22,7 +22,7 @@
 // --------THIS IS AN AUTOMATICALLY GENERATED FILE. ANY MANUAL CHANGES WILL BE OVERWRITTEN!--------
 // ------------------------------------------------------------------------------------------------
 
-namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure.Readers
+namespace uml4net.xmi.Extensions.EnterpriseArchitect.Structure.Readers
 {
     using System;
     using System.CodeDom.Compiler;
@@ -34,7 +34,7 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure.Readers
 
     using uml4net;
     using uml4net.Extensions;
-    using uml4net.xmi.Extensions.EntrepriseArchitect.Structure;
+    using uml4net.xmi.Extensions.EnterpriseArchitect.Structure;
     using uml4net.xmi.Readers;
     using uml4net.xmi.Settings;
 
@@ -90,7 +90,7 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure.Readers
 
             var xmlLineInfo = xmlReader as IXmlLineInfo;
 
-            IElement poco = new xmi.Extensions.EntrepriseArchitect.Structure.Element();
+            IElement poco = new xmi.Extensions.EnterpriseArchitect.Structure.Element();
 
             if (xmlReader.MoveToContent() == XmlNodeType.Element)
             {
@@ -125,7 +125,7 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure.Readers
                                             continue;
                                         }
 
-                                        poco.Attributes.Add(this.ExtensionContentReaderFacade.QueryExtensionContent<xmi.Extensions.EntrepriseArchitect.Structure.Attribute>(attributesReader, this.XmiReaderSettings, this.NameSpaceResolver, this.Cache, documentName, this.LoggerFactory));
+                                        poco.Attributes.Add(this.ExtensionContentReaderFacade.QueryExtensionContent<xmi.Extensions.EnterpriseArchitect.Structure.Attribute>(attributesReader, this.XmiReaderSettings, this.NameSpaceResolver, this.Cache, documentName, this.LoggerFactory));
                                     }
 
                                     break;
