@@ -1,5 +1,5 @@
 ﻿// -------------------------------------------------------------------------------------------------
-//  <copyright file="IExtension.cs" company="Starion Group S.A.">
+//  <copyright file="IExtensionContentReader.cs" company="Starion Group S.A.">
 // 
 //    Copyright 2019-2025 Starion Group S.A.
 // 
@@ -18,24 +18,26 @@
 //  </copyright>
 //  ------------------------------------------------------------------------------------------------
 
-namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure
+namespace uml4net.xmi.Readers
 {
-    using uml4net.CommonStructure;
-    using uml4net.Packages;
+    using System.Xml;
 
     /// <summary>
-    /// hand-coded properties for the <see cref="IExtension"/> interface.
+    /// The <see cref="IExtensionContentReader{TContent}"/> provides XML content read for elements that are part of an extension
     /// </summary>
-    public partial interface IExtension
+    /// <typeparam name="TContent">Any type</typeparam>
+    public interface IExtensionContentReader<out TContent>
     {
         /// <summary>
-        /// The contained <see cref="IPackageableElement"/>s
+        /// Reads the <typeparamref name="TContent"/> object from its XML representation
         /// </summary>
-        IContainerList<IPackageableElement> PrimitivesTypes { get; }
-
-        /// <summary>
-        /// The contained <see cref="IProfile"/>s
-        /// </summary>
-        IContainerList<IProfile> Profiles { get; }
+        /// <param name="xmlReader">
+        /// an instance of <see cref="XmlReader"/>
+        /// </param>
+        /// <param name="documentName">The name of the document that is currently read</param>
+        /// <returns>
+        /// an instance of <typeparamref name="TContent"/>
+        /// </returns>
+        public TContent Read(XmlReader xmlReader, string documentName);
     }
 }

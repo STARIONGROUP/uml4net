@@ -22,7 +22,7 @@
 // --------THIS IS AN AUTOMATICALLY GENERATED FILE. ANY MANUAL CHANGES WILL BE OVERWRITTEN!--------
 // ------------------------------------------------------------------------------------------------
 
-namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure.Readers
+namespace uml4net.xmi.Extensions.EnterpriseArchitect.Structure.Readers
 {
     using System;
     using System.CodeDom.Compiler;
@@ -34,7 +34,7 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure.Readers
 
     using uml4net;
     using uml4net.Extensions;
-    using uml4net.xmi.Extensions.EntrepriseArchitect.Structure;
+    using uml4net.xmi.Extensions.EnterpriseArchitect.Structure;
     using uml4net.xmi.Readers;
     using uml4net.xmi.Settings;
 
@@ -43,7 +43,7 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure.Readers
     /// from the XMI document
     /// </summary>
     [GeneratedCode("uml4net", "latest")]
-    public partial class FlagsReader : XmiElementReader<IFlags>, IXmiElementReader<IFlags>
+    public partial class FlagsReader : ExtensionContentReader<IFlags>
     {
         /// <summary>
         /// The (injected) logger
@@ -53,13 +53,7 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure.Readers
         /// <summary>
         /// Initializes a new instance of the <see cref="FlagsReader"/> class.
         /// </summary>
-        /// <param name="cache">
-        /// The (injected) <see cref="IXmiElementCache"/>> in which each <see cref="IXmiElement"/>> is stored
-        /// </param>
-        /// <param name="xmiElementReaderFacade">
-        /// The (injected) <see cref="IXmiElementReaderFacade"/> used to resolve any
-        /// required <see cref="IXmiElementReader{T}"/>
-        /// </param>
+        /// <param name="extensionContentReaderFacade">The <see cref="IExtensionContentReaderFacade"/> that allow other <see cref="ExtensionContentReader{TContent}"/> read capabilities</param>
         /// <param name="xmiReaderSettings">
         /// The <see cref="IXmiReaderSettings"/> used to configure reading
         /// </param>
@@ -67,11 +61,12 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure.Readers
         /// The (injected) <see cref="INameSpaceResolver"/> used to resolve a namespace to one of the
         /// <see cref="KnowNamespacePrefixes"/>
         /// </param>
+        /// <param name="cache">The <see cref="IXmiElementCache"/> that provides cached <see cref="IXmiElement"/> retriveal</param>
         /// <param name="loggerFactory">
         /// The (injected) <see cref="ILoggerFactory"/> used to set up logging
         /// </param>
-        public FlagsReader(IXmiElementCache cache, IXmiElementReaderFacade xmiElementReaderFacade, IXmiReaderSettings xmiReaderSettings, INameSpaceResolver nameSpaceResolver, ILoggerFactory loggerFactory)
-        : base(cache, xmiElementReaderFacade, xmiReaderSettings, nameSpaceResolver, loggerFactory)
+        public FlagsReader(IExtensionContentReaderFacade extensionContentReaderFacade, IXmiReaderSettings xmiReaderSettings, INameSpaceResolver nameSpaceResolver, IXmiElementCache cache, ILoggerFactory loggerFactory)
+        : base(extensionContentReaderFacade, xmiReaderSettings, nameSpaceResolver, cache, loggerFactory)
         {
             this.logger = loggerFactory == null ? NullLogger<FlagsReader>.Instance : loggerFactory.CreateLogger<FlagsReader>();
         }
@@ -82,172 +77,72 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure.Readers
         /// <param name="xmlReader">
         /// an instance of <see cref="XmlReader"/>
         /// </param>
-        /// <param name="documentName">
-        /// The name of the document that contains the <see cref="IFlags"/>
-        /// </param>
-        /// <param name="namespaceUri">
-        /// the namespace that the <see cref="IFlags"/> belongs to
-        /// </param>
+        /// <param name="documentName">The name of the document that is currently read</param>
         /// <returns>
         /// an instance of <see cref="IFlags"/>
         /// </returns>
-        public override IFlags Read(XmlReader xmlReader, string documentName, string namespaceUri)
+        public override IFlags Read(XmlReader xmlReader, string documentName)
         {
             if (xmlReader == null)
             {
                 throw new ArgumentNullException(nameof(xmlReader));
             }
 
-            if (string.IsNullOrEmpty(documentName))
-            {
-                throw new ArgumentException(nameof(documentName));
-            }
-
-            if (string.IsNullOrEmpty(namespaceUri))
-            {
-                throw new ArgumentException(nameof(namespaceUri));
-            }
-
             var xmlLineInfo = xmlReader as IXmlLineInfo;
 
-            IFlags poco = new xmi.Extensions.EntrepriseArchitect.Structure.Flags();
+            IFlags poco = new xmi.Extensions.EnterpriseArchitect.Structure.Flags();
 
             if (xmlReader.MoveToContent() == XmlNodeType.Element)
             {
                 this.logger.LogTrace("reading Flags at line:position {LineNumber}:{LinePosition}", xmlLineInfo?.LineNumber, xmlLineInfo?.LinePosition);
 
-                var xmiType = "Flags";
-
-                if (!string.IsNullOrEmpty(xmlReader.NamespaceURI))
+                var batchsaveValue = xmlReader.GetAttribute("batchsave");
+                if (!string.IsNullOrWhiteSpace(batchsaveValue))
                 {
-                    namespaceUri = xmlReader.NamespaceURI;
+                    poco.Batchsave = int.Parse(batchsaveValue);
                 }
 
-                poco.XmiType = xmiType;
-
-                var idRef = xmlReader.GetAttribute("xmi:idref");
-                poco.XmiId = $"Extension-{(string.IsNullOrEmpty(idRef) ? Guid.NewGuid() : idRef)}";
-
-                if (!string.IsNullOrEmpty(idRef))
+                var iscontrolledValue = xmlReader.GetAttribute("iscontrolled");
+                if (!string.IsNullOrWhiteSpace(iscontrolledValue))
                 {
-                    poco.SingleValueReferencePropertyIdentifiers.Add("extendedElement", $"{documentName}#{idRef}");
+                    poco.Iscontrolled = int.Parse(iscontrolledValue);
                 }
 
-                poco.XmiGuid = Guid.NewGuid().ToString();
-
-                poco.DocumentName = documentName;
-
-                poco.XmiNamespaceUri = namespaceUri;
-
-                if (!this.Cache.TryAdd(poco))
+                var isprotectedValue = xmlReader.GetAttribute("isprotected");
+                if (!string.IsNullOrWhiteSpace(isprotectedValue))
                 {
-                    this.logger.LogCritical("Failed to add element type [{Poco}] with id [{Id}] as it was already in the Cache. The XMI document seems to have duplicate xmi:id values", "Flags", poco.XmiId);
+                    poco.Isprotected = int.Parse(isprotectedValue);
                 }
 
-                var batchsaveXmlAttribute = xmlReader.GetAttribute("batchsave") ?? xmlReader.GetAttribute("batchsave", this.NameSpaceResolver.UmlNameSpace);
-
-                if (!string.IsNullOrWhiteSpace(batchsaveXmlAttribute))
+                var logxmlValue = xmlReader.GetAttribute("logxml");
+                if (!string.IsNullOrWhiteSpace(logxmlValue))
                 {
-                    poco.Batchsave = int.Parse(batchsaveXmlAttribute);
+                    poco.Logxml = int.Parse(logxmlValue);
                 }
 
-                var iscontrolledXmlAttribute = xmlReader.GetAttribute("iscontrolled") ?? xmlReader.GetAttribute("iscontrolled", this.NameSpaceResolver.UmlNameSpace);
-
-                if (!string.IsNullOrWhiteSpace(iscontrolledXmlAttribute))
+                var usedtdValue = xmlReader.GetAttribute("usedtd");
+                if (!string.IsNullOrWhiteSpace(usedtdValue))
                 {
-                    poco.Iscontrolled = int.Parse(iscontrolledXmlAttribute);
+                    poco.Usedtd = int.Parse(usedtdValue);
                 }
 
-                var isprotectedXmlAttribute = xmlReader.GetAttribute("isprotected") ?? xmlReader.GetAttribute("isprotected", this.NameSpaceResolver.UmlNameSpace);
-
-                if (!string.IsNullOrWhiteSpace(isprotectedXmlAttribute))
-                {
-                    poco.Isprotected = int.Parse(isprotectedXmlAttribute);
-                }
-
-                var logxmlXmlAttribute = xmlReader.GetAttribute("logxml") ?? xmlReader.GetAttribute("logxml", this.NameSpaceResolver.UmlNameSpace);
-
-                if (!string.IsNullOrWhiteSpace(logxmlXmlAttribute))
-                {
-                    poco.Logxml = int.Parse(logxmlXmlAttribute);
-                }
-
-                var usedtdXmlAttribute = xmlReader.GetAttribute("usedtd") ?? xmlReader.GetAttribute("usedtd", this.NameSpaceResolver.UmlNameSpace);
-
-                if (!string.IsNullOrWhiteSpace(usedtdXmlAttribute))
-                {
-                    poco.Usedtd = int.Parse(usedtdXmlAttribute);
-                }
 
 
                 while (xmlReader.Read())
                 {
                     if (xmlReader.NodeType == XmlNodeType.Element)
                     {
-                        switch (xmlReader.LocalName.LowerCaseFirstLetter())
+                        switch (xmlReader.LocalName)
                         {
-                            case "batchsave":
-                                var batchsaveValue = xmlReader.ReadElementContentAsString();
-
-                                if (!string.IsNullOrWhiteSpace(batchsaveValue))
-                                {
-                                    poco.Batchsave = int.Parse(batchsaveValue);
-                                }
-
-                                break;
-                            case "iscontrolled":
-                                var iscontrolledValue = xmlReader.ReadElementContentAsString();
-
-                                if (!string.IsNullOrWhiteSpace(iscontrolledValue))
-                                {
-                                    poco.Iscontrolled = int.Parse(iscontrolledValue);
-                                }
-
-                                break;
-                            case "isprotected":
-                                var isprotectedValue = xmlReader.ReadElementContentAsString();
-
-                                if (!string.IsNullOrWhiteSpace(isprotectedValue))
-                                {
-                                    poco.Isprotected = int.Parse(isprotectedValue);
-                                }
-
-                                break;
-                            case "logxml":
-                                var logxmlValue = xmlReader.ReadElementContentAsString();
-
-                                if (!string.IsNullOrWhiteSpace(logxmlValue))
-                                {
-                                    poco.Logxml = int.Parse(logxmlValue);
-                                }
-
-                                break;
-                            case "usedtd":
-                                var usedtdValue = xmlReader.ReadElementContentAsString();
-
-                                if (!string.IsNullOrWhiteSpace(usedtdValue))
-                                {
-                                    poco.Usedtd = int.Parse(usedtdValue);
-                                }
-
-                                break;
                             default:
-                                var couldHandleReadElement = this.HandleManualXmlRead(poco, xmlReader, documentName, namespaceUri);
-
-                                if (couldHandleReadElement)
-                                {
-                                    break;
-                                }
-
                                 if (this.XmiReaderSettings.UseStrictReading)
                                 {
-                                    throw new NotSupportedException($"FlagsReader: {xmlReader.LocalName} at line:position {xmlLineInfo.LineNumber}:{xmlLineInfo.LinePosition}");
+                                    throw new NotSupportedException($"FlagsReader: {xmlReader.LocalName} at line:position {xmlLineInfo?.LineNumber}:{xmlLineInfo.LinePosition}");
                                 }
                                 else
                                 {
-                                    this.logger.LogWarning("Not Supported: FlagsReader: {LocalName} at line:position {LineNumber}:{LinePosition}", xmlReader.LocalName, xmlLineInfo.LineNumber, xmlLineInfo.LinePosition);
+                                    this.logger.LogWarning("Not Supported: FlagsReader: {LocalName} at line:position {LineNumber}:{LinePosition}", xmlReader.LocalName, xmlLineInfo?.LineNumber, xmlLineInfo?.LinePosition);
                                 }
-
                                 break;
                         }
                     }

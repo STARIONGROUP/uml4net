@@ -220,7 +220,7 @@ namespace uml4net.CodeGenerator.Generators
             var generatedCode = template(new { Namespace = classes[0].Namespace.Name, Classes = classes });
             generatedCode = this.CodeCleanup(generatedCode);
 
-            const string fileName = "XmiElementExtensionReaderFacade.cs";
+            const string fileName = "ExtensionContentReaderFacade.cs";
 
             await WriteAsync(generatedCode, outputDirectory, fileName);
         }

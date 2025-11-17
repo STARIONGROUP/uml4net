@@ -22,7 +22,7 @@
 // --------THIS IS AN AUTOMATICALLY GENERATED FILE. ANY MANUAL CHANGES WILL BE OVERWRITTEN!--------
 // ------------------------------------------------------------------------------------------------
 
-namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure.Readers
+namespace uml4net.xmi.Extensions.EnterpriseArchitect.Structure.Readers
 {
     using System;
     using System.CodeDom.Compiler;
@@ -34,7 +34,7 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure.Readers
 
     using uml4net;
     using uml4net.Extensions;
-    using uml4net.xmi.Extensions.EntrepriseArchitect.Structure;
+    using uml4net.xmi.Extensions.EnterpriseArchitect.Structure;
     using uml4net.xmi.Readers;
     using uml4net.xmi.Settings;
 
@@ -43,7 +43,7 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure.Readers
     /// from the XMI document
     /// </summary>
     [GeneratedCode("uml4net", "latest")]
-    public partial class TypeElementReader : XmiElementReader<ITypeElement>, IXmiElementReader<ITypeElement>
+    public partial class TypeElementReader : ExtensionContentReader<ITypeElement>
     {
         /// <summary>
         /// The (injected) logger
@@ -53,13 +53,7 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure.Readers
         /// <summary>
         /// Initializes a new instance of the <see cref="TypeElementReader"/> class.
         /// </summary>
-        /// <param name="cache">
-        /// The (injected) <see cref="IXmiElementCache"/>> in which each <see cref="IXmiElement"/>> is stored
-        /// </param>
-        /// <param name="xmiElementReaderFacade">
-        /// The (injected) <see cref="IXmiElementReaderFacade"/> used to resolve any
-        /// required <see cref="IXmiElementReader{T}"/>
-        /// </param>
+        /// <param name="extensionContentReaderFacade">The <see cref="IExtensionContentReaderFacade"/> that allow other <see cref="ExtensionContentReader{TContent}"/> read capabilities</param>
         /// <param name="xmiReaderSettings">
         /// The <see cref="IXmiReaderSettings"/> used to configure reading
         /// </param>
@@ -67,11 +61,12 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure.Readers
         /// The (injected) <see cref="INameSpaceResolver"/> used to resolve a namespace to one of the
         /// <see cref="KnowNamespacePrefixes"/>
         /// </param>
+        /// <param name="cache">The <see cref="IXmiElementCache"/> that provides cached <see cref="IXmiElement"/> retriveal</param>
         /// <param name="loggerFactory">
         /// The (injected) <see cref="ILoggerFactory"/> used to set up logging
         /// </param>
-        public TypeElementReader(IXmiElementCache cache, IXmiElementReaderFacade xmiElementReaderFacade, IXmiReaderSettings xmiReaderSettings, INameSpaceResolver nameSpaceResolver, ILoggerFactory loggerFactory)
-        : base(cache, xmiElementReaderFacade, xmiReaderSettings, nameSpaceResolver, loggerFactory)
+        public TypeElementReader(IExtensionContentReaderFacade extensionContentReaderFacade, IXmiReaderSettings xmiReaderSettings, INameSpaceResolver nameSpaceResolver, IXmiElementCache cache, ILoggerFactory loggerFactory)
+        : base(extensionContentReaderFacade, xmiReaderSettings, nameSpaceResolver, cache, loggerFactory)
         {
             this.logger = loggerFactory == null ? NullLogger<TypeElementReader>.Instance : loggerFactory.CreateLogger<TypeElementReader>();
         }
@@ -82,219 +77,90 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure.Readers
         /// <param name="xmlReader">
         /// an instance of <see cref="XmlReader"/>
         /// </param>
-        /// <param name="documentName">
-        /// The name of the document that contains the <see cref="ITypeElement"/>
-        /// </param>
-        /// <param name="namespaceUri">
-        /// the namespace that the <see cref="ITypeElement"/> belongs to
-        /// </param>
+        /// <param name="documentName">The name of the document that is currently read</param>
         /// <returns>
         /// an instance of <see cref="ITypeElement"/>
         /// </returns>
-        public override ITypeElement Read(XmlReader xmlReader, string documentName, string namespaceUri)
+        public override ITypeElement Read(XmlReader xmlReader, string documentName)
         {
             if (xmlReader == null)
             {
                 throw new ArgumentNullException(nameof(xmlReader));
             }
 
-            if (string.IsNullOrEmpty(documentName))
-            {
-                throw new ArgumentException(nameof(documentName));
-            }
-
-            if (string.IsNullOrEmpty(namespaceUri))
-            {
-                throw new ArgumentException(nameof(namespaceUri));
-            }
-
             var xmlLineInfo = xmlReader as IXmlLineInfo;
 
-            ITypeElement poco = new xmi.Extensions.EntrepriseArchitect.Structure.TypeElement();
+            ITypeElement poco = new xmi.Extensions.EnterpriseArchitect.Structure.TypeElement();
 
             if (xmlReader.MoveToContent() == XmlNodeType.Element)
             {
                 this.logger.LogTrace("reading TypeElement at line:position {LineNumber}:{LinePosition}", xmlLineInfo?.LineNumber, xmlLineInfo?.LinePosition);
 
-                var xmiType = "TypeElement";
-
-                if (!string.IsNullOrEmpty(xmlReader.NamespaceURI))
+                var concurrencyValue = xmlReader.GetAttribute("concurrency");
+                poco.Concurrency = concurrencyValue;
+                var constValue = xmlReader.GetAttribute("const");
+                if (!string.IsNullOrWhiteSpace(constValue))
                 {
-                    namespaceUri = xmlReader.NamespaceURI;
+                    poco.Const = bool.Parse(constValue);
                 }
 
-                poco.XmiType = xmiType;
-
-                var idRef = xmlReader.GetAttribute("xmi:idref");
-                poco.XmiId = $"Extension-{(string.IsNullOrEmpty(idRef) ? Guid.NewGuid() : idRef)}";
-
-                if (!string.IsNullOrEmpty(idRef))
+                var isAbstractValue = xmlReader.GetAttribute("isAbstract");
+                if (!string.IsNullOrWhiteSpace(isAbstractValue))
                 {
-                    poco.SingleValueReferencePropertyIdentifiers.Add("extendedElement", $"{documentName}#{idRef}");
+                    poco.IsAbstract = bool.Parse(isAbstractValue);
                 }
 
-                poco.XmiGuid = Guid.NewGuid().ToString();
-
-                poco.DocumentName = documentName;
-
-                poco.XmiNamespaceUri = namespaceUri;
-
-                if (!this.Cache.TryAdd(poco))
+                var isQueryValue = xmlReader.GetAttribute("isQuery");
+                if (!string.IsNullOrWhiteSpace(isQueryValue))
                 {
-                    this.logger.LogCritical("Failed to add element type [{Poco}] with id [{Id}] as it was already in the Cache. The XMI document seems to have duplicate xmi:id values", "TypeElement", poco.XmiId);
+                    poco.IsQuery = bool.Parse(isQueryValue);
                 }
 
-                poco.Concurrency = xmlReader.GetAttribute("concurrency") ?? xmlReader.GetAttribute("concurrency", this.NameSpaceResolver.UmlNameSpace);
-
-                var constXmlAttribute = xmlReader.GetAttribute("const") ?? xmlReader.GetAttribute("const", this.NameSpaceResolver.UmlNameSpace);
-
-                if (!string.IsNullOrWhiteSpace(constXmlAttribute))
+                var pureValue = xmlReader.GetAttribute("pure");
+                if (!string.IsNullOrWhiteSpace(pureValue))
                 {
-                    poco.Const = bool.Parse(constXmlAttribute);
+                    poco.Pure = int.Parse(pureValue);
                 }
 
-                var isAbstractXmlAttribute = xmlReader.GetAttribute("isAbstract") ?? xmlReader.GetAttribute("isAbstract", this.NameSpaceResolver.UmlNameSpace);
-
-                if (!string.IsNullOrWhiteSpace(isAbstractXmlAttribute))
+                var returnarrayValue = xmlReader.GetAttribute("returnarray");
+                if (!string.IsNullOrWhiteSpace(returnarrayValue))
                 {
-                    poco.IsAbstract = bool.Parse(isAbstractXmlAttribute);
+                    poco.Returnarray = int.Parse(returnarrayValue);
                 }
 
-                var isQueryXmlAttribute = xmlReader.GetAttribute("isQuery") ?? xmlReader.GetAttribute("isQuery", this.NameSpaceResolver.UmlNameSpace);
-
-                if (!string.IsNullOrWhiteSpace(isQueryXmlAttribute))
+                var staticValue = xmlReader.GetAttribute("static");
+                if (!string.IsNullOrWhiteSpace(staticValue))
                 {
-                    poco.IsQuery = bool.Parse(isQueryXmlAttribute);
+                    poco.Static = bool.Parse(staticValue);
                 }
 
-                var pureXmlAttribute = xmlReader.GetAttribute("pure") ?? xmlReader.GetAttribute("pure", this.NameSpaceResolver.UmlNameSpace);
-
-                if (!string.IsNullOrWhiteSpace(pureXmlAttribute))
+                var stereotypeValue = xmlReader.GetAttribute("stereotype");
+                poco.Stereotype = stereotypeValue;
+                var synchronisedValue = xmlReader.GetAttribute("synchronised");
+                if (!string.IsNullOrWhiteSpace(synchronisedValue))
                 {
-                    poco.Pure = int.Parse(pureXmlAttribute);
+                    poco.Synchronised = int.Parse(synchronisedValue);
                 }
 
-                var returnarrayXmlAttribute = xmlReader.GetAttribute("returnarray") ?? xmlReader.GetAttribute("returnarray", this.NameSpaceResolver.UmlNameSpace);
-
-                if (!string.IsNullOrWhiteSpace(returnarrayXmlAttribute))
-                {
-                    poco.Returnarray = int.Parse(returnarrayXmlAttribute);
-                }
-
-                var staticXmlAttribute = xmlReader.GetAttribute("static") ?? xmlReader.GetAttribute("static", this.NameSpaceResolver.UmlNameSpace);
-
-                if (!string.IsNullOrWhiteSpace(staticXmlAttribute))
-                {
-                    poco.Static = bool.Parse(staticXmlAttribute);
-                }
-
-                poco.Stereotype = xmlReader.GetAttribute("stereotype") ?? xmlReader.GetAttribute("stereotype", this.NameSpaceResolver.UmlNameSpace);
-
-                var synchronisedXmlAttribute = xmlReader.GetAttribute("synchronised") ?? xmlReader.GetAttribute("synchronised", this.NameSpaceResolver.UmlNameSpace);
-
-                if (!string.IsNullOrWhiteSpace(synchronisedXmlAttribute))
-                {
-                    poco.Synchronised = int.Parse(synchronisedXmlAttribute);
-                }
-
-                poco.Type = xmlReader.GetAttribute("type") ?? xmlReader.GetAttribute("type", this.NameSpaceResolver.UmlNameSpace);
+                var typeValue = xmlReader.GetAttribute("type");
+                poco.Type = typeValue;
 
 
                 while (xmlReader.Read())
                 {
                     if (xmlReader.NodeType == XmlNodeType.Element)
                     {
-                        switch (xmlReader.LocalName.LowerCaseFirstLetter())
+                        switch (xmlReader.LocalName)
                         {
-                            case "concurrency":
-                                poco.Concurrency = xmlReader.ReadElementContentAsString();
-                                break;
-                            case "const":
-                                var constValue = xmlReader.ReadElementContentAsString();
-
-                                if (!string.IsNullOrWhiteSpace(constValue))
-                                {
-                                    poco.Const = bool.Parse(constValue);
-                                }
-
-                                break;
-                            case "isAbstract":
-                                var isAbstractValue = xmlReader.ReadElementContentAsString();
-
-                                if (!string.IsNullOrWhiteSpace(isAbstractValue))
-                                {
-                                    poco.IsAbstract = bool.Parse(isAbstractValue);
-                                }
-
-                                break;
-                            case "isQuery":
-                                var isQueryValue = xmlReader.ReadElementContentAsString();
-
-                                if (!string.IsNullOrWhiteSpace(isQueryValue))
-                                {
-                                    poco.IsQuery = bool.Parse(isQueryValue);
-                                }
-
-                                break;
-                            case "pure":
-                                var pureValue = xmlReader.ReadElementContentAsString();
-
-                                if (!string.IsNullOrWhiteSpace(pureValue))
-                                {
-                                    poco.Pure = int.Parse(pureValue);
-                                }
-
-                                break;
-                            case "returnarray":
-                                var returnarrayValue = xmlReader.ReadElementContentAsString();
-
-                                if (!string.IsNullOrWhiteSpace(returnarrayValue))
-                                {
-                                    poco.Returnarray = int.Parse(returnarrayValue);
-                                }
-
-                                break;
-                            case "static":
-                                var staticValue = xmlReader.ReadElementContentAsString();
-
-                                if (!string.IsNullOrWhiteSpace(staticValue))
-                                {
-                                    poco.Static = bool.Parse(staticValue);
-                                }
-
-                                break;
-                            case "stereotype":
-                                poco.Stereotype = xmlReader.ReadElementContentAsString();
-                                break;
-                            case "synchronised":
-                                var synchronisedValue = xmlReader.ReadElementContentAsString();
-
-                                if (!string.IsNullOrWhiteSpace(synchronisedValue))
-                                {
-                                    poco.Synchronised = int.Parse(synchronisedValue);
-                                }
-
-                                break;
-                            case "type":
-                                poco.Type = xmlReader.ReadElementContentAsString();
-                                break;
                             default:
-                                var couldHandleReadElement = this.HandleManualXmlRead(poco, xmlReader, documentName, namespaceUri);
-
-                                if (couldHandleReadElement)
-                                {
-                                    break;
-                                }
-
                                 if (this.XmiReaderSettings.UseStrictReading)
                                 {
-                                    throw new NotSupportedException($"TypeElementReader: {xmlReader.LocalName} at line:position {xmlLineInfo.LineNumber}:{xmlLineInfo.LinePosition}");
+                                    throw new NotSupportedException($"TypeElementReader: {xmlReader.LocalName} at line:position {xmlLineInfo?.LineNumber}:{xmlLineInfo.LinePosition}");
                                 }
                                 else
                                 {
-                                    this.logger.LogWarning("Not Supported: TypeElementReader: {LocalName} at line:position {LineNumber}:{LinePosition}", xmlReader.LocalName, xmlLineInfo.LineNumber, xmlLineInfo.LinePosition);
+                                    this.logger.LogWarning("Not Supported: TypeElementReader: {LocalName} at line:position {LineNumber}:{LinePosition}", xmlReader.LocalName, xmlLineInfo?.LineNumber, xmlLineInfo?.LinePosition);
                                 }
-
                                 break;
                         }
                     }

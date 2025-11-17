@@ -22,7 +22,7 @@
 // --------THIS IS AN AUTOMATICALLY GENERATED FILE. ANY MANUAL CHANGES WILL BE OVERWRITTEN!--------
 // ------------------------------------------------------------------------------------------------
 
-namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure
+namespace uml4net.xmi.Extensions.EnterpriseArchitect.Structure
 {
     using System.CodeDom.Compiler;
     using System.Collections.Generic;
@@ -47,7 +47,7 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure
     /// </summary>
     [Class(xmiId: "EAID_F2022E31_FD80_4ca6_8322_8513F807FF09", isAbstract: false, isFinalSpecialization: false, isActive: false)]
     [GeneratedCode("uml4net", "latest")]
-    public partial interface INoteLink : ILink, uml4net.CommonStructure.IElement
+    public partial interface INoteLink : ILink
     {
     }
 }

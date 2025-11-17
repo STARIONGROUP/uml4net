@@ -35,8 +35,6 @@ namespace uml4net.Reporting.Generators
     using uml4net.Packages;
     using uml4net.StructuredClassifiers;
 
-    using uml4net.xmi.Extensions.EnterpriseArchitect.Extensions;
-
     /// <summary>
     /// The purpose of the <see cref="ModelInspector"/> is to iterate through the model and report on the various kinds of
     /// patters that exist in the UML model that need to be taken into account for code-generation
@@ -464,7 +462,7 @@ namespace uml4net.Reporting.Generators
             sb.AppendLine("---------- Package.Class:Property ---------");
             sb.AppendLine("");
 
-            this.AnalyzeDocumentation(package, sb);
+            AnalyzeDocumentation(package, sb);
 
             sb.AppendLine("");
 
@@ -483,13 +481,13 @@ namespace uml4net.Reporting.Generators
         /// <param name="sb">
         /// The <see cref="StringBuilder"/> to which the analysis results are written
         /// </param>
-        private void AnalyzeDocumentation(IPackage package, StringBuilder sb)
+        private static void AnalyzeDocumentation(IPackage package, StringBuilder sb)
         {
             var classes = package.QueryPackages().SelectMany(x => x.PackagedElement.OfType<IClass>()).OrderBy(x => x.Name).ToList();
 
             foreach (var @class in classes)
             {
-                var classDocs = this.ShouldUseEnterpriseArchitectReader ? @class.QueryDocumentationFromExtensions() : @class.QueryRawDocumentation();
+                var classDocs =  @class.QueryRawDocumentation();
                 
                 if (string.IsNullOrEmpty(classDocs))
                 {
@@ -498,7 +496,7 @@ namespace uml4net.Reporting.Generators
 
                 foreach (var property in @class.OwnedAttribute.OrderBy(x => x.Name))
                 {
-                    var propertyDocs = this.ShouldUseEnterpriseArchitectReader ? property.QueryDocumentationFromExtensions() : property.QueryRawDocumentation();
+                    var propertyDocs =  property.QueryRawDocumentation();
 
                     if (string.IsNullOrEmpty(propertyDocs))
                     {

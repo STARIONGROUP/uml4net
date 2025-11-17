@@ -22,7 +22,7 @@
 // --------THIS IS AN AUTOMATICALLY GENERATED FILE. ANY MANUAL CHANGES WILL BE OVERWRITTEN!--------
 // ------------------------------------------------------------------------------------------------
 
-namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure
+namespace uml4net.xmi.Extensions.EnterpriseArchitect.Structure
 {
     using System.CodeDom.Compiler;
     using System.Collections.Generic;
@@ -47,47 +47,47 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure
     /// </summary>
     [Class(xmiId: "EAID_80AD1F93_B9D1_8742_BAEE_4732F4BCF72B", isAbstract: false, isFinalSpecialization: false, isActive: false)]
     [GeneratedCode("uml4net", "latest")]
-    public partial interface IConnectorEnd : IElementReference, IDocumentedElement, uml4net.CommonStructure.IElement
+    public partial interface IConnectorEnd : IElementReference, IDocumentedElement
     {
         /// <summary>
         /// </summary>
-        [Property(xmiId: "EAID_src2E56AD_D1F9_0C44_AB53_DB2A78AC44C1", aggregation: AggregationKind.Composite, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
-        public IContainerList<IXrefs> Xrefs { get; set; }
+        [Property(xmiId: "EAID_dst655D69_3157_43d6_A67F_26C7BE73839C", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        public IRole Role { get; set; }
 
         /// <summary>
         /// </summary>
-        [Property(xmiId: "EAID_srcAAE1BD_4327_5F48_A3FC_69310C0E53C2", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
-        public IContainerList<ITagsCollection> Tags { get; set; }
+        [Property(xmiId: "EAID_dst746170_9D4A_4939_98AD_E933E1834FFD", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        public IXrefs Xrefs { get; set; }
 
         /// <summary>
         /// </summary>
-        [Property(xmiId: "EAID_srcDBBDF2_31FB_BC9D_8681_95DDEEAB31F8", aggregation: AggregationKind.Composite, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
-        public IContainerList<IConnectorEndType> Type { get; set; }
+        [Property(xmiId: "EAID_dst792341_9FB5_4044_9470_BFB3E8B5F5C7", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        public IConnectorEndType Type { get; set; }
 
         /// <summary>
         /// </summary>
-        [Property(xmiId: "EAID_srcF86C1F_7AB7_F024_A19D_7FDC7AFACC87", aggregation: AggregationKind.Composite, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
-        public IContainerList<IStyle> Style { get; set; }
+        [Property(xmiId: "EAID_dstB40348_50AB_4b8c_9235_DE854F2B8DBD", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        public IStyle Style { get; set; }
 
         /// <summary>
         /// </summary>
-        [Property(xmiId: "EAID_src1B8EF2_CA40_412A_9040_37B3DFF453E1", aggregation: AggregationKind.Composite, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
-        public IContainerList<IConstraints> Constraints { get; set; }
+        [Property(xmiId: "EAID_dst4756CD_56B6_4b4f_850C_B8B6E25E12D2", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        public IModel Model { get; set; }
 
         /// <summary>
         /// </summary>
-        [Property(xmiId: "EAID_src26F873_298D_C17A_A9A0_ECC4C96BEFD6", aggregation: AggregationKind.Composite, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
-        public IContainerList<IRole> Role { get; set; }
+        [Property(xmiId: "EAID_dstEF3962_4B00_497a_BBE7_FCF19B763CBA", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        public IConstraints Constraints { get; set; }
 
         /// <summary>
         /// </summary>
-        [Property(xmiId: "EAID_src622164_C256_D3B6_A45A_ADB28EF4503E", aggregation: AggregationKind.Composite, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
-        public IContainerList<IModifiers> Modifiers { get; set; }
+        [Property(xmiId: "EAID_dstC7A80C_9DE4_4268_AC64_361EABA632C0", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        public IModifiers Modifiers { get; set; }
 
         /// <summary>
         /// </summary>
-        [Property(xmiId: "EAID_srcCD812D_9C77_03EE_A658_B148DC3D0C27", aggregation: AggregationKind.Composite, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
-        public IContainerList<IModel> Model { get; set; }
+        [Property(xmiId: "EAID_src25771C_307D_4f20_A087_D533AE803601", aggregation: AggregationKind.Shared, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        public List<ITag> Tags { get; set; }
     }
 }
 

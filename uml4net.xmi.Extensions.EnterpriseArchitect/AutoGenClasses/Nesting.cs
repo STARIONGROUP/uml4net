@@ -22,7 +22,7 @@
 // --------THIS IS AN AUTOMATICALLY GENERATED FILE. ANY MANUAL CHANGES WILL BE OVERWRITTEN!--------
 // ------------------------------------------------------------------------------------------------
 
-namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure
+namespace uml4net.xmi.Extensions.EnterpriseArchitect.Structure
 {
     using System;
     using System.CodeDom.Compiler;
@@ -37,28 +37,8 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure
     /// </summary>
     [Class(xmiId: "EAID_8F4AA108_C56F_B0BD_9409_9E62F45635D4", isAbstract: false, isFinalSpecialization: false, isActive: false)]
     [GeneratedCode("uml4net.extension", "latest")]
-    public partial class Nesting : XmiElement, INesting
+    public partial class Nesting : INesting
     {
-        /// <summary>
-        /// The Comments owned by this Element.
-        /// </summary>
-        public IContainerList<IComment> OwnedComment { get; set; }
-
-        /// <summary>
-        /// The Elements owned by this Element.
-        /// </summary>
-        public IContainerList<CommonStructure.IElement> OwnedElement { get; }
-
-        /// <summary>
-        /// The Element that owns this Element.
-        /// </summary>
-        public CommonStructure.IElement Owner { get; }
-
-        /// <summary>
-        /// Gets or sets the container of this <see cref="IElement"/>
-        /// </summary>
-        public CommonStructure.IElement Possessor { get; set; }
-
         /// <summary>
         /// </summary>
         [Property(xmiId: "EAID_A60C94B0_92E5_846A_8760_B5C098B1B578", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]

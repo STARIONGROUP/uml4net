@@ -22,7 +22,7 @@
 // --------THIS IS AN AUTOMATICALLY GENERATED FILE. ANY MANUAL CHANGES WILL BE OVERWRITTEN!--------
 // ------------------------------------------------------------------------------------------------
 
-namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure.Readers
+namespace uml4net.xmi.Extensions.EnterpriseArchitect.Structure.Readers
 {
     using System;
     using System.CodeDom.Compiler;
@@ -34,7 +34,7 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure.Readers
 
     using uml4net;
     using uml4net.Extensions;
-    using uml4net.xmi.Extensions.EntrepriseArchitect.Structure;
+    using uml4net.xmi.Extensions.EnterpriseArchitect.Structure;
     using uml4net.xmi.Readers;
     using uml4net.xmi.Settings;
 
@@ -43,7 +43,7 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure.Readers
     /// from the XMI document
     /// </summary>
     [GeneratedCode("uml4net", "latest")]
-    public partial class ConnectorAppearanceReader : XmiElementReader<IConnectorAppearance>, IXmiElementReader<IConnectorAppearance>
+    public partial class ConnectorAppearanceReader : ExtensionContentReader<IConnectorAppearance>
     {
         /// <summary>
         /// The (injected) logger
@@ -53,13 +53,7 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure.Readers
         /// <summary>
         /// Initializes a new instance of the <see cref="ConnectorAppearanceReader"/> class.
         /// </summary>
-        /// <param name="cache">
-        /// The (injected) <see cref="IXmiElementCache"/>> in which each <see cref="IXmiElement"/>> is stored
-        /// </param>
-        /// <param name="xmiElementReaderFacade">
-        /// The (injected) <see cref="IXmiElementReaderFacade"/> used to resolve any
-        /// required <see cref="IXmiElementReader{T}"/>
-        /// </param>
+        /// <param name="extensionContentReaderFacade">The <see cref="IExtensionContentReaderFacade"/> that allow other <see cref="ExtensionContentReader{TContent}"/> read capabilities</param>
         /// <param name="xmiReaderSettings">
         /// The <see cref="IXmiReaderSettings"/> used to configure reading
         /// </param>
@@ -67,11 +61,12 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure.Readers
         /// The (injected) <see cref="INameSpaceResolver"/> used to resolve a namespace to one of the
         /// <see cref="KnowNamespacePrefixes"/>
         /// </param>
+        /// <param name="cache">The <see cref="IXmiElementCache"/> that provides cached <see cref="IXmiElement"/> retriveal</param>
         /// <param name="loggerFactory">
         /// The (injected) <see cref="ILoggerFactory"/> used to set up logging
         /// </param>
-        public ConnectorAppearanceReader(IXmiElementCache cache, IXmiElementReaderFacade xmiElementReaderFacade, IXmiReaderSettings xmiReaderSettings, INameSpaceResolver nameSpaceResolver, ILoggerFactory loggerFactory)
-        : base(cache, xmiElementReaderFacade, xmiReaderSettings, nameSpaceResolver, loggerFactory)
+        public ConnectorAppearanceReader(IExtensionContentReaderFacade extensionContentReaderFacade, IXmiReaderSettings xmiReaderSettings, INameSpaceResolver nameSpaceResolver, IXmiElementCache cache, ILoggerFactory loggerFactory)
+        : base(extensionContentReaderFacade, xmiReaderSettings, nameSpaceResolver, cache, loggerFactory)
         {
             this.logger = loggerFactory == null ? NullLogger<ConnectorAppearanceReader>.Instance : loggerFactory.CreateLogger<ConnectorAppearanceReader>();
         }
@@ -82,188 +77,78 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure.Readers
         /// <param name="xmlReader">
         /// an instance of <see cref="XmlReader"/>
         /// </param>
-        /// <param name="documentName">
-        /// The name of the document that contains the <see cref="IConnectorAppearance"/>
-        /// </param>
-        /// <param name="namespaceUri">
-        /// the namespace that the <see cref="IConnectorAppearance"/> belongs to
-        /// </param>
+        /// <param name="documentName">The name of the document that is currently read</param>
         /// <returns>
         /// an instance of <see cref="IConnectorAppearance"/>
         /// </returns>
-        public override IConnectorAppearance Read(XmlReader xmlReader, string documentName, string namespaceUri)
+        public override IConnectorAppearance Read(XmlReader xmlReader, string documentName)
         {
             if (xmlReader == null)
             {
                 throw new ArgumentNullException(nameof(xmlReader));
             }
 
-            if (string.IsNullOrEmpty(documentName))
-            {
-                throw new ArgumentException(nameof(documentName));
-            }
-
-            if (string.IsNullOrEmpty(namespaceUri))
-            {
-                throw new ArgumentException(nameof(namespaceUri));
-            }
-
             var xmlLineInfo = xmlReader as IXmlLineInfo;
 
-            IConnectorAppearance poco = new xmi.Extensions.EntrepriseArchitect.Structure.ConnectorAppearance();
+            IConnectorAppearance poco = new xmi.Extensions.EnterpriseArchitect.Structure.ConnectorAppearance();
 
             if (xmlReader.MoveToContent() == XmlNodeType.Element)
             {
                 this.logger.LogTrace("reading ConnectorAppearance at line:position {LineNumber}:{LinePosition}", xmlLineInfo?.LineNumber, xmlLineInfo?.LinePosition);
 
-                var xmiType = "ConnectorAppearance";
-
-                if (!string.IsNullOrEmpty(xmlReader.NamespaceURI))
+                var headStyleValue = xmlReader.GetAttribute("headStyle");
+                if (!string.IsNullOrWhiteSpace(headStyleValue))
                 {
-                    namespaceUri = xmlReader.NamespaceURI;
+                    poco.HeadStyle = int.Parse(headStyleValue);
                 }
 
-                poco.XmiType = xmiType;
-
-                var idRef = xmlReader.GetAttribute("xmi:idref");
-                poco.XmiId = $"Extension-{(string.IsNullOrEmpty(idRef) ? Guid.NewGuid() : idRef)}";
-
-                if (!string.IsNullOrEmpty(idRef))
+                var linecolorValue = xmlReader.GetAttribute("linecolor");
+                if (!string.IsNullOrWhiteSpace(linecolorValue))
                 {
-                    poco.SingleValueReferencePropertyIdentifiers.Add("extendedElement", $"{documentName}#{idRef}");
+                    poco.Linecolor = int.Parse(linecolorValue);
                 }
 
-                poco.XmiGuid = Guid.NewGuid().ToString();
-
-                poco.DocumentName = documentName;
-
-                poco.XmiNamespaceUri = namespaceUri;
-
-                if (!this.Cache.TryAdd(poco))
+                var linemodeValue = xmlReader.GetAttribute("linemode");
+                if (!string.IsNullOrWhiteSpace(linemodeValue))
                 {
-                    this.logger.LogCritical("Failed to add element type [{Poco}] with id [{Id}] as it was already in the Cache. The XMI document seems to have duplicate xmi:id values", "ConnectorAppearance", poco.XmiId);
+                    poco.Linemode = int.Parse(linemodeValue);
                 }
 
-                var headStyleXmlAttribute = xmlReader.GetAttribute("headStyle") ?? xmlReader.GetAttribute("headStyle", this.NameSpaceResolver.UmlNameSpace);
-
-                if (!string.IsNullOrWhiteSpace(headStyleXmlAttribute))
+                var lineStyleValue = xmlReader.GetAttribute("lineStyle");
+                if (!string.IsNullOrWhiteSpace(lineStyleValue))
                 {
-                    poco.HeadStyle = int.Parse(headStyleXmlAttribute);
+                    poco.LineStyle = int.Parse(lineStyleValue);
                 }
 
-                var linecolorXmlAttribute = xmlReader.GetAttribute("linecolor") ?? xmlReader.GetAttribute("linecolor", this.NameSpaceResolver.UmlNameSpace);
-
-                if (!string.IsNullOrWhiteSpace(linecolorXmlAttribute))
+                var linewidthValue = xmlReader.GetAttribute("linewidth");
+                if (!string.IsNullOrWhiteSpace(linewidthValue))
                 {
-                    poco.Linecolor = int.Parse(linecolorXmlAttribute);
+                    poco.Linewidth = int.Parse(linewidthValue);
                 }
 
-                var linemodeXmlAttribute = xmlReader.GetAttribute("linemode") ?? xmlReader.GetAttribute("linemode", this.NameSpaceResolver.UmlNameSpace);
-
-                if (!string.IsNullOrWhiteSpace(linemodeXmlAttribute))
+                var seqnoValue = xmlReader.GetAttribute("seqno");
+                if (!string.IsNullOrWhiteSpace(seqnoValue))
                 {
-                    poco.Linemode = int.Parse(linemodeXmlAttribute);
+                    poco.Seqno = int.Parse(seqnoValue);
                 }
 
-                var lineStyleXmlAttribute = xmlReader.GetAttribute("lineStyle") ?? xmlReader.GetAttribute("lineStyle", this.NameSpaceResolver.UmlNameSpace);
-
-                if (!string.IsNullOrWhiteSpace(lineStyleXmlAttribute))
-                {
-                    poco.LineStyle = int.Parse(lineStyleXmlAttribute);
-                }
-
-                var linewidthXmlAttribute = xmlReader.GetAttribute("linewidth") ?? xmlReader.GetAttribute("linewidth", this.NameSpaceResolver.UmlNameSpace);
-
-                if (!string.IsNullOrWhiteSpace(linewidthXmlAttribute))
-                {
-                    poco.Linewidth = int.Parse(linewidthXmlAttribute);
-                }
-
-                var seqnoXmlAttribute = xmlReader.GetAttribute("seqno") ?? xmlReader.GetAttribute("seqno", this.NameSpaceResolver.UmlNameSpace);
-
-                if (!string.IsNullOrWhiteSpace(seqnoXmlAttribute))
-                {
-                    poco.Seqno = int.Parse(seqnoXmlAttribute);
-                }
 
 
                 while (xmlReader.Read())
                 {
                     if (xmlReader.NodeType == XmlNodeType.Element)
                     {
-                        switch (xmlReader.LocalName.LowerCaseFirstLetter())
+                        switch (xmlReader.LocalName)
                         {
-                            case "headStyle":
-                                var headStyleValue = xmlReader.ReadElementContentAsString();
-
-                                if (!string.IsNullOrWhiteSpace(headStyleValue))
-                                {
-                                    poco.HeadStyle = int.Parse(headStyleValue);
-                                }
-
-                                break;
-                            case "linecolor":
-                                var linecolorValue = xmlReader.ReadElementContentAsString();
-
-                                if (!string.IsNullOrWhiteSpace(linecolorValue))
-                                {
-                                    poco.Linecolor = int.Parse(linecolorValue);
-                                }
-
-                                break;
-                            case "linemode":
-                                var linemodeValue = xmlReader.ReadElementContentAsString();
-
-                                if (!string.IsNullOrWhiteSpace(linemodeValue))
-                                {
-                                    poco.Linemode = int.Parse(linemodeValue);
-                                }
-
-                                break;
-                            case "lineStyle":
-                                var lineStyleValue = xmlReader.ReadElementContentAsString();
-
-                                if (!string.IsNullOrWhiteSpace(lineStyleValue))
-                                {
-                                    poco.LineStyle = int.Parse(lineStyleValue);
-                                }
-
-                                break;
-                            case "linewidth":
-                                var linewidthValue = xmlReader.ReadElementContentAsString();
-
-                                if (!string.IsNullOrWhiteSpace(linewidthValue))
-                                {
-                                    poco.Linewidth = int.Parse(linewidthValue);
-                                }
-
-                                break;
-                            case "seqno":
-                                var seqnoValue = xmlReader.ReadElementContentAsString();
-
-                                if (!string.IsNullOrWhiteSpace(seqnoValue))
-                                {
-                                    poco.Seqno = int.Parse(seqnoValue);
-                                }
-
-                                break;
                             default:
-                                var couldHandleReadElement = this.HandleManualXmlRead(poco, xmlReader, documentName, namespaceUri);
-
-                                if (couldHandleReadElement)
-                                {
-                                    break;
-                                }
-
                                 if (this.XmiReaderSettings.UseStrictReading)
                                 {
-                                    throw new NotSupportedException($"ConnectorAppearanceReader: {xmlReader.LocalName} at line:position {xmlLineInfo.LineNumber}:{xmlLineInfo.LinePosition}");
+                                    throw new NotSupportedException($"ConnectorAppearanceReader: {xmlReader.LocalName} at line:position {xmlLineInfo?.LineNumber}:{xmlLineInfo.LinePosition}");
                                 }
                                 else
                                 {
-                                    this.logger.LogWarning("Not Supported: ConnectorAppearanceReader: {LocalName} at line:position {LineNumber}:{LinePosition}", xmlReader.LocalName, xmlLineInfo.LineNumber, xmlLineInfo.LinePosition);
+                                    this.logger.LogWarning("Not Supported: ConnectorAppearanceReader: {LocalName} at line:position {LineNumber}:{LinePosition}", xmlReader.LocalName, xmlLineInfo?.LineNumber, xmlLineInfo?.LinePosition);
                                 }
-
                                 break;
                         }
                     }

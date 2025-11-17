@@ -20,18 +20,16 @@
 
 namespace uml4net.Reporting.Generators
 {
-    using System.IO;
-
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Logging.Abstractions;
-
     using System;
     using System.Collections.Generic;
+    using System.IO;
    
     using uml4net.Packages;
     using uml4net.xmi;
-    using uml4net.xmi.Extensions.EnterpriseArchitect.Readers;
-    using uml4net.xmi.Extensions.EntrepriseArchitect.Structure.Readers;
+    using uml4net.xmi.Extensions.EnterpriseArchitect.Extender;
+    using uml4net.xmi.Extensions.EnterpriseArchitect.Structure.Readers;
     using uml4net.xmi.Readers;
 
     /// <summary>
@@ -61,11 +59,6 @@ namespace uml4net.Reporting.Generators
 
             this.logger = this.loggerFactory == null ? NullLogger<ReportGenerator>.Instance : this.loggerFactory.CreateLogger<ReportGenerator>();
         }
-
-        /// <summary>
-        /// Gets or sets the assert that the <see cref="EnterpriseArchitectXmiReader"/> should be used
-        /// </summary>
-        public bool ShouldUseEnterpriseArchitectReader { get; set; }
 
         /// <summary>
         /// Verifies whether the extension of the <paramref name="outputPath"/> is valid or not
@@ -122,11 +115,8 @@ namespace uml4net.Reporting.Generators
                 })
                 .WithLogger(this.loggerFactory);
 
-            if (this.ShouldUseEnterpriseArchitectReader)
-            {
-                readerBuilder.WithReader<EnterpriseArchitectXmiReader>();
-                readerBuilder.WithFacade<XmiElementExtensionReaderFacade>();
-            }
+            readerBuilder.WithExtender<EnterpriseArchitectExtenderReader>();
+            readerBuilder.WithExtensionContentReaderFacade<ExtensionContentReaderFacade>();
 
             using var reader = readerBuilder.Build();
             return reader.Read(modelPath.FullName);

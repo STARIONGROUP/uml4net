@@ -22,7 +22,7 @@
 // --------THIS IS AN AUTOMATICALLY GENERATED FILE. ANY MANUAL CHANGES WILL BE OVERWRITTEN!--------
 // ------------------------------------------------------------------------------------------------
 
-namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure
+namespace uml4net.xmi.Extensions.EnterpriseArchitect.Structure
 {
     using System;
     using System.CodeDom.Compiler;
@@ -37,28 +37,8 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure
     /// </summary>
     [Class(xmiId: "EAID_97090DDE_7720_AD5E_AE7A_D9AFDC854C9C", isAbstract: false, isFinalSpecialization: false, isActive: false)]
     [GeneratedCode("uml4net.extension", "latest")]
-    public partial class Path : XmiElement, IPath
+    public partial class Path : IPath
     {
-        /// <summary>
-        /// The Comments owned by this Element.
-        /// </summary>
-        public IContainerList<IComment> OwnedComment { get; set; }
-
-        /// <summary>
-        /// The Elements owned by this Element.
-        /// </summary>
-        public IContainerList<CommonStructure.IElement> OwnedElement { get; }
-
-        /// <summary>
-        /// The Element that owns this Element.
-        /// </summary>
-        public CommonStructure.IElement Owner { get; }
-
-        /// <summary>
-        /// Gets or sets the container of this <see cref="IElement"/>
-        /// </summary>
-        public CommonStructure.IElement Possessor { get; set; }
-
     }
 }
 

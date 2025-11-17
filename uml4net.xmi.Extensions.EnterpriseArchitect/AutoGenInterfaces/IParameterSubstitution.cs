@@ -22,7 +22,7 @@
 // --------THIS IS AN AUTOMATICALLY GENERATED FILE. ANY MANUAL CHANGES WILL BE OVERWRITTEN!--------
 // ------------------------------------------------------------------------------------------------
 
-namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure
+namespace uml4net.xmi.Extensions.EnterpriseArchitect.Structure
 {
     using System.CodeDom.Compiler;
     using System.Collections.Generic;
@@ -47,7 +47,7 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure
     /// </summary>
     [Class(xmiId: "EAID_B65B5DC9_F4C0_4ffa_823A_C007001FF08E", isAbstract: false, isFinalSpecialization: false, isActive: false)]
     [GeneratedCode("uml4net", "latest")]
-    public partial interface IParameterSubstitution : IElementReference, uml4net.CommonStructure.IElement
+    public partial interface IParameterSubstitution : IElementReference
     {
         /// <summary>
         /// </summary>
@@ -71,8 +71,8 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure
 
         /// <summary>
         /// </summary>
-        [Property(xmiId: "EAID_src895EB4_1EB4_494f_879E_FDD25E0950DA", aggregation: AggregationKind.Composite, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
-        public IContainerList<IXrefs> Xrefs { get; set; }
+        [Property(xmiId: "EAID_dst664DEA_30CC_4ebc_9866_DC70B318DFC0", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        public IXrefs Xrefs { get; set; }
     }
 }
 

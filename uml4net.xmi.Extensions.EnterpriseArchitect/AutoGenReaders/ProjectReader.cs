@@ -22,7 +22,7 @@
 // --------THIS IS AN AUTOMATICALLY GENERATED FILE. ANY MANUAL CHANGES WILL BE OVERWRITTEN!--------
 // ------------------------------------------------------------------------------------------------
 
-namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure.Readers
+namespace uml4net.xmi.Extensions.EnterpriseArchitect.Structure.Readers
 {
     using System;
     using System.CodeDom.Compiler;
@@ -34,7 +34,7 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure.Readers
 
     using uml4net;
     using uml4net.Extensions;
-    using uml4net.xmi.Extensions.EntrepriseArchitect.Structure;
+    using uml4net.xmi.Extensions.EnterpriseArchitect.Structure;
     using uml4net.xmi.Readers;
     using uml4net.xmi.Settings;
 
@@ -43,7 +43,7 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure.Readers
     /// from the XMI document
     /// </summary>
     [GeneratedCode("uml4net", "latest")]
-    public partial class ProjectReader : XmiElementReader<IProject>, IXmiElementReader<IProject>
+    public partial class ProjectReader : ExtensionContentReader<IProject>
     {
         /// <summary>
         /// The (injected) logger
@@ -53,13 +53,7 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure.Readers
         /// <summary>
         /// Initializes a new instance of the <see cref="ProjectReader"/> class.
         /// </summary>
-        /// <param name="cache">
-        /// The (injected) <see cref="IXmiElementCache"/>> in which each <see cref="IXmiElement"/>> is stored
-        /// </param>
-        /// <param name="xmiElementReaderFacade">
-        /// The (injected) <see cref="IXmiElementReaderFacade"/> used to resolve any
-        /// required <see cref="IXmiElementReader{T}"/>
-        /// </param>
+        /// <param name="extensionContentReaderFacade">The <see cref="IExtensionContentReaderFacade"/> that allow other <see cref="ExtensionContentReader{TContent}"/> read capabilities</param>
         /// <param name="xmiReaderSettings">
         /// The <see cref="IXmiReaderSettings"/> used to configure reading
         /// </param>
@@ -67,11 +61,12 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure.Readers
         /// The (injected) <see cref="INameSpaceResolver"/> used to resolve a namespace to one of the
         /// <see cref="KnowNamespacePrefixes"/>
         /// </param>
+        /// <param name="cache">The <see cref="IXmiElementCache"/> that provides cached <see cref="IXmiElement"/> retriveal</param>
         /// <param name="loggerFactory">
         /// The (injected) <see cref="ILoggerFactory"/> used to set up logging
         /// </param>
-        public ProjectReader(IXmiElementCache cache, IXmiElementReaderFacade xmiElementReaderFacade, IXmiReaderSettings xmiReaderSettings, INameSpaceResolver nameSpaceResolver, ILoggerFactory loggerFactory)
-        : base(cache, xmiElementReaderFacade, xmiReaderSettings, nameSpaceResolver, loggerFactory)
+        public ProjectReader(IExtensionContentReaderFacade extensionContentReaderFacade, IXmiReaderSettings xmiReaderSettings, INameSpaceResolver nameSpaceResolver, IXmiElementCache cache, ILoggerFactory loggerFactory)
+        : base(extensionContentReaderFacade, xmiReaderSettings, nameSpaceResolver, cache, loggerFactory)
         {
             this.logger = loggerFactory == null ? NullLogger<ProjectReader>.Instance : loggerFactory.CreateLogger<ProjectReader>();
         }
@@ -82,149 +77,64 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure.Readers
         /// <param name="xmlReader">
         /// an instance of <see cref="XmlReader"/>
         /// </param>
-        /// <param name="documentName">
-        /// The name of the document that contains the <see cref="IProject"/>
-        /// </param>
-        /// <param name="namespaceUri">
-        /// the namespace that the <see cref="IProject"/> belongs to
-        /// </param>
+        /// <param name="documentName">The name of the document that is currently read</param>
         /// <returns>
         /// an instance of <see cref="IProject"/>
         /// </returns>
-        public override IProject Read(XmlReader xmlReader, string documentName, string namespaceUri)
+        public override IProject Read(XmlReader xmlReader, string documentName)
         {
             if (xmlReader == null)
             {
                 throw new ArgumentNullException(nameof(xmlReader));
             }
 
-            if (string.IsNullOrEmpty(documentName))
-            {
-                throw new ArgumentException(nameof(documentName));
-            }
-
-            if (string.IsNullOrEmpty(namespaceUri))
-            {
-                throw new ArgumentException(nameof(namespaceUri));
-            }
-
             var xmlLineInfo = xmlReader as IXmlLineInfo;
 
-            IProject poco = new xmi.Extensions.EntrepriseArchitect.Structure.Project();
+            IProject poco = new xmi.Extensions.EnterpriseArchitect.Structure.Project();
 
             if (xmlReader.MoveToContent() == XmlNodeType.Element)
             {
                 this.logger.LogTrace("reading Project at line:position {LineNumber}:{LinePosition}", xmlLineInfo?.LineNumber, xmlLineInfo?.LinePosition);
 
-                var xmiType = "Project";
-
-                if (!string.IsNullOrEmpty(xmlReader.NamespaceURI))
+                var authorValue = xmlReader.GetAttribute("author");
+                poco.Author = authorValue;
+                var complexityValue = xmlReader.GetAttribute("complexity");
+                if (!string.IsNullOrWhiteSpace(complexityValue))
                 {
-                    namespaceUri = xmlReader.NamespaceURI;
+                    poco.Complexity = int.Parse(complexityValue);
                 }
 
-                poco.XmiType = xmiType;
-
-                var idRef = xmlReader.GetAttribute("xmi:idref");
-                poco.XmiId = $"Extension-{(string.IsNullOrEmpty(idRef) ? Guid.NewGuid() : idRef)}";
-
-                if (!string.IsNullOrEmpty(idRef))
+                var createdValue = xmlReader.GetAttribute("created");
+                poco.Created = createdValue;
+                var modifiedValue = xmlReader.GetAttribute("modified");
+                poco.Modified = modifiedValue;
+                var phaseValue = xmlReader.GetAttribute("phase");
+                poco.Phase = phaseValue;
+                var statusValue = xmlReader.GetAttribute("status");
+                if (!string.IsNullOrWhiteSpace(statusValue))
                 {
-                    poco.SingleValueReferencePropertyIdentifiers.Add("extendedElement", $"{documentName}#{idRef}");
+                    poco.Status = (Status)Enum.Parse(typeof(Status), statusValue);
                 }
 
-                poco.XmiGuid = Guid.NewGuid().ToString();
-
-                poco.DocumentName = documentName;
-
-                poco.XmiNamespaceUri = namespaceUri;
-
-                if (!this.Cache.TryAdd(poco))
-                {
-                    this.logger.LogCritical("Failed to add element type [{Poco}] with id [{Id}] as it was already in the Cache. The XMI document seems to have duplicate xmi:id values", "Project", poco.XmiId);
-                }
-
-                poco.Author = xmlReader.GetAttribute("author") ?? xmlReader.GetAttribute("author", this.NameSpaceResolver.UmlNameSpace);
-
-                var complexityXmlAttribute = xmlReader.GetAttribute("complexity") ?? xmlReader.GetAttribute("complexity", this.NameSpaceResolver.UmlNameSpace);
-
-                if (!string.IsNullOrWhiteSpace(complexityXmlAttribute))
-                {
-                    poco.Complexity = int.Parse(complexityXmlAttribute);
-                }
-
-                poco.Created = xmlReader.GetAttribute("created") ?? xmlReader.GetAttribute("created", this.NameSpaceResolver.UmlNameSpace);
-
-                poco.Modified = xmlReader.GetAttribute("modified") ?? xmlReader.GetAttribute("modified", this.NameSpaceResolver.UmlNameSpace);
-
-                poco.Phase = xmlReader.GetAttribute("phase") ?? xmlReader.GetAttribute("phase", this.NameSpaceResolver.UmlNameSpace);
-
-                var statusXmlAttribute = xmlReader.GetAttribute("status") ?? xmlReader.GetAttribute("status", this.NameSpaceResolver.UmlNameSpace);
-
-                if (!string.IsNullOrWhiteSpace(statusXmlAttribute))
-                {
-                    poco.Status = (Status)Enum.Parse(typeof(Status), statusXmlAttribute, true);
-                }
-
-                poco.Version = xmlReader.GetAttribute("version") ?? xmlReader.GetAttribute("version", this.NameSpaceResolver.UmlNameSpace);
+                var versionValue = xmlReader.GetAttribute("version");
+                poco.Version = versionValue;
 
 
                 while (xmlReader.Read())
                 {
                     if (xmlReader.NodeType == XmlNodeType.Element)
                     {
-                        switch (xmlReader.LocalName.LowerCaseFirstLetter())
+                        switch (xmlReader.LocalName)
                         {
-                            case "author":
-                                poco.Author = xmlReader.ReadElementContentAsString();
-                                break;
-                            case "complexity":
-                                var complexityValue = xmlReader.ReadElementContentAsString();
-
-                                if (!string.IsNullOrWhiteSpace(complexityValue))
-                                {
-                                    poco.Complexity = int.Parse(complexityValue);
-                                }
-
-                                break;
-                            case "created":
-                                poco.Created = xmlReader.ReadElementContentAsString();
-                                break;
-                            case "modified":
-                                poco.Modified = xmlReader.ReadElementContentAsString();
-                                break;
-                            case "phase":
-                                poco.Phase = xmlReader.ReadElementContentAsString();
-                                break;
-                            case "status":
-                                var statusValue = xmlReader.ReadElementContentAsString();
-
-                                if (!string.IsNullOrWhiteSpace(statusValue))
-                                {
-                                    poco.Status = (Status)Enum.Parse(typeof(Status), statusValue, true);
-                                }
-
-                                break;
-                            case "version":
-                                poco.Version = xmlReader.ReadElementContentAsString();
-                                break;
                             default:
-                                var couldHandleReadElement = this.HandleManualXmlRead(poco, xmlReader, documentName, namespaceUri);
-
-                                if (couldHandleReadElement)
-                                {
-                                    break;
-                                }
-
                                 if (this.XmiReaderSettings.UseStrictReading)
                                 {
-                                    throw new NotSupportedException($"ProjectReader: {xmlReader.LocalName} at line:position {xmlLineInfo.LineNumber}:{xmlLineInfo.LinePosition}");
+                                    throw new NotSupportedException($"ProjectReader: {xmlReader.LocalName} at line:position {xmlLineInfo?.LineNumber}:{xmlLineInfo.LinePosition}");
                                 }
                                 else
                                 {
-                                    this.logger.LogWarning("Not Supported: ProjectReader: {LocalName} at line:position {LineNumber}:{LinePosition}", xmlReader.LocalName, xmlLineInfo.LineNumber, xmlLineInfo.LinePosition);
+                                    this.logger.LogWarning("Not Supported: ProjectReader: {LocalName} at line:position {LineNumber}:{LinePosition}", xmlReader.LocalName, xmlLineInfo?.LineNumber, xmlLineInfo?.LinePosition);
                                 }
-
                                 break;
                         }
                     }

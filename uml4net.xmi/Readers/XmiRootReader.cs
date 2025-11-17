@@ -20,12 +20,11 @@
 
 namespace uml4net.xmi.Readers
 {
-    using System;
-    using System.Xml;
-
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Logging.Abstractions;
-
+    using System;
+    using System.Xml;
+    using Extender;
     using uml4net.xmi.Settings;
     using uml4net.xmi.Xmi;
 
@@ -58,6 +57,11 @@ namespace uml4net.xmi.Readers
         private readonly INameSpaceResolver nameSpaceResolver;
 
         /// <summary>
+        /// The injected <see cref="IExtenderReaderRegistry"/> that provides <see cref="IExtenderReader"/> resolve
+        /// </summary>
+        private readonly IExtenderReaderRegistry extenderReaderRegistry;
+
+        /// <summary>
         /// The <see cref="ILoggerFactory"/> used to set up logging
         /// </summary>
         private readonly ILoggerFactory loggerFactory;
@@ -84,15 +88,17 @@ namespace uml4net.xmi.Readers
         /// The (injected) <see cref="INameSpaceResolver"/> used to resolve a namespace to one of the
         /// <see cref="KnowNamespacePrefixes"/> constants
         /// </param>
+        /// <param name="extenderReaderRegistry">The injected <see cref="IExtenderReaderRegistry"/> that provides <see cref="IExtenderReader"/> resolve</param>
         /// <param name="loggerFactory">
         /// The (injected) <see cref="ILoggerFactory"/> used to set up logging
         /// </param>
-        public XmiRootReader(IXmiElementCache cache, IXmiElementReaderFacade xmiElementReaderFacade, IXmiReaderSettings xmiReaderSettings, INameSpaceResolver nameSpaceResolver, ILoggerFactory loggerFactory)
+        public XmiRootReader(IXmiElementCache cache, IXmiElementReaderFacade xmiElementReaderFacade, IXmiReaderSettings xmiReaderSettings, INameSpaceResolver nameSpaceResolver, IExtenderReaderRegistry extenderReaderRegistry, ILoggerFactory loggerFactory)
         {
             this.cache = cache;
             this.xmiElementReaderFacade = xmiElementReaderFacade;
             this.xmiReaderSettings = xmiReaderSettings;
             this.nameSpaceResolver = nameSpaceResolver;
+            this.extenderReaderRegistry = extenderReaderRegistry;
             this.loggerFactory = loggerFactory;
             this.logger = loggerFactory == null ? NullLogger<XmiRootReader>.Instance : loggerFactory.CreateLogger<XmiRootReader>();
         }
@@ -146,10 +152,14 @@ namespace uml4net.xmi.Readers
 
                         switch (activeNameSpace, xmlReader.LocalName)
                         {
-                            case ( KnowNamespacePrefixes.Xmi, "extension"):
+                            case (KnowNamespacePrefixes.Xmi, "extension"):
                             case (KnowNamespacePrefixes.Xmi, "Extension"):
-                                this.logger.LogInformation("Extensions elements contained in the XmiRoot Element are currently ignored - line:position {Line}:{Position}", xmlLineInfo?.LineNumber, xmlLineInfo?.LinePosition);
-                                xmlReader.Skip();
+                                {
+                                    using var xmiExtensionXmlReader = xmlReader.ReadSubtree();
+                                    var xmiExtensionReader = new XmiExtensionReader(this.xmiReaderSettings, this.nameSpaceResolver, this.extenderReaderRegistry, this.loggerFactory);
+                                    xmiRoot.Extensions.Add(xmiExtensionReader.Read(xmiExtensionXmlReader, documentName, namespaceUri));
+                                }
+                                
                                 break;
                             case (KnowNamespacePrefixes.Xmi, "difference"):
                             case (KnowNamespacePrefixes.Xmi, "Difference"):
@@ -170,7 +180,7 @@ namespace uml4net.xmi.Readers
                             case (KnowNamespacePrefixes.Uml, _):
                                 this.logger.LogTrace("reading at line:position {LineNumber}:{LinePosition}", xmlLineInfo?.LineNumber, xmlLineInfo?.LinePosition);
                                 var explicitTypeName = $"uml:{xmlReader.LocalName}";
-                                var xmiElement = this.xmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, xmlReader.NamespaceURI, this.cache, this.xmiReaderSettings, this.nameSpaceResolver, this.loggerFactory, explicitTypeName);
+                                var xmiElement = this.xmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, xmlReader.NamespaceURI, this.cache, this.xmiReaderSettings, this.nameSpaceResolver, this.extenderReaderRegistry, this.loggerFactory, explicitTypeName);
                                 xmiRoot.Content.Add(xmiElement);
                                 break;
                             case (KnowNamespacePrefixes.StandardProfile, _):

@@ -22,7 +22,7 @@
 // --------THIS IS AN AUTOMATICALLY GENERATED FILE. ANY MANUAL CHANGES WILL BE OVERWRITTEN!--------
 // ------------------------------------------------------------------------------------------------
 
-namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure
+namespace uml4net.xmi.Extensions.EnterpriseArchitect.Structure
 {
     using System;
     using System.CodeDom.Compiler;
@@ -37,57 +37,19 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure
     /// </summary>
     [Class(xmiId: "EAID_82D87274_FF2E_BDC4_BB27_B53181643B13", isAbstract: false, isFinalSpecialization: false, isActive: false)]
     [GeneratedCode("uml4net.extension", "latest")]
-    public partial class Element : XmiElement, IElement
+    public partial class Element : IElement
     {
         /// <summary>
-        /// The Comments owned by this Element.
         /// </summary>
-        public IContainerList<IComment> OwnedComment { get; set; }
-
-        /// <summary>
-        /// The Elements owned by this Element.
-        /// </summary>
-        public IContainerList<CommonStructure.IElement> OwnedElement { get; }
-
-        /// <summary>
-        /// The Element that owns this Element.
-        /// </summary>
-        public CommonStructure.IElement Owner { get; }
-
-        /// <summary>
-        /// Gets or sets the container of this <see cref="IElement"/>
-        /// </summary>
-        public CommonStructure.IElement Possessor { get; set; }
-
-        /// <summary>
-        /// </summary>
-        [Property(xmiId: "EAID_srcFB13EF_6F86_4b26_8575_254200A6DEBF", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "EAID_srcFB13EF_6F86_4b26_8575_254200A6DEBF", aggregation: AggregationKind.Shared, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [Implements(implementation: "IElement.Attributes")]
-        public IContainerList<IAttributesCollection> Attributes
-        {
-            get => this.attributes ??= new ContainerList<IAttributesCollection>(this);
-            set => this.attributes = value;
-        }
-
-        /// <summary>
-        /// Backing field for <see cref="Attributes"/>
-        /// </summary>
-        private IContainerList<IAttributesCollection> attributes;
+        public List<IAttribute> Attributes { get; set; } = new();
 
         /// <summary>
         /// </summary>
-        [Property(xmiId: "EAID_src219605_045E_4605_ACE3_DEB203358D6F", aggregation: AggregationKind.Composite, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "EAID_dst304E53_23CA_4582_AFFB_E75F8D867890", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [Implements(implementation: "IElement.Code")]
-        public IContainerList<ICode> Code
-        {
-            get => this.code ??= new ContainerList<ICode>(this);
-            set => this.code = value;
-        }
-
-        /// <summary>
-        /// Backing field for <see cref="Code"/>
-        /// </summary>
-        private IContainerList<ICode> code;
+        public ICode Code { get; set; }
 
         /// <summary>
         /// </summary>
@@ -97,63 +59,27 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure
 
         /// <summary>
         /// </summary>
-        [Property(xmiId: "EAID_srcABC002_61B8_84B7_A09C_690662236345", aggregation: AggregationKind.Composite, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "EAID_dst480030_0BC2_40fd_8766_854E8C7A5249", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [Implements(implementation: "IElement.ExtendedProperties")]
-        public IContainerList<IExtendedProperties> ExtendedProperties
-        {
-            get => this.extendedProperties ??= new ContainerList<IExtendedProperties>(this);
-            set => this.extendedProperties = value;
-        }
-
-        /// <summary>
-        /// Backing field for <see cref="ExtendedProperties"/>
-        /// </summary>
-        private IContainerList<IExtendedProperties> extendedProperties;
+        public IExtendedProperties ExtendedProperties { get; set; }
 
         /// <summary>
         /// </summary>
-        [Property(xmiId: "EAID_src022177_9894_FD6B_8100_AA14F84A9D67", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "EAID_dst9B0CF5_4300_4160_9767_F0AC68C46A6A", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [Implements(implementation: "IElement.Flags")]
-        public IContainerList<IFlags> Flags
-        {
-            get => this.flags ??= new ContainerList<IFlags>(this);
-            set => this.flags = value;
-        }
-
-        /// <summary>
-        /// Backing field for <see cref="Flags"/>
-        /// </summary>
-        private IContainerList<IFlags> flags;
+        public IFlags Flags { get; set; }
 
         /// <summary>
         /// </summary>
-        [Property(xmiId: "EAID_src296286_E45E_47a2_A95E_850F51FB28EC", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "EAID_srcD6C61F_DECE_464f_A46E_D99E60EE87E1", aggregation: AggregationKind.Shared, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [Implements(implementation: "IElement.Links")]
-        public IContainerList<ILinksCollection> Links
-        {
-            get => this.links ??= new ContainerList<ILinksCollection>(this);
-            set => this.links = value;
-        }
-
-        /// <summary>
-        /// Backing field for <see cref="Links"/>
-        /// </summary>
-        private IContainerList<ILinksCollection> links;
+        public List<ILink> Links { get; set; } = new();
 
         /// <summary>
         /// </summary>
-        [Property(xmiId: "EAID_srcE7F2A0_AFE4_38DD_ACD0_C51ACA4C9A0E", aggregation: AggregationKind.Composite, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "EAID_dst3D94E9_3148_4281_BBE8_DD654F8025B4", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [Implements(implementation: "IElement.Model")]
-        public IContainerList<IModel> Model
-        {
-            get => this.model ??= new ContainerList<IModel>(this);
-            set => this.model = value;
-        }
-
-        /// <summary>
-        /// Backing field for <see cref="Model"/>
-        /// </summary>
-        private IContainerList<IModel> model;
+        public IModel Model { get; set; }
 
         /// <summary>
         /// </summary>
@@ -163,78 +89,33 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure
 
         /// <summary>
         /// </summary>
-        [Property(xmiId: "EAID_src0190FB_C450_4753_9D96_D753A47A938C", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "EAID_src0190FB_C450_4753_9D96_D753A47A938C", aggregation: AggregationKind.Shared, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [Implements(implementation: "IElement.Operations")]
-        public IContainerList<IOperations> Operations
-        {
-            get => this.operations ??= new ContainerList<IOperations>(this);
-            set => this.operations = value;
-        }
-
-        /// <summary>
-        /// Backing field for <see cref="Operations"/>
-        /// </summary>
-        private IContainerList<IOperations> operations;
+        public List<IOperation> Operations { get; set; } = new();
 
         /// <summary>
         /// </summary>
-        [Property(xmiId: "EAID_src024073_CC9E_3F8B_8105_B55861903707", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "EAID_dstCA925D_1586_4f1a_BCC3_1339062E56E6", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [Implements(implementation: "IElement.Packageproperties")]
-        public IContainerList<IPackageProperties> Packageproperties
-        {
-            get => this.packageproperties ??= new ContainerList<IPackageProperties>(this);
-            set => this.packageproperties = value;
-        }
-
-        /// <summary>
-        /// Backing field for <see cref="Packageproperties"/>
-        /// </summary>
-        private IContainerList<IPackageProperties> packageproperties;
+        public IPackageProperties Packageproperties { get; set; }
 
         /// <summary>
         /// </summary>
-        [Property(xmiId: "EAID_src169A19_16E7_40cc_B4F5_304A9694039A", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "EAID_src5F83C7_DC08_48bb_A217_C957D9403925", aggregation: AggregationKind.Shared, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [Implements(implementation: "IElement.Paths")]
-        public IContainerList<IPaths> Paths
-        {
-            get => this.paths ??= new ContainerList<IPaths>(this);
-            set => this.paths = value;
-        }
-
-        /// <summary>
-        /// Backing field for <see cref="Paths"/>
-        /// </summary>
-        private IContainerList<IPaths> paths;
+        public List<IPath> Paths { get; set; } = new();
 
         /// <summary>
         /// </summary>
-        [Property(xmiId: "EAID_src9E8012_0CF1_807A_84A2_EDD1927A3348", aggregation: AggregationKind.Composite, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "EAID_dstECD2A0_E810_4a8e_B871_CDEB518FEFE6", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [Implements(implementation: "IElement.Project")]
-        public IContainerList<IProject> Project
-        {
-            get => this.project ??= new ContainerList<IProject>(this);
-            set => this.project = value;
-        }
-
-        /// <summary>
-        /// Backing field for <see cref="Project"/>
-        /// </summary>
-        private IContainerList<IProject> project;
+        public IProject Project { get; set; }
 
         /// <summary>
         /// </summary>
-        [Property(xmiId: "EAID_src5633FA_CEB0_1407_AE1D_25C10B9F654B", aggregation: AggregationKind.Composite, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "EAID_dst836134_24AA_4c56_B6F0_A1F9A6CB3E60", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [Implements(implementation: "IElement.Properties")]
-        public IContainerList<IElementProperties> Properties
-        {
-            get => this.properties ??= new ContainerList<IElementProperties>(this);
-            set => this.properties = value;
-        }
-
-        /// <summary>
-        /// Backing field for <see cref="Properties"/>
-        /// </summary>
-        private IContainerList<IElementProperties> properties;
+        public IElementProperties Properties { get; set; }
 
         /// <summary>
         /// </summary>
@@ -244,78 +125,33 @@ namespace uml4net.xmi.Extensions.EntrepriseArchitect.Structure
 
         /// <summary>
         /// </summary>
-        [Property(xmiId: "EAID_srcE6AF01_AA38_E470_A20E_73170E49ACD1", aggregation: AggregationKind.Composite, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "EAID_dstB766CB_26E9_4f63_BC14_997AA16FA576", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [Implements(implementation: "IElement.Style")]
-        public IContainerList<IAppearanceStyle> Style
-        {
-            get => this.style ??= new ContainerList<IAppearanceStyle>(this);
-            set => this.style = value;
-        }
-
-        /// <summary>
-        /// Backing field for <see cref="Style"/>
-        /// </summary>
-        private IContainerList<IAppearanceStyle> style;
+        public IAppearanceStyle Style { get; set; }
 
         /// <summary>
         /// </summary>
-        [Property(xmiId: "EAID_srcEF615B_21A6_4929_AA2D_ECB583792236", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "EAID_srcF0988F_3B4F_4db7_890E_F96F32C4DC24", aggregation: AggregationKind.Shared, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [Implements(implementation: "IElement.Tags")]
-        public IContainerList<ITagsCollection> Tags
-        {
-            get => this.tags ??= new ContainerList<ITagsCollection>(this);
-            set => this.tags = value;
-        }
-
-        /// <summary>
-        /// Backing field for <see cref="Tags"/>
-        /// </summary>
-        private IContainerList<ITagsCollection> tags;
+        public List<ITag> Tags { get; set; } = new();
 
         /// <summary>
         /// </summary>
-        [Property(xmiId: "EAID_src50F7AD_5DFF_40c4_B473_232336BF3E8D", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "EAID_src50F7AD_5DFF_40c4_B473_232336BF3E8D", aggregation: AggregationKind.Shared, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [Implements(implementation: "IElement.TemplateParameters")]
-        public IContainerList<ITemplateParametersCollection> TemplateParameters
-        {
-            get => this.templateParameters ??= new ContainerList<ITemplateParametersCollection>(this);
-            set => this.templateParameters = value;
-        }
-
-        /// <summary>
-        /// Backing field for <see cref="TemplateParameters"/>
-        /// </summary>
-        private IContainerList<ITemplateParametersCollection> templateParameters;
+        public List<IParameter> TemplateParameters { get; set; } = new();
 
         /// <summary>
         /// </summary>
-        [Property(xmiId: "EAID_src423E98_7EFC_50D3_B556_5D67372DBB7E", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "EAID_dst3B33EA_B85C_40d4_90C6_B04628F6286B", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [Implements(implementation: "IElement.Times")]
-        public IContainerList<ITimes> Times
-        {
-            get => this.times ??= new ContainerList<ITimes>(this);
-            set => this.times = value;
-        }
-
-        /// <summary>
-        /// Backing field for <see cref="Times"/>
-        /// </summary>
-        private IContainerList<ITimes> times;
+        public ITimes Times { get; set; }
 
         /// <summary>
         /// </summary>
-        [Property(xmiId: "EAID_srcEB4F08_CF0C_865B_A6DD_0BD6998A4795", aggregation: AggregationKind.Composite, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "EAID_dst3FA8D5_D7AE_478c_941B_0723A9E89733", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [Implements(implementation: "IElement.Xrefs")]
-        public IContainerList<IXrefs> Xrefs
-        {
-            get => this.xrefs ??= new ContainerList<IXrefs>(this);
-            set => this.xrefs = value;
-        }
-
-        /// <summary>
-        /// Backing field for <see cref="Xrefs"/>
-        /// </summary>
-        private IContainerList<IXrefs> xrefs;
+        public IXrefs Xrefs { get; set; }
     }
 }
 

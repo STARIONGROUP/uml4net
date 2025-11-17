@@ -20,19 +20,17 @@
 
 namespace uml4net.xmi.Readers
 {
+    using Microsoft.Extensions.Logging;
+    using Microsoft.Extensions.Logging.Abstractions;
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.IO;
     using System.Linq;
     using System.Xml;
-
-    using Microsoft.Extensions.Logging;
-    using Microsoft.Extensions.Logging.Abstractions;
-
     using uml4net.Packages;
-
     using uml4net.xmi;
+    using uml4net.xmi.Extender;
     using uml4net.xmi.ReferenceResolver;
     using uml4net.xmi.Settings;
     using Xmi;
@@ -91,6 +89,11 @@ namespace uml4net.xmi.Readers
         protected readonly IXmiReaderSettings XmiReaderSettings;
 
         /// <summary>
+        /// The injected <see cref="IExtenderReaderRegistry"/> that provides <see cref="IExtenderReader"/> resolve features
+        /// </summary>
+        protected readonly IExtenderReaderRegistry ExtenderReaderRegistry;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="XmiReader"/> class.
         /// </summary>
         /// <param name="assembler">
@@ -119,8 +122,9 @@ namespace uml4net.xmi.Readers
         /// The (injected) <see cref="INameSpaceResolver"/> used to resolve a namespace to one of the
         /// <see cref="KnowNamespacePrefixes"/> constants
         /// </param>
+        /// <param name="extenderReaderRegistry">The injected <see cref="IExtenderReaderRegistry"/> that provides <see cref="IExtenderReader"/> resolve features</param>
         public XmiReader(IAssembler assembler, IXmiElementCache cache, IXmiElementReaderFacade xmiElementReaderFacade, ILoggerFactory loggerFactory,
-            IExternalReferenceResolver externalReferenceResolver, IXmiReaderScope scope, IXmiReaderSettings xmiReaderSettings, INameSpaceResolver nameSpaceResolver)
+            IExternalReferenceResolver externalReferenceResolver, IXmiReaderScope scope, IXmiReaderSettings xmiReaderSettings, INameSpaceResolver nameSpaceResolver, IExtenderReaderRegistry extenderReaderRegistry)
         {
             this.assembler = assembler;
             this.Cache = cache;
@@ -131,6 +135,7 @@ namespace uml4net.xmi.Readers
             this.externalReferenceResolver = externalReferenceResolver;
             this.scope = scope;
             this.nameSpaceResolver = nameSpaceResolver;
+            this.ExtenderReaderRegistry = extenderReaderRegistry;
         }
 
         /// <summary>
@@ -151,6 +156,7 @@ namespace uml4net.xmi.Readers
             }
 
             var fileInfo = new FileInfo(fileUri);
+            
             if (!fileInfo.Exists)
             {
                 throw new ArgumentException($"The file at {fileUri} does not exist");
@@ -198,6 +204,24 @@ namespace uml4net.xmi.Readers
 
             this.Read(stream, documentName, xmiReaderResult, true);
 
+            var extensions = new List<IXmiExtension>();
+            extensions.AddRange(xmiReaderResult.XmiRoot.Extensions);
+            extensions.AddRange(this.Cache.Values.SelectMany(x => x.Extensions));
+
+            foreach (var xmiExtension in extensions)
+            {
+                var extenderReader = this.ExtenderReaderRegistry.Resolve(xmiExtension.Extender, xmiExtension.ExtenderId);
+                
+                if(extenderReader == null)
+                {
+                    this.logger.LogInformation("The ExtenderReader for {Extender}:{ExtenderID} does not exist, the Extension cannot be PostProcessed", xmiExtension.Extender, xmiExtension.ExtenderId);
+                }
+                else
+                {
+                    extenderReader.PostProcess(xmiExtension);
+                }
+            }
+            
             return xmiReaderResult;
         }
 
@@ -253,7 +277,7 @@ namespace uml4net.xmi.Readers
 
                 if (isRootXmiElement && !isRootUmlObject)
                 {
-                    var xmiRootReader = new XmiRootReader(this.Cache, this.XmiElementReaderFacade, this.XmiReaderSettings, this.nameSpaceResolver, this.LoggerFactory);
+                    var xmiRootReader = new XmiRootReader(this.Cache, this.XmiElementReaderFacade, this.XmiReaderSettings, this.nameSpaceResolver, this.ExtenderReaderRegistry, this.LoggerFactory);
                     using var subXmlReader = xmlReader.ReadSubtree();
 
                     if (isRoot)
@@ -305,7 +329,7 @@ namespace uml4net.xmi.Readers
                             case (KnowNamespacePrefixes.Uml, "Package"):
                             case (KnowNamespacePrefixes.Uml, "Model"):
                             case (KnowNamespacePrefixes.Uml, "Profile"):
-                                var package = (IPackage)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, xmlReader.NamespaceURI, this.Cache, this.XmiReaderSettings, this.nameSpaceResolver, this.LoggerFactory, $"uml:{xmlReader.LocalName}");
+                                var package = (IPackage)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, xmlReader.NamespaceURI, this.Cache, this.XmiReaderSettings, this.nameSpaceResolver, this.ExtenderReaderRegistry, this.LoggerFactory, $"uml:{xmlReader.LocalName}");
                                 xmiReaderResult.Packages.Add(package);
 
                                 if (isRoot)
@@ -323,6 +347,7 @@ namespace uml4net.xmi.Readers
                                         xmiReaderResult.Packages.Add(extension);
                                     }
                                 }
+                                
                                 break;
                             default:
                                 this.logger.LogWarning("XmiReader: {LocalName} at line:position {Line}:{Position} was not read", xmlReader.LocalName, xmlLineInfo.LineNumber, xmlLineInfo.LinePosition);

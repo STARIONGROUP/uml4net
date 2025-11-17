@@ -792,8 +792,8 @@ namespace uml4net.HandleBars
                     if (property.QueryIsReferenceProperty() && (property.SubsettedProperty.Count == 0))
                     {
                         sb.AppendLine(property.QueryIsTypeAbstract()
-                            ? $"var {property.Name}Value = (I{property.QueryTypeName()})this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.NameSpaceResolver, this.LoggerFactory);"
-                            : $"var {property.Name}Value = (I{property.QueryTypeName()})this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.NameSpaceResolver, this.LoggerFactory, \"{(isForExtension ? "" : "uml:")}{property.QueryTypeName()}\"{(isForExtension ? ", true" : "")});");
+                            ? $"var {property.Name}Value = (I{property.QueryTypeName()})this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.NameSpaceResolver, this.ExtenderReaderRegistry, this.LoggerFactory);"
+                            : $"var {property.Name}Value = (I{property.QueryTypeName()})this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.NameSpaceResolver, this.ExtenderReaderRegistry, this.LoggerFactory, \"{(isForExtension ? "" : "uml:")}{property.QueryTypeName()}\"{(isForExtension ? ", true" : "")});");
 
                         sb.AppendLine($"poco.{property.Name.CapitalizeFirstLetter()}.Add({property.Name}Value);");
 
@@ -809,8 +809,8 @@ namespace uml4net.HandleBars
                         if (property.SubsettedProperty.Any(x => x.IsDerived || x.IsDerivedUnion || x.IsReadOnly))
                         {
                             sb.AppendLine(property.QueryIsTypeAbstract()
-                                ? $"var {property.Name}Value = (I{property.QueryTypeName()})this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.NameSpaceResolver, this.LoggerFactory);"
-                                : $"var {property.Name}Value = (I{property.QueryTypeName()})this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.NameSpaceResolver, this.LoggerFactory, \"{(isForExtension ? "" : "uml:")}{property.QueryTypeName()}\"{(isForExtension ? ", true" : "")});");
+                                ? $"var {property.Name}Value = (I{property.QueryTypeName()})this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.NameSpaceResolver, this.ExtenderReaderRegistry, this.LoggerFactory);"
+                                : $"var {property.Name}Value = (I{property.QueryTypeName()})this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.NameSpaceResolver, this.ExtenderReaderRegistry, this.LoggerFactory, \"{(isForExtension ? "" : "uml:")}{property.QueryTypeName()}\"{(isForExtension ? ", true" : "")});");
 
                             sb.AppendLine($"poco.{property.Name.CapitalizeFirstLetter()}.Add({property.Name}Value);");
                         }

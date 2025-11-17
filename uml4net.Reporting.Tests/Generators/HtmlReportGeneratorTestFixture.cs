@@ -132,7 +132,6 @@ namespace uml4net.Reporting.Tests.Generators
         public void Verify_that_the_report_generator_generators_a_report_of_ea_model()
         {
             this.htmlReportGenerator = new HtmlReportGenerator(this.inheritanceDiagramRenderer, this.loggerFactory);
-            this.htmlReportGenerator.ShouldUseEnterpriseArchitectReader = true;
 
             var reportFileInfo = new FileInfo(Path.Combine(TestContext.CurrentContext.TestDirectory, "EAExport.html"));
 

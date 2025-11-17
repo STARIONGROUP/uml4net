@@ -80,5 +80,10 @@ namespace uml4net.xmi.Xmi
         /// For Canonical XMI exports, <c>xmi:documentation</c> is not emitted.
         /// </remarks>
         public Documentation Documentation { get; set; }
+
+        /// <summary>
+        /// Gets or sets the extensions defined of this <see cref="XmiRoot" />
+        /// </summary>
+        public List<XmiExtension> Extensions { get; set; } = [];
     }
 }

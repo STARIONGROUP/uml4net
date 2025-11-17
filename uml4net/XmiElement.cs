@@ -25,8 +25,24 @@ namespace uml4net
     using uml4net.CommonStructure;
 
     /// <summary>
-    /// The <see cref="XmiElement"/> is the abstract super class from which all model elements derive
+    /// Serves as the abstract base class for all domain and infrastructure elements serialized in an XMI document.
     /// </summary>
+    /// <remarks>
+    /// <para>
+    /// The <c>XmiElement</c> class provides a common implementation scaffold for all elements that appear within an XMI document,
+    /// including model elements (e.g., UML classifiers, properties, packages) and XMI-specific constructs (e.g., <c>xmi:Extension</c>, <c>xmi:Documentation</c>).
+    /// It implements the <see cref="IXmiElement"/> interface and typically provides shared functionality such as identity management,
+    /// type resolution, and optional support for UUIDs and tool extensions.
+    /// </para>
+    /// <para>
+    /// Derived classes are expected to represent metamodel elements conforming to a MOF-based model such as UML.
+    /// This abstraction allows for polymorphic traversal, transformation, and serialization of a heterogeneous object graph reconstructed from XMI.
+    /// </para>
+    /// <para>
+    /// In conformance with the XMI 2.5.1 specification (clause 7.5), this class may carry metadata such as <c>xmi:id</c>, <c>xmi:type</c>,
+    /// and <c>xmi:uuid</c>, which serve as identifiers and type markers within the serialized XML.
+    /// </para>
+    /// </remarks>
     public abstract class XmiElement : IXmiElement
     {
         /// <summary>
@@ -82,6 +98,6 @@ namespace uml4net
         /// <summary>
         /// Gets or sets the extensions defined of this <see cref="IElement" />
         /// </summary>
-        public List<IElement> Extensions { get; set; } = [];
+        public List<XmiExtension> Extensions { get; set; } = [];
     }
 }

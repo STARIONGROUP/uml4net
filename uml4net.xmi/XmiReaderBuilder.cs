@@ -20,10 +20,14 @@
 
 namespace uml4net.xmi
 {
+    using System;
+    using System.Reflection;
+
     using Autofac;
 
     using Microsoft.Extensions.Logging;
 
+    using uml4net.xmi.Extender;
     using uml4net.xmi.Readers;
     using uml4net.xmi.Settings;
 
@@ -95,6 +99,20 @@ namespace uml4net.xmi
         }
 
         /// <summary>
+        /// Configures the <see cref="XmiReaderScope" /> to use the provided <see cref="IExtensionContentReaderFacade" /> for logging.
+        /// </summary>
+        /// <param name="scope">The <see cref="XmiReaderScope" /> being configured.</param>
+        /// <returns>
+        /// The configured <see cref="XmiReaderScope" /> instance.
+        /// </returns>
+        /// <typeparam name="TFacade">Any <see cref="IExtensionContentReaderFacade"/></typeparam>
+        public static XmiReaderScope WithExtensionContentReaderFacade<TFacade>(this XmiReaderScope scope) where TFacade: IExtensionContentReaderFacade
+        {
+            scope.ContainerBuilder.RegisterType<TFacade>().As<IExtensionContentReaderFacade>().SingleInstance();
+            return scope;
+        }
+
+        /// <summary>
         /// Builds and configures the <see cref="IXmiReader" /> based on the services added to the <see cref="XmiReaderScope" />.
         /// </summary>
         /// <param name="scope">The <see cref="XmiReaderScope" /> being used to build the XMI reader.</param>
@@ -108,36 +126,32 @@ namespace uml4net.xmi
         }
 
         /// <summary>
-        /// Configures the specified <see cref="XmiReaderScope" /> to use the specified reader type instead of the default
-        /// <see cref="XmiReader" />
+        /// Registers an <see cref="IExtenderReader"/> implementation with Autofac using its
+        /// associated <see cref="ExtenderReaderAttribute"/> metadata.
         /// </summary>
-        /// <typeparam name="TReader">The type of the reader to register, which must implement <see cref="IXmiReader" />.</typeparam>
-        /// <param name="scope">The current <see cref="XmiReaderScope" /> instance.</param>
-        /// <returns>The modified <see cref="XmiReaderScope" /> instance with the specified reader registered.</returns>
-        /// <remarks>
-        /// Registers <typeparamref name="TReader" /> in the <paramref name="scope" />'s container as an implementation
-        /// of <see cref="IXmiReader" />, with properties auto-wired.
-        /// </remarks>
-        public static XmiReaderScope WithReader<TReader>(this XmiReaderScope scope) where TReader : IXmiReader
+        /// <typeparam name="TExtender">The type of the extender reader to register.</typeparam>
+        /// <param name="scope">The fluent reader scope for chaining registration calls.</param>
+        /// <returns>The same <see cref="XmiReaderScope"/> instance for chaining.</returns>
+        /// <exception cref="InvalidOperationException">
+        /// Thrown if the <typeparamref name="TExtender"/> type is not decorated with <see cref="ExtenderReaderAttribute"/>.
+        /// </exception>
+        public static XmiReaderScope WithExtender<TExtender>(this XmiReaderScope scope) where TExtender : IExtenderReader
         {
-            scope.ContainerBuilder.RegisterType<TReader>().As<IXmiReader>().PropertiesAutowired();
-            return scope;
-        }
-        
-        /// <summary>
-        /// Configures the specified <see cref="XmiReaderScope" /> to use the specified reader type instead of the default
-        /// <see cref="XmiReader" />
-        /// </summary>
-        /// <typeparam name="TFacade">The type of the reader to register, which must implement <see cref="IXmiReader" />.</typeparam>
-        /// <param name="scope">The current <see cref="XmiReaderScope" /> instance.</param>
-        /// <returns>The modified <see cref="XmiReaderScope" /> instance with the specified reader registered.</returns>
-        /// <remarks>
-        /// Registers <typeparamref name="TFacade" /> in the <paramref name="scope" />'s container as an implementation
-        /// of <see cref="IXmiReader" />, with properties auto-wired.
-        /// </remarks>
-        public static XmiReaderScope WithFacade<TFacade>(this XmiReaderScope scope) where TFacade : IXmiElementReaderFacade
-        {
-            scope.ContainerBuilder.RegisterType<TFacade>().As<IXmiElementReaderFacade>().PropertiesAutowired();
+            var type = typeof(TExtender);
+            var attr = type.GetCustomAttribute<ExtenderReaderAttribute>();
+            
+            if (attr == null)
+            {
+                throw new InvalidOperationException($"{type.FullName} must be annotated with [ExtenderReader] to be registered.");
+            }
+
+            scope.ContainerBuilder
+                .RegisterType<TExtender>()
+                .As<IExtenderReader>()
+                .WithMetadata("Extender", attr.Extender)
+                .WithMetadata("ExtenderId", attr.ExtenderId ?? string.Empty)
+                .SingleInstance();
+
             return scope;
         }
     }
