@@ -35,11 +35,10 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.Extensions
         /// Queries all applied <see cref="IStereotype"/> to a provided <see cref="IXmiElement"/>
         /// </summary>
         /// <param name="xmiElement">The <see cref="IXmiElement"/></param>
-        /// <param name="cache">The <see cref="IXmiElementCache"/></param>
         /// <returns>A collection of applied <see cref="IStereotype"/> to the provided <see cref="IXmiElement"/></returns>
-        public static IReadOnlyCollection<IStereotype> QueryAppliedStereotypes(this IXmiElement xmiElement, IXmiElementCache cache)
+        public static IReadOnlyCollection<IStereotype> QueryAppliedStereotypes(this IXmiElement xmiElement)
         {
-            if (!cache.TryGetExtenders(xmiElement, out var extenders))
+            if (!xmiElement.Cache.TryGetExtenders(xmiElement, out var extenders))
             {
                 return Enumerable.Empty<IStereotype>().ToList();
             }
@@ -74,7 +73,7 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.Extensions
 
             return appliedStereotypes.Count == 0 
                 ? Enumerable.Empty<IStereotype>().ToList()
-                : cache.Values.OfType<IStereotype>().Where(x => appliedStereotypes.Contains(x.Name)).ToList();
+                : xmiElement.Cache.Values.OfType<IStereotype>().Where(x => appliedStereotypes.Contains(x.Name)).ToList();
         }
     }
 }
