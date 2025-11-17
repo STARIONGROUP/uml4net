@@ -35,6 +35,7 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.Tests.Extender
     using uml4net.xmi.Extensions.EnterpriseArchitect.Structure;
     using uml4net.xmi.Extensions.EnterpriseArchitect.Structure.Readers;
 
+    using IAssociation = uml4net.StructuredClassifiers.IAssociation;
     using Path = System.IO.Path;
 
     [TestFixture]
@@ -66,7 +67,8 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.Tests.Extender
             var elementWithTags = xmiReaderResult.Packages[0].NestedPackage[0].NestedPackage[0].PackagedElement.Single(x => x is Class { Name: "ClassWithTaggedValues" })as Class;
             var extensionElement = xmiReaderResult.XmiRoot.Extensions.SelectMany(x => x.Content).OfType<Element>().Single(x => x.ExtendedElement == elementWithTags);
             var tags = extensionElement.Tags;
-
+            var association = element.Cache.Values.OfType<IAssociation>().Single(x => x.XmiId == "EAID_374A0559_218E_43c1_9766_8CDA78DAE4AA");
+            
             using (Assert.EnterMultipleScope())
             {
                 Assert.That(attribute.OwnedComment.Single().Body, Is.EqualTo("An documentation for an attribute"));
@@ -81,13 +83,8 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.Tests.Extender
                 foreach (var associationParameter in associationParameters)
                 {
                     Assert.That(associationParameter.OwnedComment.Single().Body, Is.EqualTo($"A doc for {associationParameter.Name}"));
-
-                    if (associationParameter.Name == "fromFourthToFirst")
-                    {
-                        Assert.That(associationParameter.QueryAppliedStereotypes(), Has.Count.EqualTo(1));
-                    }
                 }
-
+                
                 Assert.That(tags, Has.Count.EqualTo(2));
                 Assert.That(tags[0].Name, Is.EqualTo("EAUML::PackageRef"));
                 Assert.That(tags[0].Value, Is.EqualTo("{A059C88E-4BDF-46ec-9651-03CBB56A4410}"));
@@ -96,6 +93,7 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.Tests.Extender
                 Assert.That(element.QueryAppliedStereotypes(), Has.Count.EqualTo(1));
                 Assert.That(attribute.QueryAppliedStereotypes(), Has.Count.EqualTo(1));
                 Assert.That(operation.QueryAppliedStereotypes(), Has.Count.EqualTo(1));
+                Assert.That(association.QueryAppliedStereotypes(), Has.Count.EqualTo(1));
             }
         }
 

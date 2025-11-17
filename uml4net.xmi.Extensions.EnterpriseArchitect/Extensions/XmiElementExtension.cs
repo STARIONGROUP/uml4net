@@ -61,12 +61,17 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.Extensions
                         appliedStereotypes.Add(connector.Properties.Stereotype);
                         break;
                     
-                    case Operation operation when !string.IsNullOrWhiteSpace(operation.Stereotype.Stereotype):
-                        appliedStereotypes.Add(operation.Stereotype.Stereotype);
-                        break;
-                    
-                    case Operation operation when !string.IsNullOrWhiteSpace(operation.Type.Stereotype):
-                        appliedStereotypes.Add(operation.Type.Stereotype);
+                    case Operation operation :
+                        if (!string.IsNullOrWhiteSpace(operation.Stereotype.Stereotype))
+                        {
+                            appliedStereotypes.Add(operation.Stereotype.Stereotype);
+                        }
+
+                        if (!string.IsNullOrWhiteSpace(operation.Type.Stereotype))
+                        {
+                            appliedStereotypes.Add(operation.Type.Stereotype);
+                        }
+
                         break;
                 }
             }
