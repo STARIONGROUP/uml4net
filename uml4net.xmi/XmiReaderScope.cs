@@ -68,7 +68,7 @@ namespace uml4net.xmi
             this.ContainerBuilder.RegisterType<DefaultSettings>().As<IXmiReaderSettings>();
 
             // Required services
-            this.ContainerBuilder.RegisterGeneric(typeof(Logger<>)).As(typeof(ILogger<>)).PropertiesAutowired(PropertyWiringOptions.AllowCircularDependencies);
+            this.ContainerBuilder.RegisterGeneric(typeof(Logger<>)).As(typeof(ILogger<>));
             this.ContainerBuilder.RegisterInstance(this).As<IXmiReaderScope>().SingleInstance();
 
             this.ContainerBuilder.RegisterType<Assembler>().As<IAssembler>();
@@ -79,7 +79,7 @@ namespace uml4net.xmi
 
             // Readers
             this.ContainerBuilder.RegisterType<XmiElementReaderFacade>().As<IXmiElementReaderFacade>().SingleInstance();
-            this.ContainerBuilder.RegisterType<XmiReader>().As<IXmiReader>().PropertiesAutowired(PropertyWiringOptions.AllowCircularDependencies);
+            this.ContainerBuilder.RegisterType<XmiReader>().As<IXmiReader>();
 
             // Extender Reader
             this.ContainerBuilder.RegisterType<ExtenderReaderRegistry>().As<IExtenderReaderRegistry>().SingleInstance();

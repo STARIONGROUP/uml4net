@@ -20,10 +20,12 @@
 
 namespace uml4net.xmi.Extensions.EnterpriseArchitect.Extender
 {
+    using System;
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.IO;
     using System.Linq;
+    using System.Runtime.CompilerServices;
     using System.Xml;
 
     using Microsoft.Extensions.Logging;
@@ -32,11 +34,15 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.Extender
     using uml4net.Classification;
     using uml4net.CommonStructure;
     using uml4net.Extensions;
+    using uml4net.Packages;
+    using uml4net.StructuredClassifiers;
     using uml4net.xmi.Extender;
     using uml4net.xmi.Extensions.EnterpriseArchitect.Structure;
     using uml4net.xmi.Readers;
     using uml4net.xmi.Settings;
 
+    using Connector = uml4net.xmi.Extensions.EnterpriseArchitect.Structure.Connector;
+    using IConnector = uml4net.xmi.Extensions.EnterpriseArchitect.Structure.IConnector;
     using IElement = uml4net.xmi.Extensions.EnterpriseArchitect.Structure.IElement;
 
     /// <summary>
@@ -90,6 +96,16 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.Extender
         /// The injected <see cref="INameSpaceResolver"/> that helps resolving namespace uri
         /// </summary>
         protected readonly INameSpaceResolver NameSpaceResolver;
+        
+        /// <summary>
+        /// The injected <see cref="IXmiElementReaderFacade" /> that allows reading <see cref="IXmiElement" />
+        /// </summary>
+        protected readonly IXmiElementReaderFacade XmiElementReaderFacade;
+
+        /// <summary>
+        /// The injected <see cref="IExtenderReaderRegistry"/> that provides <see cref="IExtenderReader"/> resolve
+        /// </summary>
+        protected readonly Lazy<IExtenderReaderRegistry> ExtenderReaderRegistry;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="XmiReader" /> class.
@@ -102,8 +118,10 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.Extender
         /// <param name="extensionContentReaderFacade">The injected <see cref="IExtensionContentReaderFacade" /> that provides extension content read capabailities</param>
         /// <param name="cache">The injected <see cref="IXmiElementCache"/> that provides cached elements retrieval</param>
         /// <param name="nameSpaceResolver">The injected <see cref="INameSpaceResolver"/> that helps resolving namespace uri</param>
+        /// <param name="xmiElementReaderFacade">The injected <see cref="IXmiElementReaderFacade" /> that allows reading <see cref="IXmiElement" /></param>
+        /// <param name="extenderReaderRegistry">The injected <see cref="IExtenderReaderRegistry"/> that provides <see cref="IExtenderReader"/> resolve</param>
         public EnterpriseArchitectExtenderReader(IXmiReaderScope scope, IXmiReaderSettings xmiReaderSettings, ILoggerFactory loggerFactory, IExtensionContentReaderFacade extensionContentReaderFacade,
-             IXmiElementCache cache, INameSpaceResolver nameSpaceResolver)
+             IXmiElementCache cache, INameSpaceResolver nameSpaceResolver, IXmiElementReaderFacade xmiElementReaderFacade, Lazy<IExtenderReaderRegistry> extenderReaderRegistry)
         {
             this.XmiReaderSettings = xmiReaderSettings;
             this.LoggerFactory = loggerFactory;
@@ -112,8 +130,10 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.Extender
             this.ExtensionContentReaderFacade = extensionContentReaderFacade;
             this.Cache = cache;
             this.NameSpaceResolver = nameSpaceResolver;
+            this.XmiElementReaderFacade = xmiElementReaderFacade;
+            this.ExtenderReaderRegistry = extenderReaderRegistry;
         }
-
+        
         /// <summary>
         /// Reads the content of the Enterprise Architect <see cref="XmiExtension" />
         /// </summary>
@@ -173,8 +193,36 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.Extender
 
                         break;
                     }
-                    case "primitivetypes":
                     case "profiles":
+                    {
+                        using var profilesReader = xmlReader.ReadSubtree();
+
+                        while (profilesReader.Read())
+                        {
+                            if (profilesReader.NodeType != XmlNodeType.Element || profilesReader.LocalName != "Profile")
+                            {
+                                continue;
+                            }
+
+                            var xmiAttribute = profilesReader.GetAttribute("xmlns:xmi");
+                            var umlAttribute = profilesReader.GetAttribute("xmlns:uml");
+
+                            if (!string.IsNullOrWhiteSpace(xmiAttribute))
+                            {
+                                this.NameSpaceResolver.ResolveAndSetNamespace(xmiAttribute);
+                            }
+                            
+                            if (!string.IsNullOrWhiteSpace(umlAttribute))
+                            {
+                                this.NameSpaceResolver.ResolveAndSetNamespace(umlAttribute);
+                            }
+
+                            result.Add(this.XmiElementReaderFacade.QueryXmiElement(profilesReader, documentName, "uml", this.Cache, this.XmiReaderSettings, this.NameSpaceResolver, this.ExtenderReaderRegistry.Value, this.LoggerFactory, "uml:Profile"));
+                        }
+                        
+                        break;
+                    }
+                    case "primitivetypes":
                     {
                         xmlReader.Skip();
                         break;

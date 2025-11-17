@@ -31,6 +31,7 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.Tests.Extender
     using uml4net.Classification;
     using uml4net.StructuredClassifiers;
     using uml4net.xmi.Extensions.EnterpriseArchitect.Extender;
+    using uml4net.xmi.Extensions.EnterpriseArchitect.Extensions;
     using uml4net.xmi.Extensions.EnterpriseArchitect.Structure;
     using uml4net.xmi.Extensions.EnterpriseArchitect.Structure.Readers;
 
@@ -87,6 +88,7 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.Tests.Extender
                 Assert.That(tags[0].Value, Is.EqualTo("{A059C88E-4BDF-46ec-9651-03CBB56A4410}"));
                 Assert.That(tags[1].Name, Is.EqualTo("SearchName"));
                 Assert.That(tags[1].Value, Is.EqualTo("Extended"));
+                Assert.That(element.QueryAppliedStereotypes(element.Cache), Has.Count.EqualTo(1));
             }
         }
 

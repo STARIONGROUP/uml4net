@@ -146,12 +146,14 @@
 			</element>
 			<element xmi:idref="EAID_E7DEF3AB_2BF1_474f_A118_48F9DC5ED70A" xmi:type="uml:Class" name="Element" scope="public">
 				<model package="EAPK_974A24AF_DDAB_4dd7_AED8_10D3CECC202C" tpos="0" ea_localid="9" ea_eleType="element"/>
-				<properties documentation="An Enterprise Architect documentation" isSpecification="false" sType="Class" nType="0" scope="public" isRoot="false" isLeaf="false" isAbstract="false" isActive="false"/>
-				<project author="atheate" version="1.0" phase="1.0" created="2025-03-24 13:58:24" modified="2025-03-24 13:59:18" complexity="1" status="Proposed"/>
+				<properties documentation="An Enterprise Architect documentation" isSpecification="false" sType="Class" nType="0" scope="public" stereotype="BPSimCustomResultChart" isRoot="false" isLeaf="false" isAbstract="false" isActive="false"/>
+				<project author="atheate" version="1.0" phase="1.0" created="2025-03-24 13:58:24" modified="2025-11-17 09:45:51" complexity="1" status="Proposed"/>
 				<code gentype="&lt;none&gt;"/>
 				<style appearance="BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=1;HSwimLanes=1;BorderStyle=0;"/>
-				<tags/>
-				<xrefs/>
+				<tags>
+					<tag xmi:id="EAID_3A14377F_32A2_bc32_83D4_87E6711AB00B" name="ChartProperties" modelElement="EAID_E7DEF3AB_2BF1_474f_A118_48F9DC5ED70A"/>
+				</tags>
+				<xrefs value="$XREFPROP=$XID={A96CA616-566F-4773-854D-D08F49B6B2C2}$XID;$NAM=Stereotypes$NAM;$TYP=element property$TYP;$VIS=Public$VIS;$PAR=0$PAR;$DES=@STEREO;Name=BPSimCustomResultChart;FQName=EAUML::BPSimCustomResultChart;@ENDSTEREO;$DES;$CLT={E7DEF3AB-2BF1-474f-A118-48F9DC5ED70A}$CLT;$SUP=&lt;none&gt;$SUP;$ENDXREF;"/>
 				<extendedProperties tagged="0" package_name="XmiTest"/>
 				<attributes>
 					<attribute xmi:idref="EAID_957B58DC_9D90_4781_A642_E060CB7F142A" name="AnAttribute" scope="Public">
@@ -1548,6 +1550,7 @@
 			</uml:Profile>
 		</profiles>
 	</xmi:Extension>
+	<EAUML:BPSimCustomResultChart base_Class="EAID_E7DEF3AB_2BF1_474f_A118_48F9DC5ED70A"/>
 	<thecustomprofile:EAUML__PackageRef base_Class="EAID_3CA99B53_F784_4847_B33E_BAB38A4944C6" __EAStereoName="EAUML::PackageRef" EAUML__PackageRef="{A059C88E-4BDF-46ec-9651-03CBB56A4410}"/>
 	<EAUML:model_document base_Class="EAID_3CA99B53_F784_4847_B33E_BAB38A4944C6" __EAStereoName="model document" SearchName="Extended"/>
 </xmi:XMI>

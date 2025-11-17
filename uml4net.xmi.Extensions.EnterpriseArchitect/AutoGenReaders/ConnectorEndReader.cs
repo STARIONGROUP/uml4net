@@ -102,6 +102,7 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.Structure.Readers
                 if (!string.IsNullOrWhiteSpace(idRef) && this.Cache.TryGetValue($"{documentName}#{idRef}", out var extendedElement))
                 {
                     poco.ExtendedElement = extendedElement;
+                    this.Cache.AddExtender(extendedElement, poco);
                 }
 
                 while (xmlReader.Read())

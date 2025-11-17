@@ -20,6 +20,7 @@
 
 namespace uml4net
 {
+    using System;
     using System.Collections.Generic;
 
     /// <summary>
@@ -82,5 +83,29 @@ namespace uml4net
         /// Removes all keys and values from the Cache
         /// </summary>
         public void Clear();
+
+        /// <summary>
+        /// Adds an <see cref="object" /> that extends an <see cref="IXmiElement" /> into the cache storage
+        /// </summary>
+        /// <param name="xmiElement">An extended <see cref="IXmiElement" /></param>
+        /// <param name="extender">The extender <see cref="object" /></param>
+        /// <exception cref="ArgumentNullException">
+        /// If the provided <paramref name="xmiElement" /> or the
+        /// <paramref name="extender" /> is null
+        /// </exception>
+        void AddExtender(IXmiElement xmiElement, object extender);
+
+        /// <summary>
+        /// Tries to get the collection of extenders <see cref="object" /> for an <see cref="IXmiElement" />
+        /// </summary>
+        /// <param name="xmiElement">The <see cref="IXmiElement" /></param>
+        /// <param name="extenders">
+        /// When this method returns, contains extenders <see cref="object" /> associated with the specified
+        /// <see cref="IXmiElement" />, if the key is found;
+        /// otherwise, the default value for the type of the value parameter. This parameter is passed uninitialized.
+        /// </param>
+        /// <returns>true if the Cache contains an element with the specified key; otherwise, false.</returns>
+        /// <exception cref="ArgumentNullException">If the provided <paramref name="xmiElement" /> is null</exception>
+        bool TryGetExtenders(IXmiElement xmiElement, out IReadOnlyCollection<object> extenders);
     }
 }
