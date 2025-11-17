@@ -81,6 +81,11 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.Tests.Extender
                 foreach (var associationParameter in associationParameters)
                 {
                     Assert.That(associationParameter.OwnedComment.Single().Body, Is.EqualTo($"A doc for {associationParameter.Name}"));
+
+                    if (associationParameter.Name == "fromFourthToFirst")
+                    {
+                        Assert.That(associationParameter.QueryAppliedStereotypes(), Has.Count.EqualTo(1));
+                    }
                 }
 
                 Assert.That(tags, Has.Count.EqualTo(2));
@@ -89,6 +94,8 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.Tests.Extender
                 Assert.That(tags[1].Name, Is.EqualTo("SearchName"));
                 Assert.That(tags[1].Value, Is.EqualTo("Extended"));
                 Assert.That(element.QueryAppliedStereotypes(), Has.Count.EqualTo(1));
+                Assert.That(attribute.QueryAppliedStereotypes(), Has.Count.EqualTo(1));
+                Assert.That(operation.QueryAppliedStereotypes(), Has.Count.EqualTo(1));
             }
         }
 

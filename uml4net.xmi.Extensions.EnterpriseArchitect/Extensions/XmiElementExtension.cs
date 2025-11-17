@@ -71,6 +71,8 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.Extensions
                 }
             }
 
+            appliedStereotypes = [..appliedStereotypes.Distinct()];
+
             return appliedStereotypes.Count == 0 
                 ? Enumerable.Empty<IStereotype>().ToList()
                 : xmiElement.Cache.Values.OfType<IStereotype>().Where(x => appliedStereotypes.Contains(x.Name)).ToList();

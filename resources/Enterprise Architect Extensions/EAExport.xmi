@@ -1,5 +1,5 @@
 <?xml  version='1.0' encoding='windows-1252' ?>
-<xmi:XMI xmlns:xmi="http://www.omg.org/spec/XMI/20131001" xmlns:uml="http://www.omg.org/spec/UML/20161101" xmlns:umldi="http://www.omg.org/spec/UML/20161101/UMLDI" xmlns:dc="http://www.omg.org/spec/UML/20161101/UMLDC" xmlns:thecustomprofile="http://www.sparxsystems.com/profiles/thecustomprofile/1.0" xmlns:EAUML="http://www.sparxsystems.com/profiles/EAUML/1.0">
+<xmi:XMI xmlns:xmi="http://www.omg.org/spec/XMI/20131001" xmlns:uml="http://www.omg.org/spec/UML/20161101" xmlns:umldi="http://www.omg.org/spec/UML/20161101/UMLDI" xmlns:dc="http://www.omg.org/spec/UML/20161101/UMLDC" xmlns:thecustomprofile="http://www.sparxsystems.com/profiles/thecustomprofile/1.0" xmlns:SIMF="http://www.sparxsystems.com/profiles/SIMF/1.0" xmlns:StandardProfileL2="http://www.omg.org/spec/UML/20110701/StandardProfileL2.xmi" xmlns:EAUML="http://www.sparxsystems.com/profiles/EAUML/1.0">
 	<xmi:Documentation exporter="Enterprise Architect" exporterVersion="6.5" exporterID="1704"/>
 	<uml:Model xmi:type="uml:Model" name="EA_Model">
 		<packagedElement xmi:type="uml:Package" xmi:id="EAPK_974A24AF_DDAB_4dd7_AED8_10D3CECC202C" name="XmiTest">
@@ -98,6 +98,12 @@
 		<profileApplication xmi:type="uml:ProfileApplication" xmi:id="profileap_thecustomprofile">
 			<appliedProfile xmi:type="uml:Profile" href="http://www.sparxsystems.com/profiles/thecustomprofile/1.0#thecustomprofile"/>
 		</profileApplication>
+		<profileApplication xmi:type="uml:ProfileApplication" xmi:id="profileap_9D963ABA-1">
+			<appliedProfile xmi:type="uml:Profile" href="http://www.sparxsystems.com/profiles/SIMF/1.0#9D963ABA-1"/>
+		</profileApplication>
+		<profileApplication xmi:type="uml:ProfileApplication" xmi:id="profileap_D21A8EAD-F">
+			<appliedProfile xmi:type="uml:Profile" href="http://www.omg.org/spec/UML/20110701/StandardProfileL2.xmi#D21A8EAD-F"/>
+		</profileApplication>
 		<profileApplication xmi:type="uml:ProfileApplication" xmi:id="profileap_8C9E6706-8">
 			<appliedProfile xmi:type="uml:Profile" href="http://www.sparxsystems.com/profiles/EAUML/1.0#8C9E6706-8"/>
 		</profileApplication>
@@ -163,13 +169,13 @@
 						<properties type="String" collection="false" static="0" duplicates="0" changeability="changeable"/>
 						<coords ordered="0"/>
 						<containment containment="Not Specified" position="0"/>
-						<stereotype/>
+						<stereotype stereotype="Characteristic"/>
 						<bounds lower="1" upper="1"/>
 						<options/>
 						<style/>
 						<styleex value="volatile=0;"/>
 						<tags/>
-						<xrefs value="$XREFPROP=$XID={CE6709FE-5161-4b56-ABDD-05AF6546F364}$XID;$NAM=CustomProperties$NAM;$TYP=attribute property$TYP;$VIS=Public$VIS;$PAR=0$PAR;$DES=@PROP=@NAME=isID@ENDNAME;@TYPE=Boolean@ENDTYPE;@VALU=1@ENDVALU;@PRMT=@ENDPRMT;@ENDPROP;$DES;$CLT={957B58DC-9D90-4781-A642-E060CB7F142A}$CLT;$SUP=&lt;none&gt;$SUP;$ENDXREF;"/>
+						<xrefs value="$XREFPROP=$XID={99672246-A309-4f1a-9466-FBB7B054448E}$XID;$NAM=Stereotypes$NAM;$TYP=attribute property$TYP;$VIS=Public$VIS;$PAR=0$PAR;$DES=@STEREO;Name=Characteristic;FQName=SIMF::Characteristic;@ENDSTEREO;$DES;$CLT={957B58DC-9D90-4781-A642-E060CB7F142A}$CLT;$SUP=&lt;none&gt;$SUP;$ENDXREF;$XREFPROP=$XID={CE6709FE-5161-4b56-ABDD-05AF6546F364}$XID;$NAM=CustomProperties$NAM;$TYP=attribute property$TYP;$VIS=Public$VIS;$PAR=0$PAR;$DES=@PROP=@NAME=isID@ENDNAME;@TYPE=Boolean@ENDTYPE;@VALU=1@ENDVALU;@PRMT=@ENDPRMT;@ENDPROP;$DES;$CLT={957B58DC-9D90-4781-A642-E060CB7F142A}$CLT;$SUP=&lt;none&gt;$SUP;$ENDXREF;"/>
 					</attribute>
 					<attribute xmi:idref="EAID_09432622_34AB_4e04_B9E8_A00C6CCAF80A" name="AnotherAttribute" scope="Public">
 						<initial/>
@@ -190,9 +196,9 @@
 				<operations>
 					<operation xmi:idref="EAID_65D71FBE_61C0_4106_9FD0_7AA794BCF07A" name="Opertation" scope="Public">
 						<properties position="0"/>
-						<stereotype/>
+						<stereotype stereotype="Destroy"/>
 						<model ea_guid="{65D71FBE-61C0-4106-9FD0-7AA794BCF07A}" ea_localid="1"/>
-						<type const="false" static="false" isAbstract="false" synchronised="0" concurrency="Sequential" pure="0" isQuery="false"/>
+						<type const="false" static="false" stereotype="Destroy" isAbstract="false" synchronised="0" concurrency="Sequential" pure="0" isQuery="false"/>
 						<behaviour/>
 						<code/>
 						<style/>
@@ -225,7 +231,7 @@
 								<xrefs/>
 							</parameter>
 						</parameters>
-						<xrefs/>
+						<xrefs value="$XREFPROP=$XID={0754F59B-AD69-4f8e-AEAD-75FE4F3A7222}$XID;$NAM=Stereotypes$NAM;$TYP=operation property$TYP;$VIS=Public$VIS;$PAR=0$PAR;$DES=@STEREO;Name=Destroy;FQName=StandardProfileL2::Destroy;@ENDSTEREO;$DES;$CLT={65D71FBE-61C0-4106-9FD0-7AA794BCF07A}$CLT;$SUP=&lt;none&gt;$SUP;$ENDXREF;"/>
 					</operation>
 				</operations>
 				<links>
@@ -410,15 +416,15 @@
 					<tags/>
 				</target>
 				<model ea_localid="15"/>
-				<properties ea_type="Association" direction="Destination -&gt; Source"/>
+				<properties ea_type="Association" stereotype="FK" direction="Destination -&gt; Source"/>
 				<modifiers isRoot="false" isLeaf="false"/>
 				<parameterSubstitutions/>
 				<documentation/>
 				<appearance linemode="1" linecolor="-1" linewidth="0" seqno="0" headStyle="0" lineStyle="0"/>
-				<labels lt="+fromFourthToFirst"/>
-				<extendedProperties virtualInheritance="0"/>
+				<labels lt="+fromFourthToFirst" mb="«FK»"/>
+				<extendedProperties conditional="«FK»" virtualInheritance="0"/>
 				<style/>
-				<xrefs/>
+				<xrefs value="$XREFPROP=$XID={C606561F-C898-45db-BC86-758C134EB2F8}$XID;$NAM=Stereotypes$NAM;$TYP=connector property$TYP;$VIS=Public$VIS;$PAR=0$PAR;$DES=@STEREO;Name=FK;FQName=EAUML::FK;@ENDSTEREO;$DES;$CLT={374A0559-218E-43c1-9766-8CDA78DAE4AA}$CLT;$SUP=&lt;none&gt;$SUP;$ENDXREF;"/>
 				<tags/>
 			</connector>
 			<connector xmi:idref="EAID_AEA92FB8_7DFE_4ef8_9B2B_1AFDFE20ED9E">
@@ -548,6 +554,484 @@
 				</packagedElement>
 				<packagedElement xmi:type="uml:Extension" xmi:id="Class_EAUML::PackageRef" name="A_Class_EAUML::PackageRef" memberEnd="extension_EAUML::PackageRef EAUML::PackageRef-base_Class">
 					<ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="extension_EAUML::PackageRef" name="extension_EAUML::PackageRef" type="EAUML::PackageRef" isComposite="true" lower="0" upper="1" memberEnd="extension_EAUML::PackageRef EAUML::PackageRef-base_Class"/>
+				</packagedElement>
+			</uml:Profile>
+			<uml:Profile xmlns:uml="http://www.omg.org/spec/UML/20161101" xmlns:xmi="http://www.omg.org/spec/XMI/20161101" xmi:id="9D963ABA-1" nsPrefix="SIMF" name="SIMF" metamodelReference="mmref01">
+				<ownedComment xmi:type="uml:Comment" xmi:id="comment01" annotatedElement="9D963ABA-1">
+					<body>SIMF Version:1.0</body>
+				</ownedComment>
+				<packageImport xmi:id="mmref01">
+					<importedPackage href="http://www.omg.org/spec/UML/20161101"/>
+				</packageImport>
+				<packagedElement xmi:type="uml:Stereotype" xmi:id="External Reference" name="External Reference" isAbstract="true"/>
+				<packagedElement xmi:type="uml:Stereotype" xmi:id="Category" name="Category">
+					<generalization xmi:type="uml:Generalization" xmi:id="Category_Facet_generalization" general="Facet"/>
+				</packagedElement>
+				<packagedElement xmi:type="uml:Stereotype" xmi:id="Relationship" name="Relationship">
+					<ownedAttribute xmi:type="uml:Property" xmi:id="Relationship-base_Class" name="base_Class" association="Class_Relationship">
+						<type href="http://www.omg.org/spec/UML/20161101/UML.xmi#Class"/>
+					</ownedAttribute>
+				</packagedElement>
+				<packagedElement xmi:type="uml:Extension" xmi:id="Class_Relationship" name="A_Class_Relationship" memberEnd="extension_Relationship Relationship-base_Class">
+					<ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="extension_Relationship" name="extension_Relationship" type="Relationship" isComposite="true" lower="0" upper="1" memberEnd="extension_Relationship Relationship-base_Class"/>
+				</packagedElement>
+				<packagedElement xmi:type="uml:Stereotype" xmi:id="Intersection" name="Intersection">
+					<ownedAttribute xmi:type="uml:Property" xmi:id="Intersection-base_Class" name="base_Class" association="Class_Intersection">
+						<type href="http://www.omg.org/spec/UML/20161101/UML.xmi#Class"/>
+					</ownedAttribute>
+				</packagedElement>
+				<packagedElement xmi:type="uml:Extension" xmi:id="Class_Intersection" name="A_Class_Intersection" memberEnd="extension_Intersection Intersection-base_Class">
+					<ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="extension_Intersection" name="extension_Intersection" type="Intersection" isComposite="true" lower="0" upper="1" memberEnd="extension_Intersection Intersection-base_Class"/>
+				</packagedElement>
+				<packagedElement xmi:type="uml:Stereotype" xmi:id="Information Model" name="Information Model">
+					<generalization xmi:type="uml:Generalization" xmi:id="Information Model_Model_generalization" general="Model"/>
+				</packagedElement>
+				<packagedElement xmi:type="uml:Stereotype" xmi:id="Phase" name="Phase">
+					<generalization xmi:type="uml:Generalization" xmi:id="Phase_Facet_generalization" general="Facet"/>
+				</packagedElement>
+				<packagedElement xmi:type="uml:Stereotype" xmi:id="Synonym" name="Synonym">
+					<ownedAttribute xmi:type="uml:Property" xmi:id="Synonym-base_Note" name="base_Note" association="Note_Synonym">
+						<type href="http://www.omg.org/spec/UML/20161101/UML.xmi#Note"/>
+					</ownedAttribute>
+				</packagedElement>
+				<packagedElement xmi:type="uml:Extension" xmi:id="Note_Synonym" name="A_Note_Synonym" memberEnd="extension_Synonym Synonym-base_Note">
+					<ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="extension_Synonym" name="extension_Synonym" type="Synonym" isComposite="true" lower="0" upper="1" memberEnd="extension_Synonym Synonym-base_Note"/>
+				</packagedElement>
+				<packagedElement xmi:type="uml:Stereotype" xmi:id="Annotation Property" name="Annotation Property">
+					<generalization xmi:type="uml:Generalization" xmi:id="Annotation Property_Resource_generalization" general="Resource"/>
+					<ownedAttribute xmi:type="uml:Property" xmi:id="Annotation Property-base_Property" name="base_Property" association="Property_Annotation Property">
+						<type href="http://www.omg.org/spec/UML/20161101/UML.xmi#Property"/>
+					</ownedAttribute>
+				</packagedElement>
+				<packagedElement xmi:type="uml:Extension" xmi:id="Property_Annotation Property" name="A_Property_Annotation Property" memberEnd="extension_Annotation Property Annotation Property-base_Property">
+					<ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="extension_Annotation Property" name="extension_Annotation Property" type="Annotation Property" isComposite="true" lower="0" upper="1" memberEnd="extension_Annotation Property Annotation Property-base_Property"/>
+				</packagedElement>
+				<packagedElement xmi:type="uml:Stereotype" xmi:id="Model" name="Model">
+					<generalization xmi:type="uml:Generalization" xmi:id="Model_Resource_generalization" general="Resource"/>
+					<ownedAttribute xmi:type="uml:Property" xmi:id="Model-base_Package" name="base_Package" association="Package_Model">
+						<type href="http://www.omg.org/spec/UML/20161101/UML.xmi#Package"/>
+					</ownedAttribute>
+				</packagedElement>
+				<packagedElement xmi:type="uml:Extension" xmi:id="Package_Model" name="A_Package_Model" memberEnd="extension_Model Model-base_Package">
+					<ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="extension_Model" name="extension_Model" type="Model" isComposite="true" lower="0" upper="1" memberEnd="extension_Model Model-base_Package"/>
+				</packagedElement>
+				<packagedElement xmi:type="uml:Stereotype" xmi:id="Characteristic" name="Characteristic">
+					<ownedAttribute xmi:type="uml:Property" xmi:id="Characteristic-base_Property" name="base_Property" association="Property_Characteristic">
+						<type href="http://www.omg.org/spec/UML/20161101/UML.xmi#Property"/>
+					</ownedAttribute>
+				</packagedElement>
+				<packagedElement xmi:type="uml:Extension" xmi:id="Property_Characteristic" name="A_Property_Characteristic" memberEnd="extension_Characteristic Characteristic-base_Property">
+					<ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="extension_Characteristic" name="extension_Characteristic" type="Characteristic" isComposite="true" lower="0" upper="1" memberEnd="extension_Characteristic Characteristic-base_Property"/>
+				</packagedElement>
+				<packagedElement xmi:type="uml:Stereotype" xmi:id="Concept Model" name="Concept Model">
+					<generalization xmi:type="uml:Generalization" xmi:id="Concept Model_Model_generalization" general="Model"/>
+				</packagedElement>
+				<packagedElement xmi:type="uml:Stereotype" xmi:id="Has Value" name="Has Value">
+					<ownedAttribute xmi:type="uml:Property" xmi:id="Has Value-base_Dependency" name="base_Dependency" association="Dependency_Has Value">
+						<type href="http://www.omg.org/spec/UML/20161101/UML.xmi#Dependency"/>
+					</ownedAttribute>
+				</packagedElement>
+				<packagedElement xmi:type="uml:Extension" xmi:id="Dependency_Has Value" name="A_Dependency_Has Value" memberEnd="extension_Has Value Has Value-base_Dependency">
+					<ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="extension_Has Value" name="extension_Has Value" type="Has Value" isComposite="true" lower="0" upper="1" memberEnd="extension_Has Value Has Value-base_Dependency"/>
+				</packagedElement>
+				<packagedElement xmi:type="uml:Stereotype" xmi:id="Sufficient" name="Sufficient">
+					<ownedAttribute xmi:type="uml:Property" xmi:id="Sufficient-base_Property" name="base_Property" association="Property_Sufficient">
+						<type href="http://www.omg.org/spec/UML/20161101/UML.xmi#Property"/>
+					</ownedAttribute>
+				</packagedElement>
+				<packagedElement xmi:type="uml:Extension" xmi:id="Property_Sufficient" name="A_Property_Sufficient" memberEnd="extension_Sufficient Sufficient-base_Property">
+					<ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="extension_Sufficient" name="extension_Sufficient" type="Sufficient" isComposite="true" lower="0" upper="1" memberEnd="extension_Sufficient Sufficient-base_Property"/>
+				</packagedElement>
+				<packagedElement xmi:type="uml:Stereotype" xmi:id="Anything" name="Anything">
+					<ownedAttribute xmi:type="uml:Property" xmi:id="Anything-base_Class" name="base_Class" association="Class_Anything">
+						<type href="http://www.omg.org/spec/UML/20161101/UML.xmi#Class"/>
+					</ownedAttribute>
+				</packagedElement>
+				<packagedElement xmi:type="uml:Extension" xmi:id="Class_Anything" name="A_Class_Anything" memberEnd="extension_Anything Anything-base_Class">
+					<ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="extension_Anything" name="extension_Anything" type="Anything" isComposite="true" lower="0" upper="1" memberEnd="extension_Anything Anything-base_Class"/>
+				</packagedElement>
+				<packagedElement xmi:type="uml:Stereotype" xmi:id="Equivalent To" name="Equivalent To">
+					<ownedAttribute xmi:type="uml:Property" xmi:id="Equivalent To-base_Dependency" name="base_Dependency" association="Dependency_Equivalent To">
+						<type href="http://www.omg.org/spec/UML/20161101/UML.xmi#Dependency"/>
+					</ownedAttribute>
+				</packagedElement>
+				<packagedElement xmi:type="uml:Extension" xmi:id="Dependency_Equivalent To" name="A_Dependency_Equivalent To" memberEnd="extension_Equivalent To Equivalent To-base_Dependency">
+					<ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="extension_Equivalent To" name="extension_Equivalent To" type="Equivalent To" isComposite="true" lower="0" upper="1" memberEnd="extension_Equivalent To Equivalent To-base_Dependency"/>
+				</packagedElement>
+				<packagedElement xmi:type="uml:Stereotype" xmi:id="Union" name="Union">
+					<ownedAttribute xmi:type="uml:Property" xmi:id="Union-base_Class" name="base_Class" association="Class_Union">
+						<type href="http://www.omg.org/spec/UML/20161101/UML.xmi#Class"/>
+					</ownedAttribute>
+				</packagedElement>
+				<packagedElement xmi:type="uml:Extension" xmi:id="Class_Union" name="A_Class_Union" memberEnd="extension_Union Union-base_Class">
+					<ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="extension_Union" name="extension_Union" type="Union" isComposite="true" lower="0" upper="1" memberEnd="extension_Union Union-base_Class"/>
+				</packagedElement>
+				<packagedElement xmi:type="uml:Stereotype" xmi:id="Base Unit Value" name="Base Unit Value">
+					<generalization xmi:type="uml:Generalization" xmi:id="Base Unit Value_Unit Value_generalization" general="Unit Value"/>
+				</packagedElement>
+				<packagedElement xmi:type="uml:Stereotype" xmi:id="Equivalent Class" name="Equivalent Class">
+					<ownedAttribute xmi:type="uml:Property" xmi:id="Equivalent Class-base_Generalization" name="base_Generalization" association="Generalization_Equivalent Class">
+						<type href="http://www.omg.org/spec/UML/20161101/UML.xmi#Generalization"/>
+					</ownedAttribute>
+				</packagedElement>
+				<packagedElement xmi:type="uml:Extension" xmi:id="Generalization_Equivalent Class" name="A_Generalization_Equivalent Class" memberEnd="extension_Equivalent Class Equivalent Class-base_Generalization">
+					<ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="extension_Equivalent Class" name="extension_Equivalent Class" type="Equivalent Class" isComposite="true" lower="0" upper="1" memberEnd="extension_Equivalent Class Equivalent Class-base_Generalization"/>
+				</packagedElement>
+				<packagedElement xmi:type="uml:Stereotype" xmi:id="Quantity Kind" name="Quantity Kind">
+					<generalization xmi:type="uml:Generalization" xmi:id="Quantity Kind_Value_generalization" general="Value"/>
+				</packagedElement>
+				<packagedElement xmi:type="uml:Stereotype" xmi:id="Is In Context" name="Is In Context">
+					<ownedAttribute xmi:type="uml:Property" xmi:id="Is In Context-base_Dependency" name="base_Dependency" association="Dependency_Is In Context">
+						<type href="http://www.omg.org/spec/UML/20161101/UML.xmi#Dependency"/>
+					</ownedAttribute>
+				</packagedElement>
+				<packagedElement xmi:type="uml:Extension" xmi:id="Dependency_Is In Context" name="A_Dependency_Is In Context" memberEnd="extension_Is In Context Is In Context-base_Dependency">
+					<ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="extension_Is In Context" name="extension_Is In Context" type="Is In Context" isComposite="true" lower="0" upper="1" memberEnd="extension_Is In Context Is In Context-base_Dependency"/>
+				</packagedElement>
+				<packagedElement xmi:type="uml:Stereotype" xmi:id="Unit Value" name="Unit Value">
+					<generalization xmi:type="uml:Generalization" xmi:id="Unit Value_External Reference_generalization" general="External Reference"/>
+					<generalization xmi:type="uml:Generalization" xmi:id="Unit Value_Value_generalization" general="Value"/>
+				</packagedElement>
+				<packagedElement xmi:type="uml:Stereotype" xmi:id="Restriction" name="Restriction">
+					<ownedAttribute xmi:type="uml:Property" xmi:id="Restriction-base_Association" name="base_Association" association="Association_Restriction">
+						<type href="http://www.omg.org/spec/UML/20161101/UML.xmi#Association"/>
+					</ownedAttribute>
+					<ownedAttribute xmi:type="uml:Property" xmi:id="Restriction-base_Property" name="base_Property" association="Property_Restriction">
+						<type href="http://www.omg.org/spec/UML/20161101/UML.xmi#Property"/>
+					</ownedAttribute>
+				</packagedElement>
+				<packagedElement xmi:type="uml:Extension" xmi:id="Association_Restriction" name="A_Association_Restriction" memberEnd="extension_Restriction Restriction-base_Association">
+					<ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="extension_Restriction" name="extension_Restriction" type="Restriction" isComposite="true" lower="0" upper="1" memberEnd="extension_Restriction Restriction-base_Association"/>
+				</packagedElement>
+				<packagedElement xmi:type="uml:Extension" xmi:id="Property_Restriction" name="A_Property_Restriction" memberEnd="extension_Restriction Restriction-base_Property">
+					<ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="extension_Restriction" name="extension_Restriction" type="Restriction" isComposite="true" lower="0" upper="1" memberEnd="extension_Restriction Restriction-base_Property"/>
+				</packagedElement>
+				<packagedElement xmi:type="uml:Stereotype" xmi:id="Equivalent Property" name="Equivalent Property">
+					<ownedAttribute xmi:type="uml:Property" xmi:id="Equivalent Property-base_Property" name="base_Property" association="Property_Equivalent Property">
+						<type href="http://www.omg.org/spec/UML/20161101/UML.xmi#Property"/>
+					</ownedAttribute>
+				</packagedElement>
+				<packagedElement xmi:type="uml:Extension" xmi:id="Property_Equivalent Property" name="A_Property_Equivalent Property" memberEnd="extension_Equivalent Property Equivalent Property-base_Property">
+					<ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="extension_Equivalent Property" name="extension_Equivalent Property" type="Equivalent Property" isComposite="true" lower="0" upper="1" memberEnd="extension_Equivalent Property Equivalent Property-base_Property"/>
+				</packagedElement>
+				<packagedElement xmi:type="uml:Stereotype" xmi:id="Resource" name="Resource" isAbstract="true"/>
+				<packagedElement xmi:type="uml:Stereotype" xmi:id="Annotation" name="Annotation">
+					<ownedAttribute xmi:type="uml:Property" xmi:id="Annotation-base_Note" name="base_Note" association="Note_Annotation">
+						<type href="http://www.omg.org/spec/UML/20161101/UML.xmi#Note"/>
+					</ownedAttribute>
+				</packagedElement>
+				<packagedElement xmi:type="uml:Extension" xmi:id="Note_Annotation" name="A_Note_Annotation" memberEnd="extension_Annotation Annotation-base_Note">
+					<ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="extension_Annotation" name="extension_Annotation" type="Annotation" isComposite="true" lower="0" upper="1" memberEnd="extension_Annotation Annotation-base_Note"/>
+				</packagedElement>
+				<packagedElement xmi:type="uml:Stereotype" xmi:id="Involves" name="Involves">
+					<ownedAttribute xmi:type="uml:Property" xmi:id="Involves-base_Property" name="base_Property" association="Property_Involves">
+						<type href="http://www.omg.org/spec/UML/20161101/UML.xmi#Property"/>
+					</ownedAttribute>
+				</packagedElement>
+				<packagedElement xmi:type="uml:Extension" xmi:id="Property_Involves" name="A_Property_Involves" memberEnd="extension_Involves Involves-base_Property">
+					<ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="extension_Involves" name="extension_Involves" type="Involves" isComposite="true" lower="0" upper="1" memberEnd="extension_Involves Involves-base_Property"/>
+				</packagedElement>
+				<packagedElement xmi:type="uml:Stereotype" xmi:id="Value" name="Value">
+					<ownedAttribute xmi:type="uml:Property" xmi:id="Value-base_Class" name="base_Class" association="Class_Value">
+						<type href="http://www.omg.org/spec/UML/20161101/UML.xmi#Class"/>
+					</ownedAttribute>
+				</packagedElement>
+				<packagedElement xmi:type="uml:Extension" xmi:id="Class_Value" name="A_Class_Value" memberEnd="extension_Value Value-base_Class">
+					<ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="extension_Value" name="extension_Value" type="Value" isComposite="true" lower="0" upper="1" memberEnd="extension_Value Value-base_Class"/>
+				</packagedElement>
+				<packagedElement xmi:type="uml:Stereotype" xmi:id="Facet" name="Facet">
+					<ownedAttribute xmi:type="uml:Property" xmi:id="Facet-base_Class" name="base_Class" association="Class_Facet">
+						<type href="http://www.omg.org/spec/UML/20161101/UML.xmi#Class"/>
+					</ownedAttribute>
+				</packagedElement>
+				<packagedElement xmi:type="uml:Extension" xmi:id="Class_Facet" name="A_Class_Facet" memberEnd="extension_Facet Facet-base_Class">
+					<ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="extension_Facet" name="extension_Facet" type="Facet" isComposite="true" lower="0" upper="1" memberEnd="extension_Facet Facet-base_Class"/>
+				</packagedElement>
+				<packagedElement xmi:type="uml:Stereotype" xmi:id="Enumerates" name="Enumerates">
+					<ownedAttribute xmi:type="uml:Property" xmi:id="Enumerates-base_Dependency" name="base_Dependency" association="Dependency_Enumerates">
+						<type href="http://www.omg.org/spec/UML/20161101/UML.xmi#Dependency"/>
+					</ownedAttribute>
+				</packagedElement>
+				<packagedElement xmi:type="uml:Extension" xmi:id="Dependency_Enumerates" name="A_Dependency_Enumerates" memberEnd="extension_Enumerates Enumerates-base_Dependency">
+					<ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="extension_Enumerates" name="extension_Enumerates" type="Enumerates" isComposite="true" lower="0" upper="1" memberEnd="extension_Enumerates Enumerates-base_Dependency"/>
+				</packagedElement>
+				<packagedElement xmi:type="uml:Stereotype" xmi:id="Disjoint With" name="Disjoint With">
+					<ownedAttribute xmi:type="uml:Property" xmi:id="Disjoint With-base_Dependency" name="base_Dependency" association="Dependency_Disjoint With">
+						<type href="http://www.omg.org/spec/UML/20161101/UML.xmi#Dependency"/>
+					</ownedAttribute>
+				</packagedElement>
+				<packagedElement xmi:type="uml:Extension" xmi:id="Dependency_Disjoint With" name="A_Dependency_Disjoint With" memberEnd="extension_Disjoint With Disjoint With-base_Dependency">
+					<ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="extension_Disjoint With" name="extension_Disjoint With" type="Disjoint With" isComposite="true" lower="0" upper="1" memberEnd="extension_Disjoint With Disjoint With-base_Dependency"/>
+				</packagedElement>
+				<packagedElement xmi:type="uml:Stereotype" xmi:id="Facet Of" name="Facet Of">
+					<ownedAttribute xmi:type="uml:Property" xmi:id="Facet Of-base_Generalization" name="base_Generalization" association="Generalization_Facet Of">
+						<type href="http://www.omg.org/spec/UML/20161101/UML.xmi#Generalization"/>
+					</ownedAttribute>
+				</packagedElement>
+				<packagedElement xmi:type="uml:Extension" xmi:id="Generalization_Facet Of" name="A_Generalization_Facet Of" memberEnd="extension_Facet Of Facet Of-base_Generalization">
+					<ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="extension_Facet Of" name="extension_Facet Of" type="Facet Of" isComposite="true" lower="0" upper="1" memberEnd="extension_Facet Of Facet Of-base_Generalization"/>
+				</packagedElement>
+				<packagedElement xmi:type="uml:Stereotype" xmi:id="Role" name="Role">
+					<generalization xmi:type="uml:Generalization" xmi:id="Role_Facet_generalization" general="Facet"/>
+				</packagedElement>
+			</uml:Profile>
+			<uml:Profile xmlns:uml="http://www.omg.org/spec/UML/20161101" xmlns:xmi="http://www.omg.org/spec/XMI/20161101" xmi:id="D21A8EAD-F" nsPrefix="StandardProfileL2" name="StandardProfileL2" metamodelReference="mmref01" URI="http://www.omg.org/spec/UML/20110701/StandardProfileL2.xmi">
+				<ownedComment xmi:type="uml:Comment" xmi:id="comment01" annotatedElement="D21A8EAD-F">
+					<body>StandardProfileL2 Version:1.0</body>
+				</ownedComment>
+				<packageImport xmi:id="mmref01">
+					<importedPackage href="http://www.omg.org/spec/UML/20161101"/>
+				</packageImport>
+				<packagedElement xmi:type="uml:Stereotype" xmi:id="Source" name="Source">
+					<generalization xmi:type="uml:Generalization" xmi:id="Source_File_generalization" general="File"/>
+				</packagedElement>
+				<packagedElement xmi:type="uml:Stereotype" xmi:id="Derive" name="Derive">
+					<ownedAttribute xmi:type="uml:Property" xmi:id="Derive-base_Abstraction" name="base_Abstraction" association="Abstraction_Derive">
+						<type href="http://www.omg.org/spec/UML/20161101/UML.xmi#Abstraction"/>
+					</ownedAttribute>
+				</packagedElement>
+				<packagedElement xmi:type="uml:Extension" xmi:id="Abstraction_Derive" name="A_Abstraction_Derive" memberEnd="extension_Derive Derive-base_Abstraction">
+					<ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="extension_Derive" name="extension_Derive" type="Derive" isComposite="true" lower="0" upper="1" memberEnd="extension_Derive Derive-base_Abstraction"/>
+				</packagedElement>
+				<packagedElement xmi:type="uml:Stereotype" xmi:id="Service" name="Service">
+					<ownedAttribute xmi:type="uml:Property" xmi:id="Service-base_Component" name="base_Component" association="Component_Service">
+						<type href="http://www.omg.org/spec/UML/20161101/UML.xmi#Component"/>
+					</ownedAttribute>
+				</packagedElement>
+				<packagedElement xmi:type="uml:Extension" xmi:id="Component_Service" name="A_Component_Service" memberEnd="extension_Service Service-base_Component">
+					<ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="extension_Service" name="extension_Service" type="Service" isComposite="true" lower="0" upper="1" memberEnd="extension_Service Service-base_Component"/>
+				</packagedElement>
+				<packagedElement xmi:type="uml:Stereotype" xmi:id="Process" name="Process">
+					<ownedAttribute xmi:type="uml:Property" xmi:id="Process-base_Component" name="base_Component" association="Component_Process">
+						<type href="http://www.omg.org/spec/UML/20161101/UML.xmi#Component"/>
+					</ownedAttribute>
+				</packagedElement>
+				<packagedElement xmi:type="uml:Extension" xmi:id="Component_Process" name="A_Component_Process" memberEnd="extension_Process Process-base_Component">
+					<ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="extension_Process" name="extension_Process" type="Process" isComposite="true" lower="0" upper="1" memberEnd="extension_Process Process-base_Component"/>
+				</packagedElement>
+				<packagedElement xmi:type="uml:Stereotype" xmi:id="Implement" name="Implement">
+					<ownedAttribute xmi:type="uml:Property" xmi:id="Implement-base_Component" name="base_Component" association="Component_Implement">
+						<type href="http://www.omg.org/spec/UML/20161101/UML.xmi#Component"/>
+					</ownedAttribute>
+				</packagedElement>
+				<packagedElement xmi:type="uml:Extension" xmi:id="Component_Implement" name="A_Component_Implement" memberEnd="extension_Implement Implement-base_Component">
+					<ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="extension_Implement" name="extension_Implement" type="Implement" isComposite="true" lower="0" upper="1" memberEnd="extension_Implement Implement-base_Component"/>
+				</packagedElement>
+				<packagedElement xmi:type="uml:Stereotype" xmi:id="Instantiate" name="Instantiate">
+					<ownedAttribute xmi:type="uml:Property" xmi:id="Instantiate-base_Usage" name="base_Usage" association="Usage_Instantiate">
+						<type href="http://www.omg.org/spec/UML/20161101/UML.xmi#Usage"/>
+					</ownedAttribute>
+				</packagedElement>
+				<packagedElement xmi:type="uml:Extension" xmi:id="Usage_Instantiate" name="A_Usage_Instantiate" memberEnd="extension_Instantiate Instantiate-base_Usage">
+					<ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="extension_Instantiate" name="extension_Instantiate" type="Instantiate" isComposite="true" lower="0" upper="1" memberEnd="extension_Instantiate Instantiate-base_Usage"/>
+				</packagedElement>
+				<packagedElement xmi:type="uml:Stereotype" xmi:id="Document" name="Document">
+					<generalization xmi:type="uml:Generalization" xmi:id="Document_File_generalization" general="File"/>
+				</packagedElement>
+				<packagedElement xmi:type="uml:Stereotype" xmi:id="ModelLibrary" name="ModelLibrary">
+					<ownedAttribute xmi:type="uml:Property" xmi:id="ModelLibrary-base_Package" name="base_Package" association="Package_ModelLibrary">
+						<type href="http://www.omg.org/spec/UML/20161101/UML.xmi#Package"/>
+					</ownedAttribute>
+				</packagedElement>
+				<packagedElement xmi:type="uml:Extension" xmi:id="Package_ModelLibrary" name="A_Package_ModelLibrary" memberEnd="extension_ModelLibrary ModelLibrary-base_Package">
+					<ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="extension_ModelLibrary" name="extension_ModelLibrary" type="ModelLibrary" isComposite="true" lower="0" upper="1" memberEnd="extension_ModelLibrary ModelLibrary-base_Package"/>
+				</packagedElement>
+				<packagedElement xmi:type="uml:Stereotype" xmi:id="Destroy" name="Destroy">
+					<ownedAttribute xmi:type="uml:Property" xmi:id="Destroy-base_Operation" name="base_Operation" association="Operation_Destroy">
+						<type href="http://www.omg.org/spec/UML/20161101/UML.xmi#Operation"/>
+					</ownedAttribute>
+				</packagedElement>
+				<packagedElement xmi:type="uml:Extension" xmi:id="Operation_Destroy" name="A_Operation_Destroy" memberEnd="extension_Destroy Destroy-base_Operation">
+					<ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="extension_Destroy" name="extension_Destroy" type="Destroy" isComposite="true" lower="0" upper="1" memberEnd="extension_Destroy Destroy-base_Operation"/>
+				</packagedElement>
+				<packagedElement xmi:type="uml:Stereotype" xmi:id="File" name="File">
+					<ownedAttribute xmi:type="uml:Property" xmi:id="File-base_Artifact" name="base_Artifact" association="Artifact_File">
+						<type href="http://www.omg.org/spec/UML/20161101/UML.xmi#Artifact"/>
+					</ownedAttribute>
+				</packagedElement>
+				<packagedElement xmi:type="uml:Extension" xmi:id="Artifact_File" name="A_Artifact_File" memberEnd="extension_File File-base_Artifact">
+					<ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="extension_File" name="extension_File" type="File" isComposite="true" lower="0" upper="1" memberEnd="extension_File File-base_Artifact"/>
+				</packagedElement>
+				<packagedElement xmi:type="uml:Stereotype" xmi:id="Create" name="Create">
+					<ownedAttribute xmi:type="uml:Property" xmi:id="Create-base_Usage" name="base_Usage" association="Usage_Create">
+						<type href="http://www.omg.org/spec/UML/20161101/UML.xmi#Usage"/>
+					</ownedAttribute>
+					<ownedAttribute xmi:type="uml:Property" xmi:id="Create-base_Operation" name="base_Operation" association="Operation_Create">
+						<type href="http://www.omg.org/spec/UML/20161101/UML.xmi#Operation"/>
+					</ownedAttribute>
+				</packagedElement>
+				<packagedElement xmi:type="uml:Extension" xmi:id="Usage_Create" name="A_Usage_Create" memberEnd="extension_Create Create-base_Usage">
+					<ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="extension_Create" name="extension_Create" type="Create" isComposite="true" lower="0" upper="1" memberEnd="extension_Create Create-base_Usage"/>
+				</packagedElement>
+				<packagedElement xmi:type="uml:Extension" xmi:id="Operation_Create" name="A_Operation_Create" memberEnd="extension_Create Create-base_Operation">
+					<ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="extension_Create" name="extension_Create" type="Create" isComposite="true" lower="0" upper="1" memberEnd="extension_Create Create-base_Operation"/>
+				</packagedElement>
+				<packagedElement xmi:type="uml:Stereotype" xmi:id="Call" name="Call">
+					<ownedAttribute xmi:type="uml:Property" xmi:id="Call-base_Usage" name="base_Usage" association="Usage_Call">
+						<type href="http://www.omg.org/spec/UML/20161101/UML.xmi#Usage"/>
+					</ownedAttribute>
+				</packagedElement>
+				<packagedElement xmi:type="uml:Extension" xmi:id="Usage_Call" name="A_Usage_Call" memberEnd="extension_Call Call-base_Usage">
+					<ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="extension_Call" name="extension_Call" type="Call" isComposite="true" lower="0" upper="1" memberEnd="extension_Call Call-base_Usage"/>
+				</packagedElement>
+				<packagedElement xmi:type="uml:Stereotype" xmi:id="Script" name="Script">
+					<generalization xmi:type="uml:Generalization" xmi:id="Script_File_generalization" general="File"/>
+				</packagedElement>
+				<packagedElement xmi:type="uml:Stereotype" xmi:id="BuildComponent" name="BuildComponent">
+					<ownedAttribute xmi:type="uml:Property" xmi:id="BuildComponent-base_Component" name="base_Component" association="Component_BuildComponent">
+						<type href="http://www.omg.org/spec/UML/20161101/UML.xmi#Component"/>
+					</ownedAttribute>
+				</packagedElement>
+				<packagedElement xmi:type="uml:Extension" xmi:id="Component_BuildComponent" name="A_Component_BuildComponent" memberEnd="extension_BuildComponent BuildComponent-base_Component">
+					<ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="extension_BuildComponent" name="extension_BuildComponent" type="BuildComponent" isComposite="true" lower="0" upper="1" memberEnd="extension_BuildComponent BuildComponent-base_Component"/>
+				</packagedElement>
+				<packagedElement xmi:type="uml:Stereotype" xmi:id="Entity" name="Entity">
+					<ownedAttribute xmi:type="uml:Property" xmi:id="Entity-base_Component" name="base_Component" association="Component_Entity">
+						<type href="http://www.omg.org/spec/UML/20161101/UML.xmi#Component"/>
+					</ownedAttribute>
+				</packagedElement>
+				<packagedElement xmi:type="uml:Extension" xmi:id="Component_Entity" name="A_Component_Entity" memberEnd="extension_Entity Entity-base_Component">
+					<ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="extension_Entity" name="extension_Entity" type="Entity" isComposite="true" lower="0" upper="1" memberEnd="extension_Entity Entity-base_Component"/>
+				</packagedElement>
+				<packagedElement xmi:type="uml:Stereotype" xmi:id="Responsibility" name="Responsibility">
+					<ownedAttribute xmi:type="uml:Property" xmi:id="Responsibility-base_Usage" name="base_Usage" association="Usage_Responsibility">
+						<type href="http://www.omg.org/spec/UML/20161101/UML.xmi#Usage"/>
+					</ownedAttribute>
+				</packagedElement>
+				<packagedElement xmi:type="uml:Extension" xmi:id="Usage_Responsibility" name="A_Usage_Responsibility" memberEnd="extension_Responsibility Responsibility-base_Usage">
+					<ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="extension_Responsibility" name="extension_Responsibility" type="Responsibility" isComposite="true" lower="0" upper="1" memberEnd="extension_Responsibility Responsibility-base_Usage"/>
+				</packagedElement>
+				<packagedElement xmi:type="uml:Stereotype" xmi:id="Executable" name="Executable">
+					<generalization xmi:type="uml:Generalization" xmi:id="Executable_File_generalization" general="File"/>
+				</packagedElement>
+				<packagedElement xmi:type="uml:Stereotype" xmi:id="ImplementationClass" name="ImplementationClass">
+					<ownedAttribute xmi:type="uml:Property" xmi:id="ImplementationClass-base_Class" name="base_Class" association="Class_ImplementationClass">
+						<type href="http://www.omg.org/spec/UML/20161101/UML.xmi#Class"/>
+					</ownedAttribute>
+				</packagedElement>
+				<packagedElement xmi:type="uml:Extension" xmi:id="Class_ImplementationClass" name="A_Class_ImplementationClass" memberEnd="extension_ImplementationClass ImplementationClass-base_Class">
+					<ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="extension_ImplementationClass" name="extension_ImplementationClass" type="ImplementationClass" isComposite="true" lower="0" upper="1" memberEnd="extension_ImplementationClass ImplementationClass-base_Class"/>
+				</packagedElement>
+				<packagedElement xmi:type="uml:Stereotype" xmi:id="Refine" name="Refine">
+					<ownedAttribute xmi:type="uml:Property" xmi:id="Refine-base_Dependency" name="base_Dependency" association="Dependency_Refine">
+						<type href="http://www.omg.org/spec/UML/20161101/UML.xmi#Dependency"/>
+					</ownedAttribute>
+					<ownedAttribute xmi:type="uml:Property" xmi:id="Refine-base_Abstraction" name="base_Abstraction" association="Abstraction_Refine">
+						<type href="http://www.omg.org/spec/UML/20161101/UML.xmi#Abstraction"/>
+					</ownedAttribute>
+				</packagedElement>
+				<packagedElement xmi:type="uml:Extension" xmi:id="Dependency_Refine" name="A_Dependency_Refine" memberEnd="extension_Refine Refine-base_Dependency">
+					<ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="extension_Refine" name="extension_Refine" type="Refine" isComposite="true" lower="0" upper="1" memberEnd="extension_Refine Refine-base_Dependency"/>
+				</packagedElement>
+				<packagedElement xmi:type="uml:Extension" xmi:id="Abstraction_Refine" name="A_Abstraction_Refine" memberEnd="extension_Refine Refine-base_Abstraction">
+					<ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="extension_Refine" name="extension_Refine" type="Refine" isComposite="true" lower="0" upper="1" memberEnd="extension_Refine Refine-base_Abstraction"/>
+				</packagedElement>
+				<packagedElement xmi:type="uml:Stereotype" xmi:id="Type" name="Type">
+					<ownedAttribute xmi:type="uml:Property" xmi:id="Type-base_Class" name="base_Class" association="Class_Type">
+						<type href="http://www.omg.org/spec/UML/20161101/UML.xmi#Class"/>
+					</ownedAttribute>
+				</packagedElement>
+				<packagedElement xmi:type="uml:Extension" xmi:id="Class_Type" name="A_Class_Type" memberEnd="extension_Type Type-base_Class">
+					<ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="extension_Type" name="extension_Type" type="Type" isComposite="true" lower="0" upper="1" memberEnd="extension_Type Type-base_Class"/>
+				</packagedElement>
+				<packagedElement xmi:type="uml:Stereotype" xmi:id="Subsystem" name="Subsystem">
+					<ownedAttribute xmi:type="uml:Property" xmi:id="Subsystem-base_Component" name="base_Component" association="Component_Subsystem">
+						<type href="http://www.omg.org/spec/UML/20161101/UML.xmi#Component"/>
+					</ownedAttribute>
+				</packagedElement>
+				<packagedElement xmi:type="uml:Extension" xmi:id="Component_Subsystem" name="A_Component_Subsystem" memberEnd="extension_Subsystem Subsystem-base_Component">
+					<ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="extension_Subsystem" name="extension_Subsystem" type="Subsystem" isComposite="true" lower="0" upper="1" memberEnd="extension_Subsystem Subsystem-base_Component"/>
+				</packagedElement>
+				<packagedElement xmi:type="uml:Stereotype" xmi:id="Send" name="Send">
+					<ownedAttribute xmi:type="uml:Property" xmi:id="Send-base_Usage" name="base_Usage" association="Usage_Send">
+						<type href="http://www.omg.org/spec/UML/20161101/UML.xmi#Usage"/>
+					</ownedAttribute>
+				</packagedElement>
+				<packagedElement xmi:type="uml:Extension" xmi:id="Usage_Send" name="A_Usage_Send" memberEnd="extension_Send Send-base_Usage">
+					<ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="extension_Send" name="extension_Send" type="Send" isComposite="true" lower="0" upper="1" memberEnd="extension_Send Send-base_Usage"/>
+				</packagedElement>
+				<packagedElement xmi:type="uml:Stereotype" xmi:id="Utility" name="Utility">
+					<ownedAttribute xmi:type="uml:Property" xmi:id="Utility-base_Class" name="base_Class" association="Class_Utility">
+						<type href="http://www.omg.org/spec/UML/20161101/UML.xmi#Class"/>
+					</ownedAttribute>
+				</packagedElement>
+				<packagedElement xmi:type="uml:Extension" xmi:id="Class_Utility" name="A_Class_Utility" memberEnd="extension_Utility Utility-base_Class">
+					<ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="extension_Utility" name="extension_Utility" type="Utility" isComposite="true" lower="0" upper="1" memberEnd="extension_Utility Utility-base_Class"/>
+				</packagedElement>
+				<packagedElement xmi:type="uml:Stereotype" xmi:id="Trace" name="Trace">
+					<ownedAttribute xmi:type="uml:Property" xmi:id="Trace-base_Abstraction" name="base_Abstraction" association="Abstraction_Trace">
+						<type href="http://www.omg.org/spec/UML/20161101/UML.xmi#Abstraction"/>
+					</ownedAttribute>
+				</packagedElement>
+				<packagedElement xmi:type="uml:Extension" xmi:id="Abstraction_Trace" name="A_Abstraction_Trace" memberEnd="extension_Trace Trace-base_Abstraction">
+					<ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="extension_Trace" name="extension_Trace" type="Trace" isComposite="true" lower="0" upper="1" memberEnd="extension_Trace Trace-base_Abstraction"/>
+				</packagedElement>
+				<packagedElement xmi:type="uml:Stereotype" xmi:id="Focus" name="Focus">
+					<ownedAttribute xmi:type="uml:Property" xmi:id="Focus-base_Class" name="base_Class" association="Class_Focus">
+						<type href="http://www.omg.org/spec/UML/20161101/UML.xmi#Class"/>
+					</ownedAttribute>
+				</packagedElement>
+				<packagedElement xmi:type="uml:Extension" xmi:id="Class_Focus" name="A_Class_Focus" memberEnd="extension_Focus Focus-base_Class">
+					<ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="extension_Focus" name="extension_Focus" type="Focus" isComposite="true" lower="0" upper="1" memberEnd="extension_Focus Focus-base_Class"/>
+				</packagedElement>
+				<packagedElement xmi:type="uml:Stereotype" xmi:id="SystemModel" name="SystemModel">
+					<ownedAttribute xmi:type="uml:Property" xmi:id="SystemModel-base_Package" name="base_Package" association="Package_SystemModel">
+						<type href="http://www.omg.org/spec/UML/20161101/UML.xmi#Package"/>
+					</ownedAttribute>
+				</packagedElement>
+				<packagedElement xmi:type="uml:Extension" xmi:id="Package_SystemModel" name="A_Package_SystemModel" memberEnd="extension_SystemModel SystemModel-base_Package">
+					<ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="extension_SystemModel" name="extension_SystemModel" type="SystemModel" isComposite="true" lower="0" upper="1" memberEnd="extension_SystemModel SystemModel-base_Package"/>
+				</packagedElement>
+				<packagedElement xmi:type="uml:Stereotype" xmi:id="Metamodel" name="Metamodel">
+					<ownedAttribute xmi:type="uml:Property" xmi:id="Metamodel-base_Package" name="base_Package" association="Package_Metamodel">
+						<type href="http://www.omg.org/spec/UML/20161101/UML.xmi#Package"/>
+					</ownedAttribute>
+				</packagedElement>
+				<packagedElement xmi:type="uml:Extension" xmi:id="Package_Metamodel" name="A_Package_Metamodel" memberEnd="extension_Metamodel Metamodel-base_Package">
+					<ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="extension_Metamodel" name="extension_Metamodel" type="Metamodel" isComposite="true" lower="0" upper="1" memberEnd="extension_Metamodel Metamodel-base_Package"/>
+				</packagedElement>
+				<packagedElement xmi:type="uml:Stereotype" xmi:id="Realization" name="Realization">
+					<ownedAttribute xmi:type="uml:Property" xmi:id="Realization-base_Class" name="base_Class" association="Class_Realization">
+						<type href="http://www.omg.org/spec/UML/20161101/UML.xmi#Class"/>
+					</ownedAttribute>
+				</packagedElement>
+				<packagedElement xmi:type="uml:Extension" xmi:id="Class_Realization" name="A_Class_Realization" memberEnd="extension_Realization Realization-base_Class">
+					<ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="extension_Realization" name="extension_Realization" type="Realization" isComposite="true" lower="0" upper="1" memberEnd="extension_Realization Realization-base_Class"/>
+				</packagedElement>
+				<packagedElement xmi:type="uml:Stereotype" xmi:id="Specification" name="Specification">
+					<ownedAttribute xmi:type="uml:Property" xmi:id="Specification-base_Class" name="base_Class" association="Class_Specification">
+						<type href="http://www.omg.org/spec/UML/20161101/UML.xmi#Class"/>
+					</ownedAttribute>
+				</packagedElement>
+				<packagedElement xmi:type="uml:Extension" xmi:id="Class_Specification" name="A_Class_Specification" memberEnd="extension_Specification Specification-base_Class">
+					<ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="extension_Specification" name="extension_Specification" type="Specification" isComposite="true" lower="0" upper="1" memberEnd="extension_Specification Specification-base_Class"/>
+				</packagedElement>
+				<packagedElement xmi:type="uml:Stereotype" xmi:id="Auxiliary" name="Auxiliary">
+					<ownedAttribute xmi:type="uml:Property" xmi:id="Auxiliary-base_Class" name="base_Class" association="Class_Auxiliary">
+						<type href="http://www.omg.org/spec/UML/20161101/UML.xmi#Class"/>
+					</ownedAttribute>
+				</packagedElement>
+				<packagedElement xmi:type="uml:Extension" xmi:id="Class_Auxiliary" name="A_Class_Auxiliary" memberEnd="extension_Auxiliary Auxiliary-base_Class">
+					<ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="extension_Auxiliary" name="extension_Auxiliary" type="Auxiliary" isComposite="true" lower="0" upper="1" memberEnd="extension_Auxiliary Auxiliary-base_Class"/>
+				</packagedElement>
+				<packagedElement xmi:type="uml:Stereotype" xmi:id="Framework" name="Framework">
+					<ownedAttribute xmi:type="uml:Property" xmi:id="Framework-base_Package" name="base_Package" association="Package_Framework">
+						<type href="http://www.omg.org/spec/UML/20161101/UML.xmi#Package"/>
+					</ownedAttribute>
+				</packagedElement>
+				<packagedElement xmi:type="uml:Extension" xmi:id="Package_Framework" name="A_Package_Framework" memberEnd="extension_Framework Framework-base_Package">
+					<ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="extension_Framework" name="extension_Framework" type="Framework" isComposite="true" lower="0" upper="1" memberEnd="extension_Framework Framework-base_Package"/>
+				</packagedElement>
+				<packagedElement xmi:type="uml:Stereotype" xmi:id="Metaclass" name="Metaclass">
+					<ownedAttribute xmi:type="uml:Property" xmi:id="Metaclass-base_Class" name="base_Class" association="Class_Metaclass">
+						<type href="http://www.omg.org/spec/UML/20161101/UML.xmi#Class"/>
+					</ownedAttribute>
+				</packagedElement>
+				<packagedElement xmi:type="uml:Extension" xmi:id="Class_Metaclass" name="A_Class_Metaclass" memberEnd="extension_Metaclass Metaclass-base_Class">
+					<ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="extension_Metaclass" name="extension_Metaclass" type="Metaclass" isComposite="true" lower="0" upper="1" memberEnd="extension_Metaclass Metaclass-base_Class"/>
+				</packagedElement>
+				<packagedElement xmi:type="uml:Stereotype" xmi:id="Library" name="Library">
+					<generalization xmi:type="uml:Generalization" xmi:id="Library_File_generalization" general="File"/>
 				</packagedElement>
 			</uml:Profile>
 			<uml:Profile xmlns:uml="http://www.omg.org/spec/UML/20161101" xmlns:xmi="http://www.omg.org/spec/XMI/20161101" xmi:id="8C9E6706-8" nsPrefix="EAUML" name="EAUML" metamodelReference="mmref01">
@@ -1551,6 +2035,9 @@
 		</profiles>
 	</xmi:Extension>
 	<EAUML:BPSimCustomResultChart base_Class="EAID_E7DEF3AB_2BF1_474f_A118_48F9DC5ED70A"/>
+	<SIMF:Characteristic base_Property="EAID_957B58DC_9D90_4781_A642_E060CB7F142A"/>
+	<StandardProfileL2:Destroy base_Operation="EAID_65D71FBE_61C0_4106_9FD0_7AA794BCF07A"/>
+	<EAUML:FK base_Association="EAID_374A0559_218E_43c1_9766_8CDA78DAE4AA"/>
 	<thecustomprofile:EAUML__PackageRef base_Class="EAID_3CA99B53_F784_4847_B33E_BAB38A4944C6" __EAStereoName="EAUML::PackageRef" EAUML__PackageRef="{A059C88E-4BDF-46ec-9651-03CBB56A4410}"/>
 	<EAUML:model_document base_Class="EAID_3CA99B53_F784_4847_B33E_BAB38A4944C6" __EAStereoName="model document" SearchName="Extended"/>
 </xmi:XMI>
