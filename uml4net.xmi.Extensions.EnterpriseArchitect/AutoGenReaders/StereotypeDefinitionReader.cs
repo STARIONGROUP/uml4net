@@ -1,5 +1,5 @@
 ﻿// -------------------------------------------------------------------------------------------------
-// <copyright file="StereotypeDefinitionReader.cs" company="Starion Group S.A.">
+// <copyright file="Reader.cs" company="Starion Group S.A.">
 //
 //    Copyright (C) 2019-2025 Starion Group S.A.
 //
@@ -33,6 +33,7 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.Structure.Readers
     using Microsoft.Extensions.Logging.Abstractions;
 
     using uml4net;
+    using uml4net.xmi.Extender;
     using uml4net.Extensions;
     using uml4net.xmi.Extensions.EnterpriseArchitect.Structure;
     using uml4net.xmi.Readers;
@@ -53,7 +54,7 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.Structure.Readers
         /// <summary>
         /// Initializes a new instance of the <see cref="StereotypeDefinitionReader"/> class.
         /// </summary>
-        /// <param name="extensionContentReaderFacade">The <see cref="IExtensionContentReaderFacade"/> that allow other <see cref="ExtensionContentReader{TContent}"/> read capabilities</param>
+        /// <param name="registry">The <see cref="IExtenderReaderRegistry"/> that allow to resolve <see cref="IExtensionContentReaderFacade"/></param>
         /// <param name="xmiReaderSettings">
         /// The <see cref="IXmiReaderSettings"/> used to configure reading
         /// </param>
@@ -65,8 +66,8 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.Structure.Readers
         /// <param name="loggerFactory">
         /// The (injected) <see cref="ILoggerFactory"/> used to set up logging
         /// </param>
-        public StereotypeDefinitionReader(IExtensionContentReaderFacade extensionContentReaderFacade, IXmiReaderSettings xmiReaderSettings, INameSpaceResolver nameSpaceResolver, IXmiElementCache cache, ILoggerFactory loggerFactory)
-        : base(extensionContentReaderFacade, xmiReaderSettings, nameSpaceResolver, cache, loggerFactory)
+        public StereotypeDefinitionReader(IExtenderReaderRegistry registry, IXmiReaderSettings xmiReaderSettings, INameSpaceResolver nameSpaceResolver, IXmiElementCache cache, ILoggerFactory loggerFactory)
+        : base(registry, xmiReaderSettings, nameSpaceResolver, cache, loggerFactory)
         {
             this.logger = loggerFactory == null ? NullLogger<StereotypeDefinitionReader>.Instance : loggerFactory.CreateLogger<StereotypeDefinitionReader>();
         }
@@ -94,7 +95,7 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.Structure.Readers
 
             if (xmlReader.MoveToContent() == XmlNodeType.Element)
             {
-                this.logger.LogTrace("reading StereotypeDefinition at line:position {LineNumber}:{LinePosition}", xmlLineInfo?.LineNumber, xmlLineInfo?.LinePosition);
+                this.logger.LogTrace("reading  at line:position {LineNumber}:{LinePosition}", xmlLineInfo?.LineNumber, xmlLineInfo?.LinePosition);
 
                 var stereotypeValue = xmlReader.GetAttribute("stereotype");
                 poco.Stereotype = stereotypeValue;
@@ -122,6 +123,24 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.Structure.Readers
             }
 
             return poco;
+        }
+
+        /// <summary>
+        /// Gets the name of the extender value
+        /// </summary>
+        /// <returns>The extender name</returns>
+        protected override string GetExtender()
+        {
+            return "Enterprise Architect";
+        }
+
+        /// <summary>
+        /// Gets the identifier of the extender value
+        /// </summary>
+        /// <returns>The extender id</returns>
+        protected override string GetExtenderId()
+        {
+            return "6.5";
         }
     }
 }

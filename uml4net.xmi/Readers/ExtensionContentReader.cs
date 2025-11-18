@@ -20,10 +20,12 @@
 
 namespace uml4net.xmi.Readers
 {
+    using System;
     using System.Xml;
 
     using Microsoft.Extensions.Logging;
 
+    using uml4net.xmi.Extender;
     using uml4net.xmi.Settings;
 
     /// <summary>
@@ -35,20 +37,30 @@ namespace uml4net.xmi.Readers
         /// <summary>
         /// Initializes a new instance of <see cref="ExtensionContentReader{TContent}"/>
         /// </summary>
-        /// <param name="extensionContentReaderFacade">The <see cref="IExtensionContentReaderFacade"/> that allow other <see cref="ExtensionContentReader{TContent}"/> read capabilities</param>
+        /// <param name="registry">The <see cref="IExtenderReaderRegistry"/> that allow resolve <see cref="IExtensionContentReaderFacade"/></param>
         /// <param name="xmiReaderSettings">The <see cref="IXmiReaderSettings"/> that provides settings to be followed during XMI reading</param>
         /// <param name="nameSpaceResolver">The <see cref="INameSpaceResolver"/> that provides namespace resolves features based on uri</param>
         /// <param name="cache">The <see cref="IXmiElementCache"/> that provides cached <see cref="IXmiElement"/> retriveal</param>
         /// <param name="loggerFactory">The <see cref="ILoggerFactory"/> that provides <see cref="ILogger{TCategoryName}"/> creation</param>
-        protected ExtensionContentReader(IExtensionContentReaderFacade extensionContentReaderFacade,  IXmiReaderSettings xmiReaderSettings, 
+        protected ExtensionContentReader(IExtenderReaderRegistry registry,  IXmiReaderSettings xmiReaderSettings, 
             INameSpaceResolver nameSpaceResolver, IXmiElementCache cache, ILoggerFactory loggerFactory)
         {
-            this.ExtensionContentReaderFacade = extensionContentReaderFacade;
+            this.ExtensionContentReaderFacade = registry.ResolveFacade(this.Extender, this.ExtenderId) ?? throw new InvalidOperationException("Unable to resolve IExtensionContentReaderFacade");
             this.XmiReaderSettings = xmiReaderSettings;
             this.LoggerFactory =  loggerFactory;
             this.NameSpaceResolver =  nameSpaceResolver;
             this.Cache = cache;
         }
+
+        /// <summary>
+        /// Gets the name of the related extender
+        /// </summary>
+        private string Extender => this.GetExtender();
+        
+        /// <summary>
+        /// Gets the identifier of the related extender
+        /// </summary>
+        private string ExtenderId => this.GetExtenderId();
 
         /// <summary>
         /// Gets the <see cref="IExtensionContentReaderFacade"/> that allow other <see cref="ExtensionContentReader{TContent}"/> read capabilities
@@ -86,5 +98,17 @@ namespace uml4net.xmi.Readers
         /// an instance of <typeparamref name="TContent"/>
         /// </returns>
         public abstract TContent Read(XmlReader xmlReader, string documentName);
+
+        /// <summary>
+        /// Gets the name of the extender value
+        /// </summary>
+        /// <returns>The extender name</returns>
+        protected abstract string GetExtender();
+
+        /// <summary>
+        /// Gets the identifier of the extender value
+        /// </summary>
+        /// <returns>The extender id</returns>
+        protected abstract string GetExtenderId();
     }
 }

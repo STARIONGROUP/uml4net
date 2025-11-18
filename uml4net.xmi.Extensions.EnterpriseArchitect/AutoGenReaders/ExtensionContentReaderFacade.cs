@@ -31,6 +31,7 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.Structure.Readers
 
     using Microsoft.Extensions.Logging;
 
+    using uml4net.xmi.Extender;
     using uml4net.xmi.Readers;
     using uml4net.xmi.Settings;
 
@@ -38,6 +39,7 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.Structure.Readers
     /// The <see cref="ExtensionContentReaderFacade"/> provides extension content read capabilities via <see cref="IExtensionContentReader{TContent}"/> call
     /// </summary>
     [GeneratedCode("uml4net", "latest")]
+    [ExtenderReader("Enterprise Architect", "6.5")]
     public class ExtensionContentReaderFacade : IExtensionContentReaderFacade
     {
         /// <summary>
@@ -49,302 +51,303 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.Structure.Readers
         /// <summary>
         /// Initializes a new instance of the <see cref="ExtensionContentReaderFacade"/>
         /// </summary>
-        public ExtensionContentReaderFacade()
+        /// <param name="registry">The injected <see cref="IExtenderReaderRegistry"/></param>
+        public ExtensionContentReaderFacade(Lazy<IExtenderReaderRegistry> registry)
         {
             this.readerCache = new Dictionary<string, Func<IXmiElementCache, IXmiReaderSettings, INameSpaceResolver, ILoggerFactory, XmlReader, string, object>>
             {
                 ["Abstraction"] = (cache, xmiReaderSettings, nameSpaceResolver, loggerFactory, xmlReader, documentName) =>
                     {
                         using var subXmlReader = xmlReader.ReadSubtree();
-                        var abstractionReader = new AbstractionReader(this, xmiReaderSettings, nameSpaceResolver, cache, loggerFactory);
+                        var abstractionReader = new AbstractionReader(registry.Value, xmiReaderSettings, nameSpaceResolver, cache, loggerFactory);
                         return abstractionReader.Read(subXmlReader, documentName);
                     },
                 ["Aggregation"] = (cache, xmiReaderSettings, nameSpaceResolver, loggerFactory, xmlReader, documentName) =>
                     {
                         using var subXmlReader = xmlReader.ReadSubtree();
-                        var aggregationReader = new AggregationReader(this, xmiReaderSettings, nameSpaceResolver, cache, loggerFactory);
+                        var aggregationReader = new AggregationReader(registry.Value, xmiReaderSettings, nameSpaceResolver, cache, loggerFactory);
                         return aggregationReader.Read(subXmlReader, documentName);
                     },
                 ["AppearanceStyle"] = (cache, xmiReaderSettings, nameSpaceResolver, loggerFactory, xmlReader, documentName) =>
                     {
                         using var subXmlReader = xmlReader.ReadSubtree();
-                        var appearanceStyleReader = new AppearanceStyleReader(this, xmiReaderSettings, nameSpaceResolver, cache, loggerFactory);
+                        var appearanceStyleReader = new AppearanceStyleReader(registry.Value, xmiReaderSettings, nameSpaceResolver, cache, loggerFactory);
                         return appearanceStyleReader.Read(subXmlReader, documentName);
                     },
                 ["Association"] = (cache, xmiReaderSettings, nameSpaceResolver, loggerFactory, xmlReader, documentName) =>
                     {
                         using var subXmlReader = xmlReader.ReadSubtree();
-                        var associationReader = new AssociationReader(this, xmiReaderSettings, nameSpaceResolver, cache, loggerFactory);
+                        var associationReader = new AssociationReader(registry.Value, xmiReaderSettings, nameSpaceResolver, cache, loggerFactory);
                         return associationReader.Read(subXmlReader, documentName);
                     },
                 ["Attribute"] = (cache, xmiReaderSettings, nameSpaceResolver, loggerFactory, xmlReader, documentName) =>
                     {
                         using var subXmlReader = xmlReader.ReadSubtree();
-                        var attributeReader = new AttributeReader(this, xmiReaderSettings, nameSpaceResolver, cache, loggerFactory);
+                        var attributeReader = new AttributeReader(registry.Value, xmiReaderSettings, nameSpaceResolver, cache, loggerFactory);
                         return attributeReader.Read(subXmlReader, documentName);
                     },
                 ["AttributeProperties"] = (cache, xmiReaderSettings, nameSpaceResolver, loggerFactory, xmlReader, documentName) =>
                     {
                         using var subXmlReader = xmlReader.ReadSubtree();
-                        var attributePropertiesReader = new AttributePropertiesReader(this, xmiReaderSettings, nameSpaceResolver, cache, loggerFactory);
+                        var attributePropertiesReader = new AttributePropertiesReader(registry.Value, xmiReaderSettings, nameSpaceResolver, cache, loggerFactory);
                         return attributePropertiesReader.Read(subXmlReader, documentName);
                     },
                 ["Behaviour"] = (cache, xmiReaderSettings, nameSpaceResolver, loggerFactory, xmlReader, documentName) =>
                     {
                         using var subXmlReader = xmlReader.ReadSubtree();
-                        var behaviourReader = new BehaviourReader(this, xmiReaderSettings, nameSpaceResolver, cache, loggerFactory);
+                        var behaviourReader = new BehaviourReader(registry.Value, xmiReaderSettings, nameSpaceResolver, cache, loggerFactory);
                         return behaviourReader.Read(subXmlReader, documentName);
                     },
                 ["Bounds"] = (cache, xmiReaderSettings, nameSpaceResolver, loggerFactory, xmlReader, documentName) =>
                     {
                         using var subXmlReader = xmlReader.ReadSubtree();
-                        var boundsReader = new BoundsReader(this, xmiReaderSettings, nameSpaceResolver, cache, loggerFactory);
+                        var boundsReader = new BoundsReader(registry.Value, xmiReaderSettings, nameSpaceResolver, cache, loggerFactory);
                         return boundsReader.Read(subXmlReader, documentName);
                     },
                 ["Code"] = (cache, xmiReaderSettings, nameSpaceResolver, loggerFactory, xmlReader, documentName) =>
                     {
                         using var subXmlReader = xmlReader.ReadSubtree();
-                        var codeReader = new CodeReader(this, xmiReaderSettings, nameSpaceResolver, cache, loggerFactory);
+                        var codeReader = new CodeReader(registry.Value, xmiReaderSettings, nameSpaceResolver, cache, loggerFactory);
                         return codeReader.Read(subXmlReader, documentName);
                     },
                 ["Connector"] = (cache, xmiReaderSettings, nameSpaceResolver, loggerFactory, xmlReader, documentName) =>
                     {
                         using var subXmlReader = xmlReader.ReadSubtree();
-                        var connectorReader = new ConnectorReader(this, xmiReaderSettings, nameSpaceResolver, cache, loggerFactory);
+                        var connectorReader = new ConnectorReader(registry.Value, xmiReaderSettings, nameSpaceResolver, cache, loggerFactory);
                         return connectorReader.Read(subXmlReader, documentName);
                     },
                 ["ConnectorAppearance"] = (cache, xmiReaderSettings, nameSpaceResolver, loggerFactory, xmlReader, documentName) =>
                     {
                         using var subXmlReader = xmlReader.ReadSubtree();
-                        var connectorAppearanceReader = new ConnectorAppearanceReader(this, xmiReaderSettings, nameSpaceResolver, cache, loggerFactory);
+                        var connectorAppearanceReader = new ConnectorAppearanceReader(registry.Value, xmiReaderSettings, nameSpaceResolver, cache, loggerFactory);
                         return connectorAppearanceReader.Read(subXmlReader, documentName);
                     },
                 ["ConnectorEnd"] = (cache, xmiReaderSettings, nameSpaceResolver, loggerFactory, xmlReader, documentName) =>
                     {
                         using var subXmlReader = xmlReader.ReadSubtree();
-                        var connectorEndReader = new ConnectorEndReader(this, xmiReaderSettings, nameSpaceResolver, cache, loggerFactory);
+                        var connectorEndReader = new ConnectorEndReader(registry.Value, xmiReaderSettings, nameSpaceResolver, cache, loggerFactory);
                         return connectorEndReader.Read(subXmlReader, documentName);
                     },
                 ["ConnectorEndType"] = (cache, xmiReaderSettings, nameSpaceResolver, loggerFactory, xmlReader, documentName) =>
                     {
                         using var subXmlReader = xmlReader.ReadSubtree();
-                        var connectorEndTypeReader = new ConnectorEndTypeReader(this, xmiReaderSettings, nameSpaceResolver, cache, loggerFactory);
+                        var connectorEndTypeReader = new ConnectorEndTypeReader(registry.Value, xmiReaderSettings, nameSpaceResolver, cache, loggerFactory);
                         return connectorEndTypeReader.Read(subXmlReader, documentName);
                     },
                 ["ConnectorExtendedProperties"] = (cache, xmiReaderSettings, nameSpaceResolver, loggerFactory, xmlReader, documentName) =>
                     {
                         using var subXmlReader = xmlReader.ReadSubtree();
-                        var connectorExtendedPropertiesReader = new ConnectorExtendedPropertiesReader(this, xmiReaderSettings, nameSpaceResolver, cache, loggerFactory);
+                        var connectorExtendedPropertiesReader = new ConnectorExtendedPropertiesReader(registry.Value, xmiReaderSettings, nameSpaceResolver, cache, loggerFactory);
                         return connectorExtendedPropertiesReader.Read(subXmlReader, documentName);
                     },
                 ["ConnectorProperties"] = (cache, xmiReaderSettings, nameSpaceResolver, loggerFactory, xmlReader, documentName) =>
                     {
                         using var subXmlReader = xmlReader.ReadSubtree();
-                        var connectorPropertiesReader = new ConnectorPropertiesReader(this, xmiReaderSettings, nameSpaceResolver, cache, loggerFactory);
+                        var connectorPropertiesReader = new ConnectorPropertiesReader(registry.Value, xmiReaderSettings, nameSpaceResolver, cache, loggerFactory);
                         return connectorPropertiesReader.Read(subXmlReader, documentName);
                     },
                 ["Constraints"] = (cache, xmiReaderSettings, nameSpaceResolver, loggerFactory, xmlReader, documentName) =>
                     {
                         using var subXmlReader = xmlReader.ReadSubtree();
-                        var constraintsReader = new ConstraintsReader(this, xmiReaderSettings, nameSpaceResolver, cache, loggerFactory);
+                        var constraintsReader = new ConstraintsReader(registry.Value, xmiReaderSettings, nameSpaceResolver, cache, loggerFactory);
                         return constraintsReader.Read(subXmlReader, documentName);
                     },
                 ["ContainmentDefinition"] = (cache, xmiReaderSettings, nameSpaceResolver, loggerFactory, xmlReader, documentName) =>
                     {
                         using var subXmlReader = xmlReader.ReadSubtree();
-                        var containmentDefinitionReader = new ContainmentDefinitionReader(this, xmiReaderSettings, nameSpaceResolver, cache, loggerFactory);
+                        var containmentDefinitionReader = new ContainmentDefinitionReader(registry.Value, xmiReaderSettings, nameSpaceResolver, cache, loggerFactory);
                         return containmentDefinitionReader.Read(subXmlReader, documentName);
                     },
                 ["Coords"] = (cache, xmiReaderSettings, nameSpaceResolver, loggerFactory, xmlReader, documentName) =>
                     {
                         using var subXmlReader = xmlReader.ReadSubtree();
-                        var coordsReader = new CoordsReader(this, xmiReaderSettings, nameSpaceResolver, cache, loggerFactory);
+                        var coordsReader = new CoordsReader(registry.Value, xmiReaderSettings, nameSpaceResolver, cache, loggerFactory);
                         return coordsReader.Read(subXmlReader, documentName);
                     },
                 ["Dependency"] = (cache, xmiReaderSettings, nameSpaceResolver, loggerFactory, xmlReader, documentName) =>
                     {
                         using var subXmlReader = xmlReader.ReadSubtree();
-                        var dependencyReader = new DependencyReader(this, xmiReaderSettings, nameSpaceResolver, cache, loggerFactory);
+                        var dependencyReader = new DependencyReader(registry.Value, xmiReaderSettings, nameSpaceResolver, cache, loggerFactory);
                         return dependencyReader.Read(subXmlReader, documentName);
                     },
                 ["Documentation"] = (cache, xmiReaderSettings, nameSpaceResolver, loggerFactory, xmlReader, documentName) =>
                     {
                         using var subXmlReader = xmlReader.ReadSubtree();
-                        var documentationReader = new DocumentationReader(this, xmiReaderSettings, nameSpaceResolver, cache, loggerFactory);
+                        var documentationReader = new DocumentationReader(registry.Value, xmiReaderSettings, nameSpaceResolver, cache, loggerFactory);
                         return documentationReader.Read(subXmlReader, documentName);
                     },
                 ["Element"] = (cache, xmiReaderSettings, nameSpaceResolver, loggerFactory, xmlReader, documentName) =>
                     {
                         using var subXmlReader = xmlReader.ReadSubtree();
-                        var elementReader = new ElementReader(this, xmiReaderSettings, nameSpaceResolver, cache, loggerFactory);
+                        var elementReader = new ElementReader(registry.Value, xmiReaderSettings, nameSpaceResolver, cache, loggerFactory);
                         return elementReader.Read(subXmlReader, documentName);
                     },
                 ["ElementProperties"] = (cache, xmiReaderSettings, nameSpaceResolver, loggerFactory, xmlReader, documentName) =>
                     {
                         using var subXmlReader = xmlReader.ReadSubtree();
-                        var elementPropertiesReader = new ElementPropertiesReader(this, xmiReaderSettings, nameSpaceResolver, cache, loggerFactory);
+                        var elementPropertiesReader = new ElementPropertiesReader(registry.Value, xmiReaderSettings, nameSpaceResolver, cache, loggerFactory);
                         return elementPropertiesReader.Read(subXmlReader, documentName);
                     },
                 ["ExtendedProperties"] = (cache, xmiReaderSettings, nameSpaceResolver, loggerFactory, xmlReader, documentName) =>
                     {
                         using var subXmlReader = xmlReader.ReadSubtree();
-                        var extendedPropertiesReader = new ExtendedPropertiesReader(this, xmiReaderSettings, nameSpaceResolver, cache, loggerFactory);
+                        var extendedPropertiesReader = new ExtendedPropertiesReader(registry.Value, xmiReaderSettings, nameSpaceResolver, cache, loggerFactory);
                         return extendedPropertiesReader.Read(subXmlReader, documentName);
                     },
                 ["Flags"] = (cache, xmiReaderSettings, nameSpaceResolver, loggerFactory, xmlReader, documentName) =>
                     {
                         using var subXmlReader = xmlReader.ReadSubtree();
-                        var flagsReader = new FlagsReader(this, xmiReaderSettings, nameSpaceResolver, cache, loggerFactory);
+                        var flagsReader = new FlagsReader(registry.Value, xmiReaderSettings, nameSpaceResolver, cache, loggerFactory);
                         return flagsReader.Read(subXmlReader, documentName);
                     },
                 ["Generalization"] = (cache, xmiReaderSettings, nameSpaceResolver, loggerFactory, xmlReader, documentName) =>
                     {
                         using var subXmlReader = xmlReader.ReadSubtree();
-                        var generalizationReader = new GeneralizationReader(this, xmiReaderSettings, nameSpaceResolver, cache, loggerFactory);
+                        var generalizationReader = new GeneralizationReader(registry.Value, xmiReaderSettings, nameSpaceResolver, cache, loggerFactory);
                         return generalizationReader.Read(subXmlReader, documentName);
                     },
                 ["Initial"] = (cache, xmiReaderSettings, nameSpaceResolver, loggerFactory, xmlReader, documentName) =>
                     {
                         using var subXmlReader = xmlReader.ReadSubtree();
-                        var initialReader = new InitialReader(this, xmiReaderSettings, nameSpaceResolver, cache, loggerFactory);
+                        var initialReader = new InitialReader(registry.Value, xmiReaderSettings, nameSpaceResolver, cache, loggerFactory);
                         return initialReader.Read(subXmlReader, documentName);
                     },
                 ["Labels"] = (cache, xmiReaderSettings, nameSpaceResolver, loggerFactory, xmlReader, documentName) =>
                     {
                         using var subXmlReader = xmlReader.ReadSubtree();
-                        var labelsReader = new LabelsReader(this, xmiReaderSettings, nameSpaceResolver, cache, loggerFactory);
+                        var labelsReader = new LabelsReader(registry.Value, xmiReaderSettings, nameSpaceResolver, cache, loggerFactory);
                         return labelsReader.Read(subXmlReader, documentName);
                     },
                 ["Model"] = (cache, xmiReaderSettings, nameSpaceResolver, loggerFactory, xmlReader, documentName) =>
                     {
                         using var subXmlReader = xmlReader.ReadSubtree();
-                        var modelReader = new ModelReader(this, xmiReaderSettings, nameSpaceResolver, cache, loggerFactory);
+                        var modelReader = new ModelReader(registry.Value, xmiReaderSettings, nameSpaceResolver, cache, loggerFactory);
                         return modelReader.Read(subXmlReader, documentName);
                     },
                 ["Modifiers"] = (cache, xmiReaderSettings, nameSpaceResolver, loggerFactory, xmlReader, documentName) =>
                     {
                         using var subXmlReader = xmlReader.ReadSubtree();
-                        var modifiersReader = new ModifiersReader(this, xmiReaderSettings, nameSpaceResolver, cache, loggerFactory);
+                        var modifiersReader = new ModifiersReader(registry.Value, xmiReaderSettings, nameSpaceResolver, cache, loggerFactory);
                         return modifiersReader.Read(subXmlReader, documentName);
                     },
                 ["Nesting"] = (cache, xmiReaderSettings, nameSpaceResolver, loggerFactory, xmlReader, documentName) =>
                     {
                         using var subXmlReader = xmlReader.ReadSubtree();
-                        var nestingReader = new NestingReader(this, xmiReaderSettings, nameSpaceResolver, cache, loggerFactory);
+                        var nestingReader = new NestingReader(registry.Value, xmiReaderSettings, nameSpaceResolver, cache, loggerFactory);
                         return nestingReader.Read(subXmlReader, documentName);
                     },
                 ["NoteLink"] = (cache, xmiReaderSettings, nameSpaceResolver, loggerFactory, xmlReader, documentName) =>
                     {
                         using var subXmlReader = xmlReader.ReadSubtree();
-                        var noteLinkReader = new NoteLinkReader(this, xmiReaderSettings, nameSpaceResolver, cache, loggerFactory);
+                        var noteLinkReader = new NoteLinkReader(registry.Value, xmiReaderSettings, nameSpaceResolver, cache, loggerFactory);
                         return noteLinkReader.Read(subXmlReader, documentName);
                     },
                 ["Operation"] = (cache, xmiReaderSettings, nameSpaceResolver, loggerFactory, xmlReader, documentName) =>
                     {
                         using var subXmlReader = xmlReader.ReadSubtree();
-                        var operationReader = new OperationReader(this, xmiReaderSettings, nameSpaceResolver, cache, loggerFactory);
+                        var operationReader = new OperationReader(registry.Value, xmiReaderSettings, nameSpaceResolver, cache, loggerFactory);
                         return operationReader.Read(subXmlReader, documentName);
                     },
                 ["OperationProperties"] = (cache, xmiReaderSettings, nameSpaceResolver, loggerFactory, xmlReader, documentName) =>
                     {
                         using var subXmlReader = xmlReader.ReadSubtree();
-                        var operationPropertiesReader = new OperationPropertiesReader(this, xmiReaderSettings, nameSpaceResolver, cache, loggerFactory);
+                        var operationPropertiesReader = new OperationPropertiesReader(registry.Value, xmiReaderSettings, nameSpaceResolver, cache, loggerFactory);
                         return operationPropertiesReader.Read(subXmlReader, documentName);
                     },
                 ["Options"] = (cache, xmiReaderSettings, nameSpaceResolver, loggerFactory, xmlReader, documentName) =>
                     {
                         using var subXmlReader = xmlReader.ReadSubtree();
-                        var optionsReader = new OptionsReader(this, xmiReaderSettings, nameSpaceResolver, cache, loggerFactory);
+                        var optionsReader = new OptionsReader(registry.Value, xmiReaderSettings, nameSpaceResolver, cache, loggerFactory);
                         return optionsReader.Read(subXmlReader, documentName);
                     },
                 ["PackageProperties"] = (cache, xmiReaderSettings, nameSpaceResolver, loggerFactory, xmlReader, documentName) =>
                     {
                         using var subXmlReader = xmlReader.ReadSubtree();
-                        var packagePropertiesReader = new PackagePropertiesReader(this, xmiReaderSettings, nameSpaceResolver, cache, loggerFactory);
+                        var packagePropertiesReader = new PackagePropertiesReader(registry.Value, xmiReaderSettings, nameSpaceResolver, cache, loggerFactory);
                         return packagePropertiesReader.Read(subXmlReader, documentName);
                     },
                 ["Parameter"] = (cache, xmiReaderSettings, nameSpaceResolver, loggerFactory, xmlReader, documentName) =>
                     {
                         using var subXmlReader = xmlReader.ReadSubtree();
-                        var parameterReader = new ParameterReader(this, xmiReaderSettings, nameSpaceResolver, cache, loggerFactory);
+                        var parameterReader = new ParameterReader(registry.Value, xmiReaderSettings, nameSpaceResolver, cache, loggerFactory);
                         return parameterReader.Read(subXmlReader, documentName);
                     },
                 ["ParameterProperties"] = (cache, xmiReaderSettings, nameSpaceResolver, loggerFactory, xmlReader, documentName) =>
                     {
                         using var subXmlReader = xmlReader.ReadSubtree();
-                        var parameterPropertiesReader = new ParameterPropertiesReader(this, xmiReaderSettings, nameSpaceResolver, cache, loggerFactory);
+                        var parameterPropertiesReader = new ParameterPropertiesReader(registry.Value, xmiReaderSettings, nameSpaceResolver, cache, loggerFactory);
                         return parameterPropertiesReader.Read(subXmlReader, documentName);
                     },
                 ["ParameterSubstitution"] = (cache, xmiReaderSettings, nameSpaceResolver, loggerFactory, xmlReader, documentName) =>
                     {
                         using var subXmlReader = xmlReader.ReadSubtree();
-                        var parameterSubstitutionReader = new ParameterSubstitutionReader(this, xmiReaderSettings, nameSpaceResolver, cache, loggerFactory);
+                        var parameterSubstitutionReader = new ParameterSubstitutionReader(registry.Value, xmiReaderSettings, nameSpaceResolver, cache, loggerFactory);
                         return parameterSubstitutionReader.Read(subXmlReader, documentName);
                     },
                 ["Path"] = (cache, xmiReaderSettings, nameSpaceResolver, loggerFactory, xmlReader, documentName) =>
                     {
                         using var subXmlReader = xmlReader.ReadSubtree();
-                        var pathReader = new PathReader(this, xmiReaderSettings, nameSpaceResolver, cache, loggerFactory);
+                        var pathReader = new PathReader(registry.Value, xmiReaderSettings, nameSpaceResolver, cache, loggerFactory);
                         return pathReader.Read(subXmlReader, documentName);
                     },
                 ["Project"] = (cache, xmiReaderSettings, nameSpaceResolver, loggerFactory, xmlReader, documentName) =>
                     {
                         using var subXmlReader = xmlReader.ReadSubtree();
-                        var projectReader = new ProjectReader(this, xmiReaderSettings, nameSpaceResolver, cache, loggerFactory);
+                        var projectReader = new ProjectReader(registry.Value, xmiReaderSettings, nameSpaceResolver, cache, loggerFactory);
                         return projectReader.Read(subXmlReader, documentName);
                     },
                 ["Realisation"] = (cache, xmiReaderSettings, nameSpaceResolver, loggerFactory, xmlReader, documentName) =>
                     {
                         using var subXmlReader = xmlReader.ReadSubtree();
-                        var realisationReader = new RealisationReader(this, xmiReaderSettings, nameSpaceResolver, cache, loggerFactory);
+                        var realisationReader = new RealisationReader(registry.Value, xmiReaderSettings, nameSpaceResolver, cache, loggerFactory);
                         return realisationReader.Read(subXmlReader, documentName);
                     },
                 ["Role"] = (cache, xmiReaderSettings, nameSpaceResolver, loggerFactory, xmlReader, documentName) =>
                     {
                         using var subXmlReader = xmlReader.ReadSubtree();
-                        var roleReader = new RoleReader(this, xmiReaderSettings, nameSpaceResolver, cache, loggerFactory);
+                        var roleReader = new RoleReader(registry.Value, xmiReaderSettings, nameSpaceResolver, cache, loggerFactory);
                         return roleReader.Read(subXmlReader, documentName);
                     },
                 ["StereotypeDefinition"] = (cache, xmiReaderSettings, nameSpaceResolver, loggerFactory, xmlReader, documentName) =>
                     {
                         using var subXmlReader = xmlReader.ReadSubtree();
-                        var stereotypeDefinitionReader = new StereotypeDefinitionReader(this, xmiReaderSettings, nameSpaceResolver, cache, loggerFactory);
+                        var stereotypeDefinitionReader = new StereotypeDefinitionReader(registry.Value, xmiReaderSettings, nameSpaceResolver, cache, loggerFactory);
                         return stereotypeDefinitionReader.Read(subXmlReader, documentName);
                     },
                 ["Style"] = (cache, xmiReaderSettings, nameSpaceResolver, loggerFactory, xmlReader, documentName) =>
                     {
                         using var subXmlReader = xmlReader.ReadSubtree();
-                        var styleReader = new StyleReader(this, xmiReaderSettings, nameSpaceResolver, cache, loggerFactory);
+                        var styleReader = new StyleReader(registry.Value, xmiReaderSettings, nameSpaceResolver, cache, loggerFactory);
                         return styleReader.Read(subXmlReader, documentName);
                     },
                 ["Tag"] = (cache, xmiReaderSettings, nameSpaceResolver, loggerFactory, xmlReader, documentName) =>
                     {
                         using var subXmlReader = xmlReader.ReadSubtree();
-                        var tagReader = new TagReader(this, xmiReaderSettings, nameSpaceResolver, cache, loggerFactory);
+                        var tagReader = new TagReader(registry.Value, xmiReaderSettings, nameSpaceResolver, cache, loggerFactory);
                         return tagReader.Read(subXmlReader, documentName);
                     },
                 ["TemplateBinding"] = (cache, xmiReaderSettings, nameSpaceResolver, loggerFactory, xmlReader, documentName) =>
                     {
                         using var subXmlReader = xmlReader.ReadSubtree();
-                        var templateBindingReader = new TemplateBindingReader(this, xmiReaderSettings, nameSpaceResolver, cache, loggerFactory);
+                        var templateBindingReader = new TemplateBindingReader(registry.Value, xmiReaderSettings, nameSpaceResolver, cache, loggerFactory);
                         return templateBindingReader.Read(subXmlReader, documentName);
                     },
                 ["Times"] = (cache, xmiReaderSettings, nameSpaceResolver, loggerFactory, xmlReader, documentName) =>
                     {
                         using var subXmlReader = xmlReader.ReadSubtree();
-                        var timesReader = new TimesReader(this, xmiReaderSettings, nameSpaceResolver, cache, loggerFactory);
+                        var timesReader = new TimesReader(registry.Value, xmiReaderSettings, nameSpaceResolver, cache, loggerFactory);
                         return timesReader.Read(subXmlReader, documentName);
                     },
                 ["TypeElement"] = (cache, xmiReaderSettings, nameSpaceResolver, loggerFactory, xmlReader, documentName) =>
                     {
                         using var subXmlReader = xmlReader.ReadSubtree();
-                        var typeElementReader = new TypeElementReader(this, xmiReaderSettings, nameSpaceResolver, cache, loggerFactory);
+                        var typeElementReader = new TypeElementReader(registry.Value, xmiReaderSettings, nameSpaceResolver, cache, loggerFactory);
                         return typeElementReader.Read(subXmlReader, documentName);
                     },
                 ["Xrefs"] = (cache, xmiReaderSettings, nameSpaceResolver, loggerFactory, xmlReader, documentName) =>
                     {
                         using var subXmlReader = xmlReader.ReadSubtree();
-                        var xrefsReader = new XrefsReader(this, xmiReaderSettings, nameSpaceResolver, cache, loggerFactory);
+                        var xrefsReader = new XrefsReader(registry.Value, xmiReaderSettings, nameSpaceResolver, cache, loggerFactory);
                         return xrefsReader.Read(subXmlReader, documentName);
                     },
             };

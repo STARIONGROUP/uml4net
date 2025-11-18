@@ -57,7 +57,7 @@ namespace uml4net.CodeGenerator.Generators
         {
             ArgumentNullException.ThrowIfNull(xmiReaderResult);
             ArgumentNullException.ThrowIfNull(outputDirectory);
-
+            
             return this.GenerateExtensionClassesInternalAsync(xmiReaderResult, rootPackageXmiId, rootPackageName, outputDirectory);
         }
 
@@ -74,18 +74,26 @@ namespace uml4net.CodeGenerator.Generators
         /// <param name="rootPackageName">
         /// the name of the root package to report in
         /// </param>
+        /// <param name="extender">The name of the extender that the ExtensionContentReaderFacade will cover</param>
+        /// <param name="extenderId">The id of the extender that the ExtensionContentReaderFacade will cover</param>
         /// <param name="outputDirectory">
         /// The target <see cref="DirectoryInfo" />
         /// </param>
         /// <returns>
         /// an awaitable <see cref="Task" />
         /// </returns>
-        public Task GenerateXmiElementReaderFacadeAsync(XmiReaderResult xmiReaderResult, string rootPackageXmiId, string rootPackageName, DirectoryInfo outputDirectory)
+        public Task GenerateExtensionContentReaderFacadeAsync(XmiReaderResult xmiReaderResult, string rootPackageXmiId, string rootPackageName, string extender, string extenderId, DirectoryInfo outputDirectory)
         {
             ArgumentNullException.ThrowIfNull(xmiReaderResult);
             ArgumentNullException.ThrowIfNull(outputDirectory);
+            ArgumentException.ThrowIfNullOrWhiteSpace(extender);
 
-            return this.GenerateXmiElementReaderFacadeInternalAsync(xmiReaderResult, rootPackageXmiId, rootPackageName, outputDirectory);
+            if (string.IsNullOrWhiteSpace(extenderId))
+            {
+                extenderId = string.Empty;
+            }
+            
+            return this.GenerateExtensionContentReaderFacadeInternalAsync(xmiReaderResult, rootPackageXmiId, rootPackageName, extender, extenderId,outputDirectory);
         }
 
         /// <summary>
@@ -101,18 +109,26 @@ namespace uml4net.CodeGenerator.Generators
         /// <param name="rootPackageName">
         /// the name of the root package to report in
         /// </param>
+        /// <param name="extender">The name of the extender that the ExtensionContentReaderFacade will cover</param>
+        /// <param name="extenderId">The id of the extender that the ExtensionContentReaderFacade will cover</param>
         /// <param name="outputDirectory">
         /// The target <see cref="DirectoryInfo" />
         /// </param>
         /// <returns>
         /// an awaitable <see cref="Task" />
         /// </returns>
-        public async Task GenerateXmiReadersAsync(XmiReaderResult xmiReaderResult, string rootPackageXmiId, string rootPackageName, DirectoryInfo outputDirectory)
+        public async Task GenerateExtensionReadersAsync(XmiReaderResult xmiReaderResult, string rootPackageXmiId, string rootPackageName, string extender, string extenderId, DirectoryInfo outputDirectory)
         {
             ArgumentNullException.ThrowIfNull(xmiReaderResult);
             ArgumentNullException.ThrowIfNull(outputDirectory);
+            ArgumentException.ThrowIfNullOrWhiteSpace(extender);
 
-            await this.GenerateXmiReadersInternalAsync(xmiReaderResult, rootPackageXmiId, rootPackageName, outputDirectory);
+            if (string.IsNullOrWhiteSpace(extenderId))
+            {
+                extenderId = string.Empty;
+            }
+            
+            await this.GenerateExtensionReadersInternalAsync(xmiReaderResult, rootPackageXmiId, rootPackageName, extender, extenderId, outputDirectory);
         }
 
         /// <summary>
@@ -164,6 +180,8 @@ namespace uml4net.CodeGenerator.Generators
         /// <param name="xmiReaderResult">
         /// the <see cref="XmiReaderResult" /> that contains the UML model to generate from
         /// </param>
+        /// <param name="rootPackageXmiId">The XmiId of the root packagethat is queried</param>
+        /// <param name="rootPackageName">the name of the name package that is queried</param>
         /// <param name="outputDirectory">
         /// The target <see cref="DirectoryInfo" />
         /// </param>
@@ -200,13 +218,17 @@ namespace uml4net.CodeGenerator.Generators
         /// <param name="xmiReaderResult">
         /// the <see cref="XmiReaderResult" /> that contains the UML model to generate from
         /// </param>
+        /// <param name="rootPackageXmiId">The XmiId of the root packagethat is queried</param>
+        /// <param name="rootPackageName">the name of the name package that is queried</param>
+        /// <param name="extender">The name of the extender that the ExtensionContentReaderFacade will cover</param>
+        /// <param name="extenderId">The id of the extender that the ExtensionContentReaderFacade will cover</param>
         /// <param name="outputDirectory">
         /// The target <see cref="DirectoryInfo" />
         /// </param>
         /// <returns>
         /// an awaitable <see cref="Task" />
         /// </returns>
-        private async Task GenerateXmiElementReaderFacadeInternalAsync(XmiReaderResult xmiReaderResult, string rootPackageXmiId, string rootPackageName, DirectoryInfo outputDirectory)
+        private async Task GenerateExtensionContentReaderFacadeInternalAsync(XmiReaderResult xmiReaderResult, string rootPackageXmiId, string rootPackageName, string extender, string extenderId, DirectoryInfo outputDirectory)
         {
             var root = xmiReaderResult.QueryRoot(rootPackageXmiId, rootPackageName);
 
@@ -217,7 +239,7 @@ namespace uml4net.CodeGenerator.Generators
 
             var template = this.Templates["extension-reader-facade-template"];
 
-            var generatedCode = template(new { Namespace = classes[0].Namespace.Name, Classes = classes });
+            var generatedCode = template(new { Namespace = classes[0].Namespace.Name, Classes = classes, Extender = extender, ExtenderId = extenderId });
             generatedCode = this.CodeCleanup(generatedCode);
 
             const string fileName = "ExtensionContentReaderFacade.cs";
@@ -232,13 +254,17 @@ namespace uml4net.CodeGenerator.Generators
         /// <param name="xmiReaderResult">
         /// the <see cref="XmiReaderResult" /> that contains the UML model to generate from
         /// </param>
+        /// <param name="rootPackageXmiId">The XmiId of the root packagethat is queried</param>
+        /// <param name="rootPackageName">the name of the name package that is queried</param>
+        /// <param name="extender">The name of the extender that the ExtensionContentReaderFacade will cover</param>
+        /// <param name="extenderId">The id of the extender that the ExtensionContentReaderFacade will cover</param>
         /// <param name="outputDirectory">
         /// The target <see cref="DirectoryInfo" />
         /// </param>
         /// <returns>
         /// an awaitable <see cref="Task" />
         /// </returns>
-        private async Task GenerateXmiReadersInternalAsync(XmiReaderResult xmiReaderResult, string rootPackageXmiId, string rootPackageName, DirectoryInfo outputDirectory)
+        private async Task GenerateExtensionReadersInternalAsync(XmiReaderResult xmiReaderResult, string rootPackageXmiId, string rootPackageName, string extender, string extenderId, DirectoryInfo outputDirectory)
         {
             var root = xmiReaderResult.QueryRoot(rootPackageXmiId, rootPackageName);
 
@@ -251,7 +277,7 @@ namespace uml4net.CodeGenerator.Generators
 
             foreach (var @class in classes)
             {
-                var generatedCode = template(@class);
+                var generatedCode = template(new { Class = @class, Extender = extender, ExtenderId = extenderId });
                 generatedCode = this.CodeCleanup(generatedCode);
                 var fileName = $"{@class.Name}Reader.cs";
                 await WriteAsync(generatedCode, outputDirectory, fileName);

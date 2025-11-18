@@ -26,6 +26,8 @@ namespace uml4net.xmi.Extender
 
     using Autofac.Features.Metadata;
 
+    using uml4net.xmi.Readers;
+
     /// <summary>
     /// Provides a dynamic resolution mechanism to locate a concrete <see cref="IExtenderReader"/>
     /// implementation based on the <c>extender</c> and <c>extenderID</c> attributes
@@ -43,6 +45,11 @@ namespace uml4net.xmi.Extender
         private readonly IEnumerable<Meta<IExtenderReader>> extenderReaders;
 
         /// <summary>
+        ///Gets the injected collection of available <see cref="IExtensionContentReaderFacade" />
+        /// </summary>
+        private readonly IEnumerable<Meta<IExtensionContentReaderFacade>> extenderFacades;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="ExtenderReaderRegistry"/> class.
         /// </summary>
         /// <param name="extenderReaders">
@@ -55,14 +62,23 @@ namespace uml4net.xmi.Extender
         /// <c>WithAllExtendersFrom(...)</c> registration helpers.
         /// </para>
         /// </param>
+        /// <param name="extenderFacades">
+        /// The collection of available <see cref="IExtensionContentReaderFacade"/> implementations, 
+        /// each wrapped in a <see cref="Autofac.Features.Metadata.Meta{T}"/> object that 
+        /// exposes registration metadata such as <c>Extender</c> and <c>ExtenderId</c>.
+        /// <para>
+        /// This collection is automatically provided by the dependency injection container 
+        /// and typically populated through the <c>WithExtender&lt;T&gt;</c> or 
+        /// <c>WithAllExtendersFrom(...)</c> registration helpers.</para></param>
         /// <remarks>
         /// The registry uses the metadata associated with each <see cref="IExtenderReader"/>
         /// to dynamically resolve the correct reader implementation based on the
         /// <c>extender</c> and <c>extenderID</c> attributes of an <c>xmi:Extension</c> element.
         /// </remarks>
-        public ExtenderReaderRegistry(IEnumerable<Meta<IExtenderReader>> extenderReaders)
+        public ExtenderReaderRegistry(IEnumerable<Meta<IExtenderReader>> extenderReaders, IEnumerable<Meta<IExtensionContentReaderFacade>> extenderFacades)
         {
             this.extenderReaders = extenderReaders;
+            this.extenderFacades = extenderFacades;
         }
 
         /// <summary>
@@ -79,7 +95,43 @@ namespace uml4net.xmi.Extender
         /// </returns>
         public IExtenderReader Resolve(string extender, string extenderId = null)
         {
-            return this.extenderReaders.FirstOrDefault(meta =>
+            return ResolveCollection(this.extenderReaders, extender, extenderId);
+        }
+
+        /// <summary>
+        /// Resolves the <see cref="IExtensionContentReaderFacade"/> responsible for handling the given extender and optional extenderId.
+        /// </summary>
+        /// <param name="extender">
+        /// The value of the <c>extender</c> attribute from the <c>xmi:Extension</c> element.
+        /// </param>
+        /// <param name="extenderId">
+        /// The optional value of the <c>extenderID</c> attribute from the <c>xmi:Extension</c> element.
+        /// </param>
+        /// <returns>
+        /// A matching <see cref="IExtensionContentReaderFacade"/> instance if registered; otherwise, <c>null</c>.
+        /// </returns>
+        public IExtensionContentReaderFacade ResolveFacade(string extender, string extenderId = null)
+        {
+            return ResolveCollection(this.extenderFacades, extender, extenderId);
+        }
+
+        /// <summary>
+        /// Resolves the <typeparamref name="T"/> responsible for handling the given extender and optional extenderId.
+        /// </summary>
+        /// <param name="collection">The collection of registered <typeparamref name="T"/></param>
+        /// <param name="extender">
+        /// The value of the <c>extender</c> attribute from the <c>xmi:Extension</c> element.
+        /// </param>
+        /// <param name="extenderId">
+        /// The optional value of the <c>extenderID</c> attribute from the <c>xmi:Extension</c> element.
+        /// </param>
+        /// <returns>
+        /// A matching <typeparamref name="T"/> instance if registered; otherwise, <c>null</c>.
+        /// </returns>
+        /// <typeparam name="T">Any class</typeparam>
+        private static T ResolveCollection<T>(IEnumerable<Meta<T>> collection, string extender, string extenderId = null) where T: class
+        {
+            return collection.FirstOrDefault(meta =>
             {
                 var metaExtender = meta.Metadata["Extender"] as string;
                 var metaExtenderId = meta.Metadata["ExtenderId"] as string;
@@ -89,13 +141,7 @@ namespace uml4net.xmi.Extender
                     return false;
                 }
 
-                if (!string.IsNullOrEmpty(metaExtenderId))
-                {
-                    return string.Equals(extenderId, metaExtenderId, StringComparison.OrdinalIgnoreCase);
-                }
-
-                return true;
-
+                return string.IsNullOrEmpty(metaExtenderId) || string.Equals(extenderId, metaExtenderId, StringComparison.OrdinalIgnoreCase);
             })?.Value;
         }
     }
