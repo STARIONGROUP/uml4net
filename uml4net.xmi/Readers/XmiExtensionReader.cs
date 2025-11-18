@@ -76,7 +76,8 @@ namespace uml4net.xmi.Readers
         /// <param name="loggerFactory">
         /// The (injected) <see cref="ILoggerFactory" /> used to set up logging
         /// </param>
-        public XmiExtensionReader(IXmiReaderSettings xmiReaderSettings, INameSpaceResolver nameSpaceResolver, IExtenderReaderRegistry extenderReaderRegistry, ILoggerFactory loggerFactory)
+        public XmiExtensionReader(IXmiReaderSettings xmiReaderSettings, INameSpaceResolver nameSpaceResolver, IExtenderReaderRegistry extenderReaderRegistry,
+            ILoggerFactory loggerFactory)
         {
             this.xmiReaderSettings = xmiReaderSettings;
             this.nameSpaceResolver = nameSpaceResolver;

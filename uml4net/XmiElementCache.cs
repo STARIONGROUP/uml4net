@@ -1,7 +1,7 @@
 ﻿// -------------------------------------------------------------------------------------------------
 //  <copyright file="XmiElementCache.cs" company="Starion Group S.A.">
 // 
-//    Copyright (C) 2019-2025 Starion Group S.A.
+//    Copyright 2019-2025 Starion Group S.A.
 // 
 //    Licensed under the Apache License, Version 2.0 (the "License");
 //    you may not use this file except in compliance with the License.
@@ -24,25 +24,55 @@ namespace uml4net
     using System.Collections.Generic;
 
     /// <summary>
-    /// A cache specifically designed for XMI elements, organized by context, to facilitate 
-    /// efficient lookups and storage during the reading of XMI files. This class provides methods 
+    /// A cache specifically designed for XMI elements, organized by context, to facilitate
+    /// efficient lookups and storage during the reading of XMI files. This class provides methods
     /// to switch contexts, manage external references, and store elements for each context.
     /// </summary>
     /// <remarks>
-    /// Each context typically corresponds to an individual XMI file, enabling the cache to 
-    /// organize elements on a per-file basis. Resolved external references are also tracked 
+    /// Each context typically corresponds to an individual XMI file, enabling the cache to
+    /// organize elements on a per-file basis. Resolved external references are also tracked
     /// to prevent repeated processing of the same references.
     /// </remarks>
     public class XmiElementCache : IXmiElementCache
     {
         /// <summary>
-        /// Gets the cached dictionary of XMI elements. The <see cref="IXmiElement.FullyQualifiedIdentifier"/>
-        /// is used as key, the <see cref="IXmiElement"/> is the value
+        /// Gets the cached dictionary of XMI elements. The <see cref="IXmiElement.FullyQualifiedIdentifier" />
+        /// is used as key, the <see cref="IXmiElement" /> is the value
         /// </summary>
         private readonly Dictionary<string, IXmiElement> cache = [];
 
         /// <summary>
-        /// Tries to add the specified XMI element to the cache using the <see cref="IXmiElement.FullyQualifiedIdentifier"/>
+        /// Gets the cached dictionary of extender objects, per <see cref="IXmiElement " />
+        /// </summary>
+        private readonly Dictionary<IXmiElement, List<object>> extenderCache = [];
+
+        /// <summary>
+        /// Gets a collection containing the values in the Cache.
+        /// </summary>
+        /// <returns>
+        /// A <see cref="T:System.Collections.Generic.Dictionary`2.ValueCollection"></see> containing
+        /// the values in the Cache.
+        /// </returns>
+        public Dictionary<string, IXmiElement>.ValueCollection Values => this.cache.Values;
+
+        /// <summary>
+        /// Gets a collection containing the keys in the cache.
+        /// </summary>
+        /// <returns>
+        /// A <see cref="T:System.Collections.Generic.Dictionary`2.KeyCollection"></see> containing the keys in the cache.
+        /// </returns>
+        public Dictionary<string, IXmiElement>.KeyCollection Keys => this.cache.Keys;
+
+        /// <summary>
+        /// Gets the number of key/value pairs contained in the Cache.
+        /// </summary>
+        /// <returns>
+        /// The number of key/value pairs contained in the Cache.
+        /// </returns>
+        public int Count => this.cache.Count;
+
+        /// <summary>
+        /// Tries to add the specified XMI element to the cache using the <see cref="IXmiElement.FullyQualifiedIdentifier" />
         /// as the key
         /// </summary>
         /// <param name="element">
@@ -103,36 +133,71 @@ namespace uml4net
         }
 
         /// <summary>
-        /// Gets a collection containing the values in the Cache.
-        /// </summary>
-        /// <returns>
-        /// A <see cref="T:System.Collections.Generic.Dictionary`2.ValueCollection"></see> containing
-        /// the values in the Cache.
-        /// </returns>
-        public Dictionary<string, IXmiElement>.ValueCollection Values => this.cache.Values;
-
-        /// <summary>
-        /// Gets a collection containing the keys in the cache.
-        /// </summary>
-        /// <returns>
-        /// A <see cref="T:System.Collections.Generic.Dictionary`2.KeyCollection"></see> containing the keys in the cache.
-        /// </returns>
-        public Dictionary<string, IXmiElement>.KeyCollection Keys => this.cache.Keys;
-
-        /// <summary>
-        /// Gets the number of key/value pairs contained in the Cache.
-        /// </summary>
-        /// <returns>
-        /// The number of key/value pairs contained in the Cache.
-        /// </returns>
-        public int Count => this.cache.Count;
-
-        /// <summary>
         /// Removes all keys and values from the Cache
         /// </summary>
         public void Clear()
         {
             this.cache.Clear();
+            this.extenderCache.Clear();
+        }
+
+        /// <summary>
+        /// Adds an <see cref="object" /> that extends an <see cref="IXmiElement" /> into the cache storage
+        /// </summary>
+        /// <param name="xmiElement">An extended <see cref="IXmiElement" /></param>
+        /// <param name="extender">The extender <see cref="object" /></param>
+        /// <exception cref="ArgumentNullException">
+        /// If the provided <paramref name="xmiElement" /> or the
+        /// <paramref name="extender" /> is null
+        /// </exception>
+        public void AddExtender(IXmiElement xmiElement, object extender)
+        {
+            if (xmiElement == null)
+            {
+                throw new ArgumentNullException(nameof(xmiElement));
+            }
+
+            if (extender == null)
+            {
+                throw new ArgumentNullException(nameof(extender));
+            }
+
+            if (this.extenderCache.TryGetValue(xmiElement, out var extenders))
+            {
+                extenders.Add(extender);
+            }
+            else
+            {
+                this.extenderCache[xmiElement] = [extender];
+            }
+        }
+
+        /// <summary>
+        /// Tries to get the collection of extenders <see cref="object" /> for an <see cref="IXmiElement" />
+        /// </summary>
+        /// <param name="xmiElement">The <see cref="IXmiElement" /></param>
+        /// <param name="extenders">
+        /// When this method returns, contains extenders <see cref="object" /> associated with the specified
+        /// <see cref="IXmiElement" />, if the key is found;
+        /// otherwise, the default value for the type of the value parameter. This parameter is passed uninitialized.
+        /// </param>
+        /// <returns>true if the Cache contains an element with the specified key; otherwise, false.</returns>
+        /// <exception cref="ArgumentNullException">If the provided <paramref name="xmiElement" /> is null</exception>
+        public bool TryGetExtenders(IXmiElement xmiElement, out IReadOnlyCollection<object> extenders)
+        {
+            if (xmiElement == null)
+            {
+                throw new ArgumentNullException(nameof(xmiElement));
+            }
+
+            if (this.extenderCache.TryGetValue(xmiElement, out var extendersList))
+            {
+                extenders = extendersList;
+                return true;
+            }
+
+            extenders = null;
+            return false;
         }
     }
 }

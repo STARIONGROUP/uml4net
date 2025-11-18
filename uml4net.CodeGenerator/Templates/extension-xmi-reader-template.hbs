@@ -106,6 +106,7 @@ namespace uml4net.{{this.Namespace.Name}}.Readers
                 if(!string.IsNullOrWhiteSpace(idRef) && this.Cache.TryGetValue($"{documentName}#{idRef}", out var extendedElement))
                 {
                     poco.ExtendedElement = extendedElement;
+                    this.Cache.AddExtender(extendedElement, poco);
                 }
                 {{/if}}
 
