@@ -1,5 +1,5 @@
 ﻿// -------------------------------------------------------------------------------------------------
-// <copyright file="Reader.cs" company="Starion Group S.A.">
+// <copyright file="RealisationReader.cs" company="Starion Group S.A.">
 //
 //    Copyright (C) 2019-2025 Starion Group S.A.
 //
