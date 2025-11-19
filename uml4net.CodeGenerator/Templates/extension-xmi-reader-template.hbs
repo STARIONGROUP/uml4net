@@ -1,5 +1,5 @@
 ﻿// -------------------------------------------------------------------------------------------------
-// <copyright file="{{this.Name}}Reader.cs" company="Starion Group S.A.">
+// <copyright file="{{this.Class.Name}}Reader.cs" company="Starion Group S.A.">
 //
 //    Copyright (C) 2019-2025 Starion Group S.A.
 //
@@ -22,7 +22,7 @@
 // --------THIS IS AN AUTOMATICALLY GENERATED FILE. ANY MANUAL CHANGES WILL BE OVERWRITTEN!--------
 // ------------------------------------------------------------------------------------------------
 
-namespace uml4net.{{this.Namespace.Name}}.Readers
+namespace uml4net.{{this.Class.Namespace.Name}}.Readers
 {
     using System;
     using System.CodeDom.Compiler;
@@ -33,27 +33,28 @@ namespace uml4net.{{this.Namespace.Name}}.Readers
     using Microsoft.Extensions.Logging.Abstractions;
 
     using uml4net;
+    using uml4net.xmi.Extender;
     using uml4net.Extensions;
-    using uml4net.{{this.Namespace.Name}};
+    using uml4net.{{this.Class.Namespace.Name}};
     using uml4net.xmi.Readers;
     using uml4net.xmi.Settings;
 
     /// <summary>
-    /// The purpose of the <see cref="{{this.Name}}Reader"/> is to read an instance of <see cref="I{{this.Name}}"/>
+    /// The purpose of the <see cref="{{this.Class.Name}}Reader"/> is to read an instance of <see cref="I{{this.Class.Name}}"/>
     /// from the XMI document
     /// </summary>
     [GeneratedCode("uml4net", "latest")]
-    public partial class {{this.Name}}Reader : ExtensionContentReader<I{{this.Name}}>
+    public partial class {{this.Class.Name}}Reader : ExtensionContentReader<I{{this.Class.Name}}>
     {
         /// <summary>
         /// The (injected) logger
         /// </summary>
-        private readonly ILogger<{{this.Name}}Reader> logger;
+        private readonly ILogger<{{this.Class.Name}}Reader> logger;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="{{this.Name}}Reader"/> class.
+        /// Initializes a new instance of the <see cref="{{this.Class.Name}}Reader"/> class.
         /// </summary>
-        /// <param name="extensionContentReaderFacade">The <see cref="IExtensionContentReaderFacade"/> that allow other <see cref="ExtensionContentReader{TContent}"/> read capabilities</param>
+        /// <param name="registry">The <see cref="IExtenderReaderRegistry"/> that allow to resolve <see cref="IExtensionContentReaderFacade"/></param>
         /// <param name="xmiReaderSettings">
         /// The <see cref="IXmiReaderSettings"/> used to configure reading
         /// </param>
@@ -65,23 +66,23 @@ namespace uml4net.{{this.Namespace.Name}}.Readers
         /// <param name="loggerFactory">
         /// The (injected) <see cref="ILoggerFactory"/> used to set up logging
         /// </param>
-        public {{this.Name}}Reader(IExtensionContentReaderFacade extensionContentReaderFacade, IXmiReaderSettings xmiReaderSettings, INameSpaceResolver nameSpaceResolver, IXmiElementCache cache, ILoggerFactory loggerFactory)
-        : base(extensionContentReaderFacade, xmiReaderSettings, nameSpaceResolver, cache, loggerFactory)
+        public {{this.Class.Name}}Reader(IExtenderReaderRegistry registry, IXmiReaderSettings xmiReaderSettings, INameSpaceResolver nameSpaceResolver, IXmiElementCache cache, ILoggerFactory loggerFactory)
+        : base(registry, xmiReaderSettings, nameSpaceResolver, cache, loggerFactory)
         {
-            this.logger = loggerFactory == null ? NullLogger<{{this.Name}}Reader>.Instance : loggerFactory.CreateLogger<{{this.Name}}Reader>();
+            this.logger = loggerFactory == null ? NullLogger<{{this.Class.Name}}Reader>.Instance : loggerFactory.CreateLogger<{{this.Class.Name}}Reader>();
         }
 
         /// <summary>
-        /// Reads the <see cref="I{{this.Name}}"/> object from its XML representation
+        /// Reads the <see cref="I{{this.Class.Name}}"/> object from its XML representation
         /// </summary>
         /// <param name="xmlReader">
         /// an instance of <see cref="XmlReader"/>
         /// </param>
         /// <param name="documentName">The name of the document that is currently read</param>
         /// <returns>
-        /// an instance of <see cref="I{{this.Name}}"/>
+        /// an instance of <see cref="I{{this.Class.Name}}"/>
         /// </returns>
-        public override I{{this.Name}} Read(XmlReader xmlReader, string documentName)
+        public override I{{this.Class.Name}} Read(XmlReader xmlReader, string documentName)
         {
             if (xmlReader == null)
             {
@@ -90,17 +91,17 @@ namespace uml4net.{{this.Namespace.Name}}.Readers
 
             var xmlLineInfo = xmlReader as IXmlLineInfo;
 
-            I{{this.Name}} poco = new {{this.Namespace.Name}}.{{this.Name}}();
+            I{{this.Class.Name}} poco = new {{this.Class.Namespace.Name}}.{{this.Class.Name}}();
 
             if (xmlReader.MoveToContent() == XmlNodeType.Element)
             {
                 this.logger.LogTrace("reading {{this.Name}} at line:position {LineNumber}:{LinePosition}", xmlLineInfo?.LineNumber, xmlLineInfo?.LinePosition);
 
-                {{ #each (Class.QueryAllNonDerivedNonReadOnlyNonAssociationProperties this) as | property | }}
+                {{ #each (Class.QueryAllNonDerivedNonReadOnlyNonAssociationProperties this.Class) as | property | }}
                 {{ #Property.WriteXmlAttributeForExtensionReader property }}
                 {{/each}}
 
-                {{ #if (Class.DoesExtensionReferencesXmiElement this)}}
+                {{ #if (Class.DoesExtensionReferencesXmiElement this.Class)}}
                 var idRef = xmlReader.GetAttribute("xmi:idref");
                 
                 if(!string.IsNullOrWhiteSpace(idRef) && this.Cache.TryGetValue($"{documentName}#{idRef}", out var extendedElement))
@@ -116,17 +117,17 @@ namespace uml4net.{{this.Namespace.Name}}.Readers
                     {
                         switch (xmlReader.LocalName)
                         {
-                            {{ #each (Class.QueryAllAssociationPropertiesExceptInterfaces this) as | property | }}
+                            {{ #each (Class.QueryAllAssociationPropertiesExceptInterfaces this.Class) as | property | }}
                             {{ #Property.WriteXmlReferenceForExtensionReader this }}
                             {{/each}}
                             default:
                                 if (this.XmiReaderSettings.UseStrictReading)
                                 {
-                                    throw new NotSupportedException($"{{this.Name}}Reader: {xmlReader.LocalName} at line:position {xmlLineInfo?.LineNumber}:{xmlLineInfo.LinePosition}");
+                                    throw new NotSupportedException($"{{this.Class.Name}}Reader: {xmlReader.LocalName} at line:position {xmlLineInfo?.LineNumber}:{xmlLineInfo.LinePosition}");
                                 }
                                 else
                                 {
-                                    this.logger.LogWarning("Not Supported: {{this.Name}}Reader: {LocalName} at line:position {LineNumber}:{LinePosition}", xmlReader.LocalName, xmlLineInfo?.LineNumber, xmlLineInfo?.LinePosition);
+                                    this.logger.LogWarning("Not Supported: {{this.Class.Name}}Reader: {LocalName} at line:position {LineNumber}:{LinePosition}", xmlReader.LocalName, xmlLineInfo?.LineNumber, xmlLineInfo?.LinePosition);
                                 }
                             break;
                         }
@@ -135,6 +136,24 @@ namespace uml4net.{{this.Namespace.Name}}.Readers
             }
         
             return poco;
+        }
+
+        /// <summary>
+        /// Gets the name of the extender value
+        /// </summary>
+        /// <returns>The extender name</returns>
+        protected override string GetExtender()
+        {
+            return "{{this.Extender}}";
+        }
+    
+        /// <summary>
+        /// Gets the identifier of the extender value
+        /// </summary>
+        /// <returns>The extender id</returns>
+        protected override string GetExtenderId()
+        {
+            return "{{this.ExtenderId}}";
         }
     }
 }

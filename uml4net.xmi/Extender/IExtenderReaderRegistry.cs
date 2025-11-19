@@ -20,6 +20,8 @@
 
 namespace uml4net.xmi.Extender
 {
+    using uml4net.xmi.Readers;
+
     /// <summary>
     /// Provides a dynamic resolution mechanism to locate a concrete <see cref="IExtenderReader"/>
     /// implementation based on the <c>extender</c> and <c>extenderID</c> attributes
@@ -44,5 +46,19 @@ namespace uml4net.xmi.Extender
         /// A matching <see cref="IExtenderReader"/> instance if registered; otherwise, <c>null</c>.
         /// </returns>
         IExtenderReader Resolve(string extender, string extenderId = null);
+
+        /// <summary>
+        /// Resolves the <see cref="IExtensionContentReaderFacade"/> responsible for handling the given extender and optional extenderId.
+        /// </summary>
+        /// <param name="extender">
+        /// The value of the <c>extender</c> attribute from the <c>xmi:Extension</c> element.
+        /// </param>
+        /// <param name="extenderId">
+        /// The optional value of the <c>extenderID</c> attribute from the <c>xmi:Extension</c> element.
+        /// </param>
+        /// <returns>
+        /// A matching <see cref="IExtensionContentReaderFacade"/> instance if registered; otherwise, <c>null</c>.
+        /// </returns>
+        IExtensionContentReaderFacade ResolveFacade(string extender, string extenderId = null);
     }
 }

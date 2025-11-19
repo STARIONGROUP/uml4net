@@ -108,7 +108,18 @@ namespace uml4net.xmi
         /// <typeparam name="TFacade">Any <see cref="IExtensionContentReaderFacade"/></typeparam>
         public static XmiReaderScope WithExtensionContentReaderFacade<TFacade>(this XmiReaderScope scope) where TFacade: IExtensionContentReaderFacade
         {
-            scope.ContainerBuilder.RegisterType<TFacade>().As<IExtensionContentReaderFacade>().SingleInstance();
+            var type = typeof(TFacade);
+            var attr = type.GetCustomAttribute<ExtenderReaderAttribute>();
+            
+            if (attr == null)
+            {
+                throw new InvalidOperationException($"{type.FullName} must be annotated with [ExtenderReader] to be registered.");
+            }
+            
+            scope.ContainerBuilder.RegisterType<TFacade>().As<IExtensionContentReaderFacade>()
+                .WithMetadata("Extender", attr.Extender)
+                .WithMetadata("ExtenderId", attr.ExtenderId ?? string.Empty).SingleInstance();
+            
             return scope;
         }
 

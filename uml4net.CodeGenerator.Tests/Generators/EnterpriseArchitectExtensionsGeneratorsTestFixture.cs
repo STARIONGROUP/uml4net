@@ -45,6 +45,8 @@ namespace uml4net.CodeGenerator.Tests.Generators
         private ILoggerFactory loggerFactory;
         private XmiReaderResult xmiReaderResult;
         private DirectoryInfo xmiReaderDirectoryInfo;
+        private const string Extender = "Enterprise Architect";
+        private const string ExtenderId = "6.5";
 
         [SetUp]
         public void SetUp()
@@ -109,14 +111,14 @@ namespace uml4net.CodeGenerator.Tests.Generators
         [Test]
         public void VerifyReadersAreGenerated()
         {
-            Assert.That(async () => await this.extensionGenerator.GenerateXmiReadersAsync(this.xmiReaderResult, null, "EA_Model", this.xmiReaderDirectoryInfo),
+            Assert.That(async () => await this.extensionGenerator.GenerateExtensionReadersAsync(this.xmiReaderResult, null, "EA_Model",Extender,ExtenderId, this.xmiReaderDirectoryInfo),
                 Throws.Nothing);
         }
 
         [Test]
         public void VerifyFacadeReaderGenerated()
         {
-            Assert.That(async () => await this.extensionGenerator.GenerateXmiElementReaderFacadeAsync(this.xmiReaderResult, null, "EA_Model", this.xmiReaderDirectoryInfo),
+            Assert.That(async () => await this.extensionGenerator.GenerateExtensionContentReaderFacadeAsync(this.xmiReaderResult, null, "EA_Model", Extender,ExtenderId, this.xmiReaderDirectoryInfo),
                 Throws.Nothing);
         }
     }

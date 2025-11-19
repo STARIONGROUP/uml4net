@@ -31,6 +31,7 @@ namespace uml4net.{{this.Namespace}}.Readers
     
     using Microsoft.Extensions.Logging;
 
+    using uml4net.xmi.Extender;
     using uml4net.xmi.Readers;
     using uml4net.xmi.Settings;
 
@@ -38,6 +39,7 @@ namespace uml4net.{{this.Namespace}}.Readers
     /// The <see cref="ExtensionContentReaderFacade"/> provides extension content read capabilities via <see cref="IExtensionContentReader{TContent}"/> call
     /// </summary>
     [GeneratedCode("uml4net", "latest")]
+    [ExtenderReader("{{this.Extender}}", "{{this.ExtenderId}}")]
     public class ExtensionContentReaderFacade : IExtensionContentReaderFacade
     {
         /// <summary>
@@ -45,11 +47,12 @@ namespace uml4net.{{this.Namespace}}.Readers
         /// and a provided <see cref="IXmiElementCache"/>, <see cref="ILoggerFactory"/> and <see cref="XmlReader"/>
         /// </summary>
         protected readonly Dictionary<string, Func<IXmiElementCache, IXmiReaderSettings, INameSpaceResolver, ILoggerFactory, XmlReader, string, object>> readerCache;
-    
+
         /// <summary>
         /// Initializes a new instance of the <see cref="ExtensionContentReaderFacade"/>
         /// </summary>
-        public ExtensionContentReaderFacade()
+        /// <param name="registry">The injected <see cref="IExtenderReaderRegistry"/></param>
+        public ExtensionContentReaderFacade(Lazy<IExtenderReaderRegistry> registry)
         {
             this.readerCache = new Dictionary<string, Func<IXmiElementCache, IXmiReaderSettings, INameSpaceResolver, ILoggerFactory, XmlReader, string, object>>
             {
@@ -57,7 +60,7 @@ namespace uml4net.{{this.Namespace}}.Readers
             ["{{ class.Name }}"] = (cache, xmiReaderSettings, nameSpaceResolver, loggerFactory, xmlReader, documentName) =>
                 {
                     using var subXmlReader = xmlReader.ReadSubtree();
-                    var {{ String.LowerCaseFirstLetter class.Name }}Reader = new {{ class.Name }}Reader(this, xmiReaderSettings, nameSpaceResolver, cache, loggerFactory);
+                    var {{ String.LowerCaseFirstLetter class.Name }}Reader = new {{ class.Name }}Reader(registry.Value, xmiReaderSettings, nameSpaceResolver, cache, loggerFactory);
                     return {{ String.LowerCaseFirstLetter class.Name }}Reader.Read(subXmlReader, documentName);
                 },
             {{/each}}

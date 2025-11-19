@@ -33,6 +33,7 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.Structure.Readers
     using Microsoft.Extensions.Logging.Abstractions;
 
     using uml4net;
+    using uml4net.xmi.Extender;
     using uml4net.Extensions;
     using uml4net.xmi.Extensions.EnterpriseArchitect.Structure;
     using uml4net.xmi.Readers;
@@ -53,7 +54,7 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.Structure.Readers
         /// <summary>
         /// Initializes a new instance of the <see cref="AttributeReader"/> class.
         /// </summary>
-        /// <param name="extensionContentReaderFacade">The <see cref="IExtensionContentReaderFacade"/> that allow other <see cref="ExtensionContentReader{TContent}"/> read capabilities</param>
+        /// <param name="registry">The <see cref="IExtenderReaderRegistry"/> that allow to resolve <see cref="IExtensionContentReaderFacade"/></param>
         /// <param name="xmiReaderSettings">
         /// The <see cref="IXmiReaderSettings"/> used to configure reading
         /// </param>
@@ -65,8 +66,8 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.Structure.Readers
         /// <param name="loggerFactory">
         /// The (injected) <see cref="ILoggerFactory"/> used to set up logging
         /// </param>
-        public AttributeReader(IExtensionContentReaderFacade extensionContentReaderFacade, IXmiReaderSettings xmiReaderSettings, INameSpaceResolver nameSpaceResolver, IXmiElementCache cache, ILoggerFactory loggerFactory)
-        : base(extensionContentReaderFacade, xmiReaderSettings, nameSpaceResolver, cache, loggerFactory)
+        public AttributeReader(IExtenderReaderRegistry registry, IXmiReaderSettings xmiReaderSettings, INameSpaceResolver nameSpaceResolver, IXmiElementCache cache, ILoggerFactory loggerFactory)
+        : base(registry, xmiReaderSettings, nameSpaceResolver, cache, loggerFactory)
         {
             this.logger = loggerFactory == null ? NullLogger<AttributeReader>.Instance : loggerFactory.CreateLogger<AttributeReader>();
         }
@@ -94,7 +95,7 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.Structure.Readers
 
             if (xmlReader.MoveToContent() == XmlNodeType.Element)
             {
-                this.logger.LogTrace("reading Attribute at line:position {LineNumber}:{LinePosition}", xmlLineInfo?.LineNumber, xmlLineInfo?.LinePosition);
+                this.logger.LogTrace("reading  at line:position {LineNumber}:{LinePosition}", xmlLineInfo?.LineNumber, xmlLineInfo?.LinePosition);
 
                 var nameValue = xmlReader.GetAttribute("name");
                 poco.Name = nameValue;
@@ -207,6 +208,24 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.Structure.Readers
             }
 
             return poco;
+        }
+
+        /// <summary>
+        /// Gets the name of the extender value
+        /// </summary>
+        /// <returns>The extender name</returns>
+        protected override string GetExtender()
+        {
+            return "Enterprise Architect";
+        }
+
+        /// <summary>
+        /// Gets the identifier of the extender value
+        /// </summary>
+        /// <returns>The extender id</returns>
+        protected override string GetExtenderId()
+        {
+            return "6.5";
         }
     }
 }
