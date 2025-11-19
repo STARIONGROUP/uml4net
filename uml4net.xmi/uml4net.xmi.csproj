@@ -31,6 +31,7 @@
         <GenerateSBOM>true</GenerateSBOM>
         <PackageReleaseNotes>
             [UPDATE] Provide capabilities to read XmiElement placed anywhere in a XMI
+            [UPDATE] Allow registration of IExtenderReaderRegistry and IExtenderReader based on there ExtenderAttribute
         </PackageReleaseNotes>
     </PropertyGroup>
 
