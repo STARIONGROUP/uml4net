@@ -2,7 +2,7 @@
 
     <PropertyGroup>
         <Description>A specific XMI Reader extension to support Enterprise Architect XMI reading</Description>
-        <Version>3.1.5</Version>
+        <Version>4.0.0</Version>
         <PackageId>uml4net.xmi.Extensions.EnterpriseArchitect</PackageId>
         <LangVersion>12.0</LangVersion>
         <TargetFramework>netstandard2.0</TargetFramework>
@@ -30,8 +30,9 @@
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
         <GenerateSBOM>true</GenerateSBOM>
         <PackageReleaseNotes>
-          [Update] PropertiesReaders bugfix for handling whitespace values: use IsNullOrWhiteSpace instead of IsNullOrEmpty.
-          [Bump] uml4net.xmi 4.0.6
+          [UPDATE] Align model to better fit the EA Extension
+          [UPDATE] Align to new XmiExtension behaviour
+          [UPDATE] Create EnterpriseArchitectExtenderReader with all PostProcess actions
         </PackageReleaseNotes>
     </PropertyGroup>
 
