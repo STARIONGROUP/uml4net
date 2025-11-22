@@ -47,6 +47,14 @@ namespace uml4net.Extensions.Tests
         }
 
         [Test]
+        public void Verify_that_SplitToLines_throws_exception_when_input_is_null()
+        {
+            string input = null;
+
+            Assert.That(() => StringExtensions.SplitToLines(input, 5), Throws.ArgumentNullException);
+        }
+
+        [Test]
         public void Verify_that_CapitalizeFirstLetter_capitalizes_string()
         {
             var result = "uml4net".CapitalizeFirstLetter();

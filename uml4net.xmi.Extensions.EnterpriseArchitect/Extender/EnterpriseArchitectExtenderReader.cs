@@ -25,7 +25,6 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.Extender
     using System.Diagnostics;
     using System.IO;
     using System.Linq;
-    using System.Runtime.CompilerServices;
     using System.Xml;
 
     using Microsoft.Extensions.Logging;
@@ -34,8 +33,6 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.Extender
     using uml4net.Classification;
     using uml4net.CommonStructure;
     using uml4net.Extensions;
-    using uml4net.Packages;
-    using uml4net.StructuredClassifiers;
     using uml4net.xmi.Extender;
     using uml4net.xmi.Extensions.EnterpriseArchitect.Structure;
     using uml4net.xmi.Readers;
@@ -93,7 +90,7 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.Extender
         protected readonly IXmiElementCache Cache;
 
         /// <summary>
-        /// The injected <see cref="INameSpaceResolver"/> that helps resolving namespace uri
+        /// The injected <see cref="INameSpaceResolver"/> that helps to resolve namespace uri
         /// </summary>
         protected readonly INameSpaceResolver NameSpaceResolver;
         
@@ -117,7 +114,7 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.Extender
         /// <param name="xmiReaderSettings">The injected <see cref="IXmiReaderSettings" /> that provides reading setting for XMI</param>
         /// <param name="extensionContentReaderFacade">The injected <see cref="IExtensionContentReaderFacade" /> that provides extension content read capabailities</param>
         /// <param name="cache">The injected <see cref="IXmiElementCache"/> that provides cached elements retrieval</param>
-        /// <param name="nameSpaceResolver">The injected <see cref="INameSpaceResolver"/> that helps resolving namespace uri</param>
+        /// <param name="nameSpaceResolver">The injected <see cref="INameSpaceResolver"/> that helps to resolve namespace uri</param>
         /// <param name="xmiElementReaderFacade">The injected <see cref="IXmiElementReaderFacade" /> that allows reading <see cref="IXmiElement" /></param>
         /// <param name="extenderReaderRegistry">The injected <see cref="IExtenderReaderRegistry"/> that provides <see cref="IExtenderReader"/> resolve</param>
         public EnterpriseArchitectExtenderReader(IXmiReaderScope scope, IXmiReaderSettings xmiReaderSettings, ILoggerFactory loggerFactory, IExtensionContentReaderFacade extensionContentReaderFacade,

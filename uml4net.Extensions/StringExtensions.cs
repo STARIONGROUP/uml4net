@@ -49,6 +49,23 @@ namespace uml4net.Extensions
                 throw new ArgumentNullException(nameof(input));
             }
 
+            return SplitToLinesIterator(input, maximumLineLength);
+        }
+
+        /// <summary>
+        /// splits a string into multiple lines
+        /// </summary>
+        /// <param name="input">
+        /// the subject input string
+        /// </param>
+        /// <param name="maximumLineLength">
+        /// the maximum length of a line
+        /// </param>
+        /// <returns>
+        /// an <see cref="IEnumerable{String}"/>
+        /// </returns>
+        private static IEnumerable<string> SplitToLinesIterator(string input, int maximumLineLength = 100)
+        {
             input = input.Replace("\r\n", " ").Trim();
 
             var words = input.Split(' ');

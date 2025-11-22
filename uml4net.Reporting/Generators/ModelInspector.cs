@@ -69,6 +69,135 @@ namespace uml4net.Reporting.Generators
         }
 
         /// <summary>
+        /// Inspect the provided <see cref="IClass"/> (by name) that is contained in the <see cref="IPackage"/>
+        /// and returns the variation of data-types, enumerations and multiplicity as an Analysis report
+        /// </summary>
+        /// <param name="package">
+        /// The <see cref="IPackage"/> that contains the <see cref="IClass"/> that
+        /// is to be inspected
+        /// </param>
+        /// <param name="className">
+        /// the name of the class that is to be inspected
+        /// </param>
+        /// <returns>
+        /// returns a report detailing the various combinations of properties of the provided class
+        /// </returns>
+        public string Inspect(IPackage package, string className)
+        {
+            if (package == null)
+            {
+                throw new ArgumentNullException(nameof(package));
+            }
+
+            if (className == null)
+            {
+                throw new ArgumentNullException(nameof(className));
+            }
+
+            if (className.Length == 0)
+            {
+                throw new ArgumentException(nameof(className));
+            }
+
+            this.logger.LogInformation("Start UML named Class '{2}' Inspection at Package {0}:{1}", package.XmiId, package.Name, className);
+
+            var sw = Stopwatch.StartNew();
+
+            var sb = new StringBuilder();
+
+            var @class = package.PackagedElement.OfType<IClass>().Single(x => x.Name == className);
+
+            sb.AppendLine($"{package.Name}.{@class.Name}:");
+            sb.AppendLine("----------------------------------");
+
+            foreach (var property in @class.OwnedAttribute.OrderBy(x => x.Name))
+            {
+                if (property.IsDerived)
+                {
+                    continue;
+                }
+
+                if (property.QueryIsReferenceProperty())
+                {
+                    string referenceType;
+
+                    if (property.IsComposite)
+                    {
+                        referenceType = $"{property.Name}:{property.QueryTypeName()} [{property.Lower}..{property.Upper}] - COMPOSITE REFERENCE TYPE";
+                    }
+                    else
+                    {
+                        if (property.QueryIsMemberOfManyToMany())
+                        {
+                            referenceType = $"{property.Name}:{property.QueryTypeName()} [{property.Lower}..{property.Upper}] - REFERENCE TYPE - MANY-TO-MANY";
+                        }
+                        else
+                        {
+                            referenceType = $"{property.Name}:{property.QueryTypeName()} [{property.Lower}..{property.Upper}] - REFERENCE TYPE";
+                        }
+                    }
+
+                    sb.AppendLine(referenceType);
+                }
+
+                if (property.QueryIsValueProperty())
+                {
+                    this.logger.LogInformation(property.Name);
+
+                    if (property.QueryIsEnum())
+                    {
+                        var enumeration = $"{property.Name}:{property.QueryTypeName()} [{property.Lower}..{property.Upper}] - ENUM TYPE";
+                        sb.AppendLine(enumeration);
+                    }
+                    else
+                    {
+                        var valueType = $"{property.Name}:{property.QueryTypeName()} [{property.Lower}..{property.Upper}] - VALUETYPE";
+                        sb.AppendLine(valueType);
+                    }
+                }
+            }
+
+            sb.AppendLine("-DERIVED--------------------------");
+            foreach (var property in @class.OwnedAttribute.OrderBy(x => x.Name))
+            {
+                if (property.IsDerived)
+                {
+                    if (property.QueryIsReferenceProperty())
+                    {
+                        if (property.QueryIsMemberOfManyToMany())
+                        {
+                            var referenceType = $"{property.Name}:{property.QueryTypeName()} [{property.Lower}..{property.Upper}] - REFERENCE TYPE - MANY-TO-MANY";
+                            sb.AppendLine(referenceType);
+                        }
+                        else
+                        {
+                            var referenceType = $"{property.Name}:{property.QueryTypeName()} [{property.Lower}..{property.Upper}] - REFERENCE TYPE";
+                            sb.AppendLine(referenceType);
+                        }
+                    }
+
+                    if (property.QueryIsValueProperty())
+                    {
+                        if (property.QueryIsEnum())
+                        {
+                            var enumeration = $"{property.Name}:{property.QueryTypeName()} [{property.Lower}..{property.Upper}] - ENUM TYPE";
+                            sb.AppendLine(enumeration);
+                        }
+                        else
+                        {
+                            var valueType = $"{property.Name} : {property.QueryTypeName()} [{property.Lower} .. {property.Upper}] - VALUETYPE";
+                            sb.AppendLine(valueType);
+                        }
+                    }
+                }
+            }
+
+            this.logger.LogInformation("UML named Class '{2}' Inspection at Package {0}:{1} finished in {3} [ms]", package.XmiId, package.Name, className, sw.ElapsedMilliseconds);
+
+            return sb.ToString();
+        }
+
+        /// <summary>
         /// Inspect the content of the provided <see cref="IPackage"/> and returns the variation 
         /// of data-types, enumerations and multiplicity as an Analysis report
         /// </summary>
@@ -303,135 +432,6 @@ namespace uml4net.Reporting.Generators
                 .OrderBy(x => x.Name).ToList();
 
             return result;
-        }
-
-        /// <summary>
-        /// Inspect the provided <see cref="IClass"/> (by name) that is contained in the <see cref="IPackage"/>
-        /// and returns the variation of data-types, enumerations and multiplicity as an Analysis report
-        /// </summary>
-        /// <param name="package">
-        /// The <see cref="IPackage"/> that contains the <see cref="IClass"/> that
-        /// is to be inspected
-        /// </param>
-        /// <param name="className">
-        /// the name of the class that is to be inspected
-        /// </param>
-        /// <returns>
-        /// returns a report detailing the various combinations of properties of the provided class
-        /// </returns>
-        public string Inspect(IPackage package, string className)
-        {
-            if (package == null)
-            {
-                throw new ArgumentNullException(nameof(package));
-            }
-
-            if (className == null)
-            {
-                throw new ArgumentNullException(nameof(className));
-            }
-
-            if (className.Length == 0)
-            {
-                throw new ArgumentException(nameof(className));
-            }
-
-            this.logger.LogInformation("Start UML named Class '{2}' Inspection at Package {0}:{1}", package.XmiId, package.Name, className);
-
-            var sw = Stopwatch.StartNew();
-
-            var sb = new StringBuilder();
-
-            var @class = package.PackagedElement.OfType<IClass>().Single(x => x.Name == className);
-
-            sb.AppendLine($"{package.Name}.{@class.Name}:");
-            sb.AppendLine("----------------------------------");
-
-            foreach (var property in @class.OwnedAttribute.OrderBy(x => x.Name))
-            {
-                if (property.IsDerived)
-                {
-                    continue;
-                }
-
-                if (property.QueryIsReferenceProperty())
-                {
-                    string referenceType;
-
-                    if (property.IsComposite)
-                    {
-                        referenceType = $"{property.Name}:{property.QueryTypeName()} [{property.Lower}..{property.Upper}] - COMPOSITE REFERENCE TYPE";
-                    }
-                    else
-                    {
-                        if (property.QueryIsMemberOfManyToMany())
-                        {
-                            referenceType = $"{property.Name}:{property.QueryTypeName()} [{property.Lower}..{property.Upper}] - REFERENCE TYPE - MANY-TO-MANY";
-                        }
-                        else
-                        {
-                            referenceType = $"{property.Name}:{property.QueryTypeName()} [{property.Lower}..{property.Upper}] - REFERENCE TYPE";
-                        }
-                    }
-
-                    sb.AppendLine(referenceType);
-                }
-
-                if (property.QueryIsValueProperty())
-                {
-                    this.logger.LogInformation(property.Name);
-
-                    if (property.QueryIsEnum())
-                    {
-                        var enumeration = $"{property.Name}:{property.QueryTypeName()} [{property.Lower}..{property.Upper}] - ENUM TYPE";
-                        sb.AppendLine(enumeration);
-                    }
-                    else
-                    {
-                        var valueType = $"{property.Name}:{property.QueryTypeName()} [{property.Lower}..{property.Upper}] - VALUETYPE";
-                        sb.AppendLine(valueType);
-                    }
-                }
-            }
-
-            sb.AppendLine("-DERIVED--------------------------");
-            foreach (var property in @class.OwnedAttribute.OrderBy(x => x.Name))
-            {
-                if (property.IsDerived)
-                {
-                    if (property.QueryIsReferenceProperty())
-                    {
-                        if (property.QueryIsMemberOfManyToMany())
-                        {
-                            var referenceType = $"{property.Name}:{property.QueryTypeName()} [{property.Lower}..{property.Upper}] - REFERENCE TYPE - MANY-TO-MANY";
-                            sb.AppendLine(referenceType);
-                        }
-                        else
-                        {
-                            var referenceType = $"{property.Name}:{property.QueryTypeName()} [{property.Lower}..{property.Upper}] - REFERENCE TYPE";
-                            sb.AppendLine(referenceType);
-                        }
-                    }
-
-                    if (property.QueryIsValueProperty())
-                    {
-                        if (property.QueryIsEnum())
-                        {
-                            var enumeration = $"{property.Name}:{property.QueryTypeName()} [{property.Lower}..{property.Upper}] - ENUM TYPE";
-                            sb.AppendLine(enumeration);
-                        }
-                        else
-                        {
-                            var valueType = $"{property.Name} : {property.QueryTypeName()} [{property.Lower} .. {property.Upper}] - VALUETYPE";
-                            sb.AppendLine(valueType);
-                        }
-                    }
-                }
-            }
-
-            this.logger.LogInformation("UML named Class '{2}' Inspection at Package {0}:{1} finished in {3} [ms]", package.XmiId, package.Name, className, sw.ElapsedMilliseconds);
-
-            return sb.ToString();
         }
 
         /// <summary>

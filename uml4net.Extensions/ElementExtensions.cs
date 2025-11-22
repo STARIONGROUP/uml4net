@@ -155,6 +155,21 @@ namespace uml4net.Extensions
                 throw new ArgumentNullException(nameof(element));
             }
 
+            return QueryInterfacesIterator(element);
+        }
+
+        /// <summary>
+        /// Queries and returns a collection of interfaces that are realized by the specified element.
+        /// </summary>
+        /// <param name="element">
+        /// The element for which to query realized interfaces. This element should have an owner of type <see cref="IPackage"/>.
+        /// </param>
+        /// <returns>
+        /// An <see cref="IEnumerable{T}"/> of <see cref="IInterface"/> instances representing the interfaces
+        /// realized by the specified element. If the element has no owner or no realizations, an empty enumeration is returned.
+        /// </returns>
+        private static IEnumerable<IInterface> QueryInterfacesIterator(IElement element)
+        {
             if (element.Owner is not IPackage)
             {
                 yield break;
@@ -173,9 +188,8 @@ namespace uml4net.Extensions
                     }
                 }
             }
-            
         }
-        
+
         /// <summary>
         /// removes the specified html tags from the <paramref name="html"/>
         /// </summary>
