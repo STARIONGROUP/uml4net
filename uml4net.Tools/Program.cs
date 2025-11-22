@@ -21,27 +21,21 @@
 namespace uml4net.Tools
 {
     using System.CommandLine;
-    using System.CommandLine.Builder;
-    using System.CommandLine.Help;
-    using System.CommandLine.Hosting;
-    using System.CommandLine.Parsing;
     using System.Diagnostics.CodeAnalysis;
-    using System.Linq;
+    using System.Threading.Tasks;
+
+    using Autofac.Extensions.DependencyInjection;
 
     using Microsoft.Extensions.DependencyInjection;
-    using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Hosting;
+    using Microsoft.Extensions.Logging;
 
     using Serilog;
     using Serilog.Events;
 
-    using Spectre.Console;
-
     using uml4net.Reporting.Drawing;
     using uml4net.Reporting.Generators;
     using uml4net.Tools.Commands;
-    using uml4net.Tools.Middlewares;
-    using uml4net.Tools.Resources;
 
     /// <summary>
     /// Main entry point for the command line application
@@ -50,92 +44,63 @@ namespace uml4net.Tools
     public static class Program
     {
         /// <summary>
-        /// log level option
-        /// </summary>
-        private static readonly Option<LogLevel> LogLevelOption = new(
-            new[] { "--log-level", "-ll" },
-            getDefaultValue: () => LogLevel.None,
-            description: "Specifies minimum logging level. Accepted values: Trace, Debug, Information, Warning, Error, Critical, None.");
-
-        /// <summary>
         /// Main entry point for the command line application
         /// </summary>
         /// <param name="args">
         /// command line arguments
         /// </param>
-        public static int Main(string[] args)
+        public static async Task<int> Main(string[] args)
         {
-            var commandLineBuilder = BuildCommandLine()
-                .UseHost(_ => Host.CreateDefaultBuilder(args)
-                        .ConfigureLogging((context, loggingBuilder) =>
-                        {
-                            var invocation = context.GetInvocationContext();
-                            var parsedLevel = invocation.ParseResult.GetValueForOption(LogLevelOption);
+            using IHost host = CreateHostBuilder(args).Build();
 
-                            loggingBuilder.ClearProviders();
+            var rootCommand = CreateCommandChain(host);
+            
+            var parseResult = rootCommand.Parse(args);
 
-                            var template =
-                                "[{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz}] [{Level:u3}] ({SourceContext}) {Message:lj}{NewLine}{Exception}";
+            var result = await parseResult.InvokeAsync();
 
-                            var loggerConfig = new LoggerConfiguration()
-                                .Enrich.FromLogContext()
-                                .MinimumLevel.Is(Map(parsedLevel))
-                                .WriteTo.File("uml4net.logs",
-                                    rollingInterval: RollingInterval.Day,
-                                    outputTemplate: template);
-
-                            var serilogLogger = loggerConfig.CreateLogger();
-                            loggingBuilder.AddSerilog(serilogLogger, dispose: true);
-
-                            loggingBuilder.SetMinimumLevel(parsedLevel);
-                        })
-                    , builder => builder
-                        .ConfigureServices((services) =>
-                        {
-                            services.AddSingleton<IInheritanceDiagramRenderer, InheritanceDiagramRenderer>();
-                            services.AddSingleton<IXlReportGenerator, XlReportGenerator>();
-                            services.AddSingleton<IModelInspector, ModelInspector>();
-                            services.AddSingleton<IHtmlReportGenerator, HtmlReportGenerator>();
-                            services.AddSingleton<IMarkdownReportGenerator, MarkdownReportGenerator>();
-
-                        })
-                        .UseCommandHandler<XlReportCommand, XlReportCommand.Handler>()
-                        .UseCommandHandler<ModelInspectionCommand, ModelInspectionCommand.Handler>()
-                        .UseCommandHandler<HtmlReportCommand, HtmlReportCommand.Handler>()
-                        .UseCommandHandler<MarkdownReportCommand, MarkdownReportCommand.Handler>()
-                    )
-                .UseDefaults()
-
-                .Build();
-
-            return commandLineBuilder.Invoke(args);
+            return result;
         }
 
         /// <summary>
-        /// builds the root command
+        /// Creates the <see cref="IHostBuilder"/>
         /// </summary>
+        /// <param name="args">
+        /// the command line arguments
+        /// </param>
         /// <returns>
-        /// The <see cref="CommandLineBuilder"/> with the root command set
+        /// a configured instance of <see cref="IHostBuilder"/>
         /// </returns>
-        private static CommandLineBuilder BuildCommandLine()
+        private static IHostBuilder CreateHostBuilder(string[] args)
         {
-            var root = CreateCommandChain();
-
-            return new CommandLineBuilder(root)
-                .UseHelp(ctx =>
+            var host = Host.CreateDefaultBuilder(args)
+                .ConfigureLogging(loggingBuilder =>
                 {
-                    ctx.HelpBuilder.CustomizeLayout(_ =>
-                        HelpBuilder.Default
-                            .GetLayout()
-                            .Skip(1) // Skip the default command description section.
-                            .Prepend(
-                                _ =>
-                                {
-                                    AnsiConsole.Markup($"[blue]{ResourceLoader.QueryLogo()}[/]");
-                                }
-                            ));
+                    loggingBuilder.ClearProviders();
+                    var template = "[{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz}] [{Level:u3}] ({SourceContext}) {Message:lj}{NewLine}{Exception}";
+                    var loggerConfig = new LoggerConfiguration()
+                        .Enrich.FromLogContext()
+                        .MinimumLevel.Is(Map(LogLevel.Information))
+                        .WriteTo.File("uml4net.logs",
+                            rollingInterval: RollingInterval.Day,
+                            outputTemplate: template);
+
+                    var serilogLogger = loggerConfig.CreateLogger();
+                    loggingBuilder.AddSerilog(serilogLogger, dispose: true);
+
+                    loggingBuilder.SetMinimumLevel(LogLevel.Information);
                 })
-                .UseVersionChecker();
+                .UseServiceProviderFactory(new AutofacServiceProviderFactory())
+                .ConfigureServices(services =>
+                {
+                    services.AddSingleton<IInheritanceDiagramRenderer, InheritanceDiagramRenderer>();
+                    services.AddSingleton<IXlReportGenerator, XlReportGenerator>();
+                    services.AddSingleton<IModelInspector, ModelInspector>();
+                    services.AddSingleton<IHtmlReportGenerator, HtmlReportGenerator>();
+                    services.AddSingleton<IMarkdownReportGenerator, MarkdownReportGenerator>();
+                });
+
+            return host;
         }
 
         /// <summary>
@@ -144,22 +109,49 @@ namespace uml4net.Tools
         /// <returns>
         /// returns an instance of <see cref="RootCommand"/>
         /// </returns>
-        private static RootCommand CreateCommandChain()
+        private static RootCommand CreateCommandChain(IHost host)
         {
             var root = new RootCommand("uml4net Tools");
-            root.AddGlobalOption(LogLevelOption);
 
             var reportCommand = new XlReportCommand();
-            root.AddCommand(reportCommand);
+            reportCommand.SetAction(async parseResult =>
+            {
+                using var scope = host.Services.CreateScope();
+                var generator = scope.ServiceProvider.GetService<IXlReportGenerator>();
+                var handler = new XlReportCommand.Handler(generator);
+                await handler.InvokeAsync(parseResult);
+            });
+            root.Add(reportCommand);
 
             var modelInspectionCommand = new ModelInspectionCommand();
-            root.AddCommand(modelInspectionCommand);
+            modelInspectionCommand.SetAction(async parseResult =>
+            {
+                using var scope = host.Services.CreateScope();
+                var generator = scope.ServiceProvider.GetService<IModelInspector>();
+                var handler = new ModelInspectionCommand.Handler(generator);
+                await handler.InvokeAsync(parseResult);
+            });
+            root.Add(modelInspectionCommand);
 
             var htmlReportCommand = new HtmlReportCommand();
-            root.AddCommand(htmlReportCommand);
+            htmlReportCommand.SetAction(async parseResult =>
+            {
+                using var scope = host.Services.CreateScope();
+                var generator = scope.ServiceProvider.GetService<IHtmlReportGenerator>();
+                var handler = new HtmlReportCommand.Handler(generator);
+                await handler.InvokeAsync(parseResult);
+            });
+            root.Add(htmlReportCommand);
 
             var markdownReportCommand = new MarkdownReportCommand();
-            root.AddCommand(markdownReportCommand);
+            markdownReportCommand.SetAction(async parseResult =>
+            {
+                using var scope = host.Services.CreateScope();
+                var generator = scope.ServiceProvider.GetService<IMarkdownReportGenerator>();
+                var handler = new MarkdownReportCommand.Handler(generator);
+                await handler.InvokeAsync(parseResult);
+            });
+            root.Add(markdownReportCommand);
 
             return root;
         }

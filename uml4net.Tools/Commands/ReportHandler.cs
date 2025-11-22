@@ -22,20 +22,20 @@ namespace uml4net.Tools.Commands
 {
     using System;
     using System.Collections.Generic;
-    using System.CommandLine.Invocation;
+    using System.CommandLine;
     using System.Diagnostics;
     using System.Globalization;
     using System.IO;
     using System.Threading;
     using System.Threading.Tasks;
 
+    using Spectre.Console;
+
     using uml4net.Reporting.Generators;
     using uml4net.Tools.Resources;
 
-    using Spectre.Console;
-
     /// <summary>
-    /// Abstract super class from which all Report <see cref="ICommandHandler"/>s need to derive
+    /// Abstract super class from which all Report <see cref="ReportHandler"/>s need to derive
     /// </summary>
     public abstract class ReportHandler
     {
@@ -106,30 +106,15 @@ namespace uml4net.Tools.Commands
         public bool UseStrictReading { get; set; }
 
         /// <summary>
-        /// Invokes the <see cref="ICommandHandler"/>
+        /// Asynchronously invokes the <see cref="ReportHandler"/>
         /// </summary>
-        /// <param name="context">
-        /// The <see cref="InvocationContext"/> 
-        /// </param>
         /// <returns>
         /// 0 when successful, another if not
         /// </returns>
-        public int Invoke(InvocationContext context)
+        public async Task<int> InvokeAsync(ParseResult parseResult)
         {
-            throw new NotSupportedException("Please use InvokeAsync");
-        }
+            this.ProcessParseResult(parseResult);
 
-        /// <summary>
-        /// Asynchronously invokes the <see cref="ICommandHandler"/>
-        /// </summary>
-        /// <param name="context">
-        /// The <see cref="InvocationContext"/> 
-        /// </param>
-        /// <returns>
-        /// 0 when successful, another if not
-        /// </returns>
-        public async Task<int> InvokeAsync(InvocationContext context)
-        {
             if (!this.InputValidation())
             {
                 return -1;
@@ -203,6 +188,24 @@ namespace uml4net.Tools.Commands
             }
 
             return 0;
+        }
+
+        /// <summary>
+        /// Process the <see cref="ParseResult"/> and set to the associated properties
+        /// </summary>
+        /// <param name="parseResult">
+        /// The instance of <see cref="ParseResult"/> that contains the processed arguments
+        /// </param>
+        private void ProcessParseResult(ParseResult parseResult)
+        {
+            this.NoLogo = parseResult.GetValue<bool>("--no-logo");
+            this.InputModel = parseResult.GetValue<FileInfo>("--input-model");
+            this.PathMaps = parseResult.GetValue<string[]>("--pathmaps");
+            this.AutoOpenReport = parseResult.GetValue<bool>("--auto-open-report");
+            this.UseStrictReading = parseResult.GetValue<bool>("--use-strict-reading");
+            this.RootPackageXmiId = parseResult.GetValue<string>("--root-package-xmi-id");
+            this.RootPackageName = parseResult.GetValue<string>("--root-package-name");
+            this.OutputReport = parseResult.GetValue<FileInfo>("--output-report");
         }
 
         /// <summary>

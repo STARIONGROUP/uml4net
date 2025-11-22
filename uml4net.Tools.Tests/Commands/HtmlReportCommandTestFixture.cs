@@ -22,7 +22,7 @@ namespace uml4net.Tools.Tests.Commands
 {
     using System;
     using System.Collections.Generic;
-    using System.CommandLine.Invocation;
+    using System.CommandLine;
     using System.IO;
     using System.Threading.Tasks;
 
@@ -39,6 +39,8 @@ namespace uml4net.Tools.Tests.Commands
     [TestFixture]
     public class HtmlReportCommandTestFixture
     {
+        private RootCommand rootCommand;
+
         private Mock<IHtmlReportGenerator> htmlReportGenerator;
 
         private HtmlReportCommand.Handler handler;
@@ -46,13 +48,16 @@ namespace uml4net.Tools.Tests.Commands
         [SetUp]
         public void SetUp()
         {
+            var htmlReportCommand = new HtmlReportCommand();
+            this.rootCommand = new RootCommand();
+            this.rootCommand.Add(htmlReportCommand);
+
             this.htmlReportGenerator = new Mock<IHtmlReportGenerator>();
 
             this.htmlReportGenerator.Setup(x => x.IsValidReportExtension(It.IsAny<FileInfo>()))
                 .Returns(new Tuple<bool, string>(true, "valid extension"));
 
-            this.handler = new HtmlReportCommand.Handler(
-                this.htmlReportGenerator.Object);
+            this.handler = new HtmlReportCommand.Handler(this.htmlReportGenerator.Object);
         }
 
         [Test]
@@ -67,14 +72,19 @@ namespace uml4net.Tools.Tests.Commands
         [Test]
         public async Task Verify_that_InvokeAsync_returns_0_for_UML_xmi()
         {
-            var invocationContext = new InvocationContext(null!);
+            var args = new[]
+            {
+                "html-report",
+                "--no-logo",
+                "--input-model", Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData", "UML.xmi"),
+                "--output-report", Path.Combine(TestContext.CurrentContext.TestDirectory, "html-report.html"),
+                "--root-package-xmi-id", "_0",
+                "--root-package-name", "UML"
+            };
 
-            this.handler.InputModel = new FileInfo(Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData", "UML.xmi"));
-            this.handler.OutputReport = new FileInfo(Path.Combine(TestContext.CurrentContext.TestDirectory, "html-report.html"));
-            this.handler.RootPackageXmiId = "_0";
-            this.handler.RootPackageName = "UML";
+            var parseResult = this.rootCommand.Parse(args);
 
-            var result = await this.handler.InvokeAsync(invocationContext);
+            var result = await this.handler.InvokeAsync(parseResult);
 
             this.htmlReportGenerator.Verify(x => x.GenerateReport(It.IsAny<FileInfo>(), It.IsAny<DirectoryInfo>(), It.IsAny<string>() , It.IsAny<string>(),It.IsAny<bool>(), It.IsAny<Dictionary<string,string>>(), It.IsAny<FileInfo>(), It.IsAny<String>()), Times.Once);
 
@@ -84,16 +94,21 @@ namespace uml4net.Tools.Tests.Commands
         [Test]
         public async Task Verify_that_InvokeAsync_returns_0_for_SysML_xmi()
         {
-            var invocationContext = new InvocationContext(null!);
+            var args = new[]
+            {
+                "html-report",
+                "--no-logo",
+                "--input-model", Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData", "SysML.uml"),
+                "--output-report", Path.Combine(TestContext.CurrentContext.TestDirectory, "html-report.html"),
+                "--root-package-xmi-id", "_kUROkM9FEe6Zc_le1peNgQ",
+                "--pathmaps", $"pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml={Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData", "PrimitiveTypes.xmi")}"
+            };
 
-            this.handler.InputModel = new FileInfo(Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData", "SysML.uml"));
-            this.handler.OutputReport = new FileInfo(Path.Combine(TestContext.CurrentContext.TestDirectory, "html-report.html"));
-            this.handler.PathMaps = new[] { $"pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml={Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData", "PrimitiveTypes.xmi")}" };
-            this.handler.RootPackageXmiId = "_kUROkM9FEe6Zc_le1peNgQ";
+            var parseResult = this.rootCommand.Parse(args);
 
-            var result = await this.handler.InvokeAsync(invocationContext);
+            var result = await this.handler.InvokeAsync(parseResult);
 
-            this.htmlReportGenerator.Verify(x => x.GenerateReport(It.IsAny<FileInfo>(), It.IsAny<DirectoryInfo>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<bool>(),It.IsAny<Dictionary<string, string>>(), It.IsAny<FileInfo>(), It.IsAny<String>()), Times.Once);
+            this.htmlReportGenerator.Verify(x => x.GenerateReport(It.IsAny<FileInfo>(), It.IsAny<DirectoryInfo>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<bool>(), It.IsAny<Dictionary<string, string>>(), It.IsAny<FileInfo>(), It.IsAny<String>()), Times.Once);
 
             Assert.That(result, Is.EqualTo(0), "InvokeAsync should return 0 upon success.");
         }
@@ -101,12 +116,19 @@ namespace uml4net.Tools.Tests.Commands
         [Test]
         public async Task Verify_that_when_the_input_ecore_model_does_not_exists_returns_not_0()
         {
-            var invocationContext = new InvocationContext(null!);
+            var args = new[]
+            {
+                "html-report",
+                "--no-logo",
+                "--input-model", Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData", "non-existent.xmi"),
+                "--output-report", Path.Combine(TestContext.CurrentContext.TestDirectory, "html-report.html"),
+                "--root-package-xmi-id", "_0",
+                "--root-package-name", "UML"
+            };
 
-            this.handler.InputModel = new FileInfo(Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData", "non-existent.xmi"));
-            this.handler.OutputReport = new FileInfo(Path.Combine(TestContext.CurrentContext.TestDirectory, "html-report.html"));
+            var parseResult = this.rootCommand.Parse(args);
 
-            var result = await this.handler.InvokeAsync(invocationContext);
+            var result = await this.handler.InvokeAsync(parseResult);
 
             Assert.That(result, Is.EqualTo(-1), "InvokeAsync should return -1 upon failure.");
         }
@@ -114,14 +136,21 @@ namespace uml4net.Tools.Tests.Commands
         [Test]
         public async Task Verify_that_when_the_output_extensions_is_not_supported_returns_not_0()
         {
-            var invocationContext = new InvocationContext(null!);
+            var args = new[]
+            {
+                "html-report",
+                "--no-logo",
+                "--input-model", Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData", "UML.xmi"),
+                "--root-package-xmi-id", "_0",
+                "--root-package-name", "UML"
+            };
+
+            var parseResult = this.rootCommand.Parse(args);
 
             this.htmlReportGenerator.Setup(x => x.IsValidReportExtension(It.IsAny<FileInfo>()))
                 .Returns(new Tuple<bool, string>(false, "invalid extension"));
 
-            this.handler.InputModel = new FileInfo(Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData", "UML.xmi"));
-
-            var result = await this.handler.InvokeAsync(invocationContext);
+            var result = await this.handler.InvokeAsync(parseResult);
 
             Assert.That(result, Is.EqualTo(-1), "InvokeAsync should return -1 upon failure.");
         }

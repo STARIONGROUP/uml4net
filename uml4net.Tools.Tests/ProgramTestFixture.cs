@@ -21,7 +21,7 @@
 namespace uml4net.Tools.Tests
 {
     using System.IO;
-
+    using System.Threading.Tasks;
     using NUnit.Framework;
 
     using uml4net.Tools;
@@ -41,7 +41,7 @@ namespace uml4net.Tools.Tests
         [TestCase("html-report")]
         [TestCase( "excel-report")]
         [TestCase("inspect")]
-        public void Verify_that_console_app_can_generate_reports(string reportKind)
+        public async Task Verify_that_console_app_can_generate_reports(string reportKind)
         {
             var args = new[]
             {
@@ -49,11 +49,10 @@ namespace uml4net.Tools.Tests
                 "--no-logo",
                 "--input-model", this.inputModel,
                 "--root-package-xmi-id", "_0",
-                "--root-package-name", "UML",
-                "--log-level", "Information",
+                "--root-package-name", "UML"
             };
 
-            var exitCode = Program.Main(args);
+            var exitCode = await Program.Main(args);
 
             Assert.That(exitCode, Is.EqualTo(0));
         }

@@ -21,7 +21,6 @@
 namespace uml4net.Tools.Commands
 {
     using System.CommandLine;
-    using System.CommandLine.Invocation;
     using System.IO;
 
     using uml4net.Reporting.Generators;
@@ -37,20 +36,22 @@ namespace uml4net.Tools.Commands
         /// </summary>
         public XlReportCommand() : base("excel-report", "Generates a tabular report of the UML model")
         {
-            var reportFileOption = new Option<FileInfo>(
-                name: "--output-report",
-                description: "The path to the tabular report file. Supported extensions are '.xlsx', '.xlsm', '.xltx' and '.xltm'",
-                getDefaultValue: () => new FileInfo("tabular-report.xlsx"));
+            var reportFileOption = new Option<FileInfo>(name: "--output-report")
+            {
+                Description ="The path to the tabular report file. Supported extensions are '.xlsx', '.xlsm', '.xltx' and '.xltm'",
+                DefaultValueFactory = parseResult => new FileInfo("tabular-report.xlsx"),
+                Required = true
+            };
 
-            reportFileOption.AddAlias("-o");
-            reportFileOption.IsRequired = true;
-            this.AddOption(reportFileOption);
+            reportFileOption.Aliases.Add("-o");
+            
+            this.Options.Add(reportFileOption);
         }
 
         /// <summary>
         /// The Command Handler of the <see cref="XlReportCommand"/>
         /// </summary>
-        public new class Handler : ReportHandler, ICommandHandler
+        public new class Handler : ReportHandler
         {
             /// <summary>
             /// Initializes a nwe instance of the <see cref="Handler"/> class.

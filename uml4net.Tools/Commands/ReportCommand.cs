@@ -35,58 +35,76 @@ namespace uml4net.Tools.Commands
         /// <param name="description">The description of the command, shown in help.</param>
         protected ReportCommand(string name, string description = null) : base(name, description)
         {
-            var noLogoOption = new Option<bool>(
-                name: "--no-logo",
-                description: "Suppress the logo",
-                getDefaultValue: () => false);
-            this.AddOption(noLogoOption);
+            var noLogoOption = new Option<bool>(name: "--no-logo")
+            {
+                Description = "Suppress the logo",
+                DefaultValueFactory = parseResult => false
+            };
 
-            var inputModelFileOption = new Option<FileInfo>(
-                name: "--input-model",
-                description: "The path to the UML XMI file",
-                getDefaultValue: () => new FileInfo("model.xmi"));
-            inputModelFileOption.AddAlias("-i");
-            inputModelFileOption.IsRequired = true;
-            this.AddOption(inputModelFileOption);
+            this.Options.Add(noLogoOption);
 
-            var pathMaps = new Option<string[]>(
-                name: "--pathmaps",
-                description: "Add pathmap key-value pairs");
-            pathMaps.AddAlias("-m");
-            pathMaps.AllowMultipleArgumentsPerToken = true;
-            this.AddOption(pathMaps);
+            var inputModelFileOption = new Option<FileInfo>(name: "--input-model")
+            {
+                Description = "The path to the UML XMI file",
+                DefaultValueFactory = parseResult => new FileInfo("model.xmi"),
+                Required = true
+            };
+    
+            inputModelFileOption.Aliases.Add("-i");
 
-            var autoOpenReportOption = new Option<bool>(
-                name: "--auto-open-report",
-                description: "Open the generated report with its default application",
-                getDefaultValue: () => false);
-            autoOpenReportOption.AddAlias("-a");
-            autoOpenReportOption.IsRequired = false;
-            this.AddOption(autoOpenReportOption);
+            this.Options.Add(inputModelFileOption);
 
-            var useStrictReadingOption = new Option<bool>(
-                name: "--use-strict-reading",
-                description: "When Strict Reading is set to true the reader will throw an exception if it encounters an unknown element or attribute. Otherwise, it will ignore the unknown element or attribute and log a warning.",
-                getDefaultValue: () => true);
-            useStrictReadingOption.AddAlias("-s");
-            useStrictReadingOption.IsRequired = false;
-            this.AddOption(useStrictReadingOption);
+            var pathMaps = new Option<string[]>(name: "--pathmaps")
+            {
+                Description = "Add pathmap key-value pairs",
+                AllowMultipleArgumentsPerToken = true
+            };
+            pathMaps.Aliases.Add("-m");
+            
+            this.Options.Add(pathMaps);
 
-            var xmiIdOption = new Option<string>(
-                name: "--root-package-xmi-id",
-                description: "The unique identifier of the of the root package to report on",
-                getDefaultValue: () => "");
-            xmiIdOption.AddAlias("-rmi");
-            xmiIdOption.IsRequired = false;
-            this.AddOption(xmiIdOption);
+            var autoOpenReportOption = new Option<bool>(name: "--auto-open-report")
+            {
+                Description = "Open the generated report with its default application",
+                DefaultValueFactory = parseResult => false,
+                Required = true
+            };
 
-            var rootPackageNameOption = new Option<string>(
-                name: "--root-package-name",
-                description: "The name of the of the root package to report on",
-                getDefaultValue: () => "");
-            rootPackageNameOption.AddAlias("-rn");
-            rootPackageNameOption.IsRequired = false;
-            this.AddOption(rootPackageNameOption);
+            autoOpenReportOption.Aliases.Add("-a");
+
+            this.Options.Add(autoOpenReportOption);
+
+            var useStrictReadingOption = new Option<bool>(name: "--use-strict-reading")
+            {
+                Description = "When Strict Reading is set to true the reader will throw an exception if it encounters an unknown element or attribute. Otherwise, it will ignore the unknown element or attribute and log a warning.",
+                DefaultValueFactory = parseResult => true,
+                Required = false
+            };
+            useStrictReadingOption.Aliases.Add("-s");
+
+            this.Options.Add(useStrictReadingOption);
+
+            var xmiIdOption = new Option<string>(name: "--root-package-xmi-id")
+            {
+                Description = "The unique identifier of the of the root package to report on",
+                DefaultValueFactory = parseResult => "",
+                Required = false
+            };
+
+            xmiIdOption.Aliases.Add("-rmi");
+
+            this.Options.Add(xmiIdOption);
+
+            var rootPackageNameOption = new Option<string>(name: "--root-package-name")
+            {
+                Description = "The name of the of the root package to report on",
+                DefaultValueFactory = parseResult => "",
+                Required = false
+            };
+
+            rootPackageNameOption.Aliases.Add("-rn");
+
+            this.Options.Add(rootPackageNameOption);
         }
     }
 }

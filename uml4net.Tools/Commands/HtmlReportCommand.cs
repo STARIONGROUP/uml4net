@@ -21,7 +21,6 @@
 namespace uml4net.Tools.Commands
 {
     using System.CommandLine;
-    using System.CommandLine.Invocation;
     using System.IO;
 
     using uml4net.Reporting.Generators;
@@ -36,20 +35,22 @@ namespace uml4net.Tools.Commands
         /// </summary>
         public HtmlReportCommand() : base("html-report", "Generates a html report of the UML model")
         {
-            var reportFileOption = new Option<FileInfo>(
-                name: "--output-report",
-                description: "The path to the html report file. Supported extensions are '.html'",
-                getDefaultValue: () => new FileInfo("html-report.html"));
-            
-            reportFileOption.AddAlias("-o");
-            reportFileOption.IsRequired = true;
-            this.AddOption(reportFileOption);
+            var reportFileOption = new Option<FileInfo>(name: "--output-report")
+            {
+                Description = "The path to the html report file. Supported extensions are '.html'",
+                DefaultValueFactory = parseResult => new FileInfo("html-report.html"),
+                Required = true
+            };
+
+            reportFileOption.Aliases.Add("-o");
+
+            this.Options.Add(reportFileOption);
         }
 
         /// <summary>
         /// The Command Handler of the <see cref="HtmlReportCommand"/>
         /// </summary>
-        public new class Handler : ReportHandler, ICommandHandler
+        public class Handler : ReportHandler
         {
             /// <summary>
             /// Initializes a nwe instance of the <see cref="Handler"/> class.
