@@ -2,7 +2,7 @@
 
     <PropertyGroup>
         <Description>A .NET implementation of the OMG UML v2.5.1 specification.</Description>
-        <Version>5.0.0</Version>
+        <Version>5.0.1</Version>
         <PackageId>uml4net.xmi</PackageId>
         <LangVersion>12.0</LangVersion>
         <TargetFramework>netstandard2.0</TargetFramework>
@@ -30,8 +30,9 @@
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
         <GenerateSBOM>true</GenerateSBOM>
         <PackageReleaseNotes>
-            [UPDATE] Provide capabilities to read XmiElement placed anywhere in a XMI
-            [UPDATE] Allow registration of IExtenderReaderRegistry and IExtenderReader based on there ExtenderAttribute
+            [Update] to uml4net.Extensions 5.0.1
+            [Update] Microsoft.Sbom.Targets to version 4.1.4
+            [Update] Autofac to version 9.0.0
         </PackageReleaseNotes>
     </PropertyGroup>
 

@@ -2,7 +2,7 @@
 
     <PropertyGroup>
         <TargetFramework>netstandard2.0</TargetFramework>
-        <Version>5.0.0</Version>
+        <Version>5.0.1</Version>
         <LangVersion>12.0</LangVersion>
         <Company>Starion Group S.A.</Company>
         <Copyright>Copyright © Starion Group S.A.</Copyright>
@@ -28,7 +28,8 @@
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
         <GenerateSBOM>true</GenerateSBOM>
         <PackageReleaseNotes>
-            [BUMP] To uml4net 4.0.0
+            [Update] to uml4net 4.0.1
+            [Update] Microsoft.Sbom.Targets to version 4.1.4
         </PackageReleaseNotes>
     </PropertyGroup>
 

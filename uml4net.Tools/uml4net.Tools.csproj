@@ -3,7 +3,7 @@
     <PropertyGroup Label="Package">
         <TargetFramework>net9.0</TargetFramework>
         <LangVersion>12.0</LangVersion>
-        <Version>6.0.0</Version>
+        <Version>6.0.1</Version>
         <Title>uml4net.Tools</Title>
         <Description>A command line application that processes a UML file and generates various reports.</Description>
         <OutputType>Exe</OutputType>
@@ -19,7 +19,13 @@
         <SatelliteResourceLanguages>en-US</SatelliteResourceLanguages>
         <GenerateSBOM>true</GenerateSBOM>
         <PackageReleaseNotes>
-          [BUMP] uml4net.Reporting to version 6.0.0
+            [Update] to uml4net.Reporting to version 6.0.1
+            [Update] Spectre.Console to version 0.54.0
+            [Update] Autofac.Extensions.DependencyInjection to version 10.0.0
+            [Update] Microsoft.Extensions.Http to version 10.0.0
+            [Update] Serilog.Extensions.Logging to version 10.0.0
+            [Update] Microsoft.Sbom.Targets to version 4.1.4
+            [Update] System.CommandLine to version 2.0.0; fixes #139
         </PackageReleaseNotes>
     </PropertyGroup>
 
@@ -50,15 +56,12 @@
     <ItemGroup>
         <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="10.0.0" />
         <PackageReference Include="Microsoft.Extensions.Http" Version="10.0.0" />
+        <PackageReference Include="Microsoft.Extensions.Hosting" Version="10.0.0" />
         <PackageReference Include="Serilog.Extensions.Logging" Version="10.0.0" />
         <PackageReference Include="Serilog.Sinks.File" Version="7.0.0" />
         <PackageReference Include="System.CommandLine" Version="2.0.0" />
         <PackageReference Include="Spectre.Console" Version="0.54.0" />
         <PackageReference Include="Microsoft.Sbom.Targets" Version="4.1.4" PrivateAssets="all" />
-    </ItemGroup>
-
-    <ItemGroup Label="Transitive Dependency overrides">
-        <PackageReference Include="Microsoft.Extensions.Hosting" Version="10.0.0" />
     </ItemGroup>
 
     <ItemGroup>
