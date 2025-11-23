@@ -51,7 +51,7 @@ namespace uml4net.Tools.Commands
         /// <summary>
         /// The Command Handler of the <see cref="MarkdownReportCommand"/>
         /// </summary>
-        public new class Handler : ReportHandler
+        public class Handler : ReportHandler
         {
             /// <summary>
             /// Initializes a nwe instance of the <see cref="Handler"/> class.

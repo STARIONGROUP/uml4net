@@ -124,7 +124,8 @@ namespace uml4net.Tools
             var root = new RootCommand("uml4net Tools");
 
             var reportCommand = new XlReportCommand();
-            reportCommand.SetAction(async parseResult =>
+
+            reportCommand.SetAction((parseResult, cancellationToken) =>
             {
                 ApplyLogLevel(parseResult);
 
@@ -132,12 +133,12 @@ namespace uml4net.Tools
                 var generator = scope.ServiceProvider.GetService<IXlReportGenerator>();
                 var versionChecker = scope.ServiceProvider.GetService<IVersionChecker>();
                 var handler = new XlReportCommand.Handler(generator, versionChecker);
-                await handler.InvokeAsync(parseResult);
+                return handler.InvokeAsync(parseResult, cancellationToken);
             });
             root.Add(reportCommand);
 
             var modelInspectionCommand = new ModelInspectionCommand();
-            modelInspectionCommand.SetAction(async parseResult =>
+            modelInspectionCommand.SetAction((parseResult, cancellationToken) =>
             {
                 ApplyLogLevel(parseResult);
 
@@ -145,12 +146,12 @@ namespace uml4net.Tools
                 var generator = scope.ServiceProvider.GetService<IModelInspector>();
                 var versionChecker = scope.ServiceProvider.GetService<IVersionChecker>();
                 var handler = new ModelInspectionCommand.Handler(generator, versionChecker);
-                await handler.InvokeAsync(parseResult);
+                return handler.InvokeAsync(parseResult, cancellationToken);
             });
             root.Add(modelInspectionCommand);
 
             var htmlReportCommand = new HtmlReportCommand();
-            htmlReportCommand.SetAction(async parseResult =>
+            htmlReportCommand.SetAction((parseResult, cancellationToken) =>
             {
                 ApplyLogLevel(parseResult);
 
@@ -158,12 +159,12 @@ namespace uml4net.Tools
                 var generator = scope.ServiceProvider.GetService<IHtmlReportGenerator>();
                 var versionChecker = scope.ServiceProvider.GetService<IVersionChecker>();
                 var handler = new HtmlReportCommand.Handler(generator, versionChecker);
-                await handler.InvokeAsync(parseResult);
+                return handler.InvokeAsync(parseResult, cancellationToken);
             });
             root.Add(htmlReportCommand);
 
             var markdownReportCommand = new MarkdownReportCommand();
-            markdownReportCommand.SetAction(async parseResult =>
+            markdownReportCommand.SetAction((parseResult, cancellationToken) =>
             {
                 ApplyLogLevel(parseResult);
 
@@ -171,7 +172,7 @@ namespace uml4net.Tools
                 var generator = scope.ServiceProvider.GetService<IMarkdownReportGenerator>();
                 var versionChecker = scope.ServiceProvider.GetService<IVersionChecker>();
                 var handler = new MarkdownReportCommand.Handler(generator, versionChecker);
-                await handler.InvokeAsync(parseResult);
+                return handler.InvokeAsync(parseResult, cancellationToken);
             });
             root.Add(markdownReportCommand);
 
@@ -179,13 +180,11 @@ namespace uml4net.Tools
         }
 
         /// <summary>
-        /// Reads the log level from the parse result and updates the Serilog level switch.
+        /// Reads the log level from the parse result and updates the Serilog <see cref="LoggingLevelSwitch"/>>.
         /// </summary>
         private static void ApplyLogLevel(ParseResult parseResult)
         {
-            var level = parseResult.GetValue<LogEventLevel>("--log-level");
-
-            LoggingLevelSwitch.MinimumLevel = level;
+            LoggingLevelSwitch.MinimumLevel = parseResult.GetValue<LogEventLevel>("--log-level");
         }
     }
 }

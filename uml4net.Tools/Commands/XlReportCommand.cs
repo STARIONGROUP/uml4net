@@ -52,7 +52,7 @@ namespace uml4net.Tools.Commands
         /// <summary>
         /// The Command Handler of the <see cref="XlReportCommand"/>
         /// </summary>
-        public new class Handler : ReportHandler
+        public class Handler : ReportHandler
         {
             /// <summary>
             /// Initializes a nwe instance of the <see cref="Handler"/> class.

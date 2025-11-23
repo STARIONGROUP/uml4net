@@ -24,6 +24,7 @@ namespace uml4net.Tools.Services
     using System.Net.Http;
     using System.Reflection;
     using System.Text.Json;
+    using System.Threading;
     using System.Threading.Tasks;
 
     using Microsoft.Extensions.Logging;
@@ -64,11 +65,19 @@ namespace uml4net.Tools.Services
         /// <summary>
         /// Checks for the lastest release
         /// </summary>
-        public async Task ExecuteAsync()
+        /// <param name="cancellationToken">
+        /// The <see cref="CancellationToken"/> used to cancel the operation
+        /// </param>
+        public async Task ExecuteAsync(CancellationToken cancellationToken)
         {
+            if (cancellationToken.IsCancellationRequested)
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+            }
+
             try
             {
-                var payload = await QueryLatestReleaseAsync();
+                var payload = await QueryLatestReleaseAsync(cancellationToken);
 
                 if (payload != null)
                 {
@@ -101,11 +110,14 @@ namespace uml4net.Tools.Services
         /// <summary>
         /// Queries the latest version from the GitHub API
         /// </summary>
+        /// <param name="cancellationToken">
+        /// The <see cref="CancellationToken"/> used to cancel the operation
+        /// </param>
         /// <returns>
         /// an instance of <see cref="GitHubRelease"/> or null if not found or a connection
         /// error occurred
         /// </returns>
-        public async Task<GitHubRelease> QueryLatestReleaseAsync()
+        public async Task<GitHubRelease> QueryLatestReleaseAsync(CancellationToken cancellationToken)
         {
             var httpClient = this.httpClientFactory.CreateClient();
             httpClient.Timeout = TimeSpan.FromSeconds(2);
@@ -116,11 +128,11 @@ namespace uml4net.Tools.Services
             {
                 httpClient.DefaultRequestHeaders.UserAgent.ParseAdd("uml4net.Tools");
 
-                using var response = await httpClient.GetAsync(requestUrl);
+                using var response = await httpClient.GetAsync(requestUrl, cancellationToken);
 
                 if (response.IsSuccessStatusCode)
                 {
-                    var jsonResponse = await response.Content.ReadAsStringAsync();
+                    var jsonResponse = await response.Content.ReadAsStringAsync(cancellationToken);
                     var release = JsonSerializer.Deserialize<GitHubRelease>(jsonResponse);
 
                     return release;

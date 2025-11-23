@@ -20,6 +20,7 @@
 
 namespace uml4net.Tools.Services
 {
+    using System.Threading;
     using System.Threading.Tasks;
 
     /// <summary>
@@ -27,6 +28,12 @@ namespace uml4net.Tools.Services
     /// </summary>
     public interface IVersionChecker
     {
-        Task ExecuteAsync();
+        /// <summary>
+        /// Checks for the lastest release
+        /// </summary>
+        /// <param name="cancellationToken">
+        /// The <see cref="CancellationToken"/> used to cancel the operation
+        /// </param>
+        Task ExecuteAsync(CancellationToken cancellationToken);
     }
 }

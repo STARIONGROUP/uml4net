@@ -28,11 +28,12 @@ namespace uml4net.Tools.Commands
     using System.IO;
     using System.Threading;
     using System.Threading.Tasks;
-    using Services;
+
     using Spectre.Console;
 
     using uml4net.Reporting.Generators;
     using uml4net.Tools.Resources;
+    using uml4net.Tools.Services;
 
     /// <summary>
     /// Abstract super class from which all Report <see cref="ReportHandler"/>s need to derive
@@ -117,12 +118,23 @@ namespace uml4net.Tools.Commands
         /// <summary>
         /// Asynchronously invokes the <see cref="ReportHandler"/>
         /// </summary>
+        /// <param name="parseResult">
+        /// The <see cref="ParseResult"/> that carries the parsed command line arguments
+        /// </param>
+        /// <param name="cancellationToken">
+        /// The <see cref="CancellationToken"/> used to cancel the operation
+        /// </param>
         /// <returns>
         /// 0 when successful, another if not
         /// </returns>
-        public async Task<int> InvokeAsync(ParseResult parseResult)
+        public async Task<int> InvokeAsync(ParseResult parseResult, CancellationToken cancellationToken)
         {
-            await this.VersionChecker.ExecuteAsync();
+            if (cancellationToken.IsCancellationRequested)
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+            }
+
+            await this.VersionChecker.ExecuteAsync(cancellationToken);
 
             this.ProcessParseResult(parseResult);
 
@@ -205,7 +217,7 @@ namespace uml4net.Tools.Commands
         /// Process the <see cref="ParseResult"/> and set to the associated properties
         /// </summary>
         /// <param name="parseResult">
-        /// The instance of <see cref="ParseResult"/> that contains the processed arguments
+        /// The instance of <see cref="ParseResult"/> that contains the parsed commandline arguments
         /// </param>
         private void ProcessParseResult(ParseResult parseResult)
         {

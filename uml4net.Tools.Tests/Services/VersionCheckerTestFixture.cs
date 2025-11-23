@@ -67,30 +67,34 @@ namespace uml4net.Tools.Tests.Services
             this.versionChecker = new VersionChecker(this.httpClientFactory, this.loggerFactory);
         }
 
-        private class SuccessHandler : HttpMessageHandler
+        [Test]
+        public async Task Verify_that_ExecuteAsync_does_not_throw()
         {
-            protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
-            {
-                var json = "{\"tag_name\":\"1.2.3\",\"body\":\"notes\",\"html_url\":\"https://example.com\"}";
-                return Task.FromResult(new HttpResponseMessage(System.Net.HttpStatusCode.OK)
-                {
-                    Content = new StringContent(json)
-                });
-            }
+            var cts = new CancellationTokenSource();
+
+            await Assert.ThatAsync(() => this.versionChecker.ExecuteAsync(cts.Token), Throws.Nothing);
         }
 
         [Test]
-        public async Task Verify_that_Query_version_returns_result()
+        public async Task Verify_that_ExecuteAsync_does_not_throw_on_http_timeout()
         {
-            var result = await this.versionChecker.QueryLatestReleaseAsync();
+            var cts = new CancellationTokenSource();
 
-            using (Assert.EnterMultipleScope())
-            {
-                Assert.That(result, Is.Not.Null);
-                Assert.That(result.TagName, Is.EqualTo("1.2.3"));
-                Assert.That(result.Body, Is.EqualTo("notes"));
-                Assert.That(result.HtmlUrl, Is.EqualTo("https://example.com"));
-            }
+            var checker = new VersionChecker(this.timeOutHttpClientFactory, this.loggerFactory);
+
+            await Assert.ThatAsync(() => checker.ExecuteAsync(cts.Token), Throws.Nothing);
+        }
+
+        [Test]
+        public async Task Verify_that_when_cancelled_exception_is_thrown()
+        {
+            var cts = new CancellationTokenSource();
+
+            await cts.CancelAsync();
+
+            var checker = new VersionChecker(this.timeOutHttpClientFactory, this.loggerFactory);
+
+            await Assert.ThatAsync(() => checker.ExecuteAsync(cts.Token), Throws.TypeOf<OperationCanceledException>());
         }
 
         /// <summary>
@@ -112,6 +116,18 @@ namespace uml4net.Tools.Tests.Services
             }
         }
 
+        private class SuccessHandler : HttpMessageHandler
+        {
+            protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+            {
+                var json = "{\"tag_name\":\"1.2.3\",\"body\":\"notes\",\"html_url\":\"https://example.com\"}";
+                return Task.FromResult(new HttpResponseMessage(System.Net.HttpStatusCode.OK)
+                {
+                    Content = new StringContent(json)
+                });
+            }
+        }
+
         /// <summary>
         /// Very simple IHttpClientFactory used just for tests.
         /// It always returns a HttpClient.
@@ -119,7 +135,6 @@ namespace uml4net.Tools.Tests.Services
         private sealed class TestTimeOutHttpClientFactory : IHttpClientFactory
         {
             private readonly HttpClient client;
-
             public TestTimeOutHttpClientFactory()
             {
                 this.client = new HttpClient(new TimeoutHandler()) { Timeout = TimeSpan.FromSeconds(1) };
@@ -141,15 +156,6 @@ namespace uml4net.Tools.Tests.Services
             {
                 throw new TaskCanceledException();
             }
-        }
-
-        [Test]
-        public async Task Verify_that_timeout_returns_null()
-        {
-            var timeoutClient = new HttpClient(new TimeoutHandler()) { Timeout = TimeSpan.FromSeconds(1) };
-            var checker = new VersionChecker(this.timeOutHttpClientFactory, this.loggerFactory);
-            var result = await checker.QueryLatestReleaseAsync();
-            Assert.That(result, Is.Null);
         }
     }
 }
