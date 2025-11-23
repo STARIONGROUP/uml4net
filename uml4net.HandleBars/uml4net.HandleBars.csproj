@@ -50,4 +50,8 @@
     <ItemGroup>
         <InternalsVisibleTo Include="$(MSBuildProjectName).Tests" />
     </ItemGroup>
+
+    <ItemGroup Label="override transitive vulnerable dependency">
+        <PackageReference Include="System.Private.Uri" Version="4.3.2" />
+    </ItemGroup>
 </Project>
