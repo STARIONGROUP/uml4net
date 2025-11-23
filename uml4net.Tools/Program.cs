@@ -1,47 +1,43 @@
 ﻿// -------------------------------------------------------------------------------------------------
 // <copyright file="Program.cs" company="Starion Group S.A">
-// 
+//
 //   Copyright (C) 2019-2025 Starion Group S.A.
-// 
+//
 //   Licensed under the Apache License, Version 2.0 (the "License");
 //   you may not use this file except in compliance with the License.
 //   You may obtain a copy of the License at
-// 
+//
 //        http://www.apache.org/licenses/LICENSE-2.0
-// 
+//
 //    Unless required by applicable law or agreed to in writing, software
 //    distributed under the License is distributed on an "AS IS" BASIS,
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-// 
+//
 // </copyright>
 // ------------------------------------------------------------------------------------------------
 
 namespace uml4net.Tools
 {
     using System.CommandLine;
-    using System.CommandLine.Builder;
-    using System.CommandLine.Help;
-    using System.CommandLine.Hosting;
-    using System.CommandLine.Parsing;
     using System.Diagnostics.CodeAnalysis;
-    using System.Linq;
+    using System.Threading.Tasks;
+
+    using Autofac.Extensions.DependencyInjection;
 
     using Microsoft.Extensions.DependencyInjection;
-    using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Hosting;
+    using Microsoft.Extensions.Logging;
 
     using Serilog;
+    using Serilog.Core;
     using Serilog.Events;
-
-    using Spectre.Console;
 
     using uml4net.Reporting.Drawing;
     using uml4net.Reporting.Generators;
     using uml4net.Tools.Commands;
-    using uml4net.Tools.Middlewares;
-    using uml4net.Tools.Resources;
+    using uml4net.Tools.Services;
 
     /// <summary>
     /// Main entry point for the command line application
@@ -50,12 +46,9 @@ namespace uml4net.Tools
     public static class Program
     {
         /// <summary>
-        /// log level option
+        /// Runtime-adjustable Serilog minimum level.
         /// </summary>
-        private static readonly Option<LogLevel> LogLevelOption = new(
-            new[] { "--log-level", "-ll" },
-            getDefaultValue: () => LogLevel.None,
-            description: "Specifies minimum logging level. Accepted values: Trace, Debug, Information, Warning, Error, Critical, None.");
+        private static readonly LoggingLevelSwitch LoggingLevelSwitch = new();
 
         /// <summary>
         /// Main entry point for the command line application
@@ -63,79 +56,61 @@ namespace uml4net.Tools
         /// <param name="args">
         /// command line arguments
         /// </param>
-        public static int Main(string[] args)
+        public static async Task<int> Main(string[] args)
         {
-            var commandLineBuilder = BuildCommandLine()
-                .UseHost(_ => Host.CreateDefaultBuilder(args)
-                        .ConfigureLogging((context, loggingBuilder) =>
-                        {
-                            var invocation = context.GetInvocationContext();
-                            var parsedLevel = invocation.ParseResult.GetValueForOption(LogLevelOption);
+            using var host = CreateHostBuilder(args).Build();
 
-                            loggingBuilder.ClearProviders();
+            var rootCommand = CreateCommandChain(host);
 
-                            var template =
-                                "[{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz}] [{Level:u3}] ({SourceContext}) {Message:lj}{NewLine}{Exception}";
+            var parseResult = rootCommand.Parse(args);
 
-                            var loggerConfig = new LoggerConfiguration()
-                                .Enrich.FromLogContext()
-                                .MinimumLevel.Is(Map(parsedLevel))
-                                .WriteTo.File("uml4net.logs",
-                                    rollingInterval: RollingInterval.Day,
-                                    outputTemplate: template);
+            var result = await parseResult.InvokeAsync();
 
-                            var serilogLogger = loggerConfig.CreateLogger();
-                            loggingBuilder.AddSerilog(serilogLogger, dispose: true);
-
-                            loggingBuilder.SetMinimumLevel(parsedLevel);
-                        })
-                    , builder => builder
-                        .ConfigureServices((services) =>
-                        {
-                            services.AddSingleton<IInheritanceDiagramRenderer, InheritanceDiagramRenderer>();
-                            services.AddSingleton<IXlReportGenerator, XlReportGenerator>();
-                            services.AddSingleton<IModelInspector, ModelInspector>();
-                            services.AddSingleton<IHtmlReportGenerator, HtmlReportGenerator>();
-                            services.AddSingleton<IMarkdownReportGenerator, MarkdownReportGenerator>();
-
-                        })
-                        .UseCommandHandler<XlReportCommand, XlReportCommand.Handler>()
-                        .UseCommandHandler<ModelInspectionCommand, ModelInspectionCommand.Handler>()
-                        .UseCommandHandler<HtmlReportCommand, HtmlReportCommand.Handler>()
-                        .UseCommandHandler<MarkdownReportCommand, MarkdownReportCommand.Handler>()
-                    )
-                .UseDefaults()
-
-                .Build();
-
-            return commandLineBuilder.Invoke(args);
+            return result;
         }
 
         /// <summary>
-        /// builds the root command
+        /// Creates the <see cref="IHostBuilder"/>
         /// </summary>
+        /// <param name="args">
+        /// the command line arguments
+        /// </param>
         /// <returns>
-        /// The <see cref="CommandLineBuilder"/> with the root command set
+        /// a configured instance of <see cref="IHostBuilder"/>
         /// </returns>
-        private static CommandLineBuilder BuildCommandLine()
+        private static IHostBuilder CreateHostBuilder(string[] args)
         {
-            var root = CreateCommandChain();
-
-            return new CommandLineBuilder(root)
-                .UseHelp(ctx =>
+            var host = Host.CreateDefaultBuilder(args)
+                .ConfigureLogging(loggingBuilder =>
                 {
-                    ctx.HelpBuilder.CustomizeLayout(_ =>
-                        HelpBuilder.Default
-                            .GetLayout()
-                            .Skip(1) // Skip the default command description section.
-                            .Prepend(
-                                _ =>
-                                {
-                                    AnsiConsole.Markup($"[blue]{ResourceLoader.QueryLogo()}[/]");
-                                }
-                            ));
+                    loggingBuilder.ClearProviders();
+                    var template = "[{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz}] [{Level:u3}] ({SourceContext}) {Message:lj}{NewLine}{Exception}";
+                    var loggerConfig = new LoggerConfiguration()
+                        .Enrich.FromLogContext()
+                        .MinimumLevel.ControlledBy(LoggingLevelSwitch)
+                        .WriteTo.File("uml4net.logs",
+                            rollingInterval: RollingInterval.Day,
+                            outputTemplate: template);
+
+                    var serilogLogger = loggerConfig.CreateLogger();
+                    loggingBuilder.AddSerilog(serilogLogger, dispose: true);
+
+                    loggingBuilder.SetMinimumLevel(LogLevel.Information);
                 })
-                .UseVersionChecker();
+                .UseServiceProviderFactory(new AutofacServiceProviderFactory())
+                .ConfigureServices(services =>
+                {
+                    services.AddHttpClient();
+
+                    services.AddSingleton<IVersionChecker, VersionChecker>();
+                    services.AddSingleton<IInheritanceDiagramRenderer, InheritanceDiagramRenderer>();
+                    services.AddSingleton<IXlReportGenerator, XlReportGenerator>();
+                    services.AddSingleton<IModelInspector, ModelInspector>();
+                    services.AddSingleton<IHtmlReportGenerator, HtmlReportGenerator>();
+                    services.AddSingleton<IMarkdownReportGenerator, MarkdownReportGenerator>();
+                });
+
+            return host;
         }
 
         /// <summary>
@@ -144,45 +119,72 @@ namespace uml4net.Tools
         /// <returns>
         /// returns an instance of <see cref="RootCommand"/>
         /// </returns>
-        private static RootCommand CreateCommandChain()
+        private static RootCommand CreateCommandChain(IHost host)
         {
             var root = new RootCommand("uml4net Tools");
-            root.AddGlobalOption(LogLevelOption);
 
             var reportCommand = new XlReportCommand();
-            root.AddCommand(reportCommand);
+
+            reportCommand.SetAction((parseResult, cancellationToken) =>
+            {
+                ApplyLogLevel(parseResult);
+
+                using var scope = host.Services.CreateScope();
+                var generator = scope.ServiceProvider.GetService<IXlReportGenerator>();
+                var versionChecker = scope.ServiceProvider.GetService<IVersionChecker>();
+                var handler = new XlReportCommand.Handler(generator, versionChecker);
+                return handler.InvokeAsync(parseResult, cancellationToken);
+            });
+            root.Add(reportCommand);
 
             var modelInspectionCommand = new ModelInspectionCommand();
-            root.AddCommand(modelInspectionCommand);
+            modelInspectionCommand.SetAction((parseResult, cancellationToken) =>
+            {
+                ApplyLogLevel(parseResult);
+
+                using var scope = host.Services.CreateScope();
+                var generator = scope.ServiceProvider.GetService<IModelInspector>();
+                var versionChecker = scope.ServiceProvider.GetService<IVersionChecker>();
+                var handler = new ModelInspectionCommand.Handler(generator, versionChecker);
+                return handler.InvokeAsync(parseResult, cancellationToken);
+            });
+            root.Add(modelInspectionCommand);
 
             var htmlReportCommand = new HtmlReportCommand();
-            root.AddCommand(htmlReportCommand);
+            htmlReportCommand.SetAction((parseResult, cancellationToken) =>
+            {
+                ApplyLogLevel(parseResult);
+
+                using var scope = host.Services.CreateScope();
+                var generator = scope.ServiceProvider.GetService<IHtmlReportGenerator>();
+                var versionChecker = scope.ServiceProvider.GetService<IVersionChecker>();
+                var handler = new HtmlReportCommand.Handler(generator, versionChecker);
+                return handler.InvokeAsync(parseResult, cancellationToken);
+            });
+            root.Add(htmlReportCommand);
 
             var markdownReportCommand = new MarkdownReportCommand();
-            root.AddCommand(markdownReportCommand);
+            markdownReportCommand.SetAction((parseResult, cancellationToken) =>
+            {
+                ApplyLogLevel(parseResult);
+
+                using var scope = host.Services.CreateScope();
+                var generator = scope.ServiceProvider.GetService<IMarkdownReportGenerator>();
+                var versionChecker = scope.ServiceProvider.GetService<IVersionChecker>();
+                var handler = new MarkdownReportCommand.Handler(generator, versionChecker);
+                return handler.InvokeAsync(parseResult, cancellationToken);
+            });
+            root.Add(markdownReportCommand);
 
             return root;
         }
 
         /// <summary>
-        /// Maps a microsoft <see cref="LogLevel"/> to a serilog <see cref="LogEventLevel"/>
+        /// Reads the log level from the parse result and updates the Serilog <see cref="LoggingLevelSwitch"/>>.
         /// </summary>
-        /// <param name="lvl">
-        /// microsoft <see cref="LogLevel"/> that is to be mapped
-        /// </param>
-        /// <returns>
-        /// the mapped (resulting) serilog <see cref="LogEventLevel"/>
-        /// </returns>
-        private static LogEventLevel Map(LogLevel lvl) => lvl switch
+        private static void ApplyLogLevel(ParseResult parseResult)
         {
-            LogLevel.Trace => LogEventLevel.Verbose,
-            LogLevel.Debug => LogEventLevel.Debug,
-            LogLevel.Information => LogEventLevel.Information,
-            LogLevel.Warning => LogEventLevel.Warning,
-            LogLevel.Error => LogEventLevel.Error,
-            LogLevel.Critical => LogEventLevel.Fatal,
-            LogLevel.None => LogEventLevel.Information, // pick a sensible default
-            _ => LogEventLevel.Information
-        };
+            LoggingLevelSwitch.MinimumLevel = parseResult.GetValue<LogEventLevel>("--log-level");
+        }
     }
 }
