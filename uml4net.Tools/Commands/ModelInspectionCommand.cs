@@ -24,6 +24,7 @@ namespace uml4net.Tools.Commands
     using System.IO;
 
     using uml4net.Reporting.Generators;
+    using uml4net.Tools.Services;
 
     /// <summary>
     /// The <see cref="ModelInspectionCommand"/> that inspects a UML model and generates
@@ -60,7 +61,11 @@ namespace uml4net.Tools.Commands
             /// The (injected) <see cref="IModelInspector"/> that is used to generate the
             /// inspection report
             /// </param>
-            public Handler(IModelInspector modelInspector) : base(modelInspector)
+            /// <param name="versionChecker">
+            /// The <see cref="IVersionChecker"/> used to check the github version
+            /// </param>
+            public Handler(IModelInspector modelInspector, IVersionChecker versionChecker)
+                : base(modelInspector, versionChecker)
             {
             }
         }

@@ -47,6 +47,7 @@ namespace uml4net.Tools.Tests
             {
                 reportKind,
                 "--no-logo",
+                "--log-level", "Warning",
                 "--input-model", this.inputModel,
                 "--root-package-xmi-id", "_0",
                 "--root-package-name", "UML"

@@ -8,5 +8,6 @@
                                                           
   copyright 2025 Starion Group S.A. https://www.stariongroup.eu
   email: info@stariongroup.eu
+  Source: https://github.com/uml4net
 
   uml4net TOOLS version: uml4netToolsVersion

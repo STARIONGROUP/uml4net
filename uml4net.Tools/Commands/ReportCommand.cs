@@ -23,6 +23,8 @@ namespace uml4net.Tools.Commands
     using System.CommandLine;
     using System.IO;
 
+    using Serilog.Events;
+
     /// <summary>
     /// Abstract super class from which all report commands shall inherit
     /// </summary>
@@ -40,8 +42,18 @@ namespace uml4net.Tools.Commands
                 Description = "Suppress the logo",
                 DefaultValueFactory = parseResult => false
             };
+            noLogoOption.AcceptOnlyFromAmong("Verbose", "Debug", "Information", "Warning", "Error", "Fatal");
 
             this.Options.Add(noLogoOption);
+
+            var logLevelOption = new Option<LogEventLevel>("--log-level")
+            {
+                Description = "Sets the logging level (Trace, Debug, Information, Warning, Error, Critical)",
+                Required = false,
+                DefaultValueFactory = parseResult => LogEventLevel.Information
+            };
+
+            this.Options.Add(logLevelOption);
 
             var inputModelFileOption = new Option<FileInfo>(name: "--input-model")
             {

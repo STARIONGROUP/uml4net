@@ -1,20 +1,20 @@
 ﻿// -------------------------------------------------------------------------------------------------
 // <copyright file="Program.cs" company="Starion Group S.A">
-// 
+//
 //   Copyright (C) 2019-2025 Starion Group S.A.
-// 
+//
 //   Licensed under the Apache License, Version 2.0 (the "License");
 //   you may not use this file except in compliance with the License.
 //   You may obtain a copy of the License at
-// 
+//
 //        http://www.apache.org/licenses/LICENSE-2.0
-// 
+//
 //    Unless required by applicable law or agreed to in writing, software
 //    distributed under the License is distributed on an "AS IS" BASIS,
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-// 
+//
 // </copyright>
 // ------------------------------------------------------------------------------------------------
 
@@ -31,11 +31,13 @@ namespace uml4net.Tools
     using Microsoft.Extensions.Logging;
 
     using Serilog;
+    using Serilog.Core;
     using Serilog.Events;
 
     using uml4net.Reporting.Drawing;
     using uml4net.Reporting.Generators;
     using uml4net.Tools.Commands;
+    using uml4net.Tools.Services;
 
     /// <summary>
     /// Main entry point for the command line application
@@ -44,6 +46,11 @@ namespace uml4net.Tools
     public static class Program
     {
         /// <summary>
+        /// Runtime-adjustable Serilog minimum level.
+        /// </summary>
+        private static readonly LoggingLevelSwitch LoggingLevelSwitch = new();
+
+        /// <summary>
         /// Main entry point for the command line application
         /// </summary>
         /// <param name="args">
@@ -51,10 +58,10 @@ namespace uml4net.Tools
         /// </param>
         public static async Task<int> Main(string[] args)
         {
-            using IHost host = CreateHostBuilder(args).Build();
+            using var host = CreateHostBuilder(args).Build();
 
             var rootCommand = CreateCommandChain(host);
-            
+
             var parseResult = rootCommand.Parse(args);
 
             var result = await parseResult.InvokeAsync();
@@ -80,7 +87,7 @@ namespace uml4net.Tools
                     var template = "[{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz}] [{Level:u3}] ({SourceContext}) {Message:lj}{NewLine}{Exception}";
                     var loggerConfig = new LoggerConfiguration()
                         .Enrich.FromLogContext()
-                        .MinimumLevel.Is(Map(LogLevel.Information))
+                        .MinimumLevel.ControlledBy(LoggingLevelSwitch)
                         .WriteTo.File("uml4net.logs",
                             rollingInterval: RollingInterval.Day,
                             outputTemplate: template);
@@ -93,6 +100,9 @@ namespace uml4net.Tools
                 .UseServiceProviderFactory(new AutofacServiceProviderFactory())
                 .ConfigureServices(services =>
                 {
+                    services.AddHttpClient();
+
+                    services.AddSingleton<IVersionChecker, VersionChecker>();
                     services.AddSingleton<IInheritanceDiagramRenderer, InheritanceDiagramRenderer>();
                     services.AddSingleton<IXlReportGenerator, XlReportGenerator>();
                     services.AddSingleton<IModelInspector, ModelInspector>();
@@ -116,9 +126,12 @@ namespace uml4net.Tools
             var reportCommand = new XlReportCommand();
             reportCommand.SetAction(async parseResult =>
             {
+                ApplyLogLevel(parseResult);
+
                 using var scope = host.Services.CreateScope();
                 var generator = scope.ServiceProvider.GetService<IXlReportGenerator>();
-                var handler = new XlReportCommand.Handler(generator);
+                var versionChecker = scope.ServiceProvider.GetService<IVersionChecker>();
+                var handler = new XlReportCommand.Handler(generator, versionChecker);
                 await handler.InvokeAsync(parseResult);
             });
             root.Add(reportCommand);
@@ -126,9 +139,12 @@ namespace uml4net.Tools
             var modelInspectionCommand = new ModelInspectionCommand();
             modelInspectionCommand.SetAction(async parseResult =>
             {
+                ApplyLogLevel(parseResult);
+
                 using var scope = host.Services.CreateScope();
                 var generator = scope.ServiceProvider.GetService<IModelInspector>();
-                var handler = new ModelInspectionCommand.Handler(generator);
+                var versionChecker = scope.ServiceProvider.GetService<IVersionChecker>();
+                var handler = new ModelInspectionCommand.Handler(generator, versionChecker);
                 await handler.InvokeAsync(parseResult);
             });
             root.Add(modelInspectionCommand);
@@ -136,9 +152,12 @@ namespace uml4net.Tools
             var htmlReportCommand = new HtmlReportCommand();
             htmlReportCommand.SetAction(async parseResult =>
             {
+                ApplyLogLevel(parseResult);
+
                 using var scope = host.Services.CreateScope();
                 var generator = scope.ServiceProvider.GetService<IHtmlReportGenerator>();
-                var handler = new HtmlReportCommand.Handler(generator);
+                var versionChecker = scope.ServiceProvider.GetService<IVersionChecker>();
+                var handler = new HtmlReportCommand.Handler(generator, versionChecker);
                 await handler.InvokeAsync(parseResult);
             });
             root.Add(htmlReportCommand);
@@ -146,9 +165,12 @@ namespace uml4net.Tools
             var markdownReportCommand = new MarkdownReportCommand();
             markdownReportCommand.SetAction(async parseResult =>
             {
+                ApplyLogLevel(parseResult);
+
                 using var scope = host.Services.CreateScope();
                 var generator = scope.ServiceProvider.GetService<IMarkdownReportGenerator>();
-                var handler = new MarkdownReportCommand.Handler(generator);
+                var versionChecker = scope.ServiceProvider.GetService<IVersionChecker>();
+                var handler = new MarkdownReportCommand.Handler(generator, versionChecker);
                 await handler.InvokeAsync(parseResult);
             });
             root.Add(markdownReportCommand);
@@ -157,24 +179,13 @@ namespace uml4net.Tools
         }
 
         /// <summary>
-        /// Maps a microsoft <see cref="LogLevel"/> to a serilog <see cref="LogEventLevel"/>
+        /// Reads the log level from the parse result and updates the Serilog level switch.
         /// </summary>
-        /// <param name="lvl">
-        /// microsoft <see cref="LogLevel"/> that is to be mapped
-        /// </param>
-        /// <returns>
-        /// the mapped (resulting) serilog <see cref="LogEventLevel"/>
-        /// </returns>
-        private static LogEventLevel Map(LogLevel lvl) => lvl switch
+        private static void ApplyLogLevel(ParseResult parseResult)
         {
-            LogLevel.Trace => LogEventLevel.Verbose,
-            LogLevel.Debug => LogEventLevel.Debug,
-            LogLevel.Information => LogEventLevel.Information,
-            LogLevel.Warning => LogEventLevel.Warning,
-            LogLevel.Error => LogEventLevel.Error,
-            LogLevel.Critical => LogEventLevel.Fatal,
-            LogLevel.None => LogEventLevel.Information, // pick a sensible default
-            _ => LogEventLevel.Information
-        };
+            var level = parseResult.GetValue<LogEventLevel>("--log-level");
+
+            LoggingLevelSwitch.MinimumLevel = level;
+        }
     }
 }

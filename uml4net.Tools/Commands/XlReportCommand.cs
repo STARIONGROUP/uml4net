@@ -24,6 +24,7 @@ namespace uml4net.Tools.Commands
     using System.IO;
 
     using uml4net.Reporting.Generators;
+    using uml4net.Tools.Services;
 
     /// <summary>
     /// The <see cref="XlReportCommand"/> that generates Excel tabular report of
@@ -60,7 +61,11 @@ namespace uml4net.Tools.Commands
             /// The (injected) <see cref="IXlReportGenerator"/> that is used to generate the
             /// excel report
             /// </param>
-            public Handler(IXlReportGenerator xlReportGenerator) : base(xlReportGenerator)
+            /// <param name="versionChecker">
+            /// The <see cref="IVersionChecker"/> used to check the github version
+            /// </param>
+            public Handler(IXlReportGenerator xlReportGenerator, IVersionChecker versionChecker)
+                : base(xlReportGenerator, versionChecker)
             {
             }
         }

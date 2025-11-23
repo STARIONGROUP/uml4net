@@ -26,13 +26,14 @@ namespace uml4net.Tools.Tests.Commands
     using System.IO;
     using System.Threading.Tasks;
 
-    using uml4net.Reporting.Generators;
-    using uml4net.Tools.Commands;
-
     using Moq;
 
     using NUnit.Framework;
-    
+
+    using uml4net.Reporting.Generators;
+    using uml4net.Tools.Commands;
+    using uml4net.Tools.Services;
+
     /// <summary>
     /// Suite of tests for the <see cref="XlReportCommand"/> class.
     /// </summary>
@@ -42,6 +43,8 @@ namespace uml4net.Tools.Tests.Commands
         private RootCommand rootCommand;
 
         private Mock<IModelInspector> modelInspector;
+
+        private Mock<IVersionChecker> versionChecker;
 
         private ModelInspectionCommand.Handler handler;
 
@@ -53,11 +56,12 @@ namespace uml4net.Tools.Tests.Commands
             this.rootCommand.Add(modelInspectionCommand);
 
             this.modelInspector = new Mock<IModelInspector>();
+            this.versionChecker = new Mock<IVersionChecker>();
 
             this.modelInspector.Setup(x => x.IsValidReportExtension(It.IsAny<FileInfo>()))
                 .Returns(new Tuple<bool, string>(true, "valid extension"));
 
-            this.handler = new ModelInspectionCommand.Handler(this.modelInspector.Object);
+            this.handler = new ModelInspectionCommand.Handler(this.modelInspector.Object, this.versionChecker.Object);
         }
 
         [Test]
@@ -87,6 +91,8 @@ namespace uml4net.Tools.Tests.Commands
             var result = await this.handler.InvokeAsync(parseResult);
 
             this.modelInspector.Verify(x => x.GenerateReport(It.IsAny<FileInfo>(), It.IsAny<DirectoryInfo>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<bool>(), It.IsAny<Dictionary<string, string>>(), It.IsAny<FileInfo>(), It.IsAny<String>()), Times.Once);
+
+            this.versionChecker.Verify(x => x.ExecuteAsync(), Times.Once);
 
             Assert.That(result, Is.EqualTo(0), "InvokeAsync should return 0 upon success.");
         }
@@ -123,8 +129,6 @@ namespace uml4net.Tools.Tests.Commands
 
             this.modelInspector.Setup(x => x.IsValidReportExtension(It.IsAny<FileInfo>()))
                 .Returns(new Tuple<bool, string>(false, "invalid extension"));
-
-            this.handler.InputModel = new FileInfo(Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData", "UML.xmi"));
 
             var result = await this.handler.InvokeAsync(parseResult);
 

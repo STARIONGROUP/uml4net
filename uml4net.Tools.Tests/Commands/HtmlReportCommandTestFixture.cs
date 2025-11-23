@@ -28,11 +28,12 @@ namespace uml4net.Tools.Tests.Commands
 
     using uml4net.Reporting.Generators;
     using uml4net.Tools.Commands;
+    using uml4net.Tools.Services;
 
     using Moq;
 
     using NUnit.Framework;
-    
+
     /// <summary>
     /// Suite of tests for the <see cref="HtmlReportCommand"/> class.
     /// </summary>
@@ -42,6 +43,8 @@ namespace uml4net.Tools.Tests.Commands
         private RootCommand rootCommand;
 
         private Mock<IHtmlReportGenerator> htmlReportGenerator;
+
+        private Mock<IVersionChecker> versionChecker;
 
         private HtmlReportCommand.Handler handler;
 
@@ -53,11 +56,12 @@ namespace uml4net.Tools.Tests.Commands
             this.rootCommand.Add(htmlReportCommand);
 
             this.htmlReportGenerator = new Mock<IHtmlReportGenerator>();
+            this.versionChecker = new Mock<IVersionChecker>();
 
             this.htmlReportGenerator.Setup(x => x.IsValidReportExtension(It.IsAny<FileInfo>()))
                 .Returns(new Tuple<bool, string>(true, "valid extension"));
 
-            this.handler = new HtmlReportCommand.Handler(this.htmlReportGenerator.Object);
+            this.handler = new HtmlReportCommand.Handler(this.htmlReportGenerator.Object, this.versionChecker.Object);
         }
 
         [Test]
@@ -87,6 +91,8 @@ namespace uml4net.Tools.Tests.Commands
             var result = await this.handler.InvokeAsync(parseResult);
 
             this.htmlReportGenerator.Verify(x => x.GenerateReport(It.IsAny<FileInfo>(), It.IsAny<DirectoryInfo>(), It.IsAny<string>() , It.IsAny<string>(),It.IsAny<bool>(), It.IsAny<Dictionary<string,string>>(), It.IsAny<FileInfo>(), It.IsAny<String>()), Times.Once);
+
+            this.versionChecker.Verify(x => x.ExecuteAsync(), Times.Once);
 
             Assert.That(result, Is.EqualTo(0), "InvokeAsync should return 0 upon success.");
         }

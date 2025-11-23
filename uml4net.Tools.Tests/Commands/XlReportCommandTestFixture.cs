@@ -26,12 +26,13 @@ namespace uml4net.Tools.Tests.Commands
     using System.IO;
     using System.Threading.Tasks;
 
-    using uml4net.Reporting.Generators;
-    using uml4net.Tools.Commands;
-
     using Moq;
 
     using NUnit.Framework;
+
+    using uml4net.Reporting.Generators;
+    using uml4net.Tools.Commands;
+    using uml4net.Tools.Services;
 
     /// <summary>
     /// Suite of tests for the <see cref="XlReportCommand"/> class.
@@ -43,6 +44,8 @@ namespace uml4net.Tools.Tests.Commands
 
         private Mock<IXlReportGenerator> xlReportGenerator;
 
+        private Mock<IVersionChecker> versionChecker;
+
         private XlReportCommand.Handler handler;
 
         [SetUp]
@@ -53,12 +56,12 @@ namespace uml4net.Tools.Tests.Commands
             this.rootCommand.Add(xlReportCommand);
 
             this.xlReportGenerator = new Mock<IXlReportGenerator>();
+            this.versionChecker = new Mock<IVersionChecker>();
 
             this.xlReportGenerator.Setup(x => x.IsValidReportExtension(It.IsAny<FileInfo>()))
                 .Returns(new Tuple<bool, string>(true, "valid extension"));
 
-            this.handler = new XlReportCommand.Handler(
-                this.xlReportGenerator.Object);
+            this.handler = new XlReportCommand.Handler(this.xlReportGenerator.Object, this.versionChecker.Object);
         }
 
         [Test]
@@ -88,6 +91,8 @@ namespace uml4net.Tools.Tests.Commands
             var result = await this.handler.InvokeAsync(parseResult);
 
             this.xlReportGenerator.Verify(x => x.GenerateReport(It.IsAny<FileInfo>(), It.IsAny<DirectoryInfo>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<bool>(), It.IsAny<Dictionary<string, string>>(), It.IsAny<FileInfo>(), It.IsAny<String>()), Times.Once);
+
+            this.versionChecker.Verify(x => x.ExecuteAsync(), Times.Once);
 
             Assert.That(result, Is.EqualTo(0), "InvokeAsync should return 0 upon success.");
         }

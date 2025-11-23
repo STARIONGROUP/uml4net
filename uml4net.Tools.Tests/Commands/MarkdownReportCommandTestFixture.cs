@@ -25,13 +25,13 @@ namespace uml4net.Tools.Tests.Commands
     using System.CommandLine;
     using System.IO;
     using System.Threading.Tasks;
-
-    using uml4net.Reporting.Generators;
-    using uml4net.Tools.Commands;
-
     using Moq;
 
     using NUnit.Framework;
+
+    using uml4net.Reporting.Generators;
+    using uml4net.Tools.Commands;
+    using uml4net.Tools.Services;
 
     /// <summary>
     /// Suite of tests for the <see cref="MarkdownReportCommand"/> class.
@@ -43,6 +43,8 @@ namespace uml4net.Tools.Tests.Commands
 
         private Mock<IMarkdownReportGenerator> markdownReportGenerator;
 
+        private Mock<IVersionChecker> versionChecker;
+
         private MarkdownReportCommand.Handler handler;
 
         [SetUp]
@@ -53,11 +55,12 @@ namespace uml4net.Tools.Tests.Commands
             this.rootCommand.Add(reportCommand);
 
             this.markdownReportGenerator = new Mock<IMarkdownReportGenerator>();
+            this.versionChecker = new Mock<IVersionChecker>();
 
             this.markdownReportGenerator.Setup(x => x.IsValidReportExtension(It.IsAny<FileInfo>()))
                 .Returns(new Tuple<bool, string>(true, "valid extension"));
 
-            this.handler = new MarkdownReportCommand.Handler(this.markdownReportGenerator.Object);
+            this.handler = new MarkdownReportCommand.Handler(this.markdownReportGenerator.Object, this.versionChecker.Object);
         }
 
         [Test]
@@ -88,6 +91,8 @@ namespace uml4net.Tools.Tests.Commands
 
             this.markdownReportGenerator.Verify(x => x.GenerateReport(It.IsAny<FileInfo>(), It.IsAny<DirectoryInfo>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<bool>(), It.IsAny<Dictionary<string, string>>(), It.IsAny<FileInfo>(), It.IsAny<String>()),
                 Times.Once);
+
+            this.versionChecker.Verify(x => x.ExecuteAsync(), Times.Once);
 
             Assert.That(result, Is.EqualTo(0), "InvokeAsync should return 0 upon success.");
         }

@@ -24,6 +24,7 @@ namespace uml4net.Tools.Commands
     using System.IO;
 
     using uml4net.Reporting.Generators;
+    using uml4net.Tools.Services;
 
     /// <summary>
     /// The <see cref="MarkdownReportCommand"/> that generates a Markdown report
@@ -59,7 +60,11 @@ namespace uml4net.Tools.Commands
             /// The (injected) <see cref="IMarkdownReportGenerator"/> that is used to generate the
             /// excel report
             /// </param>
-            public Handler(IMarkdownReportGenerator markdownReportGenerator) : base(markdownReportGenerator)
+            /// <param name="versionChecker">
+            /// The <see cref="IVersionChecker"/> used to check the github version
+            /// </param>
+            public Handler(IMarkdownReportGenerator markdownReportGenerator, IVersionChecker versionChecker)
+                : base(markdownReportGenerator, versionChecker)
             {
             }
         }

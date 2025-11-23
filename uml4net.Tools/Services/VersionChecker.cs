@@ -22,40 +22,80 @@ namespace uml4net.Tools.Services
 {
     using System;
     using System.Net.Http;
+    using System.Reflection;
     using System.Text.Json;
     using System.Threading.Tasks;
 
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Logging.Abstractions;
+    
+    using Spectre.Console;
 
     /// <summary>
-    /// The purpose of the <see cref="VersionChecker"/> is to check whether a newer version is available
+    /// A service that checks whether a newer version is available
     /// </summary>
-    public class VersionChecker
+    public class VersionChecker : IVersionChecker
     {
         /// <summary>
-        /// The (injected) <see cref="HttpClient"/> used to check the latest version that is available
-        /// </summary>
-        private readonly HttpClient httpClient;
-
-        /// <summary>
-        /// The <see cref="ILogger"/> used to log
+        /// The (injected) <see cref="ILogger"/> used to perform logging
         /// </summary>
         private readonly ILogger<VersionChecker> logger;
 
         /// <summary>
+        /// The (injected) <see cref="IHttpClientFactory"/> used to create an <see cref="HttpClient"/>
+        /// </summary>
+        private readonly IHttpClientFactory httpClientFactory;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="VersionChecker"/>
         /// </summary>
-        /// <param name="httpClient">
-        /// The (injected) <see cref="HttpClient"/> used to check the latest version that is available
+        /// <param name="httpClientFactory">
+        /// The (injected) <see cref="IHttpClientFactory"/> used to create an <see cref="HttpClient"/>
         /// </param>
         /// <param name="loggerFactory">
         /// The (injected) <see cref="ILoggerFactory"/> used to set up logging
         /// </param>
-        public VersionChecker(HttpClient httpClient, ILoggerFactory loggerFactory = null)
+        public VersionChecker(IHttpClientFactory httpClientFactory, ILoggerFactory loggerFactory = null)
         {
-            this.httpClient = httpClient;
+            this.httpClientFactory = httpClientFactory;
             this.logger = loggerFactory == null ? NullLogger<VersionChecker>.Instance : loggerFactory.CreateLogger<VersionChecker>();
+        }
+
+        /// <summary>
+        /// Checks for the lastest release
+        /// </summary>
+        public async Task ExecuteAsync()
+        {
+            try
+            {
+                var payload = await QueryLatestReleaseAsync();
+
+                if (payload != null)
+                {
+                    var currentVersion = Assembly.GetExecutingAssembly().GetName().Version;
+                    var publishedVersion = new Version(payload.TagName);
+
+                    if (currentVersion < publishedVersion)
+                    {
+                        AnsiConsole.WriteLine("");
+                        AnsiConsole.MarkupLine($"[Green] a newer version is available at {payload.HtmlUrl} [/]");
+                        AnsiConsole.MarkupLine($"[Green] {payload.Body.EscapeMarkup()} [/]");
+                        AnsiConsole.WriteLine("");
+                    }
+                    else
+                    {
+                        AnsiConsole.WriteLine("");
+                        AnsiConsole.MarkupLine($"[Green] you are using the most recent version: {currentVersion}. [/]");
+                        AnsiConsole.WriteLine("");
+                    }
+                }
+            }
+            catch (TaskCanceledException)
+            {
+                AnsiConsole.WriteLine("");
+                AnsiConsole.MarkupLine($"[Red] Checking version at GitHub API timed out. [/]");
+                AnsiConsole.WriteLine("");
+            }
         }
 
         /// <summary>
@@ -67,13 +107,16 @@ namespace uml4net.Tools.Services
         /// </returns>
         public async Task<GitHubRelease> QueryLatestReleaseAsync()
         {
+            var httpClient = this.httpClientFactory.CreateClient();
+            httpClient.Timeout = TimeSpan.FromSeconds(2);
+
             const string requestUrl = "https://api.github.com/repos/STARIONGROUP/uml4net/releases/latest";
 
             try
             {
-                this.httpClient.DefaultRequestHeaders.UserAgent.ParseAdd("uml4net.Tools");
+                httpClient.DefaultRequestHeaders.UserAgent.ParseAdd("uml4net.Tools");
 
-                using var response = await this.httpClient.GetAsync(requestUrl);
+                using var response = await httpClient.GetAsync(requestUrl);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -85,11 +128,11 @@ namespace uml4net.Tools.Services
             }
             catch (TaskCanceledException taskCanceledException)
             {
-                this.logger.LogWarning(taskCanceledException,"Contacting the GitHub API at {Url} timed out", requestUrl);
+                logger.LogWarning(taskCanceledException, "Contacting the GitHub API at {Url} timed out", requestUrl);
             }
             catch (Exception ex)
             {
-                this.logger.LogError(ex, "");
+                logger.LogError(ex, "");
             }
 
             return null;
