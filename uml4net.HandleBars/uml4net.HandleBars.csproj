@@ -2,7 +2,7 @@
 
     <PropertyGroup>
         <TargetFramework>netstandard2.0</TargetFramework>
-        <Version>6.0.1</Version>
+        <Version>6.0.2</Version>
         <LangVersion>12.0</LangVersion>
         <Company>Starion Group S.A.</Company>
         <Copyright>Copyright © Starion Group S.A.</Copyright>
@@ -28,13 +28,14 @@
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
         <GenerateSBOM>true</GenerateSBOM>
         <PackageReleaseNotes>
-            [Update] to uml4net.Extensions 5.0.1
-            [Update] Microsoft.Sbom.Targets to version 4.1.4
+            [Add] LICENSE and NOTICE to nuget package
         </PackageReleaseNotes>
     </PropertyGroup>
 
     <ItemGroup>
         <None Include="..\README.md" Pack="true" PackagePath="\" />
+        <None Include="..\LICENSE" Pack="true" PackagePath="\" />
+        <None Include="..\NOTICE" Pack="true" PackagePath="\" />
         <None Include="..\uml4net-logo-strapline.png" Pack="true" PackagePath="" />
     </ItemGroup>
 
