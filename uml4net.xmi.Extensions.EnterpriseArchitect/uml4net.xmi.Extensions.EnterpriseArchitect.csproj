@@ -43,7 +43,7 @@
 
     <ItemGroup>
         <ProjectReference Include="..\uml4net.xmi\uml4net.xmi.csproj" />
-        <PackageReference Include="Microsoft.Sbom.Targets" Version="4.1.4" PrivateAssets="all" />
+        <PackageReference Include="Microsoft.Sbom.Targets" Version="4.1.5" PrivateAssets="all" />
         <PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0" PrivateAssets="All" />
     </ItemGroup>
 
