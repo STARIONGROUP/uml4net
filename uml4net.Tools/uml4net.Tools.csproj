@@ -3,7 +3,7 @@
     <PropertyGroup Label="Package">
         <TargetFramework>net9.0</TargetFramework>
         <LangVersion>12.0</LangVersion>
-        <Version>6.0.2</Version>
+        <Version>6.0.3</Version>
         <Title>uml4net.Tools</Title>
         <Description>A command line application that processes a UML file and generates various reports.</Description>
         <OutputType>Exe</OutputType>
@@ -19,7 +19,11 @@
         <SatelliteResourceLanguages>en-US</SatelliteResourceLanguages>
         <GenerateSBOM>true</GenerateSBOM>
         <PackageReleaseNotes>
-            [Add] LICENSE and NOTICE to nuget package
+            [Update] to uml4net.Reporting version 6.0.3
+            [Update] Microsoft.Sbom.Targets to version 4.1.5
+            [Update] Microsoft.Extensions.Http to version 10.0.1
+            [Update] Microsoft.Extensions.Hosting to version 10.0.1
+            [Update] System.CommandLine to version 2.0.1
         </PackageReleaseNotes>
     </PropertyGroup>
 

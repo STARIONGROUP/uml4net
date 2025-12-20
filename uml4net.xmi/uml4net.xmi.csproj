@@ -2,7 +2,7 @@
 
     <PropertyGroup>
         <Description>A .NET implementation of the OMG UML v2.5.1 specification.</Description>
-        <Version>5.0.2</Version>
+        <Version>5.0.3</Version>
         <PackageId>uml4net.xmi</PackageId>
         <LangVersion>12.0</LangVersion>
         <TargetFramework>netstandard2.0</TargetFramework>
@@ -30,7 +30,8 @@
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
         <GenerateSBOM>true</GenerateSBOM>
         <PackageReleaseNotes>
-            [Add] LICENSE and NOTICE to nuget package
+            [Update] to uml4net.Extensions version 5.0.3
+            [Update] Microsoft.Sbom.Targets to version 4.1.5
         </PackageReleaseNotes>
     </PropertyGroup>
 
