@@ -117,6 +117,8 @@ namespace uml4net.xmi.Readers
                 throw new ArgumentException(nameof(namespaceUri));
             }
 
+            this.logger.LogDebug("reading with the following {@XmiReaderSettings}", this.xmiReaderSettings);
+
             var xmlLineInfo = xmlReader as IXmlLineInfo;
 
             var xmiExtension = new XmiExtension();
