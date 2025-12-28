@@ -21,7 +21,6 @@
 namespace uml4net.xmi.Readers
 {
     using System;
-    using System.Collections.Generic;
     using System.Xml;
 
     using Microsoft.Extensions.Logging;
@@ -44,11 +43,6 @@ namespace uml4net.xmi.Readers
         private readonly INameSpaceResolver nameSpaceResolver;
 
         /// <summary>
-        /// The (injected) <see cref="IXmiElementCache"/> used cache the <see cref="IXmiElement"/>s
-        /// </summary>
-        private readonly IXmiElementCache cache;
-
-        /// <summary>
         /// The (injected) logger
         /// </summary>
         private readonly ILogger<TagReader> logger;
@@ -56,9 +50,6 @@ namespace uml4net.xmi.Readers
         /// <summary>
         /// Initializes a new instance of the <see cref="TagReader"/> class.
         /// </summary>>
-        /// <param name="cache">
-        /// The <see cref="IXmiElementCache"/> used to lookup <see cref="IXmiElement"/>s
-        /// </param>
         /// <param name="nameSpaceResolver">
         /// The (injected) <see cref="INameSpaceResolver"/> used to resolve a namespace to one of the
         /// <see cref="KnowNamespacePrefixes"/> constants
@@ -66,9 +57,8 @@ namespace uml4net.xmi.Readers
         /// <param name="loggerFactory">
         /// The (injected) <see cref="ILoggerFactory"/> used to set up logging
         /// </param>
-        public TagReader(IXmiElementCache cache, INameSpaceResolver nameSpaceResolver, ILoggerFactory loggerFactory)
+        public TagReader(INameSpaceResolver nameSpaceResolver, ILoggerFactory loggerFactory)
         {
-            this.cache = cache;
             this.nameSpaceResolver = nameSpaceResolver;
             this.logger = loggerFactory == null ? NullLogger<TagReader>.Instance : loggerFactory.CreateLogger<TagReader>();
         }

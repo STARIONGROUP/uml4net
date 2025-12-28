@@ -192,7 +192,7 @@ namespace uml4net.xmi.Readers
                             case (KnowNamespacePrefixes.MofExt, _):
                                 {
                                     using var mofExtensionTagXmlReader = xmlReader.ReadSubtree();
-                                    var tagReader = new TagReader(this.cache, this.nameSpaceResolver, this.loggerFactory);
+                                    var tagReader = new TagReader(this.nameSpaceResolver, this.loggerFactory);
                                     var tag = tagReader.Read(mofExtensionTagXmlReader, activeNamespaceUri);
                                     xmiRoot.Tags.Add(tag);
                                 }
