@@ -430,8 +430,28 @@ namespace uml4net.xmi.Readers
         /// </summary>
         public void Dispose()
         {
+            this.Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        /// <summary>
+        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+        /// </summary>
+        /// <param name="disposing">
+        /// A value indicating whether this class is being disposed of
+        /// </param>
+        protected virtual void Dispose(bool disposing)
+        {
             this.Cache.Clear();
             this.scope.Dispose();
+        }
+
+        /// <summary>
+        /// Finalizer
+        /// </summary>
+        ~XmiReader()
+        {
+            this.Dispose(false);
         }
     }
 }
