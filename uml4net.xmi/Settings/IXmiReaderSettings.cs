@@ -43,7 +43,7 @@ namespace uml4net.xmi.Settings
         /// Gets or sets the separator used to read properties serialized as a single string
         /// </summary>
         /// <remarks>
-        /// The values of the Properties may be serialized as a single string separated ny
+        /// The values of the Properties may be serialized as a single string separated by
         /// a separator, (by default by commas).
         /// </remarks>
         char[] ValueSeparator { get; set; }
@@ -52,7 +52,7 @@ namespace uml4net.xmi.Settings
         /// Gets or sets the separator used to read multivalued referenced properties serialized as a single string
         /// </summary>
         /// <remarks>
-        /// The values of multivalued Properties may be serialized as a single string separated ny
+        /// The values of multivalued Properties may be serialized as a single string separated by
         /// a separator, (by default by single space).
         /// </remarks>
         char[] MultiReferenceValueSeparator { get; set; }

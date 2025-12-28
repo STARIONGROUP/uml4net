@@ -95,8 +95,11 @@ namespace uml4net.Reporting.Tests.Drawing
             };
 
             var reader = XmiReaderBuilder.Create()
-                .UsingSettings(x => x.LocalReferenceBasePath = rootPath)
-                .UsingSettings(x => x.PathMaps = pathMaps)
+                .UsingSettings(x =>
+                {
+                    x.LocalReferenceBasePath = rootPath;
+                    x.PathMaps = pathMaps;
+                })
                 .WithLogger(loggerFactory)
                 .Build();
 

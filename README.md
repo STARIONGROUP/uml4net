@@ -57,6 +57,22 @@ The package are available on Nuget at:
   - [uml4net.Tools](https://www.nuget.org/packages/uml4net.Tools): ![NuGet Version](https://img.shields.io/nuget/v/uml4net.Tools)
   - [uml4net.xmi.Extensions.EnterpriseArchitect](https://www.nuget.org/packages/uml4net.xmi.Extensions.EnterpriseArchitect): ![NuGet Version](https://img.shields.io/nuget/v/uml4net.xmi.Extensions.EnterpriseArchitect)
 
+# Reading a UML model
+
+Reading a UML model is straightforward and is done using the an `IXmiReader`. An instance of `IXmiReader` is created using the `XmiReaderBuilder`. Once the reader is available, point it to a UML model you want to read and you're of to the races:
+
+```
+var reader = XmiReaderBuilder.Create()
+    .Build();
+
+var xmiReaderResult = reader.Read("path-to-your-model");
+
+var rootPackage = xmiReaderResult.QueryRoot("<xmi:id-of-the-root-package-you-are-interested-in>");
+
+```
+
+The `IXmiReader` can be configured with an `IXmiReaderSettings`, read more about reading an XMI document [here](https://github.com/STARIONGROUP/uml4net/wiki/uml4net.xmi.project)
+
 # Build Status
 
 GitHub actions are used to build and test the uml4net libraries
