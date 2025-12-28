@@ -442,8 +442,11 @@ namespace uml4net.xmi.Readers
         /// </param>
         protected virtual void Dispose(bool disposing)
         {
-            this.Cache.Clear();
-            this.scope.Dispose();
+            if (disposing)
+            {
+                this.Cache.Clear();
+                this.scope.Dispose();
+            }
         }
 
         /// <summary>

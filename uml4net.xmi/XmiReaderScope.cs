@@ -20,6 +20,8 @@
 
 namespace uml4net.xmi
 {
+    using System;
+
     using Autofac;
 
     using Microsoft.Extensions.Logging;
@@ -90,7 +92,30 @@ namespace uml4net.xmi
         /// </summary>
         public void Dispose()
         {
-            this.Container?.Dispose();
+            this.Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        /// <summary>
+        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+        /// </summary>
+        /// <param name="disposing">
+        /// A value indicating whether this class is being disposed of
+        /// </param>
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                this.Container?.Dispose();
+            }
+        }
+
+        /// <summary>
+        /// Finalizer
+        /// </summary>
+        ~XmiReaderScope()
+        {
+            this.Dispose(false);
         }
     }
 }
