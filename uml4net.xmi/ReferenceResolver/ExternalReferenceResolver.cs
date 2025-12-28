@@ -113,7 +113,7 @@ namespace uml4net.xmi.ReferenceResolver
         {
             result = default;
 
-            if (this.IsInvalidExternalResourceKey(key) || !this.TryResolveContext(key, out var externalResource))
+            if (IsInvalidExternalResourceKey(key) || !TryResolveContext(key, out var externalResource))
             {
                 logger.LogTrace("Resource key [{Key}] is not referencing an external resource", key);
                 return false;
@@ -163,7 +163,7 @@ namespace uml4net.xmi.ReferenceResolver
         /// <c>true</c> if the context and resource ID were successfully resolved and, if applicable, the 
         /// context exists in the global cache; otherwise, <c>false</c>.
         /// </returns>
-        private bool TryResolveContext(string resourceKey, out (string Context, string ResourceId) resolvedContextAndResource)
+        private static bool TryResolveContext(string resourceKey, out (string Context, string ResourceId) resolvedContextAndResource)
         {
             var referenceString = resourceKey.Split(['#'], StringSplitOptions.RemoveEmptyEntries);
             
@@ -188,7 +188,7 @@ namespace uml4net.xmi.ReferenceResolver
         ///   contains more than 1 #
         /// contains the # sign at most once
         /// </remarks>
-        private bool IsInvalidExternalResourceKey(string key)
+        private static bool IsInvalidExternalResourceKey(string key)
         {
             if (string.IsNullOrEmpty(key))
             {
