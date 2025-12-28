@@ -182,6 +182,11 @@ namespace uml4net.xmi.Tests
             Assert.That(property.Association.XmiId, Is.EqualTo("A_group_inActivity"));
             Assert.That(property.Association.MemberEnd, Has.Count.EqualTo(2));
             Assert.That(property.Association.MemberEnd, Has.Member(property));
+
+            var nsPrefixTag = xmiReaderResult.XmiRoot.Tags.Single(x => x.XmiId == "UML_mofTag0");
+            Assert.That(nsPrefixTag.Name, Is.EqualTo("org.omg.xmi.nsPrefix"));
+            Assert.That(nsPrefixTag.Value, Is.Null);
+            Assert.That(nsPrefixTag.Element[0], Is.EqualTo("UML"));
         }
     }
 }

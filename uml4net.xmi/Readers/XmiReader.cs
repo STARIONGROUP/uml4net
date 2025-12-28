@@ -20,19 +20,22 @@
 
 namespace uml4net.xmi.Readers
 {
-    using Microsoft.Extensions.Logging;
-    using Microsoft.Extensions.Logging.Abstractions;
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.IO;
     using System.Linq;
     using System.Xml;
+
+    using Microsoft.Extensions.Logging;
+    using Microsoft.Extensions.Logging.Abstractions;
+
     using uml4net.Packages;
     using uml4net.xmi;
     using uml4net.xmi.Extender;
     using uml4net.xmi.ReferenceResolver;
     using uml4net.xmi.Settings;
+    
     using Xmi;
 
     /// <summary>
@@ -65,7 +68,7 @@ namespace uml4net.xmi.Readers
         /// The (injected) <see cref="INameSpaceResolver"/> used to resolve a namespace to one of the
         /// <see cref="KnowNamespacePrefixes"/> constants
         /// </summary>
-        protected readonly INameSpaceResolver nameSpaceResolver;
+        protected readonly INameSpaceResolver NameSpaceResolver;
 
         /// <summary>
         /// The <see cref="IXmiReaderScope"/>
@@ -134,7 +137,7 @@ namespace uml4net.xmi.Readers
             this.logger = this.LoggerFactory == null ? NullLogger<XmiReader>.Instance : this.LoggerFactory.CreateLogger<XmiReader>();
             this.externalReferenceResolver = externalReferenceResolver;
             this.scope = scope;
-            this.nameSpaceResolver = nameSpaceResolver;
+            this.NameSpaceResolver = nameSpaceResolver;
             this.ExtenderReaderRegistry = extenderReaderRegistry;
         }
 
@@ -268,16 +271,16 @@ namespace uml4net.xmi.Readers
 
                     foreach (var namespacesValue in namespaces.Values)
                     {
-                        this.nameSpaceResolver.ResolveAndSetNamespace(namespacesValue);
+                        this.NameSpaceResolver.ResolveAndSetNamespace(namespacesValue);
                     }
                 }
 
-                var isRootXmiElement = this.nameSpaceResolver.ResolvePrefix(xmlReader.NamespaceURI) == KnowNamespacePrefixes.Xmi;
-                var isRootUmlObject = this.nameSpaceResolver.ResolvePrefix(xmlReader.NamespaceURI) == KnowNamespacePrefixes.Uml;
+                var isRootXmiElement = this.NameSpaceResolver.ResolvePrefix(xmlReader.NamespaceURI) == KnowNamespacePrefixes.Xmi;
+                var isRootUmlObject = this.NameSpaceResolver.ResolvePrefix(xmlReader.NamespaceURI) == KnowNamespacePrefixes.Uml;
 
                 if (isRootXmiElement && !isRootUmlObject)
                 {
-                    var xmiRootReader = new XmiRootReader(this.Cache, this.XmiElementReaderFacade, this.XmiReaderSettings, this.nameSpaceResolver, this.ExtenderReaderRegistry, this.LoggerFactory);
+                    var xmiRootReader = new XmiRootReader(this.Cache, this.XmiElementReaderFacade, this.XmiReaderSettings, this.NameSpaceResolver, this.ExtenderReaderRegistry, this.LoggerFactory);
                     using var subXmlReader = xmlReader.ReadSubtree();
 
                     if (isRoot)
@@ -322,14 +325,14 @@ namespace uml4net.xmi.Readers
 
                     if (xmlReader.NodeType == XmlNodeType.Element)
                     {
-                        var activePrefix = this.nameSpaceResolver.ResolvePrefix(xmlReader.NamespaceURI);
+                        var activePrefix = this.NameSpaceResolver.ResolvePrefix(xmlReader.NamespaceURI);
 
                         switch (activePrefix, xmlReader.LocalName)
                         {
                             case (KnowNamespacePrefixes.Uml, "Package"):
                             case (KnowNamespacePrefixes.Uml, "Model"):
                             case (KnowNamespacePrefixes.Uml, "Profile"):
-                                var package = (IPackage)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, xmlReader.NamespaceURI, this.Cache, this.XmiReaderSettings, this.nameSpaceResolver, this.ExtenderReaderRegistry, this.LoggerFactory, $"uml:{xmlReader.LocalName}");
+                                var package = (IPackage)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, xmlReader.NamespaceURI, this.Cache, this.XmiReaderSettings, this.NameSpaceResolver, this.ExtenderReaderRegistry, this.LoggerFactory, $"uml:{xmlReader.LocalName}");
                                 xmiReaderResult.Packages.Add(package);
 
                                 if (isRoot)

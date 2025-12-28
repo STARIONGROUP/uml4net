@@ -56,6 +56,9 @@
         <Content Include="..\resources\UML\UML.xmi" Link="TestData\UML.xmi">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </Content>
+        <Content Include="..\resources\XMI\XMI-model.xmi" Link="TestData\XMI-model.xmi">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
         <Content Include="..\resources\SySML2\ptc-24-02-19.xmi" Link="TestData\KerML.xmi">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </Content>

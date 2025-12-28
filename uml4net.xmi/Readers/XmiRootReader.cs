@@ -159,7 +159,6 @@ namespace uml4net.xmi.Readers
                                     var xmiExtensionReader = new XmiExtensionReader(this.xmiReaderSettings, this.nameSpaceResolver, this.extenderReaderRegistry, this.loggerFactory);
                                     xmiRoot.Extensions.Add(xmiExtensionReader.Read(xmiExtensionXmlReader, documentName, namespaceUri));
                                 }
-                                
                                 break;
                             case (KnowNamespacePrefixes.Xmi, "difference"):
                             case (KnowNamespacePrefixes.Xmi, "Difference"):
@@ -175,7 +174,6 @@ namespace uml4net.xmi.Readers
                                     var documentation = documentationReader.Read(subXmlReader, activeNamespaceUri);
                                     xmiRoot.Documentation = documentation;
                                 }
-
                                 break;
                             case (KnowNamespacePrefixes.Uml, _):
                                 this.logger.LogTrace("reading at line:position {LineNumber}:{LinePosition}", xmlLineInfo?.LineNumber, xmlLineInfo?.LinePosition);
@@ -192,8 +190,12 @@ namespace uml4net.xmi.Readers
                                 xmlReader.Skip();
                                 break;
                             case (KnowNamespacePrefixes.MofExt, _):
-                                this.logger.LogWarning("MofExt reading is not yet supported, skipping element at line:position {LineNumber}:{LinePosition}", xmlLineInfo?.LineNumber, xmlLineInfo?.LinePosition);
-                                xmlReader.Skip();
+                                {
+                                    using var mofExtensionTagXmlReader = xmlReader.ReadSubtree();
+                                    var tagReader = new TagReader(this.cache, this.nameSpaceResolver, this.loggerFactory);
+                                    var tag = tagReader.Read(mofExtensionTagXmlReader, activeNamespaceUri);
+                                    xmiRoot.Tags.Add(tag);
+                                }
                                 break;
                             case (KnowNamespacePrefixes.PrimitiveTypes, _):
                                 this.logger.LogWarning("PrimitiveTypes reading is not yet supported, skipping element at line:position {LineNumber}:{LinePosition}", xmlLineInfo?.LineNumber, xmlLineInfo?.LinePosition);

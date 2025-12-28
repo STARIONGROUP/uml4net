@@ -22,6 +22,8 @@ namespace uml4net.xmi.Xmi
 {
     using System.Collections.Generic;
 
+    using Mof.Extension;
+
     /// <summary>
     /// Represents the XMI 2.5.1 <c>xmi:XMI</c> root element — the container for model content
     /// (e.g., UML elements) and optional XMI metadata.
@@ -85,5 +87,10 @@ namespace uml4net.xmi.Xmi
         /// Gets or sets the extensions defined of this <see cref="XmiRoot" />
         /// </summary>
         public List<XmiExtension> Extensions { get; set; } = [];
+
+        /// <summary>
+        /// Gets or sets the <see cref="Tag"/>s that are contained by the <see cref="XmiRoot"/>
+        /// </summary>
+        public List<Tag> Tags { get; set; } = [];
     }
 }
