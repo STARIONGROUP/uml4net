@@ -90,7 +90,7 @@ namespace uml4net
                     continue;
                 }
 
-                var targetProperty = this.FindPropertyWithAttribute(element, property.Key, referencedElement.GetType());
+                var targetProperty = FindPropertyWithAttribute(element, property.Key, referencedElement.GetType());
 
                 if (targetProperty is null)
                 {
@@ -102,7 +102,7 @@ namespace uml4net
 
             foreach (var property in element.MultiValueReferencePropertyIdentifiers)
             {
-                var targetProperty = this.FindPropertyWithAttribute(element, property.Key);
+                var targetProperty = FindPropertyWithAttribute(element, property.Key);
                 var underlyingType = targetProperty?.PropertyType.GetGenericArguments().FirstOrDefault();
 
                 if (targetProperty is null || underlyingType is null)
@@ -186,7 +186,7 @@ namespace uml4net
         /// <param name="propertyName">The name of the property to find.</param>
         /// <param name="expectedType">The expected type of the property. If null, type checking is skipped.</param>
         /// <returns>The <see cref="PropertyInfo"/> of the found property, or null if no matching property is found.</returns>
-        private PropertyInfo FindPropertyWithAttribute(IXmiElement element, string propertyName, Type? expectedType = null)
+        private static PropertyInfo FindPropertyWithAttribute(IXmiElement element, string propertyName, Type? expectedType = null)
         {
             return element.GetType().GetProperties()
                 .FirstOrDefault(x => Attribute.IsDefined(x, typeof(PropertyAttribute))
