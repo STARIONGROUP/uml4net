@@ -199,7 +199,7 @@ namespace uml4net.xmi.Readers
                         switch (activePrefix, xmlReader.LocalName)
                         {
                             case (KnowNamespacePrefixes.Uml, "event"):
-                                this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "event");
+                                CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "event");
                                 break;
                             case (KnowNamespacePrefixes.Uml, "name"):
                                 poco.Name = xmlReader.ReadElementContentAsString();
@@ -213,7 +213,7 @@ namespace uml4net.xmi.Readers
                                 poco.OwnedComment.Add(ownedCommentValue);
                                 break;
                             case (KnowNamespacePrefixes.Uml, "port"):
-                                this.TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, "port");
+                                TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, "port");
                                 break;
                             case (KnowNamespacePrefixes.Uml, "visibility"):
                                 var visibilityValue = xmlReader.ReadElementContentAsString();

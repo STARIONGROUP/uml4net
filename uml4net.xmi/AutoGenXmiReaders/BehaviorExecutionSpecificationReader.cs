@@ -227,19 +227,19 @@ namespace uml4net.xmi.Readers
                         switch (activePrefix, xmlReader.LocalName)
                         {
                             case (KnowNamespacePrefixes.Uml, "behavior"):
-                                this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "behavior");
+                                CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "behavior");
                                 break;
                             case (KnowNamespacePrefixes.Uml, "covered"):
-                                this.TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, "covered");
+                                TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, "covered");
                                 break;
                             case (KnowNamespacePrefixes.Uml, "enclosingInteraction"):
-                                this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "enclosingInteraction");
+                                CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "enclosingInteraction");
                                 break;
                             case (KnowNamespacePrefixes.Uml, "enclosingOperand"):
-                                this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "enclosingOperand");
+                                CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "enclosingOperand");
                                 break;
                             case (KnowNamespacePrefixes.Uml, "finish"):
-                                this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "finish");
+                                CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "finish");
                                 break;
                             case (KnowNamespacePrefixes.Uml, "generalOrdering"):
                                 var generalOrderingValue = (IGeneralOrdering)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.NameSpaceResolver, this.ExtenderReaderRegistry, this.LoggerFactory, "uml:GeneralOrdering");
@@ -257,7 +257,7 @@ namespace uml4net.xmi.Readers
                                 poco.OwnedComment.Add(ownedCommentValue);
                                 break;
                             case (KnowNamespacePrefixes.Uml, "start"):
-                                this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "start");
+                                CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "start");
                                 break;
                             case (KnowNamespacePrefixes.Uml, "visibility"):
                                 var visibilityValue = xmlReader.ReadElementContentAsString();

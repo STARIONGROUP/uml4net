@@ -204,20 +204,20 @@ namespace uml4net.xmi.Readers
                         switch (activePrefix, xmlReader.LocalName)
                         {
                             case (KnowNamespacePrefixes.Uml, "exceptionInput"):
-                                this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "exceptionInput");
+                                CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "exceptionInput");
                                 break;
                             case (KnowNamespacePrefixes.Uml, "exceptionType"):
-                                this.TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, "exceptionType");
+                                TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, "exceptionType");
                                 break;
                             case (KnowNamespacePrefixes.Uml, "handlerBody"):
-                                this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "handlerBody");
+                                CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "handlerBody");
                                 break;
                             case (KnowNamespacePrefixes.Uml, "ownedComment"):
                                 var ownedCommentValue = (IComment)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.NameSpaceResolver, this.ExtenderReaderRegistry, this.LoggerFactory, "uml:Comment");
                                 poco.OwnedComment.Add(ownedCommentValue);
                                 break;
                             case (KnowNamespacePrefixes.Uml, "protectedNode"):
-                                this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "protectedNode");
+                                CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "protectedNode");
                                 break;
                             case (KnowNamespacePrefixes.Xmi, "extension"):
                             case (KnowNamespacePrefixes.Xmi, "Extension"):

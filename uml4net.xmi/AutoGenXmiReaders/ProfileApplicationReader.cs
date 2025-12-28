@@ -196,10 +196,10 @@ namespace uml4net.xmi.Readers
                         switch (activePrefix, xmlReader.LocalName)
                         {
                             case (KnowNamespacePrefixes.Uml, "appliedProfile"):
-                                this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "appliedProfile");
+                                CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "appliedProfile");
                                 break;
                             case (KnowNamespacePrefixes.Uml, "applyingPackage"):
-                                this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "applyingPackage");
+                                CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "applyingPackage");
                                 break;
                             case (KnowNamespacePrefixes.Uml, "isStrict"):
                                 var isStrictValue = xmlReader.ReadElementContentAsString();

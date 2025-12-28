@@ -221,7 +221,7 @@ namespace uml4net.xmi.Readers
                         switch (activePrefix, xmlReader.LocalName)
                         {
                             case (KnowNamespacePrefixes.Uml, "contract"):
-                                this.TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, "contract");
+                                TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, "contract");
                                 break;
                             case (KnowNamespacePrefixes.Uml, "end"):
                                 var endValue = (IConnectorEnd)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.NameSpaceResolver, this.ExtenderReaderRegistry, this.LoggerFactory, "uml:ConnectorEnd");
@@ -257,10 +257,10 @@ namespace uml4net.xmi.Readers
                                 poco.OwnedComment.Add(ownedCommentValue);
                                 break;
                             case (KnowNamespacePrefixes.Uml, "redefinedConnector"):
-                                this.TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, "redefinedConnector");
+                                TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, "redefinedConnector");
                                 break;
                             case (KnowNamespacePrefixes.Uml, "type"):
-                                this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "type");
+                                CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "type");
                                 break;
                             case (KnowNamespacePrefixes.Uml, "visibility"):
                                 var visibilityValue = xmlReader.ReadElementContentAsString();

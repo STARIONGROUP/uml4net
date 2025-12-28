@@ -254,13 +254,13 @@ namespace uml4net.xmi.Readers
                         switch (activePrefix, xmlReader.LocalName)
                         {
                             case (KnowNamespacePrefixes.Uml, "conveyed"):
-                                this.TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, "conveyed");
+                                TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, "conveyed");
                                 break;
                             case (KnowNamespacePrefixes.Uml, "informationSource"):
-                                this.TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, "informationSource");
+                                TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, "informationSource");
                                 break;
                             case (KnowNamespacePrefixes.Uml, "informationTarget"):
-                                this.TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, "informationTarget");
+                                TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, "informationTarget");
                                 break;
                             case (KnowNamespacePrefixes.Uml, "name"):
                                 poco.Name = xmlReader.ReadElementContentAsString();
@@ -274,22 +274,22 @@ namespace uml4net.xmi.Readers
                                 poco.OwnedComment.Add(ownedCommentValue);
                                 break;
                             case (KnowNamespacePrefixes.Uml, "owningTemplateParameter"):
-                                this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "owningTemplateParameter");
+                                CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "owningTemplateParameter");
                                 break;
                             case (KnowNamespacePrefixes.Uml, "realization"):
-                                this.TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, "realization");
+                                TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, "realization");
                                 break;
                             case (KnowNamespacePrefixes.Uml, "realizingActivityEdge"):
-                                this.TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, "realizingActivityEdge");
+                                TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, "realizingActivityEdge");
                                 break;
                             case (KnowNamespacePrefixes.Uml, "realizingConnector"):
-                                this.TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, "realizingConnector");
+                                TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, "realizingConnector");
                                 break;
                             case (KnowNamespacePrefixes.Uml, "realizingMessage"):
-                                this.TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, "realizingMessage");
+                                TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, "realizingMessage");
                                 break;
                             case (KnowNamespacePrefixes.Uml, "templateParameter"):
-                                this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "templateParameter");
+                                CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "templateParameter");
                                 break;
                             case (KnowNamespacePrefixes.Uml, "visibility"):
                                 var visibilityValue = xmlReader.ReadElementContentAsString();

@@ -216,13 +216,13 @@ namespace uml4net.xmi.Readers
                                 poco.OwnedComment.Add(ownedCommentValue);
                                 break;
                             case (KnowNamespacePrefixes.Uml, "owningTemplateParameter"):
-                                this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "owningTemplateParameter");
+                                CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "owningTemplateParameter");
                                 break;
                             case (KnowNamespacePrefixes.Uml, "signal"):
-                                this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "signal");
+                                CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "signal");
                                 break;
                             case (KnowNamespacePrefixes.Uml, "templateParameter"):
-                                this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "templateParameter");
+                                CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "templateParameter");
                                 break;
                             case (KnowNamespacePrefixes.Uml, "visibility"):
                                 var visibilityValue = xmlReader.ReadElementContentAsString();

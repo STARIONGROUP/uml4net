@@ -207,7 +207,7 @@ namespace uml4net.xmi.Readers
                                 poco.OwnedComment.Add(ownedCommentValue);
                                 break;
                             case (KnowNamespacePrefixes.Uml, "parameter"):
-                                this.TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, "parameter");
+                                TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, "parameter");
                                 break;
                             case (KnowNamespacePrefixes.Uml, "visibility"):
                                 var visibilityValue = xmlReader.ReadElementContentAsString();

@@ -226,7 +226,7 @@ namespace uml4net.xmi.Readers
                         switch (activePrefix, xmlReader.LocalName)
                         {
                             case (KnowNamespacePrefixes.Uml, "container"):
-                                this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "container");
+                                CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "container");
                                 break;
                             case (KnowNamespacePrefixes.Uml, "effect"):
                                 var effectValue = (IBehavior)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.NameSpaceResolver, this.ExtenderReaderRegistry, this.LoggerFactory);
@@ -237,7 +237,7 @@ namespace uml4net.xmi.Readers
                                 poco.ElementImport.Add(elementImportValue);
                                 break;
                             case (KnowNamespacePrefixes.Uml, "guard"):
-                                if (!this.TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, "guard"))
+                                if (!TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, "guard"))
                                 {
                                     this.logger.LogWarning("The ProtocolTransition.Guard attribute was not processed at {XmlLineInfo}", xmlLineInfo);
                                 }
@@ -281,27 +281,27 @@ namespace uml4net.xmi.Readers
                                 poco.PackageImport.Add(packageImportValue);
                                 break;
                             case (KnowNamespacePrefixes.Uml, "postCondition"):
-                                if (!this.TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, "postCondition"))
+                                if (!TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, "postCondition"))
                                 {
                                     this.logger.LogWarning("The ProtocolTransition.PostCondition attribute was not processed at {XmlLineInfo}", xmlLineInfo);
                                 }
 
                                 break;
                             case (KnowNamespacePrefixes.Uml, "preCondition"):
-                                if (!this.TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, "preCondition"))
+                                if (!TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, "preCondition"))
                                 {
                                     this.logger.LogWarning("The ProtocolTransition.PreCondition attribute was not processed at {XmlLineInfo}", xmlLineInfo);
                                 }
 
                                 break;
                             case (KnowNamespacePrefixes.Uml, "redefinedTransition"):
-                                this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "redefinedTransition");
+                                CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "redefinedTransition");
                                 break;
                             case (KnowNamespacePrefixes.Uml, "source"):
-                                this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "source");
+                                CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "source");
                                 break;
                             case (KnowNamespacePrefixes.Uml, "target"):
-                                this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "target");
+                                CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "target");
                                 break;
                             case (KnowNamespacePrefixes.Uml, "trigger"):
                                 var triggerValue = (ITrigger)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.NameSpaceResolver, this.ExtenderReaderRegistry, this.LoggerFactory, "uml:Trigger");

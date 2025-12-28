@@ -270,20 +270,20 @@ namespace uml4net.xmi.Readers
                         switch (activePrefix, xmlReader.LocalName)
                         {
                             case (KnowNamespacePrefixes.Uml, "activity"):
-                                this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "activity");
+                                CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "activity");
                                 break;
                             case (KnowNamespacePrefixes.Uml, "guard"):
                                 var guardValue = (IValueSpecification)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.NameSpaceResolver, this.ExtenderReaderRegistry, this.LoggerFactory);
                                 poco.Guard.Add(guardValue);
                                 break;
                             case (KnowNamespacePrefixes.Uml, "inPartition"):
-                                this.TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, "inPartition");
+                                TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, "inPartition");
                                 break;
                             case (KnowNamespacePrefixes.Uml, "inStructuredNode"):
-                                this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "inStructuredNode");
+                                CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "inStructuredNode");
                                 break;
                             case (KnowNamespacePrefixes.Uml, "interrupts"):
-                                this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "interrupts");
+                                CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "interrupts");
                                 break;
                             case (KnowNamespacePrefixes.Uml, "isLeaf"):
                                 var isLeafValue = xmlReader.ReadElementContentAsString();
@@ -324,19 +324,19 @@ namespace uml4net.xmi.Readers
                                 poco.OwnedComment.Add(ownedCommentValue);
                                 break;
                             case (KnowNamespacePrefixes.Uml, "redefinedEdge"):
-                                this.TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, "redefinedEdge");
+                                TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, "redefinedEdge");
                                 break;
                             case (KnowNamespacePrefixes.Uml, "selection"):
-                                this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "selection");
+                                CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "selection");
                                 break;
                             case (KnowNamespacePrefixes.Uml, "source"):
-                                this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "source");
+                                CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "source");
                                 break;
                             case (KnowNamespacePrefixes.Uml, "target"):
-                                this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "target");
+                                CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "target");
                                 break;
                             case (KnowNamespacePrefixes.Uml, "transformation"):
-                                this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "transformation");
+                                CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "transformation");
                                 break;
                             case (KnowNamespacePrefixes.Uml, "visibility"):
                                 var visibilityValue = xmlReader.ReadElementContentAsString();

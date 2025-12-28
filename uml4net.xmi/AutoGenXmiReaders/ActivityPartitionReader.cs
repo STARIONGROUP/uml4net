@@ -235,10 +235,10 @@ namespace uml4net.xmi.Readers
                         switch (activePrefix, xmlReader.LocalName)
                         {
                             case (KnowNamespacePrefixes.Uml, "edge"):
-                                this.TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, "edge");
+                                TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, "edge");
                                 break;
                             case (KnowNamespacePrefixes.Uml, "inActivity"):
-                                this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "inActivity");
+                                CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "inActivity");
                                 break;
                             case (KnowNamespacePrefixes.Uml, "isDimension"):
                                 var isDimensionValue = xmlReader.ReadElementContentAsString();
@@ -266,21 +266,21 @@ namespace uml4net.xmi.Readers
                                 poco.NameExpression.Add(nameExpressionValue);
                                 break;
                             case (KnowNamespacePrefixes.Uml, "node"):
-                                this.TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, "node");
+                                TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, "node");
                                 break;
                             case (KnowNamespacePrefixes.Uml, "ownedComment"):
                                 var ownedCommentValue = (IComment)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.NameSpaceResolver, this.ExtenderReaderRegistry, this.LoggerFactory, "uml:Comment");
                                 poco.OwnedComment.Add(ownedCommentValue);
                                 break;
                             case (KnowNamespacePrefixes.Uml, "represents"):
-                                this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "represents");
+                                CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "represents");
                                 break;
                             case (KnowNamespacePrefixes.Uml, "subpartition"):
                                 var subpartitionValue = (IActivityPartition)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.NameSpaceResolver, this.ExtenderReaderRegistry, this.LoggerFactory, "uml:ActivityPartition");
                                 poco.Subpartition.Add(subpartitionValue);
                                 break;
                             case (KnowNamespacePrefixes.Uml, "superPartition"):
-                                this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "superPartition");
+                                CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "superPartition");
                                 break;
                             case (KnowNamespacePrefixes.Uml, "visibility"):
                                 var visibilityValue = xmlReader.ReadElementContentAsString();

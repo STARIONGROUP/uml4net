@@ -274,7 +274,7 @@ namespace uml4net.xmi.Readers
                                 poco.CollaborationUse.Add(collaborationUseValue);
                                 break;
                             case (KnowNamespacePrefixes.Uml, "deployment"):
-                                this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "deployment");
+                                CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "deployment");
                                 break;
                             case (KnowNamespacePrefixes.Uml, "deploymentLocation"):
                                 poco.DeploymentLocation = xmlReader.ReadElementContentAsString();
@@ -360,23 +360,23 @@ namespace uml4net.xmi.Readers
                                 poco.OwnedUseCase.Add(ownedUseCaseValue);
                                 break;
                             case (KnowNamespacePrefixes.Uml, "owningTemplateParameter"):
-                                this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "owningTemplateParameter");
+                                CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "owningTemplateParameter");
                                 break;
                             case (KnowNamespacePrefixes.Uml, "package"):
-                                this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "package");
+                                CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "package");
                                 break;
                             case (KnowNamespacePrefixes.Uml, "packageImport"):
                                 var packageImportValue = (IPackageImport)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.NameSpaceResolver, this.ExtenderReaderRegistry, this.LoggerFactory, "uml:PackageImport");
                                 poco.PackageImport.Add(packageImportValue);
                                 break;
                             case (KnowNamespacePrefixes.Uml, "powertypeExtent"):
-                                this.TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, "powertypeExtent");
+                                TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, "powertypeExtent");
                                 break;
                             case (KnowNamespacePrefixes.Uml, "redefinedClassifier"):
-                                this.TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, "redefinedClassifier");
+                                TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, "redefinedClassifier");
                                 break;
                             case (KnowNamespacePrefixes.Uml, "representation"):
-                                this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "representation");
+                                CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "representation");
                                 break;
                             case (KnowNamespacePrefixes.Uml, "substitution"):
                                 var substitutionValue = (ISubstitution)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.NameSpaceResolver, this.ExtenderReaderRegistry, this.LoggerFactory, "uml:Substitution");
@@ -387,10 +387,10 @@ namespace uml4net.xmi.Readers
                                 poco.TemplateBinding.Add(templateBindingValue);
                                 break;
                             case (KnowNamespacePrefixes.Uml, "templateParameter"):
-                                this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "templateParameter");
+                                CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "templateParameter");
                                 break;
                             case (KnowNamespacePrefixes.Uml, "useCases"):
-                                this.TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, "useCases");
+                                TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, "useCases");
                                 break;
                             case (KnowNamespacePrefixes.Uml, "visibility"):
                                 var visibilityValue = xmlReader.ReadElementContentAsString();

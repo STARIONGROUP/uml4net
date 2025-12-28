@@ -201,10 +201,10 @@ namespace uml4net.xmi.Readers
                                 poco.Alias = xmlReader.ReadElementContentAsString();
                                 break;
                             case (KnowNamespacePrefixes.Uml, "importedElement"):
-                                this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "importedElement");
+                                CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "importedElement");
                                 break;
                             case (KnowNamespacePrefixes.Uml, "importingNamespace"):
-                                this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "importingNamespace");
+                                CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "importingNamespace");
                                 break;
                             case (KnowNamespacePrefixes.Uml, "ownedComment"):
                                 var ownedCommentValue = (IComment)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.NameSpaceResolver, this.ExtenderReaderRegistry, this.LoggerFactory, "uml:Comment");

@@ -198,10 +198,10 @@ namespace uml4net.xmi.Readers
                         switch (activePrefix, xmlReader.LocalName)
                         {
                             case (KnowNamespacePrefixes.Uml, "addition"):
-                                this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "addition");
+                                CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "addition");
                                 break;
                             case (KnowNamespacePrefixes.Uml, "includingCase"):
-                                this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "includingCase");
+                                CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "includingCase");
                                 break;
                             case (KnowNamespacePrefixes.Uml, "name"):
                                 poco.Name = xmlReader.ReadElementContentAsString();

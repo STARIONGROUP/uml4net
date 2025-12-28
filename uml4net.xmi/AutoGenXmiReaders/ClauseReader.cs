@@ -222,26 +222,26 @@ namespace uml4net.xmi.Readers
                         switch (activePrefix, xmlReader.LocalName)
                         {
                             case (KnowNamespacePrefixes.Uml, "body"):
-                                this.TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, "body");
+                                TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, "body");
                                 break;
                             case (KnowNamespacePrefixes.Uml, "bodyOutput"):
-                                this.TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, "bodyOutput");
+                                TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, "bodyOutput");
                                 break;
                             case (KnowNamespacePrefixes.Uml, "decider"):
-                                this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "decider");
+                                CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "decider");
                                 break;
                             case (KnowNamespacePrefixes.Uml, "ownedComment"):
                                 var ownedCommentValue = (IComment)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.NameSpaceResolver, this.ExtenderReaderRegistry, this.LoggerFactory, "uml:Comment");
                                 poco.OwnedComment.Add(ownedCommentValue);
                                 break;
                             case (KnowNamespacePrefixes.Uml, "predecessorClause"):
-                                this.TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, "predecessorClause");
+                                TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, "predecessorClause");
                                 break;
                             case (KnowNamespacePrefixes.Uml, "successorClause"):
-                                this.TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, "successorClause");
+                                TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, "successorClause");
                                 break;
                             case (KnowNamespacePrefixes.Uml, "test"):
-                                this.TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, "test");
+                                TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, "test");
                                 break;
                             case (KnowNamespacePrefixes.Xmi, "extension"):
                             case (KnowNamespacePrefixes.Xmi, "Extension"):

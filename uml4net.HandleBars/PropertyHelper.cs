@@ -816,7 +816,7 @@ namespace uml4net.HandleBars
                         }
                         else
                         {
-                            sb.AppendLine($"if (!this.TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, \"{property.Name}\"))");
+                            sb.AppendLine($"if (!TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, \"{property.Name}\"))");
                             sb.AppendLine("{");
                             sb.AppendLine($"    this.logger.LogWarning(\"The {@class.Name}.{property.Name.CapitalizeFirstLetter()} attribute was not processed at {{XmlLineInfo}}\", xmlLineInfo);");
                             sb.AppendLine($"}}{Environment.NewLine}");
@@ -905,7 +905,7 @@ namespace uml4net.HandleBars
 
                     if (property.QueryIsReferenceProperty() && !property.QueryIsEnumerable())
                     {
-                        sb.AppendLine($"this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, \"{property.Name}\");");
+                        sb.AppendLine($"CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, \"{property.Name}\");");
                         sb.AppendLine("break;");
 
                         writer.WriteSafeString(sb);
@@ -914,7 +914,7 @@ namespace uml4net.HandleBars
 
                     if (property.QueryIsReferenceProperty() && property.QueryIsEnumerable())
                     {
-                        sb.AppendLine($"this.TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, \"{property.Name}\");");
+                        sb.AppendLine($"TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, \"{property.Name}\");");
                         sb.AppendLine("break;");
 
                         writer.WriteSafeString(sb);

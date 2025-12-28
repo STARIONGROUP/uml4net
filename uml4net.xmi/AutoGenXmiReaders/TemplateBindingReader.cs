@@ -189,7 +189,7 @@ namespace uml4net.xmi.Readers
                         switch (activePrefix, xmlReader.LocalName)
                         {
                             case (KnowNamespacePrefixes.Uml, "boundElement"):
-                                this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "boundElement");
+                                CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "boundElement");
                                 break;
                             case (KnowNamespacePrefixes.Uml, "ownedComment"):
                                 var ownedCommentValue = (IComment)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.NameSpaceResolver, this.ExtenderReaderRegistry, this.LoggerFactory, "uml:Comment");
@@ -200,7 +200,7 @@ namespace uml4net.xmi.Readers
                                 poco.ParameterSubstitution.Add(parameterSubstitutionValue);
                                 break;
                             case (KnowNamespacePrefixes.Uml, "signature"):
-                                this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "signature");
+                                CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "signature");
                                 break;
                             case (KnowNamespacePrefixes.Xmi, "extension"):
                             case (KnowNamespacePrefixes.Xmi, "Extension"):

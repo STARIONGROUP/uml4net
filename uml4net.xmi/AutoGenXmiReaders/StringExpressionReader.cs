@@ -233,10 +233,10 @@ namespace uml4net.xmi.Readers
                                 poco.OwnedTemplateSignature.Add(ownedTemplateSignatureValue);
                                 break;
                             case (KnowNamespacePrefixes.Uml, "owningExpression"):
-                                this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "owningExpression");
+                                CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "owningExpression");
                                 break;
                             case (KnowNamespacePrefixes.Uml, "owningTemplateParameter"):
-                                this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "owningTemplateParameter");
+                                CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "owningTemplateParameter");
                                 break;
                             case (KnowNamespacePrefixes.Uml, "subExpression"):
                                 var subExpressionValue = (IStringExpression)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.NameSpaceResolver, this.ExtenderReaderRegistry, this.LoggerFactory, "uml:StringExpression");
@@ -250,10 +250,10 @@ namespace uml4net.xmi.Readers
                                 poco.TemplateBinding.Add(templateBindingValue);
                                 break;
                             case (KnowNamespacePrefixes.Uml, "templateParameter"):
-                                this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "templateParameter");
+                                CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "templateParameter");
                                 break;
                             case (KnowNamespacePrefixes.Uml, "type"):
-                                this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "type");
+                                CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "type");
                                 break;
                             case (KnowNamespacePrefixes.Uml, "visibility"):
                                 var visibilityValue = xmlReader.ReadElementContentAsString();

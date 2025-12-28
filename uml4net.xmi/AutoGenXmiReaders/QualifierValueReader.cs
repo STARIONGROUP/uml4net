@@ -193,10 +193,10 @@ namespace uml4net.xmi.Readers
                                 poco.OwnedComment.Add(ownedCommentValue);
                                 break;
                             case (KnowNamespacePrefixes.Uml, "qualifier"):
-                                this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "qualifier");
+                                CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "qualifier");
                                 break;
                             case (KnowNamespacePrefixes.Uml, "value"):
-                                this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "value");
+                                CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "value");
                                 break;
                             case (KnowNamespacePrefixes.Xmi, "extension"):
                             case (KnowNamespacePrefixes.Xmi, "Extension"):

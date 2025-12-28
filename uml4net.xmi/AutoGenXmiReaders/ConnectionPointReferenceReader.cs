@@ -228,13 +228,13 @@ namespace uml4net.xmi.Readers
                         switch (activePrefix, xmlReader.LocalName)
                         {
                             case (KnowNamespacePrefixes.Uml, "container"):
-                                this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "container");
+                                CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "container");
                                 break;
                             case (KnowNamespacePrefixes.Uml, "entry"):
-                                this.TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, "entry");
+                                TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, "entry");
                                 break;
                             case (KnowNamespacePrefixes.Uml, "exit"):
-                                this.TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, "exit");
+                                TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, "exit");
                                 break;
                             case (KnowNamespacePrefixes.Uml, "isLeaf"):
                                 var isLeafValue = xmlReader.ReadElementContentAsString();
@@ -257,10 +257,10 @@ namespace uml4net.xmi.Readers
                                 poco.OwnedComment.Add(ownedCommentValue);
                                 break;
                             case (KnowNamespacePrefixes.Uml, "redefinedVertex"):
-                                this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "redefinedVertex");
+                                CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "redefinedVertex");
                                 break;
                             case (KnowNamespacePrefixes.Uml, "state"):
-                                this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "state");
+                                CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "state");
                                 break;
                             case (KnowNamespacePrefixes.Uml, "visibility"):
                                 var visibilityValue = xmlReader.ReadElementContentAsString();

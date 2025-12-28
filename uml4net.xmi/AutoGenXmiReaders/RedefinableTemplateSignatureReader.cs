@@ -214,10 +214,10 @@ namespace uml4net.xmi.Readers
                         switch (activePrefix, xmlReader.LocalName)
                         {
                             case (KnowNamespacePrefixes.Uml, "classifier"):
-                                this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "classifier");
+                                CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "classifier");
                                 break;
                             case (KnowNamespacePrefixes.Uml, "extendedSignature"):
-                                this.TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, "extendedSignature");
+                                TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, "extendedSignature");
                                 break;
                             case (KnowNamespacePrefixes.Uml, "isLeaf"):
                                 var isLeafValue = xmlReader.ReadElementContentAsString();
@@ -244,7 +244,7 @@ namespace uml4net.xmi.Readers
                                 poco.OwnedParameter.Add(ownedParameterValue);
                                 break;
                             case (KnowNamespacePrefixes.Uml, "parameter"):
-                                this.TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, "parameter");
+                                TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, "parameter");
                                 break;
                             case (KnowNamespacePrefixes.Uml, "visibility"):
                                 var visibilityValue = xmlReader.ReadElementContentAsString();

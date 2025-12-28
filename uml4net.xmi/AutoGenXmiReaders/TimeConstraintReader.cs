@@ -220,10 +220,10 @@ namespace uml4net.xmi.Readers
                         switch (activePrefix, xmlReader.LocalName)
                         {
                             case (KnowNamespacePrefixes.Uml, "constrainedElement"):
-                                this.TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, "constrainedElement");
+                                TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, "constrainedElement");
                                 break;
                             case (KnowNamespacePrefixes.Uml, "context"):
-                                this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "context");
+                                CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "context");
                                 break;
                             case (KnowNamespacePrefixes.Uml, "firstEvent"):
                                 var firstEventValue = xmlReader.ReadElementContentAsString();
@@ -246,14 +246,14 @@ namespace uml4net.xmi.Readers
                                 poco.OwnedComment.Add(ownedCommentValue);
                                 break;
                             case (KnowNamespacePrefixes.Uml, "owningTemplateParameter"):
-                                this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "owningTemplateParameter");
+                                CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "owningTemplateParameter");
                                 break;
                             case (KnowNamespacePrefixes.Uml, "specification"):
                                 var specificationValue = (ITimeInterval)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.NameSpaceResolver, this.ExtenderReaderRegistry, this.LoggerFactory, "uml:TimeInterval");
                                 poco.Specification.Add(specificationValue);
                                 break;
                             case (KnowNamespacePrefixes.Uml, "templateParameter"):
-                                this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "templateParameter");
+                                CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "templateParameter");
                                 break;
                             case (KnowNamespacePrefixes.Uml, "visibility"):
                                 var visibilityValue = xmlReader.ReadElementContentAsString();

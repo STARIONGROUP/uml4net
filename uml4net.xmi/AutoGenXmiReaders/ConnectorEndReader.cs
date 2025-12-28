@@ -229,10 +229,10 @@ namespace uml4net.xmi.Readers
                                 poco.OwnedComment.Add(ownedCommentValue);
                                 break;
                             case (KnowNamespacePrefixes.Uml, "partWithPort"):
-                                this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "partWithPort");
+                                CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "partWithPort");
                                 break;
                             case (KnowNamespacePrefixes.Uml, "role"):
-                                this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "role");
+                                CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "role");
                                 break;
                             case (KnowNamespacePrefixes.Uml, "upperValue"):
                                 var upperValueValue = (IValueSpecification)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.NameSpaceResolver, this.ExtenderReaderRegistry, this.LoggerFactory);

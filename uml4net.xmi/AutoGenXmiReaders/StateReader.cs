@@ -220,7 +220,7 @@ namespace uml4net.xmi.Readers
                                 poco.ConnectionPoint.Add(connectionPointValue);
                                 break;
                             case (KnowNamespacePrefixes.Uml, "container"):
-                                this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "container");
+                                CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "container");
                                 break;
                             case (KnowNamespacePrefixes.Uml, "deferrableTrigger"):
                                 var deferrableTriggerValue = (ITrigger)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.NameSpaceResolver, this.ExtenderReaderRegistry, this.LoggerFactory, "uml:Trigger");
@@ -271,21 +271,21 @@ namespace uml4net.xmi.Readers
                                 poco.PackageImport.Add(packageImportValue);
                                 break;
                             case (KnowNamespacePrefixes.Uml, "redefinedVertex"):
-                                this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "redefinedVertex");
+                                CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "redefinedVertex");
                                 break;
                             case (KnowNamespacePrefixes.Uml, "region"):
                                 var regionValue = (IRegion)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.NameSpaceResolver, this.ExtenderReaderRegistry, this.LoggerFactory, "uml:Region");
                                 poco.Region.Add(regionValue);
                                 break;
                             case (KnowNamespacePrefixes.Uml, "stateInvariant"):
-                                if (!this.TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, "stateInvariant"))
+                                if (!TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, "stateInvariant"))
                                 {
                                     this.logger.LogWarning("The State.StateInvariant attribute was not processed at {XmlLineInfo}", xmlLineInfo);
                                 }
 
                                 break;
                             case (KnowNamespacePrefixes.Uml, "submachine"):
-                                this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "submachine");
+                                CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "submachine");
                                 break;
                             case (KnowNamespacePrefixes.Uml, "visibility"):
                                 var visibilityValue = xmlReader.ReadElementContentAsString();

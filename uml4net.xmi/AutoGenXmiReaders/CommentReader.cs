@@ -185,7 +185,7 @@ namespace uml4net.xmi.Readers
                         switch (activePrefix, xmlReader.LocalName)
                         {
                             case (KnowNamespacePrefixes.Uml, "annotatedElement"):
-                                this.TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, "annotatedElement");
+                                TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, "annotatedElement");
                                 break;
                             case (KnowNamespacePrefixes.Uml, "body"):
                                 poco.Body = xmlReader.ReadElementContentAsString();

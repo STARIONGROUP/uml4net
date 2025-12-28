@@ -273,7 +273,7 @@ namespace uml4net.xmi.Readers
                         switch (activePrefix, xmlReader.LocalName)
                         {
                             case (KnowNamespacePrefixes.Uml, "activity"):
-                                this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "activity");
+                                CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "activity");
                                 break;
                             case (KnowNamespacePrefixes.Uml, "clause"):
                                 var clauseValue = (IClause)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.NameSpaceResolver, this.ExtenderReaderRegistry, this.LoggerFactory, "uml:Clause");
@@ -292,16 +292,16 @@ namespace uml4net.xmi.Readers
                                 poco.Handler.Add(handlerValue);
                                 break;
                             case (KnowNamespacePrefixes.Uml, "incoming"):
-                                this.TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, "incoming");
+                                TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, "incoming");
                                 break;
                             case (KnowNamespacePrefixes.Uml, "inInterruptibleRegion"):
-                                this.TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, "inInterruptibleRegion");
+                                TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, "inInterruptibleRegion");
                                 break;
                             case (KnowNamespacePrefixes.Uml, "inPartition"):
-                                this.TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, "inPartition");
+                                TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, "inPartition");
                                 break;
                             case (KnowNamespacePrefixes.Uml, "inStructuredNode"):
-                                this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "inStructuredNode");
+                                CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "inStructuredNode");
                                 break;
                             case (KnowNamespacePrefixes.Uml, "isAssured"):
                                 var isAssuredValue = xmlReader.ReadElementContentAsString();
@@ -368,7 +368,7 @@ namespace uml4net.xmi.Readers
                                 poco.Node.Add(nodeValue);
                                 break;
                             case (KnowNamespacePrefixes.Uml, "outgoing"):
-                                this.TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, "outgoing");
+                                TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, "outgoing");
                                 break;
                             case (KnowNamespacePrefixes.Uml, "ownedComment"):
                                 var ownedCommentValue = (IComment)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.NameSpaceResolver, this.ExtenderReaderRegistry, this.LoggerFactory, "uml:Comment");
@@ -383,7 +383,7 @@ namespace uml4net.xmi.Readers
                                 poco.PackageImport.Add(packageImportValue);
                                 break;
                             case (KnowNamespacePrefixes.Uml, "redefinedNode"):
-                                this.TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, "redefinedNode");
+                                TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, "redefinedNode");
                                 break;
                             case (KnowNamespacePrefixes.Uml, "result"):
                                 var resultValue = (IOutputPin)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.NameSpaceResolver, this.ExtenderReaderRegistry, this.LoggerFactory, "uml:OutputPin");

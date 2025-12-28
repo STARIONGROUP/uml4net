@@ -154,7 +154,7 @@ namespace uml4net.xmi.Readers
         /// the name of the single-value reference property used to verify that the cursor of the 
         /// <see cref="XmlReader"/> is at the right position
         /// </param>
-        protected void CollectSingleValueReferencePropertyIdentifier(XmlReader xmlReader, IXmiElement xmiElement, string localName)
+        protected static void CollectSingleValueReferencePropertyIdentifier(XmlReader xmlReader, IXmiElement xmiElement, string localName)
         {
             if (xmlReader == null)
             {
@@ -207,7 +207,7 @@ namespace uml4net.xmi.Readers
         /// the name of the multi-value reference property used to verify that the cursor of the 
         /// <see cref="XmlReader"/> is at the right position
         /// </param>
-        protected bool TryCollectMultiValueReferencePropertyIdentifiers(XmlReader xmlReader, IXmiElement xmiElement, string localName)
+        protected static bool TryCollectMultiValueReferencePropertyIdentifiers(XmlReader xmlReader, IXmiElement xmiElement, string localName)
         {
             if (xmlReader == null)
             {

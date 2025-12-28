@@ -213,13 +213,13 @@ namespace uml4net.xmi.Readers
                         switch (activePrefix, xmlReader.LocalName)
                         {
                             case (KnowNamespacePrefixes.Uml, "coveredBy"):
-                                this.TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, "coveredBy");
+                                TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, "coveredBy");
                                 break;
                             case (KnowNamespacePrefixes.Uml, "decomposedAs"):
-                                this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "decomposedAs");
+                                CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "decomposedAs");
                                 break;
                             case (KnowNamespacePrefixes.Uml, "interaction"):
-                                this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "interaction");
+                                CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "interaction");
                                 break;
                             case (KnowNamespacePrefixes.Uml, "name"):
                                 poco.Name = xmlReader.ReadElementContentAsString();
@@ -233,7 +233,7 @@ namespace uml4net.xmi.Readers
                                 poco.OwnedComment.Add(ownedCommentValue);
                                 break;
                             case (KnowNamespacePrefixes.Uml, "represents"):
-                                this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "represents");
+                                CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "represents");
                                 break;
                             case (KnowNamespacePrefixes.Uml, "selector"):
                                 var selectorValue = (IValueSpecification)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.NameSpaceResolver, this.ExtenderReaderRegistry, this.LoggerFactory);

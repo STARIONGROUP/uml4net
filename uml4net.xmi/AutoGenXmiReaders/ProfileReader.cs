@@ -211,14 +211,14 @@ namespace uml4net.xmi.Readers
                                 poco.ElementImport.Add(elementImportValue);
                                 break;
                             case (KnowNamespacePrefixes.Uml, "metaclassReference"):
-                                if (!this.TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, "metaclassReference"))
+                                if (!TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, "metaclassReference"))
                                 {
                                     this.logger.LogWarning("The Profile.MetaclassReference attribute was not processed at {XmlLineInfo}", xmlLineInfo);
                                 }
 
                                 break;
                             case (KnowNamespacePrefixes.Uml, "metamodelReference"):
-                                if (!this.TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, "metamodelReference"))
+                                if (!TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, "metamodelReference"))
                                 {
                                     this.logger.LogWarning("The Profile.MetamodelReference attribute was not processed at {XmlLineInfo}", xmlLineInfo);
                                 }
@@ -232,7 +232,7 @@ namespace uml4net.xmi.Readers
                                 poco.NameExpression.Add(nameExpressionValue);
                                 break;
                             case (KnowNamespacePrefixes.Uml, "nestingPackage"):
-                                this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "nestingPackage");
+                                CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "nestingPackage");
                                 break;
                             case (KnowNamespacePrefixes.Uml, "ownedComment"):
                                 var ownedCommentValue = (IComment)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.NameSpaceResolver, this.ExtenderReaderRegistry, this.LoggerFactory, "uml:Comment");
@@ -247,7 +247,7 @@ namespace uml4net.xmi.Readers
                                 poco.OwnedTemplateSignature.Add(ownedTemplateSignatureValue);
                                 break;
                             case (KnowNamespacePrefixes.Uml, "owningTemplateParameter"):
-                                this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "owningTemplateParameter");
+                                CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "owningTemplateParameter");
                                 break;
                             case (KnowNamespacePrefixes.Uml, "packagedElement"):
                                 var packagedElementValue = (IPackageableElement)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.NameSpaceResolver, this.ExtenderReaderRegistry, this.LoggerFactory);
@@ -270,7 +270,7 @@ namespace uml4net.xmi.Readers
                                 poco.TemplateBinding.Add(templateBindingValue);
                                 break;
                             case (KnowNamespacePrefixes.Uml, "templateParameter"):
-                                this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "templateParameter");
+                                CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "templateParameter");
                                 break;
                             case (KnowNamespacePrefixes.Uml, "URI"):
                                 poco.URI = xmlReader.ReadElementContentAsString();

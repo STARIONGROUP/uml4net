@@ -206,7 +206,7 @@ namespace uml4net.xmi.Readers
                                 poco.RoleBinding.Add(roleBindingValue);
                                 break;
                             case (KnowNamespacePrefixes.Uml, "type"):
-                                this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "type");
+                                CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "type");
                                 break;
                             case (KnowNamespacePrefixes.Uml, "visibility"):
                                 var visibilityValue = xmlReader.ReadElementContentAsString();

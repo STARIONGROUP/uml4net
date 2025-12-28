@@ -228,16 +228,16 @@ namespace uml4net.xmi.Readers
                         switch (activePrefix, xmlReader.LocalName)
                         {
                             case (KnowNamespacePrefixes.Uml, "covered"):
-                                this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "covered");
+                                CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "covered");
                                 break;
                             case (KnowNamespacePrefixes.Uml, "enclosingInteraction"):
-                                this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "enclosingInteraction");
+                                CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "enclosingInteraction");
                                 break;
                             case (KnowNamespacePrefixes.Uml, "enclosingOperand"):
-                                this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "enclosingOperand");
+                                CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "enclosingOperand");
                                 break;
                             case (KnowNamespacePrefixes.Uml, "execution"):
-                                this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "execution");
+                                CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "execution");
                                 break;
                             case (KnowNamespacePrefixes.Uml, "generalOrdering"):
                                 var generalOrderingValue = (IGeneralOrdering)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.NameSpaceResolver, this.ExtenderReaderRegistry, this.LoggerFactory, "uml:GeneralOrdering");
@@ -255,10 +255,10 @@ namespace uml4net.xmi.Readers
                                 poco.OwnedComment.Add(ownedCommentValue);
                                 break;
                             case (KnowNamespacePrefixes.Uml, "toAfter"):
-                                this.TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, "toAfter");
+                                TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, "toAfter");
                                 break;
                             case (KnowNamespacePrefixes.Uml, "toBefore"):
-                                this.TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, "toBefore");
+                                TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, "toBefore");
                                 break;
                             case (KnowNamespacePrefixes.Uml, "visibility"):
                                 var visibilityValue = xmlReader.ReadElementContentAsString();

@@ -203,10 +203,10 @@ namespace uml4net.xmi.Readers
                         switch (activePrefix, xmlReader.LocalName)
                         {
                             case (KnowNamespacePrefixes.Uml, "end"):
-                                this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "end");
+                                CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "end");
                                 break;
                             case (KnowNamespacePrefixes.Uml, "insertAt"):
-                                this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "insertAt");
+                                CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "insertAt");
                                 break;
                             case (KnowNamespacePrefixes.Uml, "isReplaceAll"):
                                 var isReplaceAllValue = xmlReader.ReadElementContentAsString();
@@ -226,7 +226,7 @@ namespace uml4net.xmi.Readers
                                 poco.Qualifier.Add(qualifierValue);
                                 break;
                             case (KnowNamespacePrefixes.Uml, "value"):
-                                this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "value");
+                                CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "value");
                                 break;
                             case (KnowNamespacePrefixes.Xmi, "extension"):
                             case (KnowNamespacePrefixes.Xmi, "Extension"):

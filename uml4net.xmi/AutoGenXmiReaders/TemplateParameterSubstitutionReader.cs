@@ -196,10 +196,10 @@ namespace uml4net.xmi.Readers
                         switch (activePrefix, xmlReader.LocalName)
                         {
                             case (KnowNamespacePrefixes.Uml, "actual"):
-                                this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "actual");
+                                CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "actual");
                                 break;
                             case (KnowNamespacePrefixes.Uml, "formal"):
-                                this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "formal");
+                                CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "formal");
                                 break;
                             case (KnowNamespacePrefixes.Uml, "ownedActual"):
                                 var ownedActualValue = (IParameterableElement)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.NameSpaceResolver, this.ExtenderReaderRegistry, this.LoggerFactory);
@@ -210,7 +210,7 @@ namespace uml4net.xmi.Readers
                                 poco.OwnedComment.Add(ownedCommentValue);
                                 break;
                             case (KnowNamespacePrefixes.Uml, "templateBinding"):
-                                this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "templateBinding");
+                                CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "templateBinding");
                                 break;
                             case (KnowNamespacePrefixes.Xmi, "extension"):
                             case (KnowNamespacePrefixes.Xmi, "Extension"):

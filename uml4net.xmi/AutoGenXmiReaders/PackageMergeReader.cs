@@ -189,14 +189,14 @@ namespace uml4net.xmi.Readers
                         switch (activePrefix, xmlReader.LocalName)
                         {
                             case (KnowNamespacePrefixes.Uml, "mergedPackage"):
-                                this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "mergedPackage");
+                                CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "mergedPackage");
                                 break;
                             case (KnowNamespacePrefixes.Uml, "ownedComment"):
                                 var ownedCommentValue = (IComment)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.NameSpaceResolver, this.ExtenderReaderRegistry, this.LoggerFactory, "uml:Comment");
                                 poco.OwnedComment.Add(ownedCommentValue);
                                 break;
                             case (KnowNamespacePrefixes.Uml, "receivingPackage"):
-                                this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "receivingPackage");
+                                CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "receivingPackage");
                                 break;
                             case (KnowNamespacePrefixes.Xmi, "extension"):
                             case (KnowNamespacePrefixes.Xmi, "Extension"):

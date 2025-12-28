@@ -216,7 +216,7 @@ namespace uml4net.xmi.Readers
                                 poco.ElementImport.Add(elementImportValue);
                                 break;
                             case (KnowNamespacePrefixes.Uml, "extendedRegion"):
-                                this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "extendedRegion");
+                                CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "extendedRegion");
                                 break;
                             case (KnowNamespacePrefixes.Uml, "isLeaf"):
                                 var isLeafValue = xmlReader.ReadElementContentAsString();
@@ -247,10 +247,10 @@ namespace uml4net.xmi.Readers
                                 poco.PackageImport.Add(packageImportValue);
                                 break;
                             case (KnowNamespacePrefixes.Uml, "state"):
-                                this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "state");
+                                CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "state");
                                 break;
                             case (KnowNamespacePrefixes.Uml, "stateMachine"):
-                                this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "stateMachine");
+                                CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "stateMachine");
                                 break;
                             case (KnowNamespacePrefixes.Uml, "subvertex"):
                                 var subvertexValue = (IVertex)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.NameSpaceResolver, this.ExtenderReaderRegistry, this.LoggerFactory);

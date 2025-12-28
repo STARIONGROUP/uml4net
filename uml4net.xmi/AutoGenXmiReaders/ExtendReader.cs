@@ -210,13 +210,13 @@ namespace uml4net.xmi.Readers
                                 poco.Condition.Add(conditionValue);
                                 break;
                             case (KnowNamespacePrefixes.Uml, "extendedCase"):
-                                this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "extendedCase");
+                                CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "extendedCase");
                                 break;
                             case (KnowNamespacePrefixes.Uml, "extension"):
-                                this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "extension");
+                                CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "extension");
                                 break;
                             case (KnowNamespacePrefixes.Uml, "extensionLocation"):
-                                this.TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, "extensionLocation");
+                                TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, "extensionLocation");
                                 break;
                             case (KnowNamespacePrefixes.Uml, "name"):
                                 poco.Name = xmlReader.ReadElementContentAsString();

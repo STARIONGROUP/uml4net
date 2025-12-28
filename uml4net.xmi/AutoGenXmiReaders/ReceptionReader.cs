@@ -275,7 +275,7 @@ namespace uml4net.xmi.Readers
 
                                 break;
                             case (KnowNamespacePrefixes.Uml, "method"):
-                                this.TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, "method");
+                                TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, "method");
                                 break;
                             case (KnowNamespacePrefixes.Uml, "name"):
                                 poco.Name = xmlReader.ReadElementContentAsString();
@@ -305,10 +305,10 @@ namespace uml4net.xmi.Readers
                                 poco.PackageImport.Add(packageImportValue);
                                 break;
                             case (KnowNamespacePrefixes.Uml, "raisedException"):
-                                this.TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, "raisedException");
+                                TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, "raisedException");
                                 break;
                             case (KnowNamespacePrefixes.Uml, "signal"):
-                                this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "signal");
+                                CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "signal");
                                 break;
                             case (KnowNamespacePrefixes.Uml, "visibility"):
                                 var visibilityValue = xmlReader.ReadElementContentAsString();

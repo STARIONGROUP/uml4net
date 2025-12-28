@@ -198,10 +198,10 @@ namespace uml4net.xmi.Readers
                                 poco.OwnedParameter.Add(ownedParameterValue);
                                 break;
                             case (KnowNamespacePrefixes.Uml, "parameter"):
-                                this.TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, "parameter");
+                                TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, "parameter");
                                 break;
                             case (KnowNamespacePrefixes.Uml, "template"):
-                                this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "template");
+                                CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "template");
                                 break;
                             case (KnowNamespacePrefixes.Xmi, "extension"):
                             case (KnowNamespacePrefixes.Xmi, "Extension"):

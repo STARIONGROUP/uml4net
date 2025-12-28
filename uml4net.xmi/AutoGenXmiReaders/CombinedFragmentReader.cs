@@ -217,13 +217,13 @@ namespace uml4net.xmi.Readers
                                 poco.CfragmentGate.Add(cfragmentGateValue);
                                 break;
                             case (KnowNamespacePrefixes.Uml, "covered"):
-                                this.TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, "covered");
+                                TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, "covered");
                                 break;
                             case (KnowNamespacePrefixes.Uml, "enclosingInteraction"):
-                                this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "enclosingInteraction");
+                                CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "enclosingInteraction");
                                 break;
                             case (KnowNamespacePrefixes.Uml, "enclosingOperand"):
-                                this.CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "enclosingOperand");
+                                CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "enclosingOperand");
                                 break;
                             case (KnowNamespacePrefixes.Uml, "generalOrdering"):
                                 var generalOrderingValue = (IGeneralOrdering)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.NameSpaceResolver, this.ExtenderReaderRegistry, this.LoggerFactory, "uml:GeneralOrdering");
