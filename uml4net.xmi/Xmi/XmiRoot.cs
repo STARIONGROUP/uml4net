@@ -22,7 +22,8 @@ namespace uml4net.xmi.Xmi
 {
     using System.Collections.Generic;
 
-    using Mof.Extension;
+    using uml4net.Mof.Extension;
+    using uml4net.Profiling;
 
     /// <summary>
     /// Represents the XMI 2.5.1 <c>xmi:XMI</c> root element — the container for model content
@@ -92,5 +93,10 @@ namespace uml4net.xmi.Xmi
         /// Gets or sets the <see cref="Tag"/>s that are contained by the <see cref="XmiRoot"/>
         /// </summary>
         public List<Tag> Tags { get; set; } = [];
+
+        /// <summary>
+        /// Gets or sets the <see cref="StereoTypeApplication"/>s that are contained by the <see cref="XmiRoot"/>
+        /// </summary>
+        public List<StereoTypeApplication> StereoTypeApplications { get; set; } = [];
     }
 }

@@ -28,8 +28,6 @@ namespace uml4net.xmi.Readers
 
     using uml4net.Mof.Extension;
 
-    using Xmi;
-
     /// <summary>
     /// The purpose of the <see cref="TagReader"/> is to read an instance of <see cref="Tag"/>
     /// from the XMI document
@@ -73,7 +71,7 @@ namespace uml4net.xmi.Readers
         /// the namespace that the <see cref="IXmiElement"/> belongs to
         /// </param>
         /// <returns>
-        /// an instance of <see cref="Documentation"/>
+        /// an instance of <see cref="Tag"/>
         /// </returns>
         public Tag Read(XmlReader xmlReader, string namespaceUri)
         {

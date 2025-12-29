@@ -20,11 +20,15 @@
 
 namespace uml4net.xmi.Readers
 {
-    using Microsoft.Extensions.Logging;
-    using Microsoft.Extensions.Logging.Abstractions;
     using System;
     using System.Xml;
-    using Extender;
+
+    using Microsoft.Extensions.Logging;
+    using Microsoft.Extensions.Logging.Abstractions;
+
+    using uml4net.Profiling;
+
+    using uml4net.xmi.Extender;
     using uml4net.xmi.Settings;
     using uml4net.xmi.Xmi;
 
@@ -202,8 +206,7 @@ namespace uml4net.xmi.Readers
                                 xmlReader.Skip();
                                 break;
                             case (KnowNamespacePrefixes.Other, _):
-                                this.logger.LogWarning("unknown namespaced-element at line:position {LineNumber}:{LinePosition} skipped", xmlLineInfo?.LineNumber, xmlLineInfo?.LinePosition);
-                                xmlReader.Skip();
+                                this.ProcessOtherNamespaces(xmlReader, xmiRoot);
                                 break;
                         }
                     }
@@ -211,6 +214,40 @@ namespace uml4net.xmi.Readers
             }
 
             return xmiRoot;
+        }
+
+        /// <summary>
+        /// Processes the 'other' Namespace which typically holds <see cref="StereoTypeApplication"/>s
+        /// </summary>
+        /// <param name="xmlReader">
+        /// an instance of <see cref="XmlReader"/>
+        /// </param>
+        /// <param name="xmiRoot">
+        /// The <see cref="XmiRoot"/>
+        /// </param>
+        private void  ProcessOtherNamespaces(XmlReader xmlReader, XmiRoot xmiRoot)
+        {
+            var xmlLineInfo = xmlReader as IXmlLineInfo;
+
+            if (xmiRoot != null)
+            {
+                using var otherXmlReader = xmlReader.ReadSubtree();
+                var stereoTypeApplicationReader = new StereoTypeApplicationReader(this.loggerFactory);
+
+                if (stereoTypeApplicationReader.TryRead(otherXmlReader, out var stereoTypeApplication))
+                {
+                    xmiRoot.StereoTypeApplications.Add(stereoTypeApplication);
+                }
+                else
+                {
+                    this.logger.LogWarning("unknown namespaced-element at line:position {LineNumber}:{LinePosition} skipped", xmlLineInfo?.LineNumber, xmlLineInfo?.LinePosition);
+                }
+            }
+            else
+            {
+                this.logger.LogWarning("unknown namespaced-element at line:position {LineNumber}:{LinePosition} skipped", xmlLineInfo?.LineNumber, xmlLineInfo?.LinePosition);
+                xmlReader.Skip();
+            }
         }
     }
 }

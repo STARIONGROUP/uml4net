@@ -74,6 +74,9 @@
         <None Include="..\resources\MagicDrawModels\BallotDefinition UML Model.xml" Link="TestData\BallotDefinition UML Model.xml">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </None>
+        <None Include="..\resources\MagicDrawModels\BallotDefinition UML Model - without xmi extensions.xml" Link="TestData\BallotDefinition UML Model - without xmi extensions.xml">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
         <None Include="..\resources\MagicDrawModels\GH142_Eclipse_export.uml" Link="TestData\GH142_Eclipse_export.uml">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </None>
