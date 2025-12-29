@@ -16,6 +16,8 @@ The **uml4net.Extensions** library provides extensions methods to the uml4net li
 
 The **uml4net.xmi** library provides an XMI reader implementation to read UML XMI model files.
 
+> To learn more about how to read an UML model, read about it [here](https://github.com/STARIONGROUP/uml4net/wiki/uml4net.xmi.project)
+
 ## uml4net.xmi.Extensions.EnterpriseArchitect
 
 The **uml4net.xmi.Extensions.EnterpriseArchitect** library is a specific XMI Reader extension to support Enterprise Architect XMI reading.
@@ -72,6 +74,8 @@ var rootPackage = xmiReaderResult.QueryRoot("<xmi:id-of-the-root-package-you-are
 ```
 
 The `IXmiReader` can be configured with an `IXmiReaderSettings`, read more about reading an XMI document [here](https://github.com/STARIONGROUP/uml4net/wiki/uml4net.xmi.project)
+
+The `IXmiReader` is able to read and process **StereoTypes** as they are applied to UML model elements. Read more about that [here](https://github.com/STARIONGROUP/uml4net/wiki/ProfilesAndStereoTypes)
 
 # Build Status
 
