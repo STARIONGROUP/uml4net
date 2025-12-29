@@ -3,8 +3,8 @@ message: "If you use this software, please cite it as below."
 
 title: "uml4net: A .NET implementation of the OMG UML v2.5.1 specification"
 abstract: "Uml4net is a suite of .NET libraries and tools for working with UML 2.5.1 models in XMI form and supporting code generation."
-version: "6.0.4"
-date-released: "2025-12-26"
+version: "6.1.0"
+date-released: "2025-12-29"
 url: "https://github.com/stariongroup/uml4net"
 
 authors:
@@ -43,6 +43,6 @@ preferred-citation:
       family-names: Van Delft
       affiliation: "Starion Group S.A."
     - name: "Starion Group S.A."
-  version: "6.0.4"
+  version: "6.1.0"
   url: "https://github.com/stariongroup/uml4net"
-  date-released: "2025-12-26"
+  date-released: "2025-12-29"
