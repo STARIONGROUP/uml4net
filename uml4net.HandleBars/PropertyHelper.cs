@@ -102,7 +102,7 @@ namespace uml4net.HandleBars
                 return property.QueryIsNullable();
             });
 
-            // Queries whether the Property is scalar (true when both lower and upper are '1`
+            // Queries whether the Property is scalar (true when both lower and upper are '1`)
             handlebars.RegisterHelper("Property.QueryIsScalar", (_, arguments) =>
             {
                 if (arguments.Length != 1)
@@ -195,10 +195,10 @@ namespace uml4net.HandleBars
 
                 var property = arguments.Single() as IProperty;
 
-                return property?.Type?.Name.ToLowerInvariant().Contains("int");
+                return property.QueryIsInteger();
             });
 
-            // Queries whether the property is of type integer (contains the string "single" or "float" in its type name
+            // Queries whether the property is of type float (contains the string "single" or "float" in its type name
             handlebars.RegisterHelper("Property.QueryIsFloat", (_, arguments) =>
             {
                 if (arguments.Length != 1)
@@ -206,11 +206,12 @@ namespace uml4net.HandleBars
                     throw new HandlebarsException("{{#Property.QueryIsFloat}} helper must have exactly one argument");
                 }
 
-                var typeName = (arguments.Single() as IProperty)?.Type?.Name?.ToLowerInvariant();
-                return typeName is not null && (typeName.Contains("single") || typeName.Contains("float"));
+                var property = arguments.Single() as IProperty;
+
+                return property.QueryIsFloat();
             });
 
-            // Queries whether the property is of type integer (contains the string "double" or "real" in its type name)
+            // Queries whether the property is of type double (contains the string "double" or "real" in its type name)
             handlebars.RegisterHelper("Property.QueryIsDouble", (_, arguments) =>
             {
                 if (arguments.Length != 1)
@@ -218,8 +219,9 @@ namespace uml4net.HandleBars
                     throw new HandlebarsException("{{#Property.QueryIsDouble}} helper must have exactly one argument");
                 }
 
-                var typeName = (arguments.Single() as IProperty)?.Type?.Name?.ToLowerInvariant();
-                return typeName is not null && (typeName.Contains("double") || typeName.Contains("real"));
+                var property = arguments.Single() as IProperty;
+
+                return property.QueryIsDouble();
             });
 
             // Queries whether the property is of type DateTime (contains the string "date" in its type name)
@@ -230,8 +232,8 @@ namespace uml4net.HandleBars
                     throw new HandlebarsException("{{#Property.QueryIsDateTime}} helper must have exactly one argument");
                 }
 
-                var typeName = (arguments.Single() as IProperty)?.Type?.Name?.ToLowerInvariant();
-                return typeName?.Contains("date");
+                var property = arguments.Single() as IProperty;
+                return property.QueryIsDateTime();
             });
 
             // Queries whether the property is of type string (contains the string "string" in its type name)

@@ -1,20 +1,20 @@
 ﻿// -------------------------------------------------------------------------------------------------
 //  <copyright file="PropertyExtensions.cs" company="Starion Group S.A.">
-// 
+//
 //    Copyright (C) 2019-2025 Starion Group S.A.
-// 
+//
 //    Licensed under the Apache License, Version 2.0 (the "License");
 //    you may not use this file except in compliance with the License.
 //    You may obtain a copy of the License at
-// 
+//
 //        http://www.apache.org/licenses/LICENSE-2.0
-// 
+//
 //    Unless required by applicable law or agreed to in writing, software
 //    distributed under the License is distributed on an "AS IS" BASIS,
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-// 
+//
 //  </copyright>
 //  ------------------------------------------------------------------------------------------------
 
@@ -184,6 +184,110 @@ namespace uml4net.Extensions
                    typeName.Contains("short") ||
                    typeName.Contains("long") ||
                    typeName.Contains("byte");
+        }
+
+        /// <summary>
+        /// Queries whether the type of the <see cref="IProperty"/> is of type integer
+        /// (contains the string "int" in its type name)
+        /// </summary>
+        /// <param name="property">
+        /// The subject <see cref="IProperty"/>
+        /// </param>
+        /// <returns>
+        /// true if the type is an integer (contains the string "int" in its type name)
+        /// </returns>
+        public static bool QueryIsInteger(this IProperty property)
+        {
+            if (property == null)
+            {
+                throw new ArgumentNullException(nameof(property));
+            }
+
+            if (property.Type?.Name == null)
+            {
+                return false;
+            }
+
+            var typeName = property.Type?.Name?.ToLowerInvariant();
+            return typeName is not null && typeName.Contains("int");
+        }
+
+        /// <summary>
+        /// Queries whether the type of the <see cref="IProperty"/> is of type float
+        /// (contains the string "single" or "float" in its type name)
+        /// </summary>
+        /// <param name="property">
+        /// The subject <see cref="IProperty"/>
+        /// </param>
+        /// <returns>
+        /// true if the type is a float (contains the string "single" or "float" in its type name)
+        /// </returns>
+        public static bool QueryIsFloat(this IProperty property)
+        {
+            if (property == null)
+            {
+                throw new ArgumentNullException(nameof(property));
+            }
+
+            if (property.Type?.Name == null)
+            {
+                return false;
+            }
+
+            var typeName = property.Type?.Name?.ToLowerInvariant();
+            return typeName is not null && (typeName.Contains("single") || typeName.Contains("float"));
+        }
+
+        /// <summary>
+        /// Queries whether the type of the <see cref="IProperty"/> is of type double
+        /// (contains the string "double" or "real" in its type name)
+        /// </summary>
+        /// <param name="property">
+        /// The subject <see cref="IProperty"/>
+        /// </param>
+        /// <returns>
+        /// true if the type is a double (contains the string "double" or "real" in its type name)
+        /// </returns>
+        public static bool QueryIsDouble(this IProperty property)
+        {
+            if (property == null)
+            {
+                throw new ArgumentNullException(nameof(property));
+            }
+
+            if (property.Type?.Name == null)
+            {
+                return false;
+            }
+
+            var typeName = property.Type?.Name?.ToLowerInvariant();
+            return typeName is not null && (typeName.Contains("double") || typeName.Contains("real"));
+        }
+
+        /// <summary>
+        /// Queries whether the type of the <see cref="IProperty"/> is of type <see cref="DateTime"/>
+        /// (contains the string "date" in its type name)
+        /// </summary>
+        /// <param name="property">
+        /// The subject <see cref="IProperty"/>
+        /// </param>
+        /// <returns>
+        /// true if the type is a DateTime (contains the string "date" in its type name)
+        /// </returns>
+        public static bool QueryIsDateTime(this IProperty property)
+        {
+            if (property == null)
+            {
+                throw new ArgumentNullException(nameof(property));
+            }
+
+            if (property.Type?.Name == null)
+            {
+                return false;
+            }
+
+            var typeName = property.Type?.Name?.ToLowerInvariant();
+            return typeName is not null && typeName.Contains("date");
         }
 
         /// <summary>

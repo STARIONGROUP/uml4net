@@ -29,10 +29,10 @@ namespace uml4net.Extensions.Tests
 
     using Serilog;
 
+    using uml4net.SimpleClassifiers;
     using uml4net.StructuredClassifiers;
     using uml4net.xmi;
-    
-    using xmi.Readers;
+    using uml4net.xmi.Readers;
 
     [TestFixture]
     public class PropertyExtensionsTestFixture
@@ -79,6 +79,10 @@ namespace uml4net.Extensions.Tests
                 Assert.That(() => PropertyExtensions.QueryIsBool(null), Throws.ArgumentNullException);
                 Assert.That(() => PropertyExtensions.QueryIsString(null), Throws.ArgumentNullException);
                 Assert.That(() => PropertyExtensions.QueryIsNumeric(null), Throws.ArgumentNullException);
+                Assert.That(() => PropertyExtensions.QueryIsInteger(null), Throws.ArgumentNullException);
+                Assert.That(() => PropertyExtensions.QueryIsFloat(null), Throws.ArgumentNullException);
+                Assert.That(() => PropertyExtensions.QueryIsDouble(null), Throws.ArgumentNullException);
+                Assert.That(() => PropertyExtensions.QueryIsDateTime(null), Throws.ArgumentNullException);
                 Assert.That(() => PropertyExtensions.QueryCSharpTypeName(null), Throws.ArgumentNullException);
                 Assert.That(() => PropertyExtensions.QueryIsEnumerable(null), Throws.ArgumentNullException);
                 Assert.That(() => PropertyExtensions.QueryStructuralFeatureNameEqualsEnclosingType(null, null), Throws.ArgumentNullException);
@@ -164,6 +168,85 @@ namespace uml4net.Extensions.Tests
             var ownedComment = property.QueryAllProperties().Single(x => x.Name == "ownedComment");
 
             Assert.That(ownedComment.QueryIsNumeric(), Is.False);
+        }
+
+        [Test]
+        public void Verify_that_QueryIsInteger_returns_expected_Result()
+        {
+            var root = this.xmiReaderResult.QueryRoot(xmiId: "_0", name: "UML");
+
+            var structuredClassifiersPackage = root.NestedPackage.Single(x => x.Name == "Classification");
+
+            var property = structuredClassifiersPackage.PackagedElement.OfType<IClass>().Single(x => x.Name == "Property");
+
+            var lower = property.QueryAllProperties().Single(x => x.Name == "lower");
+
+            Assert.That(lower.QueryIsInteger(), Is.True);
+
+            var ownedComment = property.QueryAllProperties().Single(x => x.Name == "ownedComment");
+
+            Assert.That(ownedComment.QueryIsInteger(), Is.False);
+        }
+
+        [Test]
+        public void Verify_that_QueryIsFloat_returns_expected_Result()
+        {
+            var @type = new DataType();
+
+            var floatProperty = new Property
+            {
+                Type = @type
+            };
+
+            using (Assert.EnterMultipleScope())
+            {
+                @type.Name = "single";
+                Assert.That(floatProperty.QueryIsFloat(), Is.True);
+
+                @type.Name = "float";
+                Assert.That(floatProperty.QueryIsFloat(), Is.True);
+
+                @type.Name = "String";
+                Assert.That(floatProperty.QueryIsFloat(), Is.False);
+            }
+        }
+
+        [Test]
+        public void Verify_that_QueryIsDouble_returns_expected_Result()
+        {
+            var root = this.xmiReaderResult.QueryRoot(xmiId: "_0", name: "UML");
+
+            var valuesPackage = root.NestedPackage.Single(x => x.Name == "Values");
+
+            var property = valuesPackage.PackagedElement.OfType<IClass>().Single(x => x.Name == "LiteralReal");
+
+            var value = property.QueryAllProperties().Single(x => x.Name == "value");
+
+            Assert.That(value.QueryIsDouble(), Is.True);
+
+            var ownedComment = property.QueryAllProperties().Single(x => x.Name == "ownedComment");
+
+            Assert.That(ownedComment.QueryIsDouble(), Is.False);
+        }
+
+        [Test]
+        public void Verify_that_QueryIsDateTime_returns_expected_Result()
+        {
+            var @type = new DataType();
+
+            var floatProperty = new Property
+            {
+                Type = @type
+            };
+
+            using (Assert.EnterMultipleScope())
+            {
+                @type.Name = "date";
+                Assert.That(floatProperty.QueryIsDateTime(), Is.True);
+
+                @type.Name = "String";
+                Assert.That(floatProperty.QueryIsDateTime(), Is.False);
+            }
         }
 
         [Test]
