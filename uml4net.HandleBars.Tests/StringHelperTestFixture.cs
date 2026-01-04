@@ -1,7 +1,7 @@
 ﻿// -------------------------------------------------------------------------------------------------
 //  <copyright file="StringHelperTestFixture.cs" company="Starion Group S.A.">
 // 
-//    Copyright 2019-2025 Starion Group S.A.
+//    Copyright (C) 2019-2026 Starion Group S.A.
 // 
 //    Licensed under the Apache License, Version 2.0 (the "License");
 //    you may not use this file except in compliance with the License.
@@ -29,15 +29,15 @@ namespace uml4net.HandleBars.Tests
     [TestFixture]
     public class StringHelperTestFixture
     {
-        private IHandlebars handlebarsContenxt;
+        private IHandlebars handlebarsContext;
 
         [SetUp]
         public void SetUp()
         {
-            this.handlebarsContenxt = Handlebars.Create();
-            this.handlebarsContenxt.Configuration.FormatProvider = CultureInfo.InvariantCulture;
+            this.handlebarsContext = Handlebars.Create();
+            this.handlebarsContext.Configuration.FormatProvider = CultureInfo.InvariantCulture;
 
-            StringHelper.RegisterStringHelper(this.handlebarsContenxt);
+            StringHelper.RegisterStringHelper(this.handlebarsContext);
         }
 
         [Test]
@@ -45,7 +45,7 @@ namespace uml4net.HandleBars.Tests
         {
             var template = "{{ #String.CapitalizeFirstLetter this }}";
 
-            var action = this.handlebarsContenxt.Compile(template);
+            var action = this.handlebarsContext.Compile(template);
 
             var result = action("starion");
 
@@ -57,7 +57,7 @@ namespace uml4net.HandleBars.Tests
         {
             var template = "{{ #String.LowerCaseFirstLetter this }}";
 
-            var action = this.handlebarsContenxt.Compile(template);
+            var action = this.handlebarsContext.Compile(template);
 
             var result = action("Starion");
 
@@ -69,7 +69,7 @@ namespace uml4net.HandleBars.Tests
         {
             var template = "{{ #String.Length this }}";
 
-            var action = this.handlebarsContenxt.Compile(template);
+            var action = this.handlebarsContext.Compile(template);
 
             var length = action("Starion");
 

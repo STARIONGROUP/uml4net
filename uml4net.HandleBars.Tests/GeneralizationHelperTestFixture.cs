@@ -1,7 +1,7 @@
 ﻿// -------------------------------------------------------------------------------------------------
 //  <copyright file="GeneralizationHelperTestFixture.cs" company="Starion Group S.A.">
 // 
-//    Copyright 2019-2025 Starion Group S.A.
+//    Copyright (C) 2019-2026 Starion Group S.A.
 // 
 //    Licensed under the Apache License, Version 2.0 (the "License");
 //    you may not use this file except in compliance with the License.
@@ -40,7 +40,7 @@ namespace uml4net.HandleBars.Tests
     [TestFixture]
     public class GeneralizationHelperTestFixture
     {
-        private IHandlebars handlebarsContenxt;
+        private IHandlebars handlebarsContext;
 
         private ILoggerFactory loggerFactory;
 
@@ -69,10 +69,10 @@ namespace uml4net.HandleBars.Tests
 
             this.xmiReaderResult = reader.Read(Path.Combine(rootPath, "SystemsModelingAPIandServicesPIM.xmi"));
 
-            this.handlebarsContenxt = Handlebars.Create();
-            this.handlebarsContenxt.Configuration.FormatProvider = CultureInfo.InvariantCulture;
+            this.handlebarsContext = Handlebars.Create();
+            this.handlebarsContext.Configuration.FormatProvider = CultureInfo.InvariantCulture;
 
-            GeneralizationHelper.RegisterGeneralizationHelper(this.handlebarsContenxt);
+            GeneralizationHelper.RegisterGeneralizationHelper(this.handlebarsContext);
         }
 
         [Test]
@@ -80,7 +80,7 @@ namespace uml4net.HandleBars.Tests
         {
             var template = "{{ #Generalization.Interfaces this }}";
 
-            var handlebarsTemplate = this.handlebarsContenxt.Compile(template);
+            var handlebarsTemplate = this.handlebarsContext.Compile(template);
 
             var root = this.xmiReaderResult.QueryRoot(xmiId: "_19_0_4_3fa0198_1689000259946_865221_0", name: "Systems Modeling API and Services PIM");
 
@@ -98,7 +98,7 @@ namespace uml4net.HandleBars.Tests
         {
             var template = "{{ #Generalization.Interfaces this }}";
 
-            var handlebarsTemplate = this.handlebarsContenxt.Compile(template);
+            var handlebarsTemplate = this.handlebarsContext.Compile(template);
 
             var root = this.xmiReaderResult.QueryRoot(xmiId: "_19_0_4_3fa0198_1689000259946_865221_0", name: "Systems Modeling API and Services PIM");
 
@@ -115,7 +115,7 @@ namespace uml4net.HandleBars.Tests
         {
             var template = "{{ #Generalization.InterfaceImplementationAndInterfaces this }}";
 
-            var handlebarsTemplate = this.handlebarsContenxt.Compile(template);
+            var handlebarsTemplate = this.handlebarsContext.Compile(template);
 
             var root = this.xmiReaderResult.QueryRoot(xmiId: "_19_0_4_3fa0198_1689000259946_865221_0", name: "Systems Modeling API and Services PIM");
 
@@ -133,7 +133,7 @@ namespace uml4net.HandleBars.Tests
         {
             var template = "{{ #Generalization.InterfaceImplementationAndInterfaces this }}";
 
-            var handlebarsTemplate = this.handlebarsContenxt.Compile(template);
+            var handlebarsTemplate = this.handlebarsContext.Compile(template);
 
             var root = this.xmiReaderResult.QueryRoot(xmiId: "_19_0_4_3fa0198_1689000259946_865221_0", name: "Systems Modeling API and Services PIM");
 
@@ -150,7 +150,7 @@ namespace uml4net.HandleBars.Tests
         {
             var template = "{{ #Generalization.Classes this }}";
 
-            var handlebarsTemplate = this.handlebarsContenxt.Compile(template);
+            var handlebarsTemplate = this.handlebarsContext.Compile(template);
 
             var root = this.xmiReaderResult.QueryRoot(xmiId: "_19_0_4_3fa0198_1689000259946_865221_0", name: "Systems Modeling API and Services PIM");
 
@@ -168,7 +168,7 @@ namespace uml4net.HandleBars.Tests
         {
             var template = "{{ #Generalization.Classes this }}";
 
-            var handlebarsTemplate = this.handlebarsContenxt.Compile(template);
+            var handlebarsTemplate = this.handlebarsContext.Compile(template);
 
             var root = this.xmiReaderResult.QueryRoot(xmiId: "_19_0_4_3fa0198_1689000259946_865221_0", name: "Systems Modeling API and Services PIM");
 

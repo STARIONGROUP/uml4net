@@ -1,7 +1,7 @@
 ﻿// -------------------------------------------------------------------------------------------------
 //  <copyright file="DecoratorHelperTestFixture.cs" company="Starion Group S.A.">
 // 
-//    Copyright (C) 2019-2025 Starion Group S.A.
+//    Copyright (C) 2019-2026 Starion Group S.A.
 // 
 //    Licensed under the Apache License, Version 2.0 (the "License");
 //    you may not use this file except in compliance with the License.
@@ -44,7 +44,7 @@ namespace uml4net.HandleBars.Tests
     [TestFixture]
     public class DecoratorHelperTestFixture
     {
-        private IHandlebars handlebarsContenxt;
+        private IHandlebars handlebarsContext;
 
         private ILoggerFactory loggerFactory;
 
@@ -73,10 +73,10 @@ namespace uml4net.HandleBars.Tests
 
             this.xmiReaderResult = reader.Read(Path.Combine(rootPath, "UML.xmi"));
 
-            this.handlebarsContenxt = Handlebars.Create();
-            this.handlebarsContenxt.Configuration.FormatProvider = CultureInfo.InvariantCulture;
+            this.handlebarsContext = Handlebars.Create();
+            this.handlebarsContext.Configuration.FormatProvider = CultureInfo.InvariantCulture;
 
-            DecoratorHelper.RegisterDecoratorHelper(this.handlebarsContenxt);
+            DecoratorHelper.RegisterDecoratorHelper(this.handlebarsContext);
         }
 
         [Test]
@@ -84,7 +84,7 @@ namespace uml4net.HandleBars.Tests
         {
             var template = "{{ #Decorator.WriteImplementsAttribute this }}";
 
-            var handlebarsTemplate = this.handlebarsContenxt.Compile(template);
+            var handlebarsTemplate = this.handlebarsContext.Compile(template);
 
             var root = this.xmiReaderResult.QueryRoot(xmiId: "_0", name: "UML");
 
@@ -98,7 +98,7 @@ namespace uml4net.HandleBars.Tests
         {
             var template = "{{ #Decorator.WriteImplementsAttribute this }}";
 
-            var handlebarsTemplate = this.handlebarsContenxt.Compile(template);
+            var handlebarsTemplate = this.handlebarsContext.Compile(template);
 
             var root = this.xmiReaderResult.QueryRoot(xmiId: "_0", name: "UML");
 
@@ -126,7 +126,7 @@ namespace uml4net.HandleBars.Tests
         {
             var template = "{{ #Decorator.WritePropertyAttribute this }}";
 
-            var handlebarsTemplate = this.handlebarsContenxt.Compile(template);
+            var handlebarsTemplate = this.handlebarsContext.Compile(template);
 
             var root = this.xmiReaderResult.QueryRoot(xmiId: "_0", name: "UML");
 
@@ -140,7 +140,7 @@ namespace uml4net.HandleBars.Tests
         {
             var template = "{{ #Decorator.WritePropertyAttribute this }}";
             
-            var handlebarsTemplate = this.handlebarsContenxt.Compile(template);
+            var handlebarsTemplate = this.handlebarsContext.Compile(template);
 
             var root = this.xmiReaderResult.QueryRoot(xmiId: "_0", name: "UML");
 
@@ -176,7 +176,7 @@ namespace uml4net.HandleBars.Tests
         {
             var template = "{{ #Decorator.WriteRedefinedPropertyAttribute this }}";
 
-            var handlebarsTemplate = this.handlebarsContenxt.Compile(template);
+            var handlebarsTemplate = this.handlebarsContext.Compile(template);
 
             var root = this.xmiReaderResult.QueryRoot(xmiId: "_0", name: "UML");
 
@@ -190,7 +190,7 @@ namespace uml4net.HandleBars.Tests
         {
             var template = "{{ #Decorator.WriteRedefinedPropertyAttribute this }}";
 
-            var handlebarsTemplate = this.handlebarsContenxt.Compile(template);
+            var handlebarsTemplate = this.handlebarsContext.Compile(template);
 
             var root = this.xmiReaderResult.QueryRoot(xmiId: "_0", name: "UML");
 
@@ -210,7 +210,7 @@ namespace uml4net.HandleBars.Tests
         {
             var template = "{{ #Decorator.WriteSubsettedPropertyAttribute this }}";
 
-            var handlebarsTemplate = this.handlebarsContenxt.Compile(template);
+            var handlebarsTemplate = this.handlebarsContext.Compile(template);
 
             var root = this.xmiReaderResult.QueryRoot(xmiId: "_0", name: "UML");
 
@@ -224,7 +224,7 @@ namespace uml4net.HandleBars.Tests
         {
             var template = "{{ #Decorator.WriteRedefinedByPropertyAttribute arg1 arg2 }}";
 
-            var handlebarsTemplate = this.handlebarsContenxt.Compile(template);
+            var handlebarsTemplate = this.handlebarsContext.Compile(template);
 
             var root = this.xmiReaderResult.QueryRoot(xmiId: "_0", name: "UML");
 
@@ -276,7 +276,7 @@ namespace uml4net.HandleBars.Tests
         {
             var template = "{{ #Decorator.WriteSubsettedPropertyAttribute this }}";
 
-            var handlebarsTemplate = this.handlebarsContenxt.Compile(template);
+            var handlebarsTemplate = this.handlebarsContext.Compile(template);
 
             var root = this.xmiReaderResult.QueryRoot(xmiId: "_0", name: "UML");
 

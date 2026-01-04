@@ -6,7 +6,7 @@
     ╚██████╔╝██║ ╚═╝ ██║███████╗██║██║ ╚████║███████╗   ██║   
      ╚═════╝ ╚═╝     ╚═╝╚══════╝╚═╝╚═╝  ╚═══╝╚══════╝   ╚═╝   
                                                           
-  copyright 2025 Starion Group S.A. https://www.stariongroup.eu
+  copyright 2019-2026 Starion Group S.A. https://www.stariongroup.eu
   email: info@stariongroup.eu
   Source: https://github.com/uml4net
 
