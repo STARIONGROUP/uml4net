@@ -471,6 +471,24 @@ namespace uml4net.Extensions.Tests
         }
 
         [Test]
+        public void Verify_that_QueryIsNullableAndNotString_returns_expected_Result()
+        {
+            var root = this.xmiReaderResult.QueryRoot(xmiId: "_0", name: "UML");
+
+            var structuredClassifiersPackage = root.NestedPackage.Single(x => x.Name == "Classification");
+
+            var property = structuredClassifiersPackage.PackagedElement.OfType<IClass>().Single(x => x.Name == "Property");
+
+            var nameProperty = property.QueryAllProperties().Single(x => x.Name == "name");
+
+            Assert.That(nameProperty.QueryIsNullableAndNotString(), Is.False);
+
+            var defaultValueProperty = property.QueryAllProperties().Single(x => x.Name == "defaultValue");
+
+            Assert.That(defaultValueProperty.QueryIsNullableAndNotString(), Is.True);
+        }
+
+        [Test]
         public void Verify_that_QueryUpperValue_returns_expected_Result()
         {
             var root = this.xmiReaderResult.QueryRoot(xmiId: "_0", name: "UML");

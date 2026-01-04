@@ -551,6 +551,25 @@ namespace uml4net.Extensions
         }
 
         /// <summary>
+        /// Asserts that the current <see cref="IProperty" /> is C# nullable and not a string primitive 
+        /// </summary>
+        /// <param name="property">
+        /// The <see cref="IProperty"/> to assert
+        /// </param>
+        /// <returns>
+        /// True is the <see cref="IProperty"/> is C# nullable and not a string
+        /// </returns>
+        public static bool QueryIsNullableAndNotString(this IProperty property)
+        {
+            if (property == null)
+            {
+                throw new ArgumentNullException(nameof(property));
+            }
+
+            return property.QueryIsNullable() && property.QueryCSharpTypeName() != "string";
+        }
+
+        /// <summary>
         /// Asserts whether the <paramref name="property"/> is redefined in the context of the provided <see cref="IClass"/>
         /// </summary>
         /// <param name="property">
