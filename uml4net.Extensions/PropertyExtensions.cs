@@ -645,15 +645,15 @@ namespace uml4net.Extensions
         }
 
         /// <summary>
-        /// Queries whether the property has been redefined by other properties
+        /// Queries whether the property is a redfinition of other properties
         /// </summary>
         /// <param name="property">
         /// the subject <see cref="IProperty"/>
         /// </param>
         /// <returns>
-        /// true when the <see cref="IProperty"/> is redefined, false if not
+        /// true when the <see cref="IProperty"/> is redefinition, false if not
         /// </returns>
-        public static bool QueryIsRedefined(this IProperty property)
+        public static bool QueryIsRedefinition(this IProperty property)
         {
             if (property == null)
             {
@@ -662,7 +662,7 @@ namespace uml4net.Extensions
 
             return property.RedefinedProperty.Any();
         }
-
+        
         /// <summary>
         /// Queries whether the <see cref="Property"/> is a scalar
         /// </summary>
