@@ -288,7 +288,7 @@ namespace uml4net.HandleBars
                 return property.TryQueryRedefinedByProperty(@class, out _);
             });
             
-            // Queries whether the Property that redefines the current one
+            // Queries the redefinition Property that redefines the current one
             handlebars.RegisterHelper("Property.QueryRedefinedByProperty", (_, parameters) =>
             {
                 if (parameters.Length != 2)
