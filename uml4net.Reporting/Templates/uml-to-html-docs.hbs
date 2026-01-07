@@ -456,7 +456,16 @@
                                     {{#if property.IsDerivedUnion }} {derived-union} {{/if}}
                                     {{#if property.IsOrdered }} {ordered} {{/if}}
                                     {{#if property.IsReadOnly }} {read-only} {{/if}}
-                                    {{#if (#Property.IsRedefined property class)}} {redefined} {{/if}}
+                                    {{#if (#property.IsRedefinition property)}}
+                                        {{ #each property.RedefinedProperty as | redefinedProperty | }}
+                                            {redefines: <a href="#{{redefinedProperty.XmiId}}">{{redefinedProperty.Owner.Name}}.{{redefinedProperty.Name}}</a>}
+                                        {{/each}}
+                                    {{/if}}
+                                    {{#if (#Property.IsRedefined property class)}}
+                                            {{#each (#Property.QueryRedefinedByProperty property class) as | redefinition |}}
+                                                {redefined by: <a href="#{{redefinition.XmiId}}">{{redefinition.Owner.Name}}.{{redefinition.Name}}</a>}
+                                            {{/each}}
+                                    {{/if}}
                                     {{#if (#Property.QueryIsSubsetted property)}}
                                         {{ #each property.SubsettedProperty as | subsettedProperty | }}
                                             {subsetted: <a href="#{{subsettedProperty.XmiId}}">{{subsettedProperty.Owner.Name}}.{{subsettedProperty.Name}}</a>}

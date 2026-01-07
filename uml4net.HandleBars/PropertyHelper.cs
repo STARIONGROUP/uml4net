@@ -21,6 +21,7 @@
 namespace uml4net.HandleBars
 {
     using System;
+    using System.Collections.Generic;
     using System.Globalization;
     using System.Linq;
     using System.Text;
@@ -285,6 +286,26 @@ namespace uml4net.HandleBars
                 var @class = parameters[1] as IClass;
 
                 return property.TryQueryRedefinedByProperty(@class, out _);
+            });
+            
+            // Queries the redefinition Property that redefines the current one
+            handlebars.RegisterHelper("Property.QueryRedefinedByProperty", (_, parameters) =>
+            {
+                if (parameters.Length != 2)
+                {
+                    throw new HandlebarsException("{{#Property.QueryRedefinedByProperty}} helper must have exactly two arguments");
+                }
+
+                var property = parameters[0] as IProperty;
+                var @class = parameters[1] as IClass;
+
+                return !property.TryQueryRedefinedByProperty(@class, out var redefinition) ? throw new ArgumentException("The provided property is not redefined in the current context") : new List<IProperty>{redefinition};
+            });
+            
+            // Queries whether the Property is a redefinition of another property
+            handlebars.RegisterHelper("Property.IsRedefinition", (context, _) =>
+            {
+                return context.Value is not IProperty property ? throw new ArgumentException("{{#Property.IsRedefinition}} - supposed to be IProperty") : property.QueryIsRedefinition();
             });
 
             // Queries whether the Property is subsetted

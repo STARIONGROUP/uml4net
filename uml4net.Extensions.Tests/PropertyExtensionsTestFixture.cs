@@ -547,13 +547,13 @@ namespace uml4net.Extensions.Tests
 
             var templateParameter = properties.Single(x => x.XmiId == "Classifier-templateParameter");
 
-            var result = templateParameter.QueryIsRedefined();
+            var result = templateParameter.QueryIsRedefinition();
 
             Assert.That(result, Is.True);
 
             var endType = properties.Single(x => x.XmiId == "Association-endType");
 
-            result = endType.QueryIsRedefined();
+            result = endType.QueryIsRedefinition();
 
             Assert.That(result, Is.False);
         }

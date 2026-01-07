@@ -298,7 +298,12 @@ namespace uml4net.Reporting.Generators
                             referenceType = $"{referenceType}:isDerived";
                         }
 
-                        if (property.QueryIsRedefined())
+                        if (property.QueryIsRedefinition())
+                        {
+                            referenceType = $"{referenceType}:IsRedefinition";
+                        }
+
+                        if (property.TryQueryRedefinedByProperty(@class, out _))
                         {
                             referenceType = $"{referenceType}:IsRedefined";
                         }
@@ -327,7 +332,12 @@ namespace uml4net.Reporting.Generators
                                 enumeration = $"{enumeration}:isDerived";
                             }
 
-                            if (property.QueryIsRedefined())
+                            if (property.QueryIsRedefinition())
+                            {
+                                enumeration = $"{enumeration}:IsRedefinition";
+                            }
+                            
+                            if (property.TryQueryRedefinedByProperty(@class, out _))
                             {
                                 enumeration = $"{enumeration}:IsRedefined";
                             }
@@ -348,7 +358,12 @@ namespace uml4net.Reporting.Generators
                                 valueType = $"{valueType}:isDerived";
                             }
 
-                            if (property.QueryIsRedefined())
+                            if (property.QueryIsRedefinition())
+                            {
+                                valueType = $"{valueType}:IsRedefinition";
+                            }
+                            
+                            if (property.TryQueryRedefinedByProperty(@class, out _))
                             {
                                 valueType = $"{valueType}:IsRedefined";
                             }
