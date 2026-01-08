@@ -2,7 +2,7 @@
 
     <PropertyGroup>
         <TargetFramework>netstandard2.0</TargetFramework>
-        <Version>6.1.1</Version>
+        <Version>6.2.0</Version>
         <LangVersion>12.0</LangVersion>
         <Company>Starion Group S.A.</Company>
         <Copyright>Copyright © Starion Group S.A.</Copyright>
@@ -28,9 +28,8 @@
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
         <GenerateSBOM>true</GenerateSBOM>
         <PackageReleaseNotes>
-            [Update] to uml4net.Extensions version 5.2.0
-            [Update] PropertyHelper implementations
-            [Update] copyright statement to 2026
+            [Update] to uml4net.Extensions version 5.3.0
+            [Update] PropertyHelper implementations; fixes #146
         </PackageReleaseNotes>
     </PropertyGroup>
 
