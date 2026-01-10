@@ -509,7 +509,7 @@
                                     {{#if property.IsID }} {ID} {{/if}}
                                     {{ #Property.WriteManyToManyAndOpposite property }}
                                 </td>
-                                <td>{{ property.DefaultValueLiteral }}</td>
+                                <td>{{ #Property.WriteDefaultValueAsString property }}</td>
                                 <td>{{ #RawDocumentation property }}</td>
                                 <td><a href="#{{property.Owner.Name}}">{{property.Owner.Name}}</a></td>
                             </tr>
