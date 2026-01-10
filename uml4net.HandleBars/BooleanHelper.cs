@@ -37,6 +37,7 @@ namespace uml4net.HandleBars
         /// </param>
         public static void RegisterBooleanHelper(this IHandlebars handlebars)
         {
+            // writes the value of a Boolean to lower case
             handlebars.RegisterHelper("Boolean.ToLowerCase", (writer, _, parameters) =>
             {
                 if (parameters.Length != 1)
