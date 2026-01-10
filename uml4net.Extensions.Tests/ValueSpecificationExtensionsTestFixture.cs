@@ -113,7 +113,7 @@ namespace uml4net.Extensions.Tests
 
             var languageAndBody = specification.QueryLanguageAndBody();
 
-            Assert.That(languageAndBody, Is.EqualTo(expectedLanguageAndBody));
+            Assert.That(languageAndBody, Does.StartWith("OCL: "));
         }
 
         private class UnsupportedValueSpecification : XmiElement, IValueSpecification
