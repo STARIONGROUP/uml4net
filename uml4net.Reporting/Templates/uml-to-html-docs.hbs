@@ -401,6 +401,10 @@
                                 <td> {{ class.QualifiedName }} </td>
                             </tr>
                             <tr>
+                                <td>Visibility</td>
+                                <td> {{ class.Visibility }} </td>
+                            </tr>
+                            <tr>
                                 <td>Definition</td>
                                 <td>{{ #RawDocumentation class }}</td>
                             </tr>
@@ -443,7 +447,7 @@
                                 <th>Visibilty</th>
                                 <th>Description</th>
                                 <th>Specification</th>
-                                <th>Inheritance</th>
+                                <th>Owner</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -468,16 +472,18 @@
                         <thead>
                             <tr>
                                 <th>Name</th>
+                                <th>Visibility</th>
                                 <th>Type</th>
                                 <th>Default</th>
                                 <th>Description</th>
-                                <th>Inheritance</th>
+                                <th>Owner</th>
                             </tr>
                         </thead>
                         <tbody>
                             {{ #each (Class.QueryAllProperties class) as | property | }}
                             <tr>
                                 <td id="{{ property.XmiId }}">{{ property.Name }}</td>
+                                <td>{{ property.Visibility }}</td>
                                 <td>
                                     <a href="#{{ Property.WriteTypeName property}}">{{Property.WriteTypeName property}}</a> {{#Property.WriteFormattedMultiplicity property }}
                                     {{#if (#Property.IsComposite property) }} {composite} {{/if}}
