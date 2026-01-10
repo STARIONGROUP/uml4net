@@ -24,7 +24,7 @@ namespace uml4net.HandleBars.Tests
     using System.IO;
     using System.Globalization;
     using System.Linq;
-
+    using CommonStructure;
     using HandlebarsDotNet;
 
     using Microsoft.Extensions.Logging;
@@ -98,6 +98,8 @@ namespace uml4net.HandleBars.Tests
             var activityEdgeProperty = handlebarsTemplate(activityEdge);
 
             Assert.That(activityEdgeProperty, Is.EqualTo("public IContainerList<IActivityEdge> Edge { get; set; }" + Environment.NewLine));
+
+            Assert.That(() => handlebarsTemplate(new Dependency()), Throws.ArgumentException);
         }
     }
 }

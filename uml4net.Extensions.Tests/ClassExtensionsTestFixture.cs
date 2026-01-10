@@ -91,6 +91,34 @@ namespace uml4net.Extensions.Tests
         }
 
         [Test]
+        public void Verify_that_QueryAllOperations_returns_expected_result()
+        {
+            Assert.That(() => ClassExtensions.QueryAllOperations(null), Throws.ArgumentNullException);
+
+            var root = this.xmiReaderResult.QueryRoot(xmiId: "_0", name: "UML");
+
+            var commonStructuresPackage = root.NestedPackage.Single(x => x.Name == "CommonStructure");
+
+            var dependency = commonStructuresPackage.PackagedElement.OfType<IClass>().Single(x => x.Name == "Dependency");
+
+            Assert.That(dependency.QueryAllOperations(), Is.Not.Empty);
+        }
+
+        [Test]
+        public void Verify_that_QueryAllConstraints_returns_expected_result()
+        {
+            Assert.That(() => ClassExtensions.QueryAllConstraints(null), Throws.ArgumentNullException);
+
+            var root = this.xmiReaderResult.QueryRoot(xmiId: "_0", name: "UML");
+
+            var commonStructuresPackage = root.NestedPackage.Single(x => x.Name == "CommonStructure");
+
+            var dependency = commonStructuresPackage.PackagedElement.OfType<IClass>().Single(x => x.Name == "Dependency");
+
+            Assert.That(dependency.QueryAllConstraints(), Is.Not.Empty);
+        }
+
+        [Test]
         public void Verify_that_QueryAllSpecializations_returns_expected_result_with_cache()
         {
             var animal = new Class { XmiId = "Animal", Name = "Animal", DocumentName = "test" };
