@@ -24,7 +24,7 @@ namespace uml4net.Extensions
     using System.Collections.Generic;
     using System.Globalization;
     using System.Linq;
-
+    using System.Text;
     using uml4net.Classification;
     using uml4net.CommonStructure;
     using uml4net.SimpleClassifiers;
@@ -798,6 +798,42 @@ namespace uml4net.Extensions
             }
 
             return false;
+        }
+
+        /// <summary>
+        /// Returns the UML multiplicity of the specified <see cref="IProperty"/>
+        /// formatted using standard bracket notation.
+        /// </summary>
+        /// <param name="property">
+        /// The <see cref="IProperty"/> for which the multiplicity is queried.
+        /// </param>
+        /// <returns>
+        /// A string representation of the multiplicity in the form
+        /// <c>[lower..upper]</c>, where <c>lower</c> and <c>upper</c> correspond
+        /// to the property's lower and upper bounds.
+        /// </returns>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown when <paramref name="property"/> is <see langword="null"/>.
+        /// </exception>
+        /// <remarks>
+        /// <para>
+        /// The method performs no validation of the bounds and assumes that
+        /// <see cref="IProperty.Lower"/> and <see cref="IProperty.Upper"/> already
+        /// reflect valid UML multiplicity values.
+        /// </para>
+        /// <para>
+        /// This is a formatting helper intended for documentation, diagnostics,
+        /// and code-generation scenarios.
+        /// </para>
+        /// </remarks>
+        public static string QueryFormattedMultiplicity(this IProperty property)
+        {
+            if (property == null)
+            {
+                throw new ArgumentNullException(nameof(property));
+            }
+
+            return $"[{property.Lower}..{property.Upper}]";
         }
     }
 }

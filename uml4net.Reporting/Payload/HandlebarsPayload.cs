@@ -110,8 +110,12 @@ namespace uml4net.Reporting.Payload
         public IInterface[] Interfaces { get; private set; }
 
         /// <summary>
-        /// Gets the version of the reporting library
+        /// Gets the version of the reporting library.
         /// </summary>
-        public static string Version => Assembly.GetExecutingAssembly().GetName().Version?.ToString();
+        /// <remarks>
+        /// Handlebars resolves instance members, static members aren’t part of the instance.
+        /// Do not refactor to be a static string
+        /// </remarks>
+        public string Version => Assembly.GetExecutingAssembly().GetName().Version?.ToString();
     }
 }

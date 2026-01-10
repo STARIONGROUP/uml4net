@@ -414,6 +414,17 @@ namespace uml4net.HandleBars
                 writer.WriteSafeString($"{upperValue}");
             });
 
+            // write the multiplicity of the property formatted using standard bracket notation.
+            handlebars.RegisterHelper("Property.WriteFormattedMultiplicity", (writer, context, _) =>
+            {
+                if (!(context.Value is IProperty property))
+                {
+                    throw new ArgumentException("supposed to be IProperty");
+                }
+
+                writer.WriteSafeString(property.QueryFormattedMultiplicity());
+            });
+
             handlebars.RegisterHelper("Property.WriteForInterface", (writer, context, _) =>
             {
                 if (!(context.Value is IProperty property))
