@@ -24,7 +24,8 @@ namespace uml4net.HandleBars.Tests
     using System.Globalization;
     using System.IO;
     using System.Linq;
-
+    using Classification;
+    using CommonStructure;
     using HandlebarsDotNet;
 
     using Microsoft.Extensions.Logging;
@@ -93,6 +94,8 @@ namespace uml4net.HandleBars.Tests
             var result = action(activity);
 
             Assert.That(result, Is.EqualTo("edge;group;isReadOnly;isSingleExecution;node;partition;structuredNode;variable;"));
+
+            Assert.That(() => action(new Dependency()), Throws.ArgumentException);
         }
 
         [Test]
@@ -126,6 +129,8 @@ namespace uml4net.HandleBars.Tests
             var result = action(activity);
 
             Assert.That(result, Is.EqualTo("attribute;classifierBehavior;clientDependency;collaborationUse;context;edge;elementImport;extension;feature;general;generalization;group;importedMember;inheritedMember;interfaceRealization;isAbstract;isAbstract;isActive;isFinalSpecialization;isLeaf;isReadOnly;isReentrant;isSingleExecution;member;name;nameExpression;namespace;nestedClassifier;node;ownedAttribute;ownedAttribute;ownedBehavior;ownedComment;ownedConnector;ownedElement;ownedMember;ownedOperation;ownedParameter;ownedParameterSet;ownedPort;ownedReception;ownedRule;ownedTemplateSignature;ownedTemplateSignature;ownedUseCase;owner;owningTemplateParameter;package;packageImport;part;partition;postcondition;powertypeExtent;precondition;qualifiedName;redefinedBehavior;redefinedClassifier;redefinedElement;redefinitionContext;representation;role;specification;structuredNode;substitution;superClass;templateBinding;templateParameter;templateParameter;useCase;variable;visibility;visibility;"));
+
+            Assert.That(() => action(new Dependency()), Throws.ArgumentException);
         }
 
         [Test]
@@ -143,6 +148,8 @@ namespace uml4net.HandleBars.Tests
             var result = action(activity);
 
             Assert.That(result, Is.EqualTo("collaborationUse;edge;elementImport;generalization;group;interfaceRealization;nameExpression;nestedClassifier;node;ownedAttribute;ownedAttribute;ownedBehavior;ownedComment;ownedConnector;ownedElement;ownedMember;ownedOperation;ownedParameter;ownedParameterSet;ownedPort;ownedReception;ownedRule;ownedTemplateSignature;ownedTemplateSignature;ownedUseCase;packageImport;postcondition;precondition;structuredNode;substitution;templateBinding;variable;"));
+
+            Assert.That(() => action(new Dependency()), Throws.ArgumentException);
         }
 
         [Test]
@@ -160,6 +167,8 @@ namespace uml4net.HandleBars.Tests
             var result = action(behavior);
 
             Assert.That(result, Is.EqualTo("powertypeExtent;redefinedBehavior;redefinedClassifier;useCase;"));
+
+            Assert.That(() => action(new Dependency()), Throws.ArgumentException);
         }
 
         [Test]
@@ -177,6 +186,8 @@ namespace uml4net.HandleBars.Tests
             var result = action(behavior);
 
             Assert.That(result, Does.Contain("Activity;"));
+
+            Assert.That(() => action(new Dependency()), Throws.ArgumentException);
         }
     }
 }

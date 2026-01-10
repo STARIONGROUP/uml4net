@@ -22,6 +22,7 @@ namespace uml4net.Extensions
 {
     using System;
     using System.Globalization;
+    using System.Text;
 
     using uml4net.Classification;
     using uml4net.Values;
@@ -67,7 +68,83 @@ namespace uml4net.Extensions
                 default:
                     throw new NotSupportedException($"The {valueSpecification.GetType()} is not supported");
             }
+        }
 
+        /// <summary>
+        /// Queries a textual representation of the language–body pairs defined
+        /// by the specified <see cref="IValueSpecification"/>.
+        /// </summary>
+        /// <param name="valueSpecification">
+        /// The <see cref="IValueSpecification"/> to query.
+        /// </param>
+        /// <returns>
+        /// A formatted string containing one or more language–body pairs.
+        /// If <paramref name="valueSpecification"/> is not an
+        /// <see cref="IOpaqueExpression"/>, an empty string is returned.
+        /// </returns>
+        /// <remarks>
+        /// <para>
+        /// This method is primarily intended to support UML
+        /// <see cref="IOpaqueExpression"/> values, where the expression is
+        /// represented as parallel collections of <c>language</c> and
+        /// <c>body</c> entries.
+        /// </para>
+        /// <para>
+        /// The method iterates up to the maximum count of the
+        /// <see cref="IOpaqueExpression.Language"/> and
+        /// <see cref="IOpaqueExpression.Body"/> collections. If one collection
+        /// is shorter than the other, missing entries are ignored.
+        /// </para>
+        /// <para>
+        /// Each pair is formatted as:
+        /// </para>
+        /// <code>
+        /// language: body
+        /// </code>
+        /// <para>
+        /// with each pair separated by a blank line.
+        /// </para>
+        /// </remarks>
+        public static string QueryLanguageAndBody(this IValueSpecification valueSpecification)
+        {
+            if (valueSpecification == null)
+            {
+                throw new ArgumentNullException(nameof(valueSpecification));
+            }
+
+            var result = new StringBuilder();
+
+            if (valueSpecification is IOpaqueExpression opaqueExpression)
+            {
+                var maxCount = Math.Max(opaqueExpression.Language.Count, opaqueExpression.Body.Count);
+
+                for (var i = 0; i < maxCount; i++)
+                {
+                    try
+                    {
+                        result.Append(opaqueExpression.Language[i]);
+                    }
+                    catch(IndexOutOfRangeException)
+                    {
+                        // do nothing
+                    }
+
+                    result.Append(": ");
+
+                    try
+                    {
+                        result.AppendLine(opaqueExpression.Body[i]);
+                    }
+                    catch (IndexOutOfRangeException)
+                    {
+                        // do nothing
+                    }
+
+                    result.AppendLine();
+                }
+            }
+
+            return result.ToString();
         }
     }
 }

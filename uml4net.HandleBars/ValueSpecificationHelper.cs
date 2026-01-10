@@ -1,7 +1,7 @@
 ﻿// -------------------------------------------------------------------------------------------------
-//  <copyright file="BooleanHelper.cs" company="Starion Group S.A.">
+//  <copyright file="ValueSpecificationHelper.cs" company="Starion Group S.A.">
 // 
-//    Copyright (C) 2019-2026 Starion Group S.A.
+//    Copyright 2019-2026 Starion Group S.A.
 // 
 //    Licensed under the Apache License, Version 2.0 (the "License");
 //    you may not use this file except in compliance with the License.
@@ -20,34 +20,38 @@
 
 namespace uml4net.HandleBars
 {
-    using System.Globalization;
+    using System;
 
     using HandlebarsDotNet;
 
+    using uml4net.Extensions;
+    using uml4net.StructuredClassifiers;
+    using uml4net.Values;
+
     /// <summary>
-    /// A block helper that supports operations on boolean data types
+    /// A block helper that supports codegen for <see cref="IClass"/>
     /// </summary>
-    public static class BooleanHelper
+    public static class ValueSpecificationHelper
     {
         /// <summary>
-        /// Registers the <see cref="BooleanHelper"/>
+        /// Registers the <see cref="ValueSpecificationHelper"/>
         /// </summary>
         /// <param name="handlebars">
         /// The <see cref="IHandlebars"/> context with which the helper needs to be registered
         /// </param>
-        public static void RegisterBooleanHelper(this IHandlebars handlebars)
+        public static void RegisterValueSpecificationHelper(this IHandlebars handlebars)
         {
-            // writes the value of a Boolean to lower case
-            handlebars.RegisterHelper("Boolean.ToLowerCase", (writer, _, parameters) =>
+            // writes the language and body of an IValueSpecification
+            handlebars.RegisterHelper("ValueSpecification.WriteLanguageAndBody", (writer, context, _) =>
             {
-                if (parameters.Length != 1)
+                if (!(context.Value is IValueSpecification valueSpecification))
                 {
-                    throw new HandlebarsException("{{#Boolean.ToLowerCase}} helper must have exactly one argument");
+                    throw new ArgumentException("#ValueSpecification.WriteLanguageAndBody: supposed to be IValueSpecification");
                 }
 
-                var value = (bool)parameters[0];
+                var languageAndBody = valueSpecification.QueryLanguageAndBody();
 
-                writer.WriteSafeString(value.ToString(CultureInfo.InvariantCulture).ToLowerInvariant());
+                writer.WriteSafeString(languageAndBody);
             });
         }
     }

@@ -26,6 +26,7 @@ namespace uml4net.Extensions
     using System.Linq;
 
     using uml4net.Classification;
+    using uml4net.CommonStructure;
     using uml4net.Packages;
     using uml4net.StructuredClassifiers;
 
@@ -154,6 +155,68 @@ namespace uml4net.Extensions
             }
 
             return result.Distinct().ToList().AsReadOnly();
+        }
+
+        /// <summary>
+        /// Returns the complete set of <see cref="IConstraint"/>>s that apply to the specified
+        /// <see cref="IClass"/>, including constraints owned by the class itself
+        /// and all constraints inherited from its general classifiers.
+        /// </summary>
+        /// <param name="class">
+        /// The <see cref="IClass"/> for which all applicable constraints are queried.
+        /// </param>
+        /// <returns>
+        /// A read-only collection of <see cref="IConstraint"/> instances representing
+        /// the effective constraint set of the class. The returned collection contains
+        /// constraints owned by the class and all constraints inherited through the
+        /// generalization hierarchy, with duplicates removed.
+        /// </returns>
+        /// <remarks>
+        /// The returned <see cref="IConstraint"/> instances are ordered by name.
+        /// </remarks>
+        public static ReadOnlyCollection<IConstraint> QueryAllConstraints(this IClass @class)
+        {
+            if (@class == null)
+            {
+                throw new ArgumentNullException(nameof(@class));
+            }
+
+            var superClassifiers = @class.QueryAllGeneralClassifiers();
+
+            var result = superClassifiers.SelectMany(x => x.OwnedRule);
+
+            return result.Distinct().OrderBy(x => x.Name) .ToList().AsReadOnly();
+        }
+
+        /// <summary>
+        /// Returns the complete set of operations that apply to the specified
+        /// <see cref="IClass"/>, including operations owned by the class itself
+        /// and all operations inherited from its general classifiers.
+        /// </summary>
+        /// <param name="class">
+        /// The <see cref="IClass"/> for which all applicable operations are queried.
+        /// </param>
+        /// <returns>
+        /// A read-only collection of <see cref="IOperation"/> instances representing
+        /// the effective operation set of the class. The returned collection contains
+        /// operations owned by the class and all operations inherited through the
+        /// generalization hierarchy, with duplicates removed.
+        /// </returns>
+        /// <remarks>
+        /// The returned <see cref="IOperation"/> instances are ordered by name.
+        /// </remarks>
+        public static ReadOnlyCollection<IOperation> QueryAllOperations(this IClass @class)
+        {
+            if (@class == null)
+            {
+                throw new ArgumentNullException(nameof(@class));
+            }
+
+            var superClassifiers = @class.QueryAllGeneralClassifiers();
+
+            var result = superClassifiers.OfType<IClass>().SelectMany(x => x.OwnedOperation);
+
+            return result.Distinct().OrderBy(x => x.Name).ToList().AsReadOnly();
         }
     }
 }

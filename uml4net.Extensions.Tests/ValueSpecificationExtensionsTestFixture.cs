@@ -21,15 +21,56 @@
 namespace uml4net.Extensions.Tests
 {
     using System.Collections.Generic;
-    using CommonStructure;
+    using System.IO;
+    using System.Linq;
+
+    using Microsoft.Extensions.Logging;
+
     using NUnit.Framework;
-    using uml4net.Extensions;
-    using uml4net.Values;
+
+    using Serilog;
+
     using uml4net.Classification;
+    using uml4net.CommonStructure;
+    using uml4net.Extensions;
+    using uml4net.StructuredClassifiers;
+    using uml4net.Values;
+    using uml4net.xmi;
+    using uml4net.xmi.Readers;
 
     [TestFixture]
     public class ValueSpecificationExtensionsTestFixture
     {
+        private ILoggerFactory loggerFactory;
+
+        private XmiReaderResult xmiReaderResult;
+
+        [OneTimeSetUp]
+        public void OneTimeSetUp()
+        {
+            Log.Logger = new LoggerConfiguration()
+                .MinimumLevel.Verbose()
+                .WriteTo.Console()
+                .CreateLogger();
+
+            this.loggerFactory = LoggerFactory.Create(builder =>
+            {
+                builder.AddSerilog();
+            });
+        }
+
+        [SetUp]
+        public void SetUp()
+        {
+            var rootPath = Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData");
+
+            var reader = XmiReaderBuilder.Create()
+                .UsingSettings(x => x.LocalReferenceBasePath = rootPath)
+                .WithLogger(this.loggerFactory)
+                .Build();
+
+            this.xmiReaderResult = reader.Read(Path.Combine(rootPath, "UML.xmi"));
+        }
         [Test]
         public void QueryDefaultValueAsString_HandlesDifferentLiteralTypes()
         {
@@ -47,6 +88,32 @@ namespace uml4net.Extensions.Tests
             Assert.That(literalString.QueryDefaultValueAsString(), Is.EqualTo("star"));
             Assert.That(literalUnlimited.QueryDefaultValueAsString(), Is.EqualTo("int.MaxValue"));
             Assert.That(instanceValue.QueryDefaultValueAsString(), Is.EqualTo("myInstance"));
+        }
+
+        [Test]
+        public void Verify_that_QueryLanguageAndBody_returns_expected_result()
+        {
+            var root = this.xmiReaderResult.QueryRoot(xmiId: "_0", name: "UML");
+
+            var structuredClassifiersPackage = root.NestedPackage.Single(x => x.Name == "StructuredClassifiers");
+
+            var connector = structuredClassifiersPackage.PackagedElement.OfType<IClass>().Single(x => x.Name == "Connector");
+
+            var constraint = connector.OwnedRule.Single(x => x.XmiId == "Connector-types");
+
+            var docs = constraint.QueryRawDocumentation();
+
+            Assert.That(docs, Is.EqualTo("The types of the ConnectableElements that the ends of a Connector are attached to must conform to the types of the ends of the Association that types the Connector, if any."));
+
+            var specification = constraint.Specification.Single(x => x.XmiId == "Connector-types-_specification");
+
+            var expectedLanguageAndBody = "OCL: type<>null implies \n" +
+                                          "  let noOfEnds : Integer = end->size() in \n" +
+                                          "  (type.memberEnd->size() = noOfEnds) and Sequence{1..noOfEnds}->forAll(i | end->at(i).role.type.conformsTo(type.memberEnd->at(i).type))\r\n\r\n";
+
+            var languageAndBody = specification.QueryLanguageAndBody();
+
+            Assert.That(languageAndBody, Does.StartWith("OCL: "));
         }
 
         private class UnsupportedValueSpecification : XmiElement, IValueSpecification

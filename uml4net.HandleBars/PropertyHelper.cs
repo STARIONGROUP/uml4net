@@ -419,17 +419,28 @@ namespace uml4net.HandleBars
             {
                 if (!(context.Value is IProperty property))
                 {
-                    throw new ArgumentException("supposed to be IProperty");
+                    throw new ArgumentException("#Property.WriteFormattedMultiplicity: supposed to be IProperty");
                 }
 
                 writer.WriteSafeString(property.QueryFormattedMultiplicity());
+            });
+
+            // write the DefaultValueAsString of the property.
+            handlebars.RegisterHelper("Property.WriteDefaultValueAsString", (writer, context, _) =>
+            {
+                if (!(context.Value is IProperty property))
+                {
+                    throw new ArgumentException("#Property.WriteDefaultValueAsString: supposed to be IProperty");
+                }
+
+                writer.WriteSafeString(property.QueryDefaultValueAsString());
             });
 
             handlebars.RegisterHelper("Property.WriteForInterface", (writer, context, _) =>
             {
                 if (!(context.Value is IProperty property))
                 {
-                    throw new ArgumentException("supposed to be IProperty");
+                    throw new ArgumentException("#Property.WriteForInterface: supposed to be IProperty");
                 }
 
                 var sb = new StringBuilder();

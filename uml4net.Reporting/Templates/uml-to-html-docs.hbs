@@ -401,6 +401,10 @@
                                 <td> {{ class.QualifiedName }} </td>
                             </tr>
                             <tr>
+                                <td>Visibility</td>
+                                <td> {{ class.Visibility }} </td>
+                            </tr>
+                            <tr>
                                 <td>Definition</td>
                                 <td>{{ #RawDocumentation class }}</td>
                             </tr>
@@ -434,21 +438,52 @@
                             </tr>
                         </tbody>
                     </table>
+
+                    <H4>Rules</H4>
+                    <table class="starion-table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Visibilty</th>
+                                <th>Description</th>
+                                <th>Specification</th>
+                                <th>Owner</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {{ #each (Class.QueryAllConstraints class) as | constraint | }}
+                            <tr>
+                                <td id="{{ constraint.XmiId }}">{{ constraint.Name }}</td>
+                                <td>{{ constraint.Visibility }}</td>
+                                <td>{{ #RawDocumentation constraint }}</td>
+                                <td>
+                                {{ #each (constraint.Specification class) as | valueSpecification | }}
+                                {{ #ValueSpecification.WriteLanguageAndBody valueSpecification }}
+                                {{/each}}
+                                </td>
+                                <td><a href="#{{constraint.Owner.Name}}">{{constraint.Owner.Name}}</a></td>
+                            </tr>
+                            {{/each}}
+                        </tbody>
+                    </table>
+
                     <H4>Properties</H4>
                     <table class="starion-table">
                         <thead>
                             <tr>
                                 <th>Name</th>
+                                <th>Visibility</th>
                                 <th>Type</th>
                                 <th>Default</th>
                                 <th>Description</th>
-                                <th>Inheritance</th>
+                                <th>Owner</th>
                             </tr>
                         </thead>
                         <tbody>
                             {{ #each (Class.QueryAllProperties class) as | property | }}
                             <tr>
                                 <td id="{{ property.XmiId }}">{{ property.Name }}</td>
+                                <td>{{ property.Visibility }}</td>
                                 <td>
                                     <a href="#{{ Property.WriteTypeName property}}">{{Property.WriteTypeName property}}</a> {{#Property.WriteFormattedMultiplicity property }}
                                     {{#if (#Property.IsComposite property) }} {composite} {{/if}}
@@ -474,7 +509,7 @@
                                     {{#if property.IsID }} {ID} {{/if}}
                                     {{ #Property.WriteManyToManyAndOpposite property }}
                                 </td>
-                                <td>{{ property.DefaultValueLiteral }}</td>
+                                <td>{{ #Property.WriteDefaultValueAsString property }}</td>
                                 <td>{{ #RawDocumentation property }}</td>
                                 <td><a href="#{{property.Owner.Name}}">{{property.Owner.Name}}</a></td>
                             </tr>
