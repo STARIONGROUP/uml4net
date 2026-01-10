@@ -216,6 +216,28 @@ namespace uml4net.HandleBars
 
                 return specializations;
             });
+
+            // queries all the constraints of the class and its generalizations
+            handlebars.RegisterHelper("Class.QueryAllConstraints", (context, _) =>
+            {
+                if (!(context.Value is IClass @class))
+                {
+                    throw new ArgumentException("#Class.QueryAllConstraints: The object is supposed to be an IClass");
+                }
+
+                return @class.QueryAllConstraints();
+            });
+
+            // queries all the operations of the class and its generalizations
+            handlebars.RegisterHelper("Class.QueryAllOperations", (context, _) =>
+            {
+                if (!(context.Value is IClass @class))
+                {
+                    throw new ArgumentException("#Class.QueryAllOperations: The object is supposed to be an IClass");
+                }
+
+                return @class.QueryAllOperations();
+            });
         }
     }
 }

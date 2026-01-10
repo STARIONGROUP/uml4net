@@ -434,6 +434,35 @@
                             </tr>
                         </tbody>
                     </table>
+
+                    <H4>Rules</H4>
+                    <table class="starion-table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Visibilty</th>
+                                <th>Description</th>
+                                <th>Specification</th>
+                                <th>Inheritance</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {{ #each (Class.QueryAllConstraints class) as | constraint | }}
+                            <tr>
+                                <td id="{{ constraint.XmiId }}">{{ constraint.Name }}</td>
+                                <td>{{ constraint.Visibility }}</td>
+                                <td>{{ #RawDocumentation constraint }}</td>
+                                <td>
+                                {{ #each (constraint.Specification class) as | valueSpecification | }}
+                                {{ #ValueSpecification.WriteLanguageAndBody valueSpecification }}
+                                {{/each}}
+                                </td>
+                                <td><a href="#{{constraint.Owner.Name}}">{{constraint.Owner.Name}}</a></td>
+                            </tr>
+                            {{/each}}
+                        </tbody>
+                    </table>
+
                     <H4>Properties</H4>
                     <table class="starion-table">
                         <thead>

@@ -247,6 +247,7 @@ namespace uml4net.Reporting.Generators
             PropertyHelper.RegisterPropertyHelper(this.Handlebars);
             GeneralizationHelper.RegisterGeneralizationHelper(this.Handlebars);
             ClassifierHelper.RegisterClassifierHelper(this.Handlebars);
+            ValueSpecificationHelper.RegisterValueSpecificationHelper(this.Handlebars);
             HandleBars.DocumentationHelper.RegisterDocumentationHelper(this.Handlebars);
         }
 
