@@ -220,31 +220,31 @@
                 <H3><a href="#Enumeration">1. Enumeration Types ({{ Payload.Enumerations.Length }})</a></H3>
                 <ul>
                     {{#each Payload.Enumerations as | enumeration |}}
-                    <li><a href="#{{enumeration.Name}}">{{enumeration.Name}}</a></li>
+                    <li><a href="#{{enumeration.XmiId}}">{{enumeration.Name}}</a></li>
                     {{/each}}
                 </ul>
                 <H3><a href="#PrimitiveTypes">2. Primitive Types ({{ Payload.PrimitiveTypes.Length }})</a></H3>
                 <ul>
                     {{#each Payload.PrimitiveTypes as | primitiveType |}}
-                    <li><a href="#{{primitiveType.Name}}">{{primitiveType.Name}}</a></li>
+                    <li><a href="#{{primitiveType.XmiId}}">{{primitiveType.Name}}</a></li>
                     {{/each}}
                 </ul>
                 <H3><a href="#OtherDataTypes">3. Other DataTypes ({{ Payload.DataTypes.Length }})</a></H3>
                 <ul>
                     {{#each Payload.DataTypes as | datatype |}}
-                    <li><a href="#{{datatype.Name}}">{{datatype.Name}}</a></li>
+                    <li><a href="#{{datatype.XmiId}}">{{datatype.Name}}</a></li>
                     {{/each}}
                 </ul>
                 <H3><a href="#Classes">4. Classes ({{ Payload.Classes.Length }})</a></H3>
                 <ul>
                     {{#each Payload.Classes as | class |}}
-                    <li><a href="#{{class.Name}}">{{class.Name}}</a></li>
+                    <li><a href="#{{class.XmiId}}">{{class.Name}}</a></li>
                     {{/each}}
                 </ul>
                 <H3><a href="#Interfaces">4. Interfaces ({{ Payload.Interfaces.Length }})</a></H3>
                 <ul>
                     {{#each Payload.Interfaces as | interface |}}
-                    <li><a href="#{{interface.Name}}">{{interface.Name}}</a></li>
+                    <li><a href="#{{interface.XmiId}}">{{interface.Name}}</a></li>
                     {{/each}}
                 </ul>
                 <H3><a href="#Diagrams">5. Diagrams</a></H3>
@@ -283,7 +283,7 @@
                     <p>No Enumerations have been found in the UML model</p>
                 {{ else }}
                     {{#each Payload.Enumerations as | enumeration |}}
-                    <H3 id="{{enumeration.Name}}">{{enumeration.Name}} [Enumeration] </H3>
+                    <H3 id="{{enumeration.XmiId}}">{{enumeration.Name}} [Enumeration] </H3>
                     <H4>Features</H4>
                     <table class="starion-table">
                         <thead>
@@ -314,7 +314,7 @@
                         <tbody>
                             {{#each enumeration.OwnedLiteral as | enumerationLiteral |}}
                             <tr>
-                                <td id="{{enumerationLiteral.Name}}">{{enumerationLiteral.Name}}</td>
+                                <td id="{{enumerationLiteral.XmiId}}">{{enumerationLiteral.Name}}</td>
                                 <td>
                                     {{ #RawDocumentation enumerationLiteral }}
                                 </td>
@@ -330,7 +330,7 @@
                     <p>No Primitive Types have been found in the UML model</p>
                 {{ else }}
                     {{#each Payload.PrimitiveTypes as | primitiveType |}}
-                    <H3 id="{{primitiveType.Name}}">{{primitiveType.Name}} [PrimitiveType]</H3>
+                    <H3 id="{{primitiveType.XmiId}}">{{primitiveType.Name}} [PrimitiveType]</H3>
                     <H4>Features</H4>
                     <table class="starion-table">
                         <thead>
@@ -358,7 +358,7 @@
                     <p>No Data Types (other than <a href="#Enumeration">Enumerations</a> and <a href="#PrimitiveTypes">Primitive Types</a>) have been found in the UML model</p>
                 {{ else }}
                     {{#each Payload.DataTypes as | datatype |}}
-                    <H3 id="{{datatype.Name}}">{{datatype.Name}} [DataType]</H3>
+                    <H3 id="{{datatype.XmiId}}">{{datatype.Name}} [DataType]</H3>
                     <H4>Features</H4>
                     <table class="starion-table">
                         <thead>
@@ -386,7 +386,7 @@
                     <p>No Classes have been found in the UML model</p>
                 {{ else }}
                     {{#each Payload.Classes as | class |}}
-                    <H3 id="{{class.Name}}">{{class.Name}} [Class]</H3>
+                    <H3 id="{{class.XmiId}}">{{class.Name}} [Class]</H3>
                     <H4>Features</H4>
                     <table class="starion-table">
                         <thead>
@@ -416,7 +416,7 @@
                                 <td>Generalizations</td>
                                 <td>
                                     {{#each class.SuperClass as | superClass |}}
-                                    <a href="#{{superClass.Name}}">{{superClass.Name}}</a>
+                                    <a href="#{{superClass.XmiId}}">{{superClass.Name}}</a>
                                     {{/each}}
                                 </td>
                             </tr>
@@ -424,7 +424,7 @@
                                 <td>Specializations</td>
                                 <td>
                                     {{ #each (Class.QueryAllSpecializations class) as | specialization | }}
-                                    <a href="#{{specialization.Name}}">{{specialization.Name}}</a>
+                                    <a href="#{{specialization.XmiId}}">{{specialization.Name}}</a>
                                     {{ /each }}
                                 </td>
                             </tr>
@@ -432,7 +432,7 @@
                                 <td>Containers</td>
                                 <td>
                                     {{ #each (#Classifier.QueryContainers class) as | container | }}
-                                    <a href="#{{container.Name}}">{{container.Name}}</a>
+                                    <a href="#{{container.XmiId}}">{{container.Name}}</a>
                                     {{ /each }}
                                 </td>
                             </tr>
@@ -461,7 +461,7 @@
                                 {{ #ValueSpecification.WriteLanguageAndBody valueSpecification }}
                                 {{/each}}
                                 </td>
-                                <td><a href="#{{constraint.Owner.Name}}">{{constraint.Owner.Name}}</a></td>
+                                <td><a href="#{{constraint.Owner.XmiId}}">{{constraint.Owner.Name}}</a></td>
                             </tr>
                             {{/each}}
                         </tbody>
@@ -485,7 +485,7 @@
                                 <td id="{{ property.XmiId }}">{{ property.Name }}</td>
                                 <td>{{ property.Visibility }}</td>
                                 <td>
-                                    <a href="#{{ Property.WriteTypeName property}}">{{Property.WriteTypeName property}}</a> {{#Property.WriteFormattedMultiplicity property }}
+                                    <a href="#{{ property.Type.XmiId }}">{{Property.WriteTypeName property}}</a> {{#Property.WriteFormattedMultiplicity property }}
                                     {{#if (#Property.IsComposite property) }} {composite} {{/if}}
                                     {{#if property.IsDerived }} {derived} {{/if}}
                                     {{#if property.IsDerivedUnion }} {derived-union} {{/if}}
@@ -511,7 +511,7 @@
                                 </td>
                                 <td>{{ #Property.WriteDefaultValueAsString property }}</td>
                                 <td>{{ #RawDocumentation property }}</td>
-                                <td><a href="#{{property.Owner.Name}}">{{property.Owner.Name}}</a></td>
+                                <td><a href="#{{property.Owner.XmiId}}">{{property.Owner.Name}}</a></td>
                             </tr>
                             {{/each}}
                         </tbody>
@@ -524,7 +524,7 @@
                     <p>No Interfaces have been found in the UML model</p>
                 {{ else }}
                     {{#each Payload.Interfaces as | interface |}}
-                    <H3 id="{{interface.Name}}">{{interface.Name}} [Interface] </H3>
+                    <H3 id="{{interface.XmiId}}">{{interface.Name}} [Interface] </H3>
                     <H4>Definition</H4>
                     {{ #RawDocumentation interface }}
                     <H4>Features</H4>
@@ -544,7 +544,7 @@
                                 <td>Generalizations</td>
                                 <td>
                                     {{#each interface.ESuperTypes as | superInterface |}}
-                                    <a href="#{{superInterface.Name}}">{{superInterface.Name}}</a>
+                                    <a href="#{{superInterface.XmiId}}">{{superInterface.Name}}</a>
                                     {{/each}}
                                 </td>
                             </tr>
@@ -566,7 +566,7 @@
                             <tr>
                                 <td>{{ property.Name }}</td>
                                 <td>
-                                    <a href="#{{Property.QueryTypeName property}}">{{Property.QueryTypeName property}}</a> [{{ property.Lower }}..{{ property.Upper }}]
+                                    <a href="#{{ property.XmiId }}">{{Property.QueryTypeName property}}</a> [{{ property.Lower }}..{{ property.Upper }}]
                                     {{#if (#Property.IsComposite property) }} {composite} {{/if}}
                                     {{#if property.IsDerived }} {derived} {{/if}}
                                     {{#if property.IsDerivedUnion }} {derived-union} {{/if}}
@@ -577,7 +577,7 @@
                                 </td>
                                 <td>{{ property.DefaultValueLiteral }}</td>
                                 <td>{{ #RawDocumentation property }}</td>
-                                <td><a href="#{{property.Owner.Name}}">{{property.Owner.Name}}</a></td>
+                                <td><a href="#{{property.Owner.XmiId}}">{{property.Owner.Name}}</a></td>
                             </tr>
                             {{/each}}
                         </tbody>

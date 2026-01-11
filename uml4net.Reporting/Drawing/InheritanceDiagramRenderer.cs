@@ -208,7 +208,7 @@ namespace uml4net.Reporting.Drawing
 
             svgDocument.Children.Add(new SvgDescription
             {
-                Content = "A UML diagram showing class inheritance relationships - generated with uml4net \u00a9 2022–2025 Starion Group S.A."
+                Content = "A UML diagram showing class inheritance relationships - generated with uml4net \u00a9 2022–2026 Starion Group S.A."
             });
 
             var borderRect = new SvgRectangle
@@ -286,9 +286,14 @@ namespace uml4net.Reporting.Drawing
         /// </returns>
         private SvgGroup ConvertNodeToRectangleAndLabel(Node node)
         {
-            var group = new SvgGroup();
-
             var box = node.BoundingBox;
+            var @class = (IClass)node.UserData;
+
+            var anchor = new SvgAnchor
+            {
+                Href = $"#{@class.XmiId}"
+            };
+
             var rectangle = new SvgRectangle
             {
                 X = (float)box.Left,
@@ -299,7 +304,6 @@ namespace uml4net.Reporting.Drawing
                 Stroke = new SvgColourServer(System.Drawing.Color.Black)
             };
 
-            var @class = (IClass)node.UserData;
             var label = new SvgText(@class.Name)
             {
                 X = { (float)box.Center.X },
@@ -321,9 +325,12 @@ namespace uml4net.Reporting.Drawing
                 Content = tooltipText
             };
 
-            group.Children.Add(rectangle);
-            group.Children.Add(label);
-            group.Children.Add(title);
+            anchor.Children.Add(rectangle);
+            anchor.Children.Add(label);
+            anchor.Children.Add(title);
+
+            var group = new SvgGroup();
+            group.Children.Add(anchor);
 
             return group;
         }
