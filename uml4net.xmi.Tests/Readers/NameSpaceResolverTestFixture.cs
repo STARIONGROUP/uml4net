@@ -101,6 +101,9 @@ namespace uml4net.xmi.Tests.Readers
             Assert.That(() => this.nameSpaceResolver.Register("https://www.stariongroup.eu", "sg"), Throws.Nothing);
 
             Assert.That(this.nameSpaceResolver.ResolvePrefix("https://www.stariongroup.eu"), Is.EqualTo("sg"));
+
+            Assert.That(() =>this.nameSpaceResolver.Register(null, null), Throws.ArgumentException);
+            Assert.That(() => this.nameSpaceResolver.Register("https://www.stariongroup.eu", null), Throws.ArgumentException);
         }
     }
 }

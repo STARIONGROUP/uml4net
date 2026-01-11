@@ -147,5 +147,17 @@ namespace uml4net.Reporting.Tests.Generators
 
             Assert.That(() => this.htmlReportGenerator.GenerateReport(this.magicDrawFileInfo, this.umlModelFileInfo.Directory, "", "Data", true, null, reportFileInfo), Throws.Nothing);
         }
+
+        [Test]
+        public void Verify_that_the_report_generator_throws_exception_when_modelpath_or_rootdirectory_are_null()
+        {
+            this.htmlReportGenerator = new HtmlReportGenerator(this.inheritanceDiagramRenderer, this.loggerFactory);
+
+            var reportFileInfo = new FileInfo("some-path");
+
+            
+            Assert.That(() => this.htmlReportGenerator.GenerateReport(null, null, "", "Data", true, null, reportFileInfo), Throws.ArgumentNullException);
+            Assert.That(() => this.htmlReportGenerator.GenerateReport(this.magicDrawFileInfo, this.umlModelFileInfo.Directory, "", "Data", true, null,null, ""), Throws.ArgumentNullException);
+        }
     }
 }
