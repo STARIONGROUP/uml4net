@@ -818,7 +818,7 @@ namespace uml4net.Extensions
         /// <remarks>
         /// <para>
         /// The method performs no validation of the bounds and assumes that
-        /// <see cref="IProperty.Lower"/> and <see cref="IProperty.Upper"/> already
+        /// <see cref="IMultiplicityElement.Lower"/> and <see cref="IMultiplicityElement.Upper"/> already
         /// reflect valid UML multiplicity values.
         /// </para>
         /// <para>
