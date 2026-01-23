@@ -49,7 +49,7 @@
         <PackageReference Include="Microsoft.Msagl" Version="1.1.6" />
         <PackageReference Include="Svg" Version="3.4.7" />
         <PackageReference Include="Microsoft.Sbom.Targets" Version="4.1.5" PrivateAssets="all" />
-        <PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0" PrivateAssets="All" />
+        <PackageReference Include="Microsoft.SourceLink.GitHub" Version="10.0.102" PrivateAssets="All" />
     </ItemGroup>
 
     <ItemGroup>
