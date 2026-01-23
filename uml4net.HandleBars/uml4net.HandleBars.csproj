@@ -2,7 +2,7 @@
 
     <PropertyGroup>
         <TargetFramework>netstandard2.0</TargetFramework>
-        <Version>6.2.0</Version>
+        <Version>6.3.1</Version>
         <LangVersion>12.0</LangVersion>
         <Company>Starion Group S.A.</Company>
         <Copyright>Copyright © Starion Group S.A.</Copyright>
@@ -28,8 +28,9 @@
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
         <GenerateSBOM>true</GenerateSBOM>
         <PackageReleaseNotes>
-            [Update] to uml4net.Extensions version 5.3.0
-            [Update] PropertyHelper implementations; fixes #146
+            [Update] to uml4net.Extensions version 5.3.1
+            [Fix] Payload.Version such that it is processed by the html template
+            [Add] Property.WriteFormattedMultiplicity block helper
         </PackageReleaseNotes>
     </PropertyGroup>
 
