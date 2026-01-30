@@ -124,7 +124,7 @@ namespace uml4net.Extensions
                     {
                         result.Append(opaqueExpression.Language[i]);
                     }
-                    catch(IndexOutOfRangeException)
+                    catch(ArgumentOutOfRangeException)
                     {
                         // do nothing
                     }
@@ -135,7 +135,7 @@ namespace uml4net.Extensions
                     {
                         result.AppendLine(opaqueExpression.Body[i]);
                     }
-                    catch (IndexOutOfRangeException)
+                    catch (ArgumentOutOfRangeException)
                     {
                         // do nothing
                     }
