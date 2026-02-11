@@ -51,8 +51,8 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.Structure
     {
         /// <summary>
         /// </summary>
-        [Property(xmiId: "EAID_B7830971_FD2E_D1C0_8603_C81BDEF182BC", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
-        public int Tagged { get; set; }
+        [Property(xmiId: "EAID_80CBBB6F_168B_28C1_9F71_CC4D0C9C14B2", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        public string Diagram { get; set; }
 
         /// <summary>
         /// </summary>
@@ -61,8 +61,8 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.Structure
 
         /// <summary>
         /// </summary>
-        [Property(xmiId: "EAID_80CBBB6F_168B_28C1_9F71_CC4D0C9C14B2", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
-        public string Diagram { get; set; }
+        [Property(xmiId: "EAID_B7830971_FD2E_D1C0_8603_C81BDEF182BC", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        public int Tagged { get; set; }
     }
 }
 

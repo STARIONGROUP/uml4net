@@ -56,13 +56,13 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.Structure
 
         /// <summary>
         /// </summary>
-        [Property(xmiId: "EAID_B3FA93E1_5876_0E6D_82D5_D50989ABDB2C", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
-        public string Styleex { get; set; }
+        [Property(xmiId: "EAID_8B2175AE_70FD_7AD7_8F91_B2438AD2CCD4", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        public string ObjectStyle { get; set; }
 
         /// <summary>
         /// </summary>
-        [Property(xmiId: "EAID_8B2175AE_70FD_7AD7_8F91_B2438AD2CCD4", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
-        public string ObjectStyle { get; set; }
+        [Property(xmiId: "EAID_B3FA93E1_5876_0E6D_82D5_D50989ABDB2C", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        public string Styleex { get; set; }
     }
 }
 

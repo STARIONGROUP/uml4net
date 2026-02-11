@@ -344,6 +344,18 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.Structure.Readers
                         var typeElementReader = new TypeElementReader(registry.Value, xmiReaderSettings, nameSpaceResolver, cache, loggerFactory);
                         return typeElementReader.Read(subXmlReader, documentName);
                     },
+                ["Usage"] = (cache, xmiReaderSettings, nameSpaceResolver, loggerFactory, xmlReader, documentName) =>
+                    {
+                        using var subXmlReader = xmlReader.ReadSubtree();
+                        var usageReader = new UsageReader(registry.Value, xmiReaderSettings, nameSpaceResolver, cache, loggerFactory);
+                        return usageReader.Read(subXmlReader, documentName);
+                    },
+                ["UseCase"] = (cache, xmiReaderSettings, nameSpaceResolver, loggerFactory, xmlReader, documentName) =>
+                    {
+                        using var subXmlReader = xmlReader.ReadSubtree();
+                        var useCaseReader = new UseCaseReader(registry.Value, xmiReaderSettings, nameSpaceResolver, cache, loggerFactory);
+                        return useCaseReader.Read(subXmlReader, documentName);
+                    },
                 ["Xrefs"] = (cache, xmiReaderSettings, nameSpaceResolver, loggerFactory, xmlReader, documentName) =>
                     {
                         using var subXmlReader = xmlReader.ReadSubtree();

@@ -1,5 +1,5 @@
 ﻿// -------------------------------------------------------------------------------------------------
-// <copyright file="IRole.cs" company="Starion Group S.A.">
+// <copyright file="Usage.cs" company="Starion Group S.A.">
 //
 //   Copyright (C) 2019-2026 Starion Group S.A.
 //
@@ -24,40 +24,38 @@
 
 namespace uml4net.xmi.Extensions.EnterpriseArchitect.Structure
 {
+    using System;
     using System.CodeDom.Compiler;
     using System.Collections.Generic;
 
     using uml4net.Decorators;
-    using uml4net.Actions;
-    using uml4net.Activities;
     using uml4net.Classification;
-    using uml4net.CommonBehavior;
     using uml4net.CommonStructure;
-    using uml4net.Deployments;
-    using uml4net.InformationFlows;
-    using uml4net.Interactions;
     using uml4net.Packages;
-    using uml4net.SimpleClassifiers;
-    using uml4net.StateMachines;
-    using uml4net.StructuredClassifiers;
-    using uml4net.UseCases;
-    using uml4net.Values;
 
     /// <summary>
     /// </summary>
-    [Class(xmiId: "EAID_BA2F7349_D0DF_D7E6_A7C4_D5E8ADE9F382", isAbstract: false, isFinalSpecialization: false, isActive: false)]
-    [GeneratedCode("uml4net", "latest")]
-    public partial interface IRole
+    [Class(xmiId: "EAID_9F784B05_60B0_448e_836B_C7F43951BA1A", isAbstract: false, isFinalSpecialization: false, isActive: false)]
+    [GeneratedCode("uml4net.extension", "latest")]
+    public partial class Usage : IUsage
     {
         /// <summary>
         /// </summary>
-        [Property(xmiId: "EAID_AB0D9D58_369D_D671_B7A4_1F6CE3AEA793", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
-        public string TargetScope { get; set; }
+        [Property(xmiId: "EAID_A60C94B0_92E5_846A_8760_B5C098B1B578", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Implements(implementation: "ILink.End")]
+        public string End { get; set; }
 
         /// <summary>
         /// </summary>
-        [Property(xmiId: "EAID_BBBA9364_1730_6155_9BA6_8A55B07B4DE6", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
-        public string Visibility { get; set; }
+        [Property(xmiId: "EAID_dstF28C85_25C8_4727_B3FD_8F5AEA78232C", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Implements(implementation: "IElementReference.ExtendedElement")]
+        public IXmiElement ExtendedElement { get; set; }
+
+        /// <summary>
+        /// </summary>
+        [Property(xmiId: "EAID_84C37789_A3C4_DE0A_BE29_D5C3424EA88C", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Implements(implementation: "ILink.Start")]
+        public string Start { get; set; }
     }
 }
 

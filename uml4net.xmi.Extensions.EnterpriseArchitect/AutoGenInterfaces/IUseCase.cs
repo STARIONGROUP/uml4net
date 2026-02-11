@@ -1,5 +1,5 @@
 ﻿// -------------------------------------------------------------------------------------------------
-// <copyright file="IElementProperties.cs" company="Starion Group S.A.">
+// <copyright file="IUseCase.cs" company="Starion Group S.A.">
 //
 //   Copyright (C) 2019-2026 Starion Group S.A.
 //
@@ -45,34 +45,10 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.Structure
 
     /// <summary>
     /// </summary>
-    [Class(xmiId: "EAID_B0F7E3F3_032E_000D_8270_F4E00131652E", isAbstract: false, isFinalSpecialization: false, isActive: false)]
+    [Class(xmiId: "EAID_5CCC7A87_1A26_42f0_845A_50E76B37BCF8", isAbstract: false, isFinalSpecialization: false, isActive: false)]
     [GeneratedCode("uml4net", "latest")]
-    public partial interface IElementProperties : IScopedElement
+    public partial interface IUseCase : ILink
     {
-        /// <summary>
-        /// </summary>
-        [Property(xmiId: "EAID_92CBE5A3_FEC4_6705_AF7C_CA1E59AFDB30", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
-        public string Documentation { get; set; }
-
-        /// <summary>
-        /// </summary>
-        [Property(xmiId: "EAID_8D2D9220_8EF8_3FD4_8C89_5F3579D77526", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
-        public bool IsSpecification { get; set; }
-
-        /// <summary>
-        /// </summary>
-        [Property(xmiId: "EAID_84CF5F45_4E1B_6DB0_821D_913DD5D4C16E", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
-        public int NType { get; set; }
-
-        /// <summary>
-        /// </summary>
-        [Property(xmiId: "EAID_8E0EF71A_5224_DB89_8F76_86D07833872B", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
-        public string Stereotype { get; set; }
-
-        /// <summary>
-        /// </summary>
-        [Property(xmiId: "EAID_9C77F8E1_87D7_2B27_BF43_F50012DD21A5", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
-        public string SType { get; set; }
     }
 }
 

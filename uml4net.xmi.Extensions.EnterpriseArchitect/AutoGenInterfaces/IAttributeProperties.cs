@@ -51,18 +51,8 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.Structure
     {
         /// <summary>
         /// </summary>
-        [Property(xmiId: "EAID_9C45849C_8E96_4578_A6BE_4FFD9EBCB9AF", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
-        public string Type { get; set; }
-
-        /// <summary>
-        /// </summary>
-        [Property(xmiId: "EAID_9DFFE3D0_20E9_0247_AE98_6D60571F4EA1", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
-        public int Derived { get; set; }
-
-        /// <summary>
-        /// </summary>
-        [Property(xmiId: "EAID_A4E0B7D0_AD79_5402_A1AF_032EA06C961D", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
-        public int Precision { get; set; }
+        [Property(xmiId: "EAID_9CF2D82B_6F7E_8BBE_B4B3_92CC59B651C5", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        public string Changeability { get; set; }
 
         /// <summary>
         /// </summary>
@@ -71,13 +61,8 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.Structure
 
         /// <summary>
         /// </summary>
-        [Property(xmiId: "EAID_B7FF1EE7_E2D6_42D3_86E5_AC0BBF660152", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
-        public int Length { get; set; }
-
-        /// <summary>
-        /// </summary>
-        [Property(xmiId: "EAID_846E874D_51C8_DCA8_9701_22240E62DD0C", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
-        public int Static { get; set; }
+        [Property(xmiId: "EAID_9DFFE3D0_20E9_0247_AE98_6D60571F4EA1", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        public int Derived { get; set; }
 
         /// <summary>
         /// </summary>
@@ -86,8 +71,23 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.Structure
 
         /// <summary>
         /// </summary>
-        [Property(xmiId: "EAID_9CF2D82B_6F7E_8BBE_B4B3_92CC59B651C5", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
-        public string Changeability { get; set; }
+        [Property(xmiId: "EAID_B7FF1EE7_E2D6_42D3_86E5_AC0BBF660152", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        public int Length { get; set; }
+
+        /// <summary>
+        /// </summary>
+        [Property(xmiId: "EAID_A4E0B7D0_AD79_5402_A1AF_032EA06C961D", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        public int Precision { get; set; }
+
+        /// <summary>
+        /// </summary>
+        [Property(xmiId: "EAID_846E874D_51C8_DCA8_9701_22240E62DD0C", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        public int Static { get; set; }
+
+        /// <summary>
+        /// </summary>
+        [Property(xmiId: "EAID_9C45849C_8E96_4578_A6BE_4FFD9EBCB9AF", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        public string Type { get; set; }
     }
 }
 

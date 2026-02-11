@@ -51,6 +51,26 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.Structure
     {
         /// <summary>
         /// </summary>
+        [Property(xmiId: "EAID_93024D95_CE9D_DAAB_9AEC_391D1F5E023B", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        public string Ea_eleType { get; set; }
+
+        /// <summary>
+        /// </summary>
+        [Property(xmiId: "EAID_9D32B987_24EE_23DF_A49B_D3E8584B9282", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        public string Ea_guid { get; set; }
+
+        /// <summary>
+        /// </summary>
+        [Property(xmiId: "EAID_86E74187_ACD2_6262_9C91_3732A82BE207", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        public int Ea_localid { get; set; }
+
+        /// <summary>
+        /// </summary>
+        [Property(xmiId: "EAID_B08DF415_B99A_10E4_B57E_1F14F64FB6E3", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        public string Name { get; set; }
+
+        /// <summary>
+        /// </summary>
         [Property(xmiId: "EAID_99DA2A66_CD2B_ACA6_8CF0_91BE3C1FBDE1", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         public string Package { get; set; }
 
@@ -66,28 +86,8 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.Structure
 
         /// <summary>
         /// </summary>
-        [Property(xmiId: "EAID_86E74187_ACD2_6262_9C91_3732A82BE207", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
-        public int Ea_localid { get; set; }
-
-        /// <summary>
-        /// </summary>
-        [Property(xmiId: "EAID_93024D95_CE9D_DAAB_9AEC_391D1F5E023B", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
-        public string Ea_eleType { get; set; }
-
-        /// <summary>
-        /// </summary>
-        [Property(xmiId: "EAID_9D32B987_24EE_23DF_A49B_D3E8584B9282", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
-        public string Ea_guid { get; set; }
-
-        /// <summary>
-        /// </summary>
         [Property(xmiId: "EAID_A10BA277_62B2_DEAF_932D_9CF0E44770F0", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         public string Type { get; set; }
-
-        /// <summary>
-        /// </summary>
-        [Property(xmiId: "EAID_B08DF415_B99A_10E4_B57E_1F14F64FB6E3", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
-        public string Name { get; set; }
     }
 }
 
