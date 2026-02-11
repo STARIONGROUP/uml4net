@@ -51,8 +51,8 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.Structure
     {
         /// <summary>
         /// </summary>
-        [Property(xmiId: "EAID_BF5428A7_C57B_B077_B03C_B598DAFB4E8D", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
-        public int Linemode { get; set; }
+        [Property(xmiId: "EAID_888C4FC6_792E_6E52_B798_AF587726AF7F", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        public int HeadStyle { get; set; }
 
         /// <summary>
         /// </summary>
@@ -61,8 +61,13 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.Structure
 
         /// <summary>
         /// </summary>
-        [Property(xmiId: "EAID_842F2461_4204_6461_BF4D_1EC415AAAC08", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
-        public int Seqno { get; set; }
+        [Property(xmiId: "EAID_BF5428A7_C57B_B077_B03C_B598DAFB4E8D", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        public int Linemode { get; set; }
+
+        /// <summary>
+        /// </summary>
+        [Property(xmiId: "EAID_8F6BE956_22D8_5710_94C2_08D623872415", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        public int LineStyle { get; set; }
 
         /// <summary>
         /// </summary>
@@ -71,13 +76,8 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.Structure
 
         /// <summary>
         /// </summary>
-        [Property(xmiId: "EAID_888C4FC6_792E_6E52_B798_AF587726AF7F", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
-        public int HeadStyle { get; set; }
-
-        /// <summary>
-        /// </summary>
-        [Property(xmiId: "EAID_8F6BE956_22D8_5710_94C2_08D623872415", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
-        public int LineStyle { get; set; }
+        [Property(xmiId: "EAID_842F2461_4204_6461_BF4D_1EC415AAAC08", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        public int Seqno { get; set; }
     }
 }
 

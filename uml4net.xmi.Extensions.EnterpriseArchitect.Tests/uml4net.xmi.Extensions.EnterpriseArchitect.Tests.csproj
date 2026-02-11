@@ -44,10 +44,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Resources\" />
-    </ItemGroup>
-
-    <ItemGroup>
       <None Include="..\resources\Enterprise Architect Extensions\EAExport.xmi" Link="Resources\EAExport.xmi">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>

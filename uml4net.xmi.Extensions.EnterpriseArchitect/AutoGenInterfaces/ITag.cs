@@ -51,13 +51,13 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.Structure
     {
         /// <summary>
         /// </summary>
-        [Property(xmiId: "EAID_8B1389B0_B04C_D2B0_B430_44F49D79F2E0", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
-        public string Value { get; set; }
+        [Property(xmiId: "EAID_BD2DB40A_77BC_E8D5_B672_D71073D3AE58", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        public string ModelElement { get; set; }
 
         /// <summary>
         /// </summary>
-        [Property(xmiId: "EAID_BD2DB40A_77BC_E8D5_B672_D71073D3AE58", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
-        public string ModelElement { get; set; }
+        [Property(xmiId: "EAID_8B1389B0_B04C_D2B0_B430_44F49D79F2E0", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        public string Value { get; set; }
     }
 }
 

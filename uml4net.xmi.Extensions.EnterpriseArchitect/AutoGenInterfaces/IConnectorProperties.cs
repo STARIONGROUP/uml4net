@@ -51,6 +51,11 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.Structure
     {
         /// <summary>
         /// </summary>
+        [Property(xmiId: "EAID_A47ED00F_6815_E9F6_949C_5AB280E879B8", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        public string Direction { get; set; }
+
+        /// <summary>
+        /// </summary>
         [Property(xmiId: "EAID_A4B5BA2A_537A_85F7_B3B8_526F196E7020", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         public string Ea_type { get; set; }
 
@@ -58,11 +63,6 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.Structure
         /// </summary>
         [Property(xmiId: "EAID_8D00DB9C_ECDA_5269_973B_093137A175BE", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         public string Stereotype { get; set; }
-
-        /// <summary>
-        /// </summary>
-        [Property(xmiId: "EAID_A47ED00F_6815_E9F6_949C_5AB280E879B8", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
-        public string Direction { get; set; }
     }
 }
 

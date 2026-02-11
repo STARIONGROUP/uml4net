@@ -56,8 +56,8 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.Structure
 
         /// <summary>
         /// </summary>
-        [Property(xmiId: "EAID_B1C69BDF_E3EE_011D_80F9_25FA69988CD0", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
-        public string Version { get; set; }
+        [Property(xmiId: "EAID_B505D903_265C_3700_88ED_EFE33BD595F4", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        public int Complexity { get; set; }
 
         /// <summary>
         /// </summary>
@@ -66,13 +66,13 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.Structure
 
         /// <summary>
         /// </summary>
-        [Property(xmiId: "EAID_B505D903_265C_3700_88ED_EFE33BD595F4", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
-        public int Complexity { get; set; }
+        [Property(xmiId: "EAID_8C3C6C19_33BA_6246_9658_54AAC209BAD9", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        public Status Status { get; set; }
 
         /// <summary>
         /// </summary>
-        [Property(xmiId: "EAID_8C3C6C19_33BA_6246_9658_54AAC209BAD9", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
-        public Status Status { get; set; }
+        [Property(xmiId: "EAID_B1C69BDF_E3EE_011D_80F9_25FA69988CD0", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        public string Version { get; set; }
     }
 }
 
