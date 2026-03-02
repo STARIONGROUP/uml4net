@@ -73,8 +73,13 @@ Generated files contain the marker: `THIS IS AN AUTOMATICALLY GENERATED FILE. AN
 - Use C# type aliases (`int`, `string`, not `Int32`, `String`)
 - Always wrap blocks in curly braces, even single-line
 - `using` statements go inside the namespace
+- `System.*` namespaces go first, then other namespaces shall be sorted alphabeticaly
 - **No `#region` directives**
 - All public members require XML documentation (`///`)
+
+## Code Quality
+
+- we are using SonarQube have a quality gate that expects 80% coverage on new code.
 
 ### File Header
 
@@ -96,3 +101,7 @@ Every `.cs` file must have the Apache 2.0 copyright header:
 - Default branch: `development` (never work directly on master)
 - Create feature branches from `development`
 - Rebase before submitting PRs
+
+## Local do's and dont's
+
+- This is a C# codebase, refrain from using Python to verify the correctness of the implementation.

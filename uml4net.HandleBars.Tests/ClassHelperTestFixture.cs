@@ -21,6 +21,7 @@
 namespace uml4net.HandleBars.Tests
 {
     using System;
+    using System.Collections.Generic;
     using System.Globalization;
     using System.IO;
     using System.Linq;
@@ -188,6 +189,68 @@ namespace uml4net.HandleBars.Tests
             Assert.That(result, Does.Contain("Activity;"));
 
             Assert.That(() => action(new Dependency()), Throws.ArgumentException);
+        }
+
+        [Test]
+        public void Verify_that_RenderInheritanceDiagram_renders_svg_when_diagram_exists()
+        {
+            var template = "{{#Class.RenderInheritanceDiagram class diagrams}}<div>{{{this}}}</div>{{/Class.RenderInheritanceDiagram}}";
+
+            var action = this.handlebarsContext.Compile(template);
+
+            var root = this.xmiReaderResult.QueryRoot(xmiId: "_0", name: "UML");
+
+            var activitiesPackage = root.NestedPackage.Single(x => x.Name == "Activities");
+            var activity = activitiesPackage.PackagedElement.OfType<IClass>().Single(x => x.Name == "Activity");
+
+            var diagrams = new Dictionary<string, string>
+            {
+                [activity.XmiId] = "<svg>test-diagram</svg>"
+            };
+
+            var result = action(new { @class = activity, diagrams });
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(result, Does.Contain("<svg>test-diagram</svg>"));
+                Assert.That(result, Does.Contain("<div>"));
+            }
+        }
+
+        [Test]
+        public void Verify_that_RenderInheritanceDiagram_renders_nothing_when_diagram_does_not_exist()
+        {
+            var template = "before{{#Class.RenderInheritanceDiagram class diagrams}}<div>{{{this}}}</div>{{/Class.RenderInheritanceDiagram}}after";
+
+            var action = this.handlebarsContext.Compile(template);
+
+            var root = this.xmiReaderResult.QueryRoot(xmiId: "_0", name: "UML");
+
+            var activitiesPackage = root.NestedPackage.Single(x => x.Name == "Activities");
+            var activity = activitiesPackage.PackagedElement.OfType<IClass>().Single(x => x.Name == "Activity");
+
+            var diagrams = new Dictionary<string, string>();
+
+            var result = action(new { @class = activity, diagrams });
+
+            Assert.That(result, Is.EqualTo("beforeafter"));
+        }
+
+        [Test]
+        public void Verify_that_RenderInheritanceDiagram_renders_nothing_when_arguments_are_insufficient()
+        {
+            var template = "before{{#Class.RenderInheritanceDiagram class}}<div>{{{this}}}</div>{{/Class.RenderInheritanceDiagram}}after";
+
+            var action = this.handlebarsContext.Compile(template);
+
+            var root = this.xmiReaderResult.QueryRoot(xmiId: "_0", name: "UML");
+
+            var activitiesPackage = root.NestedPackage.Single(x => x.Name == "Activities");
+            var activity = activitiesPackage.PackagedElement.OfType<IClass>().Single(x => x.Name == "Activity");
+
+            var result = action(new { @class = activity });
+
+            Assert.That(result, Is.EqualTo("beforeafter"));
         }
     }
 }
