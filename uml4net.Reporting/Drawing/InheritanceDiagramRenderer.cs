@@ -21,6 +21,7 @@
 namespace uml4net.Reporting.Drawing
 {
     using System;
+    using System.Collections.Generic;
     using System.IO;
     using System.Linq;
 
@@ -108,6 +109,45 @@ namespace uml4net.Reporting.Drawing
 
             this.SvgRender(xmiReaderResult, xmiId, rootName, ms);
 
+            ms.Position = 0;
+            using var reader = new StreamReader(ms);
+            return reader.ReadToEnd();
+        }
+
+        /// <summary>
+        /// Renders a per-class inheritance tree SVG diagram that highlights the target class
+        /// and shows all its ancestors and descendants
+        /// </summary>
+        /// <param name="targetClass">
+        /// The <see cref="IClass"/> for which to render the inheritance tree
+        /// </param>
+        /// <param name="payload">
+        /// The <see cref="HandlebarsPayload"/> that contains the UML content
+        /// </param>
+        /// <returns>
+        /// a string that contains the per-class inheritance diagram in SVG format
+        /// </returns>
+        public string SvgRenderForClass(IClass targetClass, HandlebarsPayload payload)
+        {
+            var ancestors = targetClass.QueryAllGeneralClassifiers().OfType<IClass>().ToList();
+            var descendants = targetClass.QueryAllDescendantSpecializations().ToList();
+
+            var treeClasses = new HashSet<IClass>(ancestors);
+            treeClasses.Add(targetClass);
+
+            foreach (var descendant in descendants)
+            {
+                treeClasses.Add(descendant);
+            }
+
+            var filteredClasses = payload.Classes.Where(c => treeClasses.Contains(c)).ToList();
+
+            var geometryGraph = this.GenerateGeometryGraphForClasses(filteredClasses);
+
+            var svgDocument = this.GenerateSvgForClass(geometryGraph, targetClass);
+
+            using var ms = new MemoryStream();
+            svgDocument.Write(ms);
             ms.Position = 0;
             using var reader = new StreamReader(ms);
             return reader.ReadToEnd();
@@ -404,6 +444,296 @@ namespace uml4net.Reporting.Drawing
                 Fill = SvgPaintServer.None,
                 PathData = segments,
                 MarkerEnd = new Uri("url(#generalization-arrow)", UriKind.Relative)
+            };
+        }
+
+        /// <summary>
+        /// Generate a <see cref="GeometryGraph"/> for a specific set of classes
+        /// </summary>
+        /// <param name="classes">
+        /// The classes to include in the graph
+        /// </param>
+        /// <returns>
+        /// an instance of <see cref="GeometryGraph"/>
+        /// </returns>
+        private GeometryGraph GenerateGeometryGraphForClasses(List<IClass> classes)
+        {
+            var geometryGraph = new GeometryGraph();
+
+            foreach (var @class in classes)
+            {
+                var (height, width) = SvgDrawingHelper.EstimateBoxSize(@class.Name);
+
+                var curve = CurveFactory.CreateRectangle(width, height, new Microsoft.Msagl.Core.Geometry.Point());
+
+                var node = new Node(curve, @class);
+
+                geometryGraph.Nodes.Add(node);
+            }
+
+            foreach (var @class in classes)
+            {
+                foreach (var superClass in @class.SuperClass)
+                {
+                    var sourceNode = geometryGraph.FindNodeByUserData(@class);
+                    var targetNode = geometryGraph.FindNodeByUserData(superClass);
+
+                    if (sourceNode != null && targetNode != null)
+                    {
+                        var edge = new Edge(sourceNode, targetNode);
+
+                        geometryGraph.Edges.Add(edge);
+                    }
+                }
+            }
+
+            var settings = new SugiyamaLayoutSettings()
+            {
+                LayerSeparation = 30,
+                NodeSeparation = 10,
+                EdgeRoutingSettings = new EdgeRoutingSettings
+                {
+                    EdgeRoutingMode = EdgeRoutingMode.Rectilinear,
+                },
+            };
+
+            var layoutEngine = new LayeredLayout(geometryGraph, settings);
+            layoutEngine.Run();
+
+            return geometryGraph;
+        }
+
+        /// <summary>
+        /// Generates an SVG document for a per-class inheritance tree with the target class highlighted
+        /// </summary>
+        /// <param name="geometryGraph">
+        /// the subject <see cref="GeometryGraph"/>
+        /// </param>
+        /// <param name="targetClass">
+        /// The <see cref="IClass"/> that should be highlighted in the diagram
+        /// </param>
+        /// <returns>
+        /// The generated <see cref="SvgDocument"/>
+        /// </returns>
+        private SvgDocument GenerateSvgForClass(GeometryGraph geometryGraph, IClass targetClass)
+        {
+            var padding = 10f;
+
+            var bbox = geometryGraph.BoundingBox;
+
+            var width = (float)(bbox.Width + 2 * padding);
+            var height = (float)(bbox.Height + 2 * padding);
+
+            var markerId = $"gen-arrow-{targetClass.XmiId}";
+
+            var svgDocument = new SvgDocument
+            {
+                Width = width,
+                Height = height,
+                ViewBox = new SvgViewBox(
+                    (float)(bbox.Left - padding),
+                    (float)(bbox.Bottom - padding),
+                    width,
+                    height)
+            };
+            svgDocument.ID = $"inheritance-tree-{targetClass.XmiId}";
+
+            var borderRect = new SvgRectangle
+            {
+                X = (float)(bbox.Left - padding),
+                Y = (float)(bbox.Bottom - padding),
+                Width = width,
+                Height = height,
+                Fill = SvgPaintServer.None,
+                Stroke = new SvgColourServer(System.Drawing.Color.Black),
+                StrokeWidth = 1
+            };
+
+            svgDocument.Children.Add(borderRect);
+
+            var arrowMarker = new SvgMarker
+            {
+                ID = markerId,
+                MarkerUnits = SvgMarkerUnits.StrokeWidth,
+                MarkerWidth = 10,
+                MarkerHeight = 10,
+                RefX = 10,
+                RefY = 5,
+                Orient = new SvgOrient { IsAuto = true }
+            };
+
+            var arrowPath = new SvgPath
+            {
+                Stroke = new SvgColourServer(System.Drawing.Color.Black),
+                Fill = new SvgColourServer(System.Drawing.Color.White),
+                StrokeWidth = 1,
+                PathData = SvgPathBuilder.Parse("M0,0 L10,5 L0,10 Z".AsSpan())
+            };
+
+            arrowMarker.Children.Add(arrowPath);
+            svgDocument.Children.Add(arrowMarker);
+
+            foreach (var node in geometryGraph.Nodes)
+            {
+                var @class = (IClass)node.UserData;
+                var isTarget = @class == targetClass;
+
+                var group = this.ConvertNodeToRectangleAndLabel(node, isTarget);
+
+                svgDocument.Children.Add(group);
+            }
+
+            foreach (var edge in geometryGraph.Edges)
+            {
+                var svgPath = this.ConvertEdgeToSvgPath(edge, markerId);
+                if (svgPath != null)
+                {
+                    svgDocument.Children.Add(svgPath);
+                }
+            }
+
+            return svgDocument;
+        }
+
+        /// <summary>
+        /// Converts a <see cref="Node"/> to an <see cref="SvgRectangle"/> and <see cref="SvgText"/>
+        /// with optional highlighting for the target class
+        /// </summary>
+        /// <param name="node">
+        /// The <see cref="Node"/> that represents a <see cref="IClass"/> in the inheritance diagram
+        /// </param>
+        /// <param name="isTarget">
+        /// Whether this node represents the target class that should be highlighted
+        /// </param>
+        /// <returns>
+        /// the <see cref="SvgGroup"/>
+        /// </returns>
+        private SvgGroup ConvertNodeToRectangleAndLabel(Node node, bool isTarget)
+        {
+            var box = node.BoundingBox;
+            var @class = (IClass)node.UserData;
+
+            var fillColor = isTarget ? System.Drawing.Color.FromArgb(5, 166, 229) : System.Drawing.Color.White;
+            var textColor = isTarget ? System.Drawing.Color.White : System.Drawing.Color.Black;
+
+            var anchor = new SvgAnchor
+            {
+                Href = $"#{@class.XmiId}"
+            };
+
+            var rectangle = new SvgRectangle
+            {
+                X = (float)box.Left,
+                Y = (float)box.Bottom,
+                Width = (float)box.Width,
+                Height = (float)box.Height,
+                Fill = new SvgColourServer(fillColor),
+                Stroke = new SvgColourServer(System.Drawing.Color.Black)
+            };
+
+            var label = new SvgText(@class.Name)
+            {
+                X = { (float)box.Center.X },
+                Y = { (float)box.Center.Y + 4 },
+                TextAnchor = SvgTextAnchor.Middle,
+                FontSize = 12,
+                FontFamily = "sans-serif",
+                Fill = new SvgColourServer(textColor),
+                FontStyle = @class.IsAbstract ? SvgFontStyle.Italic : SvgFontStyle.Normal
+            };
+
+            var tooltipText = $"Name: {@class.Name}\n" +
+                              $"Is Abstract: {@class.IsAbstract}\n" +
+                              $"Superclasses: {string.Join(", ", @class.SuperClass.Select(c => c.Name))}\n" +
+                              $"Description: {@class.QueryRawDocumentation()}";
+
+            var title = new SvgTitle
+            {
+                Content = tooltipText
+            };
+
+            anchor.Children.Add(rectangle);
+            anchor.Children.Add(label);
+            anchor.Children.Add(title);
+
+            var group = new SvgGroup();
+            group.Children.Add(anchor);
+
+            return group;
+        }
+
+        /// <summary>
+        /// Converts an <see cref="Edge"/> into an <see cref="SvgPath"/> using the specified marker ID
+        /// </summary>
+        /// <param name="edge">
+        /// The subject <see cref="Edge"/> that is to be converted
+        /// </param>
+        /// <param name="markerId">
+        /// The ID of the arrow marker to use
+        /// </param>
+        /// <returns>
+        /// the resulting <see cref="SvgPath"/>
+        /// </returns>
+        private SvgPath ConvertEdgeToSvgPath(Edge edge, string markerId)
+        {
+            var curve = edge.Curve;
+            if (curve == null)
+            {
+                return null;
+            }
+
+            var segments = new SvgPathSegmentList();
+
+            segments.Add(new SvgMoveToSegment(false, SvgDrawingHelper.ToPointF(curve.Start)));
+
+            switch (curve)
+            {
+                case Curve compound:
+                    foreach (var segment in compound.Segments)
+                    {
+                        this.AddSegment(segments, segment);
+                    }
+                    break;
+
+                case LineSegment line:
+                    segments.Add(new SvgLineSegment(false, SvgDrawingHelper.ToPointF(line.End)));
+                    break;
+
+                case CubicBezierSegment bezier:
+                    segments.Add(new SvgCubicCurveSegment(
+                        isRelative: false,
+                        SvgDrawingHelper.ToPointF(bezier.B(0)),
+                        SvgDrawingHelper.ToPointF(bezier.B(1)),
+                        SvgDrawingHelper.ToPointF(bezier.B(3))
+                    ));
+                    break;
+
+                case Polyline polyline:
+                    foreach (var point in polyline.Skip(1))
+                    {
+                        segments.Add(new SvgLineSegment(false, SvgDrawingHelper.ToPointF(point)));
+                    }
+                    break;
+
+                case RoundedRect:
+                    this.logger.LogWarning("RoundedRect is not (yet) supported");
+                    break;
+
+                case Ellipse:
+                    this.logger.LogWarning("Ellipse is not (yet) supported");
+                    break;
+
+                default:
+                    this.logger.LogWarning("Unsupported Curve type encountered: {CurveType}", curve.GetType().FullName);
+                    return null;
+            }
+
+            return new SvgPath
+            {
+                Stroke = new SvgColourServer(System.Drawing.Color.Black),
+                Fill = SvgPaintServer.None,
+                PathData = segments,
+                MarkerEnd = new Uri($"url(#{markerId})", UriKind.Relative)
             };
         }
 

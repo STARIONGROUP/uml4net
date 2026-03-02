@@ -149,6 +149,41 @@ namespace uml4net.Reporting.Tests.Generators
         }
 
         [Test]
+        public void Verify_that_generated_html_report_contains_per_class_inheritance_diagrams()
+        {
+            this.htmlReportGenerator = new HtmlReportGenerator(this.inheritanceDiagramRenderer, this.loggerFactory);
+
+            var pathmap = new Dictionary<string, string>();
+
+            var html = this.htmlReportGenerator.GenerateReport(this.umlModelFileInfo, this.umlModelFileInfo.Directory, "_0", "UML", true, pathmap);
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(html, Is.Not.Null.And.Not.Empty);
+                Assert.That(html, Does.Contain("inheritance-tree-"));
+                Assert.That(html, Does.Contain("Show Inheritance Tree"));
+            }
+        }
+
+        [Test]
+        public void Verify_that_generated_html_report_of_sysml2_contains_per_class_inheritance_diagrams()
+        {
+            this.htmlReportGenerator = new HtmlReportGenerator(this.inheritanceDiagramRenderer, this.loggerFactory);
+
+            var pathmap = new Dictionary<string, string>();
+            pathmap.Add("pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml", Path.Combine("TestData", "PrimitiveTypes.xmi"));
+
+            var html = this.htmlReportGenerator.GenerateReport(this.sysml2ModelFileInfo, this.umlModelFileInfo.Directory, "_kUROkM9FEe6Zc_le1peNgQ", "sysml", true, pathmap);
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(html, Is.Not.Null.And.Not.Empty);
+                Assert.That(html, Does.Contain("inheritance-tree-"));
+                Assert.That(html, Does.Contain("Show Inheritance Tree"));
+            }
+        }
+
+        [Test]
         public void Verify_that_the_report_generator_throws_exception_when_modelpath_or_rootdirectory_are_null()
         {
             this.htmlReportGenerator = new HtmlReportGenerator(this.inheritanceDiagramRenderer, this.loggerFactory);

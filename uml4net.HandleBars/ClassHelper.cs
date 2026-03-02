@@ -21,7 +21,10 @@
 namespace uml4net.HandleBars
 {
     using System;
+    using System.Collections.Generic;
+    using System.IO;
     using System.Linq;
+
     using HandlebarsDotNet;
 
     using uml4net.Extensions;
@@ -237,6 +240,29 @@ namespace uml4net.HandleBars
                 }
 
                 return @class.QueryAllOperations();
+            });
+
+            handlebars.RegisterHelper("Class.RenderInheritanceDiagram", (output, options, context, arguments) =>
+            {
+                if (arguments.Length < 2)
+                {
+                    return;
+                }
+
+                if (!(arguments[0] is IClass @class))
+                {
+                    return;
+                }
+
+                if (!(arguments[1] is IDictionary<string, string> diagrams))
+                {
+                    return;
+                }
+
+                if (diagrams.TryGetValue(@class.XmiId, out var svg))
+                {
+                    options.Template(output, svg);
+                }
             });
         }
     }

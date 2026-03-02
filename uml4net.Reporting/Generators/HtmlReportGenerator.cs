@@ -24,10 +24,12 @@ namespace uml4net.Reporting.Generators
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.IO;
-    
+    using System.Linq;
+
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Logging.Abstractions;
 
+    using uml4net.Extensions;
     using uml4net.HandleBars;
 
     using uml4net.Reporting.Drawing;
@@ -132,10 +134,27 @@ namespace uml4net.Reporting.Generators
 
             var inheritanceDiagramSvg = this.inheritanceDiagramRenderer.SvgRender(xmiReaderResult, rootPackageXmiId, rootPackageName);
 
+            var classInheritanceDiagrams = new Dictionary<string, string>();
+
+            foreach (var @class in payload.Classes)
+            {
+                var hasSuperClasses = @class.SuperClass.Any();
+                var hasSubClasses = @class.QueryAllSpecializations().Any();
+
+                if (!hasSuperClasses && !hasSubClasses)
+                {
+                    continue;
+                }
+
+                var svg = this.inheritanceDiagramRenderer.SvgRenderForClass(@class, payload);
+                classInheritanceDiagrams[@class.XmiId] = svg;
+            }
+
             var generatedHtml = template(new
             {
                 Payload = payload,
                 InheritanceDiagramSvg = inheritanceDiagramSvg,
+                ClassInheritanceDiagrams = classInheritanceDiagrams,
                 CustomHtml = customHtml
             });
 

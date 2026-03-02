@@ -158,6 +158,52 @@ namespace uml4net.Extensions
         }
 
         /// <summary>
+        /// Queries all descendant specializations (subclasses at all levels) of the <paramref name="class"/>
+        /// </summary>
+        /// <param name="class">
+        /// The <see cref="IClass"/> for which all descendant specializations are to be queried
+        /// </param>
+        /// <returns>
+        /// a readonly collection of <see cref="IClass"/> containing all descendants at all levels
+        /// </returns>
+        public static ReadOnlyCollection<IClass> QueryAllDescendantSpecializations(this IClass @class)
+        {
+            if (@class == null)
+            {
+                throw new ArgumentNullException(nameof(@class));
+            }
+
+            var result = new List<IClass>();
+
+            QueryAllDescendantSpecializationsRecursive(@class, result);
+
+            return result.Distinct().ToList().AsReadOnly();
+        }
+
+        /// <summary>
+        /// Recursively collects all descendant specializations
+        /// </summary>
+        /// <param name="class">
+        /// The <see cref="IClass"/> for which to collect descendants
+        /// </param>
+        /// <param name="result">
+        /// The accumulator list of <see cref="IClass"/>
+        /// </param>
+        private static void QueryAllDescendantSpecializationsRecursive(IClass @class, List<IClass> result)
+        {
+            var immediateSpecializations = @class.QueryAllSpecializations();
+
+            foreach (var specialization in immediateSpecializations)
+            {
+                if (!result.Contains(specialization))
+                {
+                    result.Add(specialization);
+                    QueryAllDescendantSpecializationsRecursive(specialization, result);
+                }
+            }
+        }
+
+        /// <summary>
         /// Returns the complete set of <see cref="IConstraint"/>>s that apply to the specified
         /// <see cref="IClass"/>, including constraints owned by the class itself
         /// and all constraints inherited from its general classifiers.
