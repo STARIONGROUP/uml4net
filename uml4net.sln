@@ -16,7 +16,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Soluttion Items", "Soluttio
 		NOTICE = NOTICE
 		Nuget.Config = Nuget.Config
 		README.md = README.md
-		release.bat = release.bat
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "uml4net.xmi", "uml4net.xmi\uml4net.xmi.csproj", "{6C34F77D-734A-4983-B11C-7C166EE5E684}"
@@ -46,6 +45,14 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "uml4net.xmi.Extensions.EnterpriseArchitect", "uml4net.xmi.Extensions.EnterpriseArchitect\uml4net.xmi.Extensions.EnterpriseArchitect.csproj", "{CA93DA85-9D01-430A-8202-6E3B4B89A5EA}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "uml4net.xmi.Extensions.EnterpriseArchitect.Tests", "uml4net.xmi.Extensions.EnterpriseArchitect.Tests\uml4net.xmi.Extensions.EnterpriseArchitect.Tests.csproj", "{8B2E995B-2A38-474E-85BD-EC5130EA96FB}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{C18FD73B-C19E-498C-AD5D-55AFD4CFC36A}"
+	ProjectSection(SolutionItems) = preProject
+		.github\workflows\nuget-reference-check.yml = .github\workflows\nuget-reference-check.yml
+		.github\workflows\codeql-analysis.yml = .github\workflows\codeql-analysis.yml
+		.github\workflows\CodeQuality.yml = .github\workflows\CodeQuality.yml
+		.github\workflows\release.yml = .github\workflows\release.yml
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -123,5 +130,8 @@ Global
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {02E1AAD3-589F-4086-81C5-2CF7981F28E9}
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{C18FD73B-C19E-498C-AD5D-55AFD4CFC36A} = {4B43DD11-63AD-4703-BBA0-C279CFCC465F}
 	EndGlobalSection
 EndGlobal
