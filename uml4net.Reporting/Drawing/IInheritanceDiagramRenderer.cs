@@ -22,6 +22,9 @@ namespace uml4net.Reporting.Drawing
 {
     using System.IO;
 
+    using uml4net.Reporting.Payload;
+    using uml4net.StructuredClassifiers;
+
     using xmi.Readers;
 
     /// <summary>
@@ -63,5 +66,20 @@ namespace uml4net.Reporting.Drawing
         /// a string that contains the diagram in SVG format
         /// </returns>
         string SvgRender(XmiReaderResult xmiReaderResult, string xmiId, string rootName);
+
+        /// <summary>
+        /// Renders a per-class inheritance tree SVG diagram that highlights the target class
+        /// and shows all its ancestors and descendants
+        /// </summary>
+        /// <param name="targetClass">
+        /// The <see cref="IClass"/> for which to render the inheritance tree
+        /// </param>
+        /// <param name="payload">
+        /// The <see cref="HandlebarsPayload"/> that contains the UML content
+        /// </param>
+        /// <returns>
+        /// a string that contains the per-class inheritance diagram in SVG format
+        /// </returns>
+        string SvgRenderForClass(IClass targetClass, HandlebarsPayload payload);
     }
 }
