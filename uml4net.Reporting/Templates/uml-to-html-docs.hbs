@@ -245,28 +245,6 @@
             transform: rotate(90deg);
         }
 
-        .inheritance-toggle {
-            margin: 10px 0;
-        }
-
-        .inheritance-toggle summary {
-            cursor: pointer;
-            padding: 8px 12px;
-            background: #BFD9FF;
-            border: 1px solid #69c;
-            color: #05A6E5;
-            font-weight: bold;
-            font-size: 12px;
-            display: inline-block;
-        }
-
-        .inheritance-toggle summary:hover {
-            background: #a8c8ff;
-        }
-
-        .inheritance-toggle .diagram-container {
-            padding: 10px 0;
-        }
     </style>
 
     <title>{{ Payload.RootPackage.Name }} - UML Model Documentation</title>
@@ -509,11 +487,9 @@
                     </details>
 
                     {{#Class.RenderInheritanceDiagram class @root.ClassInheritanceDiagrams}}
-                    <details class="inheritance-toggle">
-                        <summary>Show Inheritance Tree</summary>
-                        <div class="diagram-container">
-                            {{{this}}}
-                        </div>
+                    <details class="collapsible-section">
+                    <summary><H4>Inheritance Diagram</H4></summary>
+                    {{{this}}}
                     </details>
                     {{/Class.RenderInheritanceDiagram}}
 
