@@ -163,7 +163,7 @@ namespace uml4net.Reporting.Tests.Generators
             {
                 Assert.That(html, Is.Not.Null.And.Not.Empty);
                 Assert.That(html, Does.Contain("inheritance-tree-"));
-                Assert.That(html, Does.Contain("Show Inheritance Tree"));
+                Assert.That(html, Does.Contain("Inheritance Diagram"));
             }
         }
 
@@ -181,7 +181,7 @@ namespace uml4net.Reporting.Tests.Generators
             {
                 Assert.That(html, Is.Not.Null.And.Not.Empty);
                 Assert.That(html, Does.Contain("inheritance-tree-"));
-                Assert.That(html, Does.Contain("Show Inheritance Tree"));
+                Assert.That(html, Does.Contain("Inheritance Diagram"));
             }
         }
 
@@ -265,11 +265,12 @@ namespace uml4net.Reporting.Tests.Generators
 
             var html = this.htmlReportGenerator.GenerateReport(this.umlModelFileInfo, this.umlModelFileInfo.Directory, "_0", "UML", true, pathmap);
 
-            var detailsCount = Regex.Matches(html, "<details class=\"collapsible-section\"").Count;
             var openDetailsCount = Regex.Matches(html, "<details class=\"collapsible-section\" open>").Count;
+            var closedDetailsCount = Regex.Matches(html, @"<details class=""collapsible-section"">\s*<summary><H4>Inheritance Diagram</H4>").Count;
 
-            Assert.That(detailsCount, Is.GreaterThan(0), "No collapsible sections found");
-            Assert.That(openDetailsCount, Is.EqualTo(detailsCount), "All collapsible sections should be open by default");
+            Assert.That(openDetailsCount, Is.GreaterThan(0), "No open collapsible sections found");
+            Assert.That(closedDetailsCount, Is.GreaterThan(0), "No inheritance diagram collapsible sections found");
+            Assert.That(openDetailsCount + closedDetailsCount, Is.EqualTo(Regex.Matches(html, "<details class=\"collapsible-section\"").Count), "All collapsible sections should be either open or inheritance diagrams");
         }
 
         [Test]
