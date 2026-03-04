@@ -266,7 +266,7 @@ namespace uml4net.Reporting.Tests.Generators
             var html = this.htmlReportGenerator.GenerateReport(this.umlModelFileInfo, this.umlModelFileInfo.Directory, "_0", "UML", true, pathmap);
 
             var openDetailsCount = Regex.Matches(html, "<details class=\"collapsible-section\" open>").Count;
-            var closedDetailsCount = Regex.Matches(html, @"<details class=""collapsible-section"">\s*<summary><H4>Inheritance Diagram</H4>").Count;
+            var closedDetailsCount = Regex.Matches(html, @"<details class=""collapsible-section"">\s*<summary><H[34][^>]*>Inheritance Diagram</H[34]>").Count;
 
             Assert.That(openDetailsCount, Is.GreaterThan(0), "No open collapsible sections found");
             Assert.That(closedDetailsCount, Is.GreaterThan(0), "No inheritance diagram collapsible sections found");

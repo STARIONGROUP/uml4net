@@ -37,6 +37,8 @@
         main {
             flex: 1;
             display: flex;
+            position: relative;
+            min-width: 0;
         }
 
         aside, article {
@@ -55,6 +57,7 @@
 
         article {
             flex: 3;
+            min-width: 0;
         }
 
         @charset 'UTF-8';
@@ -233,6 +236,11 @@
             display: inline;
         }
 
+        details.collapsible-section > summary > h3,
+        details.collapsible-section > summary > H3 {
+            display: inline;
+        }
+
         details.collapsible-section > summary::before {
             content: "\25B6";
             display: inline-block;
@@ -245,6 +253,88 @@
             transform: rotate(90deg);
         }
 
+        .svg-scroll-container {
+            overflow: auto;
+            max-width: 100%;
+            border: 1px solid #ddd;
+            padding: 1em;
+            background: #fafafa;
+        }
+
+        .svg-scroll-container svg {
+            display: block;
+        }
+
+        .sidebar-toggle {
+            position: absolute;
+            top: 0.5em;
+            left: 0.5em;
+            z-index: 100;
+            background: #05A6E5;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            padding: 0.4em 0.6em;
+            font-size: 1.2em;
+            cursor: pointer;
+        }
+
+        .sidebar-toggle:hover {
+            background: #0490c5;
+        }
+
+        aside.collapsed {
+            display: none;
+        }
+
+        .nav-fab {
+            position: fixed;
+            right: 2em;
+            z-index: 100;
+            background: #05A6E5;
+            color: #fff;
+            border: none;
+            border-radius: 50%;
+            width: 3em;
+            height: 3em;
+            font-size: 1em;
+            cursor: pointer;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+            display: none;
+        }
+
+        .nav-fab:hover {
+            background: #0490c5;
+        }
+
+        .back-to-top {
+            bottom: 2em;
+        }
+
+        .go-to-diagram {
+            bottom: 5.5em;
+        }
+
+        .section-toolbar {
+            display: flex;
+            gap: 0.5em;
+            margin-bottom: 1em;
+        }
+
+        .section-toolbar button {
+            background: #05A6E5;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            padding: 0.4em 0.8em;
+            font-size: 0.85em;
+            cursor: pointer;
+        }
+
+        .section-toolbar button:hover {
+            background: #0490c5;
+        }
+
     </style>
 
     <title>{{ Payload.RootPackage.Name }} - UML Model Documentation</title>
@@ -252,7 +342,8 @@
 <body>
     <div class="wrap">
         <main>
-            <aside>
+            <button id="sidebar-toggle" class="sidebar-toggle" title="Toggle sidebar">&#9776;</button>
+            <aside id="sidebar">
                 <H2>Table of Contents</H2>
                 <H3><a href="#Enumeration">1. Enumeration Types ({{ Payload.Enumerations.Length }})</a></H3>
                 <ul>
@@ -315,6 +406,10 @@
                     </tbody>
                 </table>
 
+                <div class="section-toolbar">
+                    <button id="expand-all" title="Expand all sections">&#9660; Expand All</button>
+                    <button id="collapse-all" title="Collapse all sections">&#9650; Collapse All</button>
+                </div>
                 <H2 id="Enumeration">1. Enumeration Types</H2>
                 {{ #if (IEnumerable.IsEmpty Payload.Enumerations) }}
                     <p>No Enumerations have been found in the UML model</p>
@@ -489,7 +584,9 @@
                     {{#Class.RenderInheritanceDiagram class @root.ClassInheritanceDiagrams}}
                     <details class="collapsible-section">
                     <summary><H4>Inheritance Diagram</H4></summary>
+                    <div class="svg-scroll-container">
                     {{{this}}}
+                    </div>
                     </details>
                     {{/Class.RenderInheritanceDiagram}}
 
@@ -646,19 +743,19 @@
                     </details>
                     {{/each}}
                 {{ /if }}
+                <H2 id="Diagrams">5. Diagrams</H2>
+                <details class="collapsible-section">
+                <summary><H3 id="InheritanceDiagram">Inheritance Diagram</H3></summary>
+                <div class="svg-scroll-container">
+                    {{{InheritanceDiagramSvg}}}
+                    <a class="download-svg" data-target="inheritance-diagram" download="inheritance-diagram.svg" href="#">Download Inheritance Diagram</a>
+                </div>
+                </details>
             </article>
         </main>
     </div>
-    <diagrams>
-            <H2 id="Diagrams">5. Diagrams</H2>
-            <details class="collapsible-section" open>
-            <summary><H3 id="InheritanceDiagram">Inheritance Diagram</H3></summary>
-            <div>
-                {{{InheritanceDiagramSvg}}}
-                <a class="download-svg" data-target="inheritance-diagram" download="inheritance-diagram.svg" href="#">Download Inheritance Diagram</a>
-            </div>
-            </details>
-        </diagrams>
+    <button id="go-to-diagram" class="nav-fab go-to-diagram" title="Go to Inheritance Diagram">&#9670;</button>
+    <button id="back-to-top" class="nav-fab back-to-top" title="Back to top">&#9650;</button>
 
         <script>
             document.querySelectorAll('.download-svg').forEach(link => {
@@ -679,6 +776,52 @@
                 this.href = url;
                 });
             });
+
+            (function () {
+                var sidebar = document.getElementById('sidebar');
+                var toggle = document.getElementById('sidebar-toggle');
+                toggle.addEventListener('click', function () {
+                    sidebar.classList.toggle('collapsed');
+                    if (sidebar.classList.contains('collapsed')) {
+                        toggle.title = 'Show sidebar';
+                    } else {
+                        toggle.title = 'Toggle sidebar';
+                    }
+                });
+
+                var article = document.querySelector('article');
+                var backToTop = document.getElementById('back-to-top');
+                var goToDiagram = document.getElementById('go-to-diagram');
+                article.addEventListener('scroll', function () {
+                    var show = article.scrollTop > 300;
+                    backToTop.style.display = show ? 'block' : 'none';
+                    goToDiagram.style.display = show ? 'block' : 'none';
+                });
+                backToTop.addEventListener('click', function () {
+                    article.scrollTo({ top: 0, behavior: 'smooth' });
+                });
+                goToDiagram.addEventListener('click', function () {
+                    var target = document.getElementById('InheritanceDiagram');
+                    if (target) {
+                        var details = target.closest('details');
+                        if (details && !details.open) {
+                            details.open = true;
+                        }
+                        target.scrollIntoView({ behavior: 'smooth' });
+                    }
+                });
+
+                document.getElementById('expand-all').addEventListener('click', function () {
+                    article.querySelectorAll('details.collapsible-section').forEach(function (d) {
+                        d.open = true;
+                    });
+                });
+                document.getElementById('collapse-all').addEventListener('click', function () {
+                    article.querySelectorAll('details.collapsible-section').forEach(function (d) {
+                        d.open = false;
+                    });
+                });
+            })();
         </script>
 </body>
 </html>
