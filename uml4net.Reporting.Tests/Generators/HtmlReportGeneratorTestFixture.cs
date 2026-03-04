@@ -20,8 +20,10 @@
 
 namespace uml4net.Reporting.Tests.Generators
 {
+    using System;
     using System.Collections.Generic;
     using System.IO;
+    using System.Text.RegularExpressions;
     using Microsoft.Extensions.Logging;
     using Moq;
     using NUnit.Framework;
@@ -193,6 +195,116 @@ namespace uml4net.Reporting.Tests.Generators
             
             Assert.That(() => this.htmlReportGenerator.GenerateReport(null, null, "", "Data", true, null, reportFileInfo), Throws.ArgumentNullException);
             Assert.That(() => this.htmlReportGenerator.GenerateReport(this.magicDrawFileInfo, this.umlModelFileInfo.Directory, "", "Data", true, null,null, ""), Throws.ArgumentNullException);
+        }
+
+        [Test]
+        public void Verify_that_generated_html_contains_collapsible_details_elements()
+        {
+            this.htmlReportGenerator = new HtmlReportGenerator(this.inheritanceDiagramRenderer, this.loggerFactory);
+
+            var pathmap = new Dictionary<string, string>();
+
+            var html = this.htmlReportGenerator.GenerateReport(this.umlModelFileInfo, this.umlModelFileInfo.Directory, "_0", "UML", true, pathmap);
+
+            Assert.That(html, Does.Contain("<details class=\"collapsible-section\""));
+            Assert.That(html, Does.Contain("<summary>"));
+            Assert.That(html, Does.Contain("</details>"));
+        }
+
+        [Test]
+        public void Verify_that_generated_html_contains_collapsible_features_properties_and_rules_sections()
+        {
+            this.htmlReportGenerator = new HtmlReportGenerator(this.inheritanceDiagramRenderer, this.loggerFactory);
+
+            var pathmap = new Dictionary<string, string>();
+
+            var html = this.htmlReportGenerator.GenerateReport(this.umlModelFileInfo, this.umlModelFileInfo.Directory, "_0", "UML", true, pathmap);
+
+            Assert.That(html, Does.Contain("<summary><H4>Features</H4></summary>"));
+            Assert.That(html, Does.Contain("<summary><H4>Properties</H4></summary>"));
+            Assert.That(html, Does.Contain("<summary><H4>Rules</H4></summary>"));
+            Assert.That(html, Does.Contain("<summary><H4>Enumeration Literals</H4></summary>"));
+            Assert.That(html, Does.Contain("<summary><H3 id=\"InheritanceDiagram\">Inheritance Diagram</H3></summary>"));
+        }
+
+        [Test]
+        public void Verify_that_class_sections_are_ordered_features_properties_rules()
+        {
+            this.htmlReportGenerator = new HtmlReportGenerator(this.inheritanceDiagramRenderer, this.loggerFactory);
+
+            var pathmap = new Dictionary<string, string>();
+
+            var html = this.htmlReportGenerator.GenerateReport(this.umlModelFileInfo, this.umlModelFileInfo.Directory, "_0", "UML", true, pathmap);
+
+            var classesStart = html.IndexOf("<H2 id=\"Classes\">");
+            var interfacesStart = html.IndexOf("<H2 id=\"Interfaces\">");
+
+            Assert.That(classesStart, Is.GreaterThan(-1), "Classes section not found");
+            Assert.That(interfacesStart, Is.GreaterThan(-1), "Interfaces section not found");
+
+            var classesSection = html.Substring(classesStart, interfacesStart - classesStart);
+
+            var featuresIndex = classesSection.IndexOf("<summary><H4>Features</H4></summary>");
+            var propertiesIndex = classesSection.IndexOf("<summary><H4>Properties</H4></summary>");
+            var rulesIndex = classesSection.IndexOf("<summary><H4>Rules</H4></summary>");
+
+            Assert.That(featuresIndex, Is.GreaterThan(-1), "Features section not found in Classes");
+            Assert.That(propertiesIndex, Is.GreaterThan(-1), "Properties section not found in Classes");
+            Assert.That(rulesIndex, Is.GreaterThan(-1), "Rules section not found in Classes");
+
+            Assert.That(featuresIndex, Is.LessThan(propertiesIndex), "Features should appear before Properties");
+            Assert.That(propertiesIndex, Is.LessThan(rulesIndex), "Properties should appear before Rules");
+        }
+
+        [Test]
+        public void Verify_that_collapsible_sections_are_open_by_default()
+        {
+            this.htmlReportGenerator = new HtmlReportGenerator(this.inheritanceDiagramRenderer, this.loggerFactory);
+
+            var pathmap = new Dictionary<string, string>();
+
+            var html = this.htmlReportGenerator.GenerateReport(this.umlModelFileInfo, this.umlModelFileInfo.Directory, "_0", "UML", true, pathmap);
+
+            var detailsCount = Regex.Matches(html, "<details class=\"collapsible-section\"").Count;
+            var openDetailsCount = Regex.Matches(html, "<details class=\"collapsible-section\" open>").Count;
+
+            Assert.That(detailsCount, Is.GreaterThan(0), "No collapsible sections found");
+            Assert.That(openDetailsCount, Is.EqualTo(detailsCount), "All collapsible sections should be open by default");
+        }
+
+        [Test]
+        public void Verify_that_generated_html_contains_collapsible_section_css()
+        {
+            this.htmlReportGenerator = new HtmlReportGenerator(this.inheritanceDiagramRenderer, this.loggerFactory);
+
+            var pathmap = new Dictionary<string, string>();
+
+            var html = this.htmlReportGenerator.GenerateReport(this.umlModelFileInfo, this.umlModelFileInfo.Directory, "_0", "UML", true, pathmap);
+
+            Assert.That(html, Does.Contain("details.collapsible-section"));
+            Assert.That(html, Does.Contain("cursor: pointer"));
+        }
+
+        [Test]
+        public void Verify_that_QueryReportType_returns_html()
+        {
+            this.htmlReportGenerator = new HtmlReportGenerator(this.inheritanceDiagramRenderer, this.loggerFactory);
+
+            Assert.That(this.htmlReportGenerator.QueryReportType(), Is.EqualTo("html"));
+        }
+
+        [Test]
+        public void Verify_that_IsValidReportExtension_validates_correctly()
+        {
+            this.htmlReportGenerator = new HtmlReportGenerator(this.inheritanceDiagramRenderer, this.loggerFactory);
+
+            var validResult = this.htmlReportGenerator.IsValidReportExtension(new FileInfo("report.html"));
+            Assert.That(validResult.Item1, Is.True);
+
+            var invalidResult = this.htmlReportGenerator.IsValidReportExtension(new FileInfo("report.pdf"));
+            Assert.That(invalidResult.Item1, Is.False);
+
+            Assert.That(() => this.htmlReportGenerator.IsValidReportExtension(null), Throws.TypeOf<ArgumentNullException>());
         }
     }
 }

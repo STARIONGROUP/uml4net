@@ -209,6 +209,42 @@
             font-weight: bold;
         }
 
+        details.collapsible-section {
+            margin-bottom: 10px;
+        }
+
+        details.collapsible-section > summary {
+            cursor: pointer;
+            list-style: none;
+            user-select: none;
+        }
+
+        details.collapsible-section > summary::-webkit-details-marker {
+            display: none;
+        }
+
+        details.collapsible-section > summary > h4,
+        details.collapsible-section > summary > H4 {
+            display: inline;
+        }
+
+        details.collapsible-section > summary > h2,
+        details.collapsible-section > summary > H2 {
+            display: inline;
+        }
+
+        details.collapsible-section > summary::before {
+            content: "\25B6";
+            display: inline-block;
+            margin-right: 8px;
+            transition: transform 0.2s ease;
+            font-size: 0.8em;
+        }
+
+        details.collapsible-section[open] > summary::before {
+            transform: rotate(90deg);
+        }
+
         .inheritance-toggle {
             margin: 10px 0;
         }
@@ -307,7 +343,8 @@
                 {{ else }}
                     {{#each Payload.Enumerations as | enumeration |}}
                     <H3 id="{{enumeration.XmiId}}">{{enumeration.Name}} [Enumeration] </H3>
-                    <H4>Features</H4>
+                    <details class="collapsible-section" open>
+                    <summary><H4>Features</H4></summary>
                     <table class="starion-table">
                         <thead>
                             <tr>
@@ -326,7 +363,9 @@
                             </tr>
                         </tbody>
                     </table>
-                    <H4>Enumeration Literals</H4>
+                    </details>
+                    <details class="collapsible-section" open>
+                    <summary><H4>Enumeration Literals</H4></summary>
                     <table class="starion-table">
                         <thead>
                             <tr>
@@ -345,6 +384,7 @@
                             {{/each}}
                         </tbody>
                     </table>
+                    </details>
                     {{/each}}
                 {{ /if }}
 
@@ -354,7 +394,8 @@
                 {{ else }}
                     {{#each Payload.PrimitiveTypes as | primitiveType |}}
                     <H3 id="{{primitiveType.XmiId}}">{{primitiveType.Name}} [PrimitiveType]</H3>
-                    <H4>Features</H4>
+                    <details class="collapsible-section" open>
+                    <summary><H4>Features</H4></summary>
                     <table class="starion-table">
                         <thead>
                             <tr>
@@ -373,6 +414,7 @@
                             </tr>
                         </tbody>
                     </table>
+                    </details>
                     {{/each}}
                 {{ /if }}
 
@@ -382,7 +424,8 @@
                 {{ else }}
                     {{#each Payload.DataTypes as | datatype |}}
                     <H3 id="{{datatype.XmiId}}">{{datatype.Name}} [DataType]</H3>
-                    <H4>Features</H4>
+                    <details class="collapsible-section" open>
+                    <summary><H4>Features</H4></summary>
                     <table class="starion-table">
                         <thead>
                             <tr>
@@ -401,6 +444,7 @@
                             </tr>
                         </tbody>
                     </table>
+                    </details>
                     {{/each}}
                 {{ /if }}
 
@@ -410,7 +454,8 @@
                 {{ else }}
                     {{#each Payload.Classes as | class |}}
                     <H3 id="{{class.XmiId}}">{{class.Name}} [Class]</H3>
-                    <H4>Features</H4>
+                    <details class="collapsible-section" open>
+                    <summary><H4>Features</H4></summary>
                     <table class="starion-table">
                         <thead>
                             <tr>
@@ -461,34 +506,7 @@
                             </tr>
                         </tbody>
                     </table>
-
-                    <H4>Rules</H4>
-                    <table class="starion-table">
-                        <thead>
-                            <tr>
-                                <th>Name</th>
-                                <th>Visibilty</th>
-                                <th>Description</th>
-                                <th>Specification</th>
-                                <th>Owner</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {{ #each (Class.QueryAllConstraints class) as | constraint | }}
-                            <tr>
-                                <td id="{{ constraint.XmiId }}">{{ constraint.Name }}</td>
-                                <td>{{ constraint.Visibility }}</td>
-                                <td>{{ #RawDocumentation constraint }}</td>
-                                <td>
-                                {{ #each (constraint.Specification class) as | valueSpecification | }}
-                                {{ #ValueSpecification.WriteLanguageAndBody valueSpecification }}
-                                {{/each}}
-                                </td>
-                                <td><a href="#{{constraint.Owner.XmiId}}">{{constraint.Owner.Name}}</a></td>
-                            </tr>
-                            {{/each}}
-                        </tbody>
-                    </table>
+                    </details>
 
                     {{#Class.RenderInheritanceDiagram class @root.ClassInheritanceDiagrams}}
                     <details class="inheritance-toggle">
@@ -498,8 +516,9 @@
                         </div>
                     </details>
                     {{/Class.RenderInheritanceDiagram}}
-                    
-                    <H4>Properties</H4>
+
+                    <details class="collapsible-section" open>
+                    <summary><H4>Properties</H4></summary>
                     <table class="starion-table">
                         <thead>
                             <tr>
@@ -548,7 +567,37 @@
                             {{/each}}
                         </tbody>
                     </table>
+                    </details>
 
+                    <details class="collapsible-section" open>
+                    <summary><H4>Rules</H4></summary>
+                    <table class="starion-table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Visibilty</th>
+                                <th>Description</th>
+                                <th>Specification</th>
+                                <th>Owner</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {{ #each (Class.QueryAllConstraints class) as | constraint | }}
+                            <tr>
+                                <td id="{{ constraint.XmiId }}">{{ constraint.Name }}</td>
+                                <td>{{ constraint.Visibility }}</td>
+                                <td>{{ #RawDocumentation constraint }}</td>
+                                <td>
+                                {{ #each (constraint.Specification class) as | valueSpecification | }}
+                                {{ #ValueSpecification.WriteLanguageAndBody valueSpecification }}
+                                {{/each}}
+                                </td>
+                                <td><a href="#{{constraint.Owner.XmiId}}">{{constraint.Owner.Name}}</a></td>
+                            </tr>
+                            {{/each}}
+                        </tbody>
+                    </table>
+                    </details>
                     {{/each}}
                 {{ /if }}
 
@@ -560,7 +609,8 @@
                     <H3 id="{{interface.XmiId}}">{{interface.Name}} [Interface] </H3>
                     <H4>Definition</H4>
                     {{ #RawDocumentation interface }}
-                    <H4>Features</H4>
+                    <details class="collapsible-section" open>
+                    <summary><H4>Features</H4></summary>
                     <table class="starion-table">
                         <thead>
                             <tr>
@@ -583,7 +633,9 @@
                             </tr>
                         </tbody>
                     </table>
-                    <H4>Properties</H4>
+                    </details>
+                    <details class="collapsible-section" open>
+                    <summary><H4>Properties</H4></summary>
                     <table class="starion-table">
                         <thead>
                             <tr>
@@ -615,6 +667,7 @@
                             {{/each}}
                         </tbody>
                     </table>
+                    </details>
                     {{/each}}
                 {{ /if }}
             </article>
@@ -622,11 +675,13 @@
     </div>
     <diagrams>
             <H2 id="Diagrams">5. Diagrams</H2>
-            <H3 id="InheritanceDiagram">Inheritance Diagram</H2>
+            <details class="collapsible-section" open>
+            <summary><H3 id="InheritanceDiagram">Inheritance Diagram</H3></summary>
             <div>
                 {{{InheritanceDiagramSvg}}}
                 <a class="download-svg" data-target="inheritance-diagram" download="inheritance-diagram.svg" href="#">Download Inheritance Diagram</a>
             </div>
+            </details>
         </diagrams>
 
         <script>
