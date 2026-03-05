@@ -53,18 +53,29 @@ namespace uml4net.Reporting.Generators
         private readonly IInheritanceDiagramRenderer inheritanceDiagramRenderer;
 
         /// <summary>
+        /// The (injected) <see cref="IAssociationDiagramRenderer"/> used to render
+        /// the association diagram of the UML model
+        /// </summary>
+        private readonly IAssociationDiagramRenderer associationDiagramRenderer;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="HtmlReportGenerator" /> class.
         /// </summary>
         /// <param name="inheritanceDiagramRenderer">
         /// The (injected) <see cref="IInheritanceDiagramRenderer"/> used to render and
         /// SVG diagram of the uml model
         /// </param>
+        /// <param name="associationDiagramRenderer">
+        /// The (injected) <see cref="IAssociationDiagramRenderer"/> used to render
+        /// association diagrams of the UML model
+        /// </param>
         /// <param name="loggerFactory">
         /// The (injected) <see cref="ILoggerFactory" /> used to set up logging
         /// </param>
-        public HtmlReportGenerator(IInheritanceDiagramRenderer inheritanceDiagramRenderer, ILoggerFactory loggerFactory = null) : base(loggerFactory)
+        public HtmlReportGenerator(IInheritanceDiagramRenderer inheritanceDiagramRenderer, IAssociationDiagramRenderer associationDiagramRenderer, ILoggerFactory loggerFactory = null) : base(loggerFactory)
         {
             this.inheritanceDiagramRenderer = inheritanceDiagramRenderer;
+            this.associationDiagramRenderer = associationDiagramRenderer;
             this.logger = loggerFactory == null ? NullLogger<HtmlReportGenerator>.Instance : loggerFactory.CreateLogger<HtmlReportGenerator>();
         }
 
@@ -150,11 +161,27 @@ namespace uml4net.Reporting.Generators
                 classInheritanceDiagrams[@class.XmiId] = svg;
             }
 
+            var classAssociationDiagrams = new Dictionary<string, string>();
+
+            if (this.associationDiagramRenderer != null)
+            {
+                foreach (var @class in payload.Classes)
+                {
+                    var svg = this.associationDiagramRenderer.SvgRenderForClass(@class, payload);
+
+                    if (!string.IsNullOrEmpty(svg))
+                    {
+                        classAssociationDiagrams[@class.XmiId] = svg;
+                    }
+                }
+            }
+
             var generatedHtml = template(new
             {
                 Payload = payload,
                 InheritanceDiagramSvg = inheritanceDiagramSvg,
                 ClassInheritanceDiagrams = classInheritanceDiagrams,
+                ClassAssociationDiagrams = classAssociationDiagrams,
                 CustomHtml = customHtml
             });
 
