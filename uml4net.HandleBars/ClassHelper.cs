@@ -264,6 +264,29 @@ namespace uml4net.HandleBars
                     options.Template(output, svg);
                 }
             });
+
+            handlebars.RegisterHelper("Class.RenderAssociationDiagram", (output, options, context, arguments) =>
+            {
+                if (arguments.Length < 2)
+                {
+                    return;
+                }
+
+                if (!(arguments[0] is IClass @class))
+                {
+                    return;
+                }
+
+                if (!(arguments[1] is IDictionary<string, string> diagrams))
+                {
+                    return;
+                }
+
+                if (diagrams.TryGetValue(@class.XmiId, out var svg))
+                {
+                    options.Template(output, svg);
+                }
+            });
         }
     }
 }

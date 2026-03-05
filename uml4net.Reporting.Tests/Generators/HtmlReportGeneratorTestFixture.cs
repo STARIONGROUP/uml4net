@@ -38,6 +38,8 @@ namespace uml4net.Reporting.Tests.Generators
 
         private InheritanceDiagramRenderer inheritanceDiagramRenderer;
 
+        private AssociationDiagramRenderer associationDiagramRenderer;
+
         private HtmlReportGenerator htmlReportGenerator;
 
         private FileInfo umlModelFileInfo;
@@ -64,6 +66,7 @@ namespace uml4net.Reporting.Tests.Generators
             });
 
             this.inheritanceDiagramRenderer = new InheritanceDiagramRenderer(loggerFactory.CreateLogger<InheritanceDiagramRenderer>());
+            this.associationDiagramRenderer = new AssociationDiagramRenderer(loggerFactory.CreateLogger<AssociationDiagramRenderer>());
 
             this.umlModelFileInfo = new FileInfo(Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData", "UML.xmi"));
             this.sysml2ModelFileInfo = new FileInfo(Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData", "SysML.uml"));
@@ -75,7 +78,7 @@ namespace uml4net.Reporting.Tests.Generators
         [Test]
         public void Verify_that_the_report_generator_generates_a_report_of_uml()
         {
-            this.htmlReportGenerator = new HtmlReportGenerator(this.inheritanceDiagramRenderer, this.loggerFactory);
+            this.htmlReportGenerator = new HtmlReportGenerator(this.inheritanceDiagramRenderer, this.associationDiagramRenderer, this.loggerFactory);
 
             var reportFileInfo = new FileInfo(Path.Combine(TestContext.CurrentContext.TestDirectory, "uml-html-report.html"));
 
@@ -87,7 +90,7 @@ namespace uml4net.Reporting.Tests.Generators
         [Test]
         public void Verify_that_the_report_generator_generates_a_report_of_sysml2()
         {
-            this.htmlReportGenerator = new HtmlReportGenerator(this.inheritanceDiagramRenderer, this.loggerFactory);
+            this.htmlReportGenerator = new HtmlReportGenerator(this.inheritanceDiagramRenderer, this.associationDiagramRenderer, this.loggerFactory);
 
             var reportFileInfo = new FileInfo(Path.Combine(TestContext.CurrentContext.TestDirectory, "sysml2-html-report.html"));
 
@@ -100,7 +103,7 @@ namespace uml4net.Reporting.Tests.Generators
         [Test]
         public void Verify_that_the_report_generator_generates_a_report_of_sysml2_with_Custom_html()
         {
-            this.htmlReportGenerator = new HtmlReportGenerator(this.inheritanceDiagramRenderer, this.loggerFactory);
+            this.htmlReportGenerator = new HtmlReportGenerator(this.inheritanceDiagramRenderer, this.associationDiagramRenderer, this.loggerFactory);
 
             var reportFileInfo = new FileInfo(Path.Combine(TestContext.CurrentContext.TestDirectory, "sysml2-html-report.html"));
 
@@ -121,7 +124,7 @@ namespace uml4net.Reporting.Tests.Generators
         [Test]
         public void Verify_that_the_report_generator_generators_a_report_of_syml2pim()
         {
-            this.htmlReportGenerator = new HtmlReportGenerator(this.inheritanceDiagramRenderer, this.loggerFactory);
+            this.htmlReportGenerator = new HtmlReportGenerator(this.inheritanceDiagramRenderer, this.associationDiagramRenderer, this.loggerFactory);
 
             Extensions.PropertyExtensions.AddOrOverwriteCSharpTypeMappings(("ISO8601DateTime", "DateTime"));
 
@@ -133,7 +136,7 @@ namespace uml4net.Reporting.Tests.Generators
         [Test]
         public void Verify_that_the_report_generator_generators_a_report_of_ea_model()
         {
-            this.htmlReportGenerator = new HtmlReportGenerator(this.inheritanceDiagramRenderer, this.loggerFactory);
+            this.htmlReportGenerator = new HtmlReportGenerator(this.inheritanceDiagramRenderer, this.associationDiagramRenderer, this.loggerFactory);
 
             var reportFileInfo = new FileInfo(Path.Combine(TestContext.CurrentContext.TestDirectory, "EAExport.html"));
 
@@ -143,7 +146,7 @@ namespace uml4net.Reporting.Tests.Generators
         [Test]
         public void Verify_that_the_report_generator_generators_a_report_of_md_model()
         {
-            this.htmlReportGenerator = new HtmlReportGenerator(this.inheritanceDiagramRenderer, this.loggerFactory);
+            this.htmlReportGenerator = new HtmlReportGenerator(this.inheritanceDiagramRenderer, this.associationDiagramRenderer, this.loggerFactory);
             
             var reportFileInfo = new FileInfo(Path.Combine(TestContext.CurrentContext.TestDirectory, "MDExport.html"));
 
@@ -153,7 +156,7 @@ namespace uml4net.Reporting.Tests.Generators
         [Test]
         public void Verify_that_generated_html_report_contains_per_class_inheritance_diagrams()
         {
-            this.htmlReportGenerator = new HtmlReportGenerator(this.inheritanceDiagramRenderer, this.loggerFactory);
+            this.htmlReportGenerator = new HtmlReportGenerator(this.inheritanceDiagramRenderer, this.associationDiagramRenderer, this.loggerFactory);
 
             var pathmap = new Dictionary<string, string>();
 
@@ -170,7 +173,7 @@ namespace uml4net.Reporting.Tests.Generators
         [Test]
         public void Verify_that_generated_html_report_of_sysml2_contains_per_class_inheritance_diagrams()
         {
-            this.htmlReportGenerator = new HtmlReportGenerator(this.inheritanceDiagramRenderer, this.loggerFactory);
+            this.htmlReportGenerator = new HtmlReportGenerator(this.inheritanceDiagramRenderer, this.associationDiagramRenderer, this.loggerFactory);
 
             var pathmap = new Dictionary<string, string>();
             pathmap.Add("pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml", Path.Combine("TestData", "PrimitiveTypes.xmi"));
@@ -188,7 +191,7 @@ namespace uml4net.Reporting.Tests.Generators
         [Test]
         public void Verify_that_the_report_generator_throws_exception_when_modelpath_or_rootdirectory_are_null()
         {
-            this.htmlReportGenerator = new HtmlReportGenerator(this.inheritanceDiagramRenderer, this.loggerFactory);
+            this.htmlReportGenerator = new HtmlReportGenerator(this.inheritanceDiagramRenderer, this.associationDiagramRenderer, this.loggerFactory);
 
             var reportFileInfo = new FileInfo("some-path");
 
@@ -200,7 +203,7 @@ namespace uml4net.Reporting.Tests.Generators
         [Test]
         public void Verify_that_generated_html_contains_collapsible_details_elements()
         {
-            this.htmlReportGenerator = new HtmlReportGenerator(this.inheritanceDiagramRenderer, this.loggerFactory);
+            this.htmlReportGenerator = new HtmlReportGenerator(this.inheritanceDiagramRenderer, this.associationDiagramRenderer, this.loggerFactory);
 
             var pathmap = new Dictionary<string, string>();
 
@@ -214,7 +217,7 @@ namespace uml4net.Reporting.Tests.Generators
         [Test]
         public void Verify_that_generated_html_contains_collapsible_features_properties_and_rules_sections()
         {
-            this.htmlReportGenerator = new HtmlReportGenerator(this.inheritanceDiagramRenderer, this.loggerFactory);
+            this.htmlReportGenerator = new HtmlReportGenerator(this.inheritanceDiagramRenderer, this.associationDiagramRenderer, this.loggerFactory);
 
             var pathmap = new Dictionary<string, string>();
 
@@ -230,7 +233,7 @@ namespace uml4net.Reporting.Tests.Generators
         [Test]
         public void Verify_that_class_sections_are_ordered_features_properties_rules()
         {
-            this.htmlReportGenerator = new HtmlReportGenerator(this.inheritanceDiagramRenderer, this.loggerFactory);
+            this.htmlReportGenerator = new HtmlReportGenerator(this.inheritanceDiagramRenderer, this.associationDiagramRenderer, this.loggerFactory);
 
             var pathmap = new Dictionary<string, string>();
 
@@ -259,14 +262,14 @@ namespace uml4net.Reporting.Tests.Generators
         [Test]
         public void Verify_that_collapsible_sections_are_open_by_default()
         {
-            this.htmlReportGenerator = new HtmlReportGenerator(this.inheritanceDiagramRenderer, this.loggerFactory);
+            this.htmlReportGenerator = new HtmlReportGenerator(this.inheritanceDiagramRenderer, this.associationDiagramRenderer, this.loggerFactory);
 
             var pathmap = new Dictionary<string, string>();
 
             var html = this.htmlReportGenerator.GenerateReport(this.umlModelFileInfo, this.umlModelFileInfo.Directory, "_0", "UML", true, pathmap);
 
             var openDetailsCount = Regex.Matches(html, "<details class=\"collapsible-section\" open>").Count;
-            var closedDetailsCount = Regex.Matches(html, @"<details class=""collapsible-section"">\s*<summary><H[34][^>]*>Inheritance Diagram</H[34]>").Count;
+            var closedDetailsCount = Regex.Matches(html, @"<details class=""collapsible-section"">\s*<summary><H[34][^>]*>(?:Inheritance|Association) Diagram</H[34]>").Count;
 
             Assert.That(openDetailsCount, Is.GreaterThan(0), "No open collapsible sections found");
             Assert.That(closedDetailsCount, Is.GreaterThan(0), "No inheritance diagram collapsible sections found");
@@ -276,7 +279,7 @@ namespace uml4net.Reporting.Tests.Generators
         [Test]
         public void Verify_that_generated_html_contains_collapsible_section_css()
         {
-            this.htmlReportGenerator = new HtmlReportGenerator(this.inheritanceDiagramRenderer, this.loggerFactory);
+            this.htmlReportGenerator = new HtmlReportGenerator(this.inheritanceDiagramRenderer, this.associationDiagramRenderer, this.loggerFactory);
 
             var pathmap = new Dictionary<string, string>();
 
@@ -289,7 +292,7 @@ namespace uml4net.Reporting.Tests.Generators
         [Test]
         public void Verify_that_QueryReportType_returns_html()
         {
-            this.htmlReportGenerator = new HtmlReportGenerator(this.inheritanceDiagramRenderer, this.loggerFactory);
+            this.htmlReportGenerator = new HtmlReportGenerator(this.inheritanceDiagramRenderer, this.associationDiagramRenderer, this.loggerFactory);
 
             Assert.That(this.htmlReportGenerator.QueryReportType(), Is.EqualTo("html"));
         }
@@ -297,7 +300,7 @@ namespace uml4net.Reporting.Tests.Generators
         [Test]
         public void Verify_that_IsValidReportExtension_validates_correctly()
         {
-            this.htmlReportGenerator = new HtmlReportGenerator(this.inheritanceDiagramRenderer, this.loggerFactory);
+            this.htmlReportGenerator = new HtmlReportGenerator(this.inheritanceDiagramRenderer, this.associationDiagramRenderer, this.loggerFactory);
 
             var validResult = this.htmlReportGenerator.IsValidReportExtension(new FileInfo("report.html"));
             Assert.That(validResult.Item1, Is.True);

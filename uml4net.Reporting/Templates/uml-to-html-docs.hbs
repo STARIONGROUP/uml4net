@@ -590,6 +590,15 @@
                     </details>
                     {{/Class.RenderInheritanceDiagram}}
 
+                    {{#Class.RenderAssociationDiagram class @root.ClassAssociationDiagrams}}
+                    <details class="collapsible-section">
+                    <summary><H4>Association Diagram</H4></summary>
+                    <div class="svg-scroll-container">
+                    {{{this}}}
+                    </div>
+                    </details>
+                    {{/Class.RenderAssociationDiagram}}
+
                     <details class="collapsible-section" open>
                     <summary><H4>Properties</H4></summary>
                     <table class="starion-table">

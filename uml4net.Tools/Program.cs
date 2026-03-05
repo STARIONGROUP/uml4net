@@ -104,6 +104,7 @@ namespace uml4net.Tools
 
                     services.AddSingleton<IVersionChecker, VersionChecker>();
                     services.AddSingleton<IInheritanceDiagramRenderer, InheritanceDiagramRenderer>();
+                    services.AddSingleton<IAssociationDiagramRenderer, AssociationDiagramRenderer>();
                     services.AddSingleton<IXlReportGenerator, XlReportGenerator>();
                     services.AddSingleton<IModelInspector, ModelInspector>();
                     services.AddSingleton<IHtmlReportGenerator, HtmlReportGenerator>();
