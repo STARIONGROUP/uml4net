@@ -79,7 +79,9 @@ Generated files contain the marker: `THIS IS AN AUTOMATICALLY GENERATED FILE. AN
 
 ## Code Quality
 
-- we are using SonarQube have a quality gate that expects 80% coverage on new code.
+- We use SonarQube with a quality gate that expects **at least 80% code coverage on new code**.
+- When writing new code, always add or update unit tests to meet this coverage threshold.
+- Run coverage locally with the `dotnet test` coverage command in Build & Test Commands above.
 
 ### File Header
 

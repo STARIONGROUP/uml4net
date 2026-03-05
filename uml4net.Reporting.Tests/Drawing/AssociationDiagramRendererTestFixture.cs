@@ -43,8 +43,12 @@ namespace uml4net.Reporting.Tests.Drawing
 
         private AssociationDiagramRenderer associationDiagramRenderer;
 
-        [SetUp]
-        public void SetUp()
+        private XmiReaderResult xmiReaderResult;
+
+        private HandlebarsPayload payload;
+
+        [OneTimeSetUp]
+        public void OneTimeSetUp()
         {
             Log.Logger = new LoggerConfiguration()
                 .MinimumLevel.Information()
@@ -56,19 +60,22 @@ namespace uml4net.Reporting.Tests.Drawing
                 builder.AddSerilog();
             });
 
-            this.associationDiagramRenderer = new AssociationDiagramRenderer(loggerFactory.CreateLogger<AssociationDiagramRenderer>());
+            this.xmiReaderResult = this.LoadModel("UML.xmi");
+            this.payload = HandlebarsPayloadFactory.CreateHandlebarsPayload(this.xmiReaderResult, "_0", "UML");
+        }
+
+        [SetUp]
+        public void SetUp()
+        {
+            this.associationDiagramRenderer = new AssociationDiagramRenderer(this.loggerFactory.CreateLogger<AssociationDiagramRenderer>());
         }
 
         [Test]
         public void Verify_that_SvgRenderForClass_returns_svg_for_class_with_associations()
         {
-            var xmiReaderResult = this.LoadModel("UML.xmi");
+            var targetClass = this.payload.Classes.First(c => c.Name == "Class");
 
-            var payload = HandlebarsPayloadFactory.CreateHandlebarsPayload(xmiReaderResult, "_0", "UML");
-
-            var targetClass = payload.Classes.First(c => c.Name == "Class");
-
-            var svg = this.associationDiagramRenderer.SvgRenderForClass(targetClass, payload);
+            var svg = this.associationDiagramRenderer.SvgRenderForClass(targetClass, this.payload);
 
             using (Assert.EnterMultipleScope())
             {
@@ -82,13 +89,9 @@ namespace uml4net.Reporting.Tests.Drawing
         [Test]
         public void Verify_that_SvgRenderForClass_returns_svg_containing_multiplicity()
         {
-            var xmiReaderResult = this.LoadModel("UML.xmi");
+            var targetClass = this.payload.Classes.First(c => c.Name == "Class");
 
-            var payload = HandlebarsPayloadFactory.CreateHandlebarsPayload(xmiReaderResult, "_0", "UML");
-
-            var targetClass = payload.Classes.First(c => c.Name == "Class");
-
-            var svg = this.associationDiagramRenderer.SvgRenderForClass(targetClass, payload);
+            var svg = this.associationDiagramRenderer.SvgRenderForClass(targetClass, this.payload);
 
             Assert.That(svg, Is.Not.Null.And.Not.Empty);
         }
@@ -96,17 +99,13 @@ namespace uml4net.Reporting.Tests.Drawing
         [Test]
         public void Verify_that_SvgRenderForClass_returns_empty_for_class_with_no_associations()
         {
-            var xmiReaderResult = this.LoadModel("UML.xmi");
-
-            var payload = HandlebarsPayloadFactory.CreateHandlebarsPayload(xmiReaderResult, "_0", "UML");
-
-            var targetClass = payload.Classes.FirstOrDefault(c =>
-                !c.OwnedAttribute.Any(p => p.Type is IClass tc && payload.Classes.Contains(tc))
-                && !payload.Classes.Any(other => other != c && other.OwnedAttribute.Any(p => p.Type == c)));
+            var targetClass = this.payload.Classes.FirstOrDefault(c =>
+                !c.OwnedAttribute.Any(p => p.Type is IClass tc && this.payload.Classes.Contains(tc))
+                && !this.payload.Classes.Any(other => other != c && other.OwnedAttribute.Any(p => p.Type == c)));
 
             if (targetClass != null)
             {
-                var svg = this.associationDiagramRenderer.SvgRenderForClass(targetClass, payload);
+                var svg = this.associationDiagramRenderer.SvgRenderForClass(targetClass, this.payload);
 
                 Assert.That(svg, Is.Empty);
             }
@@ -115,13 +114,9 @@ namespace uml4net.Reporting.Tests.Drawing
         [Test]
         public void Verify_that_SvgRenderForClass_returns_svg_for_behavior_class()
         {
-            var xmiReaderResult = this.LoadModel("UML.xmi");
+            var targetClass = this.payload.Classes.First(c => c.Name == "Behavior");
 
-            var payload = HandlebarsPayloadFactory.CreateHandlebarsPayload(xmiReaderResult, "_0", "UML");
-
-            var targetClass = payload.Classes.First(c => c.Name == "Behavior");
-
-            var svg = this.associationDiagramRenderer.SvgRenderForClass(targetClass, payload);
+            var svg = this.associationDiagramRenderer.SvgRenderForClass(targetClass, this.payload);
 
             using (Assert.EnterMultipleScope())
             {
@@ -129,6 +124,178 @@ namespace uml4net.Reporting.Tests.Drawing
                 Assert.That(svg, Does.Contain("<svg"));
                 Assert.That(svg, Does.Contain("Behavior"));
             }
+        }
+
+        [Test]
+        public void Verify_that_SvgRenderForClass_contains_class_tooltip()
+        {
+            var targetClass = this.payload.Classes.First(c => c.Name == "Class");
+
+            var svg = this.associationDiagramRenderer.SvgRenderForClass(targetClass, this.payload);
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(svg, Does.Contain("<title>"));
+                Assert.That(svg, Does.Contain("Name: Class"));
+                Assert.That(svg, Does.Contain("Is Abstract:"));
+                Assert.That(svg, Does.Contain("Superclasses:"));
+                Assert.That(svg, Does.Contain("Description:"));
+            }
+        }
+
+        [Test]
+        public void Verify_that_SvgRenderForClass_contains_edge_tooltip()
+        {
+            var targetClass = this.payload.Classes.First(c => c.Name == "Class");
+
+            var svg = this.associationDiagramRenderer.SvgRenderForClass(targetClass, this.payload);
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(svg, Does.Contain("Source:"));
+                Assert.That(svg, Does.Contain("Target:"));
+                Assert.That(svg, Does.Contain("Property:"));
+                Assert.That(svg, Does.Contain("Multiplicity:"));
+                Assert.That(svg, Does.Contain("Aggregation:"));
+            }
+        }
+
+        [Test]
+        public void Verify_that_SvgRenderForClass_contains_marker_definitions()
+        {
+            var targetClass = this.payload.Classes.First(c => c.Name == "Class");
+
+            var svg = this.associationDiagramRenderer.SvgRenderForClass(targetClass, this.payload);
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(svg, Does.Contain($"id=\"composition-diamond-{targetClass.XmiId}\""));
+                Assert.That(svg, Does.Contain($"id=\"aggregation-diamond-{targetClass.XmiId}\""));
+                Assert.That(svg, Does.Contain($"id=\"navigable-arrow-{targetClass.XmiId}\""));
+            }
+        }
+
+        [Test]
+        public void Verify_that_SvgRenderForClass_contains_navigability_arrow_marker_on_edges()
+        {
+            var targetClass = this.payload.Classes.First(c => c.Name == "Class");
+
+            var svg = this.associationDiagramRenderer.SvgRenderForClass(targetClass, this.payload);
+
+            Assert.That(svg, Does.Contain($"url(#navigable-arrow-{targetClass.XmiId})"));
+        }
+
+        [Test]
+        public void Verify_that_SvgRenderForClass_contains_border_rectangle()
+        {
+            var targetClass = this.payload.Classes.First(c => c.Name == "Class");
+
+            var svg = this.associationDiagramRenderer.SvgRenderForClass(targetClass, this.payload);
+
+            Assert.That(svg, Does.Contain("<rect"));
+        }
+
+        [Test]
+        public void Verify_that_SvgRenderForClass_contains_neighbour_classes()
+        {
+            var targetClass = this.payload.Classes.First(c => c.Name == "Class");
+
+            var svg = this.associationDiagramRenderer.SvgRenderForClass(targetClass, this.payload);
+
+            var neighbourNames = targetClass.OwnedAttribute
+                .Where(p => p.Type is IClass tc && this.payload.Classes.Contains(tc))
+                .Select(p => ((IClass)p.Type).Name)
+                .Distinct()
+                .ToList();
+
+            using (Assert.EnterMultipleScope())
+            {
+                foreach (var name in neighbourNames)
+                {
+                    Assert.That(svg, Does.Contain(name));
+                }
+            }
+        }
+
+        [Test]
+        public void Verify_that_SvgRenderForClass_contains_anchor_links()
+        {
+            var targetClass = this.payload.Classes.First(c => c.Name == "Class");
+
+            var svg = this.associationDiagramRenderer.SvgRenderForClass(targetClass, this.payload);
+
+            Assert.That(svg, Does.Contain($"#{targetClass.XmiId}"));
+        }
+
+        [Test]
+        public void Verify_that_SvgRenderForClass_for_abstract_class_uses_italic_font()
+        {
+            var targetClass = this.payload.Classes.First(c => c.Name == "Behavior");
+
+            var svg = this.associationDiagramRenderer.SvgRenderForClass(targetClass, this.payload);
+
+            Assert.That(svg, Does.Contain("font-style=\"italic\""));
+        }
+
+        [Test]
+        public void Verify_that_SvgRenderForClass_renders_incoming_associations()
+        {
+            var targetClass = this.payload.Classes.First(c => c.Name == "Class");
+
+            var svg = this.associationDiagramRenderer.SvgRenderForClass(targetClass, this.payload);
+
+            var incomingClasses = this.payload.Classes
+                .Where(other => other != targetClass && other.OwnedAttribute.Any(p => p.Type == targetClass))
+                .Select(c => c.Name)
+                .Distinct()
+                .ToList();
+
+            using (Assert.EnterMultipleScope())
+            {
+                foreach (var name in incomingClasses)
+                {
+                    Assert.That(svg, Does.Contain(name));
+                }
+            }
+        }
+
+        [Test]
+        public void Verify_that_SvgRenderForClass_renders_multiple_classes_with_tooltips()
+        {
+            var classNames = new[] { "Class", "Property", "Package", "Behavior", "Association" };
+
+            foreach (var className in classNames)
+            {
+                var targetClass = this.payload.Classes.FirstOrDefault(c => c.Name == className);
+
+                if (targetClass == null)
+                {
+                    continue;
+                }
+
+                var svg = this.associationDiagramRenderer.SvgRenderForClass(targetClass, this.payload);
+
+                if (string.IsNullOrEmpty(svg))
+                {
+                    continue;
+                }
+
+                using (Assert.EnterMultipleScope())
+                {
+                    Assert.That(svg, Does.Contain("<title>"), $"Missing tooltip for {className}");
+                    Assert.That(svg, Does.Contain($"Name: {className}"), $"Missing class name in tooltip for {className}");
+                }
+            }
+        }
+
+        [Test]
+        public void Verify_that_SvgRenderForClass_contains_hit_area_for_edge_hover()
+        {
+            var targetClass = this.payload.Classes.First(c => c.Name == "Class");
+
+            var svg = this.associationDiagramRenderer.SvgRenderForClass(targetClass, this.payload);
+
+            Assert.That(svg, Does.Contain("stroke-width=\"12\""));
         }
 
         /// <summary>
@@ -156,7 +323,7 @@ namespace uml4net.Reporting.Tests.Drawing
                     x.LocalReferenceBasePath = rootPath;
                     x.PathMaps = pathMaps;
                 })
-                .WithLogger(loggerFactory)
+                .WithLogger(this.loggerFactory)
                 .Build();
 
             var xmiReaderResult = reader.Read(Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData",
