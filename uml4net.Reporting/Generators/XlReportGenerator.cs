@@ -275,6 +275,7 @@ namespace uml4net.Reporting.Generators
 
             dataTable.Columns.Add("Interface", typeof(string));
             dataTable.Columns.Add("Qualified Name", typeof(string));
+            dataTable.Columns.Add("IsAbstract", typeof(string));
             dataTable.Columns.Add("Generalizations", typeof(string));
             dataTable.Columns.Add("Property", typeof(string));
             dataTable.Columns.Add("Type", typeof(string));
@@ -287,7 +288,7 @@ namespace uml4net.Reporting.Generators
                 foreach (var @interface in package.PackagedElement.OfType<IInterface>().OrderBy(x => x.Name))
                 {
                     var classDataRow = dataTable.NewRow();
-                    classDataRow["Class"] = @interface.Name;
+                    classDataRow["Interface"] = @interface.Name;
                     classDataRow["Qualified Name"] = @interface.QualifiedName;
                     classDataRow["IsAbstract"] = @interface.IsAbstract.ToString(CultureInfo.InvariantCulture);
                     classDataRow["Generalizations"] = string.Join(", ", @interface.General.Select(o => o.Name));
@@ -307,7 +308,7 @@ namespace uml4net.Reporting.Generators
                         }
 
                         var propertyDataRow = dataTable.NewRow();
-                        propertyDataRow["Class"] = @interface.Name;
+                        propertyDataRow["Interface"] = @interface.Name;
                         propertyDataRow["Property"] = property.Name;
                         propertyDataRow["Type"] = property.QueryTypeName();
                         propertyDataRow["Multiplicity"] = $"[{property.Lower}..{property.Upper}]";
