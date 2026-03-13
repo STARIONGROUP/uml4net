@@ -2,7 +2,7 @@
 
     <PropertyGroup>
         <TargetFramework>netstandard2.0</TargetFramework>
-        <Version>6.4.0</Version>
+        <Version>6.4.1</Version>
         <LangVersion>12.0</LangVersion>
         <Company>Starion Group S.A.</Company>
         <Copyright>Copyright © Starion Group S.A.</Copyright>
@@ -28,8 +28,10 @@
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
         <GenerateSBOM>true</GenerateSBOM>
         <PackageReleaseNotes>
-            [Update] Microsoft.SourceLink.GitHub to version 10.0.103
-            [Update] html reporting by improving formatting and the inclusion of local class diagrams
+            [Update] XlReportGenerator to handle classes and interfaces
+            [Update] System.CommandLine to version 2.0.5
+            [Update] Microsoft.Extensions.Hosting to version 10.0.5
+            [Update] Microsoft.Extensions.Http to version 10.0.5
         </PackageReleaseNotes>
     </PropertyGroup>
 
@@ -48,7 +50,7 @@
         <PackageReference Include="Microsoft.Msagl" Version="1.1.6" />
         <PackageReference Include="Svg" Version="3.4.7" />
         <PackageReference Include="Microsoft.Sbom.Targets" Version="4.1.5" PrivateAssets="all" />
-        <PackageReference Include="Microsoft.SourceLink.GitHub" Version="10.0.103" PrivateAssets="All" />
+        <PackageReference Include="Microsoft.SourceLink.GitHub" Version="10.0.201" PrivateAssets="All" />
     </ItemGroup>
 
     <ItemGroup>
