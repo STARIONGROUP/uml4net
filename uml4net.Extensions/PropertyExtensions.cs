@@ -670,7 +670,7 @@ namespace uml4net.Extensions
         /// The subject <see cref="Property"/>
         /// </param>
         /// <returns>
-        /// true if <see cref="MultiplicityElement.Lower"/> and <see cref="MultiplicityElement.Upper"/> = 1, false if not
+        /// true if <see cref="IMultiplicityElement.Lower"/> and <see cref="IMultiplicityElement.Upper"/> = 1, false if not
         /// </returns>
         public static bool QueryIsScalar(this IProperty property)
         {
