@@ -21,9 +21,12 @@
 namespace uml4net.HandleBars
 {
     using System;
+    using System.Linq;
+    using System.Text;
 
     using HandlebarsDotNet;
 
+    using uml4net.Classification;
     using uml4net.Extensions;
     using uml4net.CommonStructure;
 
@@ -71,6 +74,82 @@ namespace uml4net.HandleBars
 
                 writer.WriteSafeString(rawDocumentation);
             });
+            
+            handlebars.RegisterHelper("ParameterDocumentation", (writer, _, arguments) =>
+            {
+                if (arguments.Length != 1)
+                {
+                    throw new ArgumentException("ParameterDocumentation requires exactly one argument");
+                }
+
+                if (arguments[0] is not IOperation operation)
+                {
+                    throw new ArgumentException("ParameterDocumentation argument must be an IOperation");
+                }
+                
+                var inputParameters = operation.OwnedParameter.Where(x => x.Direction != ParameterDirectionKind.Return).ToList();
+
+                foreach (var inputParameter in inputParameters)
+                {
+                    writer.WriteSafeString(ComputeInputParameterDocumentation(inputParameter));
+                }
+                
+                var returnParameter = operation.OwnedParameter.SingleOrDefault(x => x.Direction == ParameterDirectionKind.Return);
+
+                if (returnParameter?.Type != null)
+                {
+                    writer.WriteSafeString(ComputeReturnParameterDocumentation(returnParameter));
+                }
+            });
+        }
+        
+         /// <summary>
+        /// Compute the documentation for an input <see cref="IParameter"/>
+        /// </summary>
+        /// <param name="parameter">The <see cref="IParameter"/> that needs to have the documentation built</param>
+        /// <returns>The built documentation</returns>
+        private static string ComputeInputParameterDocumentation(IParameter parameter)
+        {
+            var stringBuilder = new StringBuilder();
+            stringBuilder.AppendLine($"/// <param name=\"{parameter.Name.LowerCaseFirstLetter()}\">");
+
+            var documentation = parameter.QueryDocumentation().ToList();
+
+            if (documentation.Count != 0)
+            {
+                stringBuilder.Append(string.Join("/// ", documentation.Select(x => $"{x} {Environment.NewLine}")));
+            }
+            else
+            {
+                stringBuilder.AppendLine("/// No documentation provided");
+            }
+
+            stringBuilder.AppendLine("/// </param>");
+            return stringBuilder.ToString();
+        }
+
+        /// <summary>
+        /// Compute the documentation for a return <see cref="IParameter"/>
+        /// </summary>
+        /// <param name="parameter">The <see cref="IParameter"/> that needs to have the documentation built</param>
+        /// <returns>The built documentation</returns>
+        private static string ComputeReturnParameterDocumentation(IParameter parameter)
+        {
+            var stringBuilder = new StringBuilder();
+            stringBuilder.AppendLine("/// <returns>");
+            var documentation = parameter.QueryDocumentation().ToList();
+
+            if (documentation.Count != 0)
+            {
+                stringBuilder.Append(string.Join("/// ", documentation.Select(x => $"{x} {Environment.NewLine}")));
+            }
+            else
+            {
+                stringBuilder.AppendLine($"/// The expected {parameter.Type.QueryCSharpTypeName(true)}");
+            }
+
+            stringBuilder.AppendLine("/// </returns>");
+            return stringBuilder.ToString();
         }
     }
 }
