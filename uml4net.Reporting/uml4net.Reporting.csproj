@@ -2,7 +2,7 @@
 
     <PropertyGroup>
         <TargetFramework>netstandard2.0</TargetFramework>
-        <Version>6.4.1</Version>
+        <Version>7.0.1</Version>
         <LangVersion>12.0</LangVersion>
         <Company>Starion Group S.A.</Company>
         <Copyright>Copyright © Starion Group S.A.</Copyright>
@@ -28,10 +28,7 @@
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
         <GenerateSBOM>true</GenerateSBOM>
         <PackageReleaseNotes>
-            [Update] XlReportGenerator to handle classes and interfaces
-            [Update] System.CommandLine to version 2.0.5
-            [Update] Microsoft.Extensions.Hosting to version 10.0.5
-            [Update] Microsoft.Extensions.Http to version 10.0.5
+            [ADD] Operation included into HTML report 
         </PackageReleaseNotes>
     </PropertyGroup>
 
