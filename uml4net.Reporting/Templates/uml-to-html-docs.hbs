@@ -680,6 +680,36 @@
                         </tbody>
                     </table>
                     </details>
+
+                        <details class="collapsible-section" open>
+                            <summary><H4>Operations</H4></summary>
+                        <table class="starion-table">
+                            <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Parameters</th>
+                                <th>Description</th>
+                                <th>Owner</th>
+                            </tr>
+                            </thead>
+                        <tbody>
+                        {{ #each (Class.QueryAllOperations class) as | operation | }}
+                        <tr>
+                            <td id="{{ operation.XmiId }}">{{ operation.Name }}</td>
+                            <td>
+                            {{ #each (operation.OwnedParameter) as | parameter | }}
+                        <li>
+                                {{ #Parameter.WriteTypeAndName parameter }}
+                        </li>
+                            {{/each}}
+                            </td>
+                            <td>{{ #RawDocumentation operation }}</td>
+                            <td><a href="#{{operation.Owner.XmiId}}">{{operation.Owner.Name}}</a></td>
+                        </tr>
+                        {{/each}}
+                        </tbody>
+                        </table>
+                        </details>
                     {{/each}}
                 {{ /if }}
 
