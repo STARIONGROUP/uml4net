@@ -126,7 +126,7 @@ namespace uml4net.Reporting.Tests.Generators
         {
             this.htmlReportGenerator = new HtmlReportGenerator(this.inheritanceDiagramRenderer, this.associationDiagramRenderer, this.loggerFactory);
 
-            Extensions.PropertyExtensions.AddOrOverwriteCSharpTypeMappings(("ISO8601DateTime", "DateTime"));
+            Extensions.TypedElementExtensions.AddOrOverwriteCSharpTypeMappings(("ISO8601DateTime", "DateTime"));
 
             var reportFileInfo = new FileInfo(Path.Combine(TestContext.CurrentContext.TestDirectory, "sysml2-pim-html-report.html"));
 

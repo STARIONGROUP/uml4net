@@ -48,6 +48,7 @@ namespace uml4net.Extensions.Tests
             {
                 Assert.That(() => MultiplicityElementExtensions.QueryUpperValue(this.property), Throws.ArgumentNullException);
                 Assert.That(() => MultiplicityElementExtensions.QueryIsEnumerable(this.property), Throws.ArgumentNullException);
+                Assert.That(() => MultiplicityElementExtensions.QueryIsNullable(null), Throws.ArgumentNullException);
             }
         }
 

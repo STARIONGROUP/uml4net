@@ -71,22 +71,22 @@ namespace uml4net.Extensions
         /// <summary>
         /// Queries whether the <see cref="IMultiplicityElement"/> is Enumerable
         /// </summary>
-        /// <param name="property">
+        /// <param name="multiplicityElement">
         /// The subject <see cref="IStructuralFeature"/>
         /// </param>
         /// <returns>
         /// true if IStructuralFeature.Upper = -1 or > 1, false if not
         /// </returns>
-        public static bool QueryIsEnumerable(this IMultiplicityElement property)
+        public static bool QueryIsEnumerable(this IMultiplicityElement multiplicityElement)
         {
-            if (property == null)
+            if (multiplicityElement == null)
             {
-                throw new ArgumentNullException(nameof(property));
+                throw new ArgumentNullException(nameof(multiplicityElement));
             }
 
             int value;
 
-            switch (property.UpperValue.SingleOrDefault())
+            switch (multiplicityElement.UpperValue.SingleOrDefault())
             {
                 case ILiteralUnlimitedNatural literalUnlimitedNatural:
                     value = literalUnlimitedNatural.Value == "*" ? int.MaxValue : int.Parse(literalUnlimitedNatural.Value, CultureInfo.InvariantCulture);
@@ -100,6 +100,39 @@ namespace uml4net.Extensions
             }
 
             return value is -1 or > 1;
+        }
+        
+        /// <summary>
+        /// Queries whether the <see cref="IMultiplicityElement"/> is nullable
+        /// </summary>
+        /// <param name="multiplicityElement">
+        /// The subject <see cref="IMultiplicityElement"/>
+        /// </param>
+        /// <returns>
+        /// true if IMultiplicityElement.Lower = 0, false if not
+        /// </returns>
+        public static bool QueryIsNullable(this IMultiplicityElement multiplicityElement)
+        {
+            if (multiplicityElement == null)
+            {
+                throw new ArgumentNullException(nameof(multiplicityElement));
+            }
+
+            return multiplicityElement.Lower == 0 && !multiplicityElement.QueryIsEnumerable();
+        }
+        
+        /// <summary>
+        /// Queries whether the <see cref="IMultiplicityElement"/> is a scalar
+        /// </summary>
+        /// <param name="multiplicityElement">
+        /// The subject <see cref="IMultiplicityElement"/>
+        /// </param>
+        /// <returns>
+        /// true if <see cref="IMultiplicityElement.Lower"/> and <see cref="IMultiplicityElement.Upper"/> = 1, false if not
+        /// </returns>
+        public static bool QueryIsScalar(this IMultiplicityElement multiplicityElement)
+        {
+            return multiplicityElement.Lower == 1 && multiplicityElement.Upper == "1";
         }
     }
 }
