@@ -28,6 +28,7 @@
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
         <GenerateSBOM>true</GenerateSBOM>
         <PackageReleaseNotes>
+            [Promote] Some PropertiesExtensions to MultiplicityElementExtensions
             [Promote] Some PropertiesExtensions to TypedElementExtensions
             [Rename] QueryIsReferenceProperty and QueryIsScalarProperty into QueryIsReferenceType/QueryIsScalarType
         </PackageReleaseNotes>
