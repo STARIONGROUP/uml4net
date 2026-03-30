@@ -372,6 +372,7 @@ namespace uml4net.Extensions
         /// <param name="typedElement">
         /// The subject <see cref="ITypedElement"/>
         /// </param>
+        /// <param name="shouldTargetInterface">Asserts that the type name should target the interface name in case of an <see cref="IClass"/></param>
         /// <returns>
         /// the C# name of the type
         /// </returns>

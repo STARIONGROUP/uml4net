@@ -145,7 +145,7 @@ namespace uml4net.HandleBars
             }
             else
             {
-                stringBuilder.AppendLine($"/// The expected {parameter.Type.QueryCSharpTypeName(true)}");
+                stringBuilder.AppendLine($"/// The expected {parameter.QueryCSharpFullTypeName()}");
             }
 
             stringBuilder.AppendLine("/// </returns>");

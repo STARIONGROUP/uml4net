@@ -142,27 +142,5 @@ namespace uml4net.Extensions
             var typeName = type?.Name ?? string.Empty;
             return !CSharpTypeMapping.TryGetValue(typeName, out var cSharpTypeName) ? typeName : cSharpTypeName;
         }
-        
-        /// <summary>
-        /// Queries the C# Type name of the <see cref="IType"/>
-        /// </summary>
-        /// <param name="type">
-        /// The <see cref="IType"/> for which the C# Type name is to be queried
-        /// </param>
-        /// <param name="shouldTargetInterface">Asserts that the type name should target the interface name in case of an <see cref="IClass"/></param>
-        /// <returns>
-        /// a string representation of the C# Type name
-        /// </returns>
-        public static string QueryCSharpTypeName(this IType type, bool shouldTargetInterface)
-        {
-            var typeName = type.QueryCSharpTypeName();
-
-            if (shouldTargetInterface && type is IClass)
-            {
-                typeName = $"I{typeName}";
-            }
-
-            return typeName;
-        }
     }
 }
