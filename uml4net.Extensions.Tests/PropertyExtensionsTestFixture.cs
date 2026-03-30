@@ -84,7 +84,6 @@ namespace uml4net.Extensions.Tests
                 Assert.That(() => PropertyExtensions.QueryIsDouble(null), Throws.ArgumentNullException);
                 Assert.That(() => PropertyExtensions.QueryIsDateTime(null), Throws.ArgumentNullException);
                 Assert.That(() => PropertyExtensions.QueryCSharpTypeName(null), Throws.ArgumentNullException);
-                Assert.That(() => PropertyExtensions.QueryIsEnumerable(null), Throws.ArgumentNullException);
                 Assert.That(() => PropertyExtensions.QueryStructuralFeatureNameEqualsEnclosingType(null, null), Throws.ArgumentNullException);
                 Assert.That(() => PropertyExtensions.QueryStructuralFeatureNameEqualsEnclosingType(new Property(), null), Throws.ArgumentNullException);
                 Assert.That(() => PropertyExtensions.QueryHasDefaultValue(null), Throws.ArgumentNullException);

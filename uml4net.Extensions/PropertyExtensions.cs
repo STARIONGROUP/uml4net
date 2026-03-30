@@ -310,40 +310,6 @@ namespace uml4net.Extensions
         }
 
         /// <summary>
-        /// Queries whether the <see cref="IProperty"/> is Enumerable
-        /// </summary>
-        /// <param name="property">
-        /// The subject <see cref="IStructuralFeature"/>
-        /// </param>
-        /// <returns>
-        /// true if IStructuralFeature.Upper = -1 or > 1, false if not
-        /// </returns>
-        public static bool QueryIsEnumerable(this IProperty property)
-        {
-            if (property == null)
-            {
-                throw new ArgumentNullException(nameof(property));
-            }
-
-            int value;
-
-            switch (property.UpperValue.SingleOrDefault())
-            {
-                case ILiteralUnlimitedNatural literalUnlimitedNatural:
-                    value = literalUnlimitedNatural.Value == "*" ? int.MaxValue : int.Parse(literalUnlimitedNatural.Value, CultureInfo.InvariantCulture);
-                    break;
-                case ILiteralInteger literalInteger:
-                    value = literalInteger.Value;
-                    break;
-                default:
-                    value = 0;
-                    break;
-            }
-
-            return value is -1 or > 1;
-        }
-
-        /// <summary>
         /// Queries whether the specified IStructuralFeature.Name is equal to the name of the containing <see cref="IClass"/>
         /// </summary>
         /// <param name="structuralFeature">
