@@ -86,7 +86,7 @@ namespace uml4net.HandleBars.Tests
             this.xmiReaderResult = null;
 
             // Reset the custom datatype mappings, because Extensions.PropertyExtensions is static and settings will be shared between unit tests
-            Extensions.PropertyExtensions.ResetCSharpTypeMappingsToDefault();
+            Extensions.TypedElementExtensions.ResetCSharpTypeMappingsToDefault();
         }
 
         [Test]
@@ -113,7 +113,7 @@ namespace uml4net.HandleBars.Tests
         [Test]
         public void Verify_that_property_is_written_as_expected_for_interface_with_custom_datatype_mapping()
         {
-            Extensions.PropertyExtensions.AddOrOverwriteCSharpTypeMappings(("ISO8601DateTime", "DateTime"));
+            Extensions.TypedElementExtensions.AddOrOverwriteCSharpTypeMappings(("ISO8601DateTime", "DateTime"));
 
             var template = "{{ #Property.WriteForInterface this }}";
 

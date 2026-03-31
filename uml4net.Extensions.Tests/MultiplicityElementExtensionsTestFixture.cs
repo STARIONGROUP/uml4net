@@ -43,7 +43,13 @@ namespace uml4net.Extensions.Tests
         public void Verify_That_when_property_is_null_exception_is_raised()
         {
             this.property = null;
-            Assert.That(() => MultiplicityElementExtensions.QueryUpperValue(this.property), Throws.ArgumentNullException);
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(() => MultiplicityElementExtensions.QueryUpperValue(this.property), Throws.ArgumentNullException);
+                Assert.That(() => MultiplicityElementExtensions.QueryIsEnumerable(this.property), Throws.ArgumentNullException);
+                Assert.That(() => MultiplicityElementExtensions.QueryIsNullable(null), Throws.ArgumentNullException);
+            }
         }
 
         [Test]

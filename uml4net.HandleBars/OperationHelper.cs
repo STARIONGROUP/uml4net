@@ -61,13 +61,13 @@ namespace uml4net.HandleBars
 
                 var returnParameter = operation.OwnedParameter.SingleOrDefault(x => x.Direction == ParameterDirectionKind.Return);
 
-                writer.WriteSafeString(returnParameter?.Type == null ? "void" : $"{returnParameter.Type.QueryCSharpTypeName(true)}");
+                writer.WriteSafeString(returnParameter?.Type == null ? "void" : $"{returnParameter.QueryCSharpFullTypeName()}");
 
                 var methodName = operation.RedefinedOperation.Any(x => x.Name == operation.Name) ? $"ComputeRedefined{operation.Name.CapitalizeFirstLetter()}Operation" : $"Compute{operation.Name.CapitalizeFirstLetter()}Operation";
                 writer.WriteSafeString($" {operation.Name.CapitalizeFirstLetter()}("); 
                 var inputParameters = operation.OwnedParameter.Where(x => x.Direction != ParameterDirectionKind.Return).ToList();
 
-                writer.WriteSafeString(string.Join(", ", inputParameters.Select(x => $"{x.Type.QueryCSharpTypeName(true)} {x.Name.LowerCaseFirstLetter()}")));
+                writer.WriteSafeString(string.Join(", ", inputParameters.Select(x => $"{x.QueryCSharpFullTypeName()} {x.Name.LowerCaseFirstLetter()}")));
                 writer.WriteSafeString($") => this.{methodName}(");
                 writer.WriteSafeString(string.Join(", ", inputParameters.Select(x => $"{x.Name.LowerCaseFirstLetter()}")));
                 writer.WriteSafeString($");{Environment.NewLine}");
@@ -89,7 +89,7 @@ namespace uml4net.HandleBars
                 
                 var returnParameter = operation.OwnedParameter.SingleOrDefault(x => x.Direction == ParameterDirectionKind.Return);
 
-                writer.WriteSafeString(returnParameter?.Type == null ? "void" : $"{returnParameter.Type.QueryCSharpTypeName(true)}");
+                writer.WriteSafeString(returnParameter?.Type == null ? "void" : $"{returnParameter.QueryCSharpFullTypeName()}");
 
                 var methodName = operation.RedefinedOperation.Any(x => x.Name == operation.Name) ? $"ComputeRedefined{operation.Name.CapitalizeFirstLetter()}Operation" : $"Compute{operation.Name.CapitalizeFirstLetter()}Operation";
                 var owner = (IClass)operation.Owner;
@@ -99,7 +99,7 @@ namespace uml4net.HandleBars
 
                 if (inputParameters.Count > 0)
                 {
-                    var parametersDefinition = string.Join(", ", inputParameters.Select(x => $"{x.Type.QueryCSharpTypeName(true)} {x.Name.LowerCaseFirstLetter()}"));
+                    var parametersDefinition = string.Join(", ", inputParameters.Select(x => $"{x.QueryCSharpFullTypeName()} {x.Name.LowerCaseFirstLetter()}"));
                     writer.WriteSafeString($", {parametersDefinition}");
                 }
                 

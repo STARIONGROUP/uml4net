@@ -168,7 +168,7 @@ namespace uml4net.HandleBars
                     .Where(x => !x.IsDerivedUnion)
                     .Where(x => !x.IsReadOnly)
                     .Where(x => !x.IsComposite)
-                    .Where(x => x.QueryIsReferenceProperty())
+                    .Where(x => x.QueryIsReferenceType())
                     .Where(x => x.QueryIsEnumerable())
                     .OrderBy(x => x.Name);
 
@@ -187,7 +187,7 @@ namespace uml4net.HandleBars
                     .Where(x => !x.IsDerivedUnion)
                     .Where(x => !x.IsReadOnly)
                     .Where(x => !x.IsComposite)
-                    .Where(x => x.QueryIsReferenceProperty())
+                    .Where(x => x.QueryIsReferenceType())
                     .Where(x => x.QueryIsEnumerable())
                     .OrderBy(x => x.Name);
 

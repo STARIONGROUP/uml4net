@@ -87,7 +87,7 @@ namespace uml4net.HandleBars
 
                 var property = arguments.Single() as IProperty;
 
-                return property.QueryIsReferenceProperty();
+                return property.QueryIsReferenceType();
             });
 
             // Queries whether the Property is nullable
@@ -647,7 +647,7 @@ namespace uml4net.HandleBars
 
                 if (!property.IsComposite)
                 {
-                    if (property.QueryIsReferenceProperty() && !property.QueryIsEnumerable())
+                    if (property.QueryIsReferenceType() && !property.QueryIsEnumerable())
                     {
                         sb.AppendLine($"var {property.Name}XmlAttribute =  xmlReader.GetAttribute(\"{property.Name}\") ?? xmlReader.GetAttribute(\"{property.Name}\", this.NameSpaceResolver.UmlNameSpace);");
                         sb.AppendLine($"{Environment.NewLine}if (!string.IsNullOrWhiteSpace({property.Name}XmlAttribute))");
@@ -659,7 +659,7 @@ namespace uml4net.HandleBars
                         return;
                     }
 
-                    if (property.QueryIsReferenceProperty() && property.QueryIsEnumerable())
+                    if (property.QueryIsReferenceType() && property.QueryIsEnumerable())
                     {
                         sb.AppendLine($"var {property.Name}XmlAttribute = xmlReader.GetAttribute(\"{property.Name}\") ?? xmlReader.GetAttribute(\"{property.Name}\", this.NameSpaceResolver.UmlNameSpace);");
                         sb.AppendLine($"{Environment.NewLine}if (!string.IsNullOrWhiteSpace({property.Name}XmlAttribute))");
@@ -834,7 +834,7 @@ namespace uml4net.HandleBars
                         throw new NotImplementedException("contained enumeration is not yet supported");
                     }
 
-                    if (property.QueryIsReferenceProperty() && (property.SubsettedProperty.Count == 0))
+                    if (property.QueryIsReferenceType() && (property.SubsettedProperty.Count == 0))
                     {
                         sb.AppendLine(property.QueryIsTypeAbstract()
                             ? $"var {property.Name}Value = (I{property.QueryTypeName()})this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.NameSpaceResolver, this.ExtenderReaderRegistry, this.LoggerFactory);"
@@ -849,7 +849,7 @@ namespace uml4net.HandleBars
                         return;
                     }
 
-                    if (property.QueryIsReferenceProperty() && property.SubsettedProperty.Count > 0)
+                    if (property.QueryIsReferenceType() && property.SubsettedProperty.Count > 0)
                     {
                         if (property.SubsettedProperty.Any(x => x.IsDerived || x.IsDerivedUnion || x.IsReadOnly))
                         {
@@ -948,7 +948,7 @@ namespace uml4net.HandleBars
                         return;
                     }
 
-                    if (property.QueryIsReferenceProperty() && !property.QueryIsEnumerable())
+                    if (property.QueryIsReferenceType() && !property.QueryIsEnumerable())
                     {
                         sb.AppendLine($"CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, \"{property.Name}\");");
                         sb.AppendLine("break;");
@@ -957,7 +957,7 @@ namespace uml4net.HandleBars
                         return;
                     }
 
-                    if (property.QueryIsReferenceProperty() && property.QueryIsEnumerable())
+                    if (property.QueryIsReferenceType() && property.QueryIsEnumerable())
                     {
                         sb.AppendLine($"TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, \"{property.Name}\");");
                         sb.AppendLine("break;");

@@ -117,7 +117,7 @@ namespace uml4net.Reporting.Generators
                     continue;
                 }
 
-                if (property.QueryIsReferenceProperty())
+                if (property.QueryIsReferenceType())
                 {
                     string referenceType;
 
@@ -140,7 +140,7 @@ namespace uml4net.Reporting.Generators
                     sb.AppendLine(referenceType);
                 }
 
-                if (property.QueryIsValueProperty())
+                if (property.QueryIsValueType())
                 {
                     this.logger.LogInformation(property.Name);
 
@@ -162,7 +162,7 @@ namespace uml4net.Reporting.Generators
             {
                 if (property.IsDerived)
                 {
-                    if (property.QueryIsReferenceProperty())
+                    if (property.QueryIsReferenceType())
                     {
                         if (property.QueryIsMemberOfManyToMany())
                         {
@@ -176,7 +176,7 @@ namespace uml4net.Reporting.Generators
                         }
                     }
 
-                    if (property.QueryIsValueProperty())
+                    if (property.QueryIsValueType())
                     {
                         if (property.QueryIsEnum())
                         {
@@ -279,7 +279,7 @@ namespace uml4net.Reporting.Generators
 
                 foreach (var property in @class.OwnedAttribute)
                 {
-                    if (property.QueryIsReferenceProperty())
+                    if (property.QueryIsReferenceType())
                     {
                         var referenceType = property.IsComposite ? $"REF:{property.Lower}:{property.Upper}:composite" : $"REF:{property.Lower}:{property.Upper}";
 
@@ -316,7 +316,7 @@ namespace uml4net.Reporting.Generators
                         propertyVariations.Add(referenceType);
                     }
 
-                    if (property.QueryIsValueProperty())
+                    if (property.QueryIsValueType())
                     {
                         if (property.QueryIsEnum())
                         {

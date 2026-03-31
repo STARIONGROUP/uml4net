@@ -25,6 +25,7 @@ namespace uml4net.HandleBars
     using HandlebarsDotNet;
 
     using uml4net.Classification;
+    using uml4net.Extensions;
 
     /// <summary>
     /// A handlebars block helper for the <see cref="IParameter"/> interface
@@ -65,6 +66,8 @@ namespace uml4net.HandleBars
                     {
                         writer.WriteSafeString($" {parameter.Name}");
                     }
+                    
+                    writer.Write($" {parameter.QueryFormattedMultiplicity()}");
                 }
             });
         }

@@ -73,28 +73,11 @@ namespace uml4net.Extensions.Tests
         {
             using (Assert.EnterMultipleScope())
             {
-                Assert.That(() => PropertyExtensions.QueryIsDataType(null), Throws.ArgumentNullException);
-                Assert.That(() => PropertyExtensions.QueryIsEnum(null), Throws.ArgumentNullException);
-                Assert.That(() => PropertyExtensions.QueryIsPrimitiveType(null), Throws.ArgumentNullException);
-                Assert.That(() => PropertyExtensions.QueryIsBool(null), Throws.ArgumentNullException);
-                Assert.That(() => PropertyExtensions.QueryIsString(null), Throws.ArgumentNullException);
-                Assert.That(() => PropertyExtensions.QueryIsNumeric(null), Throws.ArgumentNullException);
-                Assert.That(() => PropertyExtensions.QueryIsInteger(null), Throws.ArgumentNullException);
-                Assert.That(() => PropertyExtensions.QueryIsFloat(null), Throws.ArgumentNullException);
-                Assert.That(() => PropertyExtensions.QueryIsDouble(null), Throws.ArgumentNullException);
-                Assert.That(() => PropertyExtensions.QueryIsDateTime(null), Throws.ArgumentNullException);
-                Assert.That(() => PropertyExtensions.QueryCSharpTypeName(null), Throws.ArgumentNullException);
-                Assert.That(() => PropertyExtensions.QueryIsEnumerable(null), Throws.ArgumentNullException);
                 Assert.That(() => PropertyExtensions.QueryStructuralFeatureNameEqualsEnclosingType(null, null), Throws.ArgumentNullException);
                 Assert.That(() => PropertyExtensions.QueryStructuralFeatureNameEqualsEnclosingType(new Property(), null), Throws.ArgumentNullException);
                 Assert.That(() => PropertyExtensions.QueryHasDefaultValue(null), Throws.ArgumentNullException);
                 Assert.That(() => PropertyExtensions.QueryDefaultValueAsString(null), Throws.ArgumentNullException);
-                Assert.That(() => PropertyExtensions.QueryTypeName(null), Throws.ArgumentNullException);
                 Assert.That(() => PropertyExtensions.QueryCSharpFullTypeName(null), Throws.ArgumentNullException);
-                Assert.That(() => PropertyExtensions.QueryIsReferenceProperty(null), Throws.ArgumentNullException);
-                Assert.That(() => PropertyExtensions.QueryIsTypeAbstract(null), Throws.ArgumentNullException);
-                Assert.That(() => PropertyExtensions.QueryIsValueProperty(null), Throws.ArgumentNullException);
-                Assert.That(() => PropertyExtensions.QueryIsNullable(null), Throws.ArgumentNullException);
             }
         }
 
@@ -291,7 +274,7 @@ namespace uml4net.Extensions.Tests
             }
 
             //Using new Custom Type mapping
-            PropertyExtensions.AddOrOverwriteCSharpTypeMappings(("DataType", "CustomType"));
+            TypedElementExtensions.AddOrOverwriteCSharpTypeMappings(("DataType", "CustomType"));
 
             using (Assert.EnterMultipleScope())
             {
@@ -300,7 +283,7 @@ namespace uml4net.Extensions.Tests
             }
 
             //Using overwritten Custom Type mapping
-            PropertyExtensions.AddOrOverwriteCSharpTypeMappings(("DataType", "CustomType2"));
+            TypedElementExtensions.AddOrOverwriteCSharpTypeMappings(("DataType", "CustomType2"));
 
             using (Assert.EnterMultipleScope())
             {
@@ -309,7 +292,7 @@ namespace uml4net.Extensions.Tests
             }
 
             //Using overwritten Default Type mapping
-            PropertyExtensions.AddOrOverwriteCSharpTypeMappings(("Integer", "CustomInt"));
+            TypedElementExtensions.AddOrOverwriteCSharpTypeMappings(("Integer", "CustomInt"));
 
             using (Assert.EnterMultipleScope())
             {
@@ -318,7 +301,7 @@ namespace uml4net.Extensions.Tests
             }
 
             //After reset of custom mappings all should be using only default mappings again
-            PropertyExtensions.ResetCSharpTypeMappingsToDefault();
+            TypedElementExtensions.ResetCSharpTypeMappingsToDefault();
 
             using (Assert.EnterMultipleScope())
             {
@@ -327,7 +310,7 @@ namespace uml4net.Extensions.Tests
             }
 
             //Add multiple mappings at once
-            PropertyExtensions.AddOrOverwriteCSharpTypeMappings(("DataType", "CustomType2"), ("Integer", "CustomInt"));
+            TypedElementExtensions.AddOrOverwriteCSharpTypeMappings(("DataType", "CustomType2"), ("Integer", "CustomInt"));
 
             using (Assert.EnterMultipleScope())
             {
@@ -337,10 +320,10 @@ namespace uml4net.Extensions.Tests
 
             using (Assert.EnterMultipleScope())
             {
-                Assert.That(() => PropertyExtensions.AddOrOverwriteCSharpTypeMappings(), Throws.TypeOf<System.ArgumentNullException>());
-                Assert.That(() => PropertyExtensions.AddOrOverwriteCSharpTypeMappings((null, null)), Throws.TypeOf<System.ArgumentNullException>());
-                Assert.That(() => PropertyExtensions.AddOrOverwriteCSharpTypeMappings((string.Empty, null)), Throws.TypeOf<System.ArgumentNullException>());
-                Assert.That(() => PropertyExtensions.AddOrOverwriteCSharpTypeMappings((null, string.Empty)), Throws.TypeOf<System.ArgumentNullException>());
+                Assert.That(() =>TypedElementExtensions.AddOrOverwriteCSharpTypeMappings(), Throws.TypeOf<System.ArgumentNullException>());
+                Assert.That(() =>TypedElementExtensions.AddOrOverwriteCSharpTypeMappings((null, null)), Throws.TypeOf<System.ArgumentNullException>());
+                Assert.That(() =>TypedElementExtensions.AddOrOverwriteCSharpTypeMappings((string.Empty, null)), Throws.TypeOf<System.ArgumentNullException>());
+                Assert.That(() =>TypedElementExtensions.AddOrOverwriteCSharpTypeMappings((null, string.Empty)), Throws.TypeOf<System.ArgumentNullException>());
             }
         }
 
@@ -398,23 +381,7 @@ namespace uml4net.Extensions.Tests
             Assert.That(ownedComment.QueryTypeName(), Is.EqualTo("Comment"));
         }
 
-        [Test]
-        public void Verify_that_QueryIsReferenceProperty_returns_expected_Result()
-        {
-            var root = this.xmiReaderResult.QueryRoot(xmiId: "_0", name: "UML");
-
-            var structuredClassifiersPackage = root.NestedPackage.Single(x => x.Name == "Classification");
-
-            var property = structuredClassifiersPackage.PackagedElement.OfType<IClass>().Single(x => x.Name == "Property");
-
-            var lower = property.QueryAllProperties().Single(x => x.Name == "lower");
-
-            Assert.That(lower.QueryIsReferenceProperty(), Is.False);
-
-            var ownedComment = property.QueryAllProperties().Single(x => x.Name == "ownedComment");
-
-            Assert.That(ownedComment.QueryIsReferenceProperty(), Is.True);
-        }
+       
 
         [Test]
         public void Verify_that_QueryIsSubsetted_returns_expected_result()
@@ -432,24 +399,6 @@ namespace uml4net.Extensions.Tests
             var member = @namespace.OwnedAttribute.Single(x => x.Name == "member");
 
             Assert.That(member.QueryIsSubsetted, Is.False);
-        }
-
-        [Test]
-        public void Verify_that_QueryIsValueProperty_returns_expected_Result()
-        {
-            var root = this.xmiReaderResult.QueryRoot(xmiId: "_0", name: "UML");
-
-            var structuredClassifiersPackage = root.NestedPackage.Single(x => x.Name == "Classification");
-
-            var property = structuredClassifiersPackage.PackagedElement.OfType<IClass>().Single(x => x.Name == "Property");
-
-            var lower = property.QueryAllProperties().Single(x => x.Name == "lower");
-
-            Assert.That(lower.QueryIsValueProperty(), Is.True);
-
-            var ownedComment = property.QueryAllProperties().Single(x => x.Name == "ownedComment");
-
-            Assert.That(ownedComment.QueryIsValueProperty(), Is.False);
         }
 
         [Test]

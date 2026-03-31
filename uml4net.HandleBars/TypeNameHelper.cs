@@ -54,7 +54,7 @@ namespace uml4net.HandleBars
 
                 var enumerable = property.QueryIsEnumerable();
 
-                if (property.QueryIsValueProperty())
+                if (property.QueryIsValueType())
                 {
                     if (enumerable)
                     {
@@ -70,7 +70,7 @@ namespace uml4net.HandleBars
                     }
                 }
 
-                if (property.QueryIsReferenceProperty())
+                if (property.QueryIsReferenceType())
                 {
                     var @class = property.Owner as IClass;
 

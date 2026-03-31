@@ -145,7 +145,14 @@ namespace uml4net.HandleBars
             }
             else
             {
-                stringBuilder.AppendLine($"/// The expected {parameter.Type.QueryCSharpTypeName(true)}");
+                if (parameter.QueryIsEnumerable())
+                {
+                    stringBuilder.AppendLine($"/// The expected collection of <see cref=\"{parameter.Type.QueryCSharpTypeName(true)}\" />");
+                }
+                else
+                {
+                    stringBuilder.AppendLine($"/// The expected <see cref=\"{parameter.Type.QueryCSharpTypeName(true)}\" />");
+                }
             }
 
             stringBuilder.AppendLine("/// </returns>");
