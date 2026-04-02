@@ -59,6 +59,11 @@ namespace uml4net.Extensions
 
             if (parameter.Type is IDataType)
             {
+                if (parameter.QueryIsNullable() && !parameter.Type.QueryCSharpTypeName().Equals("string"))
+                {
+                    return $"{parameter.QueryCSharpTypeName()}? ";
+                }
+                
                 return $"{parameter.QueryCSharpTypeName()} ";
             }
             
