@@ -2,7 +2,7 @@
 
     <PropertyGroup>
         <Description>A specific XMI Reader extension to support Enterprise Architect XMI reading</Description>
-        <Version>8.0.1</Version>
+        <Version>8.1.0</Version>
         <PackageId>uml4net.xmi.Extensions.EnterpriseArchitect</PackageId>
         <LangVersion>12.0</LangVersion>
         <TargetFramework>netstandard2.0</TargetFramework>
@@ -30,7 +30,7 @@
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
         <GenerateSBOM>true</GenerateSBOM>
         <PackageReleaseNotes>
-            [Bump] to uml4net.xmi 8.0.1
+            [Bump] to uml4net.xmi 8.1.0
         </PackageReleaseNotes>
     </PropertyGroup>
 

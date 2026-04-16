@@ -63,13 +63,10 @@ namespace uml4net.HandleBars
 
                 writer.WriteSafeString(returnParameter?.Type == null ? "void" : $"{returnParameter.QueryCSharpFullTypeName()}");
 
-                var methodName = operation.RedefinedOperation.Any(x => x.Name == operation.Name) ? $"ComputeRedefined{operation.Name.CapitalizeFirstLetter()}Operation" : $"Compute{operation.Name.CapitalizeFirstLetter()}Operation";
                 writer.WriteSafeString($" {operation.Name.CapitalizeFirstLetter()}("); 
                 var inputParameters = operation.OwnedParameter.Where(x => x.Direction != ParameterDirectionKind.Return).ToList();
 
                 writer.WriteSafeString(string.Join(", ", inputParameters.Select(x => $"{x.QueryCSharpFullTypeName()} {x.Name.LowerCaseFirstLetter()}")));
-                writer.WriteSafeString($") => this.{methodName}(");
-                writer.WriteSafeString(string.Join(", ", inputParameters.Select(x => $"{x.Name.LowerCaseFirstLetter()}")));
                 writer.WriteSafeString($");{Environment.NewLine}");
             });
             
@@ -104,6 +101,55 @@ namespace uml4net.HandleBars
                 }
                 
                 writer.WriteSafeString($"){Environment.NewLine}");
+            });
+            
+            handlebars.RegisterHelper("Operation.WriteForPOCOClass", (writer, _, arguments) =>
+            {
+                if (arguments.Length != 2)
+                {
+                    throw new ArgumentException("Operation.WriteForPOCOClass requires exactly 2 arguments");
+                }
+
+                if (arguments[0] is not IOperation operation)
+                {
+                    throw new ArgumentException("Operation.WriteForPOCOClass first argument must be an IOperation");
+                }
+
+                if (arguments[1] is not IClass context)
+                {
+                    throw new ArgumentException("Operation.WriteForPOCOClass second argument must be an IClass");
+                }
+
+                var isRedefined = operation.TryQueryRedefinedByOperation(context, out var redefinedByOperation);
+                var returnParameter = operation.OwnedParameter.SingleOrDefault(x => x.Direction == ParameterDirectionKind.Return);
+
+                if (!isRedefined)
+                {
+                    writer.WriteSafeString("public ");
+                }
+
+                writer.WriteSafeString(returnParameter?.Type == null ? "void" : $"{returnParameter.QueryCSharpFullTypeName()}");
+                writer.WriteSafeString(" ");
+                string methodName;
+
+                if (isRedefined)
+                {
+                    var owner= (IClass)operation.Owner;
+                    writer.WriteSafeString($"I{owner.Name.CapitalizeFirstLetter()}.");
+                    methodName = redefinedByOperation.Name.CapitalizeFirstLetter();
+                }
+                else
+                {
+                    methodName = operation.RedefinedOperation.Any(x => x.Name == operation.Name) ? $"ComputeRedefined{operation.Name.CapitalizeFirstLetter()}Operation" : $"Compute{operation.Name.CapitalizeFirstLetter()}Operation";
+                }
+
+                writer.WriteSafeString($"{operation.Name.CapitalizeFirstLetter()}("); 
+                var inputParameters = operation.OwnedParameter.Where(x => x.Direction != ParameterDirectionKind.Return).ToList();
+
+                writer.WriteSafeString(string.Join(", ", inputParameters.Select(x => $"{x.QueryCSharpFullTypeName()} {x.Name.LowerCaseFirstLetter()}")));
+                writer.WriteSafeString($") => this.{methodName}(");
+                writer.WriteSafeString(string.Join(", ", inputParameters.Select(x => $"{x.Name.LowerCaseFirstLetter()}")));
+                writer.WriteSafeString($");{Environment.NewLine}");
             });
         }
     }
