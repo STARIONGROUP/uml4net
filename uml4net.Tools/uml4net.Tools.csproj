@@ -3,7 +3,7 @@
     <PropertyGroup Label="Package">
         <TargetFramework>net10.0</TargetFramework>
         <LangVersion>14.0</LangVersion>
-        <Version>8.1.2</Version>
+        <Version>8.1.3</Version>
         <Title>uml4net.Tools</Title>
         <Description>A command line application that processes a UML file and generates various reports.</Description>
         <OutputType>Exe</OutputType>
@@ -19,10 +19,7 @@
         <SatelliteResourceLanguages>en-US</SatelliteResourceLanguages>
         <GenerateSBOM>true</GenerateSBOM>
         <PackageReleaseNotes>
-            [Update] uml4net.Reporting to version 8.1.2
-            [Update] Microsoft.Extensions.Http to version 10.0.7
-            [Update] Microsoft.Extensions.Hosting to version 10.0.7
-            [Update] System.CommandLine to version 2.0.7
+            [Bump] uml4net.Reporting to version 8.1.3
         </PackageReleaseNotes>
     </PropertyGroup>
 

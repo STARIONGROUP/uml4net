@@ -711,6 +711,33 @@
                             <td>{{ #RawDocumentation operation }}</td>
                             <td><a href="#{{operation.Owner.XmiId}}">{{operation.Owner.Name}}</a></td>
                         </tr>
+                        {{#unless (IEnumerable.IsEmpty operation.OwnedRule)}}
+                        <tr>
+                            <td colspan="4">
+                                <details class="collapsible-section" open>
+                                    <summary><strong>Rules</strong></summary>
+                                    <table class="starion-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Specification</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {{#each operation.OwnedRule as | rule |}}
+                                            <tr>
+                                                <td>
+                                                    {{#each rule.Specification as | valueSpecification |}}
+                                                    {{ #ValueSpecification.WriteLanguageAndBody valueSpecification }}
+                                                    {{/each}}
+                                                </td>
+                                            </tr>
+                                            {{/each}}
+                                        </tbody>
+                                    </table>
+                                </details>
+                            </td>
+                        </tr>
+                        {{/unless}}
                         {{/each}}
                         </tbody>
                         </table>
