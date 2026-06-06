@@ -206,5 +206,23 @@ namespace uml4net.xmi.Tests.ReferenceResolver
 
             Assert.That(resolvedKnowReferences.Count, Is.EqualTo(0));
         }
+
+        [Test]
+        public void Verify_that_a_key_with_a_trailing_hash_is_not_processed_and_does_not_throw()
+        {
+            var property_1 = new Property
+            {
+                XmiId = "property_1",
+                Name = "IsValid",
+                DocumentName = "test",
+            };
+            property_1.SingleValueReferencePropertyIdentifiers.Add("type", "PrimitiveTypes#");
+
+            this.xmiElementCache.TryAdd(property_1);
+
+            var resolvedKnowReferences = this.referenceResolver.TryResolve("test");
+
+            Assert.That(resolvedKnowReferences.Count, Is.EqualTo(0));
+        }
     }
 }

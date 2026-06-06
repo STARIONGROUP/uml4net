@@ -163,10 +163,19 @@ namespace uml4net.xmi.ReferenceResolver
         /// <c>true</c> if the context and resource ID were successfully resolved and, if applicable, the 
         /// context exists in the global cache; otherwise, <c>false</c>.
         /// </returns>
-        private static bool TryResolveContext(string resourceKey, out (string Context, string ResourceId) resolvedContextAndResource)
+        private bool TryResolveContext(string resourceKey, out (string Context, string ResourceId) resolvedContextAndResource)
         {
             var referenceString = resourceKey.Split(['#'], StringSplitOptions.RemoveEmptyEntries);
-            
+
+            if (referenceString.Length < 2)
+            {
+                logger.LogTrace("Resource key [{Key}] does not contain both a context and a resource id", resourceKey);
+
+                resolvedContextAndResource = default;
+
+                return false;
+            }
+
             resolvedContextAndResource = new ValueTuple<string, string>(referenceString[0], referenceString[1]);
 
             return true;
