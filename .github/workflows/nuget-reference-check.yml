@@ -27,8 +27,10 @@ jobs:
       run: |
         set -e
 
-        # Packages to ignore (SDK/runtime-managed)
-        IGNORE_PACKAGES="Microsoft\.NETCore\.Platforms|Microsoft\.NETCore\.Targets"
+        # Packages to ignore: SDK/runtime-managed, plus deliberately low-floored stable abstractions
+        # (Microsoft.Extensions.Logging.Abstractions is intentionally pinned to a low floor to avoid
+        # forcing version upgrades on downstream consumers - see uml4net/uml4net.csproj).
+        IGNORE_PACKAGES="Microsoft\.NETCore\.Platforms|Microsoft\.NETCore\.Targets|Microsoft\.Extensions\.Logging\.Abstractions"
 
         dotnet list uml4net.sln package --outdated --include-transitive > outdated-raw.log
 
