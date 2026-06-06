@@ -26,6 +26,7 @@ namespace uml4net.Tools.Commands
     using System.Diagnostics;
     using System.Globalization;
     using System.IO;
+    using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
 
@@ -174,7 +175,7 @@ namespace uml4net.Tools.Commands
                         AnsiConsole.WriteLine();
                         Task.Delay(1000);
                         
-                        this.ReportGenerator.GenerateReport(this.inputModel, this.inputModel.Directory, this.rootPackageXmiId, this.rootPackageName, this.useStrictReading, this.pathMap,this.outputReport);
+                        this.ReportGenerator.GenerateReport(this.inputModel, this.inputModel.Directory, this.rootPackageXmiId, this.rootPackageName, this.useStrictReading, this.pathMap, this.outputReport);
 
                         AnsiConsole.MarkupLine($"[grey]LOG:[/] UML {this.ReportGenerator.QueryReportType()} report generated at [bold]{this.outputReport.FullName}[/]");
                         AnsiConsole.WriteLine();
@@ -229,6 +230,13 @@ namespace uml4net.Tools.Commands
             this.rootPackageXmiId = parseResult.GetValue<string>("--root-package-xmi-id");
             this.rootPackageName = parseResult.GetValue<string>("--root-package-name");
             this.outputReport = parseResult.GetValue<FileInfo>("--output-report");
+
+            // --include-operations only applies to the inspection report, and is only defined on the inspect command
+            if (this.ReportGenerator is IModelInspector modelInspector
+                && parseResult.CommandResult.Command.Options.Any(option => option.Name == "--include-operations"))
+            {
+                modelInspector.IncludeOperations = parseResult.GetValue<bool>("--include-operations");
+            }
         }
 
         /// <summary>

@@ -102,6 +102,50 @@ namespace uml4net.Reporting.Tests.Generators
         }
 
         [Test]
+        public void Verify_that_inspect_report_includes_operations_when_requested()
+        {
+            var rootPath = Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData");
+
+            var reader = XmiReaderBuilder.Create()
+                .UsingSettings(x => x.LocalReferenceBasePath = rootPath)
+                .WithLogger(this.loggerFactory)
+                .Build();
+
+            var xmiReaderResult = reader.Read(Path.Combine(rootPath, "UML.xmi"));
+
+            this.modelInspector = new ModelInspector(this.loggerFactory);
+
+            var root = xmiReaderResult.QueryRoot(xmiId: "_0", name: "UML");
+
+            var withoutOperations = this.modelInspector.Inspect(root);
+            var withOperations = this.modelInspector.Inspect(root, includeOperations: true);
+
+            using (Assert.EnterMultipleScope())
+            {
+                // including operations introduces additional variations, so the report must change
+                Assert.That(withOperations, Is.Not.EqualTo(withoutOperations));
+                Assert.That(withOperations, Does.Contain("OP:"));
+                Assert.That(withoutOperations, Does.Not.Contain("OP:"));
+            }
+        }
+
+        [Test]
+        public void Verify_that_generate_report_includes_operations_when_requested()
+        {
+            this.modelInspector = new ModelInspector(this.loggerFactory) { IncludeOperations = true };
+
+            var pathmap = new Dictionary<string, string>();
+
+            var withOperationsReport = new FileInfo(Path.Combine(TestContext.CurrentContext.TestDirectory, "inspection-report-with-operations.txt"));
+
+            this.modelInspector.GenerateReport(this.modelFileInfo, this.modelFileInfo.Directory, "_0", "UML", true, pathmap, withOperationsReport);
+
+            var withOperations = File.ReadAllText(withOperationsReport.FullName);
+
+            Assert.That(withOperations, Does.Contain("OP:"));
+        }
+
+        [Test]
         public void Verify_that_inspect_class_returns_expected_result()
         {
             var rootPath = Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData");

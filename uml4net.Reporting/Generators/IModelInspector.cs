@@ -33,7 +33,14 @@ namespace uml4net.Reporting.Generators
     public interface IModelInspector : IReportGenerator
     {
         /// <summary>
-        /// Inspect the content of the provided <see cref="IPackage"/> and returns the variation 
+        /// Gets or sets a value indicating whether the arguments and return types of the operations owned by
+        /// a class are taken into account when the inspection report determines the interesting classes.
+        /// <c>false</c> by default.
+        /// </summary>
+        public bool IncludeOperations { get; set; }
+
+        /// <summary>
+        /// Inspect the content of the provided <see cref="IPackage"/> and returns the variation
         /// of data-types, enums and multiplicity as an Analysis report
         /// </summary>
         /// <param name="package">

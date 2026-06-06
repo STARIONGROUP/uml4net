@@ -47,6 +47,15 @@ namespace uml4net.Tools.Commands
             reportFileOption.Aliases.Add("-o");
 
             this.Options.Add(reportFileOption);
+
+            var includeOperationsOption = new Option<bool>(name: "--include-operations")
+            {
+                Description = "Include the arguments and return types of operations when determining the interesting classes",
+                DefaultValueFactory = parseResult => false,
+                Required = false
+            };
+
+            this.Options.Add(includeOperationsOption);
         }
 
         /// <summary>
