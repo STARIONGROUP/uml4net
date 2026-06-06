@@ -54,6 +54,11 @@
         <InternalsVisibleTo Include="$(MSBuildProjectName).Tests" />
     </ItemGroup>
 
+    <!-- Deliberate security override, NOT a normal dependency: forces the transitively-referenced
+         System.Private.Uri up to 4.3.2, which patches CVE-2019-0657 (domain spoofing) and CVE-2019-0981
+         (denial of service). This is a legacy out-of-band package and 4.3.2 is effectively terminal, so do
+         NOT "update" it when the reference check flags it as outdated. Remove this entire ItemGroup only
+         once no transitive dependency pulls in a vulnerable System.Private.Uri version. -->
     <ItemGroup Label="override transitive vulnerable dependency">
         <PackageReference Include="System.Private.Uri" Version="4.3.2" />
     </ItemGroup>
