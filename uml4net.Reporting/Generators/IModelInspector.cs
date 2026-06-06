@@ -39,10 +39,14 @@ namespace uml4net.Reporting.Generators
         /// <param name="package">
         /// The <see cref="IPackage"/> that needs to be inspected
         /// </param>
+        /// <param name="includeOperations">
+        /// a value indicating whether the arguments and return types of the <see cref="IOperation"/>s
+        /// owned by a class are taken into account when determining the variations. <c>false</c> by default
+        /// </param>
         /// <returns>
-        /// Returns a report of the classes of interest in the provided package 
+        /// Returns a report of the classes of interest in the provided package
         /// </returns>
-        public string Inspect(IPackage package);
+        public string Inspect(IPackage package, bool includeOperations = false);
 
         /// <summary>
         /// Inspect the provided <see cref="IClass"/> (by name) that is contained in the <see cref="IPackage"/>
@@ -67,11 +71,16 @@ namespace uml4net.Reporting.Generators
         /// <param name="package">
         /// The <see cref="IPackage"/> that needs to be inspected
         /// </param>
+        /// <param name="includeOperations">
+        /// a value indicating whether the arguments and return types of the <see cref="IOperation"/>s
+        /// owned by a class are taken into account when determining the interesting classes. <c>false</c> by default
+        /// </param>
         /// <returns>
-        /// A read-only collection of interesting <see cref="IClass"/> that cover the variations
-        /// of <see cref="IProperty"/>> and <see cref="IOperation"/> variations
+        /// A read-only collection of interesting <see cref="IClass"/> that cover the variations of
+        /// <see cref="IProperty"/>, and - when <paramref name="includeOperations"/> is <c>true</c> -
+        /// the <see cref="IOperation"/> argument and return-type variations
         /// </returns>
-        public IReadOnlyCollection<IClass> QueryInterestingClasses(IPackage package);
+        public IReadOnlyCollection<IClass> QueryInterestingClasses(IPackage package, bool includeOperations = false);
 
         /// <summary>
         /// Recursively analyzes the documentation of the model and prints the names of all classes 

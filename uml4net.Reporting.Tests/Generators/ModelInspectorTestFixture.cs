@@ -163,6 +163,45 @@ namespace uml4net.Reporting.Tests.Generators
         }
 
         [Test]
+        public void Verify_that_QueryInterestingClasses_including_operations_returns_expected_result()
+        {
+            var rootPath = Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData");
+
+            var reader = XmiReaderBuilder.Create()
+                .UsingSettings(x => x.LocalReferenceBasePath = rootPath)
+                .WithLogger(this.loggerFactory)
+                .Build();
+
+            var xmiReaderResult = reader.Read(Path.Combine(rootPath, "UML.xmi"));
+
+            this.modelInspector = new ModelInspector(this.loggerFactory);
+
+            var root = xmiReaderResult.QueryRoot(xmiId: "_0", name: "UML");
+
+            var withoutOperations = this.modelInspector.QueryInterestingClasses(root).Select(x => x.Name).ToList();
+            var withOperations = this.modelInspector.QueryInterestingClasses(root, includeOperations: true).Select(x => x.Name).ToList();
+
+            var expectedResult = new List<string>
+            {
+                "ActivityGroup", "Association", "Behavior", "Class", "Classifier", "Clause",
+                "ComponentRealization", "Connector", "CreateLinkAction", "DurationConstraint", "DurationObservation",
+                "Element", "Extend", "Extension", "ExtensionEnd",
+                "LiteralInteger", "LiteralReal", "LiteralUnlimitedNatural", "Message", "MultiplicityElement",
+                "NamedElement", "Namespace", "OpaqueExpression", "Operation", "PackageableElement",
+                "RedefinableTemplateSignature", "Region", "Relationship", "StructuredActivityNode", "TimeConstraint",
+                "UnmarshallAction", "ValueSpecification"
+            };
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(withOperations, Is.EquivalentTo(expectedResult));
+
+                // including operations introduces additional variations to cover, so the result must differ from the default
+                Assert.That(withOperations, Is.Not.EquivalentTo(withoutOperations));
+            }
+        }
+
+        [Test]
         public void Verify_that_generate_report_returns_expected_result_for_Ea_model()
         {
             var eaModelPath = Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData", "EAExport.xmi");
