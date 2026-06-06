@@ -28,8 +28,7 @@
       <GenerateDocumentationFile>true</GenerateDocumentationFile>
       <GenerateSBOM>true</GenerateSBOM>
       <PackageReleaseNotes>
-          [Update] Microsoft.Extensions.Logging.Abstractions to verion 10.0.7
-          [Update] Microsoft.SourceLink.GitHub to version 10.0.203
+          [Lower] Microsoft.Extensions.Logging.Abstractions floor to 6.0.0 to reduce consumer version conflicts
       </PackageReleaseNotes>
   </PropertyGroup>
 
@@ -41,7 +40,11 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.7" />
+        <!-- Deliberately kept at a low floor: this is a stable abstraction consumed by uml4net's users.
+             NuGet unifies to the highest version in the consumer's graph, so a low floor avoids forcing
+             downstream apps to upgrade their Microsoft.Extensions.* stack. Do NOT bump on new releases;
+             raise only if a newer API is actually required. -->
+        <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="6.0.0" />
         <PackageReference Include="Microsoft.Sbom.Targets" Version="4.1.5" PrivateAssets="all" />
         <PackageReference Include="Microsoft.SourceLink.GitHub" Version="10.0.203" PrivateAssets="All" />
     </ItemGroup>
