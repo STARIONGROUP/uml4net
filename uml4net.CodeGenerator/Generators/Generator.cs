@@ -63,7 +63,7 @@ namespace uml4net.CodeGenerator.Generators
             ArgumentNullException.ThrowIfNullOrEmpty(generatedCode);
 
             generatedCode = generatedCode.Replace("&nbsp;", " ", StringComparison.OrdinalIgnoreCase);
-            var workspace = new AdhocWorkspace();
+            using var workspace = new AdhocWorkspace();
             var syntaxTree = CSharpSyntaxTree.ParseText(generatedCode);
             var root = syntaxTree.GetRoot();
             var formattedSyntaxNode = Formatter.Format(root, workspace);
