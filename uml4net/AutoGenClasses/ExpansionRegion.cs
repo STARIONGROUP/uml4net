@@ -306,7 +306,7 @@ namespace uml4net.Actions
         /// </summary>
         [Property(xmiId: "ExpansionRegion-mode", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: "iterative")]
         [Implements(implementation: "IExpansionRegion.Mode")]
-        public ExpansionKind Mode { get; set; }
+        public ExpansionKind Mode { get; set; } = ExpansionKind.Iterative;
 
         /// <summary>
         /// If true, then any object used by an Action within the StructuredActivityNode cannot be accessed by

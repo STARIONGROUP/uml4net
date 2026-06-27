@@ -72,7 +72,7 @@ namespace uml4net.SimpleClassifiers
         /// </summary>
         [Property(xmiId: "BehavioralFeature-concurrency", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: "sequential")]
         [Implements(implementation: "IBehavioralFeature.Concurrency")]
-        public CallConcurrencyKind Concurrency { get; set; }
+        public CallConcurrencyKind Concurrency { get; set; } = CallConcurrencyKind.Sequential;
 
         /// <summary>
         /// References the ElementImports owned by the Namespace.

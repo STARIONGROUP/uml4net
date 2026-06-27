@@ -601,7 +601,7 @@ namespace uml4net.UseCases
         [Property(xmiId: "PackageableElement-visibility", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: "public")]
         [RedefinedProperty(propertyName: "NamedElement-visibility")]
         [Implements(implementation: "IPackageableElement.Visibility")]
-        public VisibilityKind Visibility { get; set; }
+        public VisibilityKind Visibility { get; set; } = VisibilityKind.Public;
     }
 }
 

@@ -108,7 +108,7 @@ namespace uml4net.Interactions
         /// </summary>
         [Property(xmiId: "Message-messageSort", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: "synchCall")]
         [Implements(implementation: "IMessage.MessageSort")]
-        public MessageSort MessageSort { get; set; }
+        public MessageSort MessageSort { get; set; } = MessageSort.SynchCall;
 
         /// <summary>
         /// The name of the NamedElement.

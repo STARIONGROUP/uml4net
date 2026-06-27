@@ -127,7 +127,7 @@ namespace uml4net.Interactions
         /// </summary>
         [Property(xmiId: "CombinedFragment-interactionOperator", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: "seq")]
         [Implements(implementation: "ICombinedFragment.InteractionOperator")]
-        public InteractionOperatorKind InteractionOperator { get; set; }
+        public InteractionOperatorKind InteractionOperator { get; set; } = InteractionOperatorKind.Seq;
 
         /// <summary>
         /// The set of messages that apply to this fragment.

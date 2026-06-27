@@ -62,7 +62,7 @@ namespace uml4net.Packages
         /// </summary>
         [Property(xmiId: "Property-aggregation", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: "none")]
         [Implements(implementation: "IProperty.Aggregation")]
-        public AggregationKind Aggregation { get; set; }
+        public AggregationKind Aggregation { get; set; } = AggregationKind.None;
 
         /// <summary>
         /// The Association of which this Property is a member, if any.
