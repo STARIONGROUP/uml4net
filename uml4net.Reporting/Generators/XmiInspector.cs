@@ -90,13 +90,16 @@ namespace uml4net.Reporting.Generators
                     {
                         var entry = $"{xmlReader.Name}:";
 
+                        // The inspector reports the distinct element-to-attribute combinations found in the
+                        // XMI. Elements without attributes carry no such combination and are intentionally
+                        // omitted from the report, so result.Add is only reached when attributes are present.
                         if (xmlReader.HasAttributes)
                         {
                             while (xmlReader.MoveToNextAttribute())
                             {
                                 entry = $"{entry} {xmlReader.Name}";
                             }
-   
+
                             xmlReader.MoveToElement();
                             result.Add(entry);
                         }

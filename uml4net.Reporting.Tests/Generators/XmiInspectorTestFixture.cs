@@ -84,5 +84,34 @@ namespace uml4net.Reporting.Tests.Generators
 
             }, Throws.Nothing);
         }
+
+        [Test]
+        public void Verify_that_elements_without_attributes_are_omitted_from_the_report()
+        {
+            var xmi = """
+                      <?xml version="1.0" encoding="utf-8"?>
+                      <root>
+                        <withAttributes id="1" name="foo" />
+                        <withoutAttributes />
+                      </root>
+                      """;
+
+            var inputFileInfo = new FileInfo(Path.Combine(TestContext.CurrentContext.TestDirectory, "attribute-less-inspection-input.xmi"));
+            File.WriteAllText(inputFileInfo.FullName, xmi);
+
+            this.xmiInspector = new XmiInspector(this.loggerFactory);
+
+            var result = this.xmiInspector.Inspect(inputFileInfo);
+
+            using (Assert.EnterMultipleScope())
+            {
+                // elements that carry attributes are reported as "element: attr attr"
+                Assert.That(result, Is.EqualTo("withAttributes: id name"));
+
+                // the attribute-less "root" and "withoutAttributes" elements are intentionally omitted
+                Assert.That(result, Does.Not.Contain("withoutAttributes"));
+                Assert.That(result, Does.Not.Contain("root"));
+            }
+        }
     }
 }
