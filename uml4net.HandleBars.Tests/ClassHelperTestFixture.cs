@@ -35,6 +35,7 @@ namespace uml4net.HandleBars.Tests
 
     using Serilog;
 
+    using uml4net.Extensions;
     using uml4net.StructuredClassifiers;
     using uml4net.xmi;
     using uml4net.xmi.Readers;
@@ -113,6 +114,31 @@ namespace uml4net.HandleBars.Tests
             var property = activity.OwnedAttribute.First();
 
             Assert.That(() => action(property), Throws.TypeOf<ArgumentException>());
+        }
+
+        [Test]
+        public void Verify_that_QueryAllOperations_returns_expected_result()
+        {
+            var template = "{{#each (#Class.QueryAllOperations this) as | operation |}}{{ operation.Name }};{{/each}}";
+
+            var action = this.handlebarsContext.Compile(template);
+
+            var root = this.xmiReaderResult.QueryRoot(xmiId: "_0", name: "UML");
+
+            var commonStructurePackage = root.NestedPackage.Single(x => x.Name == "CommonStructure");
+            var dependency = commonStructurePackage.PackagedElement.OfType<IClass>().Single(x => x.Name == "Dependency");
+
+            var expected = string.Concat(dependency.QueryAllOperations().Select(x => $"{x.Name};"));
+
+            var result = action(dependency);
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(expected, Is.Not.Empty);
+                Assert.That(result, Is.EqualTo(expected));
+            }
+
+            Assert.That(() => action(new Dependency()), Throws.ArgumentException);
         }
 
         [Test]

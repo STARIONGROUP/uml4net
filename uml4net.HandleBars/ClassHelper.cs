@@ -288,21 +288,6 @@ namespace uml4net.HandleBars
                     options.Template(output, svg);
                 }
             });
-            
-            handlebars.RegisterHelper("Class.QueryAllOperations", (_, arguments) =>
-            {
-                if (arguments.Length != 1)
-                {
-                    throw new ArgumentException("#Class.QueryAllOperations expects to have  exactly 1 argument");
-                }
-
-                if (arguments[0] is not IClass umlClass)
-                {
-                    throw new ArgumentException("#Class.QueryAllOperations argument should be an IClass");
-                }
-
-                return umlClass.QueryAllOperations();
-            });
         }
     }
 }
