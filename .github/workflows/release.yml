@@ -133,6 +133,43 @@ jobs:
             -r win-x64 --self-contained true -p:PublishSingleFile=true \
             -o ReleaseBuilds
 
+      - name: Generate THIRD-PARTY-NOTICES.txt for the bundled exe
+        run: |
+          set -euo pipefail
+
+          # The self-contained, single-file uml4net.Tools.exe bundles every
+          # transitive dependency's bytes, so we must redistribute their
+          # attribution/license notices alongside it. Generate them from the
+          # uml4net.Tools transitive dependency closure.
+          dotnet tool install --global nuget-license
+          export PATH="$PATH:$HOME/.dotnet/tools"
+
+          nuget-license \
+            --input uml4net.Tools/uml4net.Tools.csproj \
+            --include-transitive \
+            --output Markdown \
+            --file-output ReleaseBuilds/THIRD-PARTY-NOTICES.txt
+
+          # The exe is published --self-contained, so it also bundles the .NET
+          # runtime (Microsoft.NETCore.App), which the PackageReference-based
+          # tool above does not enumerate. Credit it explicitly.
+          cat >> ReleaseBuilds/THIRD-PARTY-NOTICES.txt <<'EOF'
+
+--------------------------------------------------------------------------------
+
+.NET Runtime
+Copyright (c) .NET Foundation and Contributors
+https://github.com/dotnet/runtime
+Licensed under the MIT License.
+
+The self-contained distribution bundles the .NET runtime and its libraries
+(Microsoft.NETCore.App). See https://github.com/dotnet/runtime/blob/main/LICENSE.TXT
+for the full MIT License text.
+EOF
+
+          echo "----- THIRD-PARTY-NOTICES.txt (head) -----"
+          head -n 40 ReleaseBuilds/THIRD-PARTY-NOTICES.txt
+
       - name: Append binary SHA256 to release notes
         run: |
           set -euo pipefail
@@ -162,5 +199,6 @@ jobs:
           body_path: RELEASE_NOTES.md
           files: |
             ReleaseBuilds/uml4net.Tools.exe
+            ReleaseBuilds/THIRD-PARTY-NOTICES.txt
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
