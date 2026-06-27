@@ -303,22 +303,34 @@ namespace uml4net.Tools.Commands
         {
             if (this.autoOpenReport)
             {
-                ctx.Status("Opening generated report");
-                Thread.Sleep(1500);
-
-                if (this.TryOpenReport(out var failureReason))
-                {
-                    ctx.Status("Generated report opened");
-                }
-                else
-                {
-                    ctx.Status("Opening of generated report failed, please open manually");
-                    Thread.Sleep(1500);
-
-                    AnsiConsole.MarkupLine($"[yellow]The generated report could not be opened automatically: {Markup.Escape(failureReason)}[/]");
-                    AnsiConsole.MarkupLine($"[yellow]Please open it manually at [bold]{Markup.Escape(this.outputReport.FullName)}[/][/]");
-                }
+                this.OpenGeneratedReport(status => ctx.Status(status));
             }
+        }
+
+        /// <summary>
+        /// Opens the generated report on a best-effort basis, reporting progress through the provided
+        /// <paramref name="updateStatus"/> callback. When opening fails, the reason and the report path are
+        /// written to the console so the report can still be opened manually.
+        /// </summary>
+        /// <param name="updateStatus">
+        /// Callback used to surface progress to the user (e.g. the Spectre <see cref="StatusContext"/> status)
+        /// </param>
+        protected void OpenGeneratedReport(Action<string> updateStatus)
+        {
+            updateStatus("Opening generated report");
+            Thread.Sleep(1500);
+
+            if (this.TryOpenReport(out var failureReason))
+            {
+                updateStatus("Generated report opened");
+                return;
+            }
+
+            updateStatus("Opening of generated report failed, please open manually");
+            Thread.Sleep(1500);
+
+            AnsiConsole.MarkupLine($"[yellow]The generated report could not be opened automatically: {Markup.Escape(failureReason)}[/]");
+            AnsiConsole.MarkupLine($"[yellow]Please open it manually at [bold]{Markup.Escape(this.outputReport?.FullName ?? string.Empty)}[/][/]");
         }
 
         /// <summary>

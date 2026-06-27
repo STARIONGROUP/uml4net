@@ -21,6 +21,7 @@
 namespace uml4net.Tools.Tests.Commands
 {
     using System;
+    using System.Collections.Generic;
     using System.ComponentModel;
 
     using Moq;
@@ -65,6 +66,38 @@ namespace uml4net.Tools.Tests.Commands
             }
         }
 
+        [Test]
+        public void Verify_that_OpenGeneratedReport_reports_success_when_the_report_can_be_opened()
+        {
+            var handler = new TestableReportHandler(exceptionToThrow: null);
+
+            var statuses = new List<string>();
+
+            handler.InvokeOpenGeneratedReport(statuses.Add);
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(statuses, Does.Contain("Opening generated report"));
+                Assert.That(statuses, Does.Contain("Generated report opened"));
+            }
+        }
+
+        [Test]
+        public void Verify_that_OpenGeneratedReport_reports_failure_when_opening_fails()
+        {
+            var handler = new TestableReportHandler(new Win32Exception("Access is denied"));
+
+            var statuses = new List<string>();
+
+            handler.InvokeOpenGeneratedReport(statuses.Add);
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(statuses, Does.Contain("Opening of generated report failed, please open manually"));
+                Assert.That(statuses, Does.Not.Contain("Generated report opened"));
+            }
+        }
+
         /// <summary>
         /// Test double that overrides the actual process launch so the best-effort open logic can be exercised
         /// without starting an external process.
@@ -82,6 +115,11 @@ namespace uml4net.Tools.Tests.Commands
             public bool InvokeTryOpenReport(out string failureReason)
             {
                 return this.TryOpenReport(out failureReason);
+            }
+
+            public void InvokeOpenGeneratedReport(Action<string> updateStatus)
+            {
+                this.OpenGeneratedReport(updateStatus);
             }
 
             protected override void OpenReport()
