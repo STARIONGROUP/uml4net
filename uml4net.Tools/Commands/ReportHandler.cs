@@ -23,6 +23,7 @@ namespace uml4net.Tools.Commands
     using System;
     using System.Collections.Generic;
     using System.CommandLine;
+    using System.ComponentModel;
     using System.Diagnostics;
     using System.Globalization;
     using System.IO;
@@ -302,21 +303,68 @@ namespace uml4net.Tools.Commands
         {
             if (this.autoOpenReport)
             {
-                ctx.Status("Opening generated report");
-                Thread.Sleep(1500);
-
-                try
-                {
-                    Process.Start(new ProcessStartInfo(this.outputReport.FullName)
-                    { UseShellExecute = true });
-                    ctx.Status("Generated report opened");
-                }
-                catch
-                {
-                    ctx.Status("Opening of generated report failed, please open manually");
-                    Thread.Sleep(1500);
-                }
+                this.OpenGeneratedReport(status => ctx.Status(status));
             }
+        }
+
+        /// <summary>
+        /// Opens the generated report on a best-effort basis, reporting progress through the provided
+        /// <paramref name="updateStatus"/> callback. When opening fails, the reason and the report path are
+        /// written to the console so the report can still be opened manually.
+        /// </summary>
+        /// <param name="updateStatus">
+        /// Callback used to surface progress to the user (e.g. the Spectre <see cref="StatusContext"/> status)
+        /// </param>
+        protected void OpenGeneratedReport(Action<string> updateStatus)
+        {
+            updateStatus("Opening generated report");
+            Thread.Sleep(1500);
+
+            if (this.TryOpenReport(out var failureReason))
+            {
+                updateStatus("Generated report opened");
+                return;
+            }
+
+            updateStatus("Opening of generated report failed, please open manually");
+            Thread.Sleep(1500);
+
+            AnsiConsole.MarkupLine($"[yellow]The generated report could not be opened automatically: {Markup.Escape(failureReason)}[/]");
+            AnsiConsole.MarkupLine($"[yellow]Please open it manually at [bold]{Markup.Escape(this.outputReport?.FullName ?? string.Empty)}[/][/]");
+        }
+
+        /// <summary>
+        /// Attempts to open the generated report on a best-effort basis
+        /// </summary>
+        /// <param name="failureReason">
+        /// When the report could not be opened, contains a short reason describing why; otherwise <c>null</c>
+        /// </param>
+        /// <returns>
+        /// true when the report was opened, false when opening failed
+        /// </returns>
+        protected bool TryOpenReport(out string failureReason)
+        {
+            try
+            {
+                this.OpenReport();
+                failureReason = null;
+                return true;
+            }
+            catch (Exception exception) when (exception is Win32Exception or InvalidOperationException or FileNotFoundException or ObjectDisposedException or PlatformNotSupportedException)
+            {
+                // these are the exceptions Process.Start can raise (e.g. no associated application,
+                // access denied, missing file); surface the reason rather than swallowing it silently
+                failureReason = exception.Message;
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Opens the generated report using the operating system's default application
+        /// </summary>
+        protected virtual void OpenReport()
+        {
+            Process.Start(new ProcessStartInfo(this.outputReport.FullName) { UseShellExecute = true });
         }
     }
 }
