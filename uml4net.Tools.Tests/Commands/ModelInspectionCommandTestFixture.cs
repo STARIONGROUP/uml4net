@@ -103,6 +103,49 @@ namespace uml4net.Tools.Tests.Commands
         }
 
         [Test]
+        public async Task Verify_that_the_include_operations_option_is_passed_to_the_report_generator()
+        {
+            var args = new[]
+            {
+                "inspect",
+                "--no-logo",
+                "--input-model", Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData", "UML.xmi"),
+                "--output-report", Path.Combine(TestContext.CurrentContext.TestDirectory, "inspection-report.txt"),
+                "--root-package-xmi-id", "_0",
+                "--root-package-name", "UML",
+                "--include-operations"
+            };
+
+            var parseResult = this.rootCommand.Parse(args);
+
+            var result = await this.handler.InvokeAsync(parseResult, this.cts.Token);
+
+            this.modelInspector.VerifySet(x => x.IncludeOperations = true, Times.Once);
+
+            Assert.That(result, Is.EqualTo(0), "InvokeAsync should return 0 upon success.");
+        }
+
+        [Test]
+        public async Task Verify_that_operations_are_excluded_by_default()
+        {
+            var args = new[]
+            {
+                "inspect",
+                "--no-logo",
+                "--input-model", Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData", "UML.xmi"),
+                "--output-report", Path.Combine(TestContext.CurrentContext.TestDirectory, "inspection-report.txt"),
+                "--root-package-xmi-id", "_0",
+                "--root-package-name", "UML"
+            };
+
+            var parseResult = this.rootCommand.Parse(args);
+
+            await this.handler.InvokeAsync(parseResult, this.cts.Token);
+
+            this.modelInspector.VerifySet(x => x.IncludeOperations = false, Times.Once);
+        }
+
+        [Test]
         public async Task Verify_that_when_the_input_ecore_model_does_not_exists_returns_not_0()
         {
             var args = new[]

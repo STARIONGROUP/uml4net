@@ -102,6 +102,50 @@ namespace uml4net.Reporting.Tests.Generators
         }
 
         [Test]
+        public void Verify_that_inspect_report_includes_operations_when_requested()
+        {
+            var rootPath = Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData");
+
+            var reader = XmiReaderBuilder.Create()
+                .UsingSettings(x => x.LocalReferenceBasePath = rootPath)
+                .WithLogger(this.loggerFactory)
+                .Build();
+
+            var xmiReaderResult = reader.Read(Path.Combine(rootPath, "UML.xmi"));
+
+            this.modelInspector = new ModelInspector(this.loggerFactory);
+
+            var root = xmiReaderResult.QueryRoot(xmiId: "_0", name: "UML");
+
+            var withoutOperations = this.modelInspector.Inspect(root);
+            var withOperations = this.modelInspector.Inspect(root, includeOperations: true);
+
+            using (Assert.EnterMultipleScope())
+            {
+                // including operations introduces additional variations, so the report must change
+                Assert.That(withOperations, Is.Not.EqualTo(withoutOperations));
+                Assert.That(withOperations, Does.Contain("OP:"));
+                Assert.That(withoutOperations, Does.Not.Contain("OP:"));
+            }
+        }
+
+        [Test]
+        public void Verify_that_generate_report_includes_operations_when_requested()
+        {
+            this.modelInspector = new ModelInspector(this.loggerFactory) { IncludeOperations = true };
+
+            var pathmap = new Dictionary<string, string>();
+
+            var withOperationsReport = new FileInfo(Path.Combine(TestContext.CurrentContext.TestDirectory, "inspection-report-with-operations.txt"));
+
+            this.modelInspector.GenerateReport(this.modelFileInfo, this.modelFileInfo.Directory, "_0", "UML", true, pathmap, withOperationsReport);
+
+            var withOperations = File.ReadAllText(withOperationsReport.FullName);
+
+            Assert.That(withOperations, Does.Contain("OP:"));
+        }
+
+        [Test]
         public void Verify_that_inspect_class_returns_expected_result()
         {
             var rootPath = Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData");
@@ -160,6 +204,45 @@ namespace uml4net.Reporting.Tests.Generators
             string result = string.Join(",", interestingClassesNames);
 
             Assert.That(interestingClassesNames, Is.EquivalentTo(expectedResult));
+        }
+
+        [Test]
+        public void Verify_that_QueryInterestingClasses_including_operations_returns_expected_result()
+        {
+            var rootPath = Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData");
+
+            var reader = XmiReaderBuilder.Create()
+                .UsingSettings(x => x.LocalReferenceBasePath = rootPath)
+                .WithLogger(this.loggerFactory)
+                .Build();
+
+            var xmiReaderResult = reader.Read(Path.Combine(rootPath, "UML.xmi"));
+
+            this.modelInspector = new ModelInspector(this.loggerFactory);
+
+            var root = xmiReaderResult.QueryRoot(xmiId: "_0", name: "UML");
+
+            var withoutOperations = this.modelInspector.QueryInterestingClasses(root).Select(x => x.Name).ToList();
+            var withOperations = this.modelInspector.QueryInterestingClasses(root, includeOperations: true).Select(x => x.Name).ToList();
+
+            var expectedResult = new List<string>
+            {
+                "ActivityGroup", "Association", "Behavior", "Class", "Classifier", "Clause",
+                "ComponentRealization", "Connector", "CreateLinkAction", "DurationConstraint", "DurationObservation",
+                "Element", "Extend", "Extension", "ExtensionEnd",
+                "LiteralInteger", "LiteralReal", "LiteralUnlimitedNatural", "Message", "MultiplicityElement",
+                "NamedElement", "Namespace", "OpaqueExpression", "Operation", "PackageableElement",
+                "RedefinableTemplateSignature", "Region", "Relationship", "StructuredActivityNode", "TimeConstraint",
+                "UnmarshallAction", "ValueSpecification"
+            };
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(withOperations, Is.EquivalentTo(expectedResult));
+
+                // including operations introduces additional variations to cover, so the result must differ from the default
+                Assert.That(withOperations, Is.Not.EquivalentTo(withoutOperations));
+            }
         }
 
         [Test]
