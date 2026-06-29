@@ -24,15 +24,13 @@ namespace uml4net.xmi.Tests
     using System.Linq;
 
     using Microsoft.Extensions.Logging;
-
     using NUnit.Framework;
-
     using Serilog;
 
-    using uml4net.Values;
     using uml4net.Packages;
     using uml4net.SimpleClassifiers;
     using uml4net.StructuredClassifiers;
+    using uml4net.Values;
     using uml4net.xmi;
 
     [TestFixture]
