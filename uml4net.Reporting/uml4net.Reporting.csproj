@@ -2,7 +2,7 @@
 
     <PropertyGroup>
         <TargetFramework>netstandard2.0</TargetFramework>
-        <Version>8.1.3</Version>
+        <Version>8.2.0</Version>
         <LangVersion>12.0</LangVersion>
         <Company>Starion Group S.A.</Company>
         <Copyright>Copyright © Starion Group S.A.</Copyright>
@@ -28,7 +28,10 @@
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
         <GenerateSBOM>true</GenerateSBOM>
         <PackageReleaseNotes>
-            [Add] HTML Report: Add OwnedRule on operation
+            [Add] HTML Report: Includes constraint on operation; fixes #171
+            [Add] optionally include Operations when determining interesting classes; fixes #181
+            [Docs] document that XmiInspector omits attribute-less elements; fixes #175
+            [Bug] include composition target classes as interesting classes; fixes #103
         </PackageReleaseNotes>
     </PropertyGroup>
 
@@ -47,7 +50,7 @@
         <PackageReference Include="Microsoft.Msagl" Version="1.1.6" />
         <PackageReference Include="Svg" Version="3.4.7" />
         <PackageReference Include="Microsoft.Sbom.Targets" Version="4.1.5" PrivateAssets="all" />
-        <PackageReference Include="Microsoft.SourceLink.GitHub" Version="10.0.203" PrivateAssets="All" />
+        <PackageReference Include="Microsoft.SourceLink.GitHub" Version="10.0.300" PrivateAssets="All" />
     </ItemGroup>
 
     <ItemGroup>

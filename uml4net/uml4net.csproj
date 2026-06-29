@@ -2,7 +2,7 @@
 
   <PropertyGroup>
       <TargetFramework>netstandard2.0</TargetFramework>
-      <Version>4.1.7</Version>
+      <Version>4.2.0</Version>
       <LangVersion>12.0</LangVersion>
       <Company>Starion Group S.A.</Company>
       <Copyright>Copyright © Starion Group S.A.</Copyright>
@@ -29,6 +29,7 @@
       <GenerateSBOM>true</GenerateSBOM>
       <PackageReleaseNotes>
           [Lower] Microsoft.Extensions.Logging.Abstractions floor to 6.0.0 to reduce consumer version conflicts
+          [Improvement] support enumeration default values on properties; fixes #153
       </PackageReleaseNotes>
   </PropertyGroup>
 
@@ -46,7 +47,7 @@
              raise only if a newer API is actually required. -->
         <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="6.0.0" />
         <PackageReference Include="Microsoft.Sbom.Targets" Version="4.1.5" PrivateAssets="all" />
-        <PackageReference Include="Microsoft.SourceLink.GitHub" Version="10.0.203" PrivateAssets="All" />
+        <PackageReference Include="Microsoft.SourceLink.GitHub" Version="10.0.300" PrivateAssets="All" />
     </ItemGroup>
 
     <ItemGroup>
