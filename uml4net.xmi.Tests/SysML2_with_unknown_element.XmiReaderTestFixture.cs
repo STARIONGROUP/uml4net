@@ -24,10 +24,8 @@ namespace uml4net.xmi.Tests
     using System.IO;
 
     using Microsoft.Extensions.Logging;
-
-    using NUnit.Framework;
-
     using Moq;
+    using NUnit.Framework;
 
     using uml4net.Packages;
     using uml4net.xmi;
