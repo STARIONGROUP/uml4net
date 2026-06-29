@@ -288,9 +288,17 @@ namespace uml4net.Reporting.Generators
 
             var classes = package.QueryPackages().SelectMany(x => x.PackagedElement.OfType<IClass>()).ToList();
 
+            // Seed every class with an empty variation set up front so that variations can be
+            // attributed to a class other than the one that owns the property (e.g. the target
+            // class of a composition - see the Contained variation below)
             foreach (var @class in classes)
             {
-                var propertyVariations = new HashSet<string>();
+                classPropertyVariations[@class] = new HashSet<string>();
+            }
+
+            foreach (var @class in classes)
+            {
+                var propertyVariations = classPropertyVariations[@class];
 
                 foreach (var property in @class.OwnedAttribute)
                 {
@@ -329,6 +337,16 @@ namespace uml4net.Reporting.Generators
                         }
 
                         propertyVariations.Add(referenceType);
+
+                        // The target class of a composition is implemented differently because it is
+                        // contained; attribute a multiplicity-aware containment variation to that class so
+                        // it becomes a candidate interesting class in its own right (see issue #103)
+                        if (property.IsComposite
+                            && property.Type is IClass containedClass
+                            && classPropertyVariations.TryGetValue(containedClass, out var containedVariations))
+                        {
+                            containedVariations.Add($"CONTAINED:{property.Lower}:{property.Upper}");
+                        }
                     }
 
                     if (property.QueryIsValueType())
@@ -398,8 +416,6 @@ namespace uml4net.Reporting.Generators
                         }
                     }
                 }
-
-                classPropertyVariations.Add(@class, propertyVariations);
             }
 
             return classPropertyVariations;
