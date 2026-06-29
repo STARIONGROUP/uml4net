@@ -153,19 +153,19 @@ jobs:
           # The exe is published --self-contained, so it also bundles the .NET
           # runtime (Microsoft.NETCore.App), which the PackageReference-based
           # tool above does not enumerate. Credit it explicitly.
-          cat >> ReleaseBuilds/THIRD-PARTY-NOTICES.txt <<'EOF'
-
---------------------------------------------------------------------------------
-
-.NET Runtime
-Copyright (c) .NET Foundation and Contributors
-https://github.com/dotnet/runtime
-Licensed under the MIT License.
-
-The self-contained distribution bundles the .NET runtime and its libraries
-(Microsoft.NETCore.App). See https://github.com/dotnet/runtime/blob/main/LICENSE.TXT
-for the full MIT License text.
-EOF
+          printf '%s\n' \
+            '' \
+            '--------------------------------------------------------------------------------' \
+            '' \
+            '.NET Runtime' \
+            'Copyright (c) .NET Foundation and Contributors' \
+            'https://github.com/dotnet/runtime' \
+            'Licensed under the MIT License.' \
+            '' \
+            'The self-contained distribution bundles the .NET runtime and its libraries' \
+            '(Microsoft.NETCore.App). See https://github.com/dotnet/runtime/blob/main/LICENSE.TXT' \
+            'for the full MIT License text.' \
+            >> ReleaseBuilds/THIRD-PARTY-NOTICES.txt
 
           echo "----- THIRD-PARTY-NOTICES.txt (head) -----"
           head -n 40 ReleaseBuilds/THIRD-PARTY-NOTICES.txt
