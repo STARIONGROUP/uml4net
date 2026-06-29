@@ -31,8 +31,11 @@ namespace uml4net.Reporting.Tests.Generators
 
     using Serilog;
 
+    using uml4net.Classification;
     using uml4net.Packages;
     using uml4net.Reporting.Generators;
+    using uml4net.StructuredClassifiers;
+    using uml4net.Values;
     using uml4net.xmi;
 
     [TestFixture]
@@ -191,7 +194,7 @@ namespace uml4net.Reporting.Tests.Generators
             var expectedResult = new List<string>
             {
                 "ActivityGroup", "Association", "Behavior", "Class", "Classifier", "Clause",
-                "ComponentRealization","Connector","CreateLinkAction", "DurationConstraint", "DurationObservation",
+                "ComponentRealization","Connector","ConnectorEnd","CreateLinkAction", "DurationConstraint", "DurationObservation",
                 "Element", "Extend", "Extension", "ExtensionEnd",
                 "LiteralInteger", "LiteralReal", "LiteralUnlimitedNatural", "MultiplicityElement",
                 "NamedElement", "OpaqueExpression", "Operation", "PackageableElement",
@@ -227,13 +230,13 @@ namespace uml4net.Reporting.Tests.Generators
 
             var expectedResult = new List<string>
             {
-                "ActivityGroup", "Association", "Behavior", "Class", "Classifier", "Clause",
-                "ComponentRealization", "Connector", "CreateLinkAction", "DurationConstraint", "DurationObservation",
-                "Element", "Extend", "Extension", "ExtensionEnd",
+                "Association", "Behavior", "Class", "Classifier", "Clause",
+                "ComponentRealization", "ConnectorEnd", "CreateLinkAction", "DurationConstraint", "DurationObservation",
+                "Element", "Extend", "Extension", "ExtensionEnd", "LinkAction",
                 "LiteralInteger", "LiteralReal", "LiteralUnlimitedNatural", "Message", "MultiplicityElement",
                 "NamedElement", "Namespace", "OpaqueExpression", "Operation", "PackageableElement",
-                "RedefinableTemplateSignature", "Region", "Relationship", "StructuredActivityNode", "TimeConstraint",
-                "UnmarshallAction", "ValueSpecification"
+                "RedefinableTemplateSignature", "Region", "Relationship", "StateInvariant", "StructuredActivityNode", "TimeConstraint",
+                "ValueSpecification"
             };
 
             using (Assert.EnterMultipleScope())
@@ -242,6 +245,39 @@ namespace uml4net.Reporting.Tests.Generators
 
                 // including operations introduces additional variations to cover, so the result must differ from the default
                 Assert.That(withOperations, Is.Not.EquivalentTo(withoutOperations));
+            }
+        }
+
+        [Test]
+        public void Verify_that_target_class_of_a_zero_to_one_composition_is_an_interesting_class()
+        {
+            // class A contains B via a 0..1 composition; B owns no properties of its own, so before
+            // the fix for issue #103 it was never reported as an interesting class
+            var containedClass = new Class { Name = "B" };
+
+            var compositeProperty = new Property
+            {
+                Name = "b",
+                Type = containedClass,
+                Aggregation = AggregationKind.Composite
+            };
+            compositeProperty.LowerValue.Add(new LiteralInteger { Value = 0 });
+
+            var containingClass = new Class { Name = "A" };
+            containingClass.OwnedAttribute.Add(compositeProperty);
+
+            var package = new Package { Name = "P" };
+            package.PackagedElement.Add(containingClass);
+            package.PackagedElement.Add(containedClass);
+
+            this.modelInspector = new ModelInspector(this.loggerFactory);
+
+            var interestingClasses = this.modelInspector.QueryInterestingClasses(package).Select(x => x.Name).ToList();
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(interestingClasses, Does.Contain("B"));
+                Assert.That(interestingClasses, Does.Contain("A"));
             }
         }
 
