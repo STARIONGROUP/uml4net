@@ -178,7 +178,7 @@ namespace uml4net.Actions
         /// </summary>
         [Property(xmiId: "ObjectNode-ordering", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: "FIFO")]
         [Implements(implementation: "IObjectNode.Ordering")]
-        public ObjectNodeOrderingKind Ordering { get; set; }
+        public ObjectNodeOrderingKind Ordering { get; set; } = ObjectNodeOrderingKind.FIFO;
 
         /// <summary>
         /// ActivityEdges that have the ActivityNode as their source.

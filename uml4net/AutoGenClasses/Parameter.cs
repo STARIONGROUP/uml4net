@@ -95,7 +95,7 @@ namespace uml4net.Classification
         /// </summary>
         [Property(xmiId: "Parameter-direction", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: "in")]
         [Implements(implementation: "IParameter.Direction")]
-        public ParameterDirectionKind Direction { get; set; }
+        public ParameterDirectionKind Direction { get; set; } = ParameterDirectionKind.In;
 
         /// <summary>
         /// Specifies the effect that executions of the owner of the Parameter have on objects passed in or out

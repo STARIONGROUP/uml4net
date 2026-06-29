@@ -95,7 +95,7 @@ namespace uml4net.StateMachines
         /// </summary>
         [Property(xmiId: "Pseudostate-kind", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: "initial")]
         [Implements(implementation: "IPseudostate.Kind")]
-        public PseudostateKind Kind { get; set; }
+        public PseudostateKind Kind { get; set; } = PseudostateKind.Initial;
 
         /// <summary>
         /// The name of the NamedElement.

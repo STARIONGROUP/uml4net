@@ -598,7 +598,22 @@ namespace uml4net.HandleBars
                             if (property.QueryIsDefaultValueDifferentThanDefault())
                             {
                                 var defaultProperty = property.DefaultValue.FirstOrDefault();
-                                sb.Append(defaultProperty is ILiteralUnlimitedNatural or ILiteralString ? $" = \"{property.QueryDefaultValueAsString()}\";" : $" = {property.QueryDefaultValueAsString()};");
+
+                                switch (defaultProperty)
+                                {
+                                    case ILiteralUnlimitedNatural or ILiteralString:
+                                        sb.Append($" = \"{property.QueryDefaultValueAsString()}\";");
+                                        break;
+                                    case IInstanceValue:
+                                        // an enumeration default value references an enumeration literal; the C# enum
+                                        // member is the literal name with a capitalized first letter (see the
+                                        // core-enumeration-template.hbs), so it is rendered as <EnumType>.<Literal>
+                                        sb.Append($" = {property.QueryCSharpTypeName()}.{property.QueryDefaultValueAsString().CapitalizeFirstLetter()};");
+                                        break;
+                                    default:
+                                        sb.Append($" = {property.QueryDefaultValueAsString()};");
+                                        break;
+                                }
                             }
                         }
                     }

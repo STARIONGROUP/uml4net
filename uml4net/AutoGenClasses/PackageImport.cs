@@ -137,7 +137,7 @@ namespace uml4net.CommonStructure
         /// </summary>
         [Property(xmiId: "PackageImport-visibility", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: "public")]
         [Implements(implementation: "IPackageImport.Visibility")]
-        public VisibilityKind Visibility { get; set; }
+        public VisibilityKind Visibility { get; set; } = VisibilityKind.Public;
     }
 }
 

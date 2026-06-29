@@ -152,7 +152,7 @@ namespace uml4net.StateMachines
         /// </summary>
         [Property(xmiId: "Transition-kind", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: "external")]
         [Implements(implementation: "ITransition.Kind")]
-        public TransitionKind Kind { get; set; }
+        public TransitionKind Kind { get; set; } = TransitionKind.External;
 
         /// <summary>
         /// A collection of NamedElements identifiable within the Namespace, either by being owned or by being

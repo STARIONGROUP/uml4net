@@ -31,6 +31,7 @@ namespace uml4net.Extensions.Tests
 
     using uml4net.SimpleClassifiers;
     using uml4net.StructuredClassifiers;
+    using uml4net.Values;
     using uml4net.xmi;
     using uml4net.xmi.Readers;
 
@@ -79,6 +80,28 @@ namespace uml4net.Extensions.Tests
                 Assert.That(() => PropertyExtensions.QueryDefaultValueAsString(null), Throws.ArgumentNullException);
                 Assert.That(() => PropertyExtensions.QueryCSharpFullTypeName(null), Throws.ArgumentNullException);
             }
+        }
+
+        [Test]
+        public void Verify_that_QueryIsDefaultValueDifferentThanDefault_returns_true_for_an_enumeration_default_value()
+        {
+            // an enumeration default value is represented in the model as an InstanceValue
+            // that references the InstanceSpecification of the enumeration literal
+            var instance = new InstanceSpecification { Name = "Public" };
+            var instanceValue = new InstanceValue { Instance = instance };
+
+            var property = new Property();
+            property.DefaultValue.Add(instanceValue);
+
+            Assert.That(property.QueryIsDefaultValueDifferentThanDefault(), Is.True);
+        }
+
+        [Test]
+        public void Verify_that_QueryIsDefaultValueDifferentThanDefault_returns_false_when_no_default_value_is_set()
+        {
+            var property = new Property();
+
+            Assert.That(property.QueryIsDefaultValueDifferentThanDefault(), Is.False);
         }
 
         [Test]

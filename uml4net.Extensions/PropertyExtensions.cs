@@ -320,6 +320,7 @@ namespace uml4net.Extensions
                 ILiteralInteger or ILiteralReal => defaultValue != "0",
                 ILiteralBoolean => defaultValue != "false",
                 ILiteralString or ILiteralUnlimitedNatural => !string.IsNullOrEmpty(defaultValue),
+                IInstanceValue => !string.IsNullOrEmpty(defaultValue),
                 _ => false
             };
         }
