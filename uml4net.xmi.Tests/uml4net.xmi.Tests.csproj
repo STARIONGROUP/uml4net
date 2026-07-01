@@ -65,6 +65,12 @@
         <Content Include="..\resources\SySML2\SysML.uml" Link="TestData\SysML.uml">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </Content>
+        <Content Include="..\resources\SySML2\SysML_only_xmi.uml" Link="TestData\SysML_only_xmi.uml">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <Content Include="..\resources\SySML2\KerML_only_xmi.uml" Link="TestData\KerML_only_xmi.uml">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
       <Content Include="..\resources\UML_with_unknown_element\SysML_with_unknown_element.uml" Link="TestData\SysML_with_unknown_element.uml">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </Content>

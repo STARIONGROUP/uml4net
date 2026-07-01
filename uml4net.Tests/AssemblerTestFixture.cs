@@ -365,6 +365,88 @@ namespace uml4net.Tests
         }
 
         [Test]
+        public void Synchronize_ShouldResolveBareSameDocumentFragmentAndCrossDocumentMultiValueReference()
+        {
+            const string externalXmi = "otherdoc";
+
+            var sameDocumentTarget = new Property
+            {
+                XmiId = Guid.NewGuid().ToString(),
+                Name = "sameDocumentTarget",
+                DocumentName = this.documentName
+            };
+
+            var crossDocumentTarget = new Property
+            {
+                XmiId = Guid.NewGuid().ToString(),
+                Name = "crossDocumentTarget",
+                DocumentName = externalXmi
+            };
+
+            var property = new Property
+            {
+                XmiId = Guid.NewGuid().ToString(),
+                Name = "directedUsage",
+                DocumentName = this.documentName
+            };
+
+            // "#id" is a bare same-document fragment, "otherdoc#id" is a cross-document reference
+            property.MultiValueReferencePropertyIdentifiers.Add("subsettedProperty",
+                [$"#{sameDocumentTarget.XmiId}", $"{externalXmi}#{crossDocumentTarget.XmiId}"]);
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(this.cache.TryAdd(property), Is.True);
+                Assert.That(this.cache.TryAdd(sameDocumentTarget), Is.True);
+                Assert.That(this.cache.TryAdd(crossDocumentTarget), Is.True);
+            }
+
+            Assert.That(property.SubsettedProperty, Is.Empty);
+
+            this.assembler.Synchronize();
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(property.SubsettedProperty, Has.Count.EqualTo(2));
+                Assert.That(property.SubsettedProperty, Does.Contain(sameDocumentTarget));
+                Assert.That(property.SubsettedProperty, Does.Contain(crossDocumentTarget));
+            }
+        }
+
+        [Test]
+        public void Synchronize_ShouldResolveBareSameDocumentFragmentSingleValueReference()
+        {
+            var property = new Property
+            {
+                XmiId = Guid.NewGuid().ToString(),
+                Name = "property",
+                DocumentName = this.documentName
+            };
+
+            var primitiveType = new PrimitiveType
+            {
+                XmiId = Guid.NewGuid().ToString(),
+                Name = "string",
+                DocumentName = this.documentName
+            };
+
+            // "#id" is a bare same-document fragment
+            property.SingleValueReferencePropertyIdentifiers.Add("type", $"#{primitiveType.XmiId}");
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(this.cache.TryAdd(property), Is.True);
+                Assert.That(this.cache.TryAdd(primitiveType), Is.True);
+            }
+
+            Assert.That(property.Type, Is.Null);
+
+            this.assembler.Synchronize();
+
+            Assert.That(property.Type, Is.SameAs(primitiveType));
+        }
+
+        [Test]
         public void Synchronize_verify_that_type_is_set()
         {
             var property = new Property
