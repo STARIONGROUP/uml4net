@@ -28,6 +28,7 @@ namespace uml4net.xmi.Tests
     using NUnit.Framework;
     using Serilog;
 
+    using uml4net.Classification;
     using uml4net.Packages;
     using uml4net.StructuredClassifiers;
     using uml4net.xmi;
@@ -102,6 +103,92 @@ namespace uml4net.xmi.Tests
                 Assert.That(sysmlTypClass, Is.Not.Null);
                 Assert.That(isAbstractProperty, Is.Not.Null);
                 Assert.That(isAbstractProperty.Type, usingSettings ? Is.Not.Null : Is.Null);
+            }
+        }
+
+        [Test]
+        public void Verify_that_bare_same_document_href_references_are_resolved()
+        {
+            var rootPath = Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData");
+
+            var reader = XmiReaderBuilder.Create()
+                .UsingSettings(x =>
+                {
+                    x.LocalReferenceBasePath = rootPath;
+                    x.PathMaps = new Dictionary<string, string>
+                    {
+                        ["pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml"] = Path.Combine(rootPath, "SySML2", "PrimitiveTypes.xmi")
+                    };
+                })
+                .WithLogger(this.loggerFactory)
+                .Build();
+
+            var xmiReaderResult = reader.Read(Path.Combine(rootPath, "SysML_only_xmi.uml"));
+
+            // The 'directedUsage' ownedAttribute of the 'Definition' class carries two <subsettedProperty> children:
+            //   href="KerML_only_xmi.uml#..."  -> 'directedFeature' (cross-document reference, always resolved)
+            //   href="#..."                    -> 'usage' (bare same-document fragment, dropped before the #192 fix)
+            var directedUsage = AllProperties(xmiReaderResult.Packages)
+                .Single(x => x.XmiId == "_18_5_3_12e503d9_1565495064714_974634_26150");
+
+            var subsettedPropertyNames = directedUsage.SubsettedProperty.Select(x => x.Name).ToList();
+
+            // the 'isReference' attribute is typed by a primitive resolved through the
+            // UMLPrimitiveTypes pathmap, so its resolution proves the model is fully assembled
+            var isReference = AllProperties(xmiReaderResult.Packages)
+                .Single(x => x.XmiId == "_19_0_4_12e503d9_1624050661138_649455_27");
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(directedUsage.Name, Is.EqualTo("directedUsage"));
+                Assert.That(directedUsage.SubsettedProperty, Has.Count.EqualTo(2));
+                Assert.That(subsettedPropertyNames, Does.Contain("directedFeature"));
+                Assert.That(subsettedPropertyNames, Does.Contain("usage"));
+
+                Assert.That(isReference.Name, Is.EqualTo("isReference"));
+                Assert.That(isReference.Type, Is.Not.Null);
+                Assert.That(isReference.Type.Name, Is.EqualTo("Boolean"));
+            }
+        }
+
+        /// <summary>
+        /// Recursively enumerates every <see cref="IProperty"/> owned by the <see cref="IClass"/>es
+        /// contained (directly or transitively) in the provided <paramref name="packages"/>
+        /// </summary>
+        private static IEnumerable<IProperty> AllProperties(IEnumerable<IPackage> packages)
+        {
+            foreach (var package in packages)
+            {
+                foreach (var property in AllProperties(package))
+                {
+                    yield return property;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Recursively enumerates every <see cref="IProperty"/> owned by the <see cref="IClass"/>es
+        /// contained (directly or transitively) in the provided <paramref name="package"/>
+        /// </summary>
+        private static IEnumerable<IProperty> AllProperties(IPackage package)
+        {
+            foreach (var packagedElement in package.PackagedElement)
+            {
+                if (packagedElement is IClass @class)
+                {
+                    foreach (var attribute in @class.OwnedAttribute)
+                    {
+                        yield return attribute;
+                    }
+                }
+
+                if (packagedElement is IPackage nestedPackage)
+                {
+                    foreach (var property in AllProperties(nestedPackage))
+                    {
+                        yield return property;
+                    }
+                }
             }
         }
     }

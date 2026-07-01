@@ -142,7 +142,14 @@ namespace uml4net
         /// </returns>
         private bool TryGetReferencedElement(string documentName, string referenceIdKey, out IXmiElement element)
         {
-            var key = referenceIdKey.Contains("#") ? referenceIdKey : $"{documentName}#{referenceIdKey}";
+            var hashIndex = referenceIdKey.IndexOf('#');
+
+            // hashIndex > 0  -> a document part is present (e.g. "file#id"), use as-is
+            // otherwise      -> bare id ("id") or bare same-document fragment ("#id"),
+            //                   resolve within the current document
+            var key = hashIndex > 0
+                ? referenceIdKey
+                : $"{documentName}#{referenceIdKey.TrimStart('#')}";
 
             return this.cache.TryGetValue(key, out element);
         }
