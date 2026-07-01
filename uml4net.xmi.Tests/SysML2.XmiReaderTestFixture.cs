@@ -117,7 +117,7 @@ namespace uml4net.xmi.Tests
                     x.LocalReferenceBasePath = rootPath;
                     x.PathMaps = new Dictionary<string, string>
                     {
-                        ["pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml"] = Path.Combine(rootPath, "PrimitiveTypes.xmi")
+                        ["pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml"] = Path.Combine(rootPath, "SySML2", "PrimitiveTypes.xmi")
                     };
                 })
                 .WithLogger(this.loggerFactory)
@@ -133,12 +133,21 @@ namespace uml4net.xmi.Tests
 
             var subsettedPropertyNames = directedUsage.SubsettedProperty.Select(x => x.Name).ToList();
 
+            // the 'isReference' attribute is typed by a primitive resolved through the
+            // UMLPrimitiveTypes pathmap, so its resolution proves the model is fully assembled
+            var isReference = AllProperties(xmiReaderResult.Packages)
+                .Single(x => x.XmiId == "_19_0_4_12e503d9_1624050661138_649455_27");
+
             using (Assert.EnterMultipleScope())
             {
                 Assert.That(directedUsage.Name, Is.EqualTo("directedUsage"));
                 Assert.That(directedUsage.SubsettedProperty, Has.Count.EqualTo(2));
                 Assert.That(subsettedPropertyNames, Does.Contain("directedFeature"));
                 Assert.That(subsettedPropertyNames, Does.Contain("usage"));
+
+                Assert.That(isReference.Name, Is.EqualTo("isReference"));
+                Assert.That(isReference.Type, Is.Not.Null);
+                Assert.That(isReference.Type.Name, Is.EqualTo("Boolean"));
             }
         }
 
