@@ -2,7 +2,7 @@
 
     <PropertyGroup>
         <TargetFramework>netstandard2.0</TargetFramework>
-        <Version>8.2.0</Version>
+        <Version>8.2.1</Version>
         <LangVersion>12.0</LangVersion>
         <Company>Starion Group S.A.</Company>
         <Copyright>Copyright © Starion Group S.A.</Copyright>
@@ -28,7 +28,7 @@
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
         <GenerateSBOM>true</GenerateSBOM>
         <PackageReleaseNotes>
-            [Improvement] support enumeration default values on properties; fixes #153 (#186)
+            [Bump] to uml4net 4.2.1
         </PackageReleaseNotes>
     </PropertyGroup>
 
