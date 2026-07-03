@@ -40,6 +40,11 @@ namespace uml4net.HandleBars
     public static class PropertyHelper
     {
         /// <summary>
+        /// The message used when the parameters of a helper could not be converted to an <see cref="IProperty"/> and an <see cref="IClass"/>
+        /// </summary>
+        private const string ParametersNotConvertibleToPropertyAndClass = "the parameters could not be converted to a IProperty and IClass";
+
+        /// <summary>
         /// Registers the <see cref="PropertyHelper"/>
         /// </summary>
         /// <param name="handlebars">
@@ -643,7 +648,7 @@ namespace uml4net.HandleBars
 
                 if (property == null || @class == null)
                 {
-                    throw new ArgumentException("the parameters could not be converted to a IProperty and IClass");
+                    throw new ArgumentException(ParametersNotConvertibleToPropertyAndClass);
                 }
 
                 if (property.IsDerived || property.IsDerivedUnion || property.IsReadOnly)
@@ -798,7 +803,7 @@ namespace uml4net.HandleBars
 
                 if (property == null || @class == null)
                 {
-                    throw new ArgumentException("the parameters could not be converted to a IProperty and IClass");
+                    throw new ArgumentException(ParametersNotConvertibleToPropertyAndClass);
                 }
 
                 var isForExtension = false;
@@ -999,7 +1004,7 @@ namespace uml4net.HandleBars
 
                 if (property == null || @class == null)
                 {
-                    throw new ArgumentException("the parameters could not be converted to a IProperty and IClass");
+                    throw new ArgumentException(ParametersNotConvertibleToPropertyAndClass);
                 }
 
                 var isAsync = false;
@@ -1134,7 +1139,7 @@ namespace uml4net.HandleBars
 
                 if (property == null || @class == null)
                 {
-                    throw new ArgumentException("the parameters could not be converted to a IProperty and IClass");
+                    throw new ArgumentException(ParametersNotConvertibleToPropertyAndClass);
                 }
 
                 var isAsync = false;

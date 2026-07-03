@@ -95,44 +95,68 @@ namespace uml4net.xmi.Writers
             var elementsMissingXmiId = new List<IXmiElement>();
             var rootPackages = new List<IPackage> { package };
 
-            this.CollectContainmentTree(package, localElements, localIdentifiers, elementsMissingXmiId);
+            CollectContainmentTree(package, localElements, localIdentifiers, elementsMissingXmiId);
 
             if (externalReferenceResolution == ExternalReferenceResolutionKind.Include)
             {
-                var packagesToProcess = new Queue<IPackage>();
-                packagesToProcess.Enqueue(package);
-
-                while (packagesToProcess.Count > 0)
-                {
-                    var packageToProcess = packagesToProcess.Dequeue();
-
-                    foreach (var externalElement in this.QueryExternalReferencedElements(packageToProcess, localElements))
-                    {
-                        var rootPackage = QueryRootPackage(externalElement);
-
-                        if (rootPackage == null)
-                        {
-                            this.logger.LogWarning("The externally referenced element with id [{XmiId}] is not contained by a root package and is written as an href reference", externalElement.XmiId);
-                            continue;
-                        }
-
-                        if (localElements.Contains(rootPackage))
-                        {
-                            continue;
-                        }
-
-                        this.CollectContainmentTree(rootPackage, localElements, localIdentifiers, elementsMissingXmiId);
-                        rootPackages.Add(rootPackage);
-                        packagesToProcess.Enqueue(rootPackage);
-                    }
-                }
-
-                var includedPackages = rootPackages.Skip(1).OrderBy(x => x.Name, StringComparer.Ordinal).ToList();
-                rootPackages = new List<IPackage> { package };
-                rootPackages.AddRange(includedPackages);
+                this.IncludeExternalRootPackages(package, rootPackages, localElements, localIdentifiers, elementsMissingXmiId);
             }
 
             return new XmiWritePlan(rootPackages, localIdentifiers, elementsMissingXmiId);
+        }
+
+        /// <summary>
+        /// Walks the external references of the selected <paramref name="package"/> and includes the root packages
+        /// that contain those references into the <paramref name="rootPackages"/>, ordered by name.
+        /// </summary>
+        /// <param name="package">
+        /// The <see cref="IPackage"/> that is selected to be written
+        /// </param>
+        /// <param name="rootPackages">
+        /// The list of root packages that are written to the document; the selected <paramref name="package"/> is the first entry
+        /// </param>
+        /// <param name="localElements">
+        /// The set of elements that are serialized inside the document that is being written
+        /// </param>
+        /// <param name="localIdentifiers">
+        /// The <see cref="IXmiElement.FullyQualifiedIdentifier"/>s of the elements that are serialized inside the document
+        /// </param>
+        /// <param name="elementsMissingXmiId">
+        /// The elements that are part of the document but do not have an <see cref="IXmiElement.XmiId"/>
+        /// </param>
+        private void IncludeExternalRootPackages(IPackage package, List<IPackage> rootPackages, HashSet<IXmiElement> localElements, HashSet<string> localIdentifiers, List<IXmiElement> elementsMissingXmiId)
+        {
+            var packagesToProcess = new Queue<IPackage>();
+            packagesToProcess.Enqueue(package);
+
+            while (packagesToProcess.Count > 0)
+            {
+                var packageToProcess = packagesToProcess.Dequeue();
+
+                foreach (var externalElement in QueryExternalReferencedElements(packageToProcess, localElements))
+                {
+                    var rootPackage = QueryRootPackage(externalElement);
+
+                    if (rootPackage == null)
+                    {
+                        this.logger.LogWarning("The externally referenced element with id [{XmiId}] is not contained by a root package and is written as an href reference", externalElement.XmiId);
+                        continue;
+                    }
+
+                    if (localElements.Contains(rootPackage))
+                    {
+                        continue;
+                    }
+
+                    CollectContainmentTree(rootPackage, localElements, localIdentifiers, elementsMissingXmiId);
+                    rootPackages.Add(rootPackage);
+                    packagesToProcess.Enqueue(rootPackage);
+                }
+            }
+
+            var includedPackages = rootPackages.Skip(1).OrderBy(x => x.Name, StringComparer.Ordinal).ToList();
+            rootPackages.RemoveRange(1, rootPackages.Count - 1);
+            rootPackages.AddRange(includedPackages);
         }
 
         /// <summary>
@@ -150,7 +174,7 @@ namespace uml4net.xmi.Writers
         /// <param name="elementsMissingXmiId">
         /// The elements that are part of the document but do not have an <see cref="IXmiElement.XmiId"/>
         /// </param>
-        private void CollectContainmentTree(IXmiElement root, HashSet<IXmiElement> localElements, HashSet<string> localIdentifiers, List<IXmiElement> elementsMissingXmiId)
+        private static void CollectContainmentTree(IXmiElement root, HashSet<IXmiElement> localElements, HashSet<string> localIdentifiers, List<IXmiElement> elementsMissingXmiId)
         {
             var elementsToProcess = new Stack<IXmiElement>();
             elementsToProcess.Push(root);
@@ -173,12 +197,9 @@ namespace uml4net.xmi.Writers
                     localIdentifiers.Add(element.FullyQualifiedIdentifier);
                 }
 
-                foreach (var containmentProperty in QueryTypeProperties(element.GetType()).ContainmentProperties)
+                foreach (var containedElement in QueryPropertyValues(QueryTypeProperties(element.GetType()).ContainmentProperties, element))
                 {
-                    foreach (var containedElement in QueryPropertyValues(containmentProperty, element))
-                    {
-                        elementsToProcess.Push(containedElement);
-                    }
+                    elementsToProcess.Push(containedElement);
                 }
             }
         }
@@ -196,7 +217,7 @@ namespace uml4net.xmi.Writers
         /// <returns>
         /// The externally referenced <see cref="IXmiElement"/>s
         /// </returns>
-        private IEnumerable<IXmiElement> QueryExternalReferencedElements(IPackage package, HashSet<IXmiElement> localElements)
+        private static IEnumerable<IXmiElement> QueryExternalReferencedElements(IPackage package, HashSet<IXmiElement> localElements)
         {
             var externalElements = new HashSet<IXmiElement>(ReferenceEqualityComparer.Instance);
             var visitedElements = new HashSet<IXmiElement>(ReferenceEqualityComparer.Instance);
@@ -214,23 +235,14 @@ namespace uml4net.xmi.Writers
 
                 var typeProperties = QueryTypeProperties(element.GetType());
 
-                foreach (var containmentProperty in typeProperties.ContainmentProperties)
+                foreach (var containedElement in QueryPropertyValues(typeProperties.ContainmentProperties, element))
                 {
-                    foreach (var containedElement in QueryPropertyValues(containmentProperty, element))
-                    {
-                        elementsToProcess.Push(containedElement);
-                    }
+                    elementsToProcess.Push(containedElement);
                 }
 
-                foreach (var referenceProperty in typeProperties.ReferenceProperties)
+                foreach (var referencedElement in QueryPropertyValues(typeProperties.ReferenceProperties, element).Where(x => !localElements.Contains(x)))
                 {
-                    foreach (var referencedElement in QueryPropertyValues(referenceProperty, element))
-                    {
-                        if (!localElements.Contains(referencedElement))
-                        {
-                            externalElements.Add(referencedElement);
-                        }
-                    }
+                    externalElements.Add(referencedElement);
                 }
             }
 
@@ -260,6 +272,29 @@ namespace uml4net.xmi.Writers
             }
 
             return current as IPackage;
+        }
+
+        /// <summary>
+        /// Queries the <see cref="IXmiElement"/> values of the provided properties on the provided element.
+        /// </summary>
+        /// <param name="propertyInfos">
+        /// The <see cref="PropertyInfo"/>s of the properties whose values are queried
+        /// </param>
+        /// <param name="element">
+        /// The <see cref="IXmiElement"/> on which the property values are queried
+        /// </param>
+        /// <returns>
+        /// The <see cref="IXmiElement"/> values of the properties
+        /// </returns>
+        private static IEnumerable<IXmiElement> QueryPropertyValues(IEnumerable<PropertyInfo> propertyInfos, IXmiElement element)
+        {
+            foreach (var propertyInfo in propertyInfos)
+            {
+                foreach (var value in QueryPropertyValues(propertyInfo, element))
+                {
+                    yield return value;
+                }
+            }
         }
 
         /// <summary>
@@ -418,7 +453,7 @@ namespace uml4net.xmi.Writers
         /// <summary>
         /// The <see cref="TypeProperties"/> class captures the classified containment and reference properties of a type.
         /// </summary>
-        private class TypeProperties
+        private sealed class TypeProperties
         {
             /// <summary>
             /// Initializes a new instance of the <see cref="TypeProperties"/> class.
@@ -449,7 +484,7 @@ namespace uml4net.xmi.Writers
         /// <summary>
         /// An <see cref="IEqualityComparer{T}"/> that compares <see cref="IXmiElement"/>s by reference.
         /// </summary>
-        private class ReferenceEqualityComparer : IEqualityComparer<IXmiElement>
+        private sealed class ReferenceEqualityComparer : IEqualityComparer<IXmiElement>
         {
             /// <summary>
             /// Gets the singleton instance of the <see cref="ReferenceEqualityComparer"/>.
