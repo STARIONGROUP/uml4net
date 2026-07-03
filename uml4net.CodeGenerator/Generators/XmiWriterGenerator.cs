@@ -1,0 +1,178 @@
+// -------------------------------------------------------------------------------------------------
+// <copyright file="XmiWriterGenerator.cs" company="Starion Group S.A.">
+//
+//   Copyright (C) 2019-2026 Starion Group S.A.
+//
+//   Licensed under the Apache License, Version 2.0 (the "License");
+//   you may not use this file except in compliance with the License.
+//   You may obtain a copy of the License at
+//
+//       http://www.apache.org/licenses/LICENSE-2.0
+//
+//   Unless required by applicable law or agreed to in writing, software
+//   distributed under the License is distributed on an "AS IS" BASIS,
+//   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+//   See the License for the specific language governing permissions and
+//   limitations under the License.
+//
+// </copyright>
+// ------------------------------------------------------------------------------------------------
+
+namespace uml4net.CodeGenerator.Generators
+{
+    using System;
+    using System.IO;
+    using System.Linq;
+    using System.Threading.Tasks;
+
+    using uml4net.Extensions;
+    using uml4net.StructuredClassifiers;
+    using uml4net.xmi.Readers;
+
+    /// <summary>
+    /// A Handlebars based xmi-writer code generator
+    /// </summary>
+    public class XmiWriterGenerator : UmlHandleBarsGenerator
+    {
+        /// <summary>
+        /// Generates the XmiWriter classes based on the <see cref="IClass"/> instances
+        /// that are in the provided <see cref="XmiReaderResult"/>
+        /// </summary>
+        /// <param name="xmiReaderResult">
+        /// the <see cref="XmiReaderResult"/> that contains the UML model to generate from
+        /// </param>
+        /// <param name="rootPackageXmiId">
+        /// the unique identifier of the root package to report in
+        /// </param>
+        /// <param name="rootPackageName">
+        /// the name of the root package to report in
+        /// </param>
+        /// <param name="outputDirectory">
+        /// The target <see cref="DirectoryInfo"/>
+        /// </param>
+        /// <returns>
+        /// an awaitable <see cref="Task"/>
+        /// </returns>
+        public override async Task GenerateAsync(XmiReaderResult xmiReaderResult, string rootPackageXmiId, string rootPackageName, DirectoryInfo outputDirectory)
+        {
+            ArgumentNullException.ThrowIfNull(xmiReaderResult);
+
+            ArgumentNullException.ThrowIfNull(outputDirectory);
+
+            var root = xmiReaderResult.QueryRoot(rootPackageXmiId, rootPackageName);
+
+            var classes = root.QueryPackages()
+                .SelectMany(x => x.PackagedElement.OfType<IClass>())
+                .Where(x => !x.IsAbstract)
+                .ToList();
+
+            foreach (var cls in classes)
+            {
+                await this.GenerateXmiWriterAsync(outputDirectory, cls);
+            }
+        }
+
+        /// <summary>
+        /// Generates the Xmi Writer class for a concrete class
+        /// </summary>
+        /// <param name="outputDirectory">
+        /// The target <see cref="DirectoryInfo"/>
+        /// </param>
+        /// <param name="class">
+        /// The <see cref="IClass"/> for which the XmiWriter is to be generated
+        /// </param>
+        /// <returns>
+        /// a string representation of the generated code
+        /// </returns>
+        public async Task<string> GenerateXmiWriterAsync(DirectoryInfo outputDirectory, IClass @class)
+        {
+            ArgumentNullException.ThrowIfNull(outputDirectory);
+
+            ArgumentNullException.ThrowIfNull(@class);
+
+            var template = this.Templates["xmi-writer-template"];
+
+            if (@class.IsAbstract)
+            {
+                throw new InvalidOperationException("XmiWriter should not be abstract");
+            }
+
+            var generatedCode = template(@class);
+
+            generatedCode = this.CodeCleanup(generatedCode);
+
+            var fileName = $"{@class.Name}Writer.cs";
+
+            await WriteAsync(generatedCode, outputDirectory, fileName);
+
+            return generatedCode;
+        }
+
+        /// <summary>
+        /// Generates the XmiElementWriterFacade based on the <see cref="IClass"/> instances
+        /// that are in the provided <see cref="XmiReaderResult"/>
+        /// </summary>
+        /// <param name="xmiReaderResult">
+        /// the <see cref="XmiReaderResult"/> that contains the UML model to generate from
+        /// </param>
+        /// <param name="rootPackageXmiId">
+        /// the unique identifier of the root package to report in
+        /// </param>
+        /// <param name="rootPackageName">
+        /// the name of the root package to report in
+        /// </param>
+        /// <param name="outputDirectory">
+        /// The target <see cref="DirectoryInfo"/>
+        /// </param>
+        /// <returns>
+        /// an awaitable <see cref="Task"/>
+        /// </returns>
+        public async Task GenerateXmiElementWriterFacadeAsync(XmiReaderResult xmiReaderResult, string rootPackageXmiId, string rootPackageName, DirectoryInfo outputDirectory)
+        {
+            ArgumentNullException.ThrowIfNull(xmiReaderResult);
+
+            ArgumentNullException.ThrowIfNull(outputDirectory);
+
+            var root = xmiReaderResult.QueryRoot(rootPackageXmiId, rootPackageName);
+
+            var classes = root.QueryPackages()
+                .SelectMany(x => x.PackagedElement.OfType<IClass>())
+                .Where(x => !x.IsAbstract)
+                .ToList();
+
+            var template = this.Templates["XmiElementWriterFacade-template"];
+
+            var generatedCode = template(classes);
+
+            generatedCode = this.CodeCleanup(generatedCode);
+
+            const string fileName = "XmiElementWriterFacade.cs";
+
+            await WriteAsync(generatedCode, outputDirectory, fileName);
+        }
+
+        /// <summary>
+        /// Register the custom helpers
+        /// </summary>
+        protected override void RegisterHelpers()
+        {
+            uml4net.HandleBars.StringHelper.RegisterStringHelper(this.Handlebars);
+            uml4net.HandleBars.IEnumerableHelper.RegisterEnumerableHelper(this.Handlebars);
+            uml4net.HandleBars.ClassHelper.RegisterClassHelper(this.Handlebars);
+            uml4net.HandleBars.PropertyHelper.RegisterPropertyHelper(this.Handlebars);
+            uml4net.HandleBars.GeneralizationHelper.RegisterGeneralizationHelper(this.Handlebars);
+            uml4net.HandleBars.DocumentationHelper.RegisterDocumentationHelper(this.Handlebars);
+            uml4net.HandleBars.EnumHelper.RegisterEnumHelper(this.Handlebars);
+            uml4net.HandleBars.DecoratorHelper.RegisterDecoratorHelper(this.Handlebars);
+        }
+
+        /// <summary>
+        /// Register the handlebars templates
+        /// </summary>
+        protected override void RegisterTemplates()
+        {
+            this.RegisterTemplate("xmi-writer-template");
+            this.RegisterTemplate("XmiElementWriterFacade-template");
+        }
+    }
+}

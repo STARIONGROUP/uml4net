@@ -2,11 +2,11 @@
 
 # Introduction
 
-Uml4net is a suite of dotnet core libraries and tools that are used to deserialize (read) a UML version 2.5.1 model in XMI form. Uml4net is typically used to support opinionated template based code-generation and is a part of `modeltopia`. Uml4net porivdes a number of libraries that are described in the following sections.
+Uml4net is a suite of dotnet core libraries and tools that are used to deserialize (read) and serialize (write) a UML version 2.5.1 model in XMI form. Uml4net is typically used to support opinionated template based code-generation and is a part of `modeltopia`. Uml4net porivdes a number of libraries that are described in the following sections.
 
 ## uml4net
 
-The core library that contains all the class definitions as they appear in the UML 2.5.1 specification. Together with uml4net.xmi it provides the capability to to read UML models and make them available as an in-memory object graph.
+The core library that contains all the class definitions as they appear in the UML 2.5.1 specification. Together with uml4net.xmi it provides the capability to to read and write UML models and make them available as an in-memory object graph.
 
 ## uml4net.Extensions
 
@@ -14,7 +14,7 @@ The **uml4net.Extensions** library provides extensions methods to the uml4net li
 
 ## uml4net.xmi
 
-The **uml4net.xmi** library provides an XMI reader implementation to read UML XMI model files.
+The **uml4net.xmi** library provides an XMI reader implementation to read UML XMI model files and an XMI writer implementation to write UML models to XMI. The writer supports writing a selected `Package`, where references to elements outside the selected package are either written as `href` references to the original document or the containing root packages are included in the written document, resulting in a self-contained XMI file.
 
 > To learn more about how to read an UML model, read about it [here](https://github.com/STARIONGROUP/uml4net/wiki/uml4net.xmi.project)
 

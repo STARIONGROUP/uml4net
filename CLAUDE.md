@@ -52,12 +52,14 @@ The `uml4net` core project is predominantly auto-generated from the UML 2.5.1 sp
 - `uml4net/AutoGenInterfaces/` — UML element interfaces
 - `uml4net/AutoGenEnumeration/` — UML enumerations
 - `uml4net.xmi/AutoGenXmiReaders/` — XMI element reader classes
+- `uml4net.xmi/AutoGenXmiWriters/` — XMI element writer classes (regenerate via the `[Explicit]` test `XmiWriterGeneratorTestFixture.Regenerate_AutoGenXmiWriters_of_uml4net_xmi`)
 
 Generated files contain the marker: `THIS IS AN AUTOMATICALLY GENERATED FILE. ANY MANUAL CHANGES WILL BE OVERWRITTEN!`
 
 ### Key Types & Patterns
 
-- **Entry point**: `XmiReaderBuilder.Create().Build()` returns an `IXmiReader`
+- **Entry point (reading)**: `XmiReaderBuilder.Create().Build()` returns an `IXmiReader`
+- **Entry point (writing)**: `XmiWriterBuilder.Create().Build()` returns an `IXmiWriter`; `IXmiWriterSettings.ExternalReferenceResolution` selects href vs include handling of external references
 - **IElement** is the root interface for all UML elements
 - **IContainerList\<T\>** manages owned element collections
 - **IXmiElementCache** provides element lookup by XMI ID

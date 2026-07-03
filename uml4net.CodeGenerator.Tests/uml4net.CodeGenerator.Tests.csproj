@@ -63,6 +63,13 @@
       <Compile Remove="Expected\AutoGenXmiReaders\PropertyReader.cs" />
       <Compile Remove="Expected\AutoGenXmiReaders\StateMachineReader.cs" />
       <Compile Remove="Expected\AutoGenXmiReaders\TimeConstraintReader.cs" />
+      <Compile Remove="Expected\AutoGenXmiWriters\**\*.cs" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Include="Expected\AutoGenXmiWriters\**\*.cs">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
     </ItemGroup>
 
     <ItemGroup>
