@@ -40,6 +40,11 @@ namespace uml4net.HandleBars
     public static class PropertyHelper
     {
         /// <summary>
+        /// The message used when the parameters of a helper could not be converted to an <see cref="IProperty"/> and an <see cref="IClass"/>
+        /// </summary>
+        private const string ParametersNotConvertibleToPropertyAndClass = "the parameters could not be converted to a IProperty and IClass";
+
+        /// <summary>
         /// Registers the <see cref="PropertyHelper"/>
         /// </summary>
         /// <param name="handlebars">
@@ -643,7 +648,7 @@ namespace uml4net.HandleBars
 
                 if (property == null || @class == null)
                 {
-                    throw new ArgumentException("the parameters could not be converted to a IProperty and IClass");
+                    throw new ArgumentException(ParametersNotConvertibleToPropertyAndClass);
                 }
 
                 if (property.IsDerived || property.IsDerivedUnion || property.IsReadOnly)
@@ -798,7 +803,7 @@ namespace uml4net.HandleBars
 
                 if (property == null || @class == null)
                 {
-                    throw new ArgumentException("the parameters could not be converted to a IProperty and IClass");
+                    throw new ArgumentException(ParametersNotConvertibleToPropertyAndClass);
                 }
 
                 var isForExtension = false;
@@ -978,6 +983,301 @@ namespace uml4net.HandleBars
                         sb.AppendLine("break;");
 
                         writer.WriteSafeString(sb);
+                        return;
+                    }
+
+                    throw new NotSupportedException($"{@class.Name}.{property.Name}");
+                }
+
+                throw new NotSupportedException($"{@class.Name}.{property.Name}");
+            });
+
+            handlebars.RegisterHelper("Property.WriteXmlAttributeForXmiWriter", (writer, context, parameters) =>
+            {
+                if (parameters.Length != 2 && parameters.Length != 3)
+                {
+                    throw new HandlebarsException("{{#Property.WriteXmlAttributeForXmiWriter}} helper must have two or three arguments");
+                }
+
+                var property = parameters[0] as IProperty;
+                var @class = parameters[1] as IClass;
+
+                if (property == null || @class == null)
+                {
+                    throw new ArgumentException(ParametersNotConvertibleToPropertyAndClass);
+                }
+
+                var isAsync = false;
+
+                if (parameters.Length == 3)
+                {
+                    isAsync = parameters[2] is bool boolValue ? boolValue : bool.Parse(parameters[2].ToString());
+                }
+
+                if (property.IsDerived || property.IsDerivedUnion || property.IsReadOnly)
+                {
+                    return;
+                }
+
+                var isRedefinedByProperty = property.TryQueryRedefinedByProperty(@class, out _);
+
+                if (isRedefinedByProperty)
+                {
+                    return;
+                }
+
+                if (property.IsComposite)
+                {
+                    // contained objects are only handled as contained XML elements
+                    return;
+                }
+
+                var pocoPropertyName = property.Name.CapitalizeFirstLetter();
+
+                var sb = new StringBuilder();
+
+                if (property.QueryIsReferenceType() && !property.QueryIsEnumerable())
+                {
+                    sb.AppendLine($"if (element.{pocoPropertyName} != null && writeContext.IsLocal(element.{pocoPropertyName}))");
+                    sb.AppendLine("{");
+                    sb.AppendLine(isAsync
+                        ? $"await xmlWriter.WriteAttributeStringAsync(null, \"{property.Name}\", null, element.{pocoPropertyName}.XmiId);"
+                        : $"xmlWriter.WriteAttributeString(\"{property.Name}\", element.{pocoPropertyName}.XmiId);");
+                    sb.AppendLine("}");
+
+                    writer.WriteSafeString(sb + Environment.NewLine);
+                    return;
+                }
+
+                if (property.QueryIsEnumerable())
+                {
+                    // multi-valued references and multi-valued primitives are written as XML elements
+                    return;
+                }
+
+                if (property.QueryIsPrimitiveType())
+                {
+                    var cSharpTypeName = property.QueryCSharpTypeName();
+
+                    switch (cSharpTypeName)
+                    {
+                        case "bool":
+                            var boolDefault = property.QueryIsDefaultValueDifferentThanDefault() ? property.QueryDefaultValueAsString() : "false";
+
+                            sb.AppendLine(boolDefault == "true" ? $"if (!element.{pocoPropertyName})" : $"if (element.{pocoPropertyName})");
+                            sb.AppendLine("{");
+                            sb.AppendLine(isAsync
+                                ? $"await xmlWriter.WriteAttributeStringAsync(null, \"{property.Name}\", null, XmlConvert.ToString(element.{pocoPropertyName}));"
+                                : $"xmlWriter.WriteAttributeString(\"{property.Name}\", XmlConvert.ToString(element.{pocoPropertyName}));");
+                            sb.AppendLine("}");
+                            break;
+                        case "double":
+                        case "int":
+                            var numericDefault = property.QueryIsDefaultValueDifferentThanDefault() ? property.QueryDefaultValueAsString() : "0";
+
+                            sb.AppendLine($"if (element.{pocoPropertyName} != {numericDefault})");
+                            sb.AppendLine("{");
+                            sb.AppendLine(isAsync
+                                ? $"await xmlWriter.WriteAttributeStringAsync(null, \"{property.Name}\", null, XmlConvert.ToString(element.{pocoPropertyName}));"
+                                : $"xmlWriter.WriteAttributeString(\"{property.Name}\", XmlConvert.ToString(element.{pocoPropertyName}));");
+                            sb.AppendLine("}");
+                            break;
+                        case "string":
+                            var condition = $"!string.IsNullOrEmpty(element.{pocoPropertyName})";
+
+                            if (property.QueryIsDefaultValueDifferentThanDefault())
+                            {
+                                condition += $" && element.{pocoPropertyName} != \"{property.QueryDefaultValueAsString()}\"";
+                            }
+
+                            sb.AppendLine($"if ({condition})");
+                            sb.AppendLine("{");
+                            sb.AppendLine(isAsync
+                                ? $"await xmlWriter.WriteAttributeStringAsync(null, \"{property.Name}\", null, element.{pocoPropertyName});"
+                                : $"xmlWriter.WriteAttributeString(\"{property.Name}\", element.{pocoPropertyName});");
+                            sb.AppendLine("}");
+                            break;
+                        default:
+                            throw new NotSupportedException($"{property.Name} has a Primitive Type that is not supported: {cSharpTypeName}");
+                    }
+
+                    writer.WriteSafeString(sb + Environment.NewLine);
+                    return;
+                }
+
+                if (property.QueryIsEnum())
+                {
+                    var typeName = property.QueryTypeName();
+
+                    var enumDefault = property.QueryIsDefaultValueDifferentThanDefault()
+                        ? $"{typeName}.{property.QueryDefaultValueAsString().CapitalizeFirstLetter()}"
+                        : $"default({typeName})";
+
+                    sb.AppendLine($"if (element.{pocoPropertyName} != {enumDefault})");
+                    sb.AppendLine("{");
+                    sb.AppendLine(isAsync
+                        ? $"await xmlWriter.WriteAttributeStringAsync(null, \"{property.Name}\", null, LowerCaseFirstLetter(element.{pocoPropertyName}.ToString()));"
+                        : $"xmlWriter.WriteAttributeString(\"{property.Name}\", LowerCaseFirstLetter(element.{pocoPropertyName}.ToString()));");
+                    sb.AppendLine("}");
+
+                    writer.WriteSafeString(sb + Environment.NewLine);
+                    return;
+                }
+
+                throw new NotSupportedException($"{@class.Name}.{property.Name}");
+            });
+
+            handlebars.RegisterHelper("Property.WriteXmlElementForXmiWriter", (writer, context, parameters) =>
+            {
+                if (parameters.Length != 2 && parameters.Length != 3)
+                {
+                    throw new HandlebarsException("{{#Property.WriteXmlElementForXmiWriter}} helper must have two or three arguments");
+                }
+
+                var property = parameters[0] as IProperty;
+                var @class = parameters[1] as IClass;
+
+                if (property == null || @class == null)
+                {
+                    throw new ArgumentException(ParametersNotConvertibleToPropertyAndClass);
+                }
+
+                var isAsync = false;
+
+                if (parameters.Length == 3)
+                {
+                    isAsync = parameters[2] is bool boolValue ? boolValue : bool.Parse(parameters[2].ToString());
+                }
+
+                if (property.IsDerived || property.IsDerivedUnion || property.IsReadOnly)
+                {
+                    return;
+                }
+
+                var isRedefinedByProperty = property.TryQueryRedefinedByProperty(@class, out _);
+
+                if (isRedefinedByProperty)
+                {
+                    return;
+                }
+
+                var pocoPropertyName = property.Name.CapitalizeFirstLetter();
+
+                var sb = new StringBuilder();
+
+                if (property.IsComposite)
+                {
+                    if (property.QueryIsPrimitiveType())
+                    {
+                        // composite primitive values are read as element content strings by the readers
+                        sb.AppendLine($"foreach (var value in element.{pocoPropertyName})");
+                        sb.AppendLine("{");
+                        sb.AppendLine(isAsync
+                            ? $"await xmlWriter.WriteElementStringAsync(null, \"{property.Name}\", null, value);"
+                            : $"xmlWriter.WriteElementString(\"{property.Name}\", value);");
+                        sb.AppendLine("}");
+
+                        writer.WriteSafeString(sb + Environment.NewLine);
+                        return;
+                    }
+
+                    if (property.QueryIsEnum())
+                    {
+                        throw new NotImplementedException("contained enumeration is not yet supported");
+                    }
+
+                    if (property.QueryIsReferenceType() && (property.SubsettedProperty.Count == 0 || property.SubsettedProperty.Any(x => x.IsDerived || x.IsDerivedUnion || x.IsReadOnly)))
+                    {
+                        sb.AppendLine($"foreach (var value in element.{pocoPropertyName})");
+                        sb.AppendLine("{");
+                        sb.AppendLine(isAsync
+                            ? $"await this.XmiElementWriterFacade.WriteContainedElementAsync(xmlWriter, value, \"{property.Name}\", writeContext);"
+                            : $"this.XmiElementWriterFacade.WriteContainedElement(xmlWriter, value, \"{property.Name}\", writeContext);");
+                        sb.AppendLine("}");
+
+                        writer.WriteSafeString(sb + Environment.NewLine);
+                        return;
+                    }
+
+                    if (property.QueryIsReferenceType() && property.SubsettedProperty.Count > 0)
+                    {
+                        // the readers collect these composite properties as reference identifiers,
+                        // therefore they are written as xmi:idref reference elements
+                        sb.AppendLine($"foreach (var value in element.{pocoPropertyName})");
+                        sb.AppendLine("{");
+                        sb.AppendLine(isAsync
+                            ? $"await this.XmiElementWriterFacade.WriteReferenceElementAsync(xmlWriter, value, \"{property.Name}\", writeContext);"
+                            : $"this.XmiElementWriterFacade.WriteReferenceElement(xmlWriter, value, \"{property.Name}\", writeContext);");
+                        sb.AppendLine("}");
+
+                        writer.WriteSafeString(sb + Environment.NewLine);
+                        return;
+                    }
+                }
+                else
+                {
+                    if (property.QueryIsPrimitiveType() && property.QueryIsEnumerable())
+                    {
+                        var cSharpTypeName = property.QueryCSharpTypeName();
+
+                        switch (cSharpTypeName)
+                        {
+                            case "bool":
+                            case "double":
+                            case "int":
+                                sb.AppendLine($"foreach (var value in element.{pocoPropertyName})");
+                                sb.AppendLine("{");
+                                sb.AppendLine(isAsync
+                                    ? $"await xmlWriter.WriteElementStringAsync(null, \"{property.Name}\", null, XmlConvert.ToString(value));"
+                                    : $"xmlWriter.WriteElementString(\"{property.Name}\", XmlConvert.ToString(value));");
+                                sb.AppendLine("}");
+                                break;
+                            case "string":
+                                sb.AppendLine($"foreach (var value in element.{pocoPropertyName})");
+                                sb.AppendLine("{");
+                                sb.AppendLine(isAsync
+                                    ? $"await xmlWriter.WriteElementStringAsync(null, \"{property.Name}\", null, value);"
+                                    : $"xmlWriter.WriteElementString(\"{property.Name}\", value);");
+                                sb.AppendLine("}");
+                                break;
+                            default:
+                                throw new NotSupportedException($"{property.Name} has a Primitive Type that is not supported: {cSharpTypeName}");
+                        }
+
+                        writer.WriteSafeString(sb + Environment.NewLine);
+                        return;
+                    }
+
+                    if (property.QueryIsPrimitiveType() || property.QueryIsEnum())
+                    {
+                        // scalar primitives and enumerations are written as XML attributes
+                        return;
+                    }
+
+                    if (property.QueryIsReferenceType() && !property.QueryIsEnumerable())
+                    {
+                        // local references are written as XML attributes, external references as href elements
+                        sb.AppendLine($"if (element.{pocoPropertyName} != null && !writeContext.IsLocal(element.{pocoPropertyName}))");
+                        sb.AppendLine("{");
+                        sb.AppendLine(isAsync
+                            ? $"await this.XmiElementWriterFacade.WriteReferenceElementAsync(xmlWriter, element.{pocoPropertyName}, \"{property.Name}\", writeContext);"
+                            : $"this.XmiElementWriterFacade.WriteReferenceElement(xmlWriter, element.{pocoPropertyName}, \"{property.Name}\", writeContext);");
+                        sb.AppendLine("}");
+
+                        writer.WriteSafeString(sb + Environment.NewLine);
+                        return;
+                    }
+
+                    if (property.QueryIsReferenceType() && property.QueryIsEnumerable())
+                    {
+                        sb.AppendLine($"foreach (var value in element.{pocoPropertyName})");
+                        sb.AppendLine("{");
+                        sb.AppendLine(isAsync
+                            ? $"await this.XmiElementWriterFacade.WriteReferenceElementAsync(xmlWriter, value, \"{property.Name}\", writeContext);"
+                            : $"this.XmiElementWriterFacade.WriteReferenceElement(xmlWriter, value, \"{property.Name}\", writeContext);");
+                        sb.AppendLine("}");
+
+                        writer.WriteSafeString(sb + Environment.NewLine);
                         return;
                     }
 

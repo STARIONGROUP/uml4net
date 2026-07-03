@@ -1,0 +1,393 @@
+// -------------------------------------------------------------------------------------------------
+// <copyright file="XmiElementWriterFacade.cs" company="Starion Group S.A.">
+//
+//   Copyright (C) 2019-2026 Starion Group S.A.
+//
+//   Licensed under the Apache License, Version 2.0 (the "License");
+//   you may not use this file except in compliance with the License.
+//   You may obtain a copy of the License at
+//
+//       http://www.apache.org/licenses/LICENSE-2.0
+//
+//   Unless required by applicable law or agreed to in writing, software
+//   distributed under the License is distributed on an "AS IS" BASIS,
+//   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+//   See the License for the specific language governing permissions and
+//   limitations under the License.
+//
+// </copyright>
+// ------------------------------------------------------------------------------------------------
+
+// ------------------------------------------------------------------------------------------------
+// --------THIS IS AN AUTOMATICALLY GENERATED FILE. ANY MANUAL CHANGES WILL BE OVERWRITTEN!--------
+// ------------------------------------------------------------------------------------------------
+
+namespace uml4net.xmi.Writers
+{
+    using System;
+    using System.CodeDom.Compiler;
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
+    using System.Xml;
+
+    using Microsoft.Extensions.Logging;
+
+    using uml4net;
+    using uml4net.Actions;
+    using uml4net.Activities;
+    using uml4net.Classification;
+    using uml4net.CommonBehavior;
+    using uml4net.CommonStructure;
+    using uml4net.Deployments;
+    using uml4net.InformationFlows;
+    using uml4net.Interactions;
+    using uml4net.Packages;
+    using uml4net.SimpleClassifiers;
+    using uml4net.StateMachines;
+    using uml4net.StructuredClassifiers;
+    using uml4net.UseCases;
+    using uml4net.Values;
+    using uml4net.xmi.Settings;
+
+    /// <summary>
+    /// The purpose of the <see cref="XmiElementWriterFacade"/> is to write an <see cref="IXmiElement"/> to an
+    /// <see cref="XmlWriter"/> using the appropriate <see cref="IXmiElementWriter{TXmiElement}"/> based on the
+    /// concrete type of the <see cref="IXmiElement"/>
+    /// </summary>
+    [GeneratedCode("uml4net", "latest")]
+    public class XmiElementWriterFacade : IXmiElementWriterFacade
+    {
+        /// <summary>
+        /// The injected <see cref="IXmiWriterSettings" /> that provides XMI writer settings
+        /// </summary>
+        private readonly IXmiWriterSettings xmiWriterSettings;
+
+        /// <summary>
+        /// The (injected) <see cref="ILoggerFactory"/> used to set up logging
+        /// </summary>
+        private readonly ILoggerFactory loggerFactory;
+
+        /// <summary>
+        /// A dictionary that contains delegates to write an <see cref="IXmiElement"/> based on the name of
+        /// the concrete type of the <see cref="IXmiElement"/>
+        /// </summary>
+        private readonly Dictionary<string, Action<XmlWriter, IXmiElement, string, IXmiWriteContext>> writerCache;
+
+        /// <summary>
+        /// A dictionary that contains delegates to asynchronously write an <see cref="IXmiElement"/> based on the name of
+        /// the concrete type of the <see cref="IXmiElement"/>
+        /// </summary>
+        private readonly Dictionary<string, Func<XmlWriter, IXmiElement, string, IXmiWriteContext, Task>> writerAsyncCache;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="XmiElementWriterFacade"/> class.
+        /// </summary>
+        /// <param name="xmiWriterSettings">
+        /// The injected <see cref="IXmiWriterSettings" /> that provides XMI writer settings
+        /// </param>
+        /// <param name="loggerFactory">
+        /// The (injected) <see cref="ILoggerFactory"/> used to set up logging
+        /// </param>
+        public XmiElementWriterFacade(IXmiWriterSettings xmiWriterSettings, ILoggerFactory loggerFactory)
+        {
+            this.xmiWriterSettings = xmiWriterSettings;
+            this.loggerFactory = loggerFactory;
+
+            this.writerCache = new Dictionary<string, Action<XmlWriter, IXmiElement, string, IXmiWriteContext>>
+            {
+                {{ #each this as | class | }}
+                ["{{ class.Name }}"] = (xmlWriter, element, elementName, writeContext) =>
+                {
+                    var {{ String.LowerCaseFirstLetter class.Name }}Writer = new {{ class.Name }}Writer(this, this.xmiWriterSettings, this.loggerFactory);
+                    {{ String.LowerCaseFirstLetter class.Name }}Writer.Write(xmlWriter, (I{{ class.Name }})element, elementName, writeContext);
+                },
+                {{/each}}
+            };
+
+            this.writerAsyncCache = new Dictionary<string, Func<XmlWriter, IXmiElement, string, IXmiWriteContext, Task>>
+            {
+                {{ #each this as | class | }}
+                ["{{ class.Name }}"] = (xmlWriter, element, elementName, writeContext) =>
+                {
+                    var {{ String.LowerCaseFirstLetter class.Name }}Writer = new {{ class.Name }}Writer(this, this.xmiWriterSettings, this.loggerFactory);
+                    return {{ String.LowerCaseFirstLetter class.Name }}Writer.WriteAsync(xmlWriter, (I{{ class.Name }})element, elementName, writeContext);
+                },
+                {{/each}}
+            };
+        }
+
+        /// <summary>
+        /// Writes the provided <see cref="IXmiElement"/> to the <see cref="XmlWriter"/> using the appropriate
+        /// <see cref="IXmiElementWriter{TXmiElement}"/> based on the concrete type of the <see cref="IXmiElement"/>.
+        /// </summary>
+        /// <param name="xmlWriter">
+        /// The <see cref="XmlWriter"/> to write to
+        /// </param>
+        /// <param name="element">
+        /// The <see cref="IXmiElement"/> that is to be written
+        /// </param>
+        /// <param name="elementName">
+        /// The name of the XML element that is written
+        /// </param>
+        /// <param name="writeContext">
+        /// The <see cref="IXmiWriteContext"/> that captures the state of the write operation
+        /// </param>
+        /// <exception cref="InvalidOperationException">
+        /// thrown when the concrete type of the <see cref="IXmiElement"/> is not supported and no
+        /// <see cref="IXmiElementWriter{TXmiElement}"/> was found
+        /// </exception>
+        public void Write(XmlWriter xmlWriter, IXmiElement element, string elementName, IXmiWriteContext writeContext)
+        {
+            if (element == null)
+            {
+                throw new ArgumentNullException(nameof(element));
+            }
+
+            var typeName = element.GetType().Name;
+
+            if (!this.writerCache.TryGetValue(typeName, out var writer))
+            {
+                throw new InvalidOperationException($"No writer found for type {typeName}");
+            }
+
+            writer(xmlWriter, element, elementName, writeContext);
+        }
+
+        /// <summary>
+        /// Writes the provided <see cref="IXmiElement"/> to the <see cref="XmlWriter"/> as a contained element. When
+        /// the <see cref="IXmiElement"/> is not part of the document that is being written, an href reference element
+        /// is written instead.
+        /// </summary>
+        /// <param name="xmlWriter">
+        /// The <see cref="XmlWriter"/> to write to
+        /// </param>
+        /// <param name="element">
+        /// The <see cref="IXmiElement"/> that is to be written
+        /// </param>
+        /// <param name="elementName">
+        /// The name of the XML element that is written
+        /// </param>
+        /// <param name="writeContext">
+        /// The <see cref="IXmiWriteContext"/> that captures the state of the write operation
+        /// </param>
+        public void WriteContainedElement(XmlWriter xmlWriter, IXmiElement element, string elementName, IXmiWriteContext writeContext)
+        {
+            if (element == null)
+            {
+                throw new ArgumentNullException(nameof(element));
+            }
+
+            if (writeContext.IsLocal(element))
+            {
+                this.Write(xmlWriter, element, elementName, writeContext);
+            }
+            else
+            {
+                this.WriteHrefElement(xmlWriter, element, elementName, writeContext);
+            }
+        }
+
+        /// <summary>
+        /// Writes the provided <see cref="IXmiElement"/> to the <see cref="XmlWriter"/> as a reference element. When the
+        /// <see cref="IXmiElement"/> is part of the document that is being written an xmi:idref element is written,
+        /// otherwise an href reference element is written.
+        /// </summary>
+        /// <param name="xmlWriter">
+        /// The <see cref="XmlWriter"/> to write to
+        /// </param>
+        /// <param name="element">
+        /// The <see cref="IXmiElement"/> that is referenced
+        /// </param>
+        /// <param name="elementName">
+        /// The name of the XML element that is written
+        /// </param>
+        /// <param name="writeContext">
+        /// The <see cref="IXmiWriteContext"/> that captures the state of the write operation
+        /// </param>
+        public void WriteReferenceElement(XmlWriter xmlWriter, IXmiElement element, string elementName, IXmiWriteContext writeContext)
+        {
+            if (element == null)
+            {
+                throw new ArgumentNullException(nameof(element));
+            }
+
+            if (writeContext.IsLocal(element))
+            {
+                xmlWriter.WriteStartElement(elementName);
+                xmlWriter.WriteAttributeString("xmi", "idref", this.xmiWriterSettings.XmiNamespaceUri, element.XmiId);
+                xmlWriter.WriteEndElement();
+            }
+            else
+            {
+                this.WriteHrefElement(xmlWriter, element, elementName, writeContext);
+            }
+        }
+
+        /// <summary>
+        /// Asynchronously writes the provided <see cref="IXmiElement"/> to the <see cref="XmlWriter"/> using the appropriate
+        /// <see cref="IXmiElementWriter{TXmiElement}"/> based on the concrete type of the <see cref="IXmiElement"/>.
+        /// </summary>
+        /// <param name="xmlWriter">
+        /// The <see cref="XmlWriter"/> to write to
+        /// </param>
+        /// <param name="element">
+        /// The <see cref="IXmiElement"/> that is to be written
+        /// </param>
+        /// <param name="elementName">
+        /// The name of the XML element that is written
+        /// </param>
+        /// <param name="writeContext">
+        /// The <see cref="IXmiWriteContext"/> that captures the state of the write operation
+        /// </param>
+        /// <returns>
+        /// an awaitable <see cref="Task"/>
+        /// </returns>
+        /// <exception cref="InvalidOperationException">
+        /// thrown when the concrete type of the <see cref="IXmiElement"/> is not supported and no
+        /// <see cref="IXmiElementWriter{TXmiElement}"/> was found
+        /// </exception>
+        public Task WriteAsync(XmlWriter xmlWriter, IXmiElement element, string elementName, IXmiWriteContext writeContext)
+        {
+            if (element == null)
+            {
+                throw new ArgumentNullException(nameof(element));
+            }
+
+            var typeName = element.GetType().Name;
+
+            if (!this.writerAsyncCache.TryGetValue(typeName, out var writer))
+            {
+                throw new InvalidOperationException($"No writer found for type {typeName}");
+            }
+
+            return writer(xmlWriter, element, elementName, writeContext);
+        }
+
+        /// <summary>
+        /// Asynchronously writes the provided <see cref="IXmiElement"/> to the <see cref="XmlWriter"/> as a contained element. When
+        /// the <see cref="IXmiElement"/> is not part of the document that is being written, an href reference element
+        /// is written instead.
+        /// </summary>
+        /// <param name="xmlWriter">
+        /// The <see cref="XmlWriter"/> to write to
+        /// </param>
+        /// <param name="element">
+        /// The <see cref="IXmiElement"/> that is to be written
+        /// </param>
+        /// <param name="elementName">
+        /// The name of the XML element that is written
+        /// </param>
+        /// <param name="writeContext">
+        /// The <see cref="IXmiWriteContext"/> that captures the state of the write operation
+        /// </param>
+        /// <returns>
+        /// an awaitable <see cref="Task"/>
+        /// </returns>
+        public Task WriteContainedElementAsync(XmlWriter xmlWriter, IXmiElement element, string elementName, IXmiWriteContext writeContext)
+        {
+            if (element == null)
+            {
+                throw new ArgumentNullException(nameof(element));
+            }
+
+            if (writeContext.IsLocal(element))
+            {
+                return this.WriteAsync(xmlWriter, element, elementName, writeContext);
+            }
+
+            return this.WriteHrefElementAsync(xmlWriter, element, elementName, writeContext);
+        }
+
+        /// <summary>
+        /// Asynchronously writes the provided <see cref="IXmiElement"/> to the <see cref="XmlWriter"/> as a reference element. When the
+        /// <see cref="IXmiElement"/> is part of the document that is being written an xmi:idref element is written,
+        /// otherwise an href reference element is written.
+        /// </summary>
+        /// <param name="xmlWriter">
+        /// The <see cref="XmlWriter"/> to write to
+        /// </param>
+        /// <param name="element">
+        /// The <see cref="IXmiElement"/> that is referenced
+        /// </param>
+        /// <param name="elementName">
+        /// The name of the XML element that is written
+        /// </param>
+        /// <param name="writeContext">
+        /// The <see cref="IXmiWriteContext"/> that captures the state of the write operation
+        /// </param>
+        /// <returns>
+        /// an awaitable <see cref="Task"/>
+        /// </returns>
+        public async Task WriteReferenceElementAsync(XmlWriter xmlWriter, IXmiElement element, string elementName, IXmiWriteContext writeContext)
+        {
+            if (element == null)
+            {
+                throw new ArgumentNullException(nameof(element));
+            }
+
+            if (writeContext.IsLocal(element))
+            {
+                await xmlWriter.WriteStartElementAsync(null, elementName, null);
+                await xmlWriter.WriteAttributeStringAsync("xmi", "idref", this.xmiWriterSettings.XmiNamespaceUri, element.XmiId);
+                await xmlWriter.WriteEndElementAsync();
+            }
+            else
+            {
+                await this.WriteHrefElementAsync(xmlWriter, element, elementName, writeContext);
+            }
+        }
+
+        /// <summary>
+        /// Writes an href reference element for the provided <see cref="IXmiElement"/> to the <see cref="XmlWriter"/>.
+        /// </summary>
+        /// <param name="xmlWriter">
+        /// The <see cref="XmlWriter"/> to write to
+        /// </param>
+        /// <param name="element">
+        /// The <see cref="IXmiElement"/> that is referenced
+        /// </param>
+        /// <param name="elementName">
+        /// The name of the XML element that is written
+        /// </param>
+        /// <param name="writeContext">
+        /// The <see cref="IXmiWriteContext"/> that captures the state of the write operation
+        /// </param>
+        private void WriteHrefElement(XmlWriter xmlWriter, IXmiElement element, string elementName, IXmiWriteContext writeContext)
+        {
+            xmlWriter.WriteStartElement(elementName);
+            xmlWriter.WriteAttributeString("xmi", "type", this.xmiWriterSettings.XmiNamespaceUri, $"uml:{element.GetType().Name}");
+            xmlWriter.WriteAttributeString("href", writeContext.QueryHref(element));
+            xmlWriter.WriteEndElement();
+        }
+
+        /// <summary>
+        /// Asynchronously writes an href reference element for the provided <see cref="IXmiElement"/> to the <see cref="XmlWriter"/>.
+        /// </summary>
+        /// <param name="xmlWriter">
+        /// The <see cref="XmlWriter"/> to write to
+        /// </param>
+        /// <param name="element">
+        /// The <see cref="IXmiElement"/> that is referenced
+        /// </param>
+        /// <param name="elementName">
+        /// The name of the XML element that is written
+        /// </param>
+        /// <param name="writeContext">
+        /// The <see cref="IXmiWriteContext"/> that captures the state of the write operation
+        /// </param>
+        /// <returns>
+        /// an awaitable <see cref="Task"/>
+        /// </returns>
+        private async Task WriteHrefElementAsync(XmlWriter xmlWriter, IXmiElement element, string elementName, IXmiWriteContext writeContext)
+        {
+            await xmlWriter.WriteStartElementAsync(null, elementName, null);
+            await xmlWriter.WriteAttributeStringAsync("xmi", "type", this.xmiWriterSettings.XmiNamespaceUri, $"uml:{element.GetType().Name}");
+            await xmlWriter.WriteAttributeStringAsync(null, "href", null, writeContext.QueryHref(element));
+            await xmlWriter.WriteEndElementAsync();
+        }
+    }
+}
+
+// ------------------------------------------------------------------------------------------------
+// --------THIS IS AN AUTOMATICALLY GENERATED FILE. ANY MANUAL CHANGES WILL BE OVERWRITTEN!--------
+// ------------------------------------------------------------------------------------------------
