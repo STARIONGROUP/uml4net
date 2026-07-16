@@ -1,55 +1,20 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
       <TargetFramework>netstandard2.0</TargetFramework>
       <Version>4.2.1</Version>
       <LangVersion>12.0</LangVersion>
-      <Company>Starion Group S.A.</Company>
-      <Copyright>Copyright © Starion Group S.A.</Copyright>
       <PackageId>uml4net</PackageId>
       <AssemblyTitle>uml4net</AssemblyTitle>
       <Title>uml4net</Title>
       <Description>A .NET implementation of the OMG UML v2.5.1 specification.</Description>
-      <RequireLicenseAcceptance>true</RequireLicenseAcceptance>
-      <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
-      <IncludeSymbols>true</IncludeSymbols>
-      <SymbolPackageFormat>snupkg</SymbolPackageFormat>
-      <PublishRepositoryUrl>true</PublishRepositoryUrl>
-      <EmbedUntrackedSources>true</EmbedUntrackedSources>
-      <PackageProjectUrl>https://uml4net.org</PackageProjectUrl>
-      <RepositoryUrl>https://github.com/STARIONGROUP/uml4net.git</RepositoryUrl>
-      <RepositoryType>Git</RepositoryType>
-      <NeutralLanguage>en-US</NeutralLanguage>
-      <SatelliteResourceLanguages>en-US</SatelliteResourceLanguages>
-      <Authors>Sam Gerené; Nathanael Smiechowski; Alexander Van Delft; Antoine Théate</Authors>
-      <PackageReadmeFile>README.md</PackageReadmeFile>
-      <PackageIcon>uml4net-logo-strapline.png</PackageIcon>
       <PackageTags>UML modeltopia</PackageTags>
-      <GenerateDocumentationFile>true</GenerateDocumentationFile>
-      <GenerateSBOM>true</GenerateSBOM>
       <PackageReleaseNotes>
           [Bug] resolve bare same-document href references; fixes #192
       </PackageReleaseNotes>
   </PropertyGroup>
 
     <ItemGroup>
-        <None Include="..\README.md" Pack="true" PackagePath="\" />
-        <None Include="..\LICENSE" Pack="true" PackagePath="\" />
-        <None Include="..\NOTICE" Pack="true" PackagePath="\" />
-        <None Include="..\uml4net-logo-strapline.png" Pack="true" PackagePath="" />
-    </ItemGroup>
-
-    <ItemGroup>
-        <!-- Deliberately kept at a low floor: this is a stable abstraction consumed by uml4net's users.
-             NuGet unifies to the highest version in the consumer's graph, so a low floor avoids forcing
-             downstream apps to upgrade their Microsoft.Extensions.* stack. Do NOT bump on new releases;
-             raise only if a newer API is actually required. -->
-        <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="6.0.0" />
-        <PackageReference Include="Microsoft.Sbom.Targets" Version="4.1.5" PrivateAssets="all" />
-        <PackageReference Include="Microsoft.SourceLink.GitHub" Version="10.0.300" PrivateAssets="All" />
-    </ItemGroup>
-
-    <ItemGroup>
-        <InternalsVisibleTo Include="$(MSBuildProjectName).Tests" />
+        <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" />
     </ItemGroup>
 </Project>

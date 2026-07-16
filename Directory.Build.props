@@ -1,0 +1,44 @@
+<Project>
+
+  <!-- Shared MSBuild properties imported at the top of every project in the solution.
+       Per-project values (Version, PackageId, Title, Description, PackageTags, TargetFramework,
+       LangVersion, ...) stay in each .csproj. Packable/library-specific settings that depend on
+       IsPackable or PackAsTool live in Directory.Build.targets (imported at the bottom). -->
+
+  <PropertyGroup Label="Company / repository metadata (all projects)">
+    <Company>Starion Group S.A.</Company>
+    <Copyright>Copyright © Starion Group S.A.</Copyright>
+    <Authors>Sam Gerené; Nathanael Smiechowski; Alexander Van Delft; Antoine Théate</Authors>
+    <RepositoryUrl>https://github.com/STARIONGROUP/uml4net.git</RepositoryUrl>
+    <RepositoryType>Git</RepositoryType>
+    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+    <NeutralLanguage>en-US</NeutralLanguage>
+    <SatelliteResourceLanguages>en-US</SatelliteResourceLanguages>
+  </PropertyGroup>
+
+  <PropertyGroup Label="Test-project defaults" Condition="$(MSBuildProjectName.EndsWith('.Tests'))">
+    <IsPackable>false</IsPackable>
+    <Nullable>disable</Nullable>
+    <ImplicitUsings>false</ImplicitUsings>
+    <PreserveCompilationContext>true</PreserveCompilationContext>
+  </PropertyGroup>
+
+  <ItemGroup Label="Shared test harness (all *.Tests projects)" Condition="$(MSBuildProjectName.EndsWith('.Tests'))">
+    <PackageReference Include="Microsoft.NET.Test.Sdk" />
+    <PackageReference Include="NUnit" />
+    <PackageReference Include="NUnit.Console" />
+    <PackageReference Include="NUnit3TestAdapter">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="coverlet.collector">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="coverlet.msbuild">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+</Project>
