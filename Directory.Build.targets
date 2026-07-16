@@ -1,0 +1,44 @@
+<Project>
+
+  <!-- Imported at the bottom of every project (after the .csproj body), so IsPackable / PackAsTool
+       set by the project itself are already visible in the conditions below.
+       $(MSBuildThisFileDirectory) is the repository root (where this file lives). -->
+
+  <PropertyGroup Label="Packaging defaults (packable, non-test projects)"
+                 Condition="'$(IsPackable)' != 'false' and !$(MSBuildProjectName.EndsWith('.Tests'))">
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageIcon>uml4net-logo-strapline.png</PackageIcon>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <GenerateSBOM>true</GenerateSBOM>
+  </PropertyGroup>
+
+  <ItemGroup Label="Package assets (packable, non-test projects)"
+             Condition="'$(IsPackable)' != 'false' and !$(MSBuildProjectName.EndsWith('.Tests'))">
+    <None Include="$(MSBuildThisFileDirectory)README.md" Pack="true" PackagePath="\" />
+    <None Include="$(MSBuildThisFileDirectory)LICENSE" Pack="true" PackagePath="\" />
+    <None Include="$(MSBuildThisFileDirectory)NOTICE" Pack="true" PackagePath="\" />
+    <None Include="$(MSBuildThisFileDirectory)uml4net-logo-strapline.png" Pack="true" PackagePath="" />
+    <PackageReference Include="Microsoft.Sbom.Targets" PrivateAssets="all" />
+  </ItemGroup>
+
+  <PropertyGroup Label="Library publishing (packable libraries, excludes the packed tool)"
+                 Condition="'$(IsPackable)' != 'false' and '$(PackAsTool)' != 'true' and !$(MSBuildProjectName.EndsWith('.Tests'))">
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    <PackageProjectUrl>https://uml4net.org</PackageProjectUrl>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup Label="SourceLink (packable libraries, excludes the packed tool)"
+             Condition="'$(IsPackable)' != 'false' and '$(PackAsTool)' != 'true' and !$(MSBuildProjectName.EndsWith('.Tests'))">
+    <PackageReference Include="Microsoft.SourceLink.GitHub" PrivateAssets="all" />
+  </ItemGroup>
+
+  <ItemGroup Label="InternalsVisibleTo the matching test project (non-test projects)"
+             Condition="!$(MSBuildProjectName.EndsWith('.Tests'))">
+    <InternalsVisibleTo Include="$(MSBuildProjectName).Tests" />
+  </ItemGroup>
+
+</Project>

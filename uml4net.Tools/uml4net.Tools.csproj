@@ -12,28 +12,10 @@
         <ToolCommandName>uml4nettools</ToolCommandName>
         <ImplicitUsings>disable</ImplicitUsings>
         <ApplicationIcon>icon.ico</ApplicationIcon>
-        <PackageReadmeFile>README.md</PackageReadmeFile>
-        <PackageIcon>uml4net-logo-strapline.png</PackageIcon>
         <PackageTags>UML XMI modeltopia</PackageTags>
-        <NeutralLanguage>en-US</NeutralLanguage>
-        <SatelliteResourceLanguages>en-US</SatelliteResourceLanguages>
-        <GenerateSBOM>true</GenerateSBOM>
         <PackageReleaseNotes>
             [Bump] to uml4net 4.2.1
         </PackageReleaseNotes>
-    </PropertyGroup>
-
-    <PropertyGroup Label="Copyright">
-        <Company>Starion Group S.A.</Company>
-        <Copyright>Copyright © Starion Group S.A.</Copyright>
-        <Authors>Sam Gerené; Nathanael Smiechowski; Alexander Van Delft; Antoine Théate</Authors>
-        <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
-        <RequireLicenseAcceptance>true</RequireLicenseAcceptance>
-    </PropertyGroup>
-
-    <PropertyGroup Label="Repository">
-        <RepositoryUrl>https://github.com/STARIONGROUP/uml4net.git</RepositoryUrl>
-        <RepositoryType>Git</RepositoryType>
     </PropertyGroup>
 
     <ItemGroup>
@@ -41,30 +23,21 @@
     </ItemGroup>
 
     <ItemGroup>
-        <None Include="..\README.md" Pack="true" PackagePath="\" />
-        <None Include="..\LICENSE" Pack="true" PackagePath="\" />
-        <None Include="..\NOTICE" Pack="true" PackagePath="\" />
-        <None Include="..\uml4net-logo-strapline.png" Pack="true" PackagePath="" />
         <Content Include="icon.ico" />
         <EmbeddedResource Include="Resources\ascii-art.txt" />
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="11.0.2" />
-        <PackageReference Include="Microsoft.Extensions.Http" Version="10.0.10" />
-        <PackageReference Include="Microsoft.Extensions.Hosting" Version="10.0.10" />
-        <PackageReference Include="Serilog.Extensions.Logging" Version="10.0.0" />
-        <PackageReference Include="Serilog.Sinks.File" Version="7.0.0" />
-        <PackageReference Include="System.CommandLine" Version="2.0.9" />
-        <PackageReference Include="Spectre.Console" Version="0.57.1" />
-        <PackageReference Include="Microsoft.Sbom.Targets" Version="4.1.5" PrivateAssets="all" />
+        <PackageReference Include="Autofac.Extensions.DependencyInjection" />
+        <PackageReference Include="Microsoft.Extensions.Http" />
+        <PackageReference Include="Microsoft.Extensions.Hosting" />
+        <PackageReference Include="Serilog.Extensions.Logging" />
+        <PackageReference Include="Serilog.Sinks.File" />
+        <PackageReference Include="System.CommandLine" />
+        <PackageReference Include="Spectre.Console" />
     </ItemGroup>
 
     <ItemGroup>
       <ProjectReference Include="..\uml4net.Reporting\uml4net.Reporting.csproj" />
-    </ItemGroup>
-
-    <ItemGroup>
-        <InternalsVisibleTo Include="$(MSBuildProjectName).Tests" />
     </ItemGroup>
 </Project>
