@@ -1,8 +1,6 @@
 <Project>
-
   <!-- Central Package Management: every package version used across the solution is declared here
        exactly once. Individual projects reference packages without a Version attribute. -->
-
   <PropertyGroup>
     <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
     <!-- Transitive pinning is intentionally NOT enabled: a central version only constrains a package
@@ -11,7 +9,6 @@
          6.0.0 floor apply to uml4net's direct reference while consumers that transitively pull a newer
          version still unify up to it. -->
   </PropertyGroup>
-
   <ItemGroup Label="Runtime dependencies">
     <!-- Deliberately kept at a low floor: this is a stable abstraction consumed by uml4net's users.
          NuGet unifies to the highest version in the consumer's graph, so a low floor avoids forcing
@@ -20,7 +17,7 @@
          check (.github/workflows/nuget-reference-check.yml) lists this package in IGNORE_PACKAGES so it
          never raises a "package outdated" issue. Keep both in sync. -->
     <PackageVersion Include="Microsoft.Extensions.Logging.Abstractions" Version="6.0.0" />
-    <PackageVersion Include="Microsoft.Extensions.Logging.Console" Version="10.0.9" />
+    <PackageVersion Include="Microsoft.Extensions.Logging.Console" Version="10.0.10" />
     <PackageVersion Include="Microsoft.Extensions.Http" Version="10.0.10" />
     <PackageVersion Include="Microsoft.Extensions.Hosting" Version="10.0.10" />
     <PackageVersion Include="Autofac" Version="9.3.1" />
@@ -30,14 +27,13 @@
     <PackageVersion Include="ClosedXML" Version="0.105.0" />
     <PackageVersion Include="Microsoft.Msagl" Version="1.1.6" />
     <PackageVersion Include="Svg" Version="3.4.7" />
-    <PackageVersion Include="Microsoft.CodeAnalysis" Version="5.3.0" />
-    <PackageVersion Include="System.CommandLine" Version="2.0.9" />
-    <PackageVersion Include="Spectre.Console" Version="0.57.1" />
+    <PackageVersion Include="Microsoft.CodeAnalysis" Version="5.6.0" />
+    <PackageVersion Include="System.CommandLine" Version="2.0.10" />
+    <PackageVersion Include="Spectre.Console" Version="0.57.2" />
     <PackageVersion Include="Serilog" Version="4.4.0" />
     <PackageVersion Include="Serilog.Extensions.Logging" Version="10.0.0" />
     <PackageVersion Include="Serilog.Sinks.Console" Version="6.1.1" />
     <PackageVersion Include="Serilog.Sinks.File" Version="7.0.0" />
-
     <!-- Deliberate security override, NOT a normal dependency: forces the transitively-referenced
          System.Private.Uri up to 4.3.2, which patches CVE-2019-0657 (domain spoofing) and CVE-2019-0981
          (denial of service). This is a legacy out-of-band package and 4.3.2 is effectively terminal, so do
@@ -45,12 +41,10 @@
          uml4net.HandleBars.csproj. -->
     <PackageVersion Include="System.Private.Uri" Version="4.3.2" />
   </ItemGroup>
-
   <ItemGroup Label="Build / packaging (PrivateAssets set on the reference in Directory.Build.targets)">
     <PackageVersion Include="Microsoft.Sbom.Targets" Version="4.1.5" />
-    <PackageVersion Include="Microsoft.SourceLink.GitHub" Version="10.0.300" />
+    <PackageVersion Include="Microsoft.SourceLink.GitHub" Version="10.0.301" />
   </ItemGroup>
-
   <ItemGroup Label="Test">
     <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="18.8.1" />
     <PackageVersion Include="NUnit" Version="4.6.1" />
@@ -60,5 +54,4 @@
     <PackageVersion Include="coverlet.msbuild" Version="10.0.1" />
     <PackageVersion Include="Moq" Version="4.20.72" />
   </ItemGroup>
-
 </Project>
