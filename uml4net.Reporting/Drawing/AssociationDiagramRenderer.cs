@@ -615,7 +615,11 @@ namespace uml4net.Reporting.Drawing
         /// <returns>
         /// The penultimate <see cref="Microsoft.Msagl.Core.Geometry.Point"/>
         /// </returns>
-        private static Microsoft.Msagl.Core.Geometry.Point GetPenultimatePoint(ICurve curve)
+        /// <remarks>
+        /// internal rather than private so that the individual curve shapes it handles can be verified
+        /// directly; the layout engine does not deterministically produce all of them
+        /// </remarks>
+        internal static Microsoft.Msagl.Core.Geometry.Point GetPenultimatePoint(ICurve curve)
         {
             switch (curve)
             {

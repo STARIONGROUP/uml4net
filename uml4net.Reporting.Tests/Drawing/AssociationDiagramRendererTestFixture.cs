@@ -25,6 +25,8 @@ namespace uml4net.Reporting.Tests.Drawing
     using System.Linq;
 
     using Microsoft.Extensions.Logging;
+    using Microsoft.Msagl.Core.Geometry;
+    using Microsoft.Msagl.Core.Geometry.Curves;
 
     using NUnit.Framework;
 
@@ -296,6 +298,64 @@ namespace uml4net.Reporting.Tests.Drawing
             var svg = this.associationDiagramRenderer.SvgRenderForClass(targetClass, this.payload);
 
             Assert.That(svg, Does.Contain("stroke-width=\"12\""));
+        }
+
+        [Test]
+        public void Verify_that_GetPenultimatePoint_returns_the_point_before_the_end_for_a_polyline()
+        {
+            var polyline = new Polyline(new Point(0, 0), new Point(10, 10), new Point(20, 30));
+
+            var penultimatePoint = AssociationDiagramRenderer.GetPenultimatePoint(polyline);
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(penultimatePoint.X, Is.EqualTo(10));
+                Assert.That(penultimatePoint.Y, Is.EqualTo(10));
+            }
+        }
+
+        [Test]
+        public void Verify_that_GetPenultimatePoint_returns_the_start_for_a_polyline_with_a_single_point()
+        {
+            var polyline = new Polyline(new Point(7, 9));
+
+            var penultimatePoint = AssociationDiagramRenderer.GetPenultimatePoint(polyline);
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(penultimatePoint.X, Is.EqualTo(7));
+                Assert.That(penultimatePoint.Y, Is.EqualTo(9));
+            }
+        }
+
+        [Test]
+        public void Verify_that_GetPenultimatePoint_returns_the_start_of_the_last_segment_for_a_compound_curve()
+        {
+            var curve = new Curve();
+            curve.AddSegment(new LineSegment(new Point(0, 0), new Point(10, 10)));
+            curve.AddSegment(new LineSegment(new Point(10, 10), new Point(25, 40)));
+
+            var penultimatePoint = AssociationDiagramRenderer.GetPenultimatePoint(curve);
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(penultimatePoint.X, Is.EqualTo(10));
+                Assert.That(penultimatePoint.Y, Is.EqualTo(10));
+            }
+        }
+
+        [Test]
+        public void Verify_that_GetPenultimatePoint_returns_the_start_for_an_unsupported_curve()
+        {
+            var lineSegment = new LineSegment(new Point(3, 4), new Point(15, 16));
+
+            var penultimatePoint = AssociationDiagramRenderer.GetPenultimatePoint(lineSegment);
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(penultimatePoint.X, Is.EqualTo(3));
+                Assert.That(penultimatePoint.Y, Is.EqualTo(4));
+            }
         }
 
         /// <summary>
