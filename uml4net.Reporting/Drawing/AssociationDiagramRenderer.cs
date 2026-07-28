@@ -81,7 +81,7 @@ namespace uml4net.Reporting.Drawing
         {
             var classSet = new HashSet<IClass>(payload.Classes);
 
-            var associationEdges = this.CollectAssociationEdges(targetClass, payload.Classes, classSet);
+            var associationEdges = CollectAssociationEdges(targetClass, payload.Classes, classSet);
 
             if (associationEdges.Count == 0)
             {
@@ -122,7 +122,7 @@ namespace uml4net.Reporting.Drawing
         /// <returns>
         /// A list of <see cref="AssociationEdgeInfo"/> representing all associations
         /// </returns>
-        private List<AssociationEdgeInfo> CollectAssociationEdges(IClass targetClass, IEnumerable<IClass> allClasses, HashSet<IClass> classSet)
+        private static List<AssociationEdgeInfo> CollectAssociationEdges(IClass targetClass, IEnumerable<IClass> allClasses, HashSet<IClass> classSet)
         {
             var edges = new List<AssociationEdgeInfo>();
 
@@ -537,8 +537,8 @@ namespace uml4net.Reporting.Drawing
 
             group.Children.Add(title);
             var endPoint = curve.End;
-            var penultimatePoint = this.GetPenultimatePoint(curve);
-            var (labelOffsetX, labelOffsetY, anchor) = this.ComputeLabelOffset(endPoint, penultimatePoint);
+            var penultimatePoint = GetPenultimatePoint(curve);
+            var (labelOffsetX, labelOffsetY, anchor) = ComputeLabelOffset(endPoint, penultimatePoint);
 
             if (!string.IsNullOrEmpty(multiplicity))
             {
@@ -615,7 +615,7 @@ namespace uml4net.Reporting.Drawing
         /// <returns>
         /// The penultimate <see cref="Microsoft.Msagl.Core.Geometry.Point"/>
         /// </returns>
-        private Microsoft.Msagl.Core.Geometry.Point GetPenultimatePoint(ICurve curve)
+        private static Microsoft.Msagl.Core.Geometry.Point GetPenultimatePoint(ICurve curve)
         {
             switch (curve)
             {
@@ -644,7 +644,7 @@ namespace uml4net.Reporting.Drawing
         /// <returns>
         /// A tuple of (offsetX, offsetY, textAnchor) for positioning the label
         /// </returns>
-        private (double OffsetX, double OffsetY, SvgTextAnchor Anchor) ComputeLabelOffset(
+        private static (double OffsetX, double OffsetY, SvgTextAnchor Anchor) ComputeLabelOffset(
             Microsoft.Msagl.Core.Geometry.Point endPoint,
             Microsoft.Msagl.Core.Geometry.Point penultimatePoint)
         {
