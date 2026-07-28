@@ -24,9 +24,9 @@
     <PackageVersion Include="Autofac.Extensions.DependencyInjection" Version="11.0.2" />
     <PackageVersion Include="HtmlAgilityPack" Version="1.12.4" />
     <PackageVersion Include="Handlebars.Net.Helpers" Version="2.5.5" />
-    <PackageVersion Include="ClosedXML" Version="0.105.0" />
+    <PackageVersion Include="ClosedXML" Version="0.105.1" />
     <PackageVersion Include="Microsoft.Msagl" Version="1.1.6" />
-    <PackageVersion Include="Svg" Version="3.4.7" />
+    <PackageVersion Include="Svg" Version="3.4.8" />
     <PackageVersion Include="Microsoft.CodeAnalysis" Version="5.6.0" />
     <PackageVersion Include="System.CommandLine" Version="2.0.10" />
     <PackageVersion Include="Spectre.Console" Version="0.57.2" />
