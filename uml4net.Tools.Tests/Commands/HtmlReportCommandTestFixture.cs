@@ -184,5 +184,32 @@ namespace uml4net.Tools.Tests.Commands
             await Assert.ThatAsync(() => this.handler.InvokeAsync(parseResult, this.cts.Token),
                 Throws.TypeOf<OperationCanceledException>());
         }
+
+        [Test]
+        public async Task Verify_that_when_operation_is_cancelled_while_running_OperationCanceledException_is_thrown()
+        {
+            var args = new[]
+            {
+                "html-report",
+                "--no-logo",
+                "--input-model", Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData", "UML.xmi"),
+                "--output-report", Path.Combine(TestContext.CurrentContext.TestDirectory, "html-report.html"),
+                "--root-package-xmi-id", "_0",
+                "--root-package-name", "UML"
+            };
+
+            var parseResult = this.rootCommand.Parse(args);
+
+            // the first delay inside the status block is awaited for 500ms, so cancelling after 100ms
+            // cancels while the handler is running rather than before it has started
+            this.cts.CancelAfter(100);
+
+            await Assert.ThatAsync(() => this.handler.InvokeAsync(parseResult, this.cts.Token),
+                Throws.InstanceOf<OperationCanceledException>());
+
+            // cancellation must abort before the report is generated, and must not be swallowed
+            // and turned into a -1 result by the general exception handler
+            this.htmlReportGenerator.Verify(x => x.GenerateReport(It.IsAny<FileInfo>(), It.IsAny<DirectoryInfo>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<bool>(), It.IsAny<Dictionary<string, string>>(), It.IsAny<FileInfo>(), It.IsAny<String>()), Times.Never);
+        }
     }
 }
