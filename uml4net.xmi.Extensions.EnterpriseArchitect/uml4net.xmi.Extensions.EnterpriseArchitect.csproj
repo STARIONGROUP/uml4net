@@ -2,7 +2,7 @@
 
     <PropertyGroup>
         <TargetFramework>netstandard2.0</TargetFramework>
-        <Version>8.2.1</Version>
+        <Version>8.3.0</Version>
         <LangVersion>12.0</LangVersion>
         <PackageId>uml4net.xmi.Extensions.EnterpriseArchitect</PackageId>
         <AssemblyTitle>uml4net.xmi.Extensions.EnterpriseArchitect</AssemblyTitle>
@@ -10,7 +10,7 @@
         <Description>A specific XMI Reader extension to support Enterprise Architect XMI reading</Description>
         <PackageTags>UML XMI modeltopia</PackageTags>
         <PackageReleaseNotes>
-            [Bump] to uml4net 4.2.1
+            [Bump] to uml4net.xmi 8.3.0
         </PackageReleaseNotes>
     </PropertyGroup>
 
