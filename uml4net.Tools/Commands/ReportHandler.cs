@@ -160,7 +160,7 @@ namespace uml4net.Tools.Commands
                 await AnsiConsole.Status()
                     .AutoRefresh(true)
                     .SpinnerStyle(Style.Parse("green bold"))
-                    .Start($"Preparing Warp Engines for {this.ReportGenerator.QueryReportType()} reporting...", ctx =>
+                    .StartAsync($"Preparing Warp Engines for {this.ReportGenerator.QueryReportType()} reporting...", async ctx =>
                     {
                         AnsiConsole.WriteLine();
                         AnsiConsole.MarkupLine("[yellow]Initializing report parameters...[/]");
@@ -170,12 +170,12 @@ namespace uml4net.Tools.Commands
                         AnsiConsole.MarkupLine($"[green] --auto-open-report: {Markup.Escape(this.autoOpenReport.ToString(CultureInfo.CurrentCulture))}[/]");
                         AnsiConsole.MarkupLine($"[green] --use-strict-reading: {Markup.Escape(this.useStrictReading.ToString(CultureInfo.CurrentCulture))}[/]");
                         AnsiConsole.WriteLine();
-                        Task.Delay(500);
+                        await Task.Delay(500, cancellationToken);
 
                         ctx.Status("[yellow]Generating UML Model report...[/]");
                         AnsiConsole.WriteLine();
-                        Task.Delay(1000);
-                        
+                        await Task.Delay(1000, cancellationToken);
+
                         this.ReportGenerator.GenerateReport(this.inputModel, this.inputModel.Directory, this.rootPackageXmiId, this.rootPackageName, this.useStrictReading, this.pathMap, this.outputReport);
 
                         AnsiConsole.MarkupLine($"[grey]LOG:[/] UML {this.ReportGenerator.QueryReportType()} report generated at [bold]{this.outputReport.FullName}[/]");
@@ -184,10 +184,21 @@ namespace uml4net.Tools.Commands
                         this.ExecuteAutoOpen(ctx);
 
                         ctx.Status("[green]Dropping to impulse speed[/]");
-                        Task.Delay(500);
-                        
-                        return Task.FromResult(0);
+                        await Task.Delay(500, cancellationToken);
+
+                        return 0;
                     });
+            }
+            catch (OperationCanceledException)
+            {
+                // now that the cancellationToken is passed to the awaited delays, cancellation surfaces
+                // from within the status block; it is not a failure to report, so it is rethrown to keep
+                // the cancellation contract of InvokeAsync rather than being swallowed as a generic error
+                AnsiConsole.WriteLine();
+                AnsiConsole.MarkupLine("[yellow]The operation was cancelled[/]");
+                AnsiConsole.WriteLine();
+
+                throw;
             }
             catch (IOException ex)
             {
