@@ -119,14 +119,17 @@ namespace uml4net.xmi.Writers
 
             if (element.Extensions.Count > 0)
             {
-                this.logger.LogWarning("The Extensions of the LoopNode with id [{Id}] are not written", element.XmiId);
+                this.logger.LogTrace("writing the {Count} Extension(s) of the LoopNode with id [{Id}]", element.Extensions.Count, element.XmiId);
             }
 
             this.WriteStartElement(xmlWriter, elementName);
 
             xmlWriter.WriteAttributeString("xmi", "type", this.XmiWriterSettings.XmiNamespaceUri, "uml:LoopNode");
 
-            xmlWriter.WriteAttributeString("xmi", "id", this.XmiWriterSettings.XmiNamespaceUri, element.XmiId);
+            if (!string.IsNullOrEmpty(element.XmiId))
+            {
+                xmlWriter.WriteAttributeString("xmi", "id", this.XmiWriterSettings.XmiNamespaceUri, element.XmiId);
+            }
 
             if (!string.IsNullOrEmpty(element.XmiGuid))
             {
@@ -310,6 +313,8 @@ namespace uml4net.xmi.Writers
             }
 
 
+            this.WriteExtensions(xmlWriter, element.Extensions);
+
             xmlWriter.WriteEndElement();
         }
 
@@ -355,14 +360,17 @@ namespace uml4net.xmi.Writers
 
             if (element.Extensions.Count > 0)
             {
-                this.logger.LogWarning("The Extensions of the LoopNode with id [{Id}] are not written", element.XmiId);
+                this.logger.LogTrace("writing the {Count} Extension(s) of the LoopNode with id [{Id}]", element.Extensions.Count, element.XmiId);
             }
 
             await this.WriteStartElementAsync(xmlWriter, elementName);
 
             await xmlWriter.WriteAttributeStringAsync("xmi", "type", this.XmiWriterSettings.XmiNamespaceUri, "uml:LoopNode");
 
-            await xmlWriter.WriteAttributeStringAsync("xmi", "id", this.XmiWriterSettings.XmiNamespaceUri, element.XmiId);
+            if (!string.IsNullOrEmpty(element.XmiId))
+            {
+                await xmlWriter.WriteAttributeStringAsync("xmi", "id", this.XmiWriterSettings.XmiNamespaceUri, element.XmiId);
+            }
 
             if (!string.IsNullOrEmpty(element.XmiGuid))
             {
@@ -545,6 +553,8 @@ namespace uml4net.xmi.Writers
                 await this.XmiElementWriterFacade.WriteContainedElementAsync(xmlWriter, value, "variable", writeContext);
             }
 
+
+            await this.WriteExtensionsAsync(xmlWriter, element.Extensions);
 
             await xmlWriter.WriteEndElementAsync();
         }

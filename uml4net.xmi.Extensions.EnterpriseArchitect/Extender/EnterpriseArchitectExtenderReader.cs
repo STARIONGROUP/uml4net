@@ -285,10 +285,7 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.Extender
                
                 if (!string.IsNullOrWhiteSpace(documentedElement.Documentation?.Value))
                 {
-                    element.OwnedComment.Add(new Comment()
-                    {
-                        Body = documentedElement.Documentation.Value
-                    });
+                    AddOwnedComment(element, documentedElement.Documentation.Value);
                 }
             }
 
@@ -296,10 +293,7 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.Extender
             {
                 if (!string.IsNullOrEmpty(element.Properties?.Documentation) && element.ExtendedElement is uml4net.CommonStructure.IElement extendedElement)
                 {
-                    extendedElement.OwnedComment.Add(new Comment()
-                    {
-                        Body = element.Properties.Documentation
-                    });
+                    AddOwnedComment(extendedElement, element.Properties.Documentation);
                 }
             }
 
@@ -309,10 +303,7 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.Extender
             {
                 if (!string.IsNullOrWhiteSpace(connector.Documentation?.Value) && connector.ExtendedElement is uml4net.CommonStructure.IElement extendedConnector)
                 {
-                    extendedConnector.OwnedComment.Add(new Comment()
-                    {
-                        Body = connector.Documentation?.Value
-                    });
+                    AddOwnedComment(extendedConnector, connector.Documentation.Value);
                 }
 
                 if (connector.ExtendedElement is  uml4net.StructuredClassifiers.IAssociation association)
@@ -323,14 +314,46 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.Extender
 
                         if (!string.IsNullOrWhiteSpace(connectorEnd.Documentation.Value))
                         {
-                            property.OwnedComment.Add(new Comment()
-                            {
-                                Body = connectorEnd.Documentation.Value
-                            });
+                            AddOwnedComment(property, connectorEnd.Documentation.Value);
                         }
                     }
                 }
             }
+        }
+
+        /// <summary>
+        /// Adds a <see cref="Comment"/> with the provided <paramref name="body"/> to the
+        /// <paramref name="owner"/>
+        /// </summary>
+        /// <param name="owner">
+        /// The <see cref="uml4net.CommonStructure.IElement"/> that owns the <see cref="Comment"/>
+        /// </param>
+        /// <param name="body">
+        /// The body of the <see cref="Comment"/>, which is the Enterprise Architect documentation
+        /// </param>
+        /// <remarks>
+        /// The <see cref="IXmiElement.XmiId"/> and <see cref="IXmiElement.DocumentName"/> are derived from the
+        /// <paramref name="owner"/>: an <see cref="IXmiElement.XmiId"/> is required to be able to write the
+        /// <see cref="Comment"/> to an XMI document and to uniquely identify it in the
+        /// <see cref="IXmiElementCache"/>.
+        /// </remarks>
+        private static void AddOwnedComment(uml4net.CommonStructure.IElement owner, string body)
+        {
+            if (owner.OwnedComment.Any(x => x.Body == body))
+            {
+                // The documentation has already been applied. This is the case when the model was read from a
+                // document to which the Enterprise Architect documentation had previously been written as an
+                // ownedComment, while the xmi:Extension that carries that same documentation is present as well.
+                // Applying it again would duplicate the Comment on every read - write cycle.
+                return;
+            }
+
+            owner.OwnedComment.Add(new Comment
+            {
+                XmiId = $"{owner.XmiId}-_ownedComment.{owner.OwnedComment.Count}",
+                DocumentName = owner.DocumentName,
+                Body = body
+            });
         }
     }
 }

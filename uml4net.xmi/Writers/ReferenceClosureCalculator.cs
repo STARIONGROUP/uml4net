@@ -102,6 +102,13 @@ namespace uml4net.xmi.Writers
                 this.IncludeExternalRootPackages(package, rootPackages, localElements, localIdentifiers, elementsMissingXmiId);
             }
 
+            // A root package is written as a top-level element of the document, it is therefore never referred to
+            // by means of an xmi:idref or an href. A missing XmiId on a root package - which is how Enterprise
+            // Architect exports its uml:Model - is consequently harmless and is preserved as-is, rather than
+            // being reported as an offender. For any contained element a missing XmiId remains an error since
+            // such an element degrades into a dangling href and would lose its complete containment tree.
+            elementsMissingXmiId.RemoveAll(element => rootPackages.Any(rootPackage => ReferenceEquals(rootPackage, element)));
+
             return new XmiWritePlan(rootPackages, localIdentifiers, elementsMissingXmiId);
         }
 

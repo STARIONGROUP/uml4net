@@ -119,14 +119,17 @@ namespace uml4net.xmi.Writers
 
             if (element.Extensions.Count > 0)
             {
-                this.logger.LogWarning("The Extensions of the AnyReceiveEvent with id [{Id}] are not written", element.XmiId);
+                this.logger.LogTrace("writing the {Count} Extension(s) of the AnyReceiveEvent with id [{Id}]", element.Extensions.Count, element.XmiId);
             }
 
             this.WriteStartElement(xmlWriter, elementName);
 
             xmlWriter.WriteAttributeString("xmi", "type", this.XmiWriterSettings.XmiNamespaceUri, "uml:AnyReceiveEvent");
 
-            xmlWriter.WriteAttributeString("xmi", "id", this.XmiWriterSettings.XmiNamespaceUri, element.XmiId);
+            if (!string.IsNullOrEmpty(element.XmiId))
+            {
+                xmlWriter.WriteAttributeString("xmi", "id", this.XmiWriterSettings.XmiNamespaceUri, element.XmiId);
+            }
 
             if (!string.IsNullOrEmpty(element.XmiGuid))
             {
@@ -175,6 +178,8 @@ namespace uml4net.xmi.Writers
             }
 
 
+            this.WriteExtensions(xmlWriter, element.Extensions);
+
             xmlWriter.WriteEndElement();
         }
 
@@ -220,14 +225,17 @@ namespace uml4net.xmi.Writers
 
             if (element.Extensions.Count > 0)
             {
-                this.logger.LogWarning("The Extensions of the AnyReceiveEvent with id [{Id}] are not written", element.XmiId);
+                this.logger.LogTrace("writing the {Count} Extension(s) of the AnyReceiveEvent with id [{Id}]", element.Extensions.Count, element.XmiId);
             }
 
             await this.WriteStartElementAsync(xmlWriter, elementName);
 
             await xmlWriter.WriteAttributeStringAsync("xmi", "type", this.XmiWriterSettings.XmiNamespaceUri, "uml:AnyReceiveEvent");
 
-            await xmlWriter.WriteAttributeStringAsync("xmi", "id", this.XmiWriterSettings.XmiNamespaceUri, element.XmiId);
+            if (!string.IsNullOrEmpty(element.XmiId))
+            {
+                await xmlWriter.WriteAttributeStringAsync("xmi", "id", this.XmiWriterSettings.XmiNamespaceUri, element.XmiId);
+            }
 
             if (!string.IsNullOrEmpty(element.XmiGuid))
             {
@@ -275,6 +283,8 @@ namespace uml4net.xmi.Writers
                 await this.XmiElementWriterFacade.WriteReferenceElementAsync(xmlWriter, element.TemplateParameter, "templateParameter", writeContext);
             }
 
+
+            await this.WriteExtensionsAsync(xmlWriter, element.Extensions);
 
             await xmlWriter.WriteEndElementAsync();
         }

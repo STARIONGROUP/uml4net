@@ -21,6 +21,7 @@
 namespace uml4net.xmi.Writers
 {
     using System;
+    using System.Collections.Generic;
     using System.Threading.Tasks;
     using System.Xml;
 
@@ -165,6 +166,58 @@ namespace uml4net.xmi.Writers
             }
 
             return xmlWriter.WriteStartElementAsync(null, elementName, null);
+        }
+
+        /// <summary>
+        /// Writes the <see cref="XmiExtension"/>s of an <see cref="IXmiElement"/> to the <see cref="XmlWriter"/>.
+        /// </summary>
+        /// <param name="xmlWriter">
+        /// The <see cref="XmlWriter"/> to write to
+        /// </param>
+        /// <param name="extensions">
+        /// The <see cref="XmiExtension"/>s that are to be written
+        /// </param>
+        protected void WriteExtensions(XmlWriter xmlWriter, List<XmiExtension> extensions)
+        {
+            if (extensions == null || extensions.Count == 0)
+            {
+                return;
+            }
+
+            var xmiExtensionWriter = new XmiExtensionWriter(this.XmiWriterSettings, this.LoggerFactory);
+
+            foreach (var extension in extensions)
+            {
+                xmiExtensionWriter.Write(xmlWriter, extension);
+            }
+        }
+
+        /// <summary>
+        /// Asynchronously writes the <see cref="XmiExtension"/>s of an <see cref="IXmiElement"/> to the
+        /// <see cref="XmlWriter"/>.
+        /// </summary>
+        /// <param name="xmlWriter">
+        /// The <see cref="XmlWriter"/> to write to
+        /// </param>
+        /// <param name="extensions">
+        /// The <see cref="XmiExtension"/>s that are to be written
+        /// </param>
+        /// <returns>
+        /// an awaitable <see cref="Task"/>
+        /// </returns>
+        protected async Task WriteExtensionsAsync(XmlWriter xmlWriter, List<XmiExtension> extensions)
+        {
+            if (extensions == null || extensions.Count == 0)
+            {
+                return;
+            }
+
+            var xmiExtensionWriter = new XmiExtensionWriter(this.XmiWriterSettings, this.LoggerFactory);
+
+            foreach (var extension in extensions)
+            {
+                await xmiExtensionWriter.WriteAsync(xmlWriter, extension);
+            }
         }
 
         /// <summary>

@@ -97,14 +97,38 @@ namespace uml4net.xmi.Tests.Writers
         }
 
         [Test]
-        public void Verify_that_Write_throws_when_an_element_has_no_XmiId()
+        public void Verify_that_Write_throws_when_a_contained_element_has_no_XmiId()
         {
-            var invalidPackage = new Package { Name = "invalid" };
+            this.package.PackagedElement.Add(new Class { Name = "invalid" });
 
             using var stream = new MemoryStream();
 
-            Assert.That(() => this.xmiWriter.Write(invalidPackage, stream, "output.xmi"),
+            Assert.That(() => this.xmiWriter.Write(this.package, stream, "output.xmi"),
                 Throws.InvalidOperationException.With.Message.Contains("do not have an XmiId"));
+        }
+
+        [Test]
+        public void Verify_that_a_root_package_without_an_XmiId_is_written_without_an_xmi_id_attribute()
+        {
+            var rootWithoutXmiId = new Package { Name = "package" };
+
+            using var stream = new MemoryStream();
+
+            this.xmiWriter.Write(rootWithoutXmiId, stream, "output.xmi");
+
+            var xmlDocument = new XmlDocument();
+            stream.Position = 0;
+            xmlDocument.Load(stream);
+
+            var packageElement = (XmlElement)xmlDocument.DocumentElement.FirstChild;
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(packageElement.Name, Is.EqualTo("uml:Package"));
+                Assert.That(packageElement.HasAttribute("xmi:id"), Is.False,
+                    "a root package without an XmiId - which is how Enterprise Architect exports its uml:Model - is expected to be written without an xmi:id attribute rather than with an empty one");
+                Assert.That(packageElement.GetAttribute("name"), Is.EqualTo("package"));
+            }
         }
 
         [Test]
