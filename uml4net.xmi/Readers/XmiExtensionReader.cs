@@ -22,6 +22,7 @@ namespace uml4net.xmi.Readers
 {
     using System;
     using System.IO;
+    using System.Text;
     using System.Xml;
 
     using Microsoft.Extensions.Logging;
@@ -150,30 +151,42 @@ namespace uml4net.xmi.Readers
 
                 if (extenderReader == null)
                 {
-                    this.logger.LogInformation("The ExtenderReader for {Extender}:{ExtenderID} does not exist, the Extension cannot be processed", xmiExtension.Extender, xmiExtension.ExtenderId);
-                    xmlReader.Skip();
+                    this.logger.LogInformation("The ExtenderReader for {Extender}:{ExtenderID} does not exist, the content of the Extension is preserved as raw XMI but is not further processed", xmiExtension.Extender, xmiExtension.ExtenderId);
                 }
-                else
+
+                var contentRawXmiBuilder = new StringBuilder();
+
+                while (xmlReader.Read())
                 {
-                    while (xmlReader.Read())
+                    if (xmlReader.NodeType != XmlNodeType.Element)
                     {
-                        if (xmlReader.NodeType == XmlNodeType.Element)
-                        {
-                            using var subtreeReader = xmlReader.ReadSubtree();
-
-                            subtreeReader.Read();
-
-                            var stringWriter = new StringWriter();
-
-                            using (var xmlWriter = XmlWriter.Create(stringWriter, new XmlWriterSettings { OmitXmlDeclaration = true }))
-                            {
-                                xmlWriter.WriteNode(subtreeReader, true);
-                            }
-
-                            xmiExtension.ContentRawXmi = stringWriter.ToString();
-                            xmiExtension.Content.AddRange(extenderReader.ReadContent(xmiExtension.ContentRawXmi, documentName));
-                        }
+                        continue;
                     }
+
+                    using var subtreeReader = xmlReader.ReadSubtree();
+
+                    subtreeReader.Read();
+
+                    var stringWriter = new StringWriter();
+
+                    using (var xmlWriter = XmlWriter.Create(stringWriter, new XmlWriterSettings { OmitXmlDeclaration = true }))
+                    {
+                        xmlWriter.WriteNode(subtreeReader, true);
+                    }
+
+                    var rawXmi = stringWriter.ToString();
+
+                    contentRawXmiBuilder.Append(rawXmi);
+
+                    if (extenderReader != null)
+                    {
+                        xmiExtension.Content.AddRange(extenderReader.ReadContent(rawXmi, documentName));
+                    }
+                }
+
+                if (contentRawXmiBuilder.Length > 0)
+                {
+                    xmiExtension.ContentRawXmi = contentRawXmiBuilder.ToString();
                 }
             }
 

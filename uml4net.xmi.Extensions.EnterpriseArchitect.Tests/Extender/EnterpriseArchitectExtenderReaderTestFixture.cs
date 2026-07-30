@@ -97,6 +97,31 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.Tests.Extender
             }
         }
 
+        [Test]
+        public void VerifyThatTheRawXmiOfTheEnterpriseArchitectExtensionIsPreserved()
+        {
+            var rootPath = Path.Combine(TestContext.CurrentContext.TestDirectory, "Resources");
+
+            var reader = XmiReaderBuilder.Create()
+                .UsingSettings(x => x.LocalReferenceBasePath = rootPath)
+                .WithExtender<EnterpriseArchitectExtenderReader>()
+                .WithExtensionContentReaderFacade<ExtensionContentReaderFacade>()
+                .WithLogger(this.loggerFactory)
+                .Build();
+
+            var xmiReaderResult = reader.Read(Path.Combine(TestContext.CurrentContext.TestDirectory, "Resources", "EAExport.xmi"));
+
+            var contentRawXmi = xmiReaderResult.XmiRoot.Extensions.Single().ContentRawXmi;
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(contentRawXmi, Does.Contain("<elements>"));
+                Assert.That(contentRawXmi, Does.Contain("<connectors>"));
+                Assert.That(contentRawXmi, Does.Contain("<primitivetypes>"));
+                Assert.That(contentRawXmi, Does.Contain("<profiles>"));
+            }
+        }
+
         [OneTimeSetUp]
         public void OneTimeSetUp()
         {
