@@ -22,6 +22,7 @@ namespace uml4net.xmi.Writers
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Threading.Tasks;
     using System.Xml;
 
@@ -217,6 +218,61 @@ namespace uml4net.xmi.Writers
             foreach (var extension in extensions)
             {
                 await xmiExtensionWriter.WriteAsync(xmlWriter, extension);
+            }
+        }
+
+        /// <summary>
+        /// Writes the references of an <see cref="IXmiElement"/> that could not be resolved while reading to
+        /// the <see cref="XmlWriter"/> in their original XMI form.
+        /// </summary>
+        /// <param name="xmlWriter">
+        /// The <see cref="XmlWriter"/> to write to
+        /// </param>
+        /// <param name="unresolvedReferences">
+        /// The <see cref="XmiUnresolvedReference"/>s that are to be written
+        /// </param>
+        /// <remarks>
+        /// The reference element is written verbatim, so that a reference to a document that is not available -
+        /// an Enterprise Architect profile identified by a <c>http://www.sparxsystems.com/profiles/…</c> URL for
+        /// instance - is preserved rather than silently lost. The raw content is not indented, since it is
+        /// written as markup and not as content.
+        /// </remarks>
+        protected static void WriteUnresolvedReferences(XmlWriter xmlWriter, List<XmiUnresolvedReference> unresolvedReferences)
+        {
+            if (unresolvedReferences == null || unresolvedReferences.Count == 0)
+            {
+                return;
+            }
+
+            foreach (var unresolvedReference in unresolvedReferences.Where(x => !string.IsNullOrEmpty(x.ContentRawXmi)))
+            {
+                xmlWriter.WriteRaw(unresolvedReference.ContentRawXmi);
+            }
+        }
+
+        /// <summary>
+        /// Asynchronously writes the references of an <see cref="IXmiElement"/> that could not be resolved while
+        /// reading to the <see cref="XmlWriter"/> in their original XMI form.
+        /// </summary>
+        /// <param name="xmlWriter">
+        /// The <see cref="XmlWriter"/> to write to
+        /// </param>
+        /// <param name="unresolvedReferences">
+        /// The <see cref="XmiUnresolvedReference"/>s that are to be written
+        /// </param>
+        /// <returns>
+        /// an awaitable <see cref="Task"/>
+        /// </returns>
+        protected static async Task WriteUnresolvedReferencesAsync(XmlWriter xmlWriter, List<XmiUnresolvedReference> unresolvedReferences)
+        {
+            if (unresolvedReferences == null || unresolvedReferences.Count == 0)
+            {
+                return;
+            }
+
+            foreach (var unresolvedReference in unresolvedReferences.Where(x => !string.IsNullOrEmpty(x.ContentRawXmi)))
+            {
+                await xmlWriter.WriteRawAsync(unresolvedReference.ContentRawXmi);
             }
         }
 

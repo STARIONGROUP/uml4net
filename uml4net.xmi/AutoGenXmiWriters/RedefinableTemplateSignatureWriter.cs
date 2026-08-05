@@ -188,6 +188,8 @@ namespace uml4net.xmi.Writers
             }
 
 
+            WriteUnresolvedReferences(xmlWriter, element.UnresolvedReferences);
+
             this.WriteExtensions(xmlWriter, element.Extensions);
 
             xmlWriter.WriteEndElement();
@@ -303,6 +305,8 @@ namespace uml4net.xmi.Writers
                 await this.XmiElementWriterFacade.WriteReferenceElementAsync(xmlWriter, value, "parameter", writeContext);
             }
 
+
+            await WriteUnresolvedReferencesAsync(xmlWriter, element.UnresolvedReferences);
 
             await this.WriteExtensionsAsync(xmlWriter, element.Extensions);
 

@@ -29,6 +29,7 @@ namespace uml4net.Tests
     
     using uml4net.Classification;
     using uml4net.CommonStructure;
+    using uml4net.Packages;
     using uml4net.SimpleClassifiers;
     using uml4net.StructuredClassifiers;
     using uml4net.Values;
@@ -471,6 +472,120 @@ namespace uml4net.Tests
             this.assembler.Synchronize();
 
             Assert.That(property.Type, Is.EqualTo(enumeration));
+        }
+
+        [Test]
+        public void Synchronize_ShouldRemoveThePreservedReferenceElement_WhenTheSingleValueReferenceIsResolved()
+        {
+            var property = new Property
+            {
+                XmiId = "Property-1",
+                Name = "property",
+                DocumentName = this.documentName
+            };
+
+            var primitiveType = new PrimitiveType
+            {
+                XmiId = "Boolean",
+                Name = "Boolean",
+                DocumentName = "PrimitiveTypes.xmi"
+            };
+
+            property.SingleValueReferencePropertyIdentifiers.Add("type", "PrimitiveTypes.xmi#Boolean");
+            property.UnresolvedReferences.Add(new XmiUnresolvedReference
+            {
+                PropertyName = "type",
+                Identifier = "PrimitiveTypes.xmi#Boolean",
+                ContentRawXmi = "<type href=\"PrimitiveTypes.xmi#Boolean\" />"
+            });
+
+            Assert.That(this.cache.TryAdd(property), Is.True);
+            Assert.That(this.cache.TryAdd(primitiveType), Is.True);
+
+            this.assembler.Synchronize();
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(property.Type, Is.SameAs(primitiveType));
+                Assert.That(property.UnresolvedReferences, Is.Empty,
+                    "a resolved reference is written from the reference property and must not be written a second time from its preserved XMI");
+            }
+        }
+
+        [Test]
+        public void Synchronize_ShouldKeepThePreservedReferenceElement_WhenTheSingleValueReferenceIsNotResolved()
+        {
+            var profileApplication = new ProfileApplication
+            {
+                XmiId = "profileap_8C9E6706-8",
+                DocumentName = this.documentName
+            };
+
+            const string href = "http://www.sparxsystems.com/profiles/EAUML/1.0#8C9E6706-8";
+
+            profileApplication.SingleValueReferencePropertyIdentifiers.Add("appliedProfile", href);
+            profileApplication.UnresolvedReferences.Add(new XmiUnresolvedReference
+            {
+                PropertyName = "appliedProfile",
+                Identifier = href,
+                ContentRawXmi = $"<appliedProfile href=\"{href}\" />"
+            });
+
+            Assert.That(this.cache.TryAdd(profileApplication), Is.True);
+
+            this.assembler.Synchronize();
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(profileApplication.AppliedProfile, Is.Null);
+                Assert.That(profileApplication.UnresolvedReferences.Single().Identifier, Is.EqualTo(href),
+                    "a reference that cannot be resolved is preserved so that it is written back verbatim");
+            }
+        }
+
+        [Test]
+        public void Synchronize_ShouldRemoveOnlyThePreservedReferenceElementsThatAreResolved_ForAMultiValueReference()
+        {
+            var classElement = new Class
+            {
+                XmiId = "Class-1",
+                Name = "TestClass",
+                DocumentName = this.documentName
+            };
+
+            var comment = new Comment
+            {
+                XmiId = "Comment-1",
+                Body = "Comment 1",
+                DocumentName = "other.xmi"
+            };
+
+            classElement.MultiValueReferencePropertyIdentifiers.Add("OwnedComment", ["other.xmi#Comment-1", "missing.xmi#Comment-2"]);
+
+            classElement.UnresolvedReferences.Add(new XmiUnresolvedReference
+            {
+                PropertyName = "OwnedComment",
+                Identifier = "other.xmi#Comment-1",
+                ContentRawXmi = "<ownedComment href=\"other.xmi#Comment-1\" />"
+            });
+
+            classElement.UnresolvedReferences.Add(new XmiUnresolvedReference
+            {
+                PropertyName = "OwnedComment",
+                Identifier = "missing.xmi#Comment-2",
+                ContentRawXmi = "<ownedComment href=\"missing.xmi#Comment-2\" />"
+            });
+
+            Assert.That(this.cache.TryAdd(classElement), Is.True);
+            Assert.That(this.cache.TryAdd(comment), Is.True);
+
+            this.assembler.Synchronize();
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(classElement.OwnedComment, Has.Count.EqualTo(1));
+                Assert.That(classElement.UnresolvedReferences.Single().Identifier, Is.EqualTo("missing.xmi#Comment-2"));
+            }
         }
     }
 }
