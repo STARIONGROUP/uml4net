@@ -2,7 +2,7 @@
 
     <PropertyGroup>
         <TargetFramework>netstandard2.0</TargetFramework>
-        <Version>8.3.0</Version>
+        <Version>8.4.0</Version>
         <LangVersion>12.0</LangVersion>
         <PackageId>uml4net.xmi</PackageId>
         <AssemblyTitle>uml4net.xmi</AssemblyTitle>
@@ -10,7 +10,8 @@
         <Description>An XMI implementation for the .NET implementation of the OMG UML v2.5.1 specification.</Description>
         <PackageTags>UML XMI modeltopia</PackageTags>
         <PackageReleaseNotes>
-            [Add] XmiWriter implementation; fixes #194
+            [Feature] write the xmi:Extension content to an XMI document; fixes #200
+            [Fix] preserve unresolved external references as raw XMI; fixes #204
         </PackageReleaseNotes>
     </PropertyGroup>
 
