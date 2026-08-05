@@ -22,6 +22,7 @@ namespace uml4net.xmi.Writers
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Threading.Tasks;
     using System.Xml;
 
@@ -243,12 +244,9 @@ namespace uml4net.xmi.Writers
                 return;
             }
 
-            foreach (var unresolvedReference in unresolvedReferences)
+            foreach (var unresolvedReference in unresolvedReferences.Where(x => !string.IsNullOrEmpty(x.ContentRawXmi)))
             {
-                if (!string.IsNullOrEmpty(unresolvedReference.ContentRawXmi))
-                {
-                    xmlWriter.WriteRaw(unresolvedReference.ContentRawXmi);
-                }
+                xmlWriter.WriteRaw(unresolvedReference.ContentRawXmi);
             }
         }
 
@@ -272,12 +270,9 @@ namespace uml4net.xmi.Writers
                 return;
             }
 
-            foreach (var unresolvedReference in unresolvedReferences)
+            foreach (var unresolvedReference in unresolvedReferences.Where(x => !string.IsNullOrEmpty(x.ContentRawXmi)))
             {
-                if (!string.IsNullOrEmpty(unresolvedReference.ContentRawXmi))
-                {
-                    await xmlWriter.WriteRawAsync(unresolvedReference.ContentRawXmi);
-                }
+                await xmlWriter.WriteRawAsync(unresolvedReference.ContentRawXmi);
             }
         }
 

@@ -176,7 +176,7 @@ namespace uml4net
 
             foreach (var propertyValue in propertyValues)
             {
-                if (!this.TryGetReferencedElement(element.DocumentName, propertyValue, out var referencedElement) || !expectedType.IsAssignableFrom(referencedElement.GetType()))
+                if (!this.TryGetReferencedElement(element.DocumentName, propertyValue, out var referencedElement) || !expectedType.IsInstanceOfType(referencedElement))
                 {
                     this.logger.LogWarning("The reference with the id [{Key}] to [{PropertyValue}] was not found in the cache, probably because its type is not supported.", key, propertyValue);
                     continue;
