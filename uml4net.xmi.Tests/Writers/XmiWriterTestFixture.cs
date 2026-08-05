@@ -167,6 +167,78 @@ namespace uml4net.xmi.Tests.Writers
         }
 
         [Test]
+        public void Verify_that_a_reference_that_could_not_be_resolved_is_written_in_its_original_xmi_form()
+        {
+            var @class = new Class { XmiId = "Class-1", Name = "class" };
+            @class.UnresolvedReferences.Add(new XmiUnresolvedReference
+            {
+                PropertyName = "type",
+                Identifier = "http://www.sparxsystems.com/profiles/EAUML/1.0#8C9E6706-8",
+                ContentRawXmi = "<type href=\"http://www.sparxsystems.com/profiles/EAUML/1.0#8C9E6706-8\" />"
+            });
+
+            this.package.PackagedElement.Add(@class);
+
+            using var stream = new MemoryStream();
+
+            this.xmiWriter.Write(this.package, stream, "output.xmi");
+
+            var xmlDocument = new XmlDocument();
+            stream.Position = 0;
+            xmlDocument.Load(stream);
+
+            var classElement = (XmlElement)xmlDocument.DocumentElement.FirstChild.FirstChild;
+            var referenceElement = (XmlElement)classElement.FirstChild;
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(referenceElement, Is.Not.Null, "the preserved reference element was expected to be written");
+                Assert.That(referenceElement.Name, Is.EqualTo("type"));
+                Assert.That(referenceElement.GetAttribute("href"), Is.EqualTo("http://www.sparxsystems.com/profiles/EAUML/1.0#8C9E6706-8"));
+            }
+        }
+
+        [Test]
+        public void Verify_that_an_unresolved_reference_without_raw_xmi_is_not_written()
+        {
+            var @class = new Class { XmiId = "Class-1", Name = "class" };
+            @class.UnresolvedReferences.Add(new XmiUnresolvedReference { PropertyName = "type", Identifier = "other.xmi#Boolean" });
+
+            this.package.PackagedElement.Add(@class);
+
+            using var stream = new MemoryStream();
+
+            this.xmiWriter.Write(this.package, stream, "output.xmi");
+
+            var xmlDocument = new XmlDocument();
+            stream.Position = 0;
+            xmlDocument.Load(stream);
+
+            var classElement = (XmlElement)xmlDocument.DocumentElement.FirstChild.FirstChild;
+
+            Assert.That(classElement.HasChildNodes, Is.False);
+        }
+
+        [Test]
+        public void Verify_that_nothing_is_written_when_there_are_no_unresolved_references()
+        {
+            var @class = new Class { XmiId = "Class-1", Name = "class" };
+            this.package.PackagedElement.Add(@class);
+
+            using var stream = new MemoryStream();
+
+            this.xmiWriter.Write(this.package, stream, "output.xmi");
+
+            var xmlDocument = new XmlDocument();
+            stream.Position = 0;
+            xmlDocument.Load(stream);
+
+            var classElement = (XmlElement)xmlDocument.DocumentElement.FirstChild.FirstChild;
+
+            Assert.That(classElement.HasChildNodes, Is.False);
+        }
+
+        [Test]
         public void Verify_that_a_model_is_written_with_a_uml_Model_root_element()
         {
             var model = new Model { XmiId = "Model-1", Name = "model" };

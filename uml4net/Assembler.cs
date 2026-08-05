@@ -98,6 +98,8 @@ namespace uml4net
                 }
 
                 targetProperty.SetValue(element, referencedElement);
+
+                RemoveResolvedReference(element, property.Key, property.Value);
             }
 
             foreach (var property in element.MultiValueReferencePropertyIdentifiers)
@@ -110,7 +112,7 @@ namespace uml4net
                     throw new KeyNotFoundException($"The target property {property.Key} was not found on {element.GetType().Name} or the type is null");
                 }
 
-                var resolvedReferences = this.ResolveMultiValueReferences(element.DocumentName,property.Value, property.Key, underlyingType);
+                var resolvedReferences = this.ResolveMultiValueReferences(element, property.Value, property.Key, underlyingType);
 
                 if (targetProperty.GetValue(element) is not IList list)
                 {
@@ -157,8 +159,8 @@ namespace uml4net
         /// <summary>
         /// resolves multi-valued reference properties
         /// </summary>
-        /// <param name="documentName">
-        /// The name of the document or resource from where the <see cref="IXmiElement"/> was parsed/read
+        /// <param name="element">
+        /// The <see cref="IXmiElement"/> that declares the multi-valued reference property
         /// </param>
         /// <param name="propertyValues">
         /// The values of the property, which are references by unique identifier to other <see cref="IXmiElement"/>s
@@ -168,22 +170,48 @@ namespace uml4net
         /// </param>
         /// <param name="expectedType"></param>
         /// <returns></returns>
-        private List<IXmiElement> ResolveMultiValueReferences(string documentName, IEnumerable<string> propertyValues, string key, Type expectedType)
+        private List<IXmiElement> ResolveMultiValueReferences(IXmiElement element, IEnumerable<string> propertyValues, string key, Type expectedType)
         {
             var resolvedReferences = new List<IXmiElement>();
 
             foreach (var propertyValue in propertyValues)
             {
-                if (!this.TryGetReferencedElement(documentName,propertyValue, out var referencedElement) || !expectedType.IsAssignableFrom(referencedElement.GetType()))
+                if (!this.TryGetReferencedElement(element.DocumentName, propertyValue, out var referencedElement) || !expectedType.IsAssignableFrom(referencedElement.GetType()))
                 {
                     this.logger.LogWarning("The reference with the id [{Key}] to [{PropertyValue}] was not found in the cache, probably because its type is not supported.", key, propertyValue);
                     continue;
                 }
 
                 resolvedReferences.Add(referencedElement);
+
+                RemoveResolvedReference(element, key, propertyValue);
             }
 
             return resolvedReferences;
+        }
+
+        /// <summary>
+        /// Removes the reference element that was preserved in its original XMI form while reading from the
+        /// <see cref="IXmiElement.UnresolvedReferences"/> of the provided <see cref="IXmiElement"/>, since the
+        /// reference has been resolved and is written from the reference property that it has been assigned to
+        /// </summary>
+        /// <param name="element">
+        /// The <see cref="IXmiElement"/> that declares the reference
+        /// </param>
+        /// <param name="propertyName">
+        /// The name of the reference property through which the referenced <see cref="IXmiElement"/> is reached
+        /// </param>
+        /// <param name="referenceIdentifier">
+        /// The unique identifier of the referenced <see cref="IXmiElement"/>
+        /// </param>
+        private static void RemoveResolvedReference(IXmiElement element, string propertyName, string referenceIdentifier)
+        {
+            if (element.UnresolvedReferences.Count == 0)
+            {
+                return;
+            }
+
+            element.UnresolvedReferences.RemoveAll(x => x.PropertyName == propertyName && x.Identifier == referenceIdentifier);
         }
 
         /// <summary>

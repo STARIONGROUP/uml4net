@@ -22,6 +22,7 @@ namespace uml4net.xmi.Readers
 {
     using System;
     using System.Collections.Generic;
+    using System.IO;
     using System.Xml;
 
     using Microsoft.Extensions.Logging;
@@ -181,6 +182,8 @@ namespace uml4net.xmi.Readers
                 if (!string.IsNullOrEmpty(reference))
                 {
                     xmiElement.SingleValueReferencePropertyIdentifiers.Add(localName, reference);
+
+                    CollectUnresolvedReference(subXmlReader, xmiElement, localName, reference);
                 }
                 else if (subXmlReader.GetAttribute("xmi:idref") is { Length: > 0 } idRef)
                 {
@@ -238,6 +241,9 @@ namespace uml4net.xmi.Readers
                     }
 
                     references.Add(href);
+
+                    CollectUnresolvedReference(subXmlReader, xmiElement, localName, href);
+
                     return true;
                 }
 
@@ -256,6 +262,46 @@ namespace uml4net.xmi.Readers
             }
 
             return false;
+        }
+
+        /// <summary>
+        /// Adds the reference element, in its original XMI form, to the
+        /// <see cref="IXmiElement.UnresolvedReferences"/> collection of the provided <see cref="IXmiElement"/>
+        /// </summary>
+        /// <param name="xmlReader">
+        /// An instance of <see cref="XmlReader"/> that is positioned on the reference element
+        /// </param>
+        /// <param name="xmiElement">
+        /// The <see cref="IXmiElement"/> that declares the reference
+        /// </param>
+        /// <param name="localName">
+        /// The name of the reference property through which the referenced <see cref="IXmiElement"/> is reached
+        /// </param>
+        /// <param name="reference">
+        /// The unique identifier of the referenced <see cref="IXmiElement"/>, which is the value of the
+        /// <c>href</c> attribute of the reference element
+        /// </param>
+        /// <remarks>
+        /// Only a reference to another document - an <c>href</c> - is captured, since it is the only reference
+        /// that depends on a document that may not be available. The captured reference is removed again by the
+        /// <see cref="IAssembler"/> as soon as it is resolved, so that only the references that could not be
+        /// resolved remain and are written back verbatim
+        /// </remarks>
+        protected static void CollectUnresolvedReference(XmlReader xmlReader, IXmiElement xmiElement, string localName, string reference)
+        {
+            var stringWriter = new StringWriter();
+
+            using (var xmlWriter = XmlWriter.Create(stringWriter, new XmlWriterSettings { OmitXmlDeclaration = true }))
+            {
+                xmlWriter.WriteNode(xmlReader, true);
+            }
+
+            xmiElement.UnresolvedReferences.Add(new XmiUnresolvedReference
+            {
+                PropertyName = localName,
+                Identifier = reference,
+                ContentRawXmi = stringWriter.ToString()
+            });
         }
 
         /// <summary>

@@ -74,6 +74,7 @@ namespace uml4net.Extensions.Tests
             public string FullyQualifiedIdentifier { get; }
             public Dictionary<string, string> SingleValueReferencePropertyIdentifiers { get; set; }
             public Dictionary<string, List<string>> MultiValueReferencePropertyIdentifiers { get; set; }
+            public List<XmiUnresolvedReference> UnresolvedReferences { get; set; }
             public IXmiElementCache Cache { get; set; }
             public List<XmiExtension> Extensions { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
             //public List<IElement> Extensions { get; set; }

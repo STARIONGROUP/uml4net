@@ -144,6 +144,8 @@ namespace uml4net.xmi.Writers
             {{ #Property.WriteXmlElementForXmiWriter property ../ }}
             {{/each}}
 
+            WriteUnresolvedReferences(xmlWriter, element.UnresolvedReferences);
+
             this.WriteExtensions(xmlWriter, element.Extensions);
 
             xmlWriter.WriteEndElement();
@@ -215,6 +217,8 @@ namespace uml4net.xmi.Writers
             {{ #each (Class.QueryAllNonDerivedNonReadOnlyProperties this) as | property | }}
             {{ #Property.WriteXmlElementForXmiWriter property ../ true }}
             {{/each}}
+
+            await WriteUnresolvedReferencesAsync(xmlWriter, element.UnresolvedReferences);
 
             await this.WriteExtensionsAsync(xmlWriter, element.Extensions);
 

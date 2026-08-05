@@ -91,6 +91,18 @@ namespace uml4net
         public Dictionary<string, List<string>> MultiValueReferencePropertyIdentifiers { get; set; } = new();
 
         /// <summary>
+        /// Gets or sets the references to <see cref="IXmiElement"/>s in another document that could not be
+        /// resolved while reading, preserved in their original XMI form
+        /// </summary>
+        /// <remarks>
+        /// A reference element is captured while reading and is removed again as soon as the reference is
+        /// resolved, so that once the object graph has been assembled this collection holds exactly those
+        /// references that could not be turned into an object reference. Those are written back verbatim so
+        /// that they survive a read - write cycle
+        /// </remarks>
+        public List<XmiUnresolvedReference> UnresolvedReferences { get; set; } = [];
+
+        /// <summary>
         /// Gets or sets the <see cref="IXmiElementCache"/>
         /// </summary>
         public IXmiElementCache Cache { get; set; }
