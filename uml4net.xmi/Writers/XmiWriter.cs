@@ -35,6 +35,7 @@ namespace uml4net.xmi.Writers
 
     using uml4net.Packages;
     using uml4net.xmi.Settings;
+    using uml4net.xmi.Xmi;
 
     /// <summary>
     /// The purpose of the <see cref="XmiWriter"/> is to provide a means to write (serialize)
@@ -130,6 +131,29 @@ namespace uml4net.xmi.Writers
         /// </param>
         public void Write(IPackage package, string fileUri, IEnumerable<XmiExtension> documentExtensions)
         {
+            this.Write(package, fileUri, null, documentExtensions);
+        }
+
+        /// <summary>
+        /// Writes the provided <see cref="IPackage"/>, <see cref="Documentation"/> and <see cref="XmiExtension"/>s to
+        /// a UML XMI 2.5.1 file.
+        /// </summary>
+        /// <param name="package">
+        /// The <see cref="IPackage"/> that is to be written
+        /// </param>
+        /// <param name="fileUri">
+        /// The URI of the XMI file that is to be written.
+        /// </param>
+        /// <param name="documentation">
+        /// The <see cref="Documentation"/> that is to be written as a sibling of the <paramref name="package"/>,
+        /// typically the <c>Documentation</c> of the <c>XmiRoot</c> that was read. May be null.
+        /// </param>
+        /// <param name="documentExtensions">
+        /// The <see cref="XmiExtension"/>s that are to be written as a sibling of the <paramref name="package"/>,
+        /// typically the <c>Extensions</c> of the <c>XmiRoot</c> that was read. May be null.
+        /// </param>
+        public void Write(IPackage package, string fileUri, Documentation documentation, IEnumerable<XmiExtension> documentExtensions)
+        {
             if (string.IsNullOrEmpty(fileUri))
             {
                 throw new ArgumentException(nameof(fileUri));
@@ -141,7 +165,7 @@ namespace uml4net.xmi.Writers
 
             this.logger.LogInformation("start serializing to {Path}", fileUri);
 
-            this.Write(package, fileStream, new FileInfo(fileUri).Name, documentExtensions);
+            this.Write(package, fileStream, new FileInfo(fileUri).Name, documentation, documentExtensions);
 
             this.logger.LogInformation("File {Path} serialized in {Time} [ms]", fileUri, sw.ElapsedMilliseconds);
         }
@@ -181,6 +205,32 @@ namespace uml4net.xmi.Writers
         /// </param>
         public void Write(IPackage package, Stream stream, string documentName, IEnumerable<XmiExtension> documentExtensions)
         {
+            this.Write(package, stream, documentName, null, documentExtensions);
+        }
+
+        /// <summary>
+        /// Writes the provided <see cref="IPackage"/>, <see cref="Documentation"/> and <see cref="XmiExtension"/>s to
+        /// a UML XMI 2.5.1 stream.
+        /// </summary>
+        /// <param name="package">
+        /// The <see cref="IPackage"/> that is to be written
+        /// </param>
+        /// <param name="stream">
+        /// The <see cref="Stream"/> to which the XMI content is written.
+        /// </param>
+        /// <param name="documentName">
+        /// The name of the document that is being written.
+        /// </param>
+        /// <param name="documentation">
+        /// The <see cref="Documentation"/> that is to be written as a sibling of the <paramref name="package"/>,
+        /// typically the <c>Documentation</c> of the <c>XmiRoot</c> that was read. May be null.
+        /// </param>
+        /// <param name="documentExtensions">
+        /// The <see cref="XmiExtension"/>s that are to be written as a sibling of the <paramref name="package"/>,
+        /// typically the <c>Extensions</c> of the <c>XmiRoot</c> that was read. May be null.
+        /// </param>
+        public void Write(IPackage package, Stream stream, string documentName, Documentation documentation, IEnumerable<XmiExtension> documentExtensions)
+        {
             if (package == null)
             {
                 throw new ArgumentNullException(nameof(package));
@@ -203,6 +253,13 @@ namespace uml4net.xmi.Writers
             xmlWriter.WriteStartDocument();
             xmlWriter.WriteStartElement("xmi", "XMI", this.XmiWriterSettings.XmiNamespaceUri);
             xmlWriter.WriteAttributeString("xmlns", "uml", null, this.XmiWriterSettings.UmlNamespaceUri);
+
+            if (documentation != null)
+            {
+                var documentationWriter = new DocumentationWriter(this.XmiWriterSettings, this.LoggerFactory);
+
+                documentationWriter.Write(xmlWriter, documentation);
+            }
 
             foreach (var rootPackage in xmiWritePlan.RootPackages)
             {
@@ -264,7 +321,36 @@ namespace uml4net.xmi.Writers
         /// <returns>
         /// an awaitable <see cref="Task"/>
         /// </returns>
-        public async Task WriteAsync(IPackage package, string fileUri, IEnumerable<XmiExtension> documentExtensions, CancellationToken cancellationToken = default)
+        public Task WriteAsync(IPackage package, string fileUri, IEnumerable<XmiExtension> documentExtensions, CancellationToken cancellationToken = default)
+        {
+            return this.WriteAsync(package, fileUri, null, documentExtensions, cancellationToken);
+        }
+
+        /// <summary>
+        /// Asynchronously writes the provided <see cref="IPackage"/>, <see cref="Documentation"/> and
+        /// <see cref="XmiExtension"/>s to a UML XMI 2.5.1 file.
+        /// </summary>
+        /// <param name="package">
+        /// The <see cref="IPackage"/> that is to be written
+        /// </param>
+        /// <param name="fileUri">
+        /// The URI of the XMI file that is to be written.
+        /// </param>
+        /// <param name="documentation">
+        /// The <see cref="Documentation"/> that is to be written as a sibling of the <paramref name="package"/>,
+        /// typically the <c>Documentation</c> of the <c>XmiRoot</c> that was read. May be null.
+        /// </param>
+        /// <param name="documentExtensions">
+        /// The <see cref="XmiExtension"/>s that are to be written as a sibling of the <paramref name="package"/>,
+        /// typically the <c>Extensions</c> of the <c>XmiRoot</c> that was read. May be null.
+        /// </param>
+        /// <param name="cancellationToken">
+        /// The <see cref="CancellationToken"/> used to cancel the write operation
+        /// </param>
+        /// <returns>
+        /// an awaitable <see cref="Task"/>
+        /// </returns>
+        public async Task WriteAsync(IPackage package, string fileUri, Documentation documentation, IEnumerable<XmiExtension> documentExtensions, CancellationToken cancellationToken = default)
         {
             if (string.IsNullOrEmpty(fileUri))
             {
@@ -277,7 +363,7 @@ namespace uml4net.xmi.Writers
 
             this.logger.LogInformation("start serializing to {Path}", fileUri);
 
-            await this.WriteAsync(package, fileStream, new FileInfo(fileUri).Name, documentExtensions, cancellationToken);
+            await this.WriteAsync(package, fileStream, new FileInfo(fileUri).Name, documentation, documentExtensions, cancellationToken);
 
             this.logger.LogInformation("File {Path} serialized in {Time} [ms]", fileUri, sw.ElapsedMilliseconds);
         }
@@ -328,7 +414,39 @@ namespace uml4net.xmi.Writers
         /// <returns>
         /// an awaitable <see cref="Task"/>
         /// </returns>
-        public async Task WriteAsync(IPackage package, Stream stream, string documentName, IEnumerable<XmiExtension> documentExtensions, CancellationToken cancellationToken = default)
+        public Task WriteAsync(IPackage package, Stream stream, string documentName, IEnumerable<XmiExtension> documentExtensions, CancellationToken cancellationToken = default)
+        {
+            return this.WriteAsync(package, stream, documentName, null, documentExtensions, cancellationToken);
+        }
+
+        /// <summary>
+        /// Asynchronously writes the provided <see cref="IPackage"/>, <see cref="Documentation"/> and
+        /// <see cref="XmiExtension"/>s to a UML XMI 2.5.1 stream.
+        /// </summary>
+        /// <param name="package">
+        /// The <see cref="IPackage"/> that is to be written
+        /// </param>
+        /// <param name="stream">
+        /// The <see cref="Stream"/> to which the XMI content is written.
+        /// </param>
+        /// <param name="documentName">
+        /// The name of the document that is being written.
+        /// </param>
+        /// <param name="documentation">
+        /// The <see cref="Documentation"/> that is to be written as a sibling of the <paramref name="package"/>,
+        /// typically the <c>Documentation</c> of the <c>XmiRoot</c> that was read. May be null.
+        /// </param>
+        /// <param name="documentExtensions">
+        /// The <see cref="XmiExtension"/>s that are to be written as a sibling of the <paramref name="package"/>,
+        /// typically the <c>Extensions</c> of the <c>XmiRoot</c> that was read. May be null.
+        /// </param>
+        /// <param name="cancellationToken">
+        /// The <see cref="CancellationToken"/> used to cancel the write operation
+        /// </param>
+        /// <returns>
+        /// an awaitable <see cref="Task"/>
+        /// </returns>
+        public async Task WriteAsync(IPackage package, Stream stream, string documentName, Documentation documentation, IEnumerable<XmiExtension> documentExtensions, CancellationToken cancellationToken = default)
         {
             if (package == null)
             {
@@ -352,6 +470,13 @@ namespace uml4net.xmi.Writers
             await xmlWriter.WriteStartDocumentAsync();
             await xmlWriter.WriteStartElementAsync("xmi", "XMI", this.XmiWriterSettings.XmiNamespaceUri);
             await xmlWriter.WriteAttributeStringAsync("xmlns", "uml", null, this.XmiWriterSettings.UmlNamespaceUri);
+
+            if (documentation != null)
+            {
+                var documentationWriter = new DocumentationWriter(this.XmiWriterSettings, this.LoggerFactory);
+
+                await documentationWriter.WriteAsync(xmlWriter, documentation);
+            }
 
             foreach (var rootPackage in xmiWritePlan.RootPackages)
             {
