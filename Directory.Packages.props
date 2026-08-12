@@ -17,9 +17,9 @@
          check (.github/workflows/nuget-reference-check.yml) lists this package in IGNORE_PACKAGES so it
          never raises a "package outdated" issue. Keep both in sync. -->
     <PackageVersion Include="Microsoft.Extensions.Logging.Abstractions" Version="6.0.0" />
-    <PackageVersion Include="Microsoft.Extensions.Logging.Console" Version="10.0.10" />
-    <PackageVersion Include="Microsoft.Extensions.Http" Version="10.0.10" />
-    <PackageVersion Include="Microsoft.Extensions.Hosting" Version="10.0.10" />
+    <PackageVersion Include="Microsoft.Extensions.Logging.Console" Version="10.0.11" />
+    <PackageVersion Include="Microsoft.Extensions.Http" Version="10.0.11" />
+    <PackageVersion Include="Microsoft.Extensions.Hosting" Version="10.0.11" />
     <PackageVersion Include="Autofac" Version="9.3.2" />
     <PackageVersion Include="Autofac.Extensions.DependencyInjection" Version="11.0.2" />
     <PackageVersion Include="HtmlAgilityPack" Version="1.12.4" />
@@ -28,7 +28,7 @@
     <PackageVersion Include="Microsoft.Msagl" Version="1.1.6" />
     <PackageVersion Include="Svg" Version="3.4.8" />
     <PackageVersion Include="Microsoft.CodeAnalysis" Version="5.6.0" />
-    <PackageVersion Include="System.CommandLine" Version="2.0.10" />
+    <PackageVersion Include="System.CommandLine" Version="2.0.11" />
     <PackageVersion Include="Spectre.Console" Version="0.57.2" />
     <PackageVersion Include="Serilog" Version="4.4.0" />
     <PackageVersion Include="Serilog.Extensions.Logging" Version="10.0.0" />
@@ -43,7 +43,7 @@
   </ItemGroup>
   <ItemGroup Label="Build / packaging (PrivateAssets set on the reference in Directory.Build.targets)">
     <PackageVersion Include="Microsoft.Sbom.Targets" Version="4.1.5" />
-    <PackageVersion Include="Microsoft.SourceLink.GitHub" Version="10.0.301" />
+    <PackageVersion Include="Microsoft.SourceLink.GitHub" Version="10.0.400" />
   </ItemGroup>
   <ItemGroup Label="Test">
     <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="18.8.1" />
