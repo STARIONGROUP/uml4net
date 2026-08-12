@@ -119,6 +119,12 @@ namespace uml4net.Reporting.Generators
             readerBuilder.WithExtender<EnterpriseArchitectExtenderReader>();
             readerBuilder.WithExtensionContentReaderFacade<ExtensionContentReaderFacade>();
 
+            if (EnterpriseArchitectLegacyNamespaceDetector.IsLegacyEnterpriseArchitectExport(modelPath.FullName))
+            {
+                readerBuilder.WithAdditionalNamespaceMapping(EnterpriseArchitectLegacyNamespaceDetector.LegacyXmiNamespace, KnowNamespacePrefixes.Xmi);
+                readerBuilder.WithAdditionalNamespaceMapping(EnterpriseArchitectLegacyNamespaceDetector.LegacyUmlNamespace, KnowNamespacePrefixes.Uml);
+            }
+
             using var reader = readerBuilder.Build();
             return reader.Read(modelPath.FullName);
         }

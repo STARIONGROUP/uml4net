@@ -21,6 +21,7 @@
 namespace uml4net.xmi
 {
     using System;
+    using System.Collections.Generic;
 
     using Autofac;
 
@@ -51,6 +52,17 @@ namespace uml4net.xmi
         /// Gets the service scope which provides a scoped lifetime for services.
         /// </summary>
         internal ILifetimeScope Scope { get; private set; }
+
+        /// <summary>
+        /// Gets the collection of additional namespace URI to prefix mappings that are to be registered
+        /// with the <see cref="INameSpaceResolver"/> once it has been resolved, before any document is read.
+        /// </summary>
+        /// <remarks>
+        /// This allows callers (for example tool-specific extensions such as
+        /// <c>uml4net.xmi.Extensions.EnterpriseArchitect</c>) to widen the set of namespace URIs that the
+        /// reader recognizes, without hardcoding tool-specific namespace knowledge into this core package.
+        /// </remarks>
+        internal List<(string NamespaceUri, string Prefix)> PendingNamespaceMappings { get; } = new();
 
         /// <summary>
         /// Builds the service provider and service scope from the configured service collection.

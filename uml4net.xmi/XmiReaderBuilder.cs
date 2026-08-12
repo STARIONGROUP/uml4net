@@ -124,6 +124,42 @@ namespace uml4net.xmi
         }
 
         /// <summary>
+        /// Registers an additional namespace URI to prefix mapping that the <see cref="INameSpaceResolver" />
+        /// is to recognize, on top of the namespaces it already knows about.
+        /// </summary>
+        /// <param name="scope">The fluent reader scope for chaining registration calls.</param>
+        /// <param name="namespaceUri">The namespace URI to register.</param>
+        /// <param name="prefix">
+        /// The prefix, typically one of the <see cref="KnowNamespacePrefixes" /> constants, that
+        /// <paramref name="namespaceUri" /> is to resolve to.
+        /// </param>
+        /// <returns>The same <see cref="XmiReaderScope"/> instance for chaining.</returns>
+        /// <remarks>
+        /// This is a generic extensibility point: it carries no knowledge of any specific tool or namespace.
+        /// It exists so that callers (for example tool-specific extensions) can widen the set of namespace
+        /// URIs the reader recognizes without this core package having to hardcode that knowledge.
+        /// </remarks>
+        /// <exception cref="ArgumentException">
+        /// Thrown when <paramref name="namespaceUri"/> or <paramref name="prefix"/> is null or empty.
+        /// </exception>
+        public static XmiReaderScope WithAdditionalNamespaceMapping(this XmiReaderScope scope, string namespaceUri, string prefix)
+        {
+            if (string.IsNullOrWhiteSpace(namespaceUri))
+            {
+                throw new ArgumentException(nameof(namespaceUri));
+            }
+
+            if (string.IsNullOrWhiteSpace(prefix))
+            {
+                throw new ArgumentException(nameof(prefix));
+            }
+
+            scope.PendingNamespaceMappings.Add((namespaceUri, prefix));
+
+            return scope;
+        }
+
+        /// <summary>
         /// Builds and configures the <see cref="IXmiReader" /> based on the services added to the <see cref="XmiReaderScope" />.
         /// </summary>
         /// <param name="scope">The <see cref="XmiReaderScope" /> being used to build the XMI reader.</param>
@@ -133,7 +169,23 @@ namespace uml4net.xmi
         public static IXmiReader Build(this XmiReaderScope scope)
         {
             scope.CreateScope();
-            return scope.Scope.Resolve<IXmiReader>();
+
+            var reader = scope.Scope.Resolve<IXmiReader>();
+
+            if (scope.PendingNamespaceMappings.Count > 0)
+            {
+                var nameSpaceResolver = scope.Scope.Resolve<INameSpaceResolver>();
+
+                foreach (var (namespaceUri, prefix) in scope.PendingNamespaceMappings)
+                {
+                    if (nameSpaceResolver.ResolvePrefix(namespaceUri) == KnowNamespacePrefixes.Other)
+                    {
+                        nameSpaceResolver.Register(namespaceUri, prefix);
+                    }
+                }
+            }
+
+            return reader;
         }
 
         /// <summary>

@@ -1,0 +1,9 @@
+<?xml  version='1.0' encoding='windows-1252' ?>
+<xmi:XMI xmlns:xmi="http://schema.omg.org/spec/XMI/2.1" xmi:version="2.1" xmlns:uml="http://schema.omg.org/spec/UML/2.1">
+	<xmi:Documentation exporter="Enterprise Architect" exporterVersion="6.5" exporterID="1716"/>
+	<uml:Model xmi:type="uml:Model" name="LegacyNamespaceModel" visibility="public">
+		<packagedElement xmi:type="uml:Package" xmi:id="EAPK_00000000_0000_0000_0000_000000000001" name="LegacyPackage" visibility="public">
+			<packagedElement xmi:type="uml:Class" xmi:id="EAID_00000000_0000_0000_0000_000000000002" name="LegacyClass" visibility="public"/>
+		</packagedElement>
+	</uml:Model>
+</xmi:XMI>

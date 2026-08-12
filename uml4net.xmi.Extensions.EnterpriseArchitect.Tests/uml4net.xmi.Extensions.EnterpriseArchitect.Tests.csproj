@@ -21,6 +21,9 @@
       <None Include="..\resources\Enterprise Architect Extensions\EAExport.xmi" Link="Resources\EAExport.xmi">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
+      <None Include="..\resources\Enterprise Architect Extensions\EAExportLegacyNamespace.xmi" Link="Resources\EAExportLegacyNamespace.xmi">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
     </ItemGroup>
 
     <ItemGroup>

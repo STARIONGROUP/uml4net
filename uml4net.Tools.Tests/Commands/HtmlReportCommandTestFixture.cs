@@ -102,6 +102,29 @@ namespace uml4net.Tools.Tests.Commands
         }
 
         [Test]
+        public async Task Verify_that_InvokeAsync_returns_0_for_forge_xmi()
+        {
+            var args = new[]
+            {
+                "html-report",
+                "--no-logo",
+                "--input-model", Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData", "forge.xmi"),
+                "--output-report", Path.Combine(TestContext.CurrentContext.TestDirectory, "html-report.html"),
+                "--root-package-name", "EA_Model"
+            };
+
+            var parseResult = this.rootCommand.Parse(args);
+
+            var result = await this.handler.InvokeAsync(parseResult, this.cts.Token);
+
+            this.htmlReportGenerator.Verify(x => x.GenerateReport(It.IsAny<FileInfo>(), It.IsAny<DirectoryInfo>(), It.IsAny<string>() , It.IsAny<string>(),It.IsAny<bool>(), It.IsAny<Dictionary<string,string>>(), It.IsAny<FileInfo>(), It.IsAny<String>()), Times.Once);
+
+            this.versionChecker.Verify(x => x.ExecuteAsync(It.IsAny<CancellationToken>()), Times.Once);
+
+            Assert.That(result, Is.EqualTo(0), "InvokeAsync should return 0 upon success.");
+        }
+
+        [Test]
         public async Task Verify_that_InvokeAsync_returns_0_for_SysML_xmi()
         {
             var args = new[]

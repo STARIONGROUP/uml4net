@@ -21,6 +21,10 @@
     </ItemGroup>
 
     <ItemGroup>
+        <Content Include="..\resources\UML\forge.xmi">
+          <Link>TestData\forge.xmi</Link>
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
         <Content Include="..\resources\UML\PrimitiveTypes.xmi" Link="TestData\PrimitiveTypes.xmi">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </Content>

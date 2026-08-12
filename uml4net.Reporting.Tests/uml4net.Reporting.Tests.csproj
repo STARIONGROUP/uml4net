@@ -17,6 +17,10 @@
     </ItemGroup>
 
     <ItemGroup>
+        <Content Include="..\resources\UML\forge.xmi">
+          <Link>TestData\forge.xmi</Link>
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
         <Content Include="..\resources\UML\PrimitiveTypes.xmi" Link="TestData\PrimitiveTypes.xmi">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </Content>
@@ -30,6 +34,9 @@
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </None>
         <None Include="..\resources\Enterprise Architect Extensions\EAExport.xmi" Link="TestData\EAExport.xmi">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Include="..\resources\Enterprise Architect Extensions\EAExportLegacyNamespace.xmi" Link="TestData\EAExportLegacyNamespace.xmi">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </None>
         <None Include="..\resources\MagicDrawModels\BallotDefinition UML Model.xml" Link="TestData\BallotDefinitionUMLModel.xml">

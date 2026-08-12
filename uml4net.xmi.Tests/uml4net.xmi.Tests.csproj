@@ -66,6 +66,9 @@
         <None Include="..\resources\Enterprise Architect Extensions\EAExport.xmi" Link="TestData\EAExport.xmi">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </None>
+        <None Include="..\resources\Enterprise Architect Extensions\EAExportLegacyNamespace.xmi" Link="TestData\EAExportLegacyNamespace.xmi">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
         <None Include="..\resources\XMI\documentation-as-attributes.xmi" Link="TestData\documentation-as-attributes.xmi">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </None>

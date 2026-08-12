@@ -52,6 +52,10 @@ namespace uml4net.Reporting.Tests.Generators
 
         private FileInfo eAExportFileInfo;
 
+        private FileInfo forgeEAExportFileInfo;
+
+        private FileInfo eAExportLegacyNamespaceFileInfo;
+
         [SetUp]
         public void SetUp()
         {
@@ -72,6 +76,8 @@ namespace uml4net.Reporting.Tests.Generators
             this.sysml2ModelFileInfo = new FileInfo(Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData", "SysML.uml"));
             this.sysml2PimFileInfo = new FileInfo(Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData", "SysML2Pim.uml"));
             this.eAExportFileInfo = new FileInfo(Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData", "EAExport.xmi"));
+            this.forgeEAExportFileInfo = new FileInfo(Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData", "forge.xmi"));
+            this.eAExportLegacyNamespaceFileInfo = new FileInfo(Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData", "EAExportLegacyNamespace.xmi"));
             this.magicDrawFileInfo = new FileInfo(Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData", "BallotDefinitionUMLModel.xml"));
         }
 
@@ -144,10 +150,31 @@ namespace uml4net.Reporting.Tests.Generators
         }
 
         [Test]
+        [Ignore("Blocked by #214: forge.xmi's multiplicity upperValue uses LiteralInteger instead of LiteralUnlimitedNatural, which MultiplicityElementExtensions.QueryUpper() rejects unconditionally regardless of useStrictReading.")]
+        public void Verify_that_the_report_generator_generators_a_report_of_forge_ea_model()
+        {
+            this.htmlReportGenerator = new HtmlReportGenerator(this.inheritanceDiagramRenderer, this.associationDiagramRenderer, this.loggerFactory);
+
+            var reportFileInfo = new FileInfo(Path.Combine(TestContext.CurrentContext.TestDirectory, "forge.html"));
+
+            Assert.That(() => this.htmlReportGenerator.GenerateReport(this.forgeEAExportFileInfo, this.umlModelFileInfo.Directory, "", "EA_Model", false, null, reportFileInfo), Throws.Nothing);
+        }
+
+        [Test]
+        public void Verify_that_the_report_generator_generates_a_report_of_a_legacy_namespaced_ea_model()
+        {
+            this.htmlReportGenerator = new HtmlReportGenerator(this.inheritanceDiagramRenderer, this.associationDiagramRenderer, this.loggerFactory);
+
+            var reportFileInfo = new FileInfo(Path.Combine(TestContext.CurrentContext.TestDirectory, "EAExportLegacyNamespace.html"));
+
+            Assert.That(() => this.htmlReportGenerator.GenerateReport(this.eAExportLegacyNamespaceFileInfo, this.umlModelFileInfo.Directory, "", "LegacyNamespaceModel", true, null, reportFileInfo), Throws.Nothing);
+        }
+
+        [Test]
         public void Verify_that_the_report_generator_generators_a_report_of_md_model()
         {
             this.htmlReportGenerator = new HtmlReportGenerator(this.inheritanceDiagramRenderer, this.associationDiagramRenderer, this.loggerFactory);
-            
+
             var reportFileInfo = new FileInfo(Path.Combine(TestContext.CurrentContext.TestDirectory, "MDExport.html"));
 
             Assert.That(() => this.htmlReportGenerator.GenerateReport(this.magicDrawFileInfo, this.umlModelFileInfo.Directory, "", "Data", true, null, reportFileInfo), Throws.Nothing);
@@ -195,7 +222,7 @@ namespace uml4net.Reporting.Tests.Generators
 
             var reportFileInfo = new FileInfo("some-path");
 
-            
+
             Assert.That(() => this.htmlReportGenerator.GenerateReport(null, null, "", "Data", true, null, reportFileInfo), Throws.ArgumentNullException);
             Assert.That(() => this.htmlReportGenerator.GenerateReport(this.magicDrawFileInfo, this.umlModelFileInfo.Directory, "", "Data", true, null,null, ""), Throws.ArgumentNullException);
         }
