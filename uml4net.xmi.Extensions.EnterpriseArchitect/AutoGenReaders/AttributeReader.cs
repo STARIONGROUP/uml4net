@@ -121,6 +121,22 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.Structure.Readers
                                     poco.Bounds = this.ExtensionContentReaderFacade.QueryExtensionContent<Bounds>(xmlReader, this.XmiReaderSettings, this.NameSpaceResolver, this.Cache, documentName, this.LoggerFactory);
                                     break;
                                 }
+                            case "Constraints":
+                                {
+                                    using var ConstraintsReader = xmlReader.ReadSubtree();
+
+                                    while (ConstraintsReader.Read())
+                                    {
+                                        if (ConstraintsReader.NodeType != XmlNodeType.Element || ConstraintsReader.LocalName == "Constraints")
+                                        {
+                                            continue;
+                                        }
+
+                                        poco.Constraints.Add(this.ExtensionContentReaderFacade.QueryExtensionContent<Constraint>(ConstraintsReader, this.XmiReaderSettings, this.NameSpaceResolver, this.Cache, documentName, this.LoggerFactory));
+                                    }
+
+                                    break;
+                                }
                             case "containment":
                                 {
                                     poco.Containment = this.ExtensionContentReaderFacade.QueryExtensionContent<ContainmentDefinition>(xmlReader, this.XmiReaderSettings, this.NameSpaceResolver, this.Cache, documentName, this.LoggerFactory);

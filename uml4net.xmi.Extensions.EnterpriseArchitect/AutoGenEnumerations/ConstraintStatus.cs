@@ -1,5 +1,5 @@
 ﻿// -------------------------------------------------------------------------------------------------
-// <copyright file="Constraints.cs" company="Starion Group S.A.">
+// <copyright file="ConstraintStatus.cs" company="Starion Group S.A.">
 //
 //   Copyright (C) 2019-2026 Starion Group S.A.
 //
@@ -24,21 +24,33 @@
 
 namespace uml4net.xmi.Extensions.EnterpriseArchitect.Structure
 {
-    using System;
-    using System.CodeDom.Compiler;
-    using System.Collections.Generic;
-
-    using uml4net.Decorators;
-    using uml4net.Classification;
-    using uml4net.CommonStructure;
-    using uml4net.Packages;
-
     /// <summary>
     /// </summary>
-    [Class(xmiId: "EAID_20CCA5B0_82E1_41e3_8434_A6196EDC5BCE", isAbstract: false, isFinalSpecialization: false, isActive: false)]
-    [GeneratedCode("uml4net.extension", "latest")]
-    public partial class Constraints : IConstraints
+    public enum ConstraintStatus
     {
+        /// <summary>
+        /// </summary>
+        Build,
+
+        /// <summary>
+        /// </summary>
+        Validated,
+
+        /// <summary>
+        /// </summary>
+        Proposed,
+
+        /// <summary>
+        /// </summary>
+        Approved,
+
+        /// <summary>
+        /// </summary>
+        Mandatory,
+
+        /// <summary>
+        /// </summary>
+        Implemented
     }
 }
 

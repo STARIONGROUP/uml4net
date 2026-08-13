@@ -47,6 +47,12 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.Structure
 
         /// <summary>
         /// </summary>
+        [Property(xmiId: "EAID_src1274FE_8DF9_47e7_908A_7961F9D0A802", aggregation: AggregationKind.Shared, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Implements(implementation: "IAttribute.Constraints")]
+        public List<IConstraint> Constraints { get; set; } = new();
+
+        /// <summary>
+        /// </summary>
         [Property(xmiId: "EAID_dstFD6776_7C0B_4023_9F8E_A43008113E57", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [Implements(implementation: "IAttribute.Containment")]
         public IContainmentDefinition Containment { get; set; }
