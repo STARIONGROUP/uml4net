@@ -2,7 +2,7 @@
 
     <PropertyGroup>
         <TargetFramework>netstandard2.0</TargetFramework>
-        <Version>8.5.0</Version>
+        <Version>8.6.0</Version>
         <LangVersion>12.0</LangVersion>
         <PackageId>uml4net.xmi.Extensions.EnterpriseArchitect</PackageId>
         <AssemblyTitle>uml4net.xmi.Extensions.EnterpriseArchitect</AssemblyTitle>
@@ -10,7 +10,7 @@
         <Description>A specific XMI Reader extension to support Enterprise Architect XMI reading</Description>
         <PackageTags>UML XMI modeltopia</PackageTags>
         <PackageReleaseNotes>
-            [Update] to uml4net.xmi version 8.5
+            [Add] Constraint extension element, the ConstraintStatus enumeration and the Constraints property on Element, Attribute and Connector; fixes #217
         </PackageReleaseNotes>
     </PropertyGroup>
 

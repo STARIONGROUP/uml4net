@@ -3,7 +3,7 @@
     <PropertyGroup Label="Package">
         <TargetFramework>net10.0</TargetFramework>
         <LangVersion>14.0</LangVersion>
-        <Version>8.5.0</Version>
+        <Version>8.6.0</Version>
         <Title>uml4net.Tools</Title>
         <Description>A command line application that processes a UML file and generates various reports.</Description>
         <OutputType>Exe</OutputType>
@@ -14,7 +14,7 @@
         <ApplicationIcon>icon.ico</ApplicationIcon>
         <PackageTags>UML XMI modeltopia</PackageTags>
         <PackageReleaseNotes>
-            [Bump] to uml4net.Reporting 8.5.0
+            [Bump] to uml4net.Reporting 8.6.0
         </PackageReleaseNotes>
     </PropertyGroup>
 
