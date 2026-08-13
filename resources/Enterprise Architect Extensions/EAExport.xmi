@@ -20,6 +20,10 @@
 				<memberEnd xmi:idref="EAID_src6423E5_A505_49bd_8B0D_1B06E1996DD1"/>
 			</packagedElement>
 			<packagedElement xmi:type="uml:Class" xmi:id="EAID_E7DEF3AB_2BF1_474f_A118_48F9DC5ED70A" name="Element">
+				<ownedRule xmi:type="uml:Constraint" xmi:id="EAID_OR000000_2BF1_474f_A118_48F9DC5ED70A" name="IntegerCheck">
+					<constrainedElement xmi:idref="EAID_E7DEF3AB_2BF1_474f_A118_48F9DC5ED70A"/>
+					<specification xmi:type="uml:OpaqueExpression" xmi:id="EAID_COE000000_2BF1_474f_A118_48F9DC5ED70A" body="inv: AnotherAttribute &amp;gt;= 1"/>
+				</ownedRule>
 				<ownedAttribute xmi:type="uml:Property" xmi:id="EAID_957B58DC_9D90_4781_A642_E060CB7F142A" name="AnAttribute">
 					<type xmi:type="uml:PrimitiveType" href="http://www.omg.org/spec/UML/20161101/PrimitiveTypes.xmi#String"/>
 					<lowerValue xmi:type="uml:LiteralInteger" xmi:id="EAID_LI000001_9D90_4781_A642_E060CB7F142A" value="1"/>
@@ -63,6 +67,10 @@
 				<memberEnd xmi:idref="EAID_srcA92FB8_7DFE_4ef8_9B2B_1AFDFE20ED9E"/>
 			</packagedElement>
 			<packagedElement xmi:type="uml:Association" xmi:id="EAID_B4AC7D94_CB26_4378_BA7C_74ED73EC3DD6">
+				<ownedRule xmi:type="uml:Constraint" xmi:id="EAID_OR000000_CB26_4378_BA7C_74ED73EC3DD6" name="rule">
+					<constrainedElement xmi:idref="EAID_B4AC7D94_CB26_4378_BA7C_74ED73EC3DD6"/>
+					<specification xmi:type="uml:OpaqueExpression" xmi:id="EAID_COE000000_CB26_4378_BA7C_74ED73EC3DD6" body="inv: self &lt;&gt; null"/>
+				</ownedRule>
 				<memberEnd xmi:idref="EAID_dstAC7D94_CB26_4378_BA7C_74ED73EC3DD6"/>
 				<memberEnd xmi:idref="EAID_srcAC7D94_CB26_4378_BA7C_74ED73EC3DD6"/>
 				<ownedEnd xmi:type="uml:Property" xmi:id="EAID_srcAC7D94_CB26_4378_BA7C_74ED73EC3DD6" association="EAID_B4AC7D94_CB26_4378_BA7C_74ED73EC3DD6">
@@ -94,6 +102,10 @@
 			<packagedElement xmi:type="uml:Package" xmi:id="EAPK_A059C88E_4BDF_46ec_9651_03CBB56A4410" name="TaggedValues">
 				<packagedElement xmi:type="uml:Class" xmi:id="EAID_3CA99B53_F784_4847_B33E_BAB38A4944C6" name="ClassWithTaggedValues"/>
 			</packagedElement>
+			<ownedRule xmi:type="uml:Constraint" xmi:id="EAID_OR000000_9D90_4781_A642_E060CB7F142A" name="ocl">
+				<constrainedElement xmi:idref="EAID_957B58DC_9D90_4781_A642_E060CB7F142A"/>
+				<specification xmi:type="uml:OpaqueExpression" xmi:id="EAID_COE000000_9D90_4781_A642_E060CB7F142A" body="inv: self &lt; 1"/>
+			</ownedRule>
 		</packagedElement>
 		<profileApplication xmi:type="uml:ProfileApplication" xmi:id="profileap_thecustomprofile">
 			<appliedProfile xmi:type="uml:Profile" href="http://www.sparxsystems.com/profiles/thecustomprofile/1.0#thecustomprofile"/>
@@ -153,11 +165,11 @@
 			<element xmi:idref="EAID_E7DEF3AB_2BF1_474f_A118_48F9DC5ED70A" xmi:type="uml:Class" name="Element" scope="public">
 				<model package="EAPK_974A24AF_DDAB_4dd7_AED8_10D3CECC202C" tpos="0" ea_localid="9" ea_eleType="element"/>
 				<properties documentation="An Enterprise Architect documentation" isSpecification="false" sType="Class" nType="0" scope="public" stereotype="BPSimCustomResultChart" isRoot="false" isLeaf="false" isAbstract="false" isActive="false"/>
-				<project author="atheate" version="1.0" phase="1.0" created="2025-03-24 13:58:24" modified="2025-11-17 09:45:51" complexity="1" status="Proposed"/>
+				<project author="atheate" version="1.0" phase="1.0" created="2025-03-24 13:58:24" modified="2026-08-13 09:18:56" complexity="1" status="Proposed"/>
 				<code gentype="&lt;none&gt;"/>
 				<style appearance="BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=1;HSwimLanes=1;BorderStyle=0;"/>
 				<tags>
-					<tag xmi:id="EAID_3A14377F_32A2_bc32_83D4_87E6711AB00B" name="ChartProperties" modelElement="EAID_E7DEF3AB_2BF1_474f_A118_48F9DC5ED70A"/>
+					<tag xmi:id="EAID_3A14377F_32A2_bc32_83D4_87E6711AB00B" name="ChartProperties" value="&lt;memo&gt;#NOTES#&lt;chart type=&quot;2DBarchart&quot;&gt;&#xA;&#x9;&lt;appearance subType=&quot;0&quot; category=&quot;0&quot; gradient=&quot;0&quot; showdatalabels=&quot;1&quot; labelPosition=&quot;0&quot; displayShadow=&quot;1&quot; opacity=&quot;0&quot; displaylegend=&quot;1&quot;/&gt;&#xA;&lt;/chart&gt;" modelElement="EAID_E7DEF3AB_2BF1_474f_A118_48F9DC5ED70A"/>
 				</tags>
 				<xrefs value="$XREFPROP=$XID={A96CA616-566F-4773-854D-D08F49B6B2C2}$XID;$NAM=Stereotypes$NAM;$TYP=element property$TYP;$VIS=Public$VIS;$PAR=0$PAR;$DES=@STEREO;Name=BPSimCustomResultChart;FQName=EAUML::BPSimCustomResultChart;@ENDSTEREO;$DES;$CLT={E7DEF3AB-2BF1-474f-A118-48F9DC5ED70A}$CLT;$SUP=&lt;none&gt;$SUP;$ENDXREF;"/>
 				<extendedProperties tagged="0" package_name="XmiTest"/>
@@ -175,6 +187,9 @@
 						<style/>
 						<styleex value="volatile=0;"/>
 						<tags/>
+						<Constraints>
+							<Constraint name="ocl" type="OCL" notes="inv: self &lt; 1"/>
+						</Constraints>
 						<xrefs value="$XREFPROP=$XID={99672246-A309-4f1a-9466-FBB7B054448E}$XID;$NAM=Stereotypes$NAM;$TYP=attribute property$TYP;$VIS=Public$VIS;$PAR=0$PAR;$DES=@STEREO;Name=Characteristic;FQName=SIMF::Characteristic;@ENDSTEREO;$DES;$CLT={957B58DC-9D90-4781-A642-E060CB7F142A}$CLT;$SUP=&lt;none&gt;$SUP;$ENDXREF;$XREFPROP=$XID={CE6709FE-5161-4b56-ABDD-05AF6546F364}$XID;$NAM=CustomProperties$NAM;$TYP=attribute property$TYP;$VIS=Public$VIS;$PAR=0$PAR;$DES=@PROP=@NAME=isID@ENDNAME;@TYPE=Boolean@ENDTYPE;@VALU=1@ENDVALU;@PRMT=@ENDPRMT;@ENDPROP;$DES;$CLT={957B58DC-9D90-4781-A642-E060CB7F142A}$CLT;$SUP=&lt;none&gt;$SUP;$ENDXREF;"/>
 					</attribute>
 					<attribute xmi:idref="EAID_09432622_34AB_4e04_B9E8_A00C6CCAF80A" name="AnotherAttribute" scope="Public">
@@ -234,6 +249,9 @@
 						<xrefs value="$XREFPROP=$XID={0754F59B-AD69-4f8e-AEAD-75FE4F3A7222}$XID;$NAM=Stereotypes$NAM;$TYP=operation property$TYP;$VIS=Public$VIS;$PAR=0$PAR;$DES=@STEREO;Name=Destroy;FQName=StandardProfileL2::Destroy;@ENDSTEREO;$DES;$CLT={65D71FBE-61C0-4106-9FD0-7AA794BCF07A}$CLT;$SUP=&lt;none&gt;$SUP;$ENDXREF;"/>
 					</operation>
 				</operations>
+				<constraints>
+					<constraint name="IntegerCheck" description="inv: AnotherAttribute &amp;gt;= 1" type="OCL" weight="0,00" status="Approved"/>
+				</constraints>
 				<links>
 					<Association xmi:id="EAID_374A0559_218E_43c1_9766_8CDA78DAE4AA" start="EAID_E7DEF3AB_2BF1_474f_A118_48F9DC5ED70A" end="EAID_521B3B15_CFB1_4b3c_BA84_92E529E2FF16"/>
 					<Association xmi:id="EAID_AEA92FB8_7DFE_4ef8_9B2B_1AFDFE20ED9E" start="EAID_E7DEF3AB_2BF1_474f_A118_48F9DC5ED70A" end="EAID_71DE667E_53E7_43f0_A952_CF7844AB55C3"/>
@@ -351,7 +369,7 @@
 				<properties ea_type="Aggregation" subtype="Weak" direction="Destination -&gt; Source"/>
 				<modifiers isRoot="false" isLeaf="false"/>
 				<documentation/>
-				<appearance linemode="1" linecolor="-1" linewidth="0" seqno="0" headStyle="0" lineStyle="0"/>
+				<appearance linemode="3" linecolor="-1" linewidth="0" seqno="0" headStyle="0" lineStyle="0"/>
 				<labels lt="+aggregate"/>
 				<extendedProperties virtualInheritance="0"/>
 				<style/>
@@ -385,7 +403,7 @@
 				<properties ea_type="Aggregation" subtype="Strong" direction="Destination -&gt; Source"/>
 				<modifiers isRoot="false" isLeaf="false"/>
 				<documentation/>
-				<appearance linemode="1" linecolor="-1" linewidth="0" seqno="0" headStyle="0" lineStyle="0"/>
+				<appearance linemode="3" linecolor="-1" linewidth="0" seqno="0" headStyle="0" lineStyle="0"/>
 				<labels lt="+children"/>
 				<extendedProperties virtualInheritance="0"/>
 				<style/>
@@ -420,7 +438,7 @@
 				<modifiers isRoot="false" isLeaf="false"/>
 				<parameterSubstitutions/>
 				<documentation/>
-				<appearance linemode="1" linecolor="-1" linewidth="0" seqno="0" headStyle="0" lineStyle="0"/>
+				<appearance linemode="3" linecolor="-1" linewidth="0" seqno="0" headStyle="0" lineStyle="0"/>
 				<labels lt="+fromFourthToFirst" mb="«FK»"/>
 				<extendedProperties conditional="«FK»" virtualInheritance="0"/>
 				<style/>
@@ -455,7 +473,7 @@
 				<modifiers isRoot="false" isLeaf="false"/>
 				<parameterSubstitutions/>
 				<documentation/>
-				<appearance linemode="1" linecolor="-1" linewidth="0" seqno="0" headStyle="0" lineStyle="0"/>
+				<appearance linemode="3" linecolor="-1" linewidth="0" seqno="0" headStyle="0" lineStyle="0"/>
 				<labels lt="+fromFithToFirst" rt="+fromFirstToFith"/>
 				<extendedProperties virtualInheritance="0"/>
 				<style/>
@@ -490,11 +508,14 @@
 				<modifiers isRoot="false" isLeaf="false"/>
 				<parameterSubstitutions/>
 				<documentation/>
-				<appearance linemode="1" linecolor="-1" linewidth="0" seqno="0" headStyle="0" lineStyle="0"/>
+				<appearance linemode="3" linecolor="-1" linewidth="0" seqno="0" headStyle="0" lineStyle="0"/>
 				<labels rt="+fromFirstToThird"/>
-				<extendedProperties virtualInheritance="0"/>
+				<extendedProperties virtualInheritance="0" privatedata4="rule"/>
 				<style/>
 				<xrefs/>
+				<constraints>
+					<constraint name="rule" type="OCL" description="inv: self &lt;&gt; null"/>
+				</constraints>
 				<tags/>
 			</connector>
 			<connector xmi:idref="EAID_E9004D5F_81D8_4295_B6D3_40BB86C20B43">
@@ -525,7 +546,7 @@
 				<modifiers isRoot="false" isLeaf="false"/>
 				<parameterSubstitutions/>
 				<documentation value="Gets or sets the reference to a &amp;lt;see cref=&quot;SecondElement&quot; /&amp;gt;"/>
-				<appearance linemode="1" linecolor="-1" linewidth="0" seqno="0" headStyle="0" lineStyle="0"/>
+				<appearance linemode="3" linecolor="-1" linewidth="0" seqno="0" headStyle="0" lineStyle="0"/>
 				<labels lt="+fromSecondToFirst" rt="+fromFirstToSecond"/>
 				<extendedProperties virtualInheritance="0"/>
 				<style/>
@@ -2034,7 +2055,7 @@
 			</uml:Profile>
 		</profiles>
 	</xmi:Extension>
-	<EAUML:BPSimCustomResultChart base_Class="EAID_E7DEF3AB_2BF1_474f_A118_48F9DC5ED70A"/>
+	<EAUML:BPSimCustomResultChart base_Class="EAID_E7DEF3AB_2BF1_474f_A118_48F9DC5ED70A" ChartProperties="&lt;chart type=&quot;2DBarchart&quot;&gt;&#xA;&#x9;&lt;appearance subType=&quot;0&quot; category=&quot;0&quot; gradient=&quot;0&quot; showdatalabels=&quot;1&quot; labelPosition=&quot;0&quot; displayShadow=&quot;1&quot; opacity=&quot;0&quot; displaylegend=&quot;1&quot;/&gt;&#xA;&lt;/chart&gt;"/>
 	<SIMF:Characteristic base_Property="EAID_957B58DC_9D90_4781_A642_E060CB7F142A"/>
 	<StandardProfileL2:Destroy base_Operation="EAID_65D71FBE_61C0_4106_9FD0_7AA794BCF07A"/>
 	<EAUML:FK base_Association="EAID_374A0559_218E_43c1_9766_8CDA78DAE4AA"/>

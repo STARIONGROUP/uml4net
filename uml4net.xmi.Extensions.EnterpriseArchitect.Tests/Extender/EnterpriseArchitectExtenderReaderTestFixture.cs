@@ -34,7 +34,7 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.Tests.Extender
     using uml4net.xmi.Extensions.EnterpriseArchitect.Extensions;
     using uml4net.xmi.Extensions.EnterpriseArchitect.Structure;
     using uml4net.xmi.Extensions.EnterpriseArchitect.Structure.Readers;
-
+    using Connector = uml4net.xmi.Extensions.EnterpriseArchitect.Structure.Connector;
     using IAssociation = uml4net.StructuredClassifiers.IAssociation;
     using Path = System.IO.Path;
 
@@ -68,7 +68,10 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.Tests.Extender
             var extensionElement = xmiReaderResult.XmiRoot.Extensions.SelectMany(x => x.Content).OfType<Element>().Single(x => x.ExtendedElement == elementWithTags);
             var tags = extensionElement.Tags;
             var association = element.Cache.Values.OfType<IAssociation>().Single(x => x.XmiId == "EAID_374A0559_218E_43c1_9766_8CDA78DAE4AA");
-            
+            var elementWithConstraint = xmiReaderResult.XmiRoot.Extensions.SelectMany(x => x.Content).OfType<Element>().Single(x => x.Constraints.Count !=0);
+            var attributeWithConstraint = xmiReaderResult.XmiRoot.Extensions.SelectMany(x => x.Content).OfType<Element>().SelectMany(x => x.Attributes).Single(x => x.Constraints.Count !=0);
+            var connectorWithConstraint = xmiReaderResult.XmiRoot.Extensions.SelectMany(x => x.Content).OfType<Connector>().Single(x => x.Constraints.Count !=0);
+
             using (Assert.EnterMultipleScope())
             {
                 Assert.That(attribute.OwnedComment.Single().Body, Is.EqualTo("An documentation for an attribute"));
@@ -84,7 +87,7 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.Tests.Extender
                 {
                     Assert.That(associationParameter.OwnedComment.Single().Body, Is.EqualTo($"A doc for {associationParameter.Name}"));
                 }
-                
+
                 Assert.That(tags, Has.Count.EqualTo(2));
                 Assert.That(tags[0].Name, Is.EqualTo("EAUML::PackageRef"));
                 Assert.That(tags[0].Value, Is.EqualTo("{A059C88E-4BDF-46ec-9651-03CBB56A4410}"));
@@ -94,6 +97,9 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.Tests.Extender
                 Assert.That(attribute.QueryAppliedStereotypes(), Has.Count.EqualTo(1));
                 Assert.That(operation.QueryAppliedStereotypes(), Has.Count.EqualTo(1));
                 Assert.That(association.QueryAppliedStereotypes(), Has.Count.EqualTo(1));
+                Assert.That(elementWithConstraint.Constraints[0].Name, Is.EqualTo("IntegerCheck"));
+                Assert.That(attributeWithConstraint.Constraints[0].Name, Is.EqualTo("ocl"));
+                Assert.That(connectorWithConstraint.Constraints[0].Name, Is.EqualTo("rule"));
             }
         }
 

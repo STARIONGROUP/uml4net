@@ -1,5 +1,5 @@
 ﻿// -------------------------------------------------------------------------------------------------
-// <copyright file="IConstraints.cs" company="Starion Group S.A.">
+// <copyright file="IConstraint.cs" company="Starion Group S.A.">
 //
 //   Copyright (C) 2019-2026 Starion Group S.A.
 //
@@ -45,10 +45,34 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.Structure
 
     /// <summary>
     /// </summary>
-    [Class(xmiId: "EAID_20CCA5B0_82E1_41e3_8434_A6196EDC5BCE", isAbstract: false, isFinalSpecialization: false, isActive: false)]
+    [Class(xmiId: "EAID_03489485_3E96_40c3_8697_1346C003A509", isAbstract: false, isFinalSpecialization: false, isActive: false)]
     [GeneratedCode("uml4net", "latest")]
-    public partial interface IConstraints
+    public partial interface IConstraint : INamedElement
     {
+        /// <summary>
+        /// </summary>
+        [Property(xmiId: "EAID_441B672F_2EA8_4912_91F4_17F3C427CABB", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        public string Description { get; set; }
+
+        /// <summary>
+        /// </summary>
+        [Property(xmiId: "EAID_7184EC94_7056_4d07_AA2A_834563252FAC", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        public string Notes { get; set; }
+
+        /// <summary>
+        /// </summary>
+        [Property(xmiId: "EAID_EC58CE2E_33B4_4eb4_8110_0E521C8E2116", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        public ConstraintStatus Status { get; set; }
+
+        /// <summary>
+        /// </summary>
+        [Property(xmiId: "EAID_569170CC_5A40_48cd_8EC4_8BD97C6D26D3", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        public string Type { get; set; }
+
+        /// <summary>
+        /// </summary>
+        [Property(xmiId: "EAID_5D43B676_0FE5_439b_A94F_25237B5A5947", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        public string Weight { get; set; }
     }
 }
 

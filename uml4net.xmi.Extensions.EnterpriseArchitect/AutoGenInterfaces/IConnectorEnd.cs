@@ -71,13 +71,13 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.Structure
 
         /// <summary>
         /// </summary>
-        [Property(xmiId: "EAID_dst4756CD_56B6_4b4f_850C_B8B6E25E12D2", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
-        public IModel Model { get; set; }
+        [Property(xmiId: "EAID_dst478C3E_1331_4f57_AEDD_EC2AB401362A", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        public IConstraints Constraints { get; set; }
 
         /// <summary>
         /// </summary>
-        [Property(xmiId: "EAID_dstEF3962_4B00_497a_BBE7_FCF19B763CBA", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
-        public IConstraints Constraints { get; set; }
+        [Property(xmiId: "EAID_dst4756CD_56B6_4b4f_850C_B8B6E25E12D2", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        public IModel Model { get; set; }
 
         /// <summary>
         /// </summary>

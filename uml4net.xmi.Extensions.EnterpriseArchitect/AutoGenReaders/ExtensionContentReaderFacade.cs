@@ -146,6 +146,12 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.Structure.Readers
                         var connectorPropertiesReader = new ConnectorPropertiesReader(registry.Value, xmiReaderSettings, nameSpaceResolver, cache, loggerFactory);
                         return connectorPropertiesReader.Read(subXmlReader, documentName);
                     },
+                ["Constraint"] = (cache, xmiReaderSettings, nameSpaceResolver, loggerFactory, xmlReader, documentName) =>
+                    {
+                        using var subXmlReader = xmlReader.ReadSubtree();
+                        var constraintReader = new ConstraintReader(registry.Value, xmiReaderSettings, nameSpaceResolver, cache, loggerFactory);
+                        return constraintReader.Read(subXmlReader, documentName);
+                    },
                 ["Constraints"] = (cache, xmiReaderSettings, nameSpaceResolver, loggerFactory, xmlReader, documentName) =>
                     {
                         using var subXmlReader = xmlReader.ReadSubtree();

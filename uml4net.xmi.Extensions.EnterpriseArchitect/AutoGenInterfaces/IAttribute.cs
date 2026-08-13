@@ -108,6 +108,11 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.Structure
         /// </summary>
         [Property(xmiId: "EAID_src603E99_0A6E_4b6a_B758_36DBCAA244EA", aggregation: AggregationKind.Shared, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         public List<ITag> Tags { get; set; }
+
+        /// <summary>
+        /// </summary>
+        [Property(xmiId: "EAID_src1274FE_8DF9_47e7_908A_7961F9D0A802", aggregation: AggregationKind.Shared, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        public List<IConstraint> Constraints { get; set; }
     }
 }
 
