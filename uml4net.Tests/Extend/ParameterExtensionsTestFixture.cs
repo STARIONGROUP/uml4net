@@ -23,6 +23,7 @@ namespace uml4net.Tests.Extend
     using NUnit.Framework;
 
     using uml4net.Classification;
+    using uml4net.SimpleClassifiers;
     using uml4net.Values;
 
     [TestFixture]
@@ -37,74 +38,84 @@ namespace uml4net.Tests.Extend
         }
 
         [Test]
-        public void Verify_that_Default_is_null_when_there_is_no_defaultValue()
+        public void Verify_that_Default_is_null_when_the_parameter_is_not_typed_String()
         {
-            var parameter = new Parameter();
+            var parameter = new Parameter { Type = new PrimitiveType { Name = "Integer" } };
+            parameter.DefaultValue.Add(new LiteralString { Value = "abc" });
 
             Assert.That(parameter.Default, Is.Null);
         }
 
         [Test]
-        public void Verify_that_Default_is_null_when_the_defaultValue_is_not_a_LiteralSpecification()
+        public void Verify_that_Default_is_null_when_the_parameter_has_no_type()
         {
             var parameter = new Parameter();
-            parameter.DefaultValue.Add(new InstanceValue());
+            parameter.DefaultValue.Add(new LiteralString { Value = "abc" });
 
             Assert.That(parameter.Default, Is.Null);
         }
 
         [Test]
-        public void Verify_that_Default_stringifies_a_LiteralBoolean()
+        public void Verify_that_Default_is_null_when_a_String_typed_parameter_has_no_defaultValue()
         {
-            var parameter = new Parameter();
-            parameter.DefaultValue.Add(new LiteralBoolean { Value = true });
+            var parameter = new Parameter { Type = new PrimitiveType { Name = "String" } };
 
-            Assert.That(parameter.Default, Is.EqualTo("True"));
+            Assert.That(parameter.Default, Is.Null);
         }
 
         [Test]
-        public void Verify_that_Default_stringifies_a_LiteralInteger()
+        public void Verify_that_Default_returns_the_LiteralString_value_for_a_String_typed_parameter()
         {
-            var parameter = new Parameter();
-            parameter.DefaultValue.Add(new LiteralInteger { Value = 42 });
-
-            Assert.That(parameter.Default, Is.EqualTo("42"));
-        }
-
-        [Test]
-        public void Verify_that_Default_stringifies_a_LiteralReal()
-        {
-            var parameter = new Parameter();
-            parameter.DefaultValue.Add(new LiteralReal { Value = 3.14 });
-
-            Assert.That(parameter.Default, Is.EqualTo("3.14"));
-        }
-
-        [Test]
-        public void Verify_that_Default_returns_a_LiteralString_value_verbatim()
-        {
-            var parameter = new Parameter();
+            var parameter = new Parameter { Type = new PrimitiveType { Name = "String" } };
             parameter.DefaultValue.Add(new LiteralString { Value = "abc" });
 
             Assert.That(parameter.Default, Is.EqualTo("abc"));
         }
 
         [Test]
-        public void Verify_that_Default_returns_a_LiteralUnlimitedNatural_value_verbatim()
+        public void Verify_that_Default_is_null_for_a_String_typed_parameter_whose_defaultValue_is_not_a_LiteralString_or_StringExpression()
         {
-            var parameter = new Parameter();
-            parameter.DefaultValue.Add(new LiteralUnlimitedNatural { Value = "*" });
+            var parameter = new Parameter { Type = new PrimitiveType { Name = "String" } };
+            parameter.DefaultValue.Add(new LiteralInteger { Value = 42 });
 
-            Assert.That(parameter.Default, Is.EqualTo("*"));
+            Assert.That(parameter.Default, Is.Null);
         }
 
         [Test]
-        public void Verify_that_Default_is_null_for_a_LiteralNull()
+        public void Verify_that_Default_concatenates_the_operands_of_a_StringExpression_with_no_subExpressions()
         {
-            var parameter = new Parameter();
-            parameter.DefaultValue.Add(new LiteralNull());
+            var parameter = new Parameter { Type = new PrimitiveType { Name = "String" } };
 
-            Assert.That(parameter.Default, Is.Null);
+            var stringExpression = new StringExpression();
+            stringExpression.Operand.Add(new LiteralString { Value = "foo" });
+            stringExpression.Operand.Add(new LiteralString { Value = "bar" });
+
+            parameter.DefaultValue.Add(stringExpression);
+
+            Assert.That(parameter.Default, Is.EqualTo("foobar"));
+        }
+
+        [Test]
+        public void Verify_that_Default_concatenates_the_subExpressions_of_a_StringExpression_when_present()
+        {
+            var parameter = new Parameter { Type = new PrimitiveType { Name = "String" } };
+
+            var subExpression1 = new StringExpression();
+            subExpression1.Operand.Add(new LiteralString { Value = "foo" });
+
+            var subExpression2 = new StringExpression();
+            subExpression2.Operand.Add(new LiteralString { Value = "bar" });
+
+            var stringExpression = new StringExpression();
+            stringExpression.SubExpression.Add(subExpression1);
+            stringExpression.SubExpression.Add(subExpression2);
+
+            // an operand set alongside sub-expressions must be ignored, per the OCL's if/else
+            stringExpression.Operand.Add(new LiteralString { Value = "ignored" });
+
+            parameter.DefaultValue.Add(stringExpression);
+
+            Assert.That(parameter.Default, Is.EqualTo("foobar"));
         }
     }
 }
