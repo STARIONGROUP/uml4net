@@ -21,6 +21,7 @@
 namespace uml4net.xmi.Tests
 {
     using System.IO;
+    using System.Linq;
 
     using Microsoft.Extensions.Logging;
 
@@ -28,6 +29,7 @@ namespace uml4net.xmi.Tests
 
     using Serilog;
 
+    using uml4net.Packages;
     using uml4net.xmi;
 
     [TestFixture]
@@ -67,6 +69,27 @@ namespace uml4net.xmi.Tests
                 Assert.That(xmiReaderResult.Packages.Count, Is.EqualTo(3));
                 Assert.That(xmiReaderResult.QueryRoot("_0", "StandardProfile").Name, Is.EqualTo("StandardProfile"));
             }
+        }
+
+        [Test]
+        public void Verify_that_Extension_of_a_Stereotype_can_be_queried()
+        {
+            var rootPath = Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData");
+
+            var reader = XmiReaderBuilder.Create()
+                .UsingSettings(x => x.LocalReferenceBasePath = rootPath)
+                .WithLogger(this.loggerFactory)
+                .Build();
+
+            var xmiReaderResult = reader.Read(Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData", "StandardProfile.xmi"));
+
+            var profile = xmiReaderResult.Packages.Single(x => x.Name == "StandardProfile");
+
+            var create = profile.PackagedElement.OfType<IStereotype>().Single(x => x.Name == "Create");
+
+            var extensionNames = create.Extension.Select(x => x.Name).OrderBy(x => x).ToList();
+
+            Assert.That(extensionNames, Is.EquivalentTo(new[] { "BehavioralFeature_Create", "Usage_Create" }));
         }
     }
 }
