@@ -45,7 +45,7 @@ namespace uml4net.StateMachines
                 throw new ArgumentNullException(nameof(state));
             }
 
-            return state.Region.Count > 0 || state.QueryIsSubmachineState();
+            return state.Region.Count > 0;
         }
 
         /// <summary>
@@ -66,7 +66,7 @@ namespace uml4net.StateMachines
                 throw new ArgumentNullException(nameof(state));
             }
 
-            return !state.QueryIsComposite();
+            return state.Region.Count == 0 && !state.QueryIsSubmachineState();
         }
 
         /// <summary>
@@ -108,7 +108,7 @@ namespace uml4net.StateMachines
                 throw new ArgumentNullException(nameof(state));
             }
 
-            return state.QueryIsComposite() && state.Region.Count > 1;
+            return state.Region.Count > 1;
         }
     }
 }

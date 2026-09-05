@@ -87,13 +87,16 @@ namespace uml4net.Tests.Extend
         }
 
         [Test]
-        public void Verify_that_a_state_with_a_submachine_is_composite_and_a_submachineState()
+        public void Verify_that_a_pure_submachine_state_is_neither_composite_nor_simple()
         {
+            // Per the UML 2.5.1 submachine_or_regions constraint, a well-formed submachine State has no
+            // Regions of its own ("isComposite implies not isSubmachineState"). Per the OCL bodies, such a
+            // State is its own category: not composite (no Regions) and not simple (it is a submachine State).
             var state = new State { Name = "Submachine", Submachine = new StateMachine { Name = "SM" } };
 
             using (Assert.EnterMultipleScope())
             {
-                Assert.That(state.IsComposite, Is.True);
+                Assert.That(state.IsComposite, Is.False);
                 Assert.That(state.IsSimple, Is.False);
                 Assert.That(state.IsSubmachineState, Is.True);
                 Assert.That(state.IsOrthogonal, Is.False);
