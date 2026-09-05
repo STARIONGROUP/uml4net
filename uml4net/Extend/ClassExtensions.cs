@@ -24,6 +24,8 @@ namespace uml4net.StructuredClassifiers
     using System.Collections.Generic;
     using System.Linq;
 
+    using uml4net.Classification;
+    using uml4net.CommonStructure;
     using uml4net.Packages;
 
     /// <summary>
@@ -44,10 +46,69 @@ namespace uml4net.StructuredClassifiers
         /// specify additional properties of the metaclass. The property is derived from the Extensions whose
         /// memberEnds are typed by the Class.
         /// </returns>
-        [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
         internal static List<IExtension> QueryExtension(this IClass @class)
         {
-            throw new NotSupportedException("Create a GitHub issue when this method is required");
+            if (@class == null)
+            {
+                throw new ArgumentNullException(nameof(@class));
+            }
+
+            IElement rootElement = @class;
+
+            while (rootElement.Owner != null)
+            {
+                rootElement = rootElement.Owner;
+            }
+
+            var extensions = new List<IExtension>();
+
+            if (rootElement is IPackage rootPackage)
+            {
+                CollectExtensions(rootPackage, extensions);
+            }
+
+            return extensions.Where(x => x.MemberEnd.Any(memberEnd => ReferenceEquals(QueryMemberEndType(memberEnd), @class))).ToList();
+        }
+
+        /// <summary>
+        /// Queries the <see cref="IType"/> that types the <paramref name="property"/>, honoring the fact that
+        /// <see cref="IExtensionEnd"/> redefines (and hides) <see cref="ITypedElement.Type"/>.
+        /// </summary>
+        /// <param name="property">
+        /// The <see cref="IProperty"/> for which the type is queried.
+        /// </param>
+        /// <returns>
+        /// The <see cref="IType"/> that types the <paramref name="property"/>.
+        /// </returns>
+        private static IType QueryMemberEndType(IProperty property)
+        {
+            return property is IExtensionEnd extensionEnd ? extensionEnd.Type : property.Type;
+        }
+
+        /// <summary>
+        /// Recursively collects the <see cref="IExtension"/> elements that are packaged, directly or via nested
+        /// packages, within the specified <paramref name="package"/>.
+        /// </summary>
+        /// <param name="package">
+        /// The <see cref="IPackage"/> to search.
+        /// </param>
+        /// <param name="extensions">
+        /// The <see cref="List{T}"/> of <see cref="IExtension"/> to which any found <see cref="IExtension"/> is added.
+        /// </param>
+        private static void CollectExtensions(IPackage package, List<IExtension> extensions)
+        {
+            foreach (var packagedElement in package.PackagedElement)
+            {
+                switch (packagedElement)
+                {
+                    case IExtension extension:
+                        extensions.Add(extension);
+                        break;
+                    case IPackage nestedPackage:
+                        CollectExtensions(nestedPackage, extensions);
+                        break;
+                }
+            }
         }
 
         /// <summary>
