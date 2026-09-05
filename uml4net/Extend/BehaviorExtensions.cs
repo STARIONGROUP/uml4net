@@ -22,7 +22,9 @@ namespace uml4net.CommonBehavior
 {
     using System;
 
+    using uml4net.CommonStructure;
     using uml4net.SimpleClassifiers;
+    using uml4net.StructuredClassifiers;
 
     /// <summary>
     /// The <see cref="BehaviorExtensions"/> class provides extensions methods for <see cref="IBehavior"/>
@@ -54,10 +56,36 @@ namespace uml4net.CommonBehavior
         /// the context BehavioredClassifier as well as the Elements visible to the context Classifier are
         /// visible to the Behavior.
         /// </returns>
-        [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
         internal static IBehavioredClassifier QueryContext(this IBehavior behavior)
         {
-            throw new NotSupportedException("Create a GitHub issue when this method is required");
+            if (behavior == null)
+            {
+                throw new ArgumentNullException(nameof(behavior));
+            }
+
+            if (behavior.Owner is IClass owningClass && owningClass.NestedClassifier.Contains(behavior))
+            {
+                return null;
+            }
+
+            IElement current = behavior.Owner;
+
+            while (current != null)
+            {
+                if (current is IBehavioredClassifier behavioredClassifier)
+                {
+                    if (behavioredClassifier is IBehavior ancestorBehavior)
+                    {
+                        return ancestorBehavior.Context ?? behavioredClassifier;
+                    }
+
+                    return behavioredClassifier;
+                }
+
+                current = current.Owner;
+            }
+
+            return null;
         }
     }
 }
