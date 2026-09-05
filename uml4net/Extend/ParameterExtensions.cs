@@ -21,6 +21,10 @@
 namespace uml4net.Classification
 {
     using System;
+    using System.Globalization;
+    using System.Linq;
+
+    using uml4net.Values;
 
     /// <summary>
     /// The <see cref="ParameterExtensions"/> class provides extensions methods for <see cref="IParameter"/>
@@ -34,12 +38,26 @@ namespace uml4net.Classification
         /// The subject <see cref="IParameter"/>
         /// </param>
         /// <returns>
-        /// A String that represents a value to be used when no argument is supplied for the Parameter.
+        /// A String that represents a value to be used when no argument is supplied for the Parameter, or
+        /// <c>null</c> if the Parameter has no <see cref="IParameter.DefaultValue"/> or its <see cref="IParameter.DefaultValue"/>
+        /// is not an <see cref="ILiteralSpecification"/>.
         /// </returns>
-        [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
         internal static string QueryDefault(this IParameter parameter)
         {
-            throw new NotSupportedException("Create a GitHub issue when this method is required");
+            if (parameter == null)
+            {
+                throw new ArgumentNullException(nameof(parameter));
+            }
+
+            return parameter.DefaultValue.FirstOrDefault() switch
+            {
+                ILiteralBoolean literalBoolean => literalBoolean.Value.ToString(CultureInfo.InvariantCulture),
+                ILiteralInteger literalInteger => literalInteger.Value.ToString(CultureInfo.InvariantCulture),
+                ILiteralReal literalReal => literalReal.Value.ToString(CultureInfo.InvariantCulture),
+                ILiteralString literalString => literalString.Value,
+                ILiteralUnlimitedNatural literalUnlimitedNatural => literalUnlimitedNatural.Value,
+                _ => null
+            };
         }
     }
 }
