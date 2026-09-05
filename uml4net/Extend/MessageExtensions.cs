@@ -36,10 +36,29 @@ namespace uml4net.Interactions
         /// <returns>
         /// The derived kind of the Message (complete, lost, found, or unknown).
         /// </returns>
-        [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
         internal static MessageKind QueryMessageKind(this IMessage message)
         {
-            throw new NotSupportedException("Create a GitHub issue when this method is required");
+            if (message == null)
+            {
+                throw new ArgumentNullException(nameof(message));
+            }
+
+            if (message.SendEvent != null && message.ReceiveEvent != null)
+            {
+                return MessageKind.Complete;
+            }
+
+            if (message.SendEvent != null)
+            {
+                return MessageKind.Lost;
+            }
+
+            if (message.ReceiveEvent != null)
+            {
+                return MessageKind.Found;
+            }
+
+            return MessageKind.Unknown;
         }
     }
 }
