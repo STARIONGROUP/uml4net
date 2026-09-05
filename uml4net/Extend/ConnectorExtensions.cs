@@ -21,6 +21,7 @@
 namespace uml4net.StructuredClassifiers
 {
     using System;
+    using System.Linq;
 
     /// <summary>
     /// The <see cref="ConnectorExtensions"/> class provides extensions methods for <see cref="IConnector"/>
@@ -40,10 +41,17 @@ namespace uml4net.StructuredClassifiers
         /// Port which is not on a Part and which is not a behavior port is a delegation; otherwise it is an
         /// assembly.
         /// </returns>
-        [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
         internal static ConnectorKind QueryKind(this IConnector connector)
         {
-            throw new NotSupportedException("Create a GitHub issue when this method is required");
+            if (connector == null)
+            {
+                throw new ArgumentNullException(nameof(connector));
+            }
+
+            var isDelegation = connector.End.Any(x =>
+                x.Role is IPort port && x.PartWithPort == null && !port.IsBehavior);
+
+            return isDelegation ? ConnectorKind.Delegation : ConnectorKind.Assembly;
         }
     }
 }
