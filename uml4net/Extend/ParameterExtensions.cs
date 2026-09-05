@@ -21,6 +21,10 @@
 namespace uml4net.Classification
 {
     using System;
+    using System.Linq;
+
+    using uml4net.SimpleClassifiers;
+    using uml4net.Values;
 
     /// <summary>
     /// The <see cref="ParameterExtensions"/> class provides extensions methods for <see cref="IParameter"/>
@@ -34,12 +38,54 @@ namespace uml4net.Classification
         /// The subject <see cref="IParameter"/>
         /// </param>
         /// <returns>
-        /// A String that represents a value to be used when no argument is supplied for the Parameter.
+        /// A String that represents a value to be used when no argument is supplied for the Parameter. Per the
+        /// OCL body of the <c>Parameter::default()</c> derivation operation (<c>result = (if self.type = String
+        /// then defaultValue.stringValue() else null endif)</c>), this is only non-null when the Parameter's own
+        /// <see cref="IParameter.Type"/> is the primitive type <c>String</c>; for every other <see cref="IParameter.Type"/>
+        /// this is <c>null</c>, regardless of what <see cref="IParameter.DefaultValue"/> is set to.
         /// </returns>
-        [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
         internal static string QueryDefault(this IParameter parameter)
         {
-            throw new NotSupportedException("Create a GitHub issue when this method is required");
+            if (parameter == null)
+            {
+                throw new ArgumentNullException(nameof(parameter));
+            }
+
+            if (parameter.Type is not IPrimitiveType primitiveType || primitiveType.Name != "String")
+            {
+                return null;
+            }
+
+            return parameter.DefaultValue.FirstOrDefault().QueryStringValue();
+        }
+
+        /// <summary>
+        /// Queries the <c>ValueSpecification::stringValue()</c> of the <paramref name="valueSpecification"/>. Per the
+        /// UML 2.5.1 metamodel, this base operation is <c>null</c> for every kind of <see cref="IValueSpecification"/>
+        /// except <see cref="ILiteralString"/> (its own value) and <see cref="IStringExpression"/> (the concatenation
+        /// of its sub-expressions, or its operands when it has none).
+        /// </summary>
+        /// <param name="valueSpecification">
+        /// The <see cref="IValueSpecification"/> for which the string value is queried, or <c>null</c>.
+        /// </param>
+        /// <returns>
+        /// The string value of the <paramref name="valueSpecification"/>, or <c>null</c>.
+        /// </returns>
+        private static string QueryStringValue(this IValueSpecification valueSpecification)
+        {
+            switch (valueSpecification)
+            {
+                case null:
+                    return null;
+                case ILiteralString literalString:
+                    return literalString.Value;
+                case IStringExpression stringExpression when stringExpression.SubExpression.Count > 0:
+                    return string.Concat(stringExpression.SubExpression.Select(x => x.QueryStringValue()));
+                case IStringExpression stringExpression:
+                    return string.Concat(stringExpression.Operand.Select(x => x.QueryStringValue()));
+                default:
+                    return null;
+            }
         }
     }
 }
