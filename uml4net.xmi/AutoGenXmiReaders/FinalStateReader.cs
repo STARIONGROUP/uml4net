@@ -186,6 +186,14 @@ namespace uml4net.xmi.Readers
                     poco.SingleValueReferencePropertyIdentifiers.Add("redefinedVertex", redefinedVertexXmlAttribute);
                 }
 
+                var stateInvariantXmlAttribute = xmlReader.GetAttribute("stateInvariant") ?? xmlReader.GetAttribute("stateInvariant", this.NameSpaceResolver.UmlNameSpace);
+
+                if (!string.IsNullOrWhiteSpace(stateInvariantXmlAttribute))
+                {
+                    var stateInvariantXmlAttributeValues = stateInvariantXmlAttribute.Split(SplitMultiReference, StringSplitOptions.RemoveEmptyEntries).ToList();
+                    poco.MultiValueReferencePropertyIdentifiers.Add("stateInvariant", stateInvariantXmlAttributeValues);
+                }
+
                 var submachineXmlAttribute = xmlReader.GetAttribute("submachine") ?? xmlReader.GetAttribute("submachine", this.NameSpaceResolver.UmlNameSpace);
 
                 if (!string.IsNullOrWhiteSpace(submachineXmlAttribute))
