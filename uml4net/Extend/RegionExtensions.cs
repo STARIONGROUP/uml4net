@@ -43,5 +43,26 @@ namespace uml4net.StateMachines
         {
             throw new NotSupportedException("Create a GitHub issue when this method is required");
         }
+
+        /// <summary>
+        /// Queries the nearest containing <see cref="IStateMachine"/> of the <paramref name="region"/>: its own
+        /// <see cref="IRegion.StateMachine"/> when owned directly by one, otherwise the containing StateMachine
+        /// of the <see cref="IState"/> that owns it.
+        /// </summary>
+        /// <param name="region">
+        /// The subject <see cref="IRegion"/>
+        /// </param>
+        /// <returns>
+        /// The nearest containing <see cref="IStateMachine"/>, or null when none can be determined.
+        /// </returns>
+        internal static IStateMachine QueryContainingStateMachine(this IRegion region)
+        {
+            if (region == null)
+            {
+                throw new ArgumentNullException(nameof(region));
+            }
+
+            return region.StateMachine ?? region.State?.QueryContainingStateMachine();
+        }
     }
 }
