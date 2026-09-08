@@ -21,6 +21,7 @@
 namespace uml4net.StructuredClassifiers
 {
     using System;
+    using System.Linq;
 
     /// <summary>
     /// The <see cref="EncapsulatedClassifierExtensions"/> class provides extensions methods for <see cref="IEncapsulatedClassifier"/>
@@ -36,10 +37,28 @@ namespace uml4net.StructuredClassifiers
         /// <returns>
         /// The Ports owned by the EncapsulatedClassifier.
         /// </returns>
-        [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
         internal static IContainerList<IPort> QueryOwnedPort(this IEncapsulatedClassifier encapsulatedClassifier)
         {
-            throw new NotSupportedException("Create a GitHub issue when this method is required");
+            if (encapsulatedClassifier == null)
+            {
+                throw new ArgumentNullException(nameof(encapsulatedClassifier));
+            }
+
+            var containerList = new ContainerList<IPort>(encapsulatedClassifier);
+
+            // Class-derived EncapsulatedClassifiers (every currently generated implementer of the
+            // interface) redefine IStructuredClassifier.OwnedAttribute through IClass.OwnedAttribute,
+            // which throws "Redefined by property" when accessed through the base interface.
+            var ownedAttribute = encapsulatedClassifier is IClass @class
+                ? @class.OwnedAttribute
+                : encapsulatedClassifier.OwnedAttribute;
+
+            foreach (var ownedPort in ownedAttribute.OfType<IPort>())
+            {
+                containerList.Add(ownedPort);
+            }
+
+            return containerList;
         }
     }
 }
