@@ -21,6 +21,8 @@
 namespace uml4net.Values
 {
     using System;
+    using System.Linq;
+
     using uml4net.Classification;
 
     /// <summary>
@@ -41,10 +43,14 @@ namespace uml4net.Values
         /// return Parameter of that Behavior. When the Behavior completes execution, the values on this
         /// Parameter give the result of evaluating the OpaqueExpression.
         /// </returns>
-        [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
         internal static IParameter QueryResult(this IOpaqueExpression opaqueExpression)
         {
-            throw new NotSupportedException("Create a GitHub issue when this method is required");
+            if (opaqueExpression == null)
+            {
+                throw new ArgumentNullException(nameof(opaqueExpression));
+            }
+
+            return opaqueExpression.Behavior?.OwnedParameter.FirstOrDefault();
         }
     }
 }
