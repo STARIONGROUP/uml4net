@@ -21,7 +21,10 @@
 namespace uml4net.Packages
 {
     using System;
-    
+    using System.Linq;
+
+    using uml4net.Classification;
+    using uml4net.CommonStructure;
     using uml4net.StructuredClassifiers;
 
     /// <summary>
@@ -46,10 +49,14 @@ namespace uml4net.Packages
         /// true, but otherwise it is false. Since the default value of ExtensionEnd::lower is 0, the default
         /// value of isRequired is false.
         /// </returns>
-        [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
         internal static bool QueryIsRequired(this IExtension extension)
         {
-            throw new NotSupportedException("Create a GitHub issue when this method is required");
+            if (extension == null)
+            {
+                throw new ArgumentNullException(nameof(extension));
+            }
+
+            return extension.OwnedEnd.FirstOrDefault()?.Lower == 1;
         }
 
         /// <summary>
@@ -63,10 +70,39 @@ namespace uml4net.Packages
         /// the Class that is extended through an Extension. The property is derived from the type of
         /// the memberEnd that is not the ownedEnd.
         /// </returns>
-        [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
         internal static IClass QueryMetaclass(this IExtension extension)
         {
-            throw new NotSupportedException("Create a GitHub issue when this method is required");
+            if (extension == null)
+            {
+                throw new ArgumentNullException(nameof(extension));
+            }
+
+            var ownedEnd = extension.OwnedEnd.FirstOrDefault();
+
+            var metaclassEnd = extension.MemberEnd.FirstOrDefault(memberEnd => !ReferenceEquals(memberEnd, ownedEnd));
+
+            return QueryMemberEndType(metaclassEnd) as IClass;
+        }
+
+        /// <summary>
+        /// Queries the <see cref="IType"/> that types the <paramref name="property"/>, honoring the fact that
+        /// <see cref="IExtensionEnd"/> redefines (and hides) <see cref="ITypedElement.Type"/>.
+        /// </summary>
+        /// <param name="property">
+        /// The <see cref="IProperty"/> for which the type is queried.
+        /// </param>
+        /// <returns>
+        /// The <see cref="IType"/> that types the <paramref name="property"/>, or null when <paramref name="property"/>
+        /// is null.
+        /// </returns>
+        private static IType QueryMemberEndType(IProperty property)
+        {
+            return property switch
+            {
+                null => null,
+                IExtensionEnd extensionEnd => extensionEnd.Type,
+                _ => property.Type
+            };
         }
     }
 }
