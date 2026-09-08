@@ -229,12 +229,28 @@ namespace uml4net.xmi.Readers
                     poco.SingleValueReferencePropertyIdentifiers.Add("package", packageXmlAttribute);
                 }
 
+                var postconditionXmlAttribute = xmlReader.GetAttribute("postcondition") ?? xmlReader.GetAttribute("postcondition", this.NameSpaceResolver.UmlNameSpace);
+
+                if (!string.IsNullOrWhiteSpace(postconditionXmlAttribute))
+                {
+                    var postconditionXmlAttributeValues = postconditionXmlAttribute.Split(SplitMultiReference, StringSplitOptions.RemoveEmptyEntries).ToList();
+                    poco.MultiValueReferencePropertyIdentifiers.Add("postcondition", postconditionXmlAttributeValues);
+                }
+
                 var powertypeExtentXmlAttribute = xmlReader.GetAttribute("powertypeExtent") ?? xmlReader.GetAttribute("powertypeExtent", this.NameSpaceResolver.UmlNameSpace);
 
                 if (!string.IsNullOrWhiteSpace(powertypeExtentXmlAttribute))
                 {
                     var powertypeExtentXmlAttributeValues = powertypeExtentXmlAttribute.Split(SplitMultiReference, StringSplitOptions.RemoveEmptyEntries).ToList();
                     poco.MultiValueReferencePropertyIdentifiers.Add("powertypeExtent", powertypeExtentXmlAttributeValues);
+                }
+
+                var preconditionXmlAttribute = xmlReader.GetAttribute("precondition") ?? xmlReader.GetAttribute("precondition", this.NameSpaceResolver.UmlNameSpace);
+
+                if (!string.IsNullOrWhiteSpace(preconditionXmlAttribute))
+                {
+                    var preconditionXmlAttributeValues = preconditionXmlAttribute.Split(SplitMultiReference, StringSplitOptions.RemoveEmptyEntries).ToList();
+                    poco.MultiValueReferencePropertyIdentifiers.Add("precondition", preconditionXmlAttributeValues);
                 }
 
                 var redefinedClassifierXmlAttribute = xmlReader.GetAttribute("redefinedClassifier") ?? xmlReader.GetAttribute("redefinedClassifier", this.NameSpaceResolver.UmlNameSpace);

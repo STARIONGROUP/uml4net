@@ -163,6 +163,22 @@ namespace uml4net.xmi.Readers
                     this.logger.LogCritical("Failed to add element type [{Poco}] with id [{Id}] as it was already in the Cache. The XMI document seems to have duplicate xmi:id values", "Profile", poco.XmiId);
                 }
 
+                var metaclassReferenceXmlAttribute = xmlReader.GetAttribute("metaclassReference") ?? xmlReader.GetAttribute("metaclassReference", this.NameSpaceResolver.UmlNameSpace);
+
+                if (!string.IsNullOrWhiteSpace(metaclassReferenceXmlAttribute))
+                {
+                    var metaclassReferenceXmlAttributeValues = metaclassReferenceXmlAttribute.Split(SplitMultiReference, StringSplitOptions.RemoveEmptyEntries).ToList();
+                    poco.MultiValueReferencePropertyIdentifiers.Add("metaclassReference", metaclassReferenceXmlAttributeValues);
+                }
+
+                var metamodelReferenceXmlAttribute = xmlReader.GetAttribute("metamodelReference") ?? xmlReader.GetAttribute("metamodelReference", this.NameSpaceResolver.UmlNameSpace);
+
+                if (!string.IsNullOrWhiteSpace(metamodelReferenceXmlAttribute))
+                {
+                    var metamodelReferenceXmlAttributeValues = metamodelReferenceXmlAttribute.Split(SplitMultiReference, StringSplitOptions.RemoveEmptyEntries).ToList();
+                    poco.MultiValueReferencePropertyIdentifiers.Add("metamodelReference", metamodelReferenceXmlAttributeValues);
+                }
+
                 poco.Name = xmlReader.GetAttribute("name") ?? xmlReader.GetAttribute("name", this.NameSpaceResolver.UmlNameSpace);
 
                 var nestingPackageXmlAttribute = xmlReader.GetAttribute("nestingPackage") ?? xmlReader.GetAttribute("nestingPackage", this.NameSpaceResolver.UmlNameSpace);

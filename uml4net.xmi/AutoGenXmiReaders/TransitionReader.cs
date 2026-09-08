@@ -170,6 +170,14 @@ namespace uml4net.xmi.Readers
                     poco.SingleValueReferencePropertyIdentifiers.Add("container", containerXmlAttribute);
                 }
 
+                var guardXmlAttribute = xmlReader.GetAttribute("guard") ?? xmlReader.GetAttribute("guard", this.NameSpaceResolver.UmlNameSpace);
+
+                if (!string.IsNullOrWhiteSpace(guardXmlAttribute))
+                {
+                    var guardXmlAttributeValues = guardXmlAttribute.Split(SplitMultiReference, StringSplitOptions.RemoveEmptyEntries).ToList();
+                    poco.MultiValueReferencePropertyIdentifiers.Add("guard", guardXmlAttributeValues);
+                }
+
                 var isLeafXmlAttribute = xmlReader.GetAttribute("isLeaf") ?? xmlReader.GetAttribute("isLeaf", this.NameSpaceResolver.UmlNameSpace);
 
                 if (!string.IsNullOrWhiteSpace(isLeafXmlAttribute))

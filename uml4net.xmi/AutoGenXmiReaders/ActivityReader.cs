@@ -243,12 +243,28 @@ namespace uml4net.xmi.Readers
                     poco.MultiValueReferencePropertyIdentifiers.Add("partition", partitionXmlAttributeValues);
                 }
 
+                var postconditionXmlAttribute = xmlReader.GetAttribute("postcondition") ?? xmlReader.GetAttribute("postcondition", this.NameSpaceResolver.UmlNameSpace);
+
+                if (!string.IsNullOrWhiteSpace(postconditionXmlAttribute))
+                {
+                    var postconditionXmlAttributeValues = postconditionXmlAttribute.Split(SplitMultiReference, StringSplitOptions.RemoveEmptyEntries).ToList();
+                    poco.MultiValueReferencePropertyIdentifiers.Add("postcondition", postconditionXmlAttributeValues);
+                }
+
                 var powertypeExtentXmlAttribute = xmlReader.GetAttribute("powertypeExtent") ?? xmlReader.GetAttribute("powertypeExtent", this.NameSpaceResolver.UmlNameSpace);
 
                 if (!string.IsNullOrWhiteSpace(powertypeExtentXmlAttribute))
                 {
                     var powertypeExtentXmlAttributeValues = powertypeExtentXmlAttribute.Split(SplitMultiReference, StringSplitOptions.RemoveEmptyEntries).ToList();
                     poco.MultiValueReferencePropertyIdentifiers.Add("powertypeExtent", powertypeExtentXmlAttributeValues);
+                }
+
+                var preconditionXmlAttribute = xmlReader.GetAttribute("precondition") ?? xmlReader.GetAttribute("precondition", this.NameSpaceResolver.UmlNameSpace);
+
+                if (!string.IsNullOrWhiteSpace(preconditionXmlAttribute))
+                {
+                    var preconditionXmlAttributeValues = preconditionXmlAttribute.Split(SplitMultiReference, StringSplitOptions.RemoveEmptyEntries).ToList();
+                    poco.MultiValueReferencePropertyIdentifiers.Add("precondition", preconditionXmlAttributeValues);
                 }
 
                 var redefinedBehaviorXmlAttribute = xmlReader.GetAttribute("redefinedBehavior") ?? xmlReader.GetAttribute("redefinedBehavior", this.NameSpaceResolver.UmlNameSpace);
@@ -279,6 +295,14 @@ namespace uml4net.xmi.Readers
                 if (!string.IsNullOrWhiteSpace(specificationXmlAttribute))
                 {
                     poco.SingleValueReferencePropertyIdentifiers.Add("specification", specificationXmlAttribute);
+                }
+
+                var structuredNodeXmlAttribute = xmlReader.GetAttribute("structuredNode") ?? xmlReader.GetAttribute("structuredNode", this.NameSpaceResolver.UmlNameSpace);
+
+                if (!string.IsNullOrWhiteSpace(structuredNodeXmlAttribute))
+                {
+                    var structuredNodeXmlAttributeValues = structuredNodeXmlAttribute.Split(SplitMultiReference, StringSplitOptions.RemoveEmptyEntries).ToList();
+                    poco.MultiValueReferencePropertyIdentifiers.Add("structuredNode", structuredNodeXmlAttributeValues);
                 }
 
                 var templateParameterXmlAttribute = xmlReader.GetAttribute("templateParameter") ?? xmlReader.GetAttribute("templateParameter", this.NameSpaceResolver.UmlNameSpace);

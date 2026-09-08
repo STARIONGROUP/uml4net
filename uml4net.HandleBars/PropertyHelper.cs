@@ -665,7 +665,41 @@ namespace uml4net.HandleBars
 
                 var sb = new StringBuilder();
 
-                if (!property.IsComposite)
+                if (property.IsComposite)
+                {
+                    // A composite property that subsets another, ordinary (non-derived-union) composite
+                    // property - e.g. Operation::bodyCondition subsets Namespace::ownedRule - can still be
+                    // serialized as a bare XML attribute (an IDREF) pointing at an object that is actually
+                    // owned/contained via that more general property. This is the standard OMG XMI
+                    // convention for such a subsetting property: the object itself is serialized once,
+                    // under the subsetted property's own element tag, and the subsetting property merely
+                    // points back at it by reference. This mirrors the equivalent condition in
+                    // Property.WriteXmlElementForXmiReader (the element-based case for the same kind of
+                    // property) - deliberately excluding the vastly more common case of a property that
+                    // subsets a *derived union* (e.g. Element::ownedComment subsetting the derived union
+                    // Element::ownedElement), which is always contained directly under its own element tag
+                    // and never additionally serialized as a bare attribute. The underlying C#
+                    // representation of any composite property is always IContainerList<T> regardless of
+                    // its own multiplicity, so this resolves through the multi-value reference mechanism,
+                    // not the single-value one.
+                    if (property.QueryIsReferenceType() && property.SubsettedProperty.Count > 0
+                        && !property.SubsettedProperty.Any(x => x.IsDerived || x.IsDerivedUnion || x.IsReadOnly))
+                    {
+                        sb.AppendLine($"var {property.Name}XmlAttribute = xmlReader.GetAttribute(\"{property.Name}\") ?? xmlReader.GetAttribute(\"{property.Name}\", this.NameSpaceResolver.UmlNameSpace);");
+                        sb.AppendLine($"{Environment.NewLine}if (!string.IsNullOrWhiteSpace({property.Name}XmlAttribute))");
+                        sb.AppendLine("{");
+                        sb.AppendLine($"var {property.Name}XmlAttributeValues = {property.Name}XmlAttribute.Split(SplitMultiReference, StringSplitOptions.RemoveEmptyEntries).ToList();");
+                        sb.AppendLine($"poco.MultiValueReferencePropertyIdentifiers.Add(\"{property.Name}\", {property.Name}XmlAttributeValues);");
+                        sb.AppendLine("}");
+
+                        writer.WriteSafeString(sb + Environment.NewLine);
+                        return;
+                    }
+
+                    // contained objects are only handled as contained XML elements
+                    return;
+                }
+                else
                 {
                     if (property.QueryIsReferenceType() && !property.QueryIsEnumerable())
                     {
@@ -781,11 +815,6 @@ namespace uml4net.HandleBars
                         writer.WriteSafeString(sb + Environment.NewLine);
                         return;
                     }
-                }
-                else
-                {
-                    // contained objects are only handled as contained XML elements
-                    return;
                 }
 
                 throw new NotSupportedException($"{@class.Name}.{property.Name}");

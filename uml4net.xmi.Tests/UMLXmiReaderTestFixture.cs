@@ -186,5 +186,39 @@ namespace uml4net.xmi.Tests
             Assert.That(nsPrefixTag.Value, Is.Null);
             Assert.That(nsPrefixTag.Element[0], Is.EqualTo("UML"));
         }
+
+        [Test]
+        public void Verify_that_a_composite_property_that_subsets_an_ordinary_property_and_is_serialized_as_an_xml_attribute_is_read()
+        {
+            var rootPath = Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData");
+
+            var reader = XmiReaderBuilder.Create()
+                .UsingSettings(x => x.LocalReferenceBasePath = rootPath)
+                .WithLogger(this.loggerFactory)
+                .Build();
+
+            var xmiReaderResult = reader.Read(Path.Combine(rootPath, "UML.xmi"));
+
+            var package = xmiReaderResult.QueryRoot("_0", "UML");
+
+            var interactionsPackage = package.PackagedElement.OfType<IPackage>().Single(x => x.Name == "Interactions");
+            var messageClass = interactionsPackage.PackagedElement.OfType<IClass>().Single(x => x.Name == "Message");
+            var messageKindOperation = messageClass.OwnedOperation.Single(x => x.Name == "messageKind");
+
+            Assert.That(messageKindOperation.BodyCondition, Has.Count.EqualTo(1));
+
+            var bodyCondition = messageKindOperation.BodyCondition.Single();
+
+            Assert.That(bodyCondition.XmiId, Is.EqualTo("Message-messageKind.1-spec"));
+            Assert.That(bodyCondition.Name, Is.EqualTo("spec"));
+
+            var specification = bodyCondition.Specification.Single() as IOpaqueExpression;
+
+            Assert.That(specification.Body.Single(), Is.EqualTo("result = (messageKind)"));
+
+            // the same Constraint is also reachable via Namespace.OwnedRule, since bodyCondition
+            // subsets it and both properties are composite references to the same owned object
+            Assert.That(messageKindOperation.OwnedRule, Has.Member(bodyCondition));
+        }
     }
 }

@@ -163,6 +163,14 @@ namespace uml4net.xmi.Readers
                     this.logger.LogCritical("Failed to add element type [{Poco}] with id [{Id}] as it was already in the Cache. The XMI document seems to have duplicate xmi:id values", "Operation", poco.XmiId);
                 }
 
+                var bodyConditionXmlAttribute = xmlReader.GetAttribute("bodyCondition") ?? xmlReader.GetAttribute("bodyCondition", this.NameSpaceResolver.UmlNameSpace);
+
+                if (!string.IsNullOrWhiteSpace(bodyConditionXmlAttribute))
+                {
+                    var bodyConditionXmlAttributeValues = bodyConditionXmlAttribute.Split(SplitMultiReference, StringSplitOptions.RemoveEmptyEntries).ToList();
+                    poco.MultiValueReferencePropertyIdentifiers.Add("bodyCondition", bodyConditionXmlAttributeValues);
+                }
+
                 var classXmlAttribute = xmlReader.GetAttribute("class") ?? xmlReader.GetAttribute("class", this.NameSpaceResolver.UmlNameSpace);
 
                 if (!string.IsNullOrWhiteSpace(classXmlAttribute))
@@ -234,6 +242,22 @@ namespace uml4net.xmi.Readers
                 if (!string.IsNullOrWhiteSpace(owningTemplateParameterXmlAttribute))
                 {
                     poco.SingleValueReferencePropertyIdentifiers.Add("owningTemplateParameter", owningTemplateParameterXmlAttribute);
+                }
+
+                var postconditionXmlAttribute = xmlReader.GetAttribute("postcondition") ?? xmlReader.GetAttribute("postcondition", this.NameSpaceResolver.UmlNameSpace);
+
+                if (!string.IsNullOrWhiteSpace(postconditionXmlAttribute))
+                {
+                    var postconditionXmlAttributeValues = postconditionXmlAttribute.Split(SplitMultiReference, StringSplitOptions.RemoveEmptyEntries).ToList();
+                    poco.MultiValueReferencePropertyIdentifiers.Add("postcondition", postconditionXmlAttributeValues);
+                }
+
+                var preconditionXmlAttribute = xmlReader.GetAttribute("precondition") ?? xmlReader.GetAttribute("precondition", this.NameSpaceResolver.UmlNameSpace);
+
+                if (!string.IsNullOrWhiteSpace(preconditionXmlAttribute))
+                {
+                    var preconditionXmlAttributeValues = preconditionXmlAttribute.Split(SplitMultiReference, StringSplitOptions.RemoveEmptyEntries).ToList();
+                    poco.MultiValueReferencePropertyIdentifiers.Add("precondition", preconditionXmlAttributeValues);
                 }
 
                 var raisedExceptionXmlAttribute = xmlReader.GetAttribute("raisedException") ?? xmlReader.GetAttribute("raisedException", this.NameSpaceResolver.UmlNameSpace);

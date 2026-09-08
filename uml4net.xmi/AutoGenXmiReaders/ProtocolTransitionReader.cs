@@ -170,6 +170,14 @@ namespace uml4net.xmi.Readers
                     poco.SingleValueReferencePropertyIdentifiers.Add("container", containerXmlAttribute);
                 }
 
+                var guardXmlAttribute = xmlReader.GetAttribute("guard") ?? xmlReader.GetAttribute("guard", this.NameSpaceResolver.UmlNameSpace);
+
+                if (!string.IsNullOrWhiteSpace(guardXmlAttribute))
+                {
+                    var guardXmlAttributeValues = guardXmlAttribute.Split(SplitMultiReference, StringSplitOptions.RemoveEmptyEntries).ToList();
+                    poco.MultiValueReferencePropertyIdentifiers.Add("guard", guardXmlAttributeValues);
+                }
+
                 var isLeafXmlAttribute = xmlReader.GetAttribute("isLeaf") ?? xmlReader.GetAttribute("isLeaf", this.NameSpaceResolver.UmlNameSpace);
 
                 if (!string.IsNullOrWhiteSpace(isLeafXmlAttribute))
@@ -185,6 +193,22 @@ namespace uml4net.xmi.Readers
                 }
 
                 poco.Name = xmlReader.GetAttribute("name") ?? xmlReader.GetAttribute("name", this.NameSpaceResolver.UmlNameSpace);
+
+                var postConditionXmlAttribute = xmlReader.GetAttribute("postCondition") ?? xmlReader.GetAttribute("postCondition", this.NameSpaceResolver.UmlNameSpace);
+
+                if (!string.IsNullOrWhiteSpace(postConditionXmlAttribute))
+                {
+                    var postConditionXmlAttributeValues = postConditionXmlAttribute.Split(SplitMultiReference, StringSplitOptions.RemoveEmptyEntries).ToList();
+                    poco.MultiValueReferencePropertyIdentifiers.Add("postCondition", postConditionXmlAttributeValues);
+                }
+
+                var preConditionXmlAttribute = xmlReader.GetAttribute("preCondition") ?? xmlReader.GetAttribute("preCondition", this.NameSpaceResolver.UmlNameSpace);
+
+                if (!string.IsNullOrWhiteSpace(preConditionXmlAttribute))
+                {
+                    var preConditionXmlAttributeValues = preConditionXmlAttribute.Split(SplitMultiReference, StringSplitOptions.RemoveEmptyEntries).ToList();
+                    poco.MultiValueReferencePropertyIdentifiers.Add("preCondition", preConditionXmlAttributeValues);
+                }
 
                 var redefinedTransitionXmlAttribute = xmlReader.GetAttribute("redefinedTransition") ?? xmlReader.GetAttribute("redefinedTransition", this.NameSpaceResolver.UmlNameSpace);
 
