@@ -126,21 +126,5 @@ namespace uml4net.CodeGenerator.Tests.Generators
             Assert.That(async () => await this.xmiReaderGenerator.GenerateXmiElementReaderFacadeAsync(xmiReaderResult, "_0", "UML", this.xmiReaderDirectoryInfo),
                 Throws.Nothing);
         }
-
-        [Test]
-        [Explicit("Regenerates the AutoGenXmiReaders of the uml4net.xmi project - the production code")]
-        public async Task Regenerate_AutoGenXmiReaders_of_uml4net_xmi()
-        {
-            var solutionDirectory = new DirectoryInfo(TestContext.CurrentContext.TestDirectory)
-                .Parent.Parent.Parent.Parent;
-
-            var autoGenXmiReadersDirectory = new DirectoryInfo(Path.Combine(solutionDirectory.FullName, "uml4net.xmi", "AutoGenXmiReaders"));
-
-            Assert.That(autoGenXmiReadersDirectory.Exists, Is.True, $"the {autoGenXmiReadersDirectory.FullName} directory does not exist");
-
-            await this.xmiReaderGenerator.GenerateAsync(this.xmiReaderResult, "_0", "UML", autoGenXmiReadersDirectory);
-
-            await this.xmiReaderGenerator.GenerateXmiElementReaderFacadeAsync(this.xmiReaderResult, "_0", "UML", autoGenXmiReadersDirectory);
-        }
     }
 }
