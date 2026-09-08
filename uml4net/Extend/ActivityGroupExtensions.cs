@@ -22,6 +22,9 @@ namespace uml4net.Activities
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
+
+    using uml4net.Actions;
 
     /// <summary>
     /// The <see cref="ActivityGroupExtensions"/> class provides extensions methods for <see cref="IActivityGroup"/>
@@ -29,7 +32,9 @@ namespace uml4net.Activities
     internal static class ActivityGroupExtensions
     {
         /// <summary>
-        /// Queries the ActivityEdges immediately contained in the ActivityGroup.
+        /// Queries the ActivityEdges immediately contained in the ActivityGroup. Per the UML 2.5.1 metamodel this
+        /// is a derived union: <see cref="IActivityPartition.Edge"/> and <see cref="IStructuredActivityNode.Edge"/>
+        /// subset it, while <see cref="IInterruptibleActivityRegion"/> has no contributing property.
         /// </summary>
         /// <param name="activityGroup">
         /// The subject <see cref="IActivityGroup"/>
@@ -37,14 +42,25 @@ namespace uml4net.Activities
         /// <returns>
         /// The ActivityEdges immediately contained in the ActivityGroup.
         /// </returns>
-        [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
         internal static List<IActivityEdge> QueryContainedEdge(this IActivityGroup activityGroup)
         {
-            throw new NotSupportedException("Create a GitHub issue when this method is required");
+            if (activityGroup == null)
+            {
+                throw new ArgumentNullException(nameof(activityGroup));
+            }
+
+            return activityGroup switch
+            {
+                IActivityPartition activityPartition => activityPartition.Edge.ToList(),
+                IStructuredActivityNode structuredActivityNode => structuredActivityNode.Edge.ToList(),
+                _ => new List<IActivityEdge>()
+            };
         }
 
         /// <summary>
-        /// Queries the ActivityNodes immediately contained in the ActivityGroup.
+        /// Queries the ActivityNodes immediately contained in the ActivityGroup. Per the UML 2.5.1 metamodel this
+        /// is a derived union: <see cref="IActivityPartition.Node"/>, <see cref="IInterruptibleActivityRegion.Node"/>,
+        /// and <see cref="IStructuredActivityNode.Node"/> each subset it.
         /// </summary>
         /// <param name="activityGroup">
         /// The subject <see cref="IActivityGroup"/>
@@ -52,14 +68,26 @@ namespace uml4net.Activities
         /// <returns>
         /// The ActivityNodes immediately contained in the ActivityGroup.
         /// </returns>
-        [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
         internal static List<IActivityNode> QueryContainedNode(this IActivityGroup activityGroup)
         {
-            throw new NotSupportedException("Create a GitHub issue when this method is required");
+            if (activityGroup == null)
+            {
+                throw new ArgumentNullException(nameof(activityGroup));
+            }
+
+            return activityGroup switch
+            {
+                IActivityPartition activityPartition => activityPartition.Node.ToList(),
+                IInterruptibleActivityRegion interruptibleActivityRegion => interruptibleActivityRegion.Node.ToList(),
+                IStructuredActivityNode structuredActivityNode => structuredActivityNode.Node.ToList(),
+                _ => new List<IActivityNode>()
+            };
         }
 
         /// <summary>
-        /// Queries the Other ActivityGroups immediately contained in this ActivityGroup.
+        /// Queries the Other ActivityGroups immediately contained in this ActivityGroup. Per the UML 2.5.1
+        /// metamodel this is a derived union to which only <see cref="IActivityPartition.Subpartition"/>
+        /// subsets/contributes.
         /// </summary>
         /// <param name="activityGroup">
         /// The subject <see cref="IActivityGroup"/>
@@ -67,15 +95,30 @@ namespace uml4net.Activities
         /// <returns>
         /// The Other ActivityGroups immediately contained in this ActivityGroup.
         /// </returns>
-        [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
         internal static IContainerList<IActivityGroup> QuerySubgroup(this IActivityGroup activityGroup)
         {
-            throw new NotSupportedException("Create a GitHub issue when this method is required");
+            if (activityGroup == null)
+            {
+                throw new ArgumentNullException(nameof(activityGroup));
+            }
+
+            var containerList = new ContainerList<IActivityGroup>(activityGroup);
+
+            if (activityGroup is IActivityPartition activityPartition)
+            {
+                foreach (var subpartition in activityPartition.Subpartition)
+                {
+                    containerList.Add(subpartition);
+                }
+            }
+
+            return containerList;
         }
 
         /// <summary>
         /// Queries the ActivityGroup immediately containing this ActivityGroup, if it is directly owned by another
-        /// ActivityGroup.
+        /// ActivityGroup. Per the UML 2.5.1 metamodel this is a derived union to which only
+        /// <see cref="IActivityPartition.SuperPartition"/> subsets/contributes.
         /// </summary>
         /// <param name="activityGroup">
         /// The subject <see cref="IActivityGroup"/>
@@ -84,10 +127,14 @@ namespace uml4net.Activities
         /// The ActivityGroup immediately containing this ActivityGroup, if it is directly owned by another
         /// ActivityGroup.
         /// </returns>
-        [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
         internal static IActivityGroup QuerySuperGroup(this IActivityGroup activityGroup)
         {
-            throw new NotSupportedException("Create a GitHub issue when this method is required");
+            if (activityGroup == null)
+            {
+                throw new ArgumentNullException(nameof(activityGroup));
+            }
+
+            return activityGroup is IActivityPartition activityPartition ? activityPartition.SuperPartition : null;
         }
     }
 }
