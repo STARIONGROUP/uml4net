@@ -32,7 +32,20 @@ namespace uml4net.Tests.Extend
         {
             Region region = null;
 
-            Assert.That(() => RegionExtensions.QueryContainingStateMachine(region), Throws.ArgumentNullException);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(() => RegionExtensions.QueryContainingStateMachine(region), Throws.ArgumentNullException);
+                Assert.That(() => RegionExtensions.QueryRedefinitionContext(region), Throws.ArgumentNullException);
+            }
+        }
+
+        [Test]
+        public void Verify_that_RedefinitionContext_returns_the_containing_stateMachine()
+        {
+            var stateMachine = new StateMachine { Name = "SM" };
+            var region = new Region { Name = "R", StateMachine = stateMachine };
+
+            Assert.That(region.RedefinitionContext, Is.SameAs(stateMachine));
         }
 
         [Test]
