@@ -2,7 +2,7 @@
 
     <PropertyGroup>
         <TargetFramework>netstandard2.0</TargetFramework>
-        <Version>8.4.0</Version>
+        <Version>8.4.1</Version>
         <LangVersion>12.0</LangVersion>
         <PackageId>uml4net.HandleBars</PackageId>
         <AssemblyTitle>uml4net.HandleBars</AssemblyTitle>
@@ -10,7 +10,7 @@
         <Description>HandleBars Helpers for use in combination with the uml4net library to support HandleBarHelpers based code generation</Description>
         <PackageTags>UML HandleBars modeltopia</PackageTags>
         <PackageReleaseNotes>
-            [Add] XmiWriter helpers
+            [Fix] read composite subsetting reference properties (e.g. Operation.BodyCondition) serialized as XML attributes; fixes #266
         </PackageReleaseNotes>
     </PropertyGroup>
 
