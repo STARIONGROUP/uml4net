@@ -22,6 +22,7 @@ namespace uml4net.Activities
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
 
     /// <summary>
     /// The <see cref="ActivityEdgeExtensions"/> class provides extensions methods for <see cref="IActivityEdge"/>
@@ -29,7 +30,8 @@ namespace uml4net.Activities
     internal static class ActivityEdgeExtensions
     {
         /// <summary>
-        /// Queries the ActivityGroups containing the ActivityEdge.
+        /// Queries the ActivityGroups containing the ActivityEdge. Per the UML 2.5.1 metamodel this is a derived
+        /// union subset by <see cref="IActivityEdge.InPartition"/> and <see cref="IActivityEdge.InStructuredNode"/>.
         /// </summary>
         /// <param name="activityEdge">
         /// The subject <see cref="IActivityEdge"/>
@@ -37,10 +39,21 @@ namespace uml4net.Activities
         /// <returns>
         /// a <see cref="List{IActivityGroup}"/>
         /// </returns>
-        [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
         internal static List<IActivityGroup> QueryInGroup(this IActivityEdge activityEdge)
         {
-            throw new NotSupportedException("Create a GitHub issue when this method is required");
+            if (activityEdge == null)
+            {
+                throw new ArgumentNullException(nameof(activityEdge));
+            }
+
+            var inGroup = activityEdge.InPartition.Cast<IActivityGroup>().ToList();
+
+            if (activityEdge.InStructuredNode != null)
+            {
+                inGroup.Add(activityEdge.InStructuredNode);
+            }
+
+            return inGroup;
         }
     }
 }
