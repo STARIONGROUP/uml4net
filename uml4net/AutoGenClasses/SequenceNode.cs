@@ -27,6 +27,7 @@ namespace uml4net.Actions
     using System;
     using System.CodeDom.Compiler;
     using System.Collections.Generic;
+    using System.Linq;
 
     using uml4net.Decorators;
     using uml4net.Actions;
@@ -75,8 +76,8 @@ namespace uml4net.Actions
         [Implements(implementation: "IActivityNode.Activity")]
         IActivity IActivityNode.Activity
         {
-            get => throw new InvalidOperationException("Redefined by property IStructuredActivityNode.Activity");
-            set => throw new InvalidOperationException("Redefined by property IStructuredActivityNode.Activity");
+            get => this.Activity;
+            set => this.Activity = value;
         }
 
         /// <summary>
@@ -197,8 +198,8 @@ namespace uml4net.Actions
         [Implements(implementation: "IActivityGroup.InActivity")]
         IActivity IActivityGroup.InActivity
         {
-            get => throw new InvalidOperationException("Redefined by property IStructuredActivityNode.Activity");
-            set => throw new InvalidOperationException("Redefined by property IStructuredActivityNode.Activity");
+            get => this.Activity;
+            set => this.Activity = value;
         }
 
         /// <summary>

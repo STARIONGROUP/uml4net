@@ -27,6 +27,7 @@ namespace uml4net.StructuredClassifiers
     using System;
     using System.CodeDom.Compiler;
     using System.Collections.Generic;
+    using System.Linq;
 
     using uml4net.Decorators;
     using uml4net.Actions;
@@ -142,7 +143,7 @@ namespace uml4net.StructuredClassifiers
         [Property(xmiId: "Classifier-general", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: true, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [RedefinedByProperty("IClass.SuperClass")]
         [Implements(implementation: "IClassifier.General")]
-        List<IClassifier> IClassifier.General => throw new InvalidOperationException("Redefined by property IClass.SuperClass");
+        List<IClassifier> IClassifier.General => this.SuperClass.Cast<IClassifier>().ToList();
 
         /// <summary>
         /// The Generalization relationships for this Classifier. These Generalizations navigate to more general
@@ -218,8 +219,8 @@ namespace uml4net.StructuredClassifiers
         [Implements(implementation: "IClassifier.IsAbstract")]
         bool IClassifier.IsAbstract
         {
-            get => throw new InvalidOperationException("Redefined by property IClass.IsAbstract");
-            set => throw new InvalidOperationException("Redefined by property IClass.IsAbstract");
+            get => this.IsAbstract;
+            set => this.IsAbstract = value;
         }
 
         /// <summary>
@@ -335,8 +336,8 @@ namespace uml4net.StructuredClassifiers
         [Implements(implementation: "IStructuredClassifier.OwnedAttribute")]
         IContainerList<IProperty> IStructuredClassifier.OwnedAttribute
         {
-            get => throw new InvalidOperationException("Redefined by property IClass.OwnedAttribute");
-            set => throw new InvalidOperationException("Redefined by property IClass.OwnedAttribute");
+            get => this.OwnedAttribute;
+            set => this.OwnedAttribute = value;
         }
 
         /// <summary>
@@ -683,8 +684,8 @@ namespace uml4net.StructuredClassifiers
         [Implements(implementation: "IParameterableElement.TemplateParameter")]
         ITemplateParameter IParameterableElement.TemplateParameter
         {
-            get => throw new InvalidOperationException("Redefined by property IClassifier.TemplateParameter");
-            set => throw new InvalidOperationException("Redefined by property IClassifier.TemplateParameter");
+            get => this.TemplateParameter;
+            set => this.TemplateParameter = (IClassifierTemplateParameter)value;
         }
 
         /// <summary>
@@ -702,8 +703,8 @@ namespace uml4net.StructuredClassifiers
         [Implements(implementation: "INamedElement.Visibility")]
         VisibilityKind INamedElement.Visibility
         {
-            get => throw new InvalidOperationException("Redefined by property IPackageableElement.Visibility");
-            set => throw new InvalidOperationException("Redefined by property IPackageableElement.Visibility");
+            get => this.Visibility;
+            set => this.Visibility = value;
         }
 
         /// <summary>

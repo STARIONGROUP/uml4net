@@ -27,6 +27,7 @@ namespace uml4net.SimpleClassifiers
     using System;
     using System.CodeDom.Compiler;
     using System.Collections.Generic;
+    using System.Linq;
 
     using uml4net.Decorators;
     using uml4net.Actions;
@@ -565,8 +566,8 @@ namespace uml4net.SimpleClassifiers
         [Implements(implementation: "IParameterableElement.TemplateParameter")]
         ITemplateParameter IParameterableElement.TemplateParameter
         {
-            get => throw new InvalidOperationException("Redefined by property IClassifier.TemplateParameter");
-            set => throw new InvalidOperationException("Redefined by property IClassifier.TemplateParameter");
+            get => this.TemplateParameter;
+            set => this.TemplateParameter = (IClassifierTemplateParameter)value;
         }
 
         /// <summary>
@@ -584,8 +585,8 @@ namespace uml4net.SimpleClassifiers
         [Implements(implementation: "INamedElement.Visibility")]
         VisibilityKind INamedElement.Visibility
         {
-            get => throw new InvalidOperationException("Redefined by property IPackageableElement.Visibility");
-            set => throw new InvalidOperationException("Redefined by property IPackageableElement.Visibility");
+            get => this.Visibility;
+            set => this.Visibility = value;
         }
 
         /// <summary>

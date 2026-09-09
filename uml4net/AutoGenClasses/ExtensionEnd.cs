@@ -27,6 +27,7 @@ namespace uml4net.Packages
     using System;
     using System.CodeDom.Compiler;
     using System.Collections.Generic;
+    using System.Linq;
 
     using uml4net.Decorators;
     using uml4net.Actions;
@@ -261,7 +262,7 @@ namespace uml4net.Packages
         [Property(xmiId: "MultiplicityElement-lower", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: true, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [RedefinedByProperty("IExtensionEnd.Lower")]
         [Implements(implementation: "IMultiplicityElement.Lower")]
-        int IMultiplicityElement.Lower => throw new InvalidOperationException("Redefined by property IExtensionEnd.Lower");
+        int IMultiplicityElement.Lower => this.Lower;
 
         /// <summary>
         /// The specification of the lower bound for this multiplicity.
@@ -442,8 +443,8 @@ namespace uml4net.Packages
         [Implements(implementation: "IParameterableElement.TemplateParameter")]
         ITemplateParameter IParameterableElement.TemplateParameter
         {
-            get => throw new InvalidOperationException("Redefined by property IConnectableElement.TemplateParameter");
-            set => throw new InvalidOperationException("Redefined by property IConnectableElement.TemplateParameter");
+            get => this.TemplateParameter;
+            set => this.TemplateParameter = (IConnectableElementTemplateParameter)value;
         }
 
         /// <summary>
@@ -463,8 +464,8 @@ namespace uml4net.Packages
         [Implements(implementation: "ITypedElement.Type")]
         IType ITypedElement.Type
         {
-            get => throw new InvalidOperationException("Redefined by property IExtensionEnd.Type");
-            set => throw new InvalidOperationException("Redefined by property IExtensionEnd.Type");
+            get => this.Type;
+            set => this.Type = (IStereotype)value;
         }
 
         /// <summary>

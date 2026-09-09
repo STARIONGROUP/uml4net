@@ -520,6 +520,23 @@ namespace uml4net.HandleBars
 
                 var isRedefinedByProperty = property.TryQueryRedefinedByProperty(@class, out var redefiningProperty);
 
+                string redefiningPropertyName = null;
+                var redefinedTypesIdentical = false;
+                var isCollectionShaped = false;
+                var redefiningIsCollectionShaped = false;
+
+                if (isRedefinedByProperty)
+                {
+                    redefiningPropertyName = redefiningProperty.Name.CapitalizeFirstLetter();
+                    redefinedTypesIdentical = property.QueryCSharpFullTypeName().Trim() == redefiningProperty.QueryCSharpFullTypeName().Trim();
+
+                    // mirrors the condition QueryCSharpFullTypeName() itself uses to decide between a scalar type
+                    // and a List<T>/IContainerList<T> shape: a composite property is IContainerList<T>-shaped even
+                    // when its UML multiplicity is [0..1], so QueryIsEnumerable() alone is not sufficient here
+                    isCollectionShaped = property.QueryIsEnumerable() || property.IsComposite;
+                    redefiningIsCollectionShaped = redefiningProperty.QueryIsEnumerable() || redefiningProperty.IsComposite;
+                }
+
                 if (!isRedefinedByProperty)
                 {
                     sb.Append(property.Visibility.ToString().ToLower(CultureInfo.InvariantCulture));
@@ -550,9 +567,34 @@ namespace uml4net.HandleBars
                 {
                     if (isRedefinedByProperty)
                     {
-                        var owningClass = redefiningProperty.Owner as IClass;
+                        // a redefined-by property backed by a derived/readonly getter has no persistent storage of
+                        // its own (its value is always recomputed via the redefining property), so forwarding to
+                        // the redefining property is always safe, even when the collection element type narrows
+                        if (redefinedTypesIdentical || !isCollectionShaped)
+                        {
+                            sb.Append($" => this.{redefiningPropertyName};");
+                        }
+                        else if (redefiningIsCollectionShaped)
+                        {
+                            sb.Append($" => this.{redefiningPropertyName}.Cast<I{property.QueryTypeName()}>().ToList();");
+                        }
+                        else if (redefiningProperty.QueryIsReferenceType())
+                        {
+                            // the redefining property narrows multiplicity down to a single reference value; since
+                            // this getter has no persistent storage either way, wrapping that single value into a
+                            // list (empty when null) is a safe, lossless representation of the same information
+                            var elementTypeName = $"I{property.QueryTypeName()}";
 
-                        sb.Append($"=> throw new InvalidOperationException(\"Redefined by property I{owningClass.Name}.{redefiningProperty.Name.CapitalizeFirstLetter()}\");");
+                            sb.Append($" => this.{redefiningPropertyName} == null ? new List<{elementTypeName}>() : new List<{elementTypeName}> {{ this.{redefiningPropertyName} }};");
+                        }
+                        else
+                        {
+                            // the redefining property narrows multiplicity down to a single value type - not
+                            // expected to occur given the current metamodel, kept as an explicit, safe fallback
+                            var owningClass = redefiningProperty.Owner as IClass;
+
+                            sb.Append($" => throw new InvalidOperationException(\"Redefined by property I{owningClass.Name}.{redefiningProperty.Name.CapitalizeFirstLetter()}\");");
+                        }
                     }
                     else
                     {
@@ -622,8 +664,33 @@ namespace uml4net.HandleBars
                             }
                         }
                     }
+                    else if (redefinedTypesIdentical)
+                    {
+                        // same declared type on both sides: the redefining property is the same storage, so
+                        // forwarding both accessors is a direct, lossless passthrough
+                        sb.AppendLine("{");
+                        sb.AppendLine($"    get => this.{redefiningPropertyName};");
+                        sb.AppendLine($"    set => this.{redefiningPropertyName} = value;");
+                        sb.Append("}");
+                    }
+                    else if (!isCollectionShaped)
+                    {
+                        // scalar narrowing redefinition: reading is always a safe upcast; writing requires a
+                        // downcast, which throws InvalidCastException if the assigned value is not of the
+                        // narrower redefining type - a clearer failure than an unconditional denial
+                        var redefiningTypeName = redefiningProperty.QueryCSharpFullTypeName().Trim();
+
+                        sb.AppendLine("{");
+                        sb.AppendLine($"    get => this.{redefiningPropertyName};");
+                        sb.AppendLine($"    set => this.{redefiningPropertyName} = ({redefiningTypeName})value;");
+                        sb.Append("}");
+                    }
                     else
                     {
+                        // the redefining property is a distinct, separately-stored collection with a narrower
+                        // element type (e.g. a composite IContainerList<T>): forwarding would have to return or
+                        // accept a converted copy that silently loses its connection to the actual backing
+                        // storage, so reading/writing through the base interface remains unsupported
                         var owningClass = redefiningProperty.Owner as IClass;
 
                         sb.AppendLine("{");

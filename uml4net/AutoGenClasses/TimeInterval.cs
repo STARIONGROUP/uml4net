@@ -27,6 +27,7 @@ namespace uml4net.Values
     using System;
     using System.CodeDom.Compiler;
     using System.Collections.Generic;
+    using System.Linq;
 
     using uml4net.Decorators;
     using uml4net.Actions;
@@ -80,8 +81,8 @@ namespace uml4net.Values
         [Implements(implementation: "IInterval.Max")]
         IValueSpecification IInterval.Max
         {
-            get => throw new InvalidOperationException("Redefined by property ITimeInterval.Max");
-            set => throw new InvalidOperationException("Redefined by property ITimeInterval.Max");
+            get => this.Max;
+            set => this.Max = (ITimeExpression)value;
         }
 
         /// <summary>
@@ -100,8 +101,8 @@ namespace uml4net.Values
         [Implements(implementation: "IInterval.Min")]
         IValueSpecification IInterval.Min
         {
-            get => throw new InvalidOperationException("Redefined by property ITimeInterval.Min");
-            set => throw new InvalidOperationException("Redefined by property ITimeInterval.Min");
+            get => this.Min;
+            set => this.Min = (ITimeExpression)value;
         }
 
         /// <summary>
@@ -208,8 +209,8 @@ namespace uml4net.Values
         [Implements(implementation: "INamedElement.Visibility")]
         VisibilityKind INamedElement.Visibility
         {
-            get => throw new InvalidOperationException("Redefined by property IPackageableElement.Visibility");
-            set => throw new InvalidOperationException("Redefined by property IPackageableElement.Visibility");
+            get => this.Visibility;
+            set => this.Visibility = value;
         }
 
         /// <summary>

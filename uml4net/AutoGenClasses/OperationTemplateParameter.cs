@@ -27,6 +27,7 @@ namespace uml4net.Classification
     using System;
     using System.CodeDom.Compiler;
     using System.Collections.Generic;
+    using System.Linq;
 
     using uml4net.Decorators;
     using uml4net.Actions;
@@ -148,8 +149,8 @@ namespace uml4net.Classification
         [Implements(implementation: "ITemplateParameter.ParameteredElement")]
         IParameterableElement ITemplateParameter.ParameteredElement
         {
-            get => throw new InvalidOperationException("Redefined by property IOperationTemplateParameter.ParameteredElement");
-            set => throw new InvalidOperationException("Redefined by property IOperationTemplateParameter.ParameteredElement");
+            get => this.ParameteredElement;
+            set => this.ParameteredElement = (IOperation)value;
         }
 
         /// <summary>

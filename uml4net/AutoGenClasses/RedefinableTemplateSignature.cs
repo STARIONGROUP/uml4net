@@ -27,6 +27,7 @@ namespace uml4net.Classification
     using System;
     using System.CodeDom.Compiler;
     using System.Collections.Generic;
+    using System.Linq;
 
     using uml4net.Decorators;
     using uml4net.Actions;
@@ -219,8 +220,8 @@ namespace uml4net.Classification
         [Implements(implementation: "ITemplateSignature.Template")]
         ITemplateableElement ITemplateSignature.Template
         {
-            get => throw new InvalidOperationException("Redefined by property IRedefinableTemplateSignature.Classifier");
-            set => throw new InvalidOperationException("Redefined by property IRedefinableTemplateSignature.Classifier");
+            get => this.Classifier;
+            set => this.Classifier = (IClassifier)value;
         }
 
         /// <summary>

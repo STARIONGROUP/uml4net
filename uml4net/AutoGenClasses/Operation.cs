@@ -27,6 +27,7 @@ namespace uml4net.Classification
     using System;
     using System.CodeDom.Compiler;
     using System.Collections.Generic;
+    using System.Linq;
 
     using uml4net.Decorators;
     using uml4net.Actions;
@@ -326,8 +327,8 @@ namespace uml4net.Classification
         [Implements(implementation: "IBehavioralFeature.OwnedParameter")]
         IContainerList<IParameter> IBehavioralFeature.OwnedParameter
         {
-            get => throw new InvalidOperationException("Redefined by property IOperation.OwnedParameter");
-            set => throw new InvalidOperationException("Redefined by property IOperation.OwnedParameter");
+            get => this.OwnedParameter;
+            set => this.OwnedParameter = value;
         }
 
         /// <summary>
@@ -475,8 +476,8 @@ namespace uml4net.Classification
         [Implements(implementation: "IBehavioralFeature.RaisedException")]
         List<IType> IBehavioralFeature.RaisedException
         {
-            get => throw new InvalidOperationException("Redefined by property IOperation.RaisedException");
-            set => throw new InvalidOperationException("Redefined by property IOperation.RaisedException");
+            get => this.RaisedException;
+            set => this.RaisedException = value;
         }
 
         /// <summary>
@@ -535,8 +536,8 @@ namespace uml4net.Classification
         [Implements(implementation: "IParameterableElement.TemplateParameter")]
         ITemplateParameter IParameterableElement.TemplateParameter
         {
-            get => throw new InvalidOperationException("Redefined by property IOperation.TemplateParameter");
-            set => throw new InvalidOperationException("Redefined by property IOperation.TemplateParameter");
+            get => this.TemplateParameter;
+            set => this.TemplateParameter = (IOperationTemplateParameter)value;
         }
 
         /// <summary>

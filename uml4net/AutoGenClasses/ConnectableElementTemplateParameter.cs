@@ -27,6 +27,7 @@ namespace uml4net.StructuredClassifiers
     using System;
     using System.CodeDom.Compiler;
     using System.Collections.Generic;
+    using System.Linq;
 
     using uml4net.Decorators;
     using uml4net.Actions;
@@ -149,8 +150,8 @@ namespace uml4net.StructuredClassifiers
         [Implements(implementation: "ITemplateParameter.ParameteredElement")]
         IParameterableElement ITemplateParameter.ParameteredElement
         {
-            get => throw new InvalidOperationException("Redefined by property IConnectableElementTemplateParameter.ParameteredElement");
-            set => throw new InvalidOperationException("Redefined by property IConnectableElementTemplateParameter.ParameteredElement");
+            get => this.ParameteredElement;
+            set => this.ParameteredElement = (IConnectableElement)value;
         }
 
         /// <summary>
