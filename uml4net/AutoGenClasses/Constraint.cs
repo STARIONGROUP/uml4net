@@ -27,6 +27,7 @@ namespace uml4net.CommonStructure
     using System;
     using System.CodeDom.Compiler;
     using System.Collections.Generic;
+    using System.Linq;
 
     using uml4net.Decorators;
     using uml4net.Actions;
@@ -204,8 +205,8 @@ namespace uml4net.CommonStructure
         [Implements(implementation: "INamedElement.Visibility")]
         VisibilityKind INamedElement.Visibility
         {
-            get => throw new InvalidOperationException("Redefined by property IPackageableElement.Visibility");
-            set => throw new InvalidOperationException("Redefined by property IPackageableElement.Visibility");
+            get => this.Visibility;
+            set => this.Visibility = value;
         }
     }
 }

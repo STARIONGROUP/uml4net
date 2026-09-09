@@ -27,6 +27,7 @@ namespace uml4net.Actions
     using System;
     using System.CodeDom.Compiler;
     using System.Collections.Generic;
+    using System.Linq;
 
     using uml4net.Decorators;
     using uml4net.Actions;
@@ -76,8 +77,8 @@ namespace uml4net.Actions
         [Implements(implementation: "IActivityNode.Activity")]
         IActivity IActivityNode.Activity
         {
-            get => throw new InvalidOperationException("Redefined by property IStructuredActivityNode.Activity");
-            set => throw new InvalidOperationException("Redefined by property IStructuredActivityNode.Activity");
+            get => this.Activity;
+            set => this.Activity = value;
         }
 
         /// <summary>
@@ -206,8 +207,8 @@ namespace uml4net.Actions
         [Implements(implementation: "IActivityGroup.InActivity")]
         IActivity IActivityGroup.InActivity
         {
-            get => throw new InvalidOperationException("Redefined by property IStructuredActivityNode.Activity");
-            set => throw new InvalidOperationException("Redefined by property IStructuredActivityNode.Activity");
+            get => this.Activity;
+            set => this.Activity = value;
         }
 
         /// <summary>
@@ -579,8 +580,8 @@ namespace uml4net.Actions
         [Implements(implementation: "IStructuredActivityNode.StructuredNodeInput")]
         IContainerList<IInputPin> IStructuredActivityNode.StructuredNodeInput
         {
-            get => throw new InvalidOperationException("Redefined by property ILoopNode.LoopVariableInput");
-            set => throw new InvalidOperationException("Redefined by property ILoopNode.LoopVariableInput");
+            get => this.LoopVariableInput;
+            set => this.LoopVariableInput = value;
         }
 
         /// <summary>
@@ -592,8 +593,8 @@ namespace uml4net.Actions
         [Implements(implementation: "IStructuredActivityNode.StructuredNodeOutput")]
         IContainerList<IOutputPin> IStructuredActivityNode.StructuredNodeOutput
         {
-            get => throw new InvalidOperationException("Redefined by property ILoopNode.Result");
-            set => throw new InvalidOperationException("Redefined by property ILoopNode.Result");
+            get => this.Result;
+            set => this.Result = value;
         }
 
         /// <summary>

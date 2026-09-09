@@ -27,6 +27,7 @@ namespace uml4net.Activities
     using System;
     using System.CodeDom.Compiler;
     using System.Collections.Generic;
+    using System.Linq;
 
     using uml4net.Decorators;
     using uml4net.Actions;
@@ -229,8 +230,8 @@ namespace uml4net.Activities
         [Implements(implementation: "IParameterableElement.TemplateParameter")]
         ITemplateParameter IParameterableElement.TemplateParameter
         {
-            get => throw new InvalidOperationException("Redefined by property IConnectableElement.TemplateParameter");
-            set => throw new InvalidOperationException("Redefined by property IConnectableElement.TemplateParameter");
+            get => this.TemplateParameter;
+            set => this.TemplateParameter = (IConnectableElementTemplateParameter)value;
         }
 
         /// <summary>

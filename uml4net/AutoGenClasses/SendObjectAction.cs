@@ -27,6 +27,7 @@ namespace uml4net.Actions
     using System;
     using System.CodeDom.Compiler;
     using System.Collections.Generic;
+    using System.Linq;
 
     using uml4net.Decorators;
     using uml4net.Actions;
@@ -75,8 +76,8 @@ namespace uml4net.Actions
         [Implements(implementation: "IInvocationAction.Argument")]
         IContainerList<IInputPin> IInvocationAction.Argument
         {
-            get => throw new InvalidOperationException("Redefined by property ISendObjectAction.Request");
-            set => throw new InvalidOperationException("Redefined by property ISendObjectAction.Request");
+            get => this.Request;
+            set => this.Request = value;
         }
 
         /// <summary>
