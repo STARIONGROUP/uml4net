@@ -20,6 +20,11 @@
 
 namespace uml4net.xmi.Tests.Resources
 {
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Linq;
+    using System.Reflection;
+
     using NUnit.Framework;
 
     using uml4net.xmi.Resources;
@@ -46,6 +51,43 @@ namespace uml4net.xmi.Tests.Resources
             var loader = new ResourceLoader();
             var content = loader.LoadEmbeddedResource("uml4net.xmi.Resources.UML.xmi");
             Assert.That(content, Does.Contain("xmi:XMI"));
+        }
+
+        [TestCase("PrimitiveTypes.xmi#Boolean")]
+        [TestCase("PrimitiveTypes#Boolean")]
+        public void Verify_that_bare_PrimitiveTypes_key_resolves_to_the_PrimitiveTypes_embedded_resource(string resourceName)
+        {
+            var loader = new ResourceLoader();
+            var result = loader.TryLoadKnownResource(resourceName, out var stream);
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(result, Is.True);
+                Assert.That(stream, Is.Not.Null);
+            }
+
+            using var reader = new StreamReader(stream);
+            var content = reader.ReadToEnd();
+
+            Assert.That(content, Does.Contain("xmi:id=\"Boolean\""));
+        }
+
+        [Test]
+        public void Verify_that_every_known_external_reference_resolves_to_an_existing_embedded_resource()
+        {
+            var field = typeof(ResourceLoader).GetField("knownExternalReferences", BindingFlags.NonPublic | BindingFlags.Instance);
+            var knownExternalReferences = (Dictionary<string, string>)field.GetValue(new ResourceLoader());
+
+            var manifestResourceNames = typeof(ResourceLoader).Assembly.GetManifestResourceNames();
+
+            using (Assert.EnterMultipleScope())
+            {
+                foreach (var resourcePath in knownExternalReferences.Values.Distinct())
+                {
+                    Assert.That(manifestResourceNames, Does.Contain(resourcePath),
+                        $"'{resourcePath}' is not an embedded resource of the {typeof(ResourceLoader).Assembly.GetName().Name} assembly");
+                }
+            }
         }
     }
 }
