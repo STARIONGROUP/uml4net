@@ -22,6 +22,7 @@ namespace uml4net.Activities
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
 
     /// <summary>
     /// The <see cref="ActivityNodeExtensions"/> class provides extensions methods for <see cref="IActivityNode"/>
@@ -29,18 +30,30 @@ namespace uml4net.Activities
     internal static class ActivityNodeExtensions
     {
         /// <summary>
-        /// Queries the ActivityGroups containing the ActivityNode.
+        /// Queries the ActivityGroups containing the ActivityNode. Per the UML 2.5.1 metamodel this is a derived
+        /// union subset by <see cref="IActivityNode.InPartition"/> and <see cref="IActivityNode.InStructuredNode"/>.
         /// </summary>
         /// <param name="activityNode">
-        /// The subject <see cref="IActivityGroup"/>
+        /// The subject <see cref="IActivityNode"/>
         /// </param>
         /// <returns>
         /// The ActivityGroups containing the ActivityNode.
         /// </returns>
-        [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
         internal static List<IActivityGroup> QueryInGroup(this IActivityNode activityNode)
         {
-            throw new NotSupportedException("Create a GitHub issue when this method is required");
+            if (activityNode == null)
+            {
+                throw new ArgumentNullException(nameof(activityNode));
+            }
+
+            var inGroup = activityNode.InPartition.Cast<IActivityGroup>().ToList();
+
+            if (activityNode.InStructuredNode != null)
+            {
+                inGroup.Add(activityNode.InStructuredNode);
+            }
+
+            return inGroup;
         }
     }
 }
