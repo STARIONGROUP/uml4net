@@ -601,14 +601,6 @@ namespace uml4net.HandleBars
                             sb.Append($" => throw new InvalidOperationException(\"Redefined by property I{owningClass.Name}.{redefiningProperty.Name.CapitalizeFirstLetter()}\");");
                         }
                     }
-                    else if (property.XmiId == "Element-ownedElement")
-                    {
-                        // Element.OwnedElement is a derived union of every composite property that this
-                        // concrete class genuinely backs (not itself derived, and not shadowed by a more
-                        // general composite property that already accounts for the same content) - generated
-                        // statically per class rather than resolved via reflection at runtime.
-                        sb.Append(WriteOwnedElementBody(@class));
-                    }
                     else
                     {
                         sb.Append($" => this.Query{property.Name.CapitalizeFirstLetter()}();");
@@ -1395,48 +1387,106 @@ namespace uml4net.HandleBars
 
                 throw new NotSupportedException($"{@class.Name}.{property.Name}");
             });
+
+            // Deliberately generic, metamodel-agnostic helpers below - no knowledge of any specific
+            // property (e.g. UML's Element.OwnedElement) belongs in this published library. Callers
+            // (a project's own .hbs templates) are responsible for deciding *which* property, if any,
+            // needs this treatment, typically via Property.XmiIdEquals.
+
+            handlebars.RegisterHelper("Property.XmiIdEquals", (context, arguments) =>
+            {
+                if (arguments.Length != 2)
+                {
+                    throw new HandlebarsException("{{#Property.XmiIdEquals}} helper must have exactly two arguments");
+                }
+
+                if (!(arguments[0] is IProperty property))
+                {
+                    throw new ArgumentException("{{#Property.XmiIdEquals}}: first argument is supposed to be IProperty");
+                }
+
+                return property.XmiId == arguments[1] as string;
+            });
+
+            handlebars.RegisterHelper("Property.WriteAsDerivedCompositeUnion", (writer, _, parameters) =>
+            {
+                if (parameters.Length != 2)
+                {
+                    throw new HandlebarsException("{{#Property.WriteAsDerivedCompositeUnion}} helper must have exactly two arguments");
+                }
+
+                var property = parameters[0] as IProperty;
+                var @class = parameters[1] as IClass;
+
+                var sb = new StringBuilder();
+                sb.Append(property.Visibility.ToString().ToLower(CultureInfo.InvariantCulture));
+                sb.Append(" ");
+                sb.Append(property.QueryCSharpFullTypeName());
+                sb.Append(" ");
+
+                var propertyName = property.Name.CapitalizeFirstLetter();
+                var propertyOwner = property.Owner as IClass;
+
+                if (propertyOwner.Name.ToLowerInvariant() == property.Name.ToLowerInvariant() || @class.Name.ToLowerInvariant() == property.Name.ToLowerInvariant())
+                {
+                    propertyName = propertyName + "s";
+                }
+
+                sb.Append(propertyName);
+                sb.Append(" ");
+                sb.Append(WriteDerivedCompositeUnionBody(@class, property));
+
+                writer.WriteSafeString(sb + Environment.NewLine);
+            });
         }
 
         /// <summary>
-        /// Generates the expression body of the <c>OwnedElement</c> property for the specified concrete class:
-        /// a union of every composite property the class genuinely backs, i.e. is not itself derived and is
-        /// not shadowed by a more general composite property that already accounts for the same content
-        /// (e.g. <c>Activity.StructuredNode</c>, which subsets the equally real <c>Activity.Group</c> and
-        /// <c>Activity.Node</c>, contributes nothing of its own here).
+        /// Generates the expression body for a derived property that is a union of every composite property
+        /// the specified concrete class genuinely backs, i.e. is not itself derived and is not shadowed by a
+        /// more general composite property that already accounts for the same content (e.g.
+        /// <c>Activity.StructuredNode</c>, which subsets the equally real <c>Activity.Group</c> and
+        /// <c>Activity.Node</c>, contributes nothing of its own). This is the shape of UML's
+        /// <c>Element::ownedElement</c> - the root of all composite ownership, to which every composite
+        /// property directly or transitively subsets - so the candidate properties are not filtered by the
+        /// specific property being generated; any genuinely-backed composite property qualifies.
         /// </summary>
         /// <param name="class">
         /// The concrete <see cref="IClass"/> for which the body is generated
+        /// </param>
+        /// <param name="property">
+        /// The derived property the body is generated for, used only to determine the collected element
+        /// type (e.g. <c>IElement</c>)
         /// </param>
         /// <returns>
         /// The C# source text of the property's expression body, including the leading " =&gt;" and the
         /// trailing ";"
         /// </returns>
-        private static string WriteOwnedElementBody(IClass @class)
+        private static string WriteDerivedCompositeUnionBody(IClass @class, IProperty property)
         {
             var contributingProperties = @class.QueryAllProperties()
-                .Where(property => property.IsComposite && !property.IsDerived && !property.IsDerivedUnion)
-                .Where(property => !property.QueryIsShadowedByMoreGeneralProperty())
-                .Where(property => !property.TryQueryRedefinedByProperty(@class, out _))
-                .OrderBy(property => property.Name)
+                .Where(candidate => candidate.IsComposite && !candidate.IsDerived && !candidate.IsDerivedUnion)
+                .Where(candidate => !candidate.QueryIsShadowedByMoreGeneralProperty())
+                .Where(candidate => !candidate.TryQueryRedefinedByProperty(@class, out _))
+                .OrderBy(candidate => candidate.Name)
                 .ToList();
 
             var sb = new StringBuilder();
             sb.AppendLine(" =>");
-            sb.Append("new List<IElement>()");
+            sb.Append($"new List<I{property.QueryTypeName()}>()");
 
             var emittedPropertyNames = new HashSet<string>();
 
-            foreach (var property in contributingProperties)
+            foreach (var candidate in contributingProperties)
             {
-                var propertyName = property.Name.CapitalizeFirstLetter();
-                var owner = property.Owner as IClass;
+                var candidateName = candidate.Name.CapitalizeFirstLetter();
+                var candidateOwner = candidate.Owner as IClass;
 
-                if (owner.Name.ToLowerInvariant() == property.Name.ToLowerInvariant() || @class.Name.ToLowerInvariant() == property.Name.ToLowerInvariant())
+                if (candidateOwner.Name.ToLowerInvariant() == candidate.Name.ToLowerInvariant() || @class.Name.ToLowerInvariant() == candidate.Name.ToLowerInvariant())
                 {
-                    propertyName = propertyName + "s";
+                    candidateName = candidateName + "s";
                 }
 
-                if (!emittedPropertyNames.Add(propertyName))
+                if (!emittedPropertyNames.Add(candidateName))
                 {
                     // a redefining property (e.g. Class.OwnedAttribute narrowing StructuredClassifier.OwnedAttribute)
                     // generates the exact same C# member as the property it redefines - reference it only once
@@ -1444,7 +1494,7 @@ namespace uml4net.HandleBars
                 }
 
                 sb.AppendLine();
-                sb.Append($".Concat(this.{propertyName})");
+                sb.Append($".Concat(this.{candidateName})");
             }
 
             sb.AppendLine();
