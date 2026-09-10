@@ -22,8 +22,10 @@ namespace uml4net.StateMachines
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
 
     using uml4net.Classification;
+    using uml4net.CommonBehavior;
 
     /// <summary>
     /// The <see cref="ProtocolTransitionExtensions"/> class provides extensions methods for <see cref="IProtocolTransition"/>
@@ -32,7 +34,8 @@ namespace uml4net.StateMachines
     {
         /// <summary>
         /// Queries the association refers to the associated Operation. It is derived from the Operation of the
-        /// CallEvent Trigger when applicable.
+        /// CallEvent Trigger when applicable. Per the UML 2.5.1 metamodel this is derived as:
+        /// <c>trigger->collect(event)->select(oclIsKindOf(CallEvent))->collect(oclAsType(CallEvent).operation)->asSet()</c>.
         /// </summary>
         /// <param name="protocolTransition">
         /// The subject <see cref="IProtocolTransition"/>
@@ -41,10 +44,19 @@ namespace uml4net.StateMachines
         /// The association refers to the associated Operation. It is derived from the Operation of the
         /// CallEvent Trigger when applicable.
         /// </returns>
-        [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
         internal static List<IOperation> QueryReferred(this IProtocolTransition protocolTransition)
         {
-            throw new NotSupportedException("Create a GitHub issue when this method is required");
+            if (protocolTransition == null)
+            {
+                throw new ArgumentNullException(nameof(protocolTransition));
+            }
+
+            return protocolTransition.Trigger
+                .Select(trigger => trigger.Event)
+                .OfType<ICallEvent>()
+                .Select(callEvent => callEvent.Operation)
+                .Distinct()
+                .ToList();
         }
     }
 }
