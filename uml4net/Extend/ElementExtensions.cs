@@ -1,4 +1,4 @@
-﻿// -------------------------------------------------------------------------------------------------
+// -------------------------------------------------------------------------------------------------
 // <copyright file="ElementExtensions.cs" company="Starion Group S.A.">
 //
 //   Copyright (C) 2019-2026 Starion Group S.A.
@@ -21,7 +21,6 @@
 namespace uml4net.CommonStructure
 {
     using System;
-    using System.Collections.Generic;
 
     /// <summary>
     /// The <see cref="ElementExtensions"/> class provides extensions methods for <see cref="IElement"/>
@@ -33,7 +32,7 @@ namespace uml4net.CommonStructure
         /// </summary>
         /// <param name="element">The <see cref="IElement"/> for which to retrieve the owner.</param>
         /// <returns>
-        /// The <see cref="IElement"/> that acts as the container for the specified <paramref name="element"/>, 
+        /// The <see cref="IElement"/> that acts as the container for the specified <paramref name="element"/>,
         /// or <c>null</c> if the element does not have a container.
         /// </returns>
         internal static IElement QueryOwner(this IElement element)
@@ -44,21 +43,6 @@ namespace uml4net.CommonStructure
             }
 
             return element.Possessor;
-        }
-
-        /// <summary>
-        /// Queries the Elements owned by this Element.
-        /// </summary>
-        /// <param name="element">
-        /// The subject <see cref="IElement"/>
-        /// </param>
-        /// <returns>
-        /// The Elements owned by this Element.
-        /// </returns>
-        [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
-        internal static List<IElement> QueryOwnedElement(this IElement element)
-        {
-            throw new NotSupportedException("Create a GitHub issue when this method is required");
         }
     }
 }

@@ -62,7 +62,11 @@ namespace uml4net.{{this.Namespace.Name}}
         {{ #Decorator.WriteRedefinedPropertyAttribute property }}
         {{ #Decorator.WriteRedefinedByPropertyAttribute property ../ }}
         {{ #Decorator.WriteImplementsAttribute property }}
+        {{#if (Property.XmiIdEquals property "Element-ownedElement") }}
+        {{ #Property.WriteAsDerivedCompositeUnion property ../ }}
+        {{else}}
         {{ #Property.WriteForClass property ../ }}
+        {{/if}}
         {{#unless @last}}
             
         {{/unless}}

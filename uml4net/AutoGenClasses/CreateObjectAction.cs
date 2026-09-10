@@ -274,7 +274,16 @@ namespace uml4net.Actions
         /// </summary>
         [Property(xmiId: "Element-ownedElement", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: true, defaultValue: null)]
         [Implements(implementation: "IElement.OwnedElement")]
-        public List<IElement> OwnedElement => this.QueryOwnedElement();
+        public List<IElement> OwnedElement =>
+        new List<IElement>()
+        .Concat(this.Handler)
+        .Concat(this.LocalPostcondition)
+        .Concat(this.LocalPrecondition)
+        .Concat(this.NameExpression)
+        .Concat(this.OwnedComment)
+        .Concat(this.Result)
+        .Distinct()
+        .ToList();
 
         /// <summary>
         /// The Element that owns this Element.

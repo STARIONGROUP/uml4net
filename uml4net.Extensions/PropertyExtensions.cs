@@ -62,6 +62,30 @@ namespace uml4net.Extensions
         }
 
         /// <summary>
+        /// Queries whether the composite <see cref="IProperty"/> is shadowed by a more general property that it
+        /// subsets, which is the case when the property has subsetted properties that are all themselves
+        /// genuinely backed (non-derived, non-derived-union, non-read-only) - in that case the more general
+        /// property already accounts for the same owned content, so counting this one too would double it.
+        /// </summary>
+        /// <param name="property">
+        /// The subject <see cref="IProperty"/>
+        /// </param>
+        /// <returns>
+        /// true when the property is shadowed by a more general property, false when it is itself the
+        /// property that backs the owned content
+        /// </returns>
+        public static bool QueryIsShadowedByMoreGeneralProperty(this IProperty property)
+        {
+            if (property == null)
+            {
+                throw new ArgumentNullException(nameof(property));
+            }
+
+            return property.SubsettedProperty.Count > 0
+                   && property.SubsettedProperty.All(x => !x.IsDerived && !x.IsDerivedUnion && !x.IsReadOnly);
+        }
+
+        /// <summary>
         /// Queries whether the <see cref="IProperty"/> is has a default value
         /// </summary>
         /// <param name="property">

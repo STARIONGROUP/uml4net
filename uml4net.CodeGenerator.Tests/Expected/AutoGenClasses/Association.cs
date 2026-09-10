@@ -283,7 +283,22 @@ namespace uml4net.StructuredClassifiers
         /// </summary>
         [Property(xmiId: "Element-ownedElement", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: true, defaultValue: null)]
         [Implements(implementation: "IElement.OwnedElement")]
-        public List<IElement> OwnedElement => this.QueryOwnedElement();
+        public List<IElement> OwnedElement =>
+        new List<IElement>()
+        .Concat(this.CollaborationUse)
+        .Concat(this.ElementImport)
+        .Concat(this.Generalization)
+        .Concat(this.NameExpression)
+        .Concat(this.OwnedComment)
+        .Concat(this.OwnedEnd)
+        .Concat(this.OwnedRule)
+        .Concat(this.OwnedTemplateSignature)
+        .Concat(this.OwnedUseCase)
+        .Concat(this.PackageImport)
+        .Concat(this.Substitution)
+        .Concat(this.TemplateBinding)
+        .Distinct()
+        .ToList();
 
         /// <summary>
         /// The ends that are owned by the Association itself.

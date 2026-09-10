@@ -139,7 +139,16 @@ namespace uml4net.Values
         /// </summary>
         [Property(xmiId: "Element-ownedElement", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: true, defaultValue: null)]
         [Implements(implementation: "IElement.OwnedElement")]
-        public List<IElement> OwnedElement => this.QueryOwnedElement();
+        public List<IElement> OwnedElement =>
+        new List<IElement>()
+        .Concat(this.NameExpression)
+        .Concat(this.Operand)
+        .Concat(this.OwnedComment)
+        .Concat(this.OwnedTemplateSignature)
+        .Concat(this.SubExpression)
+        .Concat(this.TemplateBinding)
+        .Distinct()
+        .ToList();
 
         /// <summary>
         /// The optional TemplateSignature specifying the formal TemplateParameters for this

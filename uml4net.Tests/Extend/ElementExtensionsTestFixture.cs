@@ -22,9 +22,12 @@ namespace uml4net.Tests.Extend
 {
     using NUnit.Framework;
 
+    using uml4net.Actions;
+    using uml4net.Activities;
     using uml4net.Classification;
     using uml4net.CommonStructure;
     using uml4net.StructuredClassifiers;
+    using uml4net.Values;
 
     [TestFixture]
     public class ElementExtensionsTestFixture
@@ -44,6 +47,43 @@ namespace uml4net.Tests.Extend
         public void QueryOwner_ThrowsArgumentNullException_WhenElementIsNull()
         {
             Assert.That(() => ElementExtensions.QueryOwner(null), Throws.ArgumentNullException);
+        }
+
+        [Test]
+        public void QueryOwnedElement_ReturnsEmptyList_WhenNothingIsOwned()
+        {
+            var comment = new Comment();
+
+            Assert.That(comment.OwnedElement, Is.Empty);
+        }
+
+        [Test]
+        public void QueryOwnedElement_ReturnsValuesFromGenuinelyBackedCompositeProperties()
+        {
+            var property = new Property();
+            var nameExpression = new StringExpression();
+            var comment = new Comment();
+
+            property.NameExpression.Add(nameExpression);
+            property.OwnedComment.Add(comment);
+
+            Assert.That(property.OwnedElement, Is.EquivalentTo(new IElement[] { nameExpression, comment }));
+        }
+
+        [Test]
+        public void QueryOwnedElement_ExcludesElements_OnlyReachableThroughAPropertyShadowedByARealMoreGeneralProperty()
+        {
+            // Activity.StructuredNode subsets both Activity.Group and Activity.Node, which are themselves real,
+            // non-derived composite properties - so StructuredNode is shadowed and must not be double-counted.
+            var activity = new Activity();
+            var topLevelNode = new StructuredActivityNode();
+            var onlyReachableViaStructuredNode = new StructuredActivityNode();
+
+            activity.Group.Add(topLevelNode);
+            activity.StructuredNode.Add(onlyReachableViaStructuredNode);
+
+            Assert.That(activity.OwnedElement, Does.Contain(topLevelNode));
+            Assert.That(activity.OwnedElement, Does.Not.Contain(onlyReachableViaStructuredNode));
         }
     }
 }

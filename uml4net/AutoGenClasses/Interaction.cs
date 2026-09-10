@@ -547,7 +547,36 @@ namespace uml4net.Interactions
         /// </summary>
         [Property(xmiId: "Element-ownedElement", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: true, defaultValue: null)]
         [Implements(implementation: "IElement.OwnedElement")]
-        public List<IElement> OwnedElement => this.QueryOwnedElement();
+        public List<IElement> OwnedElement =>
+        new List<IElement>()
+        .Concat(this.Action)
+        .Concat(this.CollaborationUse)
+        .Concat(this.ElementImport)
+        .Concat(this.FormalGate)
+        .Concat(this.Fragment)
+        .Concat(this.Generalization)
+        .Concat(this.GeneralOrdering)
+        .Concat(this.InterfaceRealization)
+        .Concat(this.Lifeline)
+        .Concat(this.Message)
+        .Concat(this.NameExpression)
+        .Concat(this.NestedClassifier)
+        .Concat(this.OwnedAttribute)
+        .Concat(this.OwnedBehavior)
+        .Concat(this.OwnedComment)
+        .Concat(this.OwnedConnector)
+        .Concat(this.OwnedOperation)
+        .Concat(this.OwnedParameter)
+        .Concat(this.OwnedParameterSet)
+        .Concat(this.OwnedReception)
+        .Concat(this.OwnedRule)
+        .Concat(this.OwnedTemplateSignature)
+        .Concat(this.OwnedUseCase)
+        .Concat(this.PackageImport)
+        .Concat(this.Substitution)
+        .Concat(this.TemplateBinding)
+        .Distinct()
+        .ToList();
 
         /// <summary>
         /// A collection of NamedElements owned by the Namespace.
