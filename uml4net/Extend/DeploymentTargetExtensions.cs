@@ -22,6 +22,7 @@ namespace uml4net.Deployments
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
 
     using uml4net.CommonStructure;
 
@@ -32,7 +33,9 @@ namespace uml4net.Deployments
     {
         /// <summary>
         /// Queries The set of elements that are manifested in an Artifact that is involved in Deployment to a
-        /// DeploymentTarget.
+        /// DeploymentTarget. Per the UML 2.5.1 metamodel this is derived as:
+        /// <c>deployment.deployedArtifact->select(oclIsKindOf(Artifact))->collect(oclAsType(Artifact).manifestation)
+        /// ->collect(utilizedElement)->asSet()</c>.
         /// </summary>
         /// <param name="deploymentTarget">
         /// The subject <see cref="IDeploymentTarget"/>
@@ -41,10 +44,20 @@ namespace uml4net.Deployments
         /// The set of elements that are manifested in an Artifact that is involved in Deployment to a
         /// DeploymentTarget.
         /// </returns>
-        [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
         internal static List<IPackageableElement> QueryDeployedElement(this IDeploymentTarget deploymentTarget)
         {
-            throw new NotSupportedException("Create a GitHub issue when this method is required");
+            if (deploymentTarget == null)
+            {
+                throw new ArgumentNullException(nameof(deploymentTarget));
+            }
+
+            return deploymentTarget.Deployment
+                .SelectMany(deployment => deployment.DeployedArtifact)
+                .OfType<IArtifact>()
+                .SelectMany(artifact => artifact.Manifestation)
+                .Select(manifestation => manifestation.UtilizedElement)
+                .Distinct()
+                .ToList();
         }
     }
 }
