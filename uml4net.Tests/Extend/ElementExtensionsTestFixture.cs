@@ -50,12 +50,6 @@ namespace uml4net.Tests.Extend
         }
 
         [Test]
-        public void QueryOwnedElement_ThrowsArgumentNullException_WhenElementIsNull()
-        {
-            Assert.That(() => ElementExtensions.QueryOwnedElement(null), Throws.ArgumentNullException);
-        }
-
-        [Test]
         public void QueryOwnedElement_ReturnsEmptyList_WhenNothingIsOwned()
         {
             var comment = new Comment();

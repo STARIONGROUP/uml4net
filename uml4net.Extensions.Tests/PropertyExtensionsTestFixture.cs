@@ -79,7 +79,35 @@ namespace uml4net.Extensions.Tests
                 Assert.That(() => PropertyExtensions.QueryHasDefaultValue(null), Throws.ArgumentNullException);
                 Assert.That(() => PropertyExtensions.QueryDefaultValueAsString(null), Throws.ArgumentNullException);
                 Assert.That(() => PropertyExtensions.QueryCSharpFullTypeName(null), Throws.ArgumentNullException);
+                Assert.That(() => PropertyExtensions.QueryIsShadowedByMoreGeneralProperty(null), Throws.ArgumentNullException);
             }
+        }
+
+        [Test]
+        public void Verify_that_QueryIsShadowedByMoreGeneralProperty_returns_false_when_there_are_no_subsetted_properties()
+        {
+            var property = new Property { Name = "structuredNode" };
+
+            Assert.That(property.QueryIsShadowedByMoreGeneralProperty(), Is.False);
+        }
+
+        [Test]
+        public void Verify_that_QueryIsShadowedByMoreGeneralProperty_returns_true_when_all_subsetted_properties_are_genuinely_backed()
+        {
+            var group = new Property { Name = "group", IsDerived = false };
+            var node = new Property { Name = "node", IsDerived = false };
+            var structuredNode = new Property { Name = "structuredNode", SubsettedProperty = { group, node } };
+
+            Assert.That(structuredNode.QueryIsShadowedByMoreGeneralProperty(), Is.True);
+        }
+
+        [Test]
+        public void Verify_that_QueryIsShadowedByMoreGeneralProperty_returns_false_when_a_subsetted_property_is_derived()
+        {
+            var ownedMember = new Property { Name = "ownedMember", IsDerived = true, IsDerivedUnion = true };
+            var ownedComment = new Property { Name = "ownedComment", SubsettedProperty = { ownedMember } };
+
+            Assert.That(ownedComment.QueryIsShadowedByMoreGeneralProperty(), Is.False);
         }
 
         [Test]

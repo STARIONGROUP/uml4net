@@ -340,7 +340,25 @@ namespace uml4net.StructuredClassifiers
         /// </summary>
         [Property(xmiId: "Element-ownedElement", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: true, defaultValue: null)]
         [Implements(implementation: "IElement.OwnedElement")]
-        public List<IElement> OwnedElement => this.QueryOwnedElement();
+        public List<IElement> OwnedElement =>
+        new List<IElement>()
+        .Concat(this.CollaborationUse)
+        .Concat(this.ElementImport)
+        .Concat(this.Generalization)
+        .Concat(this.InterfaceRealization)
+        .Concat(this.NameExpression)
+        .Concat(this.OwnedAttribute)
+        .Concat(this.OwnedBehavior)
+        .Concat(this.OwnedComment)
+        .Concat(this.OwnedConnector)
+        .Concat(this.OwnedRule)
+        .Concat(this.OwnedTemplateSignature)
+        .Concat(this.OwnedUseCase)
+        .Concat(this.PackageImport)
+        .Concat(this.Substitution)
+        .Concat(this.TemplateBinding)
+        .Distinct()
+        .ToList();
 
         /// <summary>
         /// A collection of NamedElements owned by the Namespace.

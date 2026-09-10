@@ -601,6 +601,14 @@ namespace uml4net.HandleBars
                             sb.Append($" => throw new InvalidOperationException(\"Redefined by property I{owningClass.Name}.{redefiningProperty.Name.CapitalizeFirstLetter()}\");");
                         }
                     }
+                    else if (property.XmiId == "Element-ownedElement")
+                    {
+                        // Element.OwnedElement is a derived union of every composite property that this
+                        // concrete class genuinely backs (not itself derived, and not shadowed by a more
+                        // general composite property that already accounts for the same content) - generated
+                        // statically per class rather than resolved via reflection at runtime.
+                        sb.Append(WriteOwnedElementBody(@class));
+                    }
                     else
                     {
                         sb.Append($" => this.Query{property.Name.CapitalizeFirstLetter()}();");
@@ -1387,6 +1395,64 @@ namespace uml4net.HandleBars
 
                 throw new NotSupportedException($"{@class.Name}.{property.Name}");
             });
+        }
+
+        /// <summary>
+        /// Generates the expression body of the <c>OwnedElement</c> property for the specified concrete class:
+        /// a union of every composite property the class genuinely backs, i.e. is not itself derived and is
+        /// not shadowed by a more general composite property that already accounts for the same content
+        /// (e.g. <c>Activity.StructuredNode</c>, which subsets the equally real <c>Activity.Group</c> and
+        /// <c>Activity.Node</c>, contributes nothing of its own here).
+        /// </summary>
+        /// <param name="class">
+        /// The concrete <see cref="IClass"/> for which the body is generated
+        /// </param>
+        /// <returns>
+        /// The C# source text of the property's expression body, including the leading " =&gt;" and the
+        /// trailing ";"
+        /// </returns>
+        private static string WriteOwnedElementBody(IClass @class)
+        {
+            var contributingProperties = @class.QueryAllProperties()
+                .Where(property => property.IsComposite && !property.IsDerived && !property.IsDerivedUnion)
+                .Where(property => !property.QueryIsShadowedByMoreGeneralProperty())
+                .Where(property => !property.TryQueryRedefinedByProperty(@class, out _))
+                .OrderBy(property => property.Name)
+                .ToList();
+
+            var sb = new StringBuilder();
+            sb.AppendLine(" =>");
+            sb.Append("new List<IElement>()");
+
+            var emittedPropertyNames = new HashSet<string>();
+
+            foreach (var property in contributingProperties)
+            {
+                var propertyName = property.Name.CapitalizeFirstLetter();
+                var owner = property.Owner as IClass;
+
+                if (owner.Name.ToLowerInvariant() == property.Name.ToLowerInvariant() || @class.Name.ToLowerInvariant() == property.Name.ToLowerInvariant())
+                {
+                    propertyName = propertyName + "s";
+                }
+
+                if (!emittedPropertyNames.Add(propertyName))
+                {
+                    // a redefining property (e.g. Class.OwnedAttribute narrowing StructuredClassifier.OwnedAttribute)
+                    // generates the exact same C# member as the property it redefines - reference it only once
+                    continue;
+                }
+
+                sb.AppendLine();
+                sb.Append($".Concat(this.{propertyName})");
+            }
+
+            sb.AppendLine();
+            sb.Append(".Distinct()");
+            sb.AppendLine();
+            sb.Append(".ToList();");
+
+            return sb.ToString();
         }
     }
 }
