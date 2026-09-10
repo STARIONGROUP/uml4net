@@ -22,7 +22,8 @@ namespace uml4net.Classification
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.Linq;
+
     using uml4net.CommonStructure;
 
     /// <summary>
@@ -31,7 +32,9 @@ namespace uml4net.Classification
     internal static class RedefinableTemplateSignatureExtensions
     {
         /// <summary>
-        /// Queries The formal template parameters of the extended signatures
+        /// Queries The formal template parameters of the extended signatures. Per the UML 2.5.1 metamodel this is
+        /// derived as: <c>if extendedSignature->isEmpty() then Set{} else extendedSignature.parameter->asSet()
+        /// endif</c>.
         /// </summary>
         /// <param name="redefinableTemplateSignature">
         /// The subject <see cref="IRedefinableTemplateSignature"/>
@@ -39,10 +42,17 @@ namespace uml4net.Classification
         /// <returns>
         /// The formal template parameters of the extended signatures
         /// </returns>
-        [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
         internal static List<ITemplateParameter> QueryInheritedParameter(this IRedefinableTemplateSignature redefinableTemplateSignature)
         {
-            throw new NotSupportedException("Create a GitHub issue when this method is required");
+            if (redefinableTemplateSignature == null)
+            {
+                throw new ArgumentNullException(nameof(redefinableTemplateSignature));
+            }
+
+            return redefinableTemplateSignature.ExtendedSignature
+                .SelectMany(extendedSignature => extendedSignature.Parameter)
+                .Distinct()
+                .ToList();
         }
     }
 }
