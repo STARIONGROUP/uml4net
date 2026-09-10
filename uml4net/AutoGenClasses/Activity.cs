@@ -489,7 +489,7 @@ namespace uml4net.Activities
         /// </summary>
         [Property(xmiId: "Element-ownedElement", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: true, defaultValue: null)]
         [Implements(implementation: "IElement.OwnedElement")]
-        public IContainerList<IElement> OwnedElement => this.QueryOwnedElement();
+        public List<IElement> OwnedElement => this.QueryOwnedElement();
 
         /// <summary>
         /// A collection of NamedElements owned by the Namespace.
@@ -498,7 +498,7 @@ namespace uml4net.Activities
         [SubsettedProperty(propertyName: "Element-ownedElement")]
         [SubsettedProperty(propertyName: "Namespace-member")]
         [Implements(implementation: "INamespace.OwnedMember")]
-        public IContainerList<INamedElement> OwnedMember => this.QueryOwnedMember();
+        public List<INamedElement> OwnedMember => this.QueryOwnedMember();
 
         /// <summary>
         /// The Operations owned by the Class.
@@ -561,7 +561,7 @@ namespace uml4net.Activities
         [Property(xmiId: "EncapsulatedClassifier-ownedPort", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "StructuredClassifier-ownedAttribute")]
         [Implements(implementation: "IEncapsulatedClassifier.OwnedPort")]
-        public IContainerList<IPort> OwnedPort => this.QueryOwnedPort();
+        public List<IPort> OwnedPort => this.QueryOwnedPort();
 
         /// <summary>
         /// The Receptions owned by the Class.

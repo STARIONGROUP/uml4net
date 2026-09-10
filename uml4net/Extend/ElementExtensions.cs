@@ -21,6 +21,7 @@
 namespace uml4net.CommonStructure
 {
     using System;
+    using System.Collections.Generic;
 
     /// <summary>
     /// The <see cref="ElementExtensions"/> class provides extensions methods for <see cref="IElement"/>
@@ -55,7 +56,7 @@ namespace uml4net.CommonStructure
         /// The Elements owned by this Element.
         /// </returns>
         [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
-        internal static IContainerList<IElement> QueryOwnedElement(this IElement element)
+        internal static List<IElement> QueryOwnedElement(this IElement element)
         {
             throw new NotSupportedException("Create a GitHub issue when this method is required");
         }

@@ -128,6 +128,11 @@ namespace uml4net.Extensions
                 return $"List<I{property.QueryTypeName()}> ";
             }
 
+            if (property.IsComposite && (property.IsDerived || property.IsDerivedUnion))
+            {
+                return $"List<I{property.QueryTypeName()}> ";
+            }
+
             if (property.IsComposite)
             {
                 return $"IContainerList<I{property.QueryTypeName()}> ";

@@ -467,6 +467,11 @@ namespace uml4net.HandleBars
                     sb.Append($"List<I{property.QueryTypeName()}>");
                     sb.Append(" ");
                 }
+                else if (property.IsComposite && (property.IsDerived || property.IsDerivedUnion))
+                {
+                    sb.Append($"List<I{property.QueryTypeName()}>");
+                    sb.Append(" ");
+                }
                 else if(property.IsComposite)
                 {
                     sb.Append($"IContainerList<I{ property.QueryTypeName() }>");

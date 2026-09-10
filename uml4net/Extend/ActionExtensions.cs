@@ -74,21 +74,14 @@ namespace uml4net.Actions
         /// <returns>
         /// The ordered set of InputPins representing the inputs to the Action.
         /// </returns>
-        internal static IContainerList<IInputPin> QueryInput(this IAction action)
+        internal static List<IInputPin> QueryInput(this IAction action)
         {
             if (action == null)
             {
                 throw new ArgumentNullException(nameof(action));
             }
 
-            var containerList = new ContainerList<IInputPin>(action);
-
-            foreach (var inputPin in action.QuerySubsettedPins<IInputPin>("Action-input"))
-            {
-                containerList.Add(inputPin);
-            }
-
-            return containerList;
+            return action.QuerySubsettedPins<IInputPin>("Action-input").ToList();
         }
 
         /// <summary>
@@ -100,21 +93,14 @@ namespace uml4net.Actions
         /// <returns>
         /// The ordered set of OutputPins representing outputs from the Action.
         /// </returns>
-        internal static IContainerList<IOutputPin> QueryOutput(this IAction action)
+        internal static List<IOutputPin> QueryOutput(this IAction action)
         {
             if (action == null)
             {
                 throw new ArgumentNullException(nameof(action));
             }
 
-            var containerList = new ContainerList<IOutputPin>(action);
-
-            foreach (var outputPin in action.QuerySubsettedPins<IOutputPin>("Action-output"))
-            {
-                containerList.Add(outputPin);
-            }
-
-            return containerList;
+            return action.QuerySubsettedPins<IOutputPin>("Action-output").ToList();
         }
 
         /// <summary>

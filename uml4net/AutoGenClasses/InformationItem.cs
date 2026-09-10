@@ -257,7 +257,7 @@ namespace uml4net.InformationFlows
         /// </summary>
         [Property(xmiId: "Element-ownedElement", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: true, defaultValue: null)]
         [Implements(implementation: "IElement.OwnedElement")]
-        public IContainerList<IElement> OwnedElement => this.QueryOwnedElement();
+        public List<IElement> OwnedElement => this.QueryOwnedElement();
 
         /// <summary>
         /// A collection of NamedElements owned by the Namespace.
@@ -266,7 +266,7 @@ namespace uml4net.InformationFlows
         [SubsettedProperty(propertyName: "Element-ownedElement")]
         [SubsettedProperty(propertyName: "Namespace-member")]
         [Implements(implementation: "INamespace.OwnedMember")]
-        public IContainerList<INamedElement> OwnedMember => this.QueryOwnedMember();
+        public List<INamedElement> OwnedMember => this.QueryOwnedMember();
 
         /// <summary>
         /// Specifies a set of Constraints owned by this Namespace.

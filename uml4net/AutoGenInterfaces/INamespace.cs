@@ -80,7 +80,7 @@ namespace uml4net.CommonStructure
         [Property(xmiId: "Namespace-ownedMember", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Element-ownedElement")]
         [SubsettedProperty(propertyName: "Namespace-member")]
-        public IContainerList<INamedElement> OwnedMember { get; }
+        public List<INamedElement> OwnedMember { get; }
 
         /// <summary>
         /// Specifies a set of Constraints owned by this Namespace.

@@ -39,21 +39,14 @@ namespace uml4net.Packages
         /// A <see cref="List{T}"/> of <see cref="IPackage"/> elements representing the nested packages 
         /// within the specified <paramref name="package"/>.
         /// </returns>
-        internal static IContainerList<IPackage> QueryNestedPackage(this IPackage package)
+        internal static List<IPackage> QueryNestedPackage(this IPackage package)
         {
             if (package == null)
             {
                 throw new ArgumentNullException(nameof(package));
             }
 
-            var containerList = new ContainerList<IPackage>(package);
-
-            foreach (var nestedPackage in package.PackagedElement.OfType<IPackage>())
-            {
-                containerList.Add(nestedPackage);
-            }
-
-            return containerList;
+            return package.PackagedElement.OfType<IPackage>().ToList();
         }
 
         /// <summary>
@@ -65,21 +58,14 @@ namespace uml4net.Packages
         /// <returns>
         /// The Stereotypes that are owned by the Package.
         /// </returns>
-        internal static IContainerList<IStereotype> QueryOwnedStereotype(this IPackage package)
+        internal static List<IStereotype> QueryOwnedStereotype(this IPackage package)
         {
             if (package == null)
             {
                 throw new ArgumentNullException(nameof(package));
             }
 
-            var containerList = new ContainerList<IStereotype>(package);
-
-            foreach (var ownedStereoType in package.PackagedElement.OfType<IStereotype>())
-            {
-                containerList.Add(ownedStereoType);
-            }
-
-            return containerList;
+            return package.PackagedElement.OfType<IStereotype>().ToList();
         }
 
         /// <summary>
@@ -91,21 +77,14 @@ namespace uml4net.Packages
         /// <returns>
         /// The packaged elements that are Types.
         /// </returns>
-        internal static IContainerList<IType> QueryOwnedType(this IPackage package)
+        internal static List<IType> QueryOwnedType(this IPackage package)
         {
             if (package == null)
             {
                 throw new ArgumentNullException(nameof(package));
             }
 
-            var containerList = new ContainerList<IType>(package);
-
-            foreach (var ownedType in package.PackagedElement.OfType<IType>())
-            {
-                containerList.Add(ownedType);
-            }
-
-            return containerList;
+            return package.PackagedElement.OfType<IType>().ToList();
         }
     }
 }

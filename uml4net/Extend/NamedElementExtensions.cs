@@ -144,7 +144,7 @@ namespace uml4net.CommonStructure
         /// A collection of NamedElements owned by the Namespace.
         /// </returns>
         [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
-        internal static IContainerList<INamedElement> QueryOwnedMember(this INamedElement namedElement)
+        internal static List<INamedElement> QueryOwnedMember(this INamedElement namedElement)
         {
             throw new NotSupportedException("Create a GitHub issue when this method is required");
         }

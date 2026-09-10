@@ -21,6 +21,7 @@
 namespace uml4net.StructuredClassifiers
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
 
     /// <summary>
@@ -37,14 +38,12 @@ namespace uml4net.StructuredClassifiers
         /// <returns>
         /// The Ports owned by the EncapsulatedClassifier.
         /// </returns>
-        internal static IContainerList<IPort> QueryOwnedPort(this IEncapsulatedClassifier encapsulatedClassifier)
+        internal static List<IPort> QueryOwnedPort(this IEncapsulatedClassifier encapsulatedClassifier)
         {
             if (encapsulatedClassifier == null)
             {
                 throw new ArgumentNullException(nameof(encapsulatedClassifier));
             }
-
-            var containerList = new ContainerList<IPort>(encapsulatedClassifier);
 
             // Class-derived EncapsulatedClassifiers (every currently generated implementer of the
             // interface) redefine IStructuredClassifier.OwnedAttribute through IClass.OwnedAttribute,
@@ -53,12 +52,7 @@ namespace uml4net.StructuredClassifiers
                 ? @class.OwnedAttribute
                 : encapsulatedClassifier.OwnedAttribute;
 
-            foreach (var ownedPort in ownedAttribute.OfType<IPort>())
-            {
-                containerList.Add(ownedPort);
-            }
-
-            return containerList;
+            return ownedAttribute.OfType<IPort>().ToList();
         }
     }
 }
