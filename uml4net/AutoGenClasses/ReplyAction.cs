@@ -136,7 +136,7 @@ namespace uml4net.Actions
         [Property(xmiId: "Action-input", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: true, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Element-ownedElement")]
         [Implements(implementation: "IAction.Input")]
-        public IContainerList<IInputPin> Input => this.QueryInput();
+        public List<IInputPin> Input => this.QueryInput();
 
         /// <summary>
         /// The StructuredActivityNode containing the ActvityNode, if it is directly owned by a
@@ -245,7 +245,7 @@ namespace uml4net.Actions
         [Property(xmiId: "Action-output", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: true, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Element-ownedElement")]
         [Implements(implementation: "IAction.Output")]
-        public IContainerList<IOutputPin> Output => this.QueryOutput();
+        public List<IOutputPin> Output => this.QueryOutput();
 
         /// <summary>
         /// The Comments owned by this Element.
@@ -269,7 +269,7 @@ namespace uml4net.Actions
         /// </summary>
         [Property(xmiId: "Element-ownedElement", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: true, defaultValue: null)]
         [Implements(implementation: "IElement.OwnedElement")]
-        public IContainerList<IElement> OwnedElement => this.QueryOwnedElement();
+        public List<IElement> OwnedElement => this.QueryOwnedElement();
 
         /// <summary>
         /// The Element that owns this Element.

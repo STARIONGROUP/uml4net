@@ -68,7 +68,7 @@ namespace uml4net.Packages
         /// </summary>
         [Property(xmiId: "Package-nestedPackage", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: true, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Package-packagedElement")]
-        public IContainerList<IPackage> NestedPackage { get; }
+        public List<IPackage> NestedPackage { get; }
 
         /// <summary>
         /// References the Package that owns this Package.
@@ -82,14 +82,14 @@ namespace uml4net.Packages
         /// </summary>
         [Property(xmiId: "Package-ownedStereotype", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Package-packagedElement")]
-        public IContainerList<IStereotype> OwnedStereotype { get; }
+        public List<IStereotype> OwnedStereotype { get; }
 
         /// <summary>
         /// References the packaged elements that are Types.
         /// </summary>
         [Property(xmiId: "Package-ownedType", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: true, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Package-packagedElement")]
-        public IContainerList<IType> OwnedType { get; }
+        public List<IType> OwnedType { get; }
 
         /// <summary>
         /// References the PackageMerges that are owned by this Package.

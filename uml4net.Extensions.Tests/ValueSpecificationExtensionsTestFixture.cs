@@ -120,7 +120,7 @@ namespace uml4net.Extensions.Tests
         {
             public IElement Possessor { get; set; }
             public IContainerList<IComment> OwnedComment { get; set; }
-            public IContainerList<IElement> OwnedElement { get; }
+            public List<IElement> OwnedElement { get; }
             public IElement Owner { get; }
             public List<IDependency> ClientDependency { get; }
             public string Name { get; set; }

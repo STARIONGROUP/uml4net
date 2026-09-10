@@ -75,7 +75,7 @@ namespace uml4net.Activities
         /// </summary>
         [Property(xmiId: "ActivityGroup-subgroup", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Element-ownedElement")]
-        public IContainerList<IActivityGroup> Subgroup { get; }
+        public List<IActivityGroup> Subgroup { get; }
 
         /// <summary>
         /// The ActivityGroup immediately containing this ActivityGroup, if it is directly owned by another

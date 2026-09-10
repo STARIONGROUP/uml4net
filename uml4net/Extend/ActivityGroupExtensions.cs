@@ -95,24 +95,16 @@ namespace uml4net.Activities
         /// <returns>
         /// The Other ActivityGroups immediately contained in this ActivityGroup.
         /// </returns>
-        internal static IContainerList<IActivityGroup> QuerySubgroup(this IActivityGroup activityGroup)
+        internal static List<IActivityGroup> QuerySubgroup(this IActivityGroup activityGroup)
         {
             if (activityGroup == null)
             {
                 throw new ArgumentNullException(nameof(activityGroup));
             }
 
-            var containerList = new ContainerList<IActivityGroup>(activityGroup);
-
-            if (activityGroup is IActivityPartition activityPartition)
-            {
-                foreach (var subpartition in activityPartition.Subpartition)
-                {
-                    containerList.Add(subpartition);
-                }
-            }
-
-            return containerList;
+            return activityGroup is IActivityPartition activityPartition
+                ? activityPartition.Subpartition.Cast<IActivityGroup>().ToList()
+                : new List<IActivityGroup>();
         }
 
         /// <summary>
