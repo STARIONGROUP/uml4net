@@ -42,10 +42,21 @@ namespace uml4net.StructuredClassifiers
         /// owing this ConnectorEnd, if any. It is derived by selecting the end at the same place in the
         /// ordering of Association ends as this ConnectorEnd.
         /// </returns>
-        [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
         internal static IProperty QueryDefiningEnd(this IConnectorEnd connectorEnd)
         {
-            throw new NotSupportedException("Create a GitHub issue when this method is required");
+            if (connectorEnd == null)
+            {
+                throw new ArgumentNullException(nameof(connectorEnd));
+            }
+
+            if (connectorEnd.Owner is not IConnector connector || connector.Type == null)
+            {
+                return null;
+            }
+
+            var index = connector.End.IndexOf(connectorEnd);
+
+            return connector.Type.MemberEnd[index];
         }
     }
 }
