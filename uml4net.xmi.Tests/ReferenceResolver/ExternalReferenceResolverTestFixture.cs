@@ -20,6 +20,7 @@
 
 namespace uml4net.xmi.Tests.ReferenceResolver
 {
+    using System.Collections.Generic;
     using System.IO;
 
     using Microsoft.Extensions.Logging;
@@ -203,6 +204,26 @@ namespace uml4net.xmi.Tests.ReferenceResolver
             this.xmiElementCache.TryAdd(property_1);
 
             var resolvedKnowReferences = this.referenceResolver.TryResolve("test");
+
+            Assert.That(resolvedKnowReferences.Count, Is.EqualTo(0));
+        }
+
+        [Test]
+        public void Verify_that_a_resource_key_with_a_trailing_hash_does_not_throw_and_is_not_resolved()
+        {
+            var property_1 = new Property
+            {
+                XmiId = "property_1",
+                Name = "IsValid",
+                DocumentName = "test",
+            };
+            property_1.SingleValueReferencePropertyIdentifiers.Add("type", "PrimitiveTypes.xmi#");
+
+            this.xmiElementCache.TryAdd(property_1);
+
+            IReadOnlyList<(string Context, Stream Stream)> resolvedKnowReferences = null;
+
+            Assert.That(() => resolvedKnowReferences = this.referenceResolver.TryResolve("test"), Throws.Nothing);
 
             Assert.That(resolvedKnowReferences.Count, Is.EqualTo(0));
         }
