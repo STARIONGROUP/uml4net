@@ -38,7 +38,6 @@ namespace uml4net.CodeGenerator.Tests.Expected
         {
             yield return "Activity";
             yield return "Association";
-            yield return "ConditionalNode";
             yield return "Connector";
             yield return "DurationConstraint";
             yield return "DurationObservation";
