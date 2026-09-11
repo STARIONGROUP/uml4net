@@ -140,7 +140,7 @@ namespace uml4net.Classification
         /// <returns>
         /// every <see cref="IClassifier"/> that this Classifier generalizes, directly or indirectly.
         /// </returns>
-        internal static List<IClassifier> QueryAllParents(this IClassifier element)
+        internal static List<IClassifier> QueryAllGeneralClassifiers(this IClassifier element)
         {
             if (element == null)
             {
@@ -162,9 +162,9 @@ namespace uml4net.Classification
 
                 result.Add(current);
 
-                foreach (var parent in current.QueryGeneral())
+                foreach (var generalClassifier in current.QueryGeneral())
                 {
-                    elementsToProcess.Push(parent);
+                    elementsToProcess.Push(generalClassifier);
                 }
             }
 
@@ -220,13 +220,14 @@ namespace uml4net.Classification
         }
 
         /// <summary>
-        /// Queries the Interfaces that this Classifier realizes, directly or through any of its general Classifiers.
+        /// Queries the Interfaces that this Classifier realizes, directly or through any of its
+        /// direct or indirect general Classifiers.
         /// </summary>
         /// <param name="element">
         /// The subject <see cref="IClassifier"/>
         /// </param>
         /// <returns>
-        /// the Interfaces realized by this Classifier or any of its general Classifiers.
+        /// the Interfaces realized by this Classifier or any of its direct or indirect general Classifiers.
         /// </returns>
         internal static List<IInterface> QueryAllRealizedInterfaces(this IClassifier element)
         {
@@ -236,19 +237,20 @@ namespace uml4net.Classification
             }
 
             return element.QueryDirectlyRealizedInterfaces()
-                .Concat(element.QueryAllParents().SelectMany(parent => parent.QueryDirectlyRealizedInterfaces()))
+                .Concat(element.QueryAllGeneralClassifiers().SelectMany(generalClassifier => generalClassifier.QueryDirectlyRealizedInterfaces()))
                 .Distinct()
                 .ToList();
         }
 
         /// <summary>
-        /// Queries the Interfaces that this Classifier uses, directly or through any of its general Classifiers.
+        /// Queries the Interfaces that this Classifier uses, directly or through any of its
+        /// direct or indirect general Classifiers.
         /// </summary>
         /// <param name="element">
         /// The subject <see cref="IClassifier"/>
         /// </param>
         /// <returns>
-        /// the Interfaces used by this Classifier or any of its general Classifiers.
+        /// the Interfaces used by this Classifier or any of its direct or indirect general Classifiers.
         /// </returns>
         internal static List<IInterface> QueryAllUsedInterfaces(this IClassifier element)
         {
@@ -258,7 +260,7 @@ namespace uml4net.Classification
             }
 
             return element.QueryDirectlyUsedInterfaces()
-                .Concat(element.QueryAllParents().SelectMany(parent => parent.QueryDirectlyUsedInterfaces()))
+                .Concat(element.QueryAllGeneralClassifiers().SelectMany(generalClassifier => generalClassifier.QueryDirectlyUsedInterfaces()))
                 .Distinct()
                 .ToList();
         }

@@ -75,7 +75,7 @@ namespace uml4net.Tests.Extend
 
             using (Assert.EnterMultipleScope())
             {
-                Assert.That(() => ClassifierExtensions.QueryAllParents(@class), Throws.ArgumentNullException);
+                Assert.That(() => ClassifierExtensions.QueryAllGeneralClassifiers(@class), Throws.ArgumentNullException);
                 Assert.That(() => ClassifierExtensions.QueryDirectlyRealizedInterfaces(@class), Throws.ArgumentNullException);
                 Assert.That(() => ClassifierExtensions.QueryDirectlyUsedInterfaces(@class), Throws.ArgumentNullException);
                 Assert.That(() => ClassifierExtensions.QueryAllRealizedInterfaces(@class), Throws.ArgumentNullException);
@@ -84,7 +84,7 @@ namespace uml4net.Tests.Extend
         }
 
         [Test]
-        public void Verify_that_QueryAllParents_returns_the_transitive_closure_of_general_classifiers()
+        public void Verify_that_QueryAllGeneralClassifiers_returns_the_transitive_closure_of_general_classifiers()
         {
             var grandParent = new Class { Name = "GrandParent" };
             var parent = new Class { Name = "Parent" };
@@ -93,15 +93,15 @@ namespace uml4net.Tests.Extend
             parent.Generalization.Add(new Generalization { General = grandParent });
             child.Generalization.Add(new Generalization { General = parent });
 
-            Assert.That(child.QueryAllParents(), Is.EquivalentTo(new IClassifier[] { parent, grandParent }));
+            Assert.That(child.QueryAllGeneralClassifiers(), Is.EquivalentTo(new IClassifier[] { parent, grandParent }));
         }
 
         [Test]
-        public void Verify_that_QueryAllParents_returns_an_empty_list_when_there_are_no_generalizations()
+        public void Verify_that_QueryAllGeneralClassifiers_returns_an_empty_list_when_there_are_no_generalizations()
         {
             var @class = new Class { Name = "Standalone" };
 
-            Assert.That(@class.QueryAllParents(), Is.Empty);
+            Assert.That(@class.QueryAllGeneralClassifiers(), Is.Empty);
         }
 
         [Test]
