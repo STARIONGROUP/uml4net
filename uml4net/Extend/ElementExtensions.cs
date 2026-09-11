@@ -47,8 +47,9 @@ namespace uml4net.CommonStructure
         }
 
         /// <summary>
-        /// Queries every <see cref="IElement"/> in the model that the specified <paramref name="element"/>
-        /// belongs to, by walking up to the containment root and then down through <see cref="IElement.OwnedElement"/>.
+        /// Queries every <see cref="IElement"/> that exists in the same model as the specified
+        /// <paramref name="element"/>, by walking up to the containment root and then down through
+        /// <see cref="IElement.OwnedElement"/>.
         /// </summary>
         /// <param name="element">
         /// The subject <see cref="IElement"/>
@@ -57,9 +58,12 @@ namespace uml4net.CommonStructure
         /// every <see cref="IElement"/> reachable from the containment root, including the root itself.
         /// </returns>
         /// <remarks>
-        /// Used to emulate OCL's <c>allInstances()</c>, which uml4net has no registry for.
+        /// Emulates OCL's <c>allInstances()</c>, for which uml4net has no registry: instead of querying a
+        /// global instance store, this walks the containment tree the <paramref name="element"/> lives in.
+        /// Callers typically filter the result with <c>OfType&lt;T&gt;()</c> to emulate
+        /// <c>T.allInstances()</c>.
         /// </remarks>
-        internal static IEnumerable<IElement> QueryModelElements(this IElement element)
+        internal static IEnumerable<IElement> QueryAllInstancesInModel(this IElement element)
         {
             if (element == null)
             {

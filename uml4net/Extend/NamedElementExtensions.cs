@@ -45,7 +45,7 @@ namespace uml4net.CommonStructure
                 throw new ArgumentNullException(nameof(namedElement));
             }
 
-            return namedElement.QueryModelElements()
+            return namedElement.QueryAllInstancesInModel()
                 .OfType<IDependency>()
                 .Where(dependency => dependency.Client.Contains(namedElement))
                 .ToList();
@@ -72,7 +72,7 @@ namespace uml4net.CommonStructure
                 throw new ArgumentNullException(nameof(namedElement));
             }
 
-            return namedElement.QueryModelElements()
+            return namedElement.QueryAllInstancesInModel()
                 .OfType<IDependency>()
                 .Where(dependency => dependency.Supplier.Contains(namedElement))
                 .ToList();
