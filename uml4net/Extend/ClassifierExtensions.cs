@@ -130,5 +130,139 @@ namespace uml4net.Classification
         {
             throw new NotSupportedException("Create a GitHub issue when this method is required");
         }
+
+        /// <summary>
+        /// Queries the transitive closure of this Classifier's direct and indirect general Classifiers.
+        /// </summary>
+        /// <param name="element">
+        /// The subject <see cref="IClassifier"/>
+        /// </param>
+        /// <returns>
+        /// every <see cref="IClassifier"/> that this Classifier generalizes, directly or indirectly.
+        /// </returns>
+        internal static List<IClassifier> QueryAllGeneralClassifiers(this IClassifier element)
+        {
+            if (element == null)
+            {
+                throw new ArgumentNullException(nameof(element));
+            }
+
+            var result = new List<IClassifier>();
+            var visited = new HashSet<IClassifier>();
+            var elementsToProcess = new Stack<IClassifier>(element.QueryGeneral());
+
+            while (elementsToProcess.Count > 0)
+            {
+                var current = elementsToProcess.Pop();
+
+                if (!visited.Add(current))
+                {
+                    continue;
+                }
+
+                result.Add(current);
+
+                foreach (var generalClassifier in current.QueryGeneral())
+                {
+                    elementsToProcess.Push(generalClassifier);
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Queries the Interfaces that this Classifier realizes directly, via its own client Dependencies.
+        /// </summary>
+        /// <param name="element">
+        /// The subject <see cref="IClassifier"/>
+        /// </param>
+        /// <returns>
+        /// the Interfaces realized directly by this Classifier.
+        /// </returns>
+        internal static List<IInterface> QueryDirectlyRealizedInterfaces(this IClassifier element)
+        {
+            if (element == null)
+            {
+                throw new ArgumentNullException(nameof(element));
+            }
+
+            return element.QueryClientDependency()
+                .OfType<IRealization>()
+                .Where(realization => realization.Supplier.All(supplier => supplier is IInterface))
+                .SelectMany(realization => realization.Supplier.Cast<IInterface>())
+                .Distinct()
+                .ToList();
+        }
+
+        /// <summary>
+        /// Queries the Interfaces that this Classifier uses directly, via its own supplier Dependencies.
+        /// </summary>
+        /// <param name="element">
+        /// The subject <see cref="IClassifier"/>
+        /// </param>
+        /// <returns>
+        /// the Interfaces used directly by this Classifier.
+        /// </returns>
+        internal static List<IInterface> QueryDirectlyUsedInterfaces(this IClassifier element)
+        {
+            if (element == null)
+            {
+                throw new ArgumentNullException(nameof(element));
+            }
+
+            return element.QuerySupplierDependency()
+                .OfType<IUsage>()
+                .Where(usage => usage.Client.All(client => client is IInterface))
+                .SelectMany(usage => usage.Client.Cast<IInterface>())
+                .Distinct()
+                .ToList();
+        }
+
+        /// <summary>
+        /// Queries the Interfaces that this Classifier realizes, directly or through any of its
+        /// direct or indirect general Classifiers.
+        /// </summary>
+        /// <param name="element">
+        /// The subject <see cref="IClassifier"/>
+        /// </param>
+        /// <returns>
+        /// the Interfaces realized by this Classifier or any of its direct or indirect general Classifiers.
+        /// </returns>
+        internal static List<IInterface> QueryAllRealizedInterfaces(this IClassifier element)
+        {
+            if (element == null)
+            {
+                throw new ArgumentNullException(nameof(element));
+            }
+
+            return element.QueryDirectlyRealizedInterfaces()
+                .Concat(element.QueryAllGeneralClassifiers().SelectMany(generalClassifier => generalClassifier.QueryDirectlyRealizedInterfaces()))
+                .Distinct()
+                .ToList();
+        }
+
+        /// <summary>
+        /// Queries the Interfaces that this Classifier uses, directly or through any of its
+        /// direct or indirect general Classifiers.
+        /// </summary>
+        /// <param name="element">
+        /// The subject <see cref="IClassifier"/>
+        /// </param>
+        /// <returns>
+        /// the Interfaces used by this Classifier or any of its direct or indirect general Classifiers.
+        /// </returns>
+        internal static List<IInterface> QueryAllUsedInterfaces(this IClassifier element)
+        {
+            if (element == null)
+            {
+                throw new ArgumentNullException(nameof(element));
+            }
+
+            return element.QueryDirectlyUsedInterfaces()
+                .Concat(element.QueryAllGeneralClassifiers().SelectMany(generalClassifier => generalClassifier.QueryDirectlyUsedInterfaces()))
+                .Distinct()
+                .ToList();
+        }
     }
 }
