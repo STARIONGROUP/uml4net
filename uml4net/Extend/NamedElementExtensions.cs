@@ -22,6 +22,7 @@ namespace uml4net.CommonStructure
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
 
     /// <summary>
     /// The <see cref="NamedElementExtensions"/> class provides extensions methods for <see cref="INamedElement"/>
@@ -37,10 +38,44 @@ namespace uml4net.CommonStructure
         /// <returns>
         /// the Dependencies that reference this NamedElement as a client.
         /// </returns>
-        [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
         internal static List<IDependency> QueryClientDependency(this INamedElement namedElement)
         {
-            throw new NotSupportedException("Create a GitHub issue when this method is required");
+            if (namedElement == null)
+            {
+                throw new ArgumentNullException(nameof(namedElement));
+            }
+
+            return namedElement.QueryAllInstancesInModel()
+                .OfType<IDependency>()
+                .Where(dependency => dependency.Client.Contains(namedElement))
+                .ToList();
+        }
+
+        /// <summary>
+        /// Queries the Dependencies that reference this NamedElement as a supplier.
+        /// </summary>
+        /// <param name="namedElement">
+        /// The subject <see cref="INamedElement"/>
+        /// </param>
+        /// <returns>
+        /// the Dependencies that reference this NamedElement as a supplier.
+        /// </returns>
+        /// <remarks>
+        /// Backs the reverse navigation of <see cref="IDependency.Supplier"/>, exposed in the OMG UML
+        /// 2.5.1 metamodel as the implicit association end <c>A_supplier_supplierDependency-supplierDependency</c>,
+        /// used by e.g. <c>Classifier::directlyUsedInterfaces()</c>.
+        /// </remarks>
+        internal static List<IDependency> QuerySupplierDependency(this INamedElement namedElement)
+        {
+            if (namedElement == null)
+            {
+                throw new ArgumentNullException(nameof(namedElement));
+            }
+
+            return namedElement.QueryAllInstancesInModel()
+                .OfType<IDependency>()
+                .Where(dependency => dependency.Supplier.Contains(namedElement))
+                .ToList();
         }
 
         /// <summary>

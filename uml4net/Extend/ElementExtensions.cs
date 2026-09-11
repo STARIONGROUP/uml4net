@@ -21,6 +21,7 @@
 namespace uml4net.CommonStructure
 {
     using System;
+    using System.Collections.Generic;
 
     /// <summary>
     /// The <see cref="ElementExtensions"/> class provides extensions methods for <see cref="IElement"/>
@@ -43,6 +44,59 @@ namespace uml4net.CommonStructure
             }
 
             return element.Possessor;
+        }
+
+        /// <summary>
+        /// Queries every <see cref="IElement"/> that exists in the same model as the specified
+        /// <paramref name="element"/>, by walking up to the containment root and then down through
+        /// <see cref="IElement.OwnedElement"/>.
+        /// </summary>
+        /// <param name="element">
+        /// The subject <see cref="IElement"/>
+        /// </param>
+        /// <returns>
+        /// every <see cref="IElement"/> reachable from the containment root, including the root itself.
+        /// </returns>
+        /// <remarks>
+        /// Emulates OCL's <c>allInstances()</c>, for which uml4net has no registry: instead of querying a
+        /// global instance store, this walks the containment tree the <paramref name="element"/> lives in.
+        /// Callers typically filter the result with <c>OfType&lt;T&gt;()</c> to emulate
+        /// <c>T.allInstances()</c>.
+        /// </remarks>
+        internal static IEnumerable<IElement> QueryAllInstancesInModel(this IElement element)
+        {
+            if (element == null)
+            {
+                throw new ArgumentNullException(nameof(element));
+            }
+
+            var root = element;
+
+            while (root.Owner != null)
+            {
+                root = root.Owner;
+            }
+
+            var visited = new HashSet<IElement>();
+            var elementsToProcess = new Stack<IElement>();
+            elementsToProcess.Push(root);
+
+            while (elementsToProcess.Count > 0)
+            {
+                var current = elementsToProcess.Pop();
+
+                if (!visited.Add(current))
+                {
+                    continue;
+                }
+
+                yield return current;
+
+                foreach (var ownedElement in current.OwnedElement)
+                {
+                    elementsToProcess.Push(ownedElement);
+                }
+            }
         }
     }
 }

@@ -20,6 +20,8 @@
 
 namespace uml4net.Tests.Extend
 {
+    using System.Linq;
+
     using CommonStructure;
     using NUnit.Framework;
 
@@ -74,6 +76,56 @@ namespace uml4net.Tests.Extend
             {
                 Assert.That(() => NamedElementExtensions.QueryQualifiedName(@class), Throws.ArgumentNullException);
                 Assert.That(() => NamedElementExtensions.QueryNamespace(@class), Throws.ArgumentNullException);
+                Assert.That(() => NamedElementExtensions.QueryClientDependency(@class), Throws.ArgumentNullException);
+                Assert.That(() => NamedElementExtensions.QuerySupplierDependency(@class), Throws.ArgumentNullException);
+            }
+        }
+
+        [Test]
+        public void Verify_that_QueryClientDependency_returns_the_dependencies_referencing_the_namedElement_as_client()
+        {
+            var package = new Package { Name = "root" };
+            var client = new Class { Name = "Client" };
+            var supplier = new Class { Name = "Supplier" };
+            var unrelated = new Class { Name = "Unrelated" };
+            package.PackagedElement.Add(client);
+            package.PackagedElement.Add(supplier);
+            package.PackagedElement.Add(unrelated);
+
+            var dependency = new Dependency { Name = "Dependency" };
+            dependency.Client.Add(client);
+            dependency.Supplier.Add(supplier);
+            package.PackagedElement.Add(dependency);
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(client.ClientDependency, Is.EquivalentTo(new[] { dependency }));
+                Assert.That(supplier.ClientDependency, Is.Empty);
+                Assert.That(unrelated.ClientDependency, Is.Empty);
+            }
+        }
+
+        [Test]
+        public void Verify_that_QuerySupplierDependency_returns_the_dependencies_referencing_the_namedElement_as_supplier()
+        {
+            var package = new Package { Name = "root" };
+            var client = new Class { Name = "Client" };
+            var supplier = new Class { Name = "Supplier" };
+            var unrelated = new Class { Name = "Unrelated" };
+            package.PackagedElement.Add(client);
+            package.PackagedElement.Add(supplier);
+            package.PackagedElement.Add(unrelated);
+
+            var dependency = new Dependency { Name = "Dependency" };
+            dependency.Client.Add(client);
+            dependency.Supplier.Add(supplier);
+            package.PackagedElement.Add(dependency);
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(supplier.QuerySupplierDependency(), Is.EquivalentTo(new[] { dependency }));
+                Assert.That(client.QuerySupplierDependency(), Is.Empty);
+                Assert.That(unrelated.QuerySupplierDependency(), Is.Empty);
             }
         }
     }
