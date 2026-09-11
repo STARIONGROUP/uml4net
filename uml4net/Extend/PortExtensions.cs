@@ -23,6 +23,7 @@ namespace uml4net.StructuredClassifiers
     using System;
     using System.Collections.Generic;
 
+    using uml4net.Classification;
     using uml4net.SimpleClassifiers;
 
     /// <summary>
@@ -51,10 +52,14 @@ namespace uml4net.StructuredClassifiers
         /// Port is typed by an Interface. If isConjugated is true, it is derived as the union of the sets of
         /// Interfaces used by the type of the Port and its supertypes.
         /// </returns>
-        [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
         internal static List<IInterface> QueryProvided(this IPort port)
         {
-            throw new NotSupportedException("Create a GitHub issue when this method is required");
+            if (port == null)
+            {
+                throw new ArgumentNullException(nameof(port));
+            }
+
+            return port.IsConjugated ? port.QueryBasicRequired() : port.QueryBasicProvided();
         }
 
         /// <summary>
@@ -76,10 +81,58 @@ namespace uml4net.StructuredClassifiers
         /// as the union of the sets of Interfaces realized by the type of the Port and its supertypes, or
         /// directly from the type of the Port if the Port is typed by an Interface.
         /// </returns>
-        [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
         internal static List<IInterface> QueryRequired(this IPort port)
         {
-            throw new NotSupportedException("Create a GitHub issue when this method is required");
+            if (port == null)
+            {
+                throw new ArgumentNullException(nameof(port));
+            }
+
+            return port.IsConjugated ? port.QueryBasicProvided() : port.QueryBasicRequired();
+        }
+
+        /// <summary>
+        /// Queries the Interfaces realized by the type of the Port (or the type itself, if it is an Interface),
+        /// ignoring <see cref="IPort.IsConjugated"/>.
+        /// </summary>
+        /// <param name="port">
+        /// The subject <see cref="IPort"/>
+        /// </param>
+        /// <returns>
+        /// the basic (non-conjugation-adjusted) provided Interfaces of the Port.
+        /// </returns>
+        private static List<IInterface> QueryBasicProvided(this IPort port)
+        {
+            if (port.Type is IInterface typeInterface)
+            {
+                return new List<IInterface> { typeInterface };
+            }
+
+            if (port.Type is IClassifier typeClassifier)
+            {
+                return typeClassifier.QueryAllRealizedInterfaces();
+            }
+
+            return new List<IInterface>();
+        }
+
+        /// <summary>
+        /// Queries the Interfaces used by the type of the Port, ignoring <see cref="IPort.IsConjugated"/>.
+        /// </summary>
+        /// <param name="port">
+        /// The subject <see cref="IPort"/>
+        /// </param>
+        /// <returns>
+        /// the basic (non-conjugation-adjusted) required Interfaces of the Port.
+        /// </returns>
+        private static List<IInterface> QueryBasicRequired(this IPort port)
+        {
+            if (port.Type is IClassifier typeClassifier)
+            {
+                return typeClassifier.QueryAllUsedInterfaces();
+            }
+
+            return new List<IInterface>();
         }
     }
 }
