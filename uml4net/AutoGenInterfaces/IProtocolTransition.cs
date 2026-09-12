@@ -76,7 +76,7 @@ namespace uml4net.StateMachines
         /// CallEvent Trigger when applicable.
         /// </summary>
         [Property(xmiId: "ProtocolTransition-referred", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: false, isUnique: true, defaultValue: null)]
-        public List<IOperation> Referred { get; }
+        public IReadOnlyList<IOperation> Referred { get; }
     }
 }
 

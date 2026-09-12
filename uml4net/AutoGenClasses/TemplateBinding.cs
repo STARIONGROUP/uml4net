@@ -131,7 +131,7 @@ namespace uml4net.CommonStructure
         /// </summary>
         [Property(xmiId: "Relationship-relatedElement", aggregation: AggregationKind.None, lowerValue: 1, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: true, defaultValue: null)]
         [Implements(implementation: "IRelationship.RelatedElement")]
-        public List<IElement> RelatedElement => this.QueryRelatedElement();
+        public IReadOnlyList<IElement> RelatedElement => this.QueryRelatedElement();
 
         /// <summary>
         /// The TemplateSignature for the template that is the target of this TemplateBinding.
@@ -147,7 +147,7 @@ namespace uml4net.CommonStructure
         [Property(xmiId: "DirectedRelationship-source", aggregation: AggregationKind.None, lowerValue: 1, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Relationship-relatedElement")]
         [Implements(implementation: "IDirectedRelationship.Source")]
-        public List<IElement> Source => this.QuerySource();
+        public IReadOnlyList<IElement> Source => this.QuerySource();
 
         /// <summary>
         /// Specifies the target Element(s) of the DirectedRelationship.
@@ -155,7 +155,7 @@ namespace uml4net.CommonStructure
         [Property(xmiId: "DirectedRelationship-target", aggregation: AggregationKind.None, lowerValue: 1, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Relationship-relatedElement")]
         [Implements(implementation: "IDirectedRelationship.Target")]
-        public List<IElement> Target => this.QueryTarget();
+        public IReadOnlyList<IElement> Target => this.QueryTarget();
     }
 }
 

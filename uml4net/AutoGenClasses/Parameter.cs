@@ -69,7 +69,7 @@ namespace uml4net.Classification
         [Property(xmiId: "NamedElement-clientDependency", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: true, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "A_source_directedRelationship-directedRelationship")]
         [Implements(implementation: "INamedElement.ClientDependency")]
-        public List<IDependency> ClientDependency => this.QueryClientDependency();
+        public IReadOnlyList<IDependency> ClientDependency => this.QueryClientDependency();
 
         /// <summary>
         /// A String that represents a value to be used when no argument is supplied for the Parameter.
@@ -116,7 +116,7 @@ namespace uml4net.Classification
         /// </summary>
         [Property(xmiId: "ConnectableElement-end", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [Implements(implementation: "IConnectableElement.End")]
-        public List<IConnectorEnd> End => this.QueryEnd();
+        public IReadOnlyList<IConnectorEnd> End => this.QueryEnd();
 
         /// <summary>
         /// Tells whether an output parameter may emit a value to the exclusion of the other outputs.

@@ -61,7 +61,7 @@ namespace uml4net.Activities
         /// ActivityGroups containing the ActivityNode.
         /// </summary>
         [Property(xmiId: "ActivityNode-inGroup", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: true, defaultValue: null)]
-        public List<IActivityGroup> InGroup { get; }
+        public IReadOnlyList<IActivityGroup> InGroup { get; }
 
         /// <summary>
         /// InterruptibleActivityRegions containing the ActivityNode.

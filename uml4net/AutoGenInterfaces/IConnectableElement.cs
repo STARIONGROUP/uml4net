@@ -57,7 +57,7 @@ namespace uml4net.StructuredClassifiers
         /// A set of ConnectorEnds that attach to this ConnectableElement.
         /// </summary>
         [Property(xmiId: "ConnectableElement-end", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: false, isUnique: true, defaultValue: null)]
-        public List<IConnectorEnd> End { get; }
+        public IReadOnlyList<IConnectorEnd> End { get; }
 
         /// <summary>
         /// The ConnectableElementTemplateParameter for this ConnectableElement parameter.

@@ -55,7 +55,7 @@ namespace uml4net.Deployments
         /// DeploymentTarget.
         /// </summary>
         [Property(xmiId: "DeploymentTarget-deployedElement", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: false, isUnique: true, defaultValue: null)]
-        public List<IPackageableElement> DeployedElement { get; }
+        public IReadOnlyList<IPackageableElement> DeployedElement { get; }
 
         /// <summary>
         /// The set of Deployments for a DeploymentTarget.

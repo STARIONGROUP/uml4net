@@ -74,14 +74,14 @@ namespace uml4net.StructuredClassifiers
         /// collection is derived, selecting those owned Properties where isComposite is true.
         /// </summary>
         [Property(xmiId: "StructuredClassifier-part", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: false, isUnique: true, defaultValue: null)]
-        public List<IProperty> Part { get; }
+        public IReadOnlyList<IProperty> Part { get; }
 
         /// <summary>
         /// The roles that instances may play in this StructuredClassifier.
         /// </summary>
         [Property(xmiId: "StructuredClassifier-role", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Namespace-member")]
-        public List<IConnectableElement> Role { get; }
+        public IReadOnlyList<IConnectableElement> Role { get; }
     }
 }
 

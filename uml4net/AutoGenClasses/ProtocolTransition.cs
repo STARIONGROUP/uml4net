@@ -71,7 +71,7 @@ namespace uml4net.StateMachines
         [Property(xmiId: "NamedElement-clientDependency", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: true, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "A_source_directedRelationship-directedRelationship")]
         [Implements(implementation: "INamedElement.ClientDependency")]
-        public List<IDependency> ClientDependency => this.QueryClientDependency();
+        public IReadOnlyList<IDependency> ClientDependency => this.QueryClientDependency();
 
         /// <summary>
         /// Designates the Region that owns this Transition.
@@ -143,7 +143,7 @@ namespace uml4net.StateMachines
         [Property(xmiId: "Namespace-importedMember", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Namespace-member")]
         [Implements(implementation: "INamespace.ImportedMember")]
-        public List<IPackageableElement> ImportedMember => this.QueryImportedMember();
+        public IReadOnlyList<IPackageableElement> ImportedMember => this.QueryImportedMember();
 
         /// <summary>
         /// Indicates whether it is possible to further redefine a RedefinableElement. If the value is true,
@@ -166,7 +166,7 @@ namespace uml4net.StateMachines
         /// </summary>
         [Property(xmiId: "Namespace-member", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: true, defaultValue: null)]
         [Implements(implementation: "INamespace.Member")]
-        public List<INamedElement> Member => this.QueryMember();
+        public IReadOnlyList<INamedElement> Member => this.QueryMember();
 
         /// <summary>
         /// The name of the NamedElement.
@@ -338,7 +338,7 @@ namespace uml4net.StateMachines
         /// </summary>
         [Property(xmiId: "RedefinableElement-redefinedElement", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: true, defaultValue: null)]
         [Implements(implementation: "IRedefinableElement.RedefinedElement")]
-        public List<IRedefinableElement> RedefinedElement => this.QueryRedefinedElement();
+        public IReadOnlyList<IRedefinableElement> RedefinedElement => this.QueryRedefinedElement();
 
         /// <summary>
         /// The Transition that is redefined by this Transition.
@@ -362,7 +362,7 @@ namespace uml4net.StateMachines
         [Property(xmiId: "RedefinableElement-redefinitionContext", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: true, defaultValue: null)]
         [RedefinedByProperty("ITransition.RedefinitionContext")]
         [Implements(implementation: "IRedefinableElement.RedefinitionContext")]
-        List<IClassifier> IRedefinableElement.RedefinitionContext => this.RedefinitionContext == null ? new List<IClassifier>() : new List<IClassifier> { this.RedefinitionContext };
+        IReadOnlyList<IClassifier> IRedefinableElement.RedefinitionContext => this.RedefinitionContext == null ? new List<IClassifier>() : new List<IClassifier> { this.RedefinitionContext };
 
         /// <summary>
         /// This association refers to the associated Operation. It is derived from the Operation of the
@@ -370,7 +370,7 @@ namespace uml4net.StateMachines
         /// </summary>
         [Property(xmiId: "ProtocolTransition-referred", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [Implements(implementation: "IProtocolTransition.Referred")]
-        public List<IOperation> Referred => this.QueryReferred();
+        public IReadOnlyList<IOperation> Referred => this.QueryReferred();
 
         /// <summary>
         /// Designates the originating Vertex (State or Pseudostate) of the Transition.

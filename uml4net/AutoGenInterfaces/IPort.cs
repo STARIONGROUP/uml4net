@@ -97,7 +97,7 @@ namespace uml4net.StructuredClassifiers
         /// Interfaces used by the type of the Port and its supertypes.
         /// </summary>
         [Property(xmiId: "Port-provided", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: false, isUnique: true, defaultValue: null)]
-        public List<IInterface> Provided { get; }
+        public IReadOnlyList<IInterface> Provided { get; }
 
         /// <summary>
         /// A Port may be redefined when its containing EncapsulatedClassifier is specialized. The redefining
@@ -117,7 +117,7 @@ namespace uml4net.StructuredClassifiers
         /// directly from the type of the Port if the Port is typed by an Interface.
         /// </summary>
         [Property(xmiId: "Port-required", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: false, isUnique: true, defaultValue: null)]
-        public List<IInterface> Required { get; }
+        public IReadOnlyList<IInterface> Required { get; }
     }
 }
 

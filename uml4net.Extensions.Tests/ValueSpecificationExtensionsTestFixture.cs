@@ -124,7 +124,7 @@ namespace uml4net.Extensions.Tests
             public List<IElement> OwnedElement { get; }
             public IElement Owner { get; }
             public Type MetaclassInterface => typeof(IValueSpecification);
-            public List<IDependency> ClientDependency { get; }
+            public IReadOnlyList<IDependency> ClientDependency { get; }
             public string Name { get; set; }
             public IContainerList<IStringExpression> NameExpression { get; set; }
             public INamespace Namespace { get; }

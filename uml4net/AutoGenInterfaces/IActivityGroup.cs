@@ -55,13 +55,13 @@ namespace uml4net.Activities
         /// ActivityEdges immediately contained in the ActivityGroup.
         /// </summary>
         [Property(xmiId: "ActivityGroup-containedEdge", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: true, defaultValue: null)]
-        public List<IActivityEdge> ContainedEdge { get; }
+        public IReadOnlyList<IActivityEdge> ContainedEdge { get; }
 
         /// <summary>
         /// ActivityNodes immediately contained in the ActivityGroup.
         /// </summary>
         [Property(xmiId: "ActivityGroup-containedNode", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: true, defaultValue: null)]
-        public List<IActivityNode> ContainedNode { get; }
+        public IReadOnlyList<IActivityNode> ContainedNode { get; }
 
         /// <summary>
         /// The Activity containing the ActivityGroup, if it is directly owned by an Activity.

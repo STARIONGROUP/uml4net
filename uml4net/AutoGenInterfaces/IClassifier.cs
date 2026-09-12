@@ -57,7 +57,7 @@ namespace uml4net.Classification
         [Property(xmiId: "Classifier-attribute", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: true, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "A_redefinitionContext_redefinableElement-redefinableElement")]
         [SubsettedProperty(propertyName: "Classifier-feature")]
-        public List<IProperty> Attribute { get; }
+        public IReadOnlyList<IProperty> Attribute { get; }
 
         /// <summary>
         /// The CollaborationUses owned by the Classifier.
@@ -72,13 +72,13 @@ namespace uml4net.Classification
         /// </summary>
         [Property(xmiId: "Classifier-feature", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Namespace-member")]
-        public List<IFeature> Feature { get; }
+        public IReadOnlyList<IFeature> Feature { get; }
 
         /// <summary>
         /// The generalizing Classifiers for this Classifier.
         /// </summary>
         [Property(xmiId: "Classifier-general", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: true, isDerivedUnion: false, isUnique: true, defaultValue: null)]
-        public List<IClassifier> General { get; }
+        public IReadOnlyList<IClassifier> General { get; }
 
         /// <summary>
         /// The Generalization relationships for this Classifier. These Generalizations navigate to more general
@@ -94,7 +94,7 @@ namespace uml4net.Classification
         /// </summary>
         [Property(xmiId: "Classifier-inheritedMember", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Namespace-member")]
-        public List<INamedElement> InheritedMember { get; }
+        public IReadOnlyList<INamedElement> InheritedMember { get; }
 
         /// <summary>
         /// If true, the Classifier can only be instantiated by instantiating one of its specializations. An

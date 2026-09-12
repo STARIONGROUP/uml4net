@@ -69,7 +69,7 @@ namespace uml4net.Activities
         /// ActivityGroups containing the ActivityEdge.
         /// </summary>
         [Property(xmiId: "ActivityEdge-inGroup", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: true, defaultValue: null)]
-        public List<IActivityGroup> InGroup { get; }
+        public IReadOnlyList<IActivityGroup> InGroup { get; }
 
         /// <summary>
         /// ActivityPartitions containing the ActivityEdge.
