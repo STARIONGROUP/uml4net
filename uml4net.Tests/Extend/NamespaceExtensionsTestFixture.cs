@@ -509,5 +509,36 @@ namespace uml4net.Tests.Extend
 
             Assert.That(result, Is.EquivalentTo(new IPackageableElement[] { candidate }));
         }
+
+        [Test]
+        public void Verify_that_QueryImportedMember_throws_when_namespace_is_null()
+        {
+            Package @namespace = null;
+
+            Assert.That(() => NamespaceExtensions.QueryImportedMember(@namespace), Throws.ArgumentNullException);
+        }
+
+        [Test]
+        public void Verify_that_QueryImportedMember_includes_an_element_imported_via_ElementImport()
+        {
+            var package = new Package { Name = "P" };
+            var importedElement = new Class { Name = "Imported" };
+            package.ElementImport.Add(new ElementImport { ImportedElement = importedElement });
+
+            Assert.That(package.ImportedMember, Is.EquivalentTo(new IPackageableElement[] { importedElement }));
+        }
+
+        [Test]
+        public void Verify_that_QueryImportedMember_excludes_an_element_that_collides_with_an_owned_member()
+        {
+            var package = new Package { Name = "P" };
+            var ownedMember = new Class { Name = "Same" };
+            package.PackagedElement.Add(ownedMember);
+
+            var importedElement = new Class { Name = "Original" };
+            package.ElementImport.Add(new ElementImport { ImportedElement = importedElement, Alias = "Same" });
+
+            Assert.That(package.ImportedMember, Is.Empty);
+        }
     }
 }
