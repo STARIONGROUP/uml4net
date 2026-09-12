@@ -79,23 +79,6 @@ namespace uml4net.CommonStructure
         }
 
         /// <summary>
-        /// Queries A collection of NamedElements identifiable within the Namespace, either by being owned or by being
-        /// introduced by importing or inheritance.
-        /// </summary>
-        /// <param name="namedElement">
-        /// The subject <see cref="INamedElement"/>
-        /// </param>
-        /// <returns>
-        /// A collection of NamedElements identifiable within the Namespace, either by being owned or by being
-        /// introduced by importing or inheritance.
-        /// </returns>
-        [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
-        internal static List<INamedElement> QueryMember(this INamedElement namedElement)
-        {
-            throw new NotSupportedException("Create a GitHub issue when this method is required");
-        }
-
-        /// <summary>
         /// Queries whether the two NamedElements may exist in the same Namespace without conflict.
         /// </summary>
         /// <param name="namedElement">
