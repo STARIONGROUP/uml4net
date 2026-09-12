@@ -25,6 +25,7 @@ namespace uml4net.Classification
     using System.Linq;
 
     using uml4net.CommonStructure;
+    using uml4net.Deployments;
     using uml4net.SimpleClassifiers;
     using uml4net.StructuredClassifiers;
     using uml4net.Values;
@@ -45,6 +46,20 @@ namespace uml4net.Classification
         /// All of the Properties that are direct (i.e., not inherited or imported) attributes of the
         /// Classifier.
         /// </returns>
+        /// <remarks>
+        /// Confirmed against the raw <c>resources/UML/UML.xmi</c>: exactly 6 properties directly
+        /// subset <c>Classifier-attribute</c> - <see cref="IClass.OwnedAttribute"/> (which redefines,
+        /// and must therefore be checked ahead of, <see cref="IStructuredClassifier.OwnedAttribute"/>),
+        /// <see cref="IStructuredClassifier.OwnedAttribute"/> itself, <see cref="IInterface.OwnedAttribute"/>,
+        /// <see cref="IDataType.OwnedAttribute"/> (which also covers <c>Enumeration</c>, a <c>DataType</c>
+        /// that does not redefine or add its own), <see cref="ISignal.OwnedAttribute"/>, and
+        /// <see cref="IArtifact.OwnedAttribute"/>. Every other <see cref="IClassifier"/> (e.g.
+        /// <c>Association</c>, <c>UseCase</c>, <c>Actor</c>) genuinely has no attributes, so falls
+        /// through to an empty list rather than throwing - <c>Association-ownedEnd</c> does NOT
+        /// subset <c>Classifier-attribute</c> (it subsets <c>Classifier-feature</c> and
+        /// <c>Namespace-ownedMember</c> instead), so returning it here for an <see cref="IAssociation"/>
+        /// would have been incorrect.
+        /// </remarks>
         internal static List<IProperty> QueryAttribute(this IClassifier element)
         {
             if (element == null)
@@ -52,24 +67,19 @@ namespace uml4net.Classification
                 throw new ArgumentNullException(nameof(element));
             }
 
-            if (element is IInterface @interface)
-            {
-                return @interface.OwnedAttribute.ToList();
-            }
-
             if (element is IClass @class)
             {
                 return @class.OwnedAttribute.ToList();
             }
 
-            if (element is IEnumeration enumeration)
+            if (element is IStructuredClassifier structuredClassifier)
             {
-                return enumeration.OwnedAttribute.ToList();
+                return structuredClassifier.OwnedAttribute.ToList();
             }
 
-            if (element is IAssociation association)
+            if (element is IInterface @interface)
             {
-                return association.OwnedEnd.ToList();
+                return @interface.OwnedAttribute.ToList();
             }
 
             if (element is IDataType dataType)
@@ -77,7 +87,17 @@ namespace uml4net.Classification
                 return dataType.OwnedAttribute.ToList();
             }
 
-            throw new NotSupportedException($"The Type is not yet supported {element.GetType()}");
+            if (element is ISignal signal)
+            {
+                return signal.OwnedAttribute.ToList();
+            }
+
+            if (element is IArtifact artifact)
+            {
+                return artifact.OwnedAttribute.ToList();
+            }
+
+            return new List<IProperty>();
         }
 
         /// <summary>
@@ -91,10 +111,68 @@ namespace uml4net.Classification
         /// each Feature directly defined in the classifier. Note that there may be members of the
         /// Classifier that are of the type Feature but are not included, e.g., inherited features.
         /// </returns>
-        [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
+        /// <remarks>
+        /// Has no OCL body in the metamodel - like <see cref="QueryAttribute"/> and
+        /// <see cref="NamespaceExtensions.QueryOwnedMember"/>, it is defined purely by the UML
+        /// derived union mechanism. Confirmed against the raw <c>resources/UML/UML.xmi</c>: exactly
+        /// 9 properties across 7 interfaces directly subset <c>Classifier-feature</c> -
+        /// <see cref="IAssociation.OwnedEnd"/>, <see cref="IClass.OwnedOperation"/>,
+        /// <see cref="IClass.OwnedReception"/>, <see cref="IStructuredClassifier.OwnedConnector"/>,
+        /// <see cref="IDataType.OwnedOperation"/>, <see cref="IInterface.OwnedOperation"/>,
+        /// <see cref="IInterface.OwnedReception"/>, <see cref="IArtifact.OwnedOperation"/>, and
+        /// <c>Classifier-attribute</c> itself (<see cref="QueryAttribute"/>, which itself subsets
+        /// this property). This is deliberately NOT implemented as a filter over
+        /// <c>Namespace.Member</c> even though <c>Classifier-feature</c> also subsets
+        /// <c>Namespace-member</c>: that subsetting relationship is a consistency constraint (every
+        /// Feature must also appear as a Namespace member), not the formula that populates this
+        /// derived union - <c>Namespace.Member</c> additionally includes <c>ImportedMember</c>, which
+        /// would wrongly include Features that are merely imported, not "directly defined in the
+        /// classifier" as this property's own documentation requires.
+        /// </remarks>
         internal static List<IFeature> QueryFeature(this IClassifier element)
         {
-            throw new NotSupportedException("Create a GitHub issue when this method is required");
+            if (element == null)
+            {
+                throw new ArgumentNullException(nameof(element));
+            }
+
+            var result = new List<IFeature>();
+
+            result.AddRange(element.QueryAttribute());
+
+            if (element is IAssociation association)
+            {
+                result.AddRange(association.OwnedEnd);
+            }
+
+            if (element is IClass @class)
+            {
+                result.AddRange(@class.OwnedOperation);
+                result.AddRange(@class.OwnedReception);
+            }
+
+            if (element is IStructuredClassifier structuredClassifier)
+            {
+                result.AddRange(structuredClassifier.OwnedConnector);
+            }
+
+            if (element is IDataType dataType)
+            {
+                result.AddRange(dataType.OwnedOperation);
+            }
+
+            if (element is IInterface @interface)
+            {
+                result.AddRange(@interface.OwnedOperation);
+                result.AddRange(@interface.OwnedReception);
+            }
+
+            if (element is IArtifact artifact)
+            {
+                result.AddRange(artifact.OwnedOperation);
+            }
+
+            return result.Distinct().ToList();
         }
 
         /// <summary>

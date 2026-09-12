@@ -26,9 +26,11 @@ namespace uml4net.Tests.Extend
 
     using uml4net.Classification;
     using uml4net.CommonStructure;
+    using uml4net.Deployments;
     using uml4net.Packages;
     using uml4net.SimpleClassifiers;
     using uml4net.StructuredClassifiers;
+    using uml4net.UseCases;
 
     [TestFixture]
     public class ClassifierExtensionsTestFixture
@@ -66,6 +68,54 @@ namespace uml4net.Tests.Extend
 
             Assert.That(() => Classification.ClassifierExtensions.QueryAttribute(@interface),
                 Throws.ArgumentNullException);
+        }
+
+        [Test]
+        public void Verify_that_QueryAttribute_returns_OwnedAttribute_for_a_StructuredClassifier_that_is_not_a_Class()
+        {
+            var collaboration = new Collaboration { Name = "Coll" };
+            var property = new Property { Name = "attr" };
+            collaboration.OwnedAttribute.Add(property);
+
+            Assert.That(collaboration.QueryAttribute(), Is.EquivalentTo(new IProperty[] { property }));
+        }
+
+        [Test]
+        public void Verify_that_QueryAttribute_returns_OwnedAttribute_for_a_Signal()
+        {
+            var signal = new Signal { Name = "S" };
+            var property = new Property { Name = "attr" };
+            signal.OwnedAttribute.Add(property);
+
+            Assert.That(signal.QueryAttribute(), Is.EquivalentTo(new IProperty[] { property }));
+        }
+
+        [Test]
+        public void Verify_that_QueryAttribute_returns_OwnedAttribute_for_an_Artifact()
+        {
+            var artifact = new Artifact { Name = "Art" };
+            var property = new Property { Name = "attr" };
+            artifact.OwnedAttribute.Add(property);
+
+            Assert.That(artifact.QueryAttribute(), Is.EquivalentTo(new IProperty[] { property }));
+        }
+
+        [Test]
+        public void Verify_that_QueryAttribute_returns_an_empty_list_for_an_Association()
+        {
+            var association = new Association { Name = "A" };
+            var end = new Property { Name = "end" };
+            association.OwnedEnd.Add(end);
+
+            Assert.That(association.QueryAttribute(), Is.Empty);
+        }
+
+        [Test]
+        public void Verify_that_QueryAttribute_returns_an_empty_list_for_a_Classifier_with_no_attribute_contributing_subtype()
+        {
+            var useCase = new UseCase { Name = "UC" };
+
+            Assert.That(useCase.QueryAttribute(), Is.Empty);
         }
 
         [Test]
@@ -205,6 +255,82 @@ namespace uml4net.Tests.Extend
                 Assert.That(child.QueryDirectlyUsedInterfaces(), Is.Empty);
                 Assert.That(child.QueryAllUsedInterfaces(), Is.EquivalentTo(new[] { @interface }));
             }
+        }
+
+        [Test]
+        public void Verify_that_QueryFeature_throws_when_element_is_null()
+        {
+            IClassifier classifier = null;
+
+            Assert.That(() => ClassifierExtensions.QueryFeature(classifier), Throws.ArgumentNullException);
+        }
+
+        [Test]
+        public void Verify_that_QueryFeature_includes_attribute_operation_and_reception_for_a_Class()
+        {
+            var @class = new Class { Name = "C" };
+            var attribute = new Property { Name = "attr" };
+            var operation = new Operation { Name = "op" };
+            var reception = new Reception { Name = "rec" };
+            @class.OwnedAttribute.Add(attribute);
+            @class.OwnedOperation.Add(operation);
+            @class.OwnedReception.Add(reception);
+
+            Assert.That(@class.QueryFeature(), Is.EquivalentTo(new IFeature[] { attribute, operation, reception }));
+        }
+
+        [Test]
+        public void Verify_that_QueryFeature_includes_OwnedConnector_for_a_StructuredClassifier()
+        {
+            var collaboration = new Collaboration { Name = "Coll" };
+            var connector = new Connector { Name = "conn" };
+            collaboration.OwnedConnector.Add(connector);
+
+            Assert.That(collaboration.QueryFeature(), Is.EquivalentTo(new IFeature[] { connector }));
+        }
+
+        [Test]
+        public void Verify_that_QueryFeature_includes_OwnedEnd_for_an_Association()
+        {
+            var association = new Association { Name = "A" };
+            var end = new Property { Name = "end" };
+            association.OwnedEnd.Add(end);
+
+            Assert.That(association.QueryFeature(), Is.EquivalentTo(new IFeature[] { end }));
+        }
+
+        [Test]
+        public void Verify_that_QueryFeature_includes_OwnedOperation_for_a_DataType()
+        {
+            var dataType = new DataType { Name = "D" };
+            var operation = new Operation { Name = "op" };
+            dataType.OwnedOperation.Add(operation);
+
+            Assert.That(dataType.QueryFeature(), Is.EquivalentTo(new IFeature[] { operation }));
+        }
+
+        [Test]
+        public void Verify_that_QueryFeature_includes_attribute_operation_and_reception_for_an_Interface()
+        {
+            var @interface = new Interface { Name = "I" };
+            var attribute = new Property { Name = "attr" };
+            var operation = new Operation { Name = "op" };
+            var reception = new Reception { Name = "rec" };
+            @interface.OwnedAttribute.Add(attribute);
+            @interface.OwnedOperation.Add(operation);
+            @interface.OwnedReception.Add(reception);
+
+            Assert.That(@interface.QueryFeature(), Is.EquivalentTo(new IFeature[] { attribute, operation, reception }));
+        }
+
+        [Test]
+        public void Verify_that_QueryFeature_includes_OwnedOperation_for_an_Artifact()
+        {
+            var artifact = new Artifact { Name = "Art" };
+            var operation = new Operation { Name = "op" };
+            artifact.OwnedOperation.Add(operation);
+
+            Assert.That(artifact.QueryFeature(), Is.EquivalentTo(new IFeature[] { operation }));
         }
     }
 }
