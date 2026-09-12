@@ -169,19 +169,5 @@ namespace uml4net.CommonStructure
             return owner as INamespace;
         }
 
-        /// <summary>
-        /// Queries A collection of NamedElements owned by the Namespace.
-        /// </summary>
-        /// <param name="namedElement">
-        /// The subject <see cref="INamedElement"/>
-        /// </param>
-        /// <returns>
-        /// A collection of NamedElements owned by the Namespace.
-        /// </returns>
-        [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
-        internal static List<INamedElement> QueryOwnedMember(this INamedElement namedElement)
-        {
-            throw new NotSupportedException("Create a GitHub issue when this method is required");
-        }
     }
 }
