@@ -326,11 +326,6 @@ namespace uml4net.Reporting.Generators
                             referenceType = $"{referenceType}:IsRedefinition";
                         }
 
-                        if (property.TryQueryRedefinedByProperty(@class, out _))
-                        {
-                            referenceType = $"{referenceType}:IsRedefined";
-                        }
-
                         if (property.QueryIsContained())
                         {
                             referenceType = $"{referenceType}:Contained";
@@ -369,11 +364,6 @@ namespace uml4net.Reporting.Generators
                             {
                                 enumeration = $"{enumeration}:IsRedefinition";
                             }
-                            
-                            if (property.TryQueryRedefinedByProperty(@class, out _))
-                            {
-                                enumeration = $"{enumeration}:IsRedefined";
-                            }
 
                             propertyVariations.Add(enumeration);
                         }
@@ -395,11 +385,6 @@ namespace uml4net.Reporting.Generators
                             {
                                 valueType = $"{valueType}:IsRedefinition";
                             }
-                            
-                            if (property.TryQueryRedefinedByProperty(@class, out _))
-                            {
-                                valueType = $"{valueType}:IsRedefined";
-                            }
 
                             propertyVariations.Add(valueType);
                         }
@@ -414,6 +399,49 @@ namespace uml4net.Reporting.Generators
                         {
                             propertyVariations.Add(operationVariation);
                         }
+                    }
+                }
+            }
+
+            // Second pass: a property inherited from a general Classifier (or a realized Interface) can
+            // only be detected as "redefined away" from the perspective of a concrete class that is a
+            // strict descendant of the property's declaring class - the redefining property lives on
+            // that concrete class or an intermediate one, never on the declaring class itself. This is
+            // why the check cannot be folded into the loop above, which only ever looks at a class's own
+            // OwnedAttribute.
+            foreach (var @class in classes)
+            {
+                var propertyVariations = classPropertyVariations[@class];
+
+                var inheritedProperties = @class.QueryAllProperties()
+                    .Where(property => !@class.OwnedAttribute.Contains(property));
+
+                foreach (var property in inheritedProperties)
+                {
+                    if (!property.TryQueryRedefinedByProperty(@class, out _))
+                    {
+                        continue;
+                    }
+
+                    if (property.QueryIsReferenceType())
+                    {
+                        var referenceType = property.IsComposite
+                            ? $"REF:{property.Lower}:{property.Upper}:composite"
+                            : $"REF:{property.Lower}:{property.Upper}";
+
+                        if (property.QueryIsMemberOfManyToMany())
+                        {
+                            referenceType = $"{referenceType}:Many-to-Many";
+                        }
+
+                        propertyVariations.Add($"{referenceType}:IsRedefined");
+                    }
+
+                    if (property.QueryIsValueType())
+                    {
+                        propertyVariations.Add(property.QueryIsEnum()
+                            ? $"ENUM:{property.Lower}:{property.Upper}:IsRedefined"
+                            : $"VALUE:{property.QueryTypeName()}:{property.Lower}:{property.Upper}:IsRedefined");
                     }
                 }
             }
