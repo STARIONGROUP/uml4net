@@ -94,7 +94,62 @@ namespace uml4net.Tests.Extend
                 Assert.That(() => PackageExtensions.QueryNestedPackage(package), Throws.ArgumentNullException);
                 Assert.That(() => PackageExtensions.QueryOwnedStereotype(package), Throws.ArgumentNullException);
                 Assert.That(() => PackageExtensions.QueryOwnedType(package), Throws.ArgumentNullException);
+                Assert.That(() => PackageExtensions.QueryVisibleMembers(package), Throws.ArgumentNullException);
             }
+        }
+
+        [Test]
+        public void Verify_that_QueryMakesVisible_throws_when_an_argument_is_null()
+        {
+            var package = new Package { Name = "P" };
+            var @class = new Class { Name = "C" };
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(() => PackageExtensions.QueryMakesVisible(null, @class), Throws.ArgumentNullException);
+                Assert.That(() => PackageExtensions.QueryMakesVisible(package, null), Throws.ArgumentNullException);
+            }
+        }
+
+        [Test]
+        public void Verify_that_QueryMakesVisible_returns_true_for_an_owned_member()
+        {
+            var package = new Package { Name = "P" };
+            var @class = new Class { Name = "C" };
+            package.PackagedElement.Add(@class);
+
+            Assert.That(package.QueryMakesVisible(@class), Is.True);
+        }
+
+        [Test]
+        public void Verify_that_QueryMakesVisible_returns_true_for_a_publicly_imported_element()
+        {
+            var package = new Package { Name = "P" };
+            var importedElement = new Class { Name = "Imported" };
+            var elementImport = new ElementImport { Visibility = VisibilityKind.Public, ImportedElement = importedElement };
+            package.ElementImport.Add(elementImport);
+
+            Assert.That(package.QueryMakesVisible(importedElement), Is.True);
+        }
+
+        [Test]
+        public void Verify_that_QueryMakesVisible_returns_false_for_a_privately_imported_element()
+        {
+            var package = new Package { Name = "P" };
+            var importedElement = new Class { Name = "Imported" };
+            var elementImport = new ElementImport { Visibility = VisibilityKind.Private, ImportedElement = importedElement };
+            package.ElementImport.Add(elementImport);
+
+            Assert.That(package.QueryMakesVisible(importedElement), Is.False);
+        }
+
+        [Test]
+        public void Verify_that_QueryMakesVisible_returns_false_for_an_unrelated_element()
+        {
+            var package = new Package { Name = "P" };
+            var unrelated = new Class { Name = "Unrelated" };
+
+            Assert.That(package.QueryMakesVisible(unrelated), Is.False);
         }
     }
 }

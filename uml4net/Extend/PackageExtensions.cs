@@ -88,6 +88,57 @@ namespace uml4net.Packages
         }
 
         /// <summary>
+        /// Queries whether this Package makes the specified NamedElement visible outside itself.
+        /// </summary>
+        /// <param name="package">
+        /// The subject <see cref="IPackage"/>
+        /// </param>
+        /// <param name="element">
+        /// the <see cref="INamedElement"/> to check
+        /// </param>
+        /// <returns>
+        /// <c>true</c> when the element is visible outside this Package, <c>false</c> otherwise.
+        /// </returns>
+        /// <remarks>
+        /// The metamodel's own OCL for <c>Package::makesVisible</c> (verified against the raw
+        /// <c>resources/UML/UML.xmi</c>, not just the uml4net-sage extraction, to rule out an
+        /// extraction error) is malformed - the second clause compares an <c>ElementImport</c>'s
+        /// <c>importedElement</c> (a NamedElement) directly to <c>VisibilityKind::public</c> (an
+        /// enum literal), which can never hold, and the third clause uses
+        /// <c>collect(...)->notEmpty()</c> where <c>exists(...)</c> was clearly intended (as written,
+        /// it would return true for any public PackageImport regardless of whether the element is
+        /// actually a member of the imported package). This implementation instead follows the
+        /// operation's own documentation comment ("Elements with no visibility and elements with
+        /// public visibility are made visible") and the OCL's evident structural intent: an element
+        /// is visible if it is an owned member, or was imported via a public <see cref="IElementImport"/>,
+        /// or is a member of a Package imported via a public <see cref="IPackageImport"/>.
+        /// </remarks>
+        internal static bool QueryMakesVisible(this IPackage package, INamedElement element)
+        {
+            if (package == null)
+            {
+                throw new ArgumentNullException(nameof(package));
+            }
+
+            if (element == null)
+            {
+                throw new ArgumentNullException(nameof(element));
+            }
+
+            if (package.OwnedMember.Contains(element))
+            {
+                return true;
+            }
+
+            if (package.ElementImport.Any(elementImport => elementImport.Visibility == VisibilityKind.Public && Equals(elementImport.ImportedElement, element)))
+            {
+                return true;
+            }
+
+            return package.PackageImport.Any(packageImport => packageImport.Visibility == VisibilityKind.Public && packageImport.ImportedPackage.Member.Contains(element));
+        }
+
+        /// <summary>
         /// Queries the PackageableElements that this Package makes visible to importers.
         /// </summary>
         /// <param name="package">
@@ -96,10 +147,18 @@ namespace uml4net.Packages
         /// <returns>
         /// the PackageableElements that this Package makes visible to importers.
         /// </returns>
-        [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
         internal static List<IPackageableElement> QueryVisibleMembers(this IPackage package)
         {
-            throw new NotSupportedException("Create a GitHub issue when this method is required");
+            if (package == null)
+            {
+                throw new ArgumentNullException(nameof(package));
+            }
+
+            return package.Member
+                .OfType<IPackageableElement>()
+                .Where(package.QueryMakesVisible)
+                .Distinct()
+                .ToList();
         }
     }
 }
