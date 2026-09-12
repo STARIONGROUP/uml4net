@@ -25,6 +25,7 @@ namespace uml4net.Classification
     using System.Linq;
 
     using uml4net.Activities;
+    using uml4net.CommonBehavior;
     using uml4net.StateMachines;
     using uml4net.StructuredClassifiers;
 
@@ -128,10 +129,45 @@ namespace uml4net.Classification
         /// <returns>
         /// The contexts that this element may be redefined from.
         /// </returns>
-        [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
+        /// <remarks>
+        /// Has no OCL body in the metamodel - a plain derived union. Confirmed against the raw
+        /// <c>resources/UML/UML.xmi</c> that every direct subsetter of
+        /// <c>RedefinableElement-redefinitionContext</c> is the opposite end of a composite ownership
+        /// relationship (e.g. <c>Operation.Class</c>/<c>DataType</c>/<c>Interface</c>,
+        /// <c>Property.OwningAssociation</c>, <c>Connector</c>'s owning <c>StructuredClassifier</c>, a
+        /// nested <c>Class</c>/<c>Interface</c>'s nesting classifier, <c>RedefinableTemplateSignature.
+        /// Classifier</c>) - EXCEPT <see cref="IBehavior.Context"/>, which is a real traversal
+        /// (<see cref="BehaviorExtensions.QueryContext"/>) that can skip past intermediate owners, so
+        /// it must be special-cased ahead of the generic <see cref="IElement.Owner"/> fallback (an
+        /// <see cref="IBehavior"/> is also an <see cref="StructuredClassifiers.IClass"/>, so without
+        /// this the generic fallback would silently apply and return the wrong answer). This method is
+        /// NOT called at all for <c>Vertex</c>/<c>Region</c>/<c>Transition</c> instances - those three
+        /// interfaces REDEFINE (not subset) <c>redefinitionContext</c> as a narrower scalar
+        /// (<c>IVertex</c>/<c>IRegion</c>/<c>ITransition.RedefinitionContext</c>, from #254/#255/#256),
+        /// and every one of their generated concrete classes implements
+        /// <c>IRedefinableElement.RedefinitionContext</c> by directly wrapping that narrower scalar in
+        /// a list, bypassing this generic dispatch entirely.
+        /// </remarks>
         internal static List<IClassifier> QueryRedefinitionContext(this IRedefinableElement redefinableElement)
         {
-            throw new NotSupportedException("Create a GitHub issue when this method is required");
+            if (redefinableElement == null)
+            {
+                throw new ArgumentNullException(nameof(redefinableElement));
+            }
+
+            if (redefinableElement is IBehavior behavior)
+            {
+                var context = behavior.QueryContext();
+
+                return context == null ? new List<IClassifier>() : new List<IClassifier> { context };
+            }
+
+            if (redefinableElement.Owner is IClassifier owner)
+            {
+                return new List<IClassifier> { owner };
+            }
+
+            return new List<IClassifier>();
         }
     }
 }

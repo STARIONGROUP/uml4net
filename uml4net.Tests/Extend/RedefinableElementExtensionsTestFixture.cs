@@ -146,5 +146,61 @@ namespace uml4net.Tests.Extend
 
             Assert.That(signature.QueryRedefinedElement(), Is.EquivalentTo(new IRedefinableElement[] { extended }));
         }
+
+        [Test]
+        public void Verify_that_QueryRedefinitionContext_throws_when_argument_is_null()
+        {
+            IRedefinableElement redefinableElement = null;
+
+            Assert.That(() => RedefinableElementExtensions.QueryRedefinitionContext(redefinableElement), Throws.ArgumentNullException);
+        }
+
+        [Test]
+        public void Verify_that_QueryRedefinitionContext_returns_an_empty_list_for_an_unowned_element()
+        {
+            var operation = new Operation { Name = "op" };
+
+            Assert.That(operation.QueryRedefinitionContext(), Is.Empty);
+        }
+
+        [Test]
+        public void Verify_that_QueryRedefinitionContext_returns_the_owning_Class_for_an_Operation()
+        {
+            var @class = new Class { Name = "C" };
+            var operation = new Operation { Name = "op" };
+            @class.OwnedOperation.Add(operation);
+
+            Assert.That(operation.QueryRedefinitionContext(), Is.EquivalentTo(new IClassifier[] { @class }));
+        }
+
+        [Test]
+        public void Verify_that_QueryRedefinitionContext_returns_the_nesting_Class_for_a_nested_Class()
+        {
+            var nestingClass = new Class { Name = "Outer" };
+            var nestedClass = new Class { Name = "Inner" };
+            nestingClass.NestedClassifier.Add(nestedClass);
+
+            Assert.That(nestedClass.QueryRedefinitionContext(), Is.EquivalentTo(new IClassifier[] { nestingClass }));
+        }
+
+        [Test]
+        public void Verify_that_QueryRedefinitionContext_uses_QueryContext_for_a_Behavior()
+        {
+            var owningClass = new Class { Name = "Owner" };
+            var behavior = new Activity { Name = "Activity" };
+            owningClass.OwnedBehavior.Add(behavior);
+
+            Assert.That(behavior.QueryRedefinitionContext(), Is.EquivalentTo(new IClassifier[] { owningClass }));
+        }
+
+        [Test]
+        public void Verify_that_QueryRedefinitionContext_returns_an_empty_list_for_a_Behavior_directly_owned_as_a_nestedClassifier()
+        {
+            var owningClass = new Class { Name = "Owner" };
+            var behavior = new Activity { Name = "Nested" };
+            owningClass.NestedClassifier.Add(behavior);
+
+            Assert.That(behavior.QueryRedefinitionContext(), Is.Empty);
+        }
     }
 }
