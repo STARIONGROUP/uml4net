@@ -59,6 +59,51 @@ namespace uml4net.CommonStructure
         }
 
         /// <summary>
+        /// Queries the names that a NamedElement would have in this Namespace, whether it is an
+        /// owned member, a member imported via an <see cref="IElementImport"/>, or a member imported
+        /// via a public <see cref="IPackageImport"/>.
+        /// </summary>
+        /// <param name="namespace">
+        /// The subject <see cref="INamespace"/>
+        /// </param>
+        /// <param name="element">
+        /// the <see cref="INamedElement"/> whose names are queried
+        /// </param>
+        /// <returns>
+        /// the names, if any, under which <paramref name="element"/> is known in this Namespace.
+        /// </returns>
+        internal static List<string> QueryGetNamesOfMember(this INamespace @namespace, INamedElement element)
+        {
+            if (@namespace == null)
+            {
+                throw new ArgumentNullException(nameof(@namespace));
+            }
+
+            if (element == null)
+            {
+                throw new ArgumentNullException(nameof(element));
+            }
+
+            if (@namespace.OwnedMember.Contains(element))
+            {
+                return new List<string> { element.Name };
+            }
+
+            var elementImports = @namespace.ElementImport.Where(elementImport => Equals(elementImport.ImportedElement, element)).ToList();
+
+            if (elementImports.Count > 0)
+            {
+                return elementImports.Select(elementImport => elementImport.QueryGetName()).Distinct().ToList();
+            }
+
+            return @namespace.PackageImport
+                .Where(packageImport => packageImport.ImportedPackage.QueryVisibleMembers().Any(member => Equals(member, element)))
+                .SelectMany(packageImport => packageImport.ImportedPackage.QueryGetNamesOfMember(element))
+                .Distinct()
+                .ToList();
+        }
+
+        /// <summary>
         /// Queries a collection of NamedElements owned by the Namespace.
         /// </summary>
         /// <param name="namespace">

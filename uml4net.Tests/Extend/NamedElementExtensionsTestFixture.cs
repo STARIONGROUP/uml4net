@@ -26,6 +26,7 @@ namespace uml4net.Tests.Extend
     using NUnit.Framework;
 
     using uml4net.Packages;
+    using uml4net.SimpleClassifiers;
     using uml4net.StructuredClassifiers;
 
     [TestFixture]
@@ -126,6 +127,72 @@ namespace uml4net.Tests.Extend
                 Assert.That(supplier.QuerySupplierDependency(), Is.EquivalentTo(new[] { dependency }));
                 Assert.That(client.QuerySupplierDependency(), Is.Empty);
                 Assert.That(unrelated.QuerySupplierDependency(), Is.Empty);
+            }
+        }
+
+        [Test]
+        public void Verify_that_QueryIsDistinguishableFrom_throws_when_an_argument_is_null()
+        {
+            var package = new Package { Name = "root" };
+            var @class = new Class { Name = "A" };
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(() => NamedElementExtensions.QueryIsDistinguishableFrom(null, @class, package), Throws.ArgumentNullException);
+                Assert.That(() => NamedElementExtensions.QueryIsDistinguishableFrom(@class, null, package), Throws.ArgumentNullException);
+                Assert.That(() => NamedElementExtensions.QueryIsDistinguishableFrom(@class, @class, null), Throws.ArgumentNullException);
+            }
+        }
+
+        [Test]
+        public void Verify_that_QueryIsDistinguishableFrom_returns_true_for_unrelated_kinds_even_with_the_same_name()
+        {
+            var package = new Package { Name = "root" };
+            var @class = new Class { Name = "Same" };
+            var signal = new Signal { Name = "Same" };
+            package.PackagedElement.Add(@class);
+            package.PackagedElement.Add(signal);
+
+            Assert.That(@class.QueryIsDistinguishableFrom(signal, package), Is.True);
+        }
+
+        [Test]
+        public void Verify_that_QueryIsDistinguishableFrom_returns_false_for_the_same_kind_with_the_same_name()
+        {
+            var package = new Package { Name = "root" };
+            var classA = new Class { Name = "Same" };
+            var classB = new Class { Name = "Same" };
+            package.PackagedElement.Add(classA);
+            package.PackagedElement.Add(classB);
+
+            Assert.That(classA.QueryIsDistinguishableFrom(classB, package), Is.False);
+        }
+
+        [Test]
+        public void Verify_that_QueryIsDistinguishableFrom_returns_true_for_the_same_kind_with_different_names()
+        {
+            var package = new Package { Name = "root" };
+            var classA = new Class { Name = "A" };
+            var classB = new Class { Name = "B" };
+            package.PackagedElement.Add(classA);
+            package.PackagedElement.Add(classB);
+
+            Assert.That(classA.QueryIsDistinguishableFrom(classB, package), Is.True);
+        }
+
+        [Test]
+        public void Verify_that_QueryIsDistinguishableFrom_returns_false_when_one_is_a_specialization_of_the_other_with_the_same_name()
+        {
+            var package = new Package { Name = "root" };
+            var @class = new Class { Name = "Same" };
+            var component = new Component { Name = "Same" };
+            package.PackagedElement.Add(@class);
+            package.PackagedElement.Add(component);
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(@class.QueryIsDistinguishableFrom(component, package), Is.False);
+                Assert.That(component.QueryIsDistinguishableFrom(@class, package), Is.False);
             }
         }
     }
