@@ -104,6 +104,84 @@ namespace uml4net.CommonStructure
         }
 
         /// <summary>
+        /// Queries which of the provided PackageableElements would not be distinguishable from each
+        /// other if all were imported into this Namespace, excluding them from the result.
+        /// </summary>
+        /// <param name="namespace">
+        /// The subject <see cref="INamespace"/>
+        /// </param>
+        /// <param name="imps">
+        /// the candidate <see cref="IPackageableElement"/>s to check for collisions
+        /// </param>
+        /// <returns>
+        /// the subset of <paramref name="imps"/> that are pairwise distinguishable from every other
+        /// element of <paramref name="imps"/> within this Namespace.
+        /// </returns>
+        /// <remarks>
+        /// The metamodel's own OCL for this operation (verified against the raw
+        /// <c>resources/UML/UML.xmi</c>) is missing a guard against comparing a candidate to itself:
+        /// <c>imps->reject(imp1 | imps->exists(imp2 | not imp1.isDistinguishableFrom(imp2, self)))</c>.
+        /// For any candidate already registered in this Namespace (e.g. as the <c>ImportedElement</c>
+        /// of one of its own <see cref="IElementImport"/>s - the normal case, since real callers such
+        /// as <c>Namespace.ImportedMember</c> always pass candidates drawn from
+        /// <c>elementImport.importedElement</c>), <c>isDistinguishableFrom(x, x, self)</c> evaluates
+        /// to <c>false</c> (its own non-empty name set trivially intersects itself), so the literal
+        /// OCL would reject every such candidate outright, even a single one with no real collision.
+        /// This implementation adds the evidently-intended <c>imp2 &lt;&gt; imp1</c> guard implied by
+        /// the operation's own documentation ("excludes ... any that would not be distinguishable
+        /// from <i>each other</i>").
+        /// </remarks>
+        internal static List<IPackageableElement> QueryExcludeCollisions(this INamespace @namespace, IEnumerable<IPackageableElement> imps)
+        {
+            if (@namespace == null)
+            {
+                throw new ArgumentNullException(nameof(@namespace));
+            }
+
+            if (imps == null)
+            {
+                throw new ArgumentNullException(nameof(imps));
+            }
+
+            var candidates = imps.ToList();
+
+            return candidates
+                .Where(imp1 => !candidates.Any(imp2 => !ReferenceEquals(imp1, imp2) && !imp1.QueryIsDistinguishableFrom(imp2, @namespace)))
+                .ToList();
+        }
+
+        /// <summary>
+        /// Queries which of the provided PackageableElements are actually imported into this
+        /// Namespace: those that do not collide with each other (<see cref="QueryExcludeCollisions"/>)
+        /// and that are distinguishable from every one of this Namespace's own owned members.
+        /// </summary>
+        /// <param name="namespace">
+        /// The subject <see cref="INamespace"/>
+        /// </param>
+        /// <param name="imps">
+        /// the candidate <see cref="IPackageableElement"/>s to import
+        /// </param>
+        /// <returns>
+        /// the subset of <paramref name="imps"/> that would actually be imported into this Namespace.
+        /// </returns>
+        internal static List<IPackageableElement> QueryImportMembers(this INamespace @namespace, IEnumerable<IPackageableElement> imps)
+        {
+            if (@namespace == null)
+            {
+                throw new ArgumentNullException(nameof(@namespace));
+            }
+
+            if (imps == null)
+            {
+                throw new ArgumentNullException(nameof(imps));
+            }
+
+            return @namespace.QueryExcludeCollisions(imps)
+                .Where(imp => @namespace.OwnedMember.All(member => imp.QueryIsDistinguishableFrom(member, @namespace)))
+                .ToList();
+        }
+
+        /// <summary>
         /// Queries a collection of NamedElements owned by the Namespace.
         /// </summary>
         /// <param name="namespace">

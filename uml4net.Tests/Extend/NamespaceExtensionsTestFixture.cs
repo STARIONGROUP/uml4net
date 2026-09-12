@@ -20,6 +20,8 @@
 
 namespace uml4net.Tests.Extend
 {
+    using System.Collections.Generic;
+
     using NUnit.Framework;
 
     using uml4net.Actions;
@@ -431,6 +433,81 @@ namespace uml4net.Tests.Extend
             var unrelated = new Class { Name = "Unrelated" };
 
             Assert.That(package.QueryGetNamesOfMember(unrelated), Is.Empty);
+        }
+
+        [Test]
+        public void Verify_that_QueryExcludeCollisions_and_QueryImportMembers_throw_when_an_argument_is_null()
+        {
+            var package = new Package { Name = "P" };
+            var imps = new List<IPackageableElement>();
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(() => NamespaceExtensions.QueryExcludeCollisions(null, imps), Throws.ArgumentNullException);
+                Assert.That(() => NamespaceExtensions.QueryExcludeCollisions(package, null), Throws.ArgumentNullException);
+                Assert.That(() => NamespaceExtensions.QueryImportMembers(null, imps), Throws.ArgumentNullException);
+                Assert.That(() => NamespaceExtensions.QueryImportMembers(package, null), Throws.ArgumentNullException);
+            }
+        }
+
+        [Test]
+        public void Verify_that_QueryExcludeCollisions_keeps_candidates_that_do_not_collide()
+        {
+            var package = new Package { Name = "P" };
+            var classCandidate = new Class { Name = "Same" };
+            var signalCandidate = new Signal { Name = "Same" };
+
+            var result = package.QueryExcludeCollisions(new IPackageableElement[] { classCandidate, signalCandidate });
+
+            Assert.That(result, Is.EquivalentTo(new IPackageableElement[] { classCandidate, signalCandidate }));
+        }
+
+        [Test]
+        public void Verify_that_QueryExcludeCollisions_excludes_candidates_that_collide_with_each_other()
+        {
+            // Real callers (Namespace.ImportedMember) always pass candidates that are themselves the
+            // ImportedElement of one of this Namespace's own ElementImports - getNamesOfMember only
+            // resolves a real name for a candidate that is registered that way (or already owned),
+            // so the two candidates need their own ElementImports here to be comparable at all.
+            var package = new Package { Name = "P" };
+            var classCandidate1 = new Class { Name = "Original1" };
+            var classCandidate2 = new Class { Name = "Original2" };
+            package.ElementImport.Add(new ElementImport { ImportedElement = classCandidate1, Alias = "Same" });
+            package.ElementImport.Add(new ElementImport { ImportedElement = classCandidate2, Alias = "Same" });
+
+            var result = package.QueryExcludeCollisions(new IPackageableElement[] { classCandidate1, classCandidate2 });
+
+            Assert.That(result, Is.Empty);
+        }
+
+        [Test]
+        public void Verify_that_QueryImportMembers_excludes_a_candidate_that_collides_with_an_owned_member()
+        {
+            var package = new Package { Name = "P" };
+            var ownedMember = new Class { Name = "Same" };
+            package.PackagedElement.Add(ownedMember);
+
+            var candidate = new Class { Name = "Original" };
+            package.ElementImport.Add(new ElementImport { ImportedElement = candidate, Alias = "Same" });
+
+            var result = package.QueryImportMembers(new IPackageableElement[] { candidate });
+
+            Assert.That(result, Is.Empty);
+        }
+
+        [Test]
+        public void Verify_that_QueryImportMembers_keeps_a_candidate_distinguishable_from_everything()
+        {
+            var package = new Package { Name = "P" };
+            var ownedMember = new Class { Name = "Owned" };
+            package.PackagedElement.Add(ownedMember);
+
+            var candidate = new Class { Name = "Distinct" };
+            package.ElementImport.Add(new ElementImport { ImportedElement = candidate });
+
+            var result = package.QueryImportMembers(new IPackageableElement[] { candidate });
+
+            Assert.That(result, Is.EquivalentTo(new IPackageableElement[] { candidate }));
         }
     }
 }
