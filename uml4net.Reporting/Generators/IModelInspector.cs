@@ -73,7 +73,7 @@ namespace uml4net.Reporting.Generators
 
         /// <summary>
         /// Inspect the content of the provided <see cref="IPackage"/> and returns a
-        /// read-only collection of interesting <see cref="IClass"/>
+        /// read-only collection of interesting <see cref="IClassifier"/>
         /// </summary>
         /// <param name="package">
         /// The <see cref="IPackage"/> that needs to be inspected
@@ -83,11 +83,13 @@ namespace uml4net.Reporting.Generators
         /// owned by a class are taken into account when determining the interesting classes. <c>false</c> by default
         /// </param>
         /// <returns>
-        /// A read-only collection of interesting <see cref="IClass"/> that cover the variations of
-        /// <see cref="IProperty"/>, and - when <paramref name="includeOperations"/> is <c>true</c> -
-        /// the <see cref="IOperation"/> argument and return-type variations
+        /// A read-only collection of interesting <see cref="IClassifier"/> (e.g. a plain
+        /// <see cref="IAssociation"/> that owns a distinguishing end property, not just an
+        /// <see cref="IClass"/>) that cover the variations of <see cref="IProperty"/>, and - when
+        /// <paramref name="includeOperations"/> is <c>true</c> - the <see cref="IOperation"/> argument
+        /// and return-type variations
         /// </returns>
-        public IReadOnlyCollection<IClass> QueryInterestingClasses(IPackage package, bool includeOperations = false);
+        public IReadOnlyCollection<IClassifier> QueryInterestingClasses(IPackage package, bool includeOperations = false);
 
         /// <summary>
         /// Recursively analyzes the documentation of the model and prints the names of all classes 
