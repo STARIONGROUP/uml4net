@@ -58,6 +58,11 @@ namespace uml4net.UseCases
         public IElement Possessor { get; set; }
 
         /// <summary>
+        /// Gets the most specific uml4net-generated interface that represents the UML metaclass of this instance.
+        /// </summary>
+        public Type MetaclassInterface => typeof(IInclude);
+
+        /// <summary>
         /// The UseCase that is to be included.
         /// </summary>
         [Property(xmiId: "Include-addition", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]

@@ -58,6 +58,11 @@ namespace uml4net.Packages
         public IElement Possessor { get; set; }
 
         /// <summary>
+        /// Gets the most specific uml4net-generated interface that represents the UML metaclass of this instance.
+        /// </summary>
+        public Type MetaclassInterface => typeof(IImage);
+
+        /// <summary>
         /// This contains the serialization of the image according to the format. The value could represent a
         /// bitmap, image such as a GIF file, or drawing 'instructions' using a standard such as Scalable Vector
         /// Graphic (SVG) (which is XML based).

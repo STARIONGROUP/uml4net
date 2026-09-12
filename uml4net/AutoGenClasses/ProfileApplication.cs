@@ -58,6 +58,11 @@ namespace uml4net.Packages
         public IElement Possessor { get; set; }
 
         /// <summary>
+        /// Gets the most specific uml4net-generated interface that represents the UML metaclass of this instance.
+        /// </summary>
+        public Type MetaclassInterface => typeof(IProfileApplication);
+
+        /// <summary>
         /// References the Profiles that are applied to a Package through this ProfileApplication.
         /// </summary>
         [Property(xmiId: "ProfileApplication-appliedProfile", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]

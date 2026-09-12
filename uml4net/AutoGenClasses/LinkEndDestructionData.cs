@@ -59,6 +59,11 @@ namespace uml4net.Actions
         public IElement Possessor { get; set; }
 
         /// <summary>
+        /// Gets the most specific uml4net-generated interface that represents the UML metaclass of this instance.
+        /// </summary>
+        public Type MetaclassInterface => typeof(ILinkEndDestructionData);
+
+        /// <summary>
         /// The InputPin that provides the position of an existing link to be destroyed in an ordered, nonunique
         /// Association end. The type of the destroyAt InputPin is UnlimitedNatural, but the value cannot be
         /// zero or unlimited.

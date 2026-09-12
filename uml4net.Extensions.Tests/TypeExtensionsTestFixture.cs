@@ -52,6 +52,7 @@ namespace uml4net.Extensions.Tests
 
             public IElement Owner => null;
             public IElement Possessor { get; set; }
+            public Type MetaclassInterface => typeof(IType);
 
             public List<IDependency> ClientDependency => new();
 

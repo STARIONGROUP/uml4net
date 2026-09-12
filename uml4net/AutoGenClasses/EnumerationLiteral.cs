@@ -58,6 +58,11 @@ namespace uml4net.SimpleClassifiers
         public IElement Possessor { get; set; }
 
         /// <summary>
+        /// Gets the most specific uml4net-generated interface that represents the UML metaclass of this instance.
+        /// </summary>
+        public Type MetaclassInterface => typeof(IEnumerationLiteral);
+
+        /// <summary>
         /// The classifier of this EnumerationLiteral derived to be equal to its Enumeration.
         /// </summary>
         [Property(xmiId: "EnumerationLiteral-classifier", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: false, isUnique: true, defaultValue: null)]

@@ -59,6 +59,11 @@ namespace uml4net.Actions
         public IElement Possessor { get; set; }
 
         /// <summary>
+        /// Gets the most specific uml4net-generated interface that represents the UML metaclass of this instance.
+        /// </summary>
+        public Type MetaclassInterface => typeof(IConditionalNode);
+
+        /// <summary>
         /// The Activity immediately containing the StructuredActivityNode, if it is not contained in another
         /// StructuredActivityNode.
         /// </summary>

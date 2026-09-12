@@ -113,7 +113,11 @@ namespace uml4net.CommonStructure
         /// <remarks>
         /// Two elements are only required to be distinguishable when one is a kind of the other's
         /// type; in that case, they must not share any name visible within <paramref name="namespace"/>
-        /// (<see cref="NamespaceExtensions.QueryGetNamesOfMember"/>).
+        /// (<see cref="NamespaceExtensions.QueryGetNamesOfMember"/>). "Kind of" is evaluated via
+        /// <see cref="IElement.MetaclassInterface"/> rather than the concrete .NET type, since
+        /// uml4net's generated concrete classes only ever inherit from <c>XmiElement</c> - the UML
+        /// generalization hierarchy is expressed exclusively through interface inheritance (e.g.
+        /// <c>IComponent : IClass</c>).
         /// </remarks>
         internal static bool QueryIsDistinguishableFrom(this INamedElement namedElement, INamedElement other, INamespace @namespace)
         {
@@ -132,11 +136,8 @@ namespace uml4net.CommonStructure
                 throw new ArgumentNullException(nameof(@namespace));
             }
 
-            var namedElementType = QueryUmlMetaclassInterface(namedElement);
-            var otherType = QueryUmlMetaclassInterface(other);
-
-            var oneIsAKindOfTheOther = (namedElementType != null && namedElementType.IsInstanceOfType(other))
-                || (otherType != null && otherType.IsInstanceOfType(namedElement));
+            var oneIsAKindOfTheOther = namedElement.MetaclassInterface.IsInstanceOfType(other)
+                || other.MetaclassInterface.IsInstanceOfType(namedElement);
 
             if (!oneIsAKindOfTheOther)
             {
@@ -144,32 +145,6 @@ namespace uml4net.CommonStructure
             }
 
             return !@namespace.QueryGetNamesOfMember(namedElement).Intersect(@namespace.QueryGetNamesOfMember(other)).Any();
-        }
-
-        /// <summary>
-        /// Queries the most specific uml4net-generated interface (e.g. <c>IComponent</c> for a
-        /// <see cref="Component"/> instance) that represents the UML metaclass of the provided
-        /// <paramref name="element"/>.
-        /// </summary>
-        /// <param name="element">
-        /// The subject <see cref="IElement"/>
-        /// </param>
-        /// <returns>
-        /// the metaclass-representing interface, or <c>null</c> if it could not be resolved.
-        /// </returns>
-        /// <remarks>
-        /// uml4net's generated concrete classes only ever inherit from <c>XmiElement</c> - the UML
-        /// generalization hierarchy is expressed exclusively through interface inheritance (e.g.
-        /// <c>IComponent : IClass</c>), by convention one interface named <c>I{ClassName}</c> per
-        /// concrete class. This is needed to evaluate OCL's <c>oclIsKindOf</c>/<c>oclType()</c>
-        /// against the *metaclass* a runtime instance represents, since the concrete .NET type
-        /// itself carries no such inheritance to query.
-        /// </remarks>
-        private static Type QueryUmlMetaclassInterface(IElement element)
-        {
-            var concreteType = element.GetType();
-
-            return concreteType.GetInterface($"I{concreteType.Name}");
         }
 
         /// <summary>

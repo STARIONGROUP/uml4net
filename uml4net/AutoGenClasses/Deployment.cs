@@ -61,6 +61,11 @@ namespace uml4net.Deployments
         public IElement Possessor { get; set; }
 
         /// <summary>
+        /// Gets the most specific uml4net-generated interface that represents the UML metaclass of this instance.
+        /// </summary>
+        public Type MetaclassInterface => typeof(IDeployment);
+
+        /// <summary>
         /// The Element(s) dependent on the supplier Element(s). In some cases (such as a trace Abstraction) the
         /// assignment of direction (that is, the designation of the client Element) is at the discretion of the
         /// modeler and is a stipulation.

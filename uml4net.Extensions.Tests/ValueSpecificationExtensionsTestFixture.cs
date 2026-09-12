@@ -20,6 +20,7 @@
 
 namespace uml4net.Extensions.Tests
 {
+    using System;
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
@@ -122,6 +123,7 @@ namespace uml4net.Extensions.Tests
             public IContainerList<IComment> OwnedComment { get; set; }
             public List<IElement> OwnedElement { get; }
             public IElement Owner { get; }
+            public Type MetaclassInterface => typeof(IValueSpecification);
             public List<IDependency> ClientDependency { get; }
             public string Name { get; set; }
             public IContainerList<IStringExpression> NameExpression { get; set; }

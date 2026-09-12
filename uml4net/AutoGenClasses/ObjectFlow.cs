@@ -60,6 +60,11 @@ namespace uml4net.Activities
         public IElement Possessor { get; set; }
 
         /// <summary>
+        /// Gets the most specific uml4net-generated interface that represents the UML metaclass of this instance.
+        /// </summary>
+        public Type MetaclassInterface => typeof(IObjectFlow);
+
+        /// <summary>
         /// The Activity containing the ActivityEdge, if it is directly owned by an Activity.
         /// </summary>
         [Property(xmiId: "ActivityEdge-activity", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]

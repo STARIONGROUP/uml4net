@@ -60,6 +60,11 @@ namespace uml4net.Actions
         public IElement Possessor { get; set; }
 
         /// <summary>
+        /// Gets the most specific uml4net-generated interface that represents the UML metaclass of this instance.
+        /// </summary>
+        public Type MetaclassInterface => typeof(IClause);
+
+        /// <summary>
         /// The set of ExecutableNodes that are executed if the test evaluates to true and the Clause is chosen
         /// over other Clauses within the ConditionalNode that also have tests that evaluate to true.
         /// </summary>

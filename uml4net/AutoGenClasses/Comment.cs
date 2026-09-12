@@ -58,6 +58,11 @@ namespace uml4net.CommonStructure
         public IElement Possessor { get; set; }
 
         /// <summary>
+        /// Gets the most specific uml4net-generated interface that represents the UML metaclass of this instance.
+        /// </summary>
+        public Type MetaclassInterface => typeof(IComment);
+
+        /// <summary>
         /// References the Element(s) being commented.
         /// </summary>
         [Property(xmiId: "Comment-annotatedElement", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]

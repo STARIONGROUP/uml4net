@@ -60,6 +60,11 @@ namespace uml4net.StructuredClassifiers
         public IElement Possessor { get; set; }
 
         /// <summary>
+        /// Gets the most specific uml4net-generated interface that represents the UML metaclass of this instance.
+        /// </summary>
+        public Type MetaclassInterface => typeof(IComponentRealization);
+
+        /// <summary>
         /// The Component that owns this ComponentRealization and which is implemented by its realizing
         /// Classifiers.
         /// </summary>

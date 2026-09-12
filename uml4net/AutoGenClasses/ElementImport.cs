@@ -60,6 +60,11 @@ namespace uml4net.CommonStructure
         public IElement Possessor { get; set; }
 
         /// <summary>
+        /// Gets the most specific uml4net-generated interface that represents the UML metaclass of this instance.
+        /// </summary>
+        public Type MetaclassInterface => typeof(IElementImport);
+
+        /// <summary>
         /// Specifies the name that should be added to the importing Namespace in lieu of the name of the
         /// imported PackagableElement. The alias must not clash with any other member in the importing
         /// Namespace. By default, no alias is used.
