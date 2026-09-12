@@ -195,6 +195,114 @@ namespace uml4net.Classification
         }
 
         /// <summary>
+        /// Queries whether a NamedElement owned by a parent of this Classifier is visible in this Classifier.
+        /// </summary>
+        /// <param name="classifier">
+        /// The subject <see cref="IClassifier"/>
+        /// </param>
+        /// <param name="n">
+        /// the <see cref="INamedElement"/> whose visibility is queried
+        /// </param>
+        /// <returns>
+        /// <c>true</c> when <paramref name="n"/> is visible, <c>false</c> otherwise.
+        /// </returns>
+        /// <remarks>
+        /// Backs the <c>Classifier::hasVisibilityOf(n)</c> operation (no <c>[Property]</c> decorator,
+        /// so no pre-existing stub). Confirmed against the raw <c>resources/UML/UML.xmi</c>: the OCL
+        /// body (<c>result = (n.visibility &lt;&gt; VisibilityKind::private)</c>) never actually
+        /// references <c>self</c>, despite being called as <c>c.hasVisibilityOf(m)</c> from
+        /// <see cref="QueryInheritableMembers"/> - non-private members are visible everywhere. The
+        /// <paramref name="classifier"/> parameter is kept for fidelity with the modeled operation
+        /// signature even though it is unused.
+        /// </remarks>
+        internal static bool QueryHasVisibilityOf(this IClassifier classifier, INamedElement n)
+        {
+            if (classifier == null)
+            {
+                throw new ArgumentNullException(nameof(classifier));
+            }
+
+            if (n == null)
+            {
+                throw new ArgumentNullException(nameof(n));
+            }
+
+            return n.Visibility != VisibilityKind.Private;
+        }
+
+        /// <summary>
+        /// Queries all of the members of this Classifier that may be inherited in <paramref name="c"/>,
+        /// subject to whatever visibility restrictions apply.
+        /// </summary>
+        /// <param name="classifier">
+        /// The subject <see cref="IClassifier"/>
+        /// </param>
+        /// <param name="c">
+        /// the descendant <see cref="IClassifier"/> for which the members may be inherited
+        /// </param>
+        /// <returns>
+        /// the members of this Classifier that may be inherited in <paramref name="c"/>.
+        /// </returns>
+        /// <remarks>
+        /// Backs the <c>Classifier::inheritableMembers(c)</c> operation (no <c>[Property]</c>
+        /// decorator). OCL: <c>result = (member->select(m | c.hasVisibilityOf(m)))</c>.
+        /// </remarks>
+        internal static List<INamedElement> QueryInheritableMembers(this IClassifier classifier, IClassifier c)
+        {
+            if (classifier == null)
+            {
+                throw new ArgumentNullException(nameof(classifier));
+            }
+
+            if (c == null)
+            {
+                throw new ArgumentNullException(nameof(c));
+            }
+
+            return classifier.Member.Where(c.QueryHasVisibilityOf).ToList();
+        }
+
+        /// <summary>
+        /// Queries how to inherit a set of elements passed as its argument, excluding redefined
+        /// elements from the result.
+        /// </summary>
+        /// <param name="classifier">
+        /// The subject <see cref="IClassifier"/>
+        /// </param>
+        /// <param name="inhs">
+        /// the candidate <see cref="INamedElement"/>s to inherit
+        /// </param>
+        /// <returns>
+        /// the subset of <paramref name="inhs"/> that are not redefined by one of this Classifier's
+        /// own owned RedefinableElements.
+        /// </returns>
+        /// <remarks>
+        /// Backs the <c>Classifier::inherit(inhs)</c> operation (no <c>[Property]</c> decorator). OCL:
+        /// <c>result = (inhs->reject(inh | inh.oclIsKindOf(RedefinableElement) and
+        /// ownedMember->select(oclIsKindOf(RedefinableElement))->
+        /// select(redefinedElement->includes(inh.oclAsType(RedefinableElement)))->notEmpty()))</c>.
+        /// </remarks>
+        internal static List<INamedElement> QueryInherit(this IClassifier classifier, IEnumerable<INamedElement> inhs)
+        {
+            if (classifier == null)
+            {
+                throw new ArgumentNullException(nameof(classifier));
+            }
+
+            if (inhs == null)
+            {
+                throw new ArgumentNullException(nameof(inhs));
+            }
+
+            var ownedRedefinableMembers = classifier.OwnedMember.OfType<IRedefinableElement>().ToList();
+
+            return inhs
+                .Where(inh => !(inh is IRedefinableElement redefinable
+                    && ownedRedefinableMembers.Any(ownedMember => ownedMember.QueryRedefinedElement().Contains(redefinable))))
+                .ToList();
+        }
+
+        /// <summary>
         /// Queries All elements inherited by this Classifier from its general Classifiers
         /// </summary>
         /// <param name="element">
@@ -203,10 +311,23 @@ namespace uml4net.Classification
         /// <returns>
         /// All elements inherited by this Classifier from its general Classifiers.
         /// </returns>
-        [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
+        /// <remarks>
+        /// OCL: <c>inheritedMember = inherit(parents()->collect(inheritableMembers(self))->asSet())</c>.
+        /// <c>parents()</c> is exactly <see cref="QueryGeneral"/> (<c>generalization.general</c>).
+        /// </remarks>
         internal static List<INamedElement> QueryInheritedMember(this IClassifier element)
         {
-            throw new NotSupportedException("Create a GitHub issue when this method is required");
+            if (element == null)
+            {
+                throw new ArgumentNullException(nameof(element));
+            }
+
+            var candidates = element.QueryGeneral()
+                .SelectMany(parent => parent.QueryInheritableMembers(element))
+                .Distinct()
+                .ToList();
+
+            return element.QueryInherit(candidates);
         }
 
         /// <summary>

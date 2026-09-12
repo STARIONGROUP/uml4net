@@ -332,5 +332,132 @@ namespace uml4net.Tests.Extend
 
             Assert.That(artifact.QueryFeature(), Is.EquivalentTo(new IFeature[] { operation }));
         }
+
+        [Test]
+        public void Verify_that_QueryHasVisibilityOf_throws_when_an_argument_is_null()
+        {
+            var @class = new Class { Name = "C" };
+            var property = new Property { Name = "p" };
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(() => ClassifierExtensions.QueryHasVisibilityOf(null, property), Throws.ArgumentNullException);
+                Assert.That(() => ClassifierExtensions.QueryHasVisibilityOf(@class, null), Throws.ArgumentNullException);
+            }
+        }
+
+        [Test]
+        public void Verify_that_QueryHasVisibilityOf_returns_false_only_for_private_visibility()
+        {
+            var @class = new Class { Name = "C" };
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(@class.QueryHasVisibilityOf(new Property { Visibility = VisibilityKind.Public }), Is.True);
+                Assert.That(@class.QueryHasVisibilityOf(new Property { Visibility = VisibilityKind.Protected }), Is.True);
+                Assert.That(@class.QueryHasVisibilityOf(new Property { Visibility = VisibilityKind.Package }), Is.True);
+                Assert.That(@class.QueryHasVisibilityOf(new Property { Visibility = VisibilityKind.Private }), Is.False);
+            }
+        }
+
+        [Test]
+        public void Verify_that_QueryInheritableMembers_throws_when_an_argument_is_null()
+        {
+            var parent = new Class { Name = "Parent" };
+            var child = new Class { Name = "Child" };
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(() => ClassifierExtensions.QueryInheritableMembers(null, child), Throws.ArgumentNullException);
+                Assert.That(() => ClassifierExtensions.QueryInheritableMembers(parent, null), Throws.ArgumentNullException);
+            }
+        }
+
+        [Test]
+        public void Verify_that_QueryInheritableMembers_excludes_private_members()
+        {
+            var parent = new Class { Name = "Parent" };
+            var child = new Class { Name = "Child" };
+            var publicAttribute = new Property { Name = "pub", Visibility = VisibilityKind.Public };
+            var privateAttribute = new Property { Name = "priv", Visibility = VisibilityKind.Private };
+            parent.OwnedAttribute.Add(publicAttribute);
+            parent.OwnedAttribute.Add(privateAttribute);
+
+            Assert.That(parent.QueryInheritableMembers(child), Is.EquivalentTo(new INamedElement[] { publicAttribute }));
+        }
+
+        [Test]
+        public void Verify_that_QueryInherit_throws_when_an_argument_is_null()
+        {
+            var @class = new Class { Name = "C" };
+            var candidates = new List<INamedElement>();
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(() => ClassifierExtensions.QueryInherit(null, candidates), Throws.ArgumentNullException);
+                Assert.That(() => ClassifierExtensions.QueryInherit(@class, null), Throws.ArgumentNullException);
+            }
+        }
+
+        [Test]
+        public void Verify_that_QueryInherit_rejects_a_candidate_redefined_by_an_owned_member()
+        {
+            var child = new Class { Name = "Child" };
+            var inherited = new Operation { Name = "op" };
+            var redefining = new Operation { Name = "op" };
+            redefining.RedefinedOperation.Add(inherited);
+            child.OwnedOperation.Add(redefining);
+
+            Assert.That(child.QueryInherit(new INamedElement[] { inherited, redefining }), Is.EquivalentTo(new INamedElement[] { redefining }));
+        }
+
+        [Test]
+        public void Verify_that_QueryInherit_keeps_candidates_that_are_not_redefined()
+        {
+            var child = new Class { Name = "Child" };
+            var inherited = new Property { Name = "attr" };
+
+            Assert.That(child.QueryInherit(new INamedElement[] { inherited }), Is.EquivalentTo(new INamedElement[] { inherited }));
+        }
+
+        [Test]
+        public void Verify_that_QueryInheritedMember_throws_when_element_is_null()
+        {
+            Class @class = null;
+
+            Assert.That(() => ClassifierExtensions.QueryInheritedMember(@class), Throws.ArgumentNullException);
+        }
+
+        [Test]
+        public void Verify_that_QueryInheritedMember_includes_a_public_parent_attribute_and_excludes_a_private_one()
+        {
+            var parent = new Class { Name = "Parent" };
+            var child = new Class { Name = "Child" };
+            child.Generalization.Add(new Generalization { General = parent });
+
+            var publicAttribute = new Property { Name = "pub", Visibility = VisibilityKind.Public };
+            var privateAttribute = new Property { Name = "priv", Visibility = VisibilityKind.Private };
+            parent.OwnedAttribute.Add(publicAttribute);
+            parent.OwnedAttribute.Add(privateAttribute);
+
+            Assert.That(child.QueryInheritedMember(), Is.EquivalentTo(new INamedElement[] { publicAttribute }));
+        }
+
+        [Test]
+        public void Verify_that_QueryInheritedMember_excludes_a_parent_operation_redefined_by_the_childs_own_operation()
+        {
+            var parent = new Class { Name = "Parent" };
+            var child = new Class { Name = "Child" };
+            child.Generalization.Add(new Generalization { General = parent });
+
+            var parentOperation = new Operation { Name = "op", Visibility = VisibilityKind.Public };
+            parent.OwnedOperation.Add(parentOperation);
+
+            var childOperation = new Operation { Name = "op", Visibility = VisibilityKind.Public };
+            childOperation.RedefinedOperation.Add(parentOperation);
+            child.OwnedOperation.Add(childOperation);
+
+            Assert.That(child.QueryInheritedMember(), Is.Empty);
+        }
     }
 }
