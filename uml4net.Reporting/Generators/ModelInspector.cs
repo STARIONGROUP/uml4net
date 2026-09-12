@@ -31,6 +31,7 @@ namespace uml4net.Reporting.Generators
     using Microsoft.Extensions.Logging.Abstractions;
 
     using uml4net.Classification;
+    using uml4net.CommonStructure;
     using uml4net.Extensions;
     using uml4net.Packages;
     using uml4net.StructuredClassifiers;
@@ -300,6 +301,14 @@ namespace uml4net.Reporting.Generators
             {
                 var propertyVariations = classPropertyVariations[@class];
 
+                // Classifier-level variation: an AssociationClass is a distinguishing shape in its
+                // own right (a Classifier that is simultaneously an Association), not something any
+                // property-level tag would otherwise force the covering algorithm to select for.
+                if (@class is IAssociationClass)
+                {
+                    propertyVariations.Add("CLASSIFIER:AssociationClass");
+                }
+
                 foreach (var property in @class.OwnedAttribute)
                 {
                     if (property.QueryIsReferenceType())
@@ -321,6 +330,16 @@ namespace uml4net.Reporting.Generators
                             referenceType = $"{referenceType}:isDerived";
                         }
 
+                        if (property.IsDerivedUnion)
+                        {
+                            referenceType = $"{referenceType}:isDerivedUnion";
+                        }
+
+                        if (property.IsReadOnly)
+                        {
+                            referenceType = $"{referenceType}:isReadOnly";
+                        }
+
                         if (property.QueryIsRedefinition())
                         {
                             referenceType = $"{referenceType}:IsRedefinition";
@@ -329,6 +348,38 @@ namespace uml4net.Reporting.Generators
                         if (property.QueryIsContained())
                         {
                             referenceType = $"{referenceType}:Contained";
+                        }
+
+                        referenceType = $"{referenceType}:{property.Visibility}";
+
+                        if (property.Aggregation == AggregationKind.Shared)
+                        {
+                            referenceType = $"{referenceType}:aggregation-shared";
+                        }
+
+                        if (property.IsOrdered)
+                        {
+                            referenceType = $"{referenceType}:isOrdered";
+                        }
+
+                        if (property.IsUnique)
+                        {
+                            referenceType = $"{referenceType}:isUnique";
+                        }
+
+                        if (property.IsStatic)
+                        {
+                            referenceType = $"{referenceType}:isStatic";
+                        }
+
+                        if (property.Qualifier.Any())
+                        {
+                            referenceType = $"{referenceType}:hasQualifier";
+                        }
+
+                        if (property.Association != null && property.Association.MemberEnd.Count > 2)
+                        {
+                            referenceType = $"{referenceType}:n-ary";
                         }
 
                         propertyVariations.Add(referenceType);
@@ -360,9 +411,36 @@ namespace uml4net.Reporting.Generators
                                 enumeration = $"{enumeration}:isDerived";
                             }
 
+                            if (property.IsDerivedUnion)
+                            {
+                                enumeration = $"{enumeration}:isDerivedUnion";
+                            }
+
+                            if (property.IsReadOnly)
+                            {
+                                enumeration = $"{enumeration}:isReadOnly";
+                            }
+
                             if (property.QueryIsRedefinition())
                             {
                                 enumeration = $"{enumeration}:IsRedefinition";
+                            }
+
+                            enumeration = $"{enumeration}:{property.Visibility}";
+
+                            if (property.IsOrdered)
+                            {
+                                enumeration = $"{enumeration}:isOrdered";
+                            }
+
+                            if (property.IsUnique)
+                            {
+                                enumeration = $"{enumeration}:isUnique";
+                            }
+
+                            if (property.IsStatic)
+                            {
+                                enumeration = $"{enumeration}:isStatic";
                             }
 
                             propertyVariations.Add(enumeration);
@@ -381,9 +459,41 @@ namespace uml4net.Reporting.Generators
                                 valueType = $"{valueType}:isDerived";
                             }
 
+                            if (property.IsDerivedUnion)
+                            {
+                                valueType = $"{valueType}:isDerivedUnion";
+                            }
+
+                            if (property.IsReadOnly)
+                            {
+                                valueType = $"{valueType}:isReadOnly";
+                            }
+
                             if (property.QueryIsRedefinition())
                             {
                                 valueType = $"{valueType}:IsRedefinition";
+                            }
+
+                            if (property.QueryIsDefaultValueDifferentThanDefault())
+                            {
+                                valueType = $"{valueType}:hasDefaultValue";
+                            }
+
+                            valueType = $"{valueType}:{property.Visibility}";
+
+                            if (property.IsOrdered)
+                            {
+                                valueType = $"{valueType}:isOrdered";
+                            }
+
+                            if (property.IsUnique)
+                            {
+                                valueType = $"{valueType}:isUnique";
+                            }
+
+                            if (property.IsStatic)
+                            {
+                                valueType = $"{valueType}:isStatic";
                             }
 
                             propertyVariations.Add(valueType);

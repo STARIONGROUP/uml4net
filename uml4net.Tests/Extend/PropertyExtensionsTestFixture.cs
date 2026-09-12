@@ -75,5 +75,26 @@ namespace uml4net.Tests.Extend
             var property_c = new Property();
             Assert.That(property_c.Opposite, Is.Null);
         }
+
+        [Test]
+        public void Verify_that_Opposite_returns_null_for_an_n_ary_association()
+        {
+            var property_a = new Property();
+            var property_b = new Property();
+            var property_c = new Property();
+
+            var association = new Association();
+            property_a.Association = association;
+            property_b.Association = association;
+            property_c.Association = association;
+            association.MemberEnd.AddRange([property_a, property_b, property_c]);
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(property_a.Opposite, Is.Null);
+                Assert.That(property_b.Opposite, Is.Null);
+                Assert.That(property_c.Opposite, Is.Null);
+            }
+        }
     }
 }

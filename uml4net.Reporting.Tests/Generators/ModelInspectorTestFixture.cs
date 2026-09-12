@@ -32,8 +32,10 @@ namespace uml4net.Reporting.Tests.Generators
     using Serilog;
 
     using uml4net.Classification;
+    using uml4net.CommonStructure;
     using uml4net.Packages;
     using uml4net.Reporting.Generators;
+    using uml4net.SimpleClassifiers;
     using uml4net.StructuredClassifiers;
     using uml4net.Values;
     using uml4net.xmi;
@@ -193,13 +195,13 @@ namespace uml4net.Reporting.Tests.Generators
 
             var expectedResult = new List<string>
             {
-                "ActivityGroup", "Association", "Behavior", "Class", "Classifier", "Clause",
-                "ComponentRealization","Connector","ConnectorEnd","CreateLinkAction", "DurationConstraint", "DurationObservation",
-                "Element", "Extend", "Extension", "ExtensionEnd",
-                "LiteralInteger", "LiteralReal", "LiteralUnlimitedNatural", "MultiplicityElement",
-                "NamedElement", "OpaqueExpression", "Operation", "PackageableElement",
-                "RedefinableTemplateSignature","Relationship","StructuredActivityNode", "TimeConstraint",
-                "Transition","UnmarshallAction"
+                "Action", "ActivityGroup", "Association", "Behavior", "Class", "Classifier", "Clause",
+                "Component", "Connector", "ConnectorEnd", "CreateLinkAction", "DirectedRelationship",
+                "DurationConstraint", "DurationObservation", "Element", "Extend", "Extension", "ExtensionEnd",
+                "Feature", "InformationFlow", "LinkAction", "LiteralInteger", "LiteralReal", "LiteralUnlimitedNatural",
+                "MultiplicityElement", "NamedElement", "OpaqueExpression", "Operation", "Package",
+                "PackageableElement", "Parameter", "Property", "RedefinableTemplateSignature", "Relationship",
+                "StructuredActivityNode", "StructuredClassifier", "TimeConstraint", "Transition", "UnmarshallAction"
             };
 
             var interestingClassesNames = interestingClasses.Select(x => x.Name);
@@ -230,12 +232,13 @@ namespace uml4net.Reporting.Tests.Generators
 
             var expectedResult = new List<string>
             {
-                "Association", "Behavior", "Class", "Classifier", "Clause",
-                "ComponentRealization", "ConnectorEnd", "CreateLinkAction", "DurationConstraint", "DurationObservation",
-                "Element", "Extend", "Extension", "ExtensionEnd", "LinkAction",
-                "LiteralInteger", "LiteralReal", "LiteralUnlimitedNatural", "Message", "MultiplicityElement",
-                "NamedElement", "Namespace", "OpaqueExpression", "Operation", "PackageableElement",
-                "RedefinableTemplateSignature", "Region", "Relationship", "StateInvariant", "StructuredActivityNode", "TimeConstraint",
+                "Action", "ActivityGroup", "Association", "Behavior", "Class", "Classifier", "Clause",
+                "Component", "Connector", "ConnectorEnd", "CreateLinkAction", "DirectedRelationship",
+                "DurationConstraint", "DurationObservation", "Element", "Extend", "Extension", "ExtensionEnd",
+                "Feature", "InformationFlow", "LinkAction", "LiteralInteger", "LiteralReal", "LiteralUnlimitedNatural",
+                "Message", "MultiplicityElement", "NamedElement", "Namespace", "OpaqueExpression", "Operation",
+                "Package", "PackageableElement", "Parameter", "Property", "RedefinableTemplateSignature", "Region",
+                "Relationship", "StructuredActivityNode", "StructuredClassifier", "TimeConstraint", "UnmarshallAction",
                 "ValueSpecification"
             };
 
@@ -326,6 +329,70 @@ namespace uml4net.Reporting.Tests.Generators
             var interestingClasses = this.modelInspector.QueryInterestingClasses(package).Select(x => x.Name).ToList();
 
             Assert.That(interestingClasses, Does.Contain("Descendant"));
+        }
+
+        [Test]
+        public void Verify_that_new_property_level_variation_dimensions_are_tracked()
+        {
+            // gh300: each of these properties exercises exactly one of the previously-untracked
+            // dimensions (IsReadOnly independent of IsDerived, IsDerivedUnion distinct from IsDerived,
+            // Visibility, AggregationKind::Shared, IsOrdered, IsStatic, Qualifier, DefaultValue
+            // presence, and N-ary association membership).
+            var target = new Class { Name = "Target" };
+
+            var readOnlyNotDerived = new Property { Name = "readOnlyNotDerived", Type = target, IsReadOnly = true };
+            var derivedUnion = new Property { Name = "derivedUnion", Type = target, IsDerived = true, IsDerivedUnion = true };
+            var protectedRef = new Property { Name = "protectedRef", Type = target, Visibility = VisibilityKind.Protected };
+            var sharedRef = new Property { Name = "sharedRef", Type = target, Aggregation = AggregationKind.Shared };
+            var orderedRef = new Property { Name = "orderedRef", Type = target, IsOrdered = true };
+            var staticRef = new Property { Name = "staticRef", Type = target, IsStatic = true };
+            var qualifiedRef = new Property { Name = "qualifiedRef", Type = target };
+            qualifiedRef.Qualifier.Add(new Property { Name = "q" });
+            var naryEnd = new Property { Name = "naryEnd", Type = target };
+            var association = new Association { Name = "TernaryAssociation" };
+            association.MemberEnd.Add(naryEnd);
+            association.MemberEnd.Add(new Property { Name = "end2" });
+            association.MemberEnd.Add(new Property { Name = "end3" });
+            naryEnd.Association = association;
+
+            var defaultValueAttribute = new Property { Name = "hasDefault", Type = new PrimitiveType { Name = "Boolean" } };
+            defaultValueAttribute.DefaultValue.Add(new LiteralBoolean { Value = true });
+
+            var holder = new Class { Name = "Holder" };
+            holder.OwnedAttribute.Add(readOnlyNotDerived);
+            holder.OwnedAttribute.Add(derivedUnion);
+            holder.OwnedAttribute.Add(protectedRef);
+            holder.OwnedAttribute.Add(sharedRef);
+            holder.OwnedAttribute.Add(orderedRef);
+            holder.OwnedAttribute.Add(staticRef);
+            holder.OwnedAttribute.Add(qualifiedRef);
+            holder.OwnedAttribute.Add(naryEnd);
+            holder.OwnedAttribute.Add(defaultValueAttribute);
+
+            var associationClass = new AssociationClass { Name = "AC" };
+
+            var package = new Package { Name = "P" };
+            package.PackagedElement.Add(target);
+            package.PackagedElement.Add(holder);
+            package.PackagedElement.Add(associationClass);
+
+            this.modelInspector = new ModelInspector(this.loggerFactory);
+
+            var report = this.modelInspector.Inspect(package);
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(report, Does.Contain(":isReadOnly"));
+                Assert.That(report, Does.Contain(":isDerivedUnion"));
+                Assert.That(report, Does.Contain(":Protected"));
+                Assert.That(report, Does.Contain(":aggregation-shared"));
+                Assert.That(report, Does.Contain(":isOrdered"));
+                Assert.That(report, Does.Contain(":isStatic"));
+                Assert.That(report, Does.Contain(":hasQualifier"));
+                Assert.That(report, Does.Contain(":n-ary"));
+                Assert.That(report, Does.Contain(":hasDefaultValue"));
+                Assert.That(report, Does.Contain("CLASSIFIER:AssociationClass"));
+            }
         }
 
         [Test]

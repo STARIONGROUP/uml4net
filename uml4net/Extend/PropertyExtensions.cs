@@ -68,6 +68,12 @@ namespace uml4net.Classification
         /// <returns>
         /// In the case where the Property is one end of a binary association this gives the other end.
         /// </returns>
+        /// <remarks>
+        /// Per the OMG UML 2.5.1 OCL for <c>Property::/opposite</c>, this is only meaningful for a
+        /// BINARY association (<c>association.memberEnd->size() = 2</c>) - for any other association
+        /// (no association at all, or a genuinely n-ary one with more than 2 member ends), there is no
+        /// single well-defined opposite end, so this returns <c>null</c> rather than throwing.
+        /// </remarks>
         internal static IProperty QueryOpposite(this IProperty property)
         {
             if (property == null)
@@ -75,7 +81,7 @@ namespace uml4net.Classification
                 throw new ArgumentNullException(nameof(property));
             }
 
-            if (property.Association == null)
+            if (property.Association == null || property.Association.MemberEnd.Count != 2)
             {
                 return null;
             }
