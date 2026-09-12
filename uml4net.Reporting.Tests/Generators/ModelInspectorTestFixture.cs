@@ -282,6 +282,53 @@ namespace uml4net.Reporting.Tests.Generators
         }
 
         [Test]
+        public void Verify_that_a_subclass_that_redefines_an_inherited_composite_property_is_flagged_as_interesting()
+        {
+            // Ancestor owns a composite "child" property; Descendant (a strict subclass) redefines it via
+            // its own differently-named property. This can only be detected from Descendant's own
+            // perspective (its QueryAllProperties() sees both "child" and "renamedChild"), never from
+            // Ancestor's - see issue #292.
+            var containedClass = new Class { Name = "Child" };
+
+            var ancestorProperty = new Property
+            {
+                Name = "child",
+                XmiId = "Ancestor-child",
+                Type = containedClass,
+                Aggregation = AggregationKind.Composite
+            };
+            ancestorProperty.LowerValue.Add(new LiteralInteger { Value = 0 });
+
+            var ancestorClass = new Class { Name = "Ancestor" };
+            ancestorClass.OwnedAttribute.Add(ancestorProperty);
+
+            var redefiningProperty = new Property
+            {
+                Name = "renamedChild",
+                XmiId = "Descendant-renamedChild",
+                Type = containedClass,
+                Aggregation = AggregationKind.Composite
+            };
+            redefiningProperty.LowerValue.Add(new LiteralInteger { Value = 0 });
+            redefiningProperty.RedefinedProperty.Add(ancestorProperty);
+
+            var descendantClass = new Class { Name = "Descendant" };
+            descendantClass.OwnedAttribute.Add(redefiningProperty);
+            descendantClass.Generalization.Add(new Generalization { General = ancestorClass });
+
+            var package = new Package { Name = "P" };
+            package.PackagedElement.Add(ancestorClass);
+            package.PackagedElement.Add(descendantClass);
+            package.PackagedElement.Add(containedClass);
+
+            this.modelInspector = new ModelInspector(this.loggerFactory);
+
+            var interestingClasses = this.modelInspector.QueryInterestingClasses(package).Select(x => x.Name).ToList();
+
+            Assert.That(interestingClasses, Does.Contain("Descendant"));
+        }
+
+        [Test]
         public void Verify_that_generate_report_returns_expected_result_for_Ea_model()
         {
             var eaModelPath = Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData", "EAExport.xmi");
