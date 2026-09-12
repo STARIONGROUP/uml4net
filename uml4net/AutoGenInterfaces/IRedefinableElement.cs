@@ -63,13 +63,13 @@ namespace uml4net.Classification
         /// The RedefinableElement that is being redefined by this element.
         /// </summary>
         [Property(xmiId: "RedefinableElement-redefinedElement", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: true, defaultValue: null)]
-        public List<IRedefinableElement> RedefinedElement { get; }
+        public IReadOnlyList<IRedefinableElement> RedefinedElement { get; }
 
         /// <summary>
         /// The contexts that this element may be redefined from.
         /// </summary>
         [Property(xmiId: "RedefinableElement-redefinitionContext", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: true, defaultValue: null)]
-        public List<IClassifier> RedefinitionContext { get; }
+        public IReadOnlyList<IClassifier> RedefinitionContext { get; }
     }
 }
 

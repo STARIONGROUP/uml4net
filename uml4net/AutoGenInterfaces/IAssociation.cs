@@ -57,7 +57,7 @@ namespace uml4net.StructuredClassifiers
         /// </summary>
         [Property(xmiId: "Association-endType", aggregation: AggregationKind.None, lowerValue: 1, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Relationship-relatedElement")]
-        public List<IType> EndType { get; }
+        public IReadOnlyList<IType> EndType { get; }
 
         /// <summary>
         /// Specifies whether the Association is derived from other model elements such as other Associations.

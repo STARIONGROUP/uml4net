@@ -69,21 +69,21 @@ namespace uml4net.Activities
         [Property(xmiId: "NamedElement-clientDependency", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: true, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "A_source_directedRelationship-directedRelationship")]
         [Implements(implementation: "INamedElement.ClientDependency")]
-        public List<IDependency> ClientDependency => this.QueryClientDependency();
+        public IReadOnlyList<IDependency> ClientDependency => this.QueryClientDependency();
 
         /// <summary>
         /// ActivityEdges immediately contained in the ActivityGroup.
         /// </summary>
         [Property(xmiId: "ActivityGroup-containedEdge", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: true, defaultValue: null)]
         [Implements(implementation: "IActivityGroup.ContainedEdge")]
-        public List<IActivityEdge> ContainedEdge => this.QueryContainedEdge();
+        public IReadOnlyList<IActivityEdge> ContainedEdge => this.QueryContainedEdge();
 
         /// <summary>
         /// ActivityNodes immediately contained in the ActivityGroup.
         /// </summary>
         [Property(xmiId: "ActivityGroup-containedNode", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: true, defaultValue: null)]
         [Implements(implementation: "IActivityGroup.ContainedNode")]
-        public List<IActivityNode> ContainedNode => this.QueryContainedNode();
+        public IReadOnlyList<IActivityNode> ContainedNode => this.QueryContainedNode();
 
         /// <summary>
         /// The Activity containing the ActivityGroup, if it is directly owned by an Activity.

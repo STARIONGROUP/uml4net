@@ -70,7 +70,7 @@ namespace uml4net.Values
         [Property(xmiId: "NamedElement-clientDependency", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: true, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "A_source_directedRelationship-directedRelationship")]
         [Implements(implementation: "INamedElement.ClientDependency")]
-        public List<IDependency> ClientDependency => this.QueryClientDependency();
+        public IReadOnlyList<IDependency> ClientDependency => this.QueryClientDependency();
 
         /// <summary>
         /// The DurationObservation is determined as the duration between the entering or exiting of a single

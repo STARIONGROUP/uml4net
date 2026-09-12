@@ -462,6 +462,11 @@ namespace uml4net.HandleBars
                     sb.Append($"List<{property.QueryCSharpTypeName()}>");
                     sb.Append(" ");
                 }
+                else if (property.QueryIsEnumerable() && !property.IsComposite && (property.IsDerived || property.IsDerivedUnion || property.IsReadOnly))
+                {
+                    sb.Append($"IReadOnlyList<I{property.QueryTypeName()}>");
+                    sb.Append(" ");
+                }
                 else if(property.QueryIsEnumerable() && !property.IsComposite)
                 {
                     sb.Append($"List<I{property.QueryTypeName()}>");

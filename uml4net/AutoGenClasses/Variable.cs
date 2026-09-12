@@ -80,14 +80,14 @@ namespace uml4net.Activities
         [Property(xmiId: "NamedElement-clientDependency", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: true, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "A_source_directedRelationship-directedRelationship")]
         [Implements(implementation: "INamedElement.ClientDependency")]
-        public List<IDependency> ClientDependency => this.QueryClientDependency();
+        public IReadOnlyList<IDependency> ClientDependency => this.QueryClientDependency();
 
         /// <summary>
         /// A set of ConnectorEnds that attach to this ConnectableElement.
         /// </summary>
         [Property(xmiId: "ConnectableElement-end", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [Implements(implementation: "IConnectableElement.End")]
-        public List<IConnectorEnd> End => this.QueryEnd();
+        public IReadOnlyList<IConnectorEnd> End => this.QueryEnd();
 
         /// <summary>
         /// For a multivalued multiplicity, this attribute specifies whether the values in an instantiation of

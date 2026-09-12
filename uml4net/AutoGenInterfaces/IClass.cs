@@ -57,7 +57,7 @@ namespace uml4net.StructuredClassifiers
         /// memberEnds are typed by the Class.
         /// </summary>
         [Property(xmiId: "Class-extension", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: false, isUnique: true, defaultValue: null)]
-        public List<IExtension> Extension { get; }
+        public IReadOnlyList<IExtension> Extension { get; }
 
         /// <summary>
         /// If true, the Class does not provide a complete declaration and cannot be instantiated. An abstract
@@ -114,7 +114,7 @@ namespace uml4net.StructuredClassifiers
         /// </summary>
         [Property(xmiId: "Class-superClass", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: true, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [RedefinedProperty(propertyName: "Classifier-general")]
-        public new List<IClass> SuperClass { get; }
+        public new IReadOnlyList<IClass> SuperClass { get; }
     }
 }
 

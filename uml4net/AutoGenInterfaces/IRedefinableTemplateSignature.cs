@@ -71,7 +71,7 @@ namespace uml4net.Classification
         /// </summary>
         [Property(xmiId: "RedefinableTemplateSignature-inheritedParameter", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "TemplateSignature-parameter")]
-        public List<ITemplateParameter> InheritedParameter { get; }
+        public IReadOnlyList<ITemplateParameter> InheritedParameter { get; }
     }
 }
 

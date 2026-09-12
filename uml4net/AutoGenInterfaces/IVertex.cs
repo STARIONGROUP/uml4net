@@ -62,13 +62,13 @@ namespace uml4net.StateMachines
         /// Specifies the Transitions entering this Vertex.
         /// </summary>
         [Property(xmiId: "Vertex-incoming", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: false, isUnique: true, defaultValue: null)]
-        public List<ITransition> Incoming { get; }
+        public IReadOnlyList<ITransition> Incoming { get; }
 
         /// <summary>
         /// Specifies the Transitions departing from this Vertex.
         /// </summary>
         [Property(xmiId: "Vertex-outgoing", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: false, isUnique: true, defaultValue: null)]
-        public List<ITransition> Outgoing { get; }
+        public IReadOnlyList<ITransition> Outgoing { get; }
 
         /// <summary>
         /// References the Classifier in which context this element may be redefined.

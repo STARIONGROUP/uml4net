@@ -147,6 +147,11 @@ namespace uml4net.Extensions
                 return $"List<{property.QueryCSharpTypeName() }> ";
             }
 
+            if (property.QueryIsEnumerable() && !property.IsComposite && (property.IsDerived || property.IsDerivedUnion || property.IsReadOnly))
+            {
+                return $"IReadOnlyList<I{property.QueryTypeName()}> ";
+            }
+
             if (property.QueryIsEnumerable() && !property.IsComposite)
             {
                 return $"List<I{property.QueryTypeName()}> ";

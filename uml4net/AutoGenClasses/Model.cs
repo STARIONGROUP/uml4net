@@ -71,7 +71,7 @@ namespace uml4net.Packages
         [Property(xmiId: "NamedElement-clientDependency", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: true, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "A_source_directedRelationship-directedRelationship")]
         [Implements(implementation: "INamedElement.ClientDependency")]
-        public List<IDependency> ClientDependency => this.QueryClientDependency();
+        public IReadOnlyList<IDependency> ClientDependency => this.QueryClientDependency();
 
         /// <summary>
         /// References the ElementImports owned by the Namespace.
@@ -98,7 +98,7 @@ namespace uml4net.Packages
         [Property(xmiId: "Namespace-importedMember", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Namespace-member")]
         [Implements(implementation: "INamespace.ImportedMember")]
-        public List<IPackageableElement> ImportedMember => this.QueryImportedMember();
+        public IReadOnlyList<IPackageableElement> ImportedMember => this.QueryImportedMember();
 
         /// <summary>
         /// A collection of NamedElements identifiable within the Namespace, either by being owned or by being
@@ -106,7 +106,7 @@ namespace uml4net.Packages
         /// </summary>
         [Property(xmiId: "Namespace-member", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: true, defaultValue: null)]
         [Implements(implementation: "INamespace.Member")]
-        public List<INamedElement> Member => this.QueryMember();
+        public IReadOnlyList<INamedElement> Member => this.QueryMember();
 
         /// <summary>
         /// The name of the NamedElement.

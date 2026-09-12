@@ -70,7 +70,7 @@ namespace uml4net.UseCases
         [Property(xmiId: "NamedElement-clientDependency", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: true, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "A_source_directedRelationship-directedRelationship")]
         [Implements(implementation: "INamedElement.ClientDependency")]
-        public List<IDependency> ClientDependency => this.QueryClientDependency();
+        public IReadOnlyList<IDependency> ClientDependency => this.QueryClientDependency();
 
         /// <summary>
         /// References the condition that must hold when the first ExtensionPoint is reached for the extension
@@ -203,7 +203,7 @@ namespace uml4net.UseCases
         /// </summary>
         [Property(xmiId: "Relationship-relatedElement", aggregation: AggregationKind.None, lowerValue: 1, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: true, defaultValue: null)]
         [Implements(implementation: "IRelationship.RelatedElement")]
-        public List<IElement> RelatedElement => this.QueryRelatedElement();
+        public IReadOnlyList<IElement> RelatedElement => this.QueryRelatedElement();
 
         /// <summary>
         /// Specifies the source Element(s) of the DirectedRelationship.
@@ -211,7 +211,7 @@ namespace uml4net.UseCases
         [Property(xmiId: "DirectedRelationship-source", aggregation: AggregationKind.None, lowerValue: 1, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Relationship-relatedElement")]
         [Implements(implementation: "IDirectedRelationship.Source")]
-        public List<IElement> Source => this.QuerySource();
+        public IReadOnlyList<IElement> Source => this.QuerySource();
 
         /// <summary>
         /// Specifies the target Element(s) of the DirectedRelationship.
@@ -219,7 +219,7 @@ namespace uml4net.UseCases
         [Property(xmiId: "DirectedRelationship-target", aggregation: AggregationKind.None, lowerValue: 1, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Relationship-relatedElement")]
         [Implements(implementation: "IDirectedRelationship.Target")]
-        public List<IElement> Target => this.QueryTarget();
+        public IReadOnlyList<IElement> Target => this.QueryTarget();
 
         /// <summary>
         /// Determines whether and how the NamedElement is visible outside its owning Namespace.

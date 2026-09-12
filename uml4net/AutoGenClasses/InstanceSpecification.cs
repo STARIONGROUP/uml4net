@@ -79,7 +79,7 @@ namespace uml4net.Classification
         [Property(xmiId: "NamedElement-clientDependency", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: true, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "A_source_directedRelationship-directedRelationship")]
         [Implements(implementation: "INamedElement.ClientDependency")]
-        public List<IDependency> ClientDependency => this.QueryClientDependency();
+        public IReadOnlyList<IDependency> ClientDependency => this.QueryClientDependency();
 
         /// <summary>
         /// The set of elements that are manifested in an Artifact that is involved in Deployment to a
@@ -87,7 +87,7 @@ namespace uml4net.Classification
         /// </summary>
         [Property(xmiId: "DeploymentTarget-deployedElement", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [Implements(implementation: "IDeploymentTarget.DeployedElement")]
-        public List<IPackageableElement> DeployedElement => this.QueryDeployedElement();
+        public IReadOnlyList<IPackageableElement> DeployedElement => this.QueryDeployedElement();
 
         /// <summary>
         /// The set of Deployments for a DeploymentTarget.

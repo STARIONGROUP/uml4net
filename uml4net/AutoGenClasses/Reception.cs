@@ -69,7 +69,7 @@ namespace uml4net.SimpleClassifiers
         [Property(xmiId: "NamedElement-clientDependency", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: true, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "A_source_directedRelationship-directedRelationship")]
         [Implements(implementation: "INamedElement.ClientDependency")]
-        public List<IDependency> ClientDependency => this.QueryClientDependency();
+        public IReadOnlyList<IDependency> ClientDependency => this.QueryClientDependency();
 
         /// <summary>
         /// Specifies the semantics of concurrent calls to the same passive instance (i.e., an instance
@@ -113,7 +113,7 @@ namespace uml4net.SimpleClassifiers
         [Property(xmiId: "Namespace-importedMember", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Namespace-member")]
         [Implements(implementation: "INamespace.ImportedMember")]
-        public List<IPackageableElement> ImportedMember => this.QueryImportedMember();
+        public IReadOnlyList<IPackageableElement> ImportedMember => this.QueryImportedMember();
 
         /// <summary>
         /// If true, then the BehavioralFeature does not have an implementation, and one must be supplied by a
@@ -146,7 +146,7 @@ namespace uml4net.SimpleClassifiers
         /// </summary>
         [Property(xmiId: "Namespace-member", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: true, defaultValue: null)]
         [Implements(implementation: "INamespace.Member")]
-        public List<INamedElement> Member => this.QueryMember();
+        public IReadOnlyList<INamedElement> Member => this.QueryMember();
 
         /// <summary>
         /// A Behavior that implements the BehavioralFeature. There may be at most one Behavior for a particular
@@ -330,14 +330,14 @@ namespace uml4net.SimpleClassifiers
         /// </summary>
         [Property(xmiId: "RedefinableElement-redefinedElement", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: true, defaultValue: null)]
         [Implements(implementation: "IRedefinableElement.RedefinedElement")]
-        public List<IRedefinableElement> RedefinedElement => this.QueryRedefinedElement();
+        public IReadOnlyList<IRedefinableElement> RedefinedElement => this.QueryRedefinedElement();
 
         /// <summary>
         /// The contexts that this element may be redefined from.
         /// </summary>
         [Property(xmiId: "RedefinableElement-redefinitionContext", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: true, defaultValue: null)]
         [Implements(implementation: "IRedefinableElement.RedefinitionContext")]
-        public List<IClassifier> RedefinitionContext => this.QueryRedefinitionContext();
+        public IReadOnlyList<IClassifier> RedefinitionContext => this.QueryRedefinitionContext();
 
         /// <summary>
         /// The Signal that this Reception handles.

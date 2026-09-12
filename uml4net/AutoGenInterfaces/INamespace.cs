@@ -65,14 +65,14 @@ namespace uml4net.CommonStructure
         /// </summary>
         [Property(xmiId: "Namespace-importedMember", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Namespace-member")]
-        public List<IPackageableElement> ImportedMember { get; }
+        public IReadOnlyList<IPackageableElement> ImportedMember { get; }
 
         /// <summary>
         /// A collection of NamedElements identifiable within the Namespace, either by being owned or by being
         /// introduced by importing or inheritance.
         /// </summary>
         [Property(xmiId: "Namespace-member", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: true, defaultValue: null)]
-        public List<INamedElement> Member { get; }
+        public IReadOnlyList<INamedElement> Member { get; }
 
         /// <summary>
         /// A collection of NamedElements owned by the Namespace.

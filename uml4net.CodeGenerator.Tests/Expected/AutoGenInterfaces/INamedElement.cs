@@ -56,7 +56,7 @@ namespace uml4net.CommonStructure
         /// </summary>
         [Property(xmiId: "NamedElement-clientDependency", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: true, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "A_source_directedRelationship-directedRelationship")]
-        public List<IDependency> ClientDependency { get; }
+        public IReadOnlyList<IDependency> ClientDependency { get; }
 
         /// <summary>
         /// The name of the NamedElement.

@@ -70,7 +70,7 @@ namespace uml4net.SimpleClassifiers
         [SubsettedProperty(propertyName: "A_redefinitionContext_redefinableElement-redefinableElement")]
         [SubsettedProperty(propertyName: "Classifier-feature")]
         [Implements(implementation: "IClassifier.Attribute")]
-        public List<IProperty> Attribute => this.QueryAttribute();
+        public IReadOnlyList<IProperty> Attribute => this.QueryAttribute();
 
         /// <summary>
         /// Indicates the Dependencies that reference this NamedElement as a client.
@@ -78,7 +78,7 @@ namespace uml4net.SimpleClassifiers
         [Property(xmiId: "NamedElement-clientDependency", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: true, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "A_source_directedRelationship-directedRelationship")]
         [Implements(implementation: "INamedElement.ClientDependency")]
-        public List<IDependency> ClientDependency => this.QueryClientDependency();
+        public IReadOnlyList<IDependency> ClientDependency => this.QueryClientDependency();
 
         /// <summary>
         /// The CollaborationUses owned by the Classifier.
@@ -122,14 +122,14 @@ namespace uml4net.SimpleClassifiers
         [Property(xmiId: "Classifier-feature", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Namespace-member")]
         [Implements(implementation: "IClassifier.Feature")]
-        public List<IFeature> Feature => this.QueryFeature();
+        public IReadOnlyList<IFeature> Feature => this.QueryFeature();
 
         /// <summary>
         /// The generalizing Classifiers for this Classifier.
         /// </summary>
         [Property(xmiId: "Classifier-general", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: true, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [Implements(implementation: "IClassifier.General")]
-        public List<IClassifier> General => this.QueryGeneral();
+        public IReadOnlyList<IClassifier> General => this.QueryGeneral();
 
         /// <summary>
         /// The Generalization relationships for this Classifier. These Generalizations navigate to more general
@@ -157,7 +157,7 @@ namespace uml4net.SimpleClassifiers
         [Property(xmiId: "Namespace-importedMember", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Namespace-member")]
         [Implements(implementation: "INamespace.ImportedMember")]
-        public List<IPackageableElement> ImportedMember => this.QueryImportedMember();
+        public IReadOnlyList<IPackageableElement> ImportedMember => this.QueryImportedMember();
 
         /// <summary>
         /// All elements inherited by this Classifier from its general Classifiers.
@@ -165,7 +165,7 @@ namespace uml4net.SimpleClassifiers
         [Property(xmiId: "Classifier-inheritedMember", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Namespace-member")]
         [Implements(implementation: "IClassifier.InheritedMember")]
-        public List<INamedElement> InheritedMember => this.QueryInheritedMember();
+        public IReadOnlyList<INamedElement> InheritedMember => this.QueryInheritedMember();
 
         /// <summary>
         /// If true, the Classifier can only be instantiated by instantiating one of its specializations. An
@@ -197,7 +197,7 @@ namespace uml4net.SimpleClassifiers
         /// </summary>
         [Property(xmiId: "Namespace-member", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: true, defaultValue: null)]
         [Implements(implementation: "INamespace.Member")]
-        public List<INamedElement> Member => this.QueryMember();
+        public IReadOnlyList<INamedElement> Member => this.QueryMember();
 
         /// <summary>
         /// The name of the NamedElement.
@@ -455,14 +455,14 @@ namespace uml4net.SimpleClassifiers
         /// </summary>
         [Property(xmiId: "RedefinableElement-redefinedElement", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: true, defaultValue: null)]
         [Implements(implementation: "IRedefinableElement.RedefinedElement")]
-        public List<IRedefinableElement> RedefinedElement => this.QueryRedefinedElement();
+        public IReadOnlyList<IRedefinableElement> RedefinedElement => this.QueryRedefinedElement();
 
         /// <summary>
         /// The contexts that this element may be redefined from.
         /// </summary>
         [Property(xmiId: "RedefinableElement-redefinitionContext", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: true, defaultValue: null)]
         [Implements(implementation: "IRedefinableElement.RedefinitionContext")]
-        public List<IClassifier> RedefinitionContext => this.QueryRedefinitionContext();
+        public IReadOnlyList<IClassifier> RedefinitionContext => this.QueryRedefinitionContext();
 
         /// <summary>
         /// A CollaborationUse which indicates the Collaboration that represents this Classifier.

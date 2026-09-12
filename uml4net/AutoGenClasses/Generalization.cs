@@ -131,7 +131,7 @@ namespace uml4net.Classification
         /// </summary>
         [Property(xmiId: "Relationship-relatedElement", aggregation: AggregationKind.None, lowerValue: 1, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: true, defaultValue: null)]
         [Implements(implementation: "IRelationship.RelatedElement")]
-        public List<IElement> RelatedElement => this.QueryRelatedElement();
+        public IReadOnlyList<IElement> RelatedElement => this.QueryRelatedElement();
 
         /// <summary>
         /// Specifies the source Element(s) of the DirectedRelationship.
@@ -139,7 +139,7 @@ namespace uml4net.Classification
         [Property(xmiId: "DirectedRelationship-source", aggregation: AggregationKind.None, lowerValue: 1, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Relationship-relatedElement")]
         [Implements(implementation: "IDirectedRelationship.Source")]
-        public List<IElement> Source => this.QuerySource();
+        public IReadOnlyList<IElement> Source => this.QuerySource();
 
         /// <summary>
         /// The specializing Classifier in the Generalization relationship.
@@ -156,7 +156,7 @@ namespace uml4net.Classification
         [Property(xmiId: "DirectedRelationship-target", aggregation: AggregationKind.None, lowerValue: 1, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Relationship-relatedElement")]
         [Implements(implementation: "IDirectedRelationship.Target")]
-        public List<IElement> Target => this.QueryTarget();
+        public IReadOnlyList<IElement> Target => this.QueryTarget();
     }
 }
 

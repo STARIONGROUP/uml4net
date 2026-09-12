@@ -75,7 +75,7 @@ namespace uml4net.StructuredClassifiers
         /// its public Ports.
         /// </summary>
         [Property(xmiId: "Component-provided", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: false, isUnique: true, defaultValue: null)]
-        public List<IInterface> Provided { get; }
+        public IReadOnlyList<IInterface> Provided { get; }
 
         /// <summary>
         /// The set of Realizations owned by the Component. Realizations reference the Classifiers of which the
@@ -93,7 +93,7 @@ namespace uml4net.StructuredClassifiers
         /// Ports.
         /// </summary>
         [Property(xmiId: "Component-required", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: false, isUnique: true, defaultValue: null)]
-        public List<IInterface> Required { get; }
+        public IReadOnlyList<IInterface> Required { get; }
     }
 }
 

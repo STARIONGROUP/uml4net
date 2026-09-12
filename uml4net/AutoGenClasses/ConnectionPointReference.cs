@@ -69,7 +69,7 @@ namespace uml4net.StateMachines
         [Property(xmiId: "NamedElement-clientDependency", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: true, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "A_source_directedRelationship-directedRelationship")]
         [Implements(implementation: "INamedElement.ClientDependency")]
-        public List<IDependency> ClientDependency => this.QueryClientDependency();
+        public IReadOnlyList<IDependency> ClientDependency => this.QueryClientDependency();
 
         /// <summary>
         /// The Region that contains this Vertex.
@@ -98,7 +98,7 @@ namespace uml4net.StateMachines
         /// </summary>
         [Property(xmiId: "Vertex-incoming", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [Implements(implementation: "IVertex.Incoming")]
-        public List<ITransition> Incoming => this.QueryIncoming();
+        public IReadOnlyList<ITransition> Incoming => this.QueryIncoming();
 
         /// <summary>
         /// Indicates whether it is possible to further redefine a RedefinableElement. If the value is true,
@@ -146,7 +146,7 @@ namespace uml4net.StateMachines
         /// </summary>
         [Property(xmiId: "Vertex-outgoing", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [Implements(implementation: "IVertex.Outgoing")]
-        public List<ITransition> Outgoing => this.QueryOutgoing();
+        public IReadOnlyList<ITransition> Outgoing => this.QueryOutgoing();
 
         /// <summary>
         /// The Comments owned by this Element.
@@ -198,7 +198,7 @@ namespace uml4net.StateMachines
         /// </summary>
         [Property(xmiId: "RedefinableElement-redefinedElement", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: true, defaultValue: null)]
         [Implements(implementation: "IRedefinableElement.RedefinedElement")]
-        public List<IRedefinableElement> RedefinedElement => this.QueryRedefinedElement();
+        public IReadOnlyList<IRedefinableElement> RedefinedElement => this.QueryRedefinedElement();
 
         /// <summary>
         /// The Vertex of which this Vertex is a redefinition.
@@ -222,7 +222,7 @@ namespace uml4net.StateMachines
         [Property(xmiId: "RedefinableElement-redefinitionContext", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: true, defaultValue: null)]
         [RedefinedByProperty("IVertex.RedefinitionContext")]
         [Implements(implementation: "IRedefinableElement.RedefinitionContext")]
-        List<IClassifier> IRedefinableElement.RedefinitionContext => this.RedefinitionContext == null ? new List<IClassifier>() : new List<IClassifier> { this.RedefinitionContext };
+        IReadOnlyList<IClassifier> IRedefinableElement.RedefinitionContext => this.RedefinitionContext == null ? new List<IClassifier>() : new List<IClassifier> { this.RedefinitionContext };
 
         /// <summary>
         /// The State in which the ConnectionPointReference is defined.
