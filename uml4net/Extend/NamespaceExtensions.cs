@@ -42,6 +42,35 @@ namespace uml4net.CommonStructure
     internal static class NamespaceExtensions
     {
         /// <summary>
+        /// Queries a collection of NamedElements identifiable within the Namespace, either by being
+        /// owned or by being introduced by importing.
+        /// </summary>
+        /// <param name="namespace">
+        /// The subject <see cref="INamespace"/>
+        /// </param>
+        /// <returns>
+        /// a collection of NamedElements identifiable within the Namespace, either by being owned or
+        /// by being introduced by importing.
+        /// </returns>
+        /// <remarks>
+        /// Has no OCL body in the metamodel - like <see cref="QueryOwnedMember"/>, it is defined
+        /// purely by the UML derived union mechanism: its two direct subsetting properties are
+        /// exactly <see cref="QueryOwnedMember"/> and <see cref="QueryImportedMember"/>, and no others.
+        /// </remarks>
+        internal static List<INamedElement> QueryMember(this INamespace @namespace)
+        {
+            if (@namespace == null)
+            {
+                throw new ArgumentNullException(nameof(@namespace));
+            }
+
+            return @namespace.OwnedMember
+                .Concat(@namespace.ImportedMember)
+                .Distinct()
+                .ToList();
+        }
+
+        /// <summary>
         /// Queries the PackageableElements that are members of this Namespace as a result of either
         /// PackageImports or ElementImports.
         /// </summary>

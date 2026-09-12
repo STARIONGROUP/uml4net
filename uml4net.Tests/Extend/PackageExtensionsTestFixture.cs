@@ -151,5 +151,48 @@ namespace uml4net.Tests.Extend
 
             Assert.That(package.QueryMakesVisible(unrelated), Is.False);
         }
+
+        [Test]
+        public void Verify_that_QueryVisibleMembers_returns_the_owned_members()
+        {
+            var package = new Package { Name = "P" };
+            var ownedMember = new Class { Name = "Owned" };
+            package.PackagedElement.Add(ownedMember);
+
+            Assert.That(package.QueryVisibleMembers(), Is.EquivalentTo(new IPackageableElement[] { ownedMember }));
+        }
+
+        [Test]
+        public void Verify_that_QueryVisibleMembers_includes_a_publicly_imported_element_and_excludes_a_private_one()
+        {
+            var package = new Package { Name = "P" };
+            var publiclyImported = new Class { Name = "Public" };
+            var privatelyImported = new Class { Name = "Private" };
+            package.ElementImport.Add(new ElementImport { Visibility = VisibilityKind.Public, ImportedElement = publiclyImported });
+            package.ElementImport.Add(new ElementImport { Visibility = VisibilityKind.Private, ImportedElement = privatelyImported });
+
+            Assert.That(package.QueryVisibleMembers(), Is.EquivalentTo(new IPackageableElement[] { publiclyImported }));
+        }
+
+        [Test]
+        public void Verify_that_QueryVisibleMembers_makes_a_transitively_imported_member_visible_through_a_public_PackageImport()
+        {
+            // A imports B publicly; B owns X. X should be visible via A, exercising the full
+            // Namespace.Member/ImportedMember/GetNamesOfMember/VisibleMembers cycle end-to-end
+            // for the first time now that #250/#302/#304/#305 are all implemented.
+            var packageA = new Package { Name = "A" };
+            var packageB = new Package { Name = "B" };
+            var ownedByB = new Class { Name = "X" };
+            packageB.PackagedElement.Add(ownedByB);
+
+            packageA.PackageImport.Add(new PackageImport { Visibility = VisibilityKind.Public, ImportedPackage = packageB });
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(packageB.QueryVisibleMembers(), Is.EquivalentTo(new IPackageableElement[] { ownedByB }));
+                Assert.That(packageA.ImportedMember, Is.EquivalentTo(new IPackageableElement[] { ownedByB }));
+                Assert.That(packageA.QueryGetNamesOfMember(ownedByB), Is.EquivalentTo(new[] { "X" }));
+            }
+        }
     }
 }
