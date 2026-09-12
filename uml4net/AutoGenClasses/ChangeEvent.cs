@@ -58,6 +58,11 @@ namespace uml4net.CommonBehavior
         public IElement Possessor { get; set; }
 
         /// <summary>
+        /// Gets the most specific uml4net-generated interface that represents the UML metaclass of this instance.
+        /// </summary>
+        public Type MetaclassInterface => typeof(IChangeEvent);
+
+        /// <summary>
         /// A Boolean-valued ValueSpecification that will result in a ChangeEvent whenever its value changes
         /// from false to true.
         /// </summary>

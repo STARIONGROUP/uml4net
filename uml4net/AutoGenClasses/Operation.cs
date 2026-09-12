@@ -63,6 +63,11 @@ namespace uml4net.Classification
         public IElement Possessor { get; set; }
 
         /// <summary>
+        /// Gets the most specific uml4net-generated interface that represents the UML metaclass of this instance.
+        /// </summary>
+        public Type MetaclassInterface => typeof(IOperation);
+
+        /// <summary>
         /// An optional Constraint on the result values of an invocation of this Operation.
         /// </summary>
         [Property(xmiId: "Operation-bodyCondition", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]

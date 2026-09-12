@@ -58,6 +58,11 @@ namespace uml4net.StructuredClassifiers
         public IElement Possessor { get; set; }
 
         /// <summary>
+        /// Gets the most specific uml4net-generated interface that represents the UML metaclass of this instance.
+        /// </summary>
+        public Type MetaclassInterface => typeof(IConnectorEnd);
+
+        /// <summary>
         /// A derived property referencing the corresponding end on the Association which types the Connector
         /// owing this ConnectorEnd, if any. It is derived by selecting the end at the same place in the
         /// ordering of Association ends as this ConnectorEnd.

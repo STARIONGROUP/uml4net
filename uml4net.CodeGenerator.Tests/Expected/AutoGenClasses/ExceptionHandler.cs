@@ -59,6 +59,11 @@ namespace uml4net.Activities
         public IElement Possessor { get; set; }
 
         /// <summary>
+        /// Gets the most specific uml4net-generated interface that represents the UML metaclass of this instance.
+        /// </summary>
+        public Type MetaclassInterface => typeof(IExceptionHandler);
+
+        /// <summary>
         /// An ObjectNode within the handlerBody. When the ExceptionHandler catches an exception, the exception
         /// token is placed on this ObjectNode, causing the handlerBody to execute.
         /// </summary>

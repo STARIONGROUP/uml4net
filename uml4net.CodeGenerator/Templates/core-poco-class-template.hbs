@@ -55,6 +55,11 @@ namespace uml4net.{{this.Namespace.Name}}
         /// </summary>
         public IElement Possessor { get; set; }
 
+        /// <summary>
+        /// Gets the most specific uml4net-generated interface that represents the UML metaclass of this instance.
+        /// </summary>
+        public Type MetaclassInterface => typeof(I{{this.Name}});
+
         {{ #each (Class.QueryAllProperties this) as | property | }}
         {{ #Documentation property }}
         {{ #Decorator.WritePropertyAttribute property }}

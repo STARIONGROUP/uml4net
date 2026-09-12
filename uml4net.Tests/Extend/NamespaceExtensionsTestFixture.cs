@@ -378,5 +378,59 @@ namespace uml4net.Tests.Extend
                 Assert.That(useCase.OwnedMember, Does.Contain(include));
             }
         }
+
+        [Test]
+        public void Verify_that_QueryGetNamesOfMember_throws_when_an_argument_is_null()
+        {
+            var package = new Package { Name = "P" };
+            var @class = new Class { Name = "C" };
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(() => NamespaceExtensions.QueryGetNamesOfMember(null, @class), Throws.ArgumentNullException);
+                Assert.That(() => NamespaceExtensions.QueryGetNamesOfMember(package, null), Throws.ArgumentNullException);
+            }
+        }
+
+        [Test]
+        public void Verify_that_QueryGetNamesOfMember_returns_the_own_name_for_an_owned_member()
+        {
+            var package = new Package { Name = "P" };
+            var @class = new Class { Name = "C" };
+            package.PackagedElement.Add(@class);
+
+            Assert.That(package.QueryGetNamesOfMember(@class), Is.EquivalentTo(new[] { "C" }));
+        }
+
+        [Test]
+        public void Verify_that_QueryGetNamesOfMember_returns_the_imported_element_name_when_imported_without_an_alias()
+        {
+            var package = new Package { Name = "P" };
+            var importedElement = new Class { Name = "Imported" };
+            var elementImport = new ElementImport { ImportedElement = importedElement };
+            package.ElementImport.Add(elementImport);
+
+            Assert.That(package.QueryGetNamesOfMember(importedElement), Is.EquivalentTo(new[] { "Imported" }));
+        }
+
+        [Test]
+        public void Verify_that_QueryGetNamesOfMember_returns_the_alias_when_imported_with_an_alias()
+        {
+            var package = new Package { Name = "P" };
+            var importedElement = new Class { Name = "Imported" };
+            var elementImport = new ElementImport { Alias = "Aliased", ImportedElement = importedElement };
+            package.ElementImport.Add(elementImport);
+
+            Assert.That(package.QueryGetNamesOfMember(importedElement), Is.EquivalentTo(new[] { "Aliased" }));
+        }
+
+        [Test]
+        public void Verify_that_QueryGetNamesOfMember_returns_an_empty_list_when_the_element_is_neither_owned_nor_imported()
+        {
+            var package = new Package { Name = "P" };
+            var unrelated = new Class { Name = "Unrelated" };
+
+            Assert.That(package.QueryGetNamesOfMember(unrelated), Is.Empty);
+        }
     }
 }

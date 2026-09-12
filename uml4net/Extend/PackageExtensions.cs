@@ -86,5 +86,20 @@ namespace uml4net.Packages
 
             return package.PackagedElement.OfType<IType>().ToList();
         }
+
+        /// <summary>
+        /// Queries the PackageableElements that this Package makes visible to importers.
+        /// </summary>
+        /// <param name="package">
+        /// The subject <see cref="IPackage"/>
+        /// </param>
+        /// <returns>
+        /// the PackageableElements that this Package makes visible to importers.
+        /// </returns>
+        [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
+        internal static List<IPackageableElement> QueryVisibleMembers(this IPackage package)
+        {
+            throw new NotSupportedException("Create a GitHub issue when this method is required");
+        }
     }
 }

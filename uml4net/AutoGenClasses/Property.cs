@@ -66,6 +66,11 @@ namespace uml4net.Classification
         public IElement Possessor { get; set; }
 
         /// <summary>
+        /// Gets the most specific uml4net-generated interface that represents the UML metaclass of this instance.
+        /// </summary>
+        public Type MetaclassInterface => typeof(IProperty);
+
+        /// <summary>
         /// Specifies the kind of aggregation that applies to the Property.
         /// </summary>
         [Property(xmiId: "Property-aggregation", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: "none")]

@@ -96,6 +96,58 @@ namespace uml4net.CommonStructure
         }
 
         /// <summary>
+        /// Queries whether the two NamedElements may exist in the same Namespace without conflict.
+        /// </summary>
+        /// <param name="namedElement">
+        /// The subject <see cref="INamedElement"/>
+        /// </param>
+        /// <param name="other">
+        /// the <see cref="INamedElement"/> to compare against
+        /// </param>
+        /// <param name="namespace">
+        /// the <see cref="INamespace"/> within which the two elements are compared
+        /// </param>
+        /// <returns>
+        /// <c>true</c> when the two elements are distinguishable, <c>false</c> otherwise.
+        /// </returns>
+        /// <remarks>
+        /// Two elements are only required to be distinguishable when one is a kind of the other's
+        /// type; in that case, they must not share any name visible within <paramref name="namespace"/>
+        /// (<see cref="NamespaceExtensions.QueryGetNamesOfMember"/>). "Kind of" is evaluated via
+        /// <see cref="IElement.MetaclassInterface"/> rather than the concrete .NET type, since
+        /// uml4net's generated concrete classes only ever inherit from <c>XmiElement</c> - the UML
+        /// generalization hierarchy is expressed exclusively through interface inheritance (e.g.
+        /// <c>IComponent : IClass</c>).
+        /// </remarks>
+        internal static bool QueryIsDistinguishableFrom(this INamedElement namedElement, INamedElement other, INamespace @namespace)
+        {
+            if (namedElement == null)
+            {
+                throw new ArgumentNullException(nameof(namedElement));
+            }
+
+            if (other == null)
+            {
+                throw new ArgumentNullException(nameof(other));
+            }
+
+            if (@namespace == null)
+            {
+                throw new ArgumentNullException(nameof(@namespace));
+            }
+
+            var oneIsAKindOfTheOther = namedElement.MetaclassInterface.IsInstanceOfType(other)
+                || other.MetaclassInterface.IsInstanceOfType(namedElement);
+
+            if (!oneIsAKindOfTheOther)
+            {
+                return true;
+            }
+
+            return !@namespace.QueryGetNamesOfMember(namedElement).Intersect(@namespace.QueryGetNamesOfMember(other)).Any();
+        }
+
+        /// <summary>
         /// Queries the fully qualified name of the <see cref="INamedElement"/>
         /// </summary>
         /// <param name="namedElement">

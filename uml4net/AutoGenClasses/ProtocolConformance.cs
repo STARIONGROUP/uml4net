@@ -61,6 +61,11 @@ namespace uml4net.StateMachines
         public IElement Possessor { get; set; }
 
         /// <summary>
+        /// Gets the most specific uml4net-generated interface that represents the UML metaclass of this instance.
+        /// </summary>
+        public Type MetaclassInterface => typeof(IProtocolConformance);
+
+        /// <summary>
         /// Specifies the ProtocolStateMachine to which the specific ProtocolStateMachine conforms.
         /// </summary>
         [Property(xmiId: "ProtocolConformance-generalMachine", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
