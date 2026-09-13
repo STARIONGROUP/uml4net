@@ -72,6 +72,7 @@ namespace uml4net.xmi.Tests
                     Is.EqualTo("demo for crossreferencing between doc1 and doc2"));
 
                 Assert.That(xmiReaderResult.Packages.Count, Is.EqualTo(2));
+                Assert.That(xmiReaderResult.RootElements, Is.EqualTo(xmiReaderResult.Packages));
 
                 var class_2 = xmiReaderResult.QueryRoot("doc1").PackagedElement.OfType<IClass>()
                     .Single(x => x.FullyQualifiedIdentifier == "doc1.xml#class02");

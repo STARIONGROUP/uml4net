@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<xmi:XMI xmlns:uml="http://www.omg.org/spec/UML/20131001" xmlns:xmi="http://www.omg.org/spec/XMI/20131001">
+    <uml:Operation xmi:id="idO1" xmi:type="uml:Operation" name="op1"/>
+    <uml:Constraint xmi:id="idC2" xmi:type="uml:Constraint" name="co2">
+        <specification xmi:type="uml:OpaqueExpression" xmi:id="idS2">
+            <body>Second Constraint definition</body>
+        </specification>
+        <constrainedElement xmi:idref="idO1"/>
+    </uml:Constraint>
+</xmi:XMI>
