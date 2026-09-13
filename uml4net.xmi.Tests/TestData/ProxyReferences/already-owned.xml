@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<xmi:XMI xmlns:uml="http://www.omg.org/spec/UML/20131001" xmlns:xmi="http://www.omg.org/spec/XMI/20131001">
+    <uml:Package xmi:id="idP1" xmi:type="uml:Package" name="p1">
+        <packagedElement xmi:id="idA" xmi:type="uml:Class" name="A">
+            <ownedRule xmi:id="idC1" xmi:type="uml:Constraint" name="co1"/>
+        </packagedElement>
+        <packagedElement xmi:id="idB" xmi:type="uml:Class" name="B">
+            <ownedRule xmi:idref="idC1"/>
+        </packagedElement>
+    </uml:Package>
+</xmi:XMI>

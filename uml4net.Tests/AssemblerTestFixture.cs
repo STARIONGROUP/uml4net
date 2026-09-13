@@ -59,6 +59,156 @@ namespace uml4net.Tests
             this.cache.Clear();
         }
 
+        private Constraint CreateConstraint(string xmiId, string documentName = null) => new()
+        {
+            XmiId = xmiId,
+            DocumentName = documentName ?? this.documentName
+        };
+
+        private void AddCompositeReference(IXmiElement element, string propertyName, string identifier, int position)
+        {
+            if (!element.CompositeReferencePropertyIdentifiers.TryGetValue(propertyName, out var references))
+            {
+                references = [];
+                element.CompositeReferencePropertyIdentifiers.Add(propertyName, references);
+            }
+
+            references.Add(new XmiCompositeReference { Identifier = identifier, Position = position });
+        }
+
+        [Test]
+        public void Synchronize_ShouldInsertCompositeReferencesAtTheirPositionAndSetThePossessor()
+        {
+            var operation = new Operation { XmiId = "op", DocumentName = this.documentName };
+            var contained = this.CreateConstraint("c1");
+            operation.OwnedRule.Add(contained);
+
+            var first = this.CreateConstraint("c0");
+            var last = this.CreateConstraint("c2");
+
+            this.AddCompositeReference(operation, "ownedRule", "c2", 2);
+            this.AddCompositeReference(operation, "ownedRule", "c0", 0);
+
+            foreach (var element in new IXmiElement[] { operation, contained, first, last })
+            {
+                Assert.That(this.cache.TryAdd(element), Is.True);
+            }
+
+            this.assembler.Synchronize();
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(operation.OwnedRule, Is.EqualTo(new[] { first, contained, last }));
+                Assert.That(operation.OwnedRule.Select(x => x.Possessor), Is.All.SameAs(operation));
+                Assert.That(operation.CompositeReferencePropertyIdentifiers["ownedRule"], Is.Empty);
+            }
+        }
+
+        [Test]
+        public void Synchronize_ShouldAddCompositeReferenceToAnElementOwnedByTheSameOwnerThroughAnotherProperty()
+        {
+            var operation = new Operation { XmiId = "op", DocumentName = this.documentName };
+            var bodyCondition = this.CreateConstraint("c1");
+            operation.BodyCondition.Add(bodyCondition);
+
+            this.AddCompositeReference(operation, "ownedRule", "c1", 0);
+
+            Assert.That(this.cache.TryAdd(operation), Is.True);
+            Assert.That(this.cache.TryAdd(bodyCondition), Is.True);
+
+            this.assembler.Synchronize();
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(operation.OwnedRule.Single(), Is.SameAs(bodyCondition));
+                Assert.That(bodyCondition.Possessor, Is.SameAs(operation));
+            }
+        }
+
+        [Test]
+        public void Synchronize_ShouldNotTakeACompositeReferenceAwayFromAnotherOwner()
+        {
+            var owner = new Operation { XmiId = "owner", DocumentName = this.documentName };
+            var other = new Operation { XmiId = "other", DocumentName = this.documentName };
+            var constraint = this.CreateConstraint("c1");
+            owner.OwnedRule.Add(constraint);
+
+            this.AddCompositeReference(other, "ownedRule", "c1", 0);
+
+            foreach (var element in new IXmiElement[] { owner, other, constraint })
+            {
+                Assert.That(this.cache.TryAdd(element), Is.True);
+            }
+
+            this.assembler.Synchronize();
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(other.OwnedRule, Is.Empty);
+                Assert.That(owner.OwnedRule.Single(), Is.SameAs(constraint));
+                Assert.That(constraint.Possessor, Is.SameAs(owner));
+                Assert.That(other.CompositeReferencePropertyIdentifiers["ownedRule"].Single().Identifier, Is.EqualTo("c1"));
+            }
+        }
+
+        [Test]
+        public void Synchronize_ShouldSkipUnresolvableCompositeReferencesAndKeepTheOrder()
+        {
+            var operation = new Operation { XmiId = "op", DocumentName = this.documentName };
+            var comment = new Comment { XmiId = "comment", DocumentName = this.documentName };
+            var constraint = this.CreateConstraint("c1");
+
+            this.AddCompositeReference(operation, "ownedRule", "comment", 0);
+            this.AddCompositeReference(operation, "ownedRule", "missing", 1);
+            this.AddCompositeReference(operation, "ownedRule", "c1", 2);
+
+            foreach (var element in new IXmiElement[] { operation, comment, constraint })
+            {
+                Assert.That(this.cache.TryAdd(element), Is.True);
+            }
+
+            this.assembler.Synchronize();
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(operation.OwnedRule.Single(), Is.SameAs(constraint));
+                Assert.That(operation.CompositeReferencePropertyIdentifiers["ownedRule"].Select(x => x.Identifier), Is.EqualTo(new[] { "comment", "missing" }));
+            }
+        }
+
+        [Test]
+        public void Synchronize_ShouldRemoveAResolvedCompositeHrefFromTheUnresolvedReferencesAndBeIdempotent()
+        {
+            var operation = new Operation { XmiId = "op", DocumentName = this.documentName };
+            var constraint = this.CreateConstraint("c4", "other.xml");
+
+            this.AddCompositeReference(operation, "ownedRule", "other.xml#c4", 0);
+            operation.UnresolvedReferences.Add(new XmiUnresolvedReference { PropertyName = "ownedRule", Identifier = "other.xml#c4" });
+
+            Assert.That(this.cache.TryAdd(operation), Is.True);
+            Assert.That(this.cache.TryAdd(constraint), Is.True);
+
+            this.assembler.Synchronize();
+            this.assembler.Synchronize();
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(operation.OwnedRule.Single(), Is.SameAs(constraint));
+                Assert.That(operation.UnresolvedReferences, Is.Empty);
+            }
+        }
+
+        [Test]
+        public void Synchronize_ShouldThrowWhenTheCompositePropertyDoesNotExist()
+        {
+            var operation = new Operation { XmiId = "op", DocumentName = this.documentName };
+            this.AddCompositeReference(operation, "doesNotExist", "c1", 0);
+
+            Assert.That(this.cache.TryAdd(operation), Is.True);
+
+            Assert.That(() => this.assembler.Synchronize(), Throws.InstanceOf<System.Collections.Generic.KeyNotFoundException>());
+        }
+
         [Test]
         public void Synchronize_ShouldSetSingleValueReference()
         {

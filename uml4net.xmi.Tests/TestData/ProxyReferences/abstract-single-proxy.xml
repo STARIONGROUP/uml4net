@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<xmi:XMI xmlns:uml="http://www.omg.org/spec/UML/20131001" xmlns:xmi="http://www.omg.org/spec/XMI/20131001">
+    <uml:Constraint xmi:id="idC1" xmi:type="uml:Constraint" name="co1">
+        <specification xmi:idref="idS1"/>
+    </uml:Constraint>
+    <uml:OpaqueExpression xmi:id="idS1" xmi:type="uml:OpaqueExpression">
+        <body>shared definition</body>
+    </uml:OpaqueExpression>
+</xmi:XMI>

@@ -91,6 +91,12 @@ namespace uml4net
         public Dictionary<string, List<string>> MultiValueReferencePropertyIdentifiers { get; set; } = new();
 
         /// <summary>
+        /// Gets or sets a dictionary of composite properties and the proxies (<c>xmi:idref</c> or <c>href</c>)
+        /// that refer to the owned elements that are defined elsewhere
+        /// </summary>
+        public Dictionary<string, List<XmiCompositeReference>> CompositeReferencePropertyIdentifiers { get; set; } = new();
+
+        /// <summary>
         /// Gets or sets the references to <see cref="IXmiElement"/>s in another document that could not be
         /// resolved while reading, preserved in their original XMI form
         /// </summary>

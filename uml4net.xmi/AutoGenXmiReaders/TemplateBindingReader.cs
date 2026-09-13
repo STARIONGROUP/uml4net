@@ -192,12 +192,18 @@ namespace uml4net.xmi.Readers
                                 CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "boundElement");
                                 break;
                             case (KnowNamespacePrefixes.Uml, "ownedComment"):
-                                var ownedCommentValue = (IComment)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.NameSpaceResolver, this.ExtenderReaderRegistry, this.LoggerFactory, "uml:Comment");
-                                poco.OwnedComment.Add(ownedCommentValue);
+                                if (!TryCollectCompositeReferencePropertyIdentifier(xmlReader, poco, "ownedComment", poco.OwnedComment.Count))
+                                {
+                                    var ownedCommentValue = (IComment)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.NameSpaceResolver, this.ExtenderReaderRegistry, this.LoggerFactory, "uml:Comment");
+                                    poco.OwnedComment.Add(ownedCommentValue);
+                                }
                                 break;
                             case (KnowNamespacePrefixes.Uml, "parameterSubstitution"):
-                                var parameterSubstitutionValue = (ITemplateParameterSubstitution)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.NameSpaceResolver, this.ExtenderReaderRegistry, this.LoggerFactory, "uml:TemplateParameterSubstitution");
-                                poco.ParameterSubstitution.Add(parameterSubstitutionValue);
+                                if (!TryCollectCompositeReferencePropertyIdentifier(xmlReader, poco, "parameterSubstitution", poco.ParameterSubstitution.Count))
+                                {
+                                    var parameterSubstitutionValue = (ITemplateParameterSubstitution)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.NameSpaceResolver, this.ExtenderReaderRegistry, this.LoggerFactory, "uml:TemplateParameterSubstitution");
+                                    poco.ParameterSubstitution.Add(parameterSubstitutionValue);
+                                }
                                 break;
                             case (KnowNamespacePrefixes.Uml, "signature"):
                                 CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "signature");

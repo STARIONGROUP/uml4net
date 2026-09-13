@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<xmi:XMI xmlns:uml="http://www.omg.org/spec/UML/20131001" xmlns:xmi="http://www.omg.org/spec/XMI/20131001">
+    <uml:Operation xmi:id="idO1" xmi:type="uml:Operation" name="op1">
+        <ownedRule xmi:idref="idC2"/>
+        <ownedRule xmi:id="idC1" xmi:type="uml:Constraint" name="co1"/>
+        <ownedRule xmi:idref="idC3"/>
+    </uml:Operation>
+    <uml:Constraint xmi:id="idC2" xmi:type="uml:Constraint" name="co2"/>
+    <uml:Constraint xmi:id="idC3" xmi:type="uml:Constraint" name="co3"/>
+</xmi:XMI>

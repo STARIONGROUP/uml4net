@@ -27,7 +27,8 @@ namespace uml4net
     using System.Reflection;
     
     using Microsoft.Extensions.Logging;
-    
+
+    using uml4net.CommonStructure;
     using uml4net.Decorators;
 
     /// <summary>
@@ -123,6 +124,89 @@ namespace uml4net
                 {
                     list.Add(resolvedReference);
                 }
+            }
+
+            this.ResolveCompositeReferences(element);
+        }
+
+        /// <summary>
+        /// Resolves the proxies (<c>xmi:idref</c> or <c>href</c>) of the composite properties of the given element,
+        /// by adding the referenced definition to the composite property at the position of its proxy, and by
+        /// making the given element its owner (XMI 2.5.1 clause 7.10.1)
+        /// </summary>
+        /// <param name="element">The element whose composite properties contain proxies.</param>
+        /// <remarks>
+        /// A definition that is already owned by another element is not taken away from that owner, since an
+        /// element has exactly one owner. Proxies that cannot be resolved are kept, so that a later
+        /// synchronization can resolve them.
+        /// </remarks>
+        private void ResolveCompositeReferences(IXmiElement element)
+        {
+            if (element.CompositeReferencePropertyIdentifiers.Count == 0)
+            {
+                return;
+            }
+
+            if (element is not IElement owner)
+            {
+                throw new InvalidOperationException($"The composite references of {element.GetType().Name} cannot be resolved since it is not an {nameof(IElement)}");
+            }
+
+            foreach (var property in element.CompositeReferencePropertyIdentifiers)
+            {
+                var targetProperty = FindPropertyWithAttribute(element, property.Key);
+                var underlyingType = targetProperty?.PropertyType.GetGenericArguments().FirstOrDefault();
+
+                if (targetProperty is null || underlyingType is null)
+                {
+                    throw new KeyNotFoundException($"The target property {property.Key} was not found on {element.GetType().Name} or the type is null");
+                }
+
+                if (targetProperty.GetValue(element) is not IList list)
+                {
+                    continue;
+                }
+
+                var unresolvedCompositeReferences = new List<XmiCompositeReference>();
+
+                foreach (var compositeReference in property.Value.OrderBy(x => x.Position))
+                {
+                    if (!this.TryGetReferencedElement(element.DocumentName, compositeReference.Identifier, out var referencedElement)
+                        || !underlyingType.IsInstanceOfType(referencedElement)
+                        || referencedElement is not IElement ownedElement)
+                    {
+                        this.logger.LogWarning("The proxy [{Reference}] for composite property [{Key}] on element type [{Element}] with id [{Id}] was not found in the cache, or its type is not supported.",
+                            compositeReference.Identifier, property.Key, element.XmiType, element.XmiId);
+
+                        unresolvedCompositeReferences.Add(compositeReference);
+                        continue;
+                    }
+
+                    if (ReferenceEquals(ownedElement, owner) || list.Contains(ownedElement))
+                    {
+                        RemoveResolvedReference(element, property.Key, compositeReference.Identifier);
+                        continue;
+                    }
+
+                    if (ownedElement.Possessor != null && !ReferenceEquals(ownedElement.Possessor, owner))
+                    {
+                        this.logger.LogWarning("The proxy [{Reference}] for composite property [{Key}] on element type [{Element}] with id [{Id}] refers to an element that is already owned by another element; the proxy is ignored.",
+                            compositeReference.Identifier, property.Key, element.XmiType, element.XmiId);
+
+                        unresolvedCompositeReferences.Add(compositeReference);
+                        continue;
+                    }
+
+                    var index = Math.Min(Math.Max(compositeReference.Position - unresolvedCompositeReferences.Count, 0), list.Count);
+
+                    list.Insert(index, ownedElement);
+                    ownedElement.Possessor = owner;
+
+                    RemoveResolvedReference(element, property.Key, compositeReference.Identifier);
+                }
+
+                property.Value.Clear();
+                property.Value.AddRange(unresolvedCompositeReferences);
             }
         }
 

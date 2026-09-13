@@ -46,6 +46,73 @@ namespace uml4net.xmi.Tests.Readers
 
             public bool InvokeTryCollect(XmlReader xmlReader, IXmiElement element, string name) => TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, element, name);
 
+            public bool InvokeTryCollectComposite(XmlReader xmlReader, IXmiElement element, string name, int containedCount) => TryCollectCompositeReferencePropertyIdentifier(xmlReader, element, name, containedCount);
+
+        }
+
+        [Test]
+        public void TryCollectCompositeReferencePropertyIdentifier_DoesNotMoveTheReaderForADefinition()
+        {
+            var reader = new TestReader();
+            var element = new LiteralBoolean();
+            using var xr = XmlReader.Create(new System.IO.StringReader("<ownedRule xmlns:xmi='http://www.omg.org/spec/XMI/20131001' xmi:id='c1' xmi:type='uml:Constraint'><body/></ownedRule>"), new XmlReaderSettings());
+            xr.MoveToContent();
+
+            var result = reader.InvokeTryCollectComposite(xr, element, "ownedRule", 0);
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(result, Is.False);
+                Assert.That(xr.LocalName, Is.EqualTo("ownedRule"));
+                Assert.That(xr.GetAttribute("xmi:id"), Is.EqualTo("c1"));
+                Assert.That(element.CompositeReferencePropertyIdentifiers, Is.Empty);
+                Assert.That(() => reader.InvokeTryCollectComposite(xr, element, "specification", 0), Throws.InvalidOperationException);
+                Assert.That(() => reader.InvokeTryCollectComposite(null, element, "ownedRule", 0), Throws.ArgumentNullException);
+                Assert.That(() => reader.InvokeTryCollectComposite(xr, null, "ownedRule", 0), Throws.ArgumentNullException);
+            }
+        }
+
+        [Test]
+        public void TryCollectCompositeReferencePropertyIdentifier_StoresTheIdRefWithItsPosition()
+        {
+            var reader = new TestReader();
+            var element = new LiteralBoolean();
+
+            foreach (var (idRef, containedCount) in new[] { ("c2", 1), ("c3", 2) })
+            {
+                using var xr = XmlReader.Create(new System.IO.StringReader($"<ownedRule xmlns:xmi='http://www.omg.org/spec/XMI/20131001' xmi:idref='{idRef}'/>"), new XmlReaderSettings());
+                xr.MoveToContent();
+
+                Assert.That(reader.InvokeTryCollectComposite(xr, element, "ownedRule", containedCount), Is.True);
+            }
+
+            var compositeReferences = element.CompositeReferencePropertyIdentifiers["ownedRule"];
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(compositeReferences.Select(x => x.Identifier), Is.EqualTo(new[] { "c2", "c3" }));
+                Assert.That(compositeReferences.Select(x => x.Position), Is.EqualTo(new[] { 1, 3 }));
+                Assert.That(element.UnresolvedReferences, Is.Empty);
+            }
+        }
+
+        [Test]
+        public void TryCollectCompositeReferencePropertyIdentifier_StoresAndPreservesTheHref()
+        {
+            var reader = new TestReader();
+            var element = new LiteralBoolean();
+            using var xr = XmlReader.Create(new System.IO.StringReader("<ownedRule href='doc2.xml#c4'/>"), new XmlReaderSettings());
+            xr.MoveToContent();
+
+            var result = reader.InvokeTryCollectComposite(xr, element, "ownedRule", 0);
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(result, Is.True);
+                Assert.That(element.CompositeReferencePropertyIdentifiers["ownedRule"].Single().Identifier, Is.EqualTo("doc2.xml#c4"));
+                Assert.That(element.UnresolvedReferences.Single().Identifier, Is.EqualTo("doc2.xml#c4"));
+                Assert.That(element.UnresolvedReferences.Single().ContentRawXmi, Does.Contain("ownedRule"));
+            }
         }
 
         [Test]
