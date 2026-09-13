@@ -67,6 +67,39 @@ namespace uml4net.xmi.Readers
         }
 
         /// <summary>
+        /// Queries the top-level element of type <typeparamref name="T"/> with the specified ID
+        /// </summary>
+        /// <typeparam name="T">
+        /// The type of the queried <see cref="IXmiElement"/>
+        /// </typeparam>
+        /// <param name="xmiId">
+        /// The XmiId of the <see cref="IXmiElement"/> that is queried
+        /// </param>
+        /// <returns>
+        /// The top-level element of type <typeparamref name="T"/> with the specified ID
+        /// </returns>
+        public T QueryRootElement<T>(string xmiId) where T : class, IXmiElement
+        {
+            if (string.IsNullOrEmpty(xmiId))
+            {
+                throw new ArgumentNullException(nameof(xmiId));
+            }
+
+            return this.RootElements.OfType<T>().Single(x => x.XmiId == xmiId);
+        }
+
+        /// <summary>
+        /// Gets or sets all the top-level elements that have been read, of any UML type, from the root
+        /// document and from every external document it references
+        /// </summary>
+        /// <remarks>
+        /// Per XMI 2.5.1 clause 7.10 an XMI document may contain a flat list of elements of any type.
+        /// An element that is read as a top-level element but is owned by another element through a
+        /// proxy (<c>xmi:idref</c> or <c>href</c>) is not a top-level element and is not included.
+        /// </remarks>
+        public List<IXmiElement> RootElements { get; set; } = [];
+
+        /// <summary>
         /// Gets or sets all the top-level <see cref="IPackage"/>s that have been read, this includes the Root
         /// </summary>
         /// <remarks>

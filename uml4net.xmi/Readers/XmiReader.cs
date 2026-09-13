@@ -30,6 +30,7 @@ namespace uml4net.xmi.Readers
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Logging.Abstractions;
 
+    using uml4net.CommonStructure;
     using uml4net.Packages;
     using uml4net.xmi;
     using uml4net.xmi.Extender;
@@ -207,6 +208,9 @@ namespace uml4net.xmi.Readers
 
             this.Read(stream, documentName, xmiReaderResult, true);
 
+            // an element read at top level but adopted by an owner through a proxy is not a root
+            xmiReaderResult.RootElements.RemoveAll(x => x is IElement { Possessor: not null });
+
             var extensions = new List<IXmiExtension>();
             extensions.AddRange(xmiReaderResult.XmiRoot.Extensions);
             extensions.AddRange(this.Cache.Values.SelectMany(x => x.Extensions));
@@ -287,6 +291,7 @@ namespace uml4net.xmi.Readers
                     {
                         var xmiRoot = xmiRootReader.Read(subXmlReader, documentName, xmlReader.NamespaceURI, null);
                         xmiReaderResult.Packages.AddRange(xmiRoot.Content.OfType<IPackage>());
+                        xmiReaderResult.RootElements.AddRange(xmiRoot.Content);
                         xmiReaderResult.XmiRoot = xmiRoot;
                     }
                     else
@@ -300,6 +305,16 @@ namespace uml4net.xmi.Readers
                             if (existingPackages.Add(pkg))
                             {
                                 xmiReaderResult.Packages.Add(pkg);
+                            }
+                        }
+
+                        var existingRootElements = new HashSet<IXmiElement>(xmiReaderResult.RootElements);
+
+                        foreach (var rootElement in xmiRoot.Content)
+                        {
+                            if (existingRootElements.Add(rootElement))
+                            {
+                                xmiReaderResult.RootElements.Add(rootElement);
                             }
                         }
                     }
@@ -332,15 +347,8 @@ namespace uml4net.xmi.Readers
                             case (KnowNamespacePrefixes.Uml, "Package"):
                             case (KnowNamespacePrefixes.Uml, "Model"):
                             case (KnowNamespacePrefixes.Uml, "Profile"):
-                                var package = (IPackage)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, xmlReader.NamespaceURI, this.Cache, this.XmiReaderSettings, this.NameSpaceResolver, this.ExtenderReaderRegistry, this.LoggerFactory, $"uml:{xmlReader.LocalName}");
+                                var package = (IPackage)this.ReadRootElement(xmlReader, documentName, xmiReaderResult, xmiRoot, isRoot);
                                 xmiReaderResult.Packages.Add(package);
-
-                                if (isRoot)
-                                {
-                                    xmiReaderResult.XmiRoot = xmiRoot;
-                                    xmiRoot.Content.Add(package);
-                                }
-
                                 break;
                             case (KnowNamespacePrefixes.Xmi, "Extension"):
                                 using (var xmiExtensionReader = xmlReader.ReadSubtree())
@@ -350,7 +358,10 @@ namespace uml4net.xmi.Readers
                                         xmiReaderResult.Packages.Add(extension);
                                     }
                                 }
-                                
+
+                                break;
+                            case (KnowNamespacePrefixes.Uml, _):
+                                this.ReadRootElement(xmlReader, documentName, xmiReaderResult, xmiRoot, isRoot);
                                 break;
                             default:
                                 this.logger.LogWarning("XmiReader: {LocalName} at line:position {Line}:{Position} was not read", xmlReader.LocalName, xmlLineInfo.LineNumber, xmlLineInfo.LinePosition);
@@ -361,7 +372,7 @@ namespace uml4net.xmi.Readers
 
                 if (!isRootXmiElement && !isRootUmlObject)
                 {
-                    throw new InvalidDataException("The root of the document is neither xmi:XMI or one of the UML root objects (Package, Model, Extension)");
+                    throw new InvalidDataException("The root of the document is neither xmi:XMI nor a UML element");
                 }
             }
 
@@ -375,6 +386,42 @@ namespace uml4net.xmi.Readers
             {
                 this.assembler.Synchronize();
             }
+        }
+
+        /// <summary>
+        /// Reads a UML element that is the root of a document (not wrapped in an xmi:XMI element) and
+        /// registers it as a root element of the <see cref="XmiReaderResult"/>
+        /// </summary>
+        /// <param name="xmlReader">
+        /// The <see cref="XmlReader" /> positioned on the root UML element
+        /// </param>
+        /// <param name="documentName">
+        /// The name of the document that contains the <see cref="IXmiElement" />
+        /// </param>
+        /// <param name="xmiReaderResult">
+        /// The <see cref="XmiReaderResult"/> to which the read root element is added
+        /// </param>
+        /// <param name="xmiRoot">
+        /// The <see cref="XmiRoot"/> of the root document
+        /// </param>
+        /// <param name="isRoot">
+        /// A value indicating whether the document being read is the root document
+        /// </param>
+        /// <returns>
+        /// The read <see cref="IXmiElement"/>
+        /// </returns>
+        private IXmiElement ReadRootElement(XmlReader xmlReader, string documentName, XmiReaderResult xmiReaderResult, XmiRoot xmiRoot, bool isRoot)
+        {
+            var rootElement = this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, xmlReader.NamespaceURI, this.Cache, this.XmiReaderSettings, this.NameSpaceResolver, this.ExtenderReaderRegistry, this.LoggerFactory, $"uml:{xmlReader.LocalName}");
+            xmiReaderResult.RootElements.Add(rootElement);
+
+            if (isRoot)
+            {
+                xmiReaderResult.XmiRoot = xmiRoot;
+                xmiRoot.Content.Add(rootElement);
+            }
+
+            return rootElement;
         }
 
         /// <summary>

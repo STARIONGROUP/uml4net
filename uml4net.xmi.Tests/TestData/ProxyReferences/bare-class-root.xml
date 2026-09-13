@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<uml:Class xmlns:uml="http://www.omg.org/spec/UML/20131001" xmlns:xmi="http://www.omg.org/spec/XMI/20131001" xmi:id="class1" xmi:type="uml:Class" name="Class1">
+    <ownedAttribute xmi:type="uml:Property" xmi:id="class1-prop1" name="prop1"/>
+</uml:Class>
