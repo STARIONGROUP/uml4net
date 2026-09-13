@@ -24,6 +24,8 @@
 
 namespace uml4net.StateMachines
 {
+    using System;
+
     /// <summary>
     /// TransitionKind is an Enumeration type used to differentiate the various kinds of Transitions.
     /// </summary>
@@ -47,6 +49,33 @@ namespace uml4net.StateMachines
         /// Implies that the Transition, if triggered, will exit the composite (source) State.
         /// </summary>
         External
+    }
+
+    /// <summary>
+    /// Extension methods for the <see cref="TransitionKind"/> enumeration
+    /// </summary>
+    public static class TransitionKindExtensions
+    {
+        /// <summary>
+        /// Queries the name of the enumeration literal as defined in the UML metamodel, which is the value that
+        /// represents the <paramref name="value"/> in an XMI document (XMI 2.5.1 clause 9.5.2, rule 2i)
+        /// </summary>
+        /// <param name="value">
+        /// The <see cref="TransitionKind"/> value
+        /// </param>
+        /// <returns>
+        /// the name of the enumeration literal
+        /// </returns>
+        public static string QueryXmiLiteral(this TransitionKind value)
+        {
+            return value switch
+            {
+                TransitionKind.Internal => "internal",
+                TransitionKind.Local => "local",
+                TransitionKind.External => "external",
+                _ => throw new ArgumentOutOfRangeException(nameof(value), value, $"{value} is not a literal of TransitionKind")
+            };
+        }
     }
 }
 

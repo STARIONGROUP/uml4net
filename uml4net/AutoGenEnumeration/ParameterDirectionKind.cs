@@ -24,6 +24,8 @@
 
 namespace uml4net.Classification
 {
+    using System;
+
     /// <summary>
     /// ParameterDirectionKind is an Enumeration that defines literals used to specify direction of
     /// parameters.
@@ -50,6 +52,34 @@ namespace uml4net.Classification
         /// Indicates that Parameter values are passed as return values back to the caller.
         /// </summary>
         Return
+    }
+
+    /// <summary>
+    /// Extension methods for the <see cref="ParameterDirectionKind"/> enumeration
+    /// </summary>
+    public static class ParameterDirectionKindExtensions
+    {
+        /// <summary>
+        /// Queries the name of the enumeration literal as defined in the UML metamodel, which is the value that
+        /// represents the <paramref name="value"/> in an XMI document (XMI 2.5.1 clause 9.5.2, rule 2i)
+        /// </summary>
+        /// <param name="value">
+        /// The <see cref="ParameterDirectionKind"/> value
+        /// </param>
+        /// <returns>
+        /// the name of the enumeration literal
+        /// </returns>
+        public static string QueryXmiLiteral(this ParameterDirectionKind value)
+        {
+            return value switch
+            {
+                ParameterDirectionKind.In => "in",
+                ParameterDirectionKind.Inout => "inout",
+                ParameterDirectionKind.Out => "out",
+                ParameterDirectionKind.Return => "return",
+                _ => throw new ArgumentOutOfRangeException(nameof(value), value, $"{value} is not a literal of ParameterDirectionKind")
+            };
+        }
     }
 }
 

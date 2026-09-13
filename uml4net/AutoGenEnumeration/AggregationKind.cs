@@ -24,6 +24,8 @@
 
 namespace uml4net.Classification
 {
+    using System;
+
     /// <summary>
     /// AggregationKind is an Enumeration for specifying the kind of aggregation of a Property.
     /// </summary>
@@ -44,6 +46,33 @@ namespace uml4net.Classification
         /// for the existence and storage of the composed objects (parts).
         /// </summary>
         Composite
+    }
+
+    /// <summary>
+    /// Extension methods for the <see cref="AggregationKind"/> enumeration
+    /// </summary>
+    public static class AggregationKindExtensions
+    {
+        /// <summary>
+        /// Queries the name of the enumeration literal as defined in the UML metamodel, which is the value that
+        /// represents the <paramref name="value"/> in an XMI document (XMI 2.5.1 clause 9.5.2, rule 2i)
+        /// </summary>
+        /// <param name="value">
+        /// The <see cref="AggregationKind"/> value
+        /// </param>
+        /// <returns>
+        /// the name of the enumeration literal
+        /// </returns>
+        public static string QueryXmiLiteral(this AggregationKind value)
+        {
+            return value switch
+            {
+                AggregationKind.None => "none",
+                AggregationKind.Shared => "shared",
+                AggregationKind.Composite => "composite",
+                _ => throw new ArgumentOutOfRangeException(nameof(value), value, $"{value} is not a literal of AggregationKind")
+            };
+        }
     }
 }
 

@@ -143,7 +143,7 @@ namespace uml4net.xmi.Writers
 
             if (element.Concurrency != CallConcurrencyKind.Sequential)
             {
-                xmlWriter.WriteAttributeString("concurrency", LowerCaseFirstLetter(element.Concurrency.ToString()));
+                xmlWriter.WriteAttributeString("concurrency", element.Concurrency.QueryXmiLiteral());
             }
 
             if (element.Datatype != null && writeContext.IsLocal(element.Datatype))
@@ -193,7 +193,7 @@ namespace uml4net.xmi.Writers
 
             if (element.Visibility != default(VisibilityKind))
             {
-                xmlWriter.WriteAttributeString("visibility", LowerCaseFirstLetter(element.Visibility.ToString()));
+                xmlWriter.WriteAttributeString("visibility", element.Visibility.QueryXmiLiteral());
             }
 
 
@@ -371,7 +371,7 @@ namespace uml4net.xmi.Writers
 
             if (element.Concurrency != CallConcurrencyKind.Sequential)
             {
-                await xmlWriter.WriteAttributeStringAsync(null, "concurrency", null, LowerCaseFirstLetter(element.Concurrency.ToString()));
+                await xmlWriter.WriteAttributeStringAsync(null, "concurrency", null, element.Concurrency.QueryXmiLiteral());
             }
 
             if (element.Datatype != null && writeContext.IsLocal(element.Datatype))
@@ -421,7 +421,7 @@ namespace uml4net.xmi.Writers
 
             if (element.Visibility != default(VisibilityKind))
             {
-                await xmlWriter.WriteAttributeStringAsync(null, "visibility", null, LowerCaseFirstLetter(element.Visibility.ToString()));
+                await xmlWriter.WriteAttributeStringAsync(null, "visibility", null, element.Visibility.QueryXmiLiteral());
             }
 
 

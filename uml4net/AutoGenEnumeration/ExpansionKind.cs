@@ -24,6 +24,8 @@
 
 namespace uml4net.Actions
 {
+    using System;
+
     /// <summary>
     /// ExpansionKind is an enumeration type used to specify how an ExpansionRegion executes its contents.
     /// </summary>
@@ -46,6 +48,33 @@ namespace uml4net.Actions
         /// ExpansionRegion, in the order of the collection elements if the input collections are ordered.
         /// </summary>
         Stream
+    }
+
+    /// <summary>
+    /// Extension methods for the <see cref="ExpansionKind"/> enumeration
+    /// </summary>
+    public static class ExpansionKindExtensions
+    {
+        /// <summary>
+        /// Queries the name of the enumeration literal as defined in the UML metamodel, which is the value that
+        /// represents the <paramref name="value"/> in an XMI document (XMI 2.5.1 clause 9.5.2, rule 2i)
+        /// </summary>
+        /// <param name="value">
+        /// The <see cref="ExpansionKind"/> value
+        /// </param>
+        /// <returns>
+        /// the name of the enumeration literal
+        /// </returns>
+        public static string QueryXmiLiteral(this ExpansionKind value)
+        {
+            return value switch
+            {
+                ExpansionKind.Parallel => "parallel",
+                ExpansionKind.Iterative => "iterative",
+                ExpansionKind.Stream => "stream",
+                _ => throw new ArgumentOutOfRangeException(nameof(value), value, $"{value} is not a literal of ExpansionKind")
+            };
+        }
     }
 }
 

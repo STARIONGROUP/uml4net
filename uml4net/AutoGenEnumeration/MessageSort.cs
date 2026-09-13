@@ -24,6 +24,8 @@
 
 namespace uml4net.Interactions
 {
+    using System;
+
     /// <summary>
     /// This is an enumerated type that identifies the type of communication action that was used to
     /// generate the Message.
@@ -60,6 +62,36 @@ namespace uml4net.Interactions
         /// The message is a reply message to an operation call.
         /// </summary>
         Reply
+    }
+
+    /// <summary>
+    /// Extension methods for the <see cref="MessageSort"/> enumeration
+    /// </summary>
+    public static class MessageSortExtensions
+    {
+        /// <summary>
+        /// Queries the name of the enumeration literal as defined in the UML metamodel, which is the value that
+        /// represents the <paramref name="value"/> in an XMI document (XMI 2.5.1 clause 9.5.2, rule 2i)
+        /// </summary>
+        /// <param name="value">
+        /// The <see cref="MessageSort"/> value
+        /// </param>
+        /// <returns>
+        /// the name of the enumeration literal
+        /// </returns>
+        public static string QueryXmiLiteral(this MessageSort value)
+        {
+            return value switch
+            {
+                MessageSort.SynchCall => "synchCall",
+                MessageSort.AsynchCall => "asynchCall",
+                MessageSort.AsynchSignal => "asynchSignal",
+                MessageSort.CreateMessage => "createMessage",
+                MessageSort.DeleteMessage => "deleteMessage",
+                MessageSort.Reply => "reply",
+                _ => throw new ArgumentOutOfRangeException(nameof(value), value, $"{value} is not a literal of MessageSort")
+            };
+        }
     }
 }
 

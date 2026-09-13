@@ -148,7 +148,7 @@ namespace uml4net.xmi.Writers
 
             if (element.MessageSort != MessageSort.SynchCall)
             {
-                xmlWriter.WriteAttributeString("messageSort", LowerCaseFirstLetter(element.MessageSort.ToString()));
+                xmlWriter.WriteAttributeString("messageSort", element.MessageSort.QueryXmiLiteral());
             }
 
             if (!string.IsNullOrEmpty(element.Name))
@@ -173,7 +173,7 @@ namespace uml4net.xmi.Writers
 
             if (element.Visibility != default(VisibilityKind))
             {
-                xmlWriter.WriteAttributeString("visibility", LowerCaseFirstLetter(element.Visibility.ToString()));
+                xmlWriter.WriteAttributeString("visibility", element.Visibility.QueryXmiLiteral());
             }
 
 
@@ -296,7 +296,7 @@ namespace uml4net.xmi.Writers
 
             if (element.MessageSort != MessageSort.SynchCall)
             {
-                await xmlWriter.WriteAttributeStringAsync(null, "messageSort", null, LowerCaseFirstLetter(element.MessageSort.ToString()));
+                await xmlWriter.WriteAttributeStringAsync(null, "messageSort", null, element.MessageSort.QueryXmiLiteral());
             }
 
             if (!string.IsNullOrEmpty(element.Name))
@@ -321,7 +321,7 @@ namespace uml4net.xmi.Writers
 
             if (element.Visibility != default(VisibilityKind))
             {
-                await xmlWriter.WriteAttributeStringAsync(null, "visibility", null, LowerCaseFirstLetter(element.Visibility.ToString()));
+                await xmlWriter.WriteAttributeStringAsync(null, "visibility", null, element.Visibility.QueryXmiLiteral());
             }
 
 

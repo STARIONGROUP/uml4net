@@ -148,7 +148,7 @@ namespace uml4net.xmi.Writers
 
             if (element.InteractionOperator != InteractionOperatorKind.Seq)
             {
-                xmlWriter.WriteAttributeString("interactionOperator", LowerCaseFirstLetter(element.InteractionOperator.ToString()));
+                xmlWriter.WriteAttributeString("interactionOperator", element.InteractionOperator.QueryXmiLiteral());
             }
 
             if (!string.IsNullOrEmpty(element.Name))
@@ -158,7 +158,7 @@ namespace uml4net.xmi.Writers
 
             if (element.Visibility != default(VisibilityKind))
             {
-                xmlWriter.WriteAttributeString("visibility", LowerCaseFirstLetter(element.Visibility.ToString()));
+                xmlWriter.WriteAttributeString("visibility", element.Visibility.QueryXmiLiteral());
             }
 
 
@@ -286,7 +286,7 @@ namespace uml4net.xmi.Writers
 
             if (element.InteractionOperator != InteractionOperatorKind.Seq)
             {
-                await xmlWriter.WriteAttributeStringAsync(null, "interactionOperator", null, LowerCaseFirstLetter(element.InteractionOperator.ToString()));
+                await xmlWriter.WriteAttributeStringAsync(null, "interactionOperator", null, element.InteractionOperator.QueryXmiLiteral());
             }
 
             if (!string.IsNullOrEmpty(element.Name))
@@ -296,7 +296,7 @@ namespace uml4net.xmi.Writers
 
             if (element.Visibility != default(VisibilityKind))
             {
-                await xmlWriter.WriteAttributeStringAsync(null, "visibility", null, LowerCaseFirstLetter(element.Visibility.ToString()));
+                await xmlWriter.WriteAttributeStringAsync(null, "visibility", null, element.Visibility.QueryXmiLiteral());
             }
 
 

@@ -153,7 +153,7 @@ namespace uml4net.xmi.Writers
 
             if (element.Visibility != VisibilityKind.Public)
             {
-                xmlWriter.WriteAttributeString("visibility", LowerCaseFirstLetter(element.Visibility.ToString()));
+                xmlWriter.WriteAttributeString("visibility", element.Visibility.QueryXmiLiteral());
             }
 
 
@@ -271,7 +271,7 @@ namespace uml4net.xmi.Writers
 
             if (element.Visibility != VisibilityKind.Public)
             {
-                await xmlWriter.WriteAttributeStringAsync(null, "visibility", null, LowerCaseFirstLetter(element.Visibility.ToString()));
+                await xmlWriter.WriteAttributeStringAsync(null, "visibility", null, element.Visibility.QueryXmiLiteral());
             }
 
 

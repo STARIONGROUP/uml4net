@@ -138,12 +138,12 @@ namespace uml4net.xmi.Writers
 
             if (element.Direction != ParameterDirectionKind.In)
             {
-                xmlWriter.WriteAttributeString("direction", LowerCaseFirstLetter(element.Direction.ToString()));
+                xmlWriter.WriteAttributeString("direction", element.Direction.QueryXmiLiteral());
             }
 
             if (element.Effect != default(ParameterEffectKind))
             {
-                xmlWriter.WriteAttributeString("effect", LowerCaseFirstLetter(element.Effect.ToString()));
+                xmlWriter.WriteAttributeString("effect", element.Effect.QueryXmiLiteral());
             }
 
             if (element.IsException)
@@ -193,7 +193,7 @@ namespace uml4net.xmi.Writers
 
             if (element.Visibility != default(VisibilityKind))
             {
-                xmlWriter.WriteAttributeString("visibility", LowerCaseFirstLetter(element.Visibility.ToString()));
+                xmlWriter.WriteAttributeString("visibility", element.Visibility.QueryXmiLiteral());
             }
 
 
@@ -316,12 +316,12 @@ namespace uml4net.xmi.Writers
 
             if (element.Direction != ParameterDirectionKind.In)
             {
-                await xmlWriter.WriteAttributeStringAsync(null, "direction", null, LowerCaseFirstLetter(element.Direction.ToString()));
+                await xmlWriter.WriteAttributeStringAsync(null, "direction", null, element.Direction.QueryXmiLiteral());
             }
 
             if (element.Effect != default(ParameterEffectKind))
             {
-                await xmlWriter.WriteAttributeStringAsync(null, "effect", null, LowerCaseFirstLetter(element.Effect.ToString()));
+                await xmlWriter.WriteAttributeStringAsync(null, "effect", null, element.Effect.QueryXmiLiteral());
             }
 
             if (element.IsException)
@@ -371,7 +371,7 @@ namespace uml4net.xmi.Writers
 
             if (element.Visibility != default(VisibilityKind))
             {
-                await xmlWriter.WriteAttributeStringAsync(null, "visibility", null, LowerCaseFirstLetter(element.Visibility.ToString()));
+                await xmlWriter.WriteAttributeStringAsync(null, "visibility", null, element.Visibility.QueryXmiLiteral());
             }
 
 
