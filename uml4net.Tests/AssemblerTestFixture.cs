@@ -210,6 +210,58 @@ namespace uml4net.Tests
         }
 
         [Test]
+        public void Synchronize_ShouldRecordResolutionFailuresAndResetThemOnTheNextSynchronization()
+        {
+            var comment = new Comment { XmiId = "comment", DocumentName = this.documentName };
+
+            var property = new Property { XmiId = "property", XmiType = "uml:Property", DocumentName = this.documentName };
+            property.SingleValueReferencePropertyIdentifiers.Add("type", "missingType");
+            property.MultiValueReferencePropertyIdentifiers.Add("subsettedProperty", ["missingProperty", "comment"]);
+
+            var owner = new Operation { XmiId = "owner", DocumentName = this.documentName };
+            var ownedConstraint = this.CreateConstraint("owned");
+            owner.OwnedRule.Add(ownedConstraint);
+
+            var operation = new Operation { XmiId = "operation", XmiType = "uml:Operation", DocumentName = this.documentName };
+            this.AddCompositeReference(operation, "ownedRule", "missingRule", 0);
+            this.AddCompositeReference(operation, "ownedRule", "comment", 1);
+            this.AddCompositeReference(operation, "ownedRule", "owned", 2);
+
+            foreach (var element in new IXmiElement[] { comment, property, owner, ownedConstraint, operation })
+            {
+                Assert.That(this.cache.TryAdd(element), Is.True);
+            }
+
+            this.assembler.Synchronize();
+
+            var failures = this.assembler.ResolutionFailures.Select(x => (x.ElementXmiId, x.PropertyName, x.Identifier, x.Kind)).ToList();
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(failures, Is.EquivalentTo(new[]
+                {
+                    ("property", "type", "missingType", XmiReferenceResolutionFailureKind.NotFound),
+                    ("property", "subsettedProperty", "missingProperty", XmiReferenceResolutionFailureKind.NotFound),
+                    ("property", "subsettedProperty", "comment", XmiReferenceResolutionFailureKind.UnexpectedType),
+                    ("operation", "ownedRule", "missingRule", XmiReferenceResolutionFailureKind.NotFound),
+                    ("operation", "ownedRule", "comment", XmiReferenceResolutionFailureKind.UnexpectedType),
+                    ("operation", "ownedRule", "owned", XmiReferenceResolutionFailureKind.AlreadyOwned)
+                }));
+
+                Assert.That(this.assembler.ResolutionFailures.First(x => x.Identifier == "missingType").ToString(),
+                    Is.EqualTo("test#property (uml:Property).type -> missingType [NotFound]"));
+            }
+
+            property.MultiValueReferencePropertyIdentifiers.Clear();
+            operation.CompositeReferencePropertyIdentifiers.Clear();
+            Assert.That(this.cache.TryAdd(new Class { XmiId = "missingType", DocumentName = this.documentName }), Is.True);
+
+            this.assembler.Synchronize();
+
+            Assert.That(this.assembler.ResolutionFailures, Is.Empty);
+        }
+
+        [Test]
         public void Synchronize_ShouldSetSingleValueReference()
         {
             var classElement = new Class

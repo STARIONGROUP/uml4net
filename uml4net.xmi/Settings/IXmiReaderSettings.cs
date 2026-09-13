@@ -65,5 +65,17 @@ namespace uml4net.xmi.Settings
         /// Otherwise, it will ignore the unknown element or attribute and log a warning.
         /// </remarks>
         bool UseStrictReading { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether reading throws an <see cref="Readers.UnresolvedReferencesException"/>
+        /// when references cannot be resolved once the object graph has been assembled
+        /// </summary>
+        /// <remarks>
+        /// This setting is independent of <see cref="UseStrictReading"/>. When false (the default), references that cannot
+        /// be resolved are logged as warnings and reading continues. When true, all references that could not be resolved
+        /// are collected and reported by a single exception at the end of the read. Note that many real-world models,
+        /// including the OMG normative ones, reference documents that are not available, such as the UML metamodel.
+        /// </remarks>
+        bool ThrowOnUnresolvedReferences { get; set; }
     }
 }

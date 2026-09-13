@@ -240,6 +240,45 @@ namespace uml4net.xmi.Tests
         }
 
         [Test]
+        public void Verify_that_unresolvable_proxies_throw_when_ThrowOnUnresolvedReferences_is_set()
+        {
+            var reader = XmiReaderBuilder.Create()
+                .UsingSettings(x =>
+                {
+                    x.LocalReferenceBasePath = this.rootPath;
+                    x.ThrowOnUnresolvedReferences = true;
+                })
+                .WithLogger(this.loggerFactory)
+                .Build();
+
+            var exception = Assert.Throws<UnresolvedReferencesException>(() => reader.Read(Path.Combine(this.rootPath, "unresolved.xml")));
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(new DefaultSettings().ThrowOnUnresolvedReferences, Is.False);
+                Assert.That(exception.Failures.Select(x => x.Identifier), Is.EquivalentTo(new[] { "missing", "missing.xml#x" }));
+                Assert.That(exception.Failures.Select(x => x.PropertyName), Is.All.EqualTo("ownedRule"));
+                Assert.That(exception.Failures.Select(x => x.Kind), Is.All.EqualTo(XmiReferenceResolutionFailureKind.NotFound));
+                Assert.That(exception.Message, Does.Contain("unresolved.xml#idO1 (uml:Operation).ownedRule -> missing [NotFound]"));
+            }
+        }
+
+        [Test]
+        public void Verify_that_resolvable_documents_do_not_throw_when_ThrowOnUnresolvedReferences_is_set()
+        {
+            var reader = XmiReaderBuilder.Create()
+                .UsingSettings(x =>
+                {
+                    x.LocalReferenceBasePath = this.rootPath;
+                    x.ThrowOnUnresolvedReferences = true;
+                })
+                .WithLogger(this.loggerFactory)
+                .Build();
+
+            Assert.That(() => reader.Read(Path.Combine(this.rootPath, "doc1.xml")), Throws.Nothing);
+        }
+
+        [Test]
         public void Verify_that_a_proxy_does_not_take_an_element_away_from_its_owner()
         {
             var xmiReaderResult = this.Read("already-owned.xml");
