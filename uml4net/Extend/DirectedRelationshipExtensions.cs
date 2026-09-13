@@ -58,7 +58,9 @@ namespace uml4net.CommonStructure
         /// <see cref="IDependency"/> hold properties that subset <c>Dependency::supplier</c> in their own lists, which are
         /// added as well: <see cref="IComponentRealization.Abstraction"/>, <see cref="IInterfaceRealization.Contract"/>,
         /// <see cref="ISubstitution.Contract"/>, <see cref="IDeployment.DeployedArtifact"/> and
-        /// <see cref="IManifestation.UtilizedElement"/>. Unset values are skipped and duplicates are removed.
+        /// <see cref="IManifestation.UtilizedElement"/>. <see cref="IComponentRealization.Abstraction"/> subsets
+        /// <c>Element::owner</c> and is not serialized in XMI; when it is null the <see cref="IElement.Owner"/> is used
+        /// instead. Unset values are skipped and duplicates are removed.
         /// </remarks>
         internal static List<IElement> QueryTarget(this IDirectedRelationship directedRelationship)
         {
@@ -80,7 +82,7 @@ namespace uml4net.CommonStructure
 
                 if (dependency is IComponentRealization componentRealization)
                 {
-                    target.Add(componentRealization.Abstraction);
+                    target.Add(componentRealization.Abstraction ?? componentRealization.Owner as IComponent);
                 }
 
                 if (dependency is IInterfaceRealization interfaceRealization)
@@ -172,7 +174,9 @@ namespace uml4net.CommonStructure
         /// <see cref="IDependency"/> hold properties that subset <c>Dependency::client</c> in their own lists, which are
         /// added as well: <see cref="IComponentRealization.RealizingClassifier"/>,
         /// <see cref="IInterfaceRealization.ImplementingClassifier"/>, <see cref="ISubstitution.SubstitutingClassifier"/>
-        /// and <see cref="IDeployment.Location"/>. Unset values are skipped and duplicates are removed.
+        /// and <see cref="IDeployment.Location"/>. The ends that subset <c>Element::owner</c> (or
+        /// <c>NamedElement::namespace</c>) are not serialized in XMI and are left null by the reader; for those the
+        /// <see cref="IElement.Owner"/> is used instead. Unset values are skipped and duplicates are removed.
         /// </remarks>
         internal static List<IElement> QuerySource(this IDirectedRelationship directedRelationship)
         {
@@ -183,9 +187,11 @@ namespace uml4net.CommonStructure
 
             var source = new List<IElement>();
 
+            // Most source ends subset Element::owner (or NamedElement::namespace) and are not serialized in XMI:
+            // the reader leaves them null, so the owner is used when the end itself is not set.
             if (directedRelationship is IGeneralization generalization)
             {
-                source.Add(generalization.Specific);
+                source.Add(generalization.Specific ?? generalization.Owner as IClassifier);
             }
 
             if (directedRelationship is IDependency dependency)
@@ -199,48 +205,48 @@ namespace uml4net.CommonStructure
 
                 if (dependency is IInterfaceRealization interfaceRealization)
                 {
-                    source.Add(interfaceRealization.ImplementingClassifier);
+                    source.Add(interfaceRealization.ImplementingClassifier ?? interfaceRealization.Owner as IBehavioredClassifier);
                 }
 
                 if (dependency is ISubstitution substitution)
                 {
-                    source.Add(substitution.SubstitutingClassifier);
+                    source.Add(substitution.SubstitutingClassifier ?? substitution.Owner as IClassifier);
                 }
 
                 if (dependency is IDeployment deployment)
                 {
-                    source.Add(deployment.Location);
+                    source.Add(deployment.Location ?? deployment.Owner as IDeploymentTarget);
                 }
             }
 
             if (directedRelationship is IElementImport elementImport)
             {
-                source.Add(elementImport.ImportingNamespace);
+                source.Add(elementImport.ImportingNamespace ?? elementImport.Owner as INamespace);
             }
 
             if (directedRelationship is IPackageImport packageImport)
             {
-                source.Add(packageImport.ImportingNamespace);
+                source.Add(packageImport.ImportingNamespace ?? packageImport.Owner as INamespace);
             }
 
             if (directedRelationship is IPackageMerge packageMerge)
             {
-                source.Add(packageMerge.ReceivingPackage);
+                source.Add(packageMerge.ReceivingPackage ?? packageMerge.Owner as IPackage);
             }
 
             if (directedRelationship is IProfileApplication profileApplication)
             {
-                source.Add(profileApplication.ApplyingPackage);
+                source.Add(profileApplication.ApplyingPackage ?? profileApplication.Owner as IPackage);
             }
 
             if (directedRelationship is IProtocolConformance protocolConformance)
             {
-                source.Add(protocolConformance.SpecificMachine);
+                source.Add(protocolConformance.SpecificMachine ?? protocolConformance.Owner as IProtocolStateMachine);
             }
 
             if (directedRelationship is ITemplateBinding templateBinding)
             {
-                source.Add(templateBinding.BoundElement);
+                source.Add(templateBinding.BoundElement ?? templateBinding.Owner as ITemplateableElement);
             }
 
             if (directedRelationship is IInformationFlow informationFlow)
@@ -250,12 +256,12 @@ namespace uml4net.CommonStructure
 
             if (directedRelationship is IExtend extend)
             {
-                source.Add(extend.Extension);
+                source.Add(extend.Extension ?? extend.Owner as IUseCase);
             }
 
             if (directedRelationship is IInclude include)
             {
-                source.Add(include.IncludingCase);
+                source.Add(include.IncludingCase ?? include.Owner as IUseCase);
             }
 
             return source.Where(element => element != null).Distinct().ToList();

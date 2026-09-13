@@ -178,6 +178,77 @@ namespace uml4net.Tests.Extend
         }
 
         [Test]
+        public void Verify_that_Source_falls_back_to_the_owner_when_the_owner_subsetting_end_is_not_set()
+        {
+            // the reader does not populate ends that subset Element::owner (they are not serialized), the owner is known
+            // through the containment though
+            var general = new Class { Name = "General" };
+            var specific = new Class { Name = "Specific" };
+            var generalization = new Generalization { General = general };
+            specific.Generalization.Add(generalization);
+
+            var importingPackage = new Package { Name = "Importing" };
+            var importedPackage = new Package { Name = "Imported" };
+            var packageImport = new PackageImport { ImportedPackage = importedPackage };
+            var elementImport = new ElementImport { ImportedElement = importedPackage };
+            var packageMerge = new PackageMerge { MergedPackage = importedPackage };
+            var profileApplication = new ProfileApplication { AppliedProfile = new Profile() };
+            importingPackage.PackageImport.Add(packageImport);
+            importingPackage.ElementImport.Add(elementImport);
+            importingPackage.PackageMerge.Add(packageMerge);
+            importingPackage.ProfileApplication.Add(profileApplication);
+
+            var implementingClassifier = new Class { Name = "Implementing" };
+            var interfaceRealization = new InterfaceRealization { Contract = new Interface() };
+            implementingClassifier.InterfaceRealization.Add(interfaceRealization);
+
+            var substitutingClassifier = new Class { Name = "Substituting" };
+            var substitution = new Substitution { Contract = new Class() };
+            substitutingClassifier.Substitution.Add(substitution);
+
+            var component = new Component { Name = "Component" };
+            var componentRealization = new ComponentRealization();
+            componentRealization.RealizingClassifier.Add(implementingClassifier);
+            component.Realization.Add(componentRealization);
+
+            var node = new Node { Name = "Node" };
+            var deployment = new Deployment();
+            node.Deployment.Add(deployment);
+
+            var specificMachine = new ProtocolStateMachine { Name = "Specific" };
+            var protocolConformance = new ProtocolConformance { GeneralMachine = new ProtocolStateMachine() };
+            specificMachine.Conformance.Add(protocolConformance);
+
+            var boundClass = new Class { Name = "Bound" };
+            var templateBinding = new TemplateBinding { Signature = new TemplateSignature() };
+            boundClass.TemplateBinding.Add(templateBinding);
+
+            var useCase = new UseCase { Name = "UseCase" };
+            var extend = new uml4net.UseCases.Extend { ExtendedCase = new UseCase() };
+            var include = new Include { Addition = new UseCase() };
+            useCase.Extend.Add(extend);
+            useCase.Include.Add(include);
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(generalization.Specific, Is.Null);
+                Assert.That(generalization.Source, Is.EquivalentTo([specific]));
+                Assert.That(packageImport.Source, Is.EquivalentTo([importingPackage]));
+                Assert.That(elementImport.Source, Is.EquivalentTo([importingPackage]));
+                Assert.That(packageMerge.Source, Is.EquivalentTo([importingPackage]));
+                Assert.That(profileApplication.Source, Is.EquivalentTo([importingPackage]));
+                Assert.That(interfaceRealization.Source, Is.EquivalentTo([implementingClassifier]));
+                Assert.That(substitution.Source, Is.EquivalentTo([substitutingClassifier]));
+                Assert.That(componentRealization.Target, Is.EquivalentTo([component]));
+                Assert.That(deployment.Source, Is.EquivalentTo([node]));
+                Assert.That(protocolConformance.Source, Is.EquivalentTo([specificMachine]));
+                Assert.That(templateBinding.Source, Is.EquivalentTo([boundClass]));
+                Assert.That(extend.Source, Is.EquivalentTo([useCase]));
+                Assert.That(include.Source, Is.EquivalentTo([useCase]));
+            }
+        }
+
+        [Test]
         public void Verify_that_unset_subsetting_properties_are_not_returned_as_null()
         {
             var generalization = new Generalization();

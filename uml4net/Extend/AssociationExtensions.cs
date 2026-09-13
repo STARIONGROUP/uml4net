@@ -24,7 +24,6 @@ namespace uml4net.StructuredClassifiers
     using System.Collections.Generic;
     using System.Linq;
 
-    using uml4net.Classification;
     using uml4net.CommonStructure;
     using uml4net.Packages;
 
