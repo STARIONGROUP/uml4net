@@ -95,7 +95,11 @@ namespace uml4net.xmi.Writers
             var elementsMissingXmiId = new List<IXmiElement>();
             var rootPackages = new List<IPackage> { package };
 
-            CollectContainmentTree(package, localElements, localIdentifiers, elementsMissingXmiId);
+            // With href resolution, elements that are owned by the package but defined in another document (read from
+            // composite property proxies, XMI 2.5.1 clause 7.10) stay in that document and are written as href proxies
+            var owningDocumentName = externalReferenceResolution == ExternalReferenceResolutionKind.Href ? package.DocumentName : null;
+
+            CollectContainmentTree(package, localElements, localIdentifiers, elementsMissingXmiId, owningDocumentName);
 
             if (externalReferenceResolution == ExternalReferenceResolutionKind.Include)
             {
@@ -181,7 +185,12 @@ namespace uml4net.xmi.Writers
         /// <param name="elementsMissingXmiId">
         /// The elements that are part of the document but do not have an <see cref="IXmiElement.XmiId"/>
         /// </param>
-        private static void CollectContainmentTree(IXmiElement root, HashSet<IXmiElement> localElements, HashSet<string> localIdentifiers, List<IXmiElement> elementsMissingXmiId)
+        /// <param name="owningDocumentName">
+        /// The name of the document that owns the containment tree; contained elements with a different, non-empty
+        /// <see cref="IXmiElement.DocumentName"/> are not part of the document and their containment tree is not walked.
+        /// When null or empty, the complete containment tree is collected
+        /// </param>
+        private static void CollectContainmentTree(IXmiElement root, HashSet<IXmiElement> localElements, HashSet<string> localIdentifiers, List<IXmiElement> elementsMissingXmiId, string owningDocumentName = null)
         {
             var elementsToProcess = new Stack<IXmiElement>();
             elementsToProcess.Push(root);
@@ -189,6 +198,16 @@ namespace uml4net.xmi.Writers
             while (elementsToProcess.Count > 0)
             {
                 var element = elementsToProcess.Pop();
+
+                if (!ReferenceEquals(element, root) && QueryIsDefinedInOtherDocument(element, owningDocumentName))
+                {
+                    if (string.IsNullOrEmpty(element.XmiId))
+                    {
+                        elementsMissingXmiId.Add(element);
+                    }
+
+                    continue;
+                }
 
                 if (!localElements.Add(element))
                 {
@@ -209,6 +228,25 @@ namespace uml4net.xmi.Writers
                     elementsToProcess.Push(containedElement);
                 }
             }
+        }
+
+        /// <summary>
+        /// Queries whether the provided <see cref="IXmiElement"/> is defined in a document other than the owning document.
+        /// </summary>
+        /// <param name="element">
+        /// The <see cref="IXmiElement"/> that is checked
+        /// </param>
+        /// <param name="owningDocumentName">
+        /// The name of the document that owns the containment tree
+        /// </param>
+        /// <returns>
+        /// true when both document names are specified and differ, false otherwise
+        /// </returns>
+        private static bool QueryIsDefinedInOtherDocument(IXmiElement element, string owningDocumentName)
+        {
+            return !string.IsNullOrEmpty(owningDocumentName)
+                   && !string.IsNullOrEmpty(element.DocumentName)
+                   && element.DocumentName != owningDocumentName;
         }
 
         /// <summary>

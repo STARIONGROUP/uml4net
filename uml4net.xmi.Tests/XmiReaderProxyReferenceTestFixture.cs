@@ -36,6 +36,7 @@ namespace uml4net.xmi.Tests
     using uml4net.StructuredClassifiers;
     using uml4net.Values;
     using uml4net.xmi.Readers;
+    using uml4net.xmi.Settings;
     using uml4net.xmi.Writers;
 
     /// <summary>
@@ -186,6 +187,55 @@ namespace uml4net.xmi.Tests
                 Assert.That(rereadClass.OwnedRule, Is.Empty);
                 Assert.That(rereadClass.UnresolvedReferences.Select(x => x.Identifier), Is.EqualTo(new[] { "missing.xml#x" }));
                 Assert.That(rereadClass.CompositeReferencePropertyIdentifiers["ownedRule"].Single().Identifier, Is.EqualTo("missing.xml#x"));
+            }
+        }
+
+        [TestCase(ExternalReferenceResolutionKind.Href)]
+        [TestCase(ExternalReferenceResolutionKind.Include)]
+        public void Verify_that_an_owned_element_defined_in_another_document_survives_a_read_write_read_cycle(ExternalReferenceResolutionKind externalReferenceResolution)
+        {
+            const string documentName = "package-with-external-owned-rule.xml";
+
+            var package = this.Read(documentName).QueryRoot("idP1");
+
+            using var stream = new MemoryStream();
+
+            var writer = XmiWriterBuilder.Create()
+                .UsingSettings(x => x.ExternalReferenceResolution = externalReferenceResolution)
+                .WithLogger(NullLoggerFactory.Instance)
+                .Build();
+
+            writer.Write(package, stream, documentName);
+
+            var writtenDocument = XDocument.Load(new MemoryStream(stream.ToArray()));
+            var writtenOwnedRules = writtenDocument.Descendants().Where(x => x.Name.LocalName == "ownedRule").ToList();
+            var xmiIdAttributeName = XName.Get("id", "http://www.omg.org/spec/XMI/20131001");
+
+            stream.Position = 0;
+
+            var reader = XmiReaderBuilder.Create()
+                .UsingSettings(x => x.LocalReferenceBasePath = this.rootPath)
+                .WithLogger(this.loggerFactory)
+                .Build();
+
+            var rereadClass = reader.Read(stream, documentName).QueryRoot("idP1").PackagedElement.OfType<IClass>().Single();
+
+            using (Assert.EnterMultipleScope())
+            {
+                if (externalReferenceResolution == ExternalReferenceResolutionKind.Href)
+                {
+                    Assert.That(writtenOwnedRules.Select(x => x.Attribute("href")?.Value), Is.EqualTo(new[] { null, "doc2.xml#idC4" }));
+                    Assert.That(writtenDocument.Descendants().Select(x => x.Attribute(xmiIdAttributeName)?.Value), Does.Not.Contain("idC4").And.Not.Contain("idS4"));
+                }
+                else
+                {
+                    Assert.That(writtenOwnedRules.Select(x => x.Attribute(xmiIdAttributeName)?.Value), Is.EqualTo(new[] { "idC1", "idC4" }));
+                }
+
+                Assert.That(rereadClass.OwnedRule.Select(x => x.XmiId), Is.EqualTo(new[] { "idC1", "idC4" }));
+                Assert.That(rereadClass.OwnedRule.Select(x => x.Possessor), Is.All.SameAs(rereadClass));
+                Assert.That(((IOpaqueExpression)rereadClass.OwnedRule[1].Specification.Single()).Body.Single(), Is.EqualTo("Fourth Constraint definition"));
+                Assert.That(rereadClass.UnresolvedReferences, Is.Empty);
             }
         }
 

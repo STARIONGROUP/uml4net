@@ -27,9 +27,11 @@ namespace uml4net.xmi.Tests.Writers
     using NUnit.Framework;
 
     using uml4net.Classification;
+    using uml4net.CommonStructure;
     using uml4net.Packages;
     using uml4net.SimpleClassifiers;
     using uml4net.StructuredClassifiers;
+    using uml4net.Values;
     using uml4net.xmi.Settings;
     using uml4net.xmi.Writers;
 
@@ -152,6 +154,64 @@ namespace uml4net.xmi.Tests.Writers
 
             Assert.That(plan.RootPackages, Is.EqualTo(new[] { this.packageA }));
             Assert.That(plan.LocalIdentifiers, Does.Not.Contain(freeFloatingType.FullyQualifiedIdentifier));
+        }
+
+        [Test]
+        public void Verify_that_Href_plan_excludes_owned_elements_defined_in_another_document()
+        {
+            var constraint = new Constraint { XmiId = "Constraint1", DocumentName = "b.xmi", Name = "constraint1" };
+            var specification = new OpaqueExpression { XmiId = "Specification1", DocumentName = "b.xmi" };
+            constraint.Specification.Add(specification);
+            this.classA.OwnedRule.Add(constraint);
+
+            var programmaticConstraint = new Constraint { XmiId = "Constraint2", Name = "constraint2" };
+            this.classA.OwnedRule.Add(programmaticConstraint);
+
+            var plan = this.referenceClosureCalculator.CalculateWritePlan(this.packageA, ExternalReferenceResolutionKind.Href, "renamed.xmi");
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(plan.LocalIdentifiers, Does.Contain(this.classA.FullyQualifiedIdentifier));
+                Assert.That(plan.LocalIdentifiers, Does.Contain(programmaticConstraint.FullyQualifiedIdentifier));
+                Assert.That(plan.LocalIdentifiers, Does.Not.Contain(constraint.FullyQualifiedIdentifier));
+                Assert.That(plan.LocalIdentifiers, Does.Not.Contain(specification.FullyQualifiedIdentifier));
+                Assert.That(plan.ElementsMissingXmiId, Is.Empty);
+            }
+        }
+
+        [Test]
+        public void Verify_that_Href_plan_reports_owned_elements_defined_in_another_document_without_XmiId()
+        {
+            var constraint = new Constraint { DocumentName = "b.xmi", Name = "constraint1" };
+            this.classA.OwnedRule.Add(constraint);
+
+            var plan = this.referenceClosureCalculator.CalculateWritePlan(this.packageA, ExternalReferenceResolutionKind.Href, "a.xmi");
+
+            Assert.That(plan.ElementsMissingXmiId, Is.EqualTo(new[] { constraint }));
+        }
+
+        [Test]
+        public void Verify_that_Href_plan_collects_all_owned_elements_when_the_package_has_no_document_name()
+        {
+            this.packageA.DocumentName = null;
+
+            var constraint = new Constraint { XmiId = "Constraint1", DocumentName = "b.xmi", Name = "constraint1" };
+            this.classA.OwnedRule.Add(constraint);
+
+            var plan = this.referenceClosureCalculator.CalculateWritePlan(this.packageA, ExternalReferenceResolutionKind.Href, "a.xmi");
+
+            Assert.That(plan.LocalIdentifiers, Does.Contain(constraint.FullyQualifiedIdentifier));
+        }
+
+        [Test]
+        public void Verify_that_Include_plan_keeps_owned_elements_defined_in_another_document()
+        {
+            var constraint = new Constraint { XmiId = "Constraint1", DocumentName = "b.xmi", Name = "constraint1" };
+            this.classA.OwnedRule.Add(constraint);
+
+            var plan = this.referenceClosureCalculator.CalculateWritePlan(this.packageA, ExternalReferenceResolutionKind.Include, "a.xmi");
+
+            Assert.That(plan.LocalIdentifiers, Does.Contain(constraint.FullyQualifiedIdentifier));
         }
 
         [Test]
