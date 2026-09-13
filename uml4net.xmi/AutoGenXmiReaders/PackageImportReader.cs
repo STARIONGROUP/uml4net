@@ -209,7 +209,7 @@ namespace uml4net.xmi.Readers
                                 }
                                 break;
                             case (KnowNamespacePrefixes.Uml, "visibility"):
-                                var visibilityValue = xmlReader.ReadElementContentAsString();
+                                var visibilityValue = xmlReader.ReadElementContentAsStringInPlace();
 
                                 if (!string.IsNullOrWhiteSpace(visibilityValue))
                                 {

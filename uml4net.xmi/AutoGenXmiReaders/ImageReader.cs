@@ -181,13 +181,13 @@ namespace uml4net.xmi.Readers
                         switch (activePrefix, xmlReader.LocalName)
                         {
                             case (KnowNamespacePrefixes.Uml, "content"):
-                                poco.Content = xmlReader.ReadElementContentAsString();
+                                poco.Content = xmlReader.ReadElementContentAsStringInPlace();
                                 break;
                             case (KnowNamespacePrefixes.Uml, "format"):
-                                poco.Format = xmlReader.ReadElementContentAsString();
+                                poco.Format = xmlReader.ReadElementContentAsStringInPlace();
                                 break;
                             case (KnowNamespacePrefixes.Uml, "location"):
-                                poco.Location = xmlReader.ReadElementContentAsString();
+                                poco.Location = xmlReader.ReadElementContentAsStringInPlace();
                                 break;
                             case (KnowNamespacePrefixes.Uml, "ownedComment"):
                                 if (!TryCollectCompositeReferencePropertyIdentifier(xmlReader, poco, "ownedComment", poco.OwnedComment.Count))

@@ -968,7 +968,7 @@ namespace uml4net.HandleBars
                 {
                     if (property.QueryIsPrimitiveType())
                     {
-                        sb.AppendLine($"var {property.Name}Value = xmlReader.ReadElementContentAsString();");
+                        sb.AppendLine($"var {property.Name}Value = xmlReader.ReadElementContentAsStringInPlace();");
                         sb.AppendLine($"poco.{property.Name.CapitalizeFirstLetter()}.Add({property.Name}Value);");
                         sb.AppendLine("break;");
 
@@ -1023,14 +1023,14 @@ namespace uml4net.HandleBars
                             case "bool":
                             case "double":
                             case "int":
-                                sb.AppendLine($"var {property.Name}Value = xmlReader.ReadElementContentAsString();");
+                                sb.AppendLine($"var {property.Name}Value = xmlReader.ReadElementContentAsStringInPlace();");
                                 sb.AppendLine($"{Environment.NewLine}if (!string.IsNullOrWhiteSpace({property.Name}Value))");
                                 sb.AppendLine("{");
                                 sb.AppendLine($"poco.{property.Name.CapitalizeFirstLetter()}.Add({cSharpTypeName}.Parse({property.Name}Value));");
                                 sb.AppendLine($"}}{Environment.NewLine}");
                                 break;
                             case "string":
-                                sb.AppendLine($"var {property.Name}Value = xmlReader.ReadElementContentAsString();");
+                                sb.AppendLine($"var {property.Name}Value = xmlReader.ReadElementContentAsStringInPlace();");
                                 sb.AppendLine($"poco.{property.Name.CapitalizeFirstLetter()}.Add({property.Name}Value);");
                                 break;
                             default:
@@ -1053,14 +1053,14 @@ namespace uml4net.HandleBars
                             case "bool":
                             case "double":
                             case "int":
-                                sb.AppendLine($"var {property.Name}Value = xmlReader.ReadElementContentAsString();");
+                                sb.AppendLine($"var {property.Name}Value = xmlReader.ReadElementContentAsStringInPlace();");
                                 sb.AppendLine($"{Environment.NewLine}if (!string.IsNullOrWhiteSpace({property.Name}Value))");
                                 sb.AppendLine("{");
                                 sb.AppendLine($"poco.{property.Name.CapitalizeFirstLetter()} = {cSharpTypeName}.Parse({property.Name}Value);");
                                 sb.AppendLine($"}}{Environment.NewLine}");
                                 break;
                             case "string":
-                                sb.AppendLine($"poco.{property.Name.CapitalizeFirstLetter()} = xmlReader.ReadElementContentAsString();");
+                                sb.AppendLine($"poco.{property.Name.CapitalizeFirstLetter()} = xmlReader.ReadElementContentAsStringInPlace();");
                                 break;
                             default:
                                 throw new NotSupportedException($"{property.Name} has a Primitive Type that is not supported: {cSharpTypeName}");
@@ -1077,7 +1077,7 @@ namespace uml4net.HandleBars
                     {
                         var typeName = property.QueryTypeName();
 
-                        sb.AppendLine($"var {property.Name}Value = xmlReader.ReadElementContentAsString();");
+                        sb.AppendLine($"var {property.Name}Value = xmlReader.ReadElementContentAsStringInPlace();");
                         sb.AppendLine($"{Environment.NewLine}if (!string.IsNullOrWhiteSpace({property.Name}Value))");
                         sb.AppendLine("{");
                         sb.AppendLine($"poco.{property.Name.CapitalizeFirstLetter()} = ({typeName})Enum.Parse(typeof({typeName}), {property.Name}Value, true);");

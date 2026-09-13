@@ -362,7 +362,7 @@ namespace uml4net.xmi.Readers
                         switch (activePrefix, xmlReader.LocalName)
                         {
                             case (KnowNamespacePrefixes.Uml, "aggregation"):
-                                var aggregationValue = xmlReader.ReadElementContentAsString();
+                                var aggregationValue = xmlReader.ReadElementContentAsStringInPlace();
 
                                 if (!string.IsNullOrWhiteSpace(aggregationValue))
                                 {
@@ -400,7 +400,7 @@ namespace uml4net.xmi.Readers
                                 CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "interface");
                                 break;
                             case (KnowNamespacePrefixes.Uml, "isBehavior"):
-                                var isBehaviorValue = xmlReader.ReadElementContentAsString();
+                                var isBehaviorValue = xmlReader.ReadElementContentAsStringInPlace();
 
                                 if (!string.IsNullOrWhiteSpace(isBehaviorValue))
                                 {
@@ -409,7 +409,7 @@ namespace uml4net.xmi.Readers
 
                                 break;
                             case (KnowNamespacePrefixes.Uml, "isConjugated"):
-                                var isConjugatedValue = xmlReader.ReadElementContentAsString();
+                                var isConjugatedValue = xmlReader.ReadElementContentAsStringInPlace();
 
                                 if (!string.IsNullOrWhiteSpace(isConjugatedValue))
                                 {
@@ -418,7 +418,7 @@ namespace uml4net.xmi.Readers
 
                                 break;
                             case (KnowNamespacePrefixes.Uml, "isDerived"):
-                                var isDerivedValue = xmlReader.ReadElementContentAsString();
+                                var isDerivedValue = xmlReader.ReadElementContentAsStringInPlace();
 
                                 if (!string.IsNullOrWhiteSpace(isDerivedValue))
                                 {
@@ -427,7 +427,7 @@ namespace uml4net.xmi.Readers
 
                                 break;
                             case (KnowNamespacePrefixes.Uml, "isDerivedUnion"):
-                                var isDerivedUnionValue = xmlReader.ReadElementContentAsString();
+                                var isDerivedUnionValue = xmlReader.ReadElementContentAsStringInPlace();
 
                                 if (!string.IsNullOrWhiteSpace(isDerivedUnionValue))
                                 {
@@ -436,7 +436,7 @@ namespace uml4net.xmi.Readers
 
                                 break;
                             case (KnowNamespacePrefixes.Uml, "isID"):
-                                var isIDValue = xmlReader.ReadElementContentAsString();
+                                var isIDValue = xmlReader.ReadElementContentAsStringInPlace();
 
                                 if (!string.IsNullOrWhiteSpace(isIDValue))
                                 {
@@ -445,7 +445,7 @@ namespace uml4net.xmi.Readers
 
                                 break;
                             case (KnowNamespacePrefixes.Uml, "isLeaf"):
-                                var isLeafValue = xmlReader.ReadElementContentAsString();
+                                var isLeafValue = xmlReader.ReadElementContentAsStringInPlace();
 
                                 if (!string.IsNullOrWhiteSpace(isLeafValue))
                                 {
@@ -454,7 +454,7 @@ namespace uml4net.xmi.Readers
 
                                 break;
                             case (KnowNamespacePrefixes.Uml, "isOrdered"):
-                                var isOrderedValue = xmlReader.ReadElementContentAsString();
+                                var isOrderedValue = xmlReader.ReadElementContentAsStringInPlace();
 
                                 if (!string.IsNullOrWhiteSpace(isOrderedValue))
                                 {
@@ -463,7 +463,7 @@ namespace uml4net.xmi.Readers
 
                                 break;
                             case (KnowNamespacePrefixes.Uml, "isReadOnly"):
-                                var isReadOnlyValue = xmlReader.ReadElementContentAsString();
+                                var isReadOnlyValue = xmlReader.ReadElementContentAsStringInPlace();
 
                                 if (!string.IsNullOrWhiteSpace(isReadOnlyValue))
                                 {
@@ -472,7 +472,7 @@ namespace uml4net.xmi.Readers
 
                                 break;
                             case (KnowNamespacePrefixes.Uml, "isService"):
-                                var isServiceValue = xmlReader.ReadElementContentAsString();
+                                var isServiceValue = xmlReader.ReadElementContentAsStringInPlace();
 
                                 if (!string.IsNullOrWhiteSpace(isServiceValue))
                                 {
@@ -481,7 +481,7 @@ namespace uml4net.xmi.Readers
 
                                 break;
                             case (KnowNamespacePrefixes.Uml, "isStatic"):
-                                var isStaticValue = xmlReader.ReadElementContentAsString();
+                                var isStaticValue = xmlReader.ReadElementContentAsStringInPlace();
 
                                 if (!string.IsNullOrWhiteSpace(isStaticValue))
                                 {
@@ -490,7 +490,7 @@ namespace uml4net.xmi.Readers
 
                                 break;
                             case (KnowNamespacePrefixes.Uml, "isUnique"):
-                                var isUniqueValue = xmlReader.ReadElementContentAsString();
+                                var isUniqueValue = xmlReader.ReadElementContentAsStringInPlace();
 
                                 if (!string.IsNullOrWhiteSpace(isUniqueValue))
                                 {
@@ -506,7 +506,7 @@ namespace uml4net.xmi.Readers
                                 }
                                 break;
                             case (KnowNamespacePrefixes.Uml, "name"):
-                                poco.Name = xmlReader.ReadElementContentAsString();
+                                poco.Name = xmlReader.ReadElementContentAsStringInPlace();
                                 break;
                             case (KnowNamespacePrefixes.Uml, "nameExpression"):
                                 if (!TryCollectCompositeReferencePropertyIdentifier(xmlReader, poco, "nameExpression", poco.NameExpression.Count))
@@ -561,7 +561,7 @@ namespace uml4net.xmi.Readers
                                 }
                                 break;
                             case (KnowNamespacePrefixes.Uml, "visibility"):
-                                var visibilityValue = xmlReader.ReadElementContentAsString();
+                                var visibilityValue = xmlReader.ReadElementContentAsStringInPlace();
 
                                 if (!string.IsNullOrWhiteSpace(visibilityValue))
                                 {

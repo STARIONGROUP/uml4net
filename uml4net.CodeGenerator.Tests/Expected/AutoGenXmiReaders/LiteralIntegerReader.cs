@@ -212,7 +212,7 @@ namespace uml4net.xmi.Readers
                         switch (activePrefix, xmlReader.LocalName)
                         {
                             case (KnowNamespacePrefixes.Uml, "name"):
-                                poco.Name = xmlReader.ReadElementContentAsString();
+                                poco.Name = xmlReader.ReadElementContentAsStringInPlace();
                                 break;
                             case (KnowNamespacePrefixes.Uml, "nameExpression"):
                                 if (!TryCollectCompositeReferencePropertyIdentifier(xmlReader, poco, "nameExpression", poco.NameExpression.Count))
@@ -238,7 +238,7 @@ namespace uml4net.xmi.Readers
                                 CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "type");
                                 break;
                             case (KnowNamespacePrefixes.Uml, "value"):
-                                var valueValue = xmlReader.ReadElementContentAsString();
+                                var valueValue = xmlReader.ReadElementContentAsStringInPlace();
 
                                 if (!string.IsNullOrWhiteSpace(valueValue))
                                 {
@@ -247,7 +247,7 @@ namespace uml4net.xmi.Readers
 
                                 break;
                             case (KnowNamespacePrefixes.Uml, "visibility"):
-                                var visibilityValue = xmlReader.ReadElementContentAsString();
+                                var visibilityValue = xmlReader.ReadElementContentAsStringInPlace();
 
                                 if (!string.IsNullOrWhiteSpace(visibilityValue))
                                 {

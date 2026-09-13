@@ -211,7 +211,7 @@ namespace uml4net.xmi.Readers
                         switch (activePrefix, xmlReader.LocalName)
                         {
                             case (KnowNamespacePrefixes.Uml, "allowSubstitutable"):
-                                var allowSubstitutableValue = xmlReader.ReadElementContentAsString();
+                                var allowSubstitutableValue = xmlReader.ReadElementContentAsStringInPlace();
 
                                 if (!string.IsNullOrWhiteSpace(allowSubstitutableValue))
                                 {

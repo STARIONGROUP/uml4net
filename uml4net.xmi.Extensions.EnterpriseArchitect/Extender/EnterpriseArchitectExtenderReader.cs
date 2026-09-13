@@ -221,7 +221,7 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.Extender
                     }
                     case "primitivetypes":
                     {
-                        xmlReader.Skip();
+                        xmlReader.SkipInPlace();
                         break;
                     }
                 }

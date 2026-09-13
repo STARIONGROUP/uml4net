@@ -202,7 +202,7 @@ namespace uml4net.xmi.Readers
                                 CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "applyingPackage");
                                 break;
                             case (KnowNamespacePrefixes.Uml, "isStrict"):
-                                var isStrictValue = xmlReader.ReadElementContentAsString();
+                                var isStrictValue = xmlReader.ReadElementContentAsStringInPlace();
 
                                 if (!string.IsNullOrWhiteSpace(isStrictValue))
                                 {

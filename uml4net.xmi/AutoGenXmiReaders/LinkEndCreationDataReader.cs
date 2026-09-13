@@ -209,7 +209,7 @@ namespace uml4net.xmi.Readers
                                 CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "insertAt");
                                 break;
                             case (KnowNamespacePrefixes.Uml, "isReplaceAll"):
-                                var isReplaceAllValue = xmlReader.ReadElementContentAsString();
+                                var isReplaceAllValue = xmlReader.ReadElementContentAsStringInPlace();
 
                                 if (!string.IsNullOrWhiteSpace(isReplaceAllValue))
                                 {

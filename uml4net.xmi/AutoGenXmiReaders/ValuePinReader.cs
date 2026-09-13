@@ -320,7 +320,7 @@ namespace uml4net.xmi.Readers
                                 CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "inStructuredNode");
                                 break;
                             case (KnowNamespacePrefixes.Uml, "isControl"):
-                                var isControlValue = xmlReader.ReadElementContentAsString();
+                                var isControlValue = xmlReader.ReadElementContentAsStringInPlace();
 
                                 if (!string.IsNullOrWhiteSpace(isControlValue))
                                 {
@@ -329,7 +329,7 @@ namespace uml4net.xmi.Readers
 
                                 break;
                             case (KnowNamespacePrefixes.Uml, "isControlType"):
-                                var isControlTypeValue = xmlReader.ReadElementContentAsString();
+                                var isControlTypeValue = xmlReader.ReadElementContentAsStringInPlace();
 
                                 if (!string.IsNullOrWhiteSpace(isControlTypeValue))
                                 {
@@ -338,7 +338,7 @@ namespace uml4net.xmi.Readers
 
                                 break;
                             case (KnowNamespacePrefixes.Uml, "isLeaf"):
-                                var isLeafValue = xmlReader.ReadElementContentAsString();
+                                var isLeafValue = xmlReader.ReadElementContentAsStringInPlace();
 
                                 if (!string.IsNullOrWhiteSpace(isLeafValue))
                                 {
@@ -347,7 +347,7 @@ namespace uml4net.xmi.Readers
 
                                 break;
                             case (KnowNamespacePrefixes.Uml, "isOrdered"):
-                                var isOrderedValue = xmlReader.ReadElementContentAsString();
+                                var isOrderedValue = xmlReader.ReadElementContentAsStringInPlace();
 
                                 if (!string.IsNullOrWhiteSpace(isOrderedValue))
                                 {
@@ -356,7 +356,7 @@ namespace uml4net.xmi.Readers
 
                                 break;
                             case (KnowNamespacePrefixes.Uml, "isUnique"):
-                                var isUniqueValue = xmlReader.ReadElementContentAsString();
+                                var isUniqueValue = xmlReader.ReadElementContentAsStringInPlace();
 
                                 if (!string.IsNullOrWhiteSpace(isUniqueValue))
                                 {
@@ -372,7 +372,7 @@ namespace uml4net.xmi.Readers
                                 }
                                 break;
                             case (KnowNamespacePrefixes.Uml, "name"):
-                                poco.Name = xmlReader.ReadElementContentAsString();
+                                poco.Name = xmlReader.ReadElementContentAsStringInPlace();
                                 break;
                             case (KnowNamespacePrefixes.Uml, "nameExpression"):
                                 if (!TryCollectCompositeReferencePropertyIdentifier(xmlReader, poco, "nameExpression", poco.NameExpression.Count))
@@ -382,7 +382,7 @@ namespace uml4net.xmi.Readers
                                 }
                                 break;
                             case (KnowNamespacePrefixes.Uml, "ordering"):
-                                var orderingValue = xmlReader.ReadElementContentAsString();
+                                var orderingValue = xmlReader.ReadElementContentAsStringInPlace();
 
                                 if (!string.IsNullOrWhiteSpace(orderingValue))
                                 {
@@ -431,7 +431,7 @@ namespace uml4net.xmi.Readers
                                 }
                                 break;
                             case (KnowNamespacePrefixes.Uml, "visibility"):
-                                var visibilityValue = xmlReader.ReadElementContentAsString();
+                                var visibilityValue = xmlReader.ReadElementContentAsStringInPlace();
 
                                 if (!string.IsNullOrWhiteSpace(visibilityValue))
                                 {

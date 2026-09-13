@@ -210,7 +210,7 @@ namespace uml4net.xmi.Readers
                                 TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, "generalizationSet");
                                 break;
                             case (KnowNamespacePrefixes.Uml, "isSubstitutable"):
-                                var isSubstitutableValue = xmlReader.ReadElementContentAsString();
+                                var isSubstitutableValue = xmlReader.ReadElementContentAsStringInPlace();
 
                                 if (!string.IsNullOrWhiteSpace(isSubstitutableValue))
                                 {

@@ -157,67 +157,67 @@ namespace uml4net.xmi.Readers
                         {
                             case (KnowNamespacePrefixes.Xmi, "Extension"):
                                 this.logger.LogInformation("Extensions in the Documentation Element are currently ignored - line:position {Line}:{Position}", xmlLineInfo?.LineNumber, xmlLineInfo?.LinePosition);
-                                xmlReader.Skip();
+                                xmlReader.SkipInPlace();
                                 break;
 
                             case (KnowNamespacePrefixes.Xmi, "contact"):
-                                var contactElementValue = xmlReader.ReadElementContentAsString();
+                                var contactElementValue = xmlReader.ReadElementContentAsStringInPlace();
                                 if (!string.IsNullOrEmpty(contactElementValue))
                                 {
                                     documentation.Contact = contactElementValue;
                                 }
                                 break;
                             case (KnowNamespacePrefixes.Xmi, "exporter"):
-                                var exporterElementValue = xmlReader.ReadElementContentAsString();
+                                var exporterElementValue = xmlReader.ReadElementContentAsStringInPlace();
                                 if (!string.IsNullOrEmpty(exporterElementValue))
                                 {
                                     documentation.Exporter = exporterElementValue;
                                 }
                                 break;
                             case (KnowNamespacePrefixes.Xmi, "exporterID"):
-                                var exporterIDElementValue = xmlReader.ReadElementContentAsString();
+                                var exporterIDElementValue = xmlReader.ReadElementContentAsStringInPlace();
                                 if (!string.IsNullOrEmpty(exporterIDElementValue))
                                 {
                                     documentation.ExporterID = exporterIDElementValue;
                                 }
                                 break;
                             case (KnowNamespacePrefixes.Xmi, "exporterVersion"):
-                                var exporterVersionElementValue = xmlReader.ReadElementContentAsString();
+                                var exporterVersionElementValue = xmlReader.ReadElementContentAsStringInPlace();
                                 if (!string.IsNullOrEmpty(exporterVersionElementValue))
                                 {
                                     documentation.ExporterVersion = exporterVersionElementValue;
                                 }
                                 break;
                             case (KnowNamespacePrefixes.Xmi, "longDescription"):
-                                var longDescriptionElementValue = xmlReader.ReadElementContentAsString();
+                                var longDescriptionElementValue = xmlReader.ReadElementContentAsStringInPlace();
                                 if (!string.IsNullOrEmpty(longDescriptionElementValue))
                                 {
                                     documentation.LongDescription.Add(longDescriptionElementValue);
                                 }
                                 break;
                             case (KnowNamespacePrefixes.Xmi, "shortDescription"):
-                                var shortDescriptionElementValue = xmlReader.ReadElementContentAsString();
+                                var shortDescriptionElementValue = xmlReader.ReadElementContentAsStringInPlace();
                                 if (!string.IsNullOrEmpty(shortDescriptionElementValue))
                                 {
                                     documentation.ShortDescription.Add(shortDescriptionElementValue);
                                 }
                                 break;
                             case (KnowNamespacePrefixes.Xmi, "notice"):
-                                var noticeElementValue = xmlReader.ReadElementContentAsString();
+                                var noticeElementValue = xmlReader.ReadElementContentAsStringInPlace();
                                 if (!string.IsNullOrEmpty(noticeElementValue))
                                 {
                                     documentation.Notice.Add(noticeElementValue);
                                 }
                                 break;
                             case (KnowNamespacePrefixes.Xmi, "owner"):
-                                var ownerElementValue = xmlReader.ReadElementContentAsString();
+                                var ownerElementValue = xmlReader.ReadElementContentAsStringInPlace();
                                 if (!string.IsNullOrEmpty(ownerElementValue))
                                 {
                                     documentation.Owner.Add(ownerElementValue);
                                 }
                                 break;
                             case (KnowNamespacePrefixes.Xmi, "timestamp"):
-                                var timestampElementValue = xmlReader.ReadElementContentAsString();
+                                var timestampElementValue = xmlReader.ReadElementContentAsStringInPlace();
                                 if (!string.IsNullOrEmpty(timestampElementValue))
                                 {
                                     try
