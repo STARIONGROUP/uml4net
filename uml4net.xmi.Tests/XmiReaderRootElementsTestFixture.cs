@@ -32,6 +32,7 @@ namespace uml4net.xmi.Tests
 
     using uml4net.Classification;
     using uml4net.CommonStructure;
+    using uml4net.Packages;
     using uml4net.StructuredClassifiers;
     using uml4net.xmi.Readers;
 
@@ -83,6 +84,23 @@ namespace uml4net.xmi.Tests
                 Assert.That(@class.Name, Is.EqualTo("Class1"));
                 Assert.That(@class.OwnedAttribute.Single().Name, Is.EqualTo("prop1"));
                 Assert.That(xmiReaderResult.XmiRoot.Content, Is.EquivalentTo(new[] { @class }));
+            }
+        }
+
+        [Test]
+        public void Verify_that_a_model_as_document_root_is_read_as_package()
+        {
+            var xmiReaderResult = this.Read("bare-model-root.xml");
+
+            var model = xmiReaderResult.QueryRootElement<IModel>("model1");
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(xmiReaderResult.Packages, Is.EqualTo(new[] { model }));
+                Assert.That(xmiReaderResult.RootElements, Is.EqualTo(new[] { model }));
+                Assert.That(xmiReaderResult.QueryRoot("model1"), Is.SameAs(model));
+                Assert.That(model.PackagedElement.OfType<IClass>().Single().Name, Is.EqualTo("Class1"));
+                Assert.That(xmiReaderResult.XmiRoot.Content, Is.EquivalentTo(new[] { model }));
             }
         }
 
