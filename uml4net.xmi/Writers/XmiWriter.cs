@@ -154,6 +154,41 @@ namespace uml4net.xmi.Writers
         /// </param>
         public void Write(IPackage package, string fileUri, Documentation documentation, IEnumerable<XmiExtension> documentExtensions)
         {
+            if (package == null)
+            {
+                throw new ArgumentNullException(nameof(package));
+            }
+
+            this.Write(new IXmiElement[] { package }, fileUri, documentation, documentExtensions);
+        }
+
+        /// <summary>
+        /// Writes the provided root elements, <see cref="Documentation"/> and <see cref="XmiExtension"/>s to a
+        /// UML XMI 2.5.1 file. The root elements are written as the top-level elements of the document, in the
+        /// provided order, and do not need to be <see cref="IPackage"/>s.
+        /// </summary>
+        /// <param name="rootElements">
+        /// The <see cref="IXmiElement"/>s that are to be written as top-level elements, typically the
+        /// <c>RootElements</c> of the <c>XmiReaderResult</c> that was read
+        /// </param>
+        /// <param name="fileUri">
+        /// The URI of the XMI file that is to be written.
+        /// </param>
+        /// <param name="documentation">
+        /// The <see cref="Documentation"/> that is to be written as a sibling of the <paramref name="rootElements"/>,
+        /// typically the <c>Documentation</c> of the <c>XmiRoot</c> that was read. May be null.
+        /// </param>
+        /// <param name="documentExtensions">
+        /// The <see cref="XmiExtension"/>s that are to be written as a sibling of the <paramref name="rootElements"/>,
+        /// typically the <c>Extensions</c> of the <c>XmiRoot</c> that was read. May be null.
+        /// </param>
+        public void Write(IEnumerable<IXmiElement> rootElements, string fileUri, Documentation documentation, IEnumerable<XmiExtension> documentExtensions)
+        {
+            if (rootElements == null)
+            {
+                throw new ArgumentNullException(nameof(rootElements));
+            }
+
             if (string.IsNullOrEmpty(fileUri))
             {
                 throw new ArgumentException(nameof(fileUri));
@@ -165,7 +200,7 @@ namespace uml4net.xmi.Writers
 
             this.logger.LogInformation("start serializing to {Path}", fileUri);
 
-            this.Write(package, fileStream, new FileInfo(fileUri).Name, documentation, documentExtensions);
+            this.Write(rootElements, fileStream, new FileInfo(fileUri).Name, documentation, documentExtensions);
 
             this.logger.LogInformation("File {Path} serialized in {Time} [ms]", fileUri, sw.ElapsedMilliseconds);
         }
@@ -236,6 +271,39 @@ namespace uml4net.xmi.Writers
                 throw new ArgumentNullException(nameof(package));
             }
 
+            this.Write(new IXmiElement[] { package }, stream, documentName, documentation, documentExtensions);
+        }
+
+        /// <summary>
+        /// Writes the provided root elements, <see cref="Documentation"/> and <see cref="XmiExtension"/>s to a
+        /// UML XMI 2.5.1 stream. The root elements are written as the top-level elements of the document, in the
+        /// provided order, and do not need to be <see cref="IPackage"/>s.
+        /// </summary>
+        /// <param name="rootElements">
+        /// The <see cref="IXmiElement"/>s that are to be written as top-level elements, typically the
+        /// <c>RootElements</c> of the <c>XmiReaderResult</c> that was read
+        /// </param>
+        /// <param name="stream">
+        /// The <see cref="Stream"/> to which the XMI content is written.
+        /// </param>
+        /// <param name="documentName">
+        /// The name of the document that is being written.
+        /// </param>
+        /// <param name="documentation">
+        /// The <see cref="Documentation"/> that is to be written as a sibling of the <paramref name="rootElements"/>,
+        /// typically the <c>Documentation</c> of the <c>XmiRoot</c> that was read. May be null.
+        /// </param>
+        /// <param name="documentExtensions">
+        /// The <see cref="XmiExtension"/>s that are to be written as a sibling of the <paramref name="rootElements"/>,
+        /// typically the <c>Extensions</c> of the <c>XmiRoot</c> that was read. May be null.
+        /// </param>
+        public void Write(IEnumerable<IXmiElement> rootElements, Stream stream, string documentName, Documentation documentation, IEnumerable<XmiExtension> documentExtensions)
+        {
+            if (rootElements == null)
+            {
+                throw new ArgumentNullException(nameof(rootElements));
+            }
+
             if (stream == null)
             {
                 throw new ArgumentNullException(nameof(stream));
@@ -246,7 +314,7 @@ namespace uml4net.xmi.Writers
                 throw new ArgumentException(nameof(documentName));
             }
 
-            var writeContext = this.CreateWriteContext(package, documentName, out var xmiWritePlan);
+            var writeContext = this.CreateWriteContext(rootElements, documentName, out var xmiWritePlan);
 
             using var xmlWriter = XmlWriter.Create(stream, this.CreateXmlWriterSettings(isAsync: false));
 
@@ -261,9 +329,9 @@ namespace uml4net.xmi.Writers
                 documentationWriter.Write(xmlWriter, documentation);
             }
 
-            foreach (var rootPackage in xmiWritePlan.RootPackages)
+            foreach (var rootElement in xmiWritePlan.RootElements)
             {
-                this.XmiElementWriterFacade.Write(xmlWriter, rootPackage, $"uml:{rootPackage.GetType().Name}", writeContext);
+                this.XmiElementWriterFacade.Write(xmlWriter, rootElement, $"uml:{rootElement.GetType().Name}", writeContext);
             }
 
             if (documentExtensions != null)
@@ -350,8 +418,49 @@ namespace uml4net.xmi.Writers
         /// <returns>
         /// an awaitable <see cref="Task"/>
         /// </returns>
-        public async Task WriteAsync(IPackage package, string fileUri, Documentation documentation, IEnumerable<XmiExtension> documentExtensions, CancellationToken cancellationToken = default)
+        public Task WriteAsync(IPackage package, string fileUri, Documentation documentation, IEnumerable<XmiExtension> documentExtensions, CancellationToken cancellationToken = default)
         {
+            if (package == null)
+            {
+                throw new ArgumentNullException(nameof(package));
+            }
+
+            return this.WriteAsync(new IXmiElement[] { package }, fileUri, documentation, documentExtensions, cancellationToken);
+        }
+
+        /// <summary>
+        /// Asynchronously writes the provided root elements, <see cref="Documentation"/> and <see cref="XmiExtension"/>s
+        /// to a UML XMI 2.5.1 file. The root elements are written as the top-level elements of the document, in the
+        /// provided order, and do not need to be <see cref="IPackage"/>s.
+        /// </summary>
+        /// <param name="rootElements">
+        /// The <see cref="IXmiElement"/>s that are to be written as top-level elements, typically the
+        /// <c>RootElements</c> of the <c>XmiReaderResult</c> that was read
+        /// </param>
+        /// <param name="fileUri">
+        /// The URI of the XMI file that is to be written.
+        /// </param>
+        /// <param name="documentation">
+        /// The <see cref="Documentation"/> that is to be written as a sibling of the <paramref name="rootElements"/>,
+        /// typically the <c>Documentation</c> of the <c>XmiRoot</c> that was read. May be null.
+        /// </param>
+        /// <param name="documentExtensions">
+        /// The <see cref="XmiExtension"/>s that are to be written as a sibling of the <paramref name="rootElements"/>,
+        /// typically the <c>Extensions</c> of the <c>XmiRoot</c> that was read. May be null.
+        /// </param>
+        /// <param name="cancellationToken">
+        /// The <see cref="CancellationToken"/> used to cancel the write operation
+        /// </param>
+        /// <returns>
+        /// an awaitable <see cref="Task"/>
+        /// </returns>
+        public async Task WriteAsync(IEnumerable<IXmiElement> rootElements, string fileUri, Documentation documentation, IEnumerable<XmiExtension> documentExtensions, CancellationToken cancellationToken = default)
+        {
+            if (rootElements == null)
+            {
+                throw new ArgumentNullException(nameof(rootElements));
+            }
+
             if (string.IsNullOrEmpty(fileUri))
             {
                 throw new ArgumentException(nameof(fileUri));
@@ -363,7 +472,7 @@ namespace uml4net.xmi.Writers
 
             this.logger.LogInformation("start serializing to {Path}", fileUri);
 
-            await this.WriteAsync(package, fileStream, new FileInfo(fileUri).Name, documentation, documentExtensions, cancellationToken);
+            await this.WriteAsync(rootElements, fileStream, new FileInfo(fileUri).Name, documentation, documentExtensions, cancellationToken);
 
             this.logger.LogInformation("File {Path} serialized in {Time} [ms]", fileUri, sw.ElapsedMilliseconds);
         }
@@ -446,11 +555,50 @@ namespace uml4net.xmi.Writers
         /// <returns>
         /// an awaitable <see cref="Task"/>
         /// </returns>
-        public async Task WriteAsync(IPackage package, Stream stream, string documentName, Documentation documentation, IEnumerable<XmiExtension> documentExtensions, CancellationToken cancellationToken = default)
+        public Task WriteAsync(IPackage package, Stream stream, string documentName, Documentation documentation, IEnumerable<XmiExtension> documentExtensions, CancellationToken cancellationToken = default)
         {
             if (package == null)
             {
                 throw new ArgumentNullException(nameof(package));
+            }
+
+            return this.WriteAsync(new IXmiElement[] { package }, stream, documentName, documentation, documentExtensions, cancellationToken);
+        }
+
+        /// <summary>
+        /// Asynchronously writes the provided root elements, <see cref="Documentation"/> and <see cref="XmiExtension"/>s
+        /// to a UML XMI 2.5.1 stream. The root elements are written as the top-level elements of the document, in the
+        /// provided order, and do not need to be <see cref="IPackage"/>s.
+        /// </summary>
+        /// <param name="rootElements">
+        /// The <see cref="IXmiElement"/>s that are to be written as top-level elements, typically the
+        /// <c>RootElements</c> of the <c>XmiReaderResult</c> that was read
+        /// </param>
+        /// <param name="stream">
+        /// The <see cref="Stream"/> to which the XMI content is written.
+        /// </param>
+        /// <param name="documentName">
+        /// The name of the document that is being written.
+        /// </param>
+        /// <param name="documentation">
+        /// The <see cref="Documentation"/> that is to be written as a sibling of the <paramref name="rootElements"/>,
+        /// typically the <c>Documentation</c> of the <c>XmiRoot</c> that was read. May be null.
+        /// </param>
+        /// <param name="documentExtensions">
+        /// The <see cref="XmiExtension"/>s that are to be written as a sibling of the <paramref name="rootElements"/>,
+        /// typically the <c>Extensions</c> of the <c>XmiRoot</c> that was read. May be null.
+        /// </param>
+        /// <param name="cancellationToken">
+        /// The <see cref="CancellationToken"/> used to cancel the write operation
+        /// </param>
+        /// <returns>
+        /// an awaitable <see cref="Task"/>
+        /// </returns>
+        public async Task WriteAsync(IEnumerable<IXmiElement> rootElements, Stream stream, string documentName, Documentation documentation, IEnumerable<XmiExtension> documentExtensions, CancellationToken cancellationToken = default)
+        {
+            if (rootElements == null)
+            {
+                throw new ArgumentNullException(nameof(rootElements));
             }
 
             if (stream == null)
@@ -463,7 +611,7 @@ namespace uml4net.xmi.Writers
                 throw new ArgumentException(nameof(documentName));
             }
 
-            var writeContext = this.CreateWriteContext(package, documentName, out var xmiWritePlan);
+            var writeContext = this.CreateWriteContext(rootElements, documentName, out var xmiWritePlan);
 
             using var xmlWriter = XmlWriter.Create(stream, this.CreateXmlWriterSettings(isAsync: true));
 
@@ -478,11 +626,11 @@ namespace uml4net.xmi.Writers
                 await documentationWriter.WriteAsync(xmlWriter, documentation);
             }
 
-            foreach (var rootPackage in xmiWritePlan.RootPackages)
+            foreach (var rootElement in xmiWritePlan.RootElements)
             {
                 cancellationToken.ThrowIfCancellationRequested();
 
-                await this.XmiElementWriterFacade.WriteAsync(xmlWriter, rootPackage, $"uml:{rootPackage.GetType().Name}", writeContext);
+                await this.XmiElementWriterFacade.WriteAsync(xmlWriter, rootElement, $"uml:{rootElement.GetType().Name}", writeContext);
             }
 
             if (documentExtensions != null)
@@ -503,11 +651,11 @@ namespace uml4net.xmi.Writers
         }
 
         /// <summary>
-        /// Creates the <see cref="IXmiWriteContext"/> for the provided <see cref="IPackage"/> based on the
+        /// Creates the <see cref="IXmiWriteContext"/> for the provided root elements based on the
         /// <see cref="XmiWritePlan"/> that is calculated by the <see cref="IReferenceClosureCalculator"/>.
         /// </summary>
-        /// <param name="package">
-        /// The <see cref="IPackage"/> that is to be written
+        /// <param name="rootElements">
+        /// The <see cref="IXmiElement"/>s that are to be written as top-level elements
         /// </param>
         /// <param name="documentName">
         /// The name of the document that is being written.
@@ -521,9 +669,9 @@ namespace uml4net.xmi.Writers
         /// <exception cref="InvalidOperationException">
         /// thrown when elements that are part of the document do not have an <see cref="IXmiElement.XmiId"/>
         /// </exception>
-        private IXmiWriteContext CreateWriteContext(IPackage package, string documentName, out XmiWritePlan xmiWritePlan)
+        private IXmiWriteContext CreateWriteContext(IEnumerable<IXmiElement> rootElements, string documentName, out XmiWritePlan xmiWritePlan)
         {
-            xmiWritePlan = this.referenceClosureCalculator.CalculateWritePlan(package, this.XmiWriterSettings.ExternalReferenceResolution, documentName);
+            xmiWritePlan = this.referenceClosureCalculator.CalculateWritePlan(rootElements, this.XmiWriterSettings.ExternalReferenceResolution, documentName);
 
             if (xmiWritePlan.ElementsMissingXmiId.Count > 0)
             {

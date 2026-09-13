@@ -20,6 +20,7 @@
 
 namespace uml4net.xmi.Tests.Writers
 {
+    using System.Collections.Generic;
     using System.Linq;
 
     using Microsoft.Extensions.Logging.Abstractions;
@@ -70,7 +71,7 @@ namespace uml4net.xmi.Tests.Writers
         [Test]
         public void Verify_that_CalculateWritePlan_throws_when_arguments_are_null()
         {
-            Assert.That(() => this.referenceClosureCalculator.CalculateWritePlan(null, ExternalReferenceResolutionKind.Href, "a.xmi"),
+            Assert.That(() => this.referenceClosureCalculator.CalculateWritePlan((IPackage)null, ExternalReferenceResolutionKind.Href, "a.xmi"),
                 Throws.ArgumentNullException);
 
             Assert.That(() => this.referenceClosureCalculator.CalculateWritePlan(this.packageA, ExternalReferenceResolutionKind.Href, null),
@@ -212,6 +213,80 @@ namespace uml4net.xmi.Tests.Writers
             var plan = this.referenceClosureCalculator.CalculateWritePlan(this.packageA, ExternalReferenceResolutionKind.Include, "a.xmi");
 
             Assert.That(plan.LocalIdentifiers, Does.Contain(constraint.FullyQualifiedIdentifier));
+        }
+
+        [Test]
+        public void Verify_that_CalculateWritePlan_for_root_elements_throws_when_arguments_are_invalid()
+        {
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(() => this.referenceClosureCalculator.CalculateWritePlan((IEnumerable<IXmiElement>)null, ExternalReferenceResolutionKind.Href, "a.xmi"),
+                    Throws.ArgumentNullException);
+
+                Assert.That(() => this.referenceClosureCalculator.CalculateWritePlan(new IXmiElement[] { this.packageA }, ExternalReferenceResolutionKind.Href, null),
+                    Throws.ArgumentNullException);
+
+                Assert.That(() => this.referenceClosureCalculator.CalculateWritePlan(new IXmiElement[0], ExternalReferenceResolutionKind.Href, "a.xmi"),
+                    Throws.ArgumentException);
+
+                Assert.That(() => this.referenceClosureCalculator.CalculateWritePlan(new IXmiElement[] { this.packageA, null }, ExternalReferenceResolutionKind.Href, "a.xmi"),
+                    Throws.ArgumentException);
+
+                Assert.That(() => this.referenceClosureCalculator.CalculateWritePlan(new IXmiElement[] { this.packageA, this.packageA }, ExternalReferenceResolutionKind.Href, "a.xmi"),
+                    Throws.ArgumentException);
+
+                Assert.That(() => this.referenceClosureCalculator.CalculateWritePlan(new IXmiElement[] { this.property, this.packageA }, ExternalReferenceResolutionKind.Href, "a.xmi"),
+                    Throws.ArgumentException.With.Message.Contains("Property1").And.Message.Contains("PackageA"));
+            }
+        }
+
+        [Test]
+        public void Verify_that_Href_plan_for_root_elements_contains_all_root_elements_in_order()
+        {
+            var standaloneClass = new Class { XmiId = "Standalone", DocumentName = "a.xmi", Name = "Standalone" };
+            var standaloneProperty = new Property { XmiId = "StandaloneProperty", DocumentName = "a.xmi", Name = "standaloneProperty" };
+            standaloneProperty.Type = this.primitiveType;
+            standaloneClass.OwnedAttribute.Add(standaloneProperty);
+
+            var plan = this.referenceClosureCalculator.CalculateWritePlan(new IXmiElement[] { standaloneClass, this.packageA }, ExternalReferenceResolutionKind.Href, "a.xmi");
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(plan.RootElements, Is.EqualTo(new IXmiElement[] { standaloneClass, this.packageA }));
+                Assert.That(plan.RootPackages, Is.EqualTo(new[] { this.packageA }));
+                Assert.That(plan.LocalIdentifiers, Does.Contain(standaloneProperty.FullyQualifiedIdentifier));
+                Assert.That(plan.LocalIdentifiers, Does.Contain(this.classA.FullyQualifiedIdentifier));
+                Assert.That(plan.LocalIdentifiers, Does.Not.Contain(this.primitiveType.FullyQualifiedIdentifier));
+                Assert.That(plan.ElementsMissingXmiId, Is.Empty);
+            }
+        }
+
+        [Test]
+        public void Verify_that_Include_plan_for_a_root_element_that_is_not_a_package_pulls_in_referenced_root_package()
+        {
+            var standaloneClass = new Class { XmiId = "Standalone", DocumentName = "a.xmi", Name = "Standalone" };
+            var standaloneProperty = new Property { XmiId = "StandaloneProperty", DocumentName = "a.xmi", Name = "standaloneProperty" };
+            standaloneProperty.Type = this.primitiveType;
+            standaloneClass.OwnedAttribute.Add(standaloneProperty);
+
+            var plan = this.referenceClosureCalculator.CalculateWritePlan(new IXmiElement[] { standaloneClass }, ExternalReferenceResolutionKind.Include, "a.xmi");
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(plan.RootElements, Is.EqualTo(new IXmiElement[] { standaloneClass, this.packageB }));
+                Assert.That(plan.RootPackages, Is.EqualTo(new[] { this.packageB }));
+                Assert.That(plan.LocalIdentifiers, Does.Contain(this.primitiveType.FullyQualifiedIdentifier));
+            }
+        }
+
+        [Test]
+        public void Verify_that_a_root_element_that_is_not_a_package_without_XmiId_is_reported()
+        {
+            var standaloneClass = new Class { DocumentName = "a.xmi", Name = "Standalone" };
+
+            var plan = this.referenceClosureCalculator.CalculateWritePlan(new IXmiElement[] { standaloneClass }, ExternalReferenceResolutionKind.Href, "a.xmi");
+
+            Assert.That(plan.ElementsMissingXmiId, Is.EqualTo(new[] { standaloneClass }));
         }
 
         [Test]

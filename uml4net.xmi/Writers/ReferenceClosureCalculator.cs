@@ -85,46 +85,124 @@ namespace uml4net.xmi.Writers
                 throw new ArgumentNullException(nameof(package));
             }
 
+            return this.CalculateWritePlan([package], externalReferenceResolution, documentName);
+        }
+
+        /// <summary>
+        /// Calculates the <see cref="XmiWritePlan"/> for the provided root elements, which are written as the
+        /// top-level elements of the XMI document in the provided order.
+        /// </summary>
+        /// <param name="rootElements">
+        /// The <see cref="IXmiElement"/>s that are selected to be written as top-level elements
+        /// </param>
+        /// <param name="externalReferenceResolution">
+        /// The <see cref="ExternalReferenceResolutionKind"/> that specifies how references to elements that are
+        /// not contained by the <paramref name="rootElements"/> are treated
+        /// </param>
+        /// <param name="documentName">
+        /// The name of the document that is being written
+        /// </param>
+        /// <returns>
+        /// The calculated <see cref="XmiWritePlan"/>
+        /// </returns>
+        /// <exception cref="ArgumentException">
+        /// thrown when no root element is provided, or when a root element is null, provided more than once or
+        /// contained by another root element, since it would then be written more than once
+        /// </exception>
+        public XmiWritePlan CalculateWritePlan(IEnumerable<IXmiElement> rootElements, ExternalReferenceResolutionKind externalReferenceResolution, string documentName)
+        {
+            if (rootElements == null)
+            {
+                throw new ArgumentNullException(nameof(rootElements));
+            }
+
             if (documentName == null)
             {
                 throw new ArgumentNullException(nameof(documentName));
             }
 
+            var writtenRootElements = rootElements.ToList();
+
+            AssertRootElementsAreValid(writtenRootElements);
+
+            var selectedRootElementCount = writtenRootElements.Count;
             var localElements = new HashSet<IXmiElement>(ReferenceEqualityComparer.Instance);
             var localIdentifiers = new HashSet<string>();
             var elementsMissingXmiId = new List<IXmiElement>();
-            var rootPackages = new List<IPackage> { package };
 
-            // With href resolution, elements that are owned by the package but defined in another document (read from
-            // composite property proxies, XMI 2.5.1 clause 7.10) stay in that document and are written as href proxies
-            var owningDocumentName = externalReferenceResolution == ExternalReferenceResolutionKind.Href ? package.DocumentName : null;
+            foreach (var rootElement in writtenRootElements)
+            {
+                // With href resolution, elements that are owned by a root element but defined in another document (read from
+                // composite property proxies, XMI 2.5.1 clause 7.10) stay in that document and are written as href proxies
+                var owningDocumentName = externalReferenceResolution == ExternalReferenceResolutionKind.Href ? rootElement.DocumentName : null;
 
-            CollectContainmentTree(package, localElements, localIdentifiers, elementsMissingXmiId, owningDocumentName);
+                CollectContainmentTree(rootElement, localElements, localIdentifiers, elementsMissingXmiId, owningDocumentName);
+            }
 
             if (externalReferenceResolution == ExternalReferenceResolutionKind.Include)
             {
-                this.IncludeExternalRootPackages(package, rootPackages, localElements, localIdentifiers, elementsMissingXmiId);
+                this.IncludeExternalRootPackages(writtenRootElements, localElements, localIdentifiers, elementsMissingXmiId);
             }
 
             // A root package is written as a top-level element of the document, it is therefore never referred to
             // by means of an xmi:idref or an href. A missing XmiId on a root package - which is how Enterprise
             // Architect exports its uml:Model - is consequently harmless and is preserved as-is, rather than
-            // being reported as an offender. For any contained element a missing XmiId remains an error since
+            // being reported as an offender. For any other element a missing XmiId remains an error since
             // such an element degrades into a dangling href and would lose its complete containment tree.
-            elementsMissingXmiId.RemoveAll(element => rootPackages.Any(rootPackage => ReferenceEquals(rootPackage, element)));
+            elementsMissingXmiId.RemoveAll(element => element is IPackage && writtenRootElements.Any(rootElement => ReferenceEquals(rootElement, element)));
 
-            return new XmiWritePlan(rootPackages, localIdentifiers, elementsMissingXmiId);
+            this.logger.LogDebug("Write plan calculated for {SelectedCount} selected and {IncludedCount} included root elements", selectedRootElementCount, writtenRootElements.Count - selectedRootElementCount);
+
+            return new XmiWritePlan(writtenRootElements, localIdentifiers, elementsMissingXmiId);
         }
 
         /// <summary>
-        /// Walks the external references of the selected <paramref name="package"/> and includes the root packages
-        /// that contain those references into the <paramref name="rootPackages"/>, ordered by name.
+        /// Asserts that the provided root elements can be written as the top-level elements of a document.
         /// </summary>
-        /// <param name="package">
-        /// The <see cref="IPackage"/> that is selected to be written
+        /// <param name="rootElements">
+        /// The root elements that are checked
         /// </param>
-        /// <param name="rootPackages">
-        /// The list of root packages that are written to the document; the selected <paramref name="package"/> is the first entry
+        /// <exception cref="ArgumentException">
+        /// thrown when no root element is provided, or when a root element is null, provided more than once or
+        /// contained by another root element
+        /// </exception>
+        private static void AssertRootElementsAreValid(List<IXmiElement> rootElements)
+        {
+            if (rootElements.Count == 0)
+            {
+                throw new ArgumentException("At least one root element is to be provided", nameof(rootElements));
+            }
+
+            if (rootElements.Any(x => x == null))
+            {
+                throw new ArgumentException("The root elements shall not contain null", nameof(rootElements));
+            }
+
+            var distinctRootElements = new HashSet<IXmiElement>(rootElements, ReferenceEqualityComparer.Instance);
+
+            if (distinctRootElements.Count != rootElements.Count)
+            {
+                throw new ArgumentException("A root element is provided more than once", nameof(rootElements));
+            }
+
+            foreach (var rootElement in rootElements.OfType<IElement>())
+            {
+                for (var possessor = rootElement.Possessor; possessor != null; possessor = possessor.Possessor)
+                {
+                    if (distinctRootElements.Contains(possessor))
+                    {
+                        throw new ArgumentException($"The root element with id [{rootElement.XmiId}] is contained by the root element with id [{possessor.XmiId}]", nameof(rootElements));
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Walks the external references of the selected root elements and includes the root packages that contain
+        /// those references into the <paramref name="rootElements"/>, after the selected root elements and ordered by name.
+        /// </summary>
+        /// <param name="rootElements">
+        /// The list of root elements that are written to the document; the selected root elements are the first entries
         /// </param>
         /// <param name="localElements">
         /// The set of elements that are serialized inside the document that is being written
@@ -135,16 +213,16 @@ namespace uml4net.xmi.Writers
         /// <param name="elementsMissingXmiId">
         /// The elements that are part of the document but do not have an <see cref="IXmiElement.XmiId"/>
         /// </param>
-        private void IncludeExternalRootPackages(IPackage package, List<IPackage> rootPackages, HashSet<IXmiElement> localElements, HashSet<string> localIdentifiers, List<IXmiElement> elementsMissingXmiId)
+        private void IncludeExternalRootPackages(List<IXmiElement> rootElements, HashSet<IXmiElement> localElements, HashSet<string> localIdentifiers, List<IXmiElement> elementsMissingXmiId)
         {
-            var packagesToProcess = new Queue<IPackage>();
-            packagesToProcess.Enqueue(package);
+            var selectedRootElementCount = rootElements.Count;
+            var elementsToProcess = new Queue<IXmiElement>(rootElements);
 
-            while (packagesToProcess.Count > 0)
+            while (elementsToProcess.Count > 0)
             {
-                var packageToProcess = packagesToProcess.Dequeue();
+                var elementToProcess = elementsToProcess.Dequeue();
 
-                foreach (var externalElement in QueryExternalReferencedElements(packageToProcess, localElements))
+                foreach (var externalElement in QueryExternalReferencedElements(elementToProcess, localElements))
                 {
                     var rootPackage = QueryRootPackage(externalElement);
 
@@ -160,14 +238,14 @@ namespace uml4net.xmi.Writers
                     }
 
                     CollectContainmentTree(rootPackage, localElements, localIdentifiers, elementsMissingXmiId);
-                    rootPackages.Add(rootPackage);
-                    packagesToProcess.Enqueue(rootPackage);
+                    rootElements.Add(rootPackage);
+                    elementsToProcess.Enqueue(rootPackage);
                 }
             }
 
-            var includedPackages = rootPackages.Skip(1).OrderBy(x => x.Name, StringComparer.Ordinal).ToList();
-            rootPackages.RemoveRange(1, rootPackages.Count - 1);
-            rootPackages.AddRange(includedPackages);
+            var includedPackages = rootElements.Skip(selectedRootElementCount).Cast<IPackage>().OrderBy(x => x.Name, StringComparer.Ordinal).ToList();
+            rootElements.RemoveRange(selectedRootElementCount, rootElements.Count - selectedRootElementCount);
+            rootElements.AddRange(includedPackages);
         }
 
         /// <summary>
@@ -250,11 +328,11 @@ namespace uml4net.xmi.Writers
         }
 
         /// <summary>
-        /// Queries the elements that are referenced from the containment tree of the provided <see cref="IPackage"/>
+        /// Queries the elements that are referenced from the containment tree of the provided <see cref="IXmiElement"/>
         /// but are not part of the provided set of local elements.
         /// </summary>
-        /// <param name="package">
-        /// The <see cref="IPackage"/> whose containment tree is inspected
+        /// <param name="root">
+        /// The <see cref="IXmiElement"/> whose containment tree is inspected
         /// </param>
         /// <param name="localElements">
         /// The set of elements that are serialized inside the document that is being written
@@ -262,12 +340,12 @@ namespace uml4net.xmi.Writers
         /// <returns>
         /// The externally referenced <see cref="IXmiElement"/>s
         /// </returns>
-        private static IEnumerable<IXmiElement> QueryExternalReferencedElements(IPackage package, HashSet<IXmiElement> localElements)
+        private static IEnumerable<IXmiElement> QueryExternalReferencedElements(IXmiElement root, HashSet<IXmiElement> localElements)
         {
             var externalElements = new HashSet<IXmiElement>(ReferenceEqualityComparer.Instance);
             var visitedElements = new HashSet<IXmiElement>(ReferenceEqualityComparer.Instance);
             var elementsToProcess = new Stack<IXmiElement>();
-            elementsToProcess.Push(package);
+            elementsToProcess.Push(root);
 
             while (elementsToProcess.Count > 0)
             {

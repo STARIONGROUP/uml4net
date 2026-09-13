@@ -23,8 +23,10 @@ namespace uml4net.xmi.Tests
     using System;
     using System.IO;
     using System.Linq;
+    using System.Threading.Tasks;
 
     using Microsoft.Extensions.Logging;
+    using Microsoft.Extensions.Logging.Abstractions;
 
     using NUnit.Framework;
 
@@ -35,6 +37,7 @@ namespace uml4net.xmi.Tests
     using uml4net.Packages;
     using uml4net.StructuredClassifiers;
     using uml4net.xmi.Readers;
+    using uml4net.xmi.Writers;
 
     [TestFixture]
     public class XmiReaderRootElementsTestFixture
@@ -61,12 +64,15 @@ namespace uml4net.xmi.Tests
 
         private XmiReaderResult Read(string fileName)
         {
-            var reader = XmiReaderBuilder.Create()
+            return this.CreateReader().Read(Path.Combine(this.rootPath, fileName));
+        }
+
+        private IXmiReader CreateReader()
+        {
+            return XmiReaderBuilder.Create()
                 .UsingSettings(x => x.LocalReferenceBasePath = this.rootPath)
                 .WithLogger(this.loggerFactory)
                 .Build();
-
-            return reader.Read(Path.Combine(this.rootPath, fileName));
         }
 
         [Test]
@@ -119,6 +125,73 @@ namespace uml4net.xmi.Tests
 
                 Assert.That(constraint.ConstrainedElement.Single(), Is.SameAs(operation));
                 Assert.That(constraint.Specification.Single().XmiId, Is.EqualTo("idS2"));
+            }
+        }
+
+        [TestCase(false)]
+        [TestCase(true)]
+        public async Task Verify_that_a_flat_list_of_root_elements_survives_a_read_write_read_cycle(bool useAsync)
+        {
+            var xmiReaderResult = this.Read("flat-roots.xml");
+
+            using var stream = new MemoryStream();
+
+            using (var writer = XmiWriterBuilder.Create().WithLogger(NullLoggerFactory.Instance).Build())
+            {
+                if (useAsync)
+                {
+                    await writer.WriteAsync(xmiReaderResult.RootElements, stream, "flat-roots.xml", null, null);
+                }
+                else
+                {
+                    writer.Write(xmiReaderResult.RootElements, stream, "flat-roots.xml", null, null);
+                }
+            }
+
+            stream.Position = 0;
+
+            var rereadResult = this.CreateReader().Read(stream, "flat-roots.xml");
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(rereadResult.Packages, Is.Empty);
+                Assert.That(rereadResult.RootElements.Select(x => x.XmiId), Is.EqualTo(new[] { "idO1", "idC2" }));
+
+                var operation = rereadResult.QueryRootElement<IOperation>("idO1");
+                var constraint = rereadResult.QueryRootElement<IConstraint>("idC2");
+
+                Assert.That(constraint.ConstrainedElement.Single(), Is.SameAs(operation));
+                Assert.That(constraint.Specification.Single().XmiId, Is.EqualTo("idS2"));
+            }
+        }
+
+        [TestCase(false)]
+        [TestCase(true)]
+        public async Task Verify_that_a_class_as_document_root_survives_a_read_write_read_cycle_through_a_file(bool useAsync)
+        {
+            var @class = this.Read("bare-class-root.xml").QueryRootElement<IClass>("class1");
+            var fileUri = Path.Combine(TestContext.CurrentContext.WorkDirectory, $"gh330-bare-class-root-{useAsync}.xml");
+
+            using (var writer = XmiWriterBuilder.Create().WithLogger(NullLoggerFactory.Instance).Build())
+            {
+                if (useAsync)
+                {
+                    await writer.WriteAsync(new IXmiElement[] { @class }, fileUri, null, null);
+                }
+                else
+                {
+                    writer.Write(new IXmiElement[] { @class }, fileUri, null, null);
+                }
+            }
+
+            var rereadResult = this.CreateReader().Read(fileUri);
+            var rereadClass = rereadResult.QueryRootElement<IClass>("class1");
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(rereadResult.Packages, Is.Empty);
+                Assert.That(rereadResult.RootElements, Is.EqualTo(new[] { rereadClass }));
+                Assert.That(rereadClass.OwnedAttribute.Single().Name, Is.EqualTo("prop1"));
             }
         }
 
