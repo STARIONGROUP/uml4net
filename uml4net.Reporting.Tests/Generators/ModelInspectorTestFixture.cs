@@ -195,13 +195,15 @@ namespace uml4net.Reporting.Tests.Generators
 
             var expectedResult = new List<string>
             {
+                "A_covered_events", "A_max_timeInterval", "A_message_messageEnd", "A_ownedAttribute_structuredClassifier",
+                "A_ownedStereotype_owningPackage", "A_specification_timeConstraint",
                 "Action", "ActivityGroup", "Association", "Behavior", "Class", "Classifier", "Clause",
                 "Component", "Connector", "ConnectorEnd", "CreateLinkAction", "DirectedRelationship",
                 "DurationConstraint", "DurationObservation", "Element", "Extend", "Extension", "ExtensionEnd",
                 "Feature", "InformationFlow", "LinkAction", "LiteralInteger", "LiteralReal", "LiteralUnlimitedNatural",
                 "MultiplicityElement", "NamedElement", "OpaqueExpression", "Operation", "Package",
                 "PackageableElement", "Parameter", "Property", "RedefinableTemplateSignature", "Relationship",
-                "StructuredActivityNode", "StructuredClassifier", "TimeConstraint", "Transition", "UnmarshallAction"
+                "StructuredClassifier", "TimeConstraint", "Transition", "UnmarshallAction"
             };
 
             var interestingClassesNames = interestingClasses.Select(x => x.Name);
@@ -232,13 +234,15 @@ namespace uml4net.Reporting.Tests.Generators
 
             var expectedResult = new List<string>
             {
+                "A_covered_events", "A_max_timeInterval", "A_message_messageEnd", "A_ownedAttribute_structuredClassifier",
+                "A_ownedStereotype_owningPackage", "A_specification_timeConstraint",
                 "Action", "ActivityGroup", "Association", "Behavior", "Class", "Classifier", "Clause",
                 "Component", "Connector", "ConnectorEnd", "CreateLinkAction", "DirectedRelationship",
                 "DurationConstraint", "DurationObservation", "Element", "Extend", "Extension", "ExtensionEnd",
                 "Feature", "InformationFlow", "LinkAction", "LiteralInteger", "LiteralReal", "LiteralUnlimitedNatural",
                 "Message", "MultiplicityElement", "NamedElement", "Namespace", "OpaqueExpression", "Operation",
                 "Package", "PackageableElement", "Parameter", "Property", "RedefinableTemplateSignature", "Region",
-                "Relationship", "StructuredActivityNode", "StructuredClassifier", "TimeConstraint", "UnmarshallAction",
+                "Relationship", "StructuredClassifier", "TimeConstraint", "UnmarshallAction",
                 "ValueSpecification"
             };
 

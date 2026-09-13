@@ -250,20 +250,34 @@ namespace uml4net.Reporting.Generators
             }
 
             sb.AppendLine("");
-            sb.AppendLine("----- INTERESTING CLASSES ------");
+            sb.AppendLine("----- INTERESTING CLASSIFIERS ------");
             sb.AppendLine("");
 
-            var orderedClasses = result.OrderBy(x => x.Name).ToList();
+            var associations = result.OfType<IAssociation>().Cast<IClassifier>().OrderBy(x => x.Name).ToList();
+            var classes = result.Except(associations).OrderBy(x => x.Name).ToList();
 
-            foreach (var @class in orderedClasses)
+            foreach (var classifier in classes)
             {
                 var isAbstract = "";
-                if (@class.IsAbstract)
+                if (classifier.IsAbstract)
                 {
                     isAbstract = " [Abstract]";
                 }
 
-                sb.AppendLine($"class : {@class.QualifiedName}{isAbstract}");
+                sb.AppendLine($"class : {classifier.QualifiedName}{isAbstract}");
+            }
+
+            sb.AppendLine("");
+
+            foreach (var classifier in associations)
+            {
+                var isAbstract = "";
+                if (classifier.IsAbstract)
+                {
+                    isAbstract = " [Abstract]";
+                }
+
+                sb.AppendLine($"association : {classifier.QualifiedName}{isAbstract}");
             }
 
             return sb.ToString();
@@ -280,36 +294,56 @@ namespace uml4net.Reporting.Generators
         /// owned by a class contribute variations
         /// </param>
         /// <returns>
-        /// a Dictionary of <see cref="IClass"/> and associated <see cref="HashSet{T}"/> of property
-        /// variations for that class
+        /// a Dictionary of <see cref="IClassifier"/> and associated <see cref="HashSet{T}"/> of
+        /// property variations for that classifier
         /// </returns>
-        private static Dictionary<IClass, HashSet<string>> MapClassPropertyVariation(IPackage package, bool includeOperations)
+        /// <remarks>
+        /// Scans every <see cref="IClassifier"/>, not just <see cref="IClass"/>: a plain
+        /// <see cref="IAssociation"/> (i.e. not also an <see cref="IAssociationClass"/>) does NOT
+        /// implement <see cref="IClass"/>, so a property that is purely an association-owned end
+        /// (<see cref="IAssociation.OwnedEnd"/>, never also appearing as some Classifier's own
+        /// <see cref="IClassifier.Attribute"/>) would otherwise be invisible to this analysis
+        /// entirely - not merely under-tagged, literally never seen, for any dimension whatsoever.
+        /// </remarks>
+        private static Dictionary<IClassifier, HashSet<string>> MapClassPropertyVariation(IPackage package, bool includeOperations)
         {
-            var classPropertyVariations = new Dictionary<IClass, HashSet<string>>();
+            var classPropertyVariations = new Dictionary<IClassifier, HashSet<string>>();
 
-            var classes = package.QueryPackages().SelectMany(x => x.PackagedElement.OfType<IClass>()).ToList();
+            var classifiers = package.QueryPackages().SelectMany(x => x.PackagedElement.OfType<IClassifier>()).ToList();
 
-            // Seed every class with an empty variation set up front so that variations can be
-            // attributed to a class other than the one that owns the property (e.g. the target
+            // Seed every classifier with an empty variation set up front so that variations can be
+            // attributed to a classifier other than the one that owns the property (e.g. the target
             // class of a composition - see the Contained variation below)
-            foreach (var @class in classes)
+            foreach (var classifier in classifiers)
             {
-                classPropertyVariations[@class] = new HashSet<string>();
+                classPropertyVariations[classifier] = new HashSet<string>();
             }
 
-            foreach (var @class in classes)
+            foreach (var classifier in classifiers)
             {
-                var propertyVariations = classPropertyVariations[@class];
+                var propertyVariations = classPropertyVariations[classifier];
 
                 // Classifier-level variation: an AssociationClass is a distinguishing shape in its
                 // own right (a Classifier that is simultaneously an Association), not something any
                 // property-level tag would otherwise force the covering algorithm to select for.
-                if (@class is IAssociationClass)
+                if (classifier is IAssociationClass)
                 {
                     propertyVariations.Add("CLASSIFIER:AssociationClass");
                 }
 
-                foreach (var property in @class.OwnedAttribute)
+                // IClassifier.Attribute already covers Class/StructuredClassifier/Interface/DataType/
+                // Signal/Artifact generically, but is empty for a plain Association (Association-ownedEnd
+                // subsets Classifier-feature and Namespace-ownedMember, NOT Classifier-attribute - see
+                // ClassifierExtensions.QueryAttribute's own remarks) - add its OwnedEnd explicitly so
+                // association-owned-end properties are not skipped.
+                var ownProperties = classifier.Attribute.AsEnumerable();
+
+                if (classifier is IAssociation association)
+                {
+                    ownProperties = ownProperties.Concat(association.OwnedEnd);
+                }
+
+                foreach (var property in ownProperties)
                 {
                     if (property.QueryIsReferenceType())
                     {
@@ -388,8 +422,8 @@ namespace uml4net.Reporting.Generators
                         // contained; attribute a multiplicity-aware containment variation to that class so
                         // it becomes a candidate interesting class in its own right (see issue #103)
                         if (property.IsComposite
-                            && property.Type is IClass containedClass
-                            && classPropertyVariations.TryGetValue(containedClass, out var containedVariations))
+                            && property.Type is IClassifier containedClassifier
+                            && classPropertyVariations.TryGetValue(containedClassifier, out var containedVariations))
                         {
                             containedVariations.Add($"CONTAINED:{property.Lower}:{property.Upper}");
                         }
@@ -501,9 +535,9 @@ namespace uml4net.Reporting.Generators
                     }
                 }
 
-                if (includeOperations)
+                if (includeOperations && classifier is IClass operationOwner)
                 {
-                    foreach (var operation in @class.OwnedOperation)
+                    foreach (var operation in operationOwner.OwnedOperation)
                     {
                         foreach (var operationVariation in QueryOperationVariations(operation))
                         {
@@ -518,8 +552,9 @@ namespace uml4net.Reporting.Generators
             // strict descendant of the property's declaring class - the redefining property lives on
             // that concrete class or an intermediate one, never on the declaring class itself. This is
             // why the check cannot be folded into the loop above, which only ever looks at a class's own
-            // OwnedAttribute.
-            foreach (var @class in classes)
+            // OwnedAttribute. Scoped to IClass specifically since QueryAllProperties (single-inheritance
+            // generalization traversal) is only defined for IClass, not IClassifier generally.
+            foreach (var @class in classifiers.OfType<IClass>())
             {
                 var propertyVariations = classPropertyVariations[@class];
 
@@ -616,42 +651,42 @@ namespace uml4net.Reporting.Generators
         }
 
         /// <summary>
-        /// Reduces the <see cref="IClass"/>> and property variations in a greedy fashion such
-        /// that the least amount of classes is returned
+        /// Reduces the <see cref="IClassifier"/>> and property variations in a greedy fashion such
+        /// that the least amount of classifiers is returned
         /// </summary>
         /// <param name="classPropertyVariations">
-        /// The <see cref="IClass"/>> and property variations in a greedy fashion such that needs to
-        /// be reduced.
+        /// The <see cref="IClassifier"/>> and property variations in a greedy fashion such that needs
+        /// to be reduced.
         /// </param>
         /// <returns>
-        /// a reduced set of <see cref="IClass"/> and <see cref="IProperty"/> variations.
+        /// a reduced set of <see cref="IClassifier"/> and <see cref="IProperty"/> variations.
         /// </returns>
-        private static IReadOnlyList<IClass> ReduceClassPropertyVariationToInterestingClasses(Dictionary<IClass, HashSet<string>> classPropertyVariations)
+        private static IReadOnlyList<IClassifier> ReduceClassPropertyVariationToInterestingClasses(Dictionary<IClassifier, HashSet<string>> classPropertyVariations)
         {
-            var dictionaryClone = new Dictionary<IClass, HashSet<string>>(classPropertyVariations);
+            var dictionaryClone = new Dictionary<IClassifier, HashSet<string>>(classPropertyVariations);
 
             // Step 2: Get all unique property variations
             var propertyVariations = dictionaryClone.Values.SelectMany(p => p).ToList();
 
             var uniquePropertyVariations = new HashSet<string>(propertyVariations);
 
-            // Step 3: Greedy algorithm to cover all property variations with the fewest classes
-            var result = new List<IClass>();
+            // Step 3: Greedy algorithm to cover all property variations with the fewest classifiers
+            var result = new List<IClassifier>();
             var covered = new HashSet<string>();
 
             while (covered.Count < uniquePropertyVariations.Count)
             {
-                // Pick the class that contributes the most uncovered properties
-                var bestClass = dictionaryClone
+                // Pick the classifier that contributes the most uncovered properties
+                var bestClassifier = dictionaryClone
                     .OrderByDescending(kvp => kvp.Value.Count(p => !covered.Contains(p)))
                     .First().Key;
 
-                result.Add(bestClass);
+                result.Add(bestClassifier);
 
-                foreach (var prop in dictionaryClone[bestClass])
+                foreach (var prop in dictionaryClone[bestClassifier])
                     covered.Add(prop);
 
-                dictionaryClone.Remove(bestClass); // avoid reusing the same class
+                dictionaryClone.Remove(bestClassifier); // avoid reusing the same classifier
             }
 
             return result;
@@ -659,7 +694,7 @@ namespace uml4net.Reporting.Generators
 
         /// <summary>
         /// Inspect the content of the provided <see cref="IPackage"/> and returns a
-        /// read-only collection of interesting <see cref="IClass"/>
+        /// read-only collection of interesting <see cref="IClassifier"/>
         /// </summary>
         /// <param name="package">
         /// The <see cref="IPackage"/> that needs to be inspected
@@ -669,11 +704,11 @@ namespace uml4net.Reporting.Generators
         /// owned by a class are taken into account when determining the interesting classes. <c>false</c> by default
         /// </param>
         /// <returns>
-        /// A read-only collection of interesting <see cref="IClass"/> that cover the variations of
-        /// <see cref="IProperty"/>, and - when <paramref name="includeOperations"/> is <c>true</c> -
+        /// A read-only collection of interesting <see cref="IClassifier"/> that cover the variations
+        /// of <see cref="IProperty"/>, and - when <paramref name="includeOperations"/> is <c>true</c> -
         /// the <see cref="IOperation"/> argument and return-type variations
         /// </returns>
-        public IReadOnlyCollection<IClass> QueryInterestingClasses(IPackage package, bool includeOperations = false)
+        public IReadOnlyCollection<IClassifier> QueryInterestingClasses(IPackage package, bool includeOperations = false)
         {
             if (package == null)
             {
