@@ -586,6 +586,9 @@ namespace uml4net.xmi.Readers
                                 else
                                 {
                                     this.logger.LogWarning("Not Supported: PortReader: {LocalName} at line:position {LineNumber}:{LinePosition}", xmlReader.LocalName, xmlLineInfo.LineNumber, xmlLineInfo.LinePosition);
+
+                                    // the children of an unknown element are not properties of this element
+                                    xmlReader.SkipInPlace();
                                 }
 
                                 break;
