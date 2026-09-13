@@ -1,4 +1,4 @@
-﻿// -------------------------------------------------------------------------------------------------
+// -------------------------------------------------------------------------------------------------
 // <copyright file="DirectedRelationshipExtensions.cs" company="Starion Group S.A.">
 //
 //   Copyright (C) 2019-2026 Starion Group S.A.
@@ -22,8 +22,16 @@ namespace uml4net.CommonStructure
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
 
-    using Classification;
+    using uml4net.Classification;
+    using uml4net.Deployments;
+    using uml4net.InformationFlows;
+    using uml4net.Packages;
+    using uml4net.SimpleClassifiers;
+    using uml4net.StateMachines;
+    using uml4net.StructuredClassifiers;
+    using uml4net.UseCases;
 
     /// <summary>
     /// The <see cref="DirectedRelationshipExtensions"/> class provides extensions methods for <see cref="IDirectedRelationship"/>
@@ -39,6 +47,19 @@ namespace uml4net.CommonStructure
         /// <returns>
         /// the target Element(s) of the DirectedRelationship.
         /// </returns>
+        /// <remarks>
+        /// <c>DirectedRelationship::target</c> is a derived union without OCL body: its value is the union of the
+        /// properties that subset it (per the <c>[SubsettedProperty]</c> metadata of the generated interfaces):
+        /// <see cref="IGeneralization.General"/>, <see cref="IDependency.Supplier"/>, <see cref="IElementImport.ImportedElement"/>,
+        /// <see cref="IPackageImport.ImportedPackage"/>, <see cref="IPackageMerge.MergedPackage"/>,
+        /// <see cref="IProfileApplication.AppliedProfile"/>, <see cref="IProtocolConformance.GeneralMachine"/>,
+        /// <see cref="ITemplateBinding.Signature"/>, <see cref="IInformationFlow.InformationTarget"/>,
+        /// <see cref="IExtend.ExtendedCase"/> and <see cref="IInclude.Addition"/>. The specializations of
+        /// <see cref="IDependency"/> hold properties that subset <c>Dependency::supplier</c> in their own lists, which are
+        /// added as well: <see cref="IComponentRealization.Abstraction"/>, <see cref="IInterfaceRealization.Contract"/>,
+        /// <see cref="ISubstitution.Contract"/>, <see cref="IDeployment.DeployedArtifact"/> and
+        /// <see cref="IManifestation.UtilizedElement"/>. Unset values are skipped and duplicates are removed.
+        /// </remarks>
         internal static List<IElement> QueryTarget(this IDirectedRelationship directedRelationship)
         {
             if (directedRelationship == null)
@@ -46,12 +67,89 @@ namespace uml4net.CommonStructure
                 throw new ArgumentNullException(nameof(directedRelationship));
             }
 
+            var target = new List<IElement>();
+
             if (directedRelationship is IGeneralization generalization)
             {
-                return [generalization.General];
+                target.Add(generalization.General);
             }
 
-            throw new NotSupportedException($"{directedRelationship.GetType()} not yet supported");
+            if (directedRelationship is IDependency dependency)
+            {
+                target.AddRange(dependency.Supplier);
+
+                if (dependency is IComponentRealization componentRealization)
+                {
+                    target.Add(componentRealization.Abstraction);
+                }
+
+                if (dependency is IInterfaceRealization interfaceRealization)
+                {
+                    target.Add(interfaceRealization.Contract);
+                }
+
+                if (dependency is ISubstitution substitution)
+                {
+                    target.Add(substitution.Contract);
+                }
+
+                if (dependency is IDeployment deployment)
+                {
+                    target.AddRange(deployment.DeployedArtifact);
+                }
+
+                if (dependency is IManifestation manifestation)
+                {
+                    target.Add(manifestation.UtilizedElement);
+                }
+            }
+
+            if (directedRelationship is IElementImport elementImport)
+            {
+                target.Add(elementImport.ImportedElement);
+            }
+
+            if (directedRelationship is IPackageImport packageImport)
+            {
+                target.Add(packageImport.ImportedPackage);
+            }
+
+            if (directedRelationship is IPackageMerge packageMerge)
+            {
+                target.Add(packageMerge.MergedPackage);
+            }
+
+            if (directedRelationship is IProfileApplication profileApplication)
+            {
+                target.Add(profileApplication.AppliedProfile);
+            }
+
+            if (directedRelationship is IProtocolConformance protocolConformance)
+            {
+                target.Add(protocolConformance.GeneralMachine);
+            }
+
+            if (directedRelationship is ITemplateBinding templateBinding)
+            {
+                target.Add(templateBinding.Signature);
+            }
+
+            if (directedRelationship is IInformationFlow informationFlow)
+            {
+                target.AddRange(informationFlow.InformationTarget);
+            }
+
+            if (directedRelationship is IExtend extend)
+            {
+                target.Add(extend.ExtendedCase);
+            }
+
+            if (directedRelationship is IInclude include)
+            {
+                target.Add(include.Addition);
+            }
+
+            return target.Where(element => element != null).Distinct().ToList();
         }
 
         /// <summary>
@@ -63,6 +161,19 @@ namespace uml4net.CommonStructure
         /// <returns>
         /// the source Element(s) of the DirectedRelationship.
         /// </returns>
+        /// <remarks>
+        /// <c>DirectedRelationship::source</c> is a derived union without OCL body: its value is the union of the
+        /// properties that subset it (per the <c>[SubsettedProperty]</c> metadata of the generated interfaces):
+        /// <see cref="IGeneralization.Specific"/>, <see cref="IDependency.Client"/>, <see cref="IElementImport.ImportingNamespace"/>,
+        /// <see cref="IPackageImport.ImportingNamespace"/>, <see cref="IPackageMerge.ReceivingPackage"/>,
+        /// <see cref="IProfileApplication.ApplyingPackage"/>, <see cref="IProtocolConformance.SpecificMachine"/>,
+        /// <see cref="ITemplateBinding.BoundElement"/>, <see cref="IInformationFlow.InformationSource"/>,
+        /// <see cref="IExtend.Extension"/> and <see cref="IInclude.IncludingCase"/>. The specializations of
+        /// <see cref="IDependency"/> hold properties that subset <c>Dependency::client</c> in their own lists, which are
+        /// added as well: <see cref="IComponentRealization.RealizingClassifier"/>,
+        /// <see cref="IInterfaceRealization.ImplementingClassifier"/>, <see cref="ISubstitution.SubstitutingClassifier"/>
+        /// and <see cref="IDeployment.Location"/>. Unset values are skipped and duplicates are removed.
+        /// </remarks>
         internal static List<IElement> QuerySource(this IDirectedRelationship directedRelationship)
         {
             if (directedRelationship == null)
@@ -70,12 +181,84 @@ namespace uml4net.CommonStructure
                 throw new ArgumentNullException(nameof(directedRelationship));
             }
 
+            var source = new List<IElement>();
+
             if (directedRelationship is IGeneralization generalization)
             {
-                return [generalization.Specific];
+                source.Add(generalization.Specific);
             }
 
-            throw new NotSupportedException($"{directedRelationship.GetType()} not yet supported");
+            if (directedRelationship is IDependency dependency)
+            {
+                source.AddRange(dependency.Client);
+
+                if (dependency is IComponentRealization componentRealization)
+                {
+                    source.AddRange(componentRealization.RealizingClassifier);
+                }
+
+                if (dependency is IInterfaceRealization interfaceRealization)
+                {
+                    source.Add(interfaceRealization.ImplementingClassifier);
+                }
+
+                if (dependency is ISubstitution substitution)
+                {
+                    source.Add(substitution.SubstitutingClassifier);
+                }
+
+                if (dependency is IDeployment deployment)
+                {
+                    source.Add(deployment.Location);
+                }
+            }
+
+            if (directedRelationship is IElementImport elementImport)
+            {
+                source.Add(elementImport.ImportingNamespace);
+            }
+
+            if (directedRelationship is IPackageImport packageImport)
+            {
+                source.Add(packageImport.ImportingNamespace);
+            }
+
+            if (directedRelationship is IPackageMerge packageMerge)
+            {
+                source.Add(packageMerge.ReceivingPackage);
+            }
+
+            if (directedRelationship is IProfileApplication profileApplication)
+            {
+                source.Add(profileApplication.ApplyingPackage);
+            }
+
+            if (directedRelationship is IProtocolConformance protocolConformance)
+            {
+                source.Add(protocolConformance.SpecificMachine);
+            }
+
+            if (directedRelationship is ITemplateBinding templateBinding)
+            {
+                source.Add(templateBinding.BoundElement);
+            }
+
+            if (directedRelationship is IInformationFlow informationFlow)
+            {
+                source.AddRange(informationFlow.InformationSource);
+            }
+
+            if (directedRelationship is IExtend extend)
+            {
+                source.Add(extend.Extension);
+            }
+
+            if (directedRelationship is IInclude include)
+            {
+                source.Add(include.IncludingCase);
+            }
+
+            return source.Where(element => element != null).Distinct().ToList();
         }
     }
 }
