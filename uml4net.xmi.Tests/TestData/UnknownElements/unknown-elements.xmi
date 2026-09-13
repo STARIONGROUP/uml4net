@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- unknown elements with children, each followed by a sibling that must still be read -->
+<xmi:XMI xmlns:xmi="http://www.omg.org/spec/XMI/20131001" xmlns:uml="http://www.omg.org/spec/UML/20131001">
+  <xmi:documentation>
+    <xmi:exporter>uml4net tests</xmi:exporter>
+    <xmi:vendorSpecific><xmi:exporter>WRONG</xmi:exporter></xmi:vendorSpecific>
+    <xmi:exporterVersion>1.0</xmi:exporterVersion>
+  </xmi:documentation>
+  <uml:Package xmi:id="p" name="P">
+    <packagedElement xmi:type="uml:Class" xmi:id="c">
+      <name>C</name>
+      <foo><name>WRONG</name><ownedComment xmi:type="uml:Comment" xmi:id="leak"><body>leaked</body></ownedComment></foo>
+      <ownedComment xmi:type="uml:Comment" xmi:id="cm"><body>kept</body></ownedComment>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Class" xmi:id="d" name="D"/>
+  </uml:Package>
+</xmi:XMI>
