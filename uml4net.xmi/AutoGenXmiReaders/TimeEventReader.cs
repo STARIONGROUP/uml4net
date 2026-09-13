@@ -167,7 +167,7 @@ namespace uml4net.xmi.Readers
 
                 if (!string.IsNullOrWhiteSpace(isRelativeXmlAttribute))
                 {
-                    poco.IsRelative = bool.Parse(isRelativeXmlAttribute);
+                    poco.IsRelative = XmlConvert.ToBoolean(isRelativeXmlAttribute);
                 }
 
                 poco.Name = xmlReader.GetAttribute("name") ?? xmlReader.GetAttribute("name", this.NameSpaceResolver.UmlNameSpace);
@@ -209,7 +209,7 @@ namespace uml4net.xmi.Readers
 
                                 if (!string.IsNullOrWhiteSpace(isRelativeValue))
                                 {
-                                    poco.IsRelative = bool.Parse(isRelativeValue);
+                                    poco.IsRelative = XmlConvert.ToBoolean(isRelativeValue);
                                 }
 
                                 break;

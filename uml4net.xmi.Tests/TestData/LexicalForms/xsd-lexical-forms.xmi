@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Boolean, Integer and Real values in XML Schema lexical forms, as attributes and as elements -->
+<xmi:XMI xmlns:xmi="http://www.omg.org/spec/XMI/20131001" xmlns:uml="http://www.omg.org/spec/UML/20131001">
+  <uml:Package xmi:id="p" name="P">
+    <packagedElement xmi:type="uml:Class" xmi:id="c" name="C" isAbstract="1" isLeaf="0">
+      <isActive>true</isActive>
+      <ownedAttribute xmi:type="uml:Property" xmi:id="a" name="a" isReadOnly=" true ">
+        <defaultValue xmi:type="uml:LiteralReal" xmi:id="real" value="1.5"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:type="uml:Property" xmi:id="b" name="b">
+        <defaultValue xmi:type="uml:LiteralReal" xmi:id="inf" value="INF"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:type="uml:Property" xmi:id="d" name="d">
+        <defaultValue xmi:type="uml:LiteralReal" xmi:id="realElement">
+          <value>-2.25e3</value>
+        </defaultValue>
+      </ownedAttribute>
+      <ownedAttribute xmi:type="uml:Property" xmi:id="e" name="e">
+        <defaultValue xmi:type="uml:LiteralInteger" xmi:id="integer" value=" +42 "/>
+      </ownedAttribute>
+      <ownedAttribute xmi:type="uml:Property" xmi:id="f" name="f">
+        <defaultValue xmi:type="uml:LiteralInteger" xmi:id="integerElement">
+          <value>-7</value>
+        </defaultValue>
+      </ownedAttribute>
+    </packagedElement>
+  </uml:Package>
+</xmi:XMI>

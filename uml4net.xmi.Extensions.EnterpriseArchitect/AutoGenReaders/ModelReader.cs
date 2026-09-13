@@ -104,7 +104,7 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.Structure.Readers
                 var ea_localidValue = xmlReader.GetAttribute("ea_localid");
                 if (!string.IsNullOrWhiteSpace(ea_localidValue))
                 {
-                    poco.Ea_localid = int.Parse(ea_localidValue);
+                    poco.Ea_localid = XmlConvert.ToInt32(ea_localidValue);
                 }
 
                 var nameValue = xmlReader.GetAttribute("name");
@@ -116,7 +116,7 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.Structure.Readers
                 var tposValue = xmlReader.GetAttribute("tpos");
                 if (!string.IsNullOrWhiteSpace(tposValue))
                 {
-                    poco.Tpos = int.Parse(tposValue);
+                    poco.Tpos = XmlConvert.ToInt32(tposValue);
                 }
 
                 var typeValue = xmlReader.GetAttribute("type");

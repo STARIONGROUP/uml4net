@@ -178,7 +178,7 @@ namespace uml4net.xmi.Readers
                     var firstEventXmlAttributeValues = firstEventXmlAttribute.Split(this.XmiReaderSettings.ValueSeparator);
                     foreach (var firstEventXmlAttributeValue in firstEventXmlAttributeValues)
                     {
-                        poco.FirstEvent.Add(bool.Parse(firstEventXmlAttributeValue));
+                        poco.FirstEvent.Add(XmlConvert.ToBoolean(firstEventXmlAttributeValue));
                     }
                 }
 
@@ -224,7 +224,7 @@ namespace uml4net.xmi.Readers
 
                                 if (!string.IsNullOrWhiteSpace(firstEventValue))
                                 {
-                                    poco.FirstEvent.Add(bool.Parse(firstEventValue));
+                                    poco.FirstEvent.Add(XmlConvert.ToBoolean(firstEventValue));
                                 }
 
                                 break;

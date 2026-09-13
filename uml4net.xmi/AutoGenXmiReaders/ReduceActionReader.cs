@@ -205,21 +205,21 @@ namespace uml4net.xmi.Readers
 
                 if (!string.IsNullOrWhiteSpace(isLeafXmlAttribute))
                 {
-                    poco.IsLeaf = bool.Parse(isLeafXmlAttribute);
+                    poco.IsLeaf = XmlConvert.ToBoolean(isLeafXmlAttribute);
                 }
 
                 var isLocallyReentrantXmlAttribute = xmlReader.GetAttribute("isLocallyReentrant") ?? xmlReader.GetAttribute("isLocallyReentrant", this.NameSpaceResolver.UmlNameSpace);
 
                 if (!string.IsNullOrWhiteSpace(isLocallyReentrantXmlAttribute))
                 {
-                    poco.IsLocallyReentrant = bool.Parse(isLocallyReentrantXmlAttribute);
+                    poco.IsLocallyReentrant = XmlConvert.ToBoolean(isLocallyReentrantXmlAttribute);
                 }
 
                 var isOrderedXmlAttribute = xmlReader.GetAttribute("isOrdered") ?? xmlReader.GetAttribute("isOrdered", this.NameSpaceResolver.UmlNameSpace);
 
                 if (!string.IsNullOrWhiteSpace(isOrderedXmlAttribute))
                 {
-                    poco.IsOrdered = bool.Parse(isOrderedXmlAttribute);
+                    poco.IsOrdered = XmlConvert.ToBoolean(isOrderedXmlAttribute);
                 }
 
                 poco.Name = xmlReader.GetAttribute("name") ?? xmlReader.GetAttribute("name", this.NameSpaceResolver.UmlNameSpace);
@@ -299,7 +299,7 @@ namespace uml4net.xmi.Readers
 
                                 if (!string.IsNullOrWhiteSpace(isLeafValue))
                                 {
-                                    poco.IsLeaf = bool.Parse(isLeafValue);
+                                    poco.IsLeaf = XmlConvert.ToBoolean(isLeafValue);
                                 }
 
                                 break;
@@ -308,7 +308,7 @@ namespace uml4net.xmi.Readers
 
                                 if (!string.IsNullOrWhiteSpace(isLocallyReentrantValue))
                                 {
-                                    poco.IsLocallyReentrant = bool.Parse(isLocallyReentrantValue);
+                                    poco.IsLocallyReentrant = XmlConvert.ToBoolean(isLocallyReentrantValue);
                                 }
 
                                 break;
@@ -317,7 +317,7 @@ namespace uml4net.xmi.Readers
 
                                 if (!string.IsNullOrWhiteSpace(isOrderedValue))
                                 {
-                                    poco.IsOrdered = bool.Parse(isOrderedValue);
+                                    poco.IsOrdered = XmlConvert.ToBoolean(isOrderedValue);
                                 }
 
                                 break;

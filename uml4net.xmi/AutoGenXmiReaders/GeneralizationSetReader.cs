@@ -175,14 +175,14 @@ namespace uml4net.xmi.Readers
 
                 if (!string.IsNullOrWhiteSpace(isCoveringXmlAttribute))
                 {
-                    poco.IsCovering = bool.Parse(isCoveringXmlAttribute);
+                    poco.IsCovering = XmlConvert.ToBoolean(isCoveringXmlAttribute);
                 }
 
                 var isDisjointXmlAttribute = xmlReader.GetAttribute("isDisjoint") ?? xmlReader.GetAttribute("isDisjoint", this.NameSpaceResolver.UmlNameSpace);
 
                 if (!string.IsNullOrWhiteSpace(isDisjointXmlAttribute))
                 {
-                    poco.IsDisjoint = bool.Parse(isDisjointXmlAttribute);
+                    poco.IsDisjoint = XmlConvert.ToBoolean(isDisjointXmlAttribute);
                 }
 
                 poco.Name = xmlReader.GetAttribute("name") ?? xmlReader.GetAttribute("name", this.NameSpaceResolver.UmlNameSpace);
@@ -234,7 +234,7 @@ namespace uml4net.xmi.Readers
 
                                 if (!string.IsNullOrWhiteSpace(isCoveringValue))
                                 {
-                                    poco.IsCovering = bool.Parse(isCoveringValue);
+                                    poco.IsCovering = XmlConvert.ToBoolean(isCoveringValue);
                                 }
 
                                 break;
@@ -243,7 +243,7 @@ namespace uml4net.xmi.Readers
 
                                 if (!string.IsNullOrWhiteSpace(isDisjointValue))
                                 {
-                                    poco.IsDisjoint = bool.Parse(isDisjointValue);
+                                    poco.IsDisjoint = XmlConvert.ToBoolean(isDisjointValue);
                                 }
 
                                 break;

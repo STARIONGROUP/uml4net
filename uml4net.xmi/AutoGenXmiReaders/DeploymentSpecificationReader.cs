@@ -180,21 +180,21 @@ namespace uml4net.xmi.Readers
 
                 if (!string.IsNullOrWhiteSpace(isAbstractXmlAttribute))
                 {
-                    poco.IsAbstract = bool.Parse(isAbstractXmlAttribute);
+                    poco.IsAbstract = XmlConvert.ToBoolean(isAbstractXmlAttribute);
                 }
 
                 var isFinalSpecializationXmlAttribute = xmlReader.GetAttribute("isFinalSpecialization") ?? xmlReader.GetAttribute("isFinalSpecialization", this.NameSpaceResolver.UmlNameSpace);
 
                 if (!string.IsNullOrWhiteSpace(isFinalSpecializationXmlAttribute))
                 {
-                    poco.IsFinalSpecialization = bool.Parse(isFinalSpecializationXmlAttribute);
+                    poco.IsFinalSpecialization = XmlConvert.ToBoolean(isFinalSpecializationXmlAttribute);
                 }
 
                 var isLeafXmlAttribute = xmlReader.GetAttribute("isLeaf") ?? xmlReader.GetAttribute("isLeaf", this.NameSpaceResolver.UmlNameSpace);
 
                 if (!string.IsNullOrWhiteSpace(isLeafXmlAttribute))
                 {
-                    poco.IsLeaf = bool.Parse(isLeafXmlAttribute);
+                    poco.IsLeaf = XmlConvert.ToBoolean(isLeafXmlAttribute);
                 }
 
                 poco.Name = xmlReader.GetAttribute("name") ?? xmlReader.GetAttribute("name", this.NameSpaceResolver.UmlNameSpace);
@@ -307,7 +307,7 @@ namespace uml4net.xmi.Readers
 
                                 if (!string.IsNullOrWhiteSpace(isAbstractValue))
                                 {
-                                    poco.IsAbstract = bool.Parse(isAbstractValue);
+                                    poco.IsAbstract = XmlConvert.ToBoolean(isAbstractValue);
                                 }
 
                                 break;
@@ -316,7 +316,7 @@ namespace uml4net.xmi.Readers
 
                                 if (!string.IsNullOrWhiteSpace(isFinalSpecializationValue))
                                 {
-                                    poco.IsFinalSpecialization = bool.Parse(isFinalSpecializationValue);
+                                    poco.IsFinalSpecialization = XmlConvert.ToBoolean(isFinalSpecializationValue);
                                 }
 
                                 break;
@@ -325,7 +325,7 @@ namespace uml4net.xmi.Readers
 
                                 if (!string.IsNullOrWhiteSpace(isLeafValue))
                                 {
-                                    poco.IsLeaf = bool.Parse(isLeafValue);
+                                    poco.IsLeaf = XmlConvert.ToBoolean(isLeafValue);
                                 }
 
                                 break;

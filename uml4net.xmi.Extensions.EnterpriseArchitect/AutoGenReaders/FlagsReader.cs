@@ -100,31 +100,31 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.Structure.Readers
                 var batchsaveValue = xmlReader.GetAttribute("batchsave");
                 if (!string.IsNullOrWhiteSpace(batchsaveValue))
                 {
-                    poco.Batchsave = int.Parse(batchsaveValue);
+                    poco.Batchsave = XmlConvert.ToInt32(batchsaveValue);
                 }
 
                 var iscontrolledValue = xmlReader.GetAttribute("iscontrolled");
                 if (!string.IsNullOrWhiteSpace(iscontrolledValue))
                 {
-                    poco.Iscontrolled = int.Parse(iscontrolledValue);
+                    poco.Iscontrolled = XmlConvert.ToInt32(iscontrolledValue);
                 }
 
                 var isprotectedValue = xmlReader.GetAttribute("isprotected");
                 if (!string.IsNullOrWhiteSpace(isprotectedValue))
                 {
-                    poco.Isprotected = int.Parse(isprotectedValue);
+                    poco.Isprotected = XmlConvert.ToInt32(isprotectedValue);
                 }
 
                 var logxmlValue = xmlReader.GetAttribute("logxml");
                 if (!string.IsNullOrWhiteSpace(logxmlValue))
                 {
-                    poco.Logxml = int.Parse(logxmlValue);
+                    poco.Logxml = XmlConvert.ToInt32(logxmlValue);
                 }
 
                 var usedtdValue = xmlReader.GetAttribute("usedtd");
                 if (!string.IsNullOrWhiteSpace(usedtdValue))
                 {
-                    poco.Usedtd = int.Parse(usedtdValue);
+                    poco.Usedtd = XmlConvert.ToInt32(usedtdValue);
                 }
 
 

@@ -102,37 +102,37 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.Structure.Readers
                 var constValue = xmlReader.GetAttribute("const");
                 if (!string.IsNullOrWhiteSpace(constValue))
                 {
-                    poco.Const = bool.Parse(constValue);
+                    poco.Const = XmlConvert.ToBoolean(constValue);
                 }
 
                 var isAbstractValue = xmlReader.GetAttribute("isAbstract");
                 if (!string.IsNullOrWhiteSpace(isAbstractValue))
                 {
-                    poco.IsAbstract = bool.Parse(isAbstractValue);
+                    poco.IsAbstract = XmlConvert.ToBoolean(isAbstractValue);
                 }
 
                 var isQueryValue = xmlReader.GetAttribute("isQuery");
                 if (!string.IsNullOrWhiteSpace(isQueryValue))
                 {
-                    poco.IsQuery = bool.Parse(isQueryValue);
+                    poco.IsQuery = XmlConvert.ToBoolean(isQueryValue);
                 }
 
                 var pureValue = xmlReader.GetAttribute("pure");
                 if (!string.IsNullOrWhiteSpace(pureValue))
                 {
-                    poco.Pure = int.Parse(pureValue);
+                    poco.Pure = XmlConvert.ToInt32(pureValue);
                 }
 
                 var returnarrayValue = xmlReader.GetAttribute("returnarray");
                 if (!string.IsNullOrWhiteSpace(returnarrayValue))
                 {
-                    poco.Returnarray = int.Parse(returnarrayValue);
+                    poco.Returnarray = XmlConvert.ToInt32(returnarrayValue);
                 }
 
                 var staticValue = xmlReader.GetAttribute("static");
                 if (!string.IsNullOrWhiteSpace(staticValue))
                 {
-                    poco.Static = bool.Parse(staticValue);
+                    poco.Static = XmlConvert.ToBoolean(staticValue);
                 }
 
                 var stereotypeValue = xmlReader.GetAttribute("stereotype");
@@ -140,7 +140,7 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.Structure.Readers
                 var synchronisedValue = xmlReader.GetAttribute("synchronised");
                 if (!string.IsNullOrWhiteSpace(synchronisedValue))
                 {
-                    poco.Synchronised = int.Parse(synchronisedValue);
+                    poco.Synchronised = XmlConvert.ToInt32(synchronisedValue);
                 }
 
                 var typeValue = xmlReader.GetAttribute("type");

@@ -102,25 +102,25 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.Structure.Readers
                 var isLeafValue = xmlReader.GetAttribute("isLeaf");
                 if (!string.IsNullOrWhiteSpace(isLeafValue))
                 {
-                    poco.IsLeaf = bool.Parse(isLeafValue);
+                    poco.IsLeaf = XmlConvert.ToBoolean(isLeafValue);
                 }
 
                 var isNavigableValue = xmlReader.GetAttribute("isNavigable");
                 if (!string.IsNullOrWhiteSpace(isNavigableValue))
                 {
-                    poco.IsNavigable = bool.Parse(isNavigableValue);
+                    poco.IsNavigable = XmlConvert.ToBoolean(isNavigableValue);
                 }
 
                 var isOrderedValue = xmlReader.GetAttribute("isOrdered");
                 if (!string.IsNullOrWhiteSpace(isOrderedValue))
                 {
-                    poco.IsOrdered = bool.Parse(isOrderedValue);
+                    poco.IsOrdered = XmlConvert.ToBoolean(isOrderedValue);
                 }
 
                 var isRootValue = xmlReader.GetAttribute("isRoot");
                 if (!string.IsNullOrWhiteSpace(isRootValue))
                 {
-                    poco.IsRoot = bool.Parse(isRootValue);
+                    poco.IsRoot = XmlConvert.ToBoolean(isRootValue);
                 }
 
 

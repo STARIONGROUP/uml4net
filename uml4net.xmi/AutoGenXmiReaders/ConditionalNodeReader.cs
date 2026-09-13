@@ -205,35 +205,35 @@ namespace uml4net.xmi.Readers
 
                 if (!string.IsNullOrWhiteSpace(isAssuredXmlAttribute))
                 {
-                    poco.IsAssured = bool.Parse(isAssuredXmlAttribute);
+                    poco.IsAssured = XmlConvert.ToBoolean(isAssuredXmlAttribute);
                 }
 
                 var isDeterminateXmlAttribute = xmlReader.GetAttribute("isDeterminate") ?? xmlReader.GetAttribute("isDeterminate", this.NameSpaceResolver.UmlNameSpace);
 
                 if (!string.IsNullOrWhiteSpace(isDeterminateXmlAttribute))
                 {
-                    poco.IsDeterminate = bool.Parse(isDeterminateXmlAttribute);
+                    poco.IsDeterminate = XmlConvert.ToBoolean(isDeterminateXmlAttribute);
                 }
 
                 var isLeafXmlAttribute = xmlReader.GetAttribute("isLeaf") ?? xmlReader.GetAttribute("isLeaf", this.NameSpaceResolver.UmlNameSpace);
 
                 if (!string.IsNullOrWhiteSpace(isLeafXmlAttribute))
                 {
-                    poco.IsLeaf = bool.Parse(isLeafXmlAttribute);
+                    poco.IsLeaf = XmlConvert.ToBoolean(isLeafXmlAttribute);
                 }
 
                 var isLocallyReentrantXmlAttribute = xmlReader.GetAttribute("isLocallyReentrant") ?? xmlReader.GetAttribute("isLocallyReentrant", this.NameSpaceResolver.UmlNameSpace);
 
                 if (!string.IsNullOrWhiteSpace(isLocallyReentrantXmlAttribute))
                 {
-                    poco.IsLocallyReentrant = bool.Parse(isLocallyReentrantXmlAttribute);
+                    poco.IsLocallyReentrant = XmlConvert.ToBoolean(isLocallyReentrantXmlAttribute);
                 }
 
                 var mustIsolateXmlAttribute = xmlReader.GetAttribute("mustIsolate") ?? xmlReader.GetAttribute("mustIsolate", this.NameSpaceResolver.UmlNameSpace);
 
                 if (!string.IsNullOrWhiteSpace(mustIsolateXmlAttribute))
                 {
-                    poco.MustIsolate = bool.Parse(mustIsolateXmlAttribute);
+                    poco.MustIsolate = XmlConvert.ToBoolean(mustIsolateXmlAttribute);
                 }
 
                 poco.Name = xmlReader.GetAttribute("name") ?? xmlReader.GetAttribute("name", this.NameSpaceResolver.UmlNameSpace);
@@ -320,7 +320,7 @@ namespace uml4net.xmi.Readers
 
                                 if (!string.IsNullOrWhiteSpace(isAssuredValue))
                                 {
-                                    poco.IsAssured = bool.Parse(isAssuredValue);
+                                    poco.IsAssured = XmlConvert.ToBoolean(isAssuredValue);
                                 }
 
                                 break;
@@ -329,7 +329,7 @@ namespace uml4net.xmi.Readers
 
                                 if (!string.IsNullOrWhiteSpace(isDeterminateValue))
                                 {
-                                    poco.IsDeterminate = bool.Parse(isDeterminateValue);
+                                    poco.IsDeterminate = XmlConvert.ToBoolean(isDeterminateValue);
                                 }
 
                                 break;
@@ -338,7 +338,7 @@ namespace uml4net.xmi.Readers
 
                                 if (!string.IsNullOrWhiteSpace(isLeafValue))
                                 {
-                                    poco.IsLeaf = bool.Parse(isLeafValue);
+                                    poco.IsLeaf = XmlConvert.ToBoolean(isLeafValue);
                                 }
 
                                 break;
@@ -347,7 +347,7 @@ namespace uml4net.xmi.Readers
 
                                 if (!string.IsNullOrWhiteSpace(isLocallyReentrantValue))
                                 {
-                                    poco.IsLocallyReentrant = bool.Parse(isLocallyReentrantValue);
+                                    poco.IsLocallyReentrant = XmlConvert.ToBoolean(isLocallyReentrantValue);
                                 }
 
                                 break;
@@ -370,7 +370,7 @@ namespace uml4net.xmi.Readers
 
                                 if (!string.IsNullOrWhiteSpace(mustIsolateValue))
                                 {
-                                    poco.MustIsolate = bool.Parse(mustIsolateValue);
+                                    poco.MustIsolate = XmlConvert.ToBoolean(mustIsolateValue);
                                 }
 
                                 break;

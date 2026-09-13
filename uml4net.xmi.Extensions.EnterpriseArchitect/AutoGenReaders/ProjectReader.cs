@@ -102,7 +102,7 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.Structure.Readers
                 var complexityValue = xmlReader.GetAttribute("complexity");
                 if (!string.IsNullOrWhiteSpace(complexityValue))
                 {
-                    poco.Complexity = int.Parse(complexityValue);
+                    poco.Complexity = XmlConvert.ToInt32(complexityValue);
                 }
 
                 var createdValue = xmlReader.GetAttribute("created");

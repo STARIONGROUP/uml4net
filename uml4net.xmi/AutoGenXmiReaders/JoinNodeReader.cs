@@ -205,14 +205,14 @@ namespace uml4net.xmi.Readers
 
                 if (!string.IsNullOrWhiteSpace(isCombineDuplicateXmlAttribute))
                 {
-                    poco.IsCombineDuplicate = bool.Parse(isCombineDuplicateXmlAttribute);
+                    poco.IsCombineDuplicate = XmlConvert.ToBoolean(isCombineDuplicateXmlAttribute);
                 }
 
                 var isLeafXmlAttribute = xmlReader.GetAttribute("isLeaf") ?? xmlReader.GetAttribute("isLeaf", this.NameSpaceResolver.UmlNameSpace);
 
                 if (!string.IsNullOrWhiteSpace(isLeafXmlAttribute))
                 {
-                    poco.IsLeaf = bool.Parse(isLeafXmlAttribute);
+                    poco.IsLeaf = XmlConvert.ToBoolean(isLeafXmlAttribute);
                 }
 
                 poco.Name = xmlReader.GetAttribute("name") ?? xmlReader.GetAttribute("name", this.NameSpaceResolver.UmlNameSpace);
@@ -271,7 +271,7 @@ namespace uml4net.xmi.Readers
 
                                 if (!string.IsNullOrWhiteSpace(isCombineDuplicateValue))
                                 {
-                                    poco.IsCombineDuplicate = bool.Parse(isCombineDuplicateValue);
+                                    poco.IsCombineDuplicate = XmlConvert.ToBoolean(isCombineDuplicateValue);
                                 }
 
                                 break;
@@ -280,7 +280,7 @@ namespace uml4net.xmi.Readers
 
                                 if (!string.IsNullOrWhiteSpace(isLeafValue))
                                 {
-                                    poco.IsLeaf = bool.Parse(isLeafValue);
+                                    poco.IsLeaf = XmlConvert.ToBoolean(isLeafValue);
                                 }
 
                                 break;

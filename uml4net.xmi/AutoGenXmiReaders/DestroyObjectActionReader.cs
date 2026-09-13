@@ -205,28 +205,28 @@ namespace uml4net.xmi.Readers
 
                 if (!string.IsNullOrWhiteSpace(isDestroyLinksXmlAttribute))
                 {
-                    poco.IsDestroyLinks = bool.Parse(isDestroyLinksXmlAttribute);
+                    poco.IsDestroyLinks = XmlConvert.ToBoolean(isDestroyLinksXmlAttribute);
                 }
 
                 var isDestroyOwnedObjectsXmlAttribute = xmlReader.GetAttribute("isDestroyOwnedObjects") ?? xmlReader.GetAttribute("isDestroyOwnedObjects", this.NameSpaceResolver.UmlNameSpace);
 
                 if (!string.IsNullOrWhiteSpace(isDestroyOwnedObjectsXmlAttribute))
                 {
-                    poco.IsDestroyOwnedObjects = bool.Parse(isDestroyOwnedObjectsXmlAttribute);
+                    poco.IsDestroyOwnedObjects = XmlConvert.ToBoolean(isDestroyOwnedObjectsXmlAttribute);
                 }
 
                 var isLeafXmlAttribute = xmlReader.GetAttribute("isLeaf") ?? xmlReader.GetAttribute("isLeaf", this.NameSpaceResolver.UmlNameSpace);
 
                 if (!string.IsNullOrWhiteSpace(isLeafXmlAttribute))
                 {
-                    poco.IsLeaf = bool.Parse(isLeafXmlAttribute);
+                    poco.IsLeaf = XmlConvert.ToBoolean(isLeafXmlAttribute);
                 }
 
                 var isLocallyReentrantXmlAttribute = xmlReader.GetAttribute("isLocallyReentrant") ?? xmlReader.GetAttribute("isLocallyReentrant", this.NameSpaceResolver.UmlNameSpace);
 
                 if (!string.IsNullOrWhiteSpace(isLocallyReentrantXmlAttribute))
                 {
-                    poco.IsLocallyReentrant = bool.Parse(isLocallyReentrantXmlAttribute);
+                    poco.IsLocallyReentrant = XmlConvert.ToBoolean(isLocallyReentrantXmlAttribute);
                 }
 
                 poco.Name = xmlReader.GetAttribute("name") ?? xmlReader.GetAttribute("name", this.NameSpaceResolver.UmlNameSpace);
@@ -292,7 +292,7 @@ namespace uml4net.xmi.Readers
 
                                 if (!string.IsNullOrWhiteSpace(isDestroyLinksValue))
                                 {
-                                    poco.IsDestroyLinks = bool.Parse(isDestroyLinksValue);
+                                    poco.IsDestroyLinks = XmlConvert.ToBoolean(isDestroyLinksValue);
                                 }
 
                                 break;
@@ -301,7 +301,7 @@ namespace uml4net.xmi.Readers
 
                                 if (!string.IsNullOrWhiteSpace(isDestroyOwnedObjectsValue))
                                 {
-                                    poco.IsDestroyOwnedObjects = bool.Parse(isDestroyOwnedObjectsValue);
+                                    poco.IsDestroyOwnedObjects = XmlConvert.ToBoolean(isDestroyOwnedObjectsValue);
                                 }
 
                                 break;
@@ -310,7 +310,7 @@ namespace uml4net.xmi.Readers
 
                                 if (!string.IsNullOrWhiteSpace(isLeafValue))
                                 {
-                                    poco.IsLeaf = bool.Parse(isLeafValue);
+                                    poco.IsLeaf = XmlConvert.ToBoolean(isLeafValue);
                                 }
 
                                 break;
@@ -319,7 +319,7 @@ namespace uml4net.xmi.Readers
 
                                 if (!string.IsNullOrWhiteSpace(isLocallyReentrantValue))
                                 {
-                                    poco.IsLocallyReentrant = bool.Parse(isLocallyReentrantValue);
+                                    poco.IsLocallyReentrant = XmlConvert.ToBoolean(isLocallyReentrantValue);
                                 }
 
                                 break;

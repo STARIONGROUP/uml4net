@@ -104,7 +104,7 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.Structure.Readers
                 var taggedValue = xmlReader.GetAttribute("tagged");
                 if (!string.IsNullOrWhiteSpace(taggedValue))
                 {
-                    poco.Tagged = int.Parse(taggedValue);
+                    poco.Tagged = XmlConvert.ToInt32(taggedValue);
                 }
 
 

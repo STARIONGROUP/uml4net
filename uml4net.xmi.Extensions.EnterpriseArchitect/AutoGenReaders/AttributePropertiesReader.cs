@@ -102,37 +102,37 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.Structure.Readers
                 var collectionValue = xmlReader.GetAttribute("collection");
                 if (!string.IsNullOrWhiteSpace(collectionValue))
                 {
-                    poco.Collection = bool.Parse(collectionValue);
+                    poco.Collection = XmlConvert.ToBoolean(collectionValue);
                 }
 
                 var derivedValue = xmlReader.GetAttribute("derived");
                 if (!string.IsNullOrWhiteSpace(derivedValue))
                 {
-                    poco.Derived = int.Parse(derivedValue);
+                    poco.Derived = XmlConvert.ToInt32(derivedValue);
                 }
 
                 var duplicatesValue = xmlReader.GetAttribute("duplicates");
                 if (!string.IsNullOrWhiteSpace(duplicatesValue))
                 {
-                    poco.Duplicates = int.Parse(duplicatesValue);
+                    poco.Duplicates = XmlConvert.ToInt32(duplicatesValue);
                 }
 
                 var lengthValue = xmlReader.GetAttribute("length");
                 if (!string.IsNullOrWhiteSpace(lengthValue))
                 {
-                    poco.Length = int.Parse(lengthValue);
+                    poco.Length = XmlConvert.ToInt32(lengthValue);
                 }
 
                 var precisionValue = xmlReader.GetAttribute("precision");
                 if (!string.IsNullOrWhiteSpace(precisionValue))
                 {
-                    poco.Precision = int.Parse(precisionValue);
+                    poco.Precision = XmlConvert.ToInt32(precisionValue);
                 }
 
                 var staticValue = xmlReader.GetAttribute("static");
                 if (!string.IsNullOrWhiteSpace(staticValue))
                 {
-                    poco.Static = int.Parse(staticValue);
+                    poco.Static = XmlConvert.ToInt32(staticValue);
                 }
 
                 var typeValue = xmlReader.GetAttribute("type");
