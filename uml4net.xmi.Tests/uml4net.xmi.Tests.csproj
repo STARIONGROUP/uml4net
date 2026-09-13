@@ -99,6 +99,9 @@
       <None Update="TestData\LexicalForms\*.xmi">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
+      <None Update="TestData\IdLess\*.xmi">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
     </ItemGroup>
 
 </Project>
