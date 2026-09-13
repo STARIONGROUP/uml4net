@@ -105,6 +105,9 @@
       <None Update="TestData\UnknownElements\*.xmi">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
+      <None Update="TestData\DerivedProperties\*.xmi">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
     </ItemGroup>
 
 </Project>

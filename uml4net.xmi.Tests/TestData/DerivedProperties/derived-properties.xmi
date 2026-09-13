@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- derived properties serialized as attributes and as elements (XMI 2.5.1 clause 7.8.10); their values are WRONG on purpose to prove they are ignored -->
+<xmi:XMI xmlns:xmi="http://www.omg.org/spec/XMI/20131001" xmlns:uml="http://www.omg.org/spec/UML/20131001">
+  <uml:Package xmi:id="p" name="P">
+    <packagedElement xmi:type="uml:Class" xmi:id="c" name="C" qualifiedName="WRONG::C">
+      <qualifiedName>WRONG::C</qualifiedName>
+      <superClass xmi:idref="d"/>
+      <ownedElement xmi:type="uml:Comment" xmi:id="leak"><body>leaked</body></ownedElement>
+      <ownedComment xmi:type="uml:Comment" xmi:id="cm"><body>kept</body></ownedComment>
+      <ownedAttribute xmi:type="uml:Property" xmi:id="a" name="a" isComposite="true">
+        <isComposite>true</isComposite>
+        <opposite xmi:idref="a"/>
+      </ownedAttribute>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Class" xmi:id="d" name="D"/>
+  </uml:Package>
+</xmi:XMI>

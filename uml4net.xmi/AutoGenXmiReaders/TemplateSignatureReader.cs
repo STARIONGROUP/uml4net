@@ -209,6 +209,13 @@ namespace uml4net.xmi.Readers
                             case (KnowNamespacePrefixes.Uml, "template"):
                                 CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "template");
                                 break;
+                            case (KnowNamespacePrefixes.Uml, "ownedElement"):
+                            case (KnowNamespacePrefixes.Uml, "owner"):
+                                // serialized derived data (XMI 2.5.1 clause 7.8.10) is computed by uml4net, not read
+                                this.logger.LogDebug("Ignoring the serialized derived property {LocalName} of TemplateSignature at line:position {LineNumber}:{LinePosition}", xmlReader.LocalName, xmlLineInfo.LineNumber, xmlLineInfo.LinePosition);
+                                xmlReader.SkipInPlace();
+                                break;
+
                             case (KnowNamespacePrefixes.Xmi, "extension"):
                             case (KnowNamespacePrefixes.Xmi, "Extension"):
                                 {

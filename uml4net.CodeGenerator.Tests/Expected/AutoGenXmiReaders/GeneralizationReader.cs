@@ -228,6 +228,16 @@ namespace uml4net.xmi.Readers
                             case (KnowNamespacePrefixes.Uml, "specific"):
                                 CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "specific");
                                 break;
+                            case (KnowNamespacePrefixes.Uml, "ownedElement"):
+                            case (KnowNamespacePrefixes.Uml, "owner"):
+                            case (KnowNamespacePrefixes.Uml, "relatedElement"):
+                            case (KnowNamespacePrefixes.Uml, "source"):
+                            case (KnowNamespacePrefixes.Uml, "target"):
+                                // serialized derived data (XMI 2.5.1 clause 7.8.10) is computed by uml4net, not read
+                                this.logger.LogDebug("Ignoring the serialized derived property {LocalName} of Generalization at line:position {LineNumber}:{LinePosition}", xmlReader.LocalName, xmlLineInfo.LineNumber, xmlLineInfo.LinePosition);
+                                xmlReader.SkipInPlace();
+                                break;
+
                             case (KnowNamespacePrefixes.Xmi, "extension"):
                             case (KnowNamespacePrefixes.Xmi, "Extension"):
                                 {
