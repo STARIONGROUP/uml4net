@@ -250,20 +250,34 @@ namespace uml4net.Reporting.Generators
             }
 
             sb.AppendLine("");
-            sb.AppendLine("----- INTERESTING CLASSES ------");
+            sb.AppendLine("----- INTERESTING CLASSIFIERS ------");
             sb.AppendLine("");
 
-            var orderedClasses = result.OrderBy(x => x.Name).ToList();
+            var associations = result.OfType<IAssociation>().Cast<IClassifier>().OrderBy(x => x.Name).ToList();
+            var classes = result.Except(associations).OrderBy(x => x.Name).ToList();
 
-            foreach (var @class in orderedClasses)
+            foreach (var classifier in classes)
             {
                 var isAbstract = "";
-                if (@class.IsAbstract)
+                if (classifier.IsAbstract)
                 {
                     isAbstract = " [Abstract]";
                 }
 
-                sb.AppendLine($"class : {@class.QualifiedName}{isAbstract}");
+                sb.AppendLine($"class : {classifier.QualifiedName}{isAbstract}");
+            }
+
+            sb.AppendLine("");
+
+            foreach (var classifier in associations)
+            {
+                var isAbstract = "";
+                if (classifier.IsAbstract)
+                {
+                    isAbstract = " [Abstract]";
+                }
+
+                sb.AppendLine($"association : {classifier.QualifiedName}{isAbstract}");
             }
 
             return sb.ToString();
