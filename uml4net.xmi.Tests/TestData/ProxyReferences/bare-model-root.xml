@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<uml:Model xmlns:uml="http://www.omg.org/spec/UML/20131001" xmlns:xmi="http://www.omg.org/spec/XMI/20131001" xmi:id="model1" name="Model1">
+    <packagedElement xmi:id="model1-class1" xmi:type="uml:Class" name="Class1"/>
+</uml:Model>
