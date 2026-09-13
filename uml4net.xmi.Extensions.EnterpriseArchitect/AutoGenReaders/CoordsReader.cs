@@ -100,13 +100,13 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.Structure.Readers
                 var orderedValue = xmlReader.GetAttribute("ordered");
                 if (!string.IsNullOrWhiteSpace(orderedValue))
                 {
-                    poco.Ordered = int.Parse(orderedValue);
+                    poco.Ordered = XmlConvert.ToInt32(orderedValue);
                 }
 
                 var scaleValue = xmlReader.GetAttribute("scale");
                 if (!string.IsNullOrWhiteSpace(scaleValue))
                 {
-                    poco.Scale = int.Parse(scaleValue);
+                    poco.Scale = XmlConvert.ToInt32(scaleValue);
                 }
 
 

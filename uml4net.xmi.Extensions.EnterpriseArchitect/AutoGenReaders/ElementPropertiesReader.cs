@@ -102,13 +102,13 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.Structure.Readers
                 var isSpecificationValue = xmlReader.GetAttribute("isSpecification");
                 if (!string.IsNullOrWhiteSpace(isSpecificationValue))
                 {
-                    poco.IsSpecification = bool.Parse(isSpecificationValue);
+                    poco.IsSpecification = XmlConvert.ToBoolean(isSpecificationValue);
                 }
 
                 var nTypeValue = xmlReader.GetAttribute("nType");
                 if (!string.IsNullOrWhiteSpace(nTypeValue))
                 {
-                    poco.NType = int.Parse(nTypeValue);
+                    poco.NType = XmlConvert.ToInt32(nTypeValue);
                 }
 
                 var scopeValue = xmlReader.GetAttribute("scope");

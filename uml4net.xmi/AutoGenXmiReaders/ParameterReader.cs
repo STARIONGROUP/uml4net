@@ -181,28 +181,28 @@ namespace uml4net.xmi.Readers
 
                 if (!string.IsNullOrWhiteSpace(isExceptionXmlAttribute))
                 {
-                    poco.IsException = bool.Parse(isExceptionXmlAttribute);
+                    poco.IsException = XmlConvert.ToBoolean(isExceptionXmlAttribute);
                 }
 
                 var isOrderedXmlAttribute = xmlReader.GetAttribute("isOrdered") ?? xmlReader.GetAttribute("isOrdered", this.NameSpaceResolver.UmlNameSpace);
 
                 if (!string.IsNullOrWhiteSpace(isOrderedXmlAttribute))
                 {
-                    poco.IsOrdered = bool.Parse(isOrderedXmlAttribute);
+                    poco.IsOrdered = XmlConvert.ToBoolean(isOrderedXmlAttribute);
                 }
 
                 var isStreamXmlAttribute = xmlReader.GetAttribute("isStream") ?? xmlReader.GetAttribute("isStream", this.NameSpaceResolver.UmlNameSpace);
 
                 if (!string.IsNullOrWhiteSpace(isStreamXmlAttribute))
                 {
-                    poco.IsStream = bool.Parse(isStreamXmlAttribute);
+                    poco.IsStream = XmlConvert.ToBoolean(isStreamXmlAttribute);
                 }
 
                 var isUniqueXmlAttribute = xmlReader.GetAttribute("isUnique") ?? xmlReader.GetAttribute("isUnique", this.NameSpaceResolver.UmlNameSpace);
 
                 if (!string.IsNullOrWhiteSpace(isUniqueXmlAttribute))
                 {
-                    poco.IsUnique = bool.Parse(isUniqueXmlAttribute);
+                    poco.IsUnique = XmlConvert.ToBoolean(isUniqueXmlAttribute);
                 }
 
                 poco.Name = xmlReader.GetAttribute("name") ?? xmlReader.GetAttribute("name", this.NameSpaceResolver.UmlNameSpace);
@@ -291,7 +291,7 @@ namespace uml4net.xmi.Readers
 
                                 if (!string.IsNullOrWhiteSpace(isExceptionValue))
                                 {
-                                    poco.IsException = bool.Parse(isExceptionValue);
+                                    poco.IsException = XmlConvert.ToBoolean(isExceptionValue);
                                 }
 
                                 break;
@@ -300,7 +300,7 @@ namespace uml4net.xmi.Readers
 
                                 if (!string.IsNullOrWhiteSpace(isOrderedValue))
                                 {
-                                    poco.IsOrdered = bool.Parse(isOrderedValue);
+                                    poco.IsOrdered = XmlConvert.ToBoolean(isOrderedValue);
                                 }
 
                                 break;
@@ -309,7 +309,7 @@ namespace uml4net.xmi.Readers
 
                                 if (!string.IsNullOrWhiteSpace(isStreamValue))
                                 {
-                                    poco.IsStream = bool.Parse(isStreamValue);
+                                    poco.IsStream = XmlConvert.ToBoolean(isStreamValue);
                                 }
 
                                 break;
@@ -318,7 +318,7 @@ namespace uml4net.xmi.Readers
 
                                 if (!string.IsNullOrWhiteSpace(isUniqueValue))
                                 {
-                                    poco.IsUnique = bool.Parse(isUniqueValue);
+                                    poco.IsUnique = XmlConvert.ToBoolean(isUniqueValue);
                                 }
 
                                 break;

@@ -203,28 +203,28 @@ namespace uml4net.xmi.Readers
 
                 if (!string.IsNullOrWhiteSpace(isAbstractXmlAttribute))
                 {
-                    poco.IsAbstract = bool.Parse(isAbstractXmlAttribute);
+                    poco.IsAbstract = XmlConvert.ToBoolean(isAbstractXmlAttribute);
                 }
 
                 var isLeafXmlAttribute = xmlReader.GetAttribute("isLeaf") ?? xmlReader.GetAttribute("isLeaf", this.NameSpaceResolver.UmlNameSpace);
 
                 if (!string.IsNullOrWhiteSpace(isLeafXmlAttribute))
                 {
-                    poco.IsLeaf = bool.Parse(isLeafXmlAttribute);
+                    poco.IsLeaf = XmlConvert.ToBoolean(isLeafXmlAttribute);
                 }
 
                 var isQueryXmlAttribute = xmlReader.GetAttribute("isQuery") ?? xmlReader.GetAttribute("isQuery", this.NameSpaceResolver.UmlNameSpace);
 
                 if (!string.IsNullOrWhiteSpace(isQueryXmlAttribute))
                 {
-                    poco.IsQuery = bool.Parse(isQueryXmlAttribute);
+                    poco.IsQuery = XmlConvert.ToBoolean(isQueryXmlAttribute);
                 }
 
                 var isStaticXmlAttribute = xmlReader.GetAttribute("isStatic") ?? xmlReader.GetAttribute("isStatic", this.NameSpaceResolver.UmlNameSpace);
 
                 if (!string.IsNullOrWhiteSpace(isStaticXmlAttribute))
                 {
-                    poco.IsStatic = bool.Parse(isStaticXmlAttribute);
+                    poco.IsStatic = XmlConvert.ToBoolean(isStaticXmlAttribute);
                 }
 
                 var methodXmlAttribute = xmlReader.GetAttribute("method") ?? xmlReader.GetAttribute("method", this.NameSpaceResolver.UmlNameSpace);
@@ -338,7 +338,7 @@ namespace uml4net.xmi.Readers
 
                                 if (!string.IsNullOrWhiteSpace(isAbstractValue))
                                 {
-                                    poco.IsAbstract = bool.Parse(isAbstractValue);
+                                    poco.IsAbstract = XmlConvert.ToBoolean(isAbstractValue);
                                 }
 
                                 break;
@@ -347,7 +347,7 @@ namespace uml4net.xmi.Readers
 
                                 if (!string.IsNullOrWhiteSpace(isLeafValue))
                                 {
-                                    poco.IsLeaf = bool.Parse(isLeafValue);
+                                    poco.IsLeaf = XmlConvert.ToBoolean(isLeafValue);
                                 }
 
                                 break;
@@ -356,7 +356,7 @@ namespace uml4net.xmi.Readers
 
                                 if (!string.IsNullOrWhiteSpace(isQueryValue))
                                 {
-                                    poco.IsQuery = bool.Parse(isQueryValue);
+                                    poco.IsQuery = XmlConvert.ToBoolean(isQueryValue);
                                 }
 
                                 break;
@@ -365,7 +365,7 @@ namespace uml4net.xmi.Readers
 
                                 if (!string.IsNullOrWhiteSpace(isStaticValue))
                                 {
-                                    poco.IsStatic = bool.Parse(isStaticValue);
+                                    poco.IsStatic = XmlConvert.ToBoolean(isStaticValue);
                                 }
 
                                 break;

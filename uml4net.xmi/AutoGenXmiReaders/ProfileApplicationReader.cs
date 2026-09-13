@@ -181,7 +181,7 @@ namespace uml4net.xmi.Readers
 
                 if (!string.IsNullOrWhiteSpace(isStrictXmlAttribute))
                 {
-                    poco.IsStrict = bool.Parse(isStrictXmlAttribute);
+                    poco.IsStrict = XmlConvert.ToBoolean(isStrictXmlAttribute);
                 }
 
 
@@ -206,7 +206,7 @@ namespace uml4net.xmi.Readers
 
                                 if (!string.IsNullOrWhiteSpace(isStrictValue))
                                 {
-                                    poco.IsStrict = bool.Parse(isStrictValue);
+                                    poco.IsStrict = XmlConvert.ToBoolean(isStrictValue);
                                 }
 
                                 break;

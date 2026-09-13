@@ -818,7 +818,7 @@ namespace uml4net.HandleBars
                                 sb.AppendLine($"    var {property.Name}XmlAttributeValues = {property.Name}XmlAttribute.Split(this.XmiReaderSettings.ValueSeparator);");
                                 sb.AppendLine($"    foreach (var {property.Name}XmlAttributeValue in {property.Name}XmlAttributeValues)");
                                 sb.AppendLine("    {");
-                                sb.AppendLine($"        poco.{property.Name.CapitalizeFirstLetter()}.Add({cSharpTypeName}.Parse({property.Name}XmlAttributeValue));");
+                                sb.AppendLine($"        poco.{property.Name.CapitalizeFirstLetter()}.Add({QueryXmlConvertMethod(cSharpTypeName)}({property.Name}XmlAttributeValue));");
                                 sb.AppendLine("    }");
                                 sb.AppendLine("}");
                                 break;
@@ -865,7 +865,7 @@ namespace uml4net.HandleBars
                                 sb.AppendLine($"var {property.Name}XmlAttribute = xmlReader.GetAttribute(\"{property.Name}\") ?? xmlReader.GetAttribute(\"{property.Name}\", this.NameSpaceResolver.UmlNameSpace);");
                                 sb.AppendLine($"{Environment.NewLine}if (!string.IsNullOrWhiteSpace({property.Name}XmlAttribute))");
                                 sb.AppendLine("{");
-                                sb.AppendLine($"poco.{property.Name.CapitalizeFirstLetter()} = {cSharpTypeName}.Parse({property.Name}XmlAttribute);");
+                                sb.AppendLine($"poco.{property.Name.CapitalizeFirstLetter()} = {QueryXmlConvertMethod(cSharpTypeName)}({property.Name}XmlAttribute);");
                                 sb.AppendLine("}");
                                 break;
                             case "string":
@@ -1026,7 +1026,7 @@ namespace uml4net.HandleBars
                                 sb.AppendLine($"var {property.Name}Value = xmlReader.ReadElementContentAsStringInPlace();");
                                 sb.AppendLine($"{Environment.NewLine}if (!string.IsNullOrWhiteSpace({property.Name}Value))");
                                 sb.AppendLine("{");
-                                sb.AppendLine($"poco.{property.Name.CapitalizeFirstLetter()}.Add({cSharpTypeName}.Parse({property.Name}Value));");
+                                sb.AppendLine($"poco.{property.Name.CapitalizeFirstLetter()}.Add({QueryXmlConvertMethod(cSharpTypeName)}({property.Name}Value));");
                                 sb.AppendLine($"}}{Environment.NewLine}");
                                 break;
                             case "string":
@@ -1056,7 +1056,7 @@ namespace uml4net.HandleBars
                                 sb.AppendLine($"var {property.Name}Value = xmlReader.ReadElementContentAsStringInPlace();");
                                 sb.AppendLine($"{Environment.NewLine}if (!string.IsNullOrWhiteSpace({property.Name}Value))");
                                 sb.AppendLine("{");
-                                sb.AppendLine($"poco.{property.Name.CapitalizeFirstLetter()} = {cSharpTypeName}.Parse({property.Name}Value);");
+                                sb.AppendLine($"poco.{property.Name.CapitalizeFirstLetter()} = {QueryXmlConvertMethod(cSharpTypeName)}({property.Name}Value);");
                                 sb.AppendLine($"}}{Environment.NewLine}");
                                 break;
                             case "string":
@@ -1522,6 +1522,29 @@ namespace uml4net.HandleBars
             sb.Append(".ToList();");
 
             return sb.ToString();
+        }
+
+        /// <summary>
+        /// Queries the <see cref="System.Xml.XmlConvert"/> method that converts the lexical XML Schema representation
+        /// of a value to the provided C# type, so that generated readers parse Boolean, Integer and Real values per
+        /// XML Schema Part 2 (XMI 2.5.1 clause 9.5.2, rule 2i): culture-invariant, accepting the xsd:boolean forms
+        /// <c>1</c>/<c>0</c> and the xsd:double forms <c>INF</c>, <c>-INF</c> and <c>NaN</c>
+        /// </summary>
+        /// <param name="cSharpTypeName">
+        /// The C# type name the property is generated with: <c>bool</c>, <c>int</c> or <c>double</c>
+        /// </param>
+        /// <returns>
+        /// The qualified name of the <see cref="System.Xml.XmlConvert"/> method
+        /// </returns>
+        private static string QueryXmlConvertMethod(string cSharpTypeName)
+        {
+            return cSharpTypeName switch
+            {
+                "bool" => "XmlConvert.ToBoolean",
+                "int" => "XmlConvert.ToInt32",
+                "double" => "XmlConvert.ToDouble",
+                _ => throw new NotSupportedException($"No XmlConvert conversion is known for the C# type {cSharpTypeName}")
+            };
         }
     }
 }

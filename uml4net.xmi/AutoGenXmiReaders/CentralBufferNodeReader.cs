@@ -213,14 +213,14 @@ namespace uml4net.xmi.Readers
 
                 if (!string.IsNullOrWhiteSpace(isControlTypeXmlAttribute))
                 {
-                    poco.IsControlType = bool.Parse(isControlTypeXmlAttribute);
+                    poco.IsControlType = XmlConvert.ToBoolean(isControlTypeXmlAttribute);
                 }
 
                 var isLeafXmlAttribute = xmlReader.GetAttribute("isLeaf") ?? xmlReader.GetAttribute("isLeaf", this.NameSpaceResolver.UmlNameSpace);
 
                 if (!string.IsNullOrWhiteSpace(isLeafXmlAttribute))
                 {
-                    poco.IsLeaf = bool.Parse(isLeafXmlAttribute);
+                    poco.IsLeaf = XmlConvert.ToBoolean(isLeafXmlAttribute);
                 }
 
                 poco.Name = xmlReader.GetAttribute("name") ?? xmlReader.GetAttribute("name", this.NameSpaceResolver.UmlNameSpace);
@@ -303,7 +303,7 @@ namespace uml4net.xmi.Readers
 
                                 if (!string.IsNullOrWhiteSpace(isControlTypeValue))
                                 {
-                                    poco.IsControlType = bool.Parse(isControlTypeValue);
+                                    poco.IsControlType = XmlConvert.ToBoolean(isControlTypeValue);
                                 }
 
                                 break;
@@ -312,7 +312,7 @@ namespace uml4net.xmi.Readers
 
                                 if (!string.IsNullOrWhiteSpace(isLeafValue))
                                 {
-                                    poco.IsLeaf = bool.Parse(isLeafValue);
+                                    poco.IsLeaf = XmlConvert.ToBoolean(isLeafValue);
                                 }
 
                                 break;

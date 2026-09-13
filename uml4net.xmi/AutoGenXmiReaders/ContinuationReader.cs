@@ -191,7 +191,7 @@ namespace uml4net.xmi.Readers
 
                 if (!string.IsNullOrWhiteSpace(settingXmlAttribute))
                 {
-                    poco.Setting = bool.Parse(settingXmlAttribute);
+                    poco.Setting = XmlConvert.ToBoolean(settingXmlAttribute);
                 }
 
                 var visibilityXmlAttribute = xmlReader.GetAttribute("visibility") ?? xmlReader.GetAttribute("visibility", this.NameSpaceResolver.UmlNameSpace);
@@ -250,7 +250,7 @@ namespace uml4net.xmi.Readers
 
                                 if (!string.IsNullOrWhiteSpace(settingValue))
                                 {
-                                    poco.Setting = bool.Parse(settingValue);
+                                    poco.Setting = XmlConvert.ToBoolean(settingValue);
                                 }
 
                                 break;

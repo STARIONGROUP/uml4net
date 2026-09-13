@@ -182,7 +182,7 @@ namespace uml4net.xmi.Readers
 
                 if (!string.IsNullOrWhiteSpace(isLeafXmlAttribute))
                 {
-                    poco.IsLeaf = bool.Parse(isLeafXmlAttribute);
+                    poco.IsLeaf = XmlConvert.ToBoolean(isLeafXmlAttribute);
                 }
 
                 var kindXmlAttribute = xmlReader.GetAttribute("kind") ?? xmlReader.GetAttribute("kind", this.NameSpaceResolver.UmlNameSpace);
@@ -278,7 +278,7 @@ namespace uml4net.xmi.Readers
 
                                 if (!string.IsNullOrWhiteSpace(isLeafValue))
                                 {
-                                    poco.IsLeaf = bool.Parse(isLeafValue);
+                                    poco.IsLeaf = XmlConvert.ToBoolean(isLeafValue);
                                 }
 
                                 break;

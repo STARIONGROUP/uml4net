@@ -182,14 +182,14 @@ namespace uml4net.xmi.Readers
 
                 if (!string.IsNullOrWhiteSpace(isDimensionXmlAttribute))
                 {
-                    poco.IsDimension = bool.Parse(isDimensionXmlAttribute);
+                    poco.IsDimension = XmlConvert.ToBoolean(isDimensionXmlAttribute);
                 }
 
                 var isExternalXmlAttribute = xmlReader.GetAttribute("isExternal") ?? xmlReader.GetAttribute("isExternal", this.NameSpaceResolver.UmlNameSpace);
 
                 if (!string.IsNullOrWhiteSpace(isExternalXmlAttribute))
                 {
-                    poco.IsExternal = bool.Parse(isExternalXmlAttribute);
+                    poco.IsExternal = XmlConvert.ToBoolean(isExternalXmlAttribute);
                 }
 
                 poco.Name = xmlReader.GetAttribute("name") ?? xmlReader.GetAttribute("name", this.NameSpaceResolver.UmlNameSpace);
@@ -245,7 +245,7 @@ namespace uml4net.xmi.Readers
 
                                 if (!string.IsNullOrWhiteSpace(isDimensionValue))
                                 {
-                                    poco.IsDimension = bool.Parse(isDimensionValue);
+                                    poco.IsDimension = XmlConvert.ToBoolean(isDimensionValue);
                                 }
 
                                 break;
@@ -254,7 +254,7 @@ namespace uml4net.xmi.Readers
 
                                 if (!string.IsNullOrWhiteSpace(isExternalValue))
                                 {
-                                    poco.IsExternal = bool.Parse(isExternalValue);
+                                    poco.IsExternal = XmlConvert.ToBoolean(isExternalValue);
                                 }
 
                                 break;

@@ -102,7 +102,7 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.Structure.Readers
                 var constValue = xmlReader.GetAttribute("const");
                 if (!string.IsNullOrWhiteSpace(constValue))
                 {
-                    poco.Const = bool.Parse(constValue);
+                    poco.Const = XmlConvert.ToBoolean(constValue);
                 }
 
                 var ea_guidValue = xmlReader.GetAttribute("ea_guid");
@@ -110,7 +110,7 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.Structure.Readers
                 var posValue = xmlReader.GetAttribute("pos");
                 if (!string.IsNullOrWhiteSpace(posValue))
                 {
-                    poco.Pos = int.Parse(posValue);
+                    poco.Pos = XmlConvert.ToInt32(posValue);
                 }
 
                 var typeValue = xmlReader.GetAttribute("type");

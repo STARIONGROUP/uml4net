@@ -100,7 +100,7 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.Structure.Readers
                 var positionValue = xmlReader.GetAttribute("position");
                 if (!string.IsNullOrWhiteSpace(positionValue))
                 {
-                    poco.Position = int.Parse(positionValue);
+                    poco.Position = XmlConvert.ToInt32(positionValue);
                 }
 
 

@@ -182,7 +182,7 @@ namespace uml4net.xmi.Readers
 
                 if (!string.IsNullOrWhiteSpace(isSubstitutableXmlAttribute))
                 {
-                    poco.IsSubstitutable = bool.Parse(isSubstitutableXmlAttribute);
+                    poco.IsSubstitutable = XmlConvert.ToBoolean(isSubstitutableXmlAttribute);
                 }
 
                 var specificXmlAttribute = xmlReader.GetAttribute("specific") ?? xmlReader.GetAttribute("specific", this.NameSpaceResolver.UmlNameSpace);
@@ -214,7 +214,7 @@ namespace uml4net.xmi.Readers
 
                                 if (!string.IsNullOrWhiteSpace(isSubstitutableValue))
                                 {
-                                    poco.IsSubstitutable = bool.Parse(isSubstitutableValue);
+                                    poco.IsSubstitutable = XmlConvert.ToBoolean(isSubstitutableValue);
                                 }
 
                                 break;

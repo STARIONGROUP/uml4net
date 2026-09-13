@@ -167,7 +167,7 @@ namespace uml4net.xmi.Readers
 
                 if (!string.IsNullOrWhiteSpace(allowSubstitutableXmlAttribute))
                 {
-                    poco.AllowSubstitutable = bool.Parse(allowSubstitutableXmlAttribute);
+                    poco.AllowSubstitutable = XmlConvert.ToBoolean(allowSubstitutableXmlAttribute);
                 }
 
                 var constrainingClassifierXmlAttribute = xmlReader.GetAttribute("constrainingClassifier") ?? xmlReader.GetAttribute("constrainingClassifier", this.NameSpaceResolver.UmlNameSpace);
@@ -215,7 +215,7 @@ namespace uml4net.xmi.Readers
 
                                 if (!string.IsNullOrWhiteSpace(allowSubstitutableValue))
                                 {
-                                    poco.AllowSubstitutable = bool.Parse(allowSubstitutableValue);
+                                    poco.AllowSubstitutable = XmlConvert.ToBoolean(allowSubstitutableValue);
                                 }
 
                                 break;

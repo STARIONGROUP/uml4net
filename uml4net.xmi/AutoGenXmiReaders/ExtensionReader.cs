@@ -167,28 +167,28 @@ namespace uml4net.xmi.Readers
 
                 if (!string.IsNullOrWhiteSpace(isAbstractXmlAttribute))
                 {
-                    poco.IsAbstract = bool.Parse(isAbstractXmlAttribute);
+                    poco.IsAbstract = XmlConvert.ToBoolean(isAbstractXmlAttribute);
                 }
 
                 var isDerivedXmlAttribute = xmlReader.GetAttribute("isDerived") ?? xmlReader.GetAttribute("isDerived", this.NameSpaceResolver.UmlNameSpace);
 
                 if (!string.IsNullOrWhiteSpace(isDerivedXmlAttribute))
                 {
-                    poco.IsDerived = bool.Parse(isDerivedXmlAttribute);
+                    poco.IsDerived = XmlConvert.ToBoolean(isDerivedXmlAttribute);
                 }
 
                 var isFinalSpecializationXmlAttribute = xmlReader.GetAttribute("isFinalSpecialization") ?? xmlReader.GetAttribute("isFinalSpecialization", this.NameSpaceResolver.UmlNameSpace);
 
                 if (!string.IsNullOrWhiteSpace(isFinalSpecializationXmlAttribute))
                 {
-                    poco.IsFinalSpecialization = bool.Parse(isFinalSpecializationXmlAttribute);
+                    poco.IsFinalSpecialization = XmlConvert.ToBoolean(isFinalSpecializationXmlAttribute);
                 }
 
                 var isLeafXmlAttribute = xmlReader.GetAttribute("isLeaf") ?? xmlReader.GetAttribute("isLeaf", this.NameSpaceResolver.UmlNameSpace);
 
                 if (!string.IsNullOrWhiteSpace(isLeafXmlAttribute))
                 {
-                    poco.IsLeaf = bool.Parse(isLeafXmlAttribute);
+                    poco.IsLeaf = XmlConvert.ToBoolean(isLeafXmlAttribute);
                 }
 
                 var memberEndXmlAttribute = xmlReader.GetAttribute("memberEnd") ?? xmlReader.GetAttribute("memberEnd", this.NameSpaceResolver.UmlNameSpace);
@@ -305,7 +305,7 @@ namespace uml4net.xmi.Readers
 
                                 if (!string.IsNullOrWhiteSpace(isAbstractValue))
                                 {
-                                    poco.IsAbstract = bool.Parse(isAbstractValue);
+                                    poco.IsAbstract = XmlConvert.ToBoolean(isAbstractValue);
                                 }
 
                                 break;
@@ -314,7 +314,7 @@ namespace uml4net.xmi.Readers
 
                                 if (!string.IsNullOrWhiteSpace(isDerivedValue))
                                 {
-                                    poco.IsDerived = bool.Parse(isDerivedValue);
+                                    poco.IsDerived = XmlConvert.ToBoolean(isDerivedValue);
                                 }
 
                                 break;
@@ -323,7 +323,7 @@ namespace uml4net.xmi.Readers
 
                                 if (!string.IsNullOrWhiteSpace(isFinalSpecializationValue))
                                 {
-                                    poco.IsFinalSpecialization = bool.Parse(isFinalSpecializationValue);
+                                    poco.IsFinalSpecialization = XmlConvert.ToBoolean(isFinalSpecializationValue);
                                 }
 
                                 break;
@@ -332,7 +332,7 @@ namespace uml4net.xmi.Readers
 
                                 if (!string.IsNullOrWhiteSpace(isLeafValue))
                                 {
-                                    poco.IsLeaf = bool.Parse(isLeafValue);
+                                    poco.IsLeaf = XmlConvert.ToBoolean(isLeafValue);
                                 }
 
                                 break;

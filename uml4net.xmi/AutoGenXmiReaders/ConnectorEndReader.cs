@@ -167,14 +167,14 @@ namespace uml4net.xmi.Readers
 
                 if (!string.IsNullOrWhiteSpace(isOrderedXmlAttribute))
                 {
-                    poco.IsOrdered = bool.Parse(isOrderedXmlAttribute);
+                    poco.IsOrdered = XmlConvert.ToBoolean(isOrderedXmlAttribute);
                 }
 
                 var isUniqueXmlAttribute = xmlReader.GetAttribute("isUnique") ?? xmlReader.GetAttribute("isUnique", this.NameSpaceResolver.UmlNameSpace);
 
                 if (!string.IsNullOrWhiteSpace(isUniqueXmlAttribute))
                 {
-                    poco.IsUnique = bool.Parse(isUniqueXmlAttribute);
+                    poco.IsUnique = XmlConvert.ToBoolean(isUniqueXmlAttribute);
                 }
 
                 var partWithPortXmlAttribute = xmlReader.GetAttribute("partWithPort") ?? xmlReader.GetAttribute("partWithPort", this.NameSpaceResolver.UmlNameSpace);
@@ -207,7 +207,7 @@ namespace uml4net.xmi.Readers
 
                                 if (!string.IsNullOrWhiteSpace(isOrderedValue))
                                 {
-                                    poco.IsOrdered = bool.Parse(isOrderedValue);
+                                    poco.IsOrdered = XmlConvert.ToBoolean(isOrderedValue);
                                 }
 
                                 break;
@@ -216,7 +216,7 @@ namespace uml4net.xmi.Readers
 
                                 if (!string.IsNullOrWhiteSpace(isUniqueValue))
                                 {
-                                    poco.IsUnique = bool.Parse(isUniqueValue);
+                                    poco.IsUnique = XmlConvert.ToBoolean(isUniqueValue);
                                 }
 
                                 break;

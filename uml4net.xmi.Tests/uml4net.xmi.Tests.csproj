@@ -96,6 +96,9 @@
       <None Update="TestData\Namespaces\*.xmi">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
+      <None Update="TestData\LexicalForms\*.xmi">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
     </ItemGroup>
 
 </Project>

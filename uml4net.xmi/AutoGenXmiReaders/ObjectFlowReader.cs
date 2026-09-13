@@ -196,21 +196,21 @@ namespace uml4net.xmi.Readers
 
                 if (!string.IsNullOrWhiteSpace(isLeafXmlAttribute))
                 {
-                    poco.IsLeaf = bool.Parse(isLeafXmlAttribute);
+                    poco.IsLeaf = XmlConvert.ToBoolean(isLeafXmlAttribute);
                 }
 
                 var isMulticastXmlAttribute = xmlReader.GetAttribute("isMulticast") ?? xmlReader.GetAttribute("isMulticast", this.NameSpaceResolver.UmlNameSpace);
 
                 if (!string.IsNullOrWhiteSpace(isMulticastXmlAttribute))
                 {
-                    poco.IsMulticast = bool.Parse(isMulticastXmlAttribute);
+                    poco.IsMulticast = XmlConvert.ToBoolean(isMulticastXmlAttribute);
                 }
 
                 var isMultireceiveXmlAttribute = xmlReader.GetAttribute("isMultireceive") ?? xmlReader.GetAttribute("isMultireceive", this.NameSpaceResolver.UmlNameSpace);
 
                 if (!string.IsNullOrWhiteSpace(isMultireceiveXmlAttribute))
                 {
-                    poco.IsMultireceive = bool.Parse(isMultireceiveXmlAttribute);
+                    poco.IsMultireceive = XmlConvert.ToBoolean(isMultireceiveXmlAttribute);
                 }
 
                 poco.Name = xmlReader.GetAttribute("name") ?? xmlReader.GetAttribute("name", this.NameSpaceResolver.UmlNameSpace);
@@ -293,7 +293,7 @@ namespace uml4net.xmi.Readers
 
                                 if (!string.IsNullOrWhiteSpace(isLeafValue))
                                 {
-                                    poco.IsLeaf = bool.Parse(isLeafValue);
+                                    poco.IsLeaf = XmlConvert.ToBoolean(isLeafValue);
                                 }
 
                                 break;
@@ -302,7 +302,7 @@ namespace uml4net.xmi.Readers
 
                                 if (!string.IsNullOrWhiteSpace(isMulticastValue))
                                 {
-                                    poco.IsMulticast = bool.Parse(isMulticastValue);
+                                    poco.IsMulticast = XmlConvert.ToBoolean(isMulticastValue);
                                 }
 
                                 break;
@@ -311,7 +311,7 @@ namespace uml4net.xmi.Readers
 
                                 if (!string.IsNullOrWhiteSpace(isMultireceiveValue))
                                 {
-                                    poco.IsMultireceive = bool.Parse(isMultireceiveValue);
+                                    poco.IsMultireceive = XmlConvert.ToBoolean(isMultireceiveValue);
                                 }
 
                                 break;

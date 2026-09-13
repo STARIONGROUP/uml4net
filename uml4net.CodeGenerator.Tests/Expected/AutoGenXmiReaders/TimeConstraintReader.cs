@@ -182,7 +182,7 @@ namespace uml4net.xmi.Readers
 
                 if (!string.IsNullOrWhiteSpace(firstEventXmlAttribute))
                 {
-                    poco.FirstEvent = bool.Parse(firstEventXmlAttribute);
+                    poco.FirstEvent = XmlConvert.ToBoolean(firstEventXmlAttribute);
                 }
 
                 poco.Name = xmlReader.GetAttribute("name") ?? xmlReader.GetAttribute("name", this.NameSpaceResolver.UmlNameSpace);
@@ -230,7 +230,7 @@ namespace uml4net.xmi.Readers
 
                                 if (!string.IsNullOrWhiteSpace(firstEventValue))
                                 {
-                                    poco.FirstEvent = bool.Parse(firstEventValue);
+                                    poco.FirstEvent = XmlConvert.ToBoolean(firstEventValue);
                                 }
 
                                 break;

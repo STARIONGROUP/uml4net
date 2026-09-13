@@ -100,37 +100,37 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.Structure.Readers
                 var headStyleValue = xmlReader.GetAttribute("headStyle");
                 if (!string.IsNullOrWhiteSpace(headStyleValue))
                 {
-                    poco.HeadStyle = int.Parse(headStyleValue);
+                    poco.HeadStyle = XmlConvert.ToInt32(headStyleValue);
                 }
 
                 var linecolorValue = xmlReader.GetAttribute("linecolor");
                 if (!string.IsNullOrWhiteSpace(linecolorValue))
                 {
-                    poco.Linecolor = int.Parse(linecolorValue);
+                    poco.Linecolor = XmlConvert.ToInt32(linecolorValue);
                 }
 
                 var linemodeValue = xmlReader.GetAttribute("linemode");
                 if (!string.IsNullOrWhiteSpace(linemodeValue))
                 {
-                    poco.Linemode = int.Parse(linemodeValue);
+                    poco.Linemode = XmlConvert.ToInt32(linemodeValue);
                 }
 
                 var lineStyleValue = xmlReader.GetAttribute("lineStyle");
                 if (!string.IsNullOrWhiteSpace(lineStyleValue))
                 {
-                    poco.LineStyle = int.Parse(lineStyleValue);
+                    poco.LineStyle = XmlConvert.ToInt32(lineStyleValue);
                 }
 
                 var linewidthValue = xmlReader.GetAttribute("linewidth");
                 if (!string.IsNullOrWhiteSpace(linewidthValue))
                 {
-                    poco.Linewidth = int.Parse(linewidthValue);
+                    poco.Linewidth = XmlConvert.ToInt32(linewidthValue);
                 }
 
                 var seqnoValue = xmlReader.GetAttribute("seqno");
                 if (!string.IsNullOrWhiteSpace(seqnoValue))
                 {
-                    poco.Seqno = int.Parse(seqnoValue);
+                    poco.Seqno = XmlConvert.ToInt32(seqnoValue);
                 }
 
 

@@ -128,7 +128,16 @@ namespace uml4net.CodeGenerator.Helpers
                     }
                     else
                     {
-                        stringBuilder.AppendLine($"poco.{propertyName} = {property.QueryCSharpTypeName()}.Parse({propertyName.LowerCaseFirstLetter()}Value);");
+                        // values are parsed per XML Schema Part 2 (culture-invariant, xsd:boolean 1/0, xsd:double INF/NaN)
+                        var conversion = property.QueryCSharpTypeName() switch
+                        {
+                            "bool" => $"XmlConvert.ToBoolean({propertyName.LowerCaseFirstLetter()}Value)",
+                            "int" => $"XmlConvert.ToInt32({propertyName.LowerCaseFirstLetter()}Value)",
+                            "double" => $"XmlConvert.ToDouble({propertyName.LowerCaseFirstLetter()}Value)",
+                            var cSharpTypeName => $"{cSharpTypeName}.Parse({propertyName.LowerCaseFirstLetter()}Value, System.Globalization.CultureInfo.InvariantCulture)"
+                        };
+
+                        stringBuilder.AppendLine($"poco.{propertyName} = {conversion};");
                     }
 
                     stringBuilder.AppendLine($"}}{Environment.NewLine}");

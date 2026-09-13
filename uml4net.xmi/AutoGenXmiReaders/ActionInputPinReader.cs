@@ -213,35 +213,35 @@ namespace uml4net.xmi.Readers
 
                 if (!string.IsNullOrWhiteSpace(isControlXmlAttribute))
                 {
-                    poco.IsControl = bool.Parse(isControlXmlAttribute);
+                    poco.IsControl = XmlConvert.ToBoolean(isControlXmlAttribute);
                 }
 
                 var isControlTypeXmlAttribute = xmlReader.GetAttribute("isControlType") ?? xmlReader.GetAttribute("isControlType", this.NameSpaceResolver.UmlNameSpace);
 
                 if (!string.IsNullOrWhiteSpace(isControlTypeXmlAttribute))
                 {
-                    poco.IsControlType = bool.Parse(isControlTypeXmlAttribute);
+                    poco.IsControlType = XmlConvert.ToBoolean(isControlTypeXmlAttribute);
                 }
 
                 var isLeafXmlAttribute = xmlReader.GetAttribute("isLeaf") ?? xmlReader.GetAttribute("isLeaf", this.NameSpaceResolver.UmlNameSpace);
 
                 if (!string.IsNullOrWhiteSpace(isLeafXmlAttribute))
                 {
-                    poco.IsLeaf = bool.Parse(isLeafXmlAttribute);
+                    poco.IsLeaf = XmlConvert.ToBoolean(isLeafXmlAttribute);
                 }
 
                 var isOrderedXmlAttribute = xmlReader.GetAttribute("isOrdered") ?? xmlReader.GetAttribute("isOrdered", this.NameSpaceResolver.UmlNameSpace);
 
                 if (!string.IsNullOrWhiteSpace(isOrderedXmlAttribute))
                 {
-                    poco.IsOrdered = bool.Parse(isOrderedXmlAttribute);
+                    poco.IsOrdered = XmlConvert.ToBoolean(isOrderedXmlAttribute);
                 }
 
                 var isUniqueXmlAttribute = xmlReader.GetAttribute("isUnique") ?? xmlReader.GetAttribute("isUnique", this.NameSpaceResolver.UmlNameSpace);
 
                 if (!string.IsNullOrWhiteSpace(isUniqueXmlAttribute))
                 {
-                    poco.IsUnique = bool.Parse(isUniqueXmlAttribute);
+                    poco.IsUnique = XmlConvert.ToBoolean(isUniqueXmlAttribute);
                 }
 
                 poco.Name = xmlReader.GetAttribute("name") ?? xmlReader.GetAttribute("name", this.NameSpaceResolver.UmlNameSpace);
@@ -331,7 +331,7 @@ namespace uml4net.xmi.Readers
 
                                 if (!string.IsNullOrWhiteSpace(isControlValue))
                                 {
-                                    poco.IsControl = bool.Parse(isControlValue);
+                                    poco.IsControl = XmlConvert.ToBoolean(isControlValue);
                                 }
 
                                 break;
@@ -340,7 +340,7 @@ namespace uml4net.xmi.Readers
 
                                 if (!string.IsNullOrWhiteSpace(isControlTypeValue))
                                 {
-                                    poco.IsControlType = bool.Parse(isControlTypeValue);
+                                    poco.IsControlType = XmlConvert.ToBoolean(isControlTypeValue);
                                 }
 
                                 break;
@@ -349,7 +349,7 @@ namespace uml4net.xmi.Readers
 
                                 if (!string.IsNullOrWhiteSpace(isLeafValue))
                                 {
-                                    poco.IsLeaf = bool.Parse(isLeafValue);
+                                    poco.IsLeaf = XmlConvert.ToBoolean(isLeafValue);
                                 }
 
                                 break;
@@ -358,7 +358,7 @@ namespace uml4net.xmi.Readers
 
                                 if (!string.IsNullOrWhiteSpace(isOrderedValue))
                                 {
-                                    poco.IsOrdered = bool.Parse(isOrderedValue);
+                                    poco.IsOrdered = XmlConvert.ToBoolean(isOrderedValue);
                                 }
 
                                 break;
@@ -367,7 +367,7 @@ namespace uml4net.xmi.Readers
 
                                 if (!string.IsNullOrWhiteSpace(isUniqueValue))
                                 {
-                                    poco.IsUnique = bool.Parse(isUniqueValue);
+                                    poco.IsUnique = XmlConvert.ToBoolean(isUniqueValue);
                                 }
 
                                 break;

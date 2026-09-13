@@ -181,7 +181,7 @@ namespace uml4net.xmi.Readers
 
                 if (!string.IsNullOrWhiteSpace(isDestroyDuplicatesXmlAttribute))
                 {
-                    poco.IsDestroyDuplicates = bool.Parse(isDestroyDuplicatesXmlAttribute);
+                    poco.IsDestroyDuplicates = XmlConvert.ToBoolean(isDestroyDuplicatesXmlAttribute);
                 }
 
                 var valueXmlAttribute = xmlReader.GetAttribute("value") ?? xmlReader.GetAttribute("value", this.NameSpaceResolver.UmlNameSpace);
@@ -213,7 +213,7 @@ namespace uml4net.xmi.Readers
 
                                 if (!string.IsNullOrWhiteSpace(isDestroyDuplicatesValue))
                                 {
-                                    poco.IsDestroyDuplicates = bool.Parse(isDestroyDuplicatesValue);
+                                    poco.IsDestroyDuplicates = XmlConvert.ToBoolean(isDestroyDuplicatesValue);
                                 }
 
                                 break;

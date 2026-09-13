@@ -100,7 +100,7 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.Structure.Readers
                 var tposValue = xmlReader.GetAttribute("tpos");
                 if (!string.IsNullOrWhiteSpace(tposValue))
                 {
-                    poco.Tpos = int.Parse(tposValue);
+                    poco.Tpos = XmlConvert.ToInt32(tposValue);
                 }
 
                 var versionValue = xmlReader.GetAttribute("version");
