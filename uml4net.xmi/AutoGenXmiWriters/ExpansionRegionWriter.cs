@@ -158,7 +158,7 @@ namespace uml4net.xmi.Writers
 
             if (element.Mode != ExpansionKind.Iterative)
             {
-                xmlWriter.WriteAttributeString("mode", LowerCaseFirstLetter(element.Mode.ToString()));
+                xmlWriter.WriteAttributeString("mode", element.Mode.QueryXmiLiteral());
             }
 
             if (element.MustIsolate)
@@ -173,7 +173,7 @@ namespace uml4net.xmi.Writers
 
             if (element.Visibility != default(VisibilityKind))
             {
-                xmlWriter.WriteAttributeString("visibility", LowerCaseFirstLetter(element.Visibility.ToString()));
+                xmlWriter.WriteAttributeString("visibility", element.Visibility.QueryXmiLiteral());
             }
 
 
@@ -376,7 +376,7 @@ namespace uml4net.xmi.Writers
 
             if (element.Mode != ExpansionKind.Iterative)
             {
-                await xmlWriter.WriteAttributeStringAsync(null, "mode", null, LowerCaseFirstLetter(element.Mode.ToString()));
+                await xmlWriter.WriteAttributeStringAsync(null, "mode", null, element.Mode.QueryXmiLiteral());
             }
 
             if (element.MustIsolate)
@@ -391,7 +391,7 @@ namespace uml4net.xmi.Writers
 
             if (element.Visibility != default(VisibilityKind))
             {
-                await xmlWriter.WriteAttributeStringAsync(null, "visibility", null, LowerCaseFirstLetter(element.Visibility.ToString()));
+                await xmlWriter.WriteAttributeStringAsync(null, "visibility", null, element.Visibility.QueryXmiLiteral());
             }
 
 

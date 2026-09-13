@@ -24,6 +24,8 @@
 
 namespace uml4net.StructuredClassifiers
 {
+    using System;
+
     /// <summary>
     /// ConnectorKind is an enumeration that defines whether a Connector is an assembly or a delegation.
     /// </summary>
@@ -38,6 +40,32 @@ namespace uml4net.StructuredClassifiers
         /// Indicates that the Connector is a delegation Connector.
         /// </summary>
         Delegation
+    }
+
+    /// <summary>
+    /// Extension methods for the <see cref="ConnectorKind"/> enumeration
+    /// </summary>
+    public static class ConnectorKindExtensions
+    {
+        /// <summary>
+        /// Queries the name of the enumeration literal as defined in the UML metamodel, which is the value that
+        /// represents the <paramref name="value"/> in an XMI document (XMI 2.5.1 clause 9.5.2, rule 2i)
+        /// </summary>
+        /// <param name="value">
+        /// The <see cref="ConnectorKind"/> value
+        /// </param>
+        /// <returns>
+        /// the name of the enumeration literal
+        /// </returns>
+        public static string QueryXmiLiteral(this ConnectorKind value)
+        {
+            return value switch
+            {
+                ConnectorKind.Assembly => "assembly",
+                ConnectorKind.Delegation => "delegation",
+                _ => throw new ArgumentOutOfRangeException(nameof(value), value, $"{value} is not a literal of ConnectorKind")
+            };
+        }
     }
 }
 

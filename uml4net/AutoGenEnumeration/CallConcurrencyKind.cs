@@ -24,6 +24,8 @@
 
 namespace uml4net.Classification
 {
+    using System;
+
     /// <summary>
     /// CallConcurrencyKind is an Enumeration used to specify the semantics of concurrent calls to a
     /// BehavioralFeature.
@@ -50,6 +52,33 @@ namespace uml4net.Classification
         /// of them may proceed concurrently.
         /// </summary>
         Concurrent
+    }
+
+    /// <summary>
+    /// Extension methods for the <see cref="CallConcurrencyKind"/> enumeration
+    /// </summary>
+    public static class CallConcurrencyKindExtensions
+    {
+        /// <summary>
+        /// Queries the name of the enumeration literal as defined in the UML metamodel, which is the value that
+        /// represents the <paramref name="value"/> in an XMI document (XMI 2.5.1 clause 9.5.2, rule 2i)
+        /// </summary>
+        /// <param name="value">
+        /// The <see cref="CallConcurrencyKind"/> value
+        /// </param>
+        /// <returns>
+        /// the name of the enumeration literal
+        /// </returns>
+        public static string QueryXmiLiteral(this CallConcurrencyKind value)
+        {
+            return value switch
+            {
+                CallConcurrencyKind.Sequential => "sequential",
+                CallConcurrencyKind.Guarded => "guarded",
+                CallConcurrencyKind.Concurrent => "concurrent",
+                _ => throw new ArgumentOutOfRangeException(nameof(value), value, $"{value} is not a literal of CallConcurrencyKind")
+            };
+        }
     }
 }
 

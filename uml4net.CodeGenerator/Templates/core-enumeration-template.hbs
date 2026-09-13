@@ -24,6 +24,8 @@
 
 namespace uml4net.{{this.Namespace.Name}}
 {
+    using System;
+
     {{ #Documentation this }}
     {{ Enum.ToString this.Visibility }} enum {{ this.Name }}
     {
@@ -33,6 +35,33 @@ namespace uml4net.{{this.Namespace.Name}}
 
         {{/unless}}
     {{/each}}
+    }
+
+    /// <summary>
+    /// Extension methods for the <see cref="{{ this.Name }}"/> enumeration
+    /// </summary>
+    public static class {{ this.Name }}Extensions
+    {
+        /// <summary>
+        /// Queries the name of the enumeration literal as defined in the UML metamodel, which is the value that
+        /// represents the <paramref name="value"/> in an XMI document (XMI 2.5.1 clause 9.5.2, rule 2i)
+        /// </summary>
+        /// <param name="value">
+        /// The <see cref="{{ this.Name }}"/> value
+        /// </param>
+        /// <returns>
+        /// the name of the enumeration literal
+        /// </returns>
+        public static string QueryXmiLiteral(this {{ this.Name }} value)
+        {
+            return value switch
+            {
+                {{ #each this.OwnedLiteral as | enumerationLiteral | }}
+                {{ ../Name }}.{{ String.CapitalizeFirstLetter enumerationLiteral.Name }} => "{{ enumerationLiteral.Name }}",
+                {{/each}}
+                _ => throw new ArgumentOutOfRangeException(nameof(value), value, $"{value} is not a literal of {{ this.Name }}")
+            };
+        }
     }
 }
 

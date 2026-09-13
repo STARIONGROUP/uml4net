@@ -1236,8 +1236,8 @@ namespace uml4net.HandleBars
                     sb.AppendLine($"if (element.{pocoPropertyName} != {enumDefault})");
                     sb.AppendLine("{");
                     sb.AppendLine(isAsync
-                        ? $"await xmlWriter.WriteAttributeStringAsync(null, \"{property.Name}\", null, LowerCaseFirstLetter(element.{pocoPropertyName}.ToString()));"
-                        : $"xmlWriter.WriteAttributeString(\"{property.Name}\", LowerCaseFirstLetter(element.{pocoPropertyName}.ToString()));");
+                        ? $"await xmlWriter.WriteAttributeStringAsync(null, \"{property.Name}\", null, element.{pocoPropertyName}.QueryXmiLiteral());"
+                        : $"xmlWriter.WriteAttributeString(\"{property.Name}\", element.{pocoPropertyName}.QueryXmiLiteral());");
                     sb.AppendLine("}");
 
                     writer.WriteSafeString(sb + Environment.NewLine);

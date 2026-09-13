@@ -24,6 +24,8 @@
 
 namespace uml4net.Activities
 {
+    using System;
+
     /// <summary>
     /// ObjectNodeOrderingKind is an enumeration indicating queuing order for offering the tokens held by an
     /// ObjectNode.
@@ -49,6 +51,34 @@ namespace uml4net.Activities
         /// Indicates that tokens are queued in a first in, first out manner.
         /// </summary>
         FIFO
+    }
+
+    /// <summary>
+    /// Extension methods for the <see cref="ObjectNodeOrderingKind"/> enumeration
+    /// </summary>
+    public static class ObjectNodeOrderingKindExtensions
+    {
+        /// <summary>
+        /// Queries the name of the enumeration literal as defined in the UML metamodel, which is the value that
+        /// represents the <paramref name="value"/> in an XMI document (XMI 2.5.1 clause 9.5.2, rule 2i)
+        /// </summary>
+        /// <param name="value">
+        /// The <see cref="ObjectNodeOrderingKind"/> value
+        /// </param>
+        /// <returns>
+        /// the name of the enumeration literal
+        /// </returns>
+        public static string QueryXmiLiteral(this ObjectNodeOrderingKind value)
+        {
+            return value switch
+            {
+                ObjectNodeOrderingKind.Unordered => "unordered",
+                ObjectNodeOrderingKind.Ordered => "ordered",
+                ObjectNodeOrderingKind.LIFO => "LIFO",
+                ObjectNodeOrderingKind.FIFO => "FIFO",
+                _ => throw new ArgumentOutOfRangeException(nameof(value), value, $"{value} is not a literal of ObjectNodeOrderingKind")
+            };
+        }
     }
 }
 

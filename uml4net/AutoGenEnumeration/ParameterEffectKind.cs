@@ -24,6 +24,8 @@
 
 namespace uml4net.Classification
 {
+    using System;
+
     /// <summary>
     /// ParameterEffectKind is an Enumeration that indicates the effect of a Behavior on values passed in or
     /// out of its parameters.
@@ -52,6 +54,34 @@ namespace uml4net.Classification
         /// finished.
         /// </summary>
         Delete
+    }
+
+    /// <summary>
+    /// Extension methods for the <see cref="ParameterEffectKind"/> enumeration
+    /// </summary>
+    public static class ParameterEffectKindExtensions
+    {
+        /// <summary>
+        /// Queries the name of the enumeration literal as defined in the UML metamodel, which is the value that
+        /// represents the <paramref name="value"/> in an XMI document (XMI 2.5.1 clause 9.5.2, rule 2i)
+        /// </summary>
+        /// <param name="value">
+        /// The <see cref="ParameterEffectKind"/> value
+        /// </param>
+        /// <returns>
+        /// the name of the enumeration literal
+        /// </returns>
+        public static string QueryXmiLiteral(this ParameterEffectKind value)
+        {
+            return value switch
+            {
+                ParameterEffectKind.Create => "create",
+                ParameterEffectKind.Read => "read",
+                ParameterEffectKind.Update => "update",
+                ParameterEffectKind.Delete => "delete",
+                _ => throw new ArgumentOutOfRangeException(nameof(value), value, $"{value} is not a literal of ParameterEffectKind")
+            };
+        }
     }
 }
 

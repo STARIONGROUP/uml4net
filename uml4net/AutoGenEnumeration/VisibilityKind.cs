@@ -24,6 +24,8 @@
 
 namespace uml4net.CommonStructure
 {
+    using System;
+
     /// <summary>
     /// VisibilityKind is an enumeration type that defines literals to determine the visibility of Elements
     /// in a model.
@@ -54,6 +56,34 @@ namespace uml4net.CommonStructure
         /// are not owned by Packages can be marked as having package visibility.
         /// </summary>
         Package
+    }
+
+    /// <summary>
+    /// Extension methods for the <see cref="VisibilityKind"/> enumeration
+    /// </summary>
+    public static class VisibilityKindExtensions
+    {
+        /// <summary>
+        /// Queries the name of the enumeration literal as defined in the UML metamodel, which is the value that
+        /// represents the <paramref name="value"/> in an XMI document (XMI 2.5.1 clause 9.5.2, rule 2i)
+        /// </summary>
+        /// <param name="value">
+        /// The <see cref="VisibilityKind"/> value
+        /// </param>
+        /// <returns>
+        /// the name of the enumeration literal
+        /// </returns>
+        public static string QueryXmiLiteral(this VisibilityKind value)
+        {
+            return value switch
+            {
+                VisibilityKind.Public => "public",
+                VisibilityKind.Private => "private",
+                VisibilityKind.Protected => "protected",
+                VisibilityKind.Package => "package",
+                _ => throw new ArgumentOutOfRangeException(nameof(value), value, $"{value} is not a literal of VisibilityKind")
+            };
+        }
     }
 }
 

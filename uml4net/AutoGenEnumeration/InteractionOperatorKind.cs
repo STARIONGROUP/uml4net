@@ -24,6 +24,8 @@
 
 namespace uml4net.Interactions
 {
+    using System;
+
     /// <summary>
     /// InteractionOperatorKind is an enumeration designating the different kinds of operators of
     /// CombinedFragments. The InteractionOperand defines the type of operator of a CombinedFragment.
@@ -121,6 +123,42 @@ namespace uml4net.Interactions
         /// combined fragment. This is equivalent to defining every other message to be ignored.
         /// </summary>
         Consider
+    }
+
+    /// <summary>
+    /// Extension methods for the <see cref="InteractionOperatorKind"/> enumeration
+    /// </summary>
+    public static class InteractionOperatorKindExtensions
+    {
+        /// <summary>
+        /// Queries the name of the enumeration literal as defined in the UML metamodel, which is the value that
+        /// represents the <paramref name="value"/> in an XMI document (XMI 2.5.1 clause 9.5.2, rule 2i)
+        /// </summary>
+        /// <param name="value">
+        /// The <see cref="InteractionOperatorKind"/> value
+        /// </param>
+        /// <returns>
+        /// the name of the enumeration literal
+        /// </returns>
+        public static string QueryXmiLiteral(this InteractionOperatorKind value)
+        {
+            return value switch
+            {
+                InteractionOperatorKind.Seq => "seq",
+                InteractionOperatorKind.Alt => "alt",
+                InteractionOperatorKind.Opt => "opt",
+                InteractionOperatorKind.Break => "break",
+                InteractionOperatorKind.Par => "par",
+                InteractionOperatorKind.Strict => "strict",
+                InteractionOperatorKind.Loop => "loop",
+                InteractionOperatorKind.Critical => "critical",
+                InteractionOperatorKind.Neg => "neg",
+                InteractionOperatorKind.Assert => "assert",
+                InteractionOperatorKind.Ignore => "ignore",
+                InteractionOperatorKind.Consider => "consider",
+                _ => throw new ArgumentOutOfRangeException(nameof(value), value, $"{value} is not a literal of InteractionOperatorKind")
+            };
+        }
     }
 }
 

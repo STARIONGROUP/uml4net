@@ -24,6 +24,8 @@
 
 namespace uml4net.Interactions
 {
+    using System;
+
     /// <summary>
     /// This is an enumerated type that identifies the type of Message.
     /// </summary>
@@ -48,6 +50,34 @@ namespace uml4net.Interactions
         /// sendEvent and receiveEvent absent (should not appear)
         /// </summary>
         Unknown
+    }
+
+    /// <summary>
+    /// Extension methods for the <see cref="MessageKind"/> enumeration
+    /// </summary>
+    public static class MessageKindExtensions
+    {
+        /// <summary>
+        /// Queries the name of the enumeration literal as defined in the UML metamodel, which is the value that
+        /// represents the <paramref name="value"/> in an XMI document (XMI 2.5.1 clause 9.5.2, rule 2i)
+        /// </summary>
+        /// <param name="value">
+        /// The <see cref="MessageKind"/> value
+        /// </param>
+        /// <returns>
+        /// the name of the enumeration literal
+        /// </returns>
+        public static string QueryXmiLiteral(this MessageKind value)
+        {
+            return value switch
+            {
+                MessageKind.Complete => "complete",
+                MessageKind.Lost => "lost",
+                MessageKind.Found => "found",
+                MessageKind.Unknown => "unknown",
+                _ => throw new ArgumentOutOfRangeException(nameof(value), value, $"{value} is not a literal of MessageKind")
+            };
+        }
     }
 }
 

@@ -149,7 +149,7 @@ namespace uml4net.HandleBars.Tests
             var generatedCode = handlebarsTemplate(new { Property = visibility, Class = @class });
 
             Assert.That(generatedCode, Does.Contain("if (element.Visibility != VisibilityKind.Public)"));
-            Assert.That(generatedCode, Does.Contain("xmlWriter.WriteAttributeString(\"visibility\", LowerCaseFirstLetter(element.Visibility.ToString()));"));
+            Assert.That(generatedCode, Does.Contain("xmlWriter.WriteAttributeString(\"visibility\", element.Visibility.QueryXmiLiteral());"));
         }
 
         [Test]
