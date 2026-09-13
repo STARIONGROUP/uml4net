@@ -167,7 +167,7 @@ namespace uml4net.xmi.Readers
                             case (KnowNamespacePrefixes.Xmi, "difference"):
                             case (KnowNamespacePrefixes.Xmi, "Difference"):
                                 this.logger.LogInformation("Difference elements contained in the XmiRoot Element are currently ignored - line:position {Line}:{Position}", xmlLineInfo?.LineNumber, xmlLineInfo?.LinePosition);
-                                xmlReader.Skip();
+                                xmlReader.SkipInPlace();
                                 break;
                             case (KnowNamespacePrefixes.Xmi, "documentation"):
                             case (KnowNamespacePrefixes.Xmi, "Documentation"):
@@ -187,11 +187,11 @@ namespace uml4net.xmi.Readers
                                 break;
                             case (KnowNamespacePrefixes.StandardProfile, _):
                                 this.logger.LogWarning("StandardProfile reading is not yet supported, skipping element at line:position {LineNumber}:{LinePosition}", xmlLineInfo?.LineNumber, xmlLineInfo?.LinePosition);
-                                xmlReader.Skip();
+                                xmlReader.SkipInPlace();
                                 break;
                             case (KnowNamespacePrefixes.UmlDi, _):
                                 this.logger.LogWarning("DiagramInterchange reading is not yet supported, skipping element at line:position {LineNumber}:{LinePosition}", xmlLineInfo?.LineNumber, xmlLineInfo?.LinePosition);
-                                xmlReader.Skip();
+                                xmlReader.SkipInPlace();
                                 break;
                             case (KnowNamespacePrefixes.MofExt, _):
                                 {
@@ -203,7 +203,7 @@ namespace uml4net.xmi.Readers
                                 break;
                             case (KnowNamespacePrefixes.PrimitiveTypes, _):
                                 this.logger.LogWarning("PrimitiveTypes reading is not yet supported, skipping element at line:position {LineNumber}:{LinePosition}", xmlLineInfo?.LineNumber, xmlLineInfo?.LinePosition);
-                                xmlReader.Skip();
+                                xmlReader.SkipInPlace();
                                 break;
                             case (KnowNamespacePrefixes.Other, _):
                                 this.ProcessOtherNamespaces(xmlReader, xmiRoot);
@@ -246,7 +246,7 @@ namespace uml4net.xmi.Readers
             else
             {
                 this.logger.LogWarning("unknown namespaced-element at line:position {LineNumber}:{LinePosition} skipped", xmlLineInfo?.LineNumber, xmlLineInfo?.LinePosition);
-                xmlReader.Skip();
+                xmlReader.SkipInPlace();
             }
         }
     }

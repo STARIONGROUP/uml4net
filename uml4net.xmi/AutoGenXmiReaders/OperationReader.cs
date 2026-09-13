@@ -312,7 +312,7 @@ namespace uml4net.xmi.Readers
                                 CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "class");
                                 break;
                             case (KnowNamespacePrefixes.Uml, "concurrency"):
-                                var concurrencyValue = xmlReader.ReadElementContentAsString();
+                                var concurrencyValue = xmlReader.ReadElementContentAsStringInPlace();
 
                                 if (!string.IsNullOrWhiteSpace(concurrencyValue))
                                 {
@@ -334,7 +334,7 @@ namespace uml4net.xmi.Readers
                                 CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "interface");
                                 break;
                             case (KnowNamespacePrefixes.Uml, "isAbstract"):
-                                var isAbstractValue = xmlReader.ReadElementContentAsString();
+                                var isAbstractValue = xmlReader.ReadElementContentAsStringInPlace();
 
                                 if (!string.IsNullOrWhiteSpace(isAbstractValue))
                                 {
@@ -343,7 +343,7 @@ namespace uml4net.xmi.Readers
 
                                 break;
                             case (KnowNamespacePrefixes.Uml, "isLeaf"):
-                                var isLeafValue = xmlReader.ReadElementContentAsString();
+                                var isLeafValue = xmlReader.ReadElementContentAsStringInPlace();
 
                                 if (!string.IsNullOrWhiteSpace(isLeafValue))
                                 {
@@ -352,7 +352,7 @@ namespace uml4net.xmi.Readers
 
                                 break;
                             case (KnowNamespacePrefixes.Uml, "isQuery"):
-                                var isQueryValue = xmlReader.ReadElementContentAsString();
+                                var isQueryValue = xmlReader.ReadElementContentAsStringInPlace();
 
                                 if (!string.IsNullOrWhiteSpace(isQueryValue))
                                 {
@@ -361,7 +361,7 @@ namespace uml4net.xmi.Readers
 
                                 break;
                             case (KnowNamespacePrefixes.Uml, "isStatic"):
-                                var isStaticValue = xmlReader.ReadElementContentAsString();
+                                var isStaticValue = xmlReader.ReadElementContentAsStringInPlace();
 
                                 if (!string.IsNullOrWhiteSpace(isStaticValue))
                                 {
@@ -373,7 +373,7 @@ namespace uml4net.xmi.Readers
                                 TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, "method");
                                 break;
                             case (KnowNamespacePrefixes.Uml, "name"):
-                                poco.Name = xmlReader.ReadElementContentAsString();
+                                poco.Name = xmlReader.ReadElementContentAsStringInPlace();
                                 break;
                             case (KnowNamespacePrefixes.Uml, "nameExpression"):
                                 if (!TryCollectCompositeReferencePropertyIdentifier(xmlReader, poco, "nameExpression", poco.NameExpression.Count))
@@ -458,7 +458,7 @@ namespace uml4net.xmi.Readers
                                 CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "templateParameter");
                                 break;
                             case (KnowNamespacePrefixes.Uml, "visibility"):
-                                var visibilityValue = xmlReader.ReadElementContentAsString();
+                                var visibilityValue = xmlReader.ReadElementContentAsStringInPlace();
 
                                 if (!string.IsNullOrWhiteSpace(visibilityValue))
                                 {

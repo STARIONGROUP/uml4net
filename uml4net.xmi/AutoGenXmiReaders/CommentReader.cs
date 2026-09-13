@@ -188,7 +188,7 @@ namespace uml4net.xmi.Readers
                                 TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, "annotatedElement");
                                 break;
                             case (KnowNamespacePrefixes.Uml, "body"):
-                                poco.Body = xmlReader.ReadElementContentAsString();
+                                poco.Body = xmlReader.ReadElementContentAsStringInPlace();
                                 break;
                             case (KnowNamespacePrefixes.Uml, "ownedComment"):
                                 if (!TryCollectCompositeReferencePropertyIdentifier(xmlReader, poco, "ownedComment", poco.OwnedComment.Count))

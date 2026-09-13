@@ -230,7 +230,7 @@ namespace uml4net.xmi.Readers
                                 TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, "generalization");
                                 break;
                             case (KnowNamespacePrefixes.Uml, "isCovering"):
-                                var isCoveringValue = xmlReader.ReadElementContentAsString();
+                                var isCoveringValue = xmlReader.ReadElementContentAsStringInPlace();
 
                                 if (!string.IsNullOrWhiteSpace(isCoveringValue))
                                 {
@@ -239,7 +239,7 @@ namespace uml4net.xmi.Readers
 
                                 break;
                             case (KnowNamespacePrefixes.Uml, "isDisjoint"):
-                                var isDisjointValue = xmlReader.ReadElementContentAsString();
+                                var isDisjointValue = xmlReader.ReadElementContentAsStringInPlace();
 
                                 if (!string.IsNullOrWhiteSpace(isDisjointValue))
                                 {
@@ -248,7 +248,7 @@ namespace uml4net.xmi.Readers
 
                                 break;
                             case (KnowNamespacePrefixes.Uml, "name"):
-                                poco.Name = xmlReader.ReadElementContentAsString();
+                                poco.Name = xmlReader.ReadElementContentAsStringInPlace();
                                 break;
                             case (KnowNamespacePrefixes.Uml, "nameExpression"):
                                 if (!TryCollectCompositeReferencePropertyIdentifier(xmlReader, poco, "nameExpression", poco.NameExpression.Count))
@@ -274,7 +274,7 @@ namespace uml4net.xmi.Readers
                                 CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "templateParameter");
                                 break;
                             case (KnowNamespacePrefixes.Uml, "visibility"):
-                                var visibilityValue = xmlReader.ReadElementContentAsString();
+                                var visibilityValue = xmlReader.ReadElementContentAsStringInPlace();
 
                                 if (!string.IsNullOrWhiteSpace(visibilityValue))
                                 {

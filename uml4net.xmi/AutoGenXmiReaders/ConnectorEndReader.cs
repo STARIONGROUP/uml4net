@@ -203,7 +203,7 @@ namespace uml4net.xmi.Readers
                         switch (activePrefix, xmlReader.LocalName)
                         {
                             case (KnowNamespacePrefixes.Uml, "isOrdered"):
-                                var isOrderedValue = xmlReader.ReadElementContentAsString();
+                                var isOrderedValue = xmlReader.ReadElementContentAsStringInPlace();
 
                                 if (!string.IsNullOrWhiteSpace(isOrderedValue))
                                 {
@@ -212,7 +212,7 @@ namespace uml4net.xmi.Readers
 
                                 break;
                             case (KnowNamespacePrefixes.Uml, "isUnique"):
-                                var isUniqueValue = xmlReader.ReadElementContentAsString();
+                                var isUniqueValue = xmlReader.ReadElementContentAsStringInPlace();
 
                                 if (!string.IsNullOrWhiteSpace(isUniqueValue))
                                 {

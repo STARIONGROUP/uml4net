@@ -209,7 +209,7 @@ namespace uml4net.xmi.Readers
                                 CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "end");
                                 break;
                             case (KnowNamespacePrefixes.Uml, "isDestroyDuplicates"):
-                                var isDestroyDuplicatesValue = xmlReader.ReadElementContentAsString();
+                                var isDestroyDuplicatesValue = xmlReader.ReadElementContentAsStringInPlace();
 
                                 if (!string.IsNullOrWhiteSpace(isDestroyDuplicatesValue))
                                 {
