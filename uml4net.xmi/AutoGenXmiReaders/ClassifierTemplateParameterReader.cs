@@ -226,16 +226,25 @@ namespace uml4net.xmi.Readers
                                 CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "default");
                                 break;
                             case (KnowNamespacePrefixes.Uml, "ownedComment"):
-                                var ownedCommentValue = (IComment)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.NameSpaceResolver, this.ExtenderReaderRegistry, this.LoggerFactory, "uml:Comment");
-                                poco.OwnedComment.Add(ownedCommentValue);
+                                if (!TryCollectCompositeReferencePropertyIdentifier(xmlReader, poco, "ownedComment", poco.OwnedComment.Count))
+                                {
+                                    var ownedCommentValue = (IComment)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.NameSpaceResolver, this.ExtenderReaderRegistry, this.LoggerFactory, "uml:Comment");
+                                    poco.OwnedComment.Add(ownedCommentValue);
+                                }
                                 break;
                             case (KnowNamespacePrefixes.Uml, "ownedDefault"):
-                                var ownedDefaultValue = (IParameterableElement)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.NameSpaceResolver, this.ExtenderReaderRegistry, this.LoggerFactory);
-                                poco.OwnedDefault.Add(ownedDefaultValue);
+                                if (!TryCollectCompositeReferencePropertyIdentifier(xmlReader, poco, "ownedDefault", poco.OwnedDefault.Count))
+                                {
+                                    var ownedDefaultValue = (IParameterableElement)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.NameSpaceResolver, this.ExtenderReaderRegistry, this.LoggerFactory);
+                                    poco.OwnedDefault.Add(ownedDefaultValue);
+                                }
                                 break;
                             case (KnowNamespacePrefixes.Uml, "ownedParameteredElement"):
-                                var ownedParameteredElementValue = (IParameterableElement)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.NameSpaceResolver, this.ExtenderReaderRegistry, this.LoggerFactory);
-                                poco.OwnedParameteredElement.Add(ownedParameteredElementValue);
+                                if (!TryCollectCompositeReferencePropertyIdentifier(xmlReader, poco, "ownedParameteredElement", poco.OwnedParameteredElement.Count))
+                                {
+                                    var ownedParameteredElementValue = (IParameterableElement)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.NameSpaceResolver, this.ExtenderReaderRegistry, this.LoggerFactory);
+                                    poco.OwnedParameteredElement.Add(ownedParameteredElementValue);
+                                }
                                 break;
                             case (KnowNamespacePrefixes.Uml, "parameteredElement"):
                                 CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "parameteredElement");

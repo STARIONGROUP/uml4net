@@ -213,8 +213,11 @@ namespace uml4net.xmi.Readers
                                 CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "handlerBody");
                                 break;
                             case (KnowNamespacePrefixes.Uml, "ownedComment"):
-                                var ownedCommentValue = (IComment)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.NameSpaceResolver, this.ExtenderReaderRegistry, this.LoggerFactory, "uml:Comment");
-                                poco.OwnedComment.Add(ownedCommentValue);
+                                if (!TryCollectCompositeReferencePropertyIdentifier(xmlReader, poco, "ownedComment", poco.OwnedComment.Count))
+                                {
+                                    var ownedCommentValue = (IComment)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.NameSpaceResolver, this.ExtenderReaderRegistry, this.LoggerFactory, "uml:Comment");
+                                    poco.OwnedComment.Add(ownedCommentValue);
+                                }
                                 break;
                             case (KnowNamespacePrefixes.Uml, "protectedNode"):
                                 CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "protectedNode");

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+    XMI 2.5.1 clause 7.10.3 "Example for UML", Document 1. Deviations from the specification text:
+    - the nested specifications carry an xmi:id so that every element has a unique identifier
+    - the XPointer reference of the third constraint (case 4, which XMI implementations are not
+      expected to support) is replaced by an xmi:idref
+-->
+<xmi:XMI xmlns:uml="http://www.omg.org/spec/UML/20131001" xmlns:xmi="http://www.omg.org/spec/XMI/20131001">
+    <uml:Operation xmi:id="idO1" xmi:type="uml:Operation" xmi:uuid="DCE:1234" name="op1">
+        <ownedRule xmi:id="idC1" xmi:type="uml:Constraint" xmi:uuid="DCE:abcd" name="co1">
+            <specification xmi:id="idS1" xmi:type="uml:OpaqueExpression">
+                <body>First Constraint definition</body>
+            </specification>
+            <constrainedElement xmi:idref="idO1"/>
+        </ownedRule>
+        <ownedRule xmi:idref="idC2"/>
+        <ownedRule xmi:idref="idC3"/>
+        <ownedRule href="doc2.xml#idC4"/>
+    </uml:Operation>
+    <uml:Constraint xmi:id="idC2" xmi:type="uml:Constraint" xmi:uuid="DCE:efgh" name="co2">
+        <specification xmi:id="idS2" xmi:type="uml:OpaqueExpression">
+            <body>Second Constraint definition</body>
+        </specification>
+        <constrainedElement xmi:idref="idO1"/>
+    </uml:Constraint>
+    <uml:Constraint xmi:id="idC3" xmi:type="uml:Constraint" xmi:uuid="DCE:ijkl" name="co3">
+        <specification xmi:id="idS3" xmi:type="uml:OpaqueExpression">
+            <body>Third Constraint definition</body>
+        </specification>
+        <constrainedElement xmi:idref="idO1"/>
+    </uml:Constraint>
+</xmi:XMI>

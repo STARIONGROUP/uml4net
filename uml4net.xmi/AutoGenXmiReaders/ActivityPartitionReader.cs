@@ -262,22 +262,31 @@ namespace uml4net.xmi.Readers
                                 poco.Name = xmlReader.ReadElementContentAsString();
                                 break;
                             case (KnowNamespacePrefixes.Uml, "nameExpression"):
-                                var nameExpressionValue = (IStringExpression)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.NameSpaceResolver, this.ExtenderReaderRegistry, this.LoggerFactory, "uml:StringExpression");
-                                poco.NameExpression.Add(nameExpressionValue);
+                                if (!TryCollectCompositeReferencePropertyIdentifier(xmlReader, poco, "nameExpression", poco.NameExpression.Count))
+                                {
+                                    var nameExpressionValue = (IStringExpression)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.NameSpaceResolver, this.ExtenderReaderRegistry, this.LoggerFactory, "uml:StringExpression");
+                                    poco.NameExpression.Add(nameExpressionValue);
+                                }
                                 break;
                             case (KnowNamespacePrefixes.Uml, "node"):
                                 TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, "node");
                                 break;
                             case (KnowNamespacePrefixes.Uml, "ownedComment"):
-                                var ownedCommentValue = (IComment)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.NameSpaceResolver, this.ExtenderReaderRegistry, this.LoggerFactory, "uml:Comment");
-                                poco.OwnedComment.Add(ownedCommentValue);
+                                if (!TryCollectCompositeReferencePropertyIdentifier(xmlReader, poco, "ownedComment", poco.OwnedComment.Count))
+                                {
+                                    var ownedCommentValue = (IComment)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.NameSpaceResolver, this.ExtenderReaderRegistry, this.LoggerFactory, "uml:Comment");
+                                    poco.OwnedComment.Add(ownedCommentValue);
+                                }
                                 break;
                             case (KnowNamespacePrefixes.Uml, "represents"):
                                 CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "represents");
                                 break;
                             case (KnowNamespacePrefixes.Uml, "subpartition"):
-                                var subpartitionValue = (IActivityPartition)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.NameSpaceResolver, this.ExtenderReaderRegistry, this.LoggerFactory, "uml:ActivityPartition");
-                                poco.Subpartition.Add(subpartitionValue);
+                                if (!TryCollectCompositeReferencePropertyIdentifier(xmlReader, poco, "subpartition", poco.Subpartition.Count))
+                                {
+                                    var subpartitionValue = (IActivityPartition)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.NameSpaceResolver, this.ExtenderReaderRegistry, this.LoggerFactory, "uml:ActivityPartition");
+                                    poco.Subpartition.Add(subpartitionValue);
+                                }
                                 break;
                             case (KnowNamespacePrefixes.Uml, "superPartition"):
                                 CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "superPartition");

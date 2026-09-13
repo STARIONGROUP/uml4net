@@ -942,6 +942,28 @@ namespace uml4net.HandleBars
                     sb.AppendLine($"case \"{property.Name}\":");
                 }
 
+                void AppendContainedElementRead()
+                {
+                    var queryXmiElement = property.QueryIsTypeAbstract()
+                        ? $"var {property.Name}Value = (I{property.QueryTypeName()})this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.NameSpaceResolver, this.ExtenderReaderRegistry, this.LoggerFactory);"
+                        : $"var {property.Name}Value = (I{property.QueryTypeName()})this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.NameSpaceResolver, this.ExtenderReaderRegistry, this.LoggerFactory, \"{(isForExtension ? "" : "uml:")}{property.QueryTypeName()}\"{(isForExtension ? ", true" : "")});";
+
+                    var addContainedElement = $"poco.{property.Name.CapitalizeFirstLetter()}.Add({property.Name}Value);";
+
+                    if (isForExtension)
+                    {
+                        sb.AppendLine(queryXmiElement);
+                        sb.AppendLine(addContainedElement);
+                        return;
+                    }
+
+                    sb.AppendLine($"if (!TryCollectCompositeReferencePropertyIdentifier(xmlReader, poco, \"{property.Name}\", poco.{property.Name.CapitalizeFirstLetter()}.Count))");
+                    sb.AppendLine("{");
+                    sb.AppendLine(queryXmiElement);
+                    sb.AppendLine(addContainedElement);
+                    sb.AppendLine("}");
+                }
+
                 if (property.IsComposite)
                 {
                     if (property.QueryIsPrimitiveType())
@@ -962,11 +984,7 @@ namespace uml4net.HandleBars
 
                     if (property.QueryIsReferenceType() && (property.SubsettedProperty.Count == 0))
                     {
-                        sb.AppendLine(property.QueryIsTypeAbstract()
-                            ? $"var {property.Name}Value = (I{property.QueryTypeName()})this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.NameSpaceResolver, this.ExtenderReaderRegistry, this.LoggerFactory);"
-                            : $"var {property.Name}Value = (I{property.QueryTypeName()})this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.NameSpaceResolver, this.ExtenderReaderRegistry, this.LoggerFactory, \"{(isForExtension ? "" : "uml:")}{property.QueryTypeName()}\"{(isForExtension ? ", true" : "")});");
-
-                        sb.AppendLine($"poco.{property.Name.CapitalizeFirstLetter()}.Add({property.Name}Value);");
+                        AppendContainedElementRead();
 
                         sb.AppendLine("break;");
 
@@ -977,13 +995,9 @@ namespace uml4net.HandleBars
 
                     if (property.QueryIsReferenceType() && property.SubsettedProperty.Count > 0)
                     {
-                        if (property.SubsettedProperty.Any(x => x.IsDerived || x.IsDerivedUnion || x.IsReadOnly))
+                        if (!isForExtension || property.SubsettedProperty.Any(x => x.IsDerived || x.IsDerivedUnion || x.IsReadOnly))
                         {
-                            sb.AppendLine(property.QueryIsTypeAbstract()
-                                ? $"var {property.Name}Value = (I{property.QueryTypeName()})this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.NameSpaceResolver, this.ExtenderReaderRegistry, this.LoggerFactory);"
-                                : $"var {property.Name}Value = (I{property.QueryTypeName()})this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.NameSpaceResolver, this.ExtenderReaderRegistry, this.LoggerFactory, \"{(isForExtension ? "" : "uml:")}{property.QueryTypeName()}\"{(isForExtension ? ", true" : "")});");
-
-                            sb.AppendLine($"poco.{property.Name.CapitalizeFirstLetter()}.Add({property.Name}Value);");
+                            AppendContainedElementRead();
                         }
                         else
                         {

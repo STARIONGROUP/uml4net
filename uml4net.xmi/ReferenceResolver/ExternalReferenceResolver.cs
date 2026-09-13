@@ -93,6 +93,20 @@ namespace uml4net.xmi.ReferenceResolver
                 }
             }
 
+            var compositeReferenceIdentifiers = cache.Values
+                .SelectMany(cacheEntry => cacheEntry.CompositeReferencePropertyIdentifiers.Values)
+                .SelectMany(compositeReferences => compositeReferences)
+                .Select(compositeReference => compositeReference.Identifier)
+                .ToList();
+
+            foreach (var identifier in compositeReferenceIdentifiers)
+            {
+                if (this.TryResolve(identifier, out var reference))
+                {
+                    result.Add(reference);
+                }
+            }
+
             return result;
         }
 

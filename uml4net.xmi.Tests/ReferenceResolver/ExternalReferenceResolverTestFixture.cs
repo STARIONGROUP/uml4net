@@ -22,6 +22,7 @@ namespace uml4net.xmi.Tests.ReferenceResolver
 {
     using System.Collections.Generic;
     using System.IO;
+    using System.Linq;
 
     using Microsoft.Extensions.Logging;
 
@@ -108,6 +109,28 @@ namespace uml4net.xmi.Tests.ReferenceResolver
                 Assert.That(resolvedKnowReferences[2].Context, Is.EqualTo("https://www.omg.org/spec/UML/20131001/PrimitiveTypes.xmi"));
                 Assert.That(resolvedKnowReferences[3].Context, Is.EqualTo("PrimitiveTypes"));
             }
+        }
+
+        [Test]
+        public void Verify_that_external_resources_of_composite_references_are_resolved()
+        {
+            var operation = new Operation
+            {
+                XmiId = "operation_1",
+                DocumentName = "test",
+            };
+
+            operation.CompositeReferencePropertyIdentifiers.Add("ownedParameter",
+            [
+                new XmiCompositeReference { Identifier = "local", Position = 0 },
+                new XmiCompositeReference { Identifier = "PrimitiveTypes.xmi#Boolean", Position = 1 }
+            ]);
+
+            this.xmiElementCache.TryAdd(operation);
+
+            var resolvedKnowReferences = this.referenceResolver.TryResolve("test");
+
+            Assert.That(resolvedKnowReferences.Single().Context, Is.EqualTo("PrimitiveTypes.xmi"));
         }
 
         [Test]

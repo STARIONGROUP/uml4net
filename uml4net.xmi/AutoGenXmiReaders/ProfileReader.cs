@@ -223,67 +223,97 @@ namespace uml4net.xmi.Readers
                         switch (activePrefix, xmlReader.LocalName)
                         {
                             case (KnowNamespacePrefixes.Uml, "elementImport"):
-                                var elementImportValue = (IElementImport)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.NameSpaceResolver, this.ExtenderReaderRegistry, this.LoggerFactory, "uml:ElementImport");
-                                poco.ElementImport.Add(elementImportValue);
+                                if (!TryCollectCompositeReferencePropertyIdentifier(xmlReader, poco, "elementImport", poco.ElementImport.Count))
+                                {
+                                    var elementImportValue = (IElementImport)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.NameSpaceResolver, this.ExtenderReaderRegistry, this.LoggerFactory, "uml:ElementImport");
+                                    poco.ElementImport.Add(elementImportValue);
+                                }
                                 break;
                             case (KnowNamespacePrefixes.Uml, "metaclassReference"):
-                                if (!TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, "metaclassReference"))
+                                if (!TryCollectCompositeReferencePropertyIdentifier(xmlReader, poco, "metaclassReference", poco.MetaclassReference.Count))
                                 {
-                                    this.logger.LogWarning("The Profile.MetaclassReference attribute was not processed at {XmlLineInfo}", xmlLineInfo);
+                                    var metaclassReferenceValue = (IElementImport)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.NameSpaceResolver, this.ExtenderReaderRegistry, this.LoggerFactory, "uml:ElementImport");
+                                    poco.MetaclassReference.Add(metaclassReferenceValue);
                                 }
-
                                 break;
                             case (KnowNamespacePrefixes.Uml, "metamodelReference"):
-                                if (!TryCollectMultiValueReferencePropertyIdentifiers(xmlReader, poco, "metamodelReference"))
+                                if (!TryCollectCompositeReferencePropertyIdentifier(xmlReader, poco, "metamodelReference", poco.MetamodelReference.Count))
                                 {
-                                    this.logger.LogWarning("The Profile.MetamodelReference attribute was not processed at {XmlLineInfo}", xmlLineInfo);
+                                    var metamodelReferenceValue = (IPackageImport)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.NameSpaceResolver, this.ExtenderReaderRegistry, this.LoggerFactory, "uml:PackageImport");
+                                    poco.MetamodelReference.Add(metamodelReferenceValue);
                                 }
-
                                 break;
                             case (KnowNamespacePrefixes.Uml, "name"):
                                 poco.Name = xmlReader.ReadElementContentAsString();
                                 break;
                             case (KnowNamespacePrefixes.Uml, "nameExpression"):
-                                var nameExpressionValue = (IStringExpression)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.NameSpaceResolver, this.ExtenderReaderRegistry, this.LoggerFactory, "uml:StringExpression");
-                                poco.NameExpression.Add(nameExpressionValue);
+                                if (!TryCollectCompositeReferencePropertyIdentifier(xmlReader, poco, "nameExpression", poco.NameExpression.Count))
+                                {
+                                    var nameExpressionValue = (IStringExpression)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.NameSpaceResolver, this.ExtenderReaderRegistry, this.LoggerFactory, "uml:StringExpression");
+                                    poco.NameExpression.Add(nameExpressionValue);
+                                }
                                 break;
                             case (KnowNamespacePrefixes.Uml, "nestingPackage"):
                                 CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "nestingPackage");
                                 break;
                             case (KnowNamespacePrefixes.Uml, "ownedComment"):
-                                var ownedCommentValue = (IComment)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.NameSpaceResolver, this.ExtenderReaderRegistry, this.LoggerFactory, "uml:Comment");
-                                poco.OwnedComment.Add(ownedCommentValue);
+                                if (!TryCollectCompositeReferencePropertyIdentifier(xmlReader, poco, "ownedComment", poco.OwnedComment.Count))
+                                {
+                                    var ownedCommentValue = (IComment)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.NameSpaceResolver, this.ExtenderReaderRegistry, this.LoggerFactory, "uml:Comment");
+                                    poco.OwnedComment.Add(ownedCommentValue);
+                                }
                                 break;
                             case (KnowNamespacePrefixes.Uml, "ownedRule"):
-                                var ownedRuleValue = (IConstraint)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.NameSpaceResolver, this.ExtenderReaderRegistry, this.LoggerFactory, "uml:Constraint");
-                                poco.OwnedRule.Add(ownedRuleValue);
+                                if (!TryCollectCompositeReferencePropertyIdentifier(xmlReader, poco, "ownedRule", poco.OwnedRule.Count))
+                                {
+                                    var ownedRuleValue = (IConstraint)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.NameSpaceResolver, this.ExtenderReaderRegistry, this.LoggerFactory, "uml:Constraint");
+                                    poco.OwnedRule.Add(ownedRuleValue);
+                                }
                                 break;
                             case (KnowNamespacePrefixes.Uml, "ownedTemplateSignature"):
-                                var ownedTemplateSignatureValue = (ITemplateSignature)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.NameSpaceResolver, this.ExtenderReaderRegistry, this.LoggerFactory, "uml:TemplateSignature");
-                                poco.OwnedTemplateSignature.Add(ownedTemplateSignatureValue);
+                                if (!TryCollectCompositeReferencePropertyIdentifier(xmlReader, poco, "ownedTemplateSignature", poco.OwnedTemplateSignature.Count))
+                                {
+                                    var ownedTemplateSignatureValue = (ITemplateSignature)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.NameSpaceResolver, this.ExtenderReaderRegistry, this.LoggerFactory, "uml:TemplateSignature");
+                                    poco.OwnedTemplateSignature.Add(ownedTemplateSignatureValue);
+                                }
                                 break;
                             case (KnowNamespacePrefixes.Uml, "owningTemplateParameter"):
                                 CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "owningTemplateParameter");
                                 break;
                             case (KnowNamespacePrefixes.Uml, "packagedElement"):
-                                var packagedElementValue = (IPackageableElement)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.NameSpaceResolver, this.ExtenderReaderRegistry, this.LoggerFactory);
-                                poco.PackagedElement.Add(packagedElementValue);
+                                if (!TryCollectCompositeReferencePropertyIdentifier(xmlReader, poco, "packagedElement", poco.PackagedElement.Count))
+                                {
+                                    var packagedElementValue = (IPackageableElement)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.NameSpaceResolver, this.ExtenderReaderRegistry, this.LoggerFactory);
+                                    poco.PackagedElement.Add(packagedElementValue);
+                                }
                                 break;
                             case (KnowNamespacePrefixes.Uml, "packageImport"):
-                                var packageImportValue = (IPackageImport)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.NameSpaceResolver, this.ExtenderReaderRegistry, this.LoggerFactory, "uml:PackageImport");
-                                poco.PackageImport.Add(packageImportValue);
+                                if (!TryCollectCompositeReferencePropertyIdentifier(xmlReader, poco, "packageImport", poco.PackageImport.Count))
+                                {
+                                    var packageImportValue = (IPackageImport)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.NameSpaceResolver, this.ExtenderReaderRegistry, this.LoggerFactory, "uml:PackageImport");
+                                    poco.PackageImport.Add(packageImportValue);
+                                }
                                 break;
                             case (KnowNamespacePrefixes.Uml, "packageMerge"):
-                                var packageMergeValue = (IPackageMerge)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.NameSpaceResolver, this.ExtenderReaderRegistry, this.LoggerFactory, "uml:PackageMerge");
-                                poco.PackageMerge.Add(packageMergeValue);
+                                if (!TryCollectCompositeReferencePropertyIdentifier(xmlReader, poco, "packageMerge", poco.PackageMerge.Count))
+                                {
+                                    var packageMergeValue = (IPackageMerge)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.NameSpaceResolver, this.ExtenderReaderRegistry, this.LoggerFactory, "uml:PackageMerge");
+                                    poco.PackageMerge.Add(packageMergeValue);
+                                }
                                 break;
                             case (KnowNamespacePrefixes.Uml, "profileApplication"):
-                                var profileApplicationValue = (IProfileApplication)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.NameSpaceResolver, this.ExtenderReaderRegistry, this.LoggerFactory, "uml:ProfileApplication");
-                                poco.ProfileApplication.Add(profileApplicationValue);
+                                if (!TryCollectCompositeReferencePropertyIdentifier(xmlReader, poco, "profileApplication", poco.ProfileApplication.Count))
+                                {
+                                    var profileApplicationValue = (IProfileApplication)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.NameSpaceResolver, this.ExtenderReaderRegistry, this.LoggerFactory, "uml:ProfileApplication");
+                                    poco.ProfileApplication.Add(profileApplicationValue);
+                                }
                                 break;
                             case (KnowNamespacePrefixes.Uml, "templateBinding"):
-                                var templateBindingValue = (ITemplateBinding)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.NameSpaceResolver, this.ExtenderReaderRegistry, this.LoggerFactory, "uml:TemplateBinding");
-                                poco.TemplateBinding.Add(templateBindingValue);
+                                if (!TryCollectCompositeReferencePropertyIdentifier(xmlReader, poco, "templateBinding", poco.TemplateBinding.Count))
+                                {
+                                    var templateBindingValue = (ITemplateBinding)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.NameSpaceResolver, this.ExtenderReaderRegistry, this.LoggerFactory, "uml:TemplateBinding");
+                                    poco.TemplateBinding.Add(templateBindingValue);
+                                }
                                 break;
                             case (KnowNamespacePrefixes.Uml, "templateParameter"):
                                 CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "templateParameter");

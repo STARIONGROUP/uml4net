@@ -265,6 +265,77 @@ namespace uml4net.xmi.Readers
         }
 
         /// <summary>
+        /// Tries to record the element that the <see cref="XmlReader"/> is positioned on as a proxy of a
+        /// composite property, which refers to the definition of the owned element by <c>href</c> or
+        /// <c>xmi:idref</c> instead of containing it (XMI 2.5.1 clause 7.10.1)
+        /// </summary>
+        /// <param name="xmlReader">
+        /// An instance of <see cref="XmlReader"/> that is positioned on the element of the composite property
+        /// </param>
+        /// <param name="xmiElement">
+        /// The <see cref="IXmiElement"/> that owns the composite property
+        /// </param>
+        /// <param name="localName">
+        /// The name of the composite property, used to verify that the cursor of the <see cref="XmlReader"/>
+        /// is at the right position
+        /// </param>
+        /// <param name="containedCount">
+        /// The number of elements that the composite property contains so far
+        /// </param>
+        /// <returns>
+        /// true when the element is a proxy and has been recorded, in which case the <see cref="XmlReader"/>
+        /// has moved past it; false when the element is a definition, in which case the
+        /// <see cref="XmlReader"/> has not moved
+        /// </returns>
+        protected static bool TryCollectCompositeReferencePropertyIdentifier(XmlReader xmlReader, IXmiElement xmiElement, string localName, int containedCount)
+        {
+            if (xmlReader == null)
+            {
+                throw new ArgumentNullException(nameof(xmlReader));
+            }
+
+            if (xmiElement == null)
+            {
+                throw new ArgumentNullException(nameof(xmiElement));
+            }
+
+            if (localName != xmlReader.LocalName)
+            {
+                throw new InvalidOperationException($"LocalName:{xmlReader.LocalName} is not equal to the provided localName:{localName}");
+            }
+
+            var href = xmlReader.GetAttribute("href");
+            var identifier = string.IsNullOrEmpty(href) ? xmlReader.GetAttribute("xmi:idref") : href;
+
+            if (string.IsNullOrEmpty(identifier))
+            {
+                return false;
+            }
+
+            if (!xmiElement.CompositeReferencePropertyIdentifiers.TryGetValue(localName, out var references))
+            {
+                references = new List<XmiCompositeReference>();
+                xmiElement.CompositeReferencePropertyIdentifiers.Add(localName, references);
+            }
+
+            references.Add(new XmiCompositeReference
+            {
+                Identifier = identifier,
+                Position = containedCount + references.Count
+            });
+
+            using var subXmlReader = xmlReader.ReadSubtree();
+            subXmlReader.MoveToContent();
+
+            if (!string.IsNullOrEmpty(href))
+            {
+                CollectUnresolvedReference(subXmlReader, xmiElement, localName, href);
+            }
+
+            return true;
+        }
+
+        /// <summary>
         /// Adds the reference element, in its original XMI form, to the
         /// <see cref="IXmiElement.UnresolvedReferences"/> collection of the provided <see cref="IXmiElement"/>
         /// </summary>
