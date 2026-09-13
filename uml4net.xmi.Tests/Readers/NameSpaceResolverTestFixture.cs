@@ -105,5 +105,34 @@ namespace uml4net.xmi.Tests.Readers
             Assert.That(() =>this.nameSpaceResolver.Register(null, null), Throws.ArgumentException);
             Assert.That(() => this.nameSpaceResolver.Register("https://www.stariongroup.eu", null), Throws.ArgumentException);
         }
+
+        [Test]
+        public void Verify_that_document_prefixes_are_resolved_to_the_supported_prefix()
+        {
+            this.nameSpaceResolver.RegisterDocumentPrefix("UML", "http://www.omg.org/spec/UML/20131001");
+            this.nameSpaceResolver.RegisterDocumentPrefix("x", "http://www.omg.org/spec/XMI/20161101");
+            this.nameSpaceResolver.RegisterDocumentPrefix(string.Empty, "http://www.omg.org/spec/UML/20161101");
+            this.nameSpaceResolver.RegisterDocumentPrefix("foo", "http://example.com/foo");
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(this.nameSpaceResolver.ResolveDocumentPrefix("UML"), Is.EqualTo("uml"));
+                Assert.That(this.nameSpaceResolver.ResolveDocumentPrefix("x"), Is.EqualTo("xmi"));
+                Assert.That(this.nameSpaceResolver.ResolveDocumentPrefix(string.Empty), Is.EqualTo("uml"), "the default namespace is registered with an empty prefix");
+                Assert.That(this.nameSpaceResolver.ResolveDocumentPrefix(null), Is.EqualTo("uml"), "null is treated as the default namespace");
+                Assert.That(this.nameSpaceResolver.ResolveDocumentPrefix("foo"), Is.EqualTo("other"), "a prefix bound to an unsupported namespace");
+                Assert.That(this.nameSpaceResolver.ResolveDocumentPrefix("unknown"), Is.EqualTo("other"));
+                Assert.That(() => this.nameSpaceResolver.RegisterDocumentPrefix("bar", null), Throws.ArgumentException);
+            }
+        }
+
+        [Test]
+        public void Verify_that_registering_a_document_prefix_again_overrides_the_earlier_binding()
+        {
+            this.nameSpaceResolver.RegisterDocumentPrefix("p", "http://www.omg.org/spec/UML/20131001");
+            this.nameSpaceResolver.RegisterDocumentPrefix("p", "http://www.omg.org/spec/XMI/20131001");
+
+            Assert.That(this.nameSpaceResolver.ResolveDocumentPrefix("p"), Is.EqualTo("xmi"));
+        }
     }
 }

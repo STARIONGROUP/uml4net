@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- the XMI namespace (2.5.1 version URI) is bound to the prefix x instead of xmi -->
+<x:XMI xmlns:x="http://www.omg.org/spec/XMI/20161101" xmlns:uml="http://www.omg.org/spec/UML/20161101" xmlns:pr="http://example.com/profile">
+  <x:documentation exporter="uml4net tests"/>
+  <uml:Package x:id="p" name="P">
+    <packagedElement x:type="uml:Class" x:id="base" name="Base"/>
+    <packagedElement x:type="uml:Class" x:id="c" name="C">
+      <generalization x:type="uml:Generalization" x:id="g">
+        <general x:idref="base"/>
+      </generalization>
+      <ownedAttribute x:type="uml:Property" x:id="a" name="a">
+        <type x:idref="base"/>
+        <redefinedProperty x:idref="a"/>
+      </ownedAttribute>
+      <x:Extension extender="tests" extenderID="1">
+        <custom>content</custom>
+      </x:Extension>
+    </packagedElement>
+  </uml:Package>
+  <pr:Stereo x:id="s" base_Class="c" value="v"/>
+</x:XMI>

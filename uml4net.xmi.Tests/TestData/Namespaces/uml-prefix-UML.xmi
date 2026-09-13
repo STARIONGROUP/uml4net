@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- the UML namespace is bound to the prefix UML instead of uml; xmi:type values use that prefix -->
+<xmi:XMI xmlns:xmi="http://www.omg.org/spec/XMI/20131001" xmlns:UML="http://www.omg.org/spec/UML/20131001">
+  <UML:Package xmi:id="p" name="P">
+    <packagedElement xmi:type="UML:Class" xmi:id="base" name="Base"/>
+    <packagedElement xmi:type="UML:Class" xmi:id="c" name="C">
+      <generalization xmi:type="UML:Generalization" xmi:id="g">
+        <general xmi:idref="base"/>
+      </generalization>
+      <ownedAttribute xmi:type="UML:Property" xmi:id="a" name="a">
+        <defaultValue xmi:type="UML:LiteralInteger" xmi:id="v" value="7"/>
+      </ownedAttribute>
+    </packagedElement>
+  </UML:Package>
+</xmi:XMI>

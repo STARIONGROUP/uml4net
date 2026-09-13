@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- the UML namespace is the default namespace; xmi:type values carry no prefix (XMI 2.5.1 clause 9.5.2 rule 2g) -->
+<xmi:XMI xmlns:xmi="http://www.omg.org/spec/XMI/20131001" xmlns="http://www.omg.org/spec/UML/20131001">
+  <Package xmi:id="p" name="P">
+    <packagedElement xmi:type="Class" xmi:id="base" name="Base"/>
+    <packagedElement xmi:type="Class" xmi:id="c" name="C">
+      <generalization xmi:type="Generalization" xmi:id="g" general="base"/>
+    </packagedElement>
+  </Package>
+</xmi:XMI>

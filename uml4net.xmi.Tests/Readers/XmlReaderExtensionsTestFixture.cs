@@ -108,6 +108,86 @@ namespace uml4net.xmi.Tests.Readers
         }
 
         [Test]
+        public void Verify_that_GetXmiAttribute_finds_the_attribute_whatever_the_prefix_and_XMI_version()
+        {
+            using var xmlReader = CreateReaderPositionedOnFirstChild("<root xmlns:x='http://www.omg.org/spec/XMI/20161101' xmlns:uml='http://www.omg.org/spec/UML/20131001'><a x:type='uml:Class' x:id='c1' name='n' type='notXmi'/></root>");
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(xmlReader.GetXmiAttribute("type"), Is.EqualTo("uml:Class"), "the unprefixed 'type' attribute is not in the XMI namespace and is not to be returned");
+                Assert.That(xmlReader.GetXmiAttribute("id"), Is.EqualTo("c1"));
+                Assert.That(xmlReader.GetXmiAttribute("idref"), Is.Null);
+                Assert.That(xmlReader.NodeType, Is.EqualTo(XmlNodeType.Element), "the reader is to remain positioned on the element");
+                Assert.That(xmlReader.LocalName, Is.EqualTo("a"));
+            }
+        }
+
+        [Test]
+        public void Verify_that_GetXmiAttribute_returns_null_for_an_element_without_attributes()
+        {
+            using var xmlReader = CreateReaderPositionedOnFirstChild("<root><a/></root>");
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(xmlReader.GetXmiAttribute("id"), Is.Null);
+                Assert.That(() => xmlReader.GetXmiAttribute(null), Throws.ArgumentException);
+            }
+        }
+
+        [Test]
+        public void Verify_that_ResolveQualifiedName_maps_the_document_prefix_to_the_known_prefix()
+        {
+            var nameSpaceResolver = new NameSpaceResolver();
+
+            using var xmlReader = CreateReaderPositionedOnFirstChild("<root xmlns='http://www.omg.org/spec/UML/20161101' xmlns:UML='http://www.omg.org/spec/UML/20131001' xmlns:x='http://www.omg.org/spec/XMI/20131001' xmlns:foo='http://example.com/foo'><a/></root>");
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(xmlReader.ResolveQualifiedName("UML:Class", nameSpaceResolver), Is.EqualTo("uml:Class"));
+                Assert.That(xmlReader.ResolveQualifiedName("Class", nameSpaceResolver), Is.EqualTo("uml:Class"), "an unprefixed name is resolved through the default namespace");
+                Assert.That(xmlReader.ResolveQualifiedName("x:Extension", nameSpaceResolver), Is.EqualTo("xmi:Extension"));
+                Assert.That(xmlReader.ResolveQualifiedName("foo:Bar", nameSpaceResolver), Is.EqualTo("foo:Bar"), "an unknown namespace is left as is");
+                Assert.That(xmlReader.ResolveQualifiedName("unbound:Bar", nameSpaceResolver), Is.EqualTo("unbound:Bar"), "an unbound prefix is left as is");
+                Assert.That(xmlReader.ResolveQualifiedName(null, nameSpaceResolver), Is.Null);
+                Assert.That(xmlReader.ResolveQualifiedName(string.Empty, nameSpaceResolver), Is.Empty);
+                Assert.That(() => xmlReader.ResolveQualifiedName("uml:Class", null), Throws.ArgumentNullException);
+            }
+        }
+
+        [Test]
+        public void Verify_that_ResolveQualifiedName_falls_back_to_the_registered_document_prefixes_for_a_subtree_reader()
+        {
+            var nameSpaceResolver = new NameSpaceResolver();
+
+            using var xmlReader = CreateReaderPositionedOnFirstChild("<root xmlns:UML='http://www.omg.org/spec/UML/20131001'><a><b/></a></root>");
+            using var subtreeReader = xmlReader.ReadSubtree();
+            subtreeReader.MoveToContent();
+            subtreeReader.Read();
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(subtreeReader.LocalName, Is.EqualTo("b"));
+                Assert.That(subtreeReader.ResolveQualifiedName("UML:Class", nameSpaceResolver), Is.EqualTo("UML:Class"), "a prefix declared on an ancestor outside the subtree is not resolvable by the subtree reader");
+
+                nameSpaceResolver.RegisterDocumentPrefix("UML", "http://www.omg.org/spec/UML/20131001");
+
+                Assert.That(subtreeReader.ResolveQualifiedName("UML:Class", nameSpaceResolver), Is.EqualTo("uml:Class"), "the registered document prefix is used as fallback");
+            }
+        }
+
+        [Test]
+        public void Verify_that_IsXmiNamespace_recognises_the_OMG_XMI_namespaces()
+        {
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(XmlReaderExtensions.IsXmiNamespace("http://www.omg.org/spec/XMI/20131001"), Is.True);
+                Assert.That(XmlReaderExtensions.IsXmiNamespace("https://www.omg.org/spec/XMI/20161101"), Is.True);
+                Assert.That(XmlReaderExtensions.IsXmiNamespace("http://www.omg.org/spec/UML/20131001"), Is.False);
+                Assert.That(XmlReaderExtensions.IsXmiNamespace(null), Is.False);
+            }
+        }
+
+        [Test]
         public void Verify_that_the_extension_methods_throw_when_the_reader_is_null()
         {
             XmlReader xmlReader = null;
@@ -116,6 +196,8 @@ namespace uml4net.xmi.Tests.Readers
             {
                 Assert.That(() => xmlReader.ReadElementContentAsStringInPlace(), Throws.ArgumentNullException);
                 Assert.That(() => xmlReader.SkipInPlace(), Throws.ArgumentNullException);
+                Assert.That(() => xmlReader.GetXmiAttribute("id"), Throws.ArgumentNullException);
+                Assert.That(() => xmlReader.ResolveQualifiedName("uml:Class", new NameSpaceResolver()), Throws.ArgumentNullException);
             }
         }
     }

@@ -273,9 +273,10 @@ namespace uml4net.xmi.Readers
                 {
                     var namespaces = resolver.GetNamespacesInScope(XmlNamespaceScope.ExcludeXml);
 
-                    foreach (var namespacesValue in namespaces.Values)
+                    foreach (var declaredNamespace in namespaces)
                     {
-                        this.NameSpaceResolver.ResolveAndSetNamespace(namespacesValue);
+                        this.NameSpaceResolver.ResolveAndSetNamespace(declaredNamespace.Value);
+                        this.NameSpaceResolver.RegisterDocumentPrefix(declaredNamespace.Key, declaredNamespace.Value);
                     }
                 }
 

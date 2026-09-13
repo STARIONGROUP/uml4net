@@ -130,7 +130,7 @@ namespace uml4net.xmi.Readers
             {
                 this.logger.LogTrace("reading IntervalConstraint at line:position {LineNumber}:{LinePosition}", xmlLineInfo?.LineNumber, xmlLineInfo?.LinePosition);
 
-                var xmiType = xmlReader.GetAttribute("type", this.NameSpaceResolver.XmiNameSpace);
+                var xmiType = xmlReader.ResolveQualifiedName(xmlReader.GetXmiAttribute("type"), this.NameSpaceResolver);
 
                 if (!string.IsNullOrEmpty(xmiType) && xmiType != "uml:IntervalConstraint")
                 {

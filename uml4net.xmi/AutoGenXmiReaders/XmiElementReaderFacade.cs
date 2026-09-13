@@ -1301,7 +1301,7 @@ namespace uml4net.xmi.Readers
                 throw new InvalidOperationException($"While ignoring the xmi:type, the {nameof(explicitTypeName)} should be provided");
             }
 
-            var xmiType = xmlReader.GetAttribute("xmi:type");
+            var xmiType = xmlReader.ResolveQualifiedName(xmlReader.GetXmiAttribute("type"), nameSpaceResolver);
 
             if ((xmiType == null && explicitTypeName != null) || ignoreXmiType)
             {
