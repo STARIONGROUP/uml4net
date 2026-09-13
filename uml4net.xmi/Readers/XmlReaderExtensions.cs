@@ -124,8 +124,9 @@ namespace uml4net.xmi.Readers
         /// </param>
         /// <returns>
         /// the qualified name with the prefix uml4net uses, such as <c>uml:Class</c>; the
-        /// <paramref name="qualifiedName"/> unchanged when its prefix is not bound in the document or is bound to
-        /// a namespace that is not known
+        /// <paramref name="qualifiedName"/> unchanged when its prefix is neither resolvable by the reader nor
+        /// registered as a document prefix (<see cref="INameSpaceResolver.RegisterDocumentPrefix"/>), or is bound
+        /// to a namespace that is not known
         /// </returns>
         public static string ResolveQualifiedName(this XmlReader xmlReader, string qualifiedName, INameSpaceResolver nameSpaceResolver)
         {
@@ -148,14 +149,14 @@ namespace uml4net.xmi.Readers
             var prefix = separatorIndex < 0 ? string.Empty : qualifiedName.Substring(0, separatorIndex);
             var localName = separatorIndex < 0 ? qualifiedName : qualifiedName.Substring(separatorIndex + 1);
 
+            // a subtree reader only resolves the prefixes declared on its own root element or inside the subtree,
+            // so a prefix declared on an ancestor (typically on xmi:XMI) is resolved through the prefixes that were
+            // registered for the document
             var namespaceUri = xmlReader.LookupNamespace(prefix);
 
-            if (string.IsNullOrEmpty(namespaceUri))
-            {
-                return qualifiedName;
-            }
-
-            var knownPrefix = nameSpaceResolver.ResolvePrefix(namespaceUri);
+            var knownPrefix = string.IsNullOrEmpty(namespaceUri)
+                ? nameSpaceResolver.ResolveDocumentPrefix(prefix)
+                : nameSpaceResolver.ResolvePrefix(namespaceUri);
 
             return knownPrefix == KnowNamespacePrefixes.Other ? qualifiedName : $"{knownPrefix}:{localName}";
         }

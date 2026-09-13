@@ -35,6 +35,12 @@ namespace uml4net.xmi.Readers
         private readonly Dictionary<Uri, string> knownNamespaceCache;
 
         /// <summary>
+        /// The prefixes declared by the document being processed, mapped to the supported prefix of the namespace
+        /// they are bound to
+        /// </summary>
+        private readonly Dictionary<string, string> documentPrefixes = new Dictionary<string, string>();
+
+        /// <summary>
         /// Instantiates a new instance of the <see cref="NameSpaceResolver"/> class.
         /// </summary>
         public NameSpaceResolver()
@@ -173,6 +179,43 @@ namespace uml4net.xmi.Readers
             {
                 this.PrimitiveTypesNameSpace = namespaceUri;
             }
+        }
+
+        /// <summary>
+        /// Registers a namespace prefix that the document being processed binds to a namespace, so that qualified
+        /// names found in the document (such as the value of an <c>xmi:type</c> attribute) can be resolved when the
+        /// <see cref="System.Xml.XmlReader"/> at hand cannot resolve the prefix itself, which is the case for a
+        /// subtree reader whose subtree does not contain the declaration
+        /// </summary>
+        /// <param name="prefix">
+        /// The prefix as declared in the document; an empty string for the default namespace
+        /// </param>
+        /// <param name="namespaceUri">
+        /// The namespace URI the document binds the <paramref name="prefix"/> to
+        /// </param>
+        public void RegisterDocumentPrefix(string prefix, string namespaceUri)
+        {
+            if (string.IsNullOrEmpty(namespaceUri))
+            {
+                throw new ArgumentException("The namespace URI is to be provided", nameof(namespaceUri));
+            }
+
+            this.documentPrefixes[prefix ?? string.Empty] = this.ResolvePrefix(namespaceUri);
+        }
+
+        /// <summary>
+        /// Resolves a prefix declared in the document being processed to the supported prefix of the namespace
+        /// it is bound to (such as xmi, uml, ...)
+        /// </summary>
+        /// <param name="prefix">
+        /// The prefix as declared in the document; an empty string for the default namespace
+        /// </param>
+        /// <returns>
+        /// the supported prefix, or "other" when the prefix is not registered or is bound to a namespace that is not supported
+        /// </returns>
+        public string ResolveDocumentPrefix(string prefix)
+        {
+            return this.documentPrefixes.TryGetValue(prefix ?? string.Empty, out var knownPrefix) ? knownPrefix : KnowNamespacePrefixes.Other;
         }
 
         /// <summary>

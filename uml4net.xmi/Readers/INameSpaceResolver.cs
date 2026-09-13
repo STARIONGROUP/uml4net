@@ -59,6 +59,32 @@ namespace uml4net.xmi.Readers
         void ResolveAndSetNamespace(string namespaceUri);
 
         /// <summary>
+        /// Registers a namespace prefix that the document being processed binds to a namespace, so that qualified
+        /// names found in the document (such as the value of an <c>xmi:type</c> attribute) can be resolved when the
+        /// <see cref="System.Xml.XmlReader"/> at hand cannot resolve the prefix itself, which is the case for a
+        /// subtree reader whose subtree does not contain the declaration
+        /// </summary>
+        /// <param name="prefix">
+        /// The prefix as declared in the document; an empty string for the default namespace
+        /// </param>
+        /// <param name="namespaceUri">
+        /// The namespace URI the document binds the <paramref name="prefix"/> to
+        /// </param>
+        void RegisterDocumentPrefix(string prefix, string namespaceUri);
+
+        /// <summary>
+        /// Resolves a prefix declared in the document being processed to the supported prefix of the namespace
+        /// it is bound to (such as xmi, uml, ...)
+        /// </summary>
+        /// <param name="prefix">
+        /// The prefix as declared in the document; an empty string for the default namespace
+        /// </param>
+        /// <returns>
+        /// the supported prefix, or "other" when the prefix is not registered or is bound to a namespace that is not supported
+        /// </returns>
+        string ResolveDocumentPrefix(string prefix);
+
+        /// <summary>
         /// Gets or sets the XMI namespace for the document that is being processed
         /// </summary>
         string XmiNameSpace { get; set; }

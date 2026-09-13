@@ -155,6 +155,27 @@ namespace uml4net.xmi.Tests.Readers
         }
 
         [Test]
+        public void Verify_that_ResolveQualifiedName_falls_back_to_the_registered_document_prefixes_for_a_subtree_reader()
+        {
+            var nameSpaceResolver = new NameSpaceResolver();
+
+            using var xmlReader = CreateReaderPositionedOnFirstChild("<root xmlns:UML='http://www.omg.org/spec/UML/20131001'><a><b/></a></root>");
+            using var subtreeReader = xmlReader.ReadSubtree();
+            subtreeReader.MoveToContent();
+            subtreeReader.Read();
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(subtreeReader.LocalName, Is.EqualTo("b"));
+                Assert.That(subtreeReader.ResolveQualifiedName("UML:Class", nameSpaceResolver), Is.EqualTo("UML:Class"), "a prefix declared on an ancestor outside the subtree is not resolvable by the subtree reader");
+
+                nameSpaceResolver.RegisterDocumentPrefix("UML", "http://www.omg.org/spec/UML/20131001");
+
+                Assert.That(subtreeReader.ResolveQualifiedName("UML:Class", nameSpaceResolver), Is.EqualTo("uml:Class"), "the registered document prefix is used as fallback");
+            }
+        }
+
+        [Test]
         public void Verify_that_IsXmiNamespace_recognises_the_OMG_XMI_namespaces()
         {
             using (Assert.EnterMultipleScope())
