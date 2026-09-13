@@ -385,6 +385,11 @@ namespace uml4net.xmi.Readers
             if (isRoot)
             {
                 this.assembler.Synchronize();
+
+                if (this.XmiReaderSettings.ThrowOnUnresolvedReferences && this.assembler.ResolutionFailures is { Count: > 0 } resolutionFailures)
+                {
+                    throw new UnresolvedReferencesException(resolutionFailures.ToList());
+                }
             }
         }
 

@@ -48,6 +48,11 @@ namespace uml4net
         private readonly IXmiElementCache cache;
 
         /// <summary>
+        /// The references that could not be resolved by the most recent <see cref="Synchronize"/>
+        /// </summary>
+        private readonly List<XmiReferenceResolutionFailure> resolutionFailures = [];
+
+        /// <summary>
         /// Initializes a new <see cref="Assembler"/>
         /// </summary>
         /// <param name="logger">The <see cref="ILogger{T}"/></param>
@@ -59,12 +64,19 @@ namespace uml4net
         }
 
         /// <summary>
+        /// Gets the references that could not be resolved by the most recent <see cref="Synchronize"/>
+        /// </summary>
+        public IReadOnlyList<XmiReferenceResolutionFailure> ResolutionFailures => this.resolutionFailures;
+
+        /// <summary>
         /// Synchronizes the <see cref="IXmiElement"/>s in the <see cref="IXmiElementCache"/> by assigning
         /// the reference properties that are encoded by <see cref="IXmiElement.SingleValueReferencePropertyIdentifiers"/>
         /// and by <see cref="IXmiElement.MultiValueReferencePropertyIdentifiers"/>
         /// </summary>
         public void Synchronize()
         {
+            this.resolutionFailures.Clear();
+
             foreach (var kvp in this.cache)
             {
                 this.ResolveReferences(kvp.Value);
@@ -88,6 +100,8 @@ namespace uml4net
                 {
                     this.logger.LogWarning("The reference to [{Reference}] for property [{Key}] on element type [{Element}] with id [{Id}] was not found in the cache, probably because its type is not supported.",
                         property.Value, property.Key, element.XmiType, element.XmiId);
+
+                    this.RecordResolutionFailure(element, property.Key, property.Value, XmiReferenceResolutionFailureKind.NotFound);
                     continue;
                 }
 
@@ -171,12 +185,15 @@ namespace uml4net
 
                 foreach (var compositeReference in property.Value.OrderBy(x => x.Position))
                 {
-                    if (!this.TryGetReferencedElement(element.DocumentName, compositeReference.Identifier, out var referencedElement)
-                        || !underlyingType.IsInstanceOfType(referencedElement)
-                        || referencedElement is not IElement ownedElement)
+                    var isFound = this.TryGetReferencedElement(element.DocumentName, compositeReference.Identifier, out var referencedElement);
+
+                    if (!isFound || !underlyingType.IsInstanceOfType(referencedElement) || referencedElement is not IElement ownedElement)
                     {
                         this.logger.LogWarning("The proxy [{Reference}] for composite property [{Key}] on element type [{Element}] with id [{Id}] was not found in the cache, or its type is not supported.",
                             compositeReference.Identifier, property.Key, element.XmiType, element.XmiId);
+
+                        this.RecordResolutionFailure(element, property.Key, compositeReference.Identifier,
+                            isFound ? XmiReferenceResolutionFailureKind.UnexpectedType : XmiReferenceResolutionFailureKind.NotFound);
 
                         unresolvedCompositeReferences.Add(compositeReference);
                         continue;
@@ -193,6 +210,8 @@ namespace uml4net
                         this.logger.LogWarning("The proxy [{Reference}] for composite property [{Key}] on element type [{Element}] with id [{Id}] refers to an element that is already owned by another element; the proxy is ignored.",
                             compositeReference.Identifier, property.Key, element.XmiType, element.XmiId);
 
+                        this.RecordResolutionFailure(element, property.Key, compositeReference.Identifier, XmiReferenceResolutionFailureKind.AlreadyOwned);
+
                         unresolvedCompositeReferences.Add(compositeReference);
                         continue;
                     }
@@ -208,6 +227,34 @@ namespace uml4net
                 property.Value.Clear();
                 property.Value.AddRange(unresolvedCompositeReferences);
             }
+        }
+
+        /// <summary>
+        /// Records a reference that could not be resolved in the <see cref="ResolutionFailures"/>
+        /// </summary>
+        /// <param name="element">
+        /// The <see cref="IXmiElement"/> that declares the reference
+        /// </param>
+        /// <param name="propertyName">
+        /// The name of the property that holds the reference
+        /// </param>
+        /// <param name="identifier">
+        /// The identifier of the referenced element
+        /// </param>
+        /// <param name="kind">
+        /// The <see cref="XmiReferenceResolutionFailureKind"/> that specifies why the reference could not be resolved
+        /// </param>
+        private void RecordResolutionFailure(IXmiElement element, string propertyName, string identifier, XmiReferenceResolutionFailureKind kind)
+        {
+            this.resolutionFailures.Add(new XmiReferenceResolutionFailure
+            {
+                DocumentName = element.DocumentName,
+                ElementXmiId = element.XmiId,
+                ElementXmiType = element.XmiType,
+                PropertyName = propertyName,
+                Identifier = identifier,
+                Kind = kind
+            });
         }
 
         /// <summary>
@@ -260,9 +307,14 @@ namespace uml4net
 
             foreach (var propertyValue in propertyValues)
             {
-                if (!this.TryGetReferencedElement(element.DocumentName, propertyValue, out var referencedElement) || !expectedType.IsInstanceOfType(referencedElement))
+                var isFound = this.TryGetReferencedElement(element.DocumentName, propertyValue, out var referencedElement);
+
+                if (!isFound || !expectedType.IsInstanceOfType(referencedElement))
                 {
                     this.logger.LogWarning("The reference with the id [{Key}] to [{PropertyValue}] was not found in the cache, probably because its type is not supported.", key, propertyValue);
+
+                    this.RecordResolutionFailure(element, key, propertyValue,
+                        isFound ? XmiReferenceResolutionFailureKind.UnexpectedType : XmiReferenceResolutionFailureKind.NotFound);
                     continue;
                 }
 
