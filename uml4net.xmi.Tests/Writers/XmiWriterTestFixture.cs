@@ -20,7 +20,9 @@
 
 namespace uml4net.xmi.Tests.Writers
 {
+    using System.Collections.Generic;
     using System.IO;
+    using System.Linq;
     using System.Threading.Tasks;
     using System.Xml;
 
@@ -94,6 +96,67 @@ namespace uml4net.xmi.Tests.Writers
             Assert.That(() => this.xmiWriter.WriteAsync(this.package, null, "output.xmi"), Throws.ArgumentNullException);
             Assert.That(() => this.xmiWriter.WriteAsync(this.package, stream, null), Throws.ArgumentException);
             Assert.That(() => this.xmiWriter.WriteAsync(this.package, stream, string.Empty), Throws.ArgumentException);
+        }
+
+        [Test]
+        public void Verify_that_Write_of_root_elements_throws_when_arguments_are_null_or_empty()
+        {
+            using var stream = new MemoryStream();
+            var rootElements = new IXmiElement[] { this.package };
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(() => this.xmiWriter.Write((IEnumerable<IXmiElement>)null, stream, "output.xmi", null, null), Throws.ArgumentNullException);
+                Assert.That(() => this.xmiWriter.Write(rootElements, (Stream)null, "output.xmi", null, null), Throws.ArgumentNullException);
+                Assert.That(() => this.xmiWriter.Write(rootElements, stream, string.Empty, null, null), Throws.ArgumentException);
+                Assert.That(() => this.xmiWriter.Write(new IXmiElement[0], stream, "output.xmi", null, null), Throws.ArgumentException);
+                Assert.That(() => this.xmiWriter.Write((IEnumerable<IXmiElement>)null, "output.xmi", null, null), Throws.ArgumentNullException);
+                Assert.That(() => this.xmiWriter.Write(rootElements, string.Empty, null, null), Throws.ArgumentException);
+                Assert.That(() => this.xmiWriter.Write((IPackage)null, "output.xmi", null, null), Throws.ArgumentNullException);
+            }
+        }
+
+        [Test]
+        public void Verify_that_WriteAsync_of_root_elements_throws_when_arguments_are_null_or_empty()
+        {
+            using var stream = new MemoryStream();
+            var rootElements = new IXmiElement[] { this.package };
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(() => this.xmiWriter.WriteAsync((IEnumerable<IXmiElement>)null, stream, "output.xmi", null, null), Throws.ArgumentNullException);
+                Assert.That(() => this.xmiWriter.WriteAsync(rootElements, (Stream)null, "output.xmi", null, null), Throws.ArgumentNullException);
+                Assert.That(() => this.xmiWriter.WriteAsync(rootElements, stream, string.Empty, null, null), Throws.ArgumentException);
+                Assert.That(() => this.xmiWriter.WriteAsync((IEnumerable<IXmiElement>)null, "output.xmi", null, null), Throws.ArgumentNullException);
+                Assert.That(() => this.xmiWriter.WriteAsync(rootElements, string.Empty, null, null), Throws.ArgumentException);
+                Assert.That(() => this.xmiWriter.WriteAsync((IPackage)null, "output.xmi", null, null), Throws.ArgumentNullException);
+            }
+        }
+
+        [Test]
+        public async Task Verify_that_root_elements_are_written_as_top_level_elements_in_order()
+        {
+            var @class = new Class { XmiId = "Class-1", Name = "class" };
+            var rootElements = new IXmiElement[] { @class, this.package };
+
+            using var stream = new MemoryStream();
+            this.xmiWriter.Write(rootElements, stream, "output.xmi", null, null);
+
+            using var asyncStream = new MemoryStream();
+            await this.xmiWriter.WriteAsync(rootElements, asyncStream, "output.xmi", null, null);
+
+            var xmlDocument = new XmlDocument();
+            stream.Position = 0;
+            xmlDocument.Load(stream);
+
+            var topLevelElements = xmlDocument.DocumentElement.ChildNodes.OfType<XmlElement>().ToList();
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(topLevelElements.Select(x => x.Name), Is.EqualTo(new[] { "uml:Class", "uml:Package" }));
+                Assert.That(topLevelElements.Select(x => x.GetAttribute("xmi:id")), Is.EqualTo(new[] { "Class-1", "Package-1" }));
+                Assert.That(asyncStream.ToArray(), Is.EqualTo(stream.ToArray()));
+            }
         }
 
         [Test]

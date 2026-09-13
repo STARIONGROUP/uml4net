@@ -274,5 +274,111 @@ namespace uml4net.xmi.Writers
         /// an awaitable <see cref="Task"/>
         /// </returns>
         Task WriteAsync(IPackage package, Stream stream, string documentName, Documentation documentation, IEnumerable<XmiExtension> documentExtensions, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Writes the provided root elements, <see cref="Documentation"/> and <see cref="XmiExtension"/>s to a
+        /// UML XMI 2.5.1 file. The root elements are written as the top-level elements of the document, in the
+        /// provided order, and do not need to be <see cref="IPackage"/>s.
+        /// </summary>
+        /// <param name="rootElements">
+        /// The <see cref="IXmiElement"/>s that are to be written as top-level elements, typically the
+        /// <c>RootElements</c> of the <c>XmiReaderResult</c> that was read
+        /// </param>
+        /// <param name="fileUri">
+        /// The URI of the XMI file that is to be written.
+        /// </param>
+        /// <param name="documentation">
+        /// The <see cref="Documentation"/> that is to be written as a sibling of the <paramref name="rootElements"/>,
+        /// typically the <c>Documentation</c> of the <c>XmiRoot</c> that was read. May be null.
+        /// </param>
+        /// <param name="documentExtensions">
+        /// The <see cref="XmiExtension"/>s that are to be written as a sibling of the <paramref name="rootElements"/>,
+        /// typically the <c>Extensions</c> of the <c>XmiRoot</c> that was read. May be null.
+        /// </param>
+        void Write(IEnumerable<IXmiElement> rootElements, string fileUri, Documentation documentation, IEnumerable<XmiExtension> documentExtensions);
+
+        /// <summary>
+        /// Writes the provided root elements, <see cref="Documentation"/> and <see cref="XmiExtension"/>s to a
+        /// UML XMI 2.5.1 stream. The root elements are written as the top-level elements of the document, in the
+        /// provided order, and do not need to be <see cref="IPackage"/>s.
+        /// </summary>
+        /// <param name="rootElements">
+        /// The <see cref="IXmiElement"/>s that are to be written as top-level elements, typically the
+        /// <c>RootElements</c> of the <c>XmiReaderResult</c> that was read
+        /// </param>
+        /// <param name="stream">
+        /// The <see cref="Stream"/> to which the XMI content is written.
+        /// </param>
+        /// <param name="documentName">
+        /// The name of the document that is being written.
+        /// </param>
+        /// <param name="documentation">
+        /// The <see cref="Documentation"/> that is to be written as a sibling of the <paramref name="rootElements"/>,
+        /// typically the <c>Documentation</c> of the <c>XmiRoot</c> that was read. May be null.
+        /// </param>
+        /// <param name="documentExtensions">
+        /// The <see cref="XmiExtension"/>s that are to be written as a sibling of the <paramref name="rootElements"/>,
+        /// typically the <c>Extensions</c> of the <c>XmiRoot</c> that was read. May be null.
+        /// </param>
+        void Write(IEnumerable<IXmiElement> rootElements, Stream stream, string documentName, Documentation documentation, IEnumerable<XmiExtension> documentExtensions);
+
+        /// <summary>
+        /// Asynchronously writes the provided root elements, <see cref="Documentation"/> and <see cref="XmiExtension"/>s
+        /// to a UML XMI 2.5.1 file. The root elements are written as the top-level elements of the document, in the
+        /// provided order, and do not need to be <see cref="IPackage"/>s.
+        /// </summary>
+        /// <param name="rootElements">
+        /// The <see cref="IXmiElement"/>s that are to be written as top-level elements, typically the
+        /// <c>RootElements</c> of the <c>XmiReaderResult</c> that was read
+        /// </param>
+        /// <param name="fileUri">
+        /// The URI of the XMI file that is to be written.
+        /// </param>
+        /// <param name="documentation">
+        /// The <see cref="Documentation"/> that is to be written as a sibling of the <paramref name="rootElements"/>,
+        /// typically the <c>Documentation</c> of the <c>XmiRoot</c> that was read. May be null.
+        /// </param>
+        /// <param name="documentExtensions">
+        /// The <see cref="XmiExtension"/>s that are to be written as a sibling of the <paramref name="rootElements"/>,
+        /// typically the <c>Extensions</c> of the <c>XmiRoot</c> that was read. May be null.
+        /// </param>
+        /// <param name="cancellationToken">
+        /// The <see cref="CancellationToken"/> used to cancel the write operation
+        /// </param>
+        /// <returns>
+        /// an awaitable <see cref="Task"/>
+        /// </returns>
+        Task WriteAsync(IEnumerable<IXmiElement> rootElements, string fileUri, Documentation documentation, IEnumerable<XmiExtension> documentExtensions, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Asynchronously writes the provided root elements, <see cref="Documentation"/> and <see cref="XmiExtension"/>s
+        /// to a UML XMI 2.5.1 stream. The root elements are written as the top-level elements of the document, in the
+        /// provided order, and do not need to be <see cref="IPackage"/>s.
+        /// </summary>
+        /// <param name="rootElements">
+        /// The <see cref="IXmiElement"/>s that are to be written as top-level elements, typically the
+        /// <c>RootElements</c> of the <c>XmiReaderResult</c> that was read
+        /// </param>
+        /// <param name="stream">
+        /// The <see cref="Stream"/> to which the XMI content is written.
+        /// </param>
+        /// <param name="documentName">
+        /// The name of the document that is being written.
+        /// </param>
+        /// <param name="documentation">
+        /// The <see cref="Documentation"/> that is to be written as a sibling of the <paramref name="rootElements"/>,
+        /// typically the <c>Documentation</c> of the <c>XmiRoot</c> that was read. May be null.
+        /// </param>
+        /// <param name="documentExtensions">
+        /// The <see cref="XmiExtension"/>s that are to be written as a sibling of the <paramref name="rootElements"/>,
+        /// typically the <c>Extensions</c> of the <c>XmiRoot</c> that was read. May be null.
+        /// </param>
+        /// <param name="cancellationToken">
+        /// The <see cref="CancellationToken"/> used to cancel the write operation
+        /// </param>
+        /// <returns>
+        /// an awaitable <see cref="Task"/>
+        /// </returns>
+        Task WriteAsync(IEnumerable<IXmiElement> rootElements, Stream stream, string documentName, Documentation documentation, IEnumerable<XmiExtension> documentExtensions, CancellationToken cancellationToken = default);
     }
 }

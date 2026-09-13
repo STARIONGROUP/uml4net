@@ -22,12 +22,13 @@ namespace uml4net.xmi.Writers
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
 
     using uml4net.Packages;
 
     /// <summary>
     /// The <see cref="XmiWritePlan"/> represents the result of a reference closure calculation and captures
-    /// which <see cref="IPackage"/>s are written as root packages of the XMI document and which elements
+    /// which <see cref="IXmiElement"/>s are written as top-level elements of the XMI document and which elements
     /// are serialized inside the document.
     /// </summary>
     public class XmiWritePlan
@@ -45,14 +46,39 @@ namespace uml4net.xmi.Writers
         /// The elements that are part of the document but do not have an <see cref="IXmiElement.XmiId"/>
         /// </param>
         public XmiWritePlan(IReadOnlyList<IPackage> rootPackages, HashSet<string> localIdentifiers, IReadOnlyList<IXmiElement> elementsMissingXmiId)
+            : this((IReadOnlyList<IXmiElement>)(rootPackages ?? throw new ArgumentNullException(nameof(rootPackages))), localIdentifiers, elementsMissingXmiId)
         {
-            this.RootPackages = rootPackages ?? throw new ArgumentNullException(nameof(rootPackages));
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="XmiWritePlan"/> class.
+        /// </summary>
+        /// <param name="rootElements">
+        /// The <see cref="IXmiElement"/>s that are written as top-level elements of the XMI document, in document order
+        /// </param>
+        /// <param name="localIdentifiers">
+        /// The <see cref="IXmiElement.FullyQualifiedIdentifier"/>s of the elements that are serialized inside the XMI document
+        /// </param>
+        /// <param name="elementsMissingXmiId">
+        /// The elements that are part of the document but do not have an <see cref="IXmiElement.XmiId"/>
+        /// </param>
+        public XmiWritePlan(IReadOnlyList<IXmiElement> rootElements, HashSet<string> localIdentifiers, IReadOnlyList<IXmiElement> elementsMissingXmiId)
+        {
+            this.RootElements = rootElements ?? throw new ArgumentNullException(nameof(rootElements));
+            this.RootPackages = rootElements.OfType<IPackage>().ToList();
             this.LocalIdentifiers = localIdentifiers ?? throw new ArgumentNullException(nameof(localIdentifiers));
             this.ElementsMissingXmiId = elementsMissingXmiId ?? throw new ArgumentNullException(nameof(elementsMissingXmiId));
         }
 
         /// <summary>
-        /// Gets the <see cref="IPackage"/>s that are written as root packages of the XMI document. The selected
+        /// Gets the <see cref="IXmiElement"/>s that are written as top-level elements of the XMI document, in document
+        /// order. The selected root elements come first, followed by the packages that are included as a result of
+        /// <see cref="uml4net.xmi.Settings.ExternalReferenceResolutionKind.Include"/>.
+        /// </summary>
+        public IReadOnlyList<IXmiElement> RootElements { get; }
+
+        /// <summary>
+        /// Gets the <see cref="IPackage"/>s of the <see cref="RootElements"/>. The selected
         /// package comes first, followed by the packages that are included as a result of
         /// <see cref="uml4net.xmi.Settings.ExternalReferenceResolutionKind.Include"/>.
         /// </summary>
