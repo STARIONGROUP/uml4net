@@ -80,7 +80,7 @@ namespace uml4net.StructuredClassifiers
         /// <returns>
         /// The <see cref="IType"/> that types the <paramref name="property"/>.
         /// </returns>
-        private static IType QueryMemberEndType(IProperty property)
+        internal static IType QueryMemberEndType(IProperty property)
         {
             return property is IExtensionEnd extensionEnd ? extensionEnd.Type : property.Type;
         }

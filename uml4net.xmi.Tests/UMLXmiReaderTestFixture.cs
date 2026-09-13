@@ -27,6 +27,7 @@ namespace uml4net.xmi.Tests
     using NUnit.Framework;
     using Serilog;
 
+    using uml4net.CommonStructure;
     using uml4net.Packages;
     using uml4net.SimpleClassifiers;
     using uml4net.StructuredClassifiers;
@@ -113,6 +114,14 @@ namespace uml4net.xmi.Tests
             var packageImport = package.PackageImport.First();
             Assert.That(packageImport.XmiId, Is.EqualTo("_packageImport.0"));
 
+            // source ends that subset Element::owner are not serialized; the derived unions fall back to the owner.
+            // The first import of the normative file imports the UML package itself, so the second one is used
+            var actionsImport = package.PackageImport.Single(x => x.ImportedPackage?.Name == "Actions");
+            Assert.That(actionsImport.ImportingNamespace, Is.Null);
+            Assert.That(actionsImport.Source, Is.EquivalentTo(new[] { package }));
+            Assert.That(actionsImport.Target, Is.EquivalentTo(new[] { actionsImport.ImportedPackage }));
+            Assert.That(actionsImport.RelatedElement, Is.EquivalentTo(new IElement[] { package, actionsImport.ImportedPackage }));
+
             var structuredClassifiersPackage = package.PackagedElement.OfType<IPackage>().Single(x => x.Name == "StructuredClassifiers");
 
             var structuredClassifiersPackageClasses = structuredClassifiersPackage.PackagedElement.OfType<IClass>();
@@ -120,6 +129,10 @@ namespace uml4net.xmi.Tests
             Assert.That(structuredClassifiersPackageClasses.Count, Is.EqualTo(14));
 
             var @class = structuredClassifiersPackageClasses.Single(x => x.Name == "Class");
+
+            var classGeneralization = @class.Generalization.First();
+            Assert.That(classGeneralization.Source, Is.EquivalentTo(new[] { @class }));
+            Assert.That(classGeneralization.Target, Is.EquivalentTo(new[] { classGeneralization.General }));
 
             var classOwnedComment = @class.OwnedComment.Single();
 
