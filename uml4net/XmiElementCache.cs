@@ -47,6 +47,12 @@ namespace uml4net
         private readonly Dictionary<IXmiElement, List<object>> extenderCache = [];
 
         /// <summary>
+        /// The number of elements without <see cref="IXmiElement.XmiId"/> that have been added, used to give each of
+        /// them a unique key
+        /// </summary>
+        private int anonymousElementCount;
+
+        /// <summary>
         /// Gets a collection containing the values in the Cache.
         /// </summary>
         /// <returns>
@@ -73,7 +79,8 @@ namespace uml4net
 
         /// <summary>
         /// Tries to add the specified XMI element to the cache using the <see cref="IXmiElement.FullyQualifiedIdentifier" />
-        /// as the key
+        /// as the key. An element without <see cref="IXmiElement.XmiId"/> is added under a synthetic unique key, so that
+        /// every such element is part of the cache (and is assembled) although it cannot be looked up by identifier
         /// </summary>
         /// <param name="element">
         /// The XMI element to be added to the Cache
@@ -89,12 +96,19 @@ namespace uml4net
                 throw new ArgumentNullException(nameof(element));
             }
 
-            if (this.cache.ContainsKey(element.FullyQualifiedIdentifier))
+            // xmi:id is optional (XMI 2.5.1 clause 7.6.1); an element without one cannot be referenced, but its
+            // own references, hrefs and extensions still have to be processed, so it is cached under a synthetic
+            // key that cannot clash with an xmi:id instead of the shared "document#" identifier
+            var key = string.IsNullOrEmpty(element.XmiId)
+                ? $"{element.FullyQualifiedIdentifier}<anonymous:{++this.anonymousElementCount}>"
+                : element.FullyQualifiedIdentifier;
+
+            if (this.cache.ContainsKey(key))
             {
                 return false;
             }
 
-            this.cache.Add(element.FullyQualifiedIdentifier, element);
+            this.cache.Add(key, element);
             element.Cache = this;
 
             return true;
@@ -139,6 +153,7 @@ namespace uml4net
         {
             this.cache.Clear();
             this.extenderCache.Clear();
+            this.anonymousElementCount = 0;
         }
 
         /// <summary>

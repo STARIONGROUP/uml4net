@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- elements without xmi:id (optional per XMI 2.5.1 clause 7.6.1) that hold references, an href and an extension -->
+<xmi:XMI xmlns:xmi="http://www.omg.org/spec/XMI/20131001" xmlns:uml="http://www.omg.org/spec/UML/20131001">
+  <uml:Package xmi:id="p" name="P">
+    <packagedElement xmi:type="uml:Class" xmi:id="base" name="Base"/>
+    <packagedElement xmi:type="uml:Class" name="A">
+      <generalization xmi:type="uml:Generalization" general="base"/>
+      <ownedAttribute xmi:type="uml:Property" name="external">
+        <type href="idless-types.xmi#t"/>
+      </ownedAttribute>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Class" name="B">
+      <generalization xmi:type="uml:Generalization" general="base"/>
+      <xmi:Extension extender="tests">
+        <marker>b</marker>
+      </xmi:Extension>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Class" name="C">
+      <generalization xmi:type="uml:Generalization">
+        <general xmi:idref="base"/>
+      </generalization>
+    </packagedElement>
+  </uml:Package>
+</xmi:XMI>
