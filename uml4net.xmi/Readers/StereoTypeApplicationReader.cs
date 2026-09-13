@@ -88,7 +88,7 @@ namespace uml4net.xmi.Readers
                     {
                         xmlReader.MoveToAttribute(i);
 
-                        if (xmlReader.Name == "xmi:id")
+                        if (xmlReader.LocalName == "id" && XmlReaderExtensions.IsXmiNamespace(xmlReader.NamespaceURI))
                         {
                             stereoTypeApplication.XmiId = xmlReader.Value;
                         }

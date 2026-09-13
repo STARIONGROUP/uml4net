@@ -102,7 +102,7 @@ namespace uml4net.{{this.Class.Namespace.Name}}.Readers
                 {{/each}}
 
                 {{ #if (Class.DoesExtensionReferencesXmiElement this.Class)}}
-                var idRef = xmlReader.GetAttribute("xmi:idref");
+                var idRef = xmlReader.GetXmiAttribute("idref");
                 
                 if(!string.IsNullOrWhiteSpace(idRef) && this.Cache.TryGetValue($"{documentName}#{idRef}", out var extendedElement))
                 {

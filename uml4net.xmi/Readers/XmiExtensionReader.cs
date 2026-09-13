@@ -129,7 +129,7 @@ namespace uml4net.xmi.Readers
             {
                 this.logger.LogTrace("reading XmiExtension at line:position {LineNumber}:{LinePosition}", xmlLineInfo?.LineNumber, xmlLineInfo?.LinePosition);
 
-                var xmiType = xmlReader.GetAttribute("type", this.nameSpaceResolver.XmiNameSpace);
+                var xmiType = xmlReader.ResolveQualifiedName(xmlReader.GetXmiAttribute("type"), this.nameSpaceResolver);
 
                 if (!string.IsNullOrEmpty(xmiType) && xmiType != "xmi:Extension")
                 {

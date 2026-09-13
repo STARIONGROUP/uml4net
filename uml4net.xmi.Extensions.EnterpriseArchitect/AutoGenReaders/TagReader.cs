@@ -104,7 +104,7 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.Structure.Readers
                 var valueValue = xmlReader.GetAttribute("value");
                 poco.Value = valueValue;
 
-                var idRef = xmlReader.GetAttribute("xmi:idref");
+                var idRef = xmlReader.GetXmiAttribute("idref");
 
                 if (!string.IsNullOrWhiteSpace(idRef) && this.Cache.TryGetValue($"{documentName}#{idRef}", out var extendedElement))
                 {

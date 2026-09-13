@@ -102,7 +102,7 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.Structure.Readers
                 var visibilityValue = xmlReader.GetAttribute("visibility");
                 poco.Visibility = visibilityValue;
 
-                var idRef = xmlReader.GetAttribute("xmi:idref");
+                var idRef = xmlReader.GetXmiAttribute("idref");
 
                 if (!string.IsNullOrWhiteSpace(idRef) && this.Cache.TryGetValue($"{documentName}#{idRef}", out var extendedElement))
                 {

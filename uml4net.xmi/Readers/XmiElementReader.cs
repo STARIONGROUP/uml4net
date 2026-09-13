@@ -185,7 +185,7 @@ namespace uml4net.xmi.Readers
 
                     CollectUnresolvedReference(subXmlReader, xmiElement, localName, reference);
                 }
-                else if (subXmlReader.GetAttribute("xmi:idref") is { Length: > 0 } idRef)
+                else if (subXmlReader.GetXmiAttribute("idref") is { Length: > 0 } idRef)
                 {
                     xmiElement.SingleValueReferencePropertyIdentifiers.Add(localName, idRef);
                 }
@@ -247,7 +247,7 @@ namespace uml4net.xmi.Readers
                     return true;
                 }
 
-                var idRef = subXmlReader.GetAttribute("xmi:idref");
+                var idRef = subXmlReader.GetXmiAttribute("idref");
                 if (!string.IsNullOrEmpty(idRef))
                 {
                     if (!xmiElement.MultiValueReferencePropertyIdentifiers.TryGetValue(localName, out var references))
@@ -305,7 +305,7 @@ namespace uml4net.xmi.Readers
             }
 
             var href = xmlReader.GetAttribute("href");
-            var identifier = string.IsNullOrEmpty(href) ? xmlReader.GetAttribute("xmi:idref") : href;
+            var identifier = string.IsNullOrEmpty(href) ? xmlReader.GetXmiAttribute("idref") : href;
 
             if (string.IsNullOrEmpty(identifier))
             {

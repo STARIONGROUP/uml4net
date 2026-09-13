@@ -102,7 +102,7 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.Structure.Readers
                 var scopeValue = xmlReader.GetAttribute("scope");
                 poco.Scope = scopeValue;
 
-                var idRef = xmlReader.GetAttribute("xmi:idref");
+                var idRef = xmlReader.GetXmiAttribute("idref");
 
                 if (!string.IsNullOrWhiteSpace(idRef) && this.Cache.TryGetValue($"{documentName}#{idRef}", out var extendedElement))
                 {
