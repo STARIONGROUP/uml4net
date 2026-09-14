@@ -886,7 +886,14 @@ namespace uml4net.HandleBars
                         sb.AppendLine($"var {property.Name}XmlAttribute = xmlReader.GetAttribute(\"{property.Name}\") ?? xmlReader.GetAttribute(\"{property.Name}\", this.NameSpaceResolver.UmlNameSpace);");
                         sb.AppendLine($"{Environment.NewLine}if (!string.IsNullOrWhiteSpace({property.Name}XmlAttribute))");
                         sb.AppendLine("{");
-                        sb.AppendLine($"poco.{property.Name.CapitalizeFirstLetter()} = ({typeName})Enum.Parse(typeof({typeName}), {property.Name}XmlAttribute, true);");
+                        sb.AppendLine($"    if ({typeName}Extensions.TryParseXmiLiteral({property.Name}XmlAttribute, out var {property.Name}Literal))");
+                        sb.AppendLine("    {");
+                        sb.AppendLine($"        poco.{property.Name.CapitalizeFirstLetter()} = {property.Name}Literal;");
+                        sb.AppendLine("    }");
+                        sb.AppendLine("    else");
+                        sb.AppendLine("    {");
+                        sb.AppendLine($"        this.ReportXmiError(xmlReader, poco, \"{property.Name}\", $\"[{{{property.Name}XmlAttribute}}] is not the name of a literal of {typeName}\");");
+                        sb.AppendLine("    }");
                         sb.AppendLine("}");
 
                         writer.WriteSafeString(sb + Environment.NewLine);
@@ -1086,7 +1093,14 @@ namespace uml4net.HandleBars
                         sb.AppendLine($"var {property.Name}Value = xmlReader.ReadElementContentAsStringInPlace();");
                         sb.AppendLine($"{Environment.NewLine}if (!string.IsNullOrWhiteSpace({property.Name}Value))");
                         sb.AppendLine("{");
-                        sb.AppendLine($"poco.{property.Name.CapitalizeFirstLetter()} = ({typeName})Enum.Parse(typeof({typeName}), {property.Name}Value, true);");
+                        sb.AppendLine($"    if ({typeName}Extensions.TryParseXmiLiteral({property.Name}Value, out var {property.Name}Literal))");
+                        sb.AppendLine("    {");
+                        sb.AppendLine($"        poco.{property.Name.CapitalizeFirstLetter()} = {property.Name}Literal;");
+                        sb.AppendLine("    }");
+                        sb.AppendLine("    else");
+                        sb.AppendLine("    {");
+                        sb.AppendLine($"        this.ReportXmiError(xmlReader, poco, \"{property.Name}\", $\"[{{{property.Name}Value}}] is not the name of a literal of {typeName}\");");
+                        sb.AppendLine("    }");
                         sb.AppendLine("}");
 
                         sb.AppendLine($"{Environment.NewLine}break;");

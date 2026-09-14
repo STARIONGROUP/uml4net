@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- a single-valued reference that is given more than once (XMI 2.5.1 clause 9.5.2, rule 2h) -->
+<xmi:XMI xmlns:xmi="http://www.omg.org/spec/XMI/20131001" xmlns:uml="http://www.omg.org/spec/UML/20131001">
+  <uml:Package xmi:id="p" name="P">
+    <packagedElement xmi:type="uml:Class" xmi:id="c" name="C"/>
+    <packagedElement xmi:type="uml:Class" xmi:id="d" name="D">
+      <ownedAttribute xmi:type="uml:Property" xmi:id="a" name="a">
+        <type xmi:idref="c"/>
+        <type xmi:idref="d"/>
+      </ownedAttribute>
+    </packagedElement>
+  </uml:Package>
+</xmi:XMI>

@@ -159,6 +159,66 @@ namespace uml4net.Interactions
                 _ => throw new ArgumentOutOfRangeException(nameof(value), value, $"{value} is not a literal of InteractionOperatorKind")
             };
         }
+
+        /// <summary>
+        /// Tries to map the name of an enumeration literal as it appears in an XMI document (XMI 2.5.1 clause 9.5.2,
+        /// rule 2i) to the <see cref="InteractionOperatorKind"/> value; the name must match the literal of the UML metamodel
+        /// exactly, numeric values and other spellings are not literals
+        /// </summary>
+        /// <param name="literal">
+        /// The name of the enumeration literal
+        /// </param>
+        /// <param name="value">
+        /// The <see cref="InteractionOperatorKind"/> value, the default value when the literal is not known
+        /// </param>
+        /// <returns>
+        /// true when the literal is a literal of <see cref="InteractionOperatorKind"/>, false otherwise
+        /// </returns>
+        public static bool TryParseXmiLiteral(string literal, out InteractionOperatorKind value)
+        {
+            switch (literal)
+            {
+                case "seq":
+                    value = InteractionOperatorKind.Seq;
+                    return true;
+                case "alt":
+                    value = InteractionOperatorKind.Alt;
+                    return true;
+                case "opt":
+                    value = InteractionOperatorKind.Opt;
+                    return true;
+                case "break":
+                    value = InteractionOperatorKind.Break;
+                    return true;
+                case "par":
+                    value = InteractionOperatorKind.Par;
+                    return true;
+                case "strict":
+                    value = InteractionOperatorKind.Strict;
+                    return true;
+                case "loop":
+                    value = InteractionOperatorKind.Loop;
+                    return true;
+                case "critical":
+                    value = InteractionOperatorKind.Critical;
+                    return true;
+                case "neg":
+                    value = InteractionOperatorKind.Neg;
+                    return true;
+                case "assert":
+                    value = InteractionOperatorKind.Assert;
+                    return true;
+                case "ignore":
+                    value = InteractionOperatorKind.Ignore;
+                    return true;
+                case "consider":
+                    value = InteractionOperatorKind.Consider;
+                    return true;
+                default:
+                    value = default;
+                    return false;
+            }
+        }
     }
 }
 

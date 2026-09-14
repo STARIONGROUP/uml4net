@@ -92,6 +92,48 @@ namespace uml4net.Interactions
                 _ => throw new ArgumentOutOfRangeException(nameof(value), value, $"{value} is not a literal of MessageSort")
             };
         }
+
+        /// <summary>
+        /// Tries to map the name of an enumeration literal as it appears in an XMI document (XMI 2.5.1 clause 9.5.2,
+        /// rule 2i) to the <see cref="MessageSort"/> value; the name must match the literal of the UML metamodel
+        /// exactly, numeric values and other spellings are not literals
+        /// </summary>
+        /// <param name="literal">
+        /// The name of the enumeration literal
+        /// </param>
+        /// <param name="value">
+        /// The <see cref="MessageSort"/> value, the default value when the literal is not known
+        /// </param>
+        /// <returns>
+        /// true when the literal is a literal of <see cref="MessageSort"/>, false otherwise
+        /// </returns>
+        public static bool TryParseXmiLiteral(string literal, out MessageSort value)
+        {
+            switch (literal)
+            {
+                case "synchCall":
+                    value = MessageSort.SynchCall;
+                    return true;
+                case "asynchCall":
+                    value = MessageSort.AsynchCall;
+                    return true;
+                case "asynchSignal":
+                    value = MessageSort.AsynchSignal;
+                    return true;
+                case "createMessage":
+                    value = MessageSort.CreateMessage;
+                    return true;
+                case "deleteMessage":
+                    value = MessageSort.DeleteMessage;
+                    return true;
+                case "reply":
+                    value = MessageSort.Reply;
+                    return true;
+                default:
+                    value = default;
+                    return false;
+            }
+        }
     }
 }
 

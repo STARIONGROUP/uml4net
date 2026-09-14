@@ -80,6 +80,42 @@ namespace uml4net.Classification
                 _ => throw new ArgumentOutOfRangeException(nameof(value), value, $"{value} is not a literal of ParameterDirectionKind")
             };
         }
+
+        /// <summary>
+        /// Tries to map the name of an enumeration literal as it appears in an XMI document (XMI 2.5.1 clause 9.5.2,
+        /// rule 2i) to the <see cref="ParameterDirectionKind"/> value; the name must match the literal of the UML metamodel
+        /// exactly, numeric values and other spellings are not literals
+        /// </summary>
+        /// <param name="literal">
+        /// The name of the enumeration literal
+        /// </param>
+        /// <param name="value">
+        /// The <see cref="ParameterDirectionKind"/> value, the default value when the literal is not known
+        /// </param>
+        /// <returns>
+        /// true when the literal is a literal of <see cref="ParameterDirectionKind"/>, false otherwise
+        /// </returns>
+        public static bool TryParseXmiLiteral(string literal, out ParameterDirectionKind value)
+        {
+            switch (literal)
+            {
+                case "in":
+                    value = ParameterDirectionKind.In;
+                    return true;
+                case "inout":
+                    value = ParameterDirectionKind.Inout;
+                    return true;
+                case "out":
+                    value = ParameterDirectionKind.Out;
+                    return true;
+                case "return":
+                    value = ParameterDirectionKind.Return;
+                    return true;
+                default:
+                    value = default;
+                    return false;
+            }
+        }
     }
 }
 

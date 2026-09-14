@@ -160,21 +160,37 @@ namespace uml4net.xmi.Readers
 
                 if (!this.Cache.TryAdd(poco))
                 {
-                    this.logger.LogCritical("Failed to add element type [{Poco}] with id [{Id}] as it was already in the Cache. The XMI document seems to have duplicate xmi:id values", "Parameter", poco.XmiId);
+                    // xmi:id values must be unique within a document (XMI 2.5.1 clause 7.6.1); the element that was read first is kept and referenced.
+                    // This is reported, not rejected, even in strict mode: the normative UML.xmi itself contains a duplicate xmi:id
+                    this.logger.LogError("The xmi:id is not unique within the document, the element that was read first is kept: Parameter [{XmiId}] property [xmi:id] at line:position {LineNumber}:{LinePosition}", poco.XmiId, xmlLineInfo?.LineNumber, xmlLineInfo?.LinePosition);
                 }
 
                 var directionXmlAttribute = xmlReader.GetAttribute("direction") ?? xmlReader.GetAttribute("direction", this.NameSpaceResolver.UmlNameSpace);
 
                 if (!string.IsNullOrWhiteSpace(directionXmlAttribute))
                 {
-                    poco.Direction = (ParameterDirectionKind)Enum.Parse(typeof(ParameterDirectionKind), directionXmlAttribute, true);
+                    if (ParameterDirectionKindExtensions.TryParseXmiLiteral(directionXmlAttribute, out var directionLiteral))
+                    {
+                        poco.Direction = directionLiteral;
+                    }
+                    else
+                    {
+                        this.ReportXmiError(xmlReader, poco, "direction", $"[{directionXmlAttribute}] is not the name of a literal of ParameterDirectionKind");
+                    }
                 }
 
                 var effectXmlAttribute = xmlReader.GetAttribute("effect") ?? xmlReader.GetAttribute("effect", this.NameSpaceResolver.UmlNameSpace);
 
                 if (!string.IsNullOrWhiteSpace(effectXmlAttribute))
                 {
-                    poco.Effect = (ParameterEffectKind)Enum.Parse(typeof(ParameterEffectKind), effectXmlAttribute, true);
+                    if (ParameterEffectKindExtensions.TryParseXmiLiteral(effectXmlAttribute, out var effectLiteral))
+                    {
+                        poco.Effect = effectLiteral;
+                    }
+                    else
+                    {
+                        this.ReportXmiError(xmlReader, poco, "effect", $"[{effectXmlAttribute}] is not the name of a literal of ParameterEffectKind");
+                    }
                 }
 
                 var isExceptionXmlAttribute = xmlReader.GetAttribute("isException") ?? xmlReader.GetAttribute("isException", this.NameSpaceResolver.UmlNameSpace);
@@ -247,7 +263,14 @@ namespace uml4net.xmi.Readers
 
                 if (!string.IsNullOrWhiteSpace(visibilityXmlAttribute))
                 {
-                    poco.Visibility = (VisibilityKind)Enum.Parse(typeof(VisibilityKind), visibilityXmlAttribute, true);
+                    if (VisibilityKindExtensions.TryParseXmiLiteral(visibilityXmlAttribute, out var visibilityLiteral))
+                    {
+                        poco.Visibility = visibilityLiteral;
+                    }
+                    else
+                    {
+                        this.ReportXmiError(xmlReader, poco, "visibility", $"[{visibilityXmlAttribute}] is not the name of a literal of VisibilityKind");
+                    }
                 }
 
 
@@ -273,7 +296,14 @@ namespace uml4net.xmi.Readers
 
                                 if (!string.IsNullOrWhiteSpace(directionValue))
                                 {
-                                    poco.Direction = (ParameterDirectionKind)Enum.Parse(typeof(ParameterDirectionKind), directionValue, true);
+                                    if (ParameterDirectionKindExtensions.TryParseXmiLiteral(directionValue, out var directionLiteral))
+                                    {
+                                        poco.Direction = directionLiteral;
+                                    }
+                                    else
+                                    {
+                                        this.ReportXmiError(xmlReader, poco, "direction", $"[{directionValue}] is not the name of a literal of ParameterDirectionKind");
+                                    }
                                 }
 
                                 break;
@@ -282,7 +312,14 @@ namespace uml4net.xmi.Readers
 
                                 if (!string.IsNullOrWhiteSpace(effectValue))
                                 {
-                                    poco.Effect = (ParameterEffectKind)Enum.Parse(typeof(ParameterEffectKind), effectValue, true);
+                                    if (ParameterEffectKindExtensions.TryParseXmiLiteral(effectValue, out var effectLiteral))
+                                    {
+                                        poco.Effect = effectLiteral;
+                                    }
+                                    else
+                                    {
+                                        this.ReportXmiError(xmlReader, poco, "effect", $"[{effectValue}] is not the name of a literal of ParameterEffectKind");
+                                    }
                                 }
 
                                 break;
@@ -373,7 +410,14 @@ namespace uml4net.xmi.Readers
 
                                 if (!string.IsNullOrWhiteSpace(visibilityValue))
                                 {
-                                    poco.Visibility = (VisibilityKind)Enum.Parse(typeof(VisibilityKind), visibilityValue, true);
+                                    if (VisibilityKindExtensions.TryParseXmiLiteral(visibilityValue, out var visibilityLiteral))
+                                    {
+                                        poco.Visibility = visibilityLiteral;
+                                    }
+                                    else
+                                    {
+                                        this.ReportXmiError(xmlReader, poco, "visibility", $"[{visibilityValue}] is not the name of a literal of VisibilityKind");
+                                    }
                                 }
 
                                 break;

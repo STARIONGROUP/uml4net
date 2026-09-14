@@ -160,7 +160,9 @@ namespace uml4net.xmi.Readers
 
                 if (!this.Cache.TryAdd(poco))
                 {
-                    this.logger.LogCritical("Failed to add element type [{Poco}] with id [{Id}] as it was already in the Cache. The XMI document seems to have duplicate xmi:id values", "ActivityParameterNode", poco.XmiId);
+                    // xmi:id values must be unique within a document (XMI 2.5.1 clause 7.6.1); the element that was read first is kept and referenced.
+                    // This is reported, not rejected, even in strict mode: the normative UML.xmi itself contains a duplicate xmi:id
+                    this.logger.LogError("The xmi:id is not unique within the document, the element that was read first is kept: ActivityParameterNode [{XmiId}] property [xmi:id] at line:position {LineNumber}:{LinePosition}", poco.XmiId, xmlLineInfo?.LineNumber, xmlLineInfo?.LinePosition);
                 }
 
                 var activityXmlAttribute = xmlReader.GetAttribute("activity") ?? xmlReader.GetAttribute("activity", this.NameSpaceResolver.UmlNameSpace);
@@ -229,7 +231,14 @@ namespace uml4net.xmi.Readers
 
                 if (!string.IsNullOrWhiteSpace(orderingXmlAttribute))
                 {
-                    poco.Ordering = (ObjectNodeOrderingKind)Enum.Parse(typeof(ObjectNodeOrderingKind), orderingXmlAttribute, true);
+                    if (ObjectNodeOrderingKindExtensions.TryParseXmiLiteral(orderingXmlAttribute, out var orderingLiteral))
+                    {
+                        poco.Ordering = orderingLiteral;
+                    }
+                    else
+                    {
+                        this.ReportXmiError(xmlReader, poco, "ordering", $"[{orderingXmlAttribute}] is not the name of a literal of ObjectNodeOrderingKind");
+                    }
                 }
 
                 var outgoingXmlAttribute = xmlReader.GetAttribute("outgoing") ?? xmlReader.GetAttribute("outgoing", this.NameSpaceResolver.UmlNameSpace);
@@ -273,7 +282,14 @@ namespace uml4net.xmi.Readers
 
                 if (!string.IsNullOrWhiteSpace(visibilityXmlAttribute))
                 {
-                    poco.Visibility = (VisibilityKind)Enum.Parse(typeof(VisibilityKind), visibilityXmlAttribute, true);
+                    if (VisibilityKindExtensions.TryParseXmiLiteral(visibilityXmlAttribute, out var visibilityLiteral))
+                    {
+                        poco.Visibility = visibilityLiteral;
+                    }
+                    else
+                    {
+                        this.ReportXmiError(xmlReader, poco, "visibility", $"[{visibilityXmlAttribute}] is not the name of a literal of VisibilityKind");
+                    }
                 }
 
 
@@ -338,7 +354,14 @@ namespace uml4net.xmi.Readers
 
                                 if (!string.IsNullOrWhiteSpace(orderingValue))
                                 {
-                                    poco.Ordering = (ObjectNodeOrderingKind)Enum.Parse(typeof(ObjectNodeOrderingKind), orderingValue, true);
+                                    if (ObjectNodeOrderingKindExtensions.TryParseXmiLiteral(orderingValue, out var orderingLiteral))
+                                    {
+                                        poco.Ordering = orderingLiteral;
+                                    }
+                                    else
+                                    {
+                                        this.ReportXmiError(xmlReader, poco, "ordering", $"[{orderingValue}] is not the name of a literal of ObjectNodeOrderingKind");
+                                    }
                                 }
 
                                 break;
@@ -376,7 +399,14 @@ namespace uml4net.xmi.Readers
 
                                 if (!string.IsNullOrWhiteSpace(visibilityValue))
                                 {
-                                    poco.Visibility = (VisibilityKind)Enum.Parse(typeof(VisibilityKind), visibilityValue, true);
+                                    if (VisibilityKindExtensions.TryParseXmiLiteral(visibilityValue, out var visibilityLiteral))
+                                    {
+                                        poco.Visibility = visibilityLiteral;
+                                    }
+                                    else
+                                    {
+                                        this.ReportXmiError(xmlReader, poco, "visibility", $"[{visibilityValue}] is not the name of a literal of VisibilityKind");
+                                    }
                                 }
 
                                 break;

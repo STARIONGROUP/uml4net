@@ -78,6 +78,42 @@ namespace uml4net.Interactions
                 _ => throw new ArgumentOutOfRangeException(nameof(value), value, $"{value} is not a literal of MessageKind")
             };
         }
+
+        /// <summary>
+        /// Tries to map the name of an enumeration literal as it appears in an XMI document (XMI 2.5.1 clause 9.5.2,
+        /// rule 2i) to the <see cref="MessageKind"/> value; the name must match the literal of the UML metamodel
+        /// exactly, numeric values and other spellings are not literals
+        /// </summary>
+        /// <param name="literal">
+        /// The name of the enumeration literal
+        /// </param>
+        /// <param name="value">
+        /// The <see cref="MessageKind"/> value, the default value when the literal is not known
+        /// </param>
+        /// <returns>
+        /// true when the literal is a literal of <see cref="MessageKind"/>, false otherwise
+        /// </returns>
+        public static bool TryParseXmiLiteral(string literal, out MessageKind value)
+        {
+            switch (literal)
+            {
+                case "complete":
+                    value = MessageKind.Complete;
+                    return true;
+                case "lost":
+                    value = MessageKind.Lost;
+                    return true;
+                case "found":
+                    value = MessageKind.Found;
+                    return true;
+                case "unknown":
+                    value = MessageKind.Unknown;
+                    return true;
+                default:
+                    value = default;
+                    return false;
+            }
+        }
     }
 }
 

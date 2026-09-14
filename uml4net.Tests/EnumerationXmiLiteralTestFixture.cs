@@ -61,5 +61,57 @@ namespace uml4net.Tests
         {
             Assert.That(() => ((VisibilityKind)99).QueryXmiLiteral(), Throws.InstanceOf<ArgumentOutOfRangeException>());
         }
+
+        [Test]
+        public void Verify_that_TryParseXmiLiteral_maps_the_literal_name_of_the_metamodel_to_the_value()
+        {
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(VisibilityKindExtensions.TryParseXmiLiteral("private", out var visibility), Is.True);
+                Assert.That(visibility, Is.EqualTo(VisibilityKind.Private));
+                Assert.That(ObjectNodeOrderingKindExtensions.TryParseXmiLiteral("LIFO", out var ordering), Is.True);
+                Assert.That(ordering, Is.EqualTo(ObjectNodeOrderingKind.LIFO));
+                Assert.That(MessageSortExtensions.TryParseXmiLiteral("asynchCall", out var messageSort), Is.True);
+                Assert.That(messageSort, Is.EqualTo(MessageSort.AsynchCall));
+                Assert.That(PseudostateKindExtensions.TryParseXmiLiteral("deepHistory", out var pseudostateKind), Is.True);
+                Assert.That(pseudostateKind, Is.EqualTo(PseudostateKind.DeepHistory));
+                Assert.That(AggregationKindExtensions.TryParseXmiLiteral("composite", out var aggregation), Is.True);
+                Assert.That(aggregation, Is.EqualTo(AggregationKind.Composite));
+            }
+        }
+
+        [TestCase("7", TestName = "numeric value")]
+        [TestCase("PRIVATE", TestName = "upper case")]
+        [TestCase("Private", TestName = "C# member name")]
+        [TestCase(" private", TestName = "leading whitespace")]
+        [TestCase("", TestName = "empty")]
+        [TestCase(null, TestName = "null")]
+        public void Verify_that_TryParseXmiLiteral_rejects_what_is_not_the_name_of_a_literal(string literal)
+        {
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(VisibilityKindExtensions.TryParseXmiLiteral(literal, out var visibility), Is.False);
+                Assert.That(visibility, Is.EqualTo(default(VisibilityKind)));
+            }
+        }
+
+        [Test]
+        public void Verify_that_QueryXmiLiteral_and_TryParseXmiLiteral_round_trip_every_literal()
+        {
+            using (Assert.EnterMultipleScope())
+            {
+                foreach (var value in (VisibilityKind[])Enum.GetValues(typeof(VisibilityKind)))
+                {
+                    Assert.That(VisibilityKindExtensions.TryParseXmiLiteral(value.QueryXmiLiteral(), out var parsed), Is.True, value.ToString());
+                    Assert.That(parsed, Is.EqualTo(value));
+                }
+
+                foreach (var value in (ParameterEffectKind[])Enum.GetValues(typeof(ParameterEffectKind)))
+                {
+                    Assert.That(ParameterEffectKindExtensions.TryParseXmiLiteral(value.QueryXmiLiteral(), out var parsed), Is.True, value.ToString());
+                    Assert.That(parsed, Is.EqualTo(value));
+                }
+            }
+        }
     }
 }

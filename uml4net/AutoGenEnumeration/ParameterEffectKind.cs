@@ -82,6 +82,42 @@ namespace uml4net.Classification
                 _ => throw new ArgumentOutOfRangeException(nameof(value), value, $"{value} is not a literal of ParameterEffectKind")
             };
         }
+
+        /// <summary>
+        /// Tries to map the name of an enumeration literal as it appears in an XMI document (XMI 2.5.1 clause 9.5.2,
+        /// rule 2i) to the <see cref="ParameterEffectKind"/> value; the name must match the literal of the UML metamodel
+        /// exactly, numeric values and other spellings are not literals
+        /// </summary>
+        /// <param name="literal">
+        /// The name of the enumeration literal
+        /// </param>
+        /// <param name="value">
+        /// The <see cref="ParameterEffectKind"/> value, the default value when the literal is not known
+        /// </param>
+        /// <returns>
+        /// true when the literal is a literal of <see cref="ParameterEffectKind"/>, false otherwise
+        /// </returns>
+        public static bool TryParseXmiLiteral(string literal, out ParameterEffectKind value)
+        {
+            switch (literal)
+            {
+                case "create":
+                    value = ParameterEffectKind.Create;
+                    return true;
+                case "read":
+                    value = ParameterEffectKind.Read;
+                    return true;
+                case "update":
+                    value = ParameterEffectKind.Update;
+                    return true;
+                case "delete":
+                    value = ParameterEffectKind.Delete;
+                    return true;
+                default:
+                    value = default;
+                    return false;
+            }
+        }
     }
 }
 

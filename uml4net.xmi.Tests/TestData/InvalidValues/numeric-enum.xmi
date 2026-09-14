@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- an enumeration value that is not the name of a literal (XMI 2.5.1 clause 9.5.2, rule 2i) -->
+<xmi:XMI xmlns:xmi="http://www.omg.org/spec/XMI/20131001" xmlns:uml="http://www.omg.org/spec/UML/20131001">
+  <uml:Package xmi:id="p" name="P">
+    <packagedElement xmi:type="uml:Class" xmi:id="c" name="C" visibility="7"/>
+    <packagedElement xmi:type="uml:Class" xmi:id="d" name="D"/>
+  </uml:Package>
+</xmi:XMI>

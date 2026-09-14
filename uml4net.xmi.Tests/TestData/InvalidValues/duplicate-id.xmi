@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- an xmi:id that is not unique within the document (XMI 2.5.1 clause 7.6.1); the property refers to it -->
+<xmi:XMI xmlns:xmi="http://www.omg.org/spec/XMI/20131001" xmlns:uml="http://www.omg.org/spec/UML/20131001">
+  <uml:Package xmi:id="p" name="P">
+    <packagedElement xmi:type="uml:Class" xmi:id="c" name="First"/>
+    <packagedElement xmi:type="uml:Class" xmi:id="c" name="Second"/>
+    <packagedElement xmi:type="uml:Class" xmi:id="d" name="D">
+      <ownedAttribute xmi:type="uml:Property" xmi:id="a" name="a" type="c"/>
+    </packagedElement>
+  </uml:Package>
+</xmi:XMI>

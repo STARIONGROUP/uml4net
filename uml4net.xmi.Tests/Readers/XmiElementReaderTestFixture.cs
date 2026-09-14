@@ -30,6 +30,7 @@ namespace uml4net.xmi.Tests.Readers
     using uml4net;
     using uml4net.Values;
     using uml4net.xmi.Readers;
+    using uml4net.xmi.Settings;
 
     [TestFixture]
     public class XmiElementReaderTestFixture
@@ -113,6 +114,53 @@ namespace uml4net.xmi.Tests.Readers
                 Assert.That(element.UnresolvedReferences.Single().Identifier, Is.EqualTo("doc2.xml#c4"));
                 Assert.That(element.UnresolvedReferences.Single().ContentRawXmi, Does.Contain("ownedRule"));
             }
+        }
+
+        private class NonStrictTestReader : XmiElementReader<IXmiElement>
+        {
+            public NonStrictTestReader() : base(new XmiElementCache(), null, new DefaultSettings { UseStrictReading = false }, null, null, NullLoggerFactory.Instance)
+            {
+            }
+
+            public override IXmiElement Read(XmlReader xmlReader, string documentName, string namespaceUri) => throw new System.NotImplementedException();
+
+            public void InvokeCollect(XmlReader xmlReader, IXmiElement element, string name) => CollectSingleValueReferencePropertyIdentifier(xmlReader, element, name);
+        }
+
+        [Test]
+        public void CollectSingleValueReferencePropertyIdentifier_ThrowsForARepeatedReferenceWhenNoSettingsAreAvailable()
+        {
+            var reader = new TestReader();
+            var element = new LiteralBoolean { XmiId = "lb", XmiType = "uml:LiteralBoolean" };
+            using var xr = XmlReader.Create(new System.IO.StringReader("<root><type xmi:idref='first' xmlns:xmi='http://www.omg.org/spec/XMI/20131001'/><type href='other.xmi#second' xmlns:xmi='http://www.omg.org/spec/XMI/20131001'/></root>"), new XmlReaderSettings());
+            xr.MoveToContent();
+            xr.Read();
+            reader.InvokeCollect(xr, element, "type");
+            xr.Read();
+
+            var exception = Assert.Throws<XmiReadException>(() => reader.InvokeCollect(xr, element, "type"));
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(exception.Message, Does.StartWith("The single-valued reference is given more than once, [first] is kept and [other.xmi#second] is ignored: uml:LiteralBoolean [lb] property [type] at line:position 1:"));
+                Assert.That(element.SingleValueReferencePropertyIdentifiers["type"], Is.EqualTo("first"));
+                Assert.That(element.UnresolvedReferences, Is.Empty, "the ignored href is not preserved either");
+            }
+        }
+
+        [Test]
+        public void CollectSingleValueReferencePropertyIdentifier_KeepsTheFirstOfARepeatedReferenceInNonStrictMode()
+        {
+            var reader = new NonStrictTestReader();
+            var element = new LiteralBoolean { XmiId = "lb", XmiType = "uml:LiteralBoolean" };
+            using var xr = XmlReader.Create(new System.IO.StringReader("<root><type xmi:idref='first' xmlns:xmi='http://www.omg.org/spec/XMI/20131001'/><type xmi:idref='second' xmlns:xmi='http://www.omg.org/spec/XMI/20131001'/></root>"), new XmlReaderSettings());
+            xr.MoveToContent();
+            xr.Read();
+            reader.InvokeCollect(xr, element, "type");
+            xr.Read();
+
+            Assert.That(() => reader.InvokeCollect(xr, element, "type"), Throws.Nothing);
+            Assert.That(element.SingleValueReferencePropertyIdentifiers["type"], Is.EqualTo("first"));
         }
 
         [Test]

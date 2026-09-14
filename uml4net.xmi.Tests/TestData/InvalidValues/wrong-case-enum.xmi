@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- enumeration values whose case does not match the name of the literal (XMI 2.5.1 clause 9.5.2, rule 2i), as an attribute and as an element -->
+<xmi:XMI xmlns:xmi="http://www.omg.org/spec/XMI/20131001" xmlns:uml="http://www.omg.org/spec/UML/20131001">
+  <uml:Package xmi:id="p" name="P">
+    <packagedElement xmi:type="uml:Class" xmi:id="c" name="C" visibility="PRIVATE"/>
+    <packagedElement xmi:type="uml:Class" xmi:id="d" name="D">
+      <visibility>Private</visibility>
+    </packagedElement>
+  </uml:Package>
+</xmi:XMI>
