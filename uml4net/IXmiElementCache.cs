@@ -40,7 +40,11 @@ namespace uml4net
         bool TryAdd(IXmiElement element);
 
         /// <summary>Gets the value associated with the specified key.</summary>
-        /// <param name="key">The key of the value to get.</param>
+        /// <param name="key">
+        /// The key of the value to get, <c>{DocumentName}#{XmiId}</c>; a key whose fragment has the XPointer uuid
+        /// form <c>{DocumentName}#xpointer((//*[@xmi:uuid='value'])[1])</c> (XMI 2.5.1 clause 7.10.2) locates the
+        /// first element of the document with that <c>xmi:uuid</c>
+        /// </param>
         /// <param name="value">When this method returns, contains the value associated with the specified key, if the key is found; otherwise, the default value for the type of the value parameter. This parameter is passed uninitialized.</param>
         /// <returns>true if the Cache contains an element with the specified key; otherwise, false.</returns>
         /// <exception cref="T:System.ArgumentNullException"><paramref name="key">key</paramref> is null.</exception>

@@ -64,6 +64,64 @@ namespace uml4net.Tests
         }
 
         [Test]
+        public void Verify_that_an_XPointer_uuid_key_locates_the_first_element_of_the_document_with_that_uuid()
+        {
+            var first = new Class { XmiId = "first", DocumentName = "Co.xmi", XmiGuid = "DCE:emp-3" };
+            var twin = new Class { XmiId = "twin", DocumentName = "Co.xmi", XmiGuid = "DCE:emp-3" };
+            var noId = new Class { DocumentName = "Co.xmi", XmiGuid = "DCE:no-id" };
+            var otherDocument = new Class { XmiId = "other", DocumentName = "Other.xmi", XmiGuid = "DCE:emp-3" };
+
+            this.cache.TryAdd(first);
+            this.cache.TryAdd(twin);
+            this.cache.TryAdd(noId);
+            this.cache.TryAdd(otherDocument);
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(this.cache.TryGetValue("Co.xmi#xpointer((//*[@xmi:uuid='DCE:emp-3'])[1])", out var byUuid), Is.True);
+                Assert.That(byUuid, Is.SameAs(first), "the first element with the uuid, per the [1] of the XPointer");
+                Assert.That(this.cache.TryGetValue("Co.xmi#xpointer((//*[@xmi:uuid=\"DCE:no-id\"])[1])", out var byUuidNoId), Is.True, "double quotes are accepted");
+                Assert.That(byUuidNoId, Is.SameAs(noId), "an element without xmi:id is reachable by uuid");
+                Assert.That(this.cache.TryGetValue("Other.xmi#xpointer((//*[@xmi:uuid='DCE:emp-3'])[1])", out var inOther), Is.True);
+                Assert.That(inOther, Is.SameAs(otherDocument), "uuids are looked up per document");
+                Assert.That(this.cache.TryGetValue("Co.xmi#xpointer((//*[@xmi:uuid='unknown'])[1])", out _), Is.False);
+                Assert.That(this.cache.TryGetValue("Co.xmi#DCE:emp-3", out _), Is.False, "a uuid is not an xmi:id");
+                Assert.That(this.cache.TryGetValue("Co.xmi#first", out var byId), Is.True, "lookup by xmi:id is unaffected");
+                Assert.That(byId, Is.SameAs(first));
+            }
+
+            this.cache.Clear();
+
+            Assert.That(this.cache.TryGetValue("Co.xmi#xpointer((//*[@xmi:uuid='DCE:emp-3'])[1])", out _), Is.False, "Clear empties the uuid index as well");
+        }
+
+        [TestCase("xpointer((//*[@xmi:uuid='DCE:1234'])[1])", "DCE:1234")]
+        [TestCase("xpointer((//*[@xmi:uuid=\"a b\"])[1])", "a b")]
+        public void Verify_that_TryParseXPointerUuid_extracts_the_uuid(string fragment, string expectedUuid)
+        {
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(XmiElementCache.TryParseXPointerUuid(fragment, out var uuid), Is.True);
+                Assert.That(uuid, Is.EqualTo(expectedUuid));
+            }
+        }
+
+        [TestCase("emp_2", TestName = "bare name")]
+        [TestCase("xpointer((//*[@xmi:uuid='v'])[2])", TestName = "not the first")]
+        [TestCase("xpointer(descendent(1,Operation,xmi:label,op1))", TestName = "another XPointer scheme")]
+        [TestCase("xpointer((//*[@xmi:label='v'])[1])", TestName = "label instead of uuid")]
+        [TestCase("", TestName = "empty")]
+        [TestCase(null, TestName = "null")]
+        public void Verify_that_TryParseXPointerUuid_rejects_other_fragments(string fragment)
+        {
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(XmiElementCache.TryParseXPointerUuid(fragment, out var uuid), Is.False);
+                Assert.That(uuid, Is.Null);
+            }
+        }
+
+        [Test]
         public void Verify_that_elements_without_xmi_id_are_all_added_under_distinct_keys()
         {
             var first = new Class { Name = "first", DocumentName = "test" };

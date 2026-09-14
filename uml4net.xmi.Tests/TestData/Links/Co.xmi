@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- the target of the links in xlinks.xmi -->
+<xmi:XMI xmlns:xmi="http://www.omg.org/spec/XMI/20131001" xmlns:uml="http://www.omg.org/spec/UML/20131001">
+  <uml:Comment xmi:id="cm"><body>a comment of Co</body></uml:Comment>
+  <uml:Package xmi:id="co" name="Co">
+    <packagedElement xmi:type="uml:Class" xmi:id="emp_2" name="Employee">
+      <ownedAttribute xmi:type="uml:Property" xmi:id="emp_2-p" name="p"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Class" xmi:id="emp_3" name="Manager" xmi:uuid="DCE:emp-3"/>
+    <packagedElement xmi:type="uml:Class" xmi:id="emp_3-twin" name="ManagerTwin" xmi:uuid="DCE:emp-3"/>
+    <packagedElement xmi:type="uml:Class" name="NoId" xmi:uuid="DCE:no-id"/>
+  </uml:Package>
+</xmi:XMI>

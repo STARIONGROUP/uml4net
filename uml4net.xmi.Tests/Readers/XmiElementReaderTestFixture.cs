@@ -164,6 +164,33 @@ namespace uml4net.xmi.Tests.Readers
         }
 
         [Test]
+        public void ReferenceCollectors_AcceptAnXLinkSimpleLinkAsHref()
+        {
+            var reader = new TestReader();
+            var element = new LiteralBoolean();
+            const string xml = "<root xmlns:xlink='http://www.w3.org/1999/xlink'><type xlink:href='Co.xml#emp_2' xlink:type='simple'/><redefined xlink:href='Co.xml#emp_3' xlink:type='simple'/><owned xlink:href='Co.xml#emp_4' xlink:type='simple'/></root>";
+            using var xr = XmlReader.Create(new System.IO.StringReader(xml), new XmlReaderSettings());
+            xr.MoveToContent();
+
+            xr.Read();
+            reader.InvokeCollect(xr, element, "type");
+            xr.Read();
+            var multiCollected = reader.InvokeTryCollect(xr, element, "redefined");
+            xr.Read();
+            var compositeCollected = reader.InvokeTryCollectComposite(xr, element, "owned", 0);
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(element.SingleValueReferencePropertyIdentifiers["type"], Is.EqualTo("Co.xml#emp_2"));
+                Assert.That(multiCollected, Is.True);
+                Assert.That(element.MultiValueReferencePropertyIdentifiers["redefined"], Is.EqualTo(new[] { "Co.xml#emp_3" }));
+                Assert.That(compositeCollected, Is.True);
+                Assert.That(element.CompositeReferencePropertyIdentifiers["owned"].Single().Identifier, Is.EqualTo("Co.xml#emp_4"));
+                Assert.That(element.UnresolvedReferences.Select(x => x.Identifier), Is.EqualTo(new[] { "Co.xml#emp_2", "Co.xml#emp_3", "Co.xml#emp_4" }), "an xlink:href is preserved like an href");
+            }
+        }
+
+        [Test]
         public void CollectSingleValueReferencePropertyIdentifier_StoresHref()
         {
             var reader = new TestReader();

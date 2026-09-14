@@ -108,6 +108,56 @@ namespace uml4net.xmi.Readers
         }
 
         /// <summary>
+        /// The namespace of the XLink attributes (W3C XLink 1.1)
+        /// </summary>
+        public const string XLinkNamespace = "http://www.w3.org/1999/xlink";
+
+        /// <summary>
+        /// Gets the link of a proxy element: the value of the XMI <c>href</c> attribute, or of the XLink simple
+        /// link <c>xlink:href</c> attribute that XMI 2.5.1 clause 7.10.2 allows as an alternative. The XLink namespace
+        /// is matched without regard to case since the XMI specification itself spells it <c>.../XLink</c>.
+        /// </summary>
+        /// <param name="xmlReader">
+        /// The <see cref="XmlReader"/> positioned on an element
+        /// </param>
+        /// <returns>
+        /// the value of the link attribute, or null when the element has neither
+        /// </returns>
+        public static string GetHrefAttribute(this XmlReader xmlReader)
+        {
+            if (xmlReader == null)
+            {
+                throw new ArgumentNullException(nameof(xmlReader));
+            }
+
+            var href = xmlReader.GetAttribute("href");
+
+            if (href != null)
+            {
+                return href;
+            }
+
+            string result = null;
+
+            if (xmlReader.MoveToFirstAttribute())
+            {
+                do
+                {
+                    if (xmlReader.LocalName == "href" && string.Equals(xmlReader.NamespaceURI, XLinkNamespace, StringComparison.OrdinalIgnoreCase))
+                    {
+                        result = xmlReader.Value;
+                        break;
+                    }
+                }
+                while (xmlReader.MoveToNextAttribute());
+
+                xmlReader.MoveToElement();
+            }
+
+            return result;
+        }
+
+        /// <summary>
         /// Resolves the prefix of a qualified name found in the document, such as the value of an <c>xmi:type</c>
         /// attribute, to the prefix that uml4net uses for that namespace (<c>uml</c>, <c>xmi</c>, ...), so that a
         /// document that binds the UML namespace to another prefix, or to the default namespace, is read as well
