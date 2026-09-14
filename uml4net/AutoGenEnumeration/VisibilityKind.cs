@@ -84,6 +84,42 @@ namespace uml4net.CommonStructure
                 _ => throw new ArgumentOutOfRangeException(nameof(value), value, $"{value} is not a literal of VisibilityKind")
             };
         }
+
+        /// <summary>
+        /// Tries to map the name of an enumeration literal as it appears in an XMI document (XMI 2.5.1 clause 9.5.2,
+        /// rule 2i) to the <see cref="VisibilityKind"/> value; the name must match the literal of the UML metamodel
+        /// exactly, numeric values and other spellings are not literals
+        /// </summary>
+        /// <param name="literal">
+        /// The name of the enumeration literal
+        /// </param>
+        /// <param name="value">
+        /// The <see cref="VisibilityKind"/> value, the default value when the literal is not known
+        /// </param>
+        /// <returns>
+        /// true when the literal is a literal of <see cref="VisibilityKind"/>, false otherwise
+        /// </returns>
+        public static bool TryParseXmiLiteral(string literal, out VisibilityKind value)
+        {
+            switch (literal)
+            {
+                case "public":
+                    value = VisibilityKind.Public;
+                    return true;
+                case "private":
+                    value = VisibilityKind.Private;
+                    return true;
+                case "protected":
+                    value = VisibilityKind.Protected;
+                    return true;
+                case "package":
+                    value = VisibilityKind.Package;
+                    return true;
+                default:
+                    value = default;
+                    return false;
+            }
+        }
     }
 }
 

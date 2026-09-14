@@ -104,6 +104,60 @@ namespace uml4net.StateMachines
                 _ => throw new ArgumentOutOfRangeException(nameof(value), value, $"{value} is not a literal of PseudostateKind")
             };
         }
+
+        /// <summary>
+        /// Tries to map the name of an enumeration literal as it appears in an XMI document (XMI 2.5.1 clause 9.5.2,
+        /// rule 2i) to the <see cref="PseudostateKind"/> value; the name must match the literal of the UML metamodel
+        /// exactly, numeric values and other spellings are not literals
+        /// </summary>
+        /// <param name="literal">
+        /// The name of the enumeration literal
+        /// </param>
+        /// <param name="value">
+        /// The <see cref="PseudostateKind"/> value, the default value when the literal is not known
+        /// </param>
+        /// <returns>
+        /// true when the literal is a literal of <see cref="PseudostateKind"/>, false otherwise
+        /// </returns>
+        public static bool TryParseXmiLiteral(string literal, out PseudostateKind value)
+        {
+            switch (literal)
+            {
+                case "initial":
+                    value = PseudostateKind.Initial;
+                    return true;
+                case "deepHistory":
+                    value = PseudostateKind.DeepHistory;
+                    return true;
+                case "shallowHistory":
+                    value = PseudostateKind.ShallowHistory;
+                    return true;
+                case "join":
+                    value = PseudostateKind.Join;
+                    return true;
+                case "fork":
+                    value = PseudostateKind.Fork;
+                    return true;
+                case "junction":
+                    value = PseudostateKind.Junction;
+                    return true;
+                case "choice":
+                    value = PseudostateKind.Choice;
+                    return true;
+                case "entryPoint":
+                    value = PseudostateKind.EntryPoint;
+                    return true;
+                case "exitPoint":
+                    value = PseudostateKind.ExitPoint;
+                    return true;
+                case "terminate":
+                    value = PseudostateKind.Terminate;
+                    return true;
+                default:
+                    value = default;
+                    return false;
+            }
+        }
     }
 }
 

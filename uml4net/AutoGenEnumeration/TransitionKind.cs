@@ -76,6 +76,39 @@ namespace uml4net.StateMachines
                 _ => throw new ArgumentOutOfRangeException(nameof(value), value, $"{value} is not a literal of TransitionKind")
             };
         }
+
+        /// <summary>
+        /// Tries to map the name of an enumeration literal as it appears in an XMI document (XMI 2.5.1 clause 9.5.2,
+        /// rule 2i) to the <see cref="TransitionKind"/> value; the name must match the literal of the UML metamodel
+        /// exactly, numeric values and other spellings are not literals
+        /// </summary>
+        /// <param name="literal">
+        /// The name of the enumeration literal
+        /// </param>
+        /// <param name="value">
+        /// The <see cref="TransitionKind"/> value, the default value when the literal is not known
+        /// </param>
+        /// <returns>
+        /// true when the literal is a literal of <see cref="TransitionKind"/>, false otherwise
+        /// </returns>
+        public static bool TryParseXmiLiteral(string literal, out TransitionKind value)
+        {
+            switch (literal)
+            {
+                case "internal":
+                    value = TransitionKind.Internal;
+                    return true;
+                case "local":
+                    value = TransitionKind.Local;
+                    return true;
+                case "external":
+                    value = TransitionKind.External;
+                    return true;
+                default:
+                    value = default;
+                    return false;
+            }
+        }
     }
 }
 

@@ -26,6 +26,7 @@ namespace uml4net.xmi.Readers
     using System.Xml;
 
     using Microsoft.Extensions.Logging;
+    using Microsoft.Extensions.Logging.Abstractions;
 
     using uml4net;
     using uml4net.xmi.Extender;
@@ -122,6 +123,49 @@ namespace uml4net.xmi.Readers
         }
 
         /// <summary>
+        /// The <see cref="ILogger"/> used to report XMI errors when <see cref="IXmiReaderSettings.UseStrictReading"/>
+        /// is not set, created on first use
+        /// </summary>
+        private ILogger xmiErrorLogger;
+
+        /// <summary>
+        /// Reports a value that is not valid according to XMI 2.5.1: throws an <see cref="XmiReadException"/> when
+        /// <see cref="IXmiReaderSettings.UseStrictReading"/> is set (or no settings are available), logs an error
+        /// otherwise so that reading continues with a defined result
+        /// </summary>
+        /// <param name="xmlReader">
+        /// The <see cref="XmlReader"/> positioned at the invalid value, used for the line position
+        /// </param>
+        /// <param name="xmiElement">
+        /// The <see cref="IXmiElement"/> that is being read
+        /// </param>
+        /// <param name="propertyName">
+        /// The name of the property whose value is invalid
+        /// </param>
+        /// <param name="message">
+        /// The message that describes the invalid value
+        /// </param>
+        /// <exception cref="XmiReadException">
+        /// thrown when <see cref="IXmiReaderSettings.UseStrictReading"/> is set
+        /// </exception>
+        protected void ReportXmiError(XmlReader xmlReader, IXmiElement xmiElement, string propertyName, string message)
+        {
+            var xmlLineInfo = xmlReader as IXmlLineInfo;
+            var elementType = xmiElement?.XmiType ?? typeof(TXmiElement).Name;
+            var lineNumber = xmlLineInfo?.LineNumber ?? 0;
+            var linePosition = xmlLineInfo?.LinePosition ?? 0;
+
+            if (this.XmiReaderSettings == null || this.XmiReaderSettings.UseStrictReading)
+            {
+                throw new XmiReadException(message, elementType, xmiElement?.XmiId, propertyName, lineNumber, linePosition);
+            }
+
+            this.xmiErrorLogger ??= this.LoggerFactory == null ? NullLogger.Instance : this.LoggerFactory.CreateLogger(this.GetType());
+
+            this.xmiErrorLogger.LogError("{Message}: {ElementType} [{XmiId}] property [{PropertyName}] at line:position {LineNumber}:{LinePosition}", message, elementType, xmiElement?.XmiId, propertyName, lineNumber, linePosition);
+        }
+
+        /// <summary>
         /// Reads the <typeparamref name="TXmiElement"/> object from its XML representation
         /// </summary>
         /// <param name="xmlReader">
@@ -155,7 +199,7 @@ namespace uml4net.xmi.Readers
         /// the name of the single-value reference property used to verify that the cursor of the 
         /// <see cref="XmlReader"/> is at the right position
         /// </param>
-        protected static void CollectSingleValueReferencePropertyIdentifier(XmlReader xmlReader, IXmiElement xmiElement, string localName)
+        protected void CollectSingleValueReferencePropertyIdentifier(XmlReader xmlReader, IXmiElement xmiElement, string localName)
         {
             if (xmlReader == null)
             {
@@ -181,13 +225,14 @@ namespace uml4net.xmi.Readers
                 var reference = subXmlReader.GetAttribute("href");
                 if (!string.IsNullOrEmpty(reference))
                 {
-                    xmiElement.SingleValueReferencePropertyIdentifiers.Add(localName, reference);
-
-                    CollectUnresolvedReference(subXmlReader, xmiElement, localName, reference);
+                    if (this.TryAddSingleValueReference(subXmlReader, xmiElement, localName, reference))
+                    {
+                        CollectUnresolvedReference(subXmlReader, xmiElement, localName, reference);
+                    }
                 }
                 else if (subXmlReader.GetXmiAttribute("idref") is { Length: > 0 } idRef)
                 {
-                    xmiElement.SingleValueReferencePropertyIdentifiers.Add(localName, idRef);
+                    this.TryAddSingleValueReference(subXmlReader, xmiElement, localName, idRef);
                 }
                 else if (subXmlReader.IsNil())
                 {
@@ -201,6 +246,38 @@ namespace uml4net.xmi.Readers
         }
 
         /// <summary>
+        /// Adds the unique identifier of a single-valued reference, unless the property was already given a value
+        /// in the document, which XMI 2.5.1 (clause 9.5.2, rule 2h) does not allow: the first value is kept and the
+        /// repetition is reported through <see cref="ReportXmiError"/>
+        /// </summary>
+        /// <param name="xmlReader">
+        /// The <see cref="XmlReader"/> positioned on the reference element
+        /// </param>
+        /// <param name="xmiElement">
+        /// The <see cref="IXmiElement"/> that declares the reference
+        /// </param>
+        /// <param name="localName">
+        /// The name of the single-valued reference property
+        /// </param>
+        /// <param name="reference">
+        /// The unique identifier of the referenced <see cref="IXmiElement"/>
+        /// </param>
+        /// <returns>
+        /// true when the reference was added, false when the property already had a value
+        /// </returns>
+        private bool TryAddSingleValueReference(XmlReader xmlReader, IXmiElement xmiElement, string localName, string reference)
+        {
+            if (xmiElement.SingleValueReferencePropertyIdentifiers.TryGetValue(localName, out var existingReference))
+            {
+                this.ReportXmiError(xmlReader, xmiElement, localName, $"The single-valued reference is given more than once, [{existingReference}] is kept and [{reference}] is ignored");
+                return false;
+            }
+
+            xmiElement.SingleValueReferencePropertyIdentifiers.Add(localName, reference);
+            return true;
+        }
+
+        /// <summary>
         /// Tries to add the unique identifier of the referenced (using either href or idref) of the
         /// <see cref="IXmiElement"/> to the MultiValueReferencePropertyIdentifiers
         /// </summary>
@@ -211,10 +288,10 @@ namespace uml4net.xmi.Readers
         /// The <see cref="IXmiElement"/> to which the referenced identifier is added
         /// </param>
         /// <param name="localName">
-        /// the name of the multi-value reference property used to verify that the cursor of the 
+        /// the name of the multi-value reference property used to verify that the cursor of the
         /// <see cref="XmlReader"/> is at the right position
         /// </param>
-        protected static bool TryCollectMultiValueReferencePropertyIdentifiers(XmlReader xmlReader, IXmiElement xmiElement, string localName)
+        protected bool TryCollectMultiValueReferencePropertyIdentifiers(XmlReader xmlReader, IXmiElement xmiElement, string localName)
         {
             if (xmlReader == null)
             {
@@ -297,7 +374,7 @@ namespace uml4net.xmi.Readers
         /// case the <see cref="XmlReader"/> has moved past it; false when the element is a definition, in which case the
         /// <see cref="XmlReader"/> has not moved
         /// </returns>
-        protected static bool TryCollectCompositeReferencePropertyIdentifier(XmlReader xmlReader, IXmiElement xmiElement, string localName, int containedCount)
+        protected bool TryCollectCompositeReferencePropertyIdentifier(XmlReader xmlReader, IXmiElement xmiElement, string localName, int containedCount)
         {
             if (xmlReader == null)
             {

@@ -75,6 +75,39 @@ namespace uml4net.Actions
                 _ => throw new ArgumentOutOfRangeException(nameof(value), value, $"{value} is not a literal of ExpansionKind")
             };
         }
+
+        /// <summary>
+        /// Tries to map the name of an enumeration literal as it appears in an XMI document (XMI 2.5.1 clause 9.5.2,
+        /// rule 2i) to the <see cref="ExpansionKind"/> value; the name must match the literal of the UML metamodel
+        /// exactly, numeric values and other spellings are not literals
+        /// </summary>
+        /// <param name="literal">
+        /// The name of the enumeration literal
+        /// </param>
+        /// <param name="value">
+        /// The <see cref="ExpansionKind"/> value, the default value when the literal is not known
+        /// </param>
+        /// <returns>
+        /// true when the literal is a literal of <see cref="ExpansionKind"/>, false otherwise
+        /// </returns>
+        public static bool TryParseXmiLiteral(string literal, out ExpansionKind value)
+        {
+            switch (literal)
+            {
+                case "parallel":
+                    value = ExpansionKind.Parallel;
+                    return true;
+                case "iterative":
+                    value = ExpansionKind.Iterative;
+                    return true;
+                case "stream":
+                    value = ExpansionKind.Stream;
+                    return true;
+                default:
+                    value = default;
+                    return false;
+            }
+        }
     }
 }
 
