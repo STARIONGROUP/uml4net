@@ -210,6 +210,8 @@ namespace uml4net.xmi.Readers
 
             // an element read at top level but adopted by an owner through a proxy is not a root
             xmiReaderResult.RootElements.RemoveAll(x => x is IElement { Possessor: not null });
+            xmiReaderResult.DocumentRootElements.RemoveAll(x => x is IElement { Possessor: not null });
+            xmiReaderResult.ExternalRootElements.RemoveAll(x => x is IElement { Possessor: not null });
 
             var extensions = new List<IXmiExtension>();
             extensions.AddRange(xmiReaderResult.XmiRoot.Extensions);
@@ -293,11 +295,16 @@ namespace uml4net.xmi.Readers
                         var xmiRoot = xmiRootReader.Read(subXmlReader, documentName, xmlReader.NamespaceURI, null);
                         xmiReaderResult.Packages.AddRange(xmiRoot.Content.OfType<IPackage>());
                         xmiReaderResult.RootElements.AddRange(xmiRoot.Content);
+                        xmiReaderResult.DocumentRootElements.AddRange(xmiRoot.Content);
                         xmiReaderResult.XmiRoot = xmiRoot;
                     }
                     else
                     {
-                        var xmiRoot = xmiRootReader.Read(subXmlReader, documentName, xmlReader.NamespaceURI, xmiReaderResult.XmiRoot);
+                        // an external document gets its own XmiRoot: its content, tags, extensions and stereotype
+                        // applications are kept apart from those of the document that was read
+                        var xmiRoot = xmiRootReader.Read(subXmlReader, documentName, xmlReader.NamespaceURI, null);
+                        xmiReaderResult.ExternalXmiRoots[documentName] = xmiRoot;
+                        xmiReaderResult.ExternalRootElements.AddRange(xmiRoot.Content);
 
                         var existingPackages = new HashSet<IPackage>(xmiReaderResult.Packages);
 
@@ -323,7 +330,7 @@ namespace uml4net.xmi.Readers
 
                 if (isRootUmlObject && !isRootXmiElement)
                 {
-                    XmiRoot xmiRoot = null;
+                    XmiRoot xmiRoot;
 
                     if (isRoot)
                     {
@@ -337,6 +344,12 @@ namespace uml4net.xmi.Readers
                                 TimeStamp = DateTime.Now
                             }
                         };
+                    }
+                    else
+                    {
+                        // an external document without an xmi:XMI wrapper gets its own XmiRoot as well
+                        xmiRoot = new XmiRoot();
+                        xmiReaderResult.ExternalXmiRoots[documentName] = xmiRoot;
                     }
 
                     if (xmlReader.NodeType == XmlNodeType.Element)
@@ -420,11 +433,16 @@ namespace uml4net.xmi.Readers
         {
             var rootElement = this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, xmlReader.NamespaceURI, this.Cache, this.XmiReaderSettings, this.NameSpaceResolver, this.ExtenderReaderRegistry, this.LoggerFactory, $"uml:{xmlReader.LocalName}");
             xmiReaderResult.RootElements.Add(rootElement);
+            xmiRoot.Content.Add(rootElement);
 
             if (isRoot)
             {
                 xmiReaderResult.XmiRoot = xmiRoot;
-                xmiRoot.Content.Add(rootElement);
+                xmiReaderResult.DocumentRootElements.Add(rootElement);
+            }
+            else
+            {
+                xmiReaderResult.ExternalRootElements.Add(rootElement);
             }
 
             return rootElement;

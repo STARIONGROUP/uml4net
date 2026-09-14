@@ -101,7 +101,10 @@ namespace uml4net.xmi.Tests
                 Assert.That(operation.CompositeReferencePropertyIdentifiers.Values.SelectMany(x => x), Is.Empty);
 
                 Assert.That(xmiReaderResult.RootElements, Is.EqualTo(new IXmiElement[] { operation }));
-                Assert.That(xmiReaderResult.XmiRoot.Content.Select(x => x.XmiId), Is.SupersetOf(new[] { "idO1", "idC2", "idC3", "idC4" }));
+                Assert.That(xmiReaderResult.XmiRoot.Content.Select(x => x.XmiId), Is.SupersetOf(new[] { "idO1", "idC2", "idC3" }), "the top-level elements of doc1.xml");
+                Assert.That(xmiReaderResult.ExternalXmiRoots["doc2.xml"].Content.Select(x => x.XmiId), Is.EqualTo(new[] { "idC4" }), "the top-level element of the external doc2.xml is kept apart");
+                Assert.That(xmiReaderResult.DocumentRootElements, Is.EqualTo(new IXmiElement[] { operation }));
+                Assert.That(xmiReaderResult.ExternalRootElements, Is.Empty, "the constraint of doc2.xml is owned through the proxy and is not a root");
             }
         }
 
