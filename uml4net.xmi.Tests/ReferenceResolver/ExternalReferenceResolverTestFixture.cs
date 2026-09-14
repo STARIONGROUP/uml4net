@@ -214,6 +214,87 @@ namespace uml4net.xmi.Tests.ReferenceResolver
         }
 
         [Test]
+        public void Verify_that_RegisterDocumentLocation_throws_for_empty_arguments()
+        {
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(() => this.referenceResolver.RegisterDocumentLocation("", "C:/a.xmi"), Throws.ArgumentException);
+                Assert.That(() => this.referenceResolver.RegisterDocumentLocation("a.xmi", null), Throws.ArgumentException);
+            }
+        }
+
+        [Test]
+        public void Verify_that_a_relative_reference_is_resolved_against_the_registered_location_of_the_referencing_document()
+        {
+            // the base path points at a folder where ../lib/types.xmi does not exist
+            this.settings.LocalReferenceBasePath = Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData");
+
+            var referencingDocument = Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData", "RelativeReferences", "models", "a.xmi");
+            this.referenceResolver.RegisterDocumentLocation("a.xmi", referencingDocument);
+
+            var property = new Property { XmiId = "A-t", DocumentName = "a.xmi" };
+            property.SingleValueReferencePropertyIdentifiers.Add("type", "../lib/types.xmi#T");
+            this.xmiElementCache.TryAdd(property);
+
+            var resolved = this.referenceResolver.TryResolve("a.xmi");
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(resolved, Has.Count.EqualTo(1));
+                Assert.That(resolved[0].Context, Is.EqualTo("../lib/types.xmi"), "the context stays the href as written, it is the document name of the elements");
+                Assert.That(resolved[0].Stream.Length, Is.GreaterThan(0));
+            }
+
+            // the location of the resolved document is known from now on: a relative reference declared in it resolves against lib/
+            var chained = new Property { XmiId = "T-b", DocumentName = "../lib/types.xmi" };
+            chained.SingleValueReferencePropertyIdentifiers.Add("type", "./base.xmi#B");
+            this.xmiElementCache.TryAdd(chained);
+
+            var chainedResolved = this.referenceResolver.TryResolve("../lib/types.xmi");
+
+            Assert.That(chainedResolved.Select(x => x.Context), Is.EqualTo(new[] { "./base.xmi" }));
+        }
+
+        [Test]
+        public void Verify_that_a_relative_reference_that_does_not_exist_next_to_the_referencing_document_falls_back_to_the_base_path()
+        {
+            this.settings.LocalReferenceBasePath = Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData");
+
+            this.referenceResolver.RegisterDocumentLocation("test", Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData", "RelativeReferences", "models", "a.xmi"));
+
+            var property = new Property { XmiId = "p", DocumentName = "test" };
+            property.SingleValueReferencePropertyIdentifiers.Add("type", "PrimitiveTypes.xmi#Boolean");
+            this.xmiElementCache.TryAdd(property);
+
+            var resolved = this.referenceResolver.TryResolve("test");
+
+            Assert.That(resolved.Select(x => x.Context), Is.EqualTo(new[] { "PrimitiveTypes.xmi" }), "PrimitiveTypes.xmi is not in models/ but is under the base path");
+        }
+
+        [Test]
+        public void Verify_that_a_remote_reference_is_mapped_to_a_local_copy_by_host_and_path_before_file_name()
+        {
+            this.settings.LocalReferenceBasePath = Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData", "RemoteReferences");
+
+            var property = new Property { XmiId = "C-a", DocumentName = "model.xmi" };
+            property.SingleValueReferencePropertyIdentifiers.Add("type", "http://example.com/a/types.xmi#T");
+            property.MultiValueReferencePropertyIdentifiers.Add("redefinedProperty", ["http://example.com/b/types.xmi#T"]);
+            this.xmiElementCache.TryAdd(property);
+
+            var resolved = this.referenceResolver.TryResolve("model.xmi");
+
+            // the streams can be read once only, so their content is materialized before asserting on it
+            var contents = resolved.Select(x => new StreamReader(x.Stream).ReadToEnd()).ToList();
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(resolved.Select(x => x.Context), Is.EqualTo(new[] { "http://example.com/a/types.xmi", "http://example.com/b/types.xmi" }), "two remote documents with the same file name do not collide");
+                Assert.That(contents[0], Does.Contain("name=\"TA\""), "read from example.com/a/types.xmi");
+                Assert.That(contents[1], Does.Contain("name=\"TB\""), "read from example.com/b/types.xmi");
+            }
+        }
+
+        [Test]
         public void Verify_that_non_external_references_are_not_processed()
         {
             var property_1 = new Property

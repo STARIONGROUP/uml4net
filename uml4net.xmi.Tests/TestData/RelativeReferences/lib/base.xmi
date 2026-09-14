@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- referenced from types.xmi in the same folder -->
+<xmi:XMI xmlns:xmi="http://www.omg.org/spec/XMI/20131001" xmlns:uml="http://www.omg.org/spec/UML/20131001">
+  <uml:Package xmi:id="base" name="Base">
+    <packagedElement xmi:type="uml:Class" xmi:id="B" name="B"/>
+  </uml:Package>
+</xmi:XMI>

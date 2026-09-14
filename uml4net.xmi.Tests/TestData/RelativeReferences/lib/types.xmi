@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- referenced from ../models/a.xmi; refers to a sibling by a relative href that only resolves against this document -->
+<xmi:XMI xmlns:xmi="http://www.omg.org/spec/XMI/20131001" xmlns:uml="http://www.omg.org/spec/UML/20131001">
+  <uml:Package xmi:id="lib" name="Lib">
+    <packagedElement xmi:type="uml:Class" xmi:id="T" name="T">
+      <ownedAttribute xmi:type="uml:Property" xmi:id="T-b" name="b">
+        <type href="./base.xmi#B"/>
+      </ownedAttribute>
+    </packagedElement>
+  </uml:Package>
+</xmi:XMI>
