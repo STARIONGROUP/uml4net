@@ -25,9 +25,13 @@ namespace uml4net.Tests.Extend
     using CommonStructure;
     using NUnit.Framework;
 
+    using uml4net.Actions;
+    using uml4net.Activities;
+    using uml4net.Classification;
     using uml4net.Packages;
     using uml4net.SimpleClassifiers;
     using uml4net.StructuredClassifiers;
+    using uml4net.Values;
 
     [TestFixture]
     public class NamedElementExtensionsTestFixture
@@ -65,6 +69,89 @@ namespace uml4net.Tests.Extend
                 Assert.That(@class.Namespace, Is.EqualTo(package));
                 Assert.That(package.Namespace, Is.EqualTo(rootPackage));
                 Assert.That(rootPackage.Namespace, Is.Null);
+            }
+        }
+
+        [Test]
+        public void Verify_that_QueryNamespace_is_null_when_the_owner_is_not_a_Namespace()
+        {
+            var package = new Package { Name = "P" };
+            var @class = new Class { Name = "C" };
+            var property = new Property { Name = "p" };
+            var lowerValue = new LiteralInteger { Name = "lower", Value = 0 };
+            var defaultValue = new LiteralString { Name = "default", Value = "x" };
+
+            package.PackagedElement.Add(@class);
+            @class.OwnedAttribute.Add(property);
+            property.LowerValue.Add(lowerValue);
+            property.DefaultValue.Add(defaultValue);
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(property.Namespace, Is.SameAs(@class), "an owned attribute is an owned member of its class");
+                Assert.That(lowerValue.Namespace, Is.Null, "a lowerValue is owned by a Property, which is not a Namespace; the class is not returned in its place");
+                Assert.That(defaultValue.Namespace, Is.Null, "a defaultValue is owned by a Property, which is not a Namespace");
+            }
+        }
+
+        [Test]
+        public void Verify_that_QueryNamespace_is_null_for_a_pin_owned_by_an_action()
+        {
+            var activity = new Activity { Name = "A" };
+            var action = new OpaqueAction { Name = "act" };
+            var pin = new InputPin { Name = "in" };
+
+            activity.Node.Add(action);
+            action.InputValue.Add(pin);
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(action.Namespace, Is.Null, "Activity::node subsets ownedElement only, not ownedMember, so a node has no namespace");
+                Assert.That(pin.Namespace, Is.Null, "an Action is not a Namespace; the activity is not returned in its place");
+                Assert.That(activity.OwnedElement, Does.Contain(action), "the node is nevertheless owned by the activity");
+            }
+        }
+
+        [Test]
+        public void Verify_that_QueryNamespace_is_null_and_does_not_throw_when_no_ancestor_is_a_Namespace()
+        {
+            var property = new Property { Name = "p" };
+            var lowerValue = new LiteralInteger { Name = "lower", Value = 0 };
+
+            property.LowerValue.Add(lowerValue);
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(() => lowerValue.Namespace, Throws.Nothing);
+                Assert.That(lowerValue.Namespace, Is.Null);
+                Assert.That(property.Namespace, Is.Null, "no owner at all");
+            }
+        }
+
+        [Test]
+        public void Verify_that_QueryNamespace_is_the_owner_only_when_the_element_is_one_of_its_owned_members()
+        {
+            var @class = new Class { Name = "C" };
+            var rule = new Constraint { Name = "rule" };
+            var operation = new Operation { Name = "op" };
+            var parameter = new Parameter { Name = "par" };
+            var template = new Class { Name = "T" };
+            var signature = new RedefinableTemplateSignature { Name = "sig" };
+            var templateParameter = new ClassifierTemplateParameter();
+            var parameteredElement = new Class { Name = "P" };
+
+            @class.OwnedRule.Add(rule);
+            @class.OwnedOperation.Add(operation);
+            operation.OwnedParameter.Add(parameter);
+            template.OwnedTemplateSignature.Add(signature);
+            signature.OwnedParameter.Add(templateParameter);
+            templateParameter.OwnedParameteredElement.Add(parameteredElement);
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(rule.Namespace, Is.SameAs(@class), "ownedRule subsets ownedMember");
+                Assert.That(parameter.Namespace, Is.SameAs(operation), "an Operation is a Namespace whose ownedParameter subsets ownedMember");
+                Assert.That(parameteredElement.Namespace, Is.Null, "a TemplateParameter is not a Namespace; the template class is not returned in its place");
             }
         }
 

@@ -174,13 +174,17 @@ namespace uml4net.CommonStructure
         }
 
         /// <summary>
-        /// Queries the <see cref="INamespace"/> that owns the <see cref="INamedElement"/>
+        /// Queries the <see cref="INamespace"/> that owns the <see cref="INamedElement"/> as one of its
+        /// <see cref="INamespace.OwnedMember"/>s (UML 2.5.1 clause 7.8.9: <c>NamedElement::namespace</c> is a derived
+        /// union that subsets <c>Element::owner</c> and is the opposite of <c>Namespace::ownedMember</c>)
         /// </summary>
         /// <param name="namedElement">
         /// The subject <see cref="INamedElement"/>
         /// </param>
         /// <returns>
-        /// The <see cref="INamespace"/> that owns the <see cref="INamedElement"/>
+        /// The owner when it is a <see cref="INamespace"/> that has the <see cref="INamedElement"/> among its
+        /// <see cref="INamespace.OwnedMember"/>s; null otherwise, for example for a <c>ValueSpecification</c> owned
+        /// as a <c>lowerValue</c> or a <c>Pin</c> owned by an <c>Action</c> - more distant ancestors are never returned
         /// </returns>
         internal static INamespace QueryNamespace(this INamedElement namedElement)
         {
@@ -189,19 +193,12 @@ namespace uml4net.CommonStructure
                 throw new ArgumentNullException(nameof(namedElement));
             }
 
-            if (namedElement.Owner == null)
+            if (namedElement.Owner is INamespace owner && owner.OwnedMember.Contains(namedElement))
             {
-                return null;
+                return owner;
             }
 
-            var owner = namedElement.Owner;
-
-            while (owner is not INamespace)
-            {
-                owner = owner.Owner;
-            }
-
-            return owner as INamespace;
+            return null;
         }
 
     }
