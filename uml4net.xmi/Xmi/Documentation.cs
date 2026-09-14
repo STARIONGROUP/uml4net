@@ -23,6 +23,8 @@ namespace uml4net.xmi.Xmi
     using System;
     using System.Collections.Generic;
 
+    using uml4net;
+
     /// <summary>
     /// The Documentation class contains information about the XMI document or stream being transmitted,
     /// </summary>
@@ -72,5 +74,11 @@ namespace uml4net.xmi.Xmi
         /// <see cref="DateTime"/> at which the document was created or exported 
         /// </summary>
         public DateTime TimeStamp { get; set; }
+
+        /// <summary>
+        /// Gets or sets the <see cref="XmiExtension"/>s that are contained by the <see cref="Documentation"/>
+        /// (XMI 2.5.1 clause 7.5.5), preserved so that they can be written back
+        /// </summary>
+        public List<XmiExtension> Extensions { get; set; } = [];
     }
 }

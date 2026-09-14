@@ -84,6 +84,37 @@ namespace uml4net.xmi.Tests.Writers
         }
 
         [Test]
+        public void Verify_that_the_extensions_of_the_Documentation_round_trip()
+        {
+            var documentationPath = Path.Combine(this.rootPath, "Documentation", "documentation-with-extensions.xmi");
+
+            var originalResult = this.CreateReader().Read(documentationPath);
+            var originalDocumentation = originalResult.XmiRoot.Documentation;
+
+            using var stream = new MemoryStream();
+
+            var writer = XmiWriterBuilder.Create()
+                .WithLogger(NullLoggerFactory.Instance)
+                .Build();
+
+            writer.Write(originalResult.QueryRoot("p"), stream, "documentation-with-extensions.xmi", originalDocumentation, null);
+
+            stream.Position = 0;
+
+            var rereadDocumentation = this.CreateReader().Read(stream, "documentation-with-extensions.xmi").XmiRoot.Documentation;
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(originalDocumentation.Extensions, Has.Count.EqualTo(2));
+                Assert.That(rereadDocumentation.Extensions, Has.Count.EqualTo(2));
+                Assert.That(rereadDocumentation.Extensions.Select(x => x.Extender), Is.EqualTo(originalDocumentation.Extensions.Select(x => x.Extender)));
+                Assert.That(rereadDocumentation.Extensions.Select(x => x.ExtenderId), Is.EqualTo(originalDocumentation.Extensions.Select(x => x.ExtenderId)));
+                Assert.That(rereadDocumentation.Extensions.Select(x => x.ContentRawXmi), Is.EqualTo(originalDocumentation.Extensions.Select(x => x.ContentRawXmi)));
+                Assert.That(rereadDocumentation.Notice, Is.EqualTo(originalDocumentation.Notice));
+            }
+        }
+
+        [Test]
         public void Verify_that_the_Documentation_is_written_as_the_first_child_of_the_root()
         {
             var originalResult = this.CreateReader().Read(Path.Combine(this.rootPath, "documentation-as-attributes.xmi"));
