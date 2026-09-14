@@ -96,8 +96,33 @@ namespace uml4net.xmi.Readers
         /// Per XMI 2.5.1 clause 7.10 an XMI document may contain a flat list of elements of any type.
         /// An element that is read as a top-level element but is owned by another element through a
         /// proxy (<c>xmi:idref</c> or <c>href</c>) is not a top-level element and is not included.
+        /// This is the union of <see cref="DocumentRootElements"/> and <see cref="ExternalRootElements"/>.
         /// </remarks>
         public List<IXmiElement> RootElements { get; set; } = [];
+
+        /// <summary>
+        /// Gets or sets the top-level <see cref="IXmiElement"/>s of the document that was read, without those of the
+        /// external documents that were loaded while resolving references; these are the elements to write back to
+        /// reproduce the document
+        /// </summary>
+        /// <remarks>
+        /// An element that is read as a top-level element but is owned by another element through a proxy
+        /// (<c>xmi:idref</c> or <c>href</c>) is not a top-level element and is not included.
+        /// </remarks>
+        public List<IXmiElement> DocumentRootElements { get; set; } = [];
+
+        /// <summary>
+        /// Gets or sets the top-level <see cref="IXmiElement"/>s of the external documents that were loaded while
+        /// resolving the references of the document that was read
+        /// </summary>
+        public List<IXmiElement> ExternalRootElements { get; set; } = [];
+
+        /// <summary>
+        /// Gets or sets the <see cref="XmiRoot"/> of each external document that was loaded while resolving the
+        /// references of the document that was read, keyed by the name (URI or path) of the external document; the
+        /// <see cref="XmiRoot"/> of the document that was read is <see cref="XmiRoot"/>
+        /// </summary>
+        public Dictionary<string, XmiRoot> ExternalXmiRoots { get; set; } = [];
 
         /// <summary>
         /// Gets or sets all the top-level <see cref="IPackage"/>s that have been read, this includes the Root
@@ -113,7 +138,9 @@ namespace uml4net.xmi.Readers
         /// </summary>
         /// <remarks>
         /// In case the root document does not contain a XMI element, an <see cref="XmiRoot"/>
-        /// instance is created and set by the <see cref="XmiReader"/>
+        /// instance is created and set by the <see cref="XmiReader"/>. Its content, tags, extensions and
+        /// stereotype applications are those of the document that was read only; those of the external documents
+        /// are available through <see cref="ExternalXmiRoots"/>
         /// </remarks>
         public XmiRoot XmiRoot { get; set; }
     }
