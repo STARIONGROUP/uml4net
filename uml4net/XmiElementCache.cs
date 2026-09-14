@@ -63,7 +63,7 @@ namespace uml4net
         /// Matches the XPointer form of an <c>xmi:uuid</c> reference, <c>xpointer((//*[@xmi:uuid='value'])[1])</c>
         /// (XMI 2.5.1 clause 7.10.2), capturing the value
         /// </summary>
-        private static readonly Regex XPointerUuidExpression = new(@"^xpointer\(\(//\*\[@xmi:uuid=(['""])(?<uuid>.*?)\1\]\)\[1\]\)$", RegexOptions.Compiled);
+        private static readonly Regex XPointerUuidExpression = new(@"^xpointer\(\(//\*\[@xmi:uuid=(['""])(?<uuid>.*?)\1\]\)\[1\]\)$", RegexOptions.Compiled, TimeSpan.FromMilliseconds(100));
 
         /// <summary>
         /// Tries to extract the <c>xmi:uuid</c> value from the fragment of a link that uses the XPointer form
@@ -87,7 +87,17 @@ namespace uml4net
                 return false;
             }
 
-            var match = XPointerUuidExpression.Match(fragment);
+            Match match;
+
+            try
+            {
+                match = XPointerUuidExpression.Match(fragment);
+            }
+            catch (RegexMatchTimeoutException)
+            {
+                // a fragment that takes longer than the match timeout is not a well-formed uuid pointer
+                return false;
+            }
 
             if (!match.Success)
             {
