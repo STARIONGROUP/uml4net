@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- local copy of http://example.com/a/types.xmi -->
+<xmi:XMI xmlns:xmi="http://www.omg.org/spec/XMI/20131001" xmlns:uml="http://www.omg.org/spec/UML/20131001">
+  <uml:Package xmi:id="pa" name="TypesA">
+    <packagedElement xmi:type="uml:Class" xmi:id="T" name="TA"/>
+  </uml:Package>
+</xmi:XMI>

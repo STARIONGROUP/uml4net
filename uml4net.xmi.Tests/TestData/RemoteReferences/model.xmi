@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- two remote documents with the same file name; their local copies mirror the host and path of the URI -->
+<xmi:XMI xmlns:xmi="http://www.omg.org/spec/XMI/20131001" xmlns:uml="http://www.omg.org/spec/UML/20131001">
+  <uml:Package xmi:id="p" name="Model">
+    <packagedElement xmi:type="uml:Class" xmi:id="C" name="C">
+      <ownedAttribute xmi:type="uml:Property" xmi:id="C-a" name="a">
+        <type href="http://example.com/a/types.xmi#T"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:type="uml:Property" xmi:id="C-b" name="b">
+        <type href="http://example.com/b/types.xmi#T"/>
+      </ownedAttribute>
+    </packagedElement>
+  </uml:Package>
+</xmi:XMI>

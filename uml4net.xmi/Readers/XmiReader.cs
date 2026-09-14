@@ -172,6 +172,9 @@ namespace uml4net.xmi.Readers
 
             this.logger.LogInformation("start deserializing from {Path}", fileUri);
 
+            // the relative hrefs of the document are resolved against its location (XMI 2.5.1 clause 7.10.2)
+            this.externalReferenceResolver.RegisterDocumentLocation(fileInfo.Name, fileInfo.FullName);
+
             var result = this.Read(fileStream, fileInfo.Name);
 
             this.logger.LogInformation("File {Path} deserialized in {Time} [ms]", fileUri, sw.ElapsedMilliseconds);
