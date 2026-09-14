@@ -23,6 +23,8 @@ namespace uml4net.xmi.Tests.Readers
     using System;
     using System.IO;
     using System.Linq;
+    using System.Xml;
+
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Logging.Abstractions;
 
@@ -71,6 +73,59 @@ namespace uml4net.xmi.Tests.Readers
         public void Verify_that_null_arguments_throws_exception()
         {
             Assert.That(() => this.documentationReader.Read(null, ""), Throws.TypeOf<ArgumentNullException>() );
+        }
+
+        [Test]
+        public void Verify_that_extensions_inside_the_documentation_are_read_and_preserved_as_raw_xmi()
+        {
+            var rootPath = Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData", "Documentation");
+
+            var reader = XmiReaderBuilder.Create()
+                .UsingSettings(x => x.LocalReferenceBasePath = rootPath)
+                .WithLogger(this.loggerFactory)
+                .Build();
+
+            var xmiReaderResult = reader.Read(Path.Combine(rootPath, "documentation-with-extensions.xmi"));
+
+            var documentation = xmiReaderResult.XmiRoot.Documentation;
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(documentation.Extensions, Has.Count.EqualTo(2), "xmi:Extension and xmi:extension");
+                Assert.That(documentation.Extensions[0].Extender, Is.EqualTo("uml4net tests"));
+                Assert.That(documentation.Extensions[0].ExtenderId, Is.EqualTo("1"));
+                Assert.That(documentation.Extensions[0].DocumentName, Is.EqualTo("documentation-with-extensions.xmi"));
+                Assert.That(documentation.Extensions[0].ContentRawXmi, Does.Contain("<tool:info").And.Contain("version=\"42\"").And.Contain("<tool:note>kept</tool:note>"));
+                Assert.That(documentation.Extensions[1].Extender, Is.EqualTo("other tool"));
+                Assert.That(documentation.Extensions[1].ContentRawXmi, Does.Contain("<other:data").And.Contain(">x</other:data>"));
+                Assert.That(documentation.Notice, Is.EqualTo(new[] { "after the extensions" }), "the sibling after the extensions is still read");
+                Assert.That(documentation.Exporter, Is.EqualTo("uml4net tests"));
+            }
+        }
+
+        [Test]
+        public void Verify_that_the_Read_overload_without_a_document_name_records_the_unknown_document_name()
+        {
+            const string xml = "<xmi:Documentation xmlns:xmi='http://www.omg.org/spec/XMI/20131001' exporter='e'><xmi:Extension extender='x'><a/></xmi:Extension></xmi:Documentation>";
+
+            using var xmlReader = XmlReader.Create(new StringReader(xml));
+
+            var documentation = this.documentationReader.Read(xmlReader, "http://www.omg.org/spec/XMI/20131001");
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(documentation.Exporter, Is.EqualTo("e"));
+                Assert.That(documentation.Extensions.Single().DocumentName, Is.EqualTo(DocumentationReader.UnknownDocumentName));
+                Assert.That(documentation.Extensions.Single().ContentRawXmi, Is.EqualTo("<a />"));
+            }
+        }
+
+        [Test]
+        public void Verify_that_Read_throws_when_the_document_name_is_empty()
+        {
+            using var xmlReader = XmlReader.Create(new StringReader("<xmi:Documentation xmlns:xmi='http://www.omg.org/spec/XMI/20131001'/>"));
+
+            Assert.That(() => this.documentationReader.Read(xmlReader, "", "http://www.omg.org/spec/XMI/20131001"), Throws.ArgumentException);
         }
 
         [Test]

@@ -109,6 +109,61 @@ namespace uml4net.xmi.Tests.Writers
         }
 
         [Test]
+        public void Verify_that_the_extensions_of_a_Documentation_are_written()
+        {
+            var documentation = new Documentation { Exporter = "uml4net" };
+
+            documentation.Notice.Add("notice");
+
+            documentation.Extensions.Add(new XmiExtension
+            {
+                Extender = "uml4net tests",
+                ExtenderId = "1",
+                ContentRawXmi = "<tool:info xmlns:tool=\"http://example.com/tool\" version=\"42\"><tool:note>kept</tool:note></tool:info>"
+            });
+
+            var element = this.WriteAndParse(documentation);
+
+            var xmiNamespace = XNamespace.Get(this.xmiWriterSettings.XmiNamespaceUri);
+            var extensionElement = element.Element(xmiNamespace + "Extension");
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(extensionElement, Is.Not.Null, "an xmi:Extension was expected inside the xmi:Documentation");
+                Assert.That(extensionElement.Attribute("extender")?.Value, Is.EqualTo("uml4net tests"));
+                Assert.That(extensionElement.Attribute("extenderID")?.Value, Is.EqualTo("1"));
+                Assert.That(extensionElement.Element(XNamespace.Get("http://example.com/tool") + "info")?.Attribute("version")?.Value, Is.EqualTo("42"));
+                Assert.That(extensionElement.Descendants(XNamespace.Get("http://example.com/tool") + "note").Single().Value, Is.EqualTo("kept"));
+                Assert.That(element.Elements().Last(), Is.EqualTo(extensionElement), "the extensions are written after the documentation properties");
+            }
+        }
+
+        [Test]
+        public async Task Verify_that_WriteAsync_writes_the_extensions_of_a_Documentation()
+        {
+            var documentation = new Documentation { Exporter = "uml4net" };
+
+            documentation.Extensions.Add(new XmiExtension { Extender = "uml4net tests", ContentRawXmi = "<a />" });
+
+            using var stringWriter = new StringWriter();
+
+            using (var xmlWriter = XmlWriter.Create(stringWriter, new XmlWriterSettings { Async = true, OmitXmlDeclaration = true }))
+            {
+                await this.documentationWriter.WriteAsync(xmlWriter, documentation);
+            }
+
+            var element = XElement.Parse(stringWriter.ToString());
+            var extensionElement = element.Element(XNamespace.Get(this.xmiWriterSettings.XmiNamespaceUri) + "Extension");
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(extensionElement, Is.Not.Null);
+                Assert.That(extensionElement.Attribute("extender")?.Value, Is.EqualTo("uml4net tests"));
+                Assert.That(extensionElement.Element("a"), Is.Not.Null);
+            }
+        }
+
+        [Test]
         public void Verify_that_an_empty_Documentation_is_written_without_optional_attributes_or_elements()
         {
             var element = this.WriteAndParse(new Documentation());

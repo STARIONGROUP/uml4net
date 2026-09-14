@@ -62,8 +62,14 @@ namespace uml4net.xmi.Writers
         public DocumentationWriter(IXmiWriterSettings xmiWriterSettings, ILoggerFactory loggerFactory)
         {
             this.xmiWriterSettings = xmiWriterSettings;
+            this.loggerFactory = loggerFactory;
             this.logger = loggerFactory == null ? NullLogger<DocumentationWriter>.Instance : loggerFactory.CreateLogger<DocumentationWriter>();
         }
+
+        /// <summary>
+        /// The <see cref="ILoggerFactory"/> handed to the <see cref="XmiExtensionWriter"/>
+        /// </summary>
+        private readonly ILoggerFactory loggerFactory;
 
         /// <summary>
         /// Writes the <see cref="Documentation"/> object to its XML representation
@@ -133,6 +139,17 @@ namespace uml4net.xmi.Writers
             foreach (var owner in documentation.Owner)
             {
                 xmlWriter.WriteElementString("xmi", "owner", this.xmiWriterSettings.XmiNamespaceUri, owner);
+            }
+
+            if (documentation.Extensions.Count > 0)
+            {
+                // the Documentation schema allows Extension elements (XMI 2.5.1 clause 7.5.5)
+                var xmiExtensionWriter = new XmiExtensionWriter(this.xmiWriterSettings, this.loggerFactory);
+
+                foreach (var extension in documentation.Extensions)
+                {
+                    xmiExtensionWriter.Write(xmlWriter, extension);
+                }
             }
 
             xmlWriter.WriteEndElement();
@@ -209,6 +226,17 @@ namespace uml4net.xmi.Writers
             foreach (var owner in documentation.Owner)
             {
                 await xmlWriter.WriteElementStringAsync("xmi", "owner", this.xmiWriterSettings.XmiNamespaceUri, owner);
+            }
+
+            if (documentation.Extensions.Count > 0)
+            {
+                // the Documentation schema allows Extension elements (XMI 2.5.1 clause 7.5.5)
+                var xmiExtensionWriter = new XmiExtensionWriter(this.xmiWriterSettings, this.loggerFactory);
+
+                foreach (var extension in documentation.Extensions)
+                {
+                    await xmiExtensionWriter.WriteAsync(xmlWriter, extension);
+                }
             }
 
             await xmlWriter.WriteEndElementAsync();

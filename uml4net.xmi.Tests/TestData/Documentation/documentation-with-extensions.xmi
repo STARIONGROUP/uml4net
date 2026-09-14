@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- xmi:Extension elements inside xmi:Documentation (XMI 2.5.1 clause 7.5.5), in both spellings, followed by a sibling that must still be read -->
+<xmi:XMI xmlns:xmi="http://www.omg.org/spec/XMI/20131001" xmlns:uml="http://www.omg.org/spec/UML/20131001">
+  <xmi:Documentation exporter="uml4net tests" exporterVersion="1.0.0">
+    <xmi:Extension extender="uml4net tests" extenderID="1"><tool:info xmlns:tool="http://example.com/tool" version="42"><tool:note>kept</tool:note></tool:info></xmi:Extension>
+    <xmi:extension extender="other tool"><other:data xmlns:other="http://example.com/other">x</other:data></xmi:extension>
+    <xmi:notice>after the extensions</xmi:notice>
+  </xmi:Documentation>
+  <uml:Package xmi:id="p" name="P"/>
+</xmi:XMI>

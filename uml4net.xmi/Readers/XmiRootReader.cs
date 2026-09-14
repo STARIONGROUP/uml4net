@@ -174,8 +174,8 @@ namespace uml4net.xmi.Readers
                                 if (processRootProperties)
                                 {
                                     using var subXmlReader = xmlReader.ReadSubtree();
-                                    var documentationReader = new DocumentationReader(this.xmiReaderSettings, this.nameSpaceResolver, this.loggerFactory);
-                                    var documentation = documentationReader.Read(subXmlReader, activeNamespaceUri);
+                                    var documentationReader = new DocumentationReader(this.xmiReaderSettings, this.nameSpaceResolver, this.extenderReaderRegistry, this.loggerFactory);
+                                    var documentation = documentationReader.Read(subXmlReader, documentName, activeNamespaceUri);
                                     xmiRoot.Documentation = documentation;
                                 }
                                 break;
