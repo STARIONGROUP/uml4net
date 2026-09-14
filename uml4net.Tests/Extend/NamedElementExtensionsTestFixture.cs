@@ -73,6 +73,94 @@ namespace uml4net.Tests.Extend
         }
 
         [Test]
+        public void Verify_that_QualifiedName_is_null_when_the_element_has_no_name()
+        {
+            var package = new Package { Name = "P" };
+            var @class = new Class();
+            package.PackagedElement.Add(@class);
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(@class.QualifiedName, Is.Null, "null, not an empty string");
+                Assert.That(new Class().QualifiedName, Is.Null);
+            }
+        }
+
+        [Test]
+        public void Verify_that_QualifiedName_is_null_when_any_enclosing_namespace_has_no_name()
+        {
+            var rootPackage = new Package { Name = "root" };
+            var unnamedPackage = new Package();
+            var @class = new Class { Name = "A" };
+
+            rootPackage.PackagedElement.Add(unnamedPackage);
+            unnamedPackage.PackagedElement.Add(@class);
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(@class.QualifiedName, Is.Null, "has_no_qualified_name: an unnamed namespace in the chain gives null, not root::::A");
+                Assert.That(unnamedPackage.QualifiedName, Is.Null);
+                Assert.That(rootPackage.QualifiedName, Is.EqualTo("root"));
+            }
+        }
+
+        [Test]
+        public void Verify_that_QualifiedName_uses_allNamespaces_and_not_the_owner_chain()
+        {
+            var package = new Package { Name = "P" };
+            var @class = new Class { Name = "C" };
+            var property = new Property { Name = "p" };
+            var lowerValue = new LiteralInteger { Name = "lower", Value = 0 };
+            var activity = new Activity { Name = "A" };
+            var action = new OpaqueAction { Name = "act" };
+
+            package.PackagedElement.Add(@class);
+            @class.OwnedAttribute.Add(property);
+            property.LowerValue.Add(lowerValue);
+            package.PackagedElement.Add(activity);
+            activity.Node.Add(action);
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(property.QualifiedName, Is.EqualTo("P::C::p"));
+                Assert.That(lowerValue.QualifiedName, Is.EqualTo("lower"), "a lowerValue has no namespace, so allNamespaces() is empty and the qualified name is the name alone, not P::C::lower");
+                Assert.That(action.QualifiedName, Is.EqualTo("act"), "Activity::node subsets ownedElement only, so a node has no namespace");
+                Assert.That(lowerValue.QueryAllNamespaces(), Is.Empty);
+                Assert.That(property.QueryAllNamespaces(), Is.EqualTo(new INamespace[] { @class, package }), "innermost first");
+            }
+        }
+
+        [Test]
+        public void Verify_that_QualifiedName_of_a_template_parameter_owned_element_is_qualified_by_the_template()
+        {
+            var package = new Package { Name = "P" };
+            var template = new Class { Name = "T" };
+            var signature = new RedefinableTemplateSignature { Name = "sig" };
+            var templateParameter = new ClassifierTemplateParameter();
+            var parameteredElement = new Class { Name = "E" };
+
+            package.PackagedElement.Add(template);
+            template.OwnedTemplateSignature.Add(signature);
+            signature.OwnedParameter.Add(templateParameter);
+            templateParameter.OwnedParameteredElement.Add(parameteredElement);
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(parameteredElement.Namespace, Is.Null, "a TemplateParameter is not a Namespace");
+                Assert.That(parameteredElement.QueryAllNamespaces(), Is.EqualTo(new INamespace[] { template, package }), "allNamespaces() takes the template of the signature as the enclosing namespace");
+                Assert.That(parameteredElement.QualifiedName, Is.EqualTo("P::T::E"));
+            }
+        }
+
+        [Test]
+        public void Verify_that_QueryAllNamespaces_throws_when_the_element_is_null()
+        {
+            Class @class = null;
+
+            Assert.That(() => NamedElementExtensions.QueryAllNamespaces(@class), Throws.ArgumentNullException);
+        }
+
+        [Test]
         public void Verify_that_QueryNamespace_is_null_when_the_owner_is_not_a_Namespace()
         {
             var package = new Package { Name = "P" };
