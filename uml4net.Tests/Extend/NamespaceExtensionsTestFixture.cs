@@ -42,6 +42,97 @@ namespace uml4net.Tests.Extend
     public class NamespaceExtensionsTestFixture
     {
         [Test]
+        public void Verify_that_QueryMember_includes_the_members_inherited_through_the_whole_generalization_hierarchy()
+        {
+            var grandParent = new Class { Name = "GrandParent" };
+            var grandParentAttribute = new Property { Name = "fromGrandParent", Visibility = VisibilityKind.Public };
+            grandParent.OwnedAttribute.Add(grandParentAttribute);
+
+            var parent = new Class { Name = "Parent" };
+            var parentOperation = new Operation { Name = "fromParent", Visibility = VisibilityKind.Public };
+            parent.OwnedOperation.Add(parentOperation);
+            parent.Generalization.Add(new Generalization { General = grandParent });
+
+            var child = new Class { Name = "Child" };
+            var childAttribute = new Property { Name = "own" };
+            child.OwnedAttribute.Add(childAttribute);
+            child.Generalization.Add(new Generalization { General = parent });
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(parent.Member, Is.SupersetOf(new INamedElement[] { parentOperation, grandParentAttribute }), "inheritedMember subsets member");
+                Assert.That(child.Member, Is.SupersetOf(new INamedElement[] { childAttribute, parentOperation, grandParentAttribute }), "the grandparent's attribute is inherited through the parent's member");
+                Assert.That(child.InheritedMember, Is.SupersetOf(new INamedElement[] { parentOperation, grandParentAttribute }), "inheritedMember is derived from the parents' member, which now includes what they inherited");
+                Assert.That(child.Member, Is.Unique);
+            }
+        }
+
+        [Test]
+        public void Verify_that_QueryMember_includes_the_features_of_a_classifier()
+        {
+            var association = new Association { Name = "A" };
+            var ownedEnd = new Property { Name = "ownedEnd" };
+            association.OwnedEnd.Add(ownedEnd);
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(association.Feature, Does.Contain(ownedEnd), "ownedEnd subsets feature");
+                Assert.That(association.Member, Does.Contain(ownedEnd), "feature subsets member");
+            }
+        }
+
+        [Test]
+        public void Verify_that_QueryMember_includes_the_roles_of_a_structured_classifier()
+        {
+            var collaboration = new Collaboration { Name = "C" };
+            var role = new Property { Name = "role" };
+            collaboration.CollaborationRole.Add(role);
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(collaboration.OwnedMember, Does.Not.Contain(role), "a collaboration role is referenced, not owned");
+                Assert.That(collaboration.Role, Does.Contain(role));
+                Assert.That(collaboration.Member, Does.Contain(role), "role subsets member");
+            }
+        }
+
+        [Test]
+        public void Verify_that_QueryMember_includes_the_member_ends_of_an_association()
+        {
+            var classA = new Class { Name = "A" };
+            var classB = new Class { Name = "B" };
+            var endOwnedByA = new Property { Name = "b", Type = classB };
+            var endOwnedByB = new Property { Name = "a", Type = classA };
+            classA.OwnedAttribute.Add(endOwnedByA);
+            classB.OwnedAttribute.Add(endOwnedByB);
+
+            var association = new Association { Name = "AB" };
+            association.MemberEnd.Add(endOwnedByA);
+            association.MemberEnd.Add(endOwnedByB);
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(association.OwnedMember, Is.Empty, "the ends are owned by the classes");
+                Assert.That(association.Member, Is.EquivalentTo(new INamedElement[] { endOwnedByA, endOwnedByB }), "memberEnd subsets member");
+            }
+        }
+
+        [Test]
+        public void Verify_that_QueryMember_of_a_plain_namespace_is_owned_and_imported_members_only()
+        {
+            var imported = new Package { Name = "Imported" };
+            var importedClass = new Class { Name = "ImportedClass", Visibility = VisibilityKind.Public };
+            imported.PackagedElement.Add(importedClass);
+
+            var package = new Package { Name = "P" };
+            var ownedClass = new Class { Name = "Owned" };
+            package.PackagedElement.Add(ownedClass);
+            package.PackageImport.Add(new PackageImport { ImportedPackage = imported });
+
+            Assert.That(package.Member, Is.EquivalentTo(new INamedElement[] { ownedClass, importedClass }));
+        }
+
+        [Test]
         public void Verify_that_QueryOwnedMember_throws_when_namespace_is_null()
         {
             Package @namespace = null;

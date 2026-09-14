@@ -43,19 +43,24 @@ namespace uml4net.CommonStructure
     {
         /// <summary>
         /// Queries a collection of NamedElements identifiable within the Namespace, either by being
-        /// owned or by being introduced by importing.
+        /// owned or by being introduced by importing or inheritance (UML 2.5.1 clause 7.8.10).
         /// </summary>
         /// <param name="namespace">
         /// The subject <see cref="INamespace"/>
         /// </param>
         /// <returns>
         /// a collection of NamedElements identifiable within the Namespace, either by being owned or
-        /// by being introduced by importing.
+        /// by being introduced by importing or inheritance.
         /// </returns>
         /// <remarks>
         /// Has no OCL body in the metamodel - like <see cref="QueryOwnedMember"/>, it is defined
-        /// purely by the UML derived union mechanism: its two direct subsetting properties are
-        /// exactly <see cref="QueryOwnedMember"/> and <see cref="QueryImportedMember"/>, and no others.
+        /// purely by the UML derived union mechanism. Six properties subset <c>Namespace-member</c>:
+        /// <see cref="INamespace.OwnedMember"/> and <see cref="INamespace.ImportedMember"/> on every
+        /// Namespace, <see cref="IClassifier.InheritedMember"/> and <see cref="IClassifier.Feature"/> on a
+        /// Classifier, <see cref="IStructuredClassifier.Role"/> on a StructuredClassifier and
+        /// <see cref="IAssociation.MemberEnd"/> on an Association; each is applied to the metaclasses that
+        /// define it. Since <see cref="IClassifier.InheritedMember"/> is in turn derived from the parents'
+        /// <c>member</c>, members are inherited through the whole generalization hierarchy.
         /// </remarks>
         internal static List<INamedElement> QueryMember(this INamespace @namespace)
         {
@@ -64,10 +69,27 @@ namespace uml4net.CommonStructure
                 throw new ArgumentNullException(nameof(@namespace));
             }
 
-            return @namespace.OwnedMember
-                .Concat(@namespace.ImportedMember)
-                .Distinct()
-                .ToList();
+            var result = new List<INamedElement>(@namespace.OwnedMember);
+
+            result.AddRange(@namespace.ImportedMember);
+
+            if (@namespace is IClassifier classifier)
+            {
+                result.AddRange(classifier.InheritedMember);
+                result.AddRange(classifier.Feature);
+            }
+
+            if (@namespace is IStructuredClassifier structuredClassifier)
+            {
+                result.AddRange(structuredClassifier.Role);
+            }
+
+            if (@namespace is IAssociation association)
+            {
+                result.AddRange(association.MemberEnd);
+            }
+
+            return result.Distinct().ToList();
         }
 
         /// <summary>
