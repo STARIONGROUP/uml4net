@@ -137,12 +137,14 @@ namespace uml4net.CommonStructure
         /// The subject <see cref="INamedElement"/>
         /// </param>
         /// <returns>
-        /// a string that represents the fully qualified name following the pattern N1::N2::x where N1 and N2 are container
-        /// Namespaces and x is the subject <see cref="INamedElement"/>
+        /// a string that represents the fully qualified name following the pattern N1::N2::x where N1 and N2 are the
+        /// <see cref="QueryAllNamespaces"/> of the subject <see cref="INamedElement"/> x; null when the element or
+        /// any of those Namespaces has no name (UML 2.5.1 clause 7.8.9, constraint <c>has_no_qualified_name</c>)
         /// </returns>
         /// <remarks>
-        /// As a Namespace is itself a NamedElement, the fully qualified name of a NamedElement may include multiple
-        /// Namespace names, such as N1::N2::x
+        /// Implements the OCL of <c>NamedElement::qualifiedName</c>:
+        /// <c>if self.name &lt;&gt; null and self.allNamespaces()-&gt;select(ns | ns.name = null)-&gt;isEmpty() then
+        /// self.allNamespaces()-&gt;iterate(ns; agg = self.name | ns.name.concat(self.separator()).concat(agg)) else null</c>
         /// </remarks>
         internal static string QueryQualifiedName(this INamedElement namedElement)
         {
@@ -151,24 +153,82 @@ namespace uml4net.CommonStructure
                 throw new ArgumentNullException(nameof(namedElement));
             }
 
-            if (string.IsNullOrEmpty(namedElement.Name))
+            if (namedElement.Name == null)
             {
-                return string.Empty;
+                return null;
+            }
+
+            var allNamespaces = namedElement.QueryAllNamespaces();
+
+            if (allNamespaces.Any(ns => ns.Name == null))
+            {
+                return null;
             }
 
             var result = namedElement.Name;
 
-            var owner = namedElement.Owner;
-
-            while (owner != null)
+            foreach (var @namespace in allNamespaces)
             {
-                if (owner is INamespace @namespace)
-                {
-                    result = $"{@namespace.Name}::{result}";
-                }
-
-                owner = owner.Owner;
+                result = $"{@namespace.Name}{Separator}{result}";
             }
+
+            return result;
+        }
+
+        /// <summary>
+        /// The <c>NamedElement::separator</c> used between the names in a qualified name (UML 2.5.1 clause 7.8.9)
+        /// </summary>
+        internal const string Separator = "::";
+
+        /// <summary>
+        /// Queries the sequence of Namespaces of the <see cref="INamedElement"/>, from the innermost to the outermost,
+        /// as defined by the operation <c>NamedElement::allNamespaces</c> (UML 2.5.1 clause 7.8.9)
+        /// </summary>
+        /// <param name="namedElement">
+        /// The subject <see cref="INamedElement"/>
+        /// </param>
+        /// <returns>
+        /// the <see cref="INamedElement.Namespace"/> of the element followed by the namespaces of that namespace, and
+        /// so on; an element owned by a <see cref="ITemplateParameter"/> whose signature's template is a Namespace
+        /// takes that template as its enclosing namespace; empty when the element has no namespace
+        /// </returns>
+        /// <remarks>
+        /// Implements the OCL: <c>if owner.oclIsKindOf(TemplateParameter) and
+        /// owner.oclAsType(TemplateParameter).signature.template.oclIsKindOf(Namespace) then let enclosingNamespace =
+        /// owner.oclAsType(TemplateParameter).signature.template.oclAsType(Namespace) in
+        /// enclosingNamespace.allNamespaces()-&gt;prepend(enclosingNamespace) else if namespace-&gt;isEmpty() then
+        /// OrderedSet{} else namespace.allNamespaces()-&gt;prepend(namespace)</c>
+        /// </remarks>
+        internal static List<INamespace> QueryAllNamespaces(this INamedElement namedElement)
+        {
+            if (namedElement == null)
+            {
+                throw new ArgumentNullException(nameof(namedElement));
+            }
+
+            INamespace enclosingNamespace;
+
+            // TemplateParameter::signature and TemplateSignature::template subset owner and are not populated by the
+            // reader, hence the fallback to the owner (see the DirectedRelationship extensions for the same pattern)
+            if (namedElement.Owner is ITemplateParameter templateParameter
+                && (templateParameter.Signature ?? templateParameter.Owner as ITemplateSignature) is { } signature
+                && (signature.Template ?? signature.Owner as ITemplateableElement) is INamespace template)
+            {
+                enclosingNamespace = template;
+            }
+            else
+            {
+                enclosingNamespace = namedElement.Namespace;
+            }
+
+            if (enclosingNamespace == null)
+            {
+                return [];
+            }
+
+            var result = new List<INamespace> { enclosingNamespace };
+
+            result.AddRange(enclosingNamespace.QueryAllNamespaces());
 
             return result;
         }
