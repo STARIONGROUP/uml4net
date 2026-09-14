@@ -108,6 +108,9 @@
       <None Update="TestData\DerivedProperties\*.xmi">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
+      <None Update="TestData\Nil\*.xmi">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
     </ItemGroup>
 
 </Project>

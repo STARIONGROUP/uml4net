@@ -162,6 +162,34 @@ namespace uml4net.xmi.Readers
         }
 
         /// <summary>
+        /// The namespace of the XML Schema instance attributes, such as <c>xsi:nil</c>
+        /// </summary>
+        public const string XmlSchemaInstanceNamespace = "http://www.w3.org/2001/XMLSchema-instance";
+
+        /// <summary>
+        /// Queries whether the current element carries <c>xsi:nil="true"</c>, which serializes a null value
+        /// (XMI 2.5.1 clause 9.5.2, rule 2b)
+        /// </summary>
+        /// <param name="xmlReader">
+        /// The <see cref="XmlReader"/> positioned on an element
+        /// </param>
+        /// <returns>
+        /// true when the element is nil, false otherwise
+        /// </returns>
+        public static bool IsNil(this XmlReader xmlReader)
+        {
+            if (xmlReader == null)
+            {
+                throw new ArgumentNullException(nameof(xmlReader));
+            }
+
+            var nil = xmlReader.GetAttribute("nil", XmlSchemaInstanceNamespace);
+
+            // the XML Schema lexical forms of a true boolean
+            return nil != null && (nil.Trim() == "true" || nil.Trim() == "1");
+        }
+
+        /// <summary>
         /// Reads the text content of the current element, like <see cref="XmlReader.ReadElementContentAsString()"/>,
         /// but leaves the reader positioned on the end tag of the element instead of on the node that follows it.
         /// </summary>
@@ -169,13 +197,20 @@ namespace uml4net.xmi.Readers
         /// The <see cref="XmlReader"/> positioned on an element
         /// </param>
         /// <returns>
-        /// the text content of the element, an empty string for an empty element
+        /// the text content of the element, an empty string for an empty element and null for an element
+        /// that carries <c>xsi:nil="true"</c>
         /// </returns>
         public static string ReadElementContentAsStringInPlace(this XmlReader xmlReader)
         {
             if (xmlReader == null)
             {
                 throw new ArgumentNullException(nameof(xmlReader));
+            }
+
+            if (xmlReader.IsNil())
+            {
+                xmlReader.SkipInPlace();
+                return null;
             }
 
             using var subtreeReader = xmlReader.ReadSubtree();

@@ -969,7 +969,10 @@ namespace uml4net.HandleBars
                     if (property.QueryIsPrimitiveType())
                     {
                         sb.AppendLine($"var {property.Name}Value = xmlReader.ReadElementContentAsStringInPlace();");
+                        sb.AppendLine($"{Environment.NewLine}if ({property.Name}Value != null)");
+                        sb.AppendLine("{");
                         sb.AppendLine($"poco.{property.Name.CapitalizeFirstLetter()}.Add({property.Name}Value);");
+                        sb.AppendLine($"}}{Environment.NewLine}");
                         sb.AppendLine("break;");
 
                         writer.WriteSafeString(sb);
@@ -1031,7 +1034,10 @@ namespace uml4net.HandleBars
                                 break;
                             case "string":
                                 sb.AppendLine($"var {property.Name}Value = xmlReader.ReadElementContentAsStringInPlace();");
+                                sb.AppendLine($"{Environment.NewLine}if ({property.Name}Value != null)");
+                                sb.AppendLine("{");
                                 sb.AppendLine($"poco.{property.Name.CapitalizeFirstLetter()}.Add({property.Name}Value);");
+                                sb.AppendLine($"}}{Environment.NewLine}");
                                 break;
                             default:
                                 throw new NotSupportedException($"{property.Name} has a Primitive Type that is not supported: {cSharpTypeName}");

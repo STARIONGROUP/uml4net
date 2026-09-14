@@ -332,7 +332,12 @@ namespace uml4net.xmi.Readers
                         {
                             case (KnowNamespacePrefixes.Uml, "body"):
                                 var bodyValue = xmlReader.ReadElementContentAsStringInPlace();
-                                poco.Body.Add(bodyValue);
+
+                                if (bodyValue != null)
+                                {
+                                    poco.Body.Add(bodyValue);
+                                }
+
                                 break;
                             case (KnowNamespacePrefixes.Uml, "classifierBehavior"):
                                 CollectSingleValueReferencePropertyIdentifier(xmlReader, poco, "classifierBehavior");
@@ -412,7 +417,12 @@ namespace uml4net.xmi.Readers
                                 break;
                             case (KnowNamespacePrefixes.Uml, "language"):
                                 var languageValue = xmlReader.ReadElementContentAsStringInPlace();
-                                poco.Language.Add(languageValue);
+
+                                if (languageValue != null)
+                                {
+                                    poco.Language.Add(languageValue);
+                                }
+
                                 break;
                             case (KnowNamespacePrefixes.Uml, "name"):
                                 poco.Name = xmlReader.ReadElementContentAsStringInPlace();
