@@ -180,6 +180,7 @@ namespace uml4net.xmi.Readers
                             {{ #each (Class.QueryAllNonDerivedNonReadOnlyProperties this) as | property | }}
                             {{ #Property.WriteXmlElementForXmiReader property ../ }}
                             {{/each}}
+                            {{ #Class.WriteDerivedPropertyCasesForXmiReader this }}
                             case (KnowNamespacePrefixes.Xmi, "extension"):
                             case (KnowNamespacePrefixes.Xmi, "Extension"):
                             {

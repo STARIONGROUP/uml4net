@@ -278,5 +278,56 @@ namespace uml4net.HandleBars.Tests
 
             Assert.That(result, Is.EqualTo("beforeafter"));
         }
+
+        [Test]
+        public void Verify_that_WriteDerivedPropertyCasesForXmiReader_writes_a_case_per_derived_property_that_skips_the_element()
+        {
+            var template = "{{#Class.WriteDerivedPropertyCasesForXmiReader this}}";
+
+            var action = this.handlebarsContext.Compile(template);
+
+            var root = this.xmiReaderResult.QueryRoot(xmiId: "_0", name: "UML");
+
+            var structuredClassifiersPackage = root.NestedPackage.Single(x => x.Name == "StructuredClassifiers");
+            var @class = structuredClassifiersPackage.PackagedElement.OfType<IClass>().Single(x => x.Name == "Class");
+
+            var result = action(@class);
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(result, Does.Contain("case (KnowNamespacePrefixes.Uml, \"qualifiedName\"):"), "derived property");
+                Assert.That(result, Does.Contain("case (KnowNamespacePrefixes.Uml, \"ownedElement\"):"), "derived union");
+                Assert.That(result, Does.Contain("case (KnowNamespacePrefixes.Uml, \"superClass\"):"), "derived property of the class itself");
+                Assert.That(result, Does.Not.Contain("case (KnowNamespacePrefixes.Uml, \"name\"):"), "properties that are read have no skip case");
+                Assert.That(result, Does.Not.Contain("case (KnowNamespacePrefixes.Uml, \"ownedAttribute\"):"), "properties that are read have no skip case");
+                Assert.That(result, Does.Contain("this.logger.LogDebug(\"Ignoring the serialized derived property {LocalName} of Class at line:position {LineNumber}:{LinePosition}\", xmlReader.LocalName, xmlLineInfo.LineNumber, xmlLineInfo.LinePosition);"));
+                Assert.That(result, Does.Contain("xmlReader.SkipInPlace();"));
+                Assert.That(result.Split("case (KnowNamespacePrefixes.Uml, \"qualifiedName\"):").Length, Is.EqualTo(2), "each derived property name is written once");
+            }
+        }
+
+        [Test]
+        public void Verify_that_WriteDerivedPropertyCasesForXmiReader_writes_nothing_for_a_class_without_derived_properties()
+        {
+            var template = "{{#Class.WriteDerivedPropertyCasesForXmiReader this}}";
+
+            var action = this.handlebarsContext.Compile(template);
+
+            var result = action(new Class { Name = "Plain" });
+
+            Assert.That(result, Is.Empty);
+        }
+
+        [Test]
+        public void Verify_that_WriteDerivedPropertyCasesForXmiReader_throws_when_not_provided_with_class()
+        {
+            var action = this.handlebarsContext.Compile("{{#Class.WriteDerivedPropertyCasesForXmiReader this}}");
+
+            Assert.That(() => action(new Dependency()), Throws.ArgumentException);
+
+            var actionWithoutArguments = this.handlebarsContext.Compile("{{#Class.WriteDerivedPropertyCasesForXmiReader}}");
+
+            Assert.That(() => actionWithoutArguments(new Class()), Throws.InstanceOf<HandlebarsException>());
+        }
     }
 }

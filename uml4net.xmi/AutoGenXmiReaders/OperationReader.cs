@@ -466,6 +466,27 @@ namespace uml4net.xmi.Readers
                                 }
 
                                 break;
+                            case (KnowNamespacePrefixes.Uml, "clientDependency"):
+                            case (KnowNamespacePrefixes.Uml, "featuringClassifier"):
+                            case (KnowNamespacePrefixes.Uml, "importedMember"):
+                            case (KnowNamespacePrefixes.Uml, "isOrdered"):
+                            case (KnowNamespacePrefixes.Uml, "isUnique"):
+                            case (KnowNamespacePrefixes.Uml, "lower"):
+                            case (KnowNamespacePrefixes.Uml, "member"):
+                            case (KnowNamespacePrefixes.Uml, "namespace"):
+                            case (KnowNamespacePrefixes.Uml, "ownedElement"):
+                            case (KnowNamespacePrefixes.Uml, "ownedMember"):
+                            case (KnowNamespacePrefixes.Uml, "owner"):
+                            case (KnowNamespacePrefixes.Uml, "qualifiedName"):
+                            case (KnowNamespacePrefixes.Uml, "redefinedElement"):
+                            case (KnowNamespacePrefixes.Uml, "redefinitionContext"):
+                            case (KnowNamespacePrefixes.Uml, "type"):
+                            case (KnowNamespacePrefixes.Uml, "upper"):
+                                // serialized derived data (XMI 2.5.1 clause 7.8.10) is computed by uml4net, not read
+                                this.logger.LogDebug("Ignoring the serialized derived property {LocalName} of Operation at line:position {LineNumber}:{LinePosition}", xmlReader.LocalName, xmlLineInfo.LineNumber, xmlLineInfo.LinePosition);
+                                xmlReader.SkipInPlace();
+                                break;
+
                             case (KnowNamespacePrefixes.Xmi, "extension"):
                             case (KnowNamespacePrefixes.Xmi, "Extension"):
                                 {

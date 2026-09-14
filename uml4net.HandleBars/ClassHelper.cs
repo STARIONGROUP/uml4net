@@ -24,6 +24,7 @@ namespace uml4net.HandleBars
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
+    using System.Text;
     using System.Xml.Linq;
 
     using HandlebarsDotNet;
@@ -205,6 +206,55 @@ namespace uml4net.HandleBars
                 }
 
                 return nonRedefinedProperties;
+            });
+
+            // writes the switch cases of a generated XMI reader that ignore the serialized values of the derived,
+            // derived union and read-only properties of the class. XMI 2.5.1 clause 7.8.10 allows derived data to be
+            // serialized (org.omg.xmi.serialize tag); such values are computed by uml4net and are skipped, not read.
+            handlebars.RegisterHelper("Class.WriteDerivedPropertyCasesForXmiReader", (writer, context, parameters) =>
+            {
+                if (parameters.Length != 1)
+                {
+                    throw new HandlebarsException("{{#Class.WriteDerivedPropertyCasesForXmiReader}} helper must have exactly one argument");
+                }
+
+                if (!(parameters[0] is IClass @class))
+                {
+                    throw new ArgumentException("#Class.WriteDerivedPropertyCasesForXmiReader: The object is supposed to be an IClass");
+                }
+
+                var allProperties = @class.QueryAllProperties();
+
+                var readPropertyNames = new HashSet<string>(allProperties
+                    .Where(x => !x.IsDerived && !x.IsDerivedUnion && !x.IsReadOnly)
+                    .Select(x => x.Name));
+
+                var derivedPropertyNames = allProperties
+                    .Where(x => x.IsDerived || x.IsDerivedUnion || x.IsReadOnly)
+                    .Select(x => x.Name)
+                    .Where(x => !readPropertyNames.Contains(x))
+                    .Distinct()
+                    .OrderBy(x => x)
+                    .ToList();
+
+                if (derivedPropertyNames.Count == 0)
+                {
+                    return;
+                }
+
+                var sb = new StringBuilder();
+
+                foreach (var derivedPropertyName in derivedPropertyNames)
+                {
+                    sb.AppendLine($"case (KnowNamespacePrefixes.Uml, \"{derivedPropertyName}\"):");
+                }
+
+                sb.AppendLine("    // serialized derived data (XMI 2.5.1 clause 7.8.10) is computed by uml4net, not read");
+                sb.AppendLine($"    this.logger.LogDebug(\"Ignoring the serialized derived property {{LocalName}} of {@class.Name} at line:position {{LineNumber}}:{{LinePosition}}\", xmlReader.LocalName, xmlLineInfo.LineNumber, xmlLineInfo.LinePosition);");
+                sb.AppendLine("    xmlReader.SkipInPlace();");
+                sb.AppendLine("    break;");
+
+                writer.WriteSafeString(sb + Environment.NewLine);
             });
 
             handlebars.RegisterHelper("Class.QueryAllSpecializations", (context, _) =>
