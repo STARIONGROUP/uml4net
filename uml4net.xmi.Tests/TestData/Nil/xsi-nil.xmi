@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- null values serialized with xsi:nil="true" (XMI 2.5.1 clause 9.5.2, rule 2b) on value, reference and contained elements -->
+<xmi:XMI xmlns:xmi="http://www.omg.org/spec/XMI/20131001" xmlns:uml="http://www.omg.org/spec/UML/20131001" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <uml:Package xmi:id="p" name="P">
+    <packagedElement xmi:type="uml:Class" xmi:id="c" name="C">
+      <isAbstract xsi:nil="true"/>
+      <ownedComment xmi:type="uml:Comment" xmi:id="cm">
+        <body xsi:nil="true"/>
+      </ownedComment>
+      <ownedAttribute xsi:nil="true"/>
+      <ownedAttribute xmi:type="uml:Property" xmi:id="a" name="a">
+        <type xsi:nil="true"/>
+        <redefinedProperty xsi:nil="true"/>
+        <aggregation xsi:nil="true"/>
+      </ownedAttribute>
+    </packagedElement>
+    <packagedElement xmi:type="uml:OpaqueExpression" xmi:id="oe" name="OE">
+      <body xsi:nil="true"/>
+      <body>kept</body>
+      <language xsi:nil="1"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Class" xmi:id="d" name="D"/>
+  </uml:Package>
+</xmi:XMI>

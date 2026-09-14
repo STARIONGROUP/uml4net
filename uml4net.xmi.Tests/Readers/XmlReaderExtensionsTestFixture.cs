@@ -75,6 +75,44 @@ namespace uml4net.xmi.Tests.Readers
         }
 
         [Test]
+        public void Verify_that_ReadElementContentAsStringInPlace_returns_null_for_a_nil_element()
+        {
+            using var xmlReader = CreateReaderPositionedOnFirstChild("<root xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'><a xsi:nil='true'/><b/></root>");
+
+            var value = xmlReader.ReadElementContentAsStringInPlace();
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(value, Is.Null);
+                Assert.That(xmlReader.LocalName, Is.EqualTo("a"));
+
+                Assert.That(xmlReader.Read(), Is.True);
+                Assert.That(xmlReader.LocalName, Is.EqualTo("b"));
+            }
+        }
+
+        [Test]
+        public void Verify_that_IsNil_recognises_the_lexical_forms_of_true_in_the_XML_Schema_instance_namespace()
+        {
+            using var xmlReader = CreateReaderPositionedOnFirstChild("<root xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xmlns:other='http://example.com'><a xsi:nil='true'/><b xsi:nil=' 1 '/><c xsi:nil='false'/><d nil='true'/><e other:nil='true'/><f/></root>");
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(xmlReader.IsNil(), Is.True, "true");
+                xmlReader.Read();
+                Assert.That(xmlReader.IsNil(), Is.True, "1");
+                xmlReader.Read();
+                Assert.That(xmlReader.IsNil(), Is.False, "false");
+                xmlReader.Read();
+                Assert.That(xmlReader.IsNil(), Is.False, "nil without the xsi namespace");
+                xmlReader.Read();
+                Assert.That(xmlReader.IsNil(), Is.False, "nil in another namespace");
+                xmlReader.Read();
+                Assert.That(xmlReader.IsNil(), Is.False, "no nil attribute");
+            }
+        }
+
+        [Test]
         public void Verify_that_SkipInPlace_leaves_the_reader_on_the_end_tag()
         {
             using var xmlReader = CreateReaderPositionedOnFirstChild("<root><a><nested>x</nested></a><b/></root>");
@@ -196,6 +234,7 @@ namespace uml4net.xmi.Tests.Readers
             {
                 Assert.That(() => xmlReader.ReadElementContentAsStringInPlace(), Throws.ArgumentNullException);
                 Assert.That(() => xmlReader.SkipInPlace(), Throws.ArgumentNullException);
+                Assert.That(() => xmlReader.IsNil(), Throws.ArgumentNullException);
                 Assert.That(() => xmlReader.GetXmiAttribute("id"), Throws.ArgumentNullException);
                 Assert.That(() => xmlReader.ResolveQualifiedName("uml:Class", new NameSpaceResolver()), Throws.ArgumentNullException);
             }

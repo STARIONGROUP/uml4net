@@ -189,6 +189,10 @@ namespace uml4net.xmi.Readers
                 {
                     xmiElement.SingleValueReferencePropertyIdentifiers.Add(localName, idRef);
                 }
+                else if (subXmlReader.IsNil())
+                {
+                    // a null reference (XMI 2.5.1 clause 9.5.2, rule 2b): the property keeps no value
+                }
                 else
                 {
                     throw new InvalidOperationException($"{localName} xml-attribute reference could not be read at {xmlLineInfo?.LineNumber}:{xmlLineInfo?.LinePosition}");
@@ -259,6 +263,12 @@ namespace uml4net.xmi.Readers
                     references.Add(idRef);
                     return true;
                 }
+
+                if (subXmlReader.IsNil())
+                {
+                    // a null reference (XMI 2.5.1 clause 9.5.2, rule 2b) adds nothing to the collection
+                    return true;
+                }
             }
 
             return false;
@@ -283,8 +293,8 @@ namespace uml4net.xmi.Readers
         /// The number of elements that the composite property contains so far
         /// </param>
         /// <returns>
-        /// true when the element is a proxy and has been recorded, in which case the <see cref="XmlReader"/>
-        /// has moved past it; false when the element is a definition, in which case the
+        /// true when the element is a proxy and has been recorded, or is nil and contains nothing, in which
+        /// case the <see cref="XmlReader"/> has moved past it; false when the element is a definition, in which case the
         /// <see cref="XmlReader"/> has not moved
         /// </returns>
         protected static bool TryCollectCompositeReferencePropertyIdentifier(XmlReader xmlReader, IXmiElement xmiElement, string localName, int containedCount)
@@ -302,6 +312,13 @@ namespace uml4net.xmi.Readers
             if (localName != xmlReader.LocalName)
             {
                 throw new InvalidOperationException($"LocalName:{xmlReader.LocalName} is not equal to the provided localName:{localName}");
+            }
+
+            if (xmlReader.IsNil())
+            {
+                // a null value (XMI 2.5.1 clause 9.5.2, rule 2b) contains nothing
+                xmlReader.SkipInPlace();
+                return true;
             }
 
             var href = xmlReader.GetAttribute("href");
