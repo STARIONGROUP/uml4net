@@ -113,6 +113,28 @@ namespace uml4net.xmi.Tests.Readers
         }
 
         [Test]
+        public void Verify_that_GetHrefAttribute_returns_href_or_the_XLink_simple_link()
+        {
+            using var xmlReader = CreateReaderPositionedOnFirstChild("<root xmlns:xlink='http://www.w3.org/1999/xlink' xmlns:XLink='http://www.w3.org/1999/XLink' xmlns:other='http://example.com'><a href='doc#1'/><b xlink:href='doc#2' xlink:type='simple'/><c XLink:href='doc#3'/><d href='doc#4' xlink:href='doc#5'/><e other:href='doc#6'/><f/></root>");
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(xmlReader.GetHrefAttribute(), Is.EqualTo("doc#1"), "plain href");
+                Assert.That(xmlReader.NodeType, Is.EqualTo(XmlNodeType.Element), "the reader is left on the element");
+                xmlReader.Read();
+                Assert.That(xmlReader.GetHrefAttribute(), Is.EqualTo("doc#2"), "xlink:href in the XLink namespace");
+                xmlReader.Read();
+                Assert.That(xmlReader.GetHrefAttribute(), Is.EqualTo("doc#3"), "the XLink namespace as spelled in the XMI specification");
+                xmlReader.Read();
+                Assert.That(xmlReader.GetHrefAttribute(), Is.EqualTo("doc#4"), "the XMI href wins over xlink:href");
+                xmlReader.Read();
+                Assert.That(xmlReader.GetHrefAttribute(), Is.Null, "href in another namespace is not a link");
+                xmlReader.Read();
+                Assert.That(xmlReader.GetHrefAttribute(), Is.Null, "no link");
+            }
+        }
+
+        [Test]
         public void Verify_that_SkipInPlace_leaves_the_reader_on_the_end_tag()
         {
             using var xmlReader = CreateReaderPositionedOnFirstChild("<root><a><nested>x</nested></a><b/></root>");
@@ -235,6 +257,7 @@ namespace uml4net.xmi.Tests.Readers
                 Assert.That(() => xmlReader.ReadElementContentAsStringInPlace(), Throws.ArgumentNullException);
                 Assert.That(() => xmlReader.SkipInPlace(), Throws.ArgumentNullException);
                 Assert.That(() => xmlReader.IsNil(), Throws.ArgumentNullException);
+                Assert.That(() => xmlReader.GetHrefAttribute(), Throws.ArgumentNullException);
                 Assert.That(() => xmlReader.GetXmiAttribute("id"), Throws.ArgumentNullException);
                 Assert.That(() => xmlReader.ResolveQualifiedName("uml:Class", new NameSpaceResolver()), Throws.ArgumentNullException);
             }

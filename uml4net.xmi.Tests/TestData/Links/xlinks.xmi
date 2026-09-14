@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- the link forms of XMI 2.5.1 clause 7.10.2: XLink simple links with an XPointer bare name and with the XPointer uuid form, cross-document and same-document -->
+<xmi:XMI xmlns:xmi="http://www.omg.org/spec/XMI/20131001" xmlns:uml="http://www.omg.org/spec/UML/20131001" xmlns:xlink="http://www.w3.org/1999/XLink">
+  <uml:Package xmi:id="p" name="P">
+    <packagedElement xmi:type="uml:Class" xmi:id="Local" name="Local" xmi:uuid="DCE:local-uuid"/>
+    <packagedElement xmi:type="uml:Class" xmi:id="C" name="C">
+      <ownedAttribute xmi:type="uml:Property" xmi:id="C-byId" name="byId">
+        <type xlink:href="Co.xmi#emp_2" xlink:type="simple"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:type="uml:Property" xmi:id="C-byUuid" name="byUuid">
+        <type xlink:href="Co.xmi#xpointer((//*[@xmi:uuid='DCE:emp-3'])[1])" xlink:type="simple"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:type="uml:Property" xmi:id="C-byLocalUuid" name="byLocalUuid">
+        <type href="#xpointer((//*[@xmi:uuid='DCE:local-uuid'])[1])"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:type="uml:Property" xmi:id="C-byUuidNoId" name="byUuidNoId">
+        <type href="Co.xmi#xpointer((//*[@xmi:uuid=&quot;DCE:no-id&quot;])[1])"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:type="uml:Property" xmi:id="C-many" name="many">
+        <redefinedProperty xlink:href="Co.xmi#emp_2-p" xlink:type="simple"/>
+      </ownedAttribute>
+      <ownedComment xlink:href="Co.xmi#cm" xlink:type="simple"/>
+    </packagedElement>
+  </uml:Package>
+</xmi:XMI>

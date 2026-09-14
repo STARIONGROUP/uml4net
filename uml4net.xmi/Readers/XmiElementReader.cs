@@ -222,7 +222,7 @@ namespace uml4net.xmi.Readers
             {
                 var xmlLineInfo = subXmlReader as IXmlLineInfo;
 
-                var reference = subXmlReader.GetAttribute("href");
+                var reference = subXmlReader.GetHrefAttribute();
                 if (!string.IsNullOrEmpty(reference))
                 {
                     if (this.TryAddSingleValueReference(subXmlReader, xmiElement, localName, reference))
@@ -312,7 +312,7 @@ namespace uml4net.xmi.Readers
 
             if (subXmlReader.MoveToContent() == XmlNodeType.Element)
             {
-                var href = subXmlReader.GetAttribute("href");
+                var href = subXmlReader.GetHrefAttribute();
                 if (!string.IsNullOrEmpty(href))
                 {
                     if (!xmiElement.MultiValueReferencePropertyIdentifiers.TryGetValue(localName, out var references))
@@ -398,7 +398,7 @@ namespace uml4net.xmi.Readers
                 return true;
             }
 
-            var href = xmlReader.GetAttribute("href");
+            var href = xmlReader.GetHrefAttribute();
             var identifier = string.IsNullOrEmpty(href) ? xmlReader.GetXmiAttribute("idref") : href;
 
             if (string.IsNullOrEmpty(identifier))

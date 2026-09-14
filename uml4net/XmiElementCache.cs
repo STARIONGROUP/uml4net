@@ -22,6 +22,7 @@ namespace uml4net
 {
     using System;
     using System.Collections.Generic;
+    using System.Text.RegularExpressions;
 
     /// <summary>
     /// A cache specifically designed for XMI elements, organized by context, to facilitate
@@ -51,6 +52,61 @@ namespace uml4net
         /// them a unique key
         /// </summary>
         private int anonymousElementCount;
+
+        /// <summary>
+        /// The elements that carry an <c>xmi:uuid</c>, keyed by <c>{DocumentName}#{XmiGuid}</c>; the first element
+        /// of a document with a given uuid is the one an XPointer uuid reference locates (XMI 2.5.1 clause 7.10.2)
+        /// </summary>
+        private readonly Dictionary<string, IXmiElement> uuidCache = [];
+
+        /// <summary>
+        /// Matches the XPointer form of an <c>xmi:uuid</c> reference, <c>xpointer((//*[@xmi:uuid='value'])[1])</c>
+        /// (XMI 2.5.1 clause 7.10.2), capturing the value
+        /// </summary>
+        private static readonly Regex XPointerUuidExpression = new(@"^xpointer\(\(//\*\[@xmi:uuid=(['""])(?<uuid>.*?)\1\]\)\[1\]\)$", RegexOptions.Compiled, TimeSpan.FromMilliseconds(100));
+
+        /// <summary>
+        /// Tries to extract the <c>xmi:uuid</c> value from the fragment of a link that uses the XPointer form
+        /// <c>xpointer((//*[@xmi:uuid='value'])[1])</c> (XMI 2.5.1 clause 7.10.2)
+        /// </summary>
+        /// <param name="fragment">
+        /// The fragment of the link, the part after the <c>#</c>
+        /// </param>
+        /// <param name="uuid">
+        /// The <c>xmi:uuid</c> value when the fragment has the XPointer uuid form, null otherwise
+        /// </param>
+        /// <returns>
+        /// true when the fragment has the XPointer uuid form, false otherwise
+        /// </returns>
+        public static bool TryParseXPointerUuid(string fragment, out string uuid)
+        {
+            uuid = null;
+
+            if (string.IsNullOrEmpty(fragment))
+            {
+                return false;
+            }
+
+            Match match;
+
+            try
+            {
+                match = XPointerUuidExpression.Match(fragment);
+            }
+            catch (RegexMatchTimeoutException)
+            {
+                // a fragment that takes longer than the match timeout is not a well-formed uuid pointer
+                return false;
+            }
+
+            if (!match.Success)
+            {
+                return false;
+            }
+
+            uuid = match.Groups["uuid"].Value;
+            return true;
+        }
 
         /// <summary>
         /// Gets a collection containing the values in the Cache.
@@ -111,6 +167,17 @@ namespace uml4net
             this.cache.Add(key, element);
             element.Cache = this;
 
+            // the first element of a document with a given xmi:uuid is the one an XPointer uuid reference locates
+            if (!string.IsNullOrEmpty(element.XmiGuid))
+            {
+                var uuidKey = $"{element.DocumentName}#{element.XmiGuid}";
+
+                if (!this.uuidCache.ContainsKey(uuidKey))
+                {
+                    this.uuidCache.Add(uuidKey, element);
+                }
+            }
+
             return true;
         }
 
@@ -127,6 +194,16 @@ namespace uml4net
             }
 
             if (this.cache.TryGetValue(key, out value))
+            {
+                return true;
+            }
+
+            // a link in the XPointer uuid form, {document}#xpointer((//*[@xmi:uuid='value'])[1]), locates the first
+            // element of the document with that xmi:uuid (XMI 2.5.1 clause 7.10.2)
+            var hashIndex = key.IndexOf('#');
+
+            if (hashIndex >= 0 && TryParseXPointerUuid(key.Substring(hashIndex + 1), out var uuid)
+                && this.uuidCache.TryGetValue($"{key.Substring(0, hashIndex)}#{uuid}", out value))
             {
                 return true;
             }
@@ -152,6 +229,7 @@ namespace uml4net
         public void Clear()
         {
             this.cache.Clear();
+            this.uuidCache.Clear();
             this.extenderCache.Clear();
             this.anonymousElementCount = 0;
         }
