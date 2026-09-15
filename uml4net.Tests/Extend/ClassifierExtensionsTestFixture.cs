@@ -36,6 +36,31 @@ namespace uml4net.Tests.Extend
     public class ClassifierExtensionsTestFixture
     {
         [Test]
+        public void Verify_that_QueryFeature_of_an_Extension_includes_its_owned_end_and_does_not_throw()
+        {
+            var extension = new Extension { Name = "E" };
+            var end = new ExtensionEnd { Name = "base_Class" };
+            extension.OwnedEnd.Add(end);
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(() => extension.Feature, Throws.Nothing, "Extension::ownedEnd redefines Association::ownedEnd, the redefined property throws when read");
+                Assert.That(extension.Feature, Is.EquivalentTo(new IFeature[] { end }), "the extension end is a feature of the extension");
+                Assert.That(extension.Member, Does.Contain(end), "feature subsets member");
+            }
+        }
+
+        [Test]
+        public void Verify_that_QueryFeature_of_an_Association_includes_its_owned_ends()
+        {
+            var association = new Association { Name = "A" };
+            var end = new Property { Name = "end" };
+            association.OwnedEnd.Add(end);
+
+            Assert.That(association.Feature, Is.EquivalentTo(new IFeature[] { end }));
+        }
+
+        [Test]
         public void Verify_that_QueryAttribute_returns_expected_result()
         {
             var @interface = new Interface();

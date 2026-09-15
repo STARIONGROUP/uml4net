@@ -26,6 +26,7 @@ namespace uml4net.Classification
 
     using uml4net.CommonStructure;
     using uml4net.Deployments;
+    using uml4net.Packages;
     using uml4net.SimpleClassifiers;
     using uml4net.StructuredClassifiers;
     using uml4net.Values;
@@ -140,7 +141,12 @@ namespace uml4net.Classification
 
             result.AddRange(element.QueryAttribute());
 
-            if (element is IAssociation association)
+            // Extension::ownedEnd redefines Association::ownedEnd; reading the redefined property throws
+            if (element is IExtension extension)
+            {
+                result.AddRange(extension.OwnedEnd);
+            }
+            else if (element is IAssociation association)
             {
                 result.AddRange(association.OwnedEnd);
             }
