@@ -121,6 +121,40 @@ namespace uml4net.Tests.Extend
             Assert.That(package.QueryMakesVisible(@class), Is.True);
         }
 
+        [TestCase(VisibilityKind.Private)]
+        [TestCase(VisibilityKind.Protected)]
+        [TestCase(VisibilityKind.Package)]
+        public void Verify_that_QueryMakesVisible_returns_false_for_an_owned_member_that_is_not_public(VisibilityKind visibility)
+        {
+            var package = new Package { Name = "P" };
+            var @class = new Class { Name = "C", Visibility = visibility };
+            package.PackagedElement.Add(@class);
+
+            Assert.That(package.QueryMakesVisible(@class), Is.False, "only elements with public (or no) visibility are made visible, UML 2.5.1 clause 12.4.5");
+        }
+
+        [Test]
+        public void Verify_that_a_non_public_owned_member_is_not_visible_nor_imported()
+        {
+            var packageB = new Package { Name = "B" };
+            var publicClass = new Class { Name = "Public", Visibility = VisibilityKind.Public };
+            var privateClass = new Class { Name = "Private", Visibility = VisibilityKind.Private };
+            var packageClass = new Class { Name = "PackageVisible", Visibility = VisibilityKind.Package };
+            packageB.PackagedElement.Add(publicClass);
+            packageB.PackagedElement.Add(privateClass);
+            packageB.PackagedElement.Add(packageClass);
+
+            var packageA = new Package { Name = "A" };
+            packageA.PackageImport.Add(new PackageImport { Visibility = VisibilityKind.Public, ImportedPackage = packageB });
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(packageB.QueryVisibleMembers(), Is.EquivalentTo(new IPackageableElement[] { publicClass }), "visibleMembers exposes the public owned member only");
+                Assert.That(packageA.ImportedMember, Is.EquivalentTo(new IPackageableElement[] { publicClass }), "a namespace importing the package does not receive the private and package-visible members");
+                Assert.That(packageB.Member, Is.SupersetOf(new INamedElement[] { publicClass, privateClass, packageClass }), "they remain members of the package itself");
+            }
+        }
+
         [Test]
         public void Verify_that_QueryMakesVisible_returns_true_for_a_publicly_imported_element()
         {
