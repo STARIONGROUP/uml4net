@@ -26,6 +26,7 @@ namespace uml4net.Classification
 
     using uml4net.Activities;
     using uml4net.CommonBehavior;
+    using uml4net.SimpleClassifiers;
     using uml4net.StateMachines;
     using uml4net.StructuredClassifiers;
 
@@ -53,10 +54,13 @@ namespace uml4net.Classification
         /// <see cref="ITransition.RedefinedTransition"/>, <see cref="IVertex.RedefinedVertex"/>,
         /// <see cref="IClassifier.RedefinedClassifier"/>, <see cref="IOperation.RedefinedOperation"/>,
         /// <see cref="IProperty.RedefinedProperty"/>, and
-        /// <see cref="IRedefinableTemplateSignature.ExtendedSignature"/>. None of the contributing
-        /// interfaces overlap on the same concrete class, so no narrower-first dispatch ordering is
-        /// needed (unlike e.g. <see cref="ClassifierExtensions.QueryFeature"/>'s Class/StructuredClassifier
-        /// pair).
+        /// <see cref="IRedefinableTemplateSignature.ExtendedSignature"/>. Three more properties contribute
+        /// transitively, since a subsetted property is a plain stored list that does not receive the values of
+        /// its subsets: <see cref="IInterface.RedefinedInterface"/> and <see cref="IBehavior.RedefinedBehavior"/>
+        /// subset <c>Classifier-redefinedClassifier</c>, and <see cref="IPort.RedefinedPort"/> subsets
+        /// <c>Property-redefinedProperty</c>. <see cref="IStateMachine.ExtendedStateMachine"/> redefines
+        /// <c>Behavior-redefinedBehavior</c>, so a StateMachine is dispatched before a Behavior: reading the
+        /// redefined property throws.
         /// </remarks>
         internal static List<IRedefinableElement> QueryRedefinedElement(this IRedefinableElement redefinableElement)
         {
@@ -102,6 +106,23 @@ namespace uml4net.Classification
                 result.AddRange(classifier.RedefinedClassifier);
             }
 
+            // Interface::redefinedInterface and Behavior::redefinedBehavior subset Classifier::redefinedClassifier, which
+            // is a plain stored list that does not receive the values of its subsets
+            if (redefinableElement is IInterface @interface)
+            {
+                result.AddRange(@interface.RedefinedInterface);
+            }
+
+            // StateMachine::extendedStateMachine redefines Behavior::redefinedBehavior; reading the redefined property throws
+            if (redefinableElement is IStateMachine stateMachine)
+            {
+                result.AddRange(stateMachine.ExtendedStateMachine);
+            }
+            else if (redefinableElement is IBehavior behavior)
+            {
+                result.AddRange(behavior.RedefinedBehavior);
+            }
+
             if (redefinableElement is IOperation operation)
             {
                 result.AddRange(operation.RedefinedOperation);
@@ -110,6 +131,12 @@ namespace uml4net.Classification
             if (redefinableElement is IProperty property)
             {
                 result.AddRange(property.RedefinedProperty);
+            }
+
+            // Port::redefinedPort subsets Property::redefinedProperty
+            if (redefinableElement is IPort port)
+            {
+                result.AddRange(port.RedefinedPort);
             }
 
             if (redefinableElement is IRedefinableTemplateSignature signature)
