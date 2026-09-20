@@ -66,7 +66,10 @@ namespace uml4net.StateMachines
                 throw new ArgumentNullException(nameof(region));
             }
 
-            return region.StateMachine ?? region.State?.QueryContainingStateMachine();
+            // Region::stateMachine and Region::state subset owner and are not populated by the reader, hence the fallback to the owner
+            return region.StateMachine
+                   ?? region.Owner as IStateMachine
+                   ?? (region.State ?? region.Owner as IState)?.QueryContainingStateMachine();
         }
     }
 }
