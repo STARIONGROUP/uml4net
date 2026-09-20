@@ -23,6 +23,7 @@ namespace uml4net.Packages
     using System;
     using System.Linq;
 
+    using uml4net.CommonStructure;
     using uml4net.Values;
 
     /// <summary>
@@ -49,17 +50,10 @@ namespace uml4net.Packages
                 throw new ArgumentNullException(nameof(extensionEnd));
             }
 
-            switch (extensionEnd.LowerValue.SingleOrDefault())
-            {
-                case null:
-                    return 0;
-
-                case ILiteralInteger literalInteger:
-                    return literalInteger.Value;
-
-                default:
-                    throw new NotSupportedException("LowerValue is not of type ILiteralInteger.");
-            }
+            // lowerBound(): if lowerValue = null then 0 else lowerValue.integerValue(); integerValue() is null for a
+            // lowerValue that is not a literal, in which case the default of an ExtensionEnd, 0, is returned since
+            // the lower bound cannot be empty
+            return MultiplicityElementExtensions.TryQueryIntegerValue(extensionEnd.LowerValue.SingleOrDefault(), out var lower) ? lower : 0;
         }
     }
 }

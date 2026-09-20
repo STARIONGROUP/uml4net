@@ -58,12 +58,21 @@ namespace uml4net.Tests.Extend
         }
 
         [Test]
-        public void Verify_that_when_lowerValue_is_not_a_LiteralInteger_not_supported_exception_is_thrown()
+        public void Verify_that_Lower_is_the_default_0_when_lowerValue_is_not_a_literal_integer()
         {
-            var extensionEnd = new ExtensionEnd();
-            extensionEnd.LowerValue.Add(new LiteralString { Value = "not-an-integer" });
+            // integerValue() is null for a ValueSpecification that is not a LiteralInteger
+            var withLiteralString = new ExtensionEnd();
+            withLiteralString.LowerValue.Add(new LiteralString { Value = "not-an-integer" });
 
-            Assert.That(() => extensionEnd.Lower, Throws.TypeOf<NotSupportedException>());
+            var withOpaqueExpression = new ExtensionEnd();
+            withOpaqueExpression.LowerValue.Add(new OpaqueExpression { Body = { "n" } });
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(() => withLiteralString.Lower, Throws.Nothing);
+                Assert.That(withLiteralString.Lower, Is.EqualTo(0));
+                Assert.That(withOpaqueExpression.Lower, Is.EqualTo(0));
+            }
         }
     }
 }

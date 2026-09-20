@@ -59,6 +59,59 @@ namespace uml4net.Tests.Extend
         }
 
         [Test]
+        public void Verify_that_lower_and_upper_are_the_default_1_when_the_bound_is_not_a_literal()
+        {
+            // ValueSpecification::integerValue() and unlimitedValue() are null for an OpaqueExpression, an Expression
+            // or an InstanceValue, in which case lowerBound() and upperBound() are 1
+            var withOpaqueExpression = new Property();
+            withOpaqueExpression.LowerValue.Add(new OpaqueExpression { Body = { "n" } });
+            withOpaqueExpression.UpperValue.Add(new OpaqueExpression { Body = { "m" } });
+
+            var withExpression = new Property();
+            withExpression.LowerValue.Add(new Expression { Symbol = "n" });
+            withExpression.UpperValue.Add(new Expression { Symbol = "m" });
+
+            var withInstanceValue = new Property();
+            withInstanceValue.LowerValue.Add(new InstanceValue());
+            withInstanceValue.UpperValue.Add(new InstanceValue());
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(() => withOpaqueExpression.Lower, Throws.Nothing);
+                Assert.That(() => withOpaqueExpression.Upper, Throws.Nothing);
+                Assert.That(withOpaqueExpression.Lower, Is.EqualTo(1));
+                Assert.That(withOpaqueExpression.Upper, Is.EqualTo("1"));
+                Assert.That(withExpression.Lower, Is.EqualTo(1));
+                Assert.That(withExpression.Upper, Is.EqualTo("1"));
+                Assert.That(withInstanceValue.Lower, Is.EqualTo(1));
+                Assert.That(withInstanceValue.Upper, Is.EqualTo("1"));
+            }
+        }
+
+        [Test]
+        public void Verify_that_a_bound_exported_with_the_other_literal_kind_keeps_its_value()
+        {
+            // tool exports write an upper bound as a LiteralInteger; reading it as the default 1 would turn 0..5 into 0..1
+            var property = new Property();
+            property.LowerValue.Add(new LiteralUnlimitedNatural { Value = "2" });
+            property.UpperValue.Add(new LiteralInteger { Value = 5 });
+
+            var unlimitedLower = new Property();
+            unlimitedLower.LowerValue.Add(new LiteralUnlimitedNatural { Value = "*" });
+
+            var negativeUpper = new Property();
+            negativeUpper.UpperValue.Add(new LiteralInteger { Value = -1 });
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(property.Lower, Is.EqualTo(2));
+                Assert.That(property.Upper, Is.EqualTo("5"));
+                Assert.That(unlimitedLower.Lower, Is.EqualTo(1), "* is not an integer, the default applies");
+                Assert.That(negativeUpper.Upper, Is.EqualTo("1"), "a negative number is not an UnlimitedNatural, the default applies");
+            }
+        }
+
+        [Test]
         public void Verify_that_Query_upper_returns_expected_value()
         {
             var property = new Property();
