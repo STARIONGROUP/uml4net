@@ -24,6 +24,7 @@ namespace uml4net.Tests.Extend
 
     using uml4net.Actions;
     using uml4net.Activities;
+    using uml4net.Interactions;
     using uml4net.StructuredClassifiers;
 
     [TestFixture]
@@ -74,6 +75,82 @@ namespace uml4net.Tests.Extend
             var action = new CallOperationAction { InStructuredNode = structuredActivityNode };
 
             Assert.That(action.Context, Is.SameAs(owningClass));
+        }
+
+        [Test]
+        public void Verify_that_Context_is_the_containing_Behavior_itself_when_that_Behavior_has_no_context()
+        {
+            var activity = new Activity { Name = "Standalone" };
+            var action = new CallOperationAction { Activity = activity };
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(activity.Context, Is.Null);
+                Assert.That(action.Context, Is.SameAs(activity), "if behavior.context = null then behavior");
+            }
+        }
+
+        [Test]
+        public void Verify_that_Context_is_resolved_through_the_owner_when_the_owner_ends_are_not_set()
+        {
+            // the reader does not populate ActivityNode::activity and ActivityNode::inStructuredNode, which subset owner
+            var owningClass = new Class { Name = "Owner" };
+            var activity = new Activity { Name = "Activity" };
+            owningClass.OwnedBehavior.Add(activity);
+
+            var outerNode = new StructuredActivityNode { Name = "outer" };
+            var innerNode = new LoopNode { Name = "inner" };
+            var nestedAction = new CallOperationAction { Name = "nested" };
+            var directAction = new OpaqueAction { Name = "direct" };
+
+            activity.StructuredNode.Add(outerNode);
+            outerNode.Node.Add(innerNode);
+            innerNode.Node.Add(nestedAction);
+            activity.Node.Add(directAction);
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(nestedAction.InStructuredNode, Is.Null, "the owner end is not set");
+                Assert.That(nestedAction.QueryContainingBehavior(), Is.SameAs(activity), "through two levels of StructuredActivityNodes");
+                Assert.That(nestedAction.Context, Is.SameAs(owningClass));
+                Assert.That(innerNode.Context, Is.SameAs(owningClass));
+                Assert.That(outerNode.Context, Is.SameAs(owningClass));
+                Assert.That(directAction.Context, Is.SameAs(owningClass));
+            }
+        }
+
+        [Test]
+        public void Verify_that_Context_of_an_Action_owned_by_an_Interaction_is_resolved_through_the_Interaction()
+        {
+            var owningClass = new Class { Name = "Owner" };
+            var interaction = new Interaction { Name = "Interaction" };
+            owningClass.OwnedBehavior.Add(interaction);
+
+            var action = new OpaqueAction { Name = "action" };
+            interaction.Action.Add(action);
+
+            var standaloneInteraction = new Interaction { Name = "Standalone" };
+            var standaloneAction = new OpaqueAction { Name = "standaloneAction" };
+            standaloneInteraction.Action.Add(standaloneAction);
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(action.QueryContainingBehavior(), Is.SameAs(interaction));
+                Assert.That(action.Context, Is.SameAs(owningClass));
+                Assert.That(standaloneAction.Context, Is.SameAs(standaloneInteraction));
+            }
+        }
+
+        [Test]
+        public void Verify_that_QueryContainingBehavior_throws_for_null_and_is_null_for_an_action_without_a_Behavior()
+        {
+            CallOperationAction nullAction = null;
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(() => ActionExtensions.QueryContainingBehavior(nullAction), Throws.ArgumentNullException);
+                Assert.That(new CallOperationAction().QueryContainingBehavior(), Is.Null);
+            }
         }
 
         [Test]

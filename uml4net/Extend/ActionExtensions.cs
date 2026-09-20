@@ -24,7 +24,10 @@ namespace uml4net.Actions
     using System.Collections.Generic;
     using System.Linq;
 
+    using uml4net.Activities;
     using uml4net.Classification;
+    using uml4net.CommonBehavior;
+    using uml4net.Interactions;
 
     /// <summary>
     /// The <see cref="ActionExtensions"/> class provides extensions methods for <see cref="IAction"/>
@@ -41,6 +44,10 @@ namespace uml4net.Actions
         /// <returns>
         /// a <see cref="IClassifier"/>
         /// </returns>
+        /// <remarks>
+        /// Implements the OCL of <c>Action::context</c>: <c>let behavior = self.containingBehavior() in if behavior = null
+        /// then null else if behavior.context = null then behavior else behavior.context</c>
+        /// </remarks>
         internal static IClassifier QueryContext(this IAction action)
         {
             if (action == null)
@@ -48,19 +55,55 @@ namespace uml4net.Actions
                 throw new ArgumentNullException(nameof(action));
             }
 
-            if (action.InStructuredNode != null)
+            var behavior = action.QueryContainingBehavior();
+
+            if (behavior == null)
             {
-                return action.InStructuredNode.Context;
+                return null;
             }
 
-            var activity = action is IStructuredActivityNode structuredActivityNode ? structuredActivityNode.Activity : action.Activity;
+            return (IClassifier)behavior.Context ?? behavior;
+        }
+
+        /// <summary>
+        /// Queries the Behavior that contains this Action, directly or through the StructuredActivityNodes it is
+        /// nested in, as defined by the operation <c>Action::containingBehavior</c>
+        /// </summary>
+        /// <param name="action">
+        /// The subject <see cref="IAction"/>
+        /// </param>
+        /// <returns>
+        /// the containing Activity or Interaction, null when the Action is not contained by a Behavior
+        /// </returns>
+        /// <remarks>
+        /// Implements the OCL: <c>if inStructuredNode &lt;&gt; null then inStructuredNode.containingBehavior() else if
+        /// activity &lt;&gt; null then activity else interaction</c>. <c>inStructuredNode</c>, <c>activity</c> and the
+        /// unnamed <c>interaction</c> end subset <c>owner</c> and are not populated by the reader, hence the
+        /// fallback to the owner (see the DirectedRelationship extensions for the same pattern)
+        /// </remarks>
+        internal static IBehavior QueryContainingBehavior(this IAction action)
+        {
+            if (action == null)
+            {
+                throw new ArgumentNullException(nameof(action));
+            }
+
+            var inStructuredNode = action.InStructuredNode ?? action.Owner as IStructuredActivityNode;
+
+            if (inStructuredNode != null)
+            {
+                return inStructuredNode.QueryContainingBehavior();
+            }
+
+            var activity = (action is IStructuredActivityNode structuredActivityNode ? structuredActivityNode.Activity : action.Activity)
+                           ?? action.Owner as IActivity;
 
             if (activity != null)
             {
-                return activity.Context;
+                return activity;
             }
 
-            return null;
+            return action.Owner as IInteraction;
         }
 
         /// <summary>
