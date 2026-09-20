@@ -59,6 +59,31 @@ namespace uml4net.Tests.Extend
         }
 
         [Test]
+        public void Verify_that_QueryIsComposite_is_not_influenced_by_a_composite_end_owned_by_the_association()
+        {
+            // whole <>-- part, where the composite end is owned by the association and the opposite end by the part class
+            var part = new Class { Name = "Part" };
+            var association = new Association { Name = "A_part_whole" };
+
+            var compositeEnd = new Property { Name = "part", Aggregation = AggregationKind.Composite, Association = association };
+            var oppositeEnd = new Property { Name = "whole", Aggregation = AggregationKind.None, Association = association };
+            var otherOwnedEnd = new Property { Name = "other", Aggregation = AggregationKind.None, Association = association };
+
+            association.OwnedEnd.Add(compositeEnd);
+            association.OwnedEnd.Add(otherOwnedEnd);
+            part.OwnedAttribute.Add(oppositeEnd);
+            association.MemberEnd.AddRange([compositeEnd, oppositeEnd, otherOwnedEnd]);
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(compositeEnd.IsComposite, Is.True);
+                Assert.That(oppositeEnd.IsComposite, Is.False, "the end opposite to a composite end is not composite");
+                Assert.That(otherOwnedEnd.IsComposite, Is.False, "another end owned by the association is not composite either");
+                Assert.That(part.Part, Is.Empty, "StructuredClassifier::part = ownedAttribute->select(isComposite)");
+            }
+        }
+
+        [Test]
         public void Verify_that_Opposite_returns_expected_result()
         {
             var property_a = new Property();

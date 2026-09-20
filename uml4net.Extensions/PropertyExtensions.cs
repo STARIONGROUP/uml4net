@@ -25,6 +25,7 @@ namespace uml4net.Extensions
     using System.Linq;
     using uml4net.Classification;
     using uml4net.CommonStructure;
+    using uml4net.Packages;
     using uml4net.SimpleClassifiers;
     using uml4net.StructuredClassifiers;
     using uml4net.Values;
@@ -142,27 +143,27 @@ namespace uml4net.Extensions
                 throw new ArgumentNullException(nameof(property));
             }
 
-            if (property.Type is IDataType && property.QueryIsEnumerable() && !property.IsComposite)
+            if (property.Type is IDataType && property.QueryIsEnumerable() && !property.QueryIsContainment())
             {
                 return $"List<{property.QueryCSharpTypeName() }> ";
             }
 
-            if (property.QueryIsEnumerable() && !property.IsComposite && (property.IsDerived || property.IsDerivedUnion || property.IsReadOnly))
+            if (property.QueryIsEnumerable() && !property.QueryIsContainment() && (property.IsDerived || property.IsDerivedUnion || property.IsReadOnly))
             {
                 return $"IReadOnlyList<I{property.QueryTypeName()}> ";
             }
 
-            if (property.QueryIsEnumerable() && !property.IsComposite)
+            if (property.QueryIsEnumerable() && !property.QueryIsContainment())
             {
                 return $"List<I{property.QueryTypeName()}> ";
             }
 
-            if (property.IsComposite && (property.IsDerived || property.IsDerivedUnion))
+            if (property.QueryIsContainment() && (property.IsDerived || property.IsDerivedUnion))
             {
                 return $"List<I{property.QueryTypeName()}> ";
             }
 
-            if (property.IsComposite)
+            if (property.QueryIsContainment())
             {
                 return $"IContainerList<I{property.QueryTypeName()}> ";
             }
@@ -308,6 +309,44 @@ namespace uml4net.Extensions
         }
 
         /// <summary>
+        /// Queries whether the property is to be treated as a containment by code generators: it is composite as
+        /// defined by UML (<see cref="IProperty.IsComposite"/>, <c>aggregation = composite</c>), or it is an end of
+        /// an <see cref="IAssociation"/> one of whose owned ends is composite.
+        /// </summary>
+        /// <param name="property">
+        /// the subject <see cref="IProperty"/>
+        /// </param>
+        /// <returns>
+        /// true when the property is to be treated as a containment, false if not
+        /// </returns>
+        /// <remarks>
+        /// The second case accommodates Enterprise Architect, which stores the composite aggregation on the end that
+        /// is owned by the association instead of on the end owned by the whole. UML 2.5.1 defines
+        /// <c>Property::isComposite</c> as <c>aggregation = AggregationKind::composite</c> only, which is what
+        /// <see cref="IProperty.IsComposite"/> returns; use this query where models authored with such tools are to
+        /// generate the same containment structure.
+        /// </remarks>
+        public static bool QueryIsContainment(this IProperty property)
+        {
+            if (property == null)
+            {
+                throw new ArgumentNullException(nameof(property));
+            }
+
+            if (property.IsComposite)
+            {
+                return true;
+            }
+
+            // Extension::ownedEnd redefines Association::ownedEnd; reading the redefined property throws
+            IEnumerable<IProperty> ownedEnds = property.Association is IExtension extension
+                ? extension.OwnedEnd
+                : property.Association?.OwnedEnd;
+
+            return ownedEnds != null && ownedEnds.Any(x => x.Aggregation == AggregationKind.Composite);
+        }
+
+        /// <summary>
         /// Queries whether the property is a contained property, meaning
         /// that it is on the opposite of a property where <see cref="AggregationKind"/>
         /// is equal to <see cref="AggregationKind.Composite"/>
@@ -325,7 +364,7 @@ namespace uml4net.Extensions
                 throw new ArgumentNullException(nameof(property));
             }
 
-            if (property.Opposite != null && property.Opposite.IsComposite)
+            if (property.Opposite != null && property.Opposite.QueryIsContainment())
             {
                 return true;
             }

@@ -89,7 +89,7 @@ namespace uml4net.CodeGenerator.Helpers
                 }
 
                 var properties = umlClass.QueryAllProperties()
-                    .Where(x => !x.IsComposite)
+                    .Where(x => !x.QueryIsContainment())
                     .Where(x => !x.IsDerived)
                     .Where(x => x.Association == null)
                     .OrderBy(x => x.Name);
