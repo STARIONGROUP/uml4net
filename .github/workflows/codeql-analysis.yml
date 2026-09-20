@@ -10,6 +10,11 @@ jobs:
   CodeQL-Build:
 
     runs-on: ubuntu-latest
+    # the token of a Dependabot run is read-only by default; uploading the analysis needs security-events: write
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
 
     steps:
     - name: Checkout repository

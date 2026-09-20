@@ -9,6 +9,10 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    # the token of a Dependabot run is read-only by default; creating or commenting the tracking issue needs issues: write
+    permissions:
+      contents: read
+      issues: write
     steps:
     - name: Checkout repository
       uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1

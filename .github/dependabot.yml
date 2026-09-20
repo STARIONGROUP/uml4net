@@ -19,3 +19,9 @@ updates:
     labels:
       - "dependencies"
       - "maintenance"
+    groups:
+      # init and analyze must run the same version: bumped separately, each pull request fails with
+      # "Loaded a configuration file for version 'x', but running version 'y'"
+      codeql-action:
+        patterns:
+          - "github/codeql-action/*"
