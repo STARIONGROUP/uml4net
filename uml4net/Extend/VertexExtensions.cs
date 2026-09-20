@@ -96,7 +96,9 @@ namespace uml4net.StateMachines
         /// Queries the nearest containing <see cref="IStateMachine"/> of the <paramref name="vertex"/>: the
         /// StateMachine of its <see cref="IVertex.Container"/> Region, or, for an entry/exit point
         /// <see cref="IPseudostate"/> or a <see cref="IConnectionPointReference"/> not owned by a Region, the
-        /// StateMachine/State-derived StateMachine referenced directly.
+        /// StateMachine/State-derived StateMachine referenced directly. An entry/exit point owned by a composite State
+        /// (<c>State::connectionPoint</c>), which the OCL of <c>Vertex::containingStateMachine</c> overlooks, is contained by
+        /// the StateMachine of that State.
         /// </summary>
         /// <param name="vertex">
         /// The subject <see cref="IVertex"/>
@@ -111,19 +113,33 @@ namespace uml4net.StateMachines
                 throw new ArgumentNullException(nameof(vertex));
             }
 
-            if (vertex.Container != null)
+            // Vertex::container, Pseudostate::stateMachine, Pseudostate::state and ConnectionPointReference::state subset
+            // owner and are not populated by the reader, hence the fallback to the owner
+            var container = vertex.Container ?? vertex.Owner as IRegion;
+
+            if (container != null)
             {
-                return vertex.Container.QueryContainingStateMachine();
+                return container.QueryContainingStateMachine();
             }
 
             if (vertex is IPseudostate { Kind: PseudostateKind.EntryPoint or PseudostateKind.ExitPoint } pseudostate)
             {
-                return pseudostate.StateMachine;
+                var stateMachine = pseudostate.StateMachine ?? pseudostate.Owner as IStateMachine;
+
+                if (stateMachine != null)
+                {
+                    return stateMachine;
+                }
+
+                // the OCL of containingStateMachine() only considers the entry and exit points of a StateMachine
+                // ("no other valid cases possible") and yields null for those owned by a composite State
+                // (State::connectionPoint); these are contained by the StateMachine of that State
+                return (pseudostate.State ?? pseudostate.Owner as IState)?.QueryContainingStateMachine();
             }
 
             if (vertex is IConnectionPointReference connectionPointReference)
             {
-                return connectionPointReference.State?.QueryContainingStateMachine();
+                return (connectionPointReference.State ?? connectionPointReference.Owner as IState)?.QueryContainingStateMachine();
             }
 
             return null;

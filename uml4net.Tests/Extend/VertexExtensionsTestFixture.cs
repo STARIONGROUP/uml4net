@@ -111,6 +111,92 @@ namespace uml4net.Tests.Extend
         }
 
         [Test]
+        public void Verify_that_Incoming_and_Outgoing_are_resolved_for_entry_and_exit_points_owned_by_a_composite_State()
+        {
+            var stateMachine = new StateMachine { Name = "SM" };
+            var topRegion = new Region { Name = "TopRegion", StateMachine = stateMachine };
+            stateMachine.Region.Add(topRegion);
+
+            var before = new State { Name = "Before", Container = topRegion };
+            var compositeState = new State { Name = "Composite", Container = topRegion };
+            var after = new State { Name = "After", Container = topRegion };
+            topRegion.Subvertex.Add(before);
+            topRegion.Subvertex.Add(compositeState);
+            topRegion.Subvertex.Add(after);
+
+            // State::connectionPoint: Pseudostate::state is set, container and stateMachine are not
+            var entryPoint = new Pseudostate { Name = "entry", Kind = PseudostateKind.EntryPoint, State = compositeState };
+            var exitPoint = new Pseudostate { Name = "exit", Kind = PseudostateKind.ExitPoint, State = compositeState };
+            compositeState.ConnectionPoint.Add(entryPoint);
+            compositeState.ConnectionPoint.Add(exitPoint);
+
+            var enter = new Transition { Name = "enter", Source = before, Target = entryPoint };
+            var leave = new Transition { Name = "leave", Source = exitPoint, Target = after };
+            topRegion.Transition.Add(enter);
+            topRegion.Transition.Add(leave);
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(entryPoint.Incoming, Is.EquivalentTo(new[] { enter }), "the transition that enters the entry point lives in the region of the enclosing StateMachine");
+                Assert.That(entryPoint.Outgoing, Is.Empty);
+                Assert.That(exitPoint.Outgoing, Is.EquivalentTo(new[] { leave }));
+                Assert.That(exitPoint.Incoming, Is.Empty);
+                Assert.That(entryPoint.QueryContainingStateMachine(), Is.SameAs(stateMachine));
+                Assert.That(exitPoint.RedefinitionContext, Is.SameAs(stateMachine));
+            }
+        }
+
+        [Test]
+        public void Verify_that_Incoming_and_Outgoing_are_resolved_through_the_owner_when_the_owner_ends_are_not_set()
+        {
+            // the reader does not populate Vertex::container, Region::stateMachine, Region::state, Pseudostate::state,
+            // Pseudostate::stateMachine and ConnectionPointReference::state, which all subset owner
+            var stateMachine = new StateMachine { Name = "SM" };
+            var topRegion = new Region { Name = "TopRegion" };
+            stateMachine.Region.Add(topRegion);
+
+            var machineEntryPoint = new Pseudostate { Name = "machineEntry", Kind = PseudostateKind.EntryPoint };
+            stateMachine.ConnectionPoint.Add(machineEntryPoint);
+
+            var compositeState = new State { Name = "Composite" };
+            var submachineState = new State { Name = "Submachine" };
+            topRegion.Subvertex.Add(compositeState);
+            topRegion.Subvertex.Add(submachineState);
+
+            var stateEntryPoint = new Pseudostate { Name = "stateEntry", Kind = PseudostateKind.EntryPoint };
+            compositeState.ConnectionPoint.Add(stateEntryPoint);
+
+            var connectionPointReference = new ConnectionPointReference { Name = "reference" };
+            submachineState.Connection.Add(connectionPointReference);
+
+            var nestedRegion = new Region { Name = "NestedRegion" };
+            compositeState.Region.Add(nestedRegion);
+            var nested = new State { Name = "Nested" };
+            nestedRegion.Subvertex.Add(nested);
+
+            var toStateEntry = new Transition { Name = "toStateEntry", Source = machineEntryPoint, Target = stateEntryPoint };
+            var toReference = new Transition { Name = "toReference", Source = compositeState, Target = connectionPointReference };
+            var toNested = new Transition { Name = "toNested", Source = stateEntryPoint, Target = nested };
+            topRegion.Transition.Add(toStateEntry);
+            topRegion.Transition.Add(toReference);
+            nestedRegion.Transition.Add(toNested);
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(nested.Container, Is.Null, "the owner end is not set");
+                Assert.That(machineEntryPoint.Outgoing, Is.EquivalentTo(new[] { toStateEntry }));
+                Assert.That(stateEntryPoint.Incoming, Is.EquivalentTo(new[] { toStateEntry }));
+                Assert.That(stateEntryPoint.Outgoing, Is.EquivalentTo(new[] { toNested }), "a transition owned by the nested region");
+                Assert.That(connectionPointReference.Incoming, Is.EquivalentTo(new[] { toReference }));
+                Assert.That(compositeState.Outgoing, Is.EquivalentTo(new[] { toReference }));
+                Assert.That(nested.Incoming, Is.EquivalentTo(new[] { toNested }));
+                Assert.That(nested.QueryContainingStateMachine(), Is.SameAs(stateMachine));
+                Assert.That(nestedRegion.QueryContainingStateMachine(), Is.SameAs(stateMachine));
+                Assert.That(connectionPointReference.RedefinitionContext, Is.SameAs(stateMachine));
+            }
+        }
+
+        [Test]
         public void Verify_that_containingStateMachine_is_resolved_for_an_entryPoint_pseudostate_without_a_container()
         {
             var stateMachine = new StateMachine { Name = "SM" };
