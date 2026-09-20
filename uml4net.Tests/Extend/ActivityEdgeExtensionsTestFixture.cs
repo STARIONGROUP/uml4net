@@ -78,5 +78,20 @@ namespace uml4net.Tests.Extend
 
             Assert.That(edge.InGroup, Is.EquivalentTo(new IActivityGroup[] { partition, structuredActivityNode }));
         }
+
+        [Test]
+        public void Verify_that_QueryInGroup_finds_the_StructuredActivityNode_through_the_owner_when_inStructuredNode_is_not_set()
+        {
+            // the reader does not populate ActivityEdge::inStructuredNode, which subsets owner
+            var structuredActivityNode = new StructuredActivityNode { Name = "SAN" };
+            var edge = new ControlFlow { Name = "Edge" };
+            structuredActivityNode.Edge.Add(edge);
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(edge.InStructuredNode, Is.Null, "the owner end is not set");
+                Assert.That(edge.InGroup, Is.EquivalentTo(new IActivityGroup[] { structuredActivityNode }));
+            }
+        }
     }
 }

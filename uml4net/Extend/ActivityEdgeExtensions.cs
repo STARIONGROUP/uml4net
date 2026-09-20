@@ -24,6 +24,8 @@ namespace uml4net.Activities
     using System.Collections.Generic;
     using System.Linq;
 
+    using uml4net.Actions;
+
     /// <summary>
     /// The <see cref="ActivityEdgeExtensions"/> class provides extensions methods for <see cref="IActivityEdge"/>
     /// </summary>
@@ -48,9 +50,12 @@ namespace uml4net.Activities
 
             var inGroup = activityEdge.InPartition.Cast<IActivityGroup>().ToList();
 
-            if (activityEdge.InStructuredNode != null)
+            // ActivityEdge::inStructuredNode subsets owner and is not populated by the reader, hence the fallback to the owner
+            var inStructuredNode = activityEdge.InStructuredNode ?? activityEdge.Owner as IStructuredActivityNode;
+
+            if (inStructuredNode != null)
             {
-                inGroup.Add(activityEdge.InStructuredNode);
+                inGroup.Add(inStructuredNode);
             }
 
             return inGroup;

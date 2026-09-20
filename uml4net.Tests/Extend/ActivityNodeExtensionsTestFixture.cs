@@ -78,5 +78,47 @@ namespace uml4net.Tests.Extend
 
             Assert.That(node.InGroup, Is.EquivalentTo(new IActivityGroup[] { partition, structuredActivityNode }));
         }
+
+        [Test]
+        public void Verify_that_QueryInGroup_returns_the_InterruptibleActivityRegions_the_node_is_in()
+        {
+            var region = new InterruptibleActivityRegion { Name = "Region" };
+            var otherRegion = new InterruptibleActivityRegion { Name = "OtherRegion" };
+
+            var node = new InitialNode { Name = "Node" };
+            node.InInterruptibleRegion.Add(region);
+            node.InInterruptibleRegion.Add(otherRegion);
+
+            Assert.That(node.InGroup, Is.EquivalentTo(new IActivityGroup[] { region, otherRegion }), "inInterruptibleRegion subsets inGroup");
+        }
+
+        [Test]
+        public void Verify_that_QueryInGroup_combines_all_three_subsetting_properties()
+        {
+            var partition = new ActivityPartition { Name = "Partition" };
+            var region = new InterruptibleActivityRegion { Name = "Region" };
+            var structuredActivityNode = new StructuredActivityNode { Name = "SAN" };
+
+            var node = new InitialNode { Name = "Node", InStructuredNode = structuredActivityNode };
+            node.InPartition.Add(partition);
+            node.InInterruptibleRegion.Add(region);
+
+            Assert.That(node.InGroup, Is.EquivalentTo(new IActivityGroup[] { partition, region, structuredActivityNode }));
+        }
+
+        [Test]
+        public void Verify_that_QueryInGroup_finds_the_StructuredActivityNode_through_the_owner_when_inStructuredNode_is_not_set()
+        {
+            // the reader does not populate ActivityNode::inStructuredNode, which subsets owner
+            var structuredActivityNode = new StructuredActivityNode { Name = "SAN" };
+            var node = new InitialNode { Name = "Node" };
+            structuredActivityNode.Node.Add(node);
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(node.InStructuredNode, Is.Null, "the owner end is not set");
+                Assert.That(node.InGroup, Is.EquivalentTo(new IActivityGroup[] { structuredActivityNode }));
+            }
+        }
     }
 }

@@ -24,6 +24,8 @@ namespace uml4net.Activities
     using System.Collections.Generic;
     using System.Linq;
 
+    using uml4net.Actions;
+
     /// <summary>
     /// The <see cref="ActivityNodeExtensions"/> class provides extensions methods for <see cref="IActivityNode"/>
     /// </summary>
@@ -31,7 +33,8 @@ namespace uml4net.Activities
     {
         /// <summary>
         /// Queries the ActivityGroups containing the ActivityNode. Per the UML 2.5.1 metamodel this is a derived
-        /// union subset by <see cref="IActivityNode.InPartition"/> and <see cref="IActivityNode.InStructuredNode"/>.
+        /// union subset by <see cref="IActivityNode.InPartition"/>, <see cref="IActivityNode.InInterruptibleRegion"/> and
+        /// <see cref="IActivityNode.InStructuredNode"/>.
         /// </summary>
         /// <param name="activityNode">
         /// The subject <see cref="IActivityNode"/>
@@ -48,12 +51,17 @@ namespace uml4net.Activities
 
             var inGroup = activityNode.InPartition.Cast<IActivityGroup>().ToList();
 
-            if (activityNode.InStructuredNode != null)
+            inGroup.AddRange(activityNode.InInterruptibleRegion);
+
+            // ActivityNode::inStructuredNode subsets owner and is not populated by the reader, hence the fallback to the owner
+            var inStructuredNode = activityNode.InStructuredNode ?? activityNode.Owner as IStructuredActivityNode;
+
+            if (inStructuredNode != null)
             {
-                inGroup.Add(activityNode.InStructuredNode);
+                inGroup.Add(inStructuredNode);
             }
 
-            return inGroup;
+            return inGroup.Distinct().ToList();
         }
     }
 }
