@@ -114,10 +114,10 @@ namespace uml4net.xmi.Tests
             var packageImport = package.PackageImport.First();
             Assert.That(packageImport.XmiId, Is.EqualTo("_packageImport.0"));
 
-            // source ends that subset Element::owner are not serialized; the derived unions fall back to the owner.
+            // source ends that subset Element::owner are not serialized; they are set by the containment (#432).
             // The first import of the normative file imports the UML package itself, so the second one is used
             var actionsImport = package.PackageImport.Single(x => x.ImportedPackage?.Name == "Actions");
-            Assert.That(actionsImport.ImportingNamespace, Is.Null);
+            Assert.That(actionsImport.ImportingNamespace, Is.SameAs(package), "the owner end is set although the document does not serialize it");
             Assert.That(actionsImport.Source, Is.EquivalentTo(new[] { package }));
             Assert.That(actionsImport.Target, Is.EquivalentTo(new[] { actionsImport.ImportedPackage }));
             Assert.That(actionsImport.RelatedElement, Is.EquivalentTo(new IElement[] { package, actionsImport.ImportedPackage }));

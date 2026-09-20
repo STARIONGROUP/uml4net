@@ -92,7 +92,9 @@ namespace uml4net.Deployments
         [Implements(implementation: "IDeployment.Configuration")]
         public IContainerList<IDeploymentSpecification> Configuration
         {
-            get => this.configuration ??= new ContainerList<IDeploymentSpecification>(this);
+            get => this.configuration ??= new ContainerList<IDeploymentSpecification>(this,
+                containedElement => { containedElement.Deployment = this; },
+                containedElement => { if (ReferenceEquals(containedElement.Deployment, this)) { containedElement.Deployment = null; } });
             set => this.configuration = value;
         }
 

@@ -45,7 +45,7 @@ namespace uml4net.Tests.Extend
             mammal_is_generalization_of_cat.General = mammal;
 
             cat.Generalization.Add(mammal_is_generalization_of_cat);
-            animal.Generalization.Add(animal_is_generalization_of_mammal);
+            mammal.Generalization.Add(animal_is_generalization_of_mammal);
 
             var superClasses = cat.SuperClass;
 

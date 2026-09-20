@@ -176,7 +176,9 @@ namespace uml4net.Classification
         [Implements(implementation: "ITemplateSignature.OwnedParameter")]
         public IContainerList<ITemplateParameter> OwnedParameter
         {
-            get => this.ownedParameter ??= new ContainerList<ITemplateParameter>(this);
+            get => this.ownedParameter ??= new ContainerList<ITemplateParameter>(this,
+                containedElement => { containedElement.Signature = this; },
+                containedElement => { if (ReferenceEquals(containedElement.Signature, this)) { containedElement.Signature = null; } });
             set => this.ownedParameter = value;
         }
 

@@ -177,14 +177,14 @@ namespace uml4net.HandleBars.Tests
 
             var handlebarsTemplate = this.handlebarsContext.Compile(template);
 
-            var @class = this.QueryClass("StructuredClassifiers", "Association");
+            var @class = this.QueryClass("Classification", "Property");
 
-            var owningTemplateParameter = @class.QueryAllProperties().Single(x => x.XmiId == "ParameterableElement-owningTemplateParameter");
+            var type = @class.QueryAllProperties().Single(x => x.XmiId == "TypedElement-type");
 
-            var generatedCode = handlebarsTemplate(new { Property = owningTemplateParameter, Class = @class });
+            var generatedCode = handlebarsTemplate(new { Property = type, Class = @class });
 
-            Assert.That(generatedCode, Does.Contain("if (element.OwningTemplateParameter != null && writeContext.IsLocal(element.OwningTemplateParameter))"));
-            Assert.That(generatedCode, Does.Contain("xmlWriter.WriteAttributeString(\"owningTemplateParameter\", element.OwningTemplateParameter.XmiId);"));
+            Assert.That(generatedCode, Does.Contain("if (element.Type != null && writeContext.IsLocal(element.Type))"));
+            Assert.That(generatedCode, Does.Contain("xmlWriter.WriteAttributeString(\"type\", element.Type.XmiId);"));
         }
 
         [Test]
@@ -261,14 +261,14 @@ namespace uml4net.HandleBars.Tests
 
             var handlebarsTemplate = this.handlebarsContext.Compile(template);
 
-            var @class = this.QueryClass("StructuredClassifiers", "Association");
+            var @class = this.QueryClass("Classification", "Property");
 
-            var owningTemplateParameter = @class.QueryAllProperties().Single(x => x.XmiId == "ParameterableElement-owningTemplateParameter");
+            var type = @class.QueryAllProperties().Single(x => x.XmiId == "TypedElement-type");
 
-            var generatedCode = handlebarsTemplate(new { Property = owningTemplateParameter, Class = @class });
+            var generatedCode = handlebarsTemplate(new { Property = type, Class = @class });
 
-            Assert.That(generatedCode, Does.Contain("if (element.OwningTemplateParameter != null && !writeContext.IsLocal(element.OwningTemplateParameter))"));
-            Assert.That(generatedCode, Does.Contain("this.XmiElementWriterFacade.WriteReferenceElement(xmlWriter, element.OwningTemplateParameter, \"owningTemplateParameter\", writeContext);"));
+            Assert.That(generatedCode, Does.Contain("if (element.Type != null && !writeContext.IsLocal(element.Type))"));
+            Assert.That(generatedCode, Does.Contain("this.XmiElementWriterFacade.WriteReferenceElement(xmlWriter, element.Type, \"type\", writeContext);"));
         }
 
         [Test]
@@ -316,6 +316,63 @@ namespace uml4net.HandleBars.Tests
         /// </param>
         /// <returns>
         /// the queried <see cref="IClass"/>
+
+        [Test]
+        public void Verify_that_WriteForClass_keeps_the_owner_end_of_a_composite_property_in_sync()
+        {
+            var handlebarsTemplate = this.handlebarsContext.Compile("{{ #Property.WriteForClass this.Property this.Class }}");
+
+            var @class = this.QueryClass("StructuredClassifiers", "Class");
+            var generalization = @class.QueryAllProperties().Single(x => x.XmiId == "Classifier-generalization");
+
+            var generatedCode = handlebarsTemplate(new { Property = generalization, Class = @class });
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(generatedCode, Does.Contain("new ContainerList<IGeneralization>(this,"));
+                Assert.That(generatedCode, Does.Contain("containedElement => { containedElement.Specific = this; },"));
+                Assert.That(generatedCode, Does.Contain("containedElement => { if (ReferenceEquals(containedElement.Specific, this)) { containedElement.Specific = null; } });"));
+            }
+
+            var ownedComment = @class.QueryAllProperties().Single(x => x.XmiId == "Element-ownedComment");
+
+            Assert.That(handlebarsTemplate(new { Property = ownedComment, Class = @class }), Does.Contain("new ContainerList<IComment>(this);"), "the opposite of ownedComment is owned by the association, there is no owner end to maintain");
+        }
+
+        [Test]
+        public void Verify_that_WriteForClass_sets_the_owner_ends_of_derived_composite_subsets_by_type()
+        {
+            var handlebarsTemplate = this.handlebarsContext.Compile("{{ #Property.WriteForClass this.Property this.Class }}");
+
+            var @class = this.QueryClass("Packages", "Package");
+            var packagedElement = @class.QueryAllProperties().Single(x => x.XmiId == "Package-packagedElement");
+
+            var generatedCode = handlebarsTemplate(new { Property = packagedElement, Class = @class });
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(generatedCode, Does.Contain("if (containedElement is IPackage nestedPackageElement) { nestedPackageElement.NestingPackage = this; }"));
+                Assert.That(generatedCode, Does.Contain("if (containedElement is IType ownedTypeElement) { ownedTypeElement.Package = this; }"));
+                Assert.That(generatedCode, Does.Contain("if (containedElement is IType ownedTypeElement && ReferenceEquals(ownedTypeElement.Package, this)) { ownedTypeElement.Package = null; }"));
+            }
+        }
+
+        [Test]
+        public void Verify_that_the_XmiWriter_helpers_do_not_write_the_owner_end_of_a_composite_association()
+        {
+            var @class = this.QueryClass("Classification", "Generalization");
+            var specific = @class.QueryAllProperties().Single(x => x.XmiId == "Generalization-specific");
+
+            var attributeTemplate = this.handlebarsContext.Compile("{{ #Property.WriteXmlAttributeForXmiWriter this.Property this.Class }}");
+            var elementTemplate = this.handlebarsContext.Compile("{{ #Property.WriteXmlElementForXmiWriter this.Property this.Class }}");
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(attributeTemplate(new { Property = specific, Class = @class }), Is.Empty, "implied by the nesting of the XML elements");
+                Assert.That(elementTemplate(new { Property = specific, Class = @class }), Is.Empty);
+            }
+        }
+
         /// </returns>
         private IClass QueryClass(string packageName, string className)
         {

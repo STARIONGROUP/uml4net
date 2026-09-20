@@ -117,7 +117,9 @@ namespace uml4net.CommonStructure
         [Implements(implementation: "ITemplateBinding.ParameterSubstitution")]
         public IContainerList<ITemplateParameterSubstitution> ParameterSubstitution
         {
-            get => this.parameterSubstitution ??= new ContainerList<ITemplateParameterSubstitution>(this);
+            get => this.parameterSubstitution ??= new ContainerList<ITemplateParameterSubstitution>(this,
+                containedElement => { containedElement.TemplateBinding = this; },
+                containedElement => { if (ReferenceEquals(containedElement.TemplateBinding, this)) { containedElement.TemplateBinding = null; } });
             set => this.parameterSubstitution = value;
         }
 

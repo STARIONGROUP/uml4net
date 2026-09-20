@@ -82,7 +82,9 @@ namespace uml4net.Packages
         [Implements(implementation: "INamespace.ElementImport")]
         public IContainerList<IElementImport> ElementImport
         {
-            get => this.elementImport ??= new ContainerList<IElementImport>(this);
+            get => this.elementImport ??= new ContainerList<IElementImport>(this,
+                containedElement => { containedElement.ImportingNamespace = this; },
+                containedElement => { if (ReferenceEquals(containedElement.ImportingNamespace, this)) { containedElement.ImportingNamespace = null; } });
             set => this.elementImport = value;
         }
 
@@ -211,7 +213,9 @@ namespace uml4net.Packages
         [Implements(implementation: "INamespace.OwnedRule")]
         public IContainerList<IConstraint> OwnedRule
         {
-            get => this.ownedRule ??= new ContainerList<IConstraint>(this);
+            get => this.ownedRule ??= new ContainerList<IConstraint>(this,
+                containedElement => { containedElement.Context = this; },
+                containedElement => { if (ReferenceEquals(containedElement.Context, this)) { containedElement.Context = null; } });
             set => this.ownedRule = value;
         }
 
@@ -237,7 +241,9 @@ namespace uml4net.Packages
         [Implements(implementation: "ITemplateableElement.OwnedTemplateSignature")]
         public IContainerList<ITemplateSignature> OwnedTemplateSignature
         {
-            get => this.ownedTemplateSignature ??= new ContainerList<ITemplateSignature>(this);
+            get => this.ownedTemplateSignature ??= new ContainerList<ITemplateSignature>(this,
+                containedElement => { containedElement.Template = this; },
+                containedElement => { if (ReferenceEquals(containedElement.Template, this)) { containedElement.Template = null; } });
             set => this.ownedTemplateSignature = value;
         }
 
@@ -278,7 +284,9 @@ namespace uml4net.Packages
         [Implements(implementation: "IPackage.PackagedElement")]
         public IContainerList<IPackageableElement> PackagedElement
         {
-            get => this.packagedElement ??= new ContainerList<IPackageableElement>(this);
+            get => this.packagedElement ??= new ContainerList<IPackageableElement>(this,
+                containedElement => { if (containedElement is IPackage nestedPackageElement) { nestedPackageElement.NestingPackage = this; } if (containedElement is IType ownedTypeElement) { ownedTypeElement.Package = this; } },
+                containedElement => { if (containedElement is IPackage nestedPackageElement && ReferenceEquals(nestedPackageElement.NestingPackage, this)) { nestedPackageElement.NestingPackage = null; } if (containedElement is IType ownedTypeElement && ReferenceEquals(ownedTypeElement.Package, this)) { ownedTypeElement.Package = null; } });
             set => this.packagedElement = value;
         }
 
@@ -296,7 +304,9 @@ namespace uml4net.Packages
         [Implements(implementation: "INamespace.PackageImport")]
         public IContainerList<IPackageImport> PackageImport
         {
-            get => this.packageImport ??= new ContainerList<IPackageImport>(this);
+            get => this.packageImport ??= new ContainerList<IPackageImport>(this,
+                containedElement => { containedElement.ImportingNamespace = this; },
+                containedElement => { if (ReferenceEquals(containedElement.ImportingNamespace, this)) { containedElement.ImportingNamespace = null; } });
             set => this.packageImport = value;
         }
 
@@ -314,7 +324,9 @@ namespace uml4net.Packages
         [Implements(implementation: "IPackage.PackageMerge")]
         public IContainerList<IPackageMerge> PackageMerge
         {
-            get => this.packageMerge ??= new ContainerList<IPackageMerge>(this);
+            get => this.packageMerge ??= new ContainerList<IPackageMerge>(this,
+                containedElement => { containedElement.ReceivingPackage = this; },
+                containedElement => { if (ReferenceEquals(containedElement.ReceivingPackage, this)) { containedElement.ReceivingPackage = null; } });
             set => this.packageMerge = value;
         }
 
@@ -332,7 +344,9 @@ namespace uml4net.Packages
         [Implements(implementation: "IPackage.ProfileApplication")]
         public IContainerList<IProfileApplication> ProfileApplication
         {
-            get => this.profileApplication ??= new ContainerList<IProfileApplication>(this);
+            get => this.profileApplication ??= new ContainerList<IProfileApplication>(this,
+                containedElement => { containedElement.ApplyingPackage = this; },
+                containedElement => { if (ReferenceEquals(containedElement.ApplyingPackage, this)) { containedElement.ApplyingPackage = null; } });
             set => this.profileApplication = value;
         }
 
@@ -359,7 +373,9 @@ namespace uml4net.Packages
         [Implements(implementation: "ITemplateableElement.TemplateBinding")]
         public IContainerList<ITemplateBinding> TemplateBinding
         {
-            get => this.templateBinding ??= new ContainerList<ITemplateBinding>(this);
+            get => this.templateBinding ??= new ContainerList<ITemplateBinding>(this,
+                containedElement => { containedElement.BoundElement = this; },
+                containedElement => { if (ReferenceEquals(containedElement.BoundElement, this)) { containedElement.BoundElement = null; } });
             set => this.templateBinding = value;
         }
 

@@ -141,11 +141,6 @@ namespace uml4net.xmi.Writers
                 xmlWriter.WriteAttributeString("definingFeature", element.DefiningFeature.XmiId);
             }
 
-            if (element.OwningInstance != null && writeContext.IsLocal(element.OwningInstance))
-            {
-                xmlWriter.WriteAttributeString("owningInstance", element.OwningInstance.XmiId);
-            }
-
 
             if (element.DefiningFeature != null && !writeContext.IsLocal(element.DefiningFeature))
             {
@@ -155,11 +150,6 @@ namespace uml4net.xmi.Writers
             foreach (var value in element.OwnedComment)
             {
                 this.XmiElementWriterFacade.WriteContainedElement(xmlWriter, value, "ownedComment", writeContext);
-            }
-
-            if (element.OwningInstance != null && !writeContext.IsLocal(element.OwningInstance))
-            {
-                this.XmiElementWriterFacade.WriteReferenceElement(xmlWriter, element.OwningInstance, "owningInstance", writeContext);
             }
 
             foreach (var value in element.Value)
@@ -239,11 +229,6 @@ namespace uml4net.xmi.Writers
                 await xmlWriter.WriteAttributeStringAsync(null, "definingFeature", null, element.DefiningFeature.XmiId);
             }
 
-            if (element.OwningInstance != null && writeContext.IsLocal(element.OwningInstance))
-            {
-                await xmlWriter.WriteAttributeStringAsync(null, "owningInstance", null, element.OwningInstance.XmiId);
-            }
-
 
             if (element.DefiningFeature != null && !writeContext.IsLocal(element.DefiningFeature))
             {
@@ -253,11 +238,6 @@ namespace uml4net.xmi.Writers
             foreach (var value in element.OwnedComment)
             {
                 await this.XmiElementWriterFacade.WriteContainedElementAsync(xmlWriter, value, "ownedComment", writeContext);
-            }
-
-            if (element.OwningInstance != null && !writeContext.IsLocal(element.OwningInstance))
-            {
-                await this.XmiElementWriterFacade.WriteReferenceElementAsync(xmlWriter, element.OwningInstance, "owningInstance", writeContext);
             }
 
             foreach (var value in element.Value)

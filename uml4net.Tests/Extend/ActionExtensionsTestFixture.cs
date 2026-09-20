@@ -110,7 +110,7 @@ namespace uml4net.Tests.Extend
 
             using (Assert.EnterMultipleScope())
             {
-                Assert.That(nestedAction.InStructuredNode, Is.Null, "the owner end is not set");
+                Assert.That(nestedAction.InStructuredNode, Is.SameAs(innerNode), "the containment sets the owner end");
                 Assert.That(nestedAction.QueryContainingBehavior(), Is.SameAs(activity), "through two levels of StructuredActivityNodes");
                 Assert.That(nestedAction.Context, Is.SameAs(owningClass));
                 Assert.That(innerNode.Context, Is.SameAs(owningClass));

@@ -49,6 +49,39 @@ namespace uml4net
         }
 
         /// <summary>
+        /// The action that sets the owner end of the contained element, the opposite of the composite property this
+        /// <see cref="ContainerList{T}"/> is the value of, to the container; null when there is no such end
+        /// </summary>
+        private readonly Action<T> attachOwnerEnd;
+
+        /// <summary>
+        /// The action that clears the owner end of an element that is no longer contained; null when there is no such end
+        /// </summary>
+        private readonly Action<T> detachOwnerEnd;
+
+        /// <summary>
+        /// Initializes a new <see cref="ContainerList{T}"/> that keeps the owner end of the contained elements in
+        /// sync with the containment, for example <c>Generalization::specific</c> for the elements of
+        /// <c>Classifier::generalization</c>. An XMI document does not serialize the owner end of a composite
+        /// association, it is implied by the nesting of the XML elements.
+        /// </summary>
+        /// <param name="container">
+        /// The <see cref="IElement"/> that owns this <see cref="ContainerList{T}"/>
+        /// </param>
+        /// <param name="attachOwnerEnd">
+        /// The action that sets the owner end of an element that is added to the <paramref name="container"/>
+        /// </param>
+        /// <param name="detachOwnerEnd">
+        /// The action that clears the owner end of an element that is removed from the <paramref name="container"/>
+        /// </param>
+        public ContainerList(IElement container, Action<T> attachOwnerEnd, Action<T> detachOwnerEnd)
+        {
+            this.container = container;
+            this.attachOwnerEnd = attachOwnerEnd;
+            this.detachOwnerEnd = detachOwnerEnd;
+        }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="ContainerList{T}"/> class
         /// </summary>
         /// <param name="containerList">
@@ -118,6 +151,7 @@ namespace uml4net
             }
 
             base.Add(element);
+            this.attachOwnerEnd?.Invoke(element);
         }
 
         /// <summary>
@@ -196,8 +230,18 @@ namespace uml4net
                     throw new InvalidOperationException($"The added item already exists {value.XmiId}.");
                 }
 
+                var replaced = base[index];
+
                 value.Possessor = this.container;
                 base[index] = value;
+
+                if (!ReferenceEquals(replaced, value))
+                {
+                    replaced.Possessor = null;
+                    this.detachOwnerEnd?.Invoke(replaced);
+                }
+
+                this.attachOwnerEnd?.Invoke(value);
             }
         }
 
@@ -224,6 +268,7 @@ namespace uml4net
             }
 
             item.Possessor = null;
+            this.detachOwnerEnd?.Invoke(item);
 
             return true;
         }
@@ -245,6 +290,7 @@ namespace uml4net
             var element = base[index];
             base.RemoveAt(index);
             element.Possessor = null;
+            this.detachOwnerEnd?.Invoke(element);
         }
 
         /// <summary>
@@ -255,6 +301,7 @@ namespace uml4net
             foreach (var element in this)
             {
                 element.Possessor = null;
+                this.detachOwnerEnd?.Invoke(element);
             }
 
             base.Clear();

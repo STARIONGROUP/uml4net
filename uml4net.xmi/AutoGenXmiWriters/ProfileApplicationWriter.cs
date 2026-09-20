@@ -141,11 +141,6 @@ namespace uml4net.xmi.Writers
                 xmlWriter.WriteAttributeString("appliedProfile", element.AppliedProfile.XmiId);
             }
 
-            if (element.ApplyingPackage != null && writeContext.IsLocal(element.ApplyingPackage))
-            {
-                xmlWriter.WriteAttributeString("applyingPackage", element.ApplyingPackage.XmiId);
-            }
-
             if (element.IsStrict)
             {
                 xmlWriter.WriteAttributeString("isStrict", XmlConvert.ToString(element.IsStrict));
@@ -155,11 +150,6 @@ namespace uml4net.xmi.Writers
             if (element.AppliedProfile != null && !writeContext.IsLocal(element.AppliedProfile))
             {
                 this.XmiElementWriterFacade.WriteReferenceElement(xmlWriter, element.AppliedProfile, "appliedProfile", writeContext);
-            }
-
-            if (element.ApplyingPackage != null && !writeContext.IsLocal(element.ApplyingPackage))
-            {
-                this.XmiElementWriterFacade.WriteReferenceElement(xmlWriter, element.ApplyingPackage, "applyingPackage", writeContext);
             }
 
             foreach (var value in element.OwnedComment)
@@ -239,11 +229,6 @@ namespace uml4net.xmi.Writers
                 await xmlWriter.WriteAttributeStringAsync(null, "appliedProfile", null, element.AppliedProfile.XmiId);
             }
 
-            if (element.ApplyingPackage != null && writeContext.IsLocal(element.ApplyingPackage))
-            {
-                await xmlWriter.WriteAttributeStringAsync(null, "applyingPackage", null, element.ApplyingPackage.XmiId);
-            }
-
             if (element.IsStrict)
             {
                 await xmlWriter.WriteAttributeStringAsync(null, "isStrict", null, XmlConvert.ToString(element.IsStrict));
@@ -253,11 +238,6 @@ namespace uml4net.xmi.Writers
             if (element.AppliedProfile != null && !writeContext.IsLocal(element.AppliedProfile))
             {
                 await this.XmiElementWriterFacade.WriteReferenceElementAsync(xmlWriter, element.AppliedProfile, "appliedProfile", writeContext);
-            }
-
-            if (element.ApplyingPackage != null && !writeContext.IsLocal(element.ApplyingPackage))
-            {
-                await this.XmiElementWriterFacade.WriteReferenceElementAsync(xmlWriter, element.ApplyingPackage, "applyingPackage", writeContext);
             }
 
             foreach (var value in element.OwnedComment)
