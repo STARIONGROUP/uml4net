@@ -85,6 +85,37 @@ namespace uml4net.Tests.Extend
         }
 
         [Test]
+        public void Verify_that_Extension_on_a_direct_or_indirect_general_of_the_metaclass_returns_the_extension()
+        {
+            // Abstraction specializes Dependency, which specializes DirectedRelationship
+            var dependency = new Class { Name = "Dependency" };
+            var directedRelationship = new Class { Name = "DirectedRelationship" };
+
+            this.profile.PackagedElement.Add(dependency);
+            this.profile.PackagedElement.Add(directedRelationship);
+
+            this.metaclass.Generalization.Add(new Generalization { General = dependency });
+            dependency.Generalization.Add(new Generalization { General = directedRelationship });
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(dependency.Extension, Is.EquivalentTo(new[] { this.extension }), "endTypes.allParents()->includes(self): a direct general of the end type");
+                Assert.That(directedRelationship.Extension, Is.EquivalentTo(new[] { this.extension }), "an indirect general of the end type");
+                Assert.That(this.metaclass.Extension, Is.EquivalentTo(new[] { this.extension }), "endTypes->includes(self) is unchanged");
+            }
+        }
+
+        [Test]
+        public void Verify_that_Extension_on_a_specialization_of_the_metaclass_does_not_return_the_extension()
+        {
+            var specialization = new Class { Name = "Realization" };
+            this.profile.PackagedElement.Add(specialization);
+            specialization.Generalization.Add(new Generalization { General = this.metaclass });
+
+            Assert.That(specialization.Extension, Is.Empty, "the OCL looks at the parents of the end type, not at its specializations");
+        }
+
+        [Test]
         public void Verify_that_Extension_on_an_unrelated_class_returns_an_empty_list()
         {
             var unrelated = new Class { Name = "Unrelated" };

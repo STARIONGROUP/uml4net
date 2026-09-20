@@ -46,6 +46,12 @@ namespace uml4net.StructuredClassifiers
         /// specify additional properties of the metaclass. The property is derived from the Extensions whose
         /// memberEnds are typed by the Class.
         /// </returns>
+        /// <remarks>
+        /// Implements the OCL of <c>Class::extension</c>: <c>Extension.allInstances()-&gt;select(ext | let endTypes =
+        /// ext.memberEnd-&gt;collect(type.oclAsType(Classifier)) in endTypes-&gt;includes(self) or
+        /// endTypes.allParents()-&gt;includes(self))</c> - an Extension is also returned when the Class is a direct or
+        /// indirect general of the type of one of its member ends.
+        /// </remarks>
         internal static List<IExtension> QueryExtension(this IClass @class)
         {
             if (@class == null)
@@ -67,7 +73,14 @@ namespace uml4net.StructuredClassifiers
                 CollectExtensions(rootPackage, extensions);
             }
 
-            return extensions.Where(x => x.MemberEnd.Any(memberEnd => ReferenceEquals(QueryMemberEndType(memberEnd), @class))).ToList();
+            // endTypes->includes(self) or endTypes.allParents()->includes(self): the Class is the type of a member
+            // end, or a direct or indirect general of the type of a member end
+            return extensions
+                .Where(x => x.MemberEnd
+                    .Select(QueryMemberEndType)
+                    .OfType<IClassifier>()
+                    .Any(endType => ReferenceEquals(endType, @class) || endType.QueryAllGeneralClassifiers().Contains(@class)))
+                .ToList();
         }
 
         /// <summary>
