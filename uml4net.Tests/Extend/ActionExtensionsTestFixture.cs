@@ -90,6 +90,117 @@ namespace uml4net.Tests.Extend
         }
 
         [Test]
+        public void Verify_that_Input_includes_the_pins_of_a_property_that_redefines_a_subsetting_property()
+        {
+            // SendObjectAction::request redefines InvocationAction::argument
+            var request = new InputPin { Name = "request" };
+            var target = new InputPin { Name = "target" };
+
+            var sendObjectAction = new SendObjectAction();
+            sendObjectAction.Request.Add(request);
+            sendObjectAction.Target.Add(target);
+
+            // LoopNode::loopVariableInput redefines StructuredActivityNode::structuredNodeInput
+            var loopVariableInput = new InputPin { Name = "loopVariableInput" };
+
+            var loopNode = new LoopNode();
+            loopNode.LoopVariableInput.Add(loopVariableInput);
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(sendObjectAction.Input, Is.EquivalentTo(new[] { request, target }));
+                Assert.That(loopNode.Input, Is.EquivalentTo(new[] { loopVariableInput }));
+            }
+        }
+
+        [Test]
+        public void Verify_that_Output_includes_the_pins_of_a_property_that_redefines_a_subsetting_property()
+        {
+            // LoopNode::result and ConditionalNode::result redefine StructuredActivityNode::structuredNodeOutput
+            var loopResult = new OutputPin { Name = "loopResult" };
+            var conditionalResult = new OutputPin { Name = "conditionalResult" };
+            var structuredNodeOutput = new OutputPin { Name = "structuredNodeOutput" };
+
+            var loopNode = new LoopNode();
+            loopNode.Result.Add(loopResult);
+
+            var conditionalNode = new ConditionalNode();
+            conditionalNode.Result.Add(conditionalResult);
+
+            var structuredActivityNode = new StructuredActivityNode();
+            structuredActivityNode.StructuredNodeOutput.Add(structuredNodeOutput);
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(loopNode.Output, Is.EquivalentTo(new[] { loopResult }));
+                Assert.That(conditionalNode.Output, Is.EquivalentTo(new[] { conditionalResult }));
+                Assert.That(structuredActivityNode.Output, Is.EquivalentTo(new[] { structuredNodeOutput }));
+            }
+        }
+
+        [Test]
+        public void Verify_that_Input_and_Output_union_every_subsetting_property_of_an_action_with_several()
+        {
+            var first = new InputPin { Name = "first" };
+            var second = new InputPin { Name = "second" };
+            var result = new OutputPin { Name = "result" };
+
+            var testIdentityAction = new TestIdentityAction();
+            testIdentityAction.First.Add(first);
+            testIdentityAction.Second.Add(second);
+            testIdentityAction.Result.Add(result);
+
+            var @object = new InputPin { Name = "object" };
+            var value = new InputPin { Name = "value" };
+            var insertAt = new InputPin { Name = "insertAt" };
+            var writeResult = new OutputPin { Name = "result" };
+
+            var addStructuralFeatureValueAction = new AddStructuralFeatureValueAction();
+            addStructuralFeatureValueAction.Object.Add(@object);
+            addStructuralFeatureValueAction.Value.Add(value);
+            addStructuralFeatureValueAction.InsertAt.Add(insertAt);
+            addStructuralFeatureValueAction.Result.Add(writeResult);
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(testIdentityAction.Input, Is.EquivalentTo(new[] { first, second }));
+                Assert.That(testIdentityAction.Output, Is.EquivalentTo(new[] { result }));
+                Assert.That(addStructuralFeatureValueAction.Input, Is.EquivalentTo(new[] { @object, value, insertAt }), "the pins of StructuralFeatureAction, WriteStructuralFeatureAction and AddStructuralFeatureValueAction");
+                Assert.That(addStructuralFeatureValueAction.Output, Is.EquivalentTo(new[] { writeResult }));
+            }
+        }
+
+        [Test]
+        public void Verify_that_Input_and_Output_can_be_read_for_every_concrete_Action()
+        {
+            var actions = new IAction[]
+            {
+                new AcceptCallAction(), new AcceptEventAction(), new AddStructuralFeatureValueAction(), new AddVariableValueAction(),
+                new BroadcastSignalAction(), new CallBehaviorAction(), new CallOperationAction(), new ClearAssociationAction(),
+                new ClearStructuralFeatureAction(), new ClearVariableAction(), new ConditionalNode(), new CreateLinkAction(),
+                new CreateLinkObjectAction(), new CreateObjectAction(), new DestroyLinkAction(), new DestroyObjectAction(),
+                new ExpansionRegion(), new LoopNode(), new OpaqueAction(), new RaiseExceptionAction(), new ReadExtentAction(),
+                new ReadIsClassifiedObjectAction(), new ReadLinkAction(), new ReadLinkObjectEndAction(),
+                new ReadLinkObjectEndQualifierAction(), new ReadSelfAction(), new ReadStructuralFeatureAction(),
+                new ReadVariableAction(), new ReclassifyObjectAction(), new ReduceAction(), new RemoveStructuralFeatureValueAction(),
+                new RemoveVariableValueAction(), new ReplyAction(), new SendObjectAction(), new SendSignalAction(), new SequenceNode(),
+                new StartClassifierBehaviorAction(), new StartObjectBehaviorAction(), new StructuredActivityNode(),
+                new TestIdentityAction(), new UnmarshallAction(), new ValueSpecificationAction()
+            };
+
+            using (Assert.EnterMultipleScope())
+            {
+                foreach (var action in actions)
+                {
+                    Assert.That(() => action.Input, Throws.Nothing, action.GetType().Name);
+                    Assert.That(() => action.Output, Throws.Nothing, action.GetType().Name);
+                    Assert.That(action.Input, Is.Empty, action.GetType().Name);
+                    Assert.That(action.Output, Is.Empty, action.GetType().Name);
+                }
+            }
+        }
+
+        [Test]
         public void Verify_that_Input_is_empty_when_no_subsetting_property_has_pins()
         {
             var action = new CallOperationAction();
