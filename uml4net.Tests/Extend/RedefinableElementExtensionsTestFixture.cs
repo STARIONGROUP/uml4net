@@ -25,6 +25,7 @@ namespace uml4net.Tests.Extend
     using uml4net.Actions;
     using uml4net.Activities;
     using uml4net.Classification;
+    using uml4net.SimpleClassifiers;
     using uml4net.StateMachines;
     using uml4net.StructuredClassifiers;
 
@@ -115,6 +116,57 @@ namespace uml4net.Tests.Extend
             @class.RedefinedClassifier.Add(redefined);
 
             Assert.That(@class.QueryRedefinedElement(), Is.EquivalentTo(new IRedefinableElement[] { redefined }));
+        }
+
+        [Test]
+        public void Verify_that_QueryRedefinedElement_returns_RedefinedInterface_for_an_Interface()
+        {
+            var redefined = new Interface { Name = "Redefined" };
+            var redefinedAsClassifier = new Interface { Name = "RedefinedAsClassifier" };
+            var @interface = new Interface { Name = "I" };
+            @interface.RedefinedInterface.Add(redefined);
+            @interface.RedefinedClassifier.Add(redefinedAsClassifier);
+            var inBothLists = new Interface { Name = "InBothLists" };
+            @interface.RedefinedInterface.Add(inBothLists);
+            @interface.RedefinedClassifier.Add(inBothLists);
+
+            Assert.That(@interface.RedefinedElement, Is.EquivalentTo(new IRedefinableElement[] { redefined, redefinedAsClassifier, inBothLists }), "redefinedInterface subsets redefinedClassifier; the union is de-duplicated");
+        }
+
+        [Test]
+        public void Verify_that_QueryRedefinedElement_returns_RedefinedBehavior_for_a_Behavior()
+        {
+            var redefined = new Activity { Name = "Redefined" };
+            var activity = new Activity { Name = "A" };
+            activity.RedefinedBehavior.Add(redefined);
+
+            Assert.That(activity.RedefinedElement, Is.EquivalentTo(new IRedefinableElement[] { redefined }));
+        }
+
+        [Test]
+        public void Verify_that_QueryRedefinedElement_returns_ExtendedStateMachine_for_a_StateMachine_and_does_not_throw()
+        {
+            var extended = new StateMachine { Name = "Extended" };
+            var stateMachine = new StateMachine { Name = "SM" };
+            stateMachine.ExtendedStateMachine.Add(extended);
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(() => stateMachine.RedefinedElement, Throws.Nothing, "extendedStateMachine redefines redefinedBehavior, the redefined property throws when read");
+                Assert.That(stateMachine.RedefinedElement, Is.EquivalentTo(new IRedefinableElement[] { extended }));
+            }
+        }
+
+        [Test]
+        public void Verify_that_QueryRedefinedElement_returns_RedefinedPort_for_a_Port()
+        {
+            var redefinedPort = new Port { Name = "Redefined" };
+            var redefinedProperty = new Property { Name = "RedefinedProperty" };
+            var port = new Port { Name = "P" };
+            port.RedefinedPort.Add(redefinedPort);
+            port.RedefinedProperty.Add(redefinedProperty);
+
+            Assert.That(port.RedefinedElement, Is.EquivalentTo(new IRedefinableElement[] { redefinedPort, redefinedProperty }), "redefinedPort subsets redefinedProperty");
         }
 
         [Test]
