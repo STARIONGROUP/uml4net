@@ -21,6 +21,7 @@
 namespace uml4net.CommonStructure
 {
     using System;
+    using System.Globalization;
     using System.Linq;
 
     using uml4net.Values;
@@ -46,18 +47,73 @@ namespace uml4net.CommonStructure
                 throw new ArgumentNullException(nameof(multiplicityElement));
             }
 
-            switch (multiplicityElement.LowerValue.SingleOrDefault())
-            {
-                case null:
-                    return 1;
+            // lowerBound(): if (lowerValue = null or lowerValue.integerValue() = null) then 1 else lowerValue.integerValue()
+            return TryQueryIntegerValue(multiplicityElement.LowerValue.SingleOrDefault(), out var lower) ? lower : 1;
+        }
 
+        /// <summary>
+        /// Tries to query the integer value of a <see cref="IValueSpecification"/> as defined by the operation
+        /// <c>ValueSpecification::integerValue</c>, which is null for everything but a <see cref="ILiteralInteger"/>
+        /// </summary>
+        /// <param name="valueSpecification">
+        /// The <see cref="IValueSpecification"/>, may be null
+        /// </param>
+        /// <param name="value">
+        /// The integer value when there is one
+        /// </param>
+        /// <returns>
+        /// true for a <see cref="ILiteralInteger"/> and, as a tolerance for tool exports, for a
+        /// <see cref="ILiteralUnlimitedNatural"/> whose value is a number; false otherwise, for example for an
+        /// OpaqueExpression, an Expression or an InstanceValue, whose value cannot be computed
+        /// </returns>
+        internal static bool TryQueryIntegerValue(IValueSpecification valueSpecification, out int value)
+        {
+            switch (valueSpecification)
+            {
                 case ILiteralInteger literalInteger:
-                    return literalInteger.Value;
+                    value = literalInteger.Value;
+                    return true;
+
+                case ILiteralUnlimitedNatural literalUnlimitedNatural:
+                    return int.TryParse(literalUnlimitedNatural.Value, NumberStyles.None, CultureInfo.InvariantCulture, out value);
 
                 default:
-                    throw new NotSupportedException("LowerValue is not of type ILiteralInteger.");
+                    value = 0;
+                    return false;
             }
+        }
 
+        /// <summary>
+        /// Tries to query the unlimited natural value of a <see cref="IValueSpecification"/> as defined by the
+        /// operation <c>ValueSpecification::unlimitedValue</c>, which is null for everything but a
+        /// <see cref="ILiteralUnlimitedNatural"/>
+        /// </summary>
+        /// <param name="valueSpecification">
+        /// The <see cref="IValueSpecification"/>, may be null
+        /// </param>
+        /// <param name="value">
+        /// The unlimited natural value, a number or <c>*</c>, when there is one
+        /// </param>
+        /// <returns>
+        /// true for a <see cref="ILiteralUnlimitedNatural"/> and, as a tolerance for tool exports that
+        /// write an upper bound as a LiteralInteger, for a non-negative <see cref="ILiteralInteger"/>; false otherwise
+        /// </returns>
+        internal static bool TryQueryUnlimitedValue(IValueSpecification valueSpecification, out string value)
+        {
+            switch (valueSpecification)
+            {
+                case ILiteralUnlimitedNatural literalUnlimitedNatural:
+                    value = literalUnlimitedNatural.Value;
+                    return true;
+
+                case ILiteralInteger literalInteger when literalInteger.Value >= 0:
+                    value = literalInteger.Value.ToString(CultureInfo.InvariantCulture);
+                    return true;
+
+                default:
+                    value = null;
+                    return false;
+            }
         }
 
         /// <summary>
@@ -76,18 +132,8 @@ namespace uml4net.CommonStructure
                 throw new ArgumentNullException(nameof(multiplicityElement));
             }
 
-            switch (multiplicityElement.UpperValue.SingleOrDefault())
-            {
-                case null:
-                    return "1";
-
-                case ILiteralUnlimitedNatural literalUnlimitedNatural:
-
-                    return literalUnlimitedNatural.Value;
-                    
-                default:
-                    throw new NotSupportedException("UpperValue is not of type ILiteralUnlimitedNatural.");
-            }
+            // upperBound(): if (upperValue = null or upperValue.unlimitedValue() = null) then 1 else upperValue.unlimitedValue()
+            return TryQueryUnlimitedValue(multiplicityElement.UpperValue.SingleOrDefault(), out var upper) ? upper : "1";
         }
     }
 }
