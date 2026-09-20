@@ -146,11 +146,6 @@ namespace uml4net.xmi.Writers
                 xmlWriter.WriteAttributeString("parameteredElement", element.ParameteredElement.XmiId);
             }
 
-            if (element.Signature != null && writeContext.IsLocal(element.Signature))
-            {
-                xmlWriter.WriteAttributeString("signature", element.Signature.XmiId);
-            }
-
 
             if (element.Default != null && !writeContext.IsLocal(element.Default))
             {
@@ -175,11 +170,6 @@ namespace uml4net.xmi.Writers
             if (element.ParameteredElement != null && !writeContext.IsLocal(element.ParameteredElement))
             {
                 this.XmiElementWriterFacade.WriteReferenceElement(xmlWriter, element.ParameteredElement, "parameteredElement", writeContext);
-            }
-
-            if (element.Signature != null && !writeContext.IsLocal(element.Signature))
-            {
-                this.XmiElementWriterFacade.WriteReferenceElement(xmlWriter, element.Signature, "signature", writeContext);
             }
 
 
@@ -259,11 +249,6 @@ namespace uml4net.xmi.Writers
                 await xmlWriter.WriteAttributeStringAsync(null, "parameteredElement", null, element.ParameteredElement.XmiId);
             }
 
-            if (element.Signature != null && writeContext.IsLocal(element.Signature))
-            {
-                await xmlWriter.WriteAttributeStringAsync(null, "signature", null, element.Signature.XmiId);
-            }
-
 
             if (element.Default != null && !writeContext.IsLocal(element.Default))
             {
@@ -288,11 +273,6 @@ namespace uml4net.xmi.Writers
             if (element.ParameteredElement != null && !writeContext.IsLocal(element.ParameteredElement))
             {
                 await this.XmiElementWriterFacade.WriteReferenceElementAsync(xmlWriter, element.ParameteredElement, "parameteredElement", writeContext);
-            }
-
-            if (element.Signature != null && !writeContext.IsLocal(element.Signature))
-            {
-                await this.XmiElementWriterFacade.WriteReferenceElementAsync(xmlWriter, element.Signature, "signature", writeContext);
             }
 
 

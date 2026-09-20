@@ -125,7 +125,9 @@ namespace uml4net.Actions
         [Implements(implementation: "IStructuredActivityNode.Edge")]
         public IContainerList<IActivityEdge> Edge
         {
-            get => this.edge ??= new ContainerList<IActivityEdge>(this);
+            get => this.edge ??= new ContainerList<IActivityEdge>(this,
+                containedElement => { containedElement.InStructuredNode = this; },
+                containedElement => { if (ReferenceEquals(containedElement.InStructuredNode, this)) { containedElement.InStructuredNode = null; } });
             set => this.edge = value;
         }
 
@@ -143,7 +145,9 @@ namespace uml4net.Actions
         [Implements(implementation: "INamespace.ElementImport")]
         public IContainerList<IElementImport> ElementImport
         {
-            get => this.elementImport ??= new ContainerList<IElementImport>(this);
+            get => this.elementImport ??= new ContainerList<IElementImport>(this,
+                containedElement => { containedElement.ImportingNamespace = this; },
+                containedElement => { if (ReferenceEquals(containedElement.ImportingNamespace, this)) { containedElement.ImportingNamespace = null; } });
             set => this.elementImport = value;
         }
 
@@ -160,7 +164,9 @@ namespace uml4net.Actions
         [Implements(implementation: "IExecutableNode.Handler")]
         public IContainerList<IExceptionHandler> Handler
         {
-            get => this.handler ??= new ContainerList<IExceptionHandler>(this);
+            get => this.handler ??= new ContainerList<IExceptionHandler>(this,
+                containedElement => { containedElement.ProtectedNode = this; },
+                containedElement => { if (ReferenceEquals(containedElement.ProtectedNode, this)) { containedElement.ProtectedNode = null; } });
             set => this.handler = value;
         }
 
@@ -366,7 +372,9 @@ namespace uml4net.Actions
         [Implements(implementation: "IStructuredActivityNode.Node")]
         public IContainerList<IActivityNode> Node
         {
-            get => this.node ??= new ContainerList<IActivityNode>(this);
+            get => this.node ??= new ContainerList<IActivityNode>(this,
+                containedElement => { containedElement.InStructuredNode = this; },
+                containedElement => { if (ReferenceEquals(containedElement.InStructuredNode, this)) { containedElement.InStructuredNode = null; } });
             set => this.node = value;
         }
 
@@ -454,7 +462,9 @@ namespace uml4net.Actions
         [Implements(implementation: "INamespace.OwnedRule")]
         public IContainerList<IConstraint> OwnedRule
         {
-            get => this.ownedRule ??= new ContainerList<IConstraint>(this);
+            get => this.ownedRule ??= new ContainerList<IConstraint>(this,
+                containedElement => { containedElement.Context = this; },
+                containedElement => { if (ReferenceEquals(containedElement.Context, this)) { containedElement.Context = null; } });
             set => this.ownedRule = value;
         }
 
@@ -479,7 +489,9 @@ namespace uml4net.Actions
         [Implements(implementation: "INamespace.PackageImport")]
         public IContainerList<IPackageImport> PackageImport
         {
-            get => this.packageImport ??= new ContainerList<IPackageImport>(this);
+            get => this.packageImport ??= new ContainerList<IPackageImport>(this,
+                containedElement => { containedElement.ImportingNamespace = this; },
+                containedElement => { if (ReferenceEquals(containedElement.ImportingNamespace, this)) { containedElement.ImportingNamespace = null; } });
             set => this.packageImport = value;
         }
 
@@ -579,7 +591,9 @@ namespace uml4net.Actions
         [Implements(implementation: "IStructuredActivityNode.Variable")]
         public IContainerList<IVariable> Variable
         {
-            get => this.variable ??= new ContainerList<IVariable>(this);
+            get => this.variable ??= new ContainerList<IVariable>(this,
+                containedElement => { containedElement.Scope = this; },
+                containedElement => { if (ReferenceEquals(containedElement.Scope, this)) { containedElement.Scope = null; } });
             set => this.variable = value;
         }
 

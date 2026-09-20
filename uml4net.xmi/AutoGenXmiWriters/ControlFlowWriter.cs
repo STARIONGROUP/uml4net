@@ -136,16 +136,6 @@ namespace uml4net.xmi.Writers
                 xmlWriter.WriteAttributeString("xmi", "uuid", this.XmiWriterSettings.XmiNamespaceUri, element.XmiGuid);
             }
 
-            if (element.Activity != null && writeContext.IsLocal(element.Activity))
-            {
-                xmlWriter.WriteAttributeString("activity", element.Activity.XmiId);
-            }
-
-            if (element.InStructuredNode != null && writeContext.IsLocal(element.InStructuredNode))
-            {
-                xmlWriter.WriteAttributeString("inStructuredNode", element.InStructuredNode.XmiId);
-            }
-
             if (element.Interrupts != null && writeContext.IsLocal(element.Interrupts))
             {
                 xmlWriter.WriteAttributeString("interrupts", element.Interrupts.XmiId);
@@ -177,11 +167,6 @@ namespace uml4net.xmi.Writers
             }
 
 
-            if (element.Activity != null && !writeContext.IsLocal(element.Activity))
-            {
-                this.XmiElementWriterFacade.WriteReferenceElement(xmlWriter, element.Activity, "activity", writeContext);
-            }
-
             foreach (var value in element.Guard)
             {
                 this.XmiElementWriterFacade.WriteContainedElement(xmlWriter, value, "guard", writeContext);
@@ -190,11 +175,6 @@ namespace uml4net.xmi.Writers
             foreach (var value in element.InPartition)
             {
                 this.XmiElementWriterFacade.WriteReferenceElement(xmlWriter, value, "inPartition", writeContext);
-            }
-
-            if (element.InStructuredNode != null && !writeContext.IsLocal(element.InStructuredNode))
-            {
-                this.XmiElementWriterFacade.WriteReferenceElement(xmlWriter, element.InStructuredNode, "inStructuredNode", writeContext);
             }
 
             if (element.Interrupts != null && !writeContext.IsLocal(element.Interrupts))
@@ -299,16 +279,6 @@ namespace uml4net.xmi.Writers
                 await xmlWriter.WriteAttributeStringAsync("xmi", "uuid", this.XmiWriterSettings.XmiNamespaceUri, element.XmiGuid);
             }
 
-            if (element.Activity != null && writeContext.IsLocal(element.Activity))
-            {
-                await xmlWriter.WriteAttributeStringAsync(null, "activity", null, element.Activity.XmiId);
-            }
-
-            if (element.InStructuredNode != null && writeContext.IsLocal(element.InStructuredNode))
-            {
-                await xmlWriter.WriteAttributeStringAsync(null, "inStructuredNode", null, element.InStructuredNode.XmiId);
-            }
-
             if (element.Interrupts != null && writeContext.IsLocal(element.Interrupts))
             {
                 await xmlWriter.WriteAttributeStringAsync(null, "interrupts", null, element.Interrupts.XmiId);
@@ -340,11 +310,6 @@ namespace uml4net.xmi.Writers
             }
 
 
-            if (element.Activity != null && !writeContext.IsLocal(element.Activity))
-            {
-                await this.XmiElementWriterFacade.WriteReferenceElementAsync(xmlWriter, element.Activity, "activity", writeContext);
-            }
-
             foreach (var value in element.Guard)
             {
                 await this.XmiElementWriterFacade.WriteContainedElementAsync(xmlWriter, value, "guard", writeContext);
@@ -353,11 +318,6 @@ namespace uml4net.xmi.Writers
             foreach (var value in element.InPartition)
             {
                 await this.XmiElementWriterFacade.WriteReferenceElementAsync(xmlWriter, value, "inPartition", writeContext);
-            }
-
-            if (element.InStructuredNode != null && !writeContext.IsLocal(element.InStructuredNode))
-            {
-                await this.XmiElementWriterFacade.WriteReferenceElementAsync(xmlWriter, element.InStructuredNode, "inStructuredNode", writeContext);
             }
 
             if (element.Interrupts != null && !writeContext.IsLocal(element.Interrupts))

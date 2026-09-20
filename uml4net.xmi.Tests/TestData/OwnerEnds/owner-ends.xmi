@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- the owner end of a composite association (Generalization::specific, Property::class, Vertex::container, ...) is never serialized: it is implied by the nesting of the XML elements -->
+<xmi:XMI xmlns:xmi="http://www.omg.org/spec/XMI/20131001" xmlns:uml="http://www.omg.org/spec/UML/20131001">
+  <uml:Package xmi:id="p" name="P">
+    <packageImport xmi:type="uml:PackageImport" xmi:id="pi" importedPackage="n"/>
+    <packagedElement xmi:type="uml:Package" xmi:id="n" name="N"/>
+    <packagedElement xmi:type="uml:Class" xmi:id="b" name="B"/>
+    <packagedElement xmi:type="uml:Class" xmi:id="a" name="A">
+      <generalization xmi:type="uml:Generalization" xmi:id="g" general="b"/>
+      <ownedAttribute xmi:type="uml:Property" xmi:id="attr" name="attr" type="b"/>
+      <ownedOperation xmi:type="uml:Operation" xmi:id="op" name="op">
+        <ownedParameter xmi:type="uml:Parameter" xmi:id="par" name="par" type="b"/>
+      </ownedOperation>
+      <ownedBehavior xmi:type="uml:StateMachine" xmi:id="sm" name="SM">
+        <region xmi:type="uml:Region" xmi:id="r" name="R">
+          <subvertex xmi:type="uml:State" xmi:id="s1" name="S1"/>
+          <subvertex xmi:type="uml:State" xmi:id="s2" name="S2"/>
+          <transition xmi:type="uml:Transition" xmi:id="t" name="T" source="s1" target="s2"/>
+        </region>
+      </ownedBehavior>
+      <ownedBehavior xmi:type="uml:Activity" xmi:id="act" name="Act">
+        <structuredNode xmi:type="uml:StructuredActivityNode" xmi:id="san" name="SAN">
+          <node xmi:type="uml:OpaqueAction" xmi:id="oa" name="OA"/>
+        </structuredNode>
+      </ownedBehavior>
+    </packagedElement>
+  </uml:Package>
+</xmi:XMI>

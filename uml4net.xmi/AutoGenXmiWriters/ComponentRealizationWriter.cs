@@ -136,19 +136,9 @@ namespace uml4net.xmi.Writers
                 xmlWriter.WriteAttributeString("xmi", "uuid", this.XmiWriterSettings.XmiNamespaceUri, element.XmiGuid);
             }
 
-            if (element.Abstraction != null && writeContext.IsLocal(element.Abstraction))
-            {
-                xmlWriter.WriteAttributeString("abstraction", element.Abstraction.XmiId);
-            }
-
             if (!string.IsNullOrEmpty(element.Name))
             {
                 xmlWriter.WriteAttributeString("name", element.Name);
-            }
-
-            if (element.OwningTemplateParameter != null && writeContext.IsLocal(element.OwningTemplateParameter))
-            {
-                xmlWriter.WriteAttributeString("owningTemplateParameter", element.OwningTemplateParameter.XmiId);
             }
 
             if (element.TemplateParameter != null && writeContext.IsLocal(element.TemplateParameter))
@@ -161,11 +151,6 @@ namespace uml4net.xmi.Writers
                 xmlWriter.WriteAttributeString("visibility", element.Visibility.QueryXmiLiteral());
             }
 
-
-            if (element.Abstraction != null && !writeContext.IsLocal(element.Abstraction))
-            {
-                this.XmiElementWriterFacade.WriteReferenceElement(xmlWriter, element.Abstraction, "abstraction", writeContext);
-            }
 
             foreach (var value in element.Client)
             {
@@ -185,11 +170,6 @@ namespace uml4net.xmi.Writers
             foreach (var value in element.OwnedComment)
             {
                 this.XmiElementWriterFacade.WriteContainedElement(xmlWriter, value, "ownedComment", writeContext);
-            }
-
-            if (element.OwningTemplateParameter != null && !writeContext.IsLocal(element.OwningTemplateParameter))
-            {
-                this.XmiElementWriterFacade.WriteReferenceElement(xmlWriter, element.OwningTemplateParameter, "owningTemplateParameter", writeContext);
             }
 
             foreach (var value in element.RealizingClassifier)
@@ -274,19 +254,9 @@ namespace uml4net.xmi.Writers
                 await xmlWriter.WriteAttributeStringAsync("xmi", "uuid", this.XmiWriterSettings.XmiNamespaceUri, element.XmiGuid);
             }
 
-            if (element.Abstraction != null && writeContext.IsLocal(element.Abstraction))
-            {
-                await xmlWriter.WriteAttributeStringAsync(null, "abstraction", null, element.Abstraction.XmiId);
-            }
-
             if (!string.IsNullOrEmpty(element.Name))
             {
                 await xmlWriter.WriteAttributeStringAsync(null, "name", null, element.Name);
-            }
-
-            if (element.OwningTemplateParameter != null && writeContext.IsLocal(element.OwningTemplateParameter))
-            {
-                await xmlWriter.WriteAttributeStringAsync(null, "owningTemplateParameter", null, element.OwningTemplateParameter.XmiId);
             }
 
             if (element.TemplateParameter != null && writeContext.IsLocal(element.TemplateParameter))
@@ -299,11 +269,6 @@ namespace uml4net.xmi.Writers
                 await xmlWriter.WriteAttributeStringAsync(null, "visibility", null, element.Visibility.QueryXmiLiteral());
             }
 
-
-            if (element.Abstraction != null && !writeContext.IsLocal(element.Abstraction))
-            {
-                await this.XmiElementWriterFacade.WriteReferenceElementAsync(xmlWriter, element.Abstraction, "abstraction", writeContext);
-            }
 
             foreach (var value in element.Client)
             {
@@ -323,11 +288,6 @@ namespace uml4net.xmi.Writers
             foreach (var value in element.OwnedComment)
             {
                 await this.XmiElementWriterFacade.WriteContainedElementAsync(xmlWriter, value, "ownedComment", writeContext);
-            }
-
-            if (element.OwningTemplateParameter != null && !writeContext.IsLocal(element.OwningTemplateParameter))
-            {
-                await this.XmiElementWriterFacade.WriteReferenceElementAsync(xmlWriter, element.OwningTemplateParameter, "owningTemplateParameter", writeContext);
             }
 
             foreach (var value in element.RealizingClassifier)

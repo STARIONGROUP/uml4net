@@ -146,11 +146,6 @@ namespace uml4net.xmi.Writers
                 xmlWriter.WriteAttributeString("handlerBody", element.HandlerBody.XmiId);
             }
 
-            if (element.ProtectedNode != null && writeContext.IsLocal(element.ProtectedNode))
-            {
-                xmlWriter.WriteAttributeString("protectedNode", element.ProtectedNode.XmiId);
-            }
-
 
             if (element.ExceptionInput != null && !writeContext.IsLocal(element.ExceptionInput))
             {
@@ -170,11 +165,6 @@ namespace uml4net.xmi.Writers
             foreach (var value in element.OwnedComment)
             {
                 this.XmiElementWriterFacade.WriteContainedElement(xmlWriter, value, "ownedComment", writeContext);
-            }
-
-            if (element.ProtectedNode != null && !writeContext.IsLocal(element.ProtectedNode))
-            {
-                this.XmiElementWriterFacade.WriteReferenceElement(xmlWriter, element.ProtectedNode, "protectedNode", writeContext);
             }
 
 
@@ -254,11 +244,6 @@ namespace uml4net.xmi.Writers
                 await xmlWriter.WriteAttributeStringAsync(null, "handlerBody", null, element.HandlerBody.XmiId);
             }
 
-            if (element.ProtectedNode != null && writeContext.IsLocal(element.ProtectedNode))
-            {
-                await xmlWriter.WriteAttributeStringAsync(null, "protectedNode", null, element.ProtectedNode.XmiId);
-            }
-
 
             if (element.ExceptionInput != null && !writeContext.IsLocal(element.ExceptionInput))
             {
@@ -278,11 +263,6 @@ namespace uml4net.xmi.Writers
             foreach (var value in element.OwnedComment)
             {
                 await this.XmiElementWriterFacade.WriteContainedElementAsync(xmlWriter, value, "ownedComment", writeContext);
-            }
-
-            if (element.ProtectedNode != null && !writeContext.IsLocal(element.ProtectedNode))
-            {
-                await this.XmiElementWriterFacade.WriteReferenceElementAsync(xmlWriter, element.ProtectedNode, "protectedNode", writeContext);
             }
 
 

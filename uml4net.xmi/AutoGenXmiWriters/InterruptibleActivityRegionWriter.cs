@@ -136,11 +136,6 @@ namespace uml4net.xmi.Writers
                 xmlWriter.WriteAttributeString("xmi", "uuid", this.XmiWriterSettings.XmiNamespaceUri, element.XmiGuid);
             }
 
-            if (element.InActivity != null && writeContext.IsLocal(element.InActivity))
-            {
-                xmlWriter.WriteAttributeString("inActivity", element.InActivity.XmiId);
-            }
-
             if (!string.IsNullOrEmpty(element.Name))
             {
                 xmlWriter.WriteAttributeString("name", element.Name);
@@ -151,11 +146,6 @@ namespace uml4net.xmi.Writers
                 xmlWriter.WriteAttributeString("visibility", element.Visibility.QueryXmiLiteral());
             }
 
-
-            if (element.InActivity != null && !writeContext.IsLocal(element.InActivity))
-            {
-                this.XmiElementWriterFacade.WriteReferenceElement(xmlWriter, element.InActivity, "inActivity", writeContext);
-            }
 
             foreach (var value in element.InterruptingEdge)
             {
@@ -244,11 +234,6 @@ namespace uml4net.xmi.Writers
                 await xmlWriter.WriteAttributeStringAsync("xmi", "uuid", this.XmiWriterSettings.XmiNamespaceUri, element.XmiGuid);
             }
 
-            if (element.InActivity != null && writeContext.IsLocal(element.InActivity))
-            {
-                await xmlWriter.WriteAttributeStringAsync(null, "inActivity", null, element.InActivity.XmiId);
-            }
-
             if (!string.IsNullOrEmpty(element.Name))
             {
                 await xmlWriter.WriteAttributeStringAsync(null, "name", null, element.Name);
@@ -259,11 +244,6 @@ namespace uml4net.xmi.Writers
                 await xmlWriter.WriteAttributeStringAsync(null, "visibility", null, element.Visibility.QueryXmiLiteral());
             }
 
-
-            if (element.InActivity != null && !writeContext.IsLocal(element.InActivity))
-            {
-                await this.XmiElementWriterFacade.WriteReferenceElementAsync(xmlWriter, element.InActivity, "inActivity", writeContext);
-            }
 
             foreach (var value in element.InterruptingEdge)
             {

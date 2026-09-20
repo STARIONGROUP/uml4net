@@ -51,7 +51,7 @@ namespace uml4net.Tests.Extend
             mammal_is_generalization_of_cat.Specific = cat;
 
             cat.Generalization.Add(mammal_is_generalization_of_cat);
-            animal.Generalization.Add(animal_is_generalization_of_mammal);
+            mammal.Generalization.Add(animal_is_generalization_of_mammal);
 
             using (Assert.EnterMultipleScope())
             {
@@ -231,7 +231,7 @@ namespace uml4net.Tests.Extend
 
             using (Assert.EnterMultipleScope())
             {
-                Assert.That(generalization.Specific, Is.Null);
+                Assert.That(generalization.Specific, Is.SameAs(specific), "the containment sets the owner end");
                 Assert.That(generalization.Source, Is.EquivalentTo([specific]));
                 Assert.That(packageImport.Source, Is.EquivalentTo([importingPackage]));
                 Assert.That(elementImport.Source, Is.EquivalentTo([importingPackage]));

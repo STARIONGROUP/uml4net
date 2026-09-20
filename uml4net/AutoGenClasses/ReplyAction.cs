@@ -96,7 +96,9 @@ namespace uml4net.Actions
         [Implements(implementation: "IExecutableNode.Handler")]
         public IContainerList<IExceptionHandler> Handler
         {
-            get => this.handler ??= new ContainerList<IExceptionHandler>(this);
+            get => this.handler ??= new ContainerList<IExceptionHandler>(this,
+                containedElement => { containedElement.ProtectedNode = this; },
+                containedElement => { if (ReferenceEquals(containedElement.ProtectedNode, this)) { containedElement.ProtectedNode = null; } });
             set => this.handler = value;
         }
 

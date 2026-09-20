@@ -141,11 +141,6 @@ namespace uml4net.xmi.Writers
                 xmlWriter.WriteAttributeString("name", element.Name);
             }
 
-            if (element.OwningTemplateParameter != null && writeContext.IsLocal(element.OwningTemplateParameter))
-            {
-                xmlWriter.WriteAttributeString("owningTemplateParameter", element.OwningTemplateParameter.XmiId);
-            }
-
             if (element.TemplateParameter != null && writeContext.IsLocal(element.TemplateParameter))
             {
                 xmlWriter.WriteAttributeString("templateParameter", element.TemplateParameter.XmiId);
@@ -180,11 +175,6 @@ namespace uml4net.xmi.Writers
             foreach (var value in element.OwnedComment)
             {
                 this.XmiElementWriterFacade.WriteContainedElement(xmlWriter, value, "ownedComment", writeContext);
-            }
-
-            if (element.OwningTemplateParameter != null && !writeContext.IsLocal(element.OwningTemplateParameter))
-            {
-                this.XmiElementWriterFacade.WriteReferenceElement(xmlWriter, element.OwningTemplateParameter, "owningTemplateParameter", writeContext);
             }
 
             foreach (var value in element.Supplier)
@@ -274,11 +264,6 @@ namespace uml4net.xmi.Writers
                 await xmlWriter.WriteAttributeStringAsync(null, "name", null, element.Name);
             }
 
-            if (element.OwningTemplateParameter != null && writeContext.IsLocal(element.OwningTemplateParameter))
-            {
-                await xmlWriter.WriteAttributeStringAsync(null, "owningTemplateParameter", null, element.OwningTemplateParameter.XmiId);
-            }
-
             if (element.TemplateParameter != null && writeContext.IsLocal(element.TemplateParameter))
             {
                 await xmlWriter.WriteAttributeStringAsync(null, "templateParameter", null, element.TemplateParameter.XmiId);
@@ -313,11 +298,6 @@ namespace uml4net.xmi.Writers
             foreach (var value in element.OwnedComment)
             {
                 await this.XmiElementWriterFacade.WriteContainedElementAsync(xmlWriter, value, "ownedComment", writeContext);
-            }
-
-            if (element.OwningTemplateParameter != null && !writeContext.IsLocal(element.OwningTemplateParameter))
-            {
-                await this.XmiElementWriterFacade.WriteReferenceElementAsync(xmlWriter, element.OwningTemplateParameter, "owningTemplateParameter", writeContext);
             }
 
             foreach (var value in element.Supplier)

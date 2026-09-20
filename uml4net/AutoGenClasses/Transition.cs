@@ -107,7 +107,9 @@ namespace uml4net.StateMachines
         [Implements(implementation: "INamespace.ElementImport")]
         public IContainerList<IElementImport> ElementImport
         {
-            get => this.elementImport ??= new ContainerList<IElementImport>(this);
+            get => this.elementImport ??= new ContainerList<IElementImport>(this,
+                containedElement => { containedElement.ImportingNamespace = this; },
+                containedElement => { if (ReferenceEquals(containedElement.ImportingNamespace, this)) { containedElement.ImportingNamespace = null; } });
             set => this.elementImport = value;
         }
 
@@ -252,7 +254,9 @@ namespace uml4net.StateMachines
         [Implements(implementation: "INamespace.OwnedRule")]
         public IContainerList<IConstraint> OwnedRule
         {
-            get => this.ownedRule ??= new ContainerList<IConstraint>(this);
+            get => this.ownedRule ??= new ContainerList<IConstraint>(this,
+                containedElement => { containedElement.Context = this; },
+                containedElement => { if (ReferenceEquals(containedElement.Context, this)) { containedElement.Context = null; } });
             set => this.ownedRule = value;
         }
 
@@ -277,7 +281,9 @@ namespace uml4net.StateMachines
         [Implements(implementation: "INamespace.PackageImport")]
         public IContainerList<IPackageImport> PackageImport
         {
-            get => this.packageImport ??= new ContainerList<IPackageImport>(this);
+            get => this.packageImport ??= new ContainerList<IPackageImport>(this,
+                containedElement => { containedElement.ImportingNamespace = this; },
+                containedElement => { if (ReferenceEquals(containedElement.ImportingNamespace, this)) { containedElement.ImportingNamespace = null; } });
             set => this.packageImport = value;
         }
 

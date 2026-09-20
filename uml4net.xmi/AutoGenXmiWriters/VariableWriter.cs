@@ -136,11 +136,6 @@ namespace uml4net.xmi.Writers
                 xmlWriter.WriteAttributeString("xmi", "uuid", this.XmiWriterSettings.XmiNamespaceUri, element.XmiGuid);
             }
 
-            if (element.ActivityScope != null && writeContext.IsLocal(element.ActivityScope))
-            {
-                xmlWriter.WriteAttributeString("activityScope", element.ActivityScope.XmiId);
-            }
-
             if (element.IsOrdered)
             {
                 xmlWriter.WriteAttributeString("isOrdered", XmlConvert.ToString(element.IsOrdered));
@@ -154,16 +149,6 @@ namespace uml4net.xmi.Writers
             if (!string.IsNullOrEmpty(element.Name))
             {
                 xmlWriter.WriteAttributeString("name", element.Name);
-            }
-
-            if (element.OwningTemplateParameter != null && writeContext.IsLocal(element.OwningTemplateParameter))
-            {
-                xmlWriter.WriteAttributeString("owningTemplateParameter", element.OwningTemplateParameter.XmiId);
-            }
-
-            if (element.Scope != null && writeContext.IsLocal(element.Scope))
-            {
-                xmlWriter.WriteAttributeString("scope", element.Scope.XmiId);
             }
 
             if (element.TemplateParameter != null && writeContext.IsLocal(element.TemplateParameter))
@@ -182,11 +167,6 @@ namespace uml4net.xmi.Writers
             }
 
 
-            if (element.ActivityScope != null && !writeContext.IsLocal(element.ActivityScope))
-            {
-                this.XmiElementWriterFacade.WriteReferenceElement(xmlWriter, element.ActivityScope, "activityScope", writeContext);
-            }
-
             foreach (var value in element.LowerValue)
             {
                 this.XmiElementWriterFacade.WriteContainedElement(xmlWriter, value, "lowerValue", writeContext);
@@ -200,16 +180,6 @@ namespace uml4net.xmi.Writers
             foreach (var value in element.OwnedComment)
             {
                 this.XmiElementWriterFacade.WriteContainedElement(xmlWriter, value, "ownedComment", writeContext);
-            }
-
-            if (element.OwningTemplateParameter != null && !writeContext.IsLocal(element.OwningTemplateParameter))
-            {
-                this.XmiElementWriterFacade.WriteReferenceElement(xmlWriter, element.OwningTemplateParameter, "owningTemplateParameter", writeContext);
-            }
-
-            if (element.Scope != null && !writeContext.IsLocal(element.Scope))
-            {
-                this.XmiElementWriterFacade.WriteReferenceElement(xmlWriter, element.Scope, "scope", writeContext);
             }
 
             if (element.TemplateParameter != null && !writeContext.IsLocal(element.TemplateParameter))
@@ -294,11 +264,6 @@ namespace uml4net.xmi.Writers
                 await xmlWriter.WriteAttributeStringAsync("xmi", "uuid", this.XmiWriterSettings.XmiNamespaceUri, element.XmiGuid);
             }
 
-            if (element.ActivityScope != null && writeContext.IsLocal(element.ActivityScope))
-            {
-                await xmlWriter.WriteAttributeStringAsync(null, "activityScope", null, element.ActivityScope.XmiId);
-            }
-
             if (element.IsOrdered)
             {
                 await xmlWriter.WriteAttributeStringAsync(null, "isOrdered", null, XmlConvert.ToString(element.IsOrdered));
@@ -312,16 +277,6 @@ namespace uml4net.xmi.Writers
             if (!string.IsNullOrEmpty(element.Name))
             {
                 await xmlWriter.WriteAttributeStringAsync(null, "name", null, element.Name);
-            }
-
-            if (element.OwningTemplateParameter != null && writeContext.IsLocal(element.OwningTemplateParameter))
-            {
-                await xmlWriter.WriteAttributeStringAsync(null, "owningTemplateParameter", null, element.OwningTemplateParameter.XmiId);
-            }
-
-            if (element.Scope != null && writeContext.IsLocal(element.Scope))
-            {
-                await xmlWriter.WriteAttributeStringAsync(null, "scope", null, element.Scope.XmiId);
             }
 
             if (element.TemplateParameter != null && writeContext.IsLocal(element.TemplateParameter))
@@ -340,11 +295,6 @@ namespace uml4net.xmi.Writers
             }
 
 
-            if (element.ActivityScope != null && !writeContext.IsLocal(element.ActivityScope))
-            {
-                await this.XmiElementWriterFacade.WriteReferenceElementAsync(xmlWriter, element.ActivityScope, "activityScope", writeContext);
-            }
-
             foreach (var value in element.LowerValue)
             {
                 await this.XmiElementWriterFacade.WriteContainedElementAsync(xmlWriter, value, "lowerValue", writeContext);
@@ -358,16 +308,6 @@ namespace uml4net.xmi.Writers
             foreach (var value in element.OwnedComment)
             {
                 await this.XmiElementWriterFacade.WriteContainedElementAsync(xmlWriter, value, "ownedComment", writeContext);
-            }
-
-            if (element.OwningTemplateParameter != null && !writeContext.IsLocal(element.OwningTemplateParameter))
-            {
-                await this.XmiElementWriterFacade.WriteReferenceElementAsync(xmlWriter, element.OwningTemplateParameter, "owningTemplateParameter", writeContext);
-            }
-
-            if (element.Scope != null && !writeContext.IsLocal(element.Scope))
-            {
-                await this.XmiElementWriterFacade.WriteReferenceElementAsync(xmlWriter, element.Scope, "scope", writeContext);
             }
 
             if (element.TemplateParameter != null && !writeContext.IsLocal(element.TemplateParameter))

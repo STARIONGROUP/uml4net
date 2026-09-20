@@ -309,6 +309,76 @@ namespace uml4net.Extensions
         }
 
         /// <summary>
+        /// Queries whether the property is the owner end of a composite association: the opposite of a composite
+        /// property, such as <c>Generalization::specific</c> (the opposite of <c>Classifier::generalization</c>) or
+        /// <c>Vertex::container</c> (the opposite of <c>Region::subvertex</c>).
+        /// </summary>
+        /// <param name="property">
+        /// the subject <see cref="IProperty"/>
+        /// </param>
+        /// <returns>
+        /// true when the opposite of the property is composite, false if not
+        /// </returns>
+        /// <remarks>
+        /// The value of an owner end is implied by the containment: an XMI document does not serialize it (the nesting
+        /// of the XML elements says who the owner is) and the generated classes set it when an element is added to
+        /// the list of the composite property.
+        /// </remarks>
+        public static bool QueryIsOwnerEnd(this IProperty property)
+        {
+            if (property == null)
+            {
+                throw new ArgumentNullException(nameof(property));
+            }
+
+            return !property.QueryIsEnumerable() && property.Opposite is { IsComposite: true };
+        }
+
+        /// <summary>
+        /// Tries to query the owner end of a composite property: the single-valued, settable opposite end that is
+        /// owned by the type of the contained elements, such as <c>Generalization::specific</c> for
+        /// <c>Classifier::generalization</c>.
+        /// </summary>
+        /// <param name="property">
+        /// the subject composite <see cref="IProperty"/>
+        /// </param>
+        /// <param name="ownerEnd">
+        /// the owner end, null when there is none
+        /// </param>
+        /// <returns>
+        /// true when the property is composite and its opposite is a single-valued property that is not owned by
+        /// the association, not derived and not read-only; false otherwise, for example for
+        /// <c>Element::ownedComment</c> whose opposite <c>owningElement</c> is owned by the association
+        /// </returns>
+        public static bool TryQueryOwnerEnd(this IProperty property, out IProperty ownerEnd)
+        {
+            if (property == null)
+            {
+                throw new ArgumentNullException(nameof(property));
+            }
+
+            ownerEnd = null;
+
+            if (!property.IsComposite)
+            {
+                return false;
+            }
+
+            var opposite = property.Opposite;
+
+            if (opposite == null
+                || opposite.Owner is IAssociation
+                || opposite.IsDerived || opposite.IsDerivedUnion || opposite.IsReadOnly
+                || opposite.QueryIsEnumerable())
+            {
+                return false;
+            }
+
+            ownerEnd = opposite;
+            return true;
+        }
+
+        /// <summary>
         /// Queries whether the property is to be treated as a containment by code generators: it is composite as
         /// defined by UML (<see cref="IProperty.IsComposite"/>, <c>aggregation = composite</c>), or it is an end of
         /// an <see cref="IAssociation"/> one of whose owned ends is composite.

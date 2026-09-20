@@ -83,7 +83,9 @@ namespace uml4net.StateMachines
         [Implements(implementation: "IState.Connection")]
         public IContainerList<IConnectionPointReference> Connection
         {
-            get => this.connection ??= new ContainerList<IConnectionPointReference>(this);
+            get => this.connection ??= new ContainerList<IConnectionPointReference>(this,
+                containedElement => { containedElement.State = this; },
+                containedElement => { if (ReferenceEquals(containedElement.State, this)) { containedElement.State = null; } });
             set => this.connection = value;
         }
 
@@ -101,7 +103,9 @@ namespace uml4net.StateMachines
         [Implements(implementation: "IState.ConnectionPoint")]
         public IContainerList<IPseudostate> ConnectionPoint
         {
-            get => this.connectionPoint ??= new ContainerList<IPseudostate>(this);
+            get => this.connectionPoint ??= new ContainerList<IPseudostate>(this,
+                containedElement => { containedElement.State = this; },
+                containedElement => { if (ReferenceEquals(containedElement.State, this)) { containedElement.State = null; } });
             set => this.connectionPoint = value;
         }
 
@@ -165,7 +169,9 @@ namespace uml4net.StateMachines
         [Implements(implementation: "INamespace.ElementImport")]
         public IContainerList<IElementImport> ElementImport
         {
-            get => this.elementImport ??= new ContainerList<IElementImport>(this);
+            get => this.elementImport ??= new ContainerList<IElementImport>(this,
+                containedElement => { containedElement.ImportingNamespace = this; },
+                containedElement => { if (ReferenceEquals(containedElement.ImportingNamespace, this)) { containedElement.ImportingNamespace = null; } });
             set => this.elementImport = value;
         }
 
@@ -372,7 +378,9 @@ namespace uml4net.StateMachines
         [Implements(implementation: "INamespace.OwnedRule")]
         public IContainerList<IConstraint> OwnedRule
         {
-            get => this.ownedRule ??= new ContainerList<IConstraint>(this);
+            get => this.ownedRule ??= new ContainerList<IConstraint>(this,
+                containedElement => { containedElement.Context = this; },
+                containedElement => { if (ReferenceEquals(containedElement.Context, this)) { containedElement.Context = null; } });
             set => this.ownedRule = value;
         }
 
@@ -397,7 +405,9 @@ namespace uml4net.StateMachines
         [Implements(implementation: "INamespace.PackageImport")]
         public IContainerList<IPackageImport> PackageImport
         {
-            get => this.packageImport ??= new ContainerList<IPackageImport>(this);
+            get => this.packageImport ??= new ContainerList<IPackageImport>(this,
+                containedElement => { containedElement.ImportingNamespace = this; },
+                containedElement => { if (ReferenceEquals(containedElement.ImportingNamespace, this)) { containedElement.ImportingNamespace = null; } });
             set => this.packageImport = value;
         }
 
@@ -454,7 +464,9 @@ namespace uml4net.StateMachines
         [Implements(implementation: "IState.Region")]
         public IContainerList<IRegion> Region
         {
-            get => this.region ??= new ContainerList<IRegion>(this);
+            get => this.region ??= new ContainerList<IRegion>(this,
+                containedElement => { containedElement.State = this; },
+                containedElement => { if (ReferenceEquals(containedElement.State, this)) { containedElement.State = null; } });
             set => this.region = value;
         }
 

@@ -226,7 +226,9 @@ namespace uml4net.Activities
         [Implements(implementation: "IActivityPartition.Subpartition")]
         public IContainerList<IActivityPartition> Subpartition
         {
-            get => this.subpartition ??= new ContainerList<IActivityPartition>(this);
+            get => this.subpartition ??= new ContainerList<IActivityPartition>(this,
+                containedElement => { containedElement.SuperPartition = this; },
+                containedElement => { if (ReferenceEquals(containedElement.SuperPartition, this)) { containedElement.SuperPartition = null; } });
             set => this.subpartition = value;
         }
 

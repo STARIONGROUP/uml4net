@@ -136,11 +136,6 @@ namespace uml4net.xmi.Writers
                 xmlWriter.WriteAttributeString("xmi", "uuid", this.XmiWriterSettings.XmiNamespaceUri, element.XmiGuid);
             }
 
-            if (element.Template != null && writeContext.IsLocal(element.Template))
-            {
-                xmlWriter.WriteAttributeString("template", element.Template.XmiId);
-            }
-
 
             foreach (var value in element.OwnedComment)
             {
@@ -155,11 +150,6 @@ namespace uml4net.xmi.Writers
             foreach (var value in element.Parameter)
             {
                 this.XmiElementWriterFacade.WriteReferenceElement(xmlWriter, value, "parameter", writeContext);
-            }
-
-            if (element.Template != null && !writeContext.IsLocal(element.Template))
-            {
-                this.XmiElementWriterFacade.WriteReferenceElement(xmlWriter, element.Template, "template", writeContext);
             }
 
 
@@ -229,11 +219,6 @@ namespace uml4net.xmi.Writers
                 await xmlWriter.WriteAttributeStringAsync("xmi", "uuid", this.XmiWriterSettings.XmiNamespaceUri, element.XmiGuid);
             }
 
-            if (element.Template != null && writeContext.IsLocal(element.Template))
-            {
-                await xmlWriter.WriteAttributeStringAsync(null, "template", null, element.Template.XmiId);
-            }
-
 
             foreach (var value in element.OwnedComment)
             {
@@ -248,11 +233,6 @@ namespace uml4net.xmi.Writers
             foreach (var value in element.Parameter)
             {
                 await this.XmiElementWriterFacade.WriteReferenceElementAsync(xmlWriter, value, "parameter", writeContext);
-            }
-
-            if (element.Template != null && !writeContext.IsLocal(element.Template))
-            {
-                await this.XmiElementWriterFacade.WriteReferenceElementAsync(xmlWriter, element.Template, "template", writeContext);
             }
 
 

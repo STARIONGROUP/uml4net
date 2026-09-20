@@ -141,11 +141,6 @@ namespace uml4net.xmi.Writers
                 xmlWriter.WriteAttributeString("addition", element.Addition.XmiId);
             }
 
-            if (element.IncludingCase != null && writeContext.IsLocal(element.IncludingCase))
-            {
-                xmlWriter.WriteAttributeString("includingCase", element.IncludingCase.XmiId);
-            }
-
             if (!string.IsNullOrEmpty(element.Name))
             {
                 xmlWriter.WriteAttributeString("name", element.Name);
@@ -160,11 +155,6 @@ namespace uml4net.xmi.Writers
             if (element.Addition != null && !writeContext.IsLocal(element.Addition))
             {
                 this.XmiElementWriterFacade.WriteReferenceElement(xmlWriter, element.Addition, "addition", writeContext);
-            }
-
-            if (element.IncludingCase != null && !writeContext.IsLocal(element.IncludingCase))
-            {
-                this.XmiElementWriterFacade.WriteReferenceElement(xmlWriter, element.IncludingCase, "includingCase", writeContext);
             }
 
             foreach (var value in element.NameExpression)
@@ -249,11 +239,6 @@ namespace uml4net.xmi.Writers
                 await xmlWriter.WriteAttributeStringAsync(null, "addition", null, element.Addition.XmiId);
             }
 
-            if (element.IncludingCase != null && writeContext.IsLocal(element.IncludingCase))
-            {
-                await xmlWriter.WriteAttributeStringAsync(null, "includingCase", null, element.IncludingCase.XmiId);
-            }
-
             if (!string.IsNullOrEmpty(element.Name))
             {
                 await xmlWriter.WriteAttributeStringAsync(null, "name", null, element.Name);
@@ -268,11 +253,6 @@ namespace uml4net.xmi.Writers
             if (element.Addition != null && !writeContext.IsLocal(element.Addition))
             {
                 await this.XmiElementWriterFacade.WriteReferenceElementAsync(xmlWriter, element.Addition, "addition", writeContext);
-            }
-
-            if (element.IncludingCase != null && !writeContext.IsLocal(element.IncludingCase))
-            {
-                await this.XmiElementWriterFacade.WriteReferenceElementAsync(xmlWriter, element.IncludingCase, "includingCase", writeContext);
             }
 
             foreach (var value in element.NameExpression)
