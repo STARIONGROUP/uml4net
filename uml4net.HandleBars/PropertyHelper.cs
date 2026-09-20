@@ -276,7 +276,7 @@ namespace uml4net.HandleBars
                     throw new ArgumentException("{{#Property.IsComposite}} - supposed to be IProperty");
                 }
 
-                return property.IsComposite;
+                return property.QueryIsContainment();
             });
 
             // Queries whether the Property is redefined
@@ -457,27 +457,27 @@ namespace uml4net.HandleBars
                     sb.Append("new ");
                 }
 
-                if (property.Type is IDataType && property.QueryIsEnumerable() && !property.IsComposite)
+                if (property.Type is IDataType && property.QueryIsEnumerable() && !property.QueryIsContainment())
                 {
                     sb.Append($"List<{property.QueryCSharpTypeName()}>");
                     sb.Append(" ");
                 }
-                else if (property.QueryIsEnumerable() && !property.IsComposite && (property.IsDerived || property.IsDerivedUnion || property.IsReadOnly))
+                else if (property.QueryIsEnumerable() && !property.QueryIsContainment() && (property.IsDerived || property.IsDerivedUnion || property.IsReadOnly))
                 {
                     sb.Append($"IReadOnlyList<I{property.QueryTypeName()}>");
                     sb.Append(" ");
                 }
-                else if(property.QueryIsEnumerable() && !property.IsComposite)
+                else if(property.QueryIsEnumerable() && !property.QueryIsContainment())
                 {
                     sb.Append($"List<I{property.QueryTypeName()}>");
                     sb.Append(" ");
                 }
-                else if (property.IsComposite && (property.IsDerived || property.IsDerivedUnion))
+                else if (property.QueryIsContainment() && (property.IsDerived || property.IsDerivedUnion))
                 {
                     sb.Append($"List<I{property.QueryTypeName()}>");
                     sb.Append(" ");
                 }
-                else if(property.IsComposite)
+                else if(property.QueryIsContainment())
                 {
                     sb.Append($"IContainerList<I{ property.QueryTypeName() }>");
                     sb.Append(" ");
@@ -543,8 +543,8 @@ namespace uml4net.HandleBars
                     // mirrors the condition QueryCSharpFullTypeName() itself uses to decide between a scalar type
                     // and a List<T>/IContainerList<T> shape: a composite property is IContainerList<T>-shaped even
                     // when its UML multiplicity is [0..1], so QueryIsEnumerable() alone is not sufficient here
-                    isCollectionShaped = property.QueryIsEnumerable() || property.IsComposite;
-                    redefiningIsCollectionShaped = redefiningProperty.QueryIsEnumerable() || redefiningProperty.IsComposite;
+                    isCollectionShaped = property.QueryIsEnumerable() || property.QueryIsContainment();
+                    redefiningIsCollectionShaped = redefiningProperty.QueryIsEnumerable() || redefiningProperty.QueryIsContainment();
                 }
 
                 if (!isRedefinedByProperty)
@@ -615,11 +615,11 @@ namespace uml4net.HandleBars
                 {
                     if (!isRedefinedByProperty)
                     {
-                        if (property.QueryIsEnumerable() && !property.IsComposite)
+                        if (property.QueryIsEnumerable() && !property.QueryIsContainment())
                         {
                             sb.Append("{ get; set; } = new();");
                         }
-                        else if (property.IsComposite)
+                        else if (property.QueryIsContainment())
                         {
                             propertyName = property.Name;
 
@@ -742,7 +742,7 @@ namespace uml4net.HandleBars
 
                 var sb = new StringBuilder();
 
-                if (property.IsComposite)
+                if (property.QueryIsContainment())
                 {
                     // A composite property that subsets another, ordinary (non-derived-union) composite
                     // property - e.g. Operation::bodyCondition subsets Namespace::ownedRule - can still be
@@ -971,7 +971,7 @@ namespace uml4net.HandleBars
                     sb.AppendLine("}");
                 }
 
-                if (property.IsComposite)
+                if (property.QueryIsContainment())
                 {
                     if (property.QueryIsPrimitiveType())
                     {
@@ -1166,7 +1166,7 @@ namespace uml4net.HandleBars
                     return;
                 }
 
-                if (property.IsComposite)
+                if (property.QueryIsContainment())
                 {
                     // contained objects are only handled as contained XML elements
                     return;
@@ -1305,7 +1305,7 @@ namespace uml4net.HandleBars
 
                 var sb = new StringBuilder();
 
-                if (property.IsComposite)
+                if (property.QueryIsContainment())
                 {
                     if (property.QueryIsPrimitiveType())
                     {
@@ -1503,7 +1503,7 @@ namespace uml4net.HandleBars
         private static string WriteDerivedCompositeUnionBody(IClass @class, IProperty property)
         {
             var contributingProperties = @class.QueryAllProperties()
-                .Where(candidate => candidate.IsComposite && !candidate.IsDerived && !candidate.IsDerivedUnion)
+                .Where(candidate => candidate.QueryIsContainment() && !candidate.IsDerived && !candidate.IsDerivedUnion)
                 .Where(candidate => !candidate.QueryIsShadowedByMoreGeneralProperty())
                 .Where(candidate => !candidate.TryQueryRedefinedByProperty(@class, out _))
                 .OrderBy(candidate => candidate.Name)

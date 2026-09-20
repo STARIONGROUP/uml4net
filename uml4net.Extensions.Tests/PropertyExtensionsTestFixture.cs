@@ -29,6 +29,7 @@ namespace uml4net.Extensions.Tests
 
     using Serilog;
 
+    using uml4net.Packages;
     using uml4net.SimpleClassifiers;
     using uml4net.StructuredClassifiers;
     using uml4net.Values;
@@ -412,6 +413,48 @@ namespace uml4net.Extensions.Tests
             var ownedComment = property.QueryAllProperties().Single(x => x.Name == "ownedComment");
 
             Assert.That(ownedComment.IsComposite, Is.True);
+        }
+
+        [Test]
+        public void Verify_that_QueryIsContainment_is_true_for_a_composite_property_and_for_the_ends_of_an_association_with_a_composite_owned_end()
+        {
+            var umlComposite = new Property { Name = "part", Aggregation = AggregationKind.Composite };
+            var plain = new Property { Name = "plain" };
+
+            // Enterprise Architect: the composite aggregation sits on the end that is owned by the association
+            var association = new Association { Name = "Class1HaveClass2" };
+            var associationOwnedEnd = new Property { Name = "src", Aggregation = AggregationKind.Composite, Association = association };
+            var classOwnedEnd = new Property { Name = "dst", Association = association };
+            association.OwnedEnd.Add(associationOwnedEnd);
+            association.MemberEnd.AddRange([classOwnedEnd, associationOwnedEnd]);
+
+            var sharedAssociation = new Association { Name = "Class3HasClass4" };
+            var sharedOwnedEnd = new Property { Name = "src", Aggregation = AggregationKind.Shared, Association = sharedAssociation };
+            var sharedClassOwnedEnd = new Property { Name = "dst", Association = sharedAssociation };
+            sharedAssociation.OwnedEnd.Add(sharedOwnedEnd);
+
+            // Extension::ownedEnd redefines Association::ownedEnd; reading the redefined property throws
+            var extension = new Extension { Name = "E" };
+            var extensionEnd = new ExtensionEnd { Name = "extension_S", Aggregation = AggregationKind.Composite };
+            var baseProperty = new Property { Name = "base_Class", Association = extension };
+            extension.OwnedEnd.Add(extensionEnd);
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(umlComposite.QueryIsContainment(), Is.True);
+                Assert.That(plain.QueryIsContainment(), Is.False);
+
+                Assert.That(classOwnedEnd.IsComposite, Is.False, "Property::isComposite is aggregation = composite only");
+                Assert.That(classOwnedEnd.QueryIsContainment(), Is.True, "the Enterprise Architect accommodation");
+                Assert.That(associationOwnedEnd.QueryIsContainment(), Is.True);
+
+                Assert.That(sharedClassOwnedEnd.QueryIsContainment(), Is.False, "a shared aggregation is not a containment");
+
+                Assert.That(() => baseProperty.QueryIsContainment(), Throws.Nothing);
+                Assert.That(baseProperty.QueryIsContainment(), Is.True, "the owned end of an Extension is composite");
+
+                Assert.That(() => ((IProperty)null).QueryIsContainment(), Throws.ArgumentNullException);
+            }
         }
 
         [Test]

@@ -83,11 +83,13 @@ namespace uml4net.Extensions.Tests
 
             var prop = class2.OwnedAttribute.Single();
 
-            Assert.That(prop.IsComposite, Is.True);
+            Assert.That(prop.QueryIsContainment(), Is.True, "Enterprise Architect stores the composite aggregation on the end owned by the association");
+            Assert.That(prop.IsComposite, Is.False, "Property::isComposite is aggregation = composite only (UML 2.5.1)");
 
             var class4 = package1.PackagedElement.OfType<IClass>().Single(x => x.Name == "Class4");
             prop = class4.OwnedAttribute.Single();
 
+            Assert.That(prop.QueryIsContainment(), Is.False);
             Assert.That(prop.IsComposite, Is.False);
         }
     }

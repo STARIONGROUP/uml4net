@@ -77,7 +77,7 @@ namespace uml4net.HandleBars
                 }
 
                 var properties = @class.QueryAllProperties()
-                    .Where(x => x.IsComposite)
+                    .Where(x => x.QueryIsContainment())
                     . OrderBy(x => x.Name);
 
                 return properties;
@@ -91,7 +91,7 @@ namespace uml4net.HandleBars
                 }
 
                 var properties = @class.QueryAllProperties()
-                    .Where(x => x.IsComposite)
+                    .Where(x => x.QueryIsContainment())
                     .Where(x => !x.IsDerived)
                     .OrderBy(x => x.Name);
 
@@ -106,7 +106,7 @@ namespace uml4net.HandleBars
                 }
 
                 var properties = @class.QueryAllProperties()
-                    .Where(x => x.IsComposite)
+                    .Where(x => x.QueryIsContainment())
                     .Where(x => !x.IsDerived)
                     .OrderBy(x => x.Name)
                     .ToList();
@@ -168,7 +168,7 @@ namespace uml4net.HandleBars
                     .Where(x => !x.IsDerived)
                     .Where(x => !x.IsDerivedUnion)
                     .Where(x => !x.IsReadOnly)
-                    .Where(x => !x.IsComposite)
+                    .Where(x => !x.QueryIsContainment())
                     .Where(x => x.QueryIsReferenceType())
                     .Where(x => x.QueryIsEnumerable())
                     .OrderBy(x => x.Name);
@@ -187,7 +187,7 @@ namespace uml4net.HandleBars
                     .Where(x => !x.IsDerived)
                     .Where(x => !x.IsDerivedUnion)
                     .Where(x => !x.IsReadOnly)
-                    .Where(x => !x.IsComposite)
+                    .Where(x => !x.QueryIsContainment())
                     .Where(x => x.QueryIsReferenceType())
                     .Where(x => x.QueryIsEnumerable())
                     .OrderBy(x => x.Name);

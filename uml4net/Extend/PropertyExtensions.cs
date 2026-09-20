@@ -37,6 +37,11 @@ namespace uml4net.Classification
         /// <returns>
         /// true if the aggregation is composite, false if not
         /// </returns>
+        /// <remarks>
+        /// Implements the OCL of <c>Property::isComposite</c>: <c>result = (aggregation = AggregationKind::composite)</c>.
+        /// The aggregation of the other ends of the association plays no role: in an association with one composite
+        /// end, the opposite end is not composite.
+        /// </remarks>
         internal static bool QueryIsComposite(this IProperty property)
         {
             if (property == null)
@@ -44,19 +49,7 @@ namespace uml4net.Classification
                 throw new ArgumentNullException(nameof(property));
             }
 
-            if (property.Aggregation == AggregationKind.Composite)
-            {
-                return true;
-            }
-
-            if (property.Association is not null 
-                && property.Association.OwnedEnd is not null
-                && property.Association.OwnedEnd.Any(x => x.Aggregation == AggregationKind.Composite))
-            {
-                return true;
-            }
-
-            return false;
+            return property.Aggregation == AggregationKind.Composite;
         }
 
         /// <summary>
