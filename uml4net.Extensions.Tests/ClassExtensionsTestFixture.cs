@@ -29,9 +29,11 @@ namespace uml4net.Extensions.Tests
     
     using Serilog;
 
+    using uml4net.Activities;
     using uml4net.Classification;
     using uml4net.CommonStructure;
     using uml4net.Packages;
+    using uml4net.SimpleClassifiers;
     using uml4net.StructuredClassifiers;
     using uml4net.xmi;
     using xmi.Readers;
@@ -239,6 +241,69 @@ namespace uml4net.Extensions.Tests
             {
                 Assert.That(animal.QueryAllSpecializations(), Is.EquivalentTo([mammal]));
                 Assert.That(mammal.QueryAllSpecializations(), Is.EquivalentTo([cat_1, cat_2]));
+            }
+        }
+
+        [Test]
+        public void Verify_that_QueryAllSpecializations_and_QueryContainers_find_classifiers_that_are_not_packaged_elements_of_a_package()
+        {
+            // package
+            //   Base, Part
+            //   Outer (nestedClassifier: NestedSpecialization : Base, NestedWhole with a composite part : Part)
+            //   IOuter (nestedClassifier: InterfaceNestedSpecialization : Base)
+            //   Component (packagedElement: ComponentSpecialization : Base, ComponentWhole with a composite part : Part)
+            //   WithBehavior (ownedBehavior: BehaviorSpecialization : Base)
+            var package = new Package { Name = "package" };
+
+            var @base = new Class { Name = "Base" };
+            var part = new Class { Name = "Part" };
+            package.PackagedElement.Add(@base);
+            package.PackagedElement.Add(part);
+
+            Class CreateSpecialization(string name)
+            {
+                var specialization = new Class { Name = name };
+                specialization.Generalization.Add(new Generalization { General = @base });
+                return specialization;
+            }
+
+            Class CreateWhole(string name)
+            {
+                var whole = new Class { Name = name };
+                whole.OwnedAttribute.Add(new Property { Name = "part", Type = part, Aggregation = AggregationKind.Composite });
+                return whole;
+            }
+
+            var outer = new Class { Name = "Outer" };
+            var nestedSpecialization = CreateSpecialization("NestedSpecialization");
+            var nestedWhole = CreateWhole("NestedWhole");
+            outer.NestedClassifier.Add(nestedSpecialization);
+            outer.NestedClassifier.Add(nestedWhole);
+            package.PackagedElement.Add(outer);
+
+            var outerInterface = new Interface { Name = "IOuter" };
+            var interfaceNestedSpecialization = CreateSpecialization("InterfaceNestedSpecialization");
+            outerInterface.NestedClassifier.Add(interfaceNestedSpecialization);
+            package.PackagedElement.Add(outerInterface);
+
+            var component = new Component { Name = "Component" };
+            var componentSpecialization = CreateSpecialization("ComponentSpecialization");
+            var componentWhole = CreateWhole("ComponentWhole");
+            component.PackagedElement.Add(componentSpecialization);
+            component.PackagedElement.Add(componentWhole);
+            package.PackagedElement.Add(component);
+
+            var withBehavior = new Class { Name = "WithBehavior" };
+            var behaviorSpecialization = new Activity { Name = "BehaviorSpecialization" };
+            behaviorSpecialization.Generalization.Add(new Generalization { General = @base });
+            withBehavior.OwnedBehavior.Add(behaviorSpecialization);
+            package.PackagedElement.Add(withBehavior);
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(@base.Cache, Is.Null, "the path without cache is verified");
+                Assert.That(@base.QueryAllSpecializations(), Is.EquivalentTo(new IClass[] { nestedSpecialization, interfaceNestedSpecialization, componentSpecialization, behaviorSpecialization }));
+                Assert.That(part.QueryContainers(), Is.EqualTo(new IClassifier[] { componentWhole, nestedWhole }), "ordered by name");
             }
         }
 

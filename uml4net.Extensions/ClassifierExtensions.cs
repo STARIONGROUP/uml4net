@@ -98,8 +98,10 @@ namespace uml4net.Extensions
 
             var allPackages = root.QueryAllNestedAndImportedPackages();
 
+            // every classifier owned by the packages, also those nested in a Class or an Interface, packaged in a
+            // Component or owned as a Behavior
             var classifiers = allPackages
-                .SelectMany(x => x.OwnedType.OfType<IClassifier>())
+                .QueryOwnedClassifiers()
                 .ToList();
 
             foreach (var classifier in classifiers)
