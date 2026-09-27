@@ -25,9 +25,13 @@ namespace uml4net.Tests.Extend
     using uml4net.Actions;
     using uml4net.Activities;
     using uml4net.Classification;
+    using uml4net.CommonBehavior;
+    using uml4net.Deployments;
+    using uml4net.Packages;
     using uml4net.SimpleClassifiers;
     using uml4net.StateMachines;
     using uml4net.StructuredClassifiers;
+    using uml4net.UseCases;
 
     [TestFixture]
     public class RedefinableElementExtensionsTestFixture
@@ -246,13 +250,98 @@ namespace uml4net.Tests.Extend
         }
 
         [Test]
-        public void Verify_that_QueryRedefinitionContext_returns_an_empty_list_for_a_Behavior_directly_owned_as_a_nestedClassifier()
+        public void Verify_that_QueryRedefinitionContext_returns_the_nesting_Class_for_a_Behavior_owned_as_a_nestedClassifier()
         {
+            // Behavior::context is null when nestingClass is set; Class::nestedClassifier provides the nesting Class
             var owningClass = new Class { Name = "Owner" };
             var behavior = new Activity { Name = "Nested" };
             owningClass.NestedClassifier.Add(behavior);
 
-            Assert.That(behavior.QueryRedefinitionContext(), Is.Empty);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(behavior.Context, Is.Null);
+                Assert.That(behavior.QueryRedefinitionContext(), Is.EquivalentTo(new IClassifier[] { owningClass }));
+            }
+        }
+
+        [Test]
+        public void Verify_that_QueryRedefinitionContext_returns_the_owner_for_every_property_that_subsets_redefinableElement()
+        {
+            var @class = new Class { Name = "C" };
+            var classAttribute = new Property { Name = "a" };
+            var classOperation = new Operation { Name = "op" };
+            var connector = new Connector { Name = "con" };
+            var signature = new RedefinableTemplateSignature { Name = "sig" };
+            @class.OwnedAttribute.Add(classAttribute);
+            @class.OwnedOperation.Add(classOperation);
+            @class.OwnedConnector.Add(connector);
+            @class.OwnedTemplateSignature.Add(signature);
+
+            var dataType = new DataType { Name = "D" };
+            var dataTypeAttribute = new Property { Name = "da" };
+            var dataTypeOperation = new Operation { Name = "dop" };
+            dataType.OwnedAttribute.Add(dataTypeAttribute);
+            dataType.OwnedOperation.Add(dataTypeOperation);
+
+            var @interface = new Interface { Name = "I" };
+            var interfaceOperation = new Operation { Name = "iop" };
+            var interfaceNested = new Class { Name = "InInterface" };
+            @interface.OwnedOperation.Add(interfaceOperation);
+            @interface.NestedClassifier.Add(interfaceNested);
+
+            var artifact = new Artifact { Name = "Art" };
+            var artifactOperation = new Operation { Name = "aop" };
+            artifact.OwnedOperation.Add(artifactOperation);
+
+            var association = new Association { Name = "A" };
+            var ownedEnd = new Property { Name = "end" };
+            association.OwnedEnd.Add(ownedEnd);
+
+            var extension = new Extension { Name = "E" };
+            var extensionEnd = new ExtensionEnd { Name = "extension_S" };
+            extension.OwnedEnd.Add(extensionEnd);
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(classAttribute.QueryRedefinitionContext(), Is.EquivalentTo(new IClassifier[] { @class }), "Classifier::attribute");
+                Assert.That(classOperation.QueryRedefinitionContext(), Is.EquivalentTo(new IClassifier[] { @class }), "Class::ownedOperation");
+                Assert.That(connector.QueryRedefinitionContext(), Is.EquivalentTo(new IClassifier[] { @class }), "StructuredClassifier::ownedConnector");
+                Assert.That(signature.QueryRedefinitionContext(), Is.EquivalentTo(new IClassifier[] { @class }), "Classifier::ownedTemplateSignature");
+                Assert.That(dataTypeAttribute.QueryRedefinitionContext(), Is.EquivalentTo(new IClassifier[] { dataType }), "Classifier::attribute of a DataType");
+                Assert.That(dataTypeOperation.QueryRedefinitionContext(), Is.EquivalentTo(new IClassifier[] { dataType }), "DataType::ownedOperation");
+                Assert.That(interfaceOperation.QueryRedefinitionContext(), Is.EquivalentTo(new IClassifier[] { @interface }), "Interface::ownedOperation");
+                Assert.That(interfaceNested.QueryRedefinitionContext(), Is.EquivalentTo(new IClassifier[] { @interface }), "Interface::nestedClassifier");
+                Assert.That(artifactOperation.QueryRedefinitionContext(), Is.EquivalentTo(new IClassifier[] { artifact }), "Artifact::ownedOperation");
+                Assert.That(ownedEnd.QueryRedefinitionContext(), Is.EquivalentTo(new IClassifier[] { association }), "Association::ownedEnd");
+                Assert.That(() => extensionEnd.QueryRedefinitionContext(), Throws.Nothing, "Extension::ownedEnd redefines Association::ownedEnd");
+                Assert.That(extensionEnd.QueryRedefinitionContext(), Is.EquivalentTo(new IClassifier[] { extension }));
+            }
+        }
+
+        [Test]
+        public void Verify_that_QueryRedefinitionContext_is_empty_for_elements_owned_through_a_property_that_provides_no_context()
+        {
+            var @class = new Class { Name = "C" };
+            var reception = new Reception { Name = "r" };
+            @class.OwnedReception.Add(reception);
+
+            var activity = new Activity { Name = "A" };
+            var node = new OpaqueAction { Name = "node" };
+            var edge = new ControlFlow { Name = "edge" };
+            activity.Node.Add(node);
+            activity.Edge.Add(edge);
+
+            var useCase = new UseCase { Name = "U" };
+            var extensionPoint = new ExtensionPoint { Name = "ep" };
+            useCase.ExtensionPoint.Add(extensionPoint);
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(reception.QueryRedefinitionContext(), Is.Empty, "Class::ownedReception does not subset redefinableElement");
+                Assert.That(node.QueryRedefinitionContext(), Is.Empty, "Activity::node");
+                Assert.That(edge.QueryRedefinitionContext(), Is.Empty, "Activity::edge");
+                Assert.That(extensionPoint.QueryRedefinitionContext(), Is.Empty, "UseCase::extensionPoint");
+            }
         }
     }
 }
