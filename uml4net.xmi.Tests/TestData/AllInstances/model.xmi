@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+    Three root elements; the Dependencies and the Extension live in other roots than the elements they refer to,
+    and library.xmi is an external document. Used to verify that the emulation of OCL allInstances() is model-wide.
+-->
+<xmi:XMI xmlns:uml="http://www.omg.org/spec/UML/20131001" xmlns:xmi="http://www.omg.org/spec/XMI/20131001">
+    <uml:Package xmi:id="Components" name="Components">
+        <packagedElement xmi:type="uml:Class" xmi:id="Client" name="Client"/>
+    </uml:Package>
+    <uml:Package xmi:id="Traces" name="Traces">
+        <packagedElement xmi:type="uml:Dependency" xmi:id="ClientTrace" name="clientTrace" client="Client">
+            <supplier href="library.xmi#Base"/>
+        </packagedElement>
+        <packagedElement xmi:type="uml:Dependency" xmi:id="BaseTrace" name="baseTrace" supplier="Client">
+            <client href="library.xmi#Base"/>
+        </packagedElement>
+    </uml:Package>
+    <uml:Profile xmi:id="Profile" name="Profile">
+        <packagedElement xmi:type="uml:Stereotype" xmi:id="Marker" name="Marker">
+            <ownedAttribute xmi:type="uml:Property" xmi:id="Marker-base_Metaclass" name="base_Metaclass" association="Extension">
+                <type href="library.xmi#Metaclass"/>
+            </ownedAttribute>
+        </packagedElement>
+        <packagedElement xmi:type="uml:Extension" xmi:id="Extension" name="E_Marker_Metaclass" memberEnd="Marker-base_Metaclass Extension-extension_Marker">
+            <ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="Extension-extension_Marker" name="extension_Marker" type="Marker" aggregation="composite" association="Extension"/>
+        </packagedElement>
+    </uml:Profile>
+</xmi:XMI>

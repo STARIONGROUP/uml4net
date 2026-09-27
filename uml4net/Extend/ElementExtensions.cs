@@ -22,6 +22,7 @@ namespace uml4net.CommonStructure
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
 
     /// <summary>
     /// The <see cref="ElementExtensions"/> class provides extensions methods for <see cref="IElement"/>
@@ -48,20 +49,25 @@ namespace uml4net.CommonStructure
 
         /// <summary>
         /// Queries every <see cref="IElement"/> that exists in the same model as the specified
-        /// <paramref name="element"/>, by walking up to the containment root and then down through
-        /// <see cref="IElement.OwnedElement"/>.
+        /// <paramref name="element"/>: the containment tree the <paramref name="element"/> lives in, and every
+        /// element known to its <see cref="IXmiElement.Cache"/> (or to that of its nearest owner that has one)
+        /// together with the elements they own.
         /// </summary>
         /// <param name="element">
         /// The subject <see cref="IElement"/>
         /// </param>
         /// <returns>
-        /// every <see cref="IElement"/> reachable from the containment root, including the root itself.
+        /// every <see cref="IElement"/> of the model, each one once, starting with the containment tree of the
+        /// <paramref name="element"/>.
         /// </returns>
         /// <remarks>
-        /// Emulates OCL's <c>allInstances()</c>, for which uml4net has no registry: instead of querying a
-        /// global instance store, this walks the containment tree the <paramref name="element"/> lives in.
-        /// Callers typically filter the result with <c>OfType&lt;T&gt;()</c> to emulate
-        /// <c>T.allInstances()</c>.
+        /// Emulates OCL's <c>allInstances()</c>. The extent is the set of elements of a read: the
+        /// <see cref="IXmiElementCache"/> of an <c>IXmiReader</c> holds every element read from the main
+        /// document and from the external documents it references (profiles, libraries, the UML metamodel), across
+        /// all root elements. The containment tree of the <paramref name="element"/> and of every cached element is
+        /// walked as well, so that elements created in code and added to a read model, or a model that was built in
+        /// code and has no cache, are included. Callers typically filter the result with <c>OfType&lt;T&gt;()</c>
+        /// to emulate <c>T.allInstances()</c>.
         /// </remarks>
         internal static IEnumerable<IElement> QueryAllInstancesInModel(this IElement element)
         {
@@ -70,31 +76,46 @@ namespace uml4net.CommonStructure
                 throw new ArgumentNullException(nameof(element));
             }
 
+            // an element created in code has no cache of its own; when it was added to a read model, the cache of the
+            // nearest owner that was read is used
             var root = element;
+            var cache = element.Cache;
 
             while (root.Owner != null)
             {
                 root = root.Owner;
+                cache ??= root.Cache;
+            }
+
+            var startingPoints = new List<IElement> { root };
+
+            if (cache != null)
+            {
+                startingPoints.AddRange(cache.Values.OfType<IElement>());
             }
 
             var visited = new HashSet<IElement>();
-            var elementsToProcess = new Stack<IElement>();
-            elementsToProcess.Push(root);
 
-            while (elementsToProcess.Count > 0)
+            foreach (var startingPoint in startingPoints)
             {
-                var current = elementsToProcess.Pop();
+                var elementsToProcess = new Stack<IElement>();
+                elementsToProcess.Push(startingPoint);
 
-                if (!visited.Add(current))
+                while (elementsToProcess.Count > 0)
                 {
-                    continue;
-                }
+                    var current = elementsToProcess.Pop();
 
-                yield return current;
+                    if (!visited.Add(current))
+                    {
+                        continue;
+                    }
 
-                foreach (var ownedElement in current.OwnedElement)
-                {
-                    elementsToProcess.Push(ownedElement);
+                    yield return current;
+
+                    foreach (var ownedElement in current.OwnedElement)
+                    {
+                        elementsToProcess.Push(ownedElement);
+                    }
                 }
             }
         }
