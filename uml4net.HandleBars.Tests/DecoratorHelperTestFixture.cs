@@ -33,8 +33,10 @@ namespace uml4net.HandleBars.Tests
 
     using Serilog;
 
+    using uml4net.Classification;
     using uml4net.Extensions;
     using uml4net.StructuredClassifiers;
+    using uml4net.Values;
     using uml4net.xmi;
     using uml4net.xmi.Readers;
 
@@ -169,6 +171,20 @@ namespace uml4net.HandleBars.Tests
             Assert.That(ownerPropertyAttribute,
                 Is.EqualTo(
                     "[Property(xmiId: \"Element-owner\", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: true, defaultValue: null)]" + Environment.NewLine));
+        }
+
+        [Test]
+        public void Verify_that_Decorator_PropertyAttribute_escapes_the_default_value()
+        {
+            var template = "{{ #Decorator.WritePropertyAttribute this }}";
+
+            var handlebarsTemplate = this.handlebarsContext.Compile(template);
+
+            var property = new Property { XmiId = "Class-property" };
+            property.DefaultValue.Add(new OpaqueExpression { Body = { "say \"hi\"\r\n\tto C:\\temp" } });
+
+            Assert.That(handlebarsTemplate(property),
+                Does.EndWith("defaultValue: \"say \\\"hi\\\"\\r\\n\\tto C:\\\\temp\")]" + Environment.NewLine));
         }
 
         [Test]

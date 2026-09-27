@@ -136,10 +136,91 @@ namespace uml4net.Extensions.Tests
         }
 
         [Test]
-        public void QueryDefaultValueAsString_ThrowsOnUnsupportedType()
+        public void QueryDefaultValueAsString_returns_null_text_for_a_value_that_cannot_be_rendered()
         {
-            var unsupported = new UnsupportedValueSpecification();
-            Assert.That(() => unsupported.QueryDefaultValueAsString(), Throws.TypeOf<System.NotSupportedException>());
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(new UnsupportedValueSpecification().QueryDefaultValueAsString(), Is.EqualTo("null"));
+                Assert.That(new InstanceValue().QueryDefaultValueAsString(), Is.EqualTo("null"), "an InstanceValue without instance");
+                Assert.That(new OpaqueExpression().QueryDefaultValueAsString(), Is.EqualTo("null"), "an OpaqueExpression without body");
+                Assert.That(new Expression().QueryDefaultValueAsString(), Is.EqualTo("null"), "an Expression without symbol and operands");
+                Assert.That(new TimeExpression().QueryDefaultValueAsString(), Is.EqualTo("null"), "a TimeExpression without expr");
+                Assert.That(new Duration().QueryDefaultValueAsString(), Is.EqualTo("null"), "a Duration without expr");
+                Assert.That(new Interval().QueryDefaultValueAsString(), Is.EqualTo("null"), "an Interval without min and max");
+                Assert.That(() => ValueSpecificationExtensions.QueryDefaultValueAsString(null), Throws.ArgumentNullException);
+            }
+        }
+
+        [Test]
+        public void QueryDefaultValueAsString_renders_every_kind_of_ValueSpecification()
+        {
+            var opaqueExpression = new OpaqueExpression();
+            opaqueExpression.Body.Add(string.Empty);
+            opaqueExpression.Body.Add("10 * 2");
+            opaqueExpression.Language.Add("C#");
+            opaqueExpression.Language.Add("C#");
+
+            var expression = new Expression { Symbol = "max" };
+            expression.Operand.Add(new LiteralInteger { Value = 1 });
+            expression.Operand.Add(new Expression { Symbol = "pi" });
+
+            var stringExpression = new StringExpression();
+            stringExpression.Operand.Add(new LiteralString { Value = "Hello " });
+            stringExpression.Operand.Add(new LiteralString { Value = "World" });
+
+            var stringExpressionWithSubExpressions = new StringExpression();
+            var first = new StringExpression();
+            first.Operand.Add(new LiteralString { Value = "a" });
+            var second = new StringExpression();
+            second.Operand.Add(new LiteralString { Value = "b" });
+            second.Operand.Add(new LiteralInteger { Value = 3 });
+            stringExpressionWithSubExpressions.SubExpression.Add(first);
+            stringExpressionWithSubExpressions.SubExpression.Add(second);
+
+            var timeExpression = new TimeExpression();
+            timeExpression.Expr.Add(new LiteralInteger { Value = 5 });
+
+            var duration = new Duration();
+            duration.Expr.Add(new LiteralReal { Value = 0.5 });
+
+            var interval = new Interval { Min = new LiteralInteger { Value = 1 }, Max = new LiteralUnlimitedNatural { Value = "10" } };
+            var halfOpenInterval = new Interval { Min = new LiteralInteger { Value = 1 } };
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(new LiteralReal { Value = 1.5 }.QueryDefaultValueAsString(), Is.EqualTo("1.5"));
+                Assert.That(new LiteralReal { Value = -2 }.QueryDefaultValueAsString(), Is.EqualTo("-2"));
+                Assert.That(new LiteralReal { Value = 1e20 }.QueryDefaultValueAsString(), Is.EqualTo("1E+20"));
+                Assert.That(new LiteralReal { Value = double.NaN }.QueryDefaultValueAsString(), Is.EqualTo("double.NaN"));
+                Assert.That(new LiteralReal { Value = double.PositiveInfinity }.QueryDefaultValueAsString(), Is.EqualTo("double.PositiveInfinity"));
+                Assert.That(new LiteralReal { Value = double.NegativeInfinity }.QueryDefaultValueAsString(), Is.EqualTo("double.NegativeInfinity"));
+
+                Assert.That(opaqueExpression.QueryDefaultValueAsString(), Is.EqualTo("10 * 2"), "the first body that is not empty");
+                Assert.That(expression.QueryDefaultValueAsString(), Is.EqualTo("max(1, pi)"));
+                Assert.That(stringExpression.QueryDefaultValueAsString(), Is.EqualTo("Hello World"));
+                Assert.That(stringExpressionWithSubExpressions.QueryDefaultValueAsString(), Is.EqualTo("ab"), "the sub-expressions; a LiteralInteger has no stringValue");
+                Assert.That(timeExpression.QueryDefaultValueAsString(), Is.EqualTo("5"));
+                Assert.That(duration.QueryDefaultValueAsString(), Is.EqualTo("0.5"));
+                Assert.That(interval.QueryDefaultValueAsString(), Is.EqualTo("1..10"));
+                Assert.That(halfOpenInterval.QueryDefaultValueAsString(), Is.EqualTo("1..null"));
+            }
+        }
+
+        [Test]
+        public void QueryDefaultValueAsString_does_not_depend_on_the_current_culture()
+        {
+            var currentCulture = System.Globalization.CultureInfo.CurrentCulture;
+
+            try
+            {
+                System.Globalization.CultureInfo.CurrentCulture = new System.Globalization.CultureInfo("nl-NL");
+
+                Assert.That(new LiteralReal { Value = 1.5 }.QueryDefaultValueAsString(), Is.EqualTo("1.5"));
+            }
+            finally
+            {
+                System.Globalization.CultureInfo.CurrentCulture = currentCulture;
+            }
         }
     }
 }

@@ -73,13 +73,44 @@ namespace uml4net.Extensions.Tests
         }
 
         [Test]
-        public void Verify_that_Query_upper_returns_NotSupportedException_when_not_a_LiteralUnlimitedNatural()
+        public void Verify_that_Query_upper_returns_one_when_the_upper_value_cannot_be_computed()
         {
-            var value = new LiteralBoolean();
-            
-            property.UpperValue.Add(value);
+            // upperBound(): if (upperValue=null or upperValue.unlimitedValue()=null) then 1
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(QueryUpperValueAndIsEnumerable(new LiteralBoolean()), Is.EqualTo((1, false)));
+                Assert.That(QueryUpperValueAndIsEnumerable(new OpaqueExpression { Body = { "n" } }), Is.EqualTo((1, false)));
+                Assert.That(QueryUpperValueAndIsEnumerable(new LiteralUnlimitedNatural { Value = "many" }), Is.EqualTo((1, false)));
+                Assert.That(QueryUpperValueAndIsEnumerable(new LiteralUnlimitedNatural()), Is.EqualTo((1, false)));
+                Assert.That(QueryUpperValueAndIsEnumerable(new LiteralInteger { Value = -2 }), Is.EqualTo((1, false)));
+            }
+        }
 
-            Assert.That(() => this.property.QueryUpperValue(), Throws.TypeOf<NotSupportedException>());
+        [Test]
+        public void Verify_that_Query_upper_accepts_LiteralUnlimitedNatural_and_LiteralInteger_upper_values()
+        {
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(QueryUpperValueAndIsEnumerable(new LiteralUnlimitedNatural { Value = "*" }), Is.EqualTo((int.MaxValue, true)));
+                Assert.That(QueryUpperValueAndIsEnumerable(new LiteralUnlimitedNatural { Value = "1" }), Is.EqualTo((1, false)));
+                Assert.That(QueryUpperValueAndIsEnumerable(new LiteralUnlimitedNatural { Value = "5" }), Is.EqualTo((5, true)));
+                Assert.That(QueryUpperValueAndIsEnumerable(new LiteralUnlimitedNatural { Value = "-1" }), Is.EqualTo((int.MaxValue, true)), "the tool convention for unlimited");
+                Assert.That(QueryUpperValueAndIsEnumerable(new LiteralInteger { Value = 0 }), Is.EqualTo((0, false)));
+                Assert.That(QueryUpperValueAndIsEnumerable(new LiteralInteger { Value = 1 }), Is.EqualTo((1, false)));
+                Assert.That(QueryUpperValueAndIsEnumerable(new LiteralInteger { Value = 3 }), Is.EqualTo((3, true)));
+                Assert.That(QueryUpperValueAndIsEnumerable(new LiteralInteger { Value = -1 }), Is.EqualTo((int.MaxValue, true)), "the tool convention for unlimited");
+            }
+        }
+
+        /// <summary>
+        /// Queries the upper value and whether the property is enumerable for a property with the provided upper value
+        /// </summary>
+        private static (int UpperValue, bool IsEnumerable) QueryUpperValueAndIsEnumerable(IValueSpecification upperValue)
+        {
+            var property = new Property();
+            property.UpperValue.Add(upperValue);
+
+            return (property.QueryUpperValue(), property.QueryIsEnumerable());
         }
     }
 }

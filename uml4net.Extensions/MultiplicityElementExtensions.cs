@@ -34,14 +34,20 @@ namespace uml4net.Extensions
     public static class MultiplicityElementExtensions
     {
         /// <summary>
-        /// Queries the upper value of the <paramref name="multiplicityElement"/>
+        /// Queries the upper bound of the <paramref name="multiplicityElement"/> as an integer
         /// </summary>
         /// <param name="multiplicityElement">
         /// The <see cref="IMultiplicityElement"/> for which the upper value is queried
         /// </param>
         /// <returns>
-        /// an instance of <see cref="ILiteralUnlimitedNatural"/> or null
+        /// the upper bound, <see cref="int.MaxValue"/> when it is unlimited
         /// </returns>
+        /// <remarks>
+        /// Follows <c>MultiplicityElement::upperBound()</c>: <c>if (upperValue=null or upperValue.unlimitedValue()=null)
+        /// then 1 else upperValue.unlimitedValue() endif</c>. As a tolerance for tool exports, an upper value written as
+        /// a <see cref="ILiteralInteger"/> is accepted, and <c>-1</c> denotes an unlimited upper bound. Any other
+        /// ValueSpecification, such as an OpaqueExpression whose value cannot be computed, yields 1.
+        /// </remarks>
         public static int QueryUpperValue(this IMultiplicityElement multiplicityElement)
         {
             if (multiplicityElement == null)
@@ -51,23 +57,40 @@ namespace uml4net.Extensions
 
             switch (multiplicityElement.UpperValue.SingleOrDefault())
             {
-                case null:
-                    return 1;
+                case ILiteralUnlimitedNatural { Value: "*" }:
+                    return int.MaxValue;
 
-                case ILiteralUnlimitedNatural literalUnlimitedNatural:
+                case ILiteralUnlimitedNatural literalUnlimitedNatural when int.TryParse(literalUnlimitedNatural.Value, NumberStyles.AllowLeadingSign, CultureInfo.InvariantCulture, out var value):
+                    return QueryUpperBound(value);
 
-                    if (literalUnlimitedNatural.Value == "*")
-                    {
-                        return int.MaxValue;
-                    }
-
-                    return int.Parse(literalUnlimitedNatural.Value, CultureInfo.InvariantCulture);
+                case ILiteralInteger literalInteger:
+                    return QueryUpperBound(literalInteger.Value);
 
                 default:
-                    throw new NotSupportedException("UpperValue is not of type ILiteralUnlimitedNatural.");
+                    return 1;
             }
         }
-        
+
+        /// <summary>
+        /// Queries the upper bound that a numeric upper value denotes
+        /// </summary>
+        /// <param name="value">
+        /// The numeric upper value
+        /// </param>
+        /// <returns>
+        /// <see cref="int.MaxValue"/> for <c>-1</c>, the tool convention for an unlimited upper bound; the
+        /// <paramref name="value"/> when it is not negative; 1 otherwise, since a negative value is no unlimited natural
+        /// </returns>
+        private static int QueryUpperBound(int value)
+        {
+            return value switch
+            {
+                -1 => int.MaxValue,
+                >= 0 => value,
+                _ => 1
+            };
+        }
+
         /// <summary>
         /// Queries whether the <see cref="IMultiplicityElement"/> is Enumerable
         /// </summary>
@@ -75,7 +98,7 @@ namespace uml4net.Extensions
         /// The subject <see cref="IStructuralFeature"/>
         /// </param>
         /// <returns>
-        /// true if IStructuralFeature.Upper = -1 or > 1, false if not
+        /// true when the upper bound, as queried by <see cref="QueryUpperValue"/>, is greater than 1
         /// </returns>
         public static bool QueryIsEnumerable(this IMultiplicityElement multiplicityElement)
         {
@@ -84,22 +107,7 @@ namespace uml4net.Extensions
                 throw new ArgumentNullException(nameof(multiplicityElement));
             }
 
-            int value;
-
-            switch (multiplicityElement.UpperValue.SingleOrDefault())
-            {
-                case ILiteralUnlimitedNatural literalUnlimitedNatural:
-                    value = literalUnlimitedNatural.Value == "*" ? int.MaxValue : int.Parse(literalUnlimitedNatural.Value, CultureInfo.InvariantCulture);
-                    break;
-                case ILiteralInteger literalInteger:
-                    value = literalInteger.Value;
-                    break;
-                default:
-                    value = 0;
-                    break;
-            }
-
-            return value is -1 or > 1;
+            return multiplicityElement.QueryUpperValue() > 1;
         }
         
         /// <summary>

@@ -126,6 +126,27 @@ namespace uml4net.Extensions.Tests
         }
 
         [Test]
+        public void Verify_that_QueryIsDefaultValueDifferentThanDefault_handles_every_kind_of_ValueSpecification()
+        {
+            static IProperty WithDefault(IValueSpecification valueSpecification)
+            {
+                var property = new Property();
+                property.DefaultValue.Add(valueSpecification);
+                return property;
+            }
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(WithDefault(new LiteralReal { Value = 1.5 }).QueryIsDefaultValueDifferentThanDefault(), Is.True);
+                Assert.That(WithDefault(new LiteralReal { Value = 0 }).QueryIsDefaultValueDifferentThanDefault(), Is.False);
+                Assert.That(WithDefault(new InstanceValue()).QueryIsDefaultValueDifferentThanDefault(), Is.False, "an InstanceValue without instance");
+                Assert.That(WithDefault(new OpaqueExpression { Body = { "10" } }).QueryIsDefaultValueDifferentThanDefault(), Is.False, "not a C# literal");
+                Assert.That(WithDefault(new OpaqueExpression { Body = { "10" } }).QueryDefaultValueAsString(), Is.EqualTo("10"));
+                Assert.That(WithDefault(new Interval()).QueryDefaultValueAsString(), Is.EqualTo("null"));
+            }
+        }
+
+        [Test]
         public void Verify_that_QueryIsDefaultValueDifferentThanDefault_returns_false_when_no_default_value_is_set()
         {
             var property = new Property();
