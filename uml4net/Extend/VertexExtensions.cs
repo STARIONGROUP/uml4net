@@ -93,17 +93,24 @@ namespace uml4net.StateMachines
         }
 
         /// <summary>
-        /// Queries the nearest containing <see cref="IStateMachine"/> of the <paramref name="vertex"/>: the
-        /// StateMachine of its <see cref="IVertex.Container"/> Region, or, for an entry/exit point
-        /// <see cref="IPseudostate"/> or a <see cref="IConnectionPointReference"/> not owned by a Region, the
-        /// StateMachine/State-derived StateMachine referenced directly.
+        /// Queries the StateMachine that contains the <paramref name="vertex"/>, as defined by the operation
+        /// <c>Vertex::containingStateMachine</c>
         /// </summary>
         /// <param name="vertex">
         /// The subject <see cref="IVertex"/>
         /// </param>
         /// <returns>
-        /// The nearest containing <see cref="IStateMachine"/>, or null when none can be determined.
+        /// The containing <see cref="IStateMachine"/>, or null when none can be determined.
         /// </returns>
+        /// <remarks>
+        /// Implements the OCL: <c>if container &lt;&gt; null then container.containingStateMachine() else if
+        /// (Pseudostate with kind entryPoint or exitPoint) then stateMachine else if (ConnectionPointReference) then
+        /// state.containingStateMachine() else null</c>, with one addition. The OCL only considers the entry and exit
+        /// points of a StateMachine (<c>StateMachine::connectionPoint</c>) and yields null for those owned by a
+        /// composite State (<c>State::connectionPoint</c>), although such a Pseudostate is a Vertex whose
+        /// <c>redefinitionContext</c> is <c>[1..1]</c> and whose Transitions live in the Regions of the enclosing
+        /// StateMachine: it is contained by the StateMachine of that State.
+        /// </remarks>
         internal static IStateMachine QueryContainingStateMachine(this IVertex vertex)
         {
             if (vertex == null)
@@ -118,7 +125,7 @@ namespace uml4net.StateMachines
 
             if (vertex is IPseudostate { Kind: PseudostateKind.EntryPoint or PseudostateKind.ExitPoint } pseudostate)
             {
-                return pseudostate.StateMachine;
+                return pseudostate.StateMachine ?? pseudostate.State?.QueryContainingStateMachine();
             }
 
             if (vertex is IConnectionPointReference connectionPointReference)
