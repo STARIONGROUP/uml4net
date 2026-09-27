@@ -41,6 +41,10 @@ namespace uml4net.Extensions
         /// </summary>
         /// <param name="class">The <see cref="IClass"/> from which to query the properties</param>
         /// <returns>A <see cref="ReadOnlyCollection{T}"/> of <see cref="IProperty"/></returns>
+        /// <remarks>
+        /// The interface implementations are the interfaces realized by the class or its general classes (see
+        /// <see cref="ElementExtensions.QueryInterfaces"/>); <see cref="QueryAllOperations"/> includes them as well.
+        /// </remarks>
         public static ReadOnlyCollection<IProperty> QueryAllProperties(this IClass @class)
         {
             if (@class == null)
@@ -239,8 +243,9 @@ namespace uml4net.Extensions
 
         /// <summary>
         /// Returns the complete set of operations that apply to the specified
-        /// <see cref="IClass"/>, including operations owned by the class itself
-        /// and all operations inherited from its general classifiers.
+        /// <see cref="IClass"/>, including operations owned by the class itself,
+        /// all operations inherited from its general classifiers and the operations of the
+        /// interfaces that the class or its general classes realize.
         /// </summary>
         /// <param name="class">
         /// The <see cref="IClass"/> for which all applicable operations are queried.
@@ -248,11 +253,13 @@ namespace uml4net.Extensions
         /// <returns>
         /// A read-only collection of <see cref="IOperation"/> instances representing
         /// the effective operation set of the class. The returned collection contains
-        /// operations owned by the class and all operations inherited through the
-        /// generalization hierarchy, with duplicates removed.
+        /// operations owned by the class, all operations inherited through the
+        /// generalization hierarchy and the operations of the realized interfaces
+        /// (see <see cref="ElementExtensions.QueryInterfaces"/>), with duplicates removed.
         /// </returns>
         /// <remarks>
-        /// The returned <see cref="IOperation"/> instances are ordered by name.
+        /// The returned <see cref="IOperation"/> instances are ordered by name. The realized interfaces are
+        /// included as they are by <see cref="QueryAllProperties"/>, so that both describe the same set of classifiers.
         /// </remarks>
         public static ReadOnlyCollection<IOperation> QueryAllOperations(this IClass @class)
         {
@@ -261,9 +268,13 @@ namespace uml4net.Extensions
                 throw new ArgumentNullException(nameof(@class));
             }
 
-            var superClassifiers = @class.QueryAllGeneralClassifiers();
+            var result = new List<IOperation>();
 
-            var result = superClassifiers.OfType<IClass>().SelectMany(x => x.OwnedOperation);
+            foreach (var c in @class.QueryAllGeneralClassifiers().OfType<IClass>())
+            {
+                result.AddRange(c.OwnedOperation);
+                result.AddRange(c.QueryInterfaces().SelectMany(x => x.OwnedOperation));
+            }
 
             return result.Distinct().OrderBy(x => x.Name).ToList().AsReadOnly();
         }
