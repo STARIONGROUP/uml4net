@@ -189,7 +189,6 @@ namespace uml4net.Classification
         /// A list of <see cref="IClassifier"/> objects that represent the generalizations of the specified <paramref name="element"/>. 
         /// If the element does not have any generalizations, an empty list will be returned.
         /// </returns>
-        [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
         internal static List<IClassifier> QueryGeneral(this IClassifier element)
         {
             if (element == null)
@@ -197,7 +196,13 @@ namespace uml4net.Classification
                 throw new ArgumentNullException(nameof(element));
             }
 
-            return element.Generalization.Select(x => x.General).ToList();
+            // general = parents() = generalization.general->asSet(): no duplicates, and a Generalization without a
+            // general contributes nothing
+            return element.Generalization
+                .Select(x => x.General)
+                .Where(x => x != null)
+                .Distinct()
+                .ToList();
         }
 
         /// <summary>
