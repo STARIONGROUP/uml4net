@@ -29,7 +29,9 @@ namespace uml4net.Extensions.Tests
 
     using Serilog;
 
+    using uml4net.Classification;
     using uml4net.StructuredClassifiers;
+    using uml4net.Values;
     using uml4net.xmi;
     using uml4net.xmi.Readers;
 
@@ -90,6 +92,58 @@ namespace uml4net.Extensions.Tests
             }
         }
         
+        [Test]
+        public void Verify_that_untyped_elements_are_typed_as_object()
+        {
+            // TypedElement::type is [0..1]
+            var untypedProperty = new Property { Name = "untyped" };
+            var untypedCompositeProperty = new Property { Name = "untypedPart", Aggregation = AggregationKind.Composite };
+            var untypedParameter = new Parameter { Name = "untyped" };
+            var typedProperty = new Property { Name = "typed", Type = new Class { Name = "Foo" } };
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(untypedProperty.QueryTypeName(), Is.Null);
+                Assert.That(untypedProperty.QueryInterfaceTypeName(), Is.EqualTo("object"));
+                Assert.That(untypedCompositeProperty.QueryInterfaceTypeName(), Is.EqualTo("IElement"), "the values of a composite property are owned elements");
+                Assert.That(untypedParameter.QueryInterfaceTypeName(), Is.EqualTo("object"));
+                Assert.That(typedProperty.QueryInterfaceTypeName(), Is.EqualTo("IFoo"));
+
+                Assert.That(untypedProperty.QueryCSharpTypeName(), Is.EqualTo("object"));
+                Assert.That(untypedProperty.QueryIsReferenceType(), Is.True);
+                Assert.That(untypedProperty.QueryIsValueType(), Is.False);
+
+                Assert.That(() => TypedElementExtensions.QueryInterfaceTypeName(null), Throws.ArgumentNullException);
+            }
+        }
+
+        [Test]
+        public void Verify_that_the_full_type_name_of_an_untyped_element_is_a_valid_CSharp_type()
+        {
+            static Property CreateProperty(string upper, bool isDerived = false, AggregationKind aggregation = AggregationKind.None)
+            {
+                var property = new Property { Name = "untyped", IsDerived = isDerived, Aggregation = aggregation };
+                property.UpperValue.Add(new LiteralUnlimitedNatural { Value = upper });
+                return property;
+            }
+
+            var untypedParameter = new Parameter { Name = "untyped" };
+            var untypedParameters = new Parameter { Name = "untyped" };
+            untypedParameters.UpperValue.Add(new LiteralUnlimitedNatural { Value = "*" });
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(CreateProperty("1").QueryCSharpFullTypeName(), Is.EqualTo("object"));
+                Assert.That(CreateProperty("*").QueryCSharpFullTypeName(), Is.EqualTo("List<object> "));
+                Assert.That(CreateProperty("*", isDerived: true).QueryCSharpFullTypeName(), Is.EqualTo("IReadOnlyList<object> "));
+                Assert.That(CreateProperty("*", aggregation: AggregationKind.Composite).QueryCSharpFullTypeName(), Is.EqualTo("IContainerList<IElement> "));
+                Assert.That(CreateProperty("*", isDerived: true, aggregation: AggregationKind.Composite).QueryCSharpFullTypeName(), Is.EqualTo("IReadOnlyList<IElement> "));
+
+                Assert.That(untypedParameter.QueryCSharpFullTypeName(), Is.EqualTo("object"));
+                Assert.That(untypedParameters.QueryCSharpFullTypeName(), Is.EqualTo("List<object> "));
+            }
+        }
+
         [Test]
         public void Verify_that_QueryIsReferenceType_returns_expected_Result()
         {

@@ -22,6 +22,7 @@ namespace uml4net.Extensions
 {
     using System;
 
+    using uml4net.Classification;
     using uml4net.CommonStructure;
     using uml4net.SimpleClassifiers;
     using uml4net.StructuredClassifiers;
@@ -38,7 +39,7 @@ namespace uml4net.Extensions
         /// The subject <see cref="ITypedElement"/>
         /// </param>
         /// <returns>
-        /// the name of the type
+        /// the name of the type, null for an untyped element (<c>TypedElement::type</c> is <c>[0..1]</c>)
         /// </returns>
         public static string QueryTypeName(this ITypedElement typedElement)
         {
@@ -51,13 +52,41 @@ namespace uml4net.Extensions
         }
 
         /// <summary>
+        /// Queries the name of the generated interface that types the values of the <see cref="ITypedElement"/>:
+        /// <c>I</c> followed by the name of its type
+        /// </summary>
+        /// <param name="typedElement">
+        /// The subject <see cref="ITypedElement"/>
+        /// </param>
+        /// <returns>
+        /// <c>I</c> followed by the name of the type; for an untyped element (<c>TypedElement::type</c> is
+        /// <c>[0..1]</c>) <c>object</c>, or <c>IElement</c> for a composite property, since the values of a composite
+        /// property are owned elements
+        /// </returns>
+        public static string QueryInterfaceTypeName(this ITypedElement typedElement)
+        {
+            if (typedElement == null)
+            {
+                throw new ArgumentNullException(nameof(typedElement));
+            }
+
+            if (typedElement.Type == null)
+            {
+                return typedElement is IProperty { IsComposite: true } ? "IElement" : "object";
+            }
+
+            return $"I{typedElement.Type.Name}";
+        }
+
+        /// <summary>
         /// Queries a value indicating whether the specified <see cref="ITypedElement"/> is a reference type
         /// </summary>
         /// <param name="typedElement">
         /// The subject <see cref="ITypedElement"/>
         /// </param>
         /// <returns>
-        /// A <see cref="bool"/>
+        /// true when the type is not a DataType; an untyped element is a reference type, its values are typed as
+        /// <c>object</c> (see <see cref="QueryInterfaceTypeName"/>)
         /// </returns>
         public static bool QueryIsReferenceType(this ITypedElement typedElement)
         {
@@ -374,7 +403,7 @@ namespace uml4net.Extensions
         /// </param>
         /// <param name="shouldTargetInterface">Asserts that the type name should target the interface name in case of an <see cref="IClass"/></param>
         /// <returns>
-        /// the C# name of the type
+        /// the C# name of the type, <c>object</c> for an untyped element (<c>TypedElement::type</c> is <c>[0..1]</c>)
         /// </returns>
         public static string QueryCSharpTypeName(this ITypedElement typedElement)
         {
@@ -383,7 +412,7 @@ namespace uml4net.Extensions
                 throw new ArgumentNullException(nameof(typedElement));
             }
 
-            return typedElement.Type.QueryCSharpTypeName();
+            return typedElement.Type == null ? "object" : typedElement.Type.QueryCSharpTypeName();
         }
     }
 }

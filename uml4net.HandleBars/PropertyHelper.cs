@@ -465,22 +465,22 @@ namespace uml4net.HandleBars
                 }
                 else if (property.QueryIsEnumerable() && !property.QueryIsContainment() && (property.IsDerived || property.IsDerivedUnion || property.IsReadOnly))
                 {
-                    sb.Append($"IReadOnlyList<I{property.QueryTypeName()}>");
+                    sb.Append($"IReadOnlyList<{property.QueryInterfaceTypeName()}>");
                     sb.Append(" ");
                 }
                 else if(property.QueryIsEnumerable() && !property.QueryIsContainment())
                 {
-                    sb.Append($"List<I{property.QueryTypeName()}>");
+                    sb.Append($"List<{property.QueryInterfaceTypeName()}>");
                     sb.Append(" ");
                 }
                 else if (property.QueryIsContainment() && (property.IsDerived || property.IsDerivedUnion))
                 {
-                    sb.Append($"IReadOnlyList<I{property.QueryTypeName()}>");
+                    sb.Append($"IReadOnlyList<{property.QueryInterfaceTypeName()}>");
                     sb.Append(" ");
                 }
                 else if(property.QueryIsContainment())
                 {
-                    sb.Append($"IContainerList<I{ property.QueryTypeName() }>");
+                    sb.Append($"IContainerList<{property.QueryInterfaceTypeName()}>");
                     sb.Append(" ");
                 }
                 else if (property.QueryIsNullableValueType())
@@ -495,7 +495,7 @@ namespace uml4net.HandleBars
                 }
                 else
                 {
-                    sb.Append($"I{property.QueryTypeName()}");
+                    sb.Append($"{property.QueryInterfaceTypeName()}");
                     sb.Append(" ");
                 }
 
@@ -592,14 +592,14 @@ namespace uml4net.HandleBars
                         }
                         else if (redefiningIsCollectionShaped)
                         {
-                            sb.Append($" => this.{redefiningPropertyName}.Cast<I{property.QueryTypeName()}>().ToList();");
+                            sb.Append($" => this.{redefiningPropertyName}.Cast<{property.QueryInterfaceTypeName()}>().ToList();");
                         }
                         else if (redefiningProperty.QueryIsReferenceType())
                         {
                             // the redefining property narrows multiplicity down to a single reference value; since
                             // this getter has no persistent storage either way, wrapping that single value into a
                             // list (empty when null) is a safe, lossless representation of the same information
-                            var elementTypeName = $"I{property.QueryTypeName()}";
+                            var elementTypeName = $"{property.QueryInterfaceTypeName()}";
 
                             sb.Append($" => this.{redefiningPropertyName} == null ? new List<{elementTypeName}>() : new List<{elementTypeName}> {{ this.{redefiningPropertyName} }};");
                         }
@@ -653,13 +653,13 @@ namespace uml4net.HandleBars
 
                             if (ownerEndStatements.Attach.Count > 0)
                             {
-                                sb.AppendLine($"get => this.{propertyName} ??= new ContainerList<I{property.QueryTypeName()}>(this,");
+                                sb.AppendLine($"get => this.{propertyName} ??= new ContainerList<{property.QueryInterfaceTypeName()}>(this,");
                                 sb.AppendLine($"    containedElement => {{ {string.Join(" ", ownerEndStatements.Attach)} }},");
                                 sb.AppendLine($"    containedElement => {{ {string.Join(" ", ownerEndStatements.Detach)} }});");
                             }
                             else
                             {
-                                sb.AppendLine($"get => this.{propertyName} ??= new ContainerList<I{property.QueryTypeName()}>(this);");
+                                sb.AppendLine($"get => this.{propertyName} ??= new ContainerList<{property.QueryInterfaceTypeName()}>(this);");
                             }
 
                             sb.AppendLine($"set => this.{propertyName} = value;");
@@ -668,7 +668,7 @@ namespace uml4net.HandleBars
                             sb.AppendLine("/// <summary>");
                             sb.AppendLine($"/// Backing field for <see cref=\"{property.Name.CapitalizeFirstLetter()}\"/>");
                             sb.AppendLine("/// </summary>");
-                            sb.Append($"private IContainerList<I{property.QueryTypeName()}> {propertyName};");
+                            sb.Append($"private IContainerList<{property.QueryInterfaceTypeName()}> {propertyName};");
                         }
                         else
                         {
@@ -974,8 +974,8 @@ namespace uml4net.HandleBars
                 void AppendContainedElementRead()
                 {
                     var queryXmiElement = property.QueryIsTypeAbstract()
-                        ? $"var {property.Name}Value = (I{property.QueryTypeName()})this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.NameSpaceResolver, this.ExtenderReaderRegistry, this.LoggerFactory);"
-                        : $"var {property.Name}Value = (I{property.QueryTypeName()})this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.NameSpaceResolver, this.ExtenderReaderRegistry, this.LoggerFactory, \"{(isForExtension ? "" : "uml:")}{property.QueryTypeName()}\"{(isForExtension ? ", true" : "")});";
+                        ? $"var {property.Name}Value = ({property.QueryInterfaceTypeName()})this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.NameSpaceResolver, this.ExtenderReaderRegistry, this.LoggerFactory);"
+                        : $"var {property.Name}Value = ({property.QueryInterfaceTypeName()})this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.NameSpaceResolver, this.ExtenderReaderRegistry, this.LoggerFactory, \"{(isForExtension ? "" : "uml:")}{property.QueryTypeName()}\"{(isForExtension ? ", true" : "")});";
 
                     var addContainedElement = $"poco.{property.Name.CapitalizeFirstLetter()}.Add({property.Name}Value);";
 
@@ -1574,7 +1574,7 @@ namespace uml4net.HandleBars
 
             var sb = new StringBuilder();
             sb.AppendLine(" =>");
-            sb.Append($"new List<I{property.QueryTypeName()}>()");
+            sb.Append($"new List<{property.QueryInterfaceTypeName()}>()");
 
             var emittedPropertyNames = new HashSet<string>();
 
@@ -1673,7 +1673,7 @@ namespace uml4net.HandleBars
                     continue;
                 }
 
-                var typeName = $"I{derivedSubset.QueryTypeName()}";
+                var typeName = $"{derivedSubset.QueryInterfaceTypeName()}";
                 var variableName = $"{derivedSubset.Name}Element";
                 var ownerEndName = derivedSubsetOwnerEnd.Name.CapitalizeFirstLetter();
 

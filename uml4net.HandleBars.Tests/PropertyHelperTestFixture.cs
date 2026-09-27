@@ -148,6 +148,29 @@ namespace uml4net.HandleBars.Tests
         }
 
         [Test]
+        public void Verify_that_untyped_property_is_written_as_object_for_interface()
+        {
+            var template = "{{ #Property.WriteForInterface this }}";
+
+            var handlebarsTemplate = this.handlebarsContext.Compile(template);
+
+            var untyped = new Property { Name = "untyped" };
+
+            var untypedParts = new Property { Name = "untypedPart", Aggregation = AggregationKind.Composite };
+            untypedParts.UpperValue.Add(new LiteralUnlimitedNatural { Value = "*" });
+
+            var owner = new Class { Name = "Owner" };
+            owner.OwnedAttribute.Add(untyped);
+            owner.OwnedAttribute.Add(untypedParts);
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(handlebarsTemplate(untyped), Is.EqualTo("public object Untyped { get; set; }" + Environment.NewLine));
+                Assert.That(handlebarsTemplate(untypedParts), Is.EqualTo("public IContainerList<IElement> UntypedPart { get; set; }" + Environment.NewLine));
+            }
+        }
+
+        [Test]
         public void Verify_that_WriteXmlAttributeForXmiWriter_writes_bool_property_as_expected()
         {
             var template = "{{ #Property.WriteXmlAttributeForXmiWriter this.Property this.Class }}";
