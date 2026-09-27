@@ -107,6 +107,60 @@ namespace uml4net.Extensions.Tests
         }
 
         [Test]
+        public void Verify_that_QueryAllProperties_and_QueryAllOperations_both_include_the_realized_interfaces()
+        {
+            // package
+            //   IShape (area, Draw), IColored (color, Paint)
+            //   Shape (interfaceRealization: IShape, owned by Shape)
+            //   Circle : Shape (radius, Resize)
+            //   Realization Circle -> IColored, a packaged element as some tools export it
+            var package = new Package { XmiId = "package" };
+
+            var shapeInterface = new Interface { XmiId = "IShape", Name = "IShape" };
+            var area = new Property { XmiId = "area", Name = "area" };
+            var draw = new Operation { XmiId = "Draw", Name = "Draw" };
+            shapeInterface.OwnedAttribute.Add(area);
+            shapeInterface.OwnedOperation.Add(draw);
+
+            var coloredInterface = new Interface { XmiId = "IColored", Name = "IColored" };
+            var color = new Property { XmiId = "color", Name = "color" };
+            var paint = new Operation { XmiId = "Paint", Name = "Paint" };
+            coloredInterface.OwnedAttribute.Add(color);
+            coloredInterface.OwnedOperation.Add(paint);
+
+            var shape = new Class { XmiId = "Shape", Name = "Shape" };
+            var interfaceRealization = new InterfaceRealization { XmiId = "shapeRealization", Contract = shapeInterface };
+            interfaceRealization.Supplier.Add(shapeInterface);
+            shape.InterfaceRealization.Add(interfaceRealization);
+
+            var circle = new Class { XmiId = "Circle", Name = "Circle" };
+            circle.Generalization.Add(new Generalization { XmiId = "generalization", General = shape });
+            var radius = new Property { XmiId = "radius", Name = "radius" };
+            var resize = new Operation { XmiId = "Resize", Name = "Resize" };
+            circle.OwnedAttribute.Add(radius);
+            circle.OwnedOperation.Add(resize);
+
+            var realization = new Realization { XmiId = "colorRealization" };
+            realization.Client.Add(circle);
+            realization.Supplier.Add(coloredInterface);
+
+            foreach (var packagedElement in new IPackageableElement[] { shapeInterface, coloredInterface, shape, circle, realization })
+            {
+                package.PackagedElement.Add(packagedElement);
+            }
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(shape.QueryInterfaces(), Is.EqualTo(new[] { shapeInterface }), "the contract and the supplier of the InterfaceRealization count once");
+                Assert.That(circle.QueryInterfaces(), Is.EqualTo(new[] { coloredInterface }));
+
+                Assert.That(circle.QueryAllProperties(), Is.EquivalentTo(new[] { radius, color, area }));
+                Assert.That(circle.QueryAllOperations(), Is.EqualTo(new[] { draw, paint, resize }), "ordered by name");
+                Assert.That(shape.QueryAllOperations(), Is.EqualTo(new[] { draw }));
+            }
+        }
+
+        [Test]
         public void Verify_that_QueryAllConstraints_returns_expected_result()
         {
             Assert.That(() => ClassExtensions.QueryAllConstraints(null), Throws.ArgumentNullException);

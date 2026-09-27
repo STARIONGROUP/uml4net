@@ -144,12 +144,17 @@ namespace uml4net.Extensions
         /// Queries and returns a collection of interfaces that are realized by the specified element.
         /// </summary>
         /// <param name="element">
-        /// The element for which to query realized interfaces. This element should have an owner of type <see cref="IPackage"/>.
+        /// The element for which to query realized interfaces.
         /// </param>
         /// <returns>
         /// An <see cref="IEnumerable{T}"/> of <see cref="IInterface"/> instances representing the interfaces
-        /// realized by the specified element. If the element has no owner or no realizations, an empty enumeration is returned.
+        /// realized by the specified element, each one once. If the element has no realizations, an empty enumeration is returned.
         /// </returns>
+        /// <remarks>
+        /// Follows <c>Classifier::directlyRealizedInterfaces()</c>: the interfaces that are the contract or a supplier of
+        /// the InterfaceRealizations owned by the element (<c>BehavioredClassifier::interfaceRealization</c>), and the
+        /// interfaces that are a supplier of a Realization packaged in a package of the model with the element as client.
+        /// </remarks>
         public static IEnumerable<IInterface> QueryInterfaces(this IElement element)
         {
             if (element == null)
@@ -173,6 +178,27 @@ namespace uml4net.Extensions
         /// </returns>
         private static IEnumerable<IInterface> QueryInterfacesIterator(IElement element)
         {
+            var found = new HashSet<IInterface>();
+
+            // the InterfaceRealizations owned by a BehavioredClassifier (BehavioredClassifier::interfaceRealization);
+            // InterfaceRealization::contract subsets Dependency::supplier and is stored on its own
+            if (element is IBehavioredClassifier behavioredClassifier)
+            {
+                foreach (var interfaceRealization in behavioredClassifier.InterfaceRealization)
+                {
+                    if (interfaceRealization.Contract != null && found.Add(interfaceRealization.Contract))
+                    {
+                        yield return interfaceRealization.Contract;
+                    }
+
+                    foreach (var @interface in interfaceRealization.Supplier.OfType<IInterface>().Where(found.Add))
+                    {
+                        yield return @interface;
+                    }
+                }
+            }
+
+            // the Realizations that are packaged elements of the packages of the model, as some tools export them
             var rootPackage = element.QueryRootPackage();
 
             if (rootPackage == null)
@@ -187,7 +213,7 @@ namespace uml4net.Extensions
                 foreach (var realization in package.PackagedElement.OfType<IRealization>()
                              .Where(x => x.Client.Any(c => c.XmiId == element.XmiId)))
                 {
-                    foreach (var @interface in realization.Supplier.OfType<IInterface>())
+                    foreach (var @interface in realization.Supplier.OfType<IInterface>().Where(found.Add))
                     {
                         yield return @interface;
                     }
