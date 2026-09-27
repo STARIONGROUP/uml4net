@@ -147,10 +147,10 @@ namespace uml4net.Tests.Extend
         }
 
         [Test]
-        public void Verify_that_Incoming_and_Outgoing_are_resolved_through_the_owner_when_the_owner_ends_are_not_set()
+        public void Verify_that_Incoming_and_Outgoing_are_resolved_on_a_model_built_through_containment_only()
         {
-            // the reader does not populate Vertex::container, Region::stateMachine, Region::state, Pseudostate::state,
-            // Pseudostate::stateMachine and ConnectionPointReference::state, which all subset owner
+            // as after reading: Vertex::container, Region::stateMachine, Region::state, Pseudostate::state,
+            // Pseudostate::stateMachine and ConnectionPointReference::state are set by the containment, not by hand
             var stateMachine = new StateMachine { Name = "SM" };
             var topRegion = new Region { Name = "TopRegion" };
             stateMachine.Region.Add(topRegion);
@@ -183,7 +183,7 @@ namespace uml4net.Tests.Extend
 
             using (Assert.EnterMultipleScope())
             {
-                Assert.That(nested.Container, Is.Null, "the owner end is not set");
+                Assert.That(nested.Container, Is.SameAs(nestedRegion), "the owner end is set by the containment");
                 Assert.That(machineEntryPoint.Outgoing, Is.EquivalentTo(new[] { toStateEntry }));
                 Assert.That(stateEntryPoint.Incoming, Is.EquivalentTo(new[] { toStateEntry }));
                 Assert.That(stateEntryPoint.Outgoing, Is.EquivalentTo(new[] { toNested }), "a transition owned by the nested region");
