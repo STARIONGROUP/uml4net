@@ -136,11 +136,6 @@ namespace uml4net.xmi.Writers
                 xmlWriter.WriteAttributeString("xmi", "uuid", this.XmiWriterSettings.XmiNamespaceUri, element.XmiGuid);
             }
 
-            if (element.InActivity != null && writeContext.IsLocal(element.InActivity))
-            {
-                xmlWriter.WriteAttributeString("inActivity", element.InActivity.XmiId);
-            }
-
             if (element.IsDimension)
             {
                 xmlWriter.WriteAttributeString("isDimension", XmlConvert.ToString(element.IsDimension));
@@ -161,11 +156,6 @@ namespace uml4net.xmi.Writers
                 xmlWriter.WriteAttributeString("represents", element.Represents.XmiId);
             }
 
-            if (element.SuperPartition != null && writeContext.IsLocal(element.SuperPartition))
-            {
-                xmlWriter.WriteAttributeString("superPartition", element.SuperPartition.XmiId);
-            }
-
             if (element.Visibility != default(VisibilityKind))
             {
                 xmlWriter.WriteAttributeString("visibility", element.Visibility.QueryXmiLiteral());
@@ -175,11 +165,6 @@ namespace uml4net.xmi.Writers
             foreach (var value in element.Edge)
             {
                 this.XmiElementWriterFacade.WriteReferenceElement(xmlWriter, value, "edge", writeContext);
-            }
-
-            if (element.InActivity != null && !writeContext.IsLocal(element.InActivity))
-            {
-                this.XmiElementWriterFacade.WriteReferenceElement(xmlWriter, element.InActivity, "inActivity", writeContext);
             }
 
             foreach (var value in element.NameExpression)
@@ -205,11 +190,6 @@ namespace uml4net.xmi.Writers
             foreach (var value in element.Subpartition)
             {
                 this.XmiElementWriterFacade.WriteContainedElement(xmlWriter, value, "subpartition", writeContext);
-            }
-
-            if (element.SuperPartition != null && !writeContext.IsLocal(element.SuperPartition))
-            {
-                this.XmiElementWriterFacade.WriteReferenceElement(xmlWriter, element.SuperPartition, "superPartition", writeContext);
             }
 
 
@@ -279,11 +259,6 @@ namespace uml4net.xmi.Writers
                 await xmlWriter.WriteAttributeStringAsync("xmi", "uuid", this.XmiWriterSettings.XmiNamespaceUri, element.XmiGuid);
             }
 
-            if (element.InActivity != null && writeContext.IsLocal(element.InActivity))
-            {
-                await xmlWriter.WriteAttributeStringAsync(null, "inActivity", null, element.InActivity.XmiId);
-            }
-
             if (element.IsDimension)
             {
                 await xmlWriter.WriteAttributeStringAsync(null, "isDimension", null, XmlConvert.ToString(element.IsDimension));
@@ -304,11 +279,6 @@ namespace uml4net.xmi.Writers
                 await xmlWriter.WriteAttributeStringAsync(null, "represents", null, element.Represents.XmiId);
             }
 
-            if (element.SuperPartition != null && writeContext.IsLocal(element.SuperPartition))
-            {
-                await xmlWriter.WriteAttributeStringAsync(null, "superPartition", null, element.SuperPartition.XmiId);
-            }
-
             if (element.Visibility != default(VisibilityKind))
             {
                 await xmlWriter.WriteAttributeStringAsync(null, "visibility", null, element.Visibility.QueryXmiLiteral());
@@ -318,11 +288,6 @@ namespace uml4net.xmi.Writers
             foreach (var value in element.Edge)
             {
                 await this.XmiElementWriterFacade.WriteReferenceElementAsync(xmlWriter, value, "edge", writeContext);
-            }
-
-            if (element.InActivity != null && !writeContext.IsLocal(element.InActivity))
-            {
-                await this.XmiElementWriterFacade.WriteReferenceElementAsync(xmlWriter, element.InActivity, "inActivity", writeContext);
             }
 
             foreach (var value in element.NameExpression)
@@ -348,11 +313,6 @@ namespace uml4net.xmi.Writers
             foreach (var value in element.Subpartition)
             {
                 await this.XmiElementWriterFacade.WriteContainedElementAsync(xmlWriter, value, "subpartition", writeContext);
-            }
-
-            if (element.SuperPartition != null && !writeContext.IsLocal(element.SuperPartition))
-            {
-                await this.XmiElementWriterFacade.WriteReferenceElementAsync(xmlWriter, element.SuperPartition, "superPartition", writeContext);
             }
 
 

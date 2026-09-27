@@ -141,11 +141,6 @@ namespace uml4net.xmi.Writers
                 xmlWriter.WriteAttributeString("generalMachine", element.GeneralMachine.XmiId);
             }
 
-            if (element.SpecificMachine != null && writeContext.IsLocal(element.SpecificMachine))
-            {
-                xmlWriter.WriteAttributeString("specificMachine", element.SpecificMachine.XmiId);
-            }
-
 
             if (element.GeneralMachine != null && !writeContext.IsLocal(element.GeneralMachine))
             {
@@ -155,11 +150,6 @@ namespace uml4net.xmi.Writers
             foreach (var value in element.OwnedComment)
             {
                 this.XmiElementWriterFacade.WriteContainedElement(xmlWriter, value, "ownedComment", writeContext);
-            }
-
-            if (element.SpecificMachine != null && !writeContext.IsLocal(element.SpecificMachine))
-            {
-                this.XmiElementWriterFacade.WriteReferenceElement(xmlWriter, element.SpecificMachine, "specificMachine", writeContext);
             }
 
 
@@ -234,11 +224,6 @@ namespace uml4net.xmi.Writers
                 await xmlWriter.WriteAttributeStringAsync(null, "generalMachine", null, element.GeneralMachine.XmiId);
             }
 
-            if (element.SpecificMachine != null && writeContext.IsLocal(element.SpecificMachine))
-            {
-                await xmlWriter.WriteAttributeStringAsync(null, "specificMachine", null, element.SpecificMachine.XmiId);
-            }
-
 
             if (element.GeneralMachine != null && !writeContext.IsLocal(element.GeneralMachine))
             {
@@ -248,11 +233,6 @@ namespace uml4net.xmi.Writers
             foreach (var value in element.OwnedComment)
             {
                 await this.XmiElementWriterFacade.WriteContainedElementAsync(xmlWriter, value, "ownedComment", writeContext);
-            }
-
-            if (element.SpecificMachine != null && !writeContext.IsLocal(element.SpecificMachine))
-            {
-                await this.XmiElementWriterFacade.WriteReferenceElementAsync(xmlWriter, element.SpecificMachine, "specificMachine", writeContext);
             }
 
 

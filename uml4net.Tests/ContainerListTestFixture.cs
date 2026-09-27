@@ -25,6 +25,7 @@ namespace uml4net.Tests
 
     using NUnit.Framework;
 
+    using uml4net.Classification;
     using uml4net.CommonStructure;
     using uml4net.Packages;
     using uml4net.StructuredClassifiers;
@@ -226,6 +227,118 @@ namespace uml4net.Tests
             package.PackagedElement.Clear();
 
             Assert.That(@class.Possessor, Is.Null);
+        }
+
+        [Test]
+        public void Verify_that_the_owner_end_is_set_when_an_element_is_added_and_cleared_when_it_is_removed()
+        {
+            var specific = new Class { Name = "Specific" };
+            var first = new Generalization();
+            var second = new Generalization();
+            var third = new Generalization();
+
+            specific.Generalization.Add(first);
+            specific.Generalization.AddRange(new[] { second, third });
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(first.Specific, Is.SameAs(specific), "Add");
+                Assert.That(second.Specific, Is.SameAs(specific), "AddRange");
+                Assert.That(third.Specific, Is.SameAs(specific), "AddRange");
+            }
+
+            specific.Generalization.Remove(first);
+            specific.Generalization.RemoveAt(0);
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(first.Specific, Is.Null, "Remove");
+                Assert.That(second.Specific, Is.Null, "RemoveAt");
+                Assert.That(third.Specific, Is.SameAs(specific));
+            }
+
+            specific.Generalization.Clear();
+
+            Assert.That(third.Specific, Is.Null, "Clear");
+        }
+
+        [Test]
+        public void Verify_that_the_indexer_sets_the_owner_end_of_the_new_element_and_clears_that_of_the_replaced_one()
+        {
+            var specific = new Class { Name = "Specific" };
+            var original = new Generalization();
+            var replacement = new Generalization();
+
+            specific.Generalization.Add(original);
+            specific.Generalization[0] = replacement;
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(replacement.Specific, Is.SameAs(specific));
+                Assert.That(replacement.Possessor, Is.SameAs(specific));
+                Assert.That(original.Specific, Is.Null);
+                Assert.That(original.Possessor, Is.Null);
+            }
+        }
+
+        [Test]
+        public void Verify_that_removing_an_element_that_has_moved_to_another_container_does_not_clear_its_new_owner_end()
+        {
+            var oldOwner = new Class { Name = "Old" };
+            var newOwner = new Class { Name = "New" };
+            var generalization = new Generalization();
+
+            oldOwner.Generalization.Add(generalization);
+            newOwner.Generalization.Add(generalization);
+            oldOwner.Generalization.Remove(generalization);
+
+            Assert.That(generalization.Specific, Is.SameAs(newOwner));
+        }
+
+        [Test]
+        public void Verify_that_the_owner_ends_of_derived_composite_subsets_are_set_by_the_type_of_the_element()
+        {
+            // Package::ownedType and Package::nestedPackage are derived subsets of Package::packagedElement
+            var package = new Package { Name = "P" };
+            var nestedPackage = new Package { Name = "Nested" };
+            var @class = new Class { Name = "C" };
+            var instanceSpecification = new InstanceSpecification { Name = "i" };
+
+            package.PackagedElement.Add(nestedPackage);
+            package.PackagedElement.Add(@class);
+            package.PackagedElement.Add(instanceSpecification);
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(nestedPackage.NestingPackage, Is.SameAs(package));
+                Assert.That(@class.Package, Is.SameAs(package), "Type::package, the owner end of Package::ownedType");
+                Assert.That(package.NestedPackage, Is.EquivalentTo(new[] { nestedPackage }));
+            }
+
+            package.PackagedElement.Remove(nestedPackage);
+            package.PackagedElement.Remove(@class);
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(nestedPackage.NestingPackage, Is.Null);
+                Assert.That(@class.Package, Is.Null);
+            }
+        }
+
+        [Test]
+        public void Verify_that_a_ContainerList_without_owner_end_actions_only_maintains_the_possessor()
+        {
+            var package = new Package();
+            var containerList = new ContainerList<IPackageableElement>(package);
+            var @class = new Class();
+
+            containerList.Add(@class);
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(@class.Possessor, Is.SameAs(package));
+                Assert.That(@class.Package, Is.Null, "no owner end action was provided");
+            }
         }
     }
 }

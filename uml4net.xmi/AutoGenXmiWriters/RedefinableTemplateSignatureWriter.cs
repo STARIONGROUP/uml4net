@@ -136,11 +136,6 @@ namespace uml4net.xmi.Writers
                 xmlWriter.WriteAttributeString("xmi", "uuid", this.XmiWriterSettings.XmiNamespaceUri, element.XmiGuid);
             }
 
-            if (element.Classifier != null && writeContext.IsLocal(element.Classifier))
-            {
-                xmlWriter.WriteAttributeString("classifier", element.Classifier.XmiId);
-            }
-
             if (element.IsLeaf)
             {
                 xmlWriter.WriteAttributeString("isLeaf", XmlConvert.ToString(element.IsLeaf));
@@ -156,11 +151,6 @@ namespace uml4net.xmi.Writers
                 xmlWriter.WriteAttributeString("visibility", element.Visibility.QueryXmiLiteral());
             }
 
-
-            if (element.Classifier != null && !writeContext.IsLocal(element.Classifier))
-            {
-                this.XmiElementWriterFacade.WriteReferenceElement(xmlWriter, element.Classifier, "classifier", writeContext);
-            }
 
             foreach (var value in element.ExtendedSignature)
             {
@@ -254,11 +244,6 @@ namespace uml4net.xmi.Writers
                 await xmlWriter.WriteAttributeStringAsync("xmi", "uuid", this.XmiWriterSettings.XmiNamespaceUri, element.XmiGuid);
             }
 
-            if (element.Classifier != null && writeContext.IsLocal(element.Classifier))
-            {
-                await xmlWriter.WriteAttributeStringAsync(null, "classifier", null, element.Classifier.XmiId);
-            }
-
             if (element.IsLeaf)
             {
                 await xmlWriter.WriteAttributeStringAsync(null, "isLeaf", null, XmlConvert.ToString(element.IsLeaf));
@@ -274,11 +259,6 @@ namespace uml4net.xmi.Writers
                 await xmlWriter.WriteAttributeStringAsync(null, "visibility", null, element.Visibility.QueryXmiLiteral());
             }
 
-
-            if (element.Classifier != null && !writeContext.IsLocal(element.Classifier))
-            {
-                await this.XmiElementWriterFacade.WriteReferenceElementAsync(xmlWriter, element.Classifier, "classifier", writeContext);
-            }
 
             foreach (var value in element.ExtendedSignature)
             {

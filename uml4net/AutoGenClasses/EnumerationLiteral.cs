@@ -108,7 +108,9 @@ namespace uml4net.SimpleClassifiers
         [Implements(implementation: "IDeploymentTarget.Deployment")]
         public IContainerList<IDeployment> Deployment
         {
-            get => this.deployment ??= new ContainerList<IDeployment>(this);
+            get => this.deployment ??= new ContainerList<IDeployment>(this,
+                containedElement => { containedElement.Location = this; },
+                containedElement => { if (ReferenceEquals(containedElement.Location, this)) { containedElement.Location = null; } });
             set => this.deployment = value;
         }
 
@@ -226,7 +228,9 @@ namespace uml4net.SimpleClassifiers
         [Implements(implementation: "IInstanceSpecification.Slot")]
         public IContainerList<ISlot> Slot
         {
-            get => this.slot ??= new ContainerList<ISlot>(this);
+            get => this.slot ??= new ContainerList<ISlot>(this,
+                containedElement => { containedElement.OwningInstance = this; },
+                containedElement => { if (ReferenceEquals(containedElement.OwningInstance, this)) { containedElement.OwningInstance = null; } });
             set => this.slot = value;
         }
 

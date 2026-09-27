@@ -141,11 +141,6 @@ namespace uml4net.xmi.Writers
                 xmlWriter.WriteAttributeString("extendedCase", element.ExtendedCase.XmiId);
             }
 
-            if (element.Extension != null && writeContext.IsLocal(element.Extension))
-            {
-                xmlWriter.WriteAttributeString("extension", element.Extension.XmiId);
-            }
-
             if (!string.IsNullOrEmpty(element.Name))
             {
                 xmlWriter.WriteAttributeString("name", element.Name);
@@ -165,11 +160,6 @@ namespace uml4net.xmi.Writers
             if (element.ExtendedCase != null && !writeContext.IsLocal(element.ExtendedCase))
             {
                 this.XmiElementWriterFacade.WriteReferenceElement(xmlWriter, element.ExtendedCase, "extendedCase", writeContext);
-            }
-
-            if (element.Extension != null && !writeContext.IsLocal(element.Extension))
-            {
-                this.XmiElementWriterFacade.WriteReferenceElement(xmlWriter, element.Extension, "extension", writeContext);
             }
 
             foreach (var value in element.ExtensionLocation)
@@ -259,11 +249,6 @@ namespace uml4net.xmi.Writers
                 await xmlWriter.WriteAttributeStringAsync(null, "extendedCase", null, element.ExtendedCase.XmiId);
             }
 
-            if (element.Extension != null && writeContext.IsLocal(element.Extension))
-            {
-                await xmlWriter.WriteAttributeStringAsync(null, "extension", null, element.Extension.XmiId);
-            }
-
             if (!string.IsNullOrEmpty(element.Name))
             {
                 await xmlWriter.WriteAttributeStringAsync(null, "name", null, element.Name);
@@ -283,11 +268,6 @@ namespace uml4net.xmi.Writers
             if (element.ExtendedCase != null && !writeContext.IsLocal(element.ExtendedCase))
             {
                 await this.XmiElementWriterFacade.WriteReferenceElementAsync(xmlWriter, element.ExtendedCase, "extendedCase", writeContext);
-            }
-
-            if (element.Extension != null && !writeContext.IsLocal(element.Extension))
-            {
-                await this.XmiElementWriterFacade.WriteReferenceElementAsync(xmlWriter, element.Extension, "extension", writeContext);
             }
 
             foreach (var value in element.ExtensionLocation)

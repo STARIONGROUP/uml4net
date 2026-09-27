@@ -130,7 +130,9 @@ namespace uml4net.Classification
         [Implements(implementation: "INamespace.ElementImport")]
         public IContainerList<IElementImport> ElementImport
         {
-            get => this.elementImport ??= new ContainerList<IElementImport>(this);
+            get => this.elementImport ??= new ContainerList<IElementImport>(this,
+                containedElement => { containedElement.ImportingNamespace = this; },
+                containedElement => { if (ReferenceEquals(containedElement.ImportingNamespace, this)) { containedElement.ImportingNamespace = null; } });
             set => this.elementImport = value;
         }
 
@@ -326,7 +328,9 @@ namespace uml4net.Classification
         [Implements(implementation: "IOperation.OwnedParameter")]
         public IContainerList<IParameter> OwnedParameter
         {
-            get => this.ownedParameter ??= new ContainerList<IParameter>(this);
+            get => this.ownedParameter ??= new ContainerList<IParameter>(this,
+                containedElement => { containedElement.Operation = this; },
+                containedElement => { if (ReferenceEquals(containedElement.Operation, this)) { containedElement.Operation = null; } });
             set => this.ownedParameter = value;
         }
 
@@ -373,7 +377,9 @@ namespace uml4net.Classification
         [Implements(implementation: "INamespace.OwnedRule")]
         public IContainerList<IConstraint> OwnedRule
         {
-            get => this.ownedRule ??= new ContainerList<IConstraint>(this);
+            get => this.ownedRule ??= new ContainerList<IConstraint>(this,
+                containedElement => { containedElement.Context = this; },
+                containedElement => { if (ReferenceEquals(containedElement.Context, this)) { containedElement.Context = null; } });
             set => this.ownedRule = value;
         }
 
@@ -391,7 +397,9 @@ namespace uml4net.Classification
         [Implements(implementation: "ITemplateableElement.OwnedTemplateSignature")]
         public IContainerList<ITemplateSignature> OwnedTemplateSignature
         {
-            get => this.ownedTemplateSignature ??= new ContainerList<ITemplateSignature>(this);
+            get => this.ownedTemplateSignature ??= new ContainerList<ITemplateSignature>(this,
+                containedElement => { containedElement.Template = this; },
+                containedElement => { if (ReferenceEquals(containedElement.Template, this)) { containedElement.Template = null; } });
             set => this.ownedTemplateSignature = value;
         }
 
@@ -425,7 +433,9 @@ namespace uml4net.Classification
         [Implements(implementation: "INamespace.PackageImport")]
         public IContainerList<IPackageImport> PackageImport
         {
-            get => this.packageImport ??= new ContainerList<IPackageImport>(this);
+            get => this.packageImport ??= new ContainerList<IPackageImport>(this,
+                containedElement => { containedElement.ImportingNamespace = this; },
+                containedElement => { if (ReferenceEquals(containedElement.ImportingNamespace, this)) { containedElement.ImportingNamespace = null; } });
             set => this.packageImport = value;
         }
 
@@ -528,7 +538,9 @@ namespace uml4net.Classification
         [Implements(implementation: "ITemplateableElement.TemplateBinding")]
         public IContainerList<ITemplateBinding> TemplateBinding
         {
-            get => this.templateBinding ??= new ContainerList<ITemplateBinding>(this);
+            get => this.templateBinding ??= new ContainerList<ITemplateBinding>(this,
+                containedElement => { containedElement.BoundElement = this; },
+                containedElement => { if (ReferenceEquals(containedElement.BoundElement, this)) { containedElement.BoundElement = null; } });
             set => this.templateBinding = value;
         }
 

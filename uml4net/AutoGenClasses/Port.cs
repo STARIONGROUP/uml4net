@@ -153,7 +153,9 @@ namespace uml4net.StructuredClassifiers
         [Implements(implementation: "IDeploymentTarget.Deployment")]
         public IContainerList<IDeployment> Deployment
         {
-            get => this.deployment ??= new ContainerList<IDeployment>(this);
+            get => this.deployment ??= new ContainerList<IDeployment>(this,
+                containedElement => { containedElement.Location = this; },
+                containedElement => { if (ReferenceEquals(containedElement.Location, this)) { containedElement.Location = null; } });
             set => this.deployment = value;
         }
 
@@ -447,7 +449,9 @@ namespace uml4net.StructuredClassifiers
         [Implements(implementation: "IProperty.Qualifier")]
         public IContainerList<IProperty> Qualifier
         {
-            get => this.qualifier ??= new ContainerList<IProperty>(this);
+            get => this.qualifier ??= new ContainerList<IProperty>(this,
+                containedElement => { containedElement.AssociationEnd = this; },
+                containedElement => { if (ReferenceEquals(containedElement.AssociationEnd, this)) { containedElement.AssociationEnd = null; } });
             set => this.qualifier = value;
         }
 

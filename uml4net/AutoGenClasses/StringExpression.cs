@@ -164,7 +164,9 @@ namespace uml4net.Values
         [Implements(implementation: "ITemplateableElement.OwnedTemplateSignature")]
         public IContainerList<ITemplateSignature> OwnedTemplateSignature
         {
-            get => this.ownedTemplateSignature ??= new ContainerList<ITemplateSignature>(this);
+            get => this.ownedTemplateSignature ??= new ContainerList<ITemplateSignature>(this,
+                containedElement => { containedElement.Template = this; },
+                containedElement => { if (ReferenceEquals(containedElement.Template, this)) { containedElement.Template = null; } });
             set => this.ownedTemplateSignature = value;
         }
 
@@ -214,7 +216,9 @@ namespace uml4net.Values
         [Implements(implementation: "IStringExpression.SubExpression")]
         public IContainerList<IStringExpression> SubExpression
         {
-            get => this.subExpression ??= new ContainerList<IStringExpression>(this);
+            get => this.subExpression ??= new ContainerList<IStringExpression>(this,
+                containedElement => { containedElement.OwningExpression = this; },
+                containedElement => { if (ReferenceEquals(containedElement.OwningExpression, this)) { containedElement.OwningExpression = null; } });
             set => this.subExpression = value;
         }
 
@@ -239,7 +243,9 @@ namespace uml4net.Values
         [Implements(implementation: "ITemplateableElement.TemplateBinding")]
         public IContainerList<ITemplateBinding> TemplateBinding
         {
-            get => this.templateBinding ??= new ContainerList<ITemplateBinding>(this);
+            get => this.templateBinding ??= new ContainerList<ITemplateBinding>(this,
+                containedElement => { containedElement.BoundElement = this; },
+                containedElement => { if (ReferenceEquals(containedElement.BoundElement, this)) { containedElement.BoundElement = null; } });
             set => this.templateBinding = value;
         }
 

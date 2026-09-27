@@ -81,7 +81,9 @@ namespace uml4net.StateMachines
         [Implements(implementation: "INamespace.ElementImport")]
         public IContainerList<IElementImport> ElementImport
         {
-            get => this.elementImport ??= new ContainerList<IElementImport>(this);
+            get => this.elementImport ??= new ContainerList<IElementImport>(this,
+                containedElement => { containedElement.ImportingNamespace = this; },
+                containedElement => { if (ReferenceEquals(containedElement.ImportingNamespace, this)) { containedElement.ImportingNamespace = null; } });
             set => this.elementImport = value;
         }
 
@@ -207,7 +209,9 @@ namespace uml4net.StateMachines
         [Implements(implementation: "INamespace.OwnedRule")]
         public IContainerList<IConstraint> OwnedRule
         {
-            get => this.ownedRule ??= new ContainerList<IConstraint>(this);
+            get => this.ownedRule ??= new ContainerList<IConstraint>(this,
+                containedElement => { containedElement.Context = this; },
+                containedElement => { if (ReferenceEquals(containedElement.Context, this)) { containedElement.Context = null; } });
             set => this.ownedRule = value;
         }
 
@@ -232,7 +236,9 @@ namespace uml4net.StateMachines
         [Implements(implementation: "INamespace.PackageImport")]
         public IContainerList<IPackageImport> PackageImport
         {
-            get => this.packageImport ??= new ContainerList<IPackageImport>(this);
+            get => this.packageImport ??= new ContainerList<IPackageImport>(this,
+                containedElement => { containedElement.ImportingNamespace = this; },
+                containedElement => { if (ReferenceEquals(containedElement.ImportingNamespace, this)) { containedElement.ImportingNamespace = null; } });
             set => this.packageImport = value;
         }
 
@@ -299,7 +305,9 @@ namespace uml4net.StateMachines
         [Implements(implementation: "IRegion.Subvertex")]
         public IContainerList<IVertex> Subvertex
         {
-            get => this.subvertex ??= new ContainerList<IVertex>(this);
+            get => this.subvertex ??= new ContainerList<IVertex>(this,
+                containedElement => { containedElement.Container = this; },
+                containedElement => { if (ReferenceEquals(containedElement.Container, this)) { containedElement.Container = null; } });
             set => this.subvertex = value;
         }
 
@@ -316,7 +324,9 @@ namespace uml4net.StateMachines
         [Implements(implementation: "IRegion.Transition")]
         public IContainerList<ITransition> Transition
         {
-            get => this.transition ??= new ContainerList<ITransition>(this);
+            get => this.transition ??= new ContainerList<ITransition>(this,
+                containedElement => { containedElement.Container = this; },
+                containedElement => { if (ReferenceEquals(containedElement.Container, this)) { containedElement.Container = null; } });
             set => this.transition = value;
         }
 

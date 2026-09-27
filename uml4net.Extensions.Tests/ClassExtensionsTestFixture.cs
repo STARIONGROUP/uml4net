@@ -152,7 +152,7 @@ namespace uml4net.Extensions.Tests
 
             cat_1.Generalization.Add(mammal_is_generalization_of_cat_1);
             cat_2.Generalization.Add(mammal_is_generalization_of_cat_2);
-            animal.Generalization.Add(animal_is_generalization_of_mammal);
+            mammal.Generalization.Add(animal_is_generalization_of_mammal);
 
             var cache = new XmiElementCache();
 
@@ -227,7 +227,7 @@ namespace uml4net.Extensions.Tests
 
             cat_1.Generalization.Add(mammal_is_generalization_of_cat_1);
             cat_2.Generalization.Add(mammal_is_generalization_of_cat_2);
-            animal.Generalization.Add(animal_is_generalization_of_mammal);
+            mammal.Generalization.Add(animal_is_generalization_of_mammal);
 
             rootPackage.PackagedElement.Add(animal);
             rootPackage.PackagedElement.Add(mammal);
@@ -288,7 +288,7 @@ namespace uml4net.Extensions.Tests
 
             cat_1.Generalization.Add(mammal_is_generalization_of_cat_1);
             cat_2.Generalization.Add(mammal_is_generalization_of_cat_2);
-            animal.Generalization.Add(animal_is_generalization_of_mammal);
+            mammal.Generalization.Add(animal_is_generalization_of_mammal);
 
             var cache = new XmiElementCache();
 
@@ -365,7 +365,7 @@ namespace uml4net.Extensions.Tests
 
             cat_1.Generalization.Add(mammal_is_generalization_of_cat_1);
             cat_2.Generalization.Add(mammal_is_generalization_of_cat_2);
-            animal.Generalization.Add(animal_is_generalization_of_mammal);
+            mammal.Generalization.Add(animal_is_generalization_of_mammal);
 
             rootPackage.PackagedElement.Add(animal);
             rootPackage.PackagedElement.Add(mammal);

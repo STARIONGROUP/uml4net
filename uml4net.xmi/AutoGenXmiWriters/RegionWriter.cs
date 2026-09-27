@@ -151,16 +151,6 @@ namespace uml4net.xmi.Writers
                 xmlWriter.WriteAttributeString("name", element.Name);
             }
 
-            if (element.State != null && writeContext.IsLocal(element.State))
-            {
-                xmlWriter.WriteAttributeString("state", element.State.XmiId);
-            }
-
-            if (element.StateMachine != null && writeContext.IsLocal(element.StateMachine))
-            {
-                xmlWriter.WriteAttributeString("stateMachine", element.StateMachine.XmiId);
-            }
-
             if (element.Visibility != default(VisibilityKind))
             {
                 xmlWriter.WriteAttributeString("visibility", element.Visibility.QueryXmiLiteral());
@@ -195,16 +185,6 @@ namespace uml4net.xmi.Writers
             foreach (var value in element.PackageImport)
             {
                 this.XmiElementWriterFacade.WriteContainedElement(xmlWriter, value, "packageImport", writeContext);
-            }
-
-            if (element.State != null && !writeContext.IsLocal(element.State))
-            {
-                this.XmiElementWriterFacade.WriteReferenceElement(xmlWriter, element.State, "state", writeContext);
-            }
-
-            if (element.StateMachine != null && !writeContext.IsLocal(element.StateMachine))
-            {
-                this.XmiElementWriterFacade.WriteReferenceElement(xmlWriter, element.StateMachine, "stateMachine", writeContext);
             }
 
             foreach (var value in element.Subvertex)
@@ -299,16 +279,6 @@ namespace uml4net.xmi.Writers
                 await xmlWriter.WriteAttributeStringAsync(null, "name", null, element.Name);
             }
 
-            if (element.State != null && writeContext.IsLocal(element.State))
-            {
-                await xmlWriter.WriteAttributeStringAsync(null, "state", null, element.State.XmiId);
-            }
-
-            if (element.StateMachine != null && writeContext.IsLocal(element.StateMachine))
-            {
-                await xmlWriter.WriteAttributeStringAsync(null, "stateMachine", null, element.StateMachine.XmiId);
-            }
-
             if (element.Visibility != default(VisibilityKind))
             {
                 await xmlWriter.WriteAttributeStringAsync(null, "visibility", null, element.Visibility.QueryXmiLiteral());
@@ -343,16 +313,6 @@ namespace uml4net.xmi.Writers
             foreach (var value in element.PackageImport)
             {
                 await this.XmiElementWriterFacade.WriteContainedElementAsync(xmlWriter, value, "packageImport", writeContext);
-            }
-
-            if (element.State != null && !writeContext.IsLocal(element.State))
-            {
-                await this.XmiElementWriterFacade.WriteReferenceElementAsync(xmlWriter, element.State, "state", writeContext);
-            }
-
-            if (element.StateMachine != null && !writeContext.IsLocal(element.StateMachine))
-            {
-                await this.XmiElementWriterFacade.WriteReferenceElementAsync(xmlWriter, element.StateMachine, "stateMachine", writeContext);
             }
 
             foreach (var value in element.Subvertex)

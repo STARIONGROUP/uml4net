@@ -141,11 +141,6 @@ namespace uml4net.xmi.Writers
                 xmlWriter.WriteAttributeString("mergedPackage", element.MergedPackage.XmiId);
             }
 
-            if (element.ReceivingPackage != null && writeContext.IsLocal(element.ReceivingPackage))
-            {
-                xmlWriter.WriteAttributeString("receivingPackage", element.ReceivingPackage.XmiId);
-            }
-
 
             if (element.MergedPackage != null && !writeContext.IsLocal(element.MergedPackage))
             {
@@ -155,11 +150,6 @@ namespace uml4net.xmi.Writers
             foreach (var value in element.OwnedComment)
             {
                 this.XmiElementWriterFacade.WriteContainedElement(xmlWriter, value, "ownedComment", writeContext);
-            }
-
-            if (element.ReceivingPackage != null && !writeContext.IsLocal(element.ReceivingPackage))
-            {
-                this.XmiElementWriterFacade.WriteReferenceElement(xmlWriter, element.ReceivingPackage, "receivingPackage", writeContext);
             }
 
 
@@ -234,11 +224,6 @@ namespace uml4net.xmi.Writers
                 await xmlWriter.WriteAttributeStringAsync(null, "mergedPackage", null, element.MergedPackage.XmiId);
             }
 
-            if (element.ReceivingPackage != null && writeContext.IsLocal(element.ReceivingPackage))
-            {
-                await xmlWriter.WriteAttributeStringAsync(null, "receivingPackage", null, element.ReceivingPackage.XmiId);
-            }
-
 
             if (element.MergedPackage != null && !writeContext.IsLocal(element.MergedPackage))
             {
@@ -248,11 +233,6 @@ namespace uml4net.xmi.Writers
             foreach (var value in element.OwnedComment)
             {
                 await this.XmiElementWriterFacade.WriteContainedElementAsync(xmlWriter, value, "ownedComment", writeContext);
-            }
-
-            if (element.ReceivingPackage != null && !writeContext.IsLocal(element.ReceivingPackage))
-            {
-                await this.XmiElementWriterFacade.WriteReferenceElementAsync(xmlWriter, element.ReceivingPackage, "receivingPackage", writeContext);
             }
 
 
