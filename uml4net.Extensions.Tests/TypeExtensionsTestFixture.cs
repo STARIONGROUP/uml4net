@@ -40,6 +40,13 @@ namespace uml4net.Extensions.Tests
             TypeExtensions.ResetCSharpTypeMappingsToDefault();
         }
 
+        [TearDown]
+        public void TearDown()
+        {
+            // the C# type mapping is static: a custom mapping must not leak into the tests of other fixtures
+            TypeExtensions.ResetCSharpTypeMappingsToDefault();
+        }
+
         private class TestType : IType
         {
             public string Name { get; set; }

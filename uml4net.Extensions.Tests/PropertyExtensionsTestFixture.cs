@@ -70,6 +70,13 @@ namespace uml4net.Extensions.Tests
             this.xmiReaderResult = reader.Read(Path.Combine(rootPath, "UML.xmi"));
         }
 
+        [TearDown]
+        public void TearDown()
+        {
+            // the C# type mapping is static: a custom mapping must not leak into the tests of other fixtures
+            TypedElementExtensions.ResetCSharpTypeMappingsToDefault();
+        }
+
         [Test]
         public void Verify_that_Query_methods_Throw_exception_when_property_is_null()
         {
@@ -247,7 +254,7 @@ namespace uml4net.Extensions.Tests
         [Test]
         public void Verify_that_QueryIsFloat_returns_expected_Result()
         {
-            var @type = new DataType();
+            var @type = new PrimitiveType();
 
             var floatProperty = new Property
             {
@@ -288,7 +295,7 @@ namespace uml4net.Extensions.Tests
         [Test]
         public void Verify_that_QueryIsDateTime_returns_expected_Result()
         {
-            var @type = new DataType();
+            var @type = new PrimitiveType();
 
             var floatProperty = new Property
             {
