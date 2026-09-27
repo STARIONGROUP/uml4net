@@ -50,7 +50,9 @@ namespace uml4net.StructuredClassifiers
         /// Implements the OCL of <c>Class::extension</c>: <c>Extension.allInstances()-&gt;select(ext | let endTypes =
         /// ext.memberEnd-&gt;collect(type.oclAsType(Classifier)) in endTypes-&gt;includes(self) or
         /// endTypes.allParents()-&gt;includes(self))</c> - an Extension is also returned when the Class is a direct or
-        /// indirect general of the type of one of its member ends.
+        /// indirect general of the type of one of its member ends. <c>allInstances()</c> is emulated by
+        /// <see cref="ElementExtensions.QueryAllInstancesInModel"/>, so an Extension in a Profile read from another
+        /// document than the Class (typically a metaclass of the UML metamodel) is found.
         /// </remarks>
         internal static List<IExtension> QueryExtension(this IClass @class)
         {
@@ -59,23 +61,10 @@ namespace uml4net.StructuredClassifiers
                 throw new ArgumentNullException(nameof(@class));
             }
 
-            IElement rootElement = @class;
-
-            while (rootElement.Owner != null)
-            {
-                rootElement = rootElement.Owner;
-            }
-
-            var extensions = new List<IExtension>();
-
-            if (rootElement is IPackage rootPackage)
-            {
-                CollectExtensions(rootPackage, extensions);
-            }
-
             // endTypes->includes(self) or endTypes.allParents()->includes(self): the Class is the type of a member
             // end, or a direct or indirect general of the type of a member end
-            return extensions
+            return @class.QueryAllInstancesInModel()
+                .OfType<IExtension>()
                 .Where(x => x.MemberEnd
                     .Select(QueryMemberEndType)
                     .OfType<IClassifier>()
@@ -96,32 +85,6 @@ namespace uml4net.StructuredClassifiers
         internal static IType QueryMemberEndType(IProperty property)
         {
             return property is IExtensionEnd extensionEnd ? extensionEnd.Type : property.Type;
-        }
-
-        /// <summary>
-        /// Recursively collects the <see cref="IExtension"/> elements that are packaged, directly or via nested
-        /// packages, within the specified <paramref name="package"/>.
-        /// </summary>
-        /// <param name="package">
-        /// The <see cref="IPackage"/> to search.
-        /// </param>
-        /// <param name="extensions">
-        /// The <see cref="List{T}"/> of <see cref="IExtension"/> to which any found <see cref="IExtension"/> is added.
-        /// </param>
-        private static void CollectExtensions(IPackage package, List<IExtension> extensions)
-        {
-            foreach (var packagedElement in package.PackagedElement)
-            {
-                switch (packagedElement)
-                {
-                    case IExtension extension:
-                        extensions.Add(extension);
-                        break;
-                    case IPackage nestedPackage:
-                        CollectExtensions(nestedPackage, extensions);
-                        break;
-                }
-            }
         }
 
         /// <summary>

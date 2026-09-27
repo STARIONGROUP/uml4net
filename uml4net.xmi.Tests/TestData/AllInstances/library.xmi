@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- the external document of model.xmi -->
+<xmi:XMI xmlns:uml="http://www.omg.org/spec/UML/20131001" xmlns:xmi="http://www.omg.org/spec/XMI/20131001">
+    <uml:Package xmi:id="Library" name="Library">
+        <packagedElement xmi:type="uml:Class" xmi:id="Base" name="Base"/>
+        <packagedElement xmi:type="uml:Class" xmi:id="Metaclass" name="Metaclass"/>
+    </uml:Package>
+</xmi:XMI>

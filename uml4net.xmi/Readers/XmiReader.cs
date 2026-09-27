@@ -521,7 +521,8 @@ namespace uml4net.xmi.Readers
         {
             if (disposing)
             {
-                this.Cache.Clear();
+                // the cache is not cleared: every element that was read refers to it as its IXmiElement.Cache, and it
+                // is the extent that the emulation of OCL allInstances() uses once the reader has been disposed
                 this.scope.Dispose();
             }
         }

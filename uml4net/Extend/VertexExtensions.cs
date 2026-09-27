@@ -25,6 +25,7 @@ namespace uml4net.StateMachines
     using System.Linq;
 
     using uml4net.Classification;
+    using uml4net.CommonStructure;
 
     /// <summary>
     /// The <see cref="VertexExtensions"/> class provides extensions methods for <see cref="IVertex"/>
@@ -40,6 +41,11 @@ namespace uml4net.StateMachines
         /// <returns>
         /// The Transitions entering this Vertex.
         /// </returns>
+        /// <remarks>
+        /// Implements the OCL <c>Transition.allInstances()->select(target=self)</c>, with <c>allInstances()</c> emulated by
+        /// <see cref="ElementExtensions.QueryAllInstancesInModel"/>: a Transition of another StateMachine, such as one that
+        /// extends the containing StateMachine, is included
+        /// </remarks>
         internal static List<ITransition> QueryIncoming(this IVertex vertex)
         {
             if (vertex == null)
@@ -47,7 +53,8 @@ namespace uml4net.StateMachines
                 throw new ArgumentNullException(nameof(vertex));
             }
 
-            return QueryTransitionsInContainingStateMachine(vertex)
+            return vertex.QueryAllInstancesInModel()
+                .OfType<ITransition>()
                 .Where(transition => ReferenceEquals(transition.Target, vertex))
                 .ToList();
         }
@@ -61,6 +68,10 @@ namespace uml4net.StateMachines
         /// <returns>
         /// The Transitions departing from this Vertex.
         /// </returns>
+        /// <remarks>
+        /// Implements the OCL <c>Transition.allInstances()->select(source=self)</c>, with <c>allInstances()</c> emulated by
+        /// <see cref="ElementExtensions.QueryAllInstancesInModel"/>
+        /// </remarks>
         internal static List<ITransition> QueryOutgoing(this IVertex vertex)
         {
             if (vertex == null)
@@ -68,7 +79,8 @@ namespace uml4net.StateMachines
                 throw new ArgumentNullException(nameof(vertex));
             }
 
-            return QueryTransitionsInContainingStateMachine(vertex)
+            return vertex.QueryAllInstancesInModel()
+                .OfType<ITransition>()
                 .Where(transition => ReferenceEquals(transition.Source, vertex))
                 .ToList();
         }
@@ -134,43 +146,6 @@ namespace uml4net.StateMachines
             }
 
             return null;
-        }
-
-        /// <summary>
-        /// Queries the Transitions owned, directly or through nested composite State Regions, by the
-        /// <paramref name="vertex"/>'s containing StateMachine.
-        /// </summary>
-        private static IEnumerable<ITransition> QueryTransitionsInContainingStateMachine(IVertex vertex)
-        {
-            var stateMachine = vertex.QueryContainingStateMachine();
-
-            return stateMachine == null ? Enumerable.Empty<ITransition>() : QueryTransitions(stateMachine);
-        }
-
-        /// <summary>
-        /// Queries all the Transitions owned, directly or through nested composite State Regions, by the
-        /// <paramref name="stateMachine"/>.
-        /// </summary>
-        private static IEnumerable<ITransition> QueryTransitions(IStateMachine stateMachine)
-        {
-            return stateMachine.Region.SelectMany(QueryTransitions);
-        }
-
-        /// <summary>
-        /// Queries all the Transitions owned, directly or through nested composite State Regions, by the
-        /// <paramref name="region"/>.
-        /// </summary>
-        private static IEnumerable<ITransition> QueryTransitions(IRegion region)
-        {
-            foreach (var transition in region.Transition)
-            {
-                yield return transition;
-            }
-
-            foreach (var transition in region.Subvertex.OfType<IState>().SelectMany(state => state.Region).SelectMany(QueryTransitions))
-            {
-                yield return transition;
-            }
         }
     }
 }
