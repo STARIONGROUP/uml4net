@@ -76,7 +76,7 @@ namespace uml4net.Classification
         /// of the parameter.
         /// </summary>
         [Property(xmiId: "Parameter-effect", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
-        public ParameterEffectKind Effect { get; set; }
+        public ParameterEffectKind? Effect { get; set; }
 
         /// <summary>
         /// Tells whether an output parameter may emit a value to the exclusion of the other outputs.

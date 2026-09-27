@@ -109,7 +109,7 @@ namespace uml4net.Classification
         /// </summary>
         [Property(xmiId: "Parameter-effect", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [Implements(implementation: "IParameter.Effect")]
-        public ParameterEffectKind Effect { get; set; }
+        public ParameterEffectKind? Effect { get; set; }
 
         /// <summary>
         /// A set of ConnectorEnds that attach to this ConnectableElement.
@@ -334,7 +334,7 @@ namespace uml4net.Classification
         /// </summary>
         [Property(xmiId: "NamedElement-visibility", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [Implements(implementation: "INamedElement.Visibility")]
-        public VisibilityKind Visibility { get; set; }
+        public VisibilityKind? Visibility { get; set; }
     }
 }
 

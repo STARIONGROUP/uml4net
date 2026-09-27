@@ -29,6 +29,7 @@ namespace uml4net.HandleBars
     using HandlebarsDotNet;
 
     using uml4net.Classification;
+    using uml4net.CommonStructure;
     using uml4net.Extensions;
     using uml4net.SimpleClassifiers;
     using uml4net.StructuredClassifiers;
@@ -449,7 +450,7 @@ namespace uml4net.HandleBars
                 }
 
                 var sb = new StringBuilder();
-                sb.Append(property.Visibility.ToString().ToLower());
+                sb.Append((property.Visibility ?? VisibilityKind.Public).ToString().ToLower());
                 sb.Append(" ");
 
                 if (property.RedefinedProperty.Any())
@@ -480,6 +481,11 @@ namespace uml4net.HandleBars
                 else if(property.QueryIsContainment())
                 {
                     sb.Append($"IContainerList<I{ property.QueryTypeName() }>");
+                    sb.Append(" ");
+                }
+                else if (property.QueryIsNullableValueType())
+                {
+                    sb.Append($"{property.QueryCSharpTypeName()}?");
                     sb.Append(" ");
                 }
                 else if (property.Type is IDataType)
@@ -549,7 +555,7 @@ namespace uml4net.HandleBars
 
                 if (!isRedefinedByProperty)
                 {
-                    sb.Append(property.Visibility.ToString().ToLower(CultureInfo.InvariantCulture));
+                    sb.Append((property.Visibility ?? VisibilityKind.Public).ToString().ToLower(CultureInfo.InvariantCulture));
                     sb.Append(" ");
                 }
 
@@ -1224,6 +1230,17 @@ namespace uml4net.HandleBars
 
                     switch (cSharpTypeName)
                     {
+                        case "bool" when property.QueryIsNullableValueType():
+                            // an optional value is written when it is set and differs from the metamodel default, if any
+                            sb.AppendLine(property.QueryIsDefaultValueDifferentThanDefault()
+                                ? $"if (element.{pocoPropertyName}.HasValue && element.{pocoPropertyName}.Value != {property.QueryDefaultValueAsString()})"
+                                : $"if (element.{pocoPropertyName}.HasValue)");
+                            sb.AppendLine("{");
+                            sb.AppendLine(isAsync
+                                ? $"await xmlWriter.WriteAttributeStringAsync(null, \"{property.Name}\", null, XmlConvert.ToString(element.{pocoPropertyName}.Value));"
+                                : $"xmlWriter.WriteAttributeString(\"{property.Name}\", XmlConvert.ToString(element.{pocoPropertyName}.Value));");
+                            sb.AppendLine("}");
+                            break;
                         case "bool":
                             var boolDefault = property.QueryIsDefaultValueDifferentThanDefault() ? property.QueryDefaultValueAsString() : "false";
 
@@ -1275,6 +1292,22 @@ namespace uml4net.HandleBars
                     var enumDefault = property.QueryIsDefaultValueDifferentThanDefault()
                         ? $"{typeName}.{property.QueryDefaultValueAsString().CapitalizeFirstLetter()}"
                         : $"default({typeName})";
+
+                    if (property.QueryIsNullableValueType())
+                    {
+                        // an optional value is written when it is set and differs from the metamodel default, if any
+                        sb.AppendLine(property.QueryIsDefaultValueDifferentThanDefault()
+                            ? $"if (element.{pocoPropertyName}.HasValue && element.{pocoPropertyName}.Value != {enumDefault})"
+                            : $"if (element.{pocoPropertyName}.HasValue)");
+                        sb.AppendLine("{");
+                        sb.AppendLine(isAsync
+                            ? $"await xmlWriter.WriteAttributeStringAsync(null, \"{property.Name}\", null, element.{pocoPropertyName}.Value.QueryXmiLiteral());"
+                            : $"xmlWriter.WriteAttributeString(\"{property.Name}\", element.{pocoPropertyName}.Value.QueryXmiLiteral());");
+                        sb.AppendLine("}");
+
+                        writer.WriteSafeString(sb + Environment.NewLine);
+                        return;
+                    }
 
                     sb.AppendLine($"if (element.{pocoPropertyName} != {enumDefault})");
                     sb.AppendLine("{");
@@ -1488,7 +1521,7 @@ namespace uml4net.HandleBars
                 var @class = parameters[1] as IClass;
 
                 var sb = new StringBuilder();
-                sb.Append(property.Visibility.ToString().ToLower(CultureInfo.InvariantCulture));
+                sb.Append((property.Visibility ?? VisibilityKind.Public).ToString().ToLower(CultureInfo.InvariantCulture));
                 sb.Append(" ");
                 sb.Append(property.QueryCSharpFullTypeName());
                 sb.Append(" ");

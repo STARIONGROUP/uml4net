@@ -166,9 +166,9 @@ namespace uml4net.xmi.Writers
                 xmlWriter.WriteAttributeString("operation", element.Operation.XmiId);
             }
 
-            if (element.Visibility != default(VisibilityKind))
+            if (element.Visibility.HasValue)
             {
-                xmlWriter.WriteAttributeString("visibility", element.Visibility.QueryXmiLiteral());
+                xmlWriter.WriteAttributeString("visibility", element.Visibility.Value.QueryXmiLiteral());
             }
 
 
@@ -344,9 +344,9 @@ namespace uml4net.xmi.Writers
                 await xmlWriter.WriteAttributeStringAsync(null, "operation", null, element.Operation.XmiId);
             }
 
-            if (element.Visibility != default(VisibilityKind))
+            if (element.Visibility.HasValue)
             {
-                await xmlWriter.WriteAttributeStringAsync(null, "visibility", null, element.Visibility.QueryXmiLiteral());
+                await xmlWriter.WriteAttributeStringAsync(null, "visibility", null, element.Visibility.Value.QueryXmiLiteral());
             }
 
 

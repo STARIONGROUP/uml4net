@@ -148,8 +148,8 @@ namespace uml4net.HandleBars.Tests
 
             var generatedCode = handlebarsTemplate(new { Property = visibility, Class = @class });
 
-            Assert.That(generatedCode, Does.Contain("if (element.Visibility != VisibilityKind.Public)"));
-            Assert.That(generatedCode, Does.Contain("xmlWriter.WriteAttributeString(\"visibility\", element.Visibility.QueryXmiLiteral());"));
+            Assert.That(generatedCode, Does.Contain("if (element.Visibility.HasValue && element.Visibility.Value != VisibilityKind.Public)"), "PackageableElement::visibility [0..1] has the metamodel default public");
+            Assert.That(generatedCode, Does.Contain("xmlWriter.WriteAttributeString(\"visibility\", element.Visibility.Value.QueryXmiLiteral());"));
         }
 
         [Test]
@@ -370,6 +370,32 @@ namespace uml4net.HandleBars.Tests
             {
                 Assert.That(attributeTemplate(new { Property = specific, Class = @class }), Is.Empty, "implied by the nesting of the XML elements");
                 Assert.That(elementTemplate(new { Property = specific, Class = @class }), Is.Empty);
+            }
+        }
+
+
+        [Test]
+        public void Verify_that_an_optional_value_typed_property_is_generated_as_a_nullable_type_and_written_when_set()
+        {
+            var @class = this.QueryClass("Classification", "Parameter");
+            var effect = @class.QueryAllProperties().Single(x => x.XmiId == "Parameter-effect");
+
+            var interfaceTemplate = this.handlebarsContext.Compile("{{ #Property.WriteForInterface this }}");
+            var classTemplate = this.handlebarsContext.Compile("{{ #Property.WriteForClass this.Property this.Class }}");
+            var writerTemplate = this.handlebarsContext.Compile("{{ #Property.WriteXmlAttributeForXmiWriter this.Property this.Class }}");
+
+            var generalization = this.QueryClass("Classification", "Generalization");
+            var isSubstitutable = generalization.QueryAllProperties().Single(x => x.XmiId == "Generalization-isSubstitutable");
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(interfaceTemplate(effect), Does.Contain("public ParameterEffectKind? Effect { get; set; }"));
+                Assert.That(classTemplate(new { Property = effect, Class = @class }), Does.Match(@"public ParameterEffectKind\?\s+Effect \{ get; set; \}"));
+                Assert.That(writerTemplate(new { Property = effect, Class = @class }), Does.Contain("if (element.Effect.HasValue)"), "no metamodel default: every value that is set is written, including create");
+                Assert.That(writerTemplate(new { Property = effect, Class = @class }), Does.Contain("element.Effect.Value.QueryXmiLiteral()"));
+
+                Assert.That(classTemplate(new { Property = isSubstitutable, Class = generalization }), Does.Match(@"public bool\?\s+IsSubstitutable \{ get; set; \} = true;"), "the metamodel default is the initial value");
+                Assert.That(writerTemplate(new { Property = isSubstitutable, Class = generalization }), Does.Contain("if (element.IsSubstitutable.HasValue && element.IsSubstitutable.Value != true)"));
             }
         }
 

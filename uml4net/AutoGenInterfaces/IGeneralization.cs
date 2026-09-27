@@ -74,7 +74,7 @@ namespace uml4net.Classification
         /// modeler has not stated whether there is such a constraint or not.
         /// </summary>
         [Property(xmiId: "Generalization-isSubstitutable", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: "true")]
-        public bool IsSubstitutable { get; set; }
+        public bool? IsSubstitutable { get; set; }
 
         /// <summary>
         /// The specializing Classifier in the Generalization relationship.

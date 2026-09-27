@@ -287,7 +287,7 @@ namespace uml4net.Activities
         /// </summary>
         [Property(xmiId: "NamedElement-visibility", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [Implements(implementation: "INamedElement.Visibility")]
-        public VisibilityKind Visibility { get; set; }
+        public VisibilityKind? Visibility { get; set; }
 
         /// <summary>
         /// The minimum number of tokens that must traverse the ActivityEdge at the same time. If no weight is

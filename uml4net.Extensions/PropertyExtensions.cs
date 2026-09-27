@@ -168,12 +168,59 @@ namespace uml4net.Extensions
                 return $"IContainerList<I{property.QueryTypeName()}> ";
             }
             
+            if (property.QueryIsNullableValueType())
+            {
+                return $"{property.QueryCSharpTypeName()}? ";
+            }
+
             if (property.Type is IDataType)
             {
                 return $"{property.QueryCSharpTypeName()} ";
             }
-            
+
             return $"I{property.QueryTypeName()}";
+        }
+
+        /// <summary>
+        /// Queries whether the property is an optional, single-valued property of a value type - a Boolean, an
+        /// Integer, a Real or an Enumeration - which is generated as a C# nullable value type so that "no value" can be
+        /// represented, for example <c>NamedElement::visibility [0..1]</c> or <c>Parameter::effect [0..1]</c>
+        /// </summary>
+        /// <param name="property">
+        /// the subject <see cref="IProperty"/>
+        /// </param>
+        /// <returns>
+        /// true when the property has multiplicity <c>[0..1]</c>, its type is Boolean, Integer, Real or an Enumeration and it does not
+        /// redefine a property with a lower bound of at least 1; false otherwise
+        /// </returns>
+        /// <remarks>
+        /// A property that redefines a mandatory property keeps the non-nullable type of the property it redefines,
+        /// so that the generated class can forward the redefined member to it: <c>ExtensionEnd::lower [0..1]</c>
+        /// redefines <c>MultiplicityElement::lower [1..1]</c> and remains an <c>int</c> (its derivation yields 0 when
+        /// there is no lower value). String and UnlimitedNatural map to <c>string</c>, which is already nullable.
+        /// </remarks>
+        public static bool QueryIsNullableValueType(this IProperty property)
+        {
+            if (property == null)
+            {
+                throw new ArgumentNullException(nameof(property));
+            }
+
+            if (!property.QueryIsNullable())
+            {
+                return false;
+            }
+
+            // decided on the UML type rather than on the C# type it maps to, so that a custom C# type mapping
+            // (AddOrOverwriteCSharpTypeMappings) does not change which properties are optional
+            var isValueType = property.Type switch
+            {
+                IEnumeration => true,
+                IPrimitiveType primitiveType => primitiveType.Name is "Boolean" or "Integer" or "Real",
+                _ => false
+            };
+
+            return isValueType && !property.RedefinedProperty.Any(x => x.Lower > 0);
         }
 
         /// <summary>

@@ -192,7 +192,7 @@ namespace uml4net.Values
         [Property(xmiId: "PackageableElement-visibility", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: "public")]
         [RedefinedProperty(propertyName: "NamedElement-visibility")]
         [Implements(implementation: "IPackageableElement.Visibility")]
-        public VisibilityKind Visibility { get; set; } = VisibilityKind.Public;
+        public VisibilityKind? Visibility { get; set; } = VisibilityKind.Public;
 
         /// <summary>
         /// Determines whether and how the NamedElement is visible outside its owning Namespace.
@@ -200,7 +200,7 @@ namespace uml4net.Values
         [Property(xmiId: "NamedElement-visibility", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [RedefinedByProperty("IPackageableElement.Visibility")]
         [Implements(implementation: "INamedElement.Visibility")]
-        VisibilityKind INamedElement.Visibility
+        VisibilityKind? INamedElement.Visibility
         {
             get => this.Visibility;
             set => this.Visibility = value;

@@ -55,9 +55,9 @@ namespace uml4net.Tests.Extend
             {
                 Assert.That(operation.IsOrdered, Is.False);
                 Assert.That(operation.IsUnique, Is.True);
-                Assert.That(operation.Lower, Is.EqualTo(0));
+                Assert.That(operation.Lower, Is.Null, "lower = if returnResult()->notEmpty() then ... else null");
                 Assert.That(operation.Type, Is.Null);
-                Assert.That(operation.Upper, Is.EqualTo("0"));
+                Assert.That(operation.Upper, Is.Null, "upper = if returnResult()->notEmpty() then ... else null");
             }
         }
 

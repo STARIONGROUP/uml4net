@@ -151,9 +151,9 @@ namespace uml4net.xmi.Writers
                 xmlWriter.WriteAttributeString("type", element.Type.XmiId);
             }
 
-            if (element.Visibility != VisibilityKind.Public)
+            if (element.Visibility.HasValue && element.Visibility.Value != VisibilityKind.Public)
             {
-                xmlWriter.WriteAttributeString("visibility", element.Visibility.QueryXmiLiteral());
+                xmlWriter.WriteAttributeString("visibility", element.Visibility.Value.QueryXmiLiteral());
             }
 
 
@@ -269,9 +269,9 @@ namespace uml4net.xmi.Writers
                 await xmlWriter.WriteAttributeStringAsync(null, "type", null, element.Type.XmiId);
             }
 
-            if (element.Visibility != VisibilityKind.Public)
+            if (element.Visibility.HasValue && element.Visibility.Value != VisibilityKind.Public)
             {
-                await xmlWriter.WriteAttributeStringAsync(null, "visibility", null, element.Visibility.QueryXmiLiteral());
+                await xmlWriter.WriteAttributeStringAsync(null, "visibility", null, element.Visibility.Value.QueryXmiLiteral());
             }
 
 

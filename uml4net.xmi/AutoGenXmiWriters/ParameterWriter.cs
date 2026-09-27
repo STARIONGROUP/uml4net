@@ -141,9 +141,9 @@ namespace uml4net.xmi.Writers
                 xmlWriter.WriteAttributeString("direction", element.Direction.QueryXmiLiteral());
             }
 
-            if (element.Effect != default(ParameterEffectKind))
+            if (element.Effect.HasValue)
             {
-                xmlWriter.WriteAttributeString("effect", element.Effect.QueryXmiLiteral());
+                xmlWriter.WriteAttributeString("effect", element.Effect.Value.QueryXmiLiteral());
             }
 
             if (element.IsException)
@@ -181,9 +181,9 @@ namespace uml4net.xmi.Writers
                 xmlWriter.WriteAttributeString("type", element.Type.XmiId);
             }
 
-            if (element.Visibility != default(VisibilityKind))
+            if (element.Visibility.HasValue)
             {
-                xmlWriter.WriteAttributeString("visibility", element.Visibility.QueryXmiLiteral());
+                xmlWriter.WriteAttributeString("visibility", element.Visibility.Value.QueryXmiLiteral());
             }
 
 
@@ -299,9 +299,9 @@ namespace uml4net.xmi.Writers
                 await xmlWriter.WriteAttributeStringAsync(null, "direction", null, element.Direction.QueryXmiLiteral());
             }
 
-            if (element.Effect != default(ParameterEffectKind))
+            if (element.Effect.HasValue)
             {
-                await xmlWriter.WriteAttributeStringAsync(null, "effect", null, element.Effect.QueryXmiLiteral());
+                await xmlWriter.WriteAttributeStringAsync(null, "effect", null, element.Effect.Value.QueryXmiLiteral());
             }
 
             if (element.IsException)
@@ -339,9 +339,9 @@ namespace uml4net.xmi.Writers
                 await xmlWriter.WriteAttributeStringAsync(null, "type", null, element.Type.XmiId);
             }
 
-            if (element.Visibility != default(VisibilityKind))
+            if (element.Visibility.HasValue)
             {
-                await xmlWriter.WriteAttributeStringAsync(null, "visibility", null, element.Visibility.QueryXmiLiteral());
+                await xmlWriter.WriteAttributeStringAsync(null, "visibility", null, element.Visibility.Value.QueryXmiLiteral());
             }
 
 

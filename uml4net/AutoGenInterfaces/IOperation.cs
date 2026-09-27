@@ -115,7 +115,7 @@ namespace uml4net.Classification
         /// from the return result for this Operation.
         /// </summary>
         [Property(xmiId: "Operation-lower", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: false, isUnique: true, defaultValue: null)]
-        public int Lower { get; }
+        public int? Lower { get; }
 
         /// <summary>
         /// The parameters owned by this Operation.
