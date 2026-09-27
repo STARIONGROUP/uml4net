@@ -87,7 +87,7 @@ namespace uml4net.Extensions
         }
 
         /// <summary>
-        /// Queries whether the <see cref="IProperty"/> is has a default value
+        /// Queries whether the <see cref="IProperty"/> has a default value, that is whether <see cref="IProperty.DefaultValue"/> holds a <see cref="IValueSpecification"/>
         /// </summary>
         /// <param name="property">
         /// The subject <see cref="IProperty"/>
@@ -102,7 +102,7 @@ namespace uml4net.Extensions
                 throw new ArgumentNullException(nameof(property));
             }
 
-            return property.DefaultValue != null;
+            return property.DefaultValue.Count > 0;
         }
 
         /// <summary>
