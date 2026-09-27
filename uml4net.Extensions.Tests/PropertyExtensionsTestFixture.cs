@@ -497,6 +497,30 @@ namespace uml4net.Extensions.Tests
         }
 
         [Test]
+        public void Verify_that_QueryHasDefaultValue_is_true_only_when_a_default_value_is_specified()
+        {
+            var root = this.xmiReaderResult.QueryRoot(xmiId: "_0", name: "UML");
+
+            IProperty Find(string packageName, string className, string propertyName) =>
+                root.NestedPackage.Single(x => x.Name == packageName).PackagedElement.OfType<IClass>().Single(x => x.Name == className)
+                    .OwnedAttribute.Single(x => x.Name == propertyName);
+
+            var propertyWithDefault = new Property();
+            propertyWithDefault.DefaultValue.Add(new LiteralInteger { Value = 1 });
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(Find("StructuredClassifiers", "Class", "isActive").QueryHasDefaultValue(), Is.True, "default false");
+                Assert.That(Find("Classification", "Generalization", "isSubstitutable").QueryHasDefaultValue(), Is.True, "default true");
+                Assert.That(Find("CommonStructure", "NamedElement", "name").QueryHasDefaultValue(), Is.False);
+                Assert.That(Find("Classification", "Generalization", "general").QueryHasDefaultValue(), Is.False);
+
+                Assert.That(new Property().QueryHasDefaultValue(), Is.False);
+                Assert.That(propertyWithDefault.QueryHasDefaultValue(), Is.True);
+            }
+        }
+
+        [Test]
         public void Verify_that_QueryCSharpFullTypeName_returns_IReadOnlyList_for_derived_composite_properties()
         {
             var root = this.xmiReaderResult.QueryRoot(xmiId: "_0", name: "UML");

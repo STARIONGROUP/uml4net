@@ -27,6 +27,7 @@ namespace uml4net.HandleBars.Tests
 
     using CommonStructure;
     using HandlebarsDotNet;
+    using HandlebarsDotNet.Helpers;
     using Microsoft.Extensions.Logging;
     using NUnit.Framework;
     using Serilog;
@@ -35,6 +36,7 @@ namespace uml4net.HandleBars.Tests
     using uml4net.Classification;
     using uml4net.Extensions;
     using uml4net.StructuredClassifiers;
+    using uml4net.Values;
     using uml4net.xmi;
     using uml4net.xmi.Readers;
 
@@ -119,6 +121,29 @@ namespace uml4net.HandleBars.Tests
                 Assert.That(handlebarsTemplate(Find("CommonStructure", "Element", "ownedElement")), Is.EqualTo("public IReadOnlyList<IElement> OwnedElement { get; }" + Environment.NewLine));
                 Assert.That(handlebarsTemplate(Find("Activities", "ActivityGroup", "subgroup")), Is.EqualTo("public IReadOnlyList<IActivityGroup> Subgroup { get; }" + Environment.NewLine));
                 Assert.That(handlebarsTemplate(Find("Packages", "Package", "ownedType")), Is.EqualTo("public IReadOnlyList<IType> OwnedType { get; }" + Environment.NewLine));
+            }
+        }
+
+        [Test]
+        public void Verify_that_QueryHasDefaultValue_helper_returns_whether_a_default_value_is_specified()
+        {
+            // a helper used as a sub-expression needs the HandlebarsDotNet.Helpers registration, as in the generator
+            var context = Handlebars.Create();
+            HandlebarsHelpers.Register(context);
+            PropertyHelper.RegisterPropertyHelper(context);
+
+            var template = "{{#if (Property.QueryHasDefaultValue this)}}default{{else}}none{{/if}}";
+
+            var handlebarsTemplate = context.Compile(template);
+
+            var propertyWithDefault = new Property();
+            propertyWithDefault.DefaultValue.Add(new LiteralBoolean { Value = true });
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(handlebarsTemplate(propertyWithDefault), Is.EqualTo("default"));
+                Assert.That(handlebarsTemplate(new Property()), Is.EqualTo("none"));
+                Assert.That(() => context.Compile("{{#if (Property.QueryHasDefaultValue this this)}}{{/if}}")(new Property()), Throws.InstanceOf<HandlebarsException>());
             }
         }
 
