@@ -134,26 +134,24 @@ namespace uml4net.Extensions
 
             packages = packages.Distinct().ToList();
 
-            foreach (var package in packages)
+            // every class owned by the packages, also those nested in a Class or an Interface, packaged in a
+            // Component or owned as a Behavior, as the cache path above sees every Generalization
+            foreach (var c in packages.QueryOwnedClassifiers().OfType<IClass>())
             {
-                var classes = package.PackagedElement.OfType<IClass>();
-                foreach (var c in classes)
+                foreach (var generalization in c.Generalization)
                 {
-                    foreach (var generalization in c.Generalization)
+                    if (generalization.General == @class)
                     {
-                        if (generalization.General == @class)
+                        if (generalization.Specific == null && generalization.Owner is IClass owner)
                         {
-                            if (generalization.Specific == null && generalization.Owner is IClass owner)
-                            {
-                                result.Add(owner);
+                            result.Add(owner);
 
-                                continue;
-                            }
+                            continue;
+                        }
 
-                            if (generalization.Specific is IClass specific)
-                            {
-                                result.Add(specific);
-                            }
+                        if (generalization.Specific is IClass specific)
+                        {
+                            result.Add(specific);
                         }
                     }
                 }
