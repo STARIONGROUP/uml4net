@@ -46,7 +46,7 @@ namespace uml4net.Packages
     using uml4net.Values;
 
     /// <summary>
-    /// An extension end is used to tie an extension to a stereotype when extending a metaclass.The default
+    /// An extension end is used to tie an extension to a stereotype when extending a metaclass. The default
     /// multiplicity of an extension end is 0..1.
     /// </summary>
     [Class(xmiId: "ExtensionEnd", isAbstract: false, isFinalSpecialization: false, isActive: false)]

@@ -88,6 +88,36 @@ namespace uml4net.Extensions.Tests
         }
 
         [Test]
+        public void Verify_that_the_documentation_uses_every_owned_comment_and_keeps_the_words_of_adjacent_lines_apart()
+        {
+            var element = new Class { Name = "Documented" };
+            element.OwnedComment.Add(new Comment { Body = "The first sentence ends here.\nThe second one\r\n   starts on the next line." });
+            element.OwnedComment.Add(new Comment());
+            element.OwnedComment.Add(new Comment { Body = "A <p>second</p> comment.\r\n\r\nWith a blank line." });
+
+            var longComment = new Class { Name = "Long" };
+            longComment.OwnedComment.Add(new Comment { Body = string.Join("\n", Enumerable.Repeat("word", 30)) });
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(element.QueryRawDocumentation(), Is.EqualTo("The first sentence ends here. The second one starts on the next line. A second comment. With a blank line."));
+                Assert.That(element.QueryDocumentation(), Is.EqualTo(new[]
+                {
+                    "The first sentence ends here. The second one starts on the next line.",
+                    "A second comment. With a blank line."
+                }), "every comment starts on a new line");
+
+                Assert.That(longComment.QueryDocumentation().Count(), Is.EqualTo(2), "wrapped at 100 characters");
+                Assert.That(string.Join(" ", longComment.QueryDocumentation()), Is.EqualTo(string.Join(" ", Enumerable.Repeat("word", 30))));
+
+                Assert.That(new Class().QueryDocumentation(), Is.Empty);
+                Assert.That(new Class().QueryRawDocumentation(), Is.Empty);
+                Assert.That(() => ElementExtensions.QueryDocumentation(null), Throws.ArgumentNullException);
+                Assert.That(() => ElementExtensions.QueryRawDocumentation(null), Throws.ArgumentNullException);
+            }
+        }
+
+        [Test]
         public void Verify_that_QueryRootPackage_returns_the_outermost_package_whatever_the_kinds_of_the_owners_in_between()
         {
             using (Assert.EnterMultipleScope())
