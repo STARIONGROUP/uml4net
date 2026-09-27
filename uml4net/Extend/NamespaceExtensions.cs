@@ -272,7 +272,7 @@ namespace uml4net.CommonStructure
 
             var result = new List<INamedElement>();
 
-            result.AddRange(@namespace.OwnedRule);
+            result.AddRange(@namespace.QueryOwnedRuleWithSubsets());
 
             if (@namespace is IActivity activity)
             {
@@ -427,6 +427,61 @@ namespace uml4net.CommonStructure
             }
 
             return result.Distinct().ToList();
+        }
+
+        /// <summary>
+        /// Queries the Constraints owned by the Namespace as rules: <see cref="INamespace.OwnedRule"/> together with
+        /// the composite properties that subset <c>Namespace::ownedRule</c>
+        /// </summary>
+        /// <param name="namespace">
+        /// The subject <see cref="INamespace"/>
+        /// </param>
+        /// <returns>
+        /// the owned rules, de-duplicated
+        /// </returns>
+        /// <remarks>
+        /// <c>Behavior::precondition</c>/<c>postcondition</c>, <c>Operation::precondition</c>/<c>postcondition</c>/
+        /// <c>bodyCondition</c>, <c>Transition::guard</c>, <c>State::stateInvariant</c> and
+        /// <c>ProtocolTransition::preCondition</c> (which subsets <c>Transition::guard</c>)/<c>postCondition</c> subset
+        /// <c>Namespace::ownedRule</c>. Each is a separate <see cref="IContainerList{T}"/> whose values are not added to
+        /// <see cref="INamespace.OwnedRule"/>, so a Constraint that a document lists only under, say,
+        /// <c>precondition</c> would otherwise not be an owned member. Documents often list the same Constraint under
+        /// both properties (an <c>ownedRule</c> proxy next to a <c>bodyCondition</c> definition), hence the de-duplication.
+        /// </remarks>
+        private static IEnumerable<IConstraint> QueryOwnedRuleWithSubsets(this INamespace @namespace)
+        {
+            var result = new List<IConstraint>(@namespace.OwnedRule);
+
+            if (@namespace is IBehavior behavior)
+            {
+                result.AddRange(behavior.Precondition);
+                result.AddRange(behavior.Postcondition);
+            }
+
+            if (@namespace is IOperation operation)
+            {
+                result.AddRange(operation.Precondition);
+                result.AddRange(operation.Postcondition);
+                result.AddRange(operation.BodyCondition);
+            }
+
+            if (@namespace is ITransition transition)
+            {
+                result.AddRange(transition.Guard);
+            }
+
+            if (@namespace is IProtocolTransition protocolTransition)
+            {
+                result.AddRange(protocolTransition.PreCondition);
+                result.AddRange(protocolTransition.PostCondition);
+            }
+
+            if (@namespace is IState state)
+            {
+                result.AddRange(state.StateInvariant);
+            }
+
+            return result.Distinct();
         }
     }
 }

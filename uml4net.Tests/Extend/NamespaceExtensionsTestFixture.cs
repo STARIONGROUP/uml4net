@@ -399,6 +399,78 @@ namespace uml4net.Tests.Extend
         }
 
         [Test]
+        public void Verify_that_QueryOwnedMember_includes_the_constraints_of_the_properties_that_subset_ownedRule()
+        {
+            var activity = new Activity { Name = "A" };
+            var behaviorPrecondition = new Constraint { Name = "behaviorPre" };
+            var behaviorPostcondition = new Constraint { Name = "behaviorPost" };
+            activity.Precondition.Add(behaviorPrecondition);
+            activity.Postcondition.Add(behaviorPostcondition);
+
+            var operation = new Operation { Name = "op" };
+            var operationPrecondition = new Constraint { Name = "operationPre" };
+            var operationPostcondition = new Constraint { Name = "operationPost" };
+            var bodyCondition = new Constraint { Name = "body" };
+            operation.Precondition.Add(operationPrecondition);
+            operation.Postcondition.Add(operationPostcondition);
+            operation.BodyCondition.Add(bodyCondition);
+
+            var transition = new Transition { Name = "t" };
+            var guard = new Constraint { Name = "guard" };
+            transition.Guard.Add(guard);
+
+            var protocolTransition = new ProtocolTransition { Name = "pt" };
+            var protocolPrecondition = new Constraint { Name = "protocolPre" };
+            var protocolPostcondition = new Constraint { Name = "protocolPost" };
+            protocolTransition.PreCondition.Add(protocolPrecondition);
+            protocolTransition.PostCondition.Add(protocolPostcondition);
+
+            var state = new State { Name = "s" };
+            var stateInvariant = new Constraint { Name = "invariant" };
+            state.StateInvariant.Add(stateInvariant);
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(activity.OwnedMember, Is.SupersetOf(new INamedElement[] { behaviorPrecondition, behaviorPostcondition }));
+                Assert.That(operation.OwnedMember, Is.SupersetOf(new INamedElement[] { operationPrecondition, operationPostcondition, bodyCondition }));
+                Assert.That(transition.OwnedMember, Is.EquivalentTo(new INamedElement[] { guard }));
+                Assert.That(protocolTransition.OwnedMember, Is.EquivalentTo(new INamedElement[] { protocolPrecondition, protocolPostcondition }), "preCondition subsets Transition::guard");
+                Assert.That(state.OwnedMember, Is.SupersetOf(new INamedElement[] { stateInvariant }));
+            }
+        }
+
+        [Test]
+        public void Verify_that_QueryOwnedMember_lists_a_constraint_held_in_ownedRule_and_in_a_subset_once()
+        {
+            // documents often list the same Constraint under both properties, e.g. an ownedRule proxy next to a bodyCondition
+            var operation = new Operation { Name = "op" };
+            var bodyCondition = new Constraint { Name = "body" };
+            operation.BodyCondition.Add(bodyCondition);
+            operation.OwnedRule.Add(bodyCondition);
+
+            Assert.That(operation.OwnedMember, Is.EquivalentTo(new INamedElement[] { bodyCondition }));
+        }
+
+        [Test]
+        public void Verify_that_a_constraint_held_only_in_a_subset_of_ownedRule_has_the_namespace_as_namespace_and_qualified_name()
+        {
+            var package = new Package { Name = "P" };
+            var @class = new Class { Name = "C" };
+            var operation = new Operation { Name = "op" };
+            var precondition = new Constraint { Name = "pre" };
+
+            package.PackagedElement.Add(@class);
+            @class.OwnedOperation.Add(operation);
+            operation.Precondition.Add(precondition);
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(precondition.Namespace, Is.SameAs(operation), "NamedElement::namespace is the owner when the element is one of its owned members");
+                Assert.That(precondition.QualifiedName, Is.EqualTo("P::C::op::pre"));
+            }
+        }
+
+        [Test]
         public void Verify_that_QueryOwnedMember_includes_OwnedAttribute_for_a_Signal()
         {
             var signal = new Signal { Name = "S" };
