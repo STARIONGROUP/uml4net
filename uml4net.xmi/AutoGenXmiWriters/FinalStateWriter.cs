@@ -136,11 +136,6 @@ namespace uml4net.xmi.Writers
                 xmlWriter.WriteAttributeString("xmi", "uuid", this.XmiWriterSettings.XmiNamespaceUri, element.XmiGuid);
             }
 
-            if (element.Container != null && writeContext.IsLocal(element.Container))
-            {
-                xmlWriter.WriteAttributeString("container", element.Container.XmiId);
-            }
-
             if (element.IsLeaf)
             {
                 xmlWriter.WriteAttributeString("isLeaf", XmlConvert.ToString(element.IsLeaf));
@@ -175,11 +170,6 @@ namespace uml4net.xmi.Writers
             foreach (var value in element.ConnectionPoint)
             {
                 this.XmiElementWriterFacade.WriteContainedElement(xmlWriter, value, "connectionPoint", writeContext);
-            }
-
-            if (element.Container != null && !writeContext.IsLocal(element.Container))
-            {
-                this.XmiElementWriterFacade.WriteReferenceElement(xmlWriter, element.Container, "container", writeContext);
             }
 
             foreach (var value in element.DeferrableTrigger)
@@ -314,11 +304,6 @@ namespace uml4net.xmi.Writers
                 await xmlWriter.WriteAttributeStringAsync("xmi", "uuid", this.XmiWriterSettings.XmiNamespaceUri, element.XmiGuid);
             }
 
-            if (element.Container != null && writeContext.IsLocal(element.Container))
-            {
-                await xmlWriter.WriteAttributeStringAsync(null, "container", null, element.Container.XmiId);
-            }
-
             if (element.IsLeaf)
             {
                 await xmlWriter.WriteAttributeStringAsync(null, "isLeaf", null, XmlConvert.ToString(element.IsLeaf));
@@ -353,11 +338,6 @@ namespace uml4net.xmi.Writers
             foreach (var value in element.ConnectionPoint)
             {
                 await this.XmiElementWriterFacade.WriteContainedElementAsync(xmlWriter, value, "connectionPoint", writeContext);
-            }
-
-            if (element.Container != null && !writeContext.IsLocal(element.Container))
-            {
-                await this.XmiElementWriterFacade.WriteReferenceElementAsync(xmlWriter, element.Container, "container", writeContext);
             }
 
             foreach (var value in element.DeferrableTrigger)

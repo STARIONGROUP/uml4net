@@ -141,11 +141,6 @@ namespace uml4net.xmi.Writers
                 xmlWriter.WriteAttributeString("connector", element.Connector.XmiId);
             }
 
-            if (element.Interaction != null && writeContext.IsLocal(element.Interaction))
-            {
-                xmlWriter.WriteAttributeString("interaction", element.Interaction.XmiId);
-            }
-
             if (element.MessageSort != MessageSort.SynchCall)
             {
                 xmlWriter.WriteAttributeString("messageSort", element.MessageSort.QueryXmiLiteral());
@@ -185,11 +180,6 @@ namespace uml4net.xmi.Writers
             if (element.Connector != null && !writeContext.IsLocal(element.Connector))
             {
                 this.XmiElementWriterFacade.WriteReferenceElement(xmlWriter, element.Connector, "connector", writeContext);
-            }
-
-            if (element.Interaction != null && !writeContext.IsLocal(element.Interaction))
-            {
-                this.XmiElementWriterFacade.WriteReferenceElement(xmlWriter, element.Interaction, "interaction", writeContext);
             }
 
             foreach (var value in element.NameExpression)
@@ -289,11 +279,6 @@ namespace uml4net.xmi.Writers
                 await xmlWriter.WriteAttributeStringAsync(null, "connector", null, element.Connector.XmiId);
             }
 
-            if (element.Interaction != null && writeContext.IsLocal(element.Interaction))
-            {
-                await xmlWriter.WriteAttributeStringAsync(null, "interaction", null, element.Interaction.XmiId);
-            }
-
             if (element.MessageSort != MessageSort.SynchCall)
             {
                 await xmlWriter.WriteAttributeStringAsync(null, "messageSort", null, element.MessageSort.QueryXmiLiteral());
@@ -333,11 +318,6 @@ namespace uml4net.xmi.Writers
             if (element.Connector != null && !writeContext.IsLocal(element.Connector))
             {
                 await this.XmiElementWriterFacade.WriteReferenceElementAsync(xmlWriter, element.Connector, "connector", writeContext);
-            }
-
-            if (element.Interaction != null && !writeContext.IsLocal(element.Interaction))
-            {
-                await this.XmiElementWriterFacade.WriteReferenceElementAsync(xmlWriter, element.Interaction, "interaction", writeContext);
             }
 
             foreach (var value in element.NameExpression)

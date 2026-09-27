@@ -146,11 +146,6 @@ namespace uml4net.xmi.Writers
                 xmlWriter.WriteAttributeString("name", element.Name);
             }
 
-            if (element.UseCase != null && writeContext.IsLocal(element.UseCase))
-            {
-                xmlWriter.WriteAttributeString("useCase", element.UseCase.XmiId);
-            }
-
             if (element.Visibility != default(VisibilityKind))
             {
                 xmlWriter.WriteAttributeString("visibility", element.Visibility.QueryXmiLiteral());
@@ -165,11 +160,6 @@ namespace uml4net.xmi.Writers
             foreach (var value in element.OwnedComment)
             {
                 this.XmiElementWriterFacade.WriteContainedElement(xmlWriter, value, "ownedComment", writeContext);
-            }
-
-            if (element.UseCase != null && !writeContext.IsLocal(element.UseCase))
-            {
-                this.XmiElementWriterFacade.WriteReferenceElement(xmlWriter, element.UseCase, "useCase", writeContext);
             }
 
 
@@ -249,11 +239,6 @@ namespace uml4net.xmi.Writers
                 await xmlWriter.WriteAttributeStringAsync(null, "name", null, element.Name);
             }
 
-            if (element.UseCase != null && writeContext.IsLocal(element.UseCase))
-            {
-                await xmlWriter.WriteAttributeStringAsync(null, "useCase", null, element.UseCase.XmiId);
-            }
-
             if (element.Visibility != default(VisibilityKind))
             {
                 await xmlWriter.WriteAttributeStringAsync(null, "visibility", null, element.Visibility.QueryXmiLiteral());
@@ -268,11 +253,6 @@ namespace uml4net.xmi.Writers
             foreach (var value in element.OwnedComment)
             {
                 await this.XmiElementWriterFacade.WriteContainedElementAsync(xmlWriter, value, "ownedComment", writeContext);
-            }
-
-            if (element.UseCase != null && !writeContext.IsLocal(element.UseCase))
-            {
-                await this.XmiElementWriterFacade.WriteReferenceElementAsync(xmlWriter, element.UseCase, "useCase", writeContext);
             }
 
 

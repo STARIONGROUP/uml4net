@@ -136,11 +136,6 @@ namespace uml4net.xmi.Writers
                 xmlWriter.WriteAttributeString("xmi", "uuid", this.XmiWriterSettings.XmiNamespaceUri, element.XmiGuid);
             }
 
-            if (element.Container != null && writeContext.IsLocal(element.Container))
-            {
-                xmlWriter.WriteAttributeString("container", element.Container.XmiId);
-            }
-
             if (element.IsLeaf)
             {
                 xmlWriter.WriteAttributeString("isLeaf", XmlConvert.ToString(element.IsLeaf));
@@ -176,11 +171,6 @@ namespace uml4net.xmi.Writers
                 xmlWriter.WriteAttributeString("visibility", element.Visibility.QueryXmiLiteral());
             }
 
-
-            if (element.Container != null && !writeContext.IsLocal(element.Container))
-            {
-                this.XmiElementWriterFacade.WriteReferenceElement(xmlWriter, element.Container, "container", writeContext);
-            }
 
             foreach (var value in element.Effect)
             {
@@ -304,11 +294,6 @@ namespace uml4net.xmi.Writers
                 await xmlWriter.WriteAttributeStringAsync("xmi", "uuid", this.XmiWriterSettings.XmiNamespaceUri, element.XmiGuid);
             }
 
-            if (element.Container != null && writeContext.IsLocal(element.Container))
-            {
-                await xmlWriter.WriteAttributeStringAsync(null, "container", null, element.Container.XmiId);
-            }
-
             if (element.IsLeaf)
             {
                 await xmlWriter.WriteAttributeStringAsync(null, "isLeaf", null, XmlConvert.ToString(element.IsLeaf));
@@ -344,11 +329,6 @@ namespace uml4net.xmi.Writers
                 await xmlWriter.WriteAttributeStringAsync(null, "visibility", null, element.Visibility.QueryXmiLiteral());
             }
 
-
-            if (element.Container != null && !writeContext.IsLocal(element.Container))
-            {
-                await this.XmiElementWriterFacade.WriteReferenceElementAsync(xmlWriter, element.Container, "container", writeContext);
-            }
 
             foreach (var value in element.Effect)
             {

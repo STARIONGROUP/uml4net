@@ -136,21 +136,11 @@ namespace uml4net.xmi.Writers
                 xmlWriter.WriteAttributeString("xmi", "uuid", this.XmiWriterSettings.XmiNamespaceUri, element.XmiGuid);
             }
 
-            if (element.BoundElement != null && writeContext.IsLocal(element.BoundElement))
-            {
-                xmlWriter.WriteAttributeString("boundElement", element.BoundElement.XmiId);
-            }
-
             if (element.Signature != null && writeContext.IsLocal(element.Signature))
             {
                 xmlWriter.WriteAttributeString("signature", element.Signature.XmiId);
             }
 
-
-            if (element.BoundElement != null && !writeContext.IsLocal(element.BoundElement))
-            {
-                this.XmiElementWriterFacade.WriteReferenceElement(xmlWriter, element.BoundElement, "boundElement", writeContext);
-            }
 
             foreach (var value in element.OwnedComment)
             {
@@ -234,21 +224,11 @@ namespace uml4net.xmi.Writers
                 await xmlWriter.WriteAttributeStringAsync("xmi", "uuid", this.XmiWriterSettings.XmiNamespaceUri, element.XmiGuid);
             }
 
-            if (element.BoundElement != null && writeContext.IsLocal(element.BoundElement))
-            {
-                await xmlWriter.WriteAttributeStringAsync(null, "boundElement", null, element.BoundElement.XmiId);
-            }
-
             if (element.Signature != null && writeContext.IsLocal(element.Signature))
             {
                 await xmlWriter.WriteAttributeStringAsync(null, "signature", null, element.Signature.XmiId);
             }
 
-
-            if (element.BoundElement != null && !writeContext.IsLocal(element.BoundElement))
-            {
-                await this.XmiElementWriterFacade.WriteReferenceElementAsync(xmlWriter, element.BoundElement, "boundElement", writeContext);
-            }
 
             foreach (var value in element.OwnedComment)
             {

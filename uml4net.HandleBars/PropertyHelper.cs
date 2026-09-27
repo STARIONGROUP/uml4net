@@ -639,7 +639,23 @@ namespace uml4net.HandleBars
                             }
 
                             sb.AppendLine("{");
-                            sb.AppendLine($"get => this.{propertyName} ??= new ContainerList<I{property.QueryTypeName()}>(this);");
+
+                            // the owner end of a composite association - e.g. Generalization::specific for
+                            // Classifier::generalization - is not serialized in an XMI document; it is kept in sync
+                            // with the containment by the ContainerList
+                            var ownerEndStatements = QueryOwnerEndStatements(property, @class);
+
+                            if (ownerEndStatements.Attach.Count > 0)
+                            {
+                                sb.AppendLine($"get => this.{propertyName} ??= new ContainerList<I{property.QueryTypeName()}>(this,");
+                                sb.AppendLine($"    containedElement => {{ {string.Join(" ", ownerEndStatements.Attach)} }},");
+                                sb.AppendLine($"    containedElement => {{ {string.Join(" ", ownerEndStatements.Detach)} }});");
+                            }
+                            else
+                            {
+                                sb.AppendLine($"get => this.{propertyName} ??= new ContainerList<I{property.QueryTypeName()}>(this);");
+                            }
+
                             sb.AppendLine($"set => this.{propertyName} = value;");
                             sb.AppendLine("}");
                             sb.AppendLine();
@@ -1159,6 +1175,13 @@ namespace uml4net.HandleBars
                     return;
                 }
 
+                // the owner end of a composite association is implied by the nesting of the XML elements and is not
+                // serialized (the OMG documents never write it); the generated classes set it on containment
+                if (property.QueryIsOwnerEnd())
+                {
+                    return;
+                }
+
                 var isRedefinedByProperty = property.TryQueryRedefinedByProperty(@class, out _);
 
                 if (isRedefinedByProperty)
@@ -1290,6 +1313,13 @@ namespace uml4net.HandleBars
                 }
 
                 if (property.IsDerived || property.IsDerivedUnion || property.IsReadOnly)
+                {
+                    return;
+                }
+
+                // the owner end of a composite association is implied by the nesting of the XML elements and is not
+                // serialized (the OMG documents never write it); the generated classes set it on containment
+                if (property.QueryIsOwnerEnd())
                 {
                     return;
                 }
@@ -1565,6 +1595,60 @@ namespace uml4net.HandleBars
                 "double" => "XmlConvert.ToDouble",
                 _ => throw new NotSupportedException($"No XmlConvert conversion is known for the C# type {cSharpTypeName}")
             };
+        }
+
+        /// <summary>
+        /// Queries the C# statements with which the <c>ContainerList</c> of a composite property keeps the owner ends
+        /// of the contained elements in sync with the containment. An XMI document does not serialize the owner end
+        /// of a composite association, it is implied by the nesting of the XML elements.
+        /// </summary>
+        /// <param name="property">
+        /// The composite <see cref="IProperty"/> the <c>ContainerList</c> is generated for
+        /// </param>
+        /// <param name="class">
+        /// The <see cref="IClass"/> that is being generated
+        /// </param>
+        /// <returns>
+        /// The statements that attach and detach the owner end of the property itself - for example
+        /// <c>Generalization::specific</c> for <c>Classifier::generalization</c> - followed by those of the derived
+        /// composite properties of the class that subset the property and narrow its type, which select the
+        /// contained elements of that type - for example <c>Type::package</c> (the owner end of
+        /// <c>Package::ownedType</c>) and <c>Package::nestingPackage</c> (of <c>Package::nestedPackage</c>) for
+        /// <c>Package::packagedElement</c>; empty when there is no owner end to maintain
+        /// </returns>
+        private static (List<string> Attach, List<string> Detach) QueryOwnerEndStatements(IProperty property, IClass @class)
+        {
+            var attach = new List<string>();
+            var detach = new List<string>();
+
+            if (property.TryQueryOwnerEnd(out var ownerEnd))
+            {
+                var ownerEndName = ownerEnd.Name.CapitalizeFirstLetter();
+
+                attach.Add($"containedElement.{ownerEndName} = this;");
+                detach.Add($"if (ReferenceEquals(containedElement.{ownerEndName}, this)) {{ containedElement.{ownerEndName} = null; }}");
+            }
+
+            var derivedSubsets = @class.QueryAllProperties()
+                .Where(x => x.IsDerived && !x.IsDerivedUnion && x.SubsettedProperty.Contains(property))
+                .OrderBy(x => x.Name);
+
+            foreach (var derivedSubset in derivedSubsets)
+            {
+                if (!derivedSubset.TryQueryOwnerEnd(out var derivedSubsetOwnerEnd))
+                {
+                    continue;
+                }
+
+                var typeName = $"I{derivedSubset.QueryTypeName()}";
+                var variableName = $"{derivedSubset.Name}Element";
+                var ownerEndName = derivedSubsetOwnerEnd.Name.CapitalizeFirstLetter();
+
+                attach.Add($"if (containedElement is {typeName} {variableName}) {{ {variableName}.{ownerEndName} = this; }}");
+                detach.Add($"if (containedElement is {typeName} {variableName} && ReferenceEquals({variableName}.{ownerEndName}, this)) {{ {variableName}.{ownerEndName} = null; }}");
+            }
+
+            return (attach, detach);
         }
     }
 }

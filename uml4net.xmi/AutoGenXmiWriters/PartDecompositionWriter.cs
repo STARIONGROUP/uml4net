@@ -136,16 +136,6 @@ namespace uml4net.xmi.Writers
                 xmlWriter.WriteAttributeString("xmi", "uuid", this.XmiWriterSettings.XmiNamespaceUri, element.XmiGuid);
             }
 
-            if (element.EnclosingInteraction != null && writeContext.IsLocal(element.EnclosingInteraction))
-            {
-                xmlWriter.WriteAttributeString("enclosingInteraction", element.EnclosingInteraction.XmiId);
-            }
-
-            if (element.EnclosingOperand != null && writeContext.IsLocal(element.EnclosingOperand))
-            {
-                xmlWriter.WriteAttributeString("enclosingOperand", element.EnclosingOperand.XmiId);
-            }
-
             if (!string.IsNullOrEmpty(element.Name))
             {
                 xmlWriter.WriteAttributeString("name", element.Name);
@@ -180,16 +170,6 @@ namespace uml4net.xmi.Writers
             foreach (var value in element.Covered)
             {
                 this.XmiElementWriterFacade.WriteReferenceElement(xmlWriter, value, "covered", writeContext);
-            }
-
-            if (element.EnclosingInteraction != null && !writeContext.IsLocal(element.EnclosingInteraction))
-            {
-                this.XmiElementWriterFacade.WriteReferenceElement(xmlWriter, element.EnclosingInteraction, "enclosingInteraction", writeContext);
-            }
-
-            if (element.EnclosingOperand != null && !writeContext.IsLocal(element.EnclosingOperand))
-            {
-                this.XmiElementWriterFacade.WriteReferenceElement(xmlWriter, element.EnclosingOperand, "enclosingOperand", writeContext);
             }
 
             foreach (var value in element.GeneralOrdering)
@@ -289,16 +269,6 @@ namespace uml4net.xmi.Writers
                 await xmlWriter.WriteAttributeStringAsync("xmi", "uuid", this.XmiWriterSettings.XmiNamespaceUri, element.XmiGuid);
             }
 
-            if (element.EnclosingInteraction != null && writeContext.IsLocal(element.EnclosingInteraction))
-            {
-                await xmlWriter.WriteAttributeStringAsync(null, "enclosingInteraction", null, element.EnclosingInteraction.XmiId);
-            }
-
-            if (element.EnclosingOperand != null && writeContext.IsLocal(element.EnclosingOperand))
-            {
-                await xmlWriter.WriteAttributeStringAsync(null, "enclosingOperand", null, element.EnclosingOperand.XmiId);
-            }
-
             if (!string.IsNullOrEmpty(element.Name))
             {
                 await xmlWriter.WriteAttributeStringAsync(null, "name", null, element.Name);
@@ -333,16 +303,6 @@ namespace uml4net.xmi.Writers
             foreach (var value in element.Covered)
             {
                 await this.XmiElementWriterFacade.WriteReferenceElementAsync(xmlWriter, value, "covered", writeContext);
-            }
-
-            if (element.EnclosingInteraction != null && !writeContext.IsLocal(element.EnclosingInteraction))
-            {
-                await this.XmiElementWriterFacade.WriteReferenceElementAsync(xmlWriter, element.EnclosingInteraction, "enclosingInteraction", writeContext);
-            }
-
-            if (element.EnclosingOperand != null && !writeContext.IsLocal(element.EnclosingOperand))
-            {
-                await this.XmiElementWriterFacade.WriteReferenceElementAsync(xmlWriter, element.EnclosingOperand, "enclosingOperand", writeContext);
             }
 
             foreach (var value in element.GeneralOrdering)

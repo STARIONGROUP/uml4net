@@ -89,7 +89,7 @@ namespace uml4net.Tests.Extend
 
             using (Assert.EnterMultipleScope())
             {
-                Assert.That(edge.InStructuredNode, Is.Null, "the owner end is not set");
+                Assert.That(edge.InStructuredNode, Is.SameAs(structuredActivityNode), "the containment sets the owner end");
                 Assert.That(edge.InGroup, Is.EquivalentTo(new IActivityGroup[] { structuredActivityNode }));
             }
         }

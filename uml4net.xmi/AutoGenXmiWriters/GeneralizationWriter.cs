@@ -146,11 +146,6 @@ namespace uml4net.xmi.Writers
                 xmlWriter.WriteAttributeString("isSubstitutable", XmlConvert.ToString(element.IsSubstitutable));
             }
 
-            if (element.Specific != null && writeContext.IsLocal(element.Specific))
-            {
-                xmlWriter.WriteAttributeString("specific", element.Specific.XmiId);
-            }
-
 
             if (element.General != null && !writeContext.IsLocal(element.General))
             {
@@ -165,11 +160,6 @@ namespace uml4net.xmi.Writers
             foreach (var value in element.OwnedComment)
             {
                 this.XmiElementWriterFacade.WriteContainedElement(xmlWriter, value, "ownedComment", writeContext);
-            }
-
-            if (element.Specific != null && !writeContext.IsLocal(element.Specific))
-            {
-                this.XmiElementWriterFacade.WriteReferenceElement(xmlWriter, element.Specific, "specific", writeContext);
             }
 
 
@@ -249,11 +239,6 @@ namespace uml4net.xmi.Writers
                 await xmlWriter.WriteAttributeStringAsync(null, "isSubstitutable", null, XmlConvert.ToString(element.IsSubstitutable));
             }
 
-            if (element.Specific != null && writeContext.IsLocal(element.Specific))
-            {
-                await xmlWriter.WriteAttributeStringAsync(null, "specific", null, element.Specific.XmiId);
-            }
-
 
             if (element.General != null && !writeContext.IsLocal(element.General))
             {
@@ -268,11 +253,6 @@ namespace uml4net.xmi.Writers
             foreach (var value in element.OwnedComment)
             {
                 await this.XmiElementWriterFacade.WriteContainedElementAsync(xmlWriter, value, "ownedComment", writeContext);
-            }
-
-            if (element.Specific != null && !writeContext.IsLocal(element.Specific))
-            {
-                await this.XmiElementWriterFacade.WriteReferenceElementAsync(xmlWriter, element.Specific, "specific", writeContext);
             }
 
 

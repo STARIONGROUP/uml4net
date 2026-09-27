@@ -146,11 +146,6 @@ namespace uml4net.xmi.Writers
                 xmlWriter.WriteAttributeString("formal", element.Formal.XmiId);
             }
 
-            if (element.TemplateBinding != null && writeContext.IsLocal(element.TemplateBinding))
-            {
-                xmlWriter.WriteAttributeString("templateBinding", element.TemplateBinding.XmiId);
-            }
-
 
             if (element.Actual != null && !writeContext.IsLocal(element.Actual))
             {
@@ -170,11 +165,6 @@ namespace uml4net.xmi.Writers
             foreach (var value in element.OwnedComment)
             {
                 this.XmiElementWriterFacade.WriteContainedElement(xmlWriter, value, "ownedComment", writeContext);
-            }
-
-            if (element.TemplateBinding != null && !writeContext.IsLocal(element.TemplateBinding))
-            {
-                this.XmiElementWriterFacade.WriteReferenceElement(xmlWriter, element.TemplateBinding, "templateBinding", writeContext);
             }
 
 
@@ -254,11 +244,6 @@ namespace uml4net.xmi.Writers
                 await xmlWriter.WriteAttributeStringAsync(null, "formal", null, element.Formal.XmiId);
             }
 
-            if (element.TemplateBinding != null && writeContext.IsLocal(element.TemplateBinding))
-            {
-                await xmlWriter.WriteAttributeStringAsync(null, "templateBinding", null, element.TemplateBinding.XmiId);
-            }
-
 
             if (element.Actual != null && !writeContext.IsLocal(element.Actual))
             {
@@ -278,11 +263,6 @@ namespace uml4net.xmi.Writers
             foreach (var value in element.OwnedComment)
             {
                 await this.XmiElementWriterFacade.WriteContainedElementAsync(xmlWriter, value, "ownedComment", writeContext);
-            }
-
-            if (element.TemplateBinding != null && !writeContext.IsLocal(element.TemplateBinding))
-            {
-                await this.XmiElementWriterFacade.WriteReferenceElementAsync(xmlWriter, element.TemplateBinding, "templateBinding", writeContext);
             }
 
 

@@ -141,11 +141,6 @@ namespace uml4net.xmi.Writers
                 xmlWriter.WriteAttributeString("importedPackage", element.ImportedPackage.XmiId);
             }
 
-            if (element.ImportingNamespace != null && writeContext.IsLocal(element.ImportingNamespace))
-            {
-                xmlWriter.WriteAttributeString("importingNamespace", element.ImportingNamespace.XmiId);
-            }
-
             if (element.Visibility != VisibilityKind.Public)
             {
                 xmlWriter.WriteAttributeString("visibility", element.Visibility.QueryXmiLiteral());
@@ -155,11 +150,6 @@ namespace uml4net.xmi.Writers
             if (element.ImportedPackage != null && !writeContext.IsLocal(element.ImportedPackage))
             {
                 this.XmiElementWriterFacade.WriteReferenceElement(xmlWriter, element.ImportedPackage, "importedPackage", writeContext);
-            }
-
-            if (element.ImportingNamespace != null && !writeContext.IsLocal(element.ImportingNamespace))
-            {
-                this.XmiElementWriterFacade.WriteReferenceElement(xmlWriter, element.ImportingNamespace, "importingNamespace", writeContext);
             }
 
             foreach (var value in element.OwnedComment)
@@ -239,11 +229,6 @@ namespace uml4net.xmi.Writers
                 await xmlWriter.WriteAttributeStringAsync(null, "importedPackage", null, element.ImportedPackage.XmiId);
             }
 
-            if (element.ImportingNamespace != null && writeContext.IsLocal(element.ImportingNamespace))
-            {
-                await xmlWriter.WriteAttributeStringAsync(null, "importingNamespace", null, element.ImportingNamespace.XmiId);
-            }
-
             if (element.Visibility != VisibilityKind.Public)
             {
                 await xmlWriter.WriteAttributeStringAsync(null, "visibility", null, element.Visibility.QueryXmiLiteral());
@@ -253,11 +238,6 @@ namespace uml4net.xmi.Writers
             if (element.ImportedPackage != null && !writeContext.IsLocal(element.ImportedPackage))
             {
                 await this.XmiElementWriterFacade.WriteReferenceElementAsync(xmlWriter, element.ImportedPackage, "importedPackage", writeContext);
-            }
-
-            if (element.ImportingNamespace != null && !writeContext.IsLocal(element.ImportingNamespace))
-            {
-                await this.XmiElementWriterFacade.WriteReferenceElementAsync(xmlWriter, element.ImportingNamespace, "importingNamespace", writeContext);
             }
 
             foreach (var value in element.OwnedComment)

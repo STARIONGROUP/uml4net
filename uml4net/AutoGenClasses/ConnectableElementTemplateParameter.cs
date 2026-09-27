@@ -129,7 +129,9 @@ namespace uml4net.StructuredClassifiers
         [Implements(implementation: "ITemplateParameter.OwnedParameteredElement")]
         public IContainerList<IParameterableElement> OwnedParameteredElement
         {
-            get => this.ownedParameteredElement ??= new ContainerList<IParameterableElement>(this);
+            get => this.ownedParameteredElement ??= new ContainerList<IParameterableElement>(this,
+                containedElement => { containedElement.OwningTemplateParameter = this; },
+                containedElement => { if (ReferenceEquals(containedElement.OwningTemplateParameter, this)) { containedElement.OwningTemplateParameter = null; } });
             set => this.ownedParameteredElement = value;
         }
 

@@ -155,7 +155,9 @@ namespace uml4net.Interactions
         [Implements(implementation: "INamespace.ElementImport")]
         public IContainerList<IElementImport> ElementImport
         {
-            get => this.elementImport ??= new ContainerList<IElementImport>(this);
+            get => this.elementImport ??= new ContainerList<IElementImport>(this,
+                containedElement => { containedElement.ImportingNamespace = this; },
+                containedElement => { if (ReferenceEquals(containedElement.ImportingNamespace, this)) { containedElement.ImportingNamespace = null; } });
             set => this.elementImport = value;
         }
 
@@ -224,7 +226,9 @@ namespace uml4net.Interactions
         [Implements(implementation: "IInteraction.Fragment")]
         public IContainerList<IInteractionFragment> Fragment
         {
-            get => this.fragment ??= new ContainerList<IInteractionFragment>(this);
+            get => this.fragment ??= new ContainerList<IInteractionFragment>(this,
+                containedElement => { containedElement.EnclosingInteraction = this; },
+                containedElement => { if (ReferenceEquals(containedElement.EnclosingInteraction, this)) { containedElement.EnclosingInteraction = null; } });
             set => this.fragment = value;
         }
 
@@ -251,7 +255,9 @@ namespace uml4net.Interactions
         [Implements(implementation: "IClassifier.Generalization")]
         public IContainerList<IGeneralization> Generalization
         {
-            get => this.generalization ??= new ContainerList<IGeneralization>(this);
+            get => this.generalization ??= new ContainerList<IGeneralization>(this,
+                containedElement => { containedElement.Specific = this; },
+                containedElement => { if (ReferenceEquals(containedElement.Specific, this)) { containedElement.Specific = null; } });
             set => this.generalization = value;
         }
 
@@ -304,7 +310,9 @@ namespace uml4net.Interactions
         [Implements(implementation: "IBehavioredClassifier.InterfaceRealization")]
         public IContainerList<IInterfaceRealization> InterfaceRealization
         {
-            get => this.interfaceRealization ??= new ContainerList<IInterfaceRealization>(this);
+            get => this.interfaceRealization ??= new ContainerList<IInterfaceRealization>(this,
+                containedElement => { containedElement.ImplementingClassifier = this; },
+                containedElement => { if (ReferenceEquals(containedElement.ImplementingClassifier, this)) { containedElement.ImplementingClassifier = null; } });
             set => this.interfaceRealization = value;
         }
 
@@ -375,7 +383,9 @@ namespace uml4net.Interactions
         [Implements(implementation: "IInteraction.Lifeline")]
         public IContainerList<ILifeline> Lifeline
         {
-            get => this.lifeline ??= new ContainerList<ILifeline>(this);
+            get => this.lifeline ??= new ContainerList<ILifeline>(this,
+                containedElement => { containedElement.Interaction = this; },
+                containedElement => { if (ReferenceEquals(containedElement.Interaction, this)) { containedElement.Interaction = null; } });
             set => this.lifeline = value;
         }
 
@@ -400,7 +410,9 @@ namespace uml4net.Interactions
         [Implements(implementation: "IInteraction.Message")]
         public IContainerList<IMessage> Message
         {
-            get => this.message ??= new ContainerList<IMessage>(this);
+            get => this.message ??= new ContainerList<IMessage>(this,
+                containedElement => { containedElement.Interaction = this; },
+                containedElement => { if (ReferenceEquals(containedElement.Interaction, this)) { containedElement.Interaction = null; } });
             set => this.message = value;
         }
 
@@ -470,7 +482,9 @@ namespace uml4net.Interactions
         [Implements(implementation: "IClass.OwnedAttribute")]
         public IContainerList<IProperty> OwnedAttribute
         {
-            get => this.ownedAttribute ??= new ContainerList<IProperty>(this);
+            get => this.ownedAttribute ??= new ContainerList<IProperty>(this,
+                containedElement => { containedElement.Class = this; },
+                containedElement => { if (ReferenceEquals(containedElement.Class, this)) { containedElement.Class = null; } });
             set => this.ownedAttribute = value;
         }
 
@@ -602,7 +616,9 @@ namespace uml4net.Interactions
         [Implements(implementation: "IClass.OwnedOperation")]
         public IContainerList<IOperation> OwnedOperation
         {
-            get => this.ownedOperation ??= new ContainerList<IOperation>(this);
+            get => this.ownedOperation ??= new ContainerList<IOperation>(this,
+                containedElement => { containedElement.Class = this; },
+                containedElement => { if (ReferenceEquals(containedElement.Class, this)) { containedElement.Class = null; } });
             set => this.ownedOperation = value;
         }
 
@@ -681,7 +697,9 @@ namespace uml4net.Interactions
         [Implements(implementation: "INamespace.OwnedRule")]
         public IContainerList<IConstraint> OwnedRule
         {
-            get => this.ownedRule ??= new ContainerList<IConstraint>(this);
+            get => this.ownedRule ??= new ContainerList<IConstraint>(this,
+                containedElement => { containedElement.Context = this; },
+                containedElement => { if (ReferenceEquals(containedElement.Context, this)) { containedElement.Context = null; } });
             set => this.ownedRule = value;
         }
 
@@ -699,7 +717,9 @@ namespace uml4net.Interactions
         [Implements(implementation: "IClassifier.OwnedTemplateSignature")]
         public IContainerList<IRedefinableTemplateSignature> OwnedTemplateSignature
         {
-            get => this.ownedTemplateSignature ??= new ContainerList<IRedefinableTemplateSignature>(this);
+            get => this.ownedTemplateSignature ??= new ContainerList<IRedefinableTemplateSignature>(this,
+                containedElement => { containedElement.Classifier = this; },
+                containedElement => { if (ReferenceEquals(containedElement.Classifier, this)) { containedElement.Classifier = null; } });
             set => this.ownedTemplateSignature = value;
         }
 
@@ -772,7 +792,9 @@ namespace uml4net.Interactions
         [Implements(implementation: "INamespace.PackageImport")]
         public IContainerList<IPackageImport> PackageImport
         {
-            get => this.packageImport ??= new ContainerList<IPackageImport>(this);
+            get => this.packageImport ??= new ContainerList<IPackageImport>(this,
+                containedElement => { containedElement.ImportingNamespace = this; },
+                containedElement => { if (ReferenceEquals(containedElement.ImportingNamespace, this)) { containedElement.ImportingNamespace = null; } });
             set => this.packageImport = value;
         }
 
@@ -908,7 +930,9 @@ namespace uml4net.Interactions
         [Implements(implementation: "IClassifier.Substitution")]
         public IContainerList<ISubstitution> Substitution
         {
-            get => this.substitution ??= new ContainerList<ISubstitution>(this);
+            get => this.substitution ??= new ContainerList<ISubstitution>(this,
+                containedElement => { containedElement.SubstitutingClassifier = this; },
+                containedElement => { if (ReferenceEquals(containedElement.SubstitutingClassifier, this)) { containedElement.SubstitutingClassifier = null; } });
             set => this.substitution = value;
         }
 
@@ -934,7 +958,9 @@ namespace uml4net.Interactions
         [Implements(implementation: "ITemplateableElement.TemplateBinding")]
         public IContainerList<ITemplateBinding> TemplateBinding
         {
-            get => this.templateBinding ??= new ContainerList<ITemplateBinding>(this);
+            get => this.templateBinding ??= new ContainerList<ITemplateBinding>(this,
+                containedElement => { containedElement.BoundElement = this; },
+                containedElement => { if (ReferenceEquals(containedElement.BoundElement, this)) { containedElement.BoundElement = null; } });
             set => this.templateBinding = value;
         }
 

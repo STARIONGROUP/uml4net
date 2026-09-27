@@ -457,6 +457,42 @@ namespace uml4net.Extensions.Tests
             }
         }
 
+
+        [Test]
+        public void Verify_that_QueryIsOwnerEnd_and_TryQueryOwnerEnd_return_expected_result()
+        {
+            var root = this.xmiReaderResult.QueryRoot(xmiId: "_0", name: "UML");
+            var classification = root.NestedPackage.Single(x => x.Name == "Classification");
+            var commonStructure = root.NestedPackage.Single(x => x.Name == "CommonStructure");
+
+            var generalizationClass = classification.PackagedElement.OfType<IClass>().Single(x => x.Name == "Generalization");
+            var classifierClass = classification.PackagedElement.OfType<IClass>().Single(x => x.Name == "Classifier");
+            var elementClass = commonStructure.PackagedElement.OfType<IClass>().Single(x => x.Name == "Element");
+
+            var specific = generalizationClass.OwnedAttribute.Single(x => x.Name == "specific");
+            var general = generalizationClass.OwnedAttribute.Single(x => x.Name == "general");
+            var generalization = classifierClass.OwnedAttribute.Single(x => x.Name == "generalization");
+            var ownedComment = elementClass.OwnedAttribute.Single(x => x.Name == "ownedComment");
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(specific.QueryIsOwnerEnd(), Is.True, "the opposite of the composite Classifier::generalization");
+                Assert.That(general.QueryIsOwnerEnd(), Is.False, "a plain reference");
+                Assert.That(generalization.QueryIsOwnerEnd(), Is.False, "the composite end itself");
+
+                Assert.That(generalization.TryQueryOwnerEnd(out var ownerEnd), Is.True);
+                Assert.That(ownerEnd, Is.SameAs(specific));
+
+                Assert.That(ownedComment.TryQueryOwnerEnd(out var noOwnerEnd), Is.False, "Element::ownedComment is composite, its opposite owningElement is owned by the association");
+                Assert.That(noOwnerEnd, Is.Null);
+
+                Assert.That(general.TryQueryOwnerEnd(out _), Is.False, "not composite");
+
+                Assert.That(() => PropertyExtensions.QueryIsOwnerEnd(null), Throws.ArgumentNullException);
+                Assert.That(() => PropertyExtensions.TryQueryOwnerEnd(null, out _), Throws.ArgumentNullException);
+            }
+        }
+
         [Test]
         public void Verify_that_QueryTypeName_returns_expected_Result()
         {

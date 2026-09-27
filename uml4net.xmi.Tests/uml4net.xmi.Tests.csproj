@@ -123,6 +123,9 @@
       <None Update="TestData\RemoteReferences\**\*.xmi">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
+      <None Update="TestData\OwnerEnds\*.xmi">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
       <None Update="TestData\Links\*.xmi">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
