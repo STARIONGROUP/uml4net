@@ -214,8 +214,8 @@ namespace uml4net.Classification
         /// </returns>
         /// <remarks>
         /// The ten subsetting properties, taken from the generated metadata and the uml4net-sage metamodel:
-        /// <c>Classifier::attribute</c> (the derived union of the owned attributes of Class, DataType, Interface, Artifact,
-        /// Signal and the owned ends of an Association), <c>Association::ownedEnd</c>, <c>Class::ownedOperation</c>,
+        /// <c>Classifier::attribute</c> (the derived union of the owned attributes of Class, DataType, Interface, Artifact
+        /// and Signal), <c>Association::ownedEnd</c> (which does not subset <c>Classifier::attribute</c>), <c>Class::ownedOperation</c>,
         /// <c>DataType::ownedOperation</c>, <c>Interface::ownedOperation</c>, <c>Artifact::ownedOperation</c>,
         /// <c>Class::nestedClassifier</c>, <c>Interface::nestedClassifier</c>, <c>Classifier::ownedTemplateSignature</c>
         /// and <c>StructuredClassifier::ownedConnector</c>. Elements owned through any other property - a Reception, an

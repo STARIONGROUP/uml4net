@@ -141,7 +141,8 @@ namespace uml4net.StructuredClassifiers
                 throw new ArgumentNullException(nameof(@class));
             }
 
-            return @class.Generalization.Select(x => x.General).OfType<IClass>().ToList();
+            // superClass = self.general()->select(oclIsKindOf(Class))->collect(oclAsType(Class))->asSet()
+            return @class.QueryGeneral().OfType<IClass>().ToList();
         }
     }
 }

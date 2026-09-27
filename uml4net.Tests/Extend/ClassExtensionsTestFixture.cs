@@ -26,6 +26,7 @@ namespace uml4net.Tests.Extend
 
     using uml4net.Classification;
     using uml4net.CommonStructure;
+    using uml4net.SimpleClassifiers;
     using uml4net.StructuredClassifiers;
 
     [TestFixture]
@@ -50,6 +51,48 @@ namespace uml4net.Tests.Extend
             var superClasses = cat.SuperClass;
 
             Assert.That(superClasses, Is.EquivalentTo(new List<IClass>() { mammal }));
+        }
+
+        [Test]
+        public void Verify_that_SuperClass_contains_no_duplicates_and_no_null()
+        {
+            // superClass = self.general()->select(oclIsKindOf(Class))->collect(oclAsType(Class))->asSet()
+            var animal = new Class { Name = "Animal" };
+            var named = new Interface { Name = "Named" };
+            var cat = new Class { Name = "Cat" };
+
+            cat.Generalization.Add(new Generalization { General = animal });
+            cat.Generalization.Add(new Generalization { General = animal });
+            cat.Generalization.Add(new Generalization());
+            cat.Generalization.Add(new Generalization { General = named });
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(cat.SuperClass, Is.EqualTo(new List<IClass> { animal }), "two generalizations to the same general give one super class, one without a general gives none");
+                Assert.That(((IClassifier)cat).General, Is.EqualTo(new List<IClassifier> { animal }), "Class::superClass redefines Classifier::general");
+                Assert.That(cat.QueryGeneral(), Is.EqualTo(new List<IClassifier> { animal, named }), "general() itself keeps the Interface; superClass selects the Classes");
+            }
+        }
+
+        [Test]
+        public void Verify_that_General_of_a_classifier_contains_no_duplicates_and_no_null()
+        {
+            // general = parents() = generalization.general->asSet()
+            var first = new Interface { Name = "First" };
+            var second = new Interface { Name = "Second" };
+            var @interface = new Interface { Name = "I" };
+
+            @interface.Generalization.Add(new Generalization { General = first });
+            @interface.Generalization.Add(new Generalization());
+            @interface.Generalization.Add(new Generalization { General = second });
+            @interface.Generalization.Add(new Generalization { General = first });
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(@interface.General, Is.EqualTo(new List<IClassifier> { first, second }));
+                Assert.That(@interface.General, Has.None.Null);
+                Assert.That(() => ClassifierExtensions.QueryGeneral(null), Throws.ArgumentNullException);
+            }
         }
 
         [Test]
