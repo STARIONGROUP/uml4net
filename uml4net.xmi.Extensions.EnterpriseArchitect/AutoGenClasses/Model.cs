@@ -27,6 +27,7 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.Structure
     using System;
     using System.CodeDom.Compiler;
     using System.Collections.Generic;
+    using System.Linq;
 
     using uml4net.Decorators;
     using uml4net.Classification;
@@ -79,7 +80,7 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.Structure
         /// </summary>
         [Property(xmiId: "EAID_819CF52D_C077_8397_8BD3_0D064F082FB3", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [Implements(implementation: "IModel.Tpos")]
-        public int Tpos { get; set; }
+        public int? Tpos { get; set; }
 
         /// <summary>
         /// </summary>

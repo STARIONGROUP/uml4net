@@ -82,7 +82,7 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.Structure
         /// <summary>
         /// </summary>
         [Property(xmiId: "EAID_819CF52D_C077_8397_8BD3_0D064F082FB3", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
-        public int Tpos { get; set; }
+        public int? Tpos { get; set; }
 
         /// <summary>
         /// </summary>
