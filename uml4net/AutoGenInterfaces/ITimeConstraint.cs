@@ -57,7 +57,7 @@ namespace uml4net.Values
         /// time instant the execution is within the constrainedElement.
         /// </summary>
         [Property(xmiId: "TimeConstraint-firstEvent", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: "true")]
-        public bool FirstEvent { get; set; }
+        public bool? FirstEvent { get; set; }
 
         /// <summary>
         /// TheTimeInterval constraining the duration.

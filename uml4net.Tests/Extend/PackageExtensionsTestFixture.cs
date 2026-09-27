@@ -228,5 +228,16 @@ namespace uml4net.Tests.Extend
                 Assert.That(packageA.QueryGetNamesOfMember(ownedByB), Is.EquivalentTo(new[] { "X" }));
             }
         }
+
+        [Test]
+        public void Verify_that_an_absent_visibility_is_made_visible()
+        {
+            // "Elements with no visibility and elements with public visibility are made visible" (UML 2.5.1 clause 12.4.5)
+            var package = new Package { Name = "P" };
+            var @class = new Class { Name = "C", Visibility = null };
+            package.PackagedElement.Add(@class);
+
+            Assert.That(package.QueryMakesVisible(@class), Is.True);
+        }
     }
 }

@@ -156,9 +156,9 @@ namespace uml4net.xmi.Writers
                 xmlWriter.WriteAttributeString("submachine", element.Submachine.XmiId);
             }
 
-            if (element.Visibility != default(VisibilityKind))
+            if (element.Visibility.HasValue)
             {
-                xmlWriter.WriteAttributeString("visibility", element.Visibility.QueryXmiLiteral());
+                xmlWriter.WriteAttributeString("visibility", element.Visibility.Value.QueryXmiLiteral());
             }
 
 
@@ -324,9 +324,9 @@ namespace uml4net.xmi.Writers
                 await xmlWriter.WriteAttributeStringAsync(null, "submachine", null, element.Submachine.XmiId);
             }
 
-            if (element.Visibility != default(VisibilityKind))
+            if (element.Visibility.HasValue)
             {
-                await xmlWriter.WriteAttributeStringAsync(null, "visibility", null, element.Visibility.QueryXmiLiteral());
+                await xmlWriter.WriteAttributeStringAsync(null, "visibility", null, element.Visibility.Value.QueryXmiLiteral());
             }
 
 

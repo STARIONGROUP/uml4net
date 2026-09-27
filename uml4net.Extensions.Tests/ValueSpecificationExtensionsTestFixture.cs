@@ -129,7 +129,7 @@ namespace uml4net.Extensions.Tests
             public IContainerList<IStringExpression> NameExpression { get; set; }
             public INamespace Namespace { get; }
             public string QualifiedName { get; }
-            public VisibilityKind Visibility { get; set; }
+            public VisibilityKind? Visibility { get; set; }
             public IType Type { get; set; }
             public ITemplateParameter OwningTemplateParameter { get; set; }
             public ITemplateParameter TemplateParameter { get; set; }

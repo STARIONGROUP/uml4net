@@ -85,10 +85,10 @@ namespace uml4net.Classification
         /// The subject <see cref="IOperation"/>
         /// </param>
         /// <returns>
-        /// the lower multiplicity of the return parameter, if present. This information is derived
+        /// the lower multiplicity of the return parameter; null when the Operation has no return parameter. This information is derived
         /// from the return result for this Operation.
         /// </returns>
-        internal static int QueryLower(this IOperation operation)
+        internal static int? QueryLower(this IOperation operation)
         {
             if (operation == null)
             {
@@ -97,7 +97,8 @@ namespace uml4net.Classification
 
             var returnResult = operation.QueryReturnResult();
 
-            return returnResult?.Lower ?? 0;
+            // lower = if returnResult()->notEmpty() then returnResult()->any(true).lower else null endif
+            return returnResult?.Lower;
         }
 
         /// <summary>
@@ -143,7 +144,8 @@ namespace uml4net.Classification
 
             var returnResult = operation.QueryReturnResult();
 
-            return returnResult?.Upper ?? "0";
+            // upper = if returnResult()->notEmpty() then returnResult()->any(true).upper else null endif
+            return returnResult?.Upper;
         }
 
         /// <summary>

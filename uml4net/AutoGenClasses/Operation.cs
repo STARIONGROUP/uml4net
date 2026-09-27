@@ -223,7 +223,7 @@ namespace uml4net.Classification
         /// </summary>
         [Property(xmiId: "Operation-lower", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [Implements(implementation: "IOperation.Lower")]
-        public int Lower => this.QueryLower();
+        public int? Lower => this.QueryLower();
 
         /// <summary>
         /// A collection of NamedElements identifiable within the Namespace, either by being owned or by being
@@ -590,7 +590,7 @@ namespace uml4net.Classification
         /// </summary>
         [Property(xmiId: "NamedElement-visibility", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [Implements(implementation: "INamedElement.Visibility")]
-        public VisibilityKind Visibility { get; set; }
+        public VisibilityKind? Visibility { get; set; }
     }
 }
 

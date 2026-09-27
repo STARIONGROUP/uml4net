@@ -458,6 +458,44 @@ namespace uml4net.Extensions.Tests
         }
 
 
+
+        [Test]
+        public void Verify_that_QueryIsNullableValueType_returns_true_for_the_optional_value_typed_properties_of_the_metamodel()
+        {
+            var root = this.xmiReaderResult.QueryRoot(xmiId: "_0", name: "UML");
+
+            IProperty Find(string packageName, string className, string propertyName) =>
+                root.NestedPackage.Single(x => x.Name == packageName).PackagedElement.OfType<IClass>().Single(x => x.Name == className)
+                    .OwnedAttribute.Single(x => x.Name == propertyName);
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(Find("CommonStructure", "NamedElement", "visibility").QueryIsNullableValueType(), Is.True, "VisibilityKind [0..1], no default");
+                Assert.That(Find("CommonStructure", "PackageableElement", "visibility").QueryIsNullableValueType(), Is.True, "redefines the [0..1] NamedElement::visibility");
+                Assert.That(Find("Classification", "Parameter", "effect").QueryIsNullableValueType(), Is.True);
+                Assert.That(Find("Classification", "Generalization", "isSubstitutable").QueryIsNullableValueType(), Is.True, "Boolean [0..1] with default true");
+                Assert.That(Find("Values", "TimeConstraint", "firstEvent").QueryIsNullableValueType(), Is.True);
+                Assert.That(Find("Classification", "Operation", "lower").QueryIsNullableValueType(), Is.True, "derived Integer [0..1]");
+
+                Assert.That(Find("Packages", "ExtensionEnd", "lower").QueryIsNullableValueType(), Is.False, "redefines the [1..1] MultiplicityElement::lower");
+                Assert.That(Find("Classification", "Operation", "upper").QueryIsNullableValueType(), Is.False, "UnlimitedNatural maps to string, already nullable");
+                Assert.That(Find("CommonStructure", "NamedElement", "name").QueryIsNullableValueType(), Is.False, "String");
+                Assert.That(Find("StructuredClassifiers", "Class", "isActive").QueryIsNullableValueType(), Is.False, "Boolean [1..1]");
+                Assert.That(Find("Values", "DurationConstraint", "firstEvent").QueryIsNullableValueType(), Is.False, "Boolean [0..2] is a list");
+                Assert.That(Find("Classification", "Generalization", "general").QueryIsNullableValueType(), Is.False, "a reference");
+
+                Assert.That(Find("Classification", "Parameter", "effect").QueryCSharpFullTypeName(), Is.EqualTo("ParameterEffectKind? "));
+
+                // a custom C# type mapping does not change which properties are optional
+                TypedElementExtensions.AddOrOverwriteCSharpTypeMappings(("Integer", "long"));
+                Assert.That(Find("Classification", "Operation", "lower").QueryIsNullableValueType(), Is.True, "Integer mapped to long");
+                Assert.That(Find("Classification", "Operation", "lower").QueryCSharpFullTypeName(), Is.EqualTo("long? "));
+                TypedElementExtensions.ResetCSharpTypeMappingsToDefault();
+
+                Assert.That(() => PropertyExtensions.QueryIsNullableValueType(null), Throws.ArgumentNullException);
+            }
+        }
+
         [Test]
         public void Verify_that_QueryIsOwnerEnd_and_TryQueryOwnerEnd_return_expected_result()
         {

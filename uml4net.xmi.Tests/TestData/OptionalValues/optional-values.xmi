@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- optional [0..1] value-typed properties: explicitly set, set to the first literal / C# default, and absent -->
+<xmi:XMI xmlns:xmi="http://www.omg.org/spec/XMI/20131001" xmlns:uml="http://www.omg.org/spec/UML/20131001">
+  <uml:Package xmi:id="p" name="P">
+    <packagedElement xmi:type="uml:Class" xmi:id="b" name="B"/>
+    <packagedElement xmi:type="uml:Class" xmi:id="c" name="C" visibility="private">
+      <generalization xmi:type="uml:Generalization" xmi:id="g1" general="b"/>
+      <ownedAttribute xmi:type="uml:Property" xmi:id="explicitPublic" name="explicitPublic" visibility="public"/>
+      <ownedAttribute xmi:type="uml:Property" xmi:id="noVisibility" name="noVisibility"/>
+      <ownedOperation xmi:type="uml:Operation" xmi:id="op" name="op">
+        <ownedParameter xmi:type="uml:Parameter" xmi:id="create" name="create" effect="create"/>
+        <ownedParameter xmi:type="uml:Parameter" xmi:id="noEffect" name="noEffect"/>
+      </ownedOperation>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Class" xmi:id="d" name="D">
+      <generalization xmi:type="uml:Generalization" xmi:id="g2" general="b" isSubstitutable="false"/>
+    </packagedElement>
+  </uml:Package>
+</xmi:XMI>

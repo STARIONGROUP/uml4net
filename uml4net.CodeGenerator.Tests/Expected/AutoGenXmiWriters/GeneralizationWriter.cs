@@ -141,9 +141,9 @@ namespace uml4net.xmi.Writers
                 xmlWriter.WriteAttributeString("general", element.General.XmiId);
             }
 
-            if (!element.IsSubstitutable)
+            if (element.IsSubstitutable.HasValue && element.IsSubstitutable.Value != true)
             {
-                xmlWriter.WriteAttributeString("isSubstitutable", XmlConvert.ToString(element.IsSubstitutable));
+                xmlWriter.WriteAttributeString("isSubstitutable", XmlConvert.ToString(element.IsSubstitutable.Value));
             }
 
 
@@ -234,9 +234,9 @@ namespace uml4net.xmi.Writers
                 await xmlWriter.WriteAttributeStringAsync(null, "general", null, element.General.XmiId);
             }
 
-            if (!element.IsSubstitutable)
+            if (element.IsSubstitutable.HasValue && element.IsSubstitutable.Value != true)
             {
-                await xmlWriter.WriteAttributeStringAsync(null, "isSubstitutable", null, XmlConvert.ToString(element.IsSubstitutable));
+                await xmlWriter.WriteAttributeStringAsync(null, "isSubstitutable", null, XmlConvert.ToString(element.IsSubstitutable.Value));
             }
 
 

@@ -62,7 +62,7 @@ namespace uml4net.Extensions.Tests
 
             public string QualifiedName => null;
 
-            public VisibilityKind Visibility { get; set; }
+            public VisibilityKind? Visibility { get; set; }
 
             public ITemplateParameter OwningTemplateParameter { get; set; }
 

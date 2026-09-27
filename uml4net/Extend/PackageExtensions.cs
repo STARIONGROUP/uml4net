@@ -110,8 +110,7 @@ namespace uml4net.Packages
         /// actually a member of the imported package). This implementation instead follows the
         /// operation's own documentation comment ("Elements with no visibility and elements with
         /// public visibility are made visible") and the OCL's evident structural intent: an element
-        /// is visible if it is an owned member with public visibility (an absent visibility cannot be
-        /// represented by uml4net, see the issue on optional value types), or was imported via a public
+        /// is visible if it is an owned member with public or no (null) visibility, or was imported via a public
         /// <see cref="IElementImport"/>, or is a member of a Package imported via a public
         /// <see cref="IPackageImport"/>.
         /// </remarks>
@@ -129,9 +128,9 @@ namespace uml4net.Packages
 
             if (package.OwnedMember.Contains(element))
             {
-                // "Elements with no visibility and elements with public visibility are made visible" (UML 2.5.1
-                // clause 12.4.5); uml4net cannot represent an absent visibility, so only public counts
-                return element.Visibility == VisibilityKind.Public;
+                // "Elements with no visibility and elements with public visibility are made visible" (UML 2.5.1 clause 12.4.5)
+                // an absent visibility is null
+                return element.Visibility is null or VisibilityKind.Public;
             }
 
             if (package.ElementImport.Any(elementImport => elementImport.Visibility == VisibilityKind.Public && Equals(elementImport.ImportedElement, element)))

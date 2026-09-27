@@ -89,7 +89,7 @@ namespace uml4net.Classification
         /// </summary>
         [Property(xmiId: "Generalization-isSubstitutable", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: "true")]
         [Implements(implementation: "IGeneralization.IsSubstitutable")]
-        public bool IsSubstitutable { get; set; } = true;
+        public bool? IsSubstitutable { get; set; } = true;
 
         /// <summary>
         /// The Comments owned by this Element.

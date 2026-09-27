@@ -136,9 +136,9 @@ namespace uml4net.xmi.Writers
                 xmlWriter.WriteAttributeString("xmi", "uuid", this.XmiWriterSettings.XmiNamespaceUri, element.XmiGuid);
             }
 
-            if (!element.FirstEvent)
+            if (element.FirstEvent.HasValue && element.FirstEvent.Value != true)
             {
-                xmlWriter.WriteAttributeString("firstEvent", XmlConvert.ToString(element.FirstEvent));
+                xmlWriter.WriteAttributeString("firstEvent", XmlConvert.ToString(element.FirstEvent.Value));
             }
 
             if (!string.IsNullOrEmpty(element.Name))
@@ -151,9 +151,9 @@ namespace uml4net.xmi.Writers
                 xmlWriter.WriteAttributeString("templateParameter", element.TemplateParameter.XmiId);
             }
 
-            if (element.Visibility != VisibilityKind.Public)
+            if (element.Visibility.HasValue && element.Visibility.Value != VisibilityKind.Public)
             {
-                xmlWriter.WriteAttributeString("visibility", element.Visibility.QueryXmiLiteral());
+                xmlWriter.WriteAttributeString("visibility", element.Visibility.Value.QueryXmiLiteral());
             }
 
 
@@ -249,9 +249,9 @@ namespace uml4net.xmi.Writers
                 await xmlWriter.WriteAttributeStringAsync("xmi", "uuid", this.XmiWriterSettings.XmiNamespaceUri, element.XmiGuid);
             }
 
-            if (!element.FirstEvent)
+            if (element.FirstEvent.HasValue && element.FirstEvent.Value != true)
             {
-                await xmlWriter.WriteAttributeStringAsync(null, "firstEvent", null, XmlConvert.ToString(element.FirstEvent));
+                await xmlWriter.WriteAttributeStringAsync(null, "firstEvent", null, XmlConvert.ToString(element.FirstEvent.Value));
             }
 
             if (!string.IsNullOrEmpty(element.Name))
@@ -264,9 +264,9 @@ namespace uml4net.xmi.Writers
                 await xmlWriter.WriteAttributeStringAsync(null, "templateParameter", null, element.TemplateParameter.XmiId);
             }
 
-            if (element.Visibility != VisibilityKind.Public)
+            if (element.Visibility.HasValue && element.Visibility.Value != VisibilityKind.Public)
             {
-                await xmlWriter.WriteAttributeStringAsync(null, "visibility", null, element.Visibility.QueryXmiLiteral());
+                await xmlWriter.WriteAttributeStringAsync(null, "visibility", null, element.Visibility.Value.QueryXmiLiteral());
             }
 
 
