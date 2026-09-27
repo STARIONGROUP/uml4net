@@ -127,8 +127,8 @@ namespace uml4net.Extensions
         }
         
         /// <summary>
-        /// Queries the full type name which includes whether it's a <see cref="List{T}"/>
-        /// <see cref="IContainerList{T}"/>
+        /// Queries the full type name which includes whether it's a <see cref="List{T}"/>, an <see cref="IReadOnlyList{T}"/>
+        /// (derived or read-only multi-valued properties, composite ones included) or an <see cref="IContainerList{T}"/>
         /// </summary>
         /// <param name="property">
         /// the subject <see cref="IProperty"/>
@@ -160,7 +160,7 @@ namespace uml4net.Extensions
 
             if (property.QueryIsContainment() && (property.IsDerived || property.IsDerivedUnion))
             {
-                return $"List<I{property.QueryTypeName()}> ";
+                return $"IReadOnlyList<I{property.QueryTypeName()}> ";
             }
 
             if (property.QueryIsContainment())

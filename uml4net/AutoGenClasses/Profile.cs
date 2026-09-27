@@ -181,7 +181,7 @@ namespace uml4net.Packages
         [Property(xmiId: "Package-nestedPackage", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: true, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Package-packagedElement")]
         [Implements(implementation: "IPackage.NestedPackage")]
-        public List<IPackage> NestedPackage => this.QueryNestedPackage();
+        public IReadOnlyList<IPackage> NestedPackage => this.QueryNestedPackage();
 
         /// <summary>
         /// References the Package that owns this Package.
@@ -213,7 +213,7 @@ namespace uml4net.Packages
         /// </summary>
         [Property(xmiId: "Element-ownedElement", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: true, defaultValue: null)]
         [Implements(implementation: "IElement.OwnedElement")]
-        public List<IElement> OwnedElement =>
+        public IReadOnlyList<IElement> OwnedElement =>
         new List<IElement>()
         .Concat(this.ElementImport)
         .Concat(this.NameExpression)
@@ -235,7 +235,7 @@ namespace uml4net.Packages
         [SubsettedProperty(propertyName: "Element-ownedElement")]
         [SubsettedProperty(propertyName: "Namespace-member")]
         [Implements(implementation: "INamespace.OwnedMember")]
-        public List<INamedElement> OwnedMember => this.QueryOwnedMember();
+        public IReadOnlyList<INamedElement> OwnedMember => this.QueryOwnedMember();
 
         /// <summary>
         /// Specifies a set of Constraints owned by this Namespace.
@@ -262,7 +262,7 @@ namespace uml4net.Packages
         [Property(xmiId: "Package-ownedStereotype", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Package-packagedElement")]
         [Implements(implementation: "IPackage.OwnedStereotype")]
-        public List<IStereotype> OwnedStereotype => this.QueryOwnedStereotype();
+        public IReadOnlyList<IStereotype> OwnedStereotype => this.QueryOwnedStereotype();
 
         /// <summary>
         /// The optional TemplateSignature specifying the formal TemplateParameters for this
@@ -290,7 +290,7 @@ namespace uml4net.Packages
         [Property(xmiId: "Package-ownedType", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: true, isDerivedUnion: false, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Package-packagedElement")]
         [Implements(implementation: "IPackage.OwnedType")]
-        public List<IType> OwnedType => this.QueryOwnedType();
+        public IReadOnlyList<IType> OwnedType => this.QueryOwnedType();
 
         /// <summary>
         /// The Element that owns this Element.

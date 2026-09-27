@@ -497,6 +497,29 @@ namespace uml4net.Extensions.Tests
         }
 
         [Test]
+        public void Verify_that_QueryCSharpFullTypeName_returns_IReadOnlyList_for_derived_composite_properties()
+        {
+            var root = this.xmiReaderResult.QueryRoot(xmiId: "_0", name: "UML");
+
+            IProperty Find(string packageName, string className, string propertyName) =>
+                root.NestedPackage.Single(x => x.Name == packageName).PackagedElement.OfType<IClass>().Single(x => x.Name == className)
+                    .OwnedAttribute.Single(x => x.Name == propertyName);
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(Find("CommonStructure", "Element", "ownedElement").QueryCSharpFullTypeName(), Is.EqualTo("IReadOnlyList<IElement> "), "readOnly derived union, composite");
+                Assert.That(Find("CommonStructure", "Namespace", "ownedMember").QueryCSharpFullTypeName(), Is.EqualTo("IReadOnlyList<INamedElement> "), "readOnly derived union, composite");
+                Assert.That(Find("Actions", "Action", "input").QueryCSharpFullTypeName(), Is.EqualTo("IReadOnlyList<IInputPin> "), "readOnly derived union, composite");
+                Assert.That(Find("Packages", "Package", "ownedStereotype").QueryCSharpFullTypeName(), Is.EqualTo("IReadOnlyList<IStereotype> "), "readOnly derived, composite");
+                Assert.That(Find("StructuredClassifiers", "EncapsulatedClassifier", "ownedPort").QueryCSharpFullTypeName(), Is.EqualTo("IReadOnlyList<IPort> "), "readOnly derived, composite");
+                Assert.That(Find("Packages", "Package", "nestedPackage").QueryCSharpFullTypeName(), Is.EqualTo("IReadOnlyList<IPackage> "), "derived, composite, not readOnly");
+
+                Assert.That(Find("Activities", "Activity", "edge").QueryCSharpFullTypeName(), Is.EqualTo("IContainerList<IActivityEdge> "), "composite, not derived");
+                Assert.That(Find("Classification", "Classifier", "general").QueryCSharpFullTypeName(), Is.EqualTo("IReadOnlyList<IClassifier> "), "derived, not composite");
+            }
+        }
+
+        [Test]
         public void Verify_that_QueryIsOwnerEnd_and_TryQueryOwnerEnd_return_expected_result()
         {
             var root = this.xmiReaderResult.QueryRoot(xmiId: "_0", name: "UML");

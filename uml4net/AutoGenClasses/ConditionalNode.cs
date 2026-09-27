@@ -250,7 +250,7 @@ namespace uml4net.Actions
         [Property(xmiId: "Action-input", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: true, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Element-ownedElement")]
         [Implements(implementation: "IAction.Input")]
-        public List<IInputPin> Input => this.QueryInput();
+        public IReadOnlyList<IInputPin> Input => this.QueryInput();
 
         /// <summary>
         /// The StructuredActivityNode containing the ActvityNode, if it is directly owned by a
@@ -413,7 +413,7 @@ namespace uml4net.Actions
         [Property(xmiId: "Action-output", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: true, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Element-ownedElement")]
         [Implements(implementation: "IAction.Output")]
-        public List<IOutputPin> Output => this.QueryOutput();
+        public IReadOnlyList<IOutputPin> Output => this.QueryOutput();
 
         /// <summary>
         /// The Comments owned by this Element.
@@ -437,7 +437,7 @@ namespace uml4net.Actions
         /// </summary>
         [Property(xmiId: "Element-ownedElement", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: true, defaultValue: null)]
         [Implements(implementation: "IElement.OwnedElement")]
-        public List<IElement> OwnedElement =>
+        public IReadOnlyList<IElement> OwnedElement =>
         new List<IElement>()
         .Concat(this.Clause)
         .Concat(this.Edge)
@@ -463,7 +463,7 @@ namespace uml4net.Actions
         [SubsettedProperty(propertyName: "Element-ownedElement")]
         [SubsettedProperty(propertyName: "Namespace-member")]
         [Implements(implementation: "INamespace.OwnedMember")]
-        public List<INamedElement> OwnedMember => this.QueryOwnedMember();
+        public IReadOnlyList<INamedElement> OwnedMember => this.QueryOwnedMember();
 
         /// <summary>
         /// Specifies a set of Constraints owned by this Namespace.
@@ -597,7 +597,7 @@ namespace uml4net.Actions
         [Property(xmiId: "ActivityGroup-subgroup", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Element-ownedElement")]
         [Implements(implementation: "IActivityGroup.Subgroup")]
-        public List<IActivityGroup> Subgroup => this.QuerySubgroup();
+        public IReadOnlyList<IActivityGroup> Subgroup => this.QuerySubgroup();
 
         /// <summary>
         /// The ActivityGroup immediately containing this ActivityGroup, if it is directly owned by another

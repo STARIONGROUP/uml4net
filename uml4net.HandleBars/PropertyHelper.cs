@@ -475,7 +475,7 @@ namespace uml4net.HandleBars
                 }
                 else if (property.QueryIsContainment() && (property.IsDerived || property.IsDerivedUnion))
                 {
-                    sb.Append($"List<I{property.QueryTypeName()}>");
+                    sb.Append($"IReadOnlyList<I{property.QueryTypeName()}>");
                     sb.Append(" ");
                 }
                 else if(property.QueryIsContainment())

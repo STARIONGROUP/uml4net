@@ -64,7 +64,7 @@ namespace uml4net.Actions
         /// </summary>
         [Property(xmiId: "Action-input", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: true, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Element-ownedElement")]
-        public List<IInputPin> Input { get; }
+        public IReadOnlyList<IInputPin> Input { get; }
 
         /// <summary>
         /// If true, the Action can begin a new, concurrent execution, even if there is already another
@@ -93,7 +93,7 @@ namespace uml4net.Actions
         /// </summary>
         [Property(xmiId: "Action-output", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: true, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Element-ownedElement")]
-        public List<IOutputPin> Output { get; }
+        public IReadOnlyList<IOutputPin> Output { get; }
     }
 }
 

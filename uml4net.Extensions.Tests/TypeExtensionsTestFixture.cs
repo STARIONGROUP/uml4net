@@ -48,7 +48,7 @@ namespace uml4net.Extensions.Tests
 
             public IContainerList<IComment> OwnedComment { get; set; }
 
-            public List<IElement> OwnedElement => null;
+            public IReadOnlyList<IElement> OwnedElement => null;
 
             public IElement Owner => null;
             public IElement Possessor { get; set; }
