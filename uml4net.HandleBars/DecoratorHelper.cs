@@ -88,7 +88,9 @@ namespace uml4net.HandleBars
                 var defaultValue = property.QueryDefaultValueAsString();
                 if (defaultValue != "null")
                 {
-                    defaultValue = $"\"{defaultValue}\"";
+                    // the text of a default value, for example the body of an OpaqueExpression, can hold characters
+                    // that have to be escaped in a C# string literal
+                    defaultValue = $"\"{EscapeForStringLiteral(defaultValue)}\"";
                 }
                 
                 var propertyAttribute = $"[Property(xmiId: \"{property.XmiId}\", " +
@@ -173,6 +175,26 @@ namespace uml4net.HandleBars
 
                 writer.WriteSafeString($"[Implements(implementation: \"I{@class.Name}.{property.Name.CapitalizeFirstLetter()}\")]" + Environment.NewLine);
             });
+        }
+
+        /// <summary>
+        /// Escapes the characters of the <paramref name="value"/> that cannot appear as such in a regular C# string
+        /// literal: the backslash, the double quote and the line breaks and tabs
+        /// </summary>
+        /// <param name="value">
+        /// The value to escape
+        /// </param>
+        /// <returns>
+        /// The escaped value, an empty string for a null <paramref name="value"/> (a literal without value)
+        /// </returns>
+        private static string EscapeForStringLiteral(string value)
+        {
+            return (value ?? string.Empty)
+                .Replace("\\", "\\\\")
+                .Replace("\"", "\\\"")
+                .Replace("\r", "\\r")
+                .Replace("\n", "\\n")
+                .Replace("\t", "\\t");
         }
     }
 }
