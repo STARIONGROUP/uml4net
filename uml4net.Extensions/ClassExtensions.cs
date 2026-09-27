@@ -115,6 +115,11 @@ namespace uml4net.Extensions
 
             var root = @class.QueryRootPackage();
 
+            if (root == null)
+            {
+                return result.AsReadOnly();
+            }
+
             var packages = new List<IPackage>();
 
             foreach (var package in root.QueryPackages())

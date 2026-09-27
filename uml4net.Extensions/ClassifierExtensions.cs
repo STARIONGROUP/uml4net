@@ -91,6 +91,11 @@ namespace uml4net.Extensions
 
             var root = subject.QueryRootPackage();
 
+            if (root == null)
+            {
+                return result.AsReadOnly();
+            }
+
             var allPackages = root.QueryAllNestedAndImportedPackages();
 
             var classifiers = allPackages
