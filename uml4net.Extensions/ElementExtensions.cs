@@ -113,8 +113,13 @@ namespace uml4net.Extensions
         /// </summary>
         /// <param name="element">The <see cref="IElement"/> to start the search from.</param>
         /// <returns>
-        /// The root <see cref="IPackage"/> if found, or <c>null</c> if the element is not associated with any <see cref="IPackage"/> hierarchy.
+        /// The outermost <see cref="IPackage"/> on the <see cref="IElement.Owner"/> chain of the <paramref name="element"/>,
+        /// the <paramref name="element"/> itself included, or <c>null</c> when that chain holds no <see cref="IPackage"/>.
         /// </returns>
+        /// <remarks>
+        /// The owners in between can be of any kind: a nested classifier is owned by a Class or an Interface, a
+        /// classifier can be packaged in a Component, and a feature is owned by its classifier.
+        /// </remarks>
         public static IPackage QueryRootPackage(this IElement element)
         {
             if (element == null)
@@ -122,20 +127,17 @@ namespace uml4net.Extensions
                 throw new ArgumentNullException(nameof(element));
             }
 
-            if (element.Owner is not IPackage owner)
+            IPackage rootPackage = null;
+
+            for (var current = element; current != null; current = current.Owner)
             {
-                return element as IPackage;
+                if (current is IPackage package)
+                {
+                    rootPackage = package;
+                }
             }
 
-            var lastPackageFound = owner;
-
-            while (owner != null)
-            {
-                lastPackageFound = owner;
-                owner = owner.Owner as IPackage;
-            }
-
-            return lastPackageFound;
+            return rootPackage;
         }
 
         /// <summary>
@@ -162,20 +164,23 @@ namespace uml4net.Extensions
         /// Queries and returns a collection of interfaces that are realized by the specified element.
         /// </summary>
         /// <param name="element">
-        /// The element for which to query realized interfaces. This element should have an owner of type <see cref="IPackage"/>.
+        /// The element for which to query realized interfaces.
         /// </param>
         /// <returns>
         /// An <see cref="IEnumerable{T}"/> of <see cref="IInterface"/> instances representing the interfaces
-        /// realized by the specified element. If the element has no owner or no realizations, an empty enumeration is returned.
+        /// realized by the specified element. If the element is not contained by a <see cref="IPackage"/> or has no
+        /// realizations, an empty enumeration is returned.
         /// </returns>
         private static IEnumerable<IInterface> QueryInterfacesIterator(IElement element)
         {
-            if (element.Owner is not IPackage)
+            var rootPackage = element.QueryRootPackage();
+
+            if (rootPackage == null)
             {
                 yield break;
             }
 
-            var allPackages = element.QueryRootPackage().QueryPackages();
+            var allPackages = rootPackage.QueryPackages();
 
             foreach (var package in allPackages)
             {
