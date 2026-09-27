@@ -172,6 +172,72 @@ namespace uml4net.Extensions.Tests
         }
 
         [Test]
+        public void Verify_that_the_type_classification_requires_a_PrimitiveType_and_an_exact_name()
+        {
+            static Property TypedBy(IType type) => new() { Name = "property", Type = type };
+
+            using (Assert.EnterMultipleScope())
+            {
+                // the false positives of the substring match
+                Assert.That(TypedBy(new Class { Name = "Point" }).QueryIsInteger(), Is.False);
+                Assert.That(TypedBy(new Class { Name = "Point" }).QueryIsNumeric(), Is.False);
+                Assert.That(TypedBy(new PrimitiveType { Name = "Point" }).QueryIsInteger(), Is.False);
+                Assert.That(TypedBy(new PrimitiveType { Name = "Printer" }).QueryIsNumeric(), Is.False);
+                Assert.That(TypedBy(new DataType { Name = "RealEstate" }).QueryIsDouble(), Is.False);
+                Assert.That(TypedBy(new PrimitiveType { Name = "Unreal" }).QueryIsDouble(), Is.False);
+                Assert.That(TypedBy(new PrimitiveType { Name = "SingleSelection" }).QueryIsFloat(), Is.False);
+                Assert.That(TypedBy(new Class { Name = "Update" }).QueryIsDateTime(), Is.False);
+                Assert.That(TypedBy(new PrimitiveType { Name = "Candidate" }).QueryIsDateTime(), Is.False);
+                Assert.That(TypedBy(new Class { Name = "BooleanExpression" }).QueryIsBool(), Is.False);
+
+                // a type is a primitive type because it is a PrimitiveType
+                Assert.That(TypedBy(new DataType { Name = "int" }).QueryIsInteger(), Is.False);
+                Assert.That(TypedBy(new Class { Name = "Boolean" }).QueryIsBool(), Is.False);
+                Assert.That(new Property().QueryIsNumeric(), Is.False, "an untyped element");
+
+                // the UML primitive types, through the default C# type mapping
+                Assert.That(TypedBy(new PrimitiveType { Name = "Boolean" }).QueryIsBool(), Is.True);
+                Assert.That(TypedBy(new PrimitiveType { Name = "Integer" }).QueryIsInteger(), Is.True);
+                Assert.That(TypedBy(new PrimitiveType { Name = "Integer" }).QueryIsNumeric(), Is.True);
+                Assert.That(TypedBy(new PrimitiveType { Name = "Real" }).QueryIsDouble(), Is.True);
+                Assert.That(TypedBy(new PrimitiveType { Name = "Real" }).QueryIsNumeric(), Is.True);
+                Assert.That(TypedBy(new PrimitiveType { Name = "Real" }).QueryIsInteger(), Is.False);
+                Assert.That(TypedBy(new PrimitiveType { Name = "UnlimitedNatural" }).QueryIsNumeric(), Is.False, "mapped to string");
+                Assert.That(TypedBy(new PrimitiveType { Name = "String" }).QueryIsNumeric(), Is.False);
+
+                // primitive types exported by tools, compared case-insensitively
+                Assert.That(TypedBy(new PrimitiveType { Name = "long" }).QueryIsInteger(), Is.True);
+                Assert.That(TypedBy(new PrimitiveType { Name = "Int32" }).QueryIsInteger(), Is.True);
+                Assert.That(TypedBy(new PrimitiveType { Name = "decimal" }).QueryIsNumeric(), Is.True);
+                Assert.That(TypedBy(new PrimitiveType { Name = "decimal" }).QueryIsDouble(), Is.False);
+                Assert.That(TypedBy(new PrimitiveType { Name = "Float" }).QueryIsFloat(), Is.True);
+                Assert.That(TypedBy(new PrimitiveType { Name = "double" }).QueryIsDouble(), Is.True);
+                Assert.That(TypedBy(new PrimitiveType { Name = "DateTime" }).QueryIsDateTime(), Is.True);
+                Assert.That(TypedBy(new PrimitiveType { Name = "bool" }).QueryIsBool(), Is.True);
+            }
+        }
+
+        [Test]
+        public void Verify_that_the_type_classification_respects_the_CSharp_type_mapping()
+        {
+            try
+            {
+                TypedElementExtensions.AddOrOverwriteCSharpTypeMappings(("Integer", "long"), ("Money", "decimal"), ("Timestamp", "DateTime"));
+
+                using (Assert.EnterMultipleScope())
+                {
+                    Assert.That(new Property { Type = new PrimitiveType { Name = "Integer" } }.QueryIsInteger(), Is.True);
+                    Assert.That(new Property { Type = new PrimitiveType { Name = "Money" } }.QueryIsNumeric(), Is.True);
+                    Assert.That(new Property { Type = new PrimitiveType { Name = "Timestamp" } }.QueryIsDateTime(), Is.True);
+                }
+            }
+            finally
+            {
+                TypedElementExtensions.ResetCSharpTypeMappingsToDefault();
+            }
+        }
+
+        [Test]
         public void Verify_that_QueryIsReferenceType_returns_expected_Result()
         {
             var root = this.xmiReaderResult.QueryRoot(xmiId: "_0", name: "UML");

@@ -21,6 +21,8 @@
 namespace uml4net.Extensions
 {
     using System;
+    using System.Collections.Generic;
+    using System.Linq;
 
     using uml4net.Classification;
     using uml4net.CommonStructure;
@@ -213,22 +215,104 @@ namespace uml4net.Extensions
         }
 
         /// <summary>
-        /// Queries whether the type of the <see cref="ITypedElement"/> is of type boolean
+        /// The C# names, and their .NET and tool-specific equivalents, of the boolean primitive types
+        /// </summary>
+        private static readonly HashSet<string> BooleanTypeNames = new(StringComparer.OrdinalIgnoreCase)
+        {
+            "bool", "boolean"
+        };
+
+        /// <summary>
+        /// The C# names, and their .NET and tool-specific equivalents, of the integer primitive types
+        /// </summary>
+        private static readonly HashSet<string> IntegerTypeNames = new(StringComparer.OrdinalIgnoreCase)
+        {
+            "int", "uint", "long", "ulong", "short", "ushort", "byte", "sbyte", "integer",
+            "int16", "int32", "int64", "uint16", "uint32", "uint64"
+        };
+
+        /// <summary>
+        /// The C# names, and their .NET equivalents, of the single precision floating point primitive types
+        /// </summary>
+        private static readonly HashSet<string> FloatTypeNames = new(StringComparer.OrdinalIgnoreCase)
+        {
+            "float", "single"
+        };
+
+        /// <summary>
+        /// The C# names, and their UML equivalents, of the double precision floating point primitive types
+        /// </summary>
+        private static readonly HashSet<string> DoubleTypeNames = new(StringComparer.OrdinalIgnoreCase)
+        {
+            "double", "real"
+        };
+
+        /// <summary>
+        /// The C# names, and their .NET equivalents, of the decimal primitive types
+        /// </summary>
+        private static readonly HashSet<string> DecimalTypeNames = new(StringComparer.OrdinalIgnoreCase)
+        {
+            "decimal"
+        };
+
+        /// <summary>
+        /// The C# names, and their .NET and tool-specific equivalents, of the date and time primitive types
+        /// </summary>
+        private static readonly HashSet<string> DateTimeTypeNames = new(StringComparer.OrdinalIgnoreCase)
+        {
+            "datetime", "date", "datetimeoffset", "dateonly"
+        };
+
+        /// <summary>
+        /// Queries whether the type of the <see cref="ITypedElement"/> is a <see cref="IPrimitiveType"/> whose C# type
+        /// name is one of the provided <paramref name="typeNames"/>
         /// </summary>
         /// <param name="typedElement">
         /// The subject <see cref="ITypedElement"/>
         /// </param>
+        /// <param name="typeNames">
+        /// The C# type names, compared case-insensitively
+        /// </param>
         /// <returns>
-        /// true if the type is a <see cref="bool"/>, false if not
+        /// true when the type is a <see cref="IPrimitiveType"/> and its C# type name, after the configurable C# type
+        /// mapping (see <see cref="AddOrOverwriteCSharpTypeMappings"/>), is one of the <paramref name="typeNames"/>
         /// </returns>
-        public static bool QueryIsBool(this ITypedElement typedElement)
+        /// <remarks>
+        /// A type is a primitive type because it is a PrimitiveType, not because of its name (UML 2.5.1 defines
+        /// Boolean, Integer, Real, String and UnlimitedNatural in the PrimitiveTypes package): a Class named <c>Point</c>
+        /// or <c>Update</c> is neither numeric nor a date. The name is compared exactly, so that tools that export
+        /// primitive types such as <c>int</c>, <c>float</c> or <c>DateTime</c> are supported without matching substrings.
+        /// </remarks>
+        private static bool QueryIsPrimitiveTypeNamed(ITypedElement typedElement, params HashSet<string>[] typeNames)
         {
             if (typedElement == null)
             {
                 throw new ArgumentNullException(nameof(typedElement));
             }
 
-            return typedElement.Type?.Name?.IndexOf("bool", StringComparison.InvariantCultureIgnoreCase) >= 0;
+            if (typedElement.Type is not IPrimitiveType primitiveType)
+            {
+                return false;
+            }
+
+            var cSharpTypeName = primitiveType.QueryCSharpTypeName();
+
+            return typeNames.Any(x => x.Contains(cSharpTypeName));
+        }
+
+        /// <summary>
+        /// Queries whether the type of the <see cref="ITypedElement"/> is of type boolean
+        /// </summary>
+        /// <param name="typedElement">
+        /// The subject <see cref="ITypedElement"/>
+        /// </param>
+        /// <returns>
+        /// true if the type is a <see cref="IPrimitiveType"/> that maps to <see cref="bool"/> (UML <c>Boolean</c>),
+        /// false if not
+        /// </returns>
+        public static bool QueryIsBool(this ITypedElement typedElement)
+        {
+            return QueryIsPrimitiveTypeNamed(typedElement, BooleanTypeNames);
         }
 
         /// <summary>
@@ -262,134 +346,71 @@ namespace uml4net.Extensions
         /// The subject <see cref="ITypedElement"/>
         /// </param>
         /// <returns>
-        /// true if the type is a numeric type (e.g., int, double, decimal, float), false otherwise.
+        /// true if the type is a <see cref="IPrimitiveType"/> that maps to an integer, floating point or decimal C#
+        /// type (UML <c>Integer</c> and <c>Real</c>), false otherwise.
         /// </returns>
         public static bool QueryIsNumeric(this ITypedElement typedElement)
         {
-            if (typedElement == null)
-            {
-                throw new ArgumentNullException(nameof(typedElement));
-            }
-
-            if (typedElement.Type?.Name == null)
-            {
-                return false;
-            }
-
-            var typeName = typedElement.Type.Name.ToLowerInvariant();
-
-            return typeName.Contains("int") ||
-                   typeName.Contains("float") ||
-                   typeName.Contains("double") ||
-                   typeName.Contains("real") ||
-                   typeName.Contains("decimal") ||
-                   typeName.Contains("short") ||
-                   typeName.Contains("long") ||
-                   typeName.Contains("byte");
+            return QueryIsPrimitiveTypeNamed(typedElement, IntegerTypeNames, FloatTypeNames, DoubleTypeNames, DecimalTypeNames);
         }
 
         /// <summary>
         /// Queries whether the type of the <see cref="ITypedElement"/> is of type integer
-        /// (contains the string "int" in its type name)
         /// </summary>
         /// <param name="typedElement">
         /// The subject <see cref="ITypedElement"/>
         /// </param>
         /// <returns>
-        /// true if the type is an integer (contains the string "int" in its type name)
+        /// true if the type is a <see cref="IPrimitiveType"/> that maps to an integer C# type such as <see cref="int"/>
+        /// or <see cref="long"/> (UML <c>Integer</c>), false otherwise
         /// </returns>
         public static bool QueryIsInteger(this ITypedElement typedElement)
         {
-            if (typedElement == null)
-            {
-                throw new ArgumentNullException(nameof(typedElement));
-            }
-
-            if (typedElement.Type?.Name == null)
-            {
-                return false;
-            }
-
-            var typeName = typedElement.Type?.Name?.ToLowerInvariant();
-            return typeName is not null && typeName.Contains("int");
+            return QueryIsPrimitiveTypeNamed(typedElement, IntegerTypeNames);
         }
 
         /// <summary>
         /// Queries whether the type of the <see cref="ITypedElement"/> is of type float
-        /// (contains the string "single" or "float" in its type name)
         /// </summary>
         /// <param name="typedElement">
         /// The subject <see cref="ITypedElement"/>
         /// </param>
         /// <returns>
-        /// true if the type is a float (contains the string "single" or "float" in its type name)
+        /// true if the type is a <see cref="IPrimitiveType"/> that maps to <see cref="float"/>, false otherwise
         /// </returns>
         public static bool QueryIsFloat(this ITypedElement typedElement)
         {
-            if (typedElement == null)
-            {
-                throw new ArgumentNullException(nameof(typedElement));
-            }
-
-            if (typedElement.Type?.Name == null)
-            {
-                return false;
-            }
-
-            var typeName = typedElement.Type?.Name?.ToLowerInvariant();
-            return typeName is not null && (typeName.Contains("single") || typeName.Contains("float"));
+            return QueryIsPrimitiveTypeNamed(typedElement, FloatTypeNames);
         }
 
         /// <summary>
         /// Queries whether the type of the <see cref="ITypedElement"/> is of type double
-        /// (contains the string "double" or "real" in its type name)
         /// </summary>
         /// <param name="typedElement">
         /// The subject <see cref="ITypedElement"/>
         /// </param>
         /// <returns>
-        /// true if the type is a double (contains the string "double" or "real" in its type name)
+        /// true if the type is a <see cref="IPrimitiveType"/> that maps to <see cref="double"/> (UML <c>Real</c>),
+        /// false otherwise
         /// </returns>
         public static bool QueryIsDouble(this ITypedElement typedElement)
         {
-            if (typedElement == null)
-            {
-                throw new ArgumentNullException(nameof(typedElement));
-            }
-
-            if (typedElement.Type?.Name == null)
-            {
-                return false;
-            }
-
-            var typeName = typedElement.Type?.Name?.ToLowerInvariant();
-            return typeName is not null && (typeName.Contains("double") || typeName.Contains("real"));
+            return QueryIsPrimitiveTypeNamed(typedElement, DoubleTypeNames);
         }
 
         /// <summary>
         /// Queries whether the type of the <see cref="ITypedElement"/> is of type <see cref="DateTime"/>
-        /// (contains the string "date" in its type name)
         /// </summary>
         /// <param name="typedElement">
         /// The subject <see cref="ITypedElement"/>
         /// </param>
         /// <returns>
-        /// true if the type is a DateTime (contains the string "date" in its type name)
+        /// true if the type is a <see cref="IPrimitiveType"/> that maps to a date or time C# type such as
+        /// <see cref="DateTime"/>, false otherwise
         /// </returns>
         public static bool QueryIsDateTime(this ITypedElement typedElement)
         {
-            if (typedElement == null)
-            {
-                throw new ArgumentNullException(nameof(typedElement));
-            }
-
-            if (typedElement.Type?.Name == null)
-            {
-                return false;
-            }
-
-            var typeName = typedElement.Type?.Name?.ToLowerInvariant();
-            return typeName is not null && typeName.Contains("date");
+            return QueryIsPrimitiveTypeNamed(typedElement, DateTimeTypeNames);
         }
 
         /// <summary>
