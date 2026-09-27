@@ -26,6 +26,8 @@ namespace uml4net.Classification
 
     using uml4net.Activities;
     using uml4net.CommonBehavior;
+    using uml4net.Deployments;
+    using uml4net.Packages;
     using uml4net.SimpleClassifiers;
     using uml4net.StateMachines;
     using uml4net.StructuredClassifiers;
@@ -157,17 +159,14 @@ namespace uml4net.Classification
         /// The contexts that this element may be redefined from.
         /// </returns>
         /// <remarks>
-        /// Has no OCL body in the metamodel - a plain derived union. Confirmed against the raw
-        /// <c>resources/UML/UML.xmi</c> that every direct subsetter of
-        /// <c>RedefinableElement-redefinitionContext</c> is the opposite end of a composite ownership
-        /// relationship (e.g. <c>Operation.Class</c>/<c>DataType</c>/<c>Interface</c>,
-        /// <c>Property.OwningAssociation</c>, <c>Connector</c>'s owning <c>StructuredClassifier</c>, a
-        /// nested <c>Class</c>/<c>Interface</c>'s nesting classifier, <c>RedefinableTemplateSignature.
-        /// Classifier</c>) - EXCEPT <see cref="IBehavior.Context"/>, which is a real traversal
-        /// (<see cref="BehaviorExtensions.QueryContext"/>) that can skip past intermediate owners, so
-        /// it must be special-cased ahead of the generic <see cref="IElement.Owner"/> fallback (an
-        /// <see cref="IBehavior"/> is also an <see cref="StructuredClassifiers.IClass"/>, so without
-        /// this the generic fallback would silently apply and return the wrong answer). This method is
+        /// Has no OCL body in the metamodel - a plain derived union. Its value is <see cref="IBehavior.Context"/> for a
+        /// Behavior (a real traversal, <see cref="BehaviorExtensions.QueryContext"/>, that can skip past intermediate
+        /// owners), together with the owning Classifier when the element is held in one of the ten properties that
+        /// subset the opposite end <c>A_redefinitionContext_redefinableElement::redefinableElement</c> (see
+        /// <see cref="IsRedefinableElementOf"/>). The owner is not a redefinition context for elements owned through
+        /// any other property, such as a Reception or an ActivityNode. A Behavior nested through
+        /// <c>Class::nestedClassifier</c> has no <c>context</c> (its OCL yields null when <c>nestingClass</c> is set)
+        /// but has its nesting Class as redefinition context. This method is
         /// NOT called at all for <c>Vertex</c>/<c>Region</c>/<c>Transition</c> instances - those three
         /// interfaces REDEFINE (not subset) <c>redefinitionContext</c> as a narrower scalar
         /// (<c>IVertex</c>/<c>IRegion</c>/<c>ITransition.RedefinitionContext</c>, from #254/#255/#256),
@@ -182,19 +181,74 @@ namespace uml4net.Classification
                 throw new ArgumentNullException(nameof(redefinableElement));
             }
 
-            if (redefinableElement is IBehavior behavior)
-            {
-                var context = behavior.QueryContext();
+            var result = new List<IClassifier>();
 
-                return context == null ? new List<IClassifier>() : new List<IClassifier> { context };
+            // Behavior::context subsets redefinitionContext; it is null for a Behavior nested through
+            // Class::nestedClassifier, whose nesting Class is contributed below
+            if (redefinableElement is IBehavior behavior && behavior.QueryContext() is { } context)
+            {
+                result.Add(context);
             }
 
-            if (redefinableElement.Owner is IClassifier owner)
+            if (redefinableElement.Owner is IClassifier owner && IsRedefinableElementOf(owner, redefinableElement))
             {
-                return new List<IClassifier> { owner };
+                result.Add(owner);
             }
 
-            return new List<IClassifier>();
+            return result.Distinct().ToList();
+        }
+
+        /// <summary>
+        /// Queries whether the <paramref name="redefinableElement"/> is held by the <paramref name="classifier"/> in one of
+        /// the properties that subset <c>A_redefinitionContext_redefinableElement::redefinableElement</c>, the opposite of
+        /// <c>RedefinableElement::redefinitionContext</c>
+        /// </summary>
+        /// <param name="classifier">
+        /// The <see cref="IClassifier"/> that owns the <paramref name="redefinableElement"/>
+        /// </param>
+        /// <param name="redefinableElement">
+        /// The subject <see cref="IRedefinableElement"/>
+        /// </param>
+        /// <returns>
+        /// true when the <paramref name="classifier"/> is a redefinition context of the <paramref name="redefinableElement"/>
+        /// </returns>
+        /// <remarks>
+        /// The ten subsetting properties, taken from the generated metadata and the uml4net-sage metamodel:
+        /// <c>Classifier::attribute</c> (the derived union of the owned attributes of Class, DataType, Interface, Artifact,
+        /// Signal and the owned ends of an Association), <c>Association::ownedEnd</c>, <c>Class::ownedOperation</c>,
+        /// <c>DataType::ownedOperation</c>, <c>Interface::ownedOperation</c>, <c>Artifact::ownedOperation</c>,
+        /// <c>Class::nestedClassifier</c>, <c>Interface::nestedClassifier</c>, <c>Classifier::ownedTemplateSignature</c>
+        /// and <c>StructuredClassifier::ownedConnector</c>. Elements owned through any other property - a Reception, an
+        /// ActivityNode or ActivityEdge of an Activity, an ExtensionPoint of a UseCase - have no redefinition context
+        /// from their owner.
+        /// </remarks>
+        private static bool IsRedefinableElementOf(IClassifier classifier, IRedefinableElement redefinableElement)
+        {
+            switch (redefinableElement)
+            {
+                case IProperty property:
+                    return classifier.Attribute.Contains(property)
+                           || (classifier is IExtension extension ? extension.OwnedEnd.Contains(property) : classifier is IAssociation association && association.OwnedEnd.Contains(property));
+
+                case IOperation operation:
+                    return (classifier is IClass @class && @class.OwnedOperation.Contains(operation))
+                           || (classifier is IDataType dataType && dataType.OwnedOperation.Contains(operation))
+                           || (classifier is IInterface @interface && @interface.OwnedOperation.Contains(operation))
+                           || (classifier is IArtifact artifact && artifact.OwnedOperation.Contains(operation));
+
+                case IRedefinableTemplateSignature signature:
+                    return classifier.OwnedTemplateSignature.Contains(signature);
+
+                case IConnector connector:
+                    return classifier is IStructuredClassifier structuredClassifier && structuredClassifier.OwnedConnector.Contains(connector);
+
+                case IClassifier nestedClassifier:
+                    return (classifier is IClass nestingClass && nestingClass.NestedClassifier.Contains(nestedClassifier))
+                           || (classifier is IInterface nestingInterface && nestingInterface.NestedClassifier.Contains(nestedClassifier));
+
+                default:
+                    return false;
+            }
         }
     }
 }
