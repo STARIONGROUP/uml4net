@@ -29,6 +29,9 @@ namespace uml4net.Extensions.Tests
 
     using Serilog;
 
+    using uml4net.Classification;
+    using uml4net.CommonStructure;
+    using uml4net.SimpleClassifiers;
     using uml4net.StructuredClassifiers;
     using uml4net.xmi;
     using uml4net.xmi.Readers;
@@ -90,6 +93,31 @@ namespace uml4net.Extensions.Tests
             }
         }
         
+        [Test]
+        public void Verify_that_QueryIsTypeAbstract_returns_IsAbstract_of_any_Classifier()
+        {
+            static bool IsTypeAbstract(IType type) => new Property { Type = type }.QueryIsTypeAbstract();
+
+            var root = this.xmiReaderResult.QueryRoot(xmiId: "_0", name: "UML");
+            var namespaceClass = root.NestedPackage.Single(x => x.Name == "CommonStructure").PackagedElement.OfType<IClass>().Single(x => x.Name == "Namespace");
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(namespaceClass.QueryAllProperties().Single(x => x.Name == "ownedMember").QueryIsTypeAbstract(), Is.True, "typed by the abstract NamedElement");
+                Assert.That(namespaceClass.QueryAllProperties().Single(x => x.Name == "ownedComment").QueryIsTypeAbstract(), Is.False, "typed by the concrete Comment");
+
+                Assert.That(IsTypeAbstract(new Class { IsAbstract = true }), Is.True);
+                Assert.That(IsTypeAbstract(new Class()), Is.False);
+                Assert.That(IsTypeAbstract(new DataType { IsAbstract = true }), Is.True);
+                Assert.That(IsTypeAbstract(new DataType()), Is.False);
+                Assert.That(IsTypeAbstract(new Interface { IsAbstract = true }), Is.True);
+                Assert.That(IsTypeAbstract(new Signal { IsAbstract = true }), Is.True);
+                Assert.That(IsTypeAbstract(new Association { IsAbstract = true }), Is.True);
+                Assert.That(IsTypeAbstract(new Enumeration()), Is.False);
+                Assert.That(IsTypeAbstract(null), Is.False, "an untyped element");
+            }
+        }
+
         [Test]
         public void Verify_that_QueryIsReferenceType_returns_expected_Result()
         {

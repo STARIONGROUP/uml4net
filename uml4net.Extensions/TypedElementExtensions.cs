@@ -22,6 +22,7 @@ namespace uml4net.Extensions
 {
     using System;
 
+    using uml4net.Classification;
     using uml4net.CommonStructure;
     using uml4net.SimpleClassifiers;
     using uml4net.StructuredClassifiers;
@@ -85,12 +86,9 @@ namespace uml4net.Extensions
                 throw new ArgumentNullException(nameof(typedElement));
             }
 
-            if (typedElement.Type is IClass classifier)
-            {
-                return classifier.IsAbstract;
-            }
-
-            return false;
+            // isAbstract is a property of Classifier (Class::isAbstract redefines it), so a DataType, an Interface,
+            // an Association or a Signal can be abstract as well
+            return typedElement.Type is IClassifier classifier && classifier.IsAbstract;
         }
 
         /// <summary>
