@@ -102,6 +102,27 @@ namespace uml4net.HandleBars.Tests
         }
 
         [Test]
+        public void Verify_that_derived_composite_property_is_written_as_IReadOnlyList_for_interface()
+        {
+            var template = "{{ #Property.WriteForInterface this }}";
+
+            var handlebarsTemplate = this.handlebarsContext.Compile(template);
+
+            var root = this.xmiReaderResult.QueryRoot(xmiId: "_0", name: "UML");
+
+            IProperty Find(string packageName, string className, string propertyName) =>
+                root.NestedPackage.Single(x => x.Name == packageName).PackagedElement.OfType<IClass>().Single(x => x.Name == className)
+                    .OwnedAttribute.Single(x => x.Name == propertyName);
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(handlebarsTemplate(Find("CommonStructure", "Element", "ownedElement")), Is.EqualTo("public IReadOnlyList<IElement> OwnedElement { get; }" + Environment.NewLine));
+                Assert.That(handlebarsTemplate(Find("Activities", "ActivityGroup", "subgroup")), Is.EqualTo("public IReadOnlyList<IActivityGroup> Subgroup { get; }" + Environment.NewLine));
+                Assert.That(handlebarsTemplate(Find("Packages", "Package", "ownedType")), Is.EqualTo("public IReadOnlyList<IType> OwnedType { get; }" + Environment.NewLine));
+            }
+        }
+
+        [Test]
         public void Verify_that_WriteXmlAttributeForXmiWriter_writes_bool_property_as_expected()
         {
             var template = "{{ #Property.WriteXmlAttributeForXmiWriter this.Property this.Class }}";

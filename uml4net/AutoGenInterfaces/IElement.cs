@@ -61,7 +61,7 @@ namespace uml4net.CommonStructure
         /// The Elements owned by this Element.
         /// </summary>
         [Property(xmiId: "Element-ownedElement", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: true, defaultValue: null)]
-        public List<IElement> OwnedElement { get; }
+        public IReadOnlyList<IElement> OwnedElement { get; }
 
         /// <summary>
         /// The Element that owns this Element.

@@ -348,7 +348,7 @@ namespace uml4net.Deployments
         /// </summary>
         [Property(xmiId: "Element-ownedElement", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: true, defaultValue: null)]
         [Implements(implementation: "IElement.OwnedElement")]
-        public List<IElement> OwnedElement =>
+        public IReadOnlyList<IElement> OwnedElement =>
         new List<IElement>()
         .Concat(this.CollaborationUse)
         .Concat(this.ElementImport)
@@ -375,7 +375,7 @@ namespace uml4net.Deployments
         [SubsettedProperty(propertyName: "Element-ownedElement")]
         [SubsettedProperty(propertyName: "Namespace-member")]
         [Implements(implementation: "INamespace.OwnedMember")]
-        public List<INamedElement> OwnedMember => this.QueryOwnedMember();
+        public IReadOnlyList<INamedElement> OwnedMember => this.QueryOwnedMember();
 
         /// <summary>
         /// The Operations defined for the Artifact. The association is a specialization of the ownedMember

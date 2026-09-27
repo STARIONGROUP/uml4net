@@ -179,7 +179,7 @@ namespace uml4net.Activities
         /// </summary>
         [Property(xmiId: "Element-ownedElement", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: true, defaultValue: null)]
         [Implements(implementation: "IElement.OwnedElement")]
-        public List<IElement> OwnedElement =>
+        public IReadOnlyList<IElement> OwnedElement =>
         new List<IElement>()
         .Concat(this.NameExpression)
         .Concat(this.OwnedComment)
@@ -216,7 +216,7 @@ namespace uml4net.Activities
         [Property(xmiId: "ActivityGroup-subgroup", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: true, defaultValue: null)]
         [SubsettedProperty(propertyName: "Element-ownedElement")]
         [Implements(implementation: "IActivityGroup.Subgroup")]
-        public List<IActivityGroup> Subgroup => this.QuerySubgroup();
+        public IReadOnlyList<IActivityGroup> Subgroup => this.QuerySubgroup();
 
         /// <summary>
         /// Other ActivityPartitions immediately contained in this ActivityPartition (as its subgroups).

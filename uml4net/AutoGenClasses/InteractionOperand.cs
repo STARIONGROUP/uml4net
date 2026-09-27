@@ -239,7 +239,7 @@ namespace uml4net.Interactions
         /// </summary>
         [Property(xmiId: "Element-ownedElement", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: true, defaultValue: null)]
         [Implements(implementation: "IElement.OwnedElement")]
-        public List<IElement> OwnedElement =>
+        public IReadOnlyList<IElement> OwnedElement =>
         new List<IElement>()
         .Concat(this.ElementImport)
         .Concat(this.Fragment)
@@ -259,7 +259,7 @@ namespace uml4net.Interactions
         [SubsettedProperty(propertyName: "Element-ownedElement")]
         [SubsettedProperty(propertyName: "Namespace-member")]
         [Implements(implementation: "INamespace.OwnedMember")]
-        public List<INamedElement> OwnedMember => this.QueryOwnedMember();
+        public IReadOnlyList<INamedElement> OwnedMember => this.QueryOwnedMember();
 
         /// <summary>
         /// Specifies a set of Constraints owned by this Namespace.
