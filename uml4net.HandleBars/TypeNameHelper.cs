@@ -74,7 +74,8 @@ namespace uml4net.HandleBars
                 {
                     var @class = property.Owner as IClass;
 
-                    if (@class.IsAbstract)
+                    // an untyped property is typed as object, which has no generated interface
+                    if (@class.IsAbstract && property.Type != null)
                     {
                         typeName = $"I{typeName}";
                     }

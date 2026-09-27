@@ -85,6 +85,14 @@ namespace uml4net.HandleBars.Tests
         }
 
         [Test]
+        public void Untyped_property_in_abstract_owner_renders_object()
+        {
+            var property = new Property { Possessor = new Class { IsAbstract = true } };
+
+            Assert.That(Render(property), Is.EqualTo("object"));
+        }
+
+        [Test]
         public void Reference_property_enumerable_renders_list()
         {
             var owner = new Class();

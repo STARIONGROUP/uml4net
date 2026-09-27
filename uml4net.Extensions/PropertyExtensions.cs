@@ -150,22 +150,22 @@ namespace uml4net.Extensions
 
             if (property.QueryIsEnumerable() && !property.QueryIsContainment() && (property.IsDerived || property.IsDerivedUnion || property.IsReadOnly))
             {
-                return $"IReadOnlyList<I{property.QueryTypeName()}> ";
+                return $"IReadOnlyList<{property.QueryInterfaceTypeName()}> ";
             }
 
             if (property.QueryIsEnumerable() && !property.QueryIsContainment())
             {
-                return $"List<I{property.QueryTypeName()}> ";
+                return $"List<{property.QueryInterfaceTypeName()}> ";
             }
 
             if (property.QueryIsContainment() && (property.IsDerived || property.IsDerivedUnion))
             {
-                return $"IReadOnlyList<I{property.QueryTypeName()}> ";
+                return $"IReadOnlyList<{property.QueryInterfaceTypeName()}> ";
             }
 
             if (property.QueryIsContainment())
             {
-                return $"IContainerList<I{property.QueryTypeName()}> ";
+                return $"IContainerList<{property.QueryInterfaceTypeName()}> ";
             }
             
             if (property.QueryIsNullableValueType())
@@ -178,7 +178,7 @@ namespace uml4net.Extensions
                 return $"{property.QueryCSharpTypeName()} ";
             }
 
-            return $"I{property.QueryTypeName()}";
+            return $"{property.QueryInterfaceTypeName()}";
         }
 
         /// <summary>

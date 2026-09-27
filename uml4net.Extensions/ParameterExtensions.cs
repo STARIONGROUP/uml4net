@@ -54,7 +54,7 @@ namespace uml4net.Extensions
 
             if (parameter.QueryIsEnumerable())
             {
-                return $"List<I{parameter.QueryTypeName()}> ";
+                return $"List<{parameter.QueryInterfaceTypeName()}> ";
             }
 
             if (parameter.Type is IDataType)
@@ -67,7 +67,7 @@ namespace uml4net.Extensions
                 return $"{parameter.QueryCSharpTypeName()} ";
             }
             
-            return $"I{parameter.QueryTypeName()}";
+            return $"{parameter.QueryInterfaceTypeName()}";
         }
     }
 }
