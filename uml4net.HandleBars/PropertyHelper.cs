@@ -1241,6 +1241,15 @@ namespace uml4net.HandleBars
                                 : $"xmlWriter.WriteAttributeString(\"{property.Name}\", XmlConvert.ToString(element.{pocoPropertyName}.Value));");
                             sb.AppendLine("}");
                             break;
+                        case "bool" when !property.QueryHasDefaultValue():
+                        case "double" when !property.QueryHasDefaultValue():
+                        case "int" when !property.QueryHasDefaultValue():
+                            // a mandatory value without a metamodel default is always written: the C# default of the
+                            // type is a value of the model, not the absence of a value (XMI 2.5.1 clause 7.8.4)
+                            sb.AppendLine(isAsync
+                                ? $"await xmlWriter.WriteAttributeStringAsync(null, \"{property.Name}\", null, XmlConvert.ToString(element.{pocoPropertyName}));"
+                                : $"xmlWriter.WriteAttributeString(\"{property.Name}\", XmlConvert.ToString(element.{pocoPropertyName}));");
+                            break;
                         case "bool":
                             var boolDefault = property.QueryIsDefaultValueDifferentThanDefault() ? property.QueryDefaultValueAsString() : "false";
 
@@ -1309,11 +1318,23 @@ namespace uml4net.HandleBars
                         return;
                     }
 
+                    var writeEnumeration = isAsync
+                        ? $"await xmlWriter.WriteAttributeStringAsync(null, \"{property.Name}\", null, element.{pocoPropertyName}.QueryXmiLiteral());"
+                        : $"xmlWriter.WriteAttributeString(\"{property.Name}\", element.{pocoPropertyName}.QueryXmiLiteral());";
+
+                    if (!property.QueryHasDefaultValue())
+                    {
+                        // a mandatory value without a metamodel default is always written: the first literal of the
+                        // enumeration is a value of the model, not the absence of a value (XMI 2.5.1 clause 7.8.4)
+                        sb.AppendLine(writeEnumeration);
+
+                        writer.WriteSafeString(sb + Environment.NewLine);
+                        return;
+                    }
+
                     sb.AppendLine($"if (element.{pocoPropertyName} != {enumDefault})");
                     sb.AppendLine("{");
-                    sb.AppendLine(isAsync
-                        ? $"await xmlWriter.WriteAttributeStringAsync(null, \"{property.Name}\", null, element.{pocoPropertyName}.QueryXmiLiteral());"
-                        : $"xmlWriter.WriteAttributeString(\"{property.Name}\", element.{pocoPropertyName}.QueryXmiLiteral());");
+                    sb.AppendLine(writeEnumeration);
                     sb.AppendLine("}");
 
                     writer.WriteSafeString(sb + Environment.NewLine);

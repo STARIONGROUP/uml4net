@@ -222,6 +222,43 @@ namespace uml4net.HandleBars.Tests
         }
 
         [Test]
+        public void Verify_that_WriteXmlAttributeForXmiWriter_always_writes_a_mandatory_value_without_metamodel_default()
+        {
+            var syncTemplate = this.handlebarsContext.Compile("{{ #Property.WriteXmlAttributeForXmiWriter this.Property this.Class }}");
+            var asyncTemplate = this.handlebarsContext.Compile("{{ #Property.WriteXmlAttributeForXmiWriter this.Property this.Class true }}");
+
+            var metaclass = this.QueryClass("StructuredClassifiers", "Class");
+            var booleanType = metaclass.QueryAllProperties().Single(x => x.XmiId == "Class-isAbstract").Type;
+            var visibilityKind = metaclass.QueryAllProperties().Single(x => x.XmiId == "NamedElement-visibility").Type;
+            var realType = this.QueryClass("Values", "LiteralReal").QueryAllProperties().Single(x => x.XmiId == "LiteralReal-value").Type;
+
+            // [1..1] properties without a defaultValue: the C# default of their type is a value of the model
+            var owner = new Class { Name = "Sample" };
+
+            Property CreateMandatoryProperty(string name, IType type)
+            {
+                var property = new Property { Name = name, Type = type };
+                property.LowerValue.Add(new LiteralInteger { Value = 1 });
+                property.UpperValue.Add(new LiteralUnlimitedNatural { Value = "1" });
+                owner.OwnedAttribute.Add(property);
+                return property;
+            }
+
+            var flag = CreateMandatoryProperty("flag", booleanType);
+            var kind = CreateMandatoryProperty("kind", visibilityKind);
+            var amount = CreateMandatoryProperty("amount", realType);
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(syncTemplate(new { Property = flag, Class = owner }).Trim(), Is.EqualTo("xmlWriter.WriteAttributeString(\"flag\", XmlConvert.ToString(element.Flag));"));
+                Assert.That(asyncTemplate(new { Property = flag, Class = owner }).Trim(), Is.EqualTo("await xmlWriter.WriteAttributeStringAsync(null, \"flag\", null, XmlConvert.ToString(element.Flag));"));
+                Assert.That(syncTemplate(new { Property = kind, Class = owner }).Trim(), Is.EqualTo("xmlWriter.WriteAttributeString(\"kind\", element.Kind.QueryXmiLiteral());"));
+                Assert.That(asyncTemplate(new { Property = kind, Class = owner }).Trim(), Is.EqualTo("await xmlWriter.WriteAttributeStringAsync(null, \"kind\", null, element.Kind.QueryXmiLiteral());"));
+                Assert.That(syncTemplate(new { Property = amount, Class = owner }).Trim(), Is.EqualTo("xmlWriter.WriteAttributeString(\"amount\", XmlConvert.ToString(element.Amount));"));
+            }
+        }
+
+        [Test]
         public void Verify_that_WriteXmlAttributeForXmiWriter_skips_redefined_and_composite_properties()
         {
             var template = "{{ #Property.WriteXmlAttributeForXmiWriter this.Property this.Class }}";

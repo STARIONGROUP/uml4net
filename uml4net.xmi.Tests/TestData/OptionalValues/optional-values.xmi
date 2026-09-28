@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- optional [0..1] value-typed properties: explicitly set, set to the first literal / C# default, and absent -->
+<!-- optional [0..1] value-typed properties: explicitly set, set to the first literal / C# default, and absent;
+     mandatory [1..1] values equal to the C# default, with and without a metamodel default -->
 <xmi:XMI xmlns:xmi="http://www.omg.org/spec/XMI/20131001" xmlns:uml="http://www.omg.org/spec/UML/20131001">
   <uml:Package xmi:id="p" name="P">
     <packagedElement xmi:type="uml:Class" xmi:id="b" name="B"/>
@@ -7,6 +8,13 @@
       <generalization xmi:type="uml:Generalization" xmi:id="g1" general="b"/>
       <ownedAttribute xmi:type="uml:Property" xmi:id="explicitPublic" name="explicitPublic" visibility="public"/>
       <ownedAttribute xmi:type="uml:Property" xmi:id="noVisibility" name="noVisibility"/>
+      <ownedAttribute xmi:type="uml:Property" xmi:id="zeroDefaults" name="zeroDefaults">
+        <!-- LiteralReal::value is [1..1] without a metamodel default, LiteralInteger::value has the default 0 -->
+        <defaultValue xmi:type="uml:LiteralReal" xmi:id="zeroReal" value="0"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:type="uml:Property" xmi:id="zeroIntegerDefault" name="zeroIntegerDefault">
+        <defaultValue xmi:type="uml:LiteralInteger" xmi:id="zeroInteger" value="0"/>
+      </ownedAttribute>
       <ownedOperation xmi:type="uml:Operation" xmi:id="op" name="op">
         <ownedParameter xmi:type="uml:Parameter" xmi:id="create" name="create" effect="create"/>
         <ownedParameter xmi:type="uml:Parameter" xmi:id="noEffect" name="noEffect"/>
