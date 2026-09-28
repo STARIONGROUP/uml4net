@@ -105,6 +105,8 @@ namespace uml4net.xmi.Tests
                 Assert.That(Attribute("d", "visibility"), Is.Null, "equal to the metamodel default public");
                 Assert.That(Attribute("g1", "isSubstitutable"), Is.Null, "equal to the metamodel default true");
                 Assert.That(Attribute("g2", "isSubstitutable"), Is.EqualTo("false"));
+                Assert.That(Attribute("zeroReal", "value"), Is.EqualTo("0"), "LiteralReal::value is mandatory without a metamodel default: 0 is a value, it is written");
+                Assert.That(Attribute("zeroInteger", "value"), Is.Null, "equal to the metamodel default 0 of LiteralInteger::value");
             }
         }
     }
