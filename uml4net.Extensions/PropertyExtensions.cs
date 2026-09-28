@@ -47,6 +47,11 @@ namespace uml4net.Extensions
         /// <returns>
         /// true when the <paramref name="structuralFeature"/> name equals the name of the containing <see cref="IClass"/>, false if not.
         /// </returns>
+        /// <remarks>
+        /// The names are compared ignoring case on purpose: the generated member name is the capitalized property name, and
+        /// C# does not allow a member with the same name as its enclosing type (CS0542). The comparison is ordinal, so
+        /// that the result does not depend on the culture of the machine that runs the generator.
+        /// </remarks>
         public static bool QueryStructuralFeatureNameEqualsEnclosingType(this IStructuralFeature structuralFeature, IClass @class)
         {
             if (structuralFeature == null)
@@ -59,7 +64,7 @@ namespace uml4net.Extensions
                 throw new ArgumentNullException(nameof(@class));
             }
 
-            return string.Equals(structuralFeature.Name, @class.Name, StringComparison.CurrentCultureIgnoreCase);
+            return string.Equals(structuralFeature.Name, @class.Name, StringComparison.OrdinalIgnoreCase);
         }
 
         /// <summary>
