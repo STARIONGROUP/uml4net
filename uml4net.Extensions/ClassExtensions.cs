@@ -225,7 +225,10 @@ namespace uml4net.Extensions
         /// generalization hierarchy, with duplicates removed.
         /// </returns>
         /// <remarks>
-        /// The returned <see cref="IConstraint"/> instances are ordered by name.
+        /// The returned <see cref="IConstraint"/> instances are ordered by name. The constraints of a classifier are its
+        /// <c>Namespace::ownedRule</c> and the constraints held in the properties that subset it, such as the
+        /// <c>precondition</c> and <c>postcondition</c> of a Behavior, which is a Class; they are the Constraints among
+        /// its <c>Namespace::ownedMember</c>.
         /// </remarks>
         public static ReadOnlyCollection<IConstraint> QueryAllConstraints(this IClass @class)
         {
@@ -236,7 +239,8 @@ namespace uml4net.Extensions
 
             var superClassifiers = @class.QueryAllGeneralClassifiers();
 
-            var result = superClassifiers.SelectMany(x => x.OwnedRule);
+            // ownedRule is a plain stored list that does not receive the values of its subsets; ownedMember includes them
+            var result = superClassifiers.SelectMany(x => x.OwnedMember.OfType<IConstraint>());
 
             return result.Distinct().OrderBy(x => x.Name) .ToList().AsReadOnly();
         }

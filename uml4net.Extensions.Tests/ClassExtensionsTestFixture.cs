@@ -175,6 +175,27 @@ namespace uml4net.Extensions.Tests
         }
 
         [Test]
+        public void Verify_that_QueryAllConstraints_includes_the_preconditions_and_postconditions_of_a_Behavior()
+        {
+            // Behavior::precondition and Behavior::postcondition subset Namespace::ownedRule and are stored in their own lists
+            var baseActivity = new Activity { Name = "BaseActivity" };
+            var inheritedRule = new Constraint { Name = "a inherited rule" };
+            baseActivity.OwnedRule.Add(inheritedRule);
+
+            var activity = new Activity { Name = "Activity" };
+            activity.Generalization.Add(new Generalization { General = baseActivity });
+
+            var rule = new Constraint { Name = "b rule" };
+            var precondition = new Constraint { Name = "c precondition" };
+            var postcondition = new Constraint { Name = "d postcondition" };
+            activity.OwnedRule.Add(rule);
+            activity.Precondition.Add(precondition);
+            activity.Postcondition.Add(postcondition);
+
+            Assert.That(activity.QueryAllConstraints(), Is.EqualTo(new[] { inheritedRule, rule, precondition, postcondition }), "ordered by name");
+        }
+
+        [Test]
         public void Verify_that_QueryAllSpecializations_returns_expected_result_with_cache()
         {
             var animal = new Class { XmiId = "Animal", Name = "Animal", DocumentName = "test" };
