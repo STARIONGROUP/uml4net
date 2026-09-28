@@ -42,6 +42,12 @@ namespace uml4net.xmi.Settings
         public string XmiNamespaceUri { get; set; } = "http://www.omg.org/spec/XMI/20131001";
 
         /// <summary>
+        /// Gets or sets the namespace URI used for the mofext namespace declaration on the root element, which is
+        /// declared when MOF tags (<c>mofext:Tag</c>) are written.
+        /// </summary>
+        public string MofExtNamespaceUri { get; set; } = "http://www.omg.org/spec/MOF/20131001";
+
+        /// <summary>
         /// Gets or sets a value indicating whether the written XML is indented.
         /// </summary>
         public bool Indent { get; set; } = true;
