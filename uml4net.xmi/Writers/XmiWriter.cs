@@ -33,7 +33,9 @@ namespace uml4net.xmi.Writers
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Logging.Abstractions;
 
+    using uml4net.Mof.Extension;
     using uml4net.Packages;
+    using uml4net.xmi.Readers;
     using uml4net.xmi.Settings;
     using uml4net.xmi.Xmi;
 
@@ -184,6 +186,35 @@ namespace uml4net.xmi.Writers
         /// </param>
         public void Write(IEnumerable<IXmiElement> rootElements, string fileUri, Documentation documentation, IEnumerable<XmiExtension> documentExtensions)
         {
+            this.Write(rootElements, fileUri, documentation, documentExtensions, null);
+        }
+
+        /// <summary>
+        /// Writes the provided root elements, <see cref="Documentation"/>, <see cref="XmiExtension"/>s and MOF
+        /// <see cref="Tag"/>s to a UML XMI 2.5.1 file. The root elements are written as the top-level elements of the
+        /// document, in the provided order, and do not need to be <see cref="IPackage"/>s.
+        /// </summary>
+        /// <param name="rootElements">
+        /// The <see cref="IXmiElement"/>s that are to be written as top-level elements, typically the
+        /// <c>RootElements</c> of the <c>XmiReaderResult</c> that was read
+        /// </param>
+        /// <param name="fileUri">
+        /// The URI of the XMI file that is to be written.
+        /// </param>
+        /// <param name="documentation">
+        /// The <see cref="Documentation"/> that is to be written as a sibling of the <paramref name="rootElements"/>,
+        /// typically the <c>Documentation</c> of the <c>XmiRoot</c> that was read. May be null.
+        /// </param>
+        /// <param name="documentExtensions">
+        /// The <see cref="XmiExtension"/>s that are to be written as a sibling of the <paramref name="rootElements"/>,
+        /// typically the <c>Extensions</c> of the <c>XmiRoot</c> that was read. May be null.
+        /// </param>
+        /// <param name="tags">
+        /// The MOF <see cref="Tag"/>s that are to be written as <c>mofext:Tag</c> siblings of the
+        /// <paramref name="rootElements"/>, typically the <c>Tags</c> of the <c>XmiRoot</c> that was read. May be null.
+        /// </param>
+        public void Write(IEnumerable<IXmiElement> rootElements, string fileUri, Documentation documentation, IEnumerable<XmiExtension> documentExtensions, IEnumerable<Tag> tags)
+        {
             if (rootElements == null)
             {
                 throw new ArgumentNullException(nameof(rootElements));
@@ -200,7 +231,7 @@ namespace uml4net.xmi.Writers
 
             this.logger.LogInformation("start serializing to {Path}", fileUri);
 
-            this.Write(rootElements, fileStream, new FileInfo(fileUri).Name, documentation, documentExtensions);
+            this.Write(rootElements, fileStream, new FileInfo(fileUri).Name, documentation, documentExtensions, tags);
 
             this.logger.LogInformation("File {Path} serialized in {Time} [ms]", fileUri, sw.ElapsedMilliseconds);
         }
@@ -299,6 +330,39 @@ namespace uml4net.xmi.Writers
         /// </param>
         public void Write(IEnumerable<IXmiElement> rootElements, Stream stream, string documentName, Documentation documentation, IEnumerable<XmiExtension> documentExtensions)
         {
+            this.Write(rootElements, stream, documentName, documentation, documentExtensions, null);
+        }
+
+        /// <summary>
+        /// Writes the provided root elements, <see cref="Documentation"/>, <see cref="XmiExtension"/>s and MOF
+        /// <see cref="Tag"/>s to a UML XMI 2.5.1 stream. The root elements are written as the top-level elements of the
+        /// document, in the provided order, and do not need to be <see cref="IPackage"/>s.
+        /// </summary>
+        /// <param name="rootElements">
+        /// The <see cref="IXmiElement"/>s that are to be written as top-level elements, typically the
+        /// <c>RootElements</c> of the <c>XmiReaderResult</c> that was read
+        /// </param>
+        /// <param name="stream">
+        /// The <see cref="Stream"/> to which the XMI content is written.
+        /// </param>
+        /// <param name="documentName">
+        /// The name of the document that is being written.
+        /// </param>
+        /// <param name="documentation">
+        /// The <see cref="Documentation"/> that is to be written as a sibling of the <paramref name="rootElements"/>,
+        /// typically the <c>Documentation</c> of the <c>XmiRoot</c> that was read. May be null.
+        /// </param>
+        /// <param name="documentExtensions">
+        /// The <see cref="XmiExtension"/>s that are to be written as a sibling of the <paramref name="rootElements"/>,
+        /// typically the <c>Extensions</c> of the <c>XmiRoot</c> that was read. May be null.
+        /// </param>
+        /// <param name="tags">
+        /// The MOF <see cref="Tag"/>s that are to be written as <c>mofext:Tag</c> siblings of the
+        /// <paramref name="rootElements"/>, typically the <c>Tags</c> of the <c>XmiRoot</c> that was read. May be null;
+        /// the <c>mofext</c> namespace is declared only when there are tags.
+        /// </param>
+        public void Write(IEnumerable<IXmiElement> rootElements, Stream stream, string documentName, Documentation documentation, IEnumerable<XmiExtension> documentExtensions, IEnumerable<Tag> tags)
+        {
             if (rootElements == null)
             {
                 throw new ArgumentNullException(nameof(rootElements));
@@ -316,11 +380,18 @@ namespace uml4net.xmi.Writers
 
             var writeContext = this.CreateWriteContext(rootElements, documentName, out var xmiWritePlan);
 
+            var tagList = tags?.ToList() ?? [];
+
             using var xmlWriter = XmlWriter.Create(stream, this.CreateXmlWriterSettings(isAsync: false));
 
             xmlWriter.WriteStartDocument();
             xmlWriter.WriteStartElement("xmi", "XMI", this.XmiWriterSettings.XmiNamespaceUri);
             xmlWriter.WriteAttributeString("xmlns", "uml", null, this.XmiWriterSettings.UmlNamespaceUri);
+
+            if (tagList.Count > 0)
+            {
+                xmlWriter.WriteAttributeString("xmlns", KnowNamespacePrefixes.MofExt, null, this.XmiWriterSettings.MofExtNamespaceUri);
+            }
 
             if (documentation != null)
             {
@@ -332,6 +403,16 @@ namespace uml4net.xmi.Writers
             foreach (var rootElement in xmiWritePlan.RootElements)
             {
                 this.XmiElementWriterFacade.Write(xmlWriter, rootElement, $"uml:{rootElement.GetType().Name}", writeContext);
+            }
+
+            if (tagList.Count > 0)
+            {
+                var tagWriter = new TagWriter(this.XmiWriterSettings, this.LoggerFactory);
+
+                foreach (var tag in tagList)
+                {
+                    tagWriter.Write(xmlWriter, tag);
+                }
             }
 
             if (documentExtensions != null)
@@ -454,7 +535,42 @@ namespace uml4net.xmi.Writers
         /// <returns>
         /// an awaitable <see cref="Task"/>
         /// </returns>
-        public async Task WriteAsync(IEnumerable<IXmiElement> rootElements, string fileUri, Documentation documentation, IEnumerable<XmiExtension> documentExtensions, CancellationToken cancellationToken = default)
+        public Task WriteAsync(IEnumerable<IXmiElement> rootElements, string fileUri, Documentation documentation, IEnumerable<XmiExtension> documentExtensions, CancellationToken cancellationToken = default)
+        {
+            return this.WriteAsync(rootElements, fileUri, documentation, documentExtensions, null, cancellationToken);
+        }
+
+        /// <summary>
+        /// Asynchronously writes the provided root elements, <see cref="Documentation"/>, <see cref="XmiExtension"/>s
+        /// and MOF <see cref="Tag"/>s to a UML XMI 2.5.1 file. The root elements are written as the top-level elements of
+        /// the document, in the provided order, and do not need to be <see cref="IPackage"/>s.
+        /// </summary>
+        /// <param name="rootElements">
+        /// The <see cref="IXmiElement"/>s that are to be written as top-level elements, typically the
+        /// <c>RootElements</c> of the <c>XmiReaderResult</c> that was read
+        /// </param>
+        /// <param name="fileUri">
+        /// The URI of the XMI file that is to be written.
+        /// </param>
+        /// <param name="documentation">
+        /// The <see cref="Documentation"/> that is to be written as a sibling of the <paramref name="rootElements"/>,
+        /// typically the <c>Documentation</c> of the <c>XmiRoot</c> that was read. May be null.
+        /// </param>
+        /// <param name="documentExtensions">
+        /// The <see cref="XmiExtension"/>s that are to be written as a sibling of the <paramref name="rootElements"/>,
+        /// typically the <c>Extensions</c> of the <c>XmiRoot</c> that was read. May be null.
+        /// </param>
+        /// <param name="tags">
+        /// The MOF <see cref="Tag"/>s that are to be written as <c>mofext:Tag</c> siblings of the
+        /// <paramref name="rootElements"/>, typically the <c>Tags</c> of the <c>XmiRoot</c> that was read. May be null.
+        /// </param>
+        /// <param name="cancellationToken">
+        /// The <see cref="CancellationToken"/> used to cancel the write operation
+        /// </param>
+        /// <returns>
+        /// an awaitable <see cref="Task"/>
+        /// </returns>
+        public async Task WriteAsync(IEnumerable<IXmiElement> rootElements, string fileUri, Documentation documentation, IEnumerable<XmiExtension> documentExtensions, IEnumerable<Tag> tags, CancellationToken cancellationToken = default)
         {
             if (rootElements == null)
             {
@@ -472,7 +588,7 @@ namespace uml4net.xmi.Writers
 
             this.logger.LogInformation("start serializing to {Path}", fileUri);
 
-            await this.WriteAsync(rootElements, fileStream, new FileInfo(fileUri).Name, documentation, documentExtensions, cancellationToken);
+            await this.WriteAsync(rootElements, fileStream, new FileInfo(fileUri).Name, documentation, documentExtensions, tags, cancellationToken);
 
             this.logger.LogInformation("File {Path} serialized in {Time} [ms]", fileUri, sw.ElapsedMilliseconds);
         }
@@ -594,7 +710,46 @@ namespace uml4net.xmi.Writers
         /// <returns>
         /// an awaitable <see cref="Task"/>
         /// </returns>
-        public async Task WriteAsync(IEnumerable<IXmiElement> rootElements, Stream stream, string documentName, Documentation documentation, IEnumerable<XmiExtension> documentExtensions, CancellationToken cancellationToken = default)
+        public Task WriteAsync(IEnumerable<IXmiElement> rootElements, Stream stream, string documentName, Documentation documentation, IEnumerable<XmiExtension> documentExtensions, CancellationToken cancellationToken = default)
+        {
+            return this.WriteAsync(rootElements, stream, documentName, documentation, documentExtensions, null, cancellationToken);
+        }
+
+        /// <summary>
+        /// Asynchronously writes the provided root elements, <see cref="Documentation"/>, <see cref="XmiExtension"/>s
+        /// and MOF <see cref="Tag"/>s to a UML XMI 2.5.1 stream. The root elements are written as the top-level elements
+        /// of the document, in the provided order, and do not need to be <see cref="IPackage"/>s.
+        /// </summary>
+        /// <param name="rootElements">
+        /// The <see cref="IXmiElement"/>s that are to be written as top-level elements, typically the
+        /// <c>RootElements</c> of the <c>XmiReaderResult</c> that was read
+        /// </param>
+        /// <param name="stream">
+        /// The <see cref="Stream"/> to which the XMI content is written.
+        /// </param>
+        /// <param name="documentName">
+        /// The name of the document that is being written.
+        /// </param>
+        /// <param name="documentation">
+        /// The <see cref="Documentation"/> that is to be written as a sibling of the <paramref name="rootElements"/>,
+        /// typically the <c>Documentation</c> of the <c>XmiRoot</c> that was read. May be null.
+        /// </param>
+        /// <param name="documentExtensions">
+        /// The <see cref="XmiExtension"/>s that are to be written as a sibling of the <paramref name="rootElements"/>,
+        /// typically the <c>Extensions</c> of the <c>XmiRoot</c> that was read. May be null.
+        /// </param>
+        /// <param name="tags">
+        /// The MOF <see cref="Tag"/>s that are to be written as <c>mofext:Tag</c> siblings of the
+        /// <paramref name="rootElements"/>, typically the <c>Tags</c> of the <c>XmiRoot</c> that was read. May be null;
+        /// the <c>mofext</c> namespace is declared only when there are tags.
+        /// </param>
+        /// <param name="cancellationToken">
+        /// The <see cref="CancellationToken"/> used to cancel the write operation
+        /// </param>
+        /// <returns>
+        /// an awaitable <see cref="Task"/>
+        /// </returns>
+        public async Task WriteAsync(IEnumerable<IXmiElement> rootElements, Stream stream, string documentName, Documentation documentation, IEnumerable<XmiExtension> documentExtensions, IEnumerable<Tag> tags, CancellationToken cancellationToken = default)
         {
             if (rootElements == null)
             {
@@ -613,11 +768,18 @@ namespace uml4net.xmi.Writers
 
             var writeContext = this.CreateWriteContext(rootElements, documentName, out var xmiWritePlan);
 
+            var tagList = tags?.ToList() ?? [];
+
             using var xmlWriter = XmlWriter.Create(stream, this.CreateXmlWriterSettings(isAsync: true));
 
             await xmlWriter.WriteStartDocumentAsync();
             await xmlWriter.WriteStartElementAsync("xmi", "XMI", this.XmiWriterSettings.XmiNamespaceUri);
             await xmlWriter.WriteAttributeStringAsync("xmlns", "uml", null, this.XmiWriterSettings.UmlNamespaceUri);
+
+            if (tagList.Count > 0)
+            {
+                await xmlWriter.WriteAttributeStringAsync("xmlns", KnowNamespacePrefixes.MofExt, null, this.XmiWriterSettings.MofExtNamespaceUri);
+            }
 
             if (documentation != null)
             {
@@ -631,6 +793,18 @@ namespace uml4net.xmi.Writers
                 cancellationToken.ThrowIfCancellationRequested();
 
                 await this.XmiElementWriterFacade.WriteAsync(xmlWriter, rootElement, $"uml:{rootElement.GetType().Name}", writeContext);
+            }
+
+            if (tagList.Count > 0)
+            {
+                var tagWriter = new TagWriter(this.XmiWriterSettings, this.LoggerFactory);
+
+                foreach (var tag in tagList)
+                {
+                    cancellationToken.ThrowIfCancellationRequested();
+
+                    await tagWriter.WriteAsync(xmlWriter, tag);
+                }
             }
 
             if (documentExtensions != null)

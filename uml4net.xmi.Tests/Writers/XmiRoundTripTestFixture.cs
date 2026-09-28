@@ -23,6 +23,7 @@ namespace uml4net.xmi.Tests.Writers
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
+    using System.Text;
     using System.Threading.Tasks;
 
     using Microsoft.Extensions.Logging;
@@ -33,6 +34,7 @@ namespace uml4net.xmi.Tests.Writers
     using Serilog;
 
     using uml4net.CommonStructure;
+    using uml4net.Mof.Extension;
     using uml4net.Packages;
     using uml4net.StructuredClassifiers;
     using uml4net.xmi;
@@ -267,6 +269,53 @@ namespace uml4net.xmi.Tests.Writers
         /// <returns>
         /// The <see cref="XmiReaderResult"/>
         /// </returns>
+        [Test]
+        public async Task Verify_that_the_MOF_tags_round_trip()
+        {
+            // PrimitiveTypes.xmi holds six mofext:Tag elements (XMI 2.5.1 clause 7.11.1)
+            var reader = XmiReaderBuilder.Create()
+                .UsingSettings(x => x.LocalReferenceBasePath = this.rootPath)
+                .WithLogger(this.CreateLoggerFactory())
+                .Build();
+
+            var original = reader.Read(Path.Combine(this.rootPath, "PrimitiveTypes.xmi"));
+
+            var writer = XmiWriterBuilder.Create()
+                .WithLogger(this.CreateLoggerFactory())
+                .Build();
+
+            using var stream = new MemoryStream();
+            writer.Write(original.RootElements, stream, "PrimitiveTypes.xmi", original.XmiRoot.Documentation, original.XmiRoot.Extensions, original.XmiRoot.Tags);
+
+            using var asyncStream = new MemoryStream();
+            await writer.WriteAsync(original.RootElements, asyncStream, "PrimitiveTypes.xmi", original.XmiRoot.Documentation, original.XmiRoot.Extensions, original.XmiRoot.Tags);
+
+            using var withoutTagsStream = new MemoryStream();
+            writer.Write(original.RootElements, withoutTagsStream, "PrimitiveTypes.xmi", original.XmiRoot.Documentation, original.XmiRoot.Extensions);
+
+            var written = Encoding.UTF8.GetString(stream.ToArray());
+
+            stream.Position = 0;
+
+            var rereadReader = XmiReaderBuilder.Create()
+                .UsingSettings(x => x.LocalReferenceBasePath = this.rootPath)
+                .WithLogger(this.CreateLoggerFactory())
+                .Build();
+
+            var reread = rereadReader.Read(stream, "PrimitiveTypes.xmi");
+
+            static string Describe(Tag tag) => $"{tag.XmiId}|{tag.Name}|{tag.Value}|{string.Join(" ", tag.Element)}";
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(original.XmiRoot.Tags, Has.Count.EqualTo(6));
+                Assert.That(reread.XmiRoot.Tags.Select(Describe), Is.EqualTo(original.XmiRoot.Tags.Select(Describe)));
+                Assert.That(written, Does.Contain("xmlns:mofext=\"http://www.omg.org/spec/MOF/20131001\""));
+                Assert.That(asyncStream.ToArray(), Is.EqualTo(stream.ToArray()), "the asynchronous writer writes the same document");
+                Assert.That(Encoding.UTF8.GetString(withoutTagsStream.ToArray()), Does.Not.Contain("mofext"), "the mofext namespace is declared only when there are tags");
+            }
+        }
+
         private XmiReaderResult ReadUmlModel()
         {
             var reader = XmiReaderBuilder.Create()
