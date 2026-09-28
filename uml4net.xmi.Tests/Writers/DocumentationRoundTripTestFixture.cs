@@ -141,7 +141,7 @@ namespace uml4net.xmi.Tests.Writers
             using (Assert.EnterMultipleScope())
             {
                 Assert.That(documentationElement, Is.Not.Null, "an xmi:Documentation was expected as a child of xmi:XMI");
-                Assert.That(documentationElement.Attribute("exporter")?.Value, Is.EqualTo("uml4net"));
+                Assert.That(documentationElement.Element("exporter")?.Value, Is.EqualTo("uml4net"));
                 Assert.That(children.First(), Is.EqualTo(documentationElement),
                     "the xmi:Documentation was expected to be written before the model content");
             }

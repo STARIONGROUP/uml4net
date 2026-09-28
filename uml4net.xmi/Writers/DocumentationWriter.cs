@@ -21,6 +21,7 @@
 namespace uml4net.xmi.Writers
 {
     using System;
+    using System.Collections.Generic;
     using System.Threading.Tasks;
     using System.Xml;
 
@@ -38,8 +39,10 @@ namespace uml4net.xmi.Writers
     /// The <see cref="Documentation"/> is written as the <c>xmi:documentation</c> element, a
     /// sibling of the model content, which makes it survive a read - write cycle. Within <c>xmi:XMI</c> the
     /// lowercase element name is used; <c>xmi:Documentation</c> may only be used as a root element (XMI 2.5.1
-    /// clause 7.5.3). Its extensions are written as <c>xmi:Extension</c> elements, the element declaration that the
-    /// content model of Documentation refers to in the XMI schema.
+    /// clause 7.5.3). Its fields are written as the unqualified child elements that the Documentation type of the XMI
+    /// schema declares, and its extensions as <c>xmi:Extension</c> elements, the element declaration that this content
+    /// model refers to. <c>exporterID</c>, which the schema does not declare but Enterprise Architect writes, is kept
+    /// as an attribute so that it survives a read - write cycle.
     /// </remarks>
     public class DocumentationWriter
     {
@@ -99,49 +102,17 @@ namespace uml4net.xmi.Writers
 
             xmlWriter.WriteStartElement("xmi", "documentation", this.xmiWriterSettings.XmiNamespaceUri);
 
-            if (!string.IsNullOrEmpty(documentation.Contact))
-            {
-                xmlWriter.WriteAttributeString("contact", documentation.Contact);
-            }
-
-            if (!string.IsNullOrEmpty(documentation.Exporter))
-            {
-                xmlWriter.WriteAttributeString("exporter", documentation.Exporter);
-            }
-
+            // exporterID is not declared by XMI.xsd; it is written by Enterprise Architect and kept as an attribute so
+            // that it survives a read - write cycle
             if (!string.IsNullOrEmpty(documentation.ExporterID))
             {
                 xmlWriter.WriteAttributeString("exporterID", documentation.ExporterID);
             }
 
-            if (!string.IsNullOrEmpty(documentation.ExporterVersion))
+            // the fields are the local, and therefore unqualified, elements of the Documentation type of XMI.xsd
+            foreach (var (name, value) in QueryFieldElements(documentation))
             {
-                xmlWriter.WriteAttributeString("exporterVersion", documentation.ExporterVersion);
-            }
-
-            if (documentation.TimeStamp != default)
-            {
-                xmlWriter.WriteAttributeString("timestamp", XmlConvert.ToString(documentation.TimeStamp, XmlDateTimeSerializationMode.RoundtripKind));
-            }
-
-            foreach (var longDescription in documentation.LongDescription)
-            {
-                xmlWriter.WriteElementString("xmi", "longDescription", this.xmiWriterSettings.XmiNamespaceUri, longDescription);
-            }
-
-            foreach (var shortDescription in documentation.ShortDescription)
-            {
-                xmlWriter.WriteElementString("xmi", "shortDescription", this.xmiWriterSettings.XmiNamespaceUri, shortDescription);
-            }
-
-            foreach (var notice in documentation.Notice)
-            {
-                xmlWriter.WriteElementString("xmi", "notice", this.xmiWriterSettings.XmiNamespaceUri, notice);
-            }
-
-            foreach (var owner in documentation.Owner)
-            {
-                xmlWriter.WriteElementString("xmi", "owner", this.xmiWriterSettings.XmiNamespaceUri, owner);
+                xmlWriter.WriteElementString(name, value);
             }
 
             if (documentation.Extensions.Count > 0)
@@ -186,49 +157,17 @@ namespace uml4net.xmi.Writers
 
             await xmlWriter.WriteStartElementAsync("xmi", "documentation", this.xmiWriterSettings.XmiNamespaceUri);
 
-            if (!string.IsNullOrEmpty(documentation.Contact))
-            {
-                await xmlWriter.WriteAttributeStringAsync(null, "contact", null, documentation.Contact);
-            }
-
-            if (!string.IsNullOrEmpty(documentation.Exporter))
-            {
-                await xmlWriter.WriteAttributeStringAsync(null, "exporter", null, documentation.Exporter);
-            }
-
+            // exporterID is not declared by XMI.xsd; it is written by Enterprise Architect and kept as an attribute so
+            // that it survives a read - write cycle
             if (!string.IsNullOrEmpty(documentation.ExporterID))
             {
                 await xmlWriter.WriteAttributeStringAsync(null, "exporterID", null, documentation.ExporterID);
             }
 
-            if (!string.IsNullOrEmpty(documentation.ExporterVersion))
+            // the fields are the local, and therefore unqualified, elements of the Documentation type of XMI.xsd
+            foreach (var (name, value) in QueryFieldElements(documentation))
             {
-                await xmlWriter.WriteAttributeStringAsync(null, "exporterVersion", null, documentation.ExporterVersion);
-            }
-
-            if (documentation.TimeStamp != default)
-            {
-                await xmlWriter.WriteAttributeStringAsync(null, "timestamp", null, XmlConvert.ToString(documentation.TimeStamp, XmlDateTimeSerializationMode.RoundtripKind));
-            }
-
-            foreach (var longDescription in documentation.LongDescription)
-            {
-                await xmlWriter.WriteElementStringAsync("xmi", "longDescription", this.xmiWriterSettings.XmiNamespaceUri, longDescription);
-            }
-
-            foreach (var shortDescription in documentation.ShortDescription)
-            {
-                await xmlWriter.WriteElementStringAsync("xmi", "shortDescription", this.xmiWriterSettings.XmiNamespaceUri, shortDescription);
-            }
-
-            foreach (var notice in documentation.Notice)
-            {
-                await xmlWriter.WriteElementStringAsync("xmi", "notice", this.xmiWriterSettings.XmiNamespaceUri, notice);
-            }
-
-            foreach (var owner in documentation.Owner)
-            {
-                await xmlWriter.WriteElementStringAsync("xmi", "owner", this.xmiWriterSettings.XmiNamespaceUri, owner);
+                await xmlWriter.WriteElementStringAsync(null, name, null, value);
             }
 
             if (documentation.Extensions.Count > 0)
@@ -243,6 +182,59 @@ namespace uml4net.xmi.Writers
             }
 
             await xmlWriter.WriteEndElementAsync();
+        }
+
+        /// <summary>
+        /// Queries the fields of the <paramref name="documentation"/> that are written as child elements, in the order
+        /// in which the Documentation type of XMI.xsd declares them
+        /// </summary>
+        /// <param name="documentation">
+        /// The <see cref="Documentation"/> that is written
+        /// </param>
+        /// <returns>
+        /// the name and value of each child element; a field without a value is left out
+        /// </returns>
+        private static IEnumerable<(string Name, string Value)> QueryFieldElements(Documentation documentation)
+        {
+            if (!string.IsNullOrEmpty(documentation.Contact))
+            {
+                yield return ("contact", documentation.Contact);
+            }
+
+            if (!string.IsNullOrEmpty(documentation.Exporter))
+            {
+                yield return ("exporter", documentation.Exporter);
+            }
+
+            if (!string.IsNullOrEmpty(documentation.ExporterVersion))
+            {
+                yield return ("exporterVersion", documentation.ExporterVersion);
+            }
+
+            foreach (var longDescription in documentation.LongDescription)
+            {
+                yield return ("longDescription", longDescription);
+            }
+
+            foreach (var shortDescription in documentation.ShortDescription)
+            {
+                yield return ("shortDescription", shortDescription);
+            }
+
+            foreach (var notice in documentation.Notice)
+            {
+                yield return ("notice", notice);
+            }
+
+            foreach (var owner in documentation.Owner)
+            {
+                yield return ("owner", owner);
+            }
+
+            if (documentation.TimeStamp != default)
+            {
+                yield return ("timestamp", XmlConvert.ToString(documentation.TimeStamp, XmlDateTimeSerializationMode.RoundtripKind));
+            }
         }
     }
 }

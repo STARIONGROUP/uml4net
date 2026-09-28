@@ -93,18 +93,18 @@ namespace uml4net.xmi.Tests.Writers
             using (Assert.EnterMultipleScope())
             {
                 Assert.That(element.Name.LocalName, Is.EqualTo("documentation"));
-                Assert.That(element.Attribute("contact")?.Value, Is.EqualTo("info@stariongroup.eu"));
-                Assert.That(element.Attribute("exporter")?.Value, Is.EqualTo("uml4net"));
+                Assert.That(element.Element("contact")?.Value, Is.EqualTo("info@stariongroup.eu"));
+                Assert.That(element.Element("exporter")?.Value, Is.EqualTo("uml4net"));
                 Assert.That(element.Attribute("exporterID")?.Value, Is.EqualTo("4.5.6"));
-                Assert.That(element.Attribute("exporterVersion")?.Value, Is.EqualTo("1.0.0"));
-                Assert.That(element.Attribute("timestamp")?.Value, Is.EqualTo(XmlConvert.ToString(documentation.TimeStamp, XmlDateTimeSerializationMode.RoundtripKind)));
+                Assert.That(element.Element("exporterVersion")?.Value, Is.EqualTo("1.0.0"));
+                Assert.That(element.Element("timestamp")?.Value, Is.EqualTo(XmlConvert.ToString(documentation.TimeStamp, XmlDateTimeSerializationMode.RoundtripKind)));
 
                 var xmiNamespace = XNamespace.Get(this.xmiWriterSettings.XmiNamespaceUri);
 
-                Assert.That(element.Elements(xmiNamespace + "longDescription").Select(x => x.Value), Is.EqualTo(new[] { "long description 1", "long description 2" }));
-                Assert.That(element.Elements(xmiNamespace + "shortDescription").Select(x => x.Value), Is.EqualTo(new[] { "short description" }));
-                Assert.That(element.Elements(xmiNamespace + "notice").Select(x => x.Value), Is.EqualTo(new[] { "notice" }));
-                Assert.That(element.Elements(xmiNamespace + "owner").Select(x => x.Value), Is.EqualTo(new[] { "Starion Group S.A." }));
+                Assert.That(element.Elements("longDescription").Select(x => x.Value), Is.EqualTo(new[] { "long description 1", "long description 2" }));
+                Assert.That(element.Elements("shortDescription").Select(x => x.Value), Is.EqualTo(new[] { "short description" }));
+                Assert.That(element.Elements("notice").Select(x => x.Value), Is.EqualTo(new[] { "notice" }));
+                Assert.That(element.Elements("owner").Select(x => x.Value), Is.EqualTo(new[] { "Starion Group S.A." }));
             }
         }
 
@@ -204,8 +204,8 @@ namespace uml4net.xmi.Tests.Writers
             using (Assert.EnterMultipleScope())
             {
                 Assert.That(element, Is.Not.Null);
-                Assert.That(element.Attribute("exporter")?.Value, Is.EqualTo("Enterprise Architect"));
-                Assert.That(element.Attribute("exporterVersion")?.Value, Is.EqualTo("6.5"));
+                Assert.That(element.Element("exporter")?.Value, Is.EqualTo("Enterprise Architect"));
+                Assert.That(element.Element("exporterVersion")?.Value, Is.EqualTo("6.5"));
                 Assert.That(element.Attribute("exporterID")?.Value, Is.EqualTo("1704"));
             }
         }

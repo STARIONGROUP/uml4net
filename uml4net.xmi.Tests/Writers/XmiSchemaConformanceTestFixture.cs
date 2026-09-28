@@ -50,11 +50,6 @@ namespace uml4net.xmi.Tests.Writers
     {
         private static readonly XNamespace XmiNamespace = "http://www.omg.org/spec/XMI/20131001";
 
-        /// <summary>
-        /// Whether the content of <c>xmi:documentation</c> is validated; it is not yet schema-valid (#461)
-        /// </summary>
-        private const bool DocumentationIsValidated = false;
-
         private XmlSchemaSet schemaSet;
 
         [OneTimeSetUp]
@@ -76,6 +71,7 @@ namespace uml4net.xmi.Tests.Writers
             {
                 Contact = "info@stariongroup.eu",
                 Exporter = "uml4net",
+                ExporterID = "1703",
                 ExporterVersion = "1.0.0",
                 TimeStamp = new DateTime(2026, 9, 28, 12, 0, 0, DateTimeKind.Utc)
             };
@@ -97,9 +93,12 @@ namespace uml4net.xmi.Tests.Writers
 
             void Collect(object sender, ValidationEventArgs args) => errors.Add($"{args.Severity}: {args.Message}");
 
-            // the root with its XMI children only; the content of xmi:documentation is not yet schema-valid (#461),
-            // so it is left out until that is fixed
-            var root = new XElement(document.Root!.Name, document.Root.Attributes(), document.Root.Elements().Where(x => x.Name.Namespace == XmiNamespace && (DocumentationIsValidated || x.Name.LocalName != "documentation")));
+            // the root with its XMI children only
+            var root = new XElement(document.Root!.Name, document.Root.Attributes(), document.Root.Elements().Where(x => x.Name.Namespace == XmiNamespace));
+
+            // exporterID is not declared by XMI.xsd; it is the one deviation, kept on purpose so that the value that
+            // Enterprise Architect writes survives a read - write cycle
+            root.Elements(XmiNamespace + "documentation").Attributes("exporterID").Remove();
             new XDocument(root).Validate(this.schemaSet, Collect);
 
             // every extension of a model element, on its own
@@ -132,6 +131,7 @@ namespace uml4net.xmi.Tests.Writers
             using (Assert.EnterMultipleScope())
             {
                 Assert.That(document.Root!.Elements(XmiNamespace + "documentation"), Has.Exactly(1).Items, "the document is expected to hold the documentation");
+                Assert.That(document.Root.Element(XmiNamespace + "documentation")!.Attribute("exporterID")?.Value, Is.EqualTo("1703"), "exporterID is kept as an attribute");
                 Assert.That(document.Root.Elements(XmiNamespace + "extension"), Has.Exactly(1).Items, "the document is expected to hold the document extension");
                 Assert.That(document.Descendants(XmiNamespace + "extension").Count(), Is.EqualTo(2), "the extension of the class is expected as well");
                 Assert.That(this.Validate(document), Is.Empty);
