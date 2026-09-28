@@ -125,11 +125,11 @@ namespace uml4net.xmi.Tests.Writers
             var element = this.WriteAndParse(documentation);
 
             var xmiNamespace = XNamespace.Get(this.xmiWriterSettings.XmiNamespaceUri);
-            var extensionElement = element.Element(xmiNamespace + "Extension");
+            var extensionElement = element.Element(xmiNamespace + "extension");
 
             using (Assert.EnterMultipleScope())
             {
-                Assert.That(extensionElement, Is.Not.Null, "an xmi:Extension was expected inside the xmi:Documentation");
+                Assert.That(extensionElement, Is.Not.Null, "an xmi:extension was expected inside the xmi:documentation");
                 Assert.That(extensionElement.Attribute("extender")?.Value, Is.EqualTo("uml4net tests"));
                 Assert.That(extensionElement.Attribute("extenderID")?.Value, Is.EqualTo("1"));
                 Assert.That(extensionElement.Element(XNamespace.Get("http://example.com/tool") + "info")?.Attribute("version")?.Value, Is.EqualTo("42"));
@@ -153,7 +153,7 @@ namespace uml4net.xmi.Tests.Writers
             }
 
             var element = XElement.Parse(stringWriter.ToString());
-            var extensionElement = element.Element(XNamespace.Get(this.xmiWriterSettings.XmiNamespaceUri) + "Extension");
+            var extensionElement = element.Element(XNamespace.Get(this.xmiWriterSettings.XmiNamespaceUri) + "extension");
 
             using (Assert.EnterMultipleScope())
             {

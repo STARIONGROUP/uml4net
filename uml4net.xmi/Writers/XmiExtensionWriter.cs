@@ -76,31 +76,11 @@ namespace uml4net.xmi.Writers
         /// The <see cref="XmiExtension"/> that is to be written
         /// </param>
         /// <remarks>
-        /// The extension is written as an <c>xmi:extension</c> element with <c>xmi:type="xmi:Extension"</c>, the form
-        /// that is used within <c>xmi:XMI</c> and within model elements (XMI 2.5.1 clauses 7.5.3 and 9.5.3)
+        /// The extension is written as an <c>xmi:extension</c> element with <c>xmi:type="xmi:Extension"</c>: the
+        /// uppercase <c>xmi:Extension</c> may only be used as a root element, not nested within <c>xmi:XMI</c>, a model
+        /// element or <c>xmi:documentation</c> (XMI 2.5.1 clauses 7.5.3 and 9.5.3)
         /// </remarks>
         public void Write(XmlWriter xmlWriter, XmiExtension extension)
-        {
-            this.Write(xmlWriter, extension, false);
-        }
-
-        /// <summary>
-        /// Writes the <see cref="XmiExtension"/> object to its XML representation
-        /// </summary>
-        /// <param name="xmlWriter">
-        /// an instance of <see cref="XmlWriter"/>
-        /// </param>
-        /// <param name="extension">
-        /// The <see cref="XmiExtension"/> that is to be written
-        /// </param>
-        /// <param name="isContentOfDocumentation">
-        /// true when the extension is written within <c>xmi:documentation</c>, whose content model refers to the
-        /// <c>Extension</c> element declaration of the XMI schema: the extension is then written as an
-        /// <c>xmi:Extension</c> element. Otherwise it is written as an <c>xmi:extension</c> element with
-        /// <c>xmi:type="xmi:Extension"</c>, the form that is used within <c>xmi:XMI</c> and within model elements
-        /// (XMI 2.5.1 clauses 7.5.3 and 9.5.3)
-        /// </param>
-        public void Write(XmlWriter xmlWriter, XmiExtension extension, bool isContentOfDocumentation)
         {
             if (xmlWriter == null)
             {
@@ -114,15 +94,8 @@ namespace uml4net.xmi.Writers
 
             this.logger.LogTrace("writing the XmiExtension of {Extender}:{ExtenderID}", extension.Extender, extension.ExtenderId);
 
-            if (isContentOfDocumentation)
-            {
-                xmlWriter.WriteStartElement("xmi", "Extension", this.xmiWriterSettings.XmiNamespaceUri);
-            }
-            else
-            {
-                xmlWriter.WriteStartElement("xmi", "extension", this.xmiWriterSettings.XmiNamespaceUri);
-                xmlWriter.WriteAttributeString("xmi", "type", this.xmiWriterSettings.XmiNamespaceUri, "xmi:Extension");
-            }
+            xmlWriter.WriteStartElement("xmi", "extension", this.xmiWriterSettings.XmiNamespaceUri);
+            xmlWriter.WriteAttributeString("xmi", "type", this.xmiWriterSettings.XmiNamespaceUri, "xmi:Extension");
 
             if (!string.IsNullOrEmpty(extension.Id))
             {
@@ -168,34 +141,11 @@ namespace uml4net.xmi.Writers
         /// an awaitable <see cref="Task"/>
         /// </returns>
         /// <remarks>
-        /// The extension is written as an <c>xmi:extension</c> element with <c>xmi:type="xmi:Extension"</c>, the form
-        /// that is used within <c>xmi:XMI</c> and within model elements (XMI 2.5.1 clauses 7.5.3 and 9.5.3)
+        /// The extension is written as an <c>xmi:extension</c> element with <c>xmi:type="xmi:Extension"</c>: the
+        /// uppercase <c>xmi:Extension</c> may only be used as a root element, not nested within <c>xmi:XMI</c>, a model
+        /// element or <c>xmi:documentation</c> (XMI 2.5.1 clauses 7.5.3 and 9.5.3)
         /// </remarks>
-        public Task WriteAsync(XmlWriter xmlWriter, XmiExtension extension)
-        {
-            return this.WriteAsync(xmlWriter, extension, false);
-        }
-
-        /// <summary>
-        /// Asynchronously writes the <see cref="XmiExtension"/> object to its XML representation
-        /// </summary>
-        /// <param name="xmlWriter">
-        /// an instance of <see cref="XmlWriter"/>
-        /// </param>
-        /// <param name="extension">
-        /// The <see cref="XmiExtension"/> that is to be written
-        /// </param>
-        /// <param name="isContentOfDocumentation">
-        /// true when the extension is written within <c>xmi:documentation</c>, whose content model refers to the
-        /// <c>Extension</c> element declaration of the XMI schema: the extension is then written as an
-        /// <c>xmi:Extension</c> element. Otherwise it is written as an <c>xmi:extension</c> element with
-        /// <c>xmi:type="xmi:Extension"</c>, the form that is used within <c>xmi:XMI</c> and within model elements
-        /// (XMI 2.5.1 clauses 7.5.3 and 9.5.3)
-        /// </param>
-        /// <returns>
-        /// an awaitable <see cref="Task"/>
-        /// </returns>
-        public async Task WriteAsync(XmlWriter xmlWriter, XmiExtension extension, bool isContentOfDocumentation)
+        public async Task WriteAsync(XmlWriter xmlWriter, XmiExtension extension)
         {
             if (xmlWriter == null)
             {
@@ -209,15 +159,8 @@ namespace uml4net.xmi.Writers
 
             this.logger.LogTrace("writing the XmiExtension of {Extender}:{ExtenderID}", extension.Extender, extension.ExtenderId);
 
-            if (isContentOfDocumentation)
-            {
-                await xmlWriter.WriteStartElementAsync("xmi", "Extension", this.xmiWriterSettings.XmiNamespaceUri);
-            }
-            else
-            {
-                await xmlWriter.WriteStartElementAsync("xmi", "extension", this.xmiWriterSettings.XmiNamespaceUri);
-                await xmlWriter.WriteAttributeStringAsync("xmi", "type", this.xmiWriterSettings.XmiNamespaceUri, "xmi:Extension");
-            }
+            await xmlWriter.WriteStartElementAsync("xmi", "extension", this.xmiWriterSettings.XmiNamespaceUri);
+            await xmlWriter.WriteAttributeStringAsync("xmi", "type", this.xmiWriterSettings.XmiNamespaceUri, "xmi:Extension");
 
             if (!string.IsNullOrEmpty(extension.Id))
             {

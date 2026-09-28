@@ -81,29 +81,13 @@ namespace uml4net.xmi.Tests.Writers
         [Test]
         public async Task Verify_that_an_extension_is_written_as_a_lowercase_extension_element_with_its_type()
         {
-            // XMI 2.5.1 clause 7.5.3: within xmi:XMI and within model elements the lowercase element name is used;
-            // clause 9.5.3: "<xmi:extension" "xmi:type='xmi:Extension'"
+            // XMI 2.5.1 clause 7.5.3: the uppercase Extension may only be used as a root element, so within xmi:XMI, a
+            // model element or xmi:documentation the lowercase element name is used; clause 9.5.3:
+            // "<xmi:extension" "xmi:type='xmi:Extension'"
             const string expected = "<xmi:extension xmi:type=\"xmi:Extension\" xmi:id=\"ext\" extender=\"Enterprise Architect\" extenderID=\"6.5\"><elements/></xmi:extension>";
 
             var written = this.Write(x => this.xmiExtensionWriter.Write(x, CreateExtension()));
             var writtenAsync = await this.WriteAsync(x => this.xmiExtensionWriter.WriteAsync(x, CreateExtension()));
-
-            using (Assert.EnterMultipleScope())
-            {
-                Assert.That(written, Does.Contain(expected));
-                Assert.That(writtenAsync, Is.EqualTo(written));
-                Assert.That(this.Write(x => this.xmiExtensionWriter.Write(x, CreateExtension(), false)), Is.EqualTo(written));
-            }
-        }
-
-        [Test]
-        public async Task Verify_that_an_extension_of_a_documentation_is_written_as_an_Extension_element()
-        {
-            // the content model of Documentation in XMI.xsd refers to the Extension element declaration
-            const string expected = "<xmi:Extension xmi:id=\"ext\" extender=\"Enterprise Architect\" extenderID=\"6.5\"><elements/></xmi:Extension>";
-
-            var written = this.Write(x => this.xmiExtensionWriter.Write(x, CreateExtension(), true));
-            var writtenAsync = await this.WriteAsync(x => this.xmiExtensionWriter.WriteAsync(x, CreateExtension(), true));
 
             using (Assert.EnterMultipleScope())
             {
