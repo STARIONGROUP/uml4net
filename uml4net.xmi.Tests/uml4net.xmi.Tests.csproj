@@ -48,6 +48,9 @@
         <Content Include="..\resources\SySML2\PrimitiveTypes.xmi" Link="TestData\SySML2\PrimitiveTypes.xmi">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </Content>
+        <Content Include="..\resources\SySML1.7\ptc-24-01-02.xmi" Link="TestData\SySML1.7\ptc-24-01-02.xmi">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
       <Content Include="..\resources\UML_with_unknown_element\SysML_with_unknown_element.uml" Link="TestData\SysML_with_unknown_element.uml">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </Content>
