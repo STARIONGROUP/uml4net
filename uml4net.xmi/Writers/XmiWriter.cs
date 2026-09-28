@@ -171,7 +171,9 @@ namespace uml4net.xmi.Writers
         /// </summary>
         /// <param name="rootElements">
         /// The <see cref="IXmiElement"/>s that are to be written as top-level elements, typically the
-        /// <c>RootElements</c> of the <c>XmiReaderResult</c> that was read
+        /// <c>DocumentRootElements</c> of the <c>XmiReaderResult</c> that was read. Its <c>RootElements</c> also hold the
+        /// top-level elements of the external documents that were loaded while resolving references; writing those
+        /// merges several documents into one, whose identifiers can clash
         /// </param>
         /// <param name="fileUri">
         /// The URI of the XMI file that is to be written.
@@ -196,7 +198,9 @@ namespace uml4net.xmi.Writers
         /// </summary>
         /// <param name="rootElements">
         /// The <see cref="IXmiElement"/>s that are to be written as top-level elements, typically the
-        /// <c>RootElements</c> of the <c>XmiReaderResult</c> that was read
+        /// <c>DocumentRootElements</c> of the <c>XmiReaderResult</c> that was read. Its <c>RootElements</c> also hold the
+        /// top-level elements of the external documents that were loaded while resolving references; writing those
+        /// merges several documents into one, whose identifiers can clash
         /// </param>
         /// <param name="fileUri">
         /// The URI of the XMI file that is to be written.
@@ -312,7 +316,9 @@ namespace uml4net.xmi.Writers
         /// </summary>
         /// <param name="rootElements">
         /// The <see cref="IXmiElement"/>s that are to be written as top-level elements, typically the
-        /// <c>RootElements</c> of the <c>XmiReaderResult</c> that was read
+        /// <c>DocumentRootElements</c> of the <c>XmiReaderResult</c> that was read. Its <c>RootElements</c> also hold the
+        /// top-level elements of the external documents that were loaded while resolving references; writing those
+        /// merges several documents into one, whose identifiers can clash
         /// </param>
         /// <param name="stream">
         /// The <see cref="Stream"/> to which the XMI content is written.
@@ -340,7 +346,9 @@ namespace uml4net.xmi.Writers
         /// </summary>
         /// <param name="rootElements">
         /// The <see cref="IXmiElement"/>s that are to be written as top-level elements, typically the
-        /// <c>RootElements</c> of the <c>XmiReaderResult</c> that was read
+        /// <c>DocumentRootElements</c> of the <c>XmiReaderResult</c> that was read. Its <c>RootElements</c> also hold the
+        /// top-level elements of the external documents that were loaded while resolving references; writing those
+        /// merges several documents into one, whose identifiers can clash
         /// </param>
         /// <param name="stream">
         /// The <see cref="Stream"/> to which the XMI content is written.
@@ -516,7 +524,9 @@ namespace uml4net.xmi.Writers
         /// </summary>
         /// <param name="rootElements">
         /// The <see cref="IXmiElement"/>s that are to be written as top-level elements, typically the
-        /// <c>RootElements</c> of the <c>XmiReaderResult</c> that was read
+        /// <c>DocumentRootElements</c> of the <c>XmiReaderResult</c> that was read. Its <c>RootElements</c> also hold the
+        /// top-level elements of the external documents that were loaded while resolving references; writing those
+        /// merges several documents into one, whose identifiers can clash
         /// </param>
         /// <param name="fileUri">
         /// The URI of the XMI file that is to be written.
@@ -547,7 +557,9 @@ namespace uml4net.xmi.Writers
         /// </summary>
         /// <param name="rootElements">
         /// The <see cref="IXmiElement"/>s that are to be written as top-level elements, typically the
-        /// <c>RootElements</c> of the <c>XmiReaderResult</c> that was read
+        /// <c>DocumentRootElements</c> of the <c>XmiReaderResult</c> that was read. Its <c>RootElements</c> also hold the
+        /// top-level elements of the external documents that were loaded while resolving references; writing those
+        /// merges several documents into one, whose identifiers can clash
         /// </param>
         /// <param name="fileUri">
         /// The URI of the XMI file that is to be written.
@@ -688,7 +700,9 @@ namespace uml4net.xmi.Writers
         /// </summary>
         /// <param name="rootElements">
         /// The <see cref="IXmiElement"/>s that are to be written as top-level elements, typically the
-        /// <c>RootElements</c> of the <c>XmiReaderResult</c> that was read
+        /// <c>DocumentRootElements</c> of the <c>XmiReaderResult</c> that was read. Its <c>RootElements</c> also hold the
+        /// top-level elements of the external documents that were loaded while resolving references; writing those
+        /// merges several documents into one, whose identifiers can clash
         /// </param>
         /// <param name="stream">
         /// The <see cref="Stream"/> to which the XMI content is written.
@@ -722,7 +736,9 @@ namespace uml4net.xmi.Writers
         /// </summary>
         /// <param name="rootElements">
         /// The <see cref="IXmiElement"/>s that are to be written as top-level elements, typically the
-        /// <c>RootElements</c> of the <c>XmiReaderResult</c> that was read
+        /// <c>DocumentRootElements</c> of the <c>XmiReaderResult</c> that was read. Its <c>RootElements</c> also hold the
+        /// top-level elements of the external documents that were loaded while resolving references; writing those
+        /// merges several documents into one, whose identifiers can clash
         /// </param>
         /// <param name="stream">
         /// The <see cref="Stream"/> to which the XMI content is written.

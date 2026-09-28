@@ -285,13 +285,13 @@ namespace uml4net.xmi.Tests.Writers
                 .Build();
 
             using var stream = new MemoryStream();
-            writer.Write(original.RootElements, stream, "PrimitiveTypes.xmi", original.XmiRoot.Documentation, original.XmiRoot.Extensions, original.XmiRoot.Tags);
+            writer.Write(original.DocumentRootElements, stream, "PrimitiveTypes.xmi", original.XmiRoot.Documentation, original.XmiRoot.Extensions, original.XmiRoot.Tags);
 
             using var asyncStream = new MemoryStream();
-            await writer.WriteAsync(original.RootElements, asyncStream, "PrimitiveTypes.xmi", original.XmiRoot.Documentation, original.XmiRoot.Extensions, original.XmiRoot.Tags);
+            await writer.WriteAsync(original.DocumentRootElements, asyncStream, "PrimitiveTypes.xmi", original.XmiRoot.Documentation, original.XmiRoot.Extensions, original.XmiRoot.Tags);
 
             using var withoutTagsStream = new MemoryStream();
-            writer.Write(original.RootElements, withoutTagsStream, "PrimitiveTypes.xmi", original.XmiRoot.Documentation, original.XmiRoot.Extensions);
+            writer.Write(original.DocumentRootElements, withoutTagsStream, "PrimitiveTypes.xmi", original.XmiRoot.Documentation, original.XmiRoot.Extensions);
 
             var written = Encoding.UTF8.GetString(stream.ToArray());
 
@@ -314,6 +314,52 @@ namespace uml4net.xmi.Tests.Writers
                 Assert.That(asyncStream.ToArray(), Is.EqualTo(stream.ToArray()), "the asynchronous writer writes the same document");
                 Assert.That(Encoding.UTF8.GetString(withoutTagsStream.ToArray()), Does.Not.Contain("mofext"), "the mofext namespace is declared only when there are tags");
             }
+        }
+
+        [Test]
+        public void Verify_that_a_document_that_references_external_documents_round_trips_with_its_own_root_elements()
+        {
+            // the SysML 1.7 profile references UML.xmi, PrimitiveTypes.xmi and StandardProfile.xmi, which are loaded as
+            // external documents: RootElements holds their top-level elements as well, DocumentRootElements only those
+            // of the profile, which are the ones to write back
+            var sysMLPath = Path.Combine(this.rootPath, "SySML1.7");
+
+            var reader = XmiReaderBuilder.Create()
+                .UsingSettings(x => x.LocalReferenceBasePath = sysMLPath)
+                .WithLogger(this.CreateLoggerFactory())
+                .Build();
+
+            var original = reader.Read(Path.Combine(sysMLPath, "ptc-24-01-02.xmi"));
+            var originalProfile = original.DocumentRootElements.OfType<IPackage>().Single(x => x.Name == "SysML");
+
+            var writer = XmiWriterBuilder.Create()
+                .WithLogger(this.CreateLoggerFactory())
+                .Build();
+
+            using var stream = new MemoryStream();
+            writer.Write(original.DocumentRootElements, stream, "ptc-24-01-02.xmi", original.XmiRoot.Documentation, original.XmiRoot.Extensions, original.XmiRoot.Tags);
+
+            stream.Position = 0;
+
+            var rereader = XmiReaderBuilder.Create()
+                .UsingSettings(x => x.LocalReferenceBasePath = sysMLPath)
+                .WithLogger(this.CreateLoggerFactory())
+                .Build();
+
+            var reread = rereader.Read(stream, "ptc-24-01-02.xmi");
+            var rereadProfile = reread.DocumentRootElements.OfType<IPackage>().Single(x => x.Name == "SysML");
+
+            static string Describe(Tag tag) => $"{tag.XmiId}|{tag.Name}|{tag.Value}|{string.Join(" ", tag.Element)}";
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(original.ExternalRootElements, Is.Not.Empty, "the external documents were loaded");
+                Assert.That(original.RootElements, Has.Count.GreaterThan(original.DocumentRootElements.Count));
+                Assert.That(reread.DocumentRootElements, Has.Count.EqualTo(original.DocumentRootElements.Count));
+                Assert.That(reread.XmiRoot.Tags.Select(Describe), Is.EqualTo(original.XmiRoot.Tags.Select(Describe)));
+            }
+
+            this.AssertContainmentTreesAreEquivalent(originalProfile, rereadProfile, "ptc-24-01-02.xmi");
         }
 
         private XmiReaderResult ReadUmlModel()
