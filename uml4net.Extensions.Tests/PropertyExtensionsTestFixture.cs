@@ -92,6 +92,29 @@ namespace uml4net.Extensions.Tests
         }
 
         [Test]
+        public void Verify_that_QueryStructuralFeatureNameEqualsEnclosingType_ignores_case_whatever_the_culture()
+        {
+            var currentCulture = System.Globalization.CultureInfo.CurrentCulture;
+
+            try
+            {
+                // under the Turkish culture, "i" and "I" are not equal when case is ignored
+                System.Globalization.CultureInfo.CurrentCulture = new System.Globalization.CultureInfo("tr-TR");
+
+                using (Assert.EnterMultipleScope())
+                {
+                    Assert.That(new Property { Name = "id" }.QueryStructuralFeatureNameEqualsEnclosingType(new Class { Name = "ID" }), Is.True);
+                    Assert.That(new Property { Name = "class" }.QueryStructuralFeatureNameEqualsEnclosingType(new Class { Name = "Class" }), Is.True, "the member name is the capitalized property name");
+                    Assert.That(new Property { Name = "owner" }.QueryStructuralFeatureNameEqualsEnclosingType(new Class { Name = "Class" }), Is.False);
+                }
+            }
+            finally
+            {
+                System.Globalization.CultureInfo.CurrentCulture = currentCulture;
+            }
+        }
+
+        [Test]
         public void Verify_that_QueryIsShadowedByMoreGeneralProperty_returns_false_when_there_are_no_subsetted_properties()
         {
             var property = new Property { Name = "structuredNode" };
