@@ -23,6 +23,7 @@ namespace uml4net.Extensions
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Text.RegularExpressions;
 
     using HtmlAgilityPack;
 
@@ -36,6 +37,11 @@ namespace uml4net.Extensions
     public static class ElementExtensions
     {
         /// <summary>
+        /// Matches a run of white space that holds at least one line break
+        /// </summary>
+        private static readonly Regex LineBreakExpression = new(@"\s*[\r\n]\s*", RegexOptions.Compiled, TimeSpan.FromSeconds(1));
+
+        /// <summary>
         /// Queries the documentation from the <see cref="IElement"/> and
         /// returns it as a string
         /// </summary>
@@ -44,7 +50,7 @@ namespace uml4net.Extensions
         /// </param>
         /// <returns>
         /// The documentation of the <see cref="IElement"/> stripped from unwanted HTML tags
-        /// and split to lines of 100 characters long
+        /// and split to lines of 100 characters long; every owned comment, in order, starts on a new line
         /// </returns>
         public static IEnumerable<string> QueryDocumentation(this IElement element)
         {
@@ -53,24 +59,7 @@ namespace uml4net.Extensions
                 throw new ArgumentNullException(nameof(element));
             }
 
-            var ownedComment = element.OwnedComment.FirstOrDefault();
-            if (ownedComment == null)
-            {
-                return Enumerable.Empty<string>();
-            }
-
-            if (!string.IsNullOrEmpty(ownedComment.Body))
-            {
-                var unwantedTags = new List<string> { "p", "code", "em", "tt" };
-
-                var result = ownedComment.Body.RemoveUnwantedHtmlTags(unwantedTags).Replace("\r\n", "").Replace("\n", "").Replace("\r", "");
-
-                var splitLines = result.SplitToLines(100);
-
-                return splitLines;
-            }
-
-            return Enumerable.Empty<string>();
+            return QueryCommentTexts(element).SelectMany(x => x.SplitToLines(100)).ToList();
         }
 
         /// <summary>
@@ -81,7 +70,8 @@ namespace uml4net.Extensions
         /// The subject <see cref="IElement"/> for which the documentation is queried
         /// </param>
         /// <returns>
-        /// The documentation of the <see cref="IElement"/> stripped from unwanted HTML tags
+        /// The documentation of the <see cref="IElement"/> stripped from unwanted HTML tags, on a single line; the
+        /// owned comments, in order, are separated by a space
         /// </returns>
         public static string QueryRawDocumentation(this IElement element)
         {
@@ -90,22 +80,31 @@ namespace uml4net.Extensions
                 throw new ArgumentNullException(nameof(element));
             }
 
-            var ownedComment = element.OwnedComment.FirstOrDefault();
-            if (ownedComment == null)
-            {
-                return string.Empty;
-            }
+            return string.Join(" ", QueryCommentTexts(element));
+        }
 
-            if (!string.IsNullOrEmpty(ownedComment.Body))
-            {
-                var unwantedTags = new List<string> { "p", "code", "em", "tt" };
+        /// <summary>
+        /// Queries the text of every owned comment of the <paramref name="element"/> that has a body, in order,
+        /// stripped from unwanted HTML tags and on a single line
+        /// </summary>
+        /// <param name="element">
+        /// The subject <see cref="IElement"/>
+        /// </param>
+        /// <returns>
+        /// The texts of the owned comments (<c>Element::ownedComment</c> is <c>[0..*]</c>)
+        /// </returns>
+        /// <remarks>
+        /// Every run of white space that holds a line break is replaced by a single space, so that the words on
+        /// adjacent lines of a comment body stay apart.
+        /// </remarks>
+        private static IEnumerable<string> QueryCommentTexts(IElement element)
+        {
+            var unwantedTags = new List<string> { "p", "code", "em", "tt" };
 
-                var result = ownedComment.Body.RemoveUnwantedHtmlTags(unwantedTags).Replace("\r\n", "").Replace("\n", "").Replace("\r", "");
-
-                return result;
-            }
-
-            return string.Empty;
+            return element.OwnedComment
+                .Where(x => !string.IsNullOrEmpty(x.Body))
+                .Select(x => LineBreakExpression.Replace(x.Body.RemoveUnwantedHtmlTags(unwantedTags), " ").Trim())
+                .Where(x => x.Length > 0);
         }
 
         /// <summary>
