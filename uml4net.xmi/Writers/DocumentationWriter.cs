@@ -35,8 +35,11 @@ namespace uml4net.xmi.Writers
     /// <see cref="Documentation"/> to an XMI document.
     /// </summary>
     /// <remarks>
-    /// The <see cref="Documentation"/> is written as the <c>xmi:Documentation</c> element, a
-    /// sibling of the model content, which makes it survive a read - write cycle.
+    /// The <see cref="Documentation"/> is written as the <c>xmi:documentation</c> element, a
+    /// sibling of the model content, which makes it survive a read - write cycle. Within <c>xmi:XMI</c> the
+    /// lowercase element name is used; <c>xmi:Documentation</c> may only be used as a root element (XMI 2.5.1
+    /// clause 7.5.3). Its extensions are written as <c>xmi:Extension</c> elements, the element declaration that the
+    /// content model of Documentation refers to in the XMI schema.
     /// </remarks>
     public class DocumentationWriter
     {
@@ -94,7 +97,7 @@ namespace uml4net.xmi.Writers
 
             this.logger.LogTrace("writing the Documentation of {Exporter}:{ExporterVersion}", documentation.Exporter, documentation.ExporterVersion);
 
-            xmlWriter.WriteStartElement("xmi", "Documentation", this.xmiWriterSettings.XmiNamespaceUri);
+            xmlWriter.WriteStartElement("xmi", "documentation", this.xmiWriterSettings.XmiNamespaceUri);
 
             if (!string.IsNullOrEmpty(documentation.Contact))
             {
@@ -148,7 +151,7 @@ namespace uml4net.xmi.Writers
 
                 foreach (var extension in documentation.Extensions)
                 {
-                    xmiExtensionWriter.Write(xmlWriter, extension);
+                    xmiExtensionWriter.Write(xmlWriter, extension, true);
                 }
             }
 
@@ -181,7 +184,7 @@ namespace uml4net.xmi.Writers
 
             this.logger.LogTrace("writing the Documentation of {Exporter}:{ExporterVersion}", documentation.Exporter, documentation.ExporterVersion);
 
-            await xmlWriter.WriteStartElementAsync("xmi", "Documentation", this.xmiWriterSettings.XmiNamespaceUri);
+            await xmlWriter.WriteStartElementAsync("xmi", "documentation", this.xmiWriterSettings.XmiNamespaceUri);
 
             if (!string.IsNullOrEmpty(documentation.Contact))
             {
@@ -235,7 +238,7 @@ namespace uml4net.xmi.Writers
 
                 foreach (var extension in documentation.Extensions)
                 {
-                    await xmiExtensionWriter.WriteAsync(xmlWriter, extension);
+                    await xmiExtensionWriter.WriteAsync(xmlWriter, extension, true);
                 }
             }
 

@@ -136,7 +136,7 @@ namespace uml4net.xmi.Tests.Writers
             var xmiNamespace = XNamespace.Get("http://www.omg.org/spec/XMI/20131001");
 
             var children = document.Root.Elements().ToList();
-            var documentationElement = children.SingleOrDefault(x => x.Name == xmiNamespace + "Documentation");
+            var documentationElement = children.SingleOrDefault(x => x.Name == xmiNamespace + "documentation");
 
             using (Assert.EnterMultipleScope())
             {
@@ -168,8 +168,8 @@ namespace uml4net.xmi.Tests.Writers
 
             var xmiNamespace = XNamespace.Get("http://www.omg.org/spec/XMI/20131001");
 
-            Assert.That(document.Root.Elements().Any(x => x.Name == xmiNamespace + "Documentation"), Is.False,
-                "the pre-existing overloads are expected to remain behaviour preserving and write no xmi:Documentation");
+            Assert.That(document.Root.Elements().Any(x => x.Name == xmiNamespace + "documentation"), Is.False,
+                "the pre-existing overloads are expected to remain behaviour preserving and write no xmi:documentation");
         }
 
         /// <summary>

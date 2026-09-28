@@ -92,7 +92,7 @@ namespace uml4net.xmi.Tests.Writers
 
             using (Assert.EnterMultipleScope())
             {
-                Assert.That(element.Name.LocalName, Is.EqualTo("Documentation"));
+                Assert.That(element.Name.LocalName, Is.EqualTo("documentation"));
                 Assert.That(element.Attribute("contact")?.Value, Is.EqualTo("info@stariongroup.eu"));
                 Assert.That(element.Attribute("exporter")?.Value, Is.EqualTo("uml4net"));
                 Assert.That(element.Attribute("exporterID")?.Value, Is.EqualTo("4.5.6"));
@@ -199,7 +199,7 @@ namespace uml4net.xmi.Tests.Writers
             stream.Position = 0;
 
             var xmiNamespace = XNamespace.Get(this.xmiWriterSettings.XmiNamespaceUri);
-            var element = XDocument.Load(stream).Root!.Element(xmiNamespace + "Documentation");
+            var element = XDocument.Load(stream).Root!.Element(xmiNamespace + "documentation");
 
             using (Assert.EnterMultipleScope())
             {
@@ -231,7 +231,7 @@ namespace uml4net.xmi.Tests.Writers
 
             var xmiNamespace = XNamespace.Get(this.xmiWriterSettings.XmiNamespaceUri);
 
-            return XDocument.Load(stream).Root!.Element(xmiNamespace + "Documentation");
+            return XDocument.Load(stream).Root!.Element(xmiNamespace + "documentation");
         }
     }
 }

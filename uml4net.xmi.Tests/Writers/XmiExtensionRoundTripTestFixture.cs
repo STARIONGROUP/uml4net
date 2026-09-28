@@ -112,11 +112,12 @@ namespace uml4net.xmi.Tests.Writers
             var xmiNamespace = XNamespace.Get("http://www.omg.org/spec/XMI/20131001");
 
             var children = document.Root.Elements().ToList();
-            var extensionElement = children.SingleOrDefault(x => x.Name == xmiNamespace + "Extension");
+            var extensionElement = children.SingleOrDefault(x => x.Name == xmiNamespace + "extension");
 
             using (Assert.EnterMultipleScope())
             {
-                Assert.That(extensionElement, Is.Not.Null, "an xmi:Extension was expected as a child of xmi:XMI");
+                Assert.That(extensionElement, Is.Not.Null, "an xmi:extension was expected as a child of xmi:XMI (XMI 2.5.1 clause 7.5.3)");
+                Assert.That(extensionElement.Attribute(xmiNamespace + "type")?.Value, Is.EqualTo("xmi:Extension"), "XMI 2.5.1 clause 9.5.3");
                 Assert.That(extensionElement.Attribute("extender")?.Value, Is.EqualTo("Enterprise Architect"));
                 Assert.That(extensionElement.Attribute("extenderID")?.Value, Is.EqualTo("6.5"));
                 Assert.That(children.Last(), Is.EqualTo(extensionElement),
@@ -148,8 +149,8 @@ namespace uml4net.xmi.Tests.Writers
 
             var xmiNamespace = XNamespace.Get("http://www.omg.org/spec/XMI/20131001");
 
-            Assert.That(document.Root.Elements().Any(x => x.Name == xmiNamespace + "Extension"), Is.False,
-                "the pre-existing overloads are expected to remain behaviour preserving and write no xmi:Extension");
+            Assert.That(document.Root.Elements().Any(x => x.Name == xmiNamespace + "extension"), Is.False,
+                "the pre-existing overloads are expected to remain behaviour preserving and write no xmi:extension");
         }
 
         /// <summary>

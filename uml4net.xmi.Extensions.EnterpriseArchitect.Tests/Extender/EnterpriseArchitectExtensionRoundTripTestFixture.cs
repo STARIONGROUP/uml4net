@@ -157,7 +157,7 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.Tests.Extender
 
             var children = document.Root.Elements().ToList();
 
-            var extensionElement = children.SingleOrDefault(x => x.Name == xmiNamespace + "Extension");
+            var extensionElement = children.SingleOrDefault(x => x.Name == xmiNamespace + "extension");
 
             using (Assert.EnterMultipleScope())
             {
