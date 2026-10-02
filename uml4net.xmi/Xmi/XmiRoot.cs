@@ -98,5 +98,15 @@ namespace uml4net.xmi.Xmi
         /// Gets or sets the <see cref="StereoTypeApplication"/>s that are contained by the <see cref="XmiRoot"/>
         /// </summary>
         public List<StereoTypeApplication> StereoTypeApplications { get; set; } = [];
+
+        /// <summary>
+        /// Gets or sets the UML Diagram Interchange (UMLDI) elements that are contained by the <see cref="XmiRoot"/>,
+        /// such as <c>umldi:UMLDiagram</c>, each one preserved verbatim as its raw XML
+        /// </summary>
+        /// <remarks>
+        /// uml4net does not model Diagram Interchange; the elements are preserved so that they are not lost and can be
+        /// written back, in the same way as the content of an <see cref="XmiExtension"/>
+        /// </remarks>
+        public List<string> DiagramInterchange { get; set; } = [];
     }
 }

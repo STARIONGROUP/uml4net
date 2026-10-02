@@ -21,6 +21,7 @@
 namespace uml4net.xmi.Readers
 {
     using System;
+    using System.IO;
     using System.Xml;
 
     using Microsoft.Extensions.Logging;
@@ -185,13 +186,9 @@ namespace uml4net.xmi.Readers
                                 var xmiElement = this.xmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, xmlReader.NamespaceURI, this.cache, this.xmiReaderSettings, this.nameSpaceResolver, this.extenderReaderRegistry, this.loggerFactory, explicitTypeName);
                                 xmiRoot.Content.Add(xmiElement);
                                 break;
-                            case (KnowNamespacePrefixes.StandardProfile, _):
-                                this.logger.LogWarning("StandardProfile reading is not yet supported, skipping element at line:position {LineNumber}:{LinePosition}", xmlLineInfo?.LineNumber, xmlLineInfo?.LinePosition);
-                                xmlReader.SkipInPlace();
-                                break;
                             case (KnowNamespacePrefixes.UmlDi, _):
-                                this.logger.LogWarning("DiagramInterchange reading is not yet supported, skipping element at line:position {LineNumber}:{LinePosition}", xmlLineInfo?.LineNumber, xmlLineInfo?.LinePosition);
-                                xmlReader.SkipInPlace();
+                                // Diagram Interchange is not modelled; the element is preserved verbatim
+                                xmiRoot.DiagramInterchange.Add(ReadRawXmi(xmlReader));
                                 break;
                             case (KnowNamespacePrefixes.MofExt, _):
                                 {
@@ -201,10 +198,11 @@ namespace uml4net.xmi.Readers
                                     xmiRoot.Tags.Add(tag);
                                 }
                                 break;
+                            // the applications of the stereotypes of the UML StandardProfile (for example «Trace»), and
+                            // any other document-level element in the StandardProfile or PrimitiveTypes namespace, are
+                            // processed like those of any other profile
+                            case (KnowNamespacePrefixes.StandardProfile, _):
                             case (KnowNamespacePrefixes.PrimitiveTypes, _):
-                                this.logger.LogWarning("PrimitiveTypes reading is not yet supported, skipping element at line:position {LineNumber}:{LinePosition}", xmlLineInfo?.LineNumber, xmlLineInfo?.LinePosition);
-                                xmlReader.SkipInPlace();
-                                break;
                             case (KnowNamespacePrefixes.Other, _):
                                 this.ProcessOtherNamespaces(xmlReader, xmiRoot);
                                 break;
@@ -214,6 +212,32 @@ namespace uml4net.xmi.Readers
             }
 
             return xmiRoot;
+        }
+
+        /// <summary>
+        /// Reads the element on which the <paramref name="xmlReader"/> is positioned, with its content, as raw XML
+        /// </summary>
+        /// <param name="xmlReader">
+        /// an instance of <see cref="XmlReader"/>, positioned on the element that is to be read
+        /// </param>
+        /// <returns>
+        /// the raw XML of the element; the namespace declarations that its element and attribute names require are
+        /// included
+        /// </returns>
+        private static string ReadRawXmi(XmlReader xmlReader)
+        {
+            using var subtreeReader = xmlReader.ReadSubtree();
+
+            subtreeReader.Read();
+
+            var stringWriter = new StringWriter();
+
+            using (var xmlWriter = XmlWriter.Create(stringWriter, new XmlWriterSettings { OmitXmlDeclaration = true }))
+            {
+                xmlWriter.WriteNode(subtreeReader, true);
+            }
+
+            return stringWriter.ToString();
         }
 
         /// <summary>

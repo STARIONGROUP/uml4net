@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Document-level content next to the model (XMI 2.5.1 clause 9.5.1): applications of the stereotypes of the UML
+    StandardProfile and of another profile, with the base_ reference as an attribute and as a child element (xmi:idref
+    and href), and UML Diagram Interchange content
+-->
+<xmi:XMI xmlns:xmi="http://www.omg.org/spec/XMI/20131001" xmlns:uml="http://www.omg.org/spec/UML/20161101" xmlns:StandardProfile="http://www.omg.org/spec/UML/20161101/StandardProfile" xmlns:umldi="http://www.omg.org/spec/UML/20161101/UMLDI" xmlns:dc="http://www.omg.org/spec/DD/20131001/DC" xmlns:Custom="http://example.org/profiles/custom">
+  <uml:Package xmi:id="p" name="P">
+    <packagedElement xmi:type="uml:Class" xmi:id="a" name="A"/>
+    <packagedElement xmi:type="uml:Class" xmi:id="b" name="B"/>
+    <packagedElement xmi:type="uml:Abstraction" xmi:id="trace" client="a" supplier="b"/>
+    <packagedElement xmi:type="uml:Package" xmi:id="lib" name="Lib"/>
+  </uml:Package>
+  <StandardProfile:Trace xmi:id="traceApplication" base_Abstraction="trace"/>
+  <StandardProfile:ModelLibrary xmi:id="libraryApplication">
+    <base_Package xmi:idref="lib"/>
+  </StandardProfile:ModelLibrary>
+  <Custom:Marked xmi:id="markedApplication" note="marked">
+    <base_Class href="other.xmi#c"/>
+  </Custom:Marked>
+  <umldi:UMLClassDiagram xmi:id="diagram" isFrame="false" modelElement="p">
+    <ownedElement xmi:type="umldi:UMLClassifierShape" xmi:id="shape" modelElement="a">
+      <bounds xmi:type="dc:Bounds" x="10" y="20" width="90" height="70"/>
+    </ownedElement>
+  </umldi:UMLClassDiagram>
+  <StandardProfile:Unknown xmi:id="notAnApplication"/>
+</xmi:XMI>

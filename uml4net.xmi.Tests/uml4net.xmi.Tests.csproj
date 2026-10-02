@@ -132,6 +132,9 @@
       <None Update="TestData\OptionalValues\*.xmi">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
+      <None Update="TestData\DocumentLevelContent\*.xmi">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
       <None Update="TestData\OwnerEnds\*.xmi">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
