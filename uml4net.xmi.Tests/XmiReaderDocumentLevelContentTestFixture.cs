@@ -20,10 +20,13 @@
 
 namespace uml4net.xmi.Tests
 {
+    using System;
+    using System.Collections.Generic;
     using System.IO;
     using System.Linq;
     using System.Xml.Linq;
 
+    using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Logging.Abstractions;
 
     using NUnit.Framework;
@@ -38,13 +41,13 @@ namespace uml4net.xmi.Tests
     [TestFixture]
     public class XmiReaderDocumentLevelContentTestFixture
     {
-        private XmiReaderResult Read()
+        private XmiReaderResult Read(ILoggerFactory loggerFactory = null)
         {
             var rootPath = Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData", "DocumentLevelContent");
 
             using var reader = XmiReaderBuilder.Create()
                 .UsingSettings(x => x.LocalReferenceBasePath = rootPath)
-                .WithLogger(NullLoggerFactory.Instance)
+                .WithLogger(loggerFactory ?? NullLoggerFactory.Instance)
                 .Build();
 
             return reader.Read(Path.Combine(rootPath, "document-level-content.xmi"));
@@ -101,6 +104,76 @@ namespace uml4net.xmi.Tests
                 Assert.That(diagram.Name, Is.EqualTo(umlDi + "UMLClassDiagram"), "the raw XML declares the namespaces of its element names");
                 Assert.That(diagram.Attribute(XNamespace.Get("http://www.omg.org/spec/XMI/20131001") + "id")?.Value, Is.EqualTo("diagram"));
                 Assert.That(diagram.Descendants("bounds").Single().Attribute("width")?.Value, Is.EqualTo("90"), "the content is preserved");
+            }
+        }
+
+        [Test]
+        public void Verify_that_unprocessed_StandardProfile_and_PrimitiveTypes_elements_are_preserved()
+        {
+            var xmiReaderResult = this.Read();
+
+            var xmiId = XNamespace.Get("http://www.omg.org/spec/XMI/20131001") + "id";
+            var unprocessed = xmiReaderResult.XmiRoot.UnprocessedContent.Select(XElement.Parse).ToList();
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(unprocessed.Select(x => x.Attribute(xmiId)?.Value), Is.EqualTo(new[] { "notAnApplication", "primitiveTypesElement" }),
+                    "the StandardProfile element that is not a stereotype application, and the PrimitiveTypes element, in document order");
+                Assert.That(unprocessed[0].Name, Is.EqualTo(XNamespace.Get("http://www.omg.org/spec/UML/20161101/StandardProfile") + "Unknown"));
+                Assert.That(unprocessed[1].Name, Is.EqualTo(XNamespace.Get("http://www.omg.org/spec/UML/20161101/PrimitiveTypes.xmi") + "Annotation"));
+                Assert.That(unprocessed[1].Attribute("note")?.Value, Is.EqualTo("kept"));
+            }
+        }
+
+        [Test]
+        public void Verify_that_a_warning_states_that_the_content_is_not_processed_but_captured()
+        {
+            var loggerProvider = new CapturingLoggerProvider();
+
+            using var loggerFactory = LoggerFactory.Create(builder => builder.AddProvider(loggerProvider));
+
+            this.Read(loggerFactory);
+
+            var warnings = loggerProvider.Messages.Where(x => x.Level == LogLevel.Warning).Select(x => x.Message).ToList();
+
+            using (Assert.EnterMultipleScope())
+            {
+                // three StandardProfile elements, one DiagramInterchange element, one PrimitiveTypes element
+                Assert.That(warnings.Count(x => x.StartsWith("StandardProfile content is not processed, the element at line:position ") && x.EndsWith(" is captured to be written back to keep the round trip intact")), Is.EqualTo(3));
+                Assert.That(warnings.Count(x => x.StartsWith("DiagramInterchange content is not processed, the element at line:position ") && x.EndsWith(" is captured to be written back to keep the round trip intact")), Is.EqualTo(1));
+                Assert.That(warnings.Count(x => x.StartsWith("PrimitiveTypes content is not processed, the element at line:position ") && x.EndsWith(" is captured to be written back to keep the round trip intact")), Is.EqualTo(1));
+                Assert.That(warnings, Has.Some.EqualTo("DiagramInterchange content is not processed, the element at line:position 22:4 is captured to be written back to keep the round trip intact"),
+                    "the position of the element is logged");
+            }
+        }
+
+        /// <summary>
+        /// An <see cref="ILoggerProvider"/> that captures the formatted log messages
+        /// </summary>
+        private sealed class CapturingLoggerProvider : ILoggerProvider
+        {
+            public List<(LogLevel Level, string Message)> Messages { get; } = [];
+
+            public ILogger CreateLogger(string categoryName) => new CapturingLogger(this.Messages);
+
+            public void Dispose()
+            {
+                // nothing to dispose
+            }
+
+            private sealed class CapturingLogger(List<(LogLevel Level, string Message)> messages) : ILogger
+            {
+                public IDisposable BeginScope<TState>(TState state) where TState : notnull => null;
+
+                public bool IsEnabled(LogLevel logLevel) => true;
+
+                public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception exception, Func<TState, Exception, string> formatter)
+                {
+                    lock (messages)
+                    {
+                        messages.Add((logLevel, formatter(state, exception)));
+                    }
+                }
             }
         }
     }

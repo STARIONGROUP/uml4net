@@ -108,5 +108,16 @@ namespace uml4net.xmi.Xmi
         /// written back, in the same way as the content of an <see cref="XmiExtension"/>
         /// </remarks>
         public List<string> DiagramInterchange { get; set; } = [];
+
+        /// <summary>
+        /// Gets or sets the document-level elements of a known namespace that uml4net does not process, each one
+        /// preserved verbatim as its raw XML: elements of the PrimitiveTypes namespace, and elements of the UML
+        /// StandardProfile namespace that are not the application of a stereotype
+        /// </summary>
+        /// <remarks>
+        /// The elements are preserved so that they are not lost and can be written back, in the same way as the
+        /// <see cref="DiagramInterchange"/>
+        /// </remarks>
+        public List<string> UnprocessedContent { get; set; } = [];
     }
 }

@@ -2,9 +2,10 @@
 <!--
     Document-level content next to the model (XMI 2.5.1 clause 9.5.1): applications of the stereotypes of the UML
     StandardProfile and of another profile, with the base_ reference as an attribute and as a child element (xmi:idref
-    and href), and UML Diagram Interchange content
+    and href), UML Diagram Interchange content, and elements of the StandardProfile and PrimitiveTypes namespaces that
+    uml4net does not process
 -->
-<xmi:XMI xmlns:xmi="http://www.omg.org/spec/XMI/20131001" xmlns:uml="http://www.omg.org/spec/UML/20161101" xmlns:StandardProfile="http://www.omg.org/spec/UML/20161101/StandardProfile" xmlns:umldi="http://www.omg.org/spec/UML/20161101/UMLDI" xmlns:dc="http://www.omg.org/spec/DD/20131001/DC" xmlns:Custom="http://example.org/profiles/custom">
+<xmi:XMI xmlns:xmi="http://www.omg.org/spec/XMI/20131001" xmlns:uml="http://www.omg.org/spec/UML/20161101" xmlns:StandardProfile="http://www.omg.org/spec/UML/20161101/StandardProfile" xmlns:umldi="http://www.omg.org/spec/UML/20161101/UMLDI" xmlns:dc="http://www.omg.org/spec/DD/20131001/DC" xmlns:Custom="http://example.org/profiles/custom" xmlns:primitiveTypes="http://www.omg.org/spec/UML/20161101/PrimitiveTypes.xmi">
   <uml:Package xmi:id="p" name="P">
     <packagedElement xmi:type="uml:Class" xmi:id="a" name="A"/>
     <packagedElement xmi:type="uml:Class" xmi:id="b" name="B"/>
@@ -24,4 +25,5 @@
     </ownedElement>
   </umldi:UMLClassDiagram>
   <StandardProfile:Unknown xmi:id="notAnApplication"/>
+  <primitiveTypes:Annotation xmi:id="primitiveTypesElement" note="kept"/>
 </xmi:XMI>

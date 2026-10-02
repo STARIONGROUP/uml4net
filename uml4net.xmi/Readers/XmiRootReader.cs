@@ -186,9 +186,17 @@ namespace uml4net.xmi.Readers
                                 var xmiElement = this.xmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, xmlReader.NamespaceURI, this.cache, this.xmiReaderSettings, this.nameSpaceResolver, this.extenderReaderRegistry, this.loggerFactory, explicitTypeName);
                                 xmiRoot.Content.Add(xmiElement);
                                 break;
+                            case (KnowNamespacePrefixes.StandardProfile, _):
+                                this.logger.LogWarning("StandardProfile content is not processed, the element at line:position {LineNumber}:{LinePosition} is captured to be written back to keep the round trip intact", xmlLineInfo?.LineNumber, xmlLineInfo?.LinePosition);
+                                this.CaptureStandardProfileElement(ReadRawXmi(xmlReader), xmiRoot);
+                                break;
                             case (KnowNamespacePrefixes.UmlDi, _):
-                                // Diagram Interchange is not modelled; the element is preserved verbatim
+                                this.logger.LogWarning("DiagramInterchange content is not processed, the element at line:position {LineNumber}:{LinePosition} is captured to be written back to keep the round trip intact", xmlLineInfo?.LineNumber, xmlLineInfo?.LinePosition);
                                 xmiRoot.DiagramInterchange.Add(ReadRawXmi(xmlReader));
+                                break;
+                            case (KnowNamespacePrefixes.PrimitiveTypes, _):
+                                this.logger.LogWarning("PrimitiveTypes content is not processed, the element at line:position {LineNumber}:{LinePosition} is captured to be written back to keep the round trip intact", xmlLineInfo?.LineNumber, xmlLineInfo?.LinePosition);
+                                xmiRoot.UnprocessedContent.Add(ReadRawXmi(xmlReader));
                                 break;
                             case (KnowNamespacePrefixes.MofExt, _):
                                 {
@@ -198,14 +206,9 @@ namespace uml4net.xmi.Readers
                                     xmiRoot.Tags.Add(tag);
                                 }
                                 break;
-                            // the applications of the stereotypes of the UML StandardProfile (for example «Trace»), and
-                            // any other document-level element in the StandardProfile or PrimitiveTypes namespace, are
-                            // processed like those of any other profile
-                            case (KnowNamespacePrefixes.StandardProfile, _):
-                            case (KnowNamespacePrefixes.PrimitiveTypes, _):
                             case (KnowNamespacePrefixes.Other, _):
                                 this.ProcessOtherNamespaces(xmlReader, xmiRoot);
-                                break;
+                                 break;
                         }
                     }
                 }
@@ -238,6 +241,32 @@ namespace uml4net.xmi.Readers
             }
 
             return stringWriter.ToString();
+        }
+
+        /// <summary>
+        /// Captures a document-level element of the UML StandardProfile namespace: the application of a stereotype of
+        /// the StandardProfile (for example «Trace») is captured as a <see cref="StereoTypeApplication"/>, any other
+        /// element verbatim as raw XML
+        /// </summary>
+        /// <param name="rawXmi">
+        /// The raw XML of the element
+        /// </param>
+        /// <param name="xmiRoot">
+        /// The <see cref="XmiRoot"/> that captures the element
+        /// </param>
+        private void CaptureStandardProfileElement(string rawXmi, XmiRoot xmiRoot)
+        {
+            using var rawXmlReader = XmlReader.Create(new StringReader(rawXmi));
+            var stereoTypeApplicationReader = new StereoTypeApplicationReader(this.loggerFactory);
+
+            if (stereoTypeApplicationReader.TryRead(rawXmlReader, out var stereoTypeApplication))
+            {
+                xmiRoot.StereoTypeApplications.Add(stereoTypeApplication);
+            }
+            else
+            {
+                xmiRoot.UnprocessedContent.Add(rawXmi);
+            }
         }
 
         /// <summary>
