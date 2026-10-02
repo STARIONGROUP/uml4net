@@ -187,15 +187,15 @@ namespace uml4net.xmi.Readers
                                 xmiRoot.Content.Add(xmiElement);
                                 break;
                             case (KnowNamespacePrefixes.StandardProfile, _):
-                                this.logger.LogWarning("StandardProfile content is not processed, the element at line:position {LineNumber}:{LinePosition} is captured to be written back to keep the round trip intact", xmlLineInfo?.LineNumber, xmlLineInfo?.LinePosition);
+                                this.logger.LogWarning("StandardProfile content is not processed, the element at line:position {LineNumber}:{LinePosition} is captured", xmlLineInfo?.LineNumber, xmlLineInfo?.LinePosition);
                                 this.CaptureStandardProfileElement(ReadRawXmi(xmlReader), xmiRoot);
                                 break;
                             case (KnowNamespacePrefixes.UmlDi, _):
-                                this.logger.LogWarning("DiagramInterchange content is not processed, the element at line:position {LineNumber}:{LinePosition} is captured to be written back to keep the round trip intact", xmlLineInfo?.LineNumber, xmlLineInfo?.LinePosition);
+                                this.logger.LogWarning("DiagramInterchange content is not processed, the element at line:position {LineNumber}:{LinePosition} is captured", xmlLineInfo?.LineNumber, xmlLineInfo?.LinePosition);
                                 xmiRoot.DiagramInterchange.Add(ReadRawXmi(xmlReader));
                                 break;
                             case (KnowNamespacePrefixes.PrimitiveTypes, _):
-                                this.logger.LogWarning("PrimitiveTypes content is not processed, the element at line:position {LineNumber}:{LinePosition} is captured to be written back to keep the round trip intact", xmlLineInfo?.LineNumber, xmlLineInfo?.LinePosition);
+                                this.logger.LogWarning("PrimitiveTypes content is not processed, the element at line:position {LineNumber}:{LinePosition} is captured", xmlLineInfo?.LineNumber, xmlLineInfo?.LinePosition);
                                 xmiRoot.UnprocessedContent.Add(ReadRawXmi(xmlReader));
                                 break;
                             case (KnowNamespacePrefixes.MofExt, _):

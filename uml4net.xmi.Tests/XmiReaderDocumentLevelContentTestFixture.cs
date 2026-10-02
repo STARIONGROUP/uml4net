@@ -70,19 +70,21 @@ namespace uml4net.xmi.Tests
                 Assert.That(trace.StereoTypeName, Is.EqualTo("Trace"));
                 Assert.That(trace.MetaClass, Is.EqualTo("Abstraction"));
                 Assert.That(trace.ElementIdentifier, Is.EqualTo("trace"), "the base_ reference as an attribute");
+                Assert.That(trace.Attributes, Is.Empty, "the namespace declarations in scope are not tagged values");
 
                 var library = applications["libraryApplication"];
                 Assert.That(library.ProfileName, Is.EqualTo("StandardProfile"));
                 Assert.That(library.StereoTypeName, Is.EqualTo("ModelLibrary"));
                 Assert.That(library.MetaClass, Is.EqualTo("Package"));
                 Assert.That(library.ElementIdentifier, Is.EqualTo("lib"), "the base_ reference as a child element with xmi:idref");
+                Assert.That(library.Attributes, Is.Empty, "the namespace declarations in scope are not tagged values");
 
                 var marked = applications["markedApplication"];
                 Assert.That(marked.ProfileName, Is.EqualTo("Custom"));
                 Assert.That(marked.StereoTypeName, Is.EqualTo("Marked"));
                 Assert.That(marked.MetaClass, Is.EqualTo("Class"));
                 Assert.That(marked.ElementIdentifier, Is.EqualTo("other.xmi#c"), "the base_ reference as a child element with href");
-                Assert.That(marked.Attributes["note"], Is.EqualTo("marked"));
+                Assert.That(marked.Attributes, Is.EquivalentTo(new Dictionary<string, string> { ["note"] = "marked" }), "the namespace declarations in scope are not tagged values");
 
                 Assert.That(xmiReaderResult.QueryRoot("p").PackagedElement, Has.Count.EqualTo(4), "the model is read as before");
             }
@@ -139,10 +141,10 @@ namespace uml4net.xmi.Tests
             using (Assert.EnterMultipleScope())
             {
                 // three StandardProfile elements, one DiagramInterchange element, one PrimitiveTypes element
-                Assert.That(warnings.Count(x => x.StartsWith("StandardProfile content is not processed, the element at line:position ") && x.EndsWith(" is captured to be written back to keep the round trip intact")), Is.EqualTo(3));
-                Assert.That(warnings.Count(x => x.StartsWith("DiagramInterchange content is not processed, the element at line:position ") && x.EndsWith(" is captured to be written back to keep the round trip intact")), Is.EqualTo(1));
-                Assert.That(warnings.Count(x => x.StartsWith("PrimitiveTypes content is not processed, the element at line:position ") && x.EndsWith(" is captured to be written back to keep the round trip intact")), Is.EqualTo(1));
-                Assert.That(warnings, Has.Some.EqualTo("DiagramInterchange content is not processed, the element at line:position 22:4 is captured to be written back to keep the round trip intact"),
+                Assert.That(warnings.Count(x => x.StartsWith("StandardProfile content is not processed, the element at line:position ") && x.EndsWith(" is captured")), Is.EqualTo(3));
+                Assert.That(warnings.Count(x => x.StartsWith("DiagramInterchange content is not processed, the element at line:position ") && x.EndsWith(" is captured")), Is.EqualTo(1));
+                Assert.That(warnings.Count(x => x.StartsWith("PrimitiveTypes content is not processed, the element at line:position ") && x.EndsWith(" is captured")), Is.EqualTo(1));
+                Assert.That(warnings, Has.Some.EqualTo("DiagramInterchange content is not processed, the element at line:position 22:4 is captured"),
                     "the position of the element is logged");
             }
         }

@@ -41,6 +41,11 @@ namespace uml4net.xmi.Readers
         private const string BasePropertyPrefix = "base_";
 
         /// <summary>
+        /// The namespace of the attributes that declare a namespace (<c>xmlns</c> and <c>xmlns:prefix</c>)
+        /// </summary>
+        private const string XmlnsNamespaceUri = "http://www.w3.org/2000/xmlns/";
+
+        /// <summary>
         /// The (injected) logger
         /// </summary>
         private readonly ILogger<StereoTypeApplicationReader> logger;
@@ -90,6 +95,13 @@ namespace uml4net.xmi.Readers
                 for (var i = 0; i < xmlReader.AttributeCount; i++)
                 {
                     xmlReader.MoveToAttribute(i);
+
+                    if (xmlReader.NamespaceURI == XmlnsNamespaceUri)
+                    {
+                        // a namespace declaration (xmlns or xmlns:prefix) is not a tagged value; the subtree reader
+                        // exposes the declarations that are in scope as attributes of the stereotype application
+                        continue;
+                    }
 
                     if (xmlReader.LocalName == "id" && XmlReaderExtensions.IsXmiNamespace(xmlReader.NamespaceURI))
                     {
