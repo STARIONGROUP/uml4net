@@ -40,7 +40,7 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.Tests.Extender
     using Path = System.IO.Path;
 
     /// <summary>
-    /// Verifies that an Enterprise Architect model, including its <c>xmi:Extension</c> content,
+    /// Verifies that an Enterprise Architect model, including its <c>xmi:extension</c> content,
     /// survives a read - write - read cycle
     /// </summary>
     [TestFixture]
@@ -91,7 +91,7 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.Tests.Extender
                 Assert.That(rereadExtension.ExtenderId, Is.EqualTo(originalExtension.ExtenderId));
 
                 Assert.That(rereadExtension.ContentRawXmi, Is.EqualTo(originalExtension.ContentRawXmi),
-                    "the raw content of the xmi:Extension was expected to survive the round trip unchanged");
+                    "the raw content of the xmi:extension was expected to survive the round trip unchanged");
             }
 
             this.AssertContainmentTreesAreEquivalent(originalRoot, rereadRoot, "EAExport.xmi");
@@ -157,16 +157,16 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.Tests.Extender
 
             var children = document.Root.Elements().ToList();
 
-            var extensionElement = children.SingleOrDefault(x => x.Name == xmiNamespace + "Extension");
+            var extensionElement = children.SingleOrDefault(x => x.Name == xmiNamespace + "extension");
 
             using (Assert.EnterMultipleScope())
             {
-                Assert.That(extensionElement, Is.Not.Null, "an xmi:Extension was expected as a child of xmi:XMI");
+                Assert.That(extensionElement, Is.Not.Null, "an xmi:extension was expected as a child of xmi:XMI");
                 Assert.That(extensionElement.Attribute("extender")?.Value, Is.EqualTo("Enterprise Architect"));
                 Assert.That(extensionElement.Attribute("extenderID")?.Value, Is.EqualTo("6.5"));
 
                 Assert.That(children.Last(), Is.EqualTo(extensionElement),
-                    "the xmi:Extension was expected to be written after the model content");
+                    "the xmi:extension was expected to be written after the model content");
 
                 Assert.That(extensionElement.Elements().Select(x => x.Name.LocalName),
                     Is.EquivalentTo(new[] { "elements", "connectors", "primitivetypes", "profiles" }));

@@ -92,7 +92,8 @@ namespace uml4net.xmi.Tests.Writers
 
             using (Assert.EnterMultipleScope())
             {
-                Assert.That(element.Name.LocalName, Is.EqualTo("Documentation"));
+                Assert.That(element.Name.LocalName, Is.EqualTo("documentation"), "XMI 2.5.1 clause 7.5.3: lowercase underneath xmi:XMI");
+                Assert.That(element.Attribute(XNamespace.Get(this.xmiWriterSettings.XmiNamespaceUri) + "type")?.Value, Is.EqualTo("xmi:Documentation"));
                 Assert.That(element.Attribute("contact")?.Value, Is.EqualTo("info@stariongroup.eu"));
                 Assert.That(element.Attribute("exporter")?.Value, Is.EqualTo("uml4net"));
                 Assert.That(element.Attribute("exporterID")?.Value, Is.EqualTo("4.5.6"));
@@ -125,11 +126,13 @@ namespace uml4net.xmi.Tests.Writers
             var element = this.WriteAndParse(documentation);
 
             var xmiNamespace = XNamespace.Get(this.xmiWriterSettings.XmiNamespaceUri);
-            var extensionElement = element.Element(xmiNamespace + "Extension");
+            var extensionElement = element.Element(xmiNamespace + "extension");
 
             using (Assert.EnterMultipleScope())
             {
-                Assert.That(extensionElement, Is.Not.Null, "an xmi:Extension was expected inside the xmi:Documentation");
+                Assert.That(extensionElement, Is.Not.Null, "an xmi:extension was expected inside the xmi:documentation");
+                Assert.That(extensionElement.Attribute(xmiNamespace + "type")?.Value, Is.EqualTo("xmi:Extension"), "XMI 2.5.1 rule 9.5.3");
+                Assert.That(element.Element(xmiNamespace + "Extension"), Is.Null, "the uppercase xmi:Extension is not written");
                 Assert.That(extensionElement.Attribute("extender")?.Value, Is.EqualTo("uml4net tests"));
                 Assert.That(extensionElement.Attribute("extenderID")?.Value, Is.EqualTo("1"));
                 Assert.That(extensionElement.Element(XNamespace.Get("http://example.com/tool") + "info")?.Attribute("version")?.Value, Is.EqualTo("42"));
@@ -153,7 +156,7 @@ namespace uml4net.xmi.Tests.Writers
             }
 
             var element = XElement.Parse(stringWriter.ToString());
-            var extensionElement = element.Element(XNamespace.Get(this.xmiWriterSettings.XmiNamespaceUri) + "Extension");
+            var extensionElement = element.Element(XNamespace.Get(this.xmiWriterSettings.XmiNamespaceUri) + "extension");
 
             using (Assert.EnterMultipleScope())
             {
@@ -170,7 +173,7 @@ namespace uml4net.xmi.Tests.Writers
 
             using (Assert.EnterMultipleScope())
             {
-                Assert.That(element.Attributes(), Is.Empty);
+                Assert.That(element.Attributes().Select(x => $"{x.Name.LocalName}={x.Value}"), Is.EqualTo(new[] { "type=xmi:Documentation" }), "only the xmi:type is written");
                 Assert.That(element.Elements(), Is.Empty);
             }
         }
@@ -199,7 +202,7 @@ namespace uml4net.xmi.Tests.Writers
             stream.Position = 0;
 
             var xmiNamespace = XNamespace.Get(this.xmiWriterSettings.XmiNamespaceUri);
-            var element = XDocument.Load(stream).Root!.Element(xmiNamespace + "Documentation");
+            var element = XDocument.Load(stream).Root!.Element(xmiNamespace + "documentation");
 
             using (Assert.EnterMultipleScope())
             {
@@ -212,7 +215,7 @@ namespace uml4net.xmi.Tests.Writers
 
         /// <summary>
         /// Writes the provided <see cref="Documentation"/> as the sole child of a synthetic root element and
-        /// returns the resulting <see cref="XElement"/> for the <c>xmi:Documentation</c> element.
+        /// returns the resulting <see cref="XElement"/> for the <c>xmi:documentation</c> element.
         /// </summary>
         private XElement WriteAndParse(Documentation documentation)
         {
@@ -231,7 +234,7 @@ namespace uml4net.xmi.Tests.Writers
 
             var xmiNamespace = XNamespace.Get(this.xmiWriterSettings.XmiNamespaceUri);
 
-            return XDocument.Load(stream).Root!.Element(xmiNamespace + "Documentation");
+            return XDocument.Load(stream).Root!.Element(xmiNamespace + "documentation");
         }
     }
 }

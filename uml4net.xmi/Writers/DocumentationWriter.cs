@@ -35,8 +35,10 @@ namespace uml4net.xmi.Writers
     /// <see cref="Documentation"/> to an XMI document.
     /// </summary>
     /// <remarks>
-    /// The <see cref="Documentation"/> is written as the <c>xmi:Documentation</c> element, a
-    /// sibling of the model content, which makes it survive a read - write cycle.
+    /// The <see cref="Documentation"/> is written as the <c>xmi:documentation</c> element, with
+    /// <c>xmi:type="xmi:Documentation"</c>, a sibling of the model content, which makes it survive a read - write cycle.
+    /// XMI 2.5.1 clause 7.5.3: the uppercase <c>xmi:Documentation</c> may only be used as the root element of a
+    /// document, not nested underneath <c>xmi:XMI</c>, where the lowercase element is to be used.
     /// </remarks>
     public class DocumentationWriter
     {
@@ -94,7 +96,8 @@ namespace uml4net.xmi.Writers
 
             this.logger.LogTrace("writing the Documentation of {Exporter}:{ExporterVersion}", documentation.Exporter, documentation.ExporterVersion);
 
-            xmlWriter.WriteStartElement("xmi", "Documentation", this.xmiWriterSettings.XmiNamespaceUri);
+            xmlWriter.WriteStartElement("xmi", "documentation", this.xmiWriterSettings.XmiNamespaceUri);
+            xmlWriter.WriteAttributeString("xmi", "type", this.xmiWriterSettings.XmiNamespaceUri, "xmi:Documentation");
 
             if (!string.IsNullOrEmpty(documentation.Contact))
             {
@@ -183,7 +186,8 @@ namespace uml4net.xmi.Writers
 
             this.logger.LogTrace("writing the Documentation of {Exporter}:{ExporterVersion}", documentation.Exporter, documentation.ExporterVersion);
 
-            await xmlWriter.WriteStartElementAsync("xmi", "Documentation", this.xmiWriterSettings.XmiNamespaceUri);
+            await xmlWriter.WriteStartElementAsync("xmi", "documentation", this.xmiWriterSettings.XmiNamespaceUri);
+            await xmlWriter.WriteAttributeStringAsync("xmi", "type", this.xmiWriterSettings.XmiNamespaceUri, "xmi:Documentation");
 
             if (!string.IsNullOrEmpty(documentation.Contact))
             {
