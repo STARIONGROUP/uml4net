@@ -35,6 +35,17 @@ namespace uml4net.xmi.Readers
     public class StereoTypeApplicationReader
     {
         /// <summary>
+        /// The prefix of the name of the property of a stereotype that references the extended element, for example
+        /// <c>base_Class</c> (UML 2.5.1 clause 12.3.3)
+        /// </summary>
+        private const string BasePropertyPrefix = "base_";
+
+        /// <summary>
+        /// The namespace of the attributes that declare a namespace (<c>xmlns</c> and <c>xmlns:prefix</c>)
+        /// </summary>
+        private const string XmlnsNamespaceUri = "http://www.w3.org/2000/xmlns/";
+
+        /// <summary>
         /// The (injected) logger
         /// </summary>
         private readonly ILogger<StereoTypeApplicationReader> logger;
@@ -79,55 +90,109 @@ namespace uml4net.xmi.Readers
 
                 var profileName = xmlReader.Prefix;
                 var stereoTypeName = xmlReader.LocalName;
+                var isStereoTypeApplication = false;
 
-                if (xmlReader.HasAttributes)
+                for (var i = 0; i < xmlReader.AttributeCount; i++)
                 {
-                    var isStereoTypeApplication = false;
+                    xmlReader.MoveToAttribute(i);
 
-                    for (int i = 0; i < xmlReader.AttributeCount; i++)
+                    if (xmlReader.NamespaceURI == XmlnsNamespaceUri)
                     {
-                        xmlReader.MoveToAttribute(i);
-
-                        if (xmlReader.LocalName == "id" && XmlReaderExtensions.IsXmiNamespace(xmlReader.NamespaceURI))
-                        {
-                            stereoTypeApplication.XmiId = xmlReader.Value;
-                        }
-                        else if (xmlReader.LocalName.StartsWith("base_", StringComparison.Ordinal))
-                        {
-                            stereoTypeApplication.MetaClass = xmlReader.LocalName.Substring("base_".Length);
-                            stereoTypeApplication.ElementIdentifier = xmlReader.Value;
-
-                            isStereoTypeApplication = true;
-                        }
-                        else
-                        {
-                            stereoTypeApplication.Attributes.Add(xmlReader.LocalName, xmlReader.Value);
-                        }
+                        // a namespace declaration (xmlns or xmlns:prefix) is not a tagged value; the subtree reader
+                        // exposes the declarations that are in scope as attributes of the stereotype application
+                        continue;
                     }
 
-                    xmlReader.MoveToElement();
-
-                    if (!isStereoTypeApplication)
+                    if (xmlReader.LocalName == "id" && XmlReaderExtensions.IsXmiNamespace(xmlReader.NamespaceURI))
                     {
-                        this.logger.LogTrace("The XML Element {ProfileName}:{StereoTypeName} at line:position {LineNumber}:{LinePosition} does not appear to be a StereoTypeApplication", profileName, stereoTypeName, xmlLineInfo?.LineNumber, xmlLineInfo?.LinePosition);
-
-                        stereoTypeApplication = null;
-                        return false;
+                        stereoTypeApplication.XmiId = xmlReader.Value;
                     }
+                    else if (xmlReader.LocalName.StartsWith(BasePropertyPrefix, StringComparison.Ordinal))
+                    {
+                        stereoTypeApplication.MetaClass = xmlReader.LocalName.Substring(BasePropertyPrefix.Length);
+                        stereoTypeApplication.ElementIdentifier = xmlReader.Value;
 
-                    stereoTypeApplication.ProfileName = profileName;
-                    stereoTypeApplication.StereoTypeName = stereoTypeName;
+                        isStereoTypeApplication = true;
+                    }
+                    else
+                    {
+                        stereoTypeApplication.Attributes.Add(xmlReader.LocalName, xmlReader.Value);
+                    }
                 }
-                else
+
+                xmlReader.MoveToElement();
+
+                // XMI 2.5.1 clause 9.5.2: a reference may also be serialized as a child element that carries an
+                // xmi:idref or an href, for example <base_Package xmi:idref="..."/>
+                if (!isStereoTypeApplication && !xmlReader.IsEmptyElement)
+                {
+                    isStereoTypeApplication = TryReadBaseElement(xmlReader, stereoTypeApplication);
+                }
+
+                if (!isStereoTypeApplication)
                 {
                     this.logger.LogTrace("The XML Element {ProfileName}:{StereoTypeName} at line:position {LineNumber}:{LinePosition} does not appear to be a StereoTypeApplication", profileName, stereoTypeName, xmlLineInfo?.LineNumber, xmlLineInfo?.LinePosition);
 
                     stereoTypeApplication = null;
                     return false;
                 }
+
+                stereoTypeApplication.ProfileName = profileName;
+                stereoTypeApplication.StereoTypeName = stereoTypeName;
             }
 
             return true;
+        }
+
+        /// <summary>
+        /// Reads the reference to the extended element from a child element of the stereotype application whose name
+        /// starts with <c>base_</c>
+        /// </summary>
+        /// <param name="xmlReader">
+        /// The <see cref="XmlReader"/>, positioned on the stereotype application element
+        /// </param>
+        /// <param name="stereoTypeApplication">
+        /// The <see cref="StereoTypeApplication"/> that is updated with the meta class and the element identifier
+        /// </param>
+        /// <returns>
+        /// true when a <c>base_</c> child element with an <c>xmi:idref</c> or an <c>href</c> was found
+        /// </returns>
+        private static bool TryReadBaseElement(XmlReader xmlReader, StereoTypeApplication stereoTypeApplication)
+        {
+            var depth = xmlReader.Depth;
+
+            while (xmlReader.Read() && xmlReader.Depth > depth)
+            {
+                if (xmlReader.NodeType != XmlNodeType.Element || xmlReader.Depth != depth + 1 || !xmlReader.LocalName.StartsWith(BasePropertyPrefix, StringComparison.Ordinal))
+                {
+                    continue;
+                }
+
+                var metaClass = xmlReader.LocalName.Substring(BasePropertyPrefix.Length);
+                string reference = null;
+
+                for (var i = 0; i < xmlReader.AttributeCount; i++)
+                {
+                    xmlReader.MoveToAttribute(i);
+
+                    if ((xmlReader.LocalName == "idref" && XmlReaderExtensions.IsXmiNamespace(xmlReader.NamespaceURI))
+                        || (xmlReader.LocalName == "href" && string.IsNullOrEmpty(xmlReader.NamespaceURI)))
+                    {
+                        reference = xmlReader.Value;
+                    }
+                }
+
+                xmlReader.MoveToElement();
+
+                if (!string.IsNullOrEmpty(reference))
+                {
+                    stereoTypeApplication.MetaClass = metaClass;
+                    stereoTypeApplication.ElementIdentifier = reference;
+                    return true;
+                }
+            }
+
+            return false;
         }
     }
 }

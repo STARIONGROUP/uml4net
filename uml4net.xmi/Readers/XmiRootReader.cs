@@ -21,6 +21,7 @@
 namespace uml4net.xmi.Readers
 {
     using System;
+    using System.IO;
     using System.Xml;
 
     using Microsoft.Extensions.Logging;
@@ -186,12 +187,15 @@ namespace uml4net.xmi.Readers
                                 xmiRoot.Content.Add(xmiElement);
                                 break;
                             case (KnowNamespacePrefixes.StandardProfile, _):
-                                this.logger.LogWarning("StandardProfile reading is not yet supported, skipping element at line:position {LineNumber}:{LinePosition}", xmlLineInfo?.LineNumber, xmlLineInfo?.LinePosition);
-                                xmlReader.SkipInPlace();
+                                this.CaptureStandardProfileElement(xmlReader, xmiRoot);
                                 break;
                             case (KnowNamespacePrefixes.UmlDi, _):
-                                this.logger.LogWarning("DiagramInterchange reading is not yet supported, skipping element at line:position {LineNumber}:{LinePosition}", xmlLineInfo?.LineNumber, xmlLineInfo?.LinePosition);
-                                xmlReader.SkipInPlace();
+                                this.logger.LogWarning("DiagramInterchange content is not processed, the element at line:position {LineNumber}:{LinePosition} is captured", xmlLineInfo?.LineNumber, xmlLineInfo?.LinePosition);
+                                xmiRoot.DiagramInterchange.Add(ReadRawXmi(xmlReader));
+                                break;
+                            case (KnowNamespacePrefixes.PrimitiveTypes, _):
+                                this.logger.LogWarning("PrimitiveTypes content is not processed, the element at line:position {LineNumber}:{LinePosition} is captured", xmlLineInfo?.LineNumber, xmlLineInfo?.LinePosition);
+                                xmiRoot.UnprocessedContent.Add(ReadRawXmi(xmlReader));
                                 break;
                             case (KnowNamespacePrefixes.MofExt, _):
                                 {
@@ -201,19 +205,76 @@ namespace uml4net.xmi.Readers
                                     xmiRoot.Tags.Add(tag);
                                 }
                                 break;
-                            case (KnowNamespacePrefixes.PrimitiveTypes, _):
-                                this.logger.LogWarning("PrimitiveTypes reading is not yet supported, skipping element at line:position {LineNumber}:{LinePosition}", xmlLineInfo?.LineNumber, xmlLineInfo?.LinePosition);
-                                xmlReader.SkipInPlace();
-                                break;
                             case (KnowNamespacePrefixes.Other, _):
                                 this.ProcessOtherNamespaces(xmlReader, xmiRoot);
-                                break;
+                                 break;
                         }
                     }
                 }
             }
 
             return xmiRoot;
+        }
+
+        /// <summary>
+        /// Reads the element on which the <paramref name="xmlReader"/> is positioned, with its content, as raw XML
+        /// </summary>
+        /// <param name="xmlReader">
+        /// an instance of <see cref="XmlReader"/>, positioned on the element that is to be read
+        /// </param>
+        /// <returns>
+        /// the raw XML of the element; the namespace declarations that its element and attribute names require are
+        /// included
+        /// </returns>
+        private static string ReadRawXmi(XmlReader xmlReader)
+        {
+            using var subtreeReader = xmlReader.ReadSubtree();
+
+            subtreeReader.Read();
+
+            var stringWriter = new StringWriter();
+
+            using (var xmlWriter = XmlWriter.Create(stringWriter, new XmlWriterSettings { OmitXmlDeclaration = true }))
+            {
+                xmlWriter.WriteNode(subtreeReader, true);
+            }
+
+            return stringWriter.ToString();
+        }
+
+        /// <summary>
+        /// Captures a document-level element of the UML StandardProfile namespace: the application of a stereotype of
+        /// the StandardProfile (for example «Trace») is captured as a <see cref="StereoTypeApplication"/>, like the
+        /// application of a stereotype of any other profile; any other element is not processed, it is captured
+        /// verbatim as raw XML and a warning is logged
+        /// </summary>
+        /// <param name="xmlReader">
+        /// an instance of <see cref="XmlReader"/>, positioned on the element that is to be captured
+        /// </param>
+        /// <param name="xmiRoot">
+        /// The <see cref="XmiRoot"/> that captures the element
+        /// </param>
+        private void CaptureStandardProfileElement(XmlReader xmlReader, XmiRoot xmiRoot)
+        {
+            // the position is taken before the element is read, after which the reader has moved past it
+            var xmlLineInfo = xmlReader as IXmlLineInfo;
+            var lineNumber = xmlLineInfo?.LineNumber;
+            var linePosition = xmlLineInfo?.LinePosition;
+
+            var rawXmi = ReadRawXmi(xmlReader);
+
+            using var rawXmlReader = XmlReader.Create(new StringReader(rawXmi));
+            var stereoTypeApplicationReader = new StereoTypeApplicationReader(this.loggerFactory);
+
+            if (stereoTypeApplicationReader.TryRead(rawXmlReader, out var stereoTypeApplication))
+            {
+                xmiRoot.StereoTypeApplications.Add(stereoTypeApplication);
+            }
+            else
+            {
+                this.logger.LogWarning("StandardProfile content is not processed, the element at line:position {LineNumber}:{LinePosition} is captured", lineNumber, linePosition);
+                xmiRoot.UnprocessedContent.Add(rawXmi);
+            }
         }
 
         /// <summary>
