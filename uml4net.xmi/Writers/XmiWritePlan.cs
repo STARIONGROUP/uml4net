@@ -63,11 +63,33 @@ namespace uml4net.xmi.Writers
         /// The elements that are part of the document but do not have an <see cref="IXmiElement.XmiId"/>
         /// </param>
         public XmiWritePlan(IReadOnlyList<IXmiElement> rootElements, HashSet<string> localIdentifiers, IReadOnlyList<IXmiElement> elementsMissingXmiId)
+            : this(rootElements, localIdentifiers, elementsMissingXmiId, [])
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="XmiWritePlan"/> class.
+        /// </summary>
+        /// <param name="rootElements">
+        /// The <see cref="IXmiElement"/>s that are written as top-level elements of the XMI document, in document order
+        /// </param>
+        /// <param name="localIdentifiers">
+        /// The <see cref="IXmiElement.FullyQualifiedIdentifier"/>s of the elements that are serialized inside the XMI document
+        /// </param>
+        /// <param name="elementsMissingXmiId">
+        /// The elements that are part of the document but do not have an <see cref="IXmiElement.XmiId"/>
+        /// </param>
+        /// <param name="elementsMissingDocumentName">
+        /// The elements that are referenced from the document, are not written in the document and do not have an
+        /// <see cref="IXmiElement.DocumentName"/>
+        /// </param>
+        public XmiWritePlan(IReadOnlyList<IXmiElement> rootElements, HashSet<string> localIdentifiers, IReadOnlyList<IXmiElement> elementsMissingXmiId, IReadOnlyList<IXmiElement> elementsMissingDocumentName)
         {
             this.RootElements = rootElements ?? throw new ArgumentNullException(nameof(rootElements));
             this.RootPackages = rootElements.OfType<IPackage>().ToList();
             this.LocalIdentifiers = localIdentifiers ?? throw new ArgumentNullException(nameof(localIdentifiers));
             this.ElementsMissingXmiId = elementsMissingXmiId ?? throw new ArgumentNullException(nameof(elementsMissingXmiId));
+            this.ElementsMissingDocumentName = elementsMissingDocumentName ?? throw new ArgumentNullException(nameof(elementsMissingDocumentName));
         }
 
         /// <summary>
@@ -93,5 +115,13 @@ namespace uml4net.xmi.Writers
         /// Gets the elements that are part of the document but do not have an <see cref="IXmiElement.XmiId"/>.
         /// </summary>
         public IReadOnlyList<IXmiElement> ElementsMissingXmiId { get; }
+
+        /// <summary>
+        /// Gets the elements that are referenced from the document, are not written in the document and do not have an
+        /// <see cref="IXmiElement.DocumentName"/>. A reference to such an element is written as an href, and an href
+        /// without document name, <c>href="#id"</c>, resolves against the document that is being written, where the
+        /// element is not (XMI 2.5.1 clause 7.10.2).
+        /// </summary>
+        public IReadOnlyList<IXmiElement> ElementsMissingDocumentName { get; }
     }
 }

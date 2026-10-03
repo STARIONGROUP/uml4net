@@ -161,19 +161,29 @@ namespace uml4net.xmi.Writers
             }
 
             // A reference to an element that is not written in the document is written as an href, which locates the
-            // element by its XmiId (XMI 2.5.1 clause 7.10.2); an element without XmiId cannot be referenced that way, a
-            // reference to it would point at its document instead
-            foreach (var externalElement in QueryExternalReferencedElementsMissingXmiId(localElements))
+            // element by the URI of its document and its XmiId (XMI 2.5.1 clause 7.10.2). An element without XmiId cannot
+            // be referenced that way, a reference to it would point at its document instead. An element without document
+            // name cannot either, a reference to it would point at the document that is being written, where it is not
+            var elementsMissingDocumentName = new List<IXmiElement>();
+
+            foreach (var externalElement in QueryReferencedElementsNotWritten(localElements))
             {
-                if (!elementsMissingXmiId.Any(x => ReferenceEquals(x, externalElement)))
+                if (string.IsNullOrEmpty(externalElement.XmiId))
                 {
-                    elementsMissingXmiId.Add(externalElement);
+                    if (!elementsMissingXmiId.Any(x => ReferenceEquals(x, externalElement)))
+                    {
+                        elementsMissingXmiId.Add(externalElement);
+                    }
+                }
+                else if (string.IsNullOrEmpty(externalElement.DocumentName))
+                {
+                    elementsMissingDocumentName.Add(externalElement);
                 }
             }
 
             this.logger.LogDebug("Write plan calculated for {SelectedCount} selected and {IncludedCount} included root elements", selectedRootElementCount, writtenRootElements.Count - selectedRootElementCount);
 
-            return new XmiWritePlan(writtenRootElements, localIdentifiers, elementsMissingXmiId);
+            return new XmiWritePlan(writtenRootElements, localIdentifiers, elementsMissingXmiId, elementsMissingDocumentName);
         }
 
         /// <summary>
@@ -377,16 +387,16 @@ namespace uml4net.xmi.Writers
         }
 
         /// <summary>
-        /// Queries the elements without <see cref="IXmiElement.XmiId"/> that are referenced by an element of the
-        /// document, owner ends excluded, but that are not written in the document themselves
+        /// Queries the elements that are referenced by an element of the document, owner ends excluded, but that are
+        /// not written in the document themselves
         /// </summary>
         /// <param name="localElements">
         /// The set of elements that are serialized inside the document that is being written
         /// </param>
         /// <returns>
-        /// The referenced elements without <see cref="IXmiElement.XmiId"/>, in the order in which they are found
+        /// The referenced elements that are not written in the document, in the order in which they are found
         /// </returns>
-        private static List<IXmiElement> QueryExternalReferencedElementsMissingXmiId(HashSet<IXmiElement> localElements)
+        private static List<IXmiElement> QueryReferencedElementsNotWritten(HashSet<IXmiElement> localElements)
         {
             var result = new List<IXmiElement>();
             var found = new HashSet<IXmiElement>(ReferenceEqualityComparer.Instance);
@@ -395,7 +405,7 @@ namespace uml4net.xmi.Writers
             {
                 foreach (var referencedElement in QueryPropertyValues(QueryTypeProperties(element.GetType()).ReferenceProperties, element))
                 {
-                    if (!localElements.Contains(referencedElement) && string.IsNullOrEmpty(referencedElement.XmiId) && found.Add(referencedElement))
+                    if (!localElements.Contains(referencedElement) && found.Add(referencedElement))
                     {
                         result.Add(referencedElement);
                     }

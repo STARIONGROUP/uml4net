@@ -30,8 +30,10 @@ namespace uml4net.xmi.Tests.Writers
 
     using NUnit.Framework;
 
+    using uml4net.Classification;
     using uml4net.CommonStructure;
     using uml4net.Packages;
+    using uml4net.SimpleClassifiers;
     using uml4net.StructuredClassifiers;
     using uml4net.xmi;
     using uml4net.xmi.Writers;
@@ -221,6 +223,39 @@ namespace uml4net.xmi.Tests.Writers
 
             Assert.That(() => this.xmiWriter.Write(importing, stream, "b.xmi"),
                 Throws.InvalidOperationException.With.Message.Contains("do not have an XmiId: Model"));
+        }
+
+        [Test]
+        public void Verify_that_Write_throws_when_a_referenced_element_that_is_not_written_has_no_DocumentName()
+        {
+            // the probe of #468: the type would be written as href="#String", which points at the document that is written
+            var unnamedDocumentType = new PrimitiveType { XmiId = "String", Name = "String" };
+            var @class = new Class { XmiId = "Class-1", Name = "class" };
+            @class.OwnedAttribute.Add(new Property { XmiId = "Property-1", Name = "property", Type = unnamedDocumentType });
+            this.package.PackagedElement.Add(@class);
+
+            using var stream = new MemoryStream();
+
+            Assert.That(() => this.xmiWriter.Write(this.package, stream, "output.xmi"),
+                Throws.InvalidOperationException.With.Message.Contains("do not have a DocumentName").And.Message.Contains("PrimitiveType [String]"));
+        }
+
+        [Test]
+        public void Verify_that_a_referenced_element_that_is_not_written_is_written_as_an_href_with_its_DocumentName()
+        {
+            var type = new PrimitiveType { XmiId = "String", DocumentName = "types.xmi", Name = "String" };
+            var @class = new Class { XmiId = "Class-1", Name = "class" };
+            @class.OwnedAttribute.Add(new Property { XmiId = "Property-1", Name = "property", Type = type });
+            this.package.PackagedElement.Add(@class);
+
+            using var stream = new MemoryStream();
+
+            this.xmiWriter.Write(this.package, stream, "output.xmi");
+
+            stream.Position = 0;
+            var content = new StreamReader(stream).ReadToEnd();
+
+            Assert.That(content, Does.Contain("href=\"types.xmi#String\""));
         }
 
         [Test]

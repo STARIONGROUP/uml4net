@@ -857,7 +857,8 @@ namespace uml4net.xmi.Writers
         /// The created <see cref="IXmiWriteContext"/>
         /// </returns>
         /// <exception cref="InvalidOperationException">
-        /// thrown when elements that are part of the document do not have an <see cref="IXmiElement.XmiId"/>
+        /// thrown when elements that are part of the document do not have an <see cref="IXmiElement.XmiId"/>, or when
+        /// referenced elements that are not written in the document do not have an <see cref="IXmiElement.DocumentName"/>
         /// </exception>
         private IXmiWriteContext CreateWriteContext(IEnumerable<IXmiElement> rootElements, string documentName, out XmiWritePlan xmiWritePlan)
         {
@@ -868,6 +869,13 @@ namespace uml4net.xmi.Writers
                 var offenders = string.Join(", ", xmiWritePlan.ElementsMissingXmiId.Select(x => x.GetType().Name));
 
                 throw new InvalidOperationException($"The model cannot be written since the following elements do not have an XmiId: {offenders}");
+            }
+
+            if (xmiWritePlan.ElementsMissingDocumentName.Count > 0)
+            {
+                var offenders = string.Join(", ", xmiWritePlan.ElementsMissingDocumentName.Select(x => $"{x.GetType().Name} [{x.XmiId}]"));
+
+                throw new InvalidOperationException($"The model cannot be written since the following referenced elements are not written in the document and do not have a DocumentName, an href to them would be \"#id\": {offenders}");
             }
 
             return new XmiWriteContext(documentName, xmiWritePlan.LocalIdentifiers);

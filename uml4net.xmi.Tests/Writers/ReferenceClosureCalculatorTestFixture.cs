@@ -349,6 +349,72 @@ namespace uml4net.xmi.Tests.Writers
         }
 
         [Test]
+        public void Verify_that_a_referenced_element_that_is_not_written_and_has_no_DocumentName_is_reported()
+        {
+            // a model built in code: an href to the primitive type would be href="#String", which resolves against the
+            // document that is being written, where the primitive type is not (XMI 2.5.1 clause 7.10.2)
+            var unnamedDocumentType = new PrimitiveType { XmiId = "String", Name = "String" };
+            this.property.Type = unnamedDocumentType;
+
+            using (Assert.EnterMultipleScope())
+            {
+                var hrefPlan = this.referenceClosureCalculator.CalculateWritePlan(this.packageA, ExternalReferenceResolutionKind.Href, "a.xmi");
+                Assert.That(hrefPlan.ElementsMissingDocumentName, Is.EqualTo(new[] { unnamedDocumentType }));
+                Assert.That(hrefPlan.ElementsMissingXmiId, Is.Empty);
+
+                var includePlan = this.referenceClosureCalculator.CalculateWritePlan(this.packageA, ExternalReferenceResolutionKind.Include, "a.xmi");
+                Assert.That(includePlan.RootElements, Is.EqualTo(new IXmiElement[] { this.packageA }), "the primitive type is not contained by a root package and cannot be included");
+                Assert.That(includePlan.ElementsMissingDocumentName, Is.EqualTo(new[] { unnamedDocumentType }));
+            }
+        }
+
+        [Test]
+        public void Verify_that_a_referenced_element_without_DocumentName_is_not_reported_when_it_is_written()
+        {
+            var unnamedDocumentPackage = new Package { XmiId = "Types", Name = "Types" };
+            var unnamedDocumentType = new PrimitiveType { XmiId = "String", Name = "String" };
+            unnamedDocumentPackage.PackagedElement.Add(unnamedDocumentType);
+            this.property.Type = unnamedDocumentType;
+
+            using (Assert.EnterMultipleScope())
+            {
+                var hrefPlan = this.referenceClosureCalculator.CalculateWritePlan(new IXmiElement[] { this.packageA, unnamedDocumentPackage }, ExternalReferenceResolutionKind.Href, "a.xmi");
+                Assert.That(hrefPlan.ElementsMissingDocumentName, Is.Empty, "the primitive type is written in the document");
+
+                var includePlan = this.referenceClosureCalculator.CalculateWritePlan(this.packageA, ExternalReferenceResolutionKind.Include, "a.xmi");
+                Assert.That(includePlan.RootElements, Is.EqualTo(new IXmiElement[] { this.packageA, unnamedDocumentPackage }), "the root package of the primitive type is included");
+                Assert.That(includePlan.ElementsMissingDocumentName, Is.Empty);
+            }
+        }
+
+        [Test]
+        public void Verify_that_a_referenced_element_without_XmiId_and_DocumentName_is_reported_as_missing_an_XmiId_only()
+        {
+            var unidentifiedType = new PrimitiveType { Name = "String" };
+            this.property.Type = unidentifiedType;
+
+            var plan = this.referenceClosureCalculator.CalculateWritePlan(this.packageA, ExternalReferenceResolutionKind.Href, "a.xmi");
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(plan.ElementsMissingXmiId, Is.EqualTo(new[] { unidentifiedType }));
+                Assert.That(plan.ElementsMissingDocumentName, Is.Empty);
+            }
+        }
+
+        [Test]
+        public void Verify_that_the_XmiWritePlan_constructors_check_their_arguments()
+        {
+            var rootElements = new IXmiElement[] { this.packageA };
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(new XmiWritePlan(rootElements, [], []).ElementsMissingDocumentName, Is.Empty);
+                Assert.That(() => new XmiWritePlan(rootElements, [], [], null), Throws.ArgumentNullException);
+            }
+        }
+
+        [Test]
         public void Verify_that_elements_without_XmiId_are_reported()
         {
             var invalidClass = new Class { DocumentName = "a.xmi", Name = "Invalid" };
