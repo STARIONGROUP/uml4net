@@ -66,7 +66,7 @@ namespace uml4net.Interactions
         /// <summary>
         /// Actions owned by the Interaction.
         /// </summary>
-        [Property(xmiId: "Interaction-action", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "Interaction-action", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         [SubsettedProperty(propertyName: "Element-ownedElement")]
         [Implements(implementation: "IInteraction.Action")]
         public IContainerList<IAction> Action
@@ -84,7 +84,7 @@ namespace uml4net.Interactions
         /// All of the Properties that are direct (i.e., not inherited or imported) attributes of the
         /// Classifier.
         /// </summary>
-        [Property(xmiId: "Classifier-attribute", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: true, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "Classifier-attribute", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: true, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         [SubsettedProperty(propertyName: "A_redefinitionContext_redefinableElement-redefinableElement")]
         [SubsettedProperty(propertyName: "Classifier-feature")]
         [Implements(implementation: "IClassifier.Attribute")]
@@ -93,7 +93,7 @@ namespace uml4net.Interactions
         /// <summary>
         /// A Behavior that specifies the behavior of the BehavioredClassifier itself.
         /// </summary>
-        [Property(xmiId: "BehavioredClassifier-classifierBehavior", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "BehavioredClassifier-classifierBehavior", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         [SubsettedProperty(propertyName: "BehavioredClassifier-ownedBehavior")]
         [Implements(implementation: "IBehavioredClassifier.ClassifierBehavior")]
         public IBehavior ClassifierBehavior { get; set; }
@@ -101,7 +101,7 @@ namespace uml4net.Interactions
         /// <summary>
         /// Indicates the Dependencies that reference this NamedElement as a client.
         /// </summary>
-        [Property(xmiId: "NamedElement-clientDependency", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: true, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "NamedElement-clientDependency", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: true, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         [SubsettedProperty(propertyName: "A_source_directedRelationship-directedRelationship")]
         [Implements(implementation: "INamedElement.ClientDependency")]
         public IReadOnlyList<IDependency> ClientDependency => this.QueryClientDependency();
@@ -109,7 +109,7 @@ namespace uml4net.Interactions
         /// <summary>
         /// The CollaborationUses owned by the Classifier.
         /// </summary>
-        [Property(xmiId: "Classifier-collaborationUse", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "Classifier-collaborationUse", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         [SubsettedProperty(propertyName: "Element-ownedElement")]
         [Implements(implementation: "IClassifier.CollaborationUse")]
         public IContainerList<ICollaborationUse> CollaborationUse
@@ -134,7 +134,7 @@ namespace uml4net.Interactions
         /// the context BehavioredClassifier as well as the Elements visible to the context Classifier are
         /// visible to the Behavior.
         /// </summary>
-        [Property(xmiId: "Behavior-context", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "Behavior-context", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         [SubsettedProperty(propertyName: "RedefinableElement-redefinitionContext")]
         [Implements(implementation: "IBehavior.Context")]
         public IBehavioredClassifier Context => this.QueryContext();
@@ -142,14 +142,14 @@ namespace uml4net.Interactions
         /// <summary>
         /// References the Lifelines that the InteractionFragment involves.
         /// </summary>
-        [Property(xmiId: "InteractionFragment-covered", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "InteractionFragment-covered", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         [Implements(implementation: "IInteractionFragment.Covered")]
         public List<ILifeline> Covered { get; set; } = new();
 
         /// <summary>
         /// References the ElementImports owned by the Namespace.
         /// </summary>
-        [Property(xmiId: "Namespace-elementImport", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "Namespace-elementImport", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         [SubsettedProperty(propertyName: "A_source_directedRelationship-directedRelationship")]
         [SubsettedProperty(propertyName: "Element-ownedElement")]
         [Implements(implementation: "INamespace.ElementImport")]
@@ -187,7 +187,7 @@ namespace uml4net.Interactions
         /// specify additional properties of the metaclass. The property is derived from the Extensions whose
         /// memberEnds are typed by the Class.
         /// </summary>
-        [Property(xmiId: "Class-extension", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "Class-extension", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         [Implements(implementation: "IClass.Extension")]
         public IReadOnlyList<IExtension> Extension => this.QueryExtension();
 
@@ -195,7 +195,7 @@ namespace uml4net.Interactions
         /// Specifies each Feature directly defined in the classifier. Note that there may be members of the
         /// Classifier that are of the type Feature but are not included, e.g., inherited features.
         /// </summary>
-        [Property(xmiId: "Classifier-feature", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "Classifier-feature", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         [SubsettedProperty(propertyName: "Namespace-member")]
         [Implements(implementation: "IClassifier.Feature")]
         public IReadOnlyList<IFeature> Feature => this.QueryFeature();
@@ -204,7 +204,7 @@ namespace uml4net.Interactions
         /// Specifies the gates that form the message interface between this Interaction and any InteractionUses
         /// which reference it.
         /// </summary>
-        [Property(xmiId: "Interaction-formalGate", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "Interaction-formalGate", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         [SubsettedProperty(propertyName: "Namespace-ownedMember")]
         [Implements(implementation: "IInteraction.FormalGate")]
         public IContainerList<IGate> FormalGate
@@ -221,7 +221,7 @@ namespace uml4net.Interactions
         /// <summary>
         /// The ordered set of fragments in the Interaction.
         /// </summary>
-        [Property(xmiId: "Interaction-fragment", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: true, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "Interaction-fragment", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: true, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         [SubsettedProperty(propertyName: "Namespace-ownedMember")]
         [Implements(implementation: "IInteraction.Fragment")]
         public IContainerList<IInteractionFragment> Fragment
@@ -240,7 +240,7 @@ namespace uml4net.Interactions
         /// <summary>
         /// The generalizing Classifiers for this Classifier.
         /// </summary>
-        [Property(xmiId: "Classifier-general", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: true, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "Classifier-general", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: true, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         [RedefinedByProperty("IClass.SuperClass")]
         [Implements(implementation: "IClassifier.General")]
         IReadOnlyList<IClassifier> IClassifier.General => this.SuperClass.Cast<IClassifier>().ToList();
@@ -249,7 +249,7 @@ namespace uml4net.Interactions
         /// The Generalization relationships for this Classifier. These Generalizations navigate to more general
         /// Classifiers in the generalization hierarchy.
         /// </summary>
-        [Property(xmiId: "Classifier-generalization", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "Classifier-generalization", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         [SubsettedProperty(propertyName: "A_source_directedRelationship-directedRelationship")]
         [SubsettedProperty(propertyName: "Element-ownedElement")]
         [Implements(implementation: "IClassifier.Generalization")]
@@ -269,7 +269,7 @@ namespace uml4net.Interactions
         /// <summary>
         /// The general ordering relationships contained in this fragment.
         /// </summary>
-        [Property(xmiId: "InteractionFragment-generalOrdering", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "InteractionFragment-generalOrdering", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         [SubsettedProperty(propertyName: "Element-ownedElement")]
         [Implements(implementation: "IInteractionFragment.GeneralOrdering")]
         public IContainerList<IGeneralOrdering> GeneralOrdering
@@ -287,7 +287,7 @@ namespace uml4net.Interactions
         /// References the PackageableElements that are members of this Namespace as a result of either
         /// PackageImports or ElementImports.
         /// </summary>
-        [Property(xmiId: "Namespace-importedMember", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "Namespace-importedMember", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         [SubsettedProperty(propertyName: "Namespace-member")]
         [Implements(implementation: "INamespace.ImportedMember")]
         public IReadOnlyList<IPackageableElement> ImportedMember => this.QueryImportedMember();
@@ -295,7 +295,7 @@ namespace uml4net.Interactions
         /// <summary>
         /// All elements inherited by this Classifier from its general Classifiers.
         /// </summary>
-        [Property(xmiId: "Classifier-inheritedMember", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "Classifier-inheritedMember", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         [SubsettedProperty(propertyName: "Namespace-member")]
         [Implements(implementation: "IClassifier.InheritedMember")]
         public IReadOnlyList<INamedElement> InheritedMember => this.QueryInheritedMember();
@@ -304,7 +304,7 @@ namespace uml4net.Interactions
         /// The set of InterfaceRealizations owned by the BehavioredClassifier. Interface realizations reference
         /// the Interfaces of which the BehavioredClassifier is an implementation.
         /// </summary>
-        [Property(xmiId: "BehavioredClassifier-interfaceRealization", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "BehavioredClassifier-interfaceRealization", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         [SubsettedProperty(propertyName: "Element-ownedElement")]
         [SubsettedProperty(propertyName: "NamedElement-clientDependency")]
         [Implements(implementation: "IBehavioredClassifier.InterfaceRealization")]
@@ -325,7 +325,7 @@ namespace uml4net.Interactions
         /// If true, the Class does not provide a complete declaration and cannot be instantiated. An abstract
         /// Class is typically used as a target of Associations or Generalizations.
         /// </summary>
-        [Property(xmiId: "Class-isAbstract", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: "false")]
+        [Property(xmiId: "Class-isAbstract", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: "false", isOwnerEnd: false)]
         [RedefinedProperty(propertyName: "Classifier-isAbstract")]
         [Implements(implementation: "IClass.IsAbstract")]
         public bool IsAbstract { get; set; }
@@ -335,7 +335,7 @@ namespace uml4net.Interactions
         /// abstract Classifier is intended to be used by other Classifiers e.g., as the target of Associations
         /// or Generalizations.
         /// </summary>
-        [Property(xmiId: "Classifier-isAbstract", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: "false")]
+        [Property(xmiId: "Classifier-isAbstract", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: "false", isOwnerEnd: false)]
         [RedefinedByProperty("IClass.IsAbstract")]
         [Implements(implementation: "IClassifier.IsAbstract")]
         bool IClassifier.IsAbstract
@@ -349,14 +349,14 @@ namespace uml4net.Interactions
         /// Class is referred to as an active Class. If false, then such a Class is referred to as a passive
         /// Class.
         /// </summary>
-        [Property(xmiId: "Class-isActive", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: "false")]
+        [Property(xmiId: "Class-isActive", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: "false", isOwnerEnd: false)]
         [Implements(implementation: "IClass.IsActive")]
         public bool IsActive { get; set; }
 
         /// <summary>
         /// If true, the Classifier cannot be specialized.
         /// </summary>
-        [Property(xmiId: "Classifier-isFinalSpecialization", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: "false")]
+        [Property(xmiId: "Classifier-isFinalSpecialization", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: "false", isOwnerEnd: false)]
         [Implements(implementation: "IClassifier.IsFinalSpecialization")]
         public bool IsFinalSpecialization { get; set; }
 
@@ -364,21 +364,21 @@ namespace uml4net.Interactions
         /// Indicates whether it is possible to further redefine a RedefinableElement. If the value is true,
         /// then it is not possible to further redefine the RedefinableElement.
         /// </summary>
-        [Property(xmiId: "RedefinableElement-isLeaf", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: "false")]
+        [Property(xmiId: "RedefinableElement-isLeaf", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: "false", isOwnerEnd: false)]
         [Implements(implementation: "IRedefinableElement.IsLeaf")]
         public bool IsLeaf { get; set; }
 
         /// <summary>
         /// Tells whether the Behavior can be invoked while it is still executing from a previous invocation.
         /// </summary>
-        [Property(xmiId: "Behavior-isReentrant", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: "true")]
+        [Property(xmiId: "Behavior-isReentrant", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: "true", isOwnerEnd: false)]
         [Implements(implementation: "IBehavior.IsReentrant")]
         public bool IsReentrant { get; set; } = true;
 
         /// <summary>
         /// Specifies the participants in this Interaction.
         /// </summary>
-        [Property(xmiId: "Interaction-lifeline", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "Interaction-lifeline", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         [SubsettedProperty(propertyName: "Namespace-ownedMember")]
         [Implements(implementation: "IInteraction.Lifeline")]
         public IContainerList<ILifeline> Lifeline
@@ -398,14 +398,14 @@ namespace uml4net.Interactions
         /// A collection of NamedElements identifiable within the Namespace, either by being owned or by being
         /// introduced by importing or inheritance.
         /// </summary>
-        [Property(xmiId: "Namespace-member", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "Namespace-member", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         [Implements(implementation: "INamespace.Member")]
         public IReadOnlyList<INamedElement> Member => this.QueryMember();
 
         /// <summary>
         /// The Messages contained in this Interaction.
         /// </summary>
-        [Property(xmiId: "Interaction-message", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "Interaction-message", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         [SubsettedProperty(propertyName: "Namespace-ownedMember")]
         [Implements(implementation: "IInteraction.Message")]
         public IContainerList<IMessage> Message
@@ -424,14 +424,14 @@ namespace uml4net.Interactions
         /// <summary>
         /// The name of the NamedElement.
         /// </summary>
-        [Property(xmiId: "NamedElement-name", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "NamedElement-name", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         [Implements(implementation: "INamedElement.Name")]
         public string Name { get; set; }
 
         /// <summary>
         /// The StringExpression used to define the name of this NamedElement.
         /// </summary>
-        [Property(xmiId: "NamedElement-nameExpression", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "NamedElement-nameExpression", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         [SubsettedProperty(propertyName: "Element-ownedElement")]
         [Implements(implementation: "INamedElement.NameExpression")]
         public IContainerList<IStringExpression> NameExpression
@@ -457,7 +457,7 @@ namespace uml4net.Interactions
         /// <summary>
         /// The Classifiers owned by the Class that are not ownedBehaviors.
         /// </summary>
-        [Property(xmiId: "Class-nestedClassifier", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: true, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "Class-nestedClassifier", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: true, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         [SubsettedProperty(propertyName: "A_redefinitionContext_redefinableElement-redefinableElement")]
         [SubsettedProperty(propertyName: "Namespace-ownedMember")]
         [Implements(implementation: "IClass.NestedClassifier")]
@@ -475,7 +475,7 @@ namespace uml4net.Interactions
         /// <summary>
         /// The attributes (i.e., the Properties) owned by the Class.
         /// </summary>
-        [Property(xmiId: "Class-ownedAttribute", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: true, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "Class-ownedAttribute", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: true, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         [SubsettedProperty(propertyName: "Classifier-attribute")]
         [SubsettedProperty(propertyName: "Namespace-ownedMember")]
         [RedefinedProperty(propertyName: "StructuredClassifier-ownedAttribute")]
@@ -496,7 +496,7 @@ namespace uml4net.Interactions
         /// <summary>
         /// The Properties owned by the StructuredClassifier.
         /// </summary>
-        [Property(xmiId: "StructuredClassifier-ownedAttribute", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: true, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "StructuredClassifier-ownedAttribute", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: true, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         [SubsettedProperty(propertyName: "Classifier-attribute")]
         [SubsettedProperty(propertyName: "Namespace-ownedMember")]
         [SubsettedProperty(propertyName: "StructuredClassifier-role")]
@@ -511,7 +511,7 @@ namespace uml4net.Interactions
         /// <summary>
         /// Behaviors owned by a BehavioredClassifier.
         /// </summary>
-        [Property(xmiId: "BehavioredClassifier-ownedBehavior", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "BehavioredClassifier-ownedBehavior", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         [SubsettedProperty(propertyName: "Namespace-ownedMember")]
         [Implements(implementation: "IBehavioredClassifier.OwnedBehavior")]
         public IContainerList<IBehavior> OwnedBehavior
@@ -528,7 +528,7 @@ namespace uml4net.Interactions
         /// <summary>
         /// The Comments owned by this Element.
         /// </summary>
-        [Property(xmiId: "Element-ownedComment", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "Element-ownedComment", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         [SubsettedProperty(propertyName: "Element-ownedElement")]
         [Implements(implementation: "IElement.OwnedComment")]
         public IContainerList<IComment> OwnedComment
@@ -545,7 +545,7 @@ namespace uml4net.Interactions
         /// <summary>
         /// The connectors owned by the StructuredClassifier.
         /// </summary>
-        [Property(xmiId: "StructuredClassifier-ownedConnector", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "StructuredClassifier-ownedConnector", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         [SubsettedProperty(propertyName: "A_redefinitionContext_redefinableElement-redefinableElement")]
         [SubsettedProperty(propertyName: "Classifier-feature")]
         [SubsettedProperty(propertyName: "Namespace-ownedMember")]
@@ -564,7 +564,7 @@ namespace uml4net.Interactions
         /// <summary>
         /// The Elements owned by this Element.
         /// </summary>
-        [Property(xmiId: "Element-ownedElement", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "Element-ownedElement", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         [Implements(implementation: "IElement.OwnedElement")]
         public IReadOnlyList<IElement> OwnedElement =>
         new List<IElement>()
@@ -600,7 +600,7 @@ namespace uml4net.Interactions
         /// <summary>
         /// A collection of NamedElements owned by the Namespace.
         /// </summary>
-        [Property(xmiId: "Namespace-ownedMember", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "Namespace-ownedMember", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         [SubsettedProperty(propertyName: "Element-ownedElement")]
         [SubsettedProperty(propertyName: "Namespace-member")]
         [Implements(implementation: "INamespace.OwnedMember")]
@@ -609,7 +609,7 @@ namespace uml4net.Interactions
         /// <summary>
         /// The Operations owned by the Class.
         /// </summary>
-        [Property(xmiId: "Class-ownedOperation", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: true, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "Class-ownedOperation", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: true, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         [SubsettedProperty(propertyName: "A_redefinitionContext_redefinableElement-redefinableElement")]
         [SubsettedProperty(propertyName: "Classifier-feature")]
         [SubsettedProperty(propertyName: "Namespace-ownedMember")]
@@ -632,7 +632,7 @@ namespace uml4net.Interactions
         /// can be given when the Behavior is invoked and of the values which will be returned when the Behavior
         /// completes its execution.
         /// </summary>
-        [Property(xmiId: "Behavior-ownedParameter", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: true, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "Behavior-ownedParameter", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: true, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         [SubsettedProperty(propertyName: "Namespace-ownedMember")]
         [Implements(implementation: "IBehavior.OwnedParameter")]
         public IContainerList<IParameter> OwnedParameter
@@ -649,7 +649,7 @@ namespace uml4net.Interactions
         /// <summary>
         /// The ParameterSets owned by this Behavior.
         /// </summary>
-        [Property(xmiId: "Behavior-ownedParameterSet", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "Behavior-ownedParameterSet", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         [SubsettedProperty(propertyName: "Namespace-ownedMember")]
         [Implements(implementation: "IBehavior.OwnedParameterSet")]
         public IContainerList<IParameterSet> OwnedParameterSet
@@ -666,7 +666,7 @@ namespace uml4net.Interactions
         /// <summary>
         /// The Ports owned by the EncapsulatedClassifier.
         /// </summary>
-        [Property(xmiId: "EncapsulatedClassifier-ownedPort", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "EncapsulatedClassifier-ownedPort", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         [SubsettedProperty(propertyName: "StructuredClassifier-ownedAttribute")]
         [Implements(implementation: "IEncapsulatedClassifier.OwnedPort")]
         public IReadOnlyList<IPort> OwnedPort => this.QueryOwnedPort();
@@ -674,7 +674,7 @@ namespace uml4net.Interactions
         /// <summary>
         /// The Receptions owned by the Class.
         /// </summary>
-        [Property(xmiId: "Class-ownedReception", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "Class-ownedReception", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         [SubsettedProperty(propertyName: "Classifier-feature")]
         [SubsettedProperty(propertyName: "Namespace-ownedMember")]
         [Implements(implementation: "IClass.OwnedReception")]
@@ -692,7 +692,7 @@ namespace uml4net.Interactions
         /// <summary>
         /// Specifies a set of Constraints owned by this Namespace.
         /// </summary>
-        [Property(xmiId: "Namespace-ownedRule", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "Namespace-ownedRule", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         [SubsettedProperty(propertyName: "Namespace-ownedMember")]
         [Implements(implementation: "INamespace.OwnedRule")]
         public IContainerList<IConstraint> OwnedRule
@@ -711,7 +711,7 @@ namespace uml4net.Interactions
         /// <summary>
         /// The optional RedefinableTemplateSignature specifying the formal template parameters.
         /// </summary>
-        [Property(xmiId: "Classifier-ownedTemplateSignature", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "Classifier-ownedTemplateSignature", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         [SubsettedProperty(propertyName: "A_redefinitionContext_redefinableElement-redefinableElement")]
         [RedefinedProperty(propertyName: "TemplateableElement-ownedTemplateSignature")]
         [Implements(implementation: "IClassifier.OwnedTemplateSignature")]
@@ -732,7 +732,7 @@ namespace uml4net.Interactions
         /// The optional TemplateSignature specifying the formal TemplateParameters for this
         /// TemplateableElement. If a TemplateableElement has a TemplateSignature, then it is a template.
         /// </summary>
-        [Property(xmiId: "TemplateableElement-ownedTemplateSignature", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "TemplateableElement-ownedTemplateSignature", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         [SubsettedProperty(propertyName: "Element-ownedElement")]
         [RedefinedByProperty("IClassifier.OwnedTemplateSignature")]
         [Implements(implementation: "ITemplateableElement.OwnedTemplateSignature")]
@@ -745,7 +745,7 @@ namespace uml4net.Interactions
         /// <summary>
         /// The UseCases owned by this classifier.
         /// </summary>
-        [Property(xmiId: "Classifier-ownedUseCase", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "Classifier-ownedUseCase", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         [SubsettedProperty(propertyName: "Namespace-ownedMember")]
         [Implements(implementation: "IClassifier.OwnedUseCase")]
         public IContainerList<IUseCase> OwnedUseCase
@@ -786,7 +786,7 @@ namespace uml4net.Interactions
         /// <summary>
         /// References the PackageImports owned by the Namespace.
         /// </summary>
-        [Property(xmiId: "Namespace-packageImport", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "Namespace-packageImport", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         [SubsettedProperty(propertyName: "A_source_directedRelationship-directedRelationship")]
         [SubsettedProperty(propertyName: "Element-ownedElement")]
         [Implements(implementation: "INamespace.PackageImport")]
@@ -807,7 +807,7 @@ namespace uml4net.Interactions
         /// The Properties specifying instances that the StructuredClassifier owns by composition. This
         /// collection is derived, selecting those owned Properties where isComposite is true.
         /// </summary>
-        [Property(xmiId: "StructuredClassifier-part", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "StructuredClassifier-part", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         [Implements(implementation: "IStructuredClassifier.Part")]
         public IReadOnlyList<IProperty> Part => this.QueryPart();
 
@@ -815,7 +815,7 @@ namespace uml4net.Interactions
         /// An optional set of Constraints specifying what is fulfilled after the execution of the Behavior is
         /// completed, if its precondition was fulfilled before its invocation.
         /// </summary>
-        [Property(xmiId: "Behavior-postcondition", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "Behavior-postcondition", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         [SubsettedProperty(propertyName: "Namespace-ownedRule")]
         [Implements(implementation: "IBehavior.Postcondition")]
         public IContainerList<IConstraint> Postcondition
@@ -832,14 +832,14 @@ namespace uml4net.Interactions
         /// <summary>
         /// The GeneralizationSet of which this Classifier is a power type.
         /// </summary>
-        [Property(xmiId: "Classifier-powertypeExtent", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "Classifier-powertypeExtent", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         [Implements(implementation: "IClassifier.PowertypeExtent")]
         public List<IGeneralizationSet> PowertypeExtent { get; set; } = new();
 
         /// <summary>
         /// An optional set of Constraints specifying what must be fulfilled before the Behavior is invoked.
         /// </summary>
-        [Property(xmiId: "Behavior-precondition", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "Behavior-precondition", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         [SubsettedProperty(propertyName: "Namespace-ownedRule")]
         [Implements(implementation: "IBehavior.Precondition")]
         public IContainerList<IConstraint> Precondition
@@ -858,7 +858,7 @@ namespace uml4net.Interactions
         /// constructed from the names of the containing Namespaces starting at the root of the hierarchy and
         /// ending with the name of the NamedElement itself.
         /// </summary>
-        [Property(xmiId: "NamedElement-qualifiedName", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "NamedElement-qualifiedName", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         [Implements(implementation: "INamedElement.QualifiedName")]
         public string QualifiedName => this.QueryQualifiedName();
 
@@ -867,7 +867,7 @@ namespace uml4net.Interactions
         /// subtype of Behavior. If the Behavior implements a BehavioralFeature, it replaces the redefined
         /// Behavior. If the Behavior is a classifierBehavior, it extends the redefined Behavior.
         /// </summary>
-        [Property(xmiId: "Behavior-redefinedBehavior", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "Behavior-redefinedBehavior", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         [SubsettedProperty(propertyName: "Classifier-redefinedClassifier")]
         [Implements(implementation: "IBehavior.RedefinedBehavior")]
         public List<IBehavior> RedefinedBehavior { get; set; } = new();
@@ -875,7 +875,7 @@ namespace uml4net.Interactions
         /// <summary>
         /// The Classifiers redefined by this Classifier.
         /// </summary>
-        [Property(xmiId: "Classifier-redefinedClassifier", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "Classifier-redefinedClassifier", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         [SubsettedProperty(propertyName: "RedefinableElement-redefinedElement")]
         [Implements(implementation: "IClassifier.RedefinedClassifier")]
         public List<IClassifier> RedefinedClassifier { get; set; } = new();
@@ -883,21 +883,21 @@ namespace uml4net.Interactions
         /// <summary>
         /// The RedefinableElement that is being redefined by this element.
         /// </summary>
-        [Property(xmiId: "RedefinableElement-redefinedElement", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "RedefinableElement-redefinedElement", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         [Implements(implementation: "IRedefinableElement.RedefinedElement")]
         public IReadOnlyList<IRedefinableElement> RedefinedElement => this.QueryRedefinedElement();
 
         /// <summary>
         /// The contexts that this element may be redefined from.
         /// </summary>
-        [Property(xmiId: "RedefinableElement-redefinitionContext", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "RedefinableElement-redefinitionContext", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         [Implements(implementation: "IRedefinableElement.RedefinitionContext")]
         public IReadOnlyList<IClassifier> RedefinitionContext => this.QueryRedefinitionContext();
 
         /// <summary>
         /// A CollaborationUse which indicates the Collaboration that represents this Classifier.
         /// </summary>
-        [Property(xmiId: "Classifier-representation", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "Classifier-representation", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         [SubsettedProperty(propertyName: "Classifier-collaborationUse")]
         [Implements(implementation: "IClassifier.Representation")]
         public ICollaborationUse Representation { get; set; }
@@ -905,7 +905,7 @@ namespace uml4net.Interactions
         /// <summary>
         /// The roles that instances may play in this StructuredClassifier.
         /// </summary>
-        [Property(xmiId: "StructuredClassifier-role", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "StructuredClassifier-role", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         [SubsettedProperty(propertyName: "Namespace-member")]
         [Implements(implementation: "IStructuredClassifier.Role")]
         public IReadOnlyList<IConnectableElement> Role => this.QueryRole();
@@ -917,14 +917,14 @@ namespace uml4net.Interactions
         /// specification, in which case it either is the classifierBehavior of a BehavioredClassifier or it can
         /// only be invoked by another Behavior of the Classifier.
         /// </summary>
-        [Property(xmiId: "Behavior-specification", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "Behavior-specification", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         [Implements(implementation: "IBehavior.Specification")]
         public IBehavioralFeature Specification { get; set; }
 
         /// <summary>
         /// The Substitutions owned by this Classifier.
         /// </summary>
-        [Property(xmiId: "Classifier-substitution", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "Classifier-substitution", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         [SubsettedProperty(propertyName: "Element-ownedElement")]
         [SubsettedProperty(propertyName: "NamedElement-clientDependency")]
         [Implements(implementation: "IClassifier.Substitution")]
@@ -944,7 +944,7 @@ namespace uml4net.Interactions
         /// <summary>
         /// The superclasses of a Class, derived from its Generalizations.
         /// </summary>
-        [Property(xmiId: "Class-superClass", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: true, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "Class-superClass", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: true, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         [RedefinedProperty(propertyName: "Classifier-general")]
         [Implements(implementation: "IClass.SuperClass")]
         public IReadOnlyList<IClass> SuperClass => this.QuerySuperClass();
@@ -952,7 +952,7 @@ namespace uml4net.Interactions
         /// <summary>
         /// The optional TemplateBindings from this TemplateableElement to one or more templates.
         /// </summary>
-        [Property(xmiId: "TemplateableElement-templateBinding", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "TemplateableElement-templateBinding", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         [SubsettedProperty(propertyName: "A_source_directedRelationship-directedRelationship")]
         [SubsettedProperty(propertyName: "Element-ownedElement")]
         [Implements(implementation: "ITemplateableElement.TemplateBinding")]
@@ -972,7 +972,7 @@ namespace uml4net.Interactions
         /// <summary>
         /// TheClassifierTemplateParameter that exposes this element as a formal parameter.
         /// </summary>
-        [Property(xmiId: "Classifier-templateParameter", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "Classifier-templateParameter", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         [RedefinedProperty(propertyName: "ParameterableElement-templateParameter")]
         [Implements(implementation: "IClassifier.TemplateParameter")]
         public IClassifierTemplateParameter TemplateParameter { get; set; }
@@ -980,7 +980,7 @@ namespace uml4net.Interactions
         /// <summary>
         /// The TemplateParameter that exposes this ParameterableElement as a formal parameter.
         /// </summary>
-        [Property(xmiId: "ParameterableElement-templateParameter", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "ParameterableElement-templateParameter", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         [RedefinedByProperty("IClassifier.TemplateParameter")]
         [Implements(implementation: "IParameterableElement.TemplateParameter")]
         ITemplateParameter IParameterableElement.TemplateParameter
@@ -992,14 +992,14 @@ namespace uml4net.Interactions
         /// <summary>
         /// The set of UseCases for which this Classifier is the subject.
         /// </summary>
-        [Property(xmiId: "Classifier-useCase", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "Classifier-useCase", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         [Implements(implementation: "IClassifier.UseCases")]
         public List<IUseCase> UseCases { get; set; } = new();
 
         /// <summary>
         /// Determines whether and how the NamedElement is visible outside its owning Namespace.
         /// </summary>
-        [Property(xmiId: "NamedElement-visibility", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "NamedElement-visibility", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         [RedefinedByProperty("IPackageableElement.Visibility")]
         [Implements(implementation: "INamedElement.Visibility")]
         VisibilityKind? INamedElement.Visibility
@@ -1012,7 +1012,7 @@ namespace uml4net.Interactions
         /// A PackageableElement must have a visibility specified if it is owned by a Namespace. The default
         /// visibility is public.
         /// </summary>
-        [Property(xmiId: "PackageableElement-visibility", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: "public")]
+        [Property(xmiId: "PackageableElement-visibility", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: "public", isOwnerEnd: false)]
         [RedefinedProperty(propertyName: "NamedElement-visibility")]
         [Implements(implementation: "IPackageableElement.Visibility")]
         public VisibilityKind? Visibility { get; set; } = VisibilityKind.Public;

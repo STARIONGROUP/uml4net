@@ -66,7 +66,7 @@ namespace uml4net.Activities
         /// <summary>
         /// Indicates the Dependencies that reference this NamedElement as a client.
         /// </summary>
-        [Property(xmiId: "NamedElement-clientDependency", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: true, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "NamedElement-clientDependency", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: true, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         [SubsettedProperty(propertyName: "A_source_directedRelationship-directedRelationship")]
         [Implements(implementation: "INamedElement.ClientDependency")]
         public IReadOnlyList<IDependency> ClientDependency => this.QueryClientDependency();
@@ -74,21 +74,21 @@ namespace uml4net.Activities
         /// <summary>
         /// ActivityEdges immediately contained in the ActivityGroup.
         /// </summary>
-        [Property(xmiId: "ActivityGroup-containedEdge", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "ActivityGroup-containedEdge", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         [Implements(implementation: "IActivityGroup.ContainedEdge")]
         public IReadOnlyList<IActivityEdge> ContainedEdge => this.QueryContainedEdge();
 
         /// <summary>
         /// ActivityNodes immediately contained in the ActivityGroup.
         /// </summary>
-        [Property(xmiId: "ActivityGroup-containedNode", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "ActivityGroup-containedNode", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         [Implements(implementation: "IActivityGroup.ContainedNode")]
         public IReadOnlyList<IActivityNode> ContainedNode => this.QueryContainedNode();
 
         /// <summary>
         /// ActivityEdges immediately contained in the ActivityPartition.
         /// </summary>
-        [Property(xmiId: "ActivityPartition-edge", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "ActivityPartition-edge", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         [SubsettedProperty(propertyName: "ActivityGroup-containedEdge")]
         [Implements(implementation: "IActivityPartition.Edge")]
         public List<IActivityEdge> Edge { get; set; } = new();
@@ -104,7 +104,7 @@ namespace uml4net.Activities
         /// <summary>
         /// Indicates whether the ActivityPartition groups other ActivityPartitions along a dimension.
         /// </summary>
-        [Property(xmiId: "ActivityPartition-isDimension", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: "false")]
+        [Property(xmiId: "ActivityPartition-isDimension", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: "false", isOwnerEnd: false)]
         [Implements(implementation: "IActivityPartition.IsDimension")]
         public bool IsDimension { get; set; }
 
@@ -112,21 +112,21 @@ namespace uml4net.Activities
         /// Indicates whether the ActivityPartition represents an entity to which the partitioning structure
         /// does not apply.
         /// </summary>
-        [Property(xmiId: "ActivityPartition-isExternal", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: "false")]
+        [Property(xmiId: "ActivityPartition-isExternal", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: "false", isOwnerEnd: false)]
         [Implements(implementation: "IActivityPartition.IsExternal")]
         public bool IsExternal { get; set; }
 
         /// <summary>
         /// The name of the NamedElement.
         /// </summary>
-        [Property(xmiId: "NamedElement-name", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "NamedElement-name", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         [Implements(implementation: "INamedElement.Name")]
         public string Name { get; set; }
 
         /// <summary>
         /// The StringExpression used to define the name of this NamedElement.
         /// </summary>
-        [Property(xmiId: "NamedElement-nameExpression", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "NamedElement-nameExpression", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         [SubsettedProperty(propertyName: "Element-ownedElement")]
         [Implements(implementation: "INamedElement.NameExpression")]
         public IContainerList<IStringExpression> NameExpression
@@ -152,7 +152,7 @@ namespace uml4net.Activities
         /// <summary>
         /// ActivityNodes immediately contained in the ActivityPartition.
         /// </summary>
-        [Property(xmiId: "ActivityPartition-node", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "ActivityPartition-node", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         [SubsettedProperty(propertyName: "ActivityGroup-containedNode")]
         [Implements(implementation: "IActivityPartition.Node")]
         public List<IActivityNode> Node { get; set; } = new();
@@ -160,7 +160,7 @@ namespace uml4net.Activities
         /// <summary>
         /// The Comments owned by this Element.
         /// </summary>
-        [Property(xmiId: "Element-ownedComment", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "Element-ownedComment", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         [SubsettedProperty(propertyName: "Element-ownedElement")]
         [Implements(implementation: "IElement.OwnedComment")]
         public IContainerList<IComment> OwnedComment
@@ -177,7 +177,7 @@ namespace uml4net.Activities
         /// <summary>
         /// The Elements owned by this Element.
         /// </summary>
-        [Property(xmiId: "Element-ownedElement", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "Element-ownedElement", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         [Implements(implementation: "IElement.OwnedElement")]
         public IReadOnlyList<IElement> OwnedElement =>
         new List<IElement>()
@@ -199,21 +199,21 @@ namespace uml4net.Activities
         /// constructed from the names of the containing Namespaces starting at the root of the hierarchy and
         /// ending with the name of the NamedElement itself.
         /// </summary>
-        [Property(xmiId: "NamedElement-qualifiedName", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "NamedElement-qualifiedName", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         [Implements(implementation: "INamedElement.QualifiedName")]
         public string QualifiedName => this.QueryQualifiedName();
 
         /// <summary>
         /// An Element represented by the functionality modeled within the ActivityPartition.
         /// </summary>
-        [Property(xmiId: "ActivityPartition-represents", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "ActivityPartition-represents", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         [Implements(implementation: "IActivityPartition.Represents")]
         public IElement Represents { get; set; }
 
         /// <summary>
         /// Other ActivityGroups immediately contained in this ActivityGroup.
         /// </summary>
-        [Property(xmiId: "ActivityGroup-subgroup", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "ActivityGroup-subgroup", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         [SubsettedProperty(propertyName: "Element-ownedElement")]
         [Implements(implementation: "IActivityGroup.Subgroup")]
         public IReadOnlyList<IActivityGroup> Subgroup => this.QuerySubgroup();
@@ -221,7 +221,7 @@ namespace uml4net.Activities
         /// <summary>
         /// Other ActivityPartitions immediately contained in this ActivityPartition (as its subgroups).
         /// </summary>
-        [Property(xmiId: "ActivityPartition-subpartition", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "ActivityPartition-subpartition", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         [SubsettedProperty(propertyName: "ActivityGroup-subgroup")]
         [Implements(implementation: "IActivityPartition.Subpartition")]
         public IContainerList<IActivityPartition> Subpartition
@@ -257,7 +257,7 @@ namespace uml4net.Activities
         /// <summary>
         /// Determines whether and how the NamedElement is visible outside its owning Namespace.
         /// </summary>
-        [Property(xmiId: "NamedElement-visibility", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "NamedElement-visibility", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         [Implements(implementation: "INamedElement.Visibility")]
         public VisibilityKind? Visibility { get; set; }
     }

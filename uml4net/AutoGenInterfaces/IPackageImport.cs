@@ -55,7 +55,7 @@ namespace uml4net.CommonStructure
         /// <summary>
         /// Specifies the Package whose members are imported into a Namespace.
         /// </summary>
-        [Property(xmiId: "PackageImport-importedPackage", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "PackageImport-importedPackage", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         [SubsettedProperty(propertyName: "DirectedRelationship-target")]
         public IPackage ImportedPackage { get; set; }
 
@@ -73,7 +73,7 @@ namespace uml4net.CommonStructure
         /// public, the imported Elements will be visible outside the importingNamespace, while, if the
         /// PackageImport is private, they will not.
         /// </summary>
-        [Property(xmiId: "PackageImport-visibility", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: "public")]
+        [Property(xmiId: "PackageImport-visibility", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: "public", isOwnerEnd: false)]
         public VisibilityKind Visibility { get; set; }
     }
 }

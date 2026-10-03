@@ -53,7 +53,7 @@ namespace uml4net.SimpleClassifiers
         /// <summary>
         /// The classifier of this EnumerationLiteral derived to be equal to its Enumeration.
         /// </summary>
-        [Property(xmiId: "EnumerationLiteral-classifier", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "EnumerationLiteral-classifier", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         [RedefinedProperty(propertyName: "InstanceSpecification-classifier")]
         public new IEnumeration Classifier { get; }
 

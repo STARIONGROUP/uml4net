@@ -53,7 +53,7 @@ namespace uml4net.Values
         /// <summary>
         /// The specified String value.
         /// </summary>
-        [Property(xmiId: "LiteralString-value", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "LiteralString-value", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         public string Value { get; set; }
     }
 }

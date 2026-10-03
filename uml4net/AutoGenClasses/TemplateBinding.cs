@@ -76,7 +76,7 @@ namespace uml4net.CommonStructure
         /// <summary>
         /// The Comments owned by this Element.
         /// </summary>
-        [Property(xmiId: "Element-ownedComment", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "Element-ownedComment", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         [SubsettedProperty(propertyName: "Element-ownedElement")]
         [Implements(implementation: "IElement.OwnedComment")]
         public IContainerList<IComment> OwnedComment
@@ -93,7 +93,7 @@ namespace uml4net.CommonStructure
         /// <summary>
         /// The Elements owned by this Element.
         /// </summary>
-        [Property(xmiId: "Element-ownedElement", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "Element-ownedElement", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         [Implements(implementation: "IElement.OwnedElement")]
         public IReadOnlyList<IElement> OwnedElement =>
         new List<IElement>()
@@ -112,7 +112,7 @@ namespace uml4net.CommonStructure
         /// <summary>
         /// The TemplateParameterSubstitutions owned by this TemplateBinding.
         /// </summary>
-        [Property(xmiId: "TemplateBinding-parameterSubstitution", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "TemplateBinding-parameterSubstitution", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         [SubsettedProperty(propertyName: "Element-ownedElement")]
         [Implements(implementation: "ITemplateBinding.ParameterSubstitution")]
         public IContainerList<ITemplateParameterSubstitution> ParameterSubstitution
@@ -131,14 +131,14 @@ namespace uml4net.CommonStructure
         /// <summary>
         /// Specifies the elements related by the Relationship.
         /// </summary>
-        [Property(xmiId: "Relationship-relatedElement", aggregation: AggregationKind.None, lowerValue: 1, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "Relationship-relatedElement", aggregation: AggregationKind.None, lowerValue: 1, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         [Implements(implementation: "IRelationship.RelatedElement")]
         public IReadOnlyList<IElement> RelatedElement => this.QueryRelatedElement();
 
         /// <summary>
         /// The TemplateSignature for the template that is the target of this TemplateBinding.
         /// </summary>
-        [Property(xmiId: "TemplateBinding-signature", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "TemplateBinding-signature", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         [SubsettedProperty(propertyName: "DirectedRelationship-target")]
         [Implements(implementation: "ITemplateBinding.Signature")]
         public ITemplateSignature Signature { get; set; }
@@ -146,7 +146,7 @@ namespace uml4net.CommonStructure
         /// <summary>
         /// Specifies the source Element(s) of the DirectedRelationship.
         /// </summary>
-        [Property(xmiId: "DirectedRelationship-source", aggregation: AggregationKind.None, lowerValue: 1, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "DirectedRelationship-source", aggregation: AggregationKind.None, lowerValue: 1, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         [SubsettedProperty(propertyName: "Relationship-relatedElement")]
         [Implements(implementation: "IDirectedRelationship.Source")]
         public IReadOnlyList<IElement> Source => this.QuerySource();
@@ -154,7 +154,7 @@ namespace uml4net.CommonStructure
         /// <summary>
         /// Specifies the target Element(s) of the DirectedRelationship.
         /// </summary>
-        [Property(xmiId: "DirectedRelationship-target", aggregation: AggregationKind.None, lowerValue: 1, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "DirectedRelationship-target", aggregation: AggregationKind.None, lowerValue: 1, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         [SubsettedProperty(propertyName: "Relationship-relatedElement")]
         [Implements(implementation: "IDirectedRelationship.Target")]
         public IReadOnlyList<IElement> Target => this.QueryTarget();

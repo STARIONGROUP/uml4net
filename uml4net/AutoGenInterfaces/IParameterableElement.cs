@@ -62,7 +62,7 @@ namespace uml4net.CommonStructure
         /// <summary>
         /// The TemplateParameter that exposes this ParameterableElement as a formal parameter.
         /// </summary>
-        [Property(xmiId: "ParameterableElement-templateParameter", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "ParameterableElement-templateParameter", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         public ITemplateParameter TemplateParameter { get; set; }
     }
 }

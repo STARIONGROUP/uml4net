@@ -55,14 +55,14 @@ namespace uml4net.StateMachines
         /// <summary>
         /// The region of which this region is an extension.
         /// </summary>
-        [Property(xmiId: "Region-extendedRegion", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "Region-extendedRegion", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         [SubsettedProperty(propertyName: "RedefinableElement-redefinedElement")]
         public IRegion ExtendedRegion { get; set; }
 
         /// <summary>
         /// References the Classifier in which context this element may be redefined.
         /// </summary>
-        [Property(xmiId: "Region-redefinitionContext", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "Region-redefinitionContext", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         [RedefinedProperty(propertyName: "RedefinableElement-redefinitionContext")]
         public new IClassifier RedefinitionContext { get; }
 
@@ -85,14 +85,14 @@ namespace uml4net.StateMachines
         /// <summary>
         /// The set of Vertices that are owned by this Region.
         /// </summary>
-        [Property(xmiId: "Region-subvertex", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "Region-subvertex", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         [SubsettedProperty(propertyName: "Namespace-ownedMember")]
         public IContainerList<IVertex> Subvertex { get; set; }
 
         /// <summary>
         /// The set of Transitions owned by the Region.
         /// </summary>
-        [Property(xmiId: "Region-transition", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "Region-transition", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         [SubsettedProperty(propertyName: "Namespace-ownedMember")]
         public IContainerList<ITransition> Transition { get; set; }
     }

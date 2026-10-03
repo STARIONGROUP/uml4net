@@ -54,7 +54,7 @@ namespace uml4net.Activities
         /// <summary>
         /// A set of ExceptionHandlers that are examined if an exception propagates out of the ExceptionNode.
         /// </summary>
-        [Property(xmiId: "ExecutableNode-handler", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "ExecutableNode-handler", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         [SubsettedProperty(propertyName: "Element-ownedElement")]
         public IContainerList<IExceptionHandler> Handler { get; set; }
     }

@@ -59,7 +59,7 @@ namespace uml4net.Actions
         /// ReplyAction and return control to the caller. The contents of this value are opaque. It can be
         /// passed and copied but it cannot be manipulated by the model.
         /// </summary>
-        [Property(xmiId: "AcceptCallAction-returnInformation", aggregation: AggregationKind.Composite, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "AcceptCallAction-returnInformation", aggregation: AggregationKind.Composite, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         [SubsettedProperty(propertyName: "Action-output")]
         public IContainerList<IOutputPin> ReturnInformation { get; set; }
     }

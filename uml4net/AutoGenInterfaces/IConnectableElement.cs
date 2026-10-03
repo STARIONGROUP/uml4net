@@ -56,13 +56,13 @@ namespace uml4net.StructuredClassifiers
         /// <summary>
         /// A set of ConnectorEnds that attach to this ConnectableElement.
         /// </summary>
-        [Property(xmiId: "ConnectableElement-end", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "ConnectableElement-end", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         public IReadOnlyList<IConnectorEnd> End { get; }
 
         /// <summary>
         /// The ConnectableElementTemplateParameter for this ConnectableElement parameter.
         /// </summary>
-        [Property(xmiId: "ConnectableElement-templateParameter", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "ConnectableElement-templateParameter", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         [RedefinedProperty(propertyName: "ParameterableElement-templateParameter")]
         public new IConnectableElementTemplateParameter TemplateParameter { get; set; }
     }

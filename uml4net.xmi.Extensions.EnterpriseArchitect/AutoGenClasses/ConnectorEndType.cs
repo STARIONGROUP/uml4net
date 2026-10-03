@@ -42,13 +42,13 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.Structure
     {
         /// <summary>
         /// </summary>
-        [Property(xmiId: "EAID_AF3E48A2_6E03_D67C_93AA_B6355ED61DC8", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "EAID_AF3E48A2_6E03_D67C_93AA_B6355ED61DC8", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         [Implements(implementation: "IConnectorEndType.Aggregation")]
         public string Aggregation { get; set; }
 
         /// <summary>
         /// </summary>
-        [Property(xmiId: "EAID_ACE1CE22_54E0_5FF4_B1AA_EBCE700520E1", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "EAID_ACE1CE22_54E0_5FF4_B1AA_EBCE700520E1", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         [Implements(implementation: "IConnectorEndType.Containment")]
         public string Containment { get; set; }
     }

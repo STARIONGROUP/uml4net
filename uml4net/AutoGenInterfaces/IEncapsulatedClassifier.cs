@@ -53,7 +53,7 @@ namespace uml4net.StructuredClassifiers
         /// <summary>
         /// The Ports owned by the EncapsulatedClassifier.
         /// </summary>
-        [Property(xmiId: "EncapsulatedClassifier-ownedPort", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "EncapsulatedClassifier-ownedPort", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         [SubsettedProperty(propertyName: "StructuredClassifier-ownedAttribute")]
         public IReadOnlyList<IPort> OwnedPort { get; }
     }

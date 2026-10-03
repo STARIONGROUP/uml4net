@@ -54,13 +54,13 @@ namespace uml4net.Interactions
         /// <summary>
         /// References the InteractionFragments in which this Lifeline takes part.
         /// </summary>
-        [Property(xmiId: "Lifeline-coveredBy", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "Lifeline-coveredBy", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         public List<IInteractionFragment> CoveredBy { get; set; }
 
         /// <summary>
         /// References the Interaction that represents the decomposition.
         /// </summary>
-        [Property(xmiId: "Lifeline-decomposedAs", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "Lifeline-decomposedAs", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         public IPartDecomposition DecomposedAs { get; set; }
 
         /// <summary>
@@ -73,14 +73,14 @@ namespace uml4net.Interactions
         /// <summary>
         /// References the ConnectableElement within the classifier that contains the enclosing interaction.
         /// </summary>
-        [Property(xmiId: "Lifeline-represents", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "Lifeline-represents", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         public IConnectableElement Represents { get; set; }
 
         /// <summary>
         /// If the referenced ConnectableElement is multivalued, then this specifies the specific individual
         /// part within that set.
         /// </summary>
-        [Property(xmiId: "Lifeline-selector", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "Lifeline-selector", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         [SubsettedProperty(propertyName: "Element-ownedElement")]
         public IContainerList<IValueSpecification> Selector { get; set; }
     }

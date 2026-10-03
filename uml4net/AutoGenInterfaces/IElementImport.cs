@@ -57,13 +57,13 @@ namespace uml4net.CommonStructure
         /// imported PackagableElement. The alias must not clash with any other member in the importing
         /// Namespace. By default, no alias is used.
         /// </summary>
-        [Property(xmiId: "ElementImport-alias", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "ElementImport-alias", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         public string Alias { get; set; }
 
         /// <summary>
         /// Specifies the PackageableElement whose name is to be added to a Namespace.
         /// </summary>
-        [Property(xmiId: "ElementImport-importedElement", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "ElementImport-importedElement", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         [SubsettedProperty(propertyName: "DirectedRelationship-target")]
         public IPackageableElement ImportedElement { get; set; }
 
@@ -81,7 +81,7 @@ namespace uml4net.CommonStructure
         /// public, the importedElement will be visible outside the importingNamespace while, if the
         /// ElementImport is private, it will not.
         /// </summary>
-        [Property(xmiId: "ElementImport-visibility", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: "public")]
+        [Property(xmiId: "ElementImport-visibility", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: "public", isOwnerEnd: false)]
         public VisibilityKind Visibility { get; set; }
     }
 }

@@ -51,27 +51,27 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.Structure
     {
         /// <summary>
         /// </summary>
-        [Property(xmiId: "EAID_B0D62129_1FFA_BDF1_A367_1E184A6DEABF", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "EAID_B0D62129_1FFA_BDF1_A367_1E184A6DEABF", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         public string Changeable { get; set; }
 
         /// <summary>
         /// </summary>
-        [Property(xmiId: "EAID_98BBF0FD_A0B3_A1DF_BF69_01795076F956", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "EAID_98BBF0FD_A0B3_A1DF_BF69_01795076F956", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         public bool IsLeaf { get; set; }
 
         /// <summary>
         /// </summary>
-        [Property(xmiId: "EAID_8369BBC3_8058_9EB2_9DC1_A1A5F1F4229E", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "EAID_8369BBC3_8058_9EB2_9DC1_A1A5F1F4229E", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         public bool IsNavigable { get; set; }
 
         /// <summary>
         /// </summary>
-        [Property(xmiId: "EAID_BA967E6C_951B_FBC2_A730_BB533A38A97E", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "EAID_BA967E6C_951B_FBC2_A730_BB533A38A97E", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         public bool IsOrdered { get; set; }
 
         /// <summary>
         /// </summary>
-        [Property(xmiId: "EAID_ADB7BE3F_29E0_AE19_ABC0_6CF8DA7F53FD", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "EAID_ADB7BE3F_29E0_AE19_ABC0_6CF8DA7F53FD", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         public bool IsRoot { get; set; }
     }
 }

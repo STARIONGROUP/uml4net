@@ -63,7 +63,7 @@ namespace uml4net.StateMachines
         /// <summary>
         /// Specifies an optional behavior to be performed when the Transition fires.
         /// </summary>
-        [Property(xmiId: "Transition-effect", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "Transition-effect", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         [SubsettedProperty(propertyName: "Element-ownedElement")]
         public IContainerList<IBehavior> Effect { get; set; }
 
@@ -73,46 +73,46 @@ namespace uml4net.StateMachines
         /// at that time, the Transition may be enabled, otherwise, it is disabled. Guards should be pure
         /// expressions without side effects. Guard expressions with side effects are ill formed.
         /// </summary>
-        [Property(xmiId: "Transition-guard", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "Transition-guard", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         [SubsettedProperty(propertyName: "Namespace-ownedRule")]
         public IContainerList<IConstraint> Guard { get; set; }
 
         /// <summary>
         /// Indicates the precise type of the Transition.
         /// </summary>
-        [Property(xmiId: "Transition-kind", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: "external")]
+        [Property(xmiId: "Transition-kind", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: "external", isOwnerEnd: false)]
         public TransitionKind Kind { get; set; }
 
         /// <summary>
         /// The Transition that is redefined by this Transition.
         /// </summary>
-        [Property(xmiId: "Transition-redefinedTransition", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "Transition-redefinedTransition", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         [SubsettedProperty(propertyName: "RedefinableElement-redefinedElement")]
         public ITransition RedefinedTransition { get; set; }
 
         /// <summary>
         /// References the Classifier in which context this element may be redefined.
         /// </summary>
-        [Property(xmiId: "Transition-redefinitionContext", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "Transition-redefinitionContext", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         [RedefinedProperty(propertyName: "RedefinableElement-redefinitionContext")]
         public new IClassifier RedefinitionContext { get; }
 
         /// <summary>
         /// Designates the originating Vertex (State or Pseudostate) of the Transition.
         /// </summary>
-        [Property(xmiId: "Transition-source", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "Transition-source", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         public IVertex Source { get; set; }
 
         /// <summary>
         /// Designates the target Vertex that is reached when the Transition is taken.
         /// </summary>
-        [Property(xmiId: "Transition-target", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "Transition-target", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         public IVertex Target { get; set; }
 
         /// <summary>
         /// Specifies the Triggers that may fire the transition.
         /// </summary>
-        [Property(xmiId: "Transition-trigger", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "Transition-trigger", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         [SubsettedProperty(propertyName: "Element-ownedElement")]
         public IContainerList<ITrigger> Trigger { get; set; }
     }

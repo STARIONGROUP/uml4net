@@ -53,14 +53,14 @@ namespace uml4net.CommonStructure
         /// <summary>
         /// The ParameterableElement that is the default for this formal TemplateParameter.
         /// </summary>
-        [Property(xmiId: "TemplateParameter-default", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "TemplateParameter-default", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         public IParameterableElement Default { get; set; }
 
         /// <summary>
         /// The ParameterableElement that is owned by this TemplateParameter for the purpose of providing a
         /// default.
         /// </summary>
-        [Property(xmiId: "TemplateParameter-ownedDefault", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "TemplateParameter-ownedDefault", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         [SubsettedProperty(propertyName: "Element-ownedElement")]
         [SubsettedProperty(propertyName: "TemplateParameter-default")]
         public IContainerList<IParameterableElement> OwnedDefault { get; set; }
@@ -69,7 +69,7 @@ namespace uml4net.CommonStructure
         /// The ParameterableElement that is owned by this TemplateParameter for the purpose of exposing it as
         /// the parameteredElement.
         /// </summary>
-        [Property(xmiId: "TemplateParameter-ownedParameteredElement", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "TemplateParameter-ownedParameteredElement", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         [SubsettedProperty(propertyName: "Element-ownedElement")]
         [SubsettedProperty(propertyName: "TemplateParameter-parameteredElement")]
         public IContainerList<IParameterableElement> OwnedParameteredElement { get; set; }
@@ -77,7 +77,7 @@ namespace uml4net.CommonStructure
         /// <summary>
         /// The ParameterableElement exposed by this TemplateParameter.
         /// </summary>
-        [Property(xmiId: "TemplateParameter-parameteredElement", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "TemplateParameter-parameteredElement", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         public IParameterableElement ParameteredElement { get; set; }
 
         /// <summary>

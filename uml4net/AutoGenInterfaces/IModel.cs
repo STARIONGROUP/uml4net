@@ -57,7 +57,7 @@ namespace uml4net.Packages
         /// The name of the viewpoint that is expressed by a model (this name may refer to a profile
         /// definition).
         /// </summary>
-        [Property(xmiId: "Model-viewpoint", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "Model-viewpoint", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         public string Viewpoint { get; set; }
     }
 }

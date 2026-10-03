@@ -64,7 +64,7 @@ namespace uml4net.StructuredClassifiers
         /// <summary>
         /// The Classifiers that are involved in the implementation of the Component that owns this Realization.
         /// </summary>
-        [Property(xmiId: "ComponentRealization-realizingClassifier", aggregation: AggregationKind.None, lowerValue: 1, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "ComponentRealization-realizingClassifier", aggregation: AggregationKind.None, lowerValue: 1, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         [SubsettedProperty(propertyName: "Dependency-client")]
         public List<IClassifier> RealizingClassifier { get; set; }
     }

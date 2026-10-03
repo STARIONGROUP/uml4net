@@ -42,31 +42,31 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.Structure
     {
         /// <summary>
         /// </summary>
-        [Property(xmiId: "EAID_ADC89371_0838_B874_91F7_121249FB007F", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "EAID_ADC89371_0838_B874_91F7_121249FB007F", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         [Implements(implementation: "IParameterProperties.Classifier")]
         public string Classifier { get; set; }
 
         /// <summary>
         /// </summary>
-        [Property(xmiId: "EAID_AF2B190F_A797_E2DF_881F_4420A3670CE1", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "EAID_AF2B190F_A797_E2DF_881F_4420A3670CE1", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         [Implements(implementation: "IParameterProperties.Const")]
         public bool Const { get; set; }
 
         /// <summary>
         /// </summary>
-        [Property(xmiId: "EAID_A8170ADC_AD50_B008_9963_829159BF1007", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "EAID_A8170ADC_AD50_B008_9963_829159BF1007", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         [Implements(implementation: "IParameterProperties.Ea_guid")]
         public string Ea_guid { get; set; }
 
         /// <summary>
         /// </summary>
-        [Property(xmiId: "EAID_9830442B_ED5D_E423_8C68_7353AD8C05CF", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "EAID_9830442B_ED5D_E423_8C68_7353AD8C05CF", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         [Implements(implementation: "IParameterProperties.Pos")]
         public int Pos { get; set; }
 
         /// <summary>
         /// </summary>
-        [Property(xmiId: "EAID_90DC6996_6C6F_A8BC_A14E_D009FD73A1DB", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "EAID_90DC6996_6C6F_A8BC_A14E_D009FD73A1DB", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         [Implements(implementation: "IParameterProperties.Type")]
         public string Type { get; set; }
     }

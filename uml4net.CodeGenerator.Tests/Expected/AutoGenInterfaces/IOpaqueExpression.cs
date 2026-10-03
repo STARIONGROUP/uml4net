@@ -54,13 +54,13 @@ namespace uml4net.Values
         /// <summary>
         /// Specifies the behavior of the OpaqueExpression as a UML Behavior.
         /// </summary>
-        [Property(xmiId: "OpaqueExpression-behavior", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "OpaqueExpression-behavior", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         public IBehavior Behavior { get; set; }
 
         /// <summary>
         /// A textual definition of the behavior of the OpaqueExpression, possibly in multiple languages.
         /// </summary>
-        [Property(xmiId: "OpaqueExpression-body", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: true, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "OpaqueExpression-body", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: true, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null, isOwnerEnd: false)]
         public List<string> Body { get; set; }
 
         /// <summary>
@@ -68,7 +68,7 @@ namespace uml4net.Values
         /// matched to body Strings by order. The interpretation of the body depends on the languages. If the
         /// languages are unspecified, they may be implicit from the expression body or the context.
         /// </summary>
-        [Property(xmiId: "OpaqueExpression-language", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: true, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "OpaqueExpression-language", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: true, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         public List<string> Language { get; set; }
 
         /// <summary>
@@ -76,7 +76,7 @@ namespace uml4net.Values
         /// return Parameter of that Behavior. When the Behavior completes execution, the values on this
         /// Parameter give the result of evaluating the OpaqueExpression.
         /// </summary>
-        [Property(xmiId: "OpaqueExpression-result", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "OpaqueExpression-result", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         public IParameter Result { get; }
     }
 }

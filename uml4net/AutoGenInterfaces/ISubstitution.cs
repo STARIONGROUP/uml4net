@@ -56,7 +56,7 @@ namespace uml4net.Classification
         /// <summary>
         /// The contract with which the substituting classifier complies.
         /// </summary>
-        [Property(xmiId: "Substitution-contract", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "Substitution-contract", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         [SubsettedProperty(propertyName: "Dependency-supplier")]
         public IClassifier Contract { get; set; }
 

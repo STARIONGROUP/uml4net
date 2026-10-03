@@ -54,7 +54,7 @@ namespace uml4net.Classification
         /// <summary>
         /// If isReadOnly is true, the StructuralFeature may not be written to after initialization.
         /// </summary>
-        [Property(xmiId: "StructuralFeature-isReadOnly", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: "false")]
+        [Property(xmiId: "StructuralFeature-isReadOnly", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: "false", isOwnerEnd: false)]
         public bool IsReadOnly { get; set; }
     }
 }

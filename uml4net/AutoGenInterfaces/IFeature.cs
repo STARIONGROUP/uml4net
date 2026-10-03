@@ -53,7 +53,7 @@ namespace uml4net.Classification
         /// <summary>
         /// The Classifiers that have this Feature as a feature.
         /// </summary>
-        [Property(xmiId: "Feature-featuringClassifier", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "Feature-featuringClassifier", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         [SubsettedProperty(propertyName: "A_member_memberNamespace-memberNamespace")]
         public IClassifier FeaturingClassifier { get; }
 
@@ -61,7 +61,7 @@ namespace uml4net.Classification
         /// Specifies whether this Feature characterizes individual instances classified by the Classifier
         /// (false) or the Classifier itself (true).
         /// </summary>
-        [Property(xmiId: "Feature-isStatic", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: "false")]
+        [Property(xmiId: "Feature-isStatic", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: "false", isOwnerEnd: false)]
         public bool IsStatic { get; set; }
     }
 }

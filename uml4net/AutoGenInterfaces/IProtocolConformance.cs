@@ -56,7 +56,7 @@ namespace uml4net.StateMachines
         /// <summary>
         /// Specifies the ProtocolStateMachine to which the specific ProtocolStateMachine conforms.
         /// </summary>
-        [Property(xmiId: "ProtocolConformance-generalMachine", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "ProtocolConformance-generalMachine", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         [SubsettedProperty(propertyName: "DirectedRelationship-target")]
         public IProtocolStateMachine GeneralMachine { get; set; }
 

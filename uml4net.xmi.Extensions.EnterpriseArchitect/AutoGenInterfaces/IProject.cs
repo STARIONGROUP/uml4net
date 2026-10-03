@@ -51,27 +51,27 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.Structure
     {
         /// <summary>
         /// </summary>
-        [Property(xmiId: "EAID_9CC4E6F9_F2EA_0BA8_A78D_A97B27B82A9B", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "EAID_9CC4E6F9_F2EA_0BA8_A78D_A97B27B82A9B", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         public string Author { get; set; }
 
         /// <summary>
         /// </summary>
-        [Property(xmiId: "EAID_B505D903_265C_3700_88ED_EFE33BD595F4", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "EAID_B505D903_265C_3700_88ED_EFE33BD595F4", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         public int Complexity { get; set; }
 
         /// <summary>
         /// </summary>
-        [Property(xmiId: "EAID_ABBEF05E_EFD1_A0C0_B7D3_E275DD74F386", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "EAID_ABBEF05E_EFD1_A0C0_B7D3_E275DD74F386", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         public string Phase { get; set; }
 
         /// <summary>
         /// </summary>
-        [Property(xmiId: "EAID_8C3C6C19_33BA_6246_9658_54AAC209BAD9", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "EAID_8C3C6C19_33BA_6246_9658_54AAC209BAD9", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         public Status Status { get; set; }
 
         /// <summary>
         /// </summary>
-        [Property(xmiId: "EAID_B1C69BDF_E3EE_011D_80F9_25FA69988CD0", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "EAID_B1C69BDF_E3EE_011D_80F9_25FA69988CD0", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         public string Version { get; set; }
     }
 }

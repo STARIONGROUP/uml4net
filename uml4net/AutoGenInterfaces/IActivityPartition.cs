@@ -54,40 +54,40 @@ namespace uml4net.Activities
         /// <summary>
         /// ActivityEdges immediately contained in the ActivityPartition.
         /// </summary>
-        [Property(xmiId: "ActivityPartition-edge", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "ActivityPartition-edge", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         [SubsettedProperty(propertyName: "ActivityGroup-containedEdge")]
         public List<IActivityEdge> Edge { get; set; }
 
         /// <summary>
         /// Indicates whether the ActivityPartition groups other ActivityPartitions along a dimension.
         /// </summary>
-        [Property(xmiId: "ActivityPartition-isDimension", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: "false")]
+        [Property(xmiId: "ActivityPartition-isDimension", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: "false", isOwnerEnd: false)]
         public bool IsDimension { get; set; }
 
         /// <summary>
         /// Indicates whether the ActivityPartition represents an entity to which the partitioning structure
         /// does not apply.
         /// </summary>
-        [Property(xmiId: "ActivityPartition-isExternal", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: "false")]
+        [Property(xmiId: "ActivityPartition-isExternal", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: "false", isOwnerEnd: false)]
         public bool IsExternal { get; set; }
 
         /// <summary>
         /// ActivityNodes immediately contained in the ActivityPartition.
         /// </summary>
-        [Property(xmiId: "ActivityPartition-node", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "ActivityPartition-node", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         [SubsettedProperty(propertyName: "ActivityGroup-containedNode")]
         public List<IActivityNode> Node { get; set; }
 
         /// <summary>
         /// An Element represented by the functionality modeled within the ActivityPartition.
         /// </summary>
-        [Property(xmiId: "ActivityPartition-represents", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "ActivityPartition-represents", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         public IElement Represents { get; set; }
 
         /// <summary>
         /// Other ActivityPartitions immediately contained in this ActivityPartition (as its subgroups).
         /// </summary>
-        [Property(xmiId: "ActivityPartition-subpartition", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "ActivityPartition-subpartition", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         [SubsettedProperty(propertyName: "ActivityGroup-subgroup")]
         public IContainerList<IActivityPartition> Subpartition { get; set; }
 

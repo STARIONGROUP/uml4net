@@ -158,13 +158,13 @@ namespace uml4net.HandleBars.Tests
             var ownedCommentPropertyAttribute = handlebarsTemplate(ownedComment);
 
             Assert.That(ownedCommentPropertyAttribute,
-                Is.EqualTo("[Property(xmiId: \"Element-ownedComment\", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]" + Environment.NewLine));
+                Is.EqualTo("[Property(xmiId: \"Element-ownedComment\", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]" + Environment.NewLine));
 
             var memberEndPropertyAttribute = handlebarsTemplate(memberEnd);
 
             Assert.That(memberEndPropertyAttribute,
                 Is.EqualTo(
-                    "[Property(xmiId: \"Association-memberEnd\", aggregation: AggregationKind.None, lowerValue: 2, upperValue: int.MaxValue, isOrdered: true, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]" + Environment.NewLine));
+                    "[Property(xmiId: \"Association-memberEnd\", aggregation: AggregationKind.None, lowerValue: 2, upperValue: int.MaxValue, isOrdered: true, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]" + Environment.NewLine));
 
             var ownerPropertyAttribute = handlebarsTemplate(owner);
 
@@ -184,7 +184,7 @@ namespace uml4net.HandleBars.Tests
             property.DefaultValue.Add(new OpaqueExpression { Body = { "say \"hi\"\r\n\tto C:\\temp" } });
 
             Assert.That(handlebarsTemplate(property),
-                Does.EndWith("defaultValue: \"say \\\"hi\\\"\\r\\n\\tto C:\\\\temp\")]" + Environment.NewLine));
+                Does.EndWith("defaultValue: \"say \\\"hi\\\"\\r\\n\\tto C:\\\\temp\", isOwnerEnd: false)]" + Environment.NewLine));
         }
 
         [Test]

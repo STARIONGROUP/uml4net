@@ -56,7 +56,7 @@ namespace uml4net.StateMachines
         /// Determines the precise type of the Pseudostate and can be one of: entryPoint, exitPoint, initial,
         /// deepHistory, shallowHistory, join, fork, junction, terminate or choice.
         /// </summary>
-        [Property(xmiId: "Pseudostate-kind", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: "initial")]
+        [Property(xmiId: "Pseudostate-kind", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: "initial", isOwnerEnd: false)]
         public PseudostateKind Kind { get; set; }
 
         /// <summary>

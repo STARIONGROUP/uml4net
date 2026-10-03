@@ -56,14 +56,14 @@ namespace uml4net.Actions
         /// false, the call is asynchronous and the caller proceeds immediately and cannot receive return
         /// values.
         /// </summary>
-        [Property(xmiId: "CallAction-isSynchronous", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: "true")]
+        [Property(xmiId: "CallAction-isSynchronous", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: "true", isOwnerEnd: false)]
         public bool IsSynchronous { get; set; }
 
         /// <summary>
         /// The OutputPins on which the reply values from the invocation are placed (if the call is
         /// synchronous).
         /// </summary>
-        [Property(xmiId: "CallAction-result", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: true, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "CallAction-result", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: true, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         [SubsettedProperty(propertyName: "Action-output")]
         public IContainerList<IOutputPin> Result { get; set; }
     }
