@@ -24,6 +24,7 @@
         <EmbeddedResource Include="Resources\UML.xmi" />
         <EmbeddedResource Include="..\resources\DD\DI.xmi" Link="Resources\DI.xmi" />
         <EmbeddedResource Include="..\resources\DD\DC.xmi" Link="Resources\DC.xmi" />
+        <EmbeddedResource Include="..\resources\DD\DG.xmi" Link="Resources\DG.xmi" />
     </ItemGroup>
 
     <ItemGroup>

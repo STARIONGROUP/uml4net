@@ -65,7 +65,12 @@ namespace uml4net.xmi.Resources
             { "http://www.omg.org/spec/DD/20131001/DC.xmi", "uml4net.xmi.Resources.DC.xmi" },
             { "https://www.omg.org/spec/DD/20131001/DC.xmi", "uml4net.xmi.Resources.DC.xmi" },
             { "DC.xmi", "uml4net.xmi.Resources.DC.xmi" },
-            { "DC", "uml4net.xmi.Resources.DC.xmi" }
+            { "DC", "uml4net.xmi.Resources.DC.xmi" },
+
+            { "http://www.omg.org/spec/DD/20131001/DG.xmi", "uml4net.xmi.Resources.DG.xmi" },
+            { "https://www.omg.org/spec/DD/20131001/DG.xmi", "uml4net.xmi.Resources.DG.xmi" },
+            { "DG.xmi", "uml4net.xmi.Resources.DG.xmi" },
+            { "DG", "uml4net.xmi.Resources.DG.xmi" }
         };
 
         /// <summary>

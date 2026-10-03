@@ -80,6 +80,10 @@ namespace uml4net.xmi.Tests.Resources
         [TestCase("https://www.omg.org/spec/DD/20131001/DC.xmi#Bounds", "name=\"DC\"")]
         [TestCase("DC.xmi#Bounds", "name=\"DC\"")]
         [TestCase("DC#Bounds", "name=\"DC\"")]
+        [TestCase("http://www.omg.org/spec/DD/20131001/DG.xmi#Canvas", "name=\"DG\"")]
+        [TestCase("https://www.omg.org/spec/DD/20131001/DG.xmi#Canvas", "name=\"DG\"")]
+        [TestCase("DG.xmi#Canvas", "name=\"DG\"")]
+        [TestCase("DG#Canvas", "name=\"DG\"")]
         [TestCase("http://www.omg.org/spec/UML/20131001/UML.xmi#Element", "name=\"UML\"")]
         [TestCase("https://www.omg.org/spec/UML/20131001/UML.xmi#Element", "name=\"UML\"")]
         public void Verify_that_the_DD_documents_and_the_2013_UML_document_resolve_to_their_embedded_resource(string resourceName, string expectedPackage)
