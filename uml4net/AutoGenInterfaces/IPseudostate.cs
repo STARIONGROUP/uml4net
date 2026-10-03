@@ -56,13 +56,13 @@ namespace uml4net.StateMachines
         /// Determines the precise type of the Pseudostate and can be one of: entryPoint, exitPoint, initial,
         /// deepHistory, shallowHistory, join, fork, junction, terminate or choice.
         /// </summary>
-        [Property(xmiId: "Pseudostate-kind", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: "initial")]
+        [Property(xmiId: "Pseudostate-kind", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: "initial", isOwnerEnd: false)]
         public PseudostateKind Kind { get; set; }
 
         /// <summary>
         /// The State that owns this Pseudostate and in which it appears.
         /// </summary>
-        [Property(xmiId: "Pseudostate-state", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "Pseudostate-state", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: true)]
         [SubsettedProperty(propertyName: "NamedElement-namespace")]
         public IState State { get; set; }
 
@@ -70,7 +70,7 @@ namespace uml4net.StateMachines
         /// The StateMachine in which this Pseudostate is defined. This only applies to Pseudostates of the kind
         /// entryPoint or exitPoint.
         /// </summary>
-        [Property(xmiId: "Pseudostate-stateMachine", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "Pseudostate-stateMachine", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: true)]
         [SubsettedProperty(propertyName: "NamedElement-namespace")]
         public IStateMachine StateMachine { get; set; }
     }

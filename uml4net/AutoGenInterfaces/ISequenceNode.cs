@@ -53,7 +53,7 @@ namespace uml4net.Actions
         /// <summary>
         /// The ordered set of ExecutableNodes to be sequenced.
         /// </summary>
-        [Property(xmiId: "SequenceNode-executableNode", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: true, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "SequenceNode-executableNode", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: true, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         [RedefinedProperty(propertyName: "StructuredActivityNode-node")]
         public new IContainerList<IExecutableNode> ExecutableNode { get; set; }
     }

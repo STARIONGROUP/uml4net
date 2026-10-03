@@ -53,7 +53,7 @@ namespace uml4net.SimpleClassifiers
         /// <summary>
         /// The ordered set of literals owned by this Enumeration.
         /// </summary>
-        [Property(xmiId: "Enumeration-ownedLiteral", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: true, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "Enumeration-ownedLiteral", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: true, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         [SubsettedProperty(propertyName: "Namespace-ownedMember")]
         public IContainerList<IEnumerationLiteral> OwnedLiteral { get; set; }
     }

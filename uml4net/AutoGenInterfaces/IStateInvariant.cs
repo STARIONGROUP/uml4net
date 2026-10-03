@@ -56,14 +56,14 @@ namespace uml4net.Interactions
         /// <summary>
         /// References the Lifeline on which the StateInvariant appears.
         /// </summary>
-        [Property(xmiId: "StateInvariant-covered", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "StateInvariant-covered", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         [RedefinedProperty(propertyName: "InteractionFragment-covered")]
         public new ILifeline Covered { get; set; }
 
         /// <summary>
         /// A Constraint that should hold at runtime for this StateInvariant.
         /// </summary>
-        [Property(xmiId: "StateInvariant-invariant", aggregation: AggregationKind.Composite, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "StateInvariant-invariant", aggregation: AggregationKind.Composite, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         [SubsettedProperty(propertyName: "Element-ownedElement")]
         public IContainerList<IConstraint> Invariant { get; set; }
     }

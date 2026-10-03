@@ -42,37 +42,37 @@ namespace uml4net.xmi.Extensions.EnterpriseArchitect.Structure
     {
         /// <summary>
         /// </summary>
-        [Property(xmiId: "EAID_14BE3DFB_5C7B_4e62_B7A3_85C03D2A1DDF", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "EAID_14BE3DFB_5C7B_4e62_B7A3_85C03D2A1DDF", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         [Implements(implementation: "IParameterSubstitution.Actual")]
         public string Actual { get; set; }
 
         /// <summary>
         /// </summary>
-        [Property(xmiId: "EAID_4BE23E2D_D513_414a_B205_65CAC871FD8C", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "EAID_4BE23E2D_D513_414a_B205_65CAC871FD8C", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         [Implements(implementation: "IParameterSubstitution.ActualName")]
         public string ActualName { get; set; }
 
         /// <summary>
         /// </summary>
-        [Property(xmiId: "EAID_dstF28C85_25C8_4727_B3FD_8F5AEA78232C", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "EAID_dstF28C85_25C8_4727_B3FD_8F5AEA78232C", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         [Implements(implementation: "IElementReference.ExtendedElement")]
         public IXmiElement ExtendedElement { get; set; }
 
         /// <summary>
         /// </summary>
-        [Property(xmiId: "EAID_A6710173_B857_4d13_A62C_26462061ECB6", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "EAID_A6710173_B857_4d13_A62C_26462061ECB6", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         [Implements(implementation: "IParameterSubstitution.Formal")]
         public string Formal { get; set; }
 
         /// <summary>
         /// </summary>
-        [Property(xmiId: "EAID_6AB09067_E407_4267_B330_FE8A9F6A13D2", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "EAID_6AB09067_E407_4267_B330_FE8A9F6A13D2", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         [Implements(implementation: "IParameterSubstitution.FormalName")]
         public string FormalName { get; set; }
 
         /// <summary>
         /// </summary>
-        [Property(xmiId: "EAID_dst664DEA_30CC_4ebc_9866_DC70B318DFC0", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "EAID_dst664DEA_30CC_4ebc_9866_DC70B318DFC0", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         [Implements(implementation: "IParameterSubstitution.Xrefs")]
         public IXrefs Xrefs { get; set; }
     }

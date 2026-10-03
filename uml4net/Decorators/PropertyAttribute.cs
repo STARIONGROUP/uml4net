@@ -40,7 +40,8 @@ namespace uml4net.Decorators
             bool isDerived = false,
             bool isDerivedUnion = false,
             bool isUnique = true,
-            string defaultValue = null)
+            string defaultValue = null,
+            bool isOwnerEnd = false)
         {
             this.XmiId = xmiId;
             this.Aggregation = aggregation;
@@ -52,6 +53,7 @@ namespace uml4net.Decorators
             this.IsDerivedUnion = isDerivedUnion;
             this.IsUnique = isUnique;
             this.DefaultValue = defaultValue;
+            this.IsOwnerEnd = isOwnerEnd;
         }
 
         /// <summary>
@@ -103,5 +105,15 @@ namespace uml4net.Decorators
         /// Gets or sets the default value if any.
         /// </summary>
         public string DefaultValue { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the property is an owner end: a single-valued property whose
+        /// opposite is composite, such as <c>Generalization::specific</c> or <c>Type::package</c>
+        /// </summary>
+        /// <remarks>
+        /// The value of an owner end is implied by the containment: an XMI document does not serialize it and the
+        /// writers do not write it, so it is not a reference of the document
+        /// </remarks>
+        public bool IsOwnerEnd { get; set; }
     }
 }

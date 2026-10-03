@@ -54,7 +54,7 @@ namespace uml4net.Actions
         /// <summary>
         /// The OutputPin on which is put the input object as modified by the ClearStructuralFeatureAction.
         /// </summary>
-        [Property(xmiId: "ClearStructuralFeatureAction-result", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "ClearStructuralFeatureAction-result", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         [SubsettedProperty(propertyName: "Action-output")]
         public IContainerList<IOutputPin> Result { get; set; }
     }

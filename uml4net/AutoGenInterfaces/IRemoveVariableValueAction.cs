@@ -53,7 +53,7 @@ namespace uml4net.Actions
         /// <summary>
         /// Specifies whether to remove duplicates of the value in nonunique Variables.
         /// </summary>
-        [Property(xmiId: "RemoveVariableValueAction-isRemoveDuplicates", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: "false")]
+        [Property(xmiId: "RemoveVariableValueAction-isRemoveDuplicates", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: "false", isOwnerEnd: false)]
         public bool IsRemoveDuplicates { get; set; }
 
         /// <summary>
@@ -61,7 +61,7 @@ namespace uml4net.Actions
         /// Variables. The type of the removeAt InputPin is UnlimitedNatural, but the value cannot be zero or
         /// unlimited.
         /// </summary>
-        [Property(xmiId: "RemoveVariableValueAction-removeAt", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "RemoveVariableValueAction-removeAt", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         [SubsettedProperty(propertyName: "Action-input")]
         public IContainerList<IInputPin> RemoveAt { get; set; }
     }

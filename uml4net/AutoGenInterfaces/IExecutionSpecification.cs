@@ -55,13 +55,13 @@ namespace uml4net.Interactions
         /// <summary>
         /// References the OccurrenceSpecification that designates the finish of the Action or Behavior.
         /// </summary>
-        [Property(xmiId: "ExecutionSpecification-finish", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "ExecutionSpecification-finish", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         public IOccurrenceSpecification Finish { get; set; }
 
         /// <summary>
         /// References the OccurrenceSpecification that designates the start of the Action or Behavior.
         /// </summary>
-        [Property(xmiId: "ExecutionSpecification-start", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "ExecutionSpecification-start", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         public IOccurrenceSpecification Start { get; set; }
     }
 }

@@ -102,7 +102,8 @@ namespace uml4net.HandleBars
                                         $"isDerived: {property.IsDerived.ToString(CultureInfo.InvariantCulture).ToLowerInvariant()}, " +
                                         $"isDerivedUnion: {property.IsDerivedUnion.ToString(CultureInfo.InvariantCulture).ToLowerInvariant()}, " +
                                         $"isUnique: {property.IsUnique.ToString(CultureInfo.InvariantCulture).ToLowerInvariant()}, " +
-                                        $"defaultValue: {defaultValue})]";
+                                        $"defaultValue: {defaultValue}, " +
+                                        $"isOwnerEnd: {property.QueryIsOwnerEnd().ToString(CultureInfo.InvariantCulture).ToLowerInvariant()})]";
 
                 writer.WriteSafeString($"{propertyAttribute}" + Environment.NewLine);
             });

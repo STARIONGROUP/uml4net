@@ -53,13 +53,13 @@ namespace uml4net.Values
         /// <summary>
         /// Refers to the ValueSpecification denoting the maximum value of the range.
         /// </summary>
-        [Property(xmiId: "Interval-max", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "Interval-max", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         public IValueSpecification Max { get; set; }
 
         /// <summary>
         /// Refers to the ValueSpecification denoting the minimum value of the range.
         /// </summary>
-        [Property(xmiId: "Interval-min", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "Interval-min", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         public IValueSpecification Min { get; set; }
     }
 }

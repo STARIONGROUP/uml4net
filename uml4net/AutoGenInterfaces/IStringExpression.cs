@@ -55,14 +55,14 @@ namespace uml4net.Values
         /// <summary>
         /// The StringExpression of which this StringExpression is a subExpression.
         /// </summary>
-        [Property(xmiId: "StringExpression-owningExpression", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "StringExpression-owningExpression", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: true)]
         [SubsettedProperty(propertyName: "Element-owner")]
         public IStringExpression OwningExpression { get; set; }
 
         /// <summary>
         /// The StringExpressions that constitute this StringExpression.
         /// </summary>
-        [Property(xmiId: "StringExpression-subExpression", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: true, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "StringExpression-subExpression", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: true, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         [SubsettedProperty(propertyName: "Element-ownedElement")]
         public IContainerList<IStringExpression> SubExpression { get; set; }
     }

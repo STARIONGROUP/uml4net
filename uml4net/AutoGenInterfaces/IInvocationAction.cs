@@ -53,7 +53,7 @@ namespace uml4net.Actions
         /// <summary>
         /// The InputPins that provide the argument values passed in the invocation request.
         /// </summary>
-        [Property(xmiId: "InvocationAction-argument", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: true, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "InvocationAction-argument", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: true, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         [SubsettedProperty(propertyName: "Action-input")]
         public IContainerList<IInputPin> Argument { get; set; }
 
@@ -61,7 +61,7 @@ namespace uml4net.Actions
         /// For CallOperationActions, SendSignalActions, and SendObjectActions, an optional Port of the target
         /// object through which the invocation request is sent.
         /// </summary>
-        [Property(xmiId: "InvocationAction-onPort", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "InvocationAction-onPort", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         public IPort OnPort { get; set; }
     }
 }

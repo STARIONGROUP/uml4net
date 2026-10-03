@@ -53,13 +53,13 @@ namespace uml4net.CommonBehavior
         /// <summary>
         /// Specifies the behavior in one or more languages.
         /// </summary>
-        [Property(xmiId: "OpaqueBehavior-body", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: true, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null)]
+        [Property(xmiId: "OpaqueBehavior-body", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: true, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: false, defaultValue: null, isOwnerEnd: false)]
         public List<string> Body { get; set; }
 
         /// <summary>
         /// Languages the body strings use in the same order as the body strings.
         /// </summary>
-        [Property(xmiId: "OpaqueBehavior-language", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: true, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "OpaqueBehavior-language", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: true, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         public List<string> Language { get; set; }
     }
 }

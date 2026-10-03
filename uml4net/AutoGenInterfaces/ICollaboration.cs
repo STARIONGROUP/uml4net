@@ -54,7 +54,7 @@ namespace uml4net.StructuredClassifiers
         /// <summary>
         /// Represents the participants in the Collaboration.
         /// </summary>
-        [Property(xmiId: "Collaboration-collaborationRole", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "Collaboration-collaborationRole", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         [SubsettedProperty(propertyName: "StructuredClassifier-role")]
         public List<IConnectableElement> CollaborationRole { get; set; }
     }

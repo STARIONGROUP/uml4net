@@ -53,7 +53,7 @@ namespace uml4net.Deployments
         /// <summary>
         /// The model element that is utilized in the manifestation in an Artifact.
         /// </summary>
-        [Property(xmiId: "Manifestation-utilizedElement", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "Manifestation-utilizedElement", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         [SubsettedProperty(propertyName: "Dependency-supplier")]
         public IPackageableElement UtilizedElement { get; set; }
     }

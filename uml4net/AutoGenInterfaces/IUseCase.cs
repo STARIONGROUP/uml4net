@@ -54,7 +54,7 @@ namespace uml4net.UseCases
         /// <summary>
         /// The Extend relationships owned by this UseCase.
         /// </summary>
-        [Property(xmiId: "UseCase-extend", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "UseCase-extend", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         [SubsettedProperty(propertyName: "A_source_directedRelationship-directedRelationship")]
         [SubsettedProperty(propertyName: "Namespace-ownedMember")]
         public IContainerList<IExtend> Extend { get; set; }
@@ -62,14 +62,14 @@ namespace uml4net.UseCases
         /// <summary>
         /// The ExtensionPoints owned by this UseCase.
         /// </summary>
-        [Property(xmiId: "UseCase-extensionPoint", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "UseCase-extensionPoint", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         [SubsettedProperty(propertyName: "Namespace-ownedMember")]
         public IContainerList<IExtensionPoint> ExtensionPoint { get; set; }
 
         /// <summary>
         /// The Include relationships owned by this UseCase.
         /// </summary>
-        [Property(xmiId: "UseCase-include", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "UseCase-include", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         [SubsettedProperty(propertyName: "A_source_directedRelationship-directedRelationship")]
         [SubsettedProperty(propertyName: "Namespace-ownedMember")]
         public IContainerList<IInclude> Include { get; set; }
@@ -78,7 +78,7 @@ namespace uml4net.UseCases
         /// The subjects to which this UseCase applies. Each subject or its parts realize all the UseCases that
         /// apply to it.
         /// </summary>
-        [Property(xmiId: "UseCase-subject", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "UseCase-subject", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         public List<IClassifier> Subject { get; set; }
     }
 }

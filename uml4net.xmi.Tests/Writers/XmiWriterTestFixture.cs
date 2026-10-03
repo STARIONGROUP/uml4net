@@ -30,6 +30,7 @@ namespace uml4net.xmi.Tests.Writers
 
     using NUnit.Framework;
 
+    using uml4net.CommonStructure;
     using uml4net.Packages;
     using uml4net.StructuredClassifiers;
     using uml4net.xmi;
@@ -192,6 +193,34 @@ namespace uml4net.xmi.Tests.Writers
                     "a root package without an XmiId - which is how Enterprise Architect exports its uml:Model - is expected to be written without an xmi:id attribute rather than with an empty one");
                 Assert.That(packageElement.GetAttribute("name"), Is.EqualTo("package"));
             }
+        }
+
+        [Test]
+        public void Verify_that_Write_throws_when_a_root_package_without_an_XmiId_is_referenced()
+        {
+            // the probe of #378: the PackageImport would be written as href="w2.xmi#", which points at the document
+            var unidentified = new Package { Name = "Unidentified" };
+            var importing = new Package { XmiId = "importing", Name = "Importing" };
+            importing.PackageImport.Add(new PackageImport { XmiId = "pi", ImportedPackage = unidentified });
+
+            using var stream = new MemoryStream();
+
+            Assert.That(() => this.xmiWriter.Write(new IXmiElement[] { unidentified, importing }, stream, "w2.xmi", null, null),
+                Throws.InvalidOperationException.With.Message.Contains("do not have an XmiId: Package"));
+        }
+
+        [Test]
+        public void Verify_that_Write_throws_when_an_element_of_another_document_without_an_XmiId_is_referenced()
+        {
+            // the href would be href="ea.xmi#", which points at the document instead of the package
+            var model = new Model { DocumentName = "ea.xmi", Name = "EA_Model" };
+            var importing = new Package { XmiId = "importing", DocumentName = "b.xmi", Name = "Importing" };
+            importing.PackageImport.Add(new PackageImport { XmiId = "pi", DocumentName = "b.xmi", ImportedPackage = model });
+
+            using var stream = new MemoryStream();
+
+            Assert.That(() => this.xmiWriter.Write(importing, stream, "b.xmi"),
+                Throws.InvalidOperationException.With.Message.Contains("do not have an XmiId: Model"));
         }
 
         [Test]

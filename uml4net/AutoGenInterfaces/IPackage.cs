@@ -60,41 +60,41 @@ namespace uml4net.Packages
         /// unique identification of the package following the IETF URI specification, RFC 2396
         /// http://www.ietf.org/rfc/rfc2396.txt and it must comply with those syntax rules.
         /// </summary>
-        [Property(xmiId: "Package-URI", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "Package-URI", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         public string URI { get; set; }
 
         /// <summary>
         /// References the packaged elements that are Packages.
         /// </summary>
-        [Property(xmiId: "Package-nestedPackage", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: true, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "Package-nestedPackage", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: true, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         [SubsettedProperty(propertyName: "Package-packagedElement")]
         public IReadOnlyList<IPackage> NestedPackage { get; }
 
         /// <summary>
         /// References the Package that owns this Package.
         /// </summary>
-        [Property(xmiId: "Package-nestingPackage", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "Package-nestingPackage", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: true)]
         [SubsettedProperty(propertyName: "A_packagedElement_owningPackage-owningPackage")]
         public IPackage NestingPackage { get; set; }
 
         /// <summary>
         /// References the Stereotypes that are owned by the Package.
         /// </summary>
-        [Property(xmiId: "Package-ownedStereotype", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "Package-ownedStereotype", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         [SubsettedProperty(propertyName: "Package-packagedElement")]
         public IReadOnlyList<IStereotype> OwnedStereotype { get; }
 
         /// <summary>
         /// References the packaged elements that are Types.
         /// </summary>
-        [Property(xmiId: "Package-ownedType", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: true, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "Package-ownedType", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: true, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         [SubsettedProperty(propertyName: "Package-packagedElement")]
         public IReadOnlyList<IType> OwnedType { get; }
 
         /// <summary>
         /// References the PackageMerges that are owned by this Package.
         /// </summary>
-        [Property(xmiId: "Package-packageMerge", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "Package-packageMerge", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         [SubsettedProperty(propertyName: "A_source_directedRelationship-directedRelationship")]
         [SubsettedProperty(propertyName: "Element-ownedElement")]
         public IContainerList<IPackageMerge> PackageMerge { get; set; }
@@ -102,14 +102,14 @@ namespace uml4net.Packages
         /// <summary>
         /// Specifies the packageable elements that are owned by this Package.
         /// </summary>
-        [Property(xmiId: "Package-packagedElement", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "Package-packagedElement", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         [SubsettedProperty(propertyName: "Namespace-ownedMember")]
         public IContainerList<IPackageableElement> PackagedElement { get; set; }
 
         /// <summary>
         /// References the ProfileApplications that indicate which profiles have been applied to the Package.
         /// </summary>
-        [Property(xmiId: "Package-profileApplication", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "Package-profileApplication", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         [SubsettedProperty(propertyName: "A_source_directedRelationship-directedRelationship")]
         [SubsettedProperty(propertyName: "Element-ownedElement")]
         public IContainerList<IProfileApplication> ProfileApplication { get; set; }

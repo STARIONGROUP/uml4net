@@ -56,14 +56,14 @@ namespace uml4net.Classification
         /// output ParameterSet to end execution providing the values for those Parameters, if all preconditions
         /// and conditions on input ParameterSets were satisfied.
         /// </summary>
-        [Property(xmiId: "ParameterSet-condition", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "ParameterSet-condition", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         [SubsettedProperty(propertyName: "Element-ownedElement")]
         public IContainerList<IConstraint> Condition { get; set; }
 
         /// <summary>
         /// Parameters in the ParameterSet.
         /// </summary>
-        [Property(xmiId: "ParameterSet-parameter", aggregation: AggregationKind.None, lowerValue: 1, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "ParameterSet-parameter", aggregation: AggregationKind.None, lowerValue: 1, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         public List<IParameter> Parameter { get; set; }
     }
 }

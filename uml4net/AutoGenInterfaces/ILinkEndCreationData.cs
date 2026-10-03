@@ -57,14 +57,14 @@ namespace uml4net.Actions
         /// UnlimitedNatural, but the input cannot be zero. It is omitted for Association ends that are not
         /// ordered.
         /// </summary>
-        [Property(xmiId: "LinkEndCreationData-insertAt", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "LinkEndCreationData-insertAt", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         public IInputPin InsertAt { get; set; }
 
         /// <summary>
         /// Specifies whether the existing links emanating from the object on this end should be destroyed
         /// before creating a new link.
         /// </summary>
-        [Property(xmiId: "LinkEndCreationData-isReplaceAll", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: "false")]
+        [Property(xmiId: "LinkEndCreationData-isReplaceAll", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: "false", isOwnerEnd: false)]
         public bool IsReplaceAll { get; set; }
     }
 }

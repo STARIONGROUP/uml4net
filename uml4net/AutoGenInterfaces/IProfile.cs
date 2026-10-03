@@ -54,14 +54,14 @@ namespace uml4net.Packages
         /// <summary>
         /// References a metaclass that may be extended.
         /// </summary>
-        [Property(xmiId: "Profile-metaclassReference", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "Profile-metaclassReference", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         [SubsettedProperty(propertyName: "Namespace-elementImport")]
         public IContainerList<IElementImport> MetaclassReference { get; set; }
 
         /// <summary>
         /// References a package containing (directly or indirectly) metaclasses that may be extended.
         /// </summary>
-        [Property(xmiId: "Profile-metamodelReference", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "Profile-metamodelReference", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         [SubsettedProperty(propertyName: "Namespace-packageImport")]
         public IContainerList<IPackageImport> MetamodelReference { get; set; }
     }

@@ -54,7 +54,7 @@ namespace uml4net.Interactions
         /// <summary>
         /// Behavior whose execution is occurring.
         /// </summary>
-        [Property(xmiId: "BehaviorExecutionSpecification-behavior", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "BehaviorExecutionSpecification-behavior", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         public IBehavior Behavior { get; set; }
     }
 }

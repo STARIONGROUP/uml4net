@@ -57,7 +57,7 @@ namespace uml4net.CommonStructure
         /// cases, such as trace, it is usually informal and bidirectional. The mapping expression is optional
         /// and may be omitted if the precise relationship between the Elements is not specified.
         /// </summary>
-        [Property(xmiId: "Abstraction-mapping", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "Abstraction-mapping", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         [SubsettedProperty(propertyName: "Element-ownedElement")]
         public IContainerList<IOpaqueExpression> Mapping { get; set; }
     }

@@ -53,7 +53,7 @@ namespace uml4net.Actions
         /// <summary>
         /// The InputPin that holds the object whose classifierBehavior is to be started.
         /// </summary>
-        [Property(xmiId: "StartClassifierBehaviorAction-object", aggregation: AggregationKind.Composite, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "StartClassifierBehaviorAction-object", aggregation: AggregationKind.Composite, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         [SubsettedProperty(propertyName: "Action-input")]
         public IContainerList<IInputPin> Object { get; set; }
     }

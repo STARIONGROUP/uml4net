@@ -54,7 +54,7 @@ namespace uml4net.Deployments
         /// <summary>
         /// The Nodes that are defined (nested) within the Node.
         /// </summary>
-        [Property(xmiId: "Node-nestedNode", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "Node-nestedNode", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         [SubsettedProperty(propertyName: "Namespace-ownedMember")]
         public IContainerList<INode> NestedNode { get; set; }
     }

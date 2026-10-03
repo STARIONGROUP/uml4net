@@ -290,6 +290,65 @@ namespace uml4net.xmi.Tests.Writers
         }
 
         [Test]
+        public void Verify_that_a_referenced_root_package_without_XmiId_is_reported()
+        {
+            // a reference to it would be written as href="document#", which points at the document (XMI 2.5.1 clause 7.10.2)
+            var unidentified = new Package { DocumentName = "w2.xmi", Name = "Unidentified" };
+            var importing = new Package { XmiId = "importing", DocumentName = "w2.xmi", Name = "Importing" };
+            importing.PackageImport.Add(new PackageImport { XmiId = "pi", DocumentName = "w2.xmi", ImportedPackage = unidentified });
+
+            var plan = this.referenceClosureCalculator.CalculateWritePlan(new IXmiElement[] { unidentified, importing }, ExternalReferenceResolutionKind.Href, "w2.xmi");
+
+            Assert.That(plan.ElementsMissingXmiId, Is.EqualTo(new[] { unidentified }));
+        }
+
+        [Test]
+        public void Verify_that_a_referenced_element_of_another_document_without_XmiId_is_reported()
+        {
+            // the root package of ea.xmi has no xmi:id, as Enterprise Architect exports it: an href to it would be
+            // href="ea.xmi#", which points at the document instead of the package
+            var model = new Model { DocumentName = "ea.xmi", Name = "EA_Model" };
+            var identifiedClass = new Class { XmiId = "identified", DocumentName = "ea.xmi", Name = "Identified" };
+            model.PackagedElement.Add(identifiedClass);
+
+            var importing = new Package { XmiId = "importing", DocumentName = "b.xmi", Name = "Importing" };
+            importing.PackageImport.Add(new PackageImport { XmiId = "pi", DocumentName = "b.xmi", ImportedPackage = model });
+            importing.ElementImport.Add(new ElementImport { XmiId = "ei", DocumentName = "b.xmi", ImportedElement = identifiedClass });
+
+            using (Assert.EnterMultipleScope())
+            {
+                var hrefPlan = this.referenceClosureCalculator.CalculateWritePlan(importing, ExternalReferenceResolutionKind.Href, "b.xmi");
+                Assert.That(hrefPlan.ElementsMissingXmiId, Is.EqualTo(new[] { model }), "the class of ea.xmi has an XmiId and can be referenced by href");
+
+                var includePlan = this.referenceClosureCalculator.CalculateWritePlan(importing, ExternalReferenceResolutionKind.Include, "b.xmi");
+                Assert.That(includePlan.RootElements, Is.EqualTo(new IXmiElement[] { importing, model }), "the referenced root package is included");
+                Assert.That(includePlan.ElementsMissingXmiId, Is.EqualTo(new[] { model }), "an included root package that is referenced needs an XmiId as well");
+            }
+        }
+
+        [Test]
+        public void Verify_that_an_unreferenced_root_package_without_XmiId_is_not_reported_although_its_owner_ends_refer_to_it()
+        {
+            // how Enterprise Architect exports its uml:Model; the owner ends of the contained elements (Type::package,
+            // Package::nestingPackage, Generalization::specific, ...) refer to their owner but are not written
+            var model = new Model { DocumentName = "ea.xmi", Name = "EA_Model" };
+            var nestedPackage = new Package { XmiId = "nested", DocumentName = "ea.xmi", Name = "Nested" };
+            var @class = new Class { XmiId = "class", DocumentName = "ea.xmi", Name = "Class" };
+            model.PackagedElement.Add(nestedPackage);
+            model.PackagedElement.Add(@class);
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(nestedPackage.NestingPackage, Is.SameAs(model), "the owner end is set");
+                Assert.That(@class.Package, Is.SameAs(model), "the owner end is set");
+
+                var plan = this.referenceClosureCalculator.CalculateWritePlan(model, ExternalReferenceResolutionKind.Href, "ea.xmi");
+
+                Assert.That(plan.ElementsMissingXmiId, Is.Empty);
+            }
+        }
+
+        [Test]
         public void Verify_that_elements_without_XmiId_are_reported()
         {
             var invalidClass = new Class { DocumentName = "a.xmi", Name = "Invalid" };

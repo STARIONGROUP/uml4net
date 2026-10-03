@@ -53,7 +53,7 @@ namespace uml4net.Actions
         /// <summary>
         /// The LinkEndData that the values of the Association ends for the links to be destroyed.
         /// </summary>
-        [Property(xmiId: "DestroyLinkAction-endData", aggregation: AggregationKind.Composite, lowerValue: 2, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "DestroyLinkAction-endData", aggregation: AggregationKind.Composite, lowerValue: 2, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         [RedefinedProperty(propertyName: "LinkAction-endData")]
         public new IContainerList<ILinkEndDestructionData> EndData { get; set; }
     }

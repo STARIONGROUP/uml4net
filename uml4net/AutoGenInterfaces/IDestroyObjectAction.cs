@@ -53,19 +53,19 @@ namespace uml4net.Actions
         /// <summary>
         /// Specifies whether links in which the object participates are destroyed along with the object.
         /// </summary>
-        [Property(xmiId: "DestroyObjectAction-isDestroyLinks", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: "false")]
+        [Property(xmiId: "DestroyObjectAction-isDestroyLinks", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: "false", isOwnerEnd: false)]
         public bool IsDestroyLinks { get; set; }
 
         /// <summary>
         /// Specifies whether objects owned by the object (via composition) are destroyed along with the object.
         /// </summary>
-        [Property(xmiId: "DestroyObjectAction-isDestroyOwnedObjects", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: "false")]
+        [Property(xmiId: "DestroyObjectAction-isDestroyOwnedObjects", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: "false", isOwnerEnd: false)]
         public bool IsDestroyOwnedObjects { get; set; }
 
         /// <summary>
         /// The InputPin providing the object to be destroyed.
         /// </summary>
-        [Property(xmiId: "DestroyObjectAction-target", aggregation: AggregationKind.Composite, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "DestroyObjectAction-target", aggregation: AggregationKind.Composite, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         [SubsettedProperty(propertyName: "Action-input")]
         public IContainerList<IInputPin> Target { get; set; }
     }

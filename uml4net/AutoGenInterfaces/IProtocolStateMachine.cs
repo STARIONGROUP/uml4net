@@ -60,7 +60,7 @@ namespace uml4net.StateMachines
         /// <summary>
         /// Conformance between ProtocolStateMachine
         /// </summary>
-        [Property(xmiId: "ProtocolStateMachine-conformance", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "ProtocolStateMachine-conformance", aggregation: AggregationKind.Composite, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         [SubsettedProperty(propertyName: "A_source_directedRelationship-directedRelationship")]
         [SubsettedProperty(propertyName: "Element-ownedElement")]
         public IContainerList<IProtocolConformance> Conformance { get; set; }

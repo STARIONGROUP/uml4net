@@ -58,7 +58,7 @@ namespace uml4net.CommonStructure
         /// assignment of direction (that is, the designation of the client Element) is at the discretion of the
         /// modeler and is a stipulation.
         /// </summary>
-        [Property(xmiId: "Dependency-client", aggregation: AggregationKind.None, lowerValue: 1, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "Dependency-client", aggregation: AggregationKind.None, lowerValue: 1, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         [SubsettedProperty(propertyName: "DirectedRelationship-source")]
         public List<INamedElement> Client { get; set; }
 
@@ -66,7 +66,7 @@ namespace uml4net.CommonStructure
         /// The Element(s) on which the client Element(s) depend in some respect. The modeler may stipulate a
         /// sense of Dependency direction suitable for their domain.
         /// </summary>
-        [Property(xmiId: "Dependency-supplier", aggregation: AggregationKind.None, lowerValue: 1, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "Dependency-supplier", aggregation: AggregationKind.None, lowerValue: 1, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         [SubsettedProperty(propertyName: "DirectedRelationship-target")]
         public List<INamedElement> Supplier { get; set; }
     }

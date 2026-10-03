@@ -54,13 +54,13 @@ namespace uml4net.CommonBehavior
         /// <summary>
         /// The Event that detected by the Trigger.
         /// </summary>
-        [Property(xmiId: "Trigger-event", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "Trigger-event", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         public IEvent Event { get; set; }
 
         /// <summary>
         /// A optional Port of through which the given effect is detected.
         /// </summary>
-        [Property(xmiId: "Trigger-port", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "Trigger-port", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         public List<IPort> Port { get; set; }
     }
 }

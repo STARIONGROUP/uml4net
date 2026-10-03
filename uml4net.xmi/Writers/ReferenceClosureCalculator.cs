@@ -144,12 +144,32 @@ namespace uml4net.xmi.Writers
                 this.IncludeExternalRootPackages(writtenRootElements, localElements, localIdentifiers, elementsMissingXmiId);
             }
 
-            // A root package is written as a top-level element of the document, it is therefore never referred to
-            // by means of an xmi:idref or an href. A missing XmiId on a root package - which is how Enterprise
-            // Architect exports its uml:Model - is consequently harmless and is preserved as-is, rather than
-            // being reported as an offender. For any other element a missing XmiId remains an error since
-            // such an element degrades into a dangling href and would lose its complete containment tree.
-            elementsMissingXmiId.RemoveAll(element => element is IPackage && writtenRootElements.Any(rootElement => ReferenceEquals(rootElement, element)));
+            // A root package is written as a top-level element of the document. A missing XmiId on a root package -
+            // which is how Enterprise Architect exports its uml:Model - is harmless as long as no element of the
+            // document refers to it, and is then preserved as-is rather than reported as an offender. A root package
+            // that is referenced needs an XmiId: the reference would otherwise be written as href="document#", which
+            // points at the document instead of the package (XMI 2.5.1 clause 7.10.2). For any other element a
+            // missing XmiId remains an error since such an element degrades into a dangling href and would lose its
+            // complete containment tree.
+            var rootPackagesMissingXmiId = writtenRootElements.OfType<IPackage>().Where(x => string.IsNullOrEmpty(x.XmiId)).ToList();
+
+            if (rootPackagesMissingXmiId.Count > 0)
+            {
+                var referencedRootPackages = QueryReferencedElements(localElements, rootPackagesMissingXmiId);
+
+                elementsMissingXmiId.RemoveAll(element => rootPackagesMissingXmiId.Any(x => ReferenceEquals(x, element)) && !referencedRootPackages.Contains(element));
+            }
+
+            // A reference to an element that is not written in the document is written as an href, which locates the
+            // element by its XmiId (XMI 2.5.1 clause 7.10.2); an element without XmiId cannot be referenced that way, a
+            // reference to it would point at its document instead
+            foreach (var externalElement in QueryExternalReferencedElementsMissingXmiId(localElements))
+            {
+                if (!elementsMissingXmiId.Any(x => ReferenceEquals(x, externalElement)))
+                {
+                    elementsMissingXmiId.Add(externalElement);
+                }
+            }
 
             this.logger.LogDebug("Write plan calculated for {SelectedCount} selected and {IncludedCount} included root elements", selectedRootElementCount, writtenRootElements.Count - selectedRootElementCount);
 
@@ -328,6 +348,64 @@ namespace uml4net.xmi.Writers
         }
 
         /// <summary>
+        /// Queries which of the provided <paramref name="candidates"/> are referenced by an element of the document,
+        /// owner ends excluded
+        /// </summary>
+        /// <param name="localElements">
+        /// The set of elements that are serialized inside the document that is being written
+        /// </param>
+        /// <param name="candidates">
+        /// The elements for which it is queried whether they are referenced
+        /// </param>
+        /// <returns>
+        /// The <paramref name="candidates"/> that are referenced
+        /// </returns>
+        private static HashSet<IXmiElement> QueryReferencedElements(HashSet<IXmiElement> localElements, IReadOnlyCollection<IXmiElement> candidates)
+        {
+            var candidateSet = new HashSet<IXmiElement>(candidates, ReferenceEqualityComparer.Instance);
+            var referencedElements = new HashSet<IXmiElement>(ReferenceEqualityComparer.Instance);
+
+            foreach (var element in localElements)
+            {
+                foreach (var referencedElement in QueryPropertyValues(QueryTypeProperties(element.GetType()).ReferenceProperties, element).Where(candidateSet.Contains))
+                {
+                    referencedElements.Add(referencedElement);
+                }
+            }
+
+            return referencedElements;
+        }
+
+        /// <summary>
+        /// Queries the elements without <see cref="IXmiElement.XmiId"/> that are referenced by an element of the
+        /// document, owner ends excluded, but that are not written in the document themselves
+        /// </summary>
+        /// <param name="localElements">
+        /// The set of elements that are serialized inside the document that is being written
+        /// </param>
+        /// <returns>
+        /// The referenced elements without <see cref="IXmiElement.XmiId"/>, in the order in which they are found
+        /// </returns>
+        private static List<IXmiElement> QueryExternalReferencedElementsMissingXmiId(HashSet<IXmiElement> localElements)
+        {
+            var result = new List<IXmiElement>();
+            var found = new HashSet<IXmiElement>(ReferenceEqualityComparer.Instance);
+
+            foreach (var element in localElements)
+            {
+                foreach (var referencedElement in QueryPropertyValues(QueryTypeProperties(element.GetType()).ReferenceProperties, element))
+                {
+                    if (!localElements.Contains(referencedElement) && string.IsNullOrEmpty(referencedElement.XmiId) && found.Add(referencedElement))
+                    {
+                        result.Add(referencedElement);
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
         /// Queries the elements that are referenced from the containment tree of the provided <see cref="IXmiElement"/>
         /// but are not part of the provided set of local elements.
         /// </summary>
@@ -497,6 +575,13 @@ namespace uml4net.xmi.Writers
                 }
 
                 if (!QueryIsXmiElementProperty(propertyInfo))
+                {
+                    continue;
+                }
+
+                // the value of an owner end is implied by the containment and is not written, it is not a reference
+                // of the document
+                if (propertyAttribute.IsOwnerEnd)
                 {
                     continue;
                 }

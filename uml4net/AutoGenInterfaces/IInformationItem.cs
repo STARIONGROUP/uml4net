@@ -62,7 +62,7 @@ namespace uml4net.InformationFlows
         /// Determines the classifiers that will specify the structure and nature of the information. An
         /// information item represents all its represented classifiers.
         /// </summary>
-        [Property(xmiId: "InformationItem-represented", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "InformationItem-represented", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         public List<IClassifier> Represented { get; set; }
     }
 }

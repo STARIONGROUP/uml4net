@@ -53,7 +53,7 @@ namespace uml4net.Actions
         /// <summary>
         /// The ValueSpecification that is evaluated to obtain the value that the ValuePin will provide.
         /// </summary>
-        [Property(xmiId: "ValuePin-value", aggregation: AggregationKind.Composite, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "ValuePin-value", aggregation: AggregationKind.Composite, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         [SubsettedProperty(propertyName: "Element-ownedElement")]
         public IContainerList<IValueSpecification> Value { get; set; }
     }

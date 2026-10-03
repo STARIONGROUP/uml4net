@@ -54,19 +54,19 @@ namespace uml4net.StateMachines
         /// <summary>
         /// The entryPoint Pseudostates corresponding to this connection point.
         /// </summary>
-        [Property(xmiId: "ConnectionPointReference-entry", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "ConnectionPointReference-entry", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         public List<IPseudostate> Entry { get; set; }
 
         /// <summary>
         /// The exitPoints kind Pseudostates corresponding to this connection point.
         /// </summary>
-        [Property(xmiId: "ConnectionPointReference-exit", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "ConnectionPointReference-exit", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         public List<IPseudostate> Exit { get; set; }
 
         /// <summary>
         /// The State in which the ConnectionPointReference is defined.
         /// </summary>
-        [Property(xmiId: "ConnectionPointReference-state", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "ConnectionPointReference-state", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: true)]
         [SubsettedProperty(propertyName: "NamedElement-namespace")]
         public IState State { get; set; }
     }
