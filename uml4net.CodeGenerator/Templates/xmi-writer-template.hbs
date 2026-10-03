@@ -136,11 +136,11 @@ namespace uml4net.xmi.Writers
                 xmlWriter.WriteAttributeString("xmi", "uuid", this.XmiWriterSettings.XmiNamespaceUri, element.XmiGuid);
             }
 
-            {{ #each (Class.QueryAllNonDerivedNonReadOnlyProperties this) as | property | }}
+            {{ #each (Class.QueryAllNonDerivedNonReadOnlyPropertiesSuperClassFirst this) as | property | }}
             {{ #Property.WriteXmlAttributeForXmiWriter property ../ }}
             {{/each}}
 
-            {{ #each (Class.QueryAllNonDerivedNonReadOnlyProperties this) as | property | }}
+            {{ #each (Class.QueryAllNonDerivedNonReadOnlyPropertiesSuperClassFirst this) as | property | }}
             {{ #Property.WriteXmlElementForXmiWriter property ../ }}
             {{/each}}
 
@@ -210,11 +210,11 @@ namespace uml4net.xmi.Writers
                 await xmlWriter.WriteAttributeStringAsync("xmi", "uuid", this.XmiWriterSettings.XmiNamespaceUri, element.XmiGuid);
             }
 
-            {{ #each (Class.QueryAllNonDerivedNonReadOnlyProperties this) as | property | }}
+            {{ #each (Class.QueryAllNonDerivedNonReadOnlyPropertiesSuperClassFirst this) as | property | }}
             {{ #Property.WriteXmlAttributeForXmiWriter property ../ true }}
             {{/each}}
 
-            {{ #each (Class.QueryAllNonDerivedNonReadOnlyProperties this) as | property | }}
+            {{ #each (Class.QueryAllNonDerivedNonReadOnlyPropertiesSuperClassFirst this) as | property | }}
             {{ #Property.WriteXmlElementForXmiWriter property ../ true }}
             {{/each}}
 

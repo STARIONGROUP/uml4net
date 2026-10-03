@@ -69,6 +69,72 @@ namespace uml4net.Extensions
         }
 
         /// <summary>
+        /// Queries all the properties of the <see cref="IClass"/>, including the inherited ones, superclass first: grouped
+        /// by the classifier that declares them, a general classifier before its specializations, each one in declaration order
+        /// </summary>
+        /// <param name="class">
+        /// The subject <see cref="IClass"/>
+        /// </param>
+        /// <returns>
+        /// The same properties as <see cref="QueryAllProperties"/>, in the order in which the OMG normative XMI documents
+        /// serialize them (the MOF tag <c>org.omg.xmi.superClassFirst</c>)
+        /// </returns>
+        /// <remarks>
+        /// The classifiers are ordered by a depth-first traversal of the generalizations, in the order in which they are
+        /// declared, a classifier following all of its generals
+        /// </remarks>
+        public static ReadOnlyCollection<IProperty> QueryAllPropertiesSuperClassFirst(this IClass @class)
+        {
+            if (@class == null)
+            {
+                throw new ArgumentNullException(nameof(@class));
+            }
+
+            var orderedClassifiers = new List<IClassifier>();
+            QuerySuperClassFirst(@class, orderedClassifiers, []);
+
+            var result = new List<IProperty>();
+
+            foreach (var classifier in orderedClassifiers)
+            {
+                if (classifier is IClass c)
+                {
+                    result.AddRange(c.OwnedAttribute);
+                    result.AddRange(c.QueryInterfaces().SelectMany(x => x.Attribute).Distinct());
+                }
+            }
+
+            return result.Distinct().ToList().AsReadOnly();
+        }
+
+        /// <summary>
+        /// Adds the general classifiers of the provided classifier, and then the classifier itself, to the ordered list
+        /// </summary>
+        /// <param name="classifier">
+        /// The <see cref="IClassifier"/> that is visited
+        /// </param>
+        /// <param name="orderedClassifiers">
+        /// The classifiers, superclass first
+        /// </param>
+        /// <param name="visitedClassifiers">
+        /// The classifiers that have been visited, to visit each one once
+        /// </param>
+        private static void QuerySuperClassFirst(IClassifier classifier, List<IClassifier> orderedClassifiers, HashSet<IClassifier> visitedClassifiers)
+        {
+            if (!visitedClassifiers.Add(classifier))
+            {
+                return;
+            }
+
+            foreach (var general in classifier.Generalization.Select(x => x.General).Where(x => x != null))
+            {
+                QuerySuperClassFirst(general, orderedClassifiers, visitedClassifiers);
+            }
+
+            orderedClassifiers.Add(classifier);
+        }
+
+        /// <summary>
         /// Queries all the specializations (immediate subclasses) of the <paramref name="class"/>
         /// </summary>
         /// <param name="class">

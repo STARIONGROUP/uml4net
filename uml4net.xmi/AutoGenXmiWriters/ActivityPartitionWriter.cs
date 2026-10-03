@@ -136,6 +136,16 @@ namespace uml4net.xmi.Writers
                 xmlWriter.WriteAttributeString("xmi", "uuid", this.XmiWriterSettings.XmiNamespaceUri, element.XmiGuid);
             }
 
+            if (!string.IsNullOrEmpty(element.Name))
+            {
+                xmlWriter.WriteAttributeString("name", element.Name);
+            }
+
+            if (element.Visibility.HasValue)
+            {
+                xmlWriter.WriteAttributeString("visibility", element.Visibility.Value.QueryXmiLiteral());
+            }
+
             if (element.IsDimension)
             {
                 xmlWriter.WriteAttributeString("isDimension", XmlConvert.ToString(element.IsDimension));
@@ -146,19 +156,9 @@ namespace uml4net.xmi.Writers
                 xmlWriter.WriteAttributeString("isExternal", XmlConvert.ToString(element.IsExternal));
             }
 
-            if (!string.IsNullOrEmpty(element.Name))
-            {
-                xmlWriter.WriteAttributeString("name", element.Name);
-            }
-
             if (element.Represents != null && writeContext.IsLocal(element.Represents))
             {
                 xmlWriter.WriteAttributeString("represents", element.Represents.XmiId);
-            }
-
-            if (element.Visibility.HasValue)
-            {
-                xmlWriter.WriteAttributeString("visibility", element.Visibility.Value.QueryXmiLiteral());
             }
 
 
@@ -167,14 +167,14 @@ namespace uml4net.xmi.Writers
                 this.XmiElementWriterFacade.WriteReferenceElement(xmlWriter, value, "edge", writeContext);
             }
 
-            foreach (var value in element.NameExpression)
-            {
-                this.XmiElementWriterFacade.WriteContainedElement(xmlWriter, value, "nameExpression", writeContext);
-            }
-
             foreach (var value in element.Node)
             {
                 this.XmiElementWriterFacade.WriteReferenceElement(xmlWriter, value, "node", writeContext);
+            }
+
+            if (element.Represents != null && !writeContext.IsLocal(element.Represents))
+            {
+                this.XmiElementWriterFacade.WriteReferenceElement(xmlWriter, element.Represents, "represents", writeContext);
             }
 
             foreach (var value in element.OwnedComment)
@@ -182,9 +182,9 @@ namespace uml4net.xmi.Writers
                 this.XmiElementWriterFacade.WriteContainedElement(xmlWriter, value, "ownedComment", writeContext);
             }
 
-            if (element.Represents != null && !writeContext.IsLocal(element.Represents))
+            foreach (var value in element.NameExpression)
             {
-                this.XmiElementWriterFacade.WriteReferenceElement(xmlWriter, element.Represents, "represents", writeContext);
+                this.XmiElementWriterFacade.WriteContainedElement(xmlWriter, value, "nameExpression", writeContext);
             }
 
             foreach (var value in element.Subpartition)
@@ -259,6 +259,16 @@ namespace uml4net.xmi.Writers
                 await xmlWriter.WriteAttributeStringAsync("xmi", "uuid", this.XmiWriterSettings.XmiNamespaceUri, element.XmiGuid);
             }
 
+            if (!string.IsNullOrEmpty(element.Name))
+            {
+                await xmlWriter.WriteAttributeStringAsync(null, "name", null, element.Name);
+            }
+
+            if (element.Visibility.HasValue)
+            {
+                await xmlWriter.WriteAttributeStringAsync(null, "visibility", null, element.Visibility.Value.QueryXmiLiteral());
+            }
+
             if (element.IsDimension)
             {
                 await xmlWriter.WriteAttributeStringAsync(null, "isDimension", null, XmlConvert.ToString(element.IsDimension));
@@ -269,19 +279,9 @@ namespace uml4net.xmi.Writers
                 await xmlWriter.WriteAttributeStringAsync(null, "isExternal", null, XmlConvert.ToString(element.IsExternal));
             }
 
-            if (!string.IsNullOrEmpty(element.Name))
-            {
-                await xmlWriter.WriteAttributeStringAsync(null, "name", null, element.Name);
-            }
-
             if (element.Represents != null && writeContext.IsLocal(element.Represents))
             {
                 await xmlWriter.WriteAttributeStringAsync(null, "represents", null, element.Represents.XmiId);
-            }
-
-            if (element.Visibility.HasValue)
-            {
-                await xmlWriter.WriteAttributeStringAsync(null, "visibility", null, element.Visibility.Value.QueryXmiLiteral());
             }
 
 
@@ -290,14 +290,14 @@ namespace uml4net.xmi.Writers
                 await this.XmiElementWriterFacade.WriteReferenceElementAsync(xmlWriter, value, "edge", writeContext);
             }
 
-            foreach (var value in element.NameExpression)
-            {
-                await this.XmiElementWriterFacade.WriteContainedElementAsync(xmlWriter, value, "nameExpression", writeContext);
-            }
-
             foreach (var value in element.Node)
             {
                 await this.XmiElementWriterFacade.WriteReferenceElementAsync(xmlWriter, value, "node", writeContext);
+            }
+
+            if (element.Represents != null && !writeContext.IsLocal(element.Represents))
+            {
+                await this.XmiElementWriterFacade.WriteReferenceElementAsync(xmlWriter, element.Represents, "represents", writeContext);
             }
 
             foreach (var value in element.OwnedComment)
@@ -305,9 +305,9 @@ namespace uml4net.xmi.Writers
                 await this.XmiElementWriterFacade.WriteContainedElementAsync(xmlWriter, value, "ownedComment", writeContext);
             }
 
-            if (element.Represents != null && !writeContext.IsLocal(element.Represents))
+            foreach (var value in element.NameExpression)
             {
-                await this.XmiElementWriterFacade.WriteReferenceElementAsync(xmlWriter, element.Represents, "represents", writeContext);
+                await this.XmiElementWriterFacade.WriteContainedElementAsync(xmlWriter, value, "nameExpression", writeContext);
             }
 
             foreach (var value in element.Subpartition)

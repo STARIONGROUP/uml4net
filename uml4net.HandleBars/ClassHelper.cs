@@ -157,6 +157,24 @@ namespace uml4net.HandleBars
                 return properties;
             });
 
+            handlebars.RegisterHelper("Class.QueryAllNonDerivedNonReadOnlyPropertiesSuperClassFirst", (context, _) =>
+            {
+                if (!(context.Value is IClass @class))
+                {
+                    throw new ArgumentException("supposed to be IClass");
+                }
+
+                // the order in which the OMG normative XMI documents serialize the properties: superclass first
+                // (org.omg.xmi.superClassFirst), the references before the contained elements; OrderBy is a stable sort
+                var properties = @class.QueryAllPropertiesSuperClassFirst()
+                    .Where(x => !x.IsDerived)
+                    .Where(x => !x.IsDerivedUnion)
+                    .Where(x => !x.IsReadOnly)
+                    .OrderBy(x => x.QueryIsContainment() ? 1 : 0);
+
+                return properties;
+            });
+
             handlebars.RegisterHelper("Class.QueryAllNonDerivedNonReadOnlyNonContainedReferenceEnumerableProperties", (context, _) =>
             {
                 if (!(context.Value is IClass @class))

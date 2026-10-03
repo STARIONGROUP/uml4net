@@ -141,6 +141,11 @@ namespace uml4net.xmi.Writers
                 xmlWriter.WriteAttributeString("end", element.End.XmiId);
             }
 
+            if (element.Value != null && writeContext.IsLocal(element.Value))
+            {
+                xmlWriter.WriteAttributeString("value", element.Value.XmiId);
+            }
+
             if (element.InsertAt != null && writeContext.IsLocal(element.InsertAt))
             {
                 xmlWriter.WriteAttributeString("insertAt", element.InsertAt.XmiId);
@@ -151,15 +156,15 @@ namespace uml4net.xmi.Writers
                 xmlWriter.WriteAttributeString("isReplaceAll", XmlConvert.ToString(element.IsReplaceAll));
             }
 
-            if (element.Value != null && writeContext.IsLocal(element.Value))
-            {
-                xmlWriter.WriteAttributeString("value", element.Value.XmiId);
-            }
-
 
             if (element.End != null && !writeContext.IsLocal(element.End))
             {
                 this.XmiElementWriterFacade.WriteReferenceElement(xmlWriter, element.End, "end", writeContext);
+            }
+
+            if (element.Value != null && !writeContext.IsLocal(element.Value))
+            {
+                this.XmiElementWriterFacade.WriteReferenceElement(xmlWriter, element.Value, "value", writeContext);
             }
 
             if (element.InsertAt != null && !writeContext.IsLocal(element.InsertAt))
@@ -175,11 +180,6 @@ namespace uml4net.xmi.Writers
             foreach (var value in element.Qualifier)
             {
                 this.XmiElementWriterFacade.WriteContainedElement(xmlWriter, value, "qualifier", writeContext);
-            }
-
-            if (element.Value != null && !writeContext.IsLocal(element.Value))
-            {
-                this.XmiElementWriterFacade.WriteReferenceElement(xmlWriter, element.Value, "value", writeContext);
             }
 
 
@@ -254,6 +254,11 @@ namespace uml4net.xmi.Writers
                 await xmlWriter.WriteAttributeStringAsync(null, "end", null, element.End.XmiId);
             }
 
+            if (element.Value != null && writeContext.IsLocal(element.Value))
+            {
+                await xmlWriter.WriteAttributeStringAsync(null, "value", null, element.Value.XmiId);
+            }
+
             if (element.InsertAt != null && writeContext.IsLocal(element.InsertAt))
             {
                 await xmlWriter.WriteAttributeStringAsync(null, "insertAt", null, element.InsertAt.XmiId);
@@ -264,15 +269,15 @@ namespace uml4net.xmi.Writers
                 await xmlWriter.WriteAttributeStringAsync(null, "isReplaceAll", null, XmlConvert.ToString(element.IsReplaceAll));
             }
 
-            if (element.Value != null && writeContext.IsLocal(element.Value))
-            {
-                await xmlWriter.WriteAttributeStringAsync(null, "value", null, element.Value.XmiId);
-            }
-
 
             if (element.End != null && !writeContext.IsLocal(element.End))
             {
                 await this.XmiElementWriterFacade.WriteReferenceElementAsync(xmlWriter, element.End, "end", writeContext);
+            }
+
+            if (element.Value != null && !writeContext.IsLocal(element.Value))
+            {
+                await this.XmiElementWriterFacade.WriteReferenceElementAsync(xmlWriter, element.Value, "value", writeContext);
             }
 
             if (element.InsertAt != null && !writeContext.IsLocal(element.InsertAt))
@@ -288,11 +293,6 @@ namespace uml4net.xmi.Writers
             foreach (var value in element.Qualifier)
             {
                 await this.XmiElementWriterFacade.WriteContainedElementAsync(xmlWriter, value, "qualifier", writeContext);
-            }
-
-            if (element.Value != null && !writeContext.IsLocal(element.Value))
-            {
-                await this.XmiElementWriterFacade.WriteReferenceElementAsync(xmlWriter, element.Value, "value", writeContext);
             }
 
 

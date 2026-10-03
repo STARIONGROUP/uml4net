@@ -157,16 +157,6 @@ namespace uml4net.xmi.Writers
             }
 
 
-            foreach (var value in element.LowerValue)
-            {
-                this.XmiElementWriterFacade.WriteContainedElement(xmlWriter, value, "lowerValue", writeContext);
-            }
-
-            foreach (var value in element.OwnedComment)
-            {
-                this.XmiElementWriterFacade.WriteContainedElement(xmlWriter, value, "ownedComment", writeContext);
-            }
-
             if (element.PartWithPort != null && !writeContext.IsLocal(element.PartWithPort))
             {
                 this.XmiElementWriterFacade.WriteReferenceElement(xmlWriter, element.PartWithPort, "partWithPort", writeContext);
@@ -175,6 +165,16 @@ namespace uml4net.xmi.Writers
             if (element.Role != null && !writeContext.IsLocal(element.Role))
             {
                 this.XmiElementWriterFacade.WriteReferenceElement(xmlWriter, element.Role, "role", writeContext);
+            }
+
+            foreach (var value in element.OwnedComment)
+            {
+                this.XmiElementWriterFacade.WriteContainedElement(xmlWriter, value, "ownedComment", writeContext);
+            }
+
+            foreach (var value in element.LowerValue)
+            {
+                this.XmiElementWriterFacade.WriteContainedElement(xmlWriter, value, "lowerValue", writeContext);
             }
 
             foreach (var value in element.UpperValue)
@@ -270,16 +270,6 @@ namespace uml4net.xmi.Writers
             }
 
 
-            foreach (var value in element.LowerValue)
-            {
-                await this.XmiElementWriterFacade.WriteContainedElementAsync(xmlWriter, value, "lowerValue", writeContext);
-            }
-
-            foreach (var value in element.OwnedComment)
-            {
-                await this.XmiElementWriterFacade.WriteContainedElementAsync(xmlWriter, value, "ownedComment", writeContext);
-            }
-
             if (element.PartWithPort != null && !writeContext.IsLocal(element.PartWithPort))
             {
                 await this.XmiElementWriterFacade.WriteReferenceElementAsync(xmlWriter, element.PartWithPort, "partWithPort", writeContext);
@@ -288,6 +278,16 @@ namespace uml4net.xmi.Writers
             if (element.Role != null && !writeContext.IsLocal(element.Role))
             {
                 await this.XmiElementWriterFacade.WriteReferenceElementAsync(xmlWriter, element.Role, "role", writeContext);
+            }
+
+            foreach (var value in element.OwnedComment)
+            {
+                await this.XmiElementWriterFacade.WriteContainedElementAsync(xmlWriter, value, "ownedComment", writeContext);
+            }
+
+            foreach (var value in element.LowerValue)
+            {
+                await this.XmiElementWriterFacade.WriteContainedElementAsync(xmlWriter, value, "lowerValue", writeContext);
             }
 
             foreach (var value in element.UpperValue)

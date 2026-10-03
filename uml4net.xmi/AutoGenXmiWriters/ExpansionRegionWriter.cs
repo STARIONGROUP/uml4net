@@ -136,26 +136,6 @@ namespace uml4net.xmi.Writers
                 xmlWriter.WriteAttributeString("xmi", "uuid", this.XmiWriterSettings.XmiNamespaceUri, element.XmiGuid);
             }
 
-            if (element.IsLeaf)
-            {
-                xmlWriter.WriteAttributeString("isLeaf", XmlConvert.ToString(element.IsLeaf));
-            }
-
-            if (element.IsLocallyReentrant)
-            {
-                xmlWriter.WriteAttributeString("isLocallyReentrant", XmlConvert.ToString(element.IsLocallyReentrant));
-            }
-
-            if (element.Mode != ExpansionKind.Iterative)
-            {
-                xmlWriter.WriteAttributeString("mode", element.Mode.QueryXmiLiteral());
-            }
-
-            if (element.MustIsolate)
-            {
-                xmlWriter.WriteAttributeString("mustIsolate", XmlConvert.ToString(element.MustIsolate));
-            }
-
             if (!string.IsNullOrEmpty(element.Name))
             {
                 xmlWriter.WriteAttributeString("name", element.Name);
@@ -166,26 +146,26 @@ namespace uml4net.xmi.Writers
                 xmlWriter.WriteAttributeString("visibility", element.Visibility.Value.QueryXmiLiteral());
             }
 
-
-            foreach (var value in element.Edge)
+            if (element.IsLeaf)
             {
-                this.XmiElementWriterFacade.WriteContainedElement(xmlWriter, value, "edge", writeContext);
+                xmlWriter.WriteAttributeString("isLeaf", XmlConvert.ToString(element.IsLeaf));
             }
 
-            foreach (var value in element.ElementImport)
+            if (element.IsLocallyReentrant)
             {
-                this.XmiElementWriterFacade.WriteContainedElement(xmlWriter, value, "elementImport", writeContext);
+                xmlWriter.WriteAttributeString("isLocallyReentrant", XmlConvert.ToString(element.IsLocallyReentrant));
             }
 
-            foreach (var value in element.Handler)
+            if (element.MustIsolate)
             {
-                this.XmiElementWriterFacade.WriteContainedElement(xmlWriter, value, "handler", writeContext);
+                xmlWriter.WriteAttributeString("mustIsolate", XmlConvert.ToString(element.MustIsolate));
             }
 
-            foreach (var value in element.Incoming)
+            if (element.Mode != ExpansionKind.Iterative)
             {
-                this.XmiElementWriterFacade.WriteReferenceElement(xmlWriter, value, "incoming", writeContext);
+                xmlWriter.WriteAttributeString("mode", element.Mode.QueryXmiLiteral());
             }
+
 
             foreach (var value in element.InInterruptibleRegion)
             {
@@ -197,34 +177,24 @@ namespace uml4net.xmi.Writers
                 this.XmiElementWriterFacade.WriteReferenceElement(xmlWriter, value, "inPartition", writeContext);
             }
 
-            foreach (var value in element.InputElement)
+            foreach (var value in element.Incoming)
             {
-                this.XmiElementWriterFacade.WriteReferenceElement(xmlWriter, value, "inputElement", writeContext);
-            }
-
-            foreach (var value in element.LocalPostcondition)
-            {
-                this.XmiElementWriterFacade.WriteContainedElement(xmlWriter, value, "localPostcondition", writeContext);
-            }
-
-            foreach (var value in element.LocalPrecondition)
-            {
-                this.XmiElementWriterFacade.WriteContainedElement(xmlWriter, value, "localPrecondition", writeContext);
-            }
-
-            foreach (var value in element.NameExpression)
-            {
-                this.XmiElementWriterFacade.WriteContainedElement(xmlWriter, value, "nameExpression", writeContext);
-            }
-
-            foreach (var value in element.Node)
-            {
-                this.XmiElementWriterFacade.WriteContainedElement(xmlWriter, value, "node", writeContext);
+                this.XmiElementWriterFacade.WriteReferenceElement(xmlWriter, value, "incoming", writeContext);
             }
 
             foreach (var value in element.Outgoing)
             {
                 this.XmiElementWriterFacade.WriteReferenceElement(xmlWriter, value, "outgoing", writeContext);
+            }
+
+            foreach (var value in element.RedefinedNode)
+            {
+                this.XmiElementWriterFacade.WriteReferenceElement(xmlWriter, value, "redefinedNode", writeContext);
+            }
+
+            foreach (var value in element.InputElement)
+            {
+                this.XmiElementWriterFacade.WriteReferenceElement(xmlWriter, value, "inputElement", writeContext);
             }
 
             foreach (var value in element.OutputElement)
@@ -237,6 +207,16 @@ namespace uml4net.xmi.Writers
                 this.XmiElementWriterFacade.WriteContainedElement(xmlWriter, value, "ownedComment", writeContext);
             }
 
+            foreach (var value in element.NameExpression)
+            {
+                this.XmiElementWriterFacade.WriteContainedElement(xmlWriter, value, "nameExpression", writeContext);
+            }
+
+            foreach (var value in element.ElementImport)
+            {
+                this.XmiElementWriterFacade.WriteContainedElement(xmlWriter, value, "elementImport", writeContext);
+            }
+
             foreach (var value in element.OwnedRule)
             {
                 this.XmiElementWriterFacade.WriteContainedElement(xmlWriter, value, "ownedRule", writeContext);
@@ -247,9 +227,29 @@ namespace uml4net.xmi.Writers
                 this.XmiElementWriterFacade.WriteContainedElement(xmlWriter, value, "packageImport", writeContext);
             }
 
-            foreach (var value in element.RedefinedNode)
+            foreach (var value in element.Handler)
             {
-                this.XmiElementWriterFacade.WriteReferenceElement(xmlWriter, value, "redefinedNode", writeContext);
+                this.XmiElementWriterFacade.WriteContainedElement(xmlWriter, value, "handler", writeContext);
+            }
+
+            foreach (var value in element.LocalPostcondition)
+            {
+                this.XmiElementWriterFacade.WriteContainedElement(xmlWriter, value, "localPostcondition", writeContext);
+            }
+
+            foreach (var value in element.LocalPrecondition)
+            {
+                this.XmiElementWriterFacade.WriteContainedElement(xmlWriter, value, "localPrecondition", writeContext);
+            }
+
+            foreach (var value in element.Edge)
+            {
+                this.XmiElementWriterFacade.WriteContainedElement(xmlWriter, value, "edge", writeContext);
+            }
+
+            foreach (var value in element.Node)
+            {
+                this.XmiElementWriterFacade.WriteContainedElement(xmlWriter, value, "node", writeContext);
             }
 
             foreach (var value in element.StructuredNodeInput)
@@ -334,26 +334,6 @@ namespace uml4net.xmi.Writers
                 await xmlWriter.WriteAttributeStringAsync("xmi", "uuid", this.XmiWriterSettings.XmiNamespaceUri, element.XmiGuid);
             }
 
-            if (element.IsLeaf)
-            {
-                await xmlWriter.WriteAttributeStringAsync(null, "isLeaf", null, XmlConvert.ToString(element.IsLeaf));
-            }
-
-            if (element.IsLocallyReentrant)
-            {
-                await xmlWriter.WriteAttributeStringAsync(null, "isLocallyReentrant", null, XmlConvert.ToString(element.IsLocallyReentrant));
-            }
-
-            if (element.Mode != ExpansionKind.Iterative)
-            {
-                await xmlWriter.WriteAttributeStringAsync(null, "mode", null, element.Mode.QueryXmiLiteral());
-            }
-
-            if (element.MustIsolate)
-            {
-                await xmlWriter.WriteAttributeStringAsync(null, "mustIsolate", null, XmlConvert.ToString(element.MustIsolate));
-            }
-
             if (!string.IsNullOrEmpty(element.Name))
             {
                 await xmlWriter.WriteAttributeStringAsync(null, "name", null, element.Name);
@@ -364,26 +344,26 @@ namespace uml4net.xmi.Writers
                 await xmlWriter.WriteAttributeStringAsync(null, "visibility", null, element.Visibility.Value.QueryXmiLiteral());
             }
 
-
-            foreach (var value in element.Edge)
+            if (element.IsLeaf)
             {
-                await this.XmiElementWriterFacade.WriteContainedElementAsync(xmlWriter, value, "edge", writeContext);
+                await xmlWriter.WriteAttributeStringAsync(null, "isLeaf", null, XmlConvert.ToString(element.IsLeaf));
             }
 
-            foreach (var value in element.ElementImport)
+            if (element.IsLocallyReentrant)
             {
-                await this.XmiElementWriterFacade.WriteContainedElementAsync(xmlWriter, value, "elementImport", writeContext);
+                await xmlWriter.WriteAttributeStringAsync(null, "isLocallyReentrant", null, XmlConvert.ToString(element.IsLocallyReentrant));
             }
 
-            foreach (var value in element.Handler)
+            if (element.MustIsolate)
             {
-                await this.XmiElementWriterFacade.WriteContainedElementAsync(xmlWriter, value, "handler", writeContext);
+                await xmlWriter.WriteAttributeStringAsync(null, "mustIsolate", null, XmlConvert.ToString(element.MustIsolate));
             }
 
-            foreach (var value in element.Incoming)
+            if (element.Mode != ExpansionKind.Iterative)
             {
-                await this.XmiElementWriterFacade.WriteReferenceElementAsync(xmlWriter, value, "incoming", writeContext);
+                await xmlWriter.WriteAttributeStringAsync(null, "mode", null, element.Mode.QueryXmiLiteral());
             }
+
 
             foreach (var value in element.InInterruptibleRegion)
             {
@@ -395,34 +375,24 @@ namespace uml4net.xmi.Writers
                 await this.XmiElementWriterFacade.WriteReferenceElementAsync(xmlWriter, value, "inPartition", writeContext);
             }
 
-            foreach (var value in element.InputElement)
+            foreach (var value in element.Incoming)
             {
-                await this.XmiElementWriterFacade.WriteReferenceElementAsync(xmlWriter, value, "inputElement", writeContext);
-            }
-
-            foreach (var value in element.LocalPostcondition)
-            {
-                await this.XmiElementWriterFacade.WriteContainedElementAsync(xmlWriter, value, "localPostcondition", writeContext);
-            }
-
-            foreach (var value in element.LocalPrecondition)
-            {
-                await this.XmiElementWriterFacade.WriteContainedElementAsync(xmlWriter, value, "localPrecondition", writeContext);
-            }
-
-            foreach (var value in element.NameExpression)
-            {
-                await this.XmiElementWriterFacade.WriteContainedElementAsync(xmlWriter, value, "nameExpression", writeContext);
-            }
-
-            foreach (var value in element.Node)
-            {
-                await this.XmiElementWriterFacade.WriteContainedElementAsync(xmlWriter, value, "node", writeContext);
+                await this.XmiElementWriterFacade.WriteReferenceElementAsync(xmlWriter, value, "incoming", writeContext);
             }
 
             foreach (var value in element.Outgoing)
             {
                 await this.XmiElementWriterFacade.WriteReferenceElementAsync(xmlWriter, value, "outgoing", writeContext);
+            }
+
+            foreach (var value in element.RedefinedNode)
+            {
+                await this.XmiElementWriterFacade.WriteReferenceElementAsync(xmlWriter, value, "redefinedNode", writeContext);
+            }
+
+            foreach (var value in element.InputElement)
+            {
+                await this.XmiElementWriterFacade.WriteReferenceElementAsync(xmlWriter, value, "inputElement", writeContext);
             }
 
             foreach (var value in element.OutputElement)
@@ -435,6 +405,16 @@ namespace uml4net.xmi.Writers
                 await this.XmiElementWriterFacade.WriteContainedElementAsync(xmlWriter, value, "ownedComment", writeContext);
             }
 
+            foreach (var value in element.NameExpression)
+            {
+                await this.XmiElementWriterFacade.WriteContainedElementAsync(xmlWriter, value, "nameExpression", writeContext);
+            }
+
+            foreach (var value in element.ElementImport)
+            {
+                await this.XmiElementWriterFacade.WriteContainedElementAsync(xmlWriter, value, "elementImport", writeContext);
+            }
+
             foreach (var value in element.OwnedRule)
             {
                 await this.XmiElementWriterFacade.WriteContainedElementAsync(xmlWriter, value, "ownedRule", writeContext);
@@ -445,9 +425,29 @@ namespace uml4net.xmi.Writers
                 await this.XmiElementWriterFacade.WriteContainedElementAsync(xmlWriter, value, "packageImport", writeContext);
             }
 
-            foreach (var value in element.RedefinedNode)
+            foreach (var value in element.Handler)
             {
-                await this.XmiElementWriterFacade.WriteReferenceElementAsync(xmlWriter, value, "redefinedNode", writeContext);
+                await this.XmiElementWriterFacade.WriteContainedElementAsync(xmlWriter, value, "handler", writeContext);
+            }
+
+            foreach (var value in element.LocalPostcondition)
+            {
+                await this.XmiElementWriterFacade.WriteContainedElementAsync(xmlWriter, value, "localPostcondition", writeContext);
+            }
+
+            foreach (var value in element.LocalPrecondition)
+            {
+                await this.XmiElementWriterFacade.WriteContainedElementAsync(xmlWriter, value, "localPrecondition", writeContext);
+            }
+
+            foreach (var value in element.Edge)
+            {
+                await this.XmiElementWriterFacade.WriteContainedElementAsync(xmlWriter, value, "edge", writeContext);
+            }
+
+            foreach (var value in element.Node)
+            {
+                await this.XmiElementWriterFacade.WriteContainedElementAsync(xmlWriter, value, "node", writeContext);
             }
 
             foreach (var value in element.StructuredNodeInput)
