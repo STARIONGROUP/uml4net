@@ -20,6 +20,7 @@
 
 namespace uml4net.xmi.Tests.Writers
 {
+    using System;
     using System.IO;
     using System.Linq;
     using System.Xml.Linq;
@@ -80,6 +81,32 @@ namespace uml4net.xmi.Tests.Writers
                 Assert.That(rereadDocumentation.ShortDescription, Is.EqualTo(originalDocumentation.ShortDescription));
                 Assert.That(rereadDocumentation.Notice, Is.EqualTo(originalDocumentation.Notice));
                 Assert.That(rereadDocumentation.Owner, Is.EqualTo(originalDocumentation.Owner));
+            }
+        }
+
+        [Test]
+        public void Verify_that_the_exporterID_of_an_Enterprise_Architect_export_is_written_back()
+        {
+            // <xmi:Documentation exporter="Enterprise Architect" exporterVersion="6.5" exporterID="1704"/>
+            var originalResult = this.CreateReader().Read(Path.Combine(this.rootPath, "EAExport.xmi"));
+
+            using var stream = new MemoryStream();
+
+            var writer = XmiWriterBuilder.Create()
+                .WithLogger(NullLoggerFactory.Instance)
+                .Build();
+
+            writer.Write(originalResult.DocumentRootElements, stream, "EAExport.xmi", originalResult.XmiRoot.Documentation, null);
+
+            stream.Position = 0;
+
+            var documentation = XDocument.Load(stream).Root!.Elements().Single(x => x.Name.LocalName.Equals("Documentation", StringComparison.OrdinalIgnoreCase));
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(documentation.Attribute("exporter")?.Value, Is.EqualTo("Enterprise Architect"));
+                Assert.That(documentation.Attribute("exporterVersion")?.Value, Is.EqualTo("6.5"));
+                Assert.That(documentation.Attribute("exporterID")?.Value, Is.EqualTo("1704"));
             }
         }
 

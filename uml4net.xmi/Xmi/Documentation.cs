@@ -46,8 +46,17 @@ namespace uml4net.xmi.Xmi
         public string ExporterVersion { get; set; }
 
         /// <summary>
-        /// Non-standard convenience field for an exporter identifier.
+        /// Identifier of the exporting tool, for example the build number that Enterprise Architect writes
+        /// (<c>exporterID="1704"</c>).
         /// </summary>
+        /// <remarks>
+        /// <c>exporterID</c> is not part of the XMI 2.5.1 Documentation class (clause 7.5.5), which defines contact,
+        /// exporter, exporterVersion, longDescription, shortDescription, notice, owner and timestamp. Enterprise
+        /// Architect writes it in the Documentation of every export, and its <c>UML_EA.DTD</c> declares
+        /// <c>XMI.exporterID</c>. uml4net reads it, from an attribute or a child element, and writes it back as an
+        /// attribute when it is set, so that the Documentation of an Enterprise Architect model survives a read-write
+        /// cycle. Leave it null or empty to write a Documentation with the XMI 2.5.1 attributes only.
+        /// </remarks>
         public string ExporterID { get; set; }
 
         /// <summary>

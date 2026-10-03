@@ -106,6 +106,8 @@ namespace uml4net.xmi.Writers
                 xmlWriter.WriteAttributeString("exporter", documentation.Exporter);
             }
 
+            // exporterID is not an XMI 2.5.1 Documentation attribute; it is written by Enterprise Architect and is kept
+            // for the round trip of its models, see Documentation.ExporterID
             if (!string.IsNullOrEmpty(documentation.ExporterID))
             {
                 xmlWriter.WriteAttributeString("exporterID", documentation.ExporterID);
@@ -193,6 +195,8 @@ namespace uml4net.xmi.Writers
                 await xmlWriter.WriteAttributeStringAsync(null, "exporter", null, documentation.Exporter);
             }
 
+            // exporterID is not an XMI 2.5.1 Documentation attribute; it is written by Enterprise Architect and is kept
+            // for the round trip of its models, see Documentation.ExporterID
             if (!string.IsNullOrEmpty(documentation.ExporterID))
             {
                 await xmlWriter.WriteAttributeStringAsync(null, "exporterID", null, documentation.ExporterID);
