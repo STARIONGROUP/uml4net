@@ -30,6 +30,9 @@
         <Content Include="..\resources\UML\UML.xmi" Link="TestData\UML.xmi">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </Content>
+        <Content Include="..\resources\UML\UMLDI.xmi" Link="TestData\UMLDI.xmi">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
         <Content Include="..\resources\XMI\XMI-model.xmi" Link="TestData\XMI-model.xmi">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </Content>

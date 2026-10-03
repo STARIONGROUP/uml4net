@@ -72,6 +72,33 @@ namespace uml4net.xmi.Tests.Resources
             Assert.That(content, Does.Contain("xmi:id=\"Boolean\""));
         }
 
+        [TestCase("http://www.omg.org/spec/DD/20131001/DI.xmi#Diagram", "name=\"DI\"")]
+        [TestCase("https://www.omg.org/spec/DD/20131001/DI.xmi#Diagram", "name=\"DI\"")]
+        [TestCase("DI.xmi#Diagram", "name=\"DI\"")]
+        [TestCase("DI#Diagram", "name=\"DI\"")]
+        [TestCase("http://www.omg.org/spec/DD/20131001/DC.xmi#Bounds", "name=\"DC\"")]
+        [TestCase("https://www.omg.org/spec/DD/20131001/DC.xmi#Bounds", "name=\"DC\"")]
+        [TestCase("DC.xmi#Bounds", "name=\"DC\"")]
+        [TestCase("DC#Bounds", "name=\"DC\"")]
+        [TestCase("http://www.omg.org/spec/UML/20131001/UML.xmi#Element", "name=\"UML\"")]
+        [TestCase("https://www.omg.org/spec/UML/20131001/UML.xmi#Element", "name=\"UML\"")]
+        public void Verify_that_the_DD_documents_and_the_2013_UML_document_resolve_to_their_embedded_resource(string resourceName, string expectedPackage)
+        {
+            var loader = new ResourceLoader();
+            var result = loader.TryLoadKnownResource(resourceName, out var stream);
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(result, Is.True);
+                Assert.That(stream, Is.Not.Null);
+            }
+
+            using var reader = new StreamReader(stream);
+            var content = reader.ReadToEnd();
+
+            Assert.That(content, Does.Contain(expectedPackage));
+        }
+
         [Test]
         public void Verify_that_every_known_external_reference_resolves_to_an_existing_embedded_resource()
         {
