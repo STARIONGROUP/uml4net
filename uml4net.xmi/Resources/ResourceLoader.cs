@@ -52,7 +52,25 @@ namespace uml4net.xmi.Resources
             { "PrimitiveTypes", "uml4net.xmi.Resources.PrimitiveTypes.xmi" },
 
             { "http://www.omg.org/spec/UML/20131001/PrimitiveTypes.xmi", "uml4net.xmi.Resources.PrimitiveTypes.xmi" },
-            { "https://www.omg.org/spec/UML/20131001/PrimitiveTypes.xmi", "uml4net.xmi.Resources.PrimitiveTypes.xmi" }
+            { "https://www.omg.org/spec/UML/20131001/PrimitiveTypes.xmi", "uml4net.xmi.Resources.PrimitiveTypes.xmi" },
+
+            { "http://www.omg.org/spec/UML/20131001/UML.xmi", "uml4net.xmi.Resources.UML.xmi" },
+            { "https://www.omg.org/spec/UML/20131001/UML.xmi", "uml4net.xmi.Resources.UML.xmi" },
+
+            { "http://www.omg.org/spec/DD/20131001/DI.xmi", "uml4net.xmi.Resources.DI.xmi" },
+            { "https://www.omg.org/spec/DD/20131001/DI.xmi", "uml4net.xmi.Resources.DI.xmi" },
+            { "DI.xmi", "uml4net.xmi.Resources.DI.xmi" },
+            { "DI", "uml4net.xmi.Resources.DI.xmi" },
+
+            { "http://www.omg.org/spec/DD/20131001/DC.xmi", "uml4net.xmi.Resources.DC.xmi" },
+            { "https://www.omg.org/spec/DD/20131001/DC.xmi", "uml4net.xmi.Resources.DC.xmi" },
+            { "DC.xmi", "uml4net.xmi.Resources.DC.xmi" },
+            { "DC", "uml4net.xmi.Resources.DC.xmi" },
+
+            { "http://www.omg.org/spec/DD/20131001/DG.xmi", "uml4net.xmi.Resources.DG.xmi" },
+            { "https://www.omg.org/spec/DD/20131001/DG.xmi", "uml4net.xmi.Resources.DG.xmi" },
+            { "DG.xmi", "uml4net.xmi.Resources.DG.xmi" },
+            { "DG", "uml4net.xmi.Resources.DG.xmi" }
         };
 
         /// <summary>
