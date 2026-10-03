@@ -371,6 +371,155 @@ namespace uml4net.xmi.Writers
         /// </param>
         public void Write(IEnumerable<IXmiElement> rootElements, Stream stream, string documentName, Documentation documentation, IEnumerable<XmiExtension> documentExtensions, IEnumerable<Tag> tags)
         {
+            this.WriteDocument(rootElements, stream, documentName, documentation, documentExtensions, tags, []);
+        }
+
+        /// <summary>
+        /// Writes the provided root elements and the document-level parts of the provided <see cref="XmiRoot"/> to a UML
+        /// XMI 2.5.1 file: its <see cref="XmiRoot.Documentation"/>, <see cref="XmiRoot.Tags"/>,
+        /// <see cref="XmiRoot.Extensions"/>, and the elements that were captured without being processed,
+        /// <see cref="XmiRoot.DiagramInterchange"/> and <see cref="XmiRoot.UnprocessedContent"/>.
+        /// </summary>
+        /// <param name="rootElements">
+        /// The <see cref="IXmiElement"/>s that are to be written as top-level elements, typically the
+        /// <c>DocumentRootElements</c> of the <c>XmiReaderResult</c> that was read
+        /// </param>
+        /// <param name="fileUri">
+        /// The URI of the XMI file that is to be written.
+        /// </param>
+        /// <param name="xmiRoot">
+        /// The <see cref="XmiRoot"/> whose document-level parts are written, typically the <c>XmiRoot</c> of the
+        /// <c>XmiReaderResult</c> that was read; its <see cref="XmiRoot.Content"/> is not written, the
+        /// <paramref name="rootElements"/> are. May be null, in which case only the <paramref name="rootElements"/> are written
+        /// </param>
+        public void Write(IEnumerable<IXmiElement> rootElements, string fileUri, XmiRoot xmiRoot)
+        {
+            if (rootElements == null)
+            {
+                throw new ArgumentNullException(nameof(rootElements));
+            }
+
+            if (string.IsNullOrEmpty(fileUri))
+            {
+                throw new ArgumentException(nameof(fileUri));
+            }
+
+            using var fileStream = File.Create(fileUri);
+
+            var sw = Stopwatch.StartNew();
+
+            this.logger.LogInformation("start serializing to {Path}", fileUri);
+
+            this.Write(rootElements, fileStream, new FileInfo(fileUri).Name, xmiRoot);
+
+            this.logger.LogInformation("File {Path} serialized in {Time} [ms]", fileUri, sw.ElapsedMilliseconds);
+        }
+
+        /// <summary>
+        /// Writes the provided root elements and the document-level parts of the provided <see cref="XmiRoot"/> to a UML
+        /// XMI 2.5.1 stream: its <see cref="XmiRoot.Documentation"/>, <see cref="XmiRoot.Tags"/>,
+        /// <see cref="XmiRoot.Extensions"/>, and the elements that were captured without being processed,
+        /// <see cref="XmiRoot.DiagramInterchange"/> and <see cref="XmiRoot.UnprocessedContent"/>.
+        /// </summary>
+        /// <param name="rootElements">
+        /// The <see cref="IXmiElement"/>s that are to be written as top-level elements, typically the
+        /// <c>DocumentRootElements</c> of the <c>XmiReaderResult</c> that was read
+        /// </param>
+        /// <param name="stream">
+        /// The <see cref="Stream"/> to which the XMI content is written.
+        /// </param>
+        /// <param name="documentName">
+        /// The name of the document that is being written.
+        /// </param>
+        /// <param name="xmiRoot">
+        /// The <see cref="XmiRoot"/> whose document-level parts are written, typically the <c>XmiRoot</c> of the
+        /// <c>XmiReaderResult</c> that was read; its <see cref="XmiRoot.Content"/> is not written, the
+        /// <paramref name="rootElements"/> are. May be null, in which case only the <paramref name="rootElements"/> are written
+        /// </param>
+        /// <remarks>
+        /// The top-level elements are written in this order: the documentation, the root elements, the tags, the captured
+        /// elements in the order in which they were read, and the extensions. The namespaces that the captured elements
+        /// use are declared on <c>xmi:XMI</c>. The <see cref="XmiRoot.StereoTypeApplications"/> are not written.
+        /// </remarks>
+        public void Write(IEnumerable<IXmiElement> rootElements, Stream stream, string documentName, XmiRoot xmiRoot)
+        {
+            this.WriteDocument(rootElements, stream, documentName, xmiRoot?.Documentation, xmiRoot?.Extensions, xmiRoot?.Tags, QueryCapturedElements(xmiRoot));
+        }
+
+        /// <summary>
+        /// Queries the captured elements of the provided <see cref="XmiRoot"/>, in the order in which they were read
+        /// </summary>
+        /// <param name="xmiRoot">
+        /// The <see cref="XmiRoot"/>, may be null
+        /// </param>
+        /// <returns>
+        /// The <see cref="XmiRoot.DiagramInterchange"/> and <see cref="XmiRoot.UnprocessedContent"/> elements ordered by
+        /// their <see cref="CapturedElement.Position"/>
+        /// </returns>
+        private static List<CapturedElement> QueryCapturedElements(XmiRoot xmiRoot)
+        {
+            if (xmiRoot == null)
+            {
+                return [];
+            }
+
+            return xmiRoot.DiagramInterchange.Concat(xmiRoot.UnprocessedContent).OrderBy(x => x.Position).ToList();
+        }
+
+        /// <summary>
+        /// Queries the namespace declarations that the root element declares in addition to <c>xmi</c> and <c>uml</c>
+        /// </summary>
+        /// <param name="hasTags">
+        /// A value indicating whether tags are written, in which case <c>mofext</c> is declared
+        /// </param>
+        /// <param name="capturedElements">
+        /// The captured elements that are written
+        /// </param>
+        /// <returns>
+        /// The additional namespace declarations, by prefix
+        /// </returns>
+        private List<KeyValuePair<string, string>> QueryAdditionalRootNamespaceDeclarations(bool hasTags, IReadOnlyList<CapturedElement> capturedElements)
+        {
+            var result = new List<KeyValuePair<string, string>>();
+            var declaredPrefixes = new List<string> { KnowNamespacePrefixes.Xmi, KnowNamespacePrefixes.Uml };
+
+            if (hasTags)
+            {
+                result.Add(new KeyValuePair<string, string>(KnowNamespacePrefixes.MofExt, this.XmiWriterSettings.MofExtNamespaceUri));
+                declaredPrefixes.Add(KnowNamespacePrefixes.MofExt);
+            }
+
+            result.AddRange(CapturedElementWriter.QueryRootNamespaceDeclarations(capturedElements, declaredPrefixes));
+
+            return result;
+        }
+
+        /// <summary>
+        /// Writes the provided root elements and document-level parts to a UML XMI 2.5.1 stream
+        /// </summary>
+        /// <param name="rootElements">
+        /// The <see cref="IXmiElement"/>s that are to be written as top-level elements
+        /// </param>
+        /// <param name="stream">
+        /// The <see cref="Stream"/> to which the XMI content is written.
+        /// </param>
+        /// <param name="documentName">
+        /// The name of the document that is being written.
+        /// </param>
+        /// <param name="documentation">
+        /// The <see cref="Documentation"/> that is to be written, may be null
+        /// </param>
+        /// <param name="documentExtensions">
+        /// The <see cref="XmiExtension"/>s that are to be written, may be null
+        /// </param>
+        /// <param name="tags">
+        /// The MOF <see cref="Tag"/>s that are to be written, may be null
+        /// </param>
+        /// <param name="capturedElements">
+        /// The <see cref="CapturedElement"/>s that are to be written, in order
+        /// </param>
+        private void WriteDocument(IEnumerable<IXmiElement> rootElements, Stream stream, string documentName, Documentation documentation, IEnumerable<XmiExtension> documentExtensions, IEnumerable<Tag> tags, IReadOnlyList<CapturedElement> capturedElements)
+        {
             if (rootElements == null)
             {
                 throw new ArgumentNullException(nameof(rootElements));
@@ -396,9 +545,9 @@ namespace uml4net.xmi.Writers
             xmlWriter.WriteStartElement("xmi", "XMI", this.XmiWriterSettings.XmiNamespaceUri);
             xmlWriter.WriteAttributeString("xmlns", "uml", null, this.XmiWriterSettings.UmlNamespaceUri);
 
-            if (tagList.Count > 0)
+            foreach (var namespaceDeclaration in this.QueryAdditionalRootNamespaceDeclarations(tagList.Count > 0, capturedElements))
             {
-                xmlWriter.WriteAttributeString("xmlns", KnowNamespacePrefixes.MofExt, null, this.XmiWriterSettings.MofExtNamespaceUri);
+                xmlWriter.WriteAttributeString("xmlns", namespaceDeclaration.Key, null, namespaceDeclaration.Value);
             }
 
             if (documentation != null)
@@ -420,6 +569,16 @@ namespace uml4net.xmi.Writers
                 foreach (var tag in tagList)
                 {
                     tagWriter.Write(xmlWriter, tag);
+                }
+            }
+
+            if (capturedElements.Count > 0)
+            {
+                var capturedElementWriter = new CapturedElementWriter(this.LoggerFactory);
+
+                foreach (var capturedElement in capturedElements)
+                {
+                    capturedElementWriter.Write(xmlWriter, capturedElement);
                 }
             }
 
@@ -765,7 +924,126 @@ namespace uml4net.xmi.Writers
         /// <returns>
         /// an awaitable <see cref="Task"/>
         /// </returns>
-        public async Task WriteAsync(IEnumerable<IXmiElement> rootElements, Stream stream, string documentName, Documentation documentation, IEnumerable<XmiExtension> documentExtensions, IEnumerable<Tag> tags, CancellationToken cancellationToken = default)
+        public Task WriteAsync(IEnumerable<IXmiElement> rootElements, Stream stream, string documentName, Documentation documentation, IEnumerable<XmiExtension> documentExtensions, IEnumerable<Tag> tags, CancellationToken cancellationToken = default)
+        {
+            return this.WriteDocumentAsync(rootElements, stream, documentName, documentation, documentExtensions, tags, [], cancellationToken);
+        }
+
+        /// <summary>
+        /// Asynchronously writes the provided root elements and the document-level parts of the provided
+        /// <see cref="XmiRoot"/> to a UML XMI 2.5.1 file: its <see cref="XmiRoot.Documentation"/>,
+        /// <see cref="XmiRoot.Tags"/>, <see cref="XmiRoot.Extensions"/>, and the elements that were captured without being
+        /// processed, <see cref="XmiRoot.DiagramInterchange"/> and <see cref="XmiRoot.UnprocessedContent"/>.
+        /// </summary>
+        /// <param name="rootElements">
+        /// The <see cref="IXmiElement"/>s that are to be written as top-level elements, typically the
+        /// <c>DocumentRootElements</c> of the <c>XmiReaderResult</c> that was read
+        /// </param>
+        /// <param name="fileUri">
+        /// The URI of the XMI file that is to be written.
+        /// </param>
+        /// <param name="xmiRoot">
+        /// The <see cref="XmiRoot"/> whose document-level parts are written, typically the <c>XmiRoot</c> of the
+        /// <c>XmiReaderResult</c> that was read; its <see cref="XmiRoot.Content"/> is not written, the
+        /// <paramref name="rootElements"/> are. May be null, in which case only the <paramref name="rootElements"/> are written
+        /// </param>
+        /// <param name="cancellationToken">
+        /// The <see cref="CancellationToken"/> used to cancel the write operation
+        /// </param>
+        /// <returns>
+        /// an awaitable <see cref="Task"/>
+        /// </returns>
+        public async Task WriteAsync(IEnumerable<IXmiElement> rootElements, string fileUri, XmiRoot xmiRoot, CancellationToken cancellationToken = default)
+        {
+            if (rootElements == null)
+            {
+                throw new ArgumentNullException(nameof(rootElements));
+            }
+
+            if (string.IsNullOrEmpty(fileUri))
+            {
+                throw new ArgumentException(nameof(fileUri));
+            }
+
+            using var fileStream = File.Create(fileUri);
+
+            var sw = Stopwatch.StartNew();
+
+            this.logger.LogInformation("start serializing to {Path}", fileUri);
+
+            await this.WriteAsync(rootElements, fileStream, new FileInfo(fileUri).Name, xmiRoot, cancellationToken);
+
+            this.logger.LogInformation("File {Path} serialized in {Time} [ms]", fileUri, sw.ElapsedMilliseconds);
+        }
+
+        /// <summary>
+        /// Asynchronously writes the provided root elements and the document-level parts of the provided
+        /// <see cref="XmiRoot"/> to a UML XMI 2.5.1 stream: its <see cref="XmiRoot.Documentation"/>,
+        /// <see cref="XmiRoot.Tags"/>, <see cref="XmiRoot.Extensions"/>, and the elements that were captured without being
+        /// processed, <see cref="XmiRoot.DiagramInterchange"/> and <see cref="XmiRoot.UnprocessedContent"/>.
+        /// </summary>
+        /// <param name="rootElements">
+        /// The <see cref="IXmiElement"/>s that are to be written as top-level elements, typically the
+        /// <c>DocumentRootElements</c> of the <c>XmiReaderResult</c> that was read
+        /// </param>
+        /// <param name="stream">
+        /// The <see cref="Stream"/> to which the XMI content is written.
+        /// </param>
+        /// <param name="documentName">
+        /// The name of the document that is being written.
+        /// </param>
+        /// <param name="xmiRoot">
+        /// The <see cref="XmiRoot"/> whose document-level parts are written, typically the <c>XmiRoot</c> of the
+        /// <c>XmiReaderResult</c> that was read; its <see cref="XmiRoot.Content"/> is not written, the
+        /// <paramref name="rootElements"/> are. May be null, in which case only the <paramref name="rootElements"/> are written
+        /// </param>
+        /// <param name="cancellationToken">
+        /// The <see cref="CancellationToken"/> used to cancel the write operation
+        /// </param>
+        /// <returns>
+        /// an awaitable <see cref="Task"/>
+        /// </returns>
+        /// <remarks>
+        /// The top-level elements are written in this order: the documentation, the root elements, the tags, the captured
+        /// elements in the order in which they were read, and the extensions. The namespaces that the captured elements
+        /// use are declared on <c>xmi:XMI</c>. The <see cref="XmiRoot.StereoTypeApplications"/> are not written.
+        /// </remarks>
+        public Task WriteAsync(IEnumerable<IXmiElement> rootElements, Stream stream, string documentName, XmiRoot xmiRoot, CancellationToken cancellationToken = default)
+        {
+            return this.WriteDocumentAsync(rootElements, stream, documentName, xmiRoot?.Documentation, xmiRoot?.Extensions, xmiRoot?.Tags, QueryCapturedElements(xmiRoot), cancellationToken);
+        }
+
+        /// <summary>
+        /// Asynchronously writes the provided root elements and document-level parts to a UML XMI 2.5.1 stream
+        /// </summary>
+        /// <param name="rootElements">
+        /// The <see cref="IXmiElement"/>s that are to be written as top-level elements
+        /// </param>
+        /// <param name="stream">
+        /// The <see cref="Stream"/> to which the XMI content is written.
+        /// </param>
+        /// <param name="documentName">
+        /// The name of the document that is being written.
+        /// </param>
+        /// <param name="documentation">
+        /// The <see cref="Documentation"/> that is to be written, may be null
+        /// </param>
+        /// <param name="documentExtensions">
+        /// The <see cref="XmiExtension"/>s that are to be written, may be null
+        /// </param>
+        /// <param name="tags">
+        /// The MOF <see cref="Tag"/>s that are to be written, may be null
+        /// </param>
+        /// <param name="capturedElements">
+        /// The <see cref="CapturedElement"/>s that are to be written, in order
+        /// </param>
+        /// <param name="cancellationToken">
+        /// The <see cref="CancellationToken"/> used to cancel the write operation
+        /// </param>
+        /// <returns>
+        /// an awaitable <see cref="Task"/>
+        /// </returns>
+        private async Task WriteDocumentAsync(IEnumerable<IXmiElement> rootElements, Stream stream, string documentName, Documentation documentation, IEnumerable<XmiExtension> documentExtensions, IEnumerable<Tag> tags, IReadOnlyList<CapturedElement> capturedElements, CancellationToken cancellationToken)
         {
             if (rootElements == null)
             {
@@ -792,9 +1070,9 @@ namespace uml4net.xmi.Writers
             await xmlWriter.WriteStartElementAsync("xmi", "XMI", this.XmiWriterSettings.XmiNamespaceUri);
             await xmlWriter.WriteAttributeStringAsync("xmlns", "uml", null, this.XmiWriterSettings.UmlNamespaceUri);
 
-            if (tagList.Count > 0)
+            foreach (var namespaceDeclaration in this.QueryAdditionalRootNamespaceDeclarations(tagList.Count > 0, capturedElements))
             {
-                await xmlWriter.WriteAttributeStringAsync("xmlns", KnowNamespacePrefixes.MofExt, null, this.XmiWriterSettings.MofExtNamespaceUri);
+                await xmlWriter.WriteAttributeStringAsync("xmlns", namespaceDeclaration.Key, null, namespaceDeclaration.Value);
             }
 
             if (documentation != null)
@@ -820,6 +1098,18 @@ namespace uml4net.xmi.Writers
                     cancellationToken.ThrowIfCancellationRequested();
 
                     await tagWriter.WriteAsync(xmlWriter, tag);
+                }
+            }
+
+            if (capturedElements.Count > 0)
+            {
+                var capturedElementWriter = new CapturedElementWriter(this.LoggerFactory);
+
+                foreach (var capturedElement in capturedElements)
+                {
+                    cancellationToken.ThrowIfCancellationRequested();
+
+                    await capturedElementWriter.WriteAsync(xmlWriter, capturedElement);
                 }
             }
 

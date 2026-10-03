@@ -101,23 +101,23 @@ namespace uml4net.xmi.Xmi
 
         /// <summary>
         /// Gets or sets the UML Diagram Interchange (UMLDI) elements that are contained by the <see cref="XmiRoot"/>,
-        /// such as <c>umldi:UMLDiagram</c>, each one preserved verbatim as its raw XML
+        /// such as <c>umldi:UMLDiagram</c>, each one captured verbatim as a <see cref="CapturedElement"/>
         /// </summary>
         /// <remarks>
-        /// uml4net does not model Diagram Interchange; the elements are preserved so that they are not lost and can be
-        /// written back, in the same way as the content of an <see cref="XmiExtension"/>
+        /// uml4net does not model Diagram Interchange; the elements are captured so that they are not lost, and the
+        /// <c>IXmiWriter</c> writes them back when it is given this <see cref="XmiRoot"/>
         /// </remarks>
-        public List<string> DiagramInterchange { get; set; } = [];
+        public List<CapturedElement> DiagramInterchange { get; set; } = [];
 
         /// <summary>
         /// Gets or sets the document-level elements of a known namespace that uml4net does not process, each one
-        /// preserved verbatim as its raw XML: elements of the PrimitiveTypes namespace, and elements of the UML
-        /// StandardProfile namespace that are not the application of a stereotype
+        /// captured verbatim as a <see cref="CapturedElement"/>: elements of the PrimitiveTypes namespace, and
+        /// elements of the UML StandardProfile namespace that are not the application of a stereotype
         /// </summary>
         /// <remarks>
-        /// The elements are preserved so that they are not lost and can be written back, in the same way as the
-        /// <see cref="DiagramInterchange"/>
+        /// The elements are captured so that they are not lost, and the <c>IXmiWriter</c> writes them back when it is
+        /// given this <see cref="XmiRoot"/>, in the same way as the <see cref="DiagramInterchange"/>
         /// </remarks>
-        public List<string> UnprocessedContent { get; set; } = [];
+        public List<CapturedElement> UnprocessedContent { get; set; } = [];
     }
 }

@@ -101,11 +101,21 @@ namespace uml4net.xmi.Tests
             {
                 Assert.That(xmiReaderResult.XmiRoot.DiagramInterchange, Has.Count.EqualTo(1));
 
-                var diagram = XElement.Parse(xmiReaderResult.XmiRoot.DiagramInterchange.Single());
+                var capturedDiagram = xmiReaderResult.XmiRoot.DiagramInterchange.Single();
+                var diagram = XElement.Parse(capturedDiagram.RawXml);
 
                 Assert.That(diagram.Name, Is.EqualTo(umlDi + "UMLClassDiagram"), "the raw XML declares the namespaces of its element names");
                 Assert.That(diagram.Attribute(XNamespace.Get("http://www.omg.org/spec/XMI/20131001") + "id")?.Value, Is.EqualTo("diagram"));
                 Assert.That(diagram.Descendants("bounds").Single().Attribute("width")?.Value, Is.EqualTo("90"), "the content is preserved");
+                Assert.That(diagram.Attribute(XNamespace.Xmlns + "dc")?.Value, Is.EqualTo("http://www.omg.org/spec/DD/20131001/DC"),
+                    "dc is used in a value only, xmi:type=\"dc:Bounds\", and is declared on xmi:XMI: the raw XML declares it");
+
+                Assert.That(capturedDiagram.NamespaceUri, Is.EqualTo(umlDi.NamespaceName));
+                Assert.That(capturedDiagram.Prefix, Is.EqualTo("umldi"));
+                Assert.That(capturedDiagram.LocalName, Is.EqualTo("UMLClassDiagram"));
+                Assert.That(capturedDiagram.XmiId, Is.EqualTo("diagram"));
+                Assert.That(capturedDiagram.Position, Is.EqualTo(4), "the fifth child of xmi:XMI");
+                Assert.That(capturedDiagram.NamespaceDeclarations.Keys, Is.EquivalentTo(new[] { "xmi", "uml", "StandardProfile", "umldi", "dc", "Custom", "primitiveTypes" }));
             }
         }
 
@@ -115,7 +125,7 @@ namespace uml4net.xmi.Tests
             var xmiReaderResult = this.Read();
 
             var xmiId = XNamespace.Get("http://www.omg.org/spec/XMI/20131001") + "id";
-            var unprocessed = xmiReaderResult.XmiRoot.UnprocessedContent.Select(XElement.Parse).ToList();
+            var unprocessed = xmiReaderResult.XmiRoot.UnprocessedContent.Select(x => XElement.Parse(x.RawXml)).ToList();
 
             using (Assert.EnterMultipleScope())
             {
@@ -124,6 +134,8 @@ namespace uml4net.xmi.Tests
                 Assert.That(unprocessed[0].Name, Is.EqualTo(XNamespace.Get("http://www.omg.org/spec/UML/20161101/StandardProfile") + "Unknown"));
                 Assert.That(unprocessed[1].Name, Is.EqualTo(XNamespace.Get("http://www.omg.org/spec/UML/20161101/PrimitiveTypes.xmi") + "Annotation"));
                 Assert.That(unprocessed[1].Attribute("note")?.Value, Is.EqualTo("kept"));
+                Assert.That(xmiReaderResult.XmiRoot.UnprocessedContent.Select(x => x.Position), Is.EqualTo(new[] { 5, 6 }));
+                Assert.That(xmiReaderResult.XmiRoot.UnprocessedContent.Select(x => x.XmiId), Is.EqualTo(new[] { "notAnApplication", "primitiveTypesElement" }));
             }
         }
 
