@@ -199,7 +199,7 @@ namespace uml4net.xmi.Readers
                                 xmiRoot.Content.Add(xmiElement);
                                 break;
                             case (KnowNamespacePrefixes.StandardProfile, _):
-                                this.CaptureStandardProfileElement(xmlReader, xmiRoot, position);
+                                this.CaptureStandardProfileElement(xmlReader, xmiRoot, position, documentName);
                                 break;
                             case (KnowNamespacePrefixes.UmlDi, _):
                                 this.logger.LogWarning("DiagramInterchange content is not processed, the element at line:position {LineNumber}:{LinePosition} is captured", xmlLineInfo?.LineNumber, xmlLineInfo?.LinePosition);
@@ -218,7 +218,7 @@ namespace uml4net.xmi.Readers
                                 }
                                 break;
                             case (KnowNamespacePrefixes.Other, _):
-                                this.ProcessOtherNamespaces(xmlReader, xmiRoot);
+                                this.ProcessOtherNamespaces(xmlReader, xmiRoot, documentName);
                                  break;
                         }
                     }
@@ -298,7 +298,10 @@ namespace uml4net.xmi.Readers
         /// <param name="position">
         /// The zero-based position of the element among the top-level elements of the document
         /// </param>
-        private void CaptureStandardProfileElement(XmlReader xmlReader, XmiRoot xmiRoot, int position)
+        /// <param name="documentName">
+        /// The name of the document that contains the element
+        /// </param>
+        private void CaptureStandardProfileElement(XmlReader xmlReader, XmiRoot xmiRoot, int position, string documentName)
         {
             // the position is taken before the element is read, after which the reader has moved past it
             var xmlLineInfo = xmlReader as IXmlLineInfo;
@@ -312,6 +315,7 @@ namespace uml4net.xmi.Readers
 
             if (stereoTypeApplicationReader.TryRead(rawXmlReader, out var stereoTypeApplication))
             {
+                stereoTypeApplication.DocumentName = documentName;
                 xmiRoot.StereoTypeApplications.Add(stereoTypeApplication);
             }
             else
@@ -330,7 +334,10 @@ namespace uml4net.xmi.Readers
         /// <param name="xmiRoot">
         /// The <see cref="XmiRoot"/>
         /// </param>
-        private void  ProcessOtherNamespaces(XmlReader xmlReader, XmiRoot xmiRoot)
+        /// <param name="documentName">
+        /// The name of the document that contains the element
+        /// </param>
+        private void ProcessOtherNamespaces(XmlReader xmlReader, XmiRoot xmiRoot, string documentName)
         {
             var xmlLineInfo = xmlReader as IXmlLineInfo;
 
@@ -341,6 +348,7 @@ namespace uml4net.xmi.Readers
 
                 if (stereoTypeApplicationReader.TryRead(otherXmlReader, out var stereoTypeApplication))
                 {
+                    stereoTypeApplication.DocumentName = documentName;
                     xmiRoot.StereoTypeApplications.Add(stereoTypeApplication);
                 }
                 else

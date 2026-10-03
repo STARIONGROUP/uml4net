@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    A profile and a model to which it is applied, in one document (UML 2.5.1 clause 12.3.3): the applications use the
+    namespace of the org.omg.xmi.nsURI tag of the profile, which differs from its URI, and serialize their tagged values
+    as attributes and as child elements, with primitive, enumeration and reference values, and a property inherited from
+    a general stereotype. The Other namespace has no profile, and some applications cannot be resolved completely.
+-->
+<xmi:XMI xmlns:xmi="http://www.omg.org/spec/XMI/20131001" xmlns:uml="http://www.omg.org/spec/UML/20161101" xmlns:mofext="http://www.omg.org/spec/MOF/20131001" xmlns:Demo="http://example.org/profiles/Demo/1.0/Demo.xmi" xmlns:Other="http://example.org/profiles/Other" xmlns:SecondProfile="http:///schemas/SecondProfile/_generated/0">
+  <uml:Profile xmi:id="demo" name="Demo" URI="http://example.org/profiles/Demo">
+    <packagedElement xmi:type="uml:Enumeration" xmi:id="Level" name="Level">
+      <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="Level-low" name="low"/>
+      <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="Level-high" name="high"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Stereotype" xmi:id="Tracked" name="Tracked" isAbstract="true">
+      <ownedAttribute xmi:type="uml:Property" xmi:id="Tracked-owner" name="owner">
+        <type href="http://www.omg.org/spec/UML/20161101/PrimitiveTypes.xmi#String"/>
+      </ownedAttribute>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Package" xmi:id="nested" name="Nested">
+      <packagedElement xmi:type="uml:Stereotype" xmi:id="Requirement" name="Requirement">
+        <generalization xmi:type="uml:Generalization" xmi:id="Requirement-general" general="Tracked"/>
+        <ownedAttribute xmi:type="uml:Property" xmi:id="Requirement-base_Class" name="base_Class">
+          <type href="http://www.omg.org/spec/UML/20161101/UML.xmi#Class"/>
+        </ownedAttribute>
+        <ownedAttribute xmi:type="uml:Property" xmi:id="Requirement-isMandatory" name="isMandatory">
+          <type href="http://www.omg.org/spec/UML/20161101/PrimitiveTypes.xmi#Boolean"/>
+        </ownedAttribute>
+        <ownedAttribute xmi:type="uml:Property" xmi:id="Requirement-priority" name="priority">
+          <type href="http://www.omg.org/spec/UML/20161101/PrimitiveTypes.xmi#Integer"/>
+        </ownedAttribute>
+        <ownedAttribute xmi:type="uml:Property" xmi:id="Requirement-weight" name="weight">
+          <type href="http://www.omg.org/spec/UML/20161101/PrimitiveTypes.xmi#Real"/>
+        </ownedAttribute>
+        <ownedAttribute xmi:type="uml:Property" xmi:id="Requirement-maximum" name="maximum">
+          <type href="http://www.omg.org/spec/UML/20161101/PrimitiveTypes.xmi#UnlimitedNatural"/>
+        </ownedAttribute>
+        <ownedAttribute xmi:type="uml:Property" xmi:id="Requirement-text" name="text">
+          <type href="http://www.omg.org/spec/UML/20161101/PrimitiveTypes.xmi#String"/>
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="Requirement-text-upper" value="*"/>
+        </ownedAttribute>
+        <ownedAttribute xmi:type="uml:Property" xmi:id="Requirement-level" name="level" type="Level"/>
+        <ownedAttribute xmi:type="uml:Property" xmi:id="Requirement-tracedTo" name="tracedTo">
+          <type href="http://www.omg.org/spec/UML/20161101/UML.xmi#NamedElement"/>
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="Requirement-tracedTo-upper" value="*"/>
+        </ownedAttribute>
+        <ownedAttribute xmi:type="uml:Property" xmi:id="Requirement-refines" name="refines">
+          <type href="http://www.omg.org/spec/UML/20161101/UML.xmi#NamedElement"/>
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="Requirement-refines-upper" value="*"/>
+        </ownedAttribute>
+      </packagedElement>
+    </packagedElement>
+  </uml:Profile>
+  <uml:Profile xmi:id="second" name="Second Profile">
+    <packagedElement xmi:type="uml:Stereotype" xmi:id="Spaced" name="Spaced Stereotype">
+      <ownedAttribute xmi:type="uml:Property" xmi:id="Spaced-displayName" name="Display Name">
+        <type href="http://www.omg.org/spec/UML/20161101/PrimitiveTypes.xmi#String"/>
+      </ownedAttribute>
+    </packagedElement>
+  </uml:Profile>
+  <uml:Model xmi:id="model" name="Model">
+    <profileApplication xmi:type="uml:ProfileApplication" xmi:id="model-profileApplication" appliedProfile="demo"/>
+    <packagedElement xmi:type="uml:Class" xmi:id="a" name="A"/>
+    <packagedElement xmi:type="uml:Class" xmi:id="b" name="B"/>
+    <packagedElement xmi:type="uml:Class" xmi:id="c" name="C"/>
+  </uml:Model>
+  <mofext:Tag xmi:type="mofext:Tag" xmi:id="demo-nsURI" name="org.omg.xmi.nsURI" value="http://example.org/profiles/Demo/1.0/Demo.xmi" element="demo"/>
+  <Demo:Requirement xmi:id="requirementA" base_Class="a" isMandatory="true" priority="3" weight="0.5" maximum="*" level="high" owner="team" tracedTo="b c">
+    <text>first</text>
+    <text>second</text>
+    <refines xmi:idref="b"/>
+    <refines href="http://www.omg.org/spec/UML/20161101/UML.xmi#Class"/>
+  </Demo:Requirement>
+  <Demo:Requirement xmi:id="requirementB" priority="not-a-number" unknown="kept">
+    <base_Class xmi:idref="b"/>
+  </Demo:Requirement>
+  <Demo:Missing xmi:id="missingStereotype" base_Class="c"/>
+  <Demo:Requirement xmi:id="missingElement" base_Class="doesNotExist"/>
+  <SecondProfile:SpacedStereotype xmi:id="spacedApplication" base_Class="b" DisplayName="shown"/>
+  <Other:Marker xmi:id="otherApplication" base_Class="c" note="kept">
+    <related xmi:idref="a"/>
+    <related href="other.xmi#x"/>
+    <comment>free text</comment>
+  </Other:Marker>
+</xmi:XMI>

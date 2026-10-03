@@ -233,7 +233,12 @@ namespace uml4net.xmi.Readers
                     extenderReader.PostProcess(xmiExtension);
                 }
             }
-            
+
+            // the stereotype applications are resolved once all the documents are read and their references resolved,
+            // since the profiles, the extended elements and the referenced elements can be in any of them
+            var stereoTypeApplicationResolver = new StereoTypeApplicationResolver(this.Cache, this.LoggerFactory);
+            stereoTypeApplicationResolver.Resolve(xmiReaderResult);
+
             return xmiReaderResult;
         }
 

@@ -24,6 +24,8 @@ namespace uml4net
     using System.Collections.Generic;
     using System.Text.RegularExpressions;
 
+    using uml4net.Profiling;
+
     /// <summary>
     /// A cache specifically designed for XMI elements, organized by context, to facilitate
     /// efficient lookups and storage during the reading of XMI files. This class provides methods
@@ -46,6 +48,11 @@ namespace uml4net
         /// Gets the cached dictionary of extender objects, per <see cref="IXmiElement " />
         /// </summary>
         private readonly Dictionary<IXmiElement, List<object>> extenderCache = [];
+
+        /// <summary>
+        /// Gets the cached dictionary of <see cref="StereoTypeApplication"/>s, per extended <see cref="IXmiElement" />
+        /// </summary>
+        private readonly Dictionary<IXmiElement, List<StereoTypeApplication>> stereoTypeApplicationCache = [];
 
         /// <summary>
         /// The number of elements without <see cref="IXmiElement.XmiId"/> that have been added, used to give each of
@@ -231,6 +238,7 @@ namespace uml4net
             this.cache.Clear();
             this.uuidCache.Clear();
             this.extenderCache.Clear();
+            this.stereoTypeApplicationCache.Clear();
             this.anonymousElementCount = 0;
         }
 
@@ -290,6 +298,63 @@ namespace uml4net
             }
 
             extenders = null;
+            return false;
+        }
+
+        /// <summary>
+        /// Registers a <see cref="StereoTypeApplication"/> as applied to the provided <see cref="IXmiElement"/>
+        /// </summary>
+        /// <param name="xmiElement">The <see cref="IXmiElement"/> to which the stereotype is applied</param>
+        /// <param name="stereoTypeApplication">The <see cref="StereoTypeApplication"/></param>
+        /// <exception cref="ArgumentNullException">
+        /// If the provided <paramref name="xmiElement" /> or the <paramref name="stereoTypeApplication" /> is null
+        /// </exception>
+        public void AddStereoTypeApplication(IXmiElement xmiElement, StereoTypeApplication stereoTypeApplication)
+        {
+            if (xmiElement == null)
+            {
+                throw new ArgumentNullException(nameof(xmiElement));
+            }
+
+            if (stereoTypeApplication == null)
+            {
+                throw new ArgumentNullException(nameof(stereoTypeApplication));
+            }
+
+            if (this.stereoTypeApplicationCache.TryGetValue(xmiElement, out var stereoTypeApplications))
+            {
+                stereoTypeApplications.Add(stereoTypeApplication);
+            }
+            else
+            {
+                this.stereoTypeApplicationCache[xmiElement] = [stereoTypeApplication];
+            }
+        }
+
+        /// <summary>
+        /// Tries to get the <see cref="StereoTypeApplication"/>s that are applied to an <see cref="IXmiElement" />
+        /// </summary>
+        /// <param name="xmiElement">The <see cref="IXmiElement" /></param>
+        /// <param name="stereoTypeApplications">
+        /// When this method returns, contains the <see cref="StereoTypeApplication"/>s applied to the
+        /// <paramref name="xmiElement"/>, in the order in which they were registered, if any; otherwise null
+        /// </param>
+        /// <returns>true if at least one <see cref="StereoTypeApplication"/> is applied; otherwise, false.</returns>
+        /// <exception cref="ArgumentNullException">If the provided <paramref name="xmiElement" /> is null</exception>
+        public bool TryGetStereoTypeApplications(IXmiElement xmiElement, out IReadOnlyCollection<StereoTypeApplication> stereoTypeApplications)
+        {
+            if (xmiElement == null)
+            {
+                throw new ArgumentNullException(nameof(xmiElement));
+            }
+
+            if (this.stereoTypeApplicationCache.TryGetValue(xmiElement, out var stereoTypeApplicationList))
+            {
+                stereoTypeApplications = stereoTypeApplicationList;
+                return true;
+            }
+
+            stereoTypeApplications = null;
             return false;
         }
     }

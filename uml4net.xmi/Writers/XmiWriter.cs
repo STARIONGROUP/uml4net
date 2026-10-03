@@ -35,6 +35,7 @@ namespace uml4net.xmi.Writers
 
     using uml4net.Mof.Extension;
     using uml4net.Packages;
+    using uml4net.Profiling;
     using uml4net.xmi.Readers;
     using uml4net.xmi.Settings;
     using uml4net.xmi.Xmi;
@@ -371,13 +372,13 @@ namespace uml4net.xmi.Writers
         /// </param>
         public void Write(IEnumerable<IXmiElement> rootElements, Stream stream, string documentName, Documentation documentation, IEnumerable<XmiExtension> documentExtensions, IEnumerable<Tag> tags)
         {
-            this.WriteDocument(rootElements, stream, documentName, documentation, documentExtensions, tags, []);
+            this.WriteDocument(rootElements, stream, documentName, documentation, documentExtensions, tags, [], []);
         }
 
         /// <summary>
         /// Writes the provided root elements and the document-level parts of the provided <see cref="XmiRoot"/> to a UML
         /// XMI 2.5.1 file: its <see cref="XmiRoot.Documentation"/>, <see cref="XmiRoot.Tags"/>,
-        /// <see cref="XmiRoot.Extensions"/>, and the elements that were captured without being processed,
+        /// <see cref="XmiRoot.Extensions"/>, <see cref="XmiRoot.StereoTypeApplications"/>, and the elements that were captured without being processed,
         /// <see cref="XmiRoot.DiagramInterchange"/> and <see cref="XmiRoot.UnprocessedContent"/>.
         /// </summary>
         /// <param name="rootElements">
@@ -418,7 +419,7 @@ namespace uml4net.xmi.Writers
         /// <summary>
         /// Writes the provided root elements and the document-level parts of the provided <see cref="XmiRoot"/> to a UML
         /// XMI 2.5.1 stream: its <see cref="XmiRoot.Documentation"/>, <see cref="XmiRoot.Tags"/>,
-        /// <see cref="XmiRoot.Extensions"/>, and the elements that were captured without being processed,
+        /// <see cref="XmiRoot.Extensions"/>, <see cref="XmiRoot.StereoTypeApplications"/>, and the elements that were captured without being processed,
         /// <see cref="XmiRoot.DiagramInterchange"/> and <see cref="XmiRoot.UnprocessedContent"/>.
         /// </summary>
         /// <param name="rootElements">
@@ -437,13 +438,13 @@ namespace uml4net.xmi.Writers
         /// <paramref name="rootElements"/> are. May be null, in which case only the <paramref name="rootElements"/> are written
         /// </param>
         /// <remarks>
-        /// The top-level elements are written in this order: the documentation, the root elements, the tags, the captured
-        /// elements in the order in which they were read, and the extensions. The namespaces that the captured elements
-        /// use are declared on <c>xmi:XMI</c>. The <see cref="XmiRoot.StereoTypeApplications"/> are not written.
+        /// The top-level elements are written in this order: the documentation, the root elements, the tags, the stereotype
+        /// applications, the captured elements in the order in which they were read, and the extensions. The namespaces of
+        /// the stereotype applications and of the captured elements are declared on <c>xmi:XMI</c>.
         /// </remarks>
         public void Write(IEnumerable<IXmiElement> rootElements, Stream stream, string documentName, XmiRoot xmiRoot)
         {
-            this.WriteDocument(rootElements, stream, documentName, xmiRoot?.Documentation, xmiRoot?.Extensions, xmiRoot?.Tags, QueryCapturedElements(xmiRoot));
+            this.WriteDocument(rootElements, stream, documentName, xmiRoot?.Documentation, xmiRoot?.Extensions, xmiRoot?.Tags, xmiRoot?.StereoTypeApplications ?? [], QueryCapturedElements(xmiRoot));
         }
 
         /// <summary>
@@ -472,13 +473,17 @@ namespace uml4net.xmi.Writers
         /// <param name="hasTags">
         /// A value indicating whether tags are written, in which case <c>mofext</c> is declared
         /// </param>
+        /// <param name="stereoTypeApplications">
+        /// The stereotype applications that are written, whose profile namespaces are declared
+        /// </param>
         /// <param name="capturedElements">
         /// The captured elements that are written
         /// </param>
         /// <returns>
-        /// The additional namespace declarations, by prefix
+        /// The additional namespace declarations, by prefix; a prefix that is declared already for another namespace is
+        /// left out, the element that uses it declares it itself
         /// </returns>
-        private List<KeyValuePair<string, string>> QueryAdditionalRootNamespaceDeclarations(bool hasTags, IReadOnlyList<CapturedElement> capturedElements)
+        private List<KeyValuePair<string, string>> QueryAdditionalRootNamespaceDeclarations(bool hasTags, IReadOnlyList<StereoTypeApplication> stereoTypeApplications, IReadOnlyList<CapturedElement> capturedElements)
         {
             var result = new List<KeyValuePair<string, string>>();
             var declaredPrefixes = new List<string> { KnowNamespacePrefixes.Xmi, KnowNamespacePrefixes.Uml };
@@ -487,6 +492,17 @@ namespace uml4net.xmi.Writers
             {
                 result.Add(new KeyValuePair<string, string>(KnowNamespacePrefixes.MofExt, this.XmiWriterSettings.MofExtNamespaceUri));
                 declaredPrefixes.Add(KnowNamespacePrefixes.MofExt);
+            }
+
+            foreach (var stereoTypeApplication in stereoTypeApplications)
+            {
+                var (prefix, namespaceUri) = StereoTypeApplicationWriter.QueryNamespace(stereoTypeApplication);
+
+                if (!declaredPrefixes.Contains(prefix))
+                {
+                    declaredPrefixes.Add(prefix);
+                    result.Add(new KeyValuePair<string, string>(prefix, namespaceUri));
+                }
             }
 
             result.AddRange(CapturedElementWriter.QueryRootNamespaceDeclarations(capturedElements, declaredPrefixes));
@@ -515,10 +531,13 @@ namespace uml4net.xmi.Writers
         /// <param name="tags">
         /// The MOF <see cref="Tag"/>s that are to be written, may be null
         /// </param>
+        /// <param name="stereoTypeApplications">
+        /// The <see cref="StereoTypeApplication"/>s that are to be written, in order
+        /// </param>
         /// <param name="capturedElements">
         /// The <see cref="CapturedElement"/>s that are to be written, in order
         /// </param>
-        private void WriteDocument(IEnumerable<IXmiElement> rootElements, Stream stream, string documentName, Documentation documentation, IEnumerable<XmiExtension> documentExtensions, IEnumerable<Tag> tags, IReadOnlyList<CapturedElement> capturedElements)
+        private void WriteDocument(IEnumerable<IXmiElement> rootElements, Stream stream, string documentName, Documentation documentation, IEnumerable<XmiExtension> documentExtensions, IEnumerable<Tag> tags, IReadOnlyList<StereoTypeApplication> stereoTypeApplications, IReadOnlyList<CapturedElement> capturedElements)
         {
             if (rootElements == null)
             {
@@ -545,7 +564,7 @@ namespace uml4net.xmi.Writers
             xmlWriter.WriteStartElement("xmi", "XMI", this.XmiWriterSettings.XmiNamespaceUri);
             xmlWriter.WriteAttributeString("xmlns", "uml", null, this.XmiWriterSettings.UmlNamespaceUri);
 
-            foreach (var namespaceDeclaration in this.QueryAdditionalRootNamespaceDeclarations(tagList.Count > 0, capturedElements))
+            foreach (var namespaceDeclaration in this.QueryAdditionalRootNamespaceDeclarations(tagList.Count > 0, stereoTypeApplications, capturedElements))
             {
                 xmlWriter.WriteAttributeString("xmlns", namespaceDeclaration.Key, null, namespaceDeclaration.Value);
             }
@@ -569,6 +588,16 @@ namespace uml4net.xmi.Writers
                 foreach (var tag in tagList)
                 {
                     tagWriter.Write(xmlWriter, tag);
+                }
+            }
+
+            if (stereoTypeApplications.Count > 0)
+            {
+                var stereoTypeApplicationWriter = new StereoTypeApplicationWriter(this.XmiWriterSettings, this.LoggerFactory);
+
+                foreach (var stereoTypeApplication in stereoTypeApplications)
+                {
+                    stereoTypeApplicationWriter.Write(xmlWriter, stereoTypeApplication, writeContext);
                 }
             }
 
@@ -926,13 +955,13 @@ namespace uml4net.xmi.Writers
         /// </returns>
         public Task WriteAsync(IEnumerable<IXmiElement> rootElements, Stream stream, string documentName, Documentation documentation, IEnumerable<XmiExtension> documentExtensions, IEnumerable<Tag> tags, CancellationToken cancellationToken = default)
         {
-            return this.WriteDocumentAsync(rootElements, stream, documentName, documentation, documentExtensions, tags, [], cancellationToken);
+            return this.WriteDocumentAsync(rootElements, stream, documentName, documentation, documentExtensions, tags, [], [], cancellationToken);
         }
 
         /// <summary>
         /// Asynchronously writes the provided root elements and the document-level parts of the provided
         /// <see cref="XmiRoot"/> to a UML XMI 2.5.1 file: its <see cref="XmiRoot.Documentation"/>,
-        /// <see cref="XmiRoot.Tags"/>, <see cref="XmiRoot.Extensions"/>, and the elements that were captured without being
+        /// <see cref="XmiRoot.Tags"/>, <see cref="XmiRoot.Extensions"/>, <see cref="XmiRoot.StereoTypeApplications"/>, and the elements that were captured without being
         /// processed, <see cref="XmiRoot.DiagramInterchange"/> and <see cref="XmiRoot.UnprocessedContent"/>.
         /// </summary>
         /// <param name="rootElements">
@@ -979,7 +1008,7 @@ namespace uml4net.xmi.Writers
         /// <summary>
         /// Asynchronously writes the provided root elements and the document-level parts of the provided
         /// <see cref="XmiRoot"/> to a UML XMI 2.5.1 stream: its <see cref="XmiRoot.Documentation"/>,
-        /// <see cref="XmiRoot.Tags"/>, <see cref="XmiRoot.Extensions"/>, and the elements that were captured without being
+        /// <see cref="XmiRoot.Tags"/>, <see cref="XmiRoot.Extensions"/>, <see cref="XmiRoot.StereoTypeApplications"/>, and the elements that were captured without being
         /// processed, <see cref="XmiRoot.DiagramInterchange"/> and <see cref="XmiRoot.UnprocessedContent"/>.
         /// </summary>
         /// <param name="rootElements">
@@ -1004,13 +1033,13 @@ namespace uml4net.xmi.Writers
         /// an awaitable <see cref="Task"/>
         /// </returns>
         /// <remarks>
-        /// The top-level elements are written in this order: the documentation, the root elements, the tags, the captured
-        /// elements in the order in which they were read, and the extensions. The namespaces that the captured elements
-        /// use are declared on <c>xmi:XMI</c>. The <see cref="XmiRoot.StereoTypeApplications"/> are not written.
+        /// The top-level elements are written in this order: the documentation, the root elements, the tags, the stereotype
+        /// applications, the captured elements in the order in which they were read, and the extensions. The namespaces of
+        /// the stereotype applications and of the captured elements are declared on <c>xmi:XMI</c>.
         /// </remarks>
         public Task WriteAsync(IEnumerable<IXmiElement> rootElements, Stream stream, string documentName, XmiRoot xmiRoot, CancellationToken cancellationToken = default)
         {
-            return this.WriteDocumentAsync(rootElements, stream, documentName, xmiRoot?.Documentation, xmiRoot?.Extensions, xmiRoot?.Tags, QueryCapturedElements(xmiRoot), cancellationToken);
+            return this.WriteDocumentAsync(rootElements, stream, documentName, xmiRoot?.Documentation, xmiRoot?.Extensions, xmiRoot?.Tags, xmiRoot?.StereoTypeApplications ?? [], QueryCapturedElements(xmiRoot), cancellationToken);
         }
 
         /// <summary>
@@ -1034,6 +1063,9 @@ namespace uml4net.xmi.Writers
         /// <param name="tags">
         /// The MOF <see cref="Tag"/>s that are to be written, may be null
         /// </param>
+        /// <param name="stereoTypeApplications">
+        /// The <see cref="StereoTypeApplication"/>s that are to be written, in order
+        /// </param>
         /// <param name="capturedElements">
         /// The <see cref="CapturedElement"/>s that are to be written, in order
         /// </param>
@@ -1043,7 +1075,7 @@ namespace uml4net.xmi.Writers
         /// <returns>
         /// an awaitable <see cref="Task"/>
         /// </returns>
-        private async Task WriteDocumentAsync(IEnumerable<IXmiElement> rootElements, Stream stream, string documentName, Documentation documentation, IEnumerable<XmiExtension> documentExtensions, IEnumerable<Tag> tags, IReadOnlyList<CapturedElement> capturedElements, CancellationToken cancellationToken)
+        private async Task WriteDocumentAsync(IEnumerable<IXmiElement> rootElements, Stream stream, string documentName, Documentation documentation, IEnumerable<XmiExtension> documentExtensions, IEnumerable<Tag> tags, IReadOnlyList<StereoTypeApplication> stereoTypeApplications, IReadOnlyList<CapturedElement> capturedElements, CancellationToken cancellationToken)
         {
             if (rootElements == null)
             {
@@ -1070,7 +1102,7 @@ namespace uml4net.xmi.Writers
             await xmlWriter.WriteStartElementAsync("xmi", "XMI", this.XmiWriterSettings.XmiNamespaceUri);
             await xmlWriter.WriteAttributeStringAsync("xmlns", "uml", null, this.XmiWriterSettings.UmlNamespaceUri);
 
-            foreach (var namespaceDeclaration in this.QueryAdditionalRootNamespaceDeclarations(tagList.Count > 0, capturedElements))
+            foreach (var namespaceDeclaration in this.QueryAdditionalRootNamespaceDeclarations(tagList.Count > 0, stereoTypeApplications, capturedElements))
             {
                 await xmlWriter.WriteAttributeStringAsync("xmlns", namespaceDeclaration.Key, null, namespaceDeclaration.Value);
             }
@@ -1098,6 +1130,18 @@ namespace uml4net.xmi.Writers
                     cancellationToken.ThrowIfCancellationRequested();
 
                     await tagWriter.WriteAsync(xmlWriter, tag);
+                }
+            }
+
+            if (stereoTypeApplications.Count > 0)
+            {
+                var stereoTypeApplicationWriter = new StereoTypeApplicationWriter(this.XmiWriterSettings, this.LoggerFactory);
+
+                foreach (var stereoTypeApplication in stereoTypeApplications)
+                {
+                    cancellationToken.ThrowIfCancellationRequested();
+
+                    await stereoTypeApplicationWriter.WriteAsync(xmlWriter, stereoTypeApplication, writeContext);
                 }
             }
 

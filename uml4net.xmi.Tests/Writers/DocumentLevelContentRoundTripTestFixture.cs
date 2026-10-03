@@ -82,15 +82,15 @@ namespace uml4net.xmi.Tests.Writers
 
             using (Assert.EnterMultipleScope())
             {
-                Assert.That(topLevelElements.Select(x => x.Attribute(XmiNamespace + "id")?.Value), Is.EqualTo(new[] { "p", "diagram", "notAnApplication", "primitiveTypesElement" }),
-                    "the model, then the captured elements in the order in which they were read; the stereotype applications are not written");
+                Assert.That(topLevelElements.Select(x => x.Attribute(XmiNamespace + "id")?.Value), Is.EqualTo(new[] { "p", "traceApplication", "libraryApplication", "markedApplication", "diagram", "notAnApplication", "primitiveTypesElement" }),
+                    "the model, the stereotype applications, then the captured elements in the order in which they were read");
 
                 Assert.That(document.Root.Attribute(XNamespace.Xmlns + "umldi")?.Value, Is.EqualTo(UmlDi.NamespaceName), "the namespaces of the captured elements are declared on xmi:XMI");
                 Assert.That(document.Root.Attribute(XNamespace.Xmlns + "dc")?.Value, Is.EqualTo("http://www.omg.org/spec/DD/20131001/DC"), "a prefix used in a value only is declared as well");
                 Assert.That(document.Root.Attribute(XNamespace.Xmlns + "StandardProfile"), Is.Not.Null);
                 Assert.That(document.Root.Attribute(XNamespace.Xmlns + "primitiveTypes"), Is.Not.Null);
 
-                var diagram = topLevelElements[1];
+                var diagram = topLevelElements.Single(x => x.Name == UmlDi + "UMLClassDiagram");
                 Assert.That(diagram.Name, Is.EqualTo(UmlDi + "UMLClassDiagram"));
                 Assert.That(diagram.Attributes().Where(x => x.IsNamespaceDeclaration).Select(x => x.Name.LocalName), Is.EqualTo(new[] { "uml" }),
                     "only the uml declaration is repeated: the writer binds uml to another version of the namespace on xmi:XMI");
@@ -116,7 +116,7 @@ namespace uml4net.xmi.Tests.Writers
             {
                 Assert.That(rereadResult.XmiRoot.DiagramInterchange.Select(x => x.XmiId), Is.EqualTo(new[] { "diagram" }));
                 Assert.That(rereadResult.XmiRoot.UnprocessedContent.Select(x => x.XmiId), Is.EqualTo(new[] { "notAnApplication", "primitiveTypesElement" }));
-                Assert.That(rereadResult.XmiRoot.DiagramInterchange.Concat(rereadResult.XmiRoot.UnprocessedContent).Select(x => x.Position), Is.EqualTo(new[] { 1, 2, 3 }));
+                Assert.That(rereadResult.XmiRoot.DiagramInterchange.Concat(rereadResult.XmiRoot.UnprocessedContent).Select(x => x.Position), Is.EqualTo(new[] { 4, 5, 6 }), "after the model and the three stereotype applications");
 
                 var originalElements = xmiReaderResult.XmiRoot.DiagramInterchange.Concat(xmiReaderResult.XmiRoot.UnprocessedContent).ToList();
                 var rereadElements = rereadResult.XmiRoot.DiagramInterchange.Concat(rereadResult.XmiRoot.UnprocessedContent).ToList();

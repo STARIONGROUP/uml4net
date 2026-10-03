@@ -523,7 +523,7 @@ namespace uml4net.xmi.Writers
         /// <summary>
         /// Writes the provided root elements and the document-level parts of the provided <see cref="XmiRoot"/> to a UML
         /// XMI 2.5.1 file: its <see cref="XmiRoot.Documentation"/>, <see cref="XmiRoot.Tags"/>,
-        /// <see cref="XmiRoot.Extensions"/>, and the elements that were captured without being processed,
+        /// <see cref="XmiRoot.Extensions"/>, <see cref="XmiRoot.StereoTypeApplications"/>, and the elements that were captured without being processed,
         /// <see cref="XmiRoot.DiagramInterchange"/> and <see cref="XmiRoot.UnprocessedContent"/>.
         /// </summary>
         /// <param name="rootElements">
@@ -543,7 +543,7 @@ namespace uml4net.xmi.Writers
         /// <summary>
         /// Writes the provided root elements and the document-level parts of the provided <see cref="XmiRoot"/> to a UML
         /// XMI 2.5.1 stream: its <see cref="XmiRoot.Documentation"/>, <see cref="XmiRoot.Tags"/>,
-        /// <see cref="XmiRoot.Extensions"/>, and the elements that were captured without being processed,
+        /// <see cref="XmiRoot.Extensions"/>, <see cref="XmiRoot.StereoTypeApplications"/>, and the elements that were captured without being processed,
         /// <see cref="XmiRoot.DiagramInterchange"/> and <see cref="XmiRoot.UnprocessedContent"/>.
         /// </summary>
         /// <param name="rootElements">
@@ -562,9 +562,9 @@ namespace uml4net.xmi.Writers
         /// <paramref name="rootElements"/> are. May be null, in which case only the <paramref name="rootElements"/> are written
         /// </param>
         /// <remarks>
-        /// The top-level elements are written in this order: the documentation, the root elements, the tags, the captured
-        /// elements in the order in which they were read, and the extensions. The namespaces that the captured elements
-        /// use are declared on <c>xmi:XMI</c>. The <see cref="XmiRoot.StereoTypeApplications"/> are not written.
+        /// The top-level elements are written in this order: the documentation, the root elements, the tags, the stereotype
+        /// applications, the captured elements in the order in which they were read, and the extensions. The namespaces of
+        /// the stereotype applications and of the captured elements are declared on <c>xmi:XMI</c>.
         /// </remarks>
         void Write(IEnumerable<IXmiElement> rootElements, Stream stream, string documentName, XmiRoot xmiRoot);
 

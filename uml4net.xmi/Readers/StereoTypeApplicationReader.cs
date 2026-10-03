@@ -22,6 +22,7 @@ namespace uml4net.xmi.Readers
 {
     using System;
     using System.Xml;
+    using System.Xml.Linq;
 
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Logging.Abstractions;
@@ -90,6 +91,7 @@ namespace uml4net.xmi.Readers
 
                 var profileName = xmlReader.Prefix;
                 var stereoTypeName = xmlReader.LocalName;
+                var namespaceUri = xmlReader.NamespaceURI;
                 var isStereoTypeApplication = false;
 
                 for (var i = 0; i < xmlReader.AttributeCount; i++)
@@ -117,16 +119,23 @@ namespace uml4net.xmi.Readers
                     else
                     {
                         stereoTypeApplication.Attributes.Add(xmlReader.LocalName, xmlReader.Value);
+
+                        // a property of the stereotype is serialized as an attribute without namespace; an attribute of
+                        // another namespace, such as xmi:type or xmi:uuid, is not a tagged value
+                        if (string.IsNullOrEmpty(xmlReader.NamespaceURI))
+                        {
+                            stereoTypeApplication.TaggedValues.Add(new TaggedValue { Name = xmlReader.LocalName, RawValues = [xmlReader.Value], IsReadAsAttribute = true });
+                        }
                     }
                 }
 
                 xmlReader.MoveToElement();
 
-                // XMI 2.5.1 clause 9.5.2: a reference may also be serialized as a child element that carries an
-                // xmi:idref or an href, for example <base_Package xmi:idref="..."/>
-                if (!isStereoTypeApplication && !xmlReader.IsEmptyElement)
+                // XMI 2.5.1 clause 9.5.2: the base_ reference and the tagged values may also be serialized as child
+                // elements, a reference with an xmi:idref or an href, for example <base_Package xmi:idref="..."/>
+                if (!xmlReader.IsEmptyElement)
                 {
-                    isStereoTypeApplication = TryReadBaseElement(xmlReader, stereoTypeApplication);
+                    isStereoTypeApplication |= this.ReadChildElements(xmlReader, stereoTypeApplication, isStereoTypeApplication);
                 }
 
                 if (!isStereoTypeApplication)
@@ -139,60 +148,118 @@ namespace uml4net.xmi.Readers
 
                 stereoTypeApplication.ProfileName = profileName;
                 stereoTypeApplication.StereoTypeName = stereoTypeName;
+                stereoTypeApplication.NamespaceUri = namespaceUri;
             }
 
             return true;
         }
 
         /// <summary>
-        /// Reads the reference to the extended element from a child element of the stereotype application whose name
-        /// starts with <c>base_</c>
+        /// Reads the child elements of the stereotype application: the <c>base_</c> reference to the extended element,
+        /// when it is not serialized as an attribute, and the tagged values
         /// </summary>
         /// <param name="xmlReader">
         /// The <see cref="XmlReader"/>, positioned on the stereotype application element
         /// </param>
         /// <param name="stereoTypeApplication">
-        /// The <see cref="StereoTypeApplication"/> that is updated with the meta class and the element identifier
+        /// The <see cref="StereoTypeApplication"/> that is updated
+        /// </param>
+        /// <param name="isBaseReferenceRead">
+        /// A value indicating whether the <c>base_</c> reference was read from an attribute already
         /// </param>
         /// <returns>
         /// true when a <c>base_</c> child element with an <c>xmi:idref</c> or an <c>href</c> was found
         /// </returns>
-        private static bool TryReadBaseElement(XmlReader xmlReader, StereoTypeApplication stereoTypeApplication)
+        private bool ReadChildElements(XmlReader xmlReader, StereoTypeApplication stereoTypeApplication, bool isBaseReferenceRead)
         {
             var depth = xmlReader.Depth;
+            var isBaseElementRead = false;
 
-            while (xmlReader.Read() && xmlReader.Depth > depth)
+            xmlReader.Read();
+
+            while (!xmlReader.EOF && xmlReader.Depth > depth)
             {
-                if (xmlReader.NodeType != XmlNodeType.Element || xmlReader.Depth != depth + 1 || !xmlReader.LocalName.StartsWith(BasePropertyPrefix, StringComparison.Ordinal))
+                if (xmlReader.NodeType != XmlNodeType.Element || xmlReader.Depth != depth + 1)
                 {
+                    xmlReader.Read();
                     continue;
                 }
 
-                var metaClass = xmlReader.LocalName.Substring(BasePropertyPrefix.Length);
-                string reference = null;
+                var name = xmlReader.LocalName;
+                var reference = QueryReference(xmlReader);
 
-                for (var i = 0; i < xmlReader.AttributeCount; i++)
+                if (name.StartsWith(BasePropertyPrefix, StringComparison.Ordinal))
                 {
-                    xmlReader.MoveToAttribute(i);
-
-                    if ((xmlReader.LocalName == "idref" && XmlReaderExtensions.IsXmiNamespace(xmlReader.NamespaceURI))
-                        || (xmlReader.LocalName == "href" && string.IsNullOrEmpty(xmlReader.NamespaceURI)))
+                    if (!isBaseReferenceRead && !isBaseElementRead && !string.IsNullOrEmpty(reference))
                     {
-                        reference = xmlReader.Value;
+                        stereoTypeApplication.MetaClass = name.Substring(BasePropertyPrefix.Length);
+                        stereoTypeApplication.ElementIdentifier = reference;
+                        isBaseElementRead = true;
                     }
+
+                    xmlReader.Skip();
+                    continue;
                 }
 
-                xmlReader.MoveToElement();
+                var xmlLineInfo = xmlReader as IXmlLineInfo;
+                var element = (XElement)XNode.ReadFrom(xmlReader);
 
-                if (!string.IsNullOrEmpty(reference))
+                if (string.IsNullOrEmpty(reference) && element.HasElements)
                 {
-                    stereoTypeApplication.MetaClass = metaClass;
-                    stereoTypeApplication.ElementIdentifier = reference;
-                    return true;
+                    this.logger.LogWarning("The tagged value {Name} at line:position {LineNumber}:{LinePosition} is an instance of a structured type, which is not supported, it is not read", name, xmlLineInfo?.LineNumber, xmlLineInfo?.LinePosition);
+                    continue;
+                }
+
+                var taggedValue = stereoTypeApplication.TaggedValues.Find(x => x.Name == name && !x.IsReadAsAttribute);
+
+                if (taggedValue == null)
+                {
+                    taggedValue = new TaggedValue { Name = name };
+                    stereoTypeApplication.TaggedValues.Add(taggedValue);
+                }
+
+                if (string.IsNullOrEmpty(reference))
+                {
+                    taggedValue.RawValues.Add(element.Value);
+                }
+                else
+                {
+                    taggedValue.RawValues.Add(reference);
+                    taggedValue.IsReference = true;
                 }
             }
 
-            return false;
+            return isBaseElementRead;
+        }
+
+        /// <summary>
+        /// Queries the reference that the element on which the <paramref name="xmlReader"/> is positioned carries, its
+        /// <c>xmi:idref</c> or its <c>href</c>
+        /// </summary>
+        /// <param name="xmlReader">
+        /// The <see cref="XmlReader"/>, positioned on an element; it is positioned back on the element afterwards
+        /// </param>
+        /// <returns>
+        /// The reference, or null when the element carries none
+        /// </returns>
+        private static string QueryReference(XmlReader xmlReader)
+        {
+            string reference = null;
+
+            for (var i = 0; i < xmlReader.AttributeCount; i++)
+            {
+                xmlReader.MoveToAttribute(i);
+
+                if ((xmlReader.LocalName == "idref" && XmlReaderExtensions.IsXmiNamespace(xmlReader.NamespaceURI))
+                    || (xmlReader.LocalName == "href" && string.IsNullOrEmpty(xmlReader.NamespaceURI)))
+                {
+                    reference = xmlReader.Value;
+                }
+            }
+
+            xmlReader.MoveToElement();
+
+            return reference;
         }
     }
 }
