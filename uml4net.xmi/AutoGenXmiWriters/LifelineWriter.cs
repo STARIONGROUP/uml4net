@@ -136,24 +136,24 @@ namespace uml4net.xmi.Writers
                 xmlWriter.WriteAttributeString("xmi", "uuid", this.XmiWriterSettings.XmiNamespaceUri, element.XmiGuid);
             }
 
-            if (element.DecomposedAs != null && writeContext.IsLocal(element.DecomposedAs))
-            {
-                xmlWriter.WriteAttributeString("decomposedAs", element.DecomposedAs.XmiId);
-            }
-
             if (!string.IsNullOrEmpty(element.Name))
             {
                 xmlWriter.WriteAttributeString("name", element.Name);
             }
 
-            if (element.Represents != null && writeContext.IsLocal(element.Represents))
-            {
-                xmlWriter.WriteAttributeString("represents", element.Represents.XmiId);
-            }
-
             if (element.Visibility.HasValue)
             {
                 xmlWriter.WriteAttributeString("visibility", element.Visibility.Value.QueryXmiLiteral());
+            }
+
+            if (element.DecomposedAs != null && writeContext.IsLocal(element.DecomposedAs))
+            {
+                xmlWriter.WriteAttributeString("decomposedAs", element.DecomposedAs.XmiId);
+            }
+
+            if (element.Represents != null && writeContext.IsLocal(element.Represents))
+            {
+                xmlWriter.WriteAttributeString("represents", element.Represents.XmiId);
             }
 
 
@@ -167,9 +167,9 @@ namespace uml4net.xmi.Writers
                 this.XmiElementWriterFacade.WriteReferenceElement(xmlWriter, element.DecomposedAs, "decomposedAs", writeContext);
             }
 
-            foreach (var value in element.NameExpression)
+            if (element.Represents != null && !writeContext.IsLocal(element.Represents))
             {
-                this.XmiElementWriterFacade.WriteContainedElement(xmlWriter, value, "nameExpression", writeContext);
+                this.XmiElementWriterFacade.WriteReferenceElement(xmlWriter, element.Represents, "represents", writeContext);
             }
 
             foreach (var value in element.OwnedComment)
@@ -177,9 +177,9 @@ namespace uml4net.xmi.Writers
                 this.XmiElementWriterFacade.WriteContainedElement(xmlWriter, value, "ownedComment", writeContext);
             }
 
-            if (element.Represents != null && !writeContext.IsLocal(element.Represents))
+            foreach (var value in element.NameExpression)
             {
-                this.XmiElementWriterFacade.WriteReferenceElement(xmlWriter, element.Represents, "represents", writeContext);
+                this.XmiElementWriterFacade.WriteContainedElement(xmlWriter, value, "nameExpression", writeContext);
             }
 
             foreach (var value in element.Selector)
@@ -254,24 +254,24 @@ namespace uml4net.xmi.Writers
                 await xmlWriter.WriteAttributeStringAsync("xmi", "uuid", this.XmiWriterSettings.XmiNamespaceUri, element.XmiGuid);
             }
 
-            if (element.DecomposedAs != null && writeContext.IsLocal(element.DecomposedAs))
-            {
-                await xmlWriter.WriteAttributeStringAsync(null, "decomposedAs", null, element.DecomposedAs.XmiId);
-            }
-
             if (!string.IsNullOrEmpty(element.Name))
             {
                 await xmlWriter.WriteAttributeStringAsync(null, "name", null, element.Name);
             }
 
-            if (element.Represents != null && writeContext.IsLocal(element.Represents))
-            {
-                await xmlWriter.WriteAttributeStringAsync(null, "represents", null, element.Represents.XmiId);
-            }
-
             if (element.Visibility.HasValue)
             {
                 await xmlWriter.WriteAttributeStringAsync(null, "visibility", null, element.Visibility.Value.QueryXmiLiteral());
+            }
+
+            if (element.DecomposedAs != null && writeContext.IsLocal(element.DecomposedAs))
+            {
+                await xmlWriter.WriteAttributeStringAsync(null, "decomposedAs", null, element.DecomposedAs.XmiId);
+            }
+
+            if (element.Represents != null && writeContext.IsLocal(element.Represents))
+            {
+                await xmlWriter.WriteAttributeStringAsync(null, "represents", null, element.Represents.XmiId);
             }
 
 
@@ -285,9 +285,9 @@ namespace uml4net.xmi.Writers
                 await this.XmiElementWriterFacade.WriteReferenceElementAsync(xmlWriter, element.DecomposedAs, "decomposedAs", writeContext);
             }
 
-            foreach (var value in element.NameExpression)
+            if (element.Represents != null && !writeContext.IsLocal(element.Represents))
             {
-                await this.XmiElementWriterFacade.WriteContainedElementAsync(xmlWriter, value, "nameExpression", writeContext);
+                await this.XmiElementWriterFacade.WriteReferenceElementAsync(xmlWriter, element.Represents, "represents", writeContext);
             }
 
             foreach (var value in element.OwnedComment)
@@ -295,9 +295,9 @@ namespace uml4net.xmi.Writers
                 await this.XmiElementWriterFacade.WriteContainedElementAsync(xmlWriter, value, "ownedComment", writeContext);
             }
 
-            if (element.Represents != null && !writeContext.IsLocal(element.Represents))
+            foreach (var value in element.NameExpression)
             {
-                await this.XmiElementWriterFacade.WriteReferenceElementAsync(xmlWriter, element.Represents, "represents", writeContext);
+                await this.XmiElementWriterFacade.WriteContainedElementAsync(xmlWriter, value, "nameExpression", writeContext);
             }
 
             foreach (var value in element.Selector)

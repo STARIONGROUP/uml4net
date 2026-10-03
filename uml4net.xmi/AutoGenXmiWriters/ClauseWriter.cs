@@ -157,11 +157,6 @@ namespace uml4net.xmi.Writers
                 this.XmiElementWriterFacade.WriteReferenceElement(xmlWriter, element.Decider, "decider", writeContext);
             }
 
-            foreach (var value in element.OwnedComment)
-            {
-                this.XmiElementWriterFacade.WriteContainedElement(xmlWriter, value, "ownedComment", writeContext);
-            }
-
             foreach (var value in element.PredecessorClause)
             {
                 this.XmiElementWriterFacade.WriteReferenceElement(xmlWriter, value, "predecessorClause", writeContext);
@@ -175,6 +170,11 @@ namespace uml4net.xmi.Writers
             foreach (var value in element.Test)
             {
                 this.XmiElementWriterFacade.WriteReferenceElement(xmlWriter, value, "test", writeContext);
+            }
+
+            foreach (var value in element.OwnedComment)
+            {
+                this.XmiElementWriterFacade.WriteContainedElement(xmlWriter, value, "ownedComment", writeContext);
             }
 
 
@@ -265,11 +265,6 @@ namespace uml4net.xmi.Writers
                 await this.XmiElementWriterFacade.WriteReferenceElementAsync(xmlWriter, element.Decider, "decider", writeContext);
             }
 
-            foreach (var value in element.OwnedComment)
-            {
-                await this.XmiElementWriterFacade.WriteContainedElementAsync(xmlWriter, value, "ownedComment", writeContext);
-            }
-
             foreach (var value in element.PredecessorClause)
             {
                 await this.XmiElementWriterFacade.WriteReferenceElementAsync(xmlWriter, value, "predecessorClause", writeContext);
@@ -283,6 +278,11 @@ namespace uml4net.xmi.Writers
             foreach (var value in element.Test)
             {
                 await this.XmiElementWriterFacade.WriteReferenceElementAsync(xmlWriter, value, "test", writeContext);
+            }
+
+            foreach (var value in element.OwnedComment)
+            {
+                await this.XmiElementWriterFacade.WriteContainedElementAsync(xmlWriter, value, "ownedComment", writeContext);
             }
 
 

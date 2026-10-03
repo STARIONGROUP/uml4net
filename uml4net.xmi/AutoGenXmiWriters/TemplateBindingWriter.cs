@@ -142,6 +142,11 @@ namespace uml4net.xmi.Writers
             }
 
 
+            if (element.Signature != null && !writeContext.IsLocal(element.Signature))
+            {
+                this.XmiElementWriterFacade.WriteReferenceElement(xmlWriter, element.Signature, "signature", writeContext);
+            }
+
             foreach (var value in element.OwnedComment)
             {
                 this.XmiElementWriterFacade.WriteContainedElement(xmlWriter, value, "ownedComment", writeContext);
@@ -150,11 +155,6 @@ namespace uml4net.xmi.Writers
             foreach (var value in element.ParameterSubstitution)
             {
                 this.XmiElementWriterFacade.WriteContainedElement(xmlWriter, value, "parameterSubstitution", writeContext);
-            }
-
-            if (element.Signature != null && !writeContext.IsLocal(element.Signature))
-            {
-                this.XmiElementWriterFacade.WriteReferenceElement(xmlWriter, element.Signature, "signature", writeContext);
             }
 
 
@@ -230,6 +230,11 @@ namespace uml4net.xmi.Writers
             }
 
 
+            if (element.Signature != null && !writeContext.IsLocal(element.Signature))
+            {
+                await this.XmiElementWriterFacade.WriteReferenceElementAsync(xmlWriter, element.Signature, "signature", writeContext);
+            }
+
             foreach (var value in element.OwnedComment)
             {
                 await this.XmiElementWriterFacade.WriteContainedElementAsync(xmlWriter, value, "ownedComment", writeContext);
@@ -238,11 +243,6 @@ namespace uml4net.xmi.Writers
             foreach (var value in element.ParameterSubstitution)
             {
                 await this.XmiElementWriterFacade.WriteContainedElementAsync(xmlWriter, value, "parameterSubstitution", writeContext);
-            }
-
-            if (element.Signature != null && !writeContext.IsLocal(element.Signature))
-            {
-                await this.XmiElementWriterFacade.WriteReferenceElementAsync(xmlWriter, element.Signature, "signature", writeContext);
             }
 
 

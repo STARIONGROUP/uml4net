@@ -136,16 +136,6 @@ namespace uml4net.xmi.Writers
                 xmlWriter.WriteAttributeString("xmi", "uuid", this.XmiWriterSettings.XmiNamespaceUri, element.XmiGuid);
             }
 
-            if (element.ExtendedRegion != null && writeContext.IsLocal(element.ExtendedRegion))
-            {
-                xmlWriter.WriteAttributeString("extendedRegion", element.ExtendedRegion.XmiId);
-            }
-
-            if (element.IsLeaf)
-            {
-                xmlWriter.WriteAttributeString("isLeaf", XmlConvert.ToString(element.IsLeaf));
-            }
-
             if (!string.IsNullOrEmpty(element.Name))
             {
                 xmlWriter.WriteAttributeString("name", element.Name);
@@ -156,15 +146,25 @@ namespace uml4net.xmi.Writers
                 xmlWriter.WriteAttributeString("visibility", element.Visibility.Value.QueryXmiLiteral());
             }
 
-
-            foreach (var value in element.ElementImport)
+            if (element.IsLeaf)
             {
-                this.XmiElementWriterFacade.WriteContainedElement(xmlWriter, value, "elementImport", writeContext);
+                xmlWriter.WriteAttributeString("isLeaf", XmlConvert.ToString(element.IsLeaf));
             }
+
+            if (element.ExtendedRegion != null && writeContext.IsLocal(element.ExtendedRegion))
+            {
+                xmlWriter.WriteAttributeString("extendedRegion", element.ExtendedRegion.XmiId);
+            }
+
 
             if (element.ExtendedRegion != null && !writeContext.IsLocal(element.ExtendedRegion))
             {
                 this.XmiElementWriterFacade.WriteReferenceElement(xmlWriter, element.ExtendedRegion, "extendedRegion", writeContext);
+            }
+
+            foreach (var value in element.OwnedComment)
+            {
+                this.XmiElementWriterFacade.WriteContainedElement(xmlWriter, value, "ownedComment", writeContext);
             }
 
             foreach (var value in element.NameExpression)
@@ -172,9 +172,9 @@ namespace uml4net.xmi.Writers
                 this.XmiElementWriterFacade.WriteContainedElement(xmlWriter, value, "nameExpression", writeContext);
             }
 
-            foreach (var value in element.OwnedComment)
+            foreach (var value in element.ElementImport)
             {
-                this.XmiElementWriterFacade.WriteContainedElement(xmlWriter, value, "ownedComment", writeContext);
+                this.XmiElementWriterFacade.WriteContainedElement(xmlWriter, value, "elementImport", writeContext);
             }
 
             foreach (var value in element.OwnedRule)
@@ -264,16 +264,6 @@ namespace uml4net.xmi.Writers
                 await xmlWriter.WriteAttributeStringAsync("xmi", "uuid", this.XmiWriterSettings.XmiNamespaceUri, element.XmiGuid);
             }
 
-            if (element.ExtendedRegion != null && writeContext.IsLocal(element.ExtendedRegion))
-            {
-                await xmlWriter.WriteAttributeStringAsync(null, "extendedRegion", null, element.ExtendedRegion.XmiId);
-            }
-
-            if (element.IsLeaf)
-            {
-                await xmlWriter.WriteAttributeStringAsync(null, "isLeaf", null, XmlConvert.ToString(element.IsLeaf));
-            }
-
             if (!string.IsNullOrEmpty(element.Name))
             {
                 await xmlWriter.WriteAttributeStringAsync(null, "name", null, element.Name);
@@ -284,15 +274,25 @@ namespace uml4net.xmi.Writers
                 await xmlWriter.WriteAttributeStringAsync(null, "visibility", null, element.Visibility.Value.QueryXmiLiteral());
             }
 
-
-            foreach (var value in element.ElementImport)
+            if (element.IsLeaf)
             {
-                await this.XmiElementWriterFacade.WriteContainedElementAsync(xmlWriter, value, "elementImport", writeContext);
+                await xmlWriter.WriteAttributeStringAsync(null, "isLeaf", null, XmlConvert.ToString(element.IsLeaf));
             }
+
+            if (element.ExtendedRegion != null && writeContext.IsLocal(element.ExtendedRegion))
+            {
+                await xmlWriter.WriteAttributeStringAsync(null, "extendedRegion", null, element.ExtendedRegion.XmiId);
+            }
+
 
             if (element.ExtendedRegion != null && !writeContext.IsLocal(element.ExtendedRegion))
             {
                 await this.XmiElementWriterFacade.WriteReferenceElementAsync(xmlWriter, element.ExtendedRegion, "extendedRegion", writeContext);
+            }
+
+            foreach (var value in element.OwnedComment)
+            {
+                await this.XmiElementWriterFacade.WriteContainedElementAsync(xmlWriter, value, "ownedComment", writeContext);
             }
 
             foreach (var value in element.NameExpression)
@@ -300,9 +300,9 @@ namespace uml4net.xmi.Writers
                 await this.XmiElementWriterFacade.WriteContainedElementAsync(xmlWriter, value, "nameExpression", writeContext);
             }
 
-            foreach (var value in element.OwnedComment)
+            foreach (var value in element.ElementImport)
             {
-                await this.XmiElementWriterFacade.WriteContainedElementAsync(xmlWriter, value, "ownedComment", writeContext);
+                await this.XmiElementWriterFacade.WriteContainedElementAsync(xmlWriter, value, "elementImport", writeContext);
             }
 
             foreach (var value in element.OwnedRule)

@@ -136,19 +136,9 @@ namespace uml4net.xmi.Writers
                 xmlWriter.WriteAttributeString("xmi", "uuid", this.XmiWriterSettings.XmiNamespaceUri, element.XmiGuid);
             }
 
-            if (element.DestroyAt != null && writeContext.IsLocal(element.DestroyAt))
-            {
-                xmlWriter.WriteAttributeString("destroyAt", element.DestroyAt.XmiId);
-            }
-
             if (element.End != null && writeContext.IsLocal(element.End))
             {
                 xmlWriter.WriteAttributeString("end", element.End.XmiId);
-            }
-
-            if (element.IsDestroyDuplicates)
-            {
-                xmlWriter.WriteAttributeString("isDestroyDuplicates", XmlConvert.ToString(element.IsDestroyDuplicates));
             }
 
             if (element.Value != null && writeContext.IsLocal(element.Value))
@@ -156,15 +146,30 @@ namespace uml4net.xmi.Writers
                 xmlWriter.WriteAttributeString("value", element.Value.XmiId);
             }
 
-
-            if (element.DestroyAt != null && !writeContext.IsLocal(element.DestroyAt))
+            if (element.DestroyAt != null && writeContext.IsLocal(element.DestroyAt))
             {
-                this.XmiElementWriterFacade.WriteReferenceElement(xmlWriter, element.DestroyAt, "destroyAt", writeContext);
+                xmlWriter.WriteAttributeString("destroyAt", element.DestroyAt.XmiId);
             }
+
+            if (element.IsDestroyDuplicates)
+            {
+                xmlWriter.WriteAttributeString("isDestroyDuplicates", XmlConvert.ToString(element.IsDestroyDuplicates));
+            }
+
 
             if (element.End != null && !writeContext.IsLocal(element.End))
             {
                 this.XmiElementWriterFacade.WriteReferenceElement(xmlWriter, element.End, "end", writeContext);
+            }
+
+            if (element.Value != null && !writeContext.IsLocal(element.Value))
+            {
+                this.XmiElementWriterFacade.WriteReferenceElement(xmlWriter, element.Value, "value", writeContext);
+            }
+
+            if (element.DestroyAt != null && !writeContext.IsLocal(element.DestroyAt))
+            {
+                this.XmiElementWriterFacade.WriteReferenceElement(xmlWriter, element.DestroyAt, "destroyAt", writeContext);
             }
 
             foreach (var value in element.OwnedComment)
@@ -175,11 +180,6 @@ namespace uml4net.xmi.Writers
             foreach (var value in element.Qualifier)
             {
                 this.XmiElementWriterFacade.WriteContainedElement(xmlWriter, value, "qualifier", writeContext);
-            }
-
-            if (element.Value != null && !writeContext.IsLocal(element.Value))
-            {
-                this.XmiElementWriterFacade.WriteReferenceElement(xmlWriter, element.Value, "value", writeContext);
             }
 
 
@@ -249,19 +249,9 @@ namespace uml4net.xmi.Writers
                 await xmlWriter.WriteAttributeStringAsync("xmi", "uuid", this.XmiWriterSettings.XmiNamespaceUri, element.XmiGuid);
             }
 
-            if (element.DestroyAt != null && writeContext.IsLocal(element.DestroyAt))
-            {
-                await xmlWriter.WriteAttributeStringAsync(null, "destroyAt", null, element.DestroyAt.XmiId);
-            }
-
             if (element.End != null && writeContext.IsLocal(element.End))
             {
                 await xmlWriter.WriteAttributeStringAsync(null, "end", null, element.End.XmiId);
-            }
-
-            if (element.IsDestroyDuplicates)
-            {
-                await xmlWriter.WriteAttributeStringAsync(null, "isDestroyDuplicates", null, XmlConvert.ToString(element.IsDestroyDuplicates));
             }
 
             if (element.Value != null && writeContext.IsLocal(element.Value))
@@ -269,15 +259,30 @@ namespace uml4net.xmi.Writers
                 await xmlWriter.WriteAttributeStringAsync(null, "value", null, element.Value.XmiId);
             }
 
-
-            if (element.DestroyAt != null && !writeContext.IsLocal(element.DestroyAt))
+            if (element.DestroyAt != null && writeContext.IsLocal(element.DestroyAt))
             {
-                await this.XmiElementWriterFacade.WriteReferenceElementAsync(xmlWriter, element.DestroyAt, "destroyAt", writeContext);
+                await xmlWriter.WriteAttributeStringAsync(null, "destroyAt", null, element.DestroyAt.XmiId);
             }
+
+            if (element.IsDestroyDuplicates)
+            {
+                await xmlWriter.WriteAttributeStringAsync(null, "isDestroyDuplicates", null, XmlConvert.ToString(element.IsDestroyDuplicates));
+            }
+
 
             if (element.End != null && !writeContext.IsLocal(element.End))
             {
                 await this.XmiElementWriterFacade.WriteReferenceElementAsync(xmlWriter, element.End, "end", writeContext);
+            }
+
+            if (element.Value != null && !writeContext.IsLocal(element.Value))
+            {
+                await this.XmiElementWriterFacade.WriteReferenceElementAsync(xmlWriter, element.Value, "value", writeContext);
+            }
+
+            if (element.DestroyAt != null && !writeContext.IsLocal(element.DestroyAt))
+            {
+                await this.XmiElementWriterFacade.WriteReferenceElementAsync(xmlWriter, element.DestroyAt, "destroyAt", writeContext);
             }
 
             foreach (var value in element.OwnedComment)
@@ -288,11 +293,6 @@ namespace uml4net.xmi.Writers
             foreach (var value in element.Qualifier)
             {
                 await this.XmiElementWriterFacade.WriteContainedElementAsync(xmlWriter, value, "qualifier", writeContext);
-            }
-
-            if (element.Value != null && !writeContext.IsLocal(element.Value))
-            {
-                await this.XmiElementWriterFacade.WriteReferenceElementAsync(xmlWriter, element.Value, "value", writeContext);
             }
 
 

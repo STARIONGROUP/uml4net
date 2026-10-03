@@ -141,20 +141,20 @@ namespace uml4net.xmi.Writers
                 xmlWriter.WriteAttributeString("name", element.Name);
             }
 
-            if (element.Type != null && writeContext.IsLocal(element.Type))
-            {
-                xmlWriter.WriteAttributeString("type", element.Type.XmiId);
-            }
-
             if (element.Visibility.HasValue)
             {
                 xmlWriter.WriteAttributeString("visibility", element.Visibility.Value.QueryXmiLiteral());
             }
 
-
-            foreach (var value in element.NameExpression)
+            if (element.Type != null && writeContext.IsLocal(element.Type))
             {
-                this.XmiElementWriterFacade.WriteContainedElement(xmlWriter, value, "nameExpression", writeContext);
+                xmlWriter.WriteAttributeString("type", element.Type.XmiId);
+            }
+
+
+            if (element.Type != null && !writeContext.IsLocal(element.Type))
+            {
+                this.XmiElementWriterFacade.WriteReferenceElement(xmlWriter, element.Type, "type", writeContext);
             }
 
             foreach (var value in element.OwnedComment)
@@ -162,14 +162,14 @@ namespace uml4net.xmi.Writers
                 this.XmiElementWriterFacade.WriteContainedElement(xmlWriter, value, "ownedComment", writeContext);
             }
 
+            foreach (var value in element.NameExpression)
+            {
+                this.XmiElementWriterFacade.WriteContainedElement(xmlWriter, value, "nameExpression", writeContext);
+            }
+
             foreach (var value in element.RoleBinding)
             {
                 this.XmiElementWriterFacade.WriteContainedElement(xmlWriter, value, "roleBinding", writeContext);
-            }
-
-            if (element.Type != null && !writeContext.IsLocal(element.Type))
-            {
-                this.XmiElementWriterFacade.WriteReferenceElement(xmlWriter, element.Type, "type", writeContext);
             }
 
 
@@ -244,20 +244,20 @@ namespace uml4net.xmi.Writers
                 await xmlWriter.WriteAttributeStringAsync(null, "name", null, element.Name);
             }
 
-            if (element.Type != null && writeContext.IsLocal(element.Type))
-            {
-                await xmlWriter.WriteAttributeStringAsync(null, "type", null, element.Type.XmiId);
-            }
-
             if (element.Visibility.HasValue)
             {
                 await xmlWriter.WriteAttributeStringAsync(null, "visibility", null, element.Visibility.Value.QueryXmiLiteral());
             }
 
-
-            foreach (var value in element.NameExpression)
+            if (element.Type != null && writeContext.IsLocal(element.Type))
             {
-                await this.XmiElementWriterFacade.WriteContainedElementAsync(xmlWriter, value, "nameExpression", writeContext);
+                await xmlWriter.WriteAttributeStringAsync(null, "type", null, element.Type.XmiId);
+            }
+
+
+            if (element.Type != null && !writeContext.IsLocal(element.Type))
+            {
+                await this.XmiElementWriterFacade.WriteReferenceElementAsync(xmlWriter, element.Type, "type", writeContext);
             }
 
             foreach (var value in element.OwnedComment)
@@ -265,14 +265,14 @@ namespace uml4net.xmi.Writers
                 await this.XmiElementWriterFacade.WriteContainedElementAsync(xmlWriter, value, "ownedComment", writeContext);
             }
 
+            foreach (var value in element.NameExpression)
+            {
+                await this.XmiElementWriterFacade.WriteContainedElementAsync(xmlWriter, value, "nameExpression", writeContext);
+            }
+
             foreach (var value in element.RoleBinding)
             {
                 await this.XmiElementWriterFacade.WriteContainedElementAsync(xmlWriter, value, "roleBinding", writeContext);
-            }
-
-            if (element.Type != null && !writeContext.IsLocal(element.Type))
-            {
-                await this.XmiElementWriterFacade.WriteReferenceElementAsync(xmlWriter, element.Type, "type", writeContext);
             }
 
 
