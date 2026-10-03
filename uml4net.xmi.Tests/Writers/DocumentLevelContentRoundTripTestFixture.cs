@@ -118,8 +118,16 @@ namespace uml4net.xmi.Tests.Writers
                 Assert.That(rereadResult.XmiRoot.UnprocessedContent.Select(x => x.XmiId), Is.EqualTo(new[] { "notAnApplication", "primitiveTypesElement" }));
                 Assert.That(rereadResult.XmiRoot.DiagramInterchange.Concat(rereadResult.XmiRoot.UnprocessedContent).Select(x => x.Position), Is.EqualTo(new[] { 1, 2, 3 }));
 
-                Assert.That(XNode.DeepEquals(XElement.Parse(rereadResult.XmiRoot.DiagramInterchange.Single().RawXml).Descendants("bounds").Single(), XElement.Parse(xmiReaderResult.XmiRoot.DiagramInterchange.Single().RawXml).Descendants("bounds").Single()),
-                    Is.True, "the content of the diagram is unchanged");
+                var originalElements = xmiReaderResult.XmiRoot.DiagramInterchange.Concat(xmiReaderResult.XmiRoot.UnprocessedContent).ToList();
+                var rereadElements = rereadResult.XmiRoot.DiagramInterchange.Concat(rereadResult.XmiRoot.UnprocessedContent).ToList();
+
+                for (var index = 0; index < originalElements.Count; index++)
+                {
+                    Assert.That(XNode.DeepEquals(Normalize(rereadElements[index].RawXml), Normalize(originalElements[index].RawXml)), Is.True,
+                        $"the captured element {originalElements[index].XmiId} is unchanged, apart from the order of its namespace declarations");
+                    Assert.That(rereadElements[index].NamespaceDeclarations, Is.EquivalentTo(originalElements[index].NamespaceDeclarations),
+                        $"the namespaces in scope of {originalElements[index].XmiId} are unchanged");
+                }
 
                 Assert.That(rereadResult.QueryRoot("p").PackagedElement, Has.Count.EqualTo(4));
             }
@@ -181,6 +189,24 @@ namespace uml4net.xmi.Tests.Writers
                 Assert.That(async () => await writer.WriteAsync(null, this.outputPath, new XmiRoot()), Throws.ArgumentNullException);
                 Assert.That(async () => await writer.WriteAsync([], string.Empty, new XmiRoot()), Throws.ArgumentException);
             }
+        }
+
+        /// <summary>
+        /// Parses the raw XML of a captured element without its namespace declarations, whose order is not significant,
+        /// and with its attributes sorted; the element and attribute names stay qualified by their namespace URI
+        /// </summary>
+        private static XElement Normalize(string rawXml)
+        {
+            var element = XElement.Parse(rawXml);
+
+            foreach (var descendant in element.DescendantsAndSelf().ToList())
+            {
+                var attributes = descendant.Attributes().Where(x => !x.IsNamespaceDeclaration).OrderBy(x => x.Name.ToString()).Select(x => new XAttribute(x.Name, x.Value)).ToList();
+                descendant.RemoveAttributes();
+                descendant.Add(attributes);
+            }
+
+            return element;
         }
 
         private static IXmiWriter CreateWriter()
