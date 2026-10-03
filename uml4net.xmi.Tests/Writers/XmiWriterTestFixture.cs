@@ -259,6 +259,53 @@ namespace uml4net.xmi.Tests.Writers
         }
 
         [Test]
+        public async Task Verify_that_the_extension_of_a_model_element_is_written_as_lowercase_xmi_extension_and_read_back()
+        {
+            const string xmiNamespaceUri = "http://www.omg.org/spec/XMI/20131001";
+
+            var @class = new Class { XmiId = "Class-1", Name = "class" };
+            @class.Extensions.Add(new XmiExtension { Extender = "uml4net tests", ExtenderId = "7", ContentRawXmi = "<note>kept</note>" });
+            this.package.PackagedElement.Add(@class);
+
+            using var stream = new MemoryStream();
+            this.xmiWriter.Write(this.package, stream, "output.xmi");
+
+            using var asyncStream = new MemoryStream();
+            await this.xmiWriter.WriteAsync(this.package, asyncStream, "output.xmi");
+
+            stream.Position = 0;
+            var xmlDocument = new XmlDocument();
+            xmlDocument.Load(stream);
+
+            var namespaceManager = new XmlNamespaceManager(xmlDocument.NameTable);
+            namespaceManager.AddNamespace("xmi", xmiNamespaceUri);
+
+            var extension = (XmlElement)xmlDocument.SelectSingleNode("//packagedElement[@xmi:id='Class-1']/xmi:extension", namespaceManager);
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(extension, Is.Not.Null, "XMI 2.5.1 rule 9.5.3: the extension of a model element is written as xmi:extension");
+                Assert.That(extension?.GetAttribute("type", xmiNamespaceUri), Is.EqualTo("xmi:Extension"));
+                Assert.That(extension?.GetAttribute("extender"), Is.EqualTo("uml4net tests"));
+                Assert.That(extension?.GetAttribute("extenderID"), Is.EqualTo("7"));
+                Assert.That(xmlDocument.SelectSingleNode("//xmi:Extension", namespaceManager), Is.Null, "the uppercase xmi:Extension is not written");
+                Assert.That(asyncStream.ToArray(), Is.EqualTo(stream.ToArray()), "the asynchronous write gives the same document");
+            }
+
+            stream.Position = 0;
+
+            using var reader = XmiReaderBuilder.Create().WithLogger(this.loggerFactory).Build();
+            var rereadClass = reader.Read(stream, "output.xmi").QueryRoot("Package-1").PackagedElement.Single();
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(rereadClass.Extensions, Has.Count.EqualTo(1), "the lowercase xmi:extension is read back");
+                Assert.That(rereadClass.Extensions.Single().Extender, Is.EqualTo("uml4net tests"));
+                Assert.That(rereadClass.Extensions.Single().ContentRawXmi, Does.Contain("<note>kept</note>"));
+            }
+        }
+
+        [Test]
         public void Verify_that_a_simple_package_is_written_as_expected()
         {
             var @class = new Class { XmiId = "Class-1", Name = "class" };

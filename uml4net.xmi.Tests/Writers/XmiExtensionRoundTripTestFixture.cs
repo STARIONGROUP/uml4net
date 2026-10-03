@@ -34,7 +34,7 @@ namespace uml4net.xmi.Tests.Writers
     using uml4net.xmi.Writers;
 
     /// <summary>
-    /// Verifies that the <c>xmi:Extension</c> of an Enterprise Architect document survives a
+    /// Verifies that the <c>xmi:extension</c> of an Enterprise Architect document survives a
     /// read - write - read cycle when no <c>IExtenderReader</c> is registered, which is the default
     /// for consumers of the uml4net.xmi library.
     /// </summary>
@@ -84,7 +84,7 @@ namespace uml4net.xmi.Tests.Writers
                 Assert.That(rereadExtension.ExtenderId, Is.EqualTo(originalExtension.ExtenderId));
 
                 Assert.That(rereadExtension.ContentRawXmi, Is.EqualTo(originalExtension.ContentRawXmi),
-                    "the raw content of the xmi:Extension was expected to survive the round trip unchanged");
+                    "the raw content of the xmi:extension was expected to survive the round trip unchanged");
             }
 
             this.AssertContainmentTreesAreEquivalent(originalRoot, rereadRoot, "EAExport.xmi");
@@ -112,15 +112,17 @@ namespace uml4net.xmi.Tests.Writers
             var xmiNamespace = XNamespace.Get("http://www.omg.org/spec/XMI/20131001");
 
             var children = document.Root.Elements().ToList();
-            var extensionElement = children.SingleOrDefault(x => x.Name == xmiNamespace + "Extension");
+            var extensionElement = children.SingleOrDefault(x => x.Name == xmiNamespace + "extension");
 
             using (Assert.EnterMultipleScope())
             {
-                Assert.That(extensionElement, Is.Not.Null, "an xmi:Extension was expected as a child of xmi:XMI");
+                Assert.That(extensionElement, Is.Not.Null, "an xmi:extension was expected as a child of xmi:XMI");
+                Assert.That(extensionElement.Attribute(xmiNamespace + "type")?.Value, Is.EqualTo("xmi:Extension"), "XMI 2.5.1 rule 9.5.3");
+                Assert.That(children.Any(x => x.Name == xmiNamespace + "Extension"), Is.False, "the uppercase xmi:Extension is not written underneath xmi:XMI (clause 7.5.3)");
                 Assert.That(extensionElement.Attribute("extender")?.Value, Is.EqualTo("Enterprise Architect"));
                 Assert.That(extensionElement.Attribute("extenderID")?.Value, Is.EqualTo("6.5"));
                 Assert.That(children.Last(), Is.EqualTo(extensionElement),
-                    "the xmi:Extension was expected to be written after the model content");
+                    "the xmi:extension was expected to be written after the model content");
 
                 Assert.That(extensionElement.Elements().Select(x => x.Name.LocalName),
                     Is.EquivalentTo(new[] { "elements", "connectors", "primitivetypes", "profiles" }));
@@ -148,8 +150,8 @@ namespace uml4net.xmi.Tests.Writers
 
             var xmiNamespace = XNamespace.Get("http://www.omg.org/spec/XMI/20131001");
 
-            Assert.That(document.Root.Elements().Any(x => x.Name == xmiNamespace + "Extension"), Is.False,
-                "the pre-existing overloads are expected to remain behaviour preserving and write no xmi:Extension");
+            Assert.That(document.Root.Elements().Any(x => x.Name == xmiNamespace + "extension"), Is.False,
+                "the pre-existing overloads are expected to remain behaviour preserving and write no xmi:extension");
         }
 
         /// <summary>

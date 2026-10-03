@@ -38,6 +38,9 @@ namespace uml4net.xmi.Writers
     /// by the UML 2.5.1 metamodel. It is written verbatim, using the
     /// <see cref="XmiExtension.ContentRawXmi"/> that was captured when the extension was read, which makes
     /// an extension survive a read-write cycle.
+    /// The extension is written as the <c>xmi:extension</c> element with <c>xmi:type="xmi:Extension"</c>
+    /// (XMI 2.5.1 rule 9.5.3), both underneath <c>xmi:XMI</c> and nested in a model element or the documentation:
+    /// the uppercase <c>xmi:Extension</c> may only be used as the root element of a document (clause 7.5.3).
     /// </remarks>
     public class XmiExtensionWriter
     {
@@ -89,7 +92,8 @@ namespace uml4net.xmi.Writers
 
             this.logger.LogTrace("writing the XmiExtension of {Extender}:{ExtenderID}", extension.Extender, extension.ExtenderId);
 
-            xmlWriter.WriteStartElement("xmi", "Extension", this.xmiWriterSettings.XmiNamespaceUri);
+            xmlWriter.WriteStartElement("xmi", "extension", this.xmiWriterSettings.XmiNamespaceUri);
+            xmlWriter.WriteAttributeString("xmi", "type", this.xmiWriterSettings.XmiNamespaceUri, "xmi:Extension");
 
             if (!string.IsNullOrEmpty(extension.Id))
             {
@@ -148,7 +152,8 @@ namespace uml4net.xmi.Writers
 
             this.logger.LogTrace("writing the XmiExtension of {Extender}:{ExtenderID}", extension.Extender, extension.ExtenderId);
 
-            await xmlWriter.WriteStartElementAsync("xmi", "Extension", this.xmiWriterSettings.XmiNamespaceUri);
+            await xmlWriter.WriteStartElementAsync("xmi", "extension", this.xmiWriterSettings.XmiNamespaceUri);
+            await xmlWriter.WriteAttributeStringAsync("xmi", "type", this.xmiWriterSettings.XmiNamespaceUri, "xmi:Extension");
 
             if (!string.IsNullOrEmpty(extension.Id))
             {
