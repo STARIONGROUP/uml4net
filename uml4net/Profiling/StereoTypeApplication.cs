@@ -63,6 +63,40 @@ namespace uml4net.Profiling
         /// Gets or sets the key-value pair of attributes (or properties) that
         /// the <see cref="StereoTypeApplication"/> holds.
         /// </summary>
+        /// <remarks>
+        /// Only the tagged values that are serialized as XML attributes are recorded here, as they were read; the
+        /// <see cref="TaggedValues"/> hold all of them, typed when the application is resolved, and are the ones that
+        /// are written
+        /// </remarks>
         public Dictionary<string, string> Attributes = new();
+
+        /// <summary>
+        /// Gets or sets the name of the document that contains the stereotype application
+        /// </summary>
+        public string DocumentName { get; set; }
+
+        /// <summary>
+        /// Gets or sets the XML namespace URI of the stereotype application, which identifies the <see cref="IProfile"/>
+        /// (UML 2.5.1 clause 12.3.3: the URI of the profile, or its <c>org.omg.xmi.nsURI</c> tag)
+        /// </summary>
+        public string NamespaceUri { get; set; }
+
+        /// <summary>
+        /// Gets or sets the applied <see cref="IStereotype"/>; null when it could not be resolved, for example because
+        /// the profile is not available
+        /// </summary>
+        public IStereotype Stereotype { get; set; }
+
+        /// <summary>
+        /// Gets or sets the element that the <see cref="IStereotype"/> is applied to, referenced by the <c>base_</c>
+        /// property of the application; null when it could not be resolved
+        /// </summary>
+        public IXmiElement ExtendedElement { get; set; }
+
+        /// <summary>
+        /// Gets or sets the values of the properties of the applied <see cref="IStereotype"/>, the tagged values, in the
+        /// order in which they were read
+        /// </summary>
+        public List<TaggedValue> TaggedValues { get; set; } = [];
     }
 }

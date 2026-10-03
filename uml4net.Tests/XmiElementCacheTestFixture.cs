@@ -27,6 +27,8 @@ namespace uml4net.Tests
     using SimpleClassifiers;
     using StructuredClassifiers;
 
+    using uml4net.Profiling;
+
     [TestFixture]
     public class XmiElementCacheTestFixture
     {
@@ -183,6 +185,34 @@ namespace uml4net.Tests
             Assert.That(() => this.cache.Clear(), Throws.Nothing);
 
             Assert.That(this.cache.Count, Is.EqualTo(0));
+        }
+
+        [Test]
+        public void Verify_that_the_stereotype_applications_of_an_element_are_registered_and_cleared()
+        {
+            var @class = new Class { XmiId = "class", DocumentName = "test" };
+            var first = new StereoTypeApplication { XmiId = "first" };
+            var second = new StereoTypeApplication { XmiId = "second" };
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(() => this.cache.AddStereoTypeApplication(null, first), Throws.ArgumentNullException);
+                Assert.That(() => this.cache.AddStereoTypeApplication(@class, null), Throws.ArgumentNullException);
+                Assert.That(() => this.cache.TryGetStereoTypeApplications(null, out _), Throws.ArgumentNullException);
+
+                Assert.That(this.cache.TryGetStereoTypeApplications(@class, out var none), Is.False);
+                Assert.That(none, Is.Null);
+
+                this.cache.AddStereoTypeApplication(@class, first);
+                this.cache.AddStereoTypeApplication(@class, second);
+
+                Assert.That(this.cache.TryGetStereoTypeApplications(@class, out var applications), Is.True);
+                Assert.That(applications, Is.EqualTo(new[] { first, second }));
+
+                this.cache.Clear();
+
+                Assert.That(this.cache.TryGetStereoTypeApplications(@class, out _), Is.False);
+            }
         }
     }
 }

@@ -54,6 +54,12 @@
         <Content Include="..\resources\SySML1.7\ptc-24-01-02.xmi" Link="TestData\SySML1.7\ptc-24-01-02.xmi">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </Content>
+        <Content Include="..\resources\SySML1.7\ptc-24-01-02.xmi" Link="TestData\SySML1.7\StereotypeApplications\SysML.xmi">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <Content Include="..\resources\SySML1.7\ptc-24-01-04.xmi" Link="TestData\SySML1.7\StereotypeApplications\QUDV.xmi">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
       <Content Include="..\resources\UML_with_unknown_element\SysML_with_unknown_element.uml" Link="TestData\SysML_with_unknown_element.uml">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </Content>
@@ -136,6 +142,9 @@
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
       <None Update="TestData\DocumentLevelContent\*.xmi">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Update="TestData\StereotypeApplications\*.xmi">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
       <None Update="TestData\OwnerEnds\*.xmi">

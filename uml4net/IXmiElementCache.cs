@@ -23,6 +23,8 @@ namespace uml4net
     using System;
     using System.Collections.Generic;
 
+    using uml4net.Profiling;
+
     /// <summary>
     /// Represents a cache for storing and retrieving XMI elements during the reading process.
     /// </summary>
@@ -111,5 +113,27 @@ namespace uml4net
         /// <returns>true if the Cache contains an element with the specified key; otherwise, false.</returns>
         /// <exception cref="ArgumentNullException">If the provided <paramref name="xmiElement" /> is null</exception>
         bool TryGetExtenders(IXmiElement xmiElement, out IReadOnlyCollection<object> extenders);
+
+        /// <summary>
+        /// Registers a <see cref="StereoTypeApplication"/> as applied to the provided <see cref="IXmiElement"/>
+        /// </summary>
+        /// <param name="xmiElement">The <see cref="IXmiElement"/> to which the stereotype is applied</param>
+        /// <param name="stereoTypeApplication">The <see cref="StereoTypeApplication"/></param>
+        /// <exception cref="ArgumentNullException">
+        /// If the provided <paramref name="xmiElement" /> or the <paramref name="stereoTypeApplication" /> is null
+        /// </exception>
+        void AddStereoTypeApplication(IXmiElement xmiElement, StereoTypeApplication stereoTypeApplication);
+
+        /// <summary>
+        /// Tries to get the <see cref="StereoTypeApplication"/>s that are applied to an <see cref="IXmiElement" />
+        /// </summary>
+        /// <param name="xmiElement">The <see cref="IXmiElement" /></param>
+        /// <param name="stereoTypeApplications">
+        /// When this method returns, contains the <see cref="StereoTypeApplication"/>s applied to the
+        /// <paramref name="xmiElement"/>, in the order in which they were registered, if any; otherwise null
+        /// </param>
+        /// <returns>true if at least one <see cref="StereoTypeApplication"/> is applied; otherwise, false.</returns>
+        /// <exception cref="ArgumentNullException">If the provided <paramref name="xmiElement" /> is null</exception>
+        bool TryGetStereoTypeApplications(IXmiElement xmiElement, out IReadOnlyCollection<StereoTypeApplication> stereoTypeApplications);
     }
 }
