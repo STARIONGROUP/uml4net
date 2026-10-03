@@ -170,7 +170,7 @@ namespace uml4net.HandleBars.Tests
 
             Assert.That(ownerPropertyAttribute,
                 Is.EqualTo(
-                    "[Property(xmiId: \"Element-owner\", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: true, defaultValue: null)]" + Environment.NewLine));
+                    "[Property(xmiId: \"Element-owner\", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: true, isDerived: true, isDerivedUnion: true, isUnique: true, defaultValue: null, isOwnerEnd: true)]" + Environment.NewLine));
         }
 
         [Test]

@@ -77,7 +77,7 @@ namespace uml4net.Activities
         /// protectedNode and has a type matching one of the exceptionTypes, then it is caught by this
         /// ExceptionHandler.
         /// </summary>
-        [Property(xmiId: "ExceptionHandler-protectedNode", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "ExceptionHandler-protectedNode", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: true)]
         [SubsettedProperty(propertyName: "Element-owner")]
         public IExecutableNode ProtectedNode { get; set; }
     }

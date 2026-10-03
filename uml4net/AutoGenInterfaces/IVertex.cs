@@ -54,7 +54,7 @@ namespace uml4net.StateMachines
         /// <summary>
         /// The Region that contains this Vertex.
         /// </summary>
-        [Property(xmiId: "Vertex-container", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "Vertex-container", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: true)]
         [SubsettedProperty(propertyName: "NamedElement-namespace")]
         public IRegion Container { get; set; }
 

@@ -62,7 +62,7 @@ namespace uml4net.StateMachines
         /// <summary>
         /// The State that owns this Pseudostate and in which it appears.
         /// </summary>
-        [Property(xmiId: "Pseudostate-state", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "Pseudostate-state", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: true)]
         [SubsettedProperty(propertyName: "NamedElement-namespace")]
         public IState State { get; set; }
 
@@ -70,7 +70,7 @@ namespace uml4net.StateMachines
         /// The StateMachine in which this Pseudostate is defined. This only applies to Pseudostates of the kind
         /// entryPoint or exitPoint.
         /// </summary>
-        [Property(xmiId: "Pseudostate-stateMachine", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "Pseudostate-stateMachine", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: true)]
         [SubsettedProperty(propertyName: "NamedElement-namespace")]
         public IStateMachine StateMachine { get; set; }
     }

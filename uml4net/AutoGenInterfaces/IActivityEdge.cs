@@ -53,7 +53,7 @@ namespace uml4net.Activities
         /// <summary>
         /// The Activity containing the ActivityEdge, if it is directly owned by an Activity.
         /// </summary>
-        [Property(xmiId: "ActivityEdge-activity", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "ActivityEdge-activity", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: true)]
         [SubsettedProperty(propertyName: "Element-owner")]
         public IActivity Activity { get; set; }
 
@@ -81,7 +81,7 @@ namespace uml4net.Activities
         /// <summary>
         /// The StructuredActivityNode containing the ActivityEdge, if it is owned by a StructuredActivityNode.
         /// </summary>
-        [Property(xmiId: "ActivityEdge-inStructuredNode", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "ActivityEdge-inStructuredNode", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: true)]
         [SubsettedProperty(propertyName: "ActivityEdge-inGroup")]
         [SubsettedProperty(propertyName: "Element-owner")]
         public IStructuredActivityNode InStructuredNode { get; set; }

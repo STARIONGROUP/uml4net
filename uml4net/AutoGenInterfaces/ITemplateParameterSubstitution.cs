@@ -75,7 +75,7 @@ namespace uml4net.CommonStructure
         /// <summary>
         /// The TemplateBinding that owns this TemplateParameterSubstitution.
         /// </summary>
-        [Property(xmiId: "TemplateParameterSubstitution-templateBinding", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "TemplateParameterSubstitution-templateBinding", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: true)]
         [SubsettedProperty(propertyName: "Element-owner")]
         public ITemplateBinding TemplateBinding { get; set; }
     }

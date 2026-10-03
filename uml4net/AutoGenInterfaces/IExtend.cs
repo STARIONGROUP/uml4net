@@ -71,7 +71,7 @@ namespace uml4net.UseCases
         /// <summary>
         /// The UseCase that represents the extension and owns the Extend relationship.
         /// </summary>
-        [Property(xmiId: "Extend-extension", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "Extend-extension", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: true)]
         [SubsettedProperty(propertyName: "DirectedRelationship-source")]
         [SubsettedProperty(propertyName: "NamedElement-namespace")]
         public IUseCase Extension { get; set; }

@@ -65,7 +65,7 @@ namespace uml4net.Classification
         /// <summary>
         /// The Class that owns this operation, if any.
         /// </summary>
-        [Property(xmiId: "Operation-class", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "Operation-class", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: true)]
         [SubsettedProperty(propertyName: "Feature-featuringClassifier")]
         [SubsettedProperty(propertyName: "NamedElement-namespace")]
         [SubsettedProperty(propertyName: "RedefinableElement-redefinitionContext")]
@@ -74,7 +74,7 @@ namespace uml4net.Classification
         /// <summary>
         /// The DataType that owns this Operation, if any.
         /// </summary>
-        [Property(xmiId: "Operation-datatype", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "Operation-datatype", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: true)]
         [SubsettedProperty(propertyName: "Feature-featuringClassifier")]
         [SubsettedProperty(propertyName: "NamedElement-namespace")]
         [SubsettedProperty(propertyName: "RedefinableElement-redefinitionContext")]
@@ -83,7 +83,7 @@ namespace uml4net.Classification
         /// <summary>
         /// The Interface that owns this Operation, if any.
         /// </summary>
-        [Property(xmiId: "Operation-interface", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "Operation-interface", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: true)]
         [SubsettedProperty(propertyName: "Feature-featuringClassifier")]
         [SubsettedProperty(propertyName: "NamedElement-namespace")]
         [SubsettedProperty(propertyName: "RedefinableElement-redefinitionContext")]

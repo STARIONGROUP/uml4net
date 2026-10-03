@@ -54,7 +54,7 @@ namespace uml4net.Classification
         /// <summary>
         /// The Classifier that owns this RedefinableTemplateSignature.
         /// </summary>
-        [Property(xmiId: "RedefinableTemplateSignature-classifier", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "RedefinableTemplateSignature-classifier", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: true)]
         [SubsettedProperty(propertyName: "RedefinableElement-redefinitionContext")]
         [RedefinedProperty(propertyName: "TemplateSignature-template")]
         public new IClassifier Classifier { get; set; }

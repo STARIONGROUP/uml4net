@@ -60,7 +60,7 @@ namespace uml4net.UseCases
         /// <summary>
         /// The UseCase which includes the addition and owns the Include relationship.
         /// </summary>
-        [Property(xmiId: "Include-includingCase", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "Include-includingCase", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: true)]
         [SubsettedProperty(propertyName: "DirectedRelationship-source")]
         [SubsettedProperty(propertyName: "NamedElement-namespace")]
         public IUseCase IncludingCase { get; set; }

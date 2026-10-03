@@ -63,7 +63,7 @@ namespace uml4net.SimpleClassifiers
         /// References the BehavioredClassifier that owns this InterfaceRealization, i.e., the
         /// BehavioredClassifier that realizes the Interface to which it refers.
         /// </summary>
-        [Property(xmiId: "InterfaceRealization-implementingClassifier", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "InterfaceRealization-implementingClassifier", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: true)]
         [SubsettedProperty(propertyName: "Dependency-client")]
         [SubsettedProperty(propertyName: "Element-owner")]
         public IBehavioredClassifier ImplementingClassifier { get; set; }

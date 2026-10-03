@@ -62,7 +62,7 @@ namespace uml4net.Packages
         /// References the Package that is being extended with the contents of the merged package of the
         /// PackageMerge.
         /// </summary>
-        [Property(xmiId: "PackageMerge-receivingPackage", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "PackageMerge-receivingPackage", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: true)]
         [SubsettedProperty(propertyName: "DirectedRelationship-source")]
         [SubsettedProperty(propertyName: "Element-owner")]
         public IPackage ReceivingPackage { get; set; }

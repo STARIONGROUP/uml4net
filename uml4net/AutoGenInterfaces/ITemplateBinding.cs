@@ -55,7 +55,7 @@ namespace uml4net.CommonStructure
         /// <summary>
         /// The TemplateableElement that is bound by this TemplateBinding.
         /// </summary>
-        [Property(xmiId: "TemplateBinding-boundElement", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "TemplateBinding-boundElement", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: true)]
         [SubsettedProperty(propertyName: "DirectedRelationship-source")]
         [SubsettedProperty(propertyName: "Element-owner")]
         public ITemplateableElement BoundElement { get; set; }

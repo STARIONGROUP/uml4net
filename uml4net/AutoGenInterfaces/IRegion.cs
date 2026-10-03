@@ -70,7 +70,7 @@ namespace uml4net.StateMachines
         /// The State that owns the Region. If a Region is owned by a State, then it cannot also be owned by a
         /// StateMachine.
         /// </summary>
-        [Property(xmiId: "Region-state", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "Region-state", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: true)]
         [SubsettedProperty(propertyName: "NamedElement-namespace")]
         public IState State { get; set; }
 
@@ -78,7 +78,7 @@ namespace uml4net.StateMachines
         /// The StateMachine that owns the Region. If a Region is owned by a StateMachine, then it cannot also
         /// be owned by a State.
         /// </summary>
-        [Property(xmiId: "Region-stateMachine", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "Region-stateMachine", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: true)]
         [SubsettedProperty(propertyName: "NamedElement-namespace")]
         public IStateMachine StateMachine { get; set; }
 

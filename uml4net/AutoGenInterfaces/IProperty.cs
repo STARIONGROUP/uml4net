@@ -74,14 +74,14 @@ namespace uml4net.Classification
         /// <summary>
         /// Designates the optional association end that owns a qualifier attribute.
         /// </summary>
-        [Property(xmiId: "Property-associationEnd", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "Property-associationEnd", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: true)]
         [SubsettedProperty(propertyName: "Element-owner")]
         public IProperty AssociationEnd { get; set; }
 
         /// <summary>
         /// The Class that owns this Property, if any.
         /// </summary>
-        [Property(xmiId: "Property-class", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "Property-class", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: true)]
         [SubsettedProperty(propertyName: "A_attribute_classifier-classifier")]
         [SubsettedProperty(propertyName: "A_ownedAttribute_structuredClassifier-structuredClassifier")]
         [SubsettedProperty(propertyName: "NamedElement-namespace")]
@@ -90,7 +90,7 @@ namespace uml4net.Classification
         /// <summary>
         /// The DataType that owns this Property, if any.
         /// </summary>
-        [Property(xmiId: "Property-datatype", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "Property-datatype", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: true)]
         [SubsettedProperty(propertyName: "A_attribute_classifier-classifier")]
         [SubsettedProperty(propertyName: "NamedElement-namespace")]
         public IDataType Datatype { get; set; }
@@ -106,7 +106,7 @@ namespace uml4net.Classification
         /// <summary>
         /// The Interface that owns this Property, if any.
         /// </summary>
-        [Property(xmiId: "Property-interface", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "Property-interface", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: true)]
         [SubsettedProperty(propertyName: "A_attribute_classifier-classifier")]
         [SubsettedProperty(propertyName: "NamedElement-namespace")]
         public IInterface Interface { get; set; }
@@ -148,7 +148,7 @@ namespace uml4net.Classification
         /// <summary>
         /// The owning association of this property, if any.
         /// </summary>
-        [Property(xmiId: "Property-owningAssociation", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "Property-owningAssociation", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: true)]
         [SubsettedProperty(propertyName: "Feature-featuringClassifier")]
         [SubsettedProperty(propertyName: "NamedElement-namespace")]
         [SubsettedProperty(propertyName: "Property-association")]

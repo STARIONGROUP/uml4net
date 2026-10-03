@@ -56,7 +56,7 @@ namespace uml4net.StructuredClassifiers
         /// The Component that owns this ComponentRealization and which is implemented by its realizing
         /// Classifiers.
         /// </summary>
-        [Property(xmiId: "ComponentRealization-abstraction", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "ComponentRealization-abstraction", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: true)]
         [SubsettedProperty(propertyName: "Dependency-supplier")]
         [SubsettedProperty(propertyName: "Element-owner")]
         public IComponent Abstraction { get; set; }

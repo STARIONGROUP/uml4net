@@ -71,7 +71,7 @@ namespace uml4net.Deployments
         /// <summary>
         /// The DeployedTarget which is the target of a Deployment.
         /// </summary>
-        [Property(xmiId: "Deployment-location", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "Deployment-location", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: true)]
         [SubsettedProperty(propertyName: "Dependency-client")]
         [SubsettedProperty(propertyName: "Element-owner")]
         public IDeploymentTarget Location { get; set; }

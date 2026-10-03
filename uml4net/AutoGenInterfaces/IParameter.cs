@@ -94,7 +94,7 @@ namespace uml4net.Classification
         /// <summary>
         /// The Operation owning this parameter.
         /// </summary>
-        [Property(xmiId: "Parameter-operation", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "Parameter-operation", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: true)]
         [SubsettedProperty(propertyName: "A_ownedParameter_ownerFormalParam-ownerFormalParam")]
         public IOperation Operation { get; set; }
 

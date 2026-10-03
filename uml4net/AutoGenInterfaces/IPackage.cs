@@ -73,7 +73,7 @@ namespace uml4net.Packages
         /// <summary>
         /// References the Package that owns this Package.
         /// </summary>
-        [Property(xmiId: "Package-nestingPackage", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "Package-nestingPackage", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: true)]
         [SubsettedProperty(propertyName: "A_packagedElement_owningPackage-owningPackage")]
         public IPackage NestingPackage { get; set; }
 

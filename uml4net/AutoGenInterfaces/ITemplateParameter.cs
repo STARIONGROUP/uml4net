@@ -83,7 +83,7 @@ namespace uml4net.CommonStructure
         /// <summary>
         /// The TemplateSignature that owns this TemplateParameter.
         /// </summary>
-        [Property(xmiId: "TemplateParameter-signature", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "TemplateParameter-signature", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: true)]
         [SubsettedProperty(propertyName: "A_parameter_templateSignature-templateSignature")]
         [SubsettedProperty(propertyName: "Element-owner")]
         public ITemplateSignature Signature { get; set; }

@@ -60,7 +60,7 @@ namespace uml4net.SimpleClassifiers
         /// <summary>
         /// The Enumeration that this EnumerationLiteral is a member of.
         /// </summary>
-        [Property(xmiId: "EnumerationLiteral-enumeration", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "EnumerationLiteral-enumeration", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: true)]
         [SubsettedProperty(propertyName: "NamedElement-namespace")]
         public IEnumeration Enumeration { get; set; }
     }

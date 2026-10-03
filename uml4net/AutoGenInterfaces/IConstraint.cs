@@ -61,7 +61,7 @@ namespace uml4net.CommonStructure
         /// <summary>
         /// Specifies the Namespace that owns the Constraint.
         /// </summary>
-        [Property(xmiId: "Constraint-context", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "Constraint-context", aggregation: AggregationKind.None, lowerValue: 0, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: true)]
         [SubsettedProperty(propertyName: "NamedElement-namespace")]
         public INamespace Context { get; set; }
 

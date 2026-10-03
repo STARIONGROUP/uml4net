@@ -64,7 +64,7 @@ namespace uml4net.Classification
         /// Instances of the substituting classifier are runtime substitutable where instances of the contract
         /// classifier are expected.
         /// </summary>
-        [Property(xmiId: "Substitution-substitutingClassifier", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null)]
+        [Property(xmiId: "Substitution-substitutingClassifier", aggregation: AggregationKind.None, lowerValue: 1, upperValue: 1, isOrdered: false, isReadOnly: false, isDerived: false, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: true)]
         [SubsettedProperty(propertyName: "Dependency-client")]
         [SubsettedProperty(propertyName: "Element-owner")]
         public IClassifier SubstitutingClassifier { get; set; }
