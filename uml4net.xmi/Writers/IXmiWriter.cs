@@ -519,5 +519,104 @@ namespace uml4net.xmi.Writers
         /// an awaitable <see cref="Task"/>
         /// </returns>
         Task WriteAsync(IEnumerable<IXmiElement> rootElements, Stream stream, string documentName, Documentation documentation, IEnumerable<XmiExtension> documentExtensions, IEnumerable<Tag> tags, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Writes the provided root elements and the document-level parts of the provided <see cref="XmiRoot"/> to a UML
+        /// XMI 2.5.1 file: its <see cref="XmiRoot.Documentation"/>, <see cref="XmiRoot.Tags"/>,
+        /// <see cref="XmiRoot.Extensions"/>, and the elements that were captured without being processed,
+        /// <see cref="XmiRoot.DiagramInterchange"/> and <see cref="XmiRoot.UnprocessedContent"/>.
+        /// </summary>
+        /// <param name="rootElements">
+        /// The <see cref="IXmiElement"/>s that are to be written as top-level elements, typically the
+        /// <c>DocumentRootElements</c> of the <c>XmiReaderResult</c> that was read
+        /// </param>
+        /// <param name="fileUri">
+        /// The URI of the XMI file that is to be written.
+        /// </param>
+        /// <param name="xmiRoot">
+        /// The <see cref="XmiRoot"/> whose document-level parts are written, typically the <c>XmiRoot</c> of the
+        /// <c>XmiReaderResult</c> that was read; its <see cref="XmiRoot.Content"/> is not written, the
+        /// <paramref name="rootElements"/> are. May be null, in which case only the <paramref name="rootElements"/> are written
+        /// </param>
+        void Write(IEnumerable<IXmiElement> rootElements, string fileUri, XmiRoot xmiRoot);
+
+        /// <summary>
+        /// Writes the provided root elements and the document-level parts of the provided <see cref="XmiRoot"/> to a UML
+        /// XMI 2.5.1 stream: its <see cref="XmiRoot.Documentation"/>, <see cref="XmiRoot.Tags"/>,
+        /// <see cref="XmiRoot.Extensions"/>, and the elements that were captured without being processed,
+        /// <see cref="XmiRoot.DiagramInterchange"/> and <see cref="XmiRoot.UnprocessedContent"/>.
+        /// </summary>
+        /// <param name="rootElements">
+        /// The <see cref="IXmiElement"/>s that are to be written as top-level elements, typically the
+        /// <c>DocumentRootElements</c> of the <c>XmiReaderResult</c> that was read
+        /// </param>
+        /// <param name="stream">
+        /// The <see cref="Stream"/> to which the XMI content is written.
+        /// </param>
+        /// <param name="documentName">
+        /// The name of the document that is being written.
+        /// </param>
+        /// <param name="xmiRoot">
+        /// The <see cref="XmiRoot"/> whose document-level parts are written, typically the <c>XmiRoot</c> of the
+        /// <c>XmiReaderResult</c> that was read; its <see cref="XmiRoot.Content"/> is not written, the
+        /// <paramref name="rootElements"/> are. May be null, in which case only the <paramref name="rootElements"/> are written
+        /// </param>
+        /// <remarks>
+        /// The top-level elements are written in this order: the documentation, the root elements, the tags, the captured
+        /// elements in the order in which they were read, and the extensions. The namespaces that the captured elements
+        /// use are declared on <c>xmi:XMI</c>. The <see cref="XmiRoot.StereoTypeApplications"/> are not written.
+        /// </remarks>
+        void Write(IEnumerable<IXmiElement> rootElements, Stream stream, string documentName, XmiRoot xmiRoot);
+
+        /// <summary>
+        /// Asynchronously writes the provided root elements and the document-level parts of the provided
+        /// <see cref="XmiRoot"/> to a UML XMI 2.5.1 file, see
+        /// <see cref="Write(IEnumerable{IXmiElement}, string, XmiRoot)"/>.
+        /// </summary>
+        /// <param name="rootElements">
+        /// The <see cref="IXmiElement"/>s that are to be written as top-level elements, typically the
+        /// <c>DocumentRootElements</c> of the <c>XmiReaderResult</c> that was read
+        /// </param>
+        /// <param name="fileUri">
+        /// The URI of the XMI file that is to be written.
+        /// </param>
+        /// <param name="xmiRoot">
+        /// The <see cref="XmiRoot"/> whose document-level parts are written, typically the <c>XmiRoot</c> of the
+        /// <c>XmiReaderResult</c> that was read; its <see cref="XmiRoot.Content"/> is not written. May be null
+        /// </param>
+        /// <param name="cancellationToken">
+        /// The <see cref="CancellationToken"/> used to cancel the write operation
+        /// </param>
+        /// <returns>
+        /// an awaitable <see cref="Task"/>
+        /// </returns>
+        Task WriteAsync(IEnumerable<IXmiElement> rootElements, string fileUri, XmiRoot xmiRoot, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Asynchronously writes the provided root elements and the document-level parts of the provided
+        /// <see cref="XmiRoot"/> to a UML XMI 2.5.1 stream, see
+        /// <see cref="Write(IEnumerable{IXmiElement}, Stream, string, XmiRoot)"/>.
+        /// </summary>
+        /// <param name="rootElements">
+        /// The <see cref="IXmiElement"/>s that are to be written as top-level elements, typically the
+        /// <c>DocumentRootElements</c> of the <c>XmiReaderResult</c> that was read
+        /// </param>
+        /// <param name="stream">
+        /// The <see cref="Stream"/> to which the XMI content is written.
+        /// </param>
+        /// <param name="documentName">
+        /// The name of the document that is being written.
+        /// </param>
+        /// <param name="xmiRoot">
+        /// The <see cref="XmiRoot"/> whose document-level parts are written, typically the <c>XmiRoot</c> of the
+        /// <c>XmiReaderResult</c> that was read; its <see cref="XmiRoot.Content"/> is not written. May be null
+        /// </param>
+        /// <param name="cancellationToken">
+        /// The <see cref="CancellationToken"/> used to cancel the write operation
+        /// </param>
+        /// <returns>
+        /// an awaitable <see cref="Task"/>
+        /// </returns>
+        Task WriteAsync(IEnumerable<IXmiElement> rootElements, Stream stream, string documentName, XmiRoot xmiRoot, CancellationToken cancellationToken = default);
     }
 }

@@ -21,8 +21,11 @@
 namespace uml4net.xmi.Readers
 {
     using System;
+    using System.Collections.Generic;
     using System.IO;
+    using System.Linq;
     using System.Xml;
+    using System.Xml.Linq;
 
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Logging.Abstractions;
@@ -147,10 +150,19 @@ namespace uml4net.xmi.Readers
             {
                 this.logger.LogTrace("reading from XmiRoot at line:position {LineNumber}:{LinePosition}", xmlLineInfo?.LineNumber, xmlLineInfo?.LinePosition);
 
+                // the position of a top-level element among the children of xmi:XMI, which a captured element keeps
+                var topLevelDepth = xmlReader.Depth + 1;
+                var position = -1;
+
                 while (xmlReader.Read())
                 {
                     if (xmlReader.NodeType == XmlNodeType.Element)
                     {
+                        if (xmlReader.Depth == topLevelDepth)
+                        {
+                            position++;
+                        }
+
                         var activeNamespaceUri = string.IsNullOrEmpty(xmlReader.NamespaceURI) ? namespaceUri : xmlReader.NamespaceURI;
 
                         var activeNameSpace = this.nameSpaceResolver.ResolvePrefix(activeNamespaceUri);
@@ -187,15 +199,15 @@ namespace uml4net.xmi.Readers
                                 xmiRoot.Content.Add(xmiElement);
                                 break;
                             case (KnowNamespacePrefixes.StandardProfile, _):
-                                this.CaptureStandardProfileElement(xmlReader, xmiRoot);
+                                this.CaptureStandardProfileElement(xmlReader, xmiRoot, position);
                                 break;
                             case (KnowNamespacePrefixes.UmlDi, _):
                                 this.logger.LogWarning("DiagramInterchange content is not processed, the element at line:position {LineNumber}:{LinePosition} is captured", xmlLineInfo?.LineNumber, xmlLineInfo?.LinePosition);
-                                xmiRoot.DiagramInterchange.Add(ReadRawXmi(xmlReader));
+                                xmiRoot.DiagramInterchange.Add(this.CaptureElement(xmlReader, position));
                                 break;
                             case (KnowNamespacePrefixes.PrimitiveTypes, _):
                                 this.logger.LogWarning("PrimitiveTypes content is not processed, the element at line:position {LineNumber}:{LinePosition} is captured", xmlLineInfo?.LineNumber, xmlLineInfo?.LinePosition);
-                                xmiRoot.UnprocessedContent.Add(ReadRawXmi(xmlReader));
+                                xmiRoot.UnprocessedContent.Add(this.CaptureElement(xmlReader, position));
                                 break;
                             case (KnowNamespacePrefixes.MofExt, _):
                                 {
@@ -217,29 +229,58 @@ namespace uml4net.xmi.Readers
         }
 
         /// <summary>
-        /// Reads the element on which the <paramref name="xmlReader"/> is positioned, with its content, as raw XML
+        /// Captures the element on which the <paramref name="xmlReader"/> is positioned, with its content, as a
+        /// <see cref="CapturedElement"/>
         /// </summary>
         /// <param name="xmlReader">
-        /// an instance of <see cref="XmlReader"/>, positioned on the element that is to be read
+        /// an instance of <see cref="XmlReader"/>, positioned on the element that is to be captured
+        /// </param>
+        /// <param name="position">
+        /// The zero-based position of the element among the top-level elements of the document
         /// </param>
         /// <returns>
-        /// the raw XML of the element; the namespace declarations that its element and attribute names require are
-        /// included
+        /// the <see cref="CapturedElement"/>, whose raw XML declares all the namespaces that are in scope of the
+        /// element, those declared on its ancestors included
         /// </returns>
-        private static string ReadRawXmi(XmlReader xmlReader)
+        private CapturedElement CaptureElement(XmlReader xmlReader, int position)
         {
+            var namespaceDeclarations = xmlReader is IXmlNamespaceResolver namespaceResolver
+                ? namespaceResolver.GetNamespacesInScope(XmlNamespaceScope.ExcludeXml).Where(x => !string.IsNullOrEmpty(x.Value)).ToDictionary(x => x.Key, x => x.Value)
+                : new Dictionary<string, string>();
+
+            var capturedElement = new CapturedElement
+            {
+                NamespaceUri = xmlReader.NamespaceURI,
+                Prefix = xmlReader.Prefix,
+                LocalName = xmlReader.LocalName,
+                Position = position,
+                NamespaceDeclarations = namespaceDeclarations
+            };
+
             using var subtreeReader = xmlReader.ReadSubtree();
 
             subtreeReader.Read();
 
-            var stringWriter = new StringWriter();
+            var element = XElement.Load(subtreeReader, LoadOptions.PreserveWhitespace);
 
-            using (var xmlWriter = XmlWriter.Create(stringWriter, new XmlWriterSettings { OmitXmlDeclaration = true }))
+            // a prefix that is declared on an ancestor and used in a value only, such as dc in xmi:type="dc:Bounds",
+            // would otherwise not be declared in the raw XML
+            foreach (var namespaceDeclaration in namespaceDeclarations)
             {
-                xmlWriter.WriteNode(subtreeReader, true);
+                var declarationName = namespaceDeclaration.Key.Length == 0 ? XName.Get("xmlns") : XNamespace.Xmlns + namespaceDeclaration.Key;
+
+                if (element.Attribute(declarationName) == null)
+                {
+                    element.Add(new XAttribute(declarationName, namespaceDeclaration.Value));
+                }
             }
 
-            return stringWriter.ToString();
+            capturedElement.XmiId = element.Attributes()
+                .FirstOrDefault(x => x.Name.LocalName == "id" && !x.IsNamespaceDeclaration && this.nameSpaceResolver.ResolvePrefix(x.Name.NamespaceName) == KnowNamespacePrefixes.Xmi)?.Value;
+
+            capturedElement.RawXml = element.ToString(SaveOptions.DisableFormatting);
+
+            return capturedElement;
         }
 
         /// <summary>
@@ -254,16 +295,19 @@ namespace uml4net.xmi.Readers
         /// <param name="xmiRoot">
         /// The <see cref="XmiRoot"/> that captures the element
         /// </param>
-        private void CaptureStandardProfileElement(XmlReader xmlReader, XmiRoot xmiRoot)
+        /// <param name="position">
+        /// The zero-based position of the element among the top-level elements of the document
+        /// </param>
+        private void CaptureStandardProfileElement(XmlReader xmlReader, XmiRoot xmiRoot, int position)
         {
             // the position is taken before the element is read, after which the reader has moved past it
             var xmlLineInfo = xmlReader as IXmlLineInfo;
             var lineNumber = xmlLineInfo?.LineNumber;
             var linePosition = xmlLineInfo?.LinePosition;
 
-            var rawXmi = ReadRawXmi(xmlReader);
+            var capturedElement = this.CaptureElement(xmlReader, position);
 
-            using var rawXmlReader = XmlReader.Create(new StringReader(rawXmi));
+            using var rawXmlReader = XmlReader.Create(new StringReader(capturedElement.RawXml));
             var stereoTypeApplicationReader = new StereoTypeApplicationReader(this.loggerFactory);
 
             if (stereoTypeApplicationReader.TryRead(rawXmlReader, out var stereoTypeApplication))
@@ -273,7 +317,7 @@ namespace uml4net.xmi.Readers
             else
             {
                 this.logger.LogWarning("StandardProfile content is not processed, the element at line:position {LineNumber}:{LinePosition} is captured", lineNumber, linePosition);
-                xmiRoot.UnprocessedContent.Add(rawXmi);
+                xmiRoot.UnprocessedContent.Add(capturedElement);
             }
         }
 
