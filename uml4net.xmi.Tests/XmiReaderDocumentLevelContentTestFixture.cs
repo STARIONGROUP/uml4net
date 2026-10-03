@@ -140,8 +140,10 @@ namespace uml4net.xmi.Tests
 
             using (Assert.EnterMultipleScope())
             {
-                // three StandardProfile elements, one DiagramInterchange element, one PrimitiveTypes element
-                Assert.That(warnings.Count(x => x.StartsWith("StandardProfile content is not processed, the element at line:position ") && x.EndsWith(" is captured")), Is.EqualTo(3));
+                // the StandardProfile stereotype applications are captured like those of any other profile, without a
+                // warning; only the StandardProfile element that is not a stereotype application is not processed
+                Assert.That(warnings.Where(x => x.StartsWith("StandardProfile")), Is.EqualTo(new[] { "StandardProfile content is not processed, the element at line:position 27:4 is captured" }),
+                    "the position of the element is the one before it was read");
                 Assert.That(warnings.Count(x => x.StartsWith("DiagramInterchange content is not processed, the element at line:position ") && x.EndsWith(" is captured")), Is.EqualTo(1));
                 Assert.That(warnings.Count(x => x.StartsWith("PrimitiveTypes content is not processed, the element at line:position ") && x.EndsWith(" is captured")), Is.EqualTo(1));
                 Assert.That(warnings, Has.Some.EqualTo("DiagramInterchange content is not processed, the element at line:position 22:4 is captured"),

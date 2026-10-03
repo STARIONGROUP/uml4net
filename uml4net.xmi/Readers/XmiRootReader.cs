@@ -187,8 +187,7 @@ namespace uml4net.xmi.Readers
                                 xmiRoot.Content.Add(xmiElement);
                                 break;
                             case (KnowNamespacePrefixes.StandardProfile, _):
-                                this.logger.LogWarning("StandardProfile content is not processed, the element at line:position {LineNumber}:{LinePosition} is captured", xmlLineInfo?.LineNumber, xmlLineInfo?.LinePosition);
-                                this.CaptureStandardProfileElement(ReadRawXmi(xmlReader), xmiRoot);
+                                this.CaptureStandardProfileElement(xmlReader, xmiRoot);
                                 break;
                             case (KnowNamespacePrefixes.UmlDi, _):
                                 this.logger.LogWarning("DiagramInterchange content is not processed, the element at line:position {LineNumber}:{LinePosition} is captured", xmlLineInfo?.LineNumber, xmlLineInfo?.LinePosition);
@@ -245,17 +244,25 @@ namespace uml4net.xmi.Readers
 
         /// <summary>
         /// Captures a document-level element of the UML StandardProfile namespace: the application of a stereotype of
-        /// the StandardProfile (for example «Trace») is captured as a <see cref="StereoTypeApplication"/>, any other
-        /// element verbatim as raw XML
+        /// the StandardProfile (for example «Trace») is captured as a <see cref="StereoTypeApplication"/>, like the
+        /// application of a stereotype of any other profile; any other element is not processed, it is captured
+        /// verbatim as raw XML and a warning is logged
         /// </summary>
-        /// <param name="rawXmi">
-        /// The raw XML of the element
+        /// <param name="xmlReader">
+        /// an instance of <see cref="XmlReader"/>, positioned on the element that is to be captured
         /// </param>
         /// <param name="xmiRoot">
         /// The <see cref="XmiRoot"/> that captures the element
         /// </param>
-        private void CaptureStandardProfileElement(string rawXmi, XmiRoot xmiRoot)
+        private void CaptureStandardProfileElement(XmlReader xmlReader, XmiRoot xmiRoot)
         {
+            // the position is taken before the element is read, after which the reader has moved past it
+            var xmlLineInfo = xmlReader as IXmlLineInfo;
+            var lineNumber = xmlLineInfo?.LineNumber;
+            var linePosition = xmlLineInfo?.LinePosition;
+
+            var rawXmi = ReadRawXmi(xmlReader);
+
             using var rawXmlReader = XmlReader.Create(new StringReader(rawXmi));
             var stereoTypeApplicationReader = new StereoTypeApplicationReader(this.loggerFactory);
 
@@ -265,6 +272,7 @@ namespace uml4net.xmi.Readers
             }
             else
             {
+                this.logger.LogWarning("StandardProfile content is not processed, the element at line:position {LineNumber}:{LinePosition} is captured", lineNumber, linePosition);
                 xmiRoot.UnprocessedContent.Add(rawXmi);
             }
         }
