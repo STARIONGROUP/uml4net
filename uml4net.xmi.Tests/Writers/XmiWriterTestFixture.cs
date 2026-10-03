@@ -210,6 +210,20 @@ namespace uml4net.xmi.Tests.Writers
         }
 
         [Test]
+        public void Verify_that_Write_throws_when_an_element_of_another_document_without_an_XmiId_is_referenced()
+        {
+            // the href would be href="ea.xmi#", which points at the document instead of the package
+            var model = new Model { DocumentName = "ea.xmi", Name = "EA_Model" };
+            var importing = new Package { XmiId = "importing", DocumentName = "b.xmi", Name = "Importing" };
+            importing.PackageImport.Add(new PackageImport { XmiId = "pi", DocumentName = "b.xmi", ImportedPackage = model });
+
+            using var stream = new MemoryStream();
+
+            Assert.That(() => this.xmiWriter.Write(importing, stream, "b.xmi"),
+                Throws.InvalidOperationException.With.Message.Contains("do not have an XmiId: Model"));
+        }
+
+        [Test]
         public void Verify_that_a_simple_package_is_written_as_expected()
         {
             var @class = new Class { XmiId = "Class-1", Name = "class" };

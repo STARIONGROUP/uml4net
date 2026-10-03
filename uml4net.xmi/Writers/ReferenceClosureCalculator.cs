@@ -160,6 +160,17 @@ namespace uml4net.xmi.Writers
                 elementsMissingXmiId.RemoveAll(element => rootPackagesMissingXmiId.Any(x => ReferenceEquals(x, element)) && !referencedRootPackages.Contains(element));
             }
 
+            // A reference to an element that is not written in the document is written as an href, which locates the
+            // element by its XmiId (XMI 2.5.1 clause 7.10.2); an element without XmiId cannot be referenced that way, a
+            // reference to it would point at its document instead
+            foreach (var externalElement in QueryExternalReferencedElementsMissingXmiId(localElements))
+            {
+                if (!elementsMissingXmiId.Any(x => ReferenceEquals(x, externalElement)))
+                {
+                    elementsMissingXmiId.Add(externalElement);
+                }
+            }
+
             this.logger.LogDebug("Write plan calculated for {SelectedCount} selected and {IncludedCount} included root elements", selectedRootElementCount, writtenRootElements.Count - selectedRootElementCount);
 
             return new XmiWritePlan(writtenRootElements, localIdentifiers, elementsMissingXmiId);
@@ -363,6 +374,35 @@ namespace uml4net.xmi.Writers
             }
 
             return referencedElements;
+        }
+
+        /// <summary>
+        /// Queries the elements without <see cref="IXmiElement.XmiId"/> that are referenced by an element of the
+        /// document, owner ends excluded, but that are not written in the document themselves
+        /// </summary>
+        /// <param name="localElements">
+        /// The set of elements that are serialized inside the document that is being written
+        /// </param>
+        /// <returns>
+        /// The referenced elements without <see cref="IXmiElement.XmiId"/>, in the order in which they are found
+        /// </returns>
+        private static List<IXmiElement> QueryExternalReferencedElementsMissingXmiId(HashSet<IXmiElement> localElements)
+        {
+            var result = new List<IXmiElement>();
+            var found = new HashSet<IXmiElement>(ReferenceEqualityComparer.Instance);
+
+            foreach (var element in localElements)
+            {
+                foreach (var referencedElement in QueryPropertyValues(QueryTypeProperties(element.GetType()).ReferenceProperties, element))
+                {
+                    if (!localElements.Contains(referencedElement) && string.IsNullOrEmpty(referencedElement.XmiId) && found.Add(referencedElement))
+                    {
+                        result.Add(referencedElement);
+                    }
+                }
+            }
+
+            return result;
         }
 
         /// <summary>

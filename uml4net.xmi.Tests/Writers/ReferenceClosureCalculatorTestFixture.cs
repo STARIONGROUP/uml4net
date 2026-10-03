@@ -303,6 +303,30 @@ namespace uml4net.xmi.Tests.Writers
         }
 
         [Test]
+        public void Verify_that_a_referenced_element_of_another_document_without_XmiId_is_reported()
+        {
+            // the root package of ea.xmi has no xmi:id, as Enterprise Architect exports it: an href to it would be
+            // href="ea.xmi#", which points at the document instead of the package
+            var model = new Model { DocumentName = "ea.xmi", Name = "EA_Model" };
+            var identifiedClass = new Class { XmiId = "identified", DocumentName = "ea.xmi", Name = "Identified" };
+            model.PackagedElement.Add(identifiedClass);
+
+            var importing = new Package { XmiId = "importing", DocumentName = "b.xmi", Name = "Importing" };
+            importing.PackageImport.Add(new PackageImport { XmiId = "pi", DocumentName = "b.xmi", ImportedPackage = model });
+            importing.ElementImport.Add(new ElementImport { XmiId = "ei", DocumentName = "b.xmi", ImportedElement = identifiedClass });
+
+            using (Assert.EnterMultipleScope())
+            {
+                var hrefPlan = this.referenceClosureCalculator.CalculateWritePlan(importing, ExternalReferenceResolutionKind.Href, "b.xmi");
+                Assert.That(hrefPlan.ElementsMissingXmiId, Is.EqualTo(new[] { model }), "the class of ea.xmi has an XmiId and can be referenced by href");
+
+                var includePlan = this.referenceClosureCalculator.CalculateWritePlan(importing, ExternalReferenceResolutionKind.Include, "b.xmi");
+                Assert.That(includePlan.RootElements, Is.EqualTo(new IXmiElement[] { importing, model }), "the referenced root package is included");
+                Assert.That(includePlan.ElementsMissingXmiId, Is.EqualTo(new[] { model }), "an included root package that is referenced needs an XmiId as well");
+            }
+        }
+
+        [Test]
         public void Verify_that_an_unreferenced_root_package_without_XmiId_is_not_reported_although_its_owner_ends_refer_to_it()
         {
             // how Enterprise Architect exports its uml:Model; the owner ends of the contained elements (Type::package,
