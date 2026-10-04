@@ -69,7 +69,8 @@ by an abstract metaclass (#380).
 ### Owner ends are not written
 
 The opposite of a composite property, such as `Type::package` or `Property::class`, is implied by the nesting of the
-XML elements. It is not written, as XMI 2.5.1 clause 9 prescribes and the OMG documents do (#366, #376, #378).
+XML elements. It is not written, as XMI 2.5.1 clause 9 prescribes and the OMG documents do (#380). On reading, it is
+set from the nesting (#432).
 
 ### `xmi:documentation` and `xmi:extension` in lowercase
 
@@ -112,4 +113,4 @@ compliance point, no sample document uses them, and the example of the specifica
 
 `Microsoft.Extensions.Logging.Abstractions` is referenced at 6.0.0 so that uml4net does not force its users to
 upgrade their Microsoft.Extensions stack. NuGet unifies to the highest version in the consumer's graph. The nightly
-NuGet check ignores the package (#327, #477).
+NuGet reference check ignores the package, and Dependabot does not manage NuGet (#327, #477).
