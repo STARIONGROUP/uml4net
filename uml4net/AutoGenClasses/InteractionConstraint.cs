@@ -93,7 +93,7 @@ namespace uml4net.Interactions
         [Implements(implementation: "IInteractionConstraint.Maxint")]
         public IContainerList<IValueSpecification> Maxint
         {
-            get => this.maxint ??= new ContainerList<IValueSpecification>(this);
+            get => this.maxint ??= new ContainerList<IValueSpecification>(this, "InteractionConstraint::maxint", 1);
             set => this.maxint = value;
         }
 
@@ -110,7 +110,7 @@ namespace uml4net.Interactions
         [Implements(implementation: "IInteractionConstraint.Minint")]
         public IContainerList<IValueSpecification> Minint
         {
-            get => this.minint ??= new ContainerList<IValueSpecification>(this);
+            get => this.minint ??= new ContainerList<IValueSpecification>(this, "InteractionConstraint::minint", 1);
             set => this.minint = value;
         }
 
@@ -134,7 +134,7 @@ namespace uml4net.Interactions
         [Implements(implementation: "INamedElement.NameExpression")]
         public IContainerList<IStringExpression> NameExpression
         {
-            get => this.nameExpression ??= new ContainerList<IStringExpression>(this);
+            get => this.nameExpression ??= new ContainerList<IStringExpression>(this, "NamedElement::nameExpression", 1);
             set => this.nameExpression = value;
         }
 
@@ -217,7 +217,7 @@ namespace uml4net.Interactions
         [Implements(implementation: "IConstraint.Specification")]
         public IContainerList<IValueSpecification> Specification
         {
-            get => this.specification ??= new ContainerList<IValueSpecification>(this);
+            get => this.specification ??= new ContainerList<IValueSpecification>(this, "Constraint::specification", 1);
             set => this.specification = value;
         }
 

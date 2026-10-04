@@ -446,6 +446,48 @@ namespace uml4net.HandleBars.Tests
         }
 
         [Test]
+        public void Verify_that_WriteForClass_bounds_the_ContainerList_of_a_single_valued_composite_property()
+        {
+            var handlebarsTemplate = this.handlebarsContext.Compile("{{ #Property.WriteForClass this.Property this.Class }}");
+
+            var constraint = this.QueryClass("CommonStructure", "Constraint");
+            var specification = constraint.QueryAllProperties().Single(x => x.XmiId == "Constraint-specification");
+
+            var @class = this.QueryClass("StructuredClassifiers", "Class");
+            var ownedTemplateSignature = @class.QueryAllProperties().Single(x => x.XmiId == "Classifier-ownedTemplateSignature");
+
+            var generatedOwnedTemplateSignature = handlebarsTemplate(new { Property = ownedTemplateSignature, Class = @class });
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(handlebarsTemplate(new { Property = specification, Class = constraint }), Does.Contain("new ContainerList<IValueSpecification>(this, \"Constraint::specification\", 1);"));
+                Assert.That(generatedOwnedTemplateSignature, Does.Contain("new ContainerList<IRedefinableTemplateSignature>(this, \"Classifier::ownedTemplateSignature\", 1,"));
+                Assert.That(generatedOwnedTemplateSignature, Does.Contain("containedElement => { containedElement.Classifier = this; },"));
+            }
+        }
+
+        [Test]
+        public void Verify_that_WriteXmlElementForXmiReader_keeps_the_first_value_of_a_single_valued_composite_property()
+        {
+            var handlebarsTemplate = this.handlebarsContext.Compile("{{ #Property.WriteXmlElementForXmiReader this.Property this.Class }}");
+
+            var constraint = this.QueryClass("CommonStructure", "Constraint");
+            var specification = constraint.QueryAllProperties().Single(x => x.XmiId == "Constraint-specification");
+            var ownedComment = constraint.QueryAllProperties().Single(x => x.XmiId == "Element-ownedComment");
+
+            var generatedSpecification = handlebarsTemplate(new { Property = specification, Class = constraint });
+            var generatedOwnedComment = handlebarsTemplate(new { Property = ownedComment, Class = constraint });
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(generatedSpecification, Does.Contain("if (poco.Specification.Count == 0)"));
+                Assert.That(generatedSpecification, Does.Contain("this.ReportXmiError(xmlReader, poco, \"specification\", $\"The single-valued composite property is given more than once, [{poco.Specification[0].XmiId}] is kept and [{specificationValue?.XmiId}] is ignored\");"));
+                Assert.That(generatedOwnedComment, Does.Contain("poco.OwnedComment.Add(ownedCommentValue);"));
+                Assert.That(generatedOwnedComment, Does.Not.Contain("ReportXmiError"), "a multi-valued composite property is not bounded");
+            }
+        }
+
+        [Test]
         public void Verify_that_WriteForClass_sets_the_owner_ends_of_derived_composite_subsets_by_type()
         {
             var handlebarsTemplate = this.handlebarsContext.Compile("{{ #Property.WriteForClass this.Property this.Class }}");

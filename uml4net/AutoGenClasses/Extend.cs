@@ -82,7 +82,7 @@ namespace uml4net.UseCases
         [Implements(implementation: "IExtend.Condition")]
         public IContainerList<IConstraint> Condition
         {
-            get => this.condition ??= new ContainerList<IConstraint>(this);
+            get => this.condition ??= new ContainerList<IConstraint>(this, "Extend::condition", 1);
             set => this.condition = value;
         }
 
@@ -134,7 +134,7 @@ namespace uml4net.UseCases
         [Implements(implementation: "INamedElement.NameExpression")]
         public IContainerList<IStringExpression> NameExpression
         {
-            get => this.nameExpression ??= new ContainerList<IStringExpression>(this);
+            get => this.nameExpression ??= new ContainerList<IStringExpression>(this, "NamedElement::nameExpression", 1);
             set => this.nameExpression = value;
         }
 

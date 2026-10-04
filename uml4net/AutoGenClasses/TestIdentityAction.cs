@@ -94,7 +94,7 @@ namespace uml4net.Actions
         [Implements(implementation: "ITestIdentityAction.First")]
         public IContainerList<IInputPin> First
         {
-            get => this.first ??= new ContainerList<IInputPin>(this);
+            get => this.first ??= new ContainerList<IInputPin>(this, "TestIdentityAction::first", 1);
             set => this.first = value;
         }
 
@@ -236,7 +236,7 @@ namespace uml4net.Actions
         [Implements(implementation: "INamedElement.NameExpression")]
         public IContainerList<IStringExpression> NameExpression
         {
-            get => this.nameExpression ??= new ContainerList<IStringExpression>(this);
+            get => this.nameExpression ??= new ContainerList<IStringExpression>(this, "NamedElement::nameExpression", 1);
             set => this.nameExpression = value;
         }
 
@@ -351,7 +351,7 @@ namespace uml4net.Actions
         [Implements(implementation: "ITestIdentityAction.Result")]
         public IContainerList<IOutputPin> Result
         {
-            get => this.result ??= new ContainerList<IOutputPin>(this);
+            get => this.result ??= new ContainerList<IOutputPin>(this, "TestIdentityAction::result", 1);
             set => this.result = value;
         }
 
@@ -368,7 +368,7 @@ namespace uml4net.Actions
         [Implements(implementation: "ITestIdentityAction.Second")]
         public IContainerList<IInputPin> Second
         {
-            get => this.second ??= new ContainerList<IInputPin>(this);
+            get => this.second ??= new ContainerList<IInputPin>(this, "TestIdentityAction::second", 1);
             set => this.second = value;
         }
 

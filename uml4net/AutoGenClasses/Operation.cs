@@ -75,7 +75,7 @@ namespace uml4net.Classification
         [Implements(implementation: "IOperation.BodyCondition")]
         public IContainerList<IConstraint> BodyCondition
         {
-            get => this.bodyCondition ??= new ContainerList<IConstraint>(this);
+            get => this.bodyCondition ??= new ContainerList<IConstraint>(this, "Operation::bodyCondition", 1);
             set => this.bodyCondition = value;
         }
 
@@ -257,7 +257,7 @@ namespace uml4net.Classification
         [Implements(implementation: "INamedElement.NameExpression")]
         public IContainerList<IStringExpression> NameExpression
         {
-            get => this.nameExpression ??= new ContainerList<IStringExpression>(this);
+            get => this.nameExpression ??= new ContainerList<IStringExpression>(this, "NamedElement::nameExpression", 1);
             set => this.nameExpression = value;
         }
 
@@ -397,7 +397,7 @@ namespace uml4net.Classification
         [Implements(implementation: "ITemplateableElement.OwnedTemplateSignature")]
         public IContainerList<ITemplateSignature> OwnedTemplateSignature
         {
-            get => this.ownedTemplateSignature ??= new ContainerList<ITemplateSignature>(this,
+            get => this.ownedTemplateSignature ??= new ContainerList<ITemplateSignature>(this, "TemplateableElement::ownedTemplateSignature", 1,
                 containedElement => { containedElement.Template = this; },
                 containedElement => { if (ReferenceEquals(containedElement.Template, this)) { containedElement.Template = null; } });
             set => this.ownedTemplateSignature = value;

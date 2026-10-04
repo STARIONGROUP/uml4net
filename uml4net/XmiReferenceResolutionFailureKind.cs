@@ -40,6 +40,13 @@ namespace uml4net
         /// The referenced <see cref="IXmiElement"/> is the target of a composite property proxy but is already owned by
         /// another element, and is therefore not taken away from its owner
         /// </summary>
-        AlreadyOwned = 2
+        AlreadyOwned = 2,
+
+        /// <summary>
+        /// The referenced <see cref="IXmiElement"/> is the target of a composite property proxy but the composite property
+        /// already holds as many values as the upper value of its multiplicity allows, for example a second value of
+        /// the single-valued <c>Constraint::specification</c>
+        /// </summary>
+        MultiplicityExceeded = 3
     }
 }

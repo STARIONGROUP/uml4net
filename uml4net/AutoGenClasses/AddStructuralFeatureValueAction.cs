@@ -154,7 +154,7 @@ namespace uml4net.Actions
         [Implements(implementation: "IAddStructuralFeatureValueAction.InsertAt")]
         public IContainerList<IInputPin> InsertAt
         {
-            get => this.insertAt ??= new ContainerList<IInputPin>(this);
+            get => this.insertAt ??= new ContainerList<IInputPin>(this, "AddStructuralFeatureValueAction::insertAt", 1);
             set => this.insertAt = value;
         }
 
@@ -247,7 +247,7 @@ namespace uml4net.Actions
         [Implements(implementation: "INamedElement.NameExpression")]
         public IContainerList<IStringExpression> NameExpression
         {
-            get => this.nameExpression ??= new ContainerList<IStringExpression>(this);
+            get => this.nameExpression ??= new ContainerList<IStringExpression>(this, "NamedElement::nameExpression", 1);
             set => this.nameExpression = value;
         }
 
@@ -273,7 +273,7 @@ namespace uml4net.Actions
         [Implements(implementation: "IStructuralFeatureAction.Object")]
         public IContainerList<IInputPin> Object
         {
-            get => this.@object ??= new ContainerList<IInputPin>(this);
+            get => this.@object ??= new ContainerList<IInputPin>(this, "StructuralFeatureAction::object", 1);
             set => this.@object = value;
         }
 
@@ -380,7 +380,7 @@ namespace uml4net.Actions
         [Implements(implementation: "IWriteStructuralFeatureAction.Result")]
         public IContainerList<IOutputPin> Result
         {
-            get => this.result ??= new ContainerList<IOutputPin>(this);
+            get => this.result ??= new ContainerList<IOutputPin>(this, "WriteStructuralFeatureAction::result", 1);
             set => this.result = value;
         }
 
@@ -404,7 +404,7 @@ namespace uml4net.Actions
         [Implements(implementation: "IWriteStructuralFeatureAction.Value")]
         public IContainerList<IInputPin> Value
         {
-            get => this.value ??= new ContainerList<IInputPin>(this);
+            get => this.value ??= new ContainerList<IInputPin>(this, "WriteStructuralFeatureAction::value", 1);
             set => this.value = value;
         }
 

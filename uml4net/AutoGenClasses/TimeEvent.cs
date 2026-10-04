@@ -92,7 +92,7 @@ namespace uml4net.CommonBehavior
         [Implements(implementation: "INamedElement.NameExpression")]
         public IContainerList<IStringExpression> NameExpression
         {
-            get => this.nameExpression ??= new ContainerList<IStringExpression>(this);
+            get => this.nameExpression ??= new ContainerList<IStringExpression>(this, "NamedElement::nameExpression", 1);
             set => this.nameExpression = value;
         }
 
@@ -201,7 +201,7 @@ namespace uml4net.CommonBehavior
         [Implements(implementation: "ITimeEvent.When")]
         public IContainerList<ITimeExpression> When
         {
-            get => this.when ??= new ContainerList<ITimeExpression>(this);
+            get => this.when ??= new ContainerList<ITimeExpression>(this, "TimeEvent::when", 1);
             set => this.when = value;
         }
 

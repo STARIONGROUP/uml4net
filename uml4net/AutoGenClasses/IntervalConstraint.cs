@@ -100,7 +100,7 @@ namespace uml4net.Values
         [Implements(implementation: "INamedElement.NameExpression")]
         public IContainerList<IStringExpression> NameExpression
         {
-            get => this.nameExpression ??= new ContainerList<IStringExpression>(this);
+            get => this.nameExpression ??= new ContainerList<IStringExpression>(this, "NamedElement::nameExpression", 1);
             set => this.nameExpression = value;
         }
 
@@ -181,7 +181,7 @@ namespace uml4net.Values
         [Implements(implementation: "IIntervalConstraint.Specification")]
         public IContainerList<IInterval> Specification
         {
-            get => this.specification ??= new ContainerList<IInterval>(this);
+            get => this.specification ??= new ContainerList<IInterval>(this, "IntervalConstraint::specification", 1);
             set => this.specification = value;
         }
 

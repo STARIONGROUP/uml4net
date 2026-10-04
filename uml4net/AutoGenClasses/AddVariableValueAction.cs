@@ -153,7 +153,7 @@ namespace uml4net.Actions
         [Implements(implementation: "IAddVariableValueAction.InsertAt")]
         public IContainerList<IInputPin> InsertAt
         {
-            get => this.insertAt ??= new ContainerList<IInputPin>(this);
+            get => this.insertAt ??= new ContainerList<IInputPin>(this, "AddVariableValueAction::insertAt", 1);
             set => this.insertAt = value;
         }
 
@@ -245,7 +245,7 @@ namespace uml4net.Actions
         [Implements(implementation: "INamedElement.NameExpression")]
         public IContainerList<IStringExpression> NameExpression
         {
-            get => this.nameExpression ??= new ContainerList<IStringExpression>(this);
+            get => this.nameExpression ??= new ContainerList<IStringExpression>(this, "NamedElement::nameExpression", 1);
             set => this.nameExpression = value;
         }
 
@@ -359,7 +359,7 @@ namespace uml4net.Actions
         [Implements(implementation: "IWriteVariableAction.Value")]
         public IContainerList<IInputPin> Value
         {
-            get => this.value ??= new ContainerList<IInputPin>(this);
+            get => this.value ??= new ContainerList<IInputPin>(this, "WriteVariableAction::value", 1);
             set => this.value = value;
         }
 

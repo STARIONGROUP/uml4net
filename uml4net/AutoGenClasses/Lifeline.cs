@@ -108,7 +108,7 @@ namespace uml4net.Interactions
         [Implements(implementation: "INamedElement.NameExpression")]
         public IContainerList<IStringExpression> NameExpression
         {
-            get => this.nameExpression ??= new ContainerList<IStringExpression>(this);
+            get => this.nameExpression ??= new ContainerList<IStringExpression>(this, "NamedElement::nameExpression", 1);
             set => this.nameExpression = value;
         }
 
@@ -188,7 +188,7 @@ namespace uml4net.Interactions
         [Implements(implementation: "ILifeline.Selector")]
         public IContainerList<IValueSpecification> Selector
         {
-            get => this.selector ??= new ContainerList<IValueSpecification>(this);
+            get => this.selector ??= new ContainerList<IValueSpecification>(this, "Lifeline::selector", 1);
             set => this.selector = value;
         }
 

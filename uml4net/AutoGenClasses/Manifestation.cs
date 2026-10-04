@@ -91,7 +91,7 @@ namespace uml4net.Deployments
         [Implements(implementation: "IAbstraction.Mapping")]
         public IContainerList<IOpaqueExpression> Mapping
         {
-            get => this.mapping ??= new ContainerList<IOpaqueExpression>(this);
+            get => this.mapping ??= new ContainerList<IOpaqueExpression>(this, "Abstraction::mapping", 1);
             set => this.mapping = value;
         }
 
@@ -115,7 +115,7 @@ namespace uml4net.Deployments
         [Implements(implementation: "INamedElement.NameExpression")]
         public IContainerList<IStringExpression> NameExpression
         {
-            get => this.nameExpression ??= new ContainerList<IStringExpression>(this);
+            get => this.nameExpression ??= new ContainerList<IStringExpression>(this, "NamedElement::nameExpression", 1);
             set => this.nameExpression = value;
         }
 
