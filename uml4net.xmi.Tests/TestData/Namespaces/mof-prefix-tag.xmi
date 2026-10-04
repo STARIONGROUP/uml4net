@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- a MOF Tag whose namespace is bound to the prefix mof instead of mofext, as in the OMG SysML v2 document ad-23-02-11 (XMI 2.5.1 clause 9.5.2 rule 2g) -->
+<xmi:XMI xmlns:uml="http://www.omg.org/spec/UML/20161101" xmlns:xmi="http://www.omg.org/spec/XMI/20161101" xmlns:mof="http://www.omg.org/spec/MOF/20161101">
+  <uml:Package xmi:id="p" name="P"/>
+  <mof:Tag xmi:id="t" xmi:type="mof:Tag" name="org.omg.xmi.nsPrefix" value="sysml" element="p"/>
+</xmi:XMI>

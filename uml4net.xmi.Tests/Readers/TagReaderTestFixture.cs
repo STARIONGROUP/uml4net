@@ -26,6 +26,7 @@ namespace uml4net.xmi.Tests.Readers
     using NUnit.Framework;
 
     using uml4net.xmi.Readers;
+    using uml4net.xmi.Settings;
 
     [TestFixture]
     public class TagReaderTestFixture
@@ -77,6 +78,43 @@ namespace uml4net.xmi.Tests.Readers
                 Assert.That(tag.Name, Is.EqualTo("org.omg.xmi.nsURI"));
                 Assert.That(tag.Value, Is.EqualTo("http://example.org"));
                 Assert.That(tag.Element, Is.EqualTo(new[] { "a", "other.xmi#b" }));
+            }
+        }
+
+        [Test]
+        public void Verify_that_a_Tag_whose_MOF_namespace_is_bound_to_another_prefix_is_read()
+        {
+            const string xml = "<mof:Tag xmlns:mof=\"http://www.omg.org/spec/MOF/20161101\" xmlns:xmi=\"http://www.omg.org/spec/XMI/20161101\" " +
+                               "xmi:type=\"mof:Tag\" xmi:id=\"t\" name=\"org.omg.xmi.nsPrefix\" value=\"sysml\" element=\"a\"/>";
+
+            var tag = this.tagReader.Read(XmlReader.Create(new StringReader(xml)), "http://www.omg.org/spec/MOF/20161101");
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(tag.XmiId, Is.EqualTo("t"));
+                Assert.That(tag.XmiType, Is.EqualTo("mofext:Tag"));
+                Assert.That(tag.Value, Is.EqualTo("sysml"));
+            }
+        }
+
+        [Test]
+        public void Verify_that_an_element_that_is_not_a_Tag_is_rejected_in_strict_mode_and_skipped_otherwise()
+        {
+            const string xml = "<mofext:Tag xmlns:mofext=\"http://www.omg.org/spec/MOF/20131001\" xmlns:xmi=\"http://www.omg.org/spec/XMI/20131001\" " +
+                               "xmlns:uml=\"http://www.omg.org/spec/UML/20131001\" xmi:type=\"uml:Class\" xmi:id=\"t\" name=\"n\"/>";
+
+            var nameSpaceResolver = new NameSpaceResolver();
+            nameSpaceResolver.ResolveAndSetNamespace("http://www.omg.org/spec/XMI/20131001");
+
+            var exception = Assert.Throws<XmiReadException>(() => this.tagReader.Read(XmlReader.Create(new StringReader(xml)), MofExtNamespaceUri));
+            var strictReader = new TagReader(nameSpaceResolver, new DefaultSettings { UseStrictReading = true }, null);
+            var nonStrictReader = new TagReader(nameSpaceResolver, new DefaultSettings { UseStrictReading = false }, null);
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(exception.Message, Does.StartWith("The element is not a Tag, its xmi:type is [uml:Class]: uml:Class [t] property [type]"));
+                Assert.That(() => strictReader.Read(XmlReader.Create(new StringReader(xml)), MofExtNamespaceUri), Throws.InstanceOf<XmiReadException>());
+                Assert.That(nonStrictReader.Read(XmlReader.Create(new StringReader(xml)), MofExtNamespaceUri), Is.Null);
             }
         }
     }

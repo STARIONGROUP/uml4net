@@ -39,6 +39,9 @@
         <Content Include="..\resources\SySML2\ptc-24-02-19.xmi" Link="TestData\KerML.xmi">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </Content>
+        <Content Include="..\resources\SySML2\ad-23-02-11.xmi" Link="TestData\SySML2\ad-23-02-11.xmi">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
         <Content Include="..\resources\SySML2\SysML.uml" Link="TestData\SysML.uml">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </Content>
