@@ -51,5 +51,13 @@ namespace uml4net.xmi.Settings
         /// Gets or sets a value indicating whether the written XML is indented.
         /// </summary>
         public bool Indent { get; set; } = true;
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the document is written as Canonical XMI (XMI 2.5.1 Annex B): every
+        /// property as an XML element in the canonical order, an <c>xmi:id</c> derived from the model and an
+        /// <c>xmi:uuid</c> on every object, reference elements without <c>xmi:type</c>, and no documentation, extensions
+        /// or captured content. When false, the default, the identifiers are written as read.
+        /// </summary>
+        public bool UseCanonicalXmi { get; set; }
     }
 }

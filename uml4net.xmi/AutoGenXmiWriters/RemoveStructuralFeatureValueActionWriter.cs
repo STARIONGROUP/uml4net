@@ -26,6 +26,7 @@ namespace uml4net.xmi.Writers
 {
     using System;
     using System.CodeDom.Compiler;
+    using System.Linq;
     using System.Threading.Tasks;
     using System.Xml;
 
@@ -120,6 +121,12 @@ namespace uml4net.xmi.Writers
             if (element.Extensions.Count > 0)
             {
                 this.logger.LogTrace("writing the {Count} Extension(s) of the RemoveStructuralFeatureValueAction with id [{Id}]", element.Extensions.Count, element.XmiId);
+            }
+
+            if (writeContext.IsCanonical)
+            {
+                this.WriteCanonical(xmlWriter, element, elementName, writeContext);
+                return;
             }
 
             this.WriteStartElement(xmlWriter, elementName);
@@ -295,6 +302,12 @@ namespace uml4net.xmi.Writers
                 this.logger.LogTrace("writing the {Count} Extension(s) of the RemoveStructuralFeatureValueAction with id [{Id}]", element.Extensions.Count, element.XmiId);
             }
 
+            if (writeContext.IsCanonical)
+            {
+                await this.WriteCanonicalAsync(xmlWriter, element, elementName, writeContext);
+                return;
+            }
+
             await this.WriteStartElementAsync(xmlWriter, elementName);
 
             await xmlWriter.WriteAttributeStringAsync("xmi", "type", this.XmiWriterSettings.XmiNamespaceUri, "uml:RemoveStructuralFeatureValueAction");
@@ -421,6 +434,265 @@ namespace uml4net.xmi.Writers
             await this.WriteExtensionsAsync(xmlWriter, element.Extensions);
 
             await xmlWriter.WriteEndElementAsync();
+        }
+
+        /// <summary>
+        /// Writes the <see cref="IRemoveStructuralFeatureValueAction"/> object as Canonical XMI (XMI 2.5.1 Annex B): xmi:id, xmi:uuid and
+        /// xmi:type, then every property as an XML element in the canonical order, without extensions
+        /// </summary>
+        /// <param name="xmlWriter">
+        /// an instance of <see cref="XmlWriter"/>
+        /// </param>
+        /// <param name="element">
+        /// The <see cref="IRemoveStructuralFeatureValueAction"/> that is to be written
+        /// </param>
+        /// <param name="elementName">
+        /// The name of the XML element that is written
+        /// </param>
+        /// <param name="writeContext">
+        /// The <see cref="IXmiWriteContext"/> that captures the state of the write operation
+        /// </param>
+        private void WriteCanonical(XmlWriter xmlWriter, IRemoveStructuralFeatureValueAction element, string elementName, IXmiWriteContext writeContext)
+        {
+            this.WriteCanonicalStartElement(xmlWriter, element, elementName, "uml:RemoveStructuralFeatureValueAction", writeContext);
+
+            foreach (var value in writeContext.QueryCanonicalOrder(element.OwnedComment, true))
+            {
+                this.XmiElementWriterFacade.WriteContainedElement(xmlWriter, value, "ownedComment", writeContext);
+            }
+
+            if (!string.IsNullOrEmpty(element.Name))
+            {
+                WriteValueElement(xmlWriter, "name", element.Name);
+            }
+
+            foreach (var value in writeContext.QueryCanonicalOrder(element.NameExpression, true))
+            {
+                this.XmiElementWriterFacade.WriteContainedElement(xmlWriter, value, "nameExpression", writeContext);
+            }
+
+            if (element.Visibility.HasValue)
+            {
+                WriteValueElement(xmlWriter, "visibility", element.Visibility.Value.QueryXmiLiteral());
+            }
+
+            if (element.IsLeaf)
+            {
+                WriteValueElement(xmlWriter, "isLeaf", XmlConvert.ToString(element.IsLeaf));
+            }
+
+            foreach (var value in writeContext.QueryCanonicalOrder(element.InInterruptibleRegion, false))
+            {
+                this.XmiElementWriterFacade.WriteReferenceElement(xmlWriter, value, "inInterruptibleRegion", writeContext);
+            }
+
+            foreach (var value in writeContext.QueryCanonicalOrder(element.InPartition, false))
+            {
+                this.XmiElementWriterFacade.WriteReferenceElement(xmlWriter, value, "inPartition", writeContext);
+            }
+
+            foreach (var value in writeContext.QueryCanonicalOrder(element.Incoming, false))
+            {
+                this.XmiElementWriterFacade.WriteReferenceElement(xmlWriter, value, "incoming", writeContext);
+            }
+
+            foreach (var value in writeContext.QueryCanonicalOrder(element.Outgoing, false))
+            {
+                this.XmiElementWriterFacade.WriteReferenceElement(xmlWriter, value, "outgoing", writeContext);
+            }
+
+            foreach (var value in writeContext.QueryCanonicalOrder(element.RedefinedNode, false))
+            {
+                this.XmiElementWriterFacade.WriteReferenceElement(xmlWriter, value, "redefinedNode", writeContext);
+            }
+
+            foreach (var value in writeContext.QueryCanonicalOrder(element.Handler, true))
+            {
+                this.XmiElementWriterFacade.WriteContainedElement(xmlWriter, value, "handler", writeContext);
+            }
+
+            if (element.IsLocallyReentrant)
+            {
+                WriteValueElement(xmlWriter, "isLocallyReentrant", XmlConvert.ToString(element.IsLocallyReentrant));
+            }
+
+            foreach (var value in writeContext.QueryCanonicalOrder(element.LocalPostcondition, true))
+            {
+                this.XmiElementWriterFacade.WriteContainedElement(xmlWriter, value, "localPostcondition", writeContext);
+            }
+
+            foreach (var value in writeContext.QueryCanonicalOrder(element.LocalPrecondition, true))
+            {
+                this.XmiElementWriterFacade.WriteContainedElement(xmlWriter, value, "localPrecondition", writeContext);
+            }
+
+            foreach (var value in writeContext.QueryCanonicalOrder(element.Object, true))
+            {
+                this.XmiElementWriterFacade.WriteContainedElement(xmlWriter, value, "object", writeContext);
+            }
+
+            if (element.StructuralFeature != null)
+            {
+                this.XmiElementWriterFacade.WriteReferenceElement(xmlWriter, element.StructuralFeature, "structuralFeature", writeContext);
+            }
+
+            foreach (var value in writeContext.QueryCanonicalOrder(element.Result, true))
+            {
+                this.XmiElementWriterFacade.WriteContainedElement(xmlWriter, value, "result", writeContext);
+            }
+
+            foreach (var value in writeContext.QueryCanonicalOrder(element.Value, true))
+            {
+                this.XmiElementWriterFacade.WriteContainedElement(xmlWriter, value, "value", writeContext);
+            }
+
+            if (element.IsRemoveDuplicates)
+            {
+                WriteValueElement(xmlWriter, "isRemoveDuplicates", XmlConvert.ToString(element.IsRemoveDuplicates));
+            }
+
+            foreach (var value in writeContext.QueryCanonicalOrder(element.RemoveAt, true))
+            {
+                this.XmiElementWriterFacade.WriteContainedElement(xmlWriter, value, "removeAt", writeContext);
+            }
+
+
+            WriteUnresolvedReferences(xmlWriter, element.UnresolvedReferences);
+
+            xmlWriter.WriteFullEndElement();
+
+            writeContext.EndCanonicalObject();
+        }
+
+        /// <summary>
+        /// Asynchronously writes the <see cref="IRemoveStructuralFeatureValueAction"/> object as Canonical XMI (XMI 2.5.1 Annex B): xmi:id,
+        /// xmi:uuid and xmi:type, then every property as an XML element in the canonical order, without extensions
+        /// </summary>
+        /// <param name="xmlWriter">
+        /// an instance of <see cref="XmlWriter"/>
+        /// </param>
+        /// <param name="element">
+        /// The <see cref="IRemoveStructuralFeatureValueAction"/> that is to be written
+        /// </param>
+        /// <param name="elementName">
+        /// The name of the XML element that is written
+        /// </param>
+        /// <param name="writeContext">
+        /// The <see cref="IXmiWriteContext"/> that captures the state of the write operation
+        /// </param>
+        /// <returns>
+        /// an awaitable <see cref="Task"/>
+        /// </returns>
+        private async Task WriteCanonicalAsync(XmlWriter xmlWriter, IRemoveStructuralFeatureValueAction element, string elementName, IXmiWriteContext writeContext)
+        {
+            await this.WriteCanonicalStartElementAsync(xmlWriter, element, elementName, "uml:RemoveStructuralFeatureValueAction", writeContext);
+
+            foreach (var value in writeContext.QueryCanonicalOrder(element.OwnedComment, true))
+            {
+                await this.XmiElementWriterFacade.WriteContainedElementAsync(xmlWriter, value, "ownedComment", writeContext);
+            }
+
+            if (!string.IsNullOrEmpty(element.Name))
+            {
+                await WriteValueElementAsync(xmlWriter, "name", element.Name);
+            }
+
+            foreach (var value in writeContext.QueryCanonicalOrder(element.NameExpression, true))
+            {
+                await this.XmiElementWriterFacade.WriteContainedElementAsync(xmlWriter, value, "nameExpression", writeContext);
+            }
+
+            if (element.Visibility.HasValue)
+            {
+                await WriteValueElementAsync(xmlWriter, "visibility", element.Visibility.Value.QueryXmiLiteral());
+            }
+
+            if (element.IsLeaf)
+            {
+                await WriteValueElementAsync(xmlWriter, "isLeaf", XmlConvert.ToString(element.IsLeaf));
+            }
+
+            foreach (var value in writeContext.QueryCanonicalOrder(element.InInterruptibleRegion, false))
+            {
+                await this.XmiElementWriterFacade.WriteReferenceElementAsync(xmlWriter, value, "inInterruptibleRegion", writeContext);
+            }
+
+            foreach (var value in writeContext.QueryCanonicalOrder(element.InPartition, false))
+            {
+                await this.XmiElementWriterFacade.WriteReferenceElementAsync(xmlWriter, value, "inPartition", writeContext);
+            }
+
+            foreach (var value in writeContext.QueryCanonicalOrder(element.Incoming, false))
+            {
+                await this.XmiElementWriterFacade.WriteReferenceElementAsync(xmlWriter, value, "incoming", writeContext);
+            }
+
+            foreach (var value in writeContext.QueryCanonicalOrder(element.Outgoing, false))
+            {
+                await this.XmiElementWriterFacade.WriteReferenceElementAsync(xmlWriter, value, "outgoing", writeContext);
+            }
+
+            foreach (var value in writeContext.QueryCanonicalOrder(element.RedefinedNode, false))
+            {
+                await this.XmiElementWriterFacade.WriteReferenceElementAsync(xmlWriter, value, "redefinedNode", writeContext);
+            }
+
+            foreach (var value in writeContext.QueryCanonicalOrder(element.Handler, true))
+            {
+                await this.XmiElementWriterFacade.WriteContainedElementAsync(xmlWriter, value, "handler", writeContext);
+            }
+
+            if (element.IsLocallyReentrant)
+            {
+                await WriteValueElementAsync(xmlWriter, "isLocallyReentrant", XmlConvert.ToString(element.IsLocallyReentrant));
+            }
+
+            foreach (var value in writeContext.QueryCanonicalOrder(element.LocalPostcondition, true))
+            {
+                await this.XmiElementWriterFacade.WriteContainedElementAsync(xmlWriter, value, "localPostcondition", writeContext);
+            }
+
+            foreach (var value in writeContext.QueryCanonicalOrder(element.LocalPrecondition, true))
+            {
+                await this.XmiElementWriterFacade.WriteContainedElementAsync(xmlWriter, value, "localPrecondition", writeContext);
+            }
+
+            foreach (var value in writeContext.QueryCanonicalOrder(element.Object, true))
+            {
+                await this.XmiElementWriterFacade.WriteContainedElementAsync(xmlWriter, value, "object", writeContext);
+            }
+
+            if (element.StructuralFeature != null)
+            {
+                await this.XmiElementWriterFacade.WriteReferenceElementAsync(xmlWriter, element.StructuralFeature, "structuralFeature", writeContext);
+            }
+
+            foreach (var value in writeContext.QueryCanonicalOrder(element.Result, true))
+            {
+                await this.XmiElementWriterFacade.WriteContainedElementAsync(xmlWriter, value, "result", writeContext);
+            }
+
+            foreach (var value in writeContext.QueryCanonicalOrder(element.Value, true))
+            {
+                await this.XmiElementWriterFacade.WriteContainedElementAsync(xmlWriter, value, "value", writeContext);
+            }
+
+            if (element.IsRemoveDuplicates)
+            {
+                await WriteValueElementAsync(xmlWriter, "isRemoveDuplicates", XmlConvert.ToString(element.IsRemoveDuplicates));
+            }
+
+            foreach (var value in writeContext.QueryCanonicalOrder(element.RemoveAt, true))
+            {
+                await this.XmiElementWriterFacade.WriteContainedElementAsync(xmlWriter, value, "removeAt", writeContext);
+            }
+
+
+            await WriteUnresolvedReferencesAsync(xmlWriter, element.UnresolvedReferences);
+
+            await xmlWriter.WriteFullEndElementAsync();
+
+            writeContext.EndCanonicalObject();
         }
     }
 }

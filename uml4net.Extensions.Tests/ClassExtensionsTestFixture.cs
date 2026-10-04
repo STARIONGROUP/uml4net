@@ -93,6 +93,52 @@ namespace uml4net.Extensions.Tests
         }
 
         [Test]
+        public void Verify_that_QueryAllPropertiesInCanonicalOrder_follows_Annex_B52()
+        {
+            // Bottom specializes Right and Left (declared in that order), both specialize Top; Bottom::r2 redefines Right::r
+            var top = new Class { Name = "Top" };
+            top.OwnedAttribute.Add(new Property { Name = "t" });
+            var right = new Class { Name = "Right" };
+            var redefinedR = new Property { Name = "r" };
+            right.OwnedAttribute.Add(redefinedR);
+            right.OwnedAttribute.Add(new Property { Name = "r1" });
+            right.Generalization.Add(new Generalization { General = top });
+            var left = new Class { Name = "Left" };
+            left.OwnedAttribute.Add(new Property { Name = "l" });
+            left.Generalization.Add(new Generalization { General = top });
+            var bottom = new Class { Name = "Bottom" };
+            bottom.OwnedAttribute.Add(new Property { Name = "b" });
+            var redefiningR = new Property { Name = "r2" };
+            redefiningR.RedefinedProperty.Add(redefinedR);
+            bottom.OwnedAttribute.Add(redefiningR);
+            bottom.Generalization.Add(new Generalization { General = right });
+            bottom.Generalization.Add(new Generalization { General = left });
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(bottom.QueryAllPropertiesInCanonicalOrder().Select(x => x.Name), Is.EqualTo(new[] { "t", "l", "r", "r2", "r1", "b" }),
+                    "superclass first, the alphabetically earlier superclass (Left) first, a redefining property at the position of the property that it redefines");
+                Assert.That(() => ClassExtensions.QueryAllPropertiesInCanonicalOrder(null), Throws.ArgumentNullException);
+            }
+        }
+
+        [Test]
+        public void Verify_that_QueryAllPropertiesInCanonicalOrder_returns_the_properties_of_QueryAllProperties()
+        {
+            var root = this.xmiReaderResult.QueryRoot(xmiId: "_0", name: "UML");
+            var dependency = root.NestedPackage.Single(x => x.Name == "CommonStructure").PackagedElement.OfType<IClass>().Single(x => x.Name == "Dependency");
+
+            var properties = dependency.QueryAllPropertiesInCanonicalOrder();
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(properties, Is.EquivalentTo(dependency.QueryAllProperties()));
+                Assert.That(((INamedElement)properties.First().Owner).Name, Is.EqualTo("Element"));
+                Assert.That(properties.Where(x => ((INamedElement)x.Owner).Name == "Dependency").Select(x => x.Name), Is.EqualTo(new[] { "client", "supplier" }));
+            }
+        }
+
+        [Test]
         public void Verify_that_QueryAllOperations_returns_expected_result()
         {
             Assert.That(() => ClassExtensions.QueryAllOperations(null), Throws.ArgumentNullException);

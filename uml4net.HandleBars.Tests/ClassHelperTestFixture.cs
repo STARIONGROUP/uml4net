@@ -161,6 +161,22 @@ namespace uml4net.HandleBars.Tests
         }
 
         [Test]
+        public void Verify_that_QueryAllNonDerivedNonReadOnlyPropertiesInCanonicalOrder_returns_expected_result()
+        {
+            var template = "{{#each (#Class.QueryAllNonDerivedNonReadOnlyPropertiesInCanonicalOrder this) as | property |}}{{ property.Name }};{{/each}}";
+
+            var action = this.handlebarsContext.Compile(template);
+
+            var root = this.xmiReaderResult.QueryRoot(xmiId: "_0", name: "UML");
+            var commonStructurePackage = root.NestedPackage.Single(x => x.Name == "CommonStructure");
+            var comment = commonStructurePackage.PackagedElement.OfType<IClass>().Single(x => x.Name == "Comment");
+
+            Assert.That(action(comment), Is.EqualTo("ownedComment;annotatedElement;body;"), "Element::ownedComment first, then Comment in declaration order");
+
+            Assert.That(() => action(new Dependency()), Throws.ArgumentException);
+        }
+
+        [Test]
         public void Verify_that_QueryAllContainedProperties_returns_expected_result()
         {
             var template = "{{#each (#Class.QueryAllContainedProperties this) as | property |}}{{ property.Name }};{{/each}}";

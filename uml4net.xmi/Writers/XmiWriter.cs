@@ -558,6 +558,21 @@ namespace uml4net.xmi.Writers
 
             var tagList = tags?.ToList() ?? [];
 
+            if (writeContext.IsCanonical)
+            {
+                this.LogContentOmittedFromCanonicalXmi(documentation, documentExtensions, capturedElements);
+
+                var topLevelObjects = this.QueryCanonicalTopLevelObjects(xmiWritePlan, tagList, stereoTypeApplications, writeContext);
+
+                this.RecordCanonicalIdentifiers(topLevelObjects, writeContext);
+
+                using var canonicalXmlWriter = XmlWriter.Create(stream, this.CreateXmlWriterSettings(isAsync: false));
+                this.WriteCanonicalDocument(canonicalXmlWriter, topLevelObjects, writeContext);
+                canonicalXmlWriter.Flush();
+
+                return;
+            }
+
             using var xmlWriter = XmlWriter.Create(stream, this.CreateXmlWriterSettings(isAsync: false));
 
             xmlWriter.WriteStartDocument();
@@ -1096,6 +1111,22 @@ namespace uml4net.xmi.Writers
 
             var tagList = tags?.ToList() ?? [];
 
+            if (writeContext.IsCanonical)
+            {
+                this.LogContentOmittedFromCanonicalXmi(documentation, documentExtensions, capturedElements);
+
+                var topLevelObjects = this.QueryCanonicalTopLevelObjects(xmiWritePlan, tagList, stereoTypeApplications, writeContext);
+
+                // the recording pass, which only derives the identifiers, writes to a null stream synchronously
+                this.RecordCanonicalIdentifiers(topLevelObjects, writeContext);
+
+                using var canonicalXmlWriter = XmlWriter.Create(stream, this.CreateXmlWriterSettings(isAsync: true));
+                await this.WriteCanonicalDocumentAsync(canonicalXmlWriter, topLevelObjects, writeContext, cancellationToken);
+                await canonicalXmlWriter.FlushAsync();
+
+                return;
+            }
+
             using var xmlWriter = XmlWriter.Create(stream, this.CreateXmlWriterSettings(isAsync: true));
 
             await xmlWriter.WriteStartDocumentAsync();
@@ -1188,13 +1219,13 @@ namespace uml4net.xmi.Writers
         /// The calculated <see cref="XmiWritePlan"/>
         /// </param>
         /// <returns>
-        /// The created <see cref="IXmiWriteContext"/>
+        /// The created <see cref="XmiWriteContext"/>, for Canonical XMI when <see cref="IXmiWriterSettings.UseCanonicalXmi"/> is set
         /// </returns>
         /// <exception cref="InvalidOperationException">
         /// thrown when elements that are part of the document do not have an <see cref="IXmiElement.XmiId"/>, or when
         /// referenced elements that are not written in the document do not have an <see cref="IXmiElement.DocumentName"/>
         /// </exception>
-        private IXmiWriteContext CreateWriteContext(IEnumerable<IXmiElement> rootElements, string documentName, out XmiWritePlan xmiWritePlan)
+        private XmiWriteContext CreateWriteContext(IEnumerable<IXmiElement> rootElements, string documentName, out XmiWritePlan xmiWritePlan)
         {
             xmiWritePlan = this.referenceClosureCalculator.CalculateWritePlan(rootElements, this.XmiWriterSettings.ExternalReferenceResolution, documentName);
 
@@ -1212,7 +1243,231 @@ namespace uml4net.xmi.Writers
                 throw new InvalidOperationException($"The model cannot be written since the following referenced elements are not written in the document and do not have a DocumentName, an href to them would be \"#id\": {offenders}");
             }
 
-            return new XmiWriteContext(documentName, xmiWritePlan.LocalIdentifiers);
+            return new XmiWriteContext(documentName, xmiWritePlan.LocalIdentifiers, this.XmiWriterSettings.UseCanonicalXmi);
+        }
+
+        /// <summary>
+        /// Logs the document-level content that Canonical XMI does not contain (XMI 2.5.1 Annex B.2 rule 11): the
+        /// documentation, the extensions, and the content that was captured without being processed
+        /// </summary>
+        /// <param name="documentation">The <see cref="Documentation"/>, may be null</param>
+        /// <param name="documentExtensions">The <see cref="XmiExtension"/>s, may be null</param>
+        /// <param name="capturedElements">The <see cref="CapturedElement"/>s</param>
+        private void LogContentOmittedFromCanonicalXmi(Documentation documentation, IEnumerable<XmiExtension> documentExtensions, IReadOnlyList<CapturedElement> capturedElements)
+        {
+            if (documentation != null)
+            {
+                this.logger.LogInformation("The documentation is not written: Canonical XMI has no xmi:documentation");
+            }
+
+            var extensionCount = documentExtensions?.Count() ?? 0;
+
+            if (extensionCount > 0)
+            {
+                this.logger.LogInformation("{Count} extensions are not written: Canonical XMI has no xmi:extension", extensionCount);
+            }
+
+            if (capturedElements.Count > 0)
+            {
+                this.logger.LogInformation("{Count} captured elements are not written: their raw XML cannot be written as Canonical XMI", capturedElements.Count);
+            }
+        }
+
+        /// <summary>
+        /// Queries the top-level objects of a Canonical XMI document, in the order of Annex B.5.1: alphabetically by XML
+        /// element name, then by <c>xmi:uuid</c>
+        /// </summary>
+        /// <param name="xmiWritePlan">The <see cref="XmiWritePlan"/> that holds the root elements</param>
+        /// <param name="tags">The MOF <see cref="Tag"/>s</param>
+        /// <param name="stereoTypeApplications">The <see cref="StereoTypeApplication"/>s</param>
+        /// <param name="writeContext">The <see cref="XmiWriteContext"/> of the Canonical XMI write operation</param>
+        /// <returns>The ordered top-level objects</returns>
+        private List<CanonicalTopLevelObject> QueryCanonicalTopLevelObjects(XmiWritePlan xmiWritePlan, IReadOnlyList<Tag> tags, IReadOnlyList<StereoTypeApplication> stereoTypeApplications, XmiWriteContext writeContext)
+        {
+            var topLevelObjects = new List<CanonicalTopLevelObject>();
+
+            foreach (var rootElement in xmiWritePlan.RootElements)
+            {
+                topLevelObjects.Add(new CanonicalTopLevelObject(rootElement, KnowNamespacePrefixes.Uml, this.XmiWriterSettings.UmlNamespaceUri, $"uml:{rootElement.GetType().Name}", writeContext.QueryXmiUuid(rootElement)));
+            }
+
+            foreach (var tag in tags)
+            {
+                topLevelObjects.Add(new CanonicalTopLevelObject(tag, KnowNamespacePrefixes.MofExt, this.XmiWriterSettings.MofExtNamespaceUri, "mofext:Tag", writeContext.QueryCanonicalXmiUuid(tag.XmiUuid, tag.XmiId ?? tag.Name)));
+            }
+
+            foreach (var stereoTypeApplication in stereoTypeApplications)
+            {
+                var (prefix, namespaceUri) = StereoTypeApplicationWriter.QueryNamespace(stereoTypeApplication);
+
+                topLevelObjects.Add(new CanonicalTopLevelObject(stereoTypeApplication, prefix, namespaceUri, StereoTypeApplicationWriter.QueryQualifiedName(stereoTypeApplication), writeContext.QueryCanonicalXmiUuid(stereoTypeApplication.XmiUuid, stereoTypeApplication.XmiId)));
+            }
+
+            return topLevelObjects
+                .OrderBy(x => x.ElementName, StringComparer.Ordinal)
+                .ThenBy(x => x.XmiUuid ?? string.Empty, StringComparer.Ordinal)
+                .ToList();
+        }
+
+        /// <summary>
+        /// Derives the Canonical XMI identifiers (XMI 2.5.1 Annex B.6): the document is written to a null stream while the
+        /// write context records the objects in the order of serialization
+        /// </summary>
+        /// <param name="topLevelObjects">The ordered top-level objects</param>
+        /// <param name="writeContext">The <see cref="XmiWriteContext"/> of the Canonical XMI write operation</param>
+        private void RecordCanonicalIdentifiers(IReadOnlyList<CanonicalTopLevelObject> topLevelObjects, XmiWriteContext writeContext)
+        {
+            writeContext.StartRecording();
+
+            using (var recordingXmlWriter = XmlWriter.Create(Stream.Null, this.CreateXmlWriterSettings(isAsync: false)))
+            {
+                this.WriteCanonicalDocument(recordingXmlWriter, topLevelObjects, writeContext);
+            }
+
+            writeContext.DeriveCanonicalIdentifiers();
+        }
+
+        /// <summary>
+        /// Writes a Canonical XMI document: the <c>xmi:XMI</c> root, which declares the namespaces in the order in which they
+        /// are used (XMI 2.5.1 Annex B.2 rule 3), and the top-level objects
+        /// </summary>
+        /// <param name="xmlWriter">The <see cref="XmlWriter"/> to write to</param>
+        /// <param name="topLevelObjects">The ordered top-level objects</param>
+        /// <param name="writeContext">The <see cref="XmiWriteContext"/> of the Canonical XMI write operation</param>
+        private void WriteCanonicalDocument(XmlWriter xmlWriter, IReadOnlyList<CanonicalTopLevelObject> topLevelObjects, XmiWriteContext writeContext)
+        {
+            xmlWriter.WriteStartDocument();
+            xmlWriter.WriteStartElement("xmi", "XMI", this.XmiWriterSettings.XmiNamespaceUri);
+
+            foreach (var namespaceDeclaration in QueryCanonicalNamespaceDeclarations(topLevelObjects))
+            {
+                xmlWriter.WriteAttributeString("xmlns", namespaceDeclaration.Key, null, namespaceDeclaration.Value);
+            }
+
+            var tagWriter = new TagWriter(this.XmiWriterSettings, this.LoggerFactory);
+            var stereoTypeApplicationWriter = new StereoTypeApplicationWriter(this.XmiWriterSettings, this.LoggerFactory);
+
+            foreach (var topLevelObject in topLevelObjects)
+            {
+                switch (topLevelObject.Element)
+                {
+                    case IXmiElement rootElement:
+                        this.XmiElementWriterFacade.Write(xmlWriter, rootElement, topLevelObject.ElementName, writeContext);
+                        break;
+                    case Tag tag:
+                        tagWriter.WriteCanonical(xmlWriter, tag, writeContext);
+                        break;
+                    case StereoTypeApplication stereoTypeApplication:
+                        stereoTypeApplicationWriter.WriteCanonical(xmlWriter, stereoTypeApplication, writeContext);
+                        break;
+                }
+            }
+
+            xmlWriter.WriteFullEndElement();
+            xmlWriter.WriteEndDocument();
+        }
+
+        /// <summary>
+        /// Asynchronously writes a Canonical XMI document, see <see cref="WriteCanonicalDocument"/>
+        /// </summary>
+        /// <param name="xmlWriter">The <see cref="XmlWriter"/> to write to</param>
+        /// <param name="topLevelObjects">The ordered top-level objects</param>
+        /// <param name="writeContext">The <see cref="XmiWriteContext"/> of the Canonical XMI write operation</param>
+        /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to cancel the write operation</param>
+        /// <returns>an awaitable <see cref="Task"/></returns>
+        private async Task WriteCanonicalDocumentAsync(XmlWriter xmlWriter, IReadOnlyList<CanonicalTopLevelObject> topLevelObjects, XmiWriteContext writeContext, CancellationToken cancellationToken)
+        {
+            await xmlWriter.WriteStartDocumentAsync();
+            await xmlWriter.WriteStartElementAsync("xmi", "XMI", this.XmiWriterSettings.XmiNamespaceUri);
+
+            foreach (var namespaceDeclaration in QueryCanonicalNamespaceDeclarations(topLevelObjects))
+            {
+                await xmlWriter.WriteAttributeStringAsync("xmlns", namespaceDeclaration.Key, null, namespaceDeclaration.Value);
+            }
+
+            var tagWriter = new TagWriter(this.XmiWriterSettings, this.LoggerFactory);
+            var stereoTypeApplicationWriter = new StereoTypeApplicationWriter(this.XmiWriterSettings, this.LoggerFactory);
+
+            foreach (var topLevelObject in topLevelObjects)
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+
+                switch (topLevelObject.Element)
+                {
+                    case IXmiElement rootElement:
+                        await this.XmiElementWriterFacade.WriteAsync(xmlWriter, rootElement, topLevelObject.ElementName, writeContext);
+                        break;
+                    case Tag tag:
+                        await tagWriter.WriteCanonicalAsync(xmlWriter, tag, writeContext);
+                        break;
+                    case StereoTypeApplication stereoTypeApplication:
+                        await stereoTypeApplicationWriter.WriteCanonicalAsync(xmlWriter, stereoTypeApplication, writeContext);
+                        break;
+                }
+            }
+
+            await xmlWriter.WriteFullEndElementAsync();
+            await xmlWriter.WriteEndDocumentAsync();
+        }
+
+        /// <summary>
+        /// Queries the namespace declarations of a Canonical XMI document, in the order in which the top-level objects use
+        /// them; the xmi namespace is declared by the root element itself
+        /// </summary>
+        /// <param name="topLevelObjects">The ordered top-level objects</param>
+        /// <returns>The namespace declarations, by prefix</returns>
+        private static List<KeyValuePair<string, string>> QueryCanonicalNamespaceDeclarations(IReadOnlyList<CanonicalTopLevelObject> topLevelObjects)
+        {
+            var result = new List<KeyValuePair<string, string>>();
+            var declaredPrefixes = new HashSet<string>(StringComparer.Ordinal) { KnowNamespacePrefixes.Xmi };
+
+            foreach (var topLevelObject in topLevelObjects)
+            {
+                if (declaredPrefixes.Add(topLevelObject.Prefix))
+                {
+                    result.Add(new KeyValuePair<string, string>(topLevelObject.Prefix, topLevelObject.NamespaceUri));
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// A top-level object of a Canonical XMI document: a root element, a MOF tag or a stereotype application
+        /// </summary>
+        private sealed class CanonicalTopLevelObject
+        {
+            /// <summary>
+            /// Initializes a new instance of the <see cref="CanonicalTopLevelObject"/> class.
+            /// </summary>
+            /// <param name="element">The object</param>
+            /// <param name="prefix">The namespace prefix of its XML element</param>
+            /// <param name="namespaceUri">The namespace URI of its XML element</param>
+            /// <param name="elementName">The qualified name of its XML element</param>
+            /// <param name="xmiUuid">Its <c>xmi:uuid</c></param>
+            public CanonicalTopLevelObject(object element, string prefix, string namespaceUri, string elementName, string xmiUuid)
+            {
+                this.Element = element;
+                this.Prefix = prefix;
+                this.NamespaceUri = namespaceUri;
+                this.ElementName = elementName;
+                this.XmiUuid = xmiUuid;
+            }
+
+            /// <summary>Gets the object</summary>
+            public object Element { get; }
+
+            /// <summary>Gets the namespace prefix of its XML element</summary>
+            public string Prefix { get; }
+
+            /// <summary>Gets the namespace URI of its XML element</summary>
+            public string NamespaceUri { get; }
+
+            /// <summary>Gets the qualified name of its XML element</summary>
+            public string ElementName { get; }
+
+            /// <summary>Gets its <c>xmi:uuid</c></summary>
+            public string XmiUuid { get; }
         }
 
         /// <summary>

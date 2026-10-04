@@ -29,6 +29,7 @@ namespace uml4net.xmi.Writers
     using Microsoft.Extensions.Logging;
 
     using uml4net;
+    using uml4net.CommonStructure;
     using uml4net.xmi.Settings;
 
     /// <summary>
@@ -167,6 +168,126 @@ namespace uml4net.xmi.Writers
             }
 
             return xmlWriter.WriteStartElementAsync(null, elementName, null);
+        }
+
+        /// <summary>
+        /// Writes a value as an XML element with its closing tag, as Canonical XMI requires (XMI 2.5.1 Annex B.2 rules 4 and 5)
+        /// </summary>
+        /// <param name="xmlWriter">
+        /// The <see cref="XmlWriter"/> to write to
+        /// </param>
+        /// <param name="elementName">
+        /// The name of the property, the name of the XML element
+        /// </param>
+        /// <param name="value">
+        /// The XMI representation of the value
+        /// </param>
+        protected static void WriteValueElement(XmlWriter xmlWriter, string elementName, string value)
+        {
+            xmlWriter.WriteStartElement(elementName);
+            xmlWriter.WriteString(value ?? string.Empty);
+            xmlWriter.WriteFullEndElement();
+        }
+
+        /// <summary>
+        /// Asynchronously writes a value as an XML element with its closing tag, as Canonical XMI requires (XMI 2.5.1 Annex
+        /// B.2 rules 4 and 5)
+        /// </summary>
+        /// <param name="xmlWriter">
+        /// The <see cref="XmlWriter"/> to write to
+        /// </param>
+        /// <param name="elementName">
+        /// The name of the property, the name of the XML element
+        /// </param>
+        /// <param name="value">
+        /// The XMI representation of the value
+        /// </param>
+        /// <returns>
+        /// an awaitable <see cref="Task"/>
+        /// </returns>
+        protected static async Task WriteValueElementAsync(XmlWriter xmlWriter, string elementName, string value)
+        {
+            await xmlWriter.WriteStartElementAsync(null, elementName, null);
+            await xmlWriter.WriteStringAsync(value ?? string.Empty);
+            await xmlWriter.WriteFullEndElementAsync();
+        }
+
+        /// <summary>
+        /// Writes the start tag of an object in Canonical XMI: the element, then <c>xmi:id</c>, <c>xmi:uuid</c> and
+        /// <c>xmi:type</c> in that order (XMI 2.5.1 Annex B.2 rule 5), and records it to derive its identifier
+        /// </summary>
+        /// <param name="xmlWriter">
+        /// The <see cref="XmlWriter"/> to write to
+        /// </param>
+        /// <param name="element">
+        /// The <see cref="IXmiElement"/> that is written
+        /// </param>
+        /// <param name="elementName">
+        /// The name of the XML element that is written
+        /// </param>
+        /// <param name="xmiType">
+        /// The value of the <c>xmi:type</c>, for example <c>uml:Class</c>
+        /// </param>
+        /// <param name="writeContext">
+        /// The <see cref="IXmiWriteContext"/> that captures the state of the write operation
+        /// </param>
+        protected void WriteCanonicalStartElement(XmlWriter xmlWriter, IXmiElement element, string elementName, string xmiType, IXmiWriteContext writeContext)
+        {
+            writeContext.BeginCanonicalObject(element, elementName, (element as INamedElement)?.Name);
+
+            this.WriteStartElement(xmlWriter, elementName);
+
+            xmlWriter.WriteAttributeString("xmi", "id", this.XmiWriterSettings.XmiNamespaceUri, writeContext.QueryXmiId(element));
+
+            var uuid = writeContext.QueryXmiUuid(element);
+
+            if (!string.IsNullOrEmpty(uuid))
+            {
+                xmlWriter.WriteAttributeString("xmi", "uuid", this.XmiWriterSettings.XmiNamespaceUri, uuid);
+            }
+
+            xmlWriter.WriteAttributeString("xmi", "type", this.XmiWriterSettings.XmiNamespaceUri, xmiType);
+        }
+
+        /// <summary>
+        /// Asynchronously writes the start tag of an object in Canonical XMI: the element, then <c>xmi:id</c>,
+        /// <c>xmi:uuid</c> and <c>xmi:type</c> in that order (XMI 2.5.1 Annex B.2 rule 5), and records it to derive its
+        /// identifier
+        /// </summary>
+        /// <param name="xmlWriter">
+        /// The <see cref="XmlWriter"/> to write to
+        /// </param>
+        /// <param name="element">
+        /// The <see cref="IXmiElement"/> that is written
+        /// </param>
+        /// <param name="elementName">
+        /// The name of the XML element that is written
+        /// </param>
+        /// <param name="xmiType">
+        /// The value of the <c>xmi:type</c>, for example <c>uml:Class</c>
+        /// </param>
+        /// <param name="writeContext">
+        /// The <see cref="IXmiWriteContext"/> that captures the state of the write operation
+        /// </param>
+        /// <returns>
+        /// an awaitable <see cref="Task"/>
+        /// </returns>
+        protected async Task WriteCanonicalStartElementAsync(XmlWriter xmlWriter, IXmiElement element, string elementName, string xmiType, IXmiWriteContext writeContext)
+        {
+            writeContext.BeginCanonicalObject(element, elementName, (element as INamedElement)?.Name);
+
+            await this.WriteStartElementAsync(xmlWriter, elementName);
+
+            await xmlWriter.WriteAttributeStringAsync("xmi", "id", this.XmiWriterSettings.XmiNamespaceUri, writeContext.QueryXmiId(element));
+
+            var uuid = writeContext.QueryXmiUuid(element);
+
+            if (!string.IsNullOrEmpty(uuid))
+            {
+                await xmlWriter.WriteAttributeStringAsync("xmi", "uuid", this.XmiWriterSettings.XmiNamespaceUri, uuid);
+            }
+
+            await xmlWriter.WriteAttributeStringAsync("xmi", "type", this.XmiWriterSettings.XmiNamespaceUri, xmiType);
         }
 
         /// <summary>

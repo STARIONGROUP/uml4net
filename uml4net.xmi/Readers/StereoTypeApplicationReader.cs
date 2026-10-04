@@ -109,6 +109,10 @@ namespace uml4net.xmi.Readers
                     {
                         stereoTypeApplication.XmiId = xmlReader.Value;
                     }
+                    else if (xmlReader.LocalName == "uuid" && XmlReaderExtensions.IsXmiNamespace(xmlReader.NamespaceURI))
+                    {
+                        stereoTypeApplication.XmiUuid = xmlReader.Value;
+                    }
                     else if (xmlReader.LocalName.StartsWith(BasePropertyPrefix, StringComparison.Ordinal))
                     {
                         stereoTypeApplication.MetaClass = xmlReader.LocalName.Substring(BasePropertyPrefix.Length);

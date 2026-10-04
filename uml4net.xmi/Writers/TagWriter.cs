@@ -21,6 +21,7 @@
 namespace uml4net.xmi.Writers
 {
     using System;
+    using System.Linq;
     using System.Threading.Tasks;
     using System.Xml;
 
@@ -96,6 +97,11 @@ namespace uml4net.xmi.Writers
                 xmlWriter.WriteAttributeString("xmi", "id", this.xmiWriterSettings.XmiNamespaceUri, tag.XmiId);
             }
 
+            if (!string.IsNullOrEmpty(tag.XmiUuid))
+            {
+                xmlWriter.WriteAttributeString("xmi", "uuid", this.xmiWriterSettings.XmiNamespaceUri, tag.XmiUuid);
+            }
+
             if (tag.Name != null)
             {
                 xmlWriter.WriteAttributeString("name", tag.Name);
@@ -148,6 +154,11 @@ namespace uml4net.xmi.Writers
                 await xmlWriter.WriteAttributeStringAsync("xmi", "id", this.xmiWriterSettings.XmiNamespaceUri, tag.XmiId);
             }
 
+            if (!string.IsNullOrEmpty(tag.XmiUuid))
+            {
+                await xmlWriter.WriteAttributeStringAsync("xmi", "uuid", this.xmiWriterSettings.XmiNamespaceUri, tag.XmiUuid);
+            }
+
             if (tag.Name != null)
             {
                 await xmlWriter.WriteAttributeStringAsync(null, "name", null, tag.Name);
@@ -164,6 +175,122 @@ namespace uml4net.xmi.Writers
             }
 
             await xmlWriter.WriteEndElementAsync();
+        }
+
+        /// <summary>
+        /// Writes the <see cref="Tag"/> as Canonical XMI (XMI 2.5.1 Annex B): its <c>name</c>, <c>value</c> and
+        /// <c>element</c> properties as XML elements, the elements as <c>xmi:idref</c> links sorted by identifier, then as
+        /// <c>href</c> links
+        /// </summary>
+        /// <param name="xmlWriter">
+        /// an instance of <see cref="XmlWriter"/>
+        /// </param>
+        /// <param name="tag">
+        /// The <see cref="Tag"/> that is to be written
+        /// </param>
+        /// <param name="writeContext">
+        /// The <see cref="XmiWriteContext"/> of the Canonical XMI write operation
+        /// </param>
+        public void WriteCanonical(XmlWriter xmlWriter, Tag tag, XmiWriteContext writeContext)
+        {
+            if (xmlWriter == null)
+            {
+                throw new ArgumentNullException(nameof(xmlWriter));
+            }
+
+            this.CreateCanonicalElement(tag, writeContext).Write(xmlWriter);
+
+            writeContext.EndCanonicalObject();
+        }
+
+        /// <summary>
+        /// Asynchronously writes the <see cref="Tag"/> as Canonical XMI (XMI 2.5.1 Annex B), see
+        /// <see cref="WriteCanonical"/>
+        /// </summary>
+        /// <param name="xmlWriter">
+        /// an instance of <see cref="XmlWriter"/>
+        /// </param>
+        /// <param name="tag">
+        /// The <see cref="Tag"/> that is to be written
+        /// </param>
+        /// <param name="writeContext">
+        /// The <see cref="XmiWriteContext"/> of the Canonical XMI write operation
+        /// </param>
+        /// <returns>
+        /// an awaitable <see cref="Task"/>
+        /// </returns>
+        public async Task WriteCanonicalAsync(XmlWriter xmlWriter, Tag tag, XmiWriteContext writeContext)
+        {
+            if (xmlWriter == null)
+            {
+                throw new ArgumentNullException(nameof(xmlWriter));
+            }
+
+            await this.CreateCanonicalElement(tag, writeContext).WriteAsync(xmlWriter);
+
+            writeContext.EndCanonicalObject();
+        }
+
+        /// <summary>
+        /// Creates the <see cref="CanonicalXmlElement"/> of the provided <see cref="Tag"/> and records it in the write context
+        /// </summary>
+        /// <param name="tag">
+        /// The <see cref="Tag"/>
+        /// </param>
+        /// <param name="writeContext">
+        /// The <see cref="XmiWriteContext"/> of the Canonical XMI write operation
+        /// </param>
+        /// <returns>
+        /// The <see cref="CanonicalXmlElement"/>
+        /// </returns>
+        private CanonicalXmlElement CreateCanonicalElement(Tag tag, XmiWriteContext writeContext)
+        {
+            if (tag == null)
+            {
+                throw new ArgumentNullException(nameof(tag));
+            }
+
+            if (writeContext == null)
+            {
+                throw new ArgumentNullException(nameof(writeContext));
+            }
+
+            this.logger.LogTrace("writing the Tag {TagName} as Canonical XMI", tag.Name);
+
+            writeContext.BeginCanonicalObject(tag, "mofext:Tag", tag.Name);
+
+            var xmiId = writeContext.QueryXmiId(tag, tag.XmiId);
+
+            var element = new CanonicalXmlElement("mofext", "Tag", this.xmiWriterSettings.MofExtNamespaceUri, this.xmiWriterSettings.XmiNamespaceUri)
+            {
+                XmiId = xmiId,
+                XmiUuid = writeContext.QueryCanonicalXmiUuid(tag.XmiUuid, tag.XmiId ?? tag.Name ?? xmiId)
+            };
+
+            if (tag.Name != null)
+            {
+                element.AddValue("name", tag.Name);
+            }
+
+            if (tag.Value != null)
+            {
+                element.AddValue("value", tag.Value);
+            }
+
+            // Annex B.5.3: the links of a property that is not ordered, xmi:idrefs first, each set sorted
+            var references = tag.Element.Where(x => !string.IsNullOrEmpty(x)).ToList();
+
+            foreach (var reference in references.Where(x => x.IndexOf('#') <= 0).Select(writeContext.QueryXmiIdByReadIdentifier).OrderBy(x => x, StringComparer.Ordinal))
+            {
+                element.AddIdRef("element", reference);
+            }
+
+            foreach (var reference in references.Where(x => x.IndexOf('#') > 0).OrderBy(x => x, StringComparer.Ordinal))
+            {
+                element.AddHref("element", reference);
+            }
+
+            return element;
         }
     }
 }

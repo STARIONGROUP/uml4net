@@ -69,6 +69,90 @@ namespace uml4net.Extensions
         }
 
         /// <summary>
+        /// Queries all the properties of the <see cref="IClass"/>, including the inherited ones, in the order that Canonical
+        /// XMI prescribes (XMI 2.5.1 Annex B.5.2)
+        /// </summary>
+        /// <param name="class">
+        /// The subject <see cref="IClass"/>
+        /// </param>
+        /// <returns>
+        /// The properties ordered by the class in which they are defined: the properties of a superclass before those of
+        /// its subclasses, those of the alphabetically earlier direct superclass first when a class has several, each class
+        /// in declaration order. A redefining property takes the position of the property that it redefines
+        /// </returns>
+        public static ReadOnlyCollection<IProperty> QueryAllPropertiesInCanonicalOrder(this IClass @class)
+        {
+            if (@class == null)
+            {
+                throw new ArgumentNullException(nameof(@class));
+            }
+
+            var orderedClassifiers = new List<IClassifier>();
+            QueryCanonicalClassifierOrder(@class, orderedClassifiers, []);
+
+            var result = new List<IProperty>();
+
+            foreach (var classifier in orderedClassifiers)
+            {
+                if (!(classifier is IClass c))
+                {
+                    continue;
+                }
+
+                foreach (var property in c.OwnedAttribute.Concat(c.QueryInterfaces().SelectMany(x => x.Attribute)))
+                {
+                    if (result.Contains(property))
+                    {
+                        continue;
+                    }
+
+                    // B.5.2: "if a property is redefined in a subclass, its position in the order remains the position of
+                    // the original redefined property within the parent class"
+                    var redefinedIndex = result.FindIndex(x => property.RedefinedProperty.Contains(x));
+
+                    if (redefinedIndex >= 0)
+                    {
+                        result.Insert(redefinedIndex + 1, property);
+                    }
+                    else
+                    {
+                        result.Add(property);
+                    }
+                }
+            }
+
+            return result.AsReadOnly();
+        }
+
+        /// <summary>
+        /// Adds the general classifiers of the provided classifier, alphabetically by name, and then the classifier itself,
+        /// to the ordered list
+        /// </summary>
+        /// <param name="classifier">
+        /// The <see cref="IClassifier"/> that is visited
+        /// </param>
+        /// <param name="orderedClassifiers">
+        /// The classifiers, superclass first
+        /// </param>
+        /// <param name="visitedClassifiers">
+        /// The classifiers that have been visited, to visit each one once
+        /// </param>
+        private static void QueryCanonicalClassifierOrder(IClassifier classifier, List<IClassifier> orderedClassifiers, HashSet<IClassifier> visitedClassifiers)
+        {
+            if (!visitedClassifiers.Add(classifier))
+            {
+                return;
+            }
+
+            foreach (var general in classifier.Generalization.Select(x => x.General).Where(x => x != null).OrderBy(x => x.Name, StringComparer.Ordinal))
+            {
+                QueryCanonicalClassifierOrder(general, orderedClassifiers, visitedClassifiers);
+            }
+
+            orderedClassifiers.Add(classifier);
+        }
+
+        /// <summary>
         /// Queries all the specializations (immediate subclasses) of the <paramref name="class"/>
         /// </summary>
         /// <param name="class">

@@ -157,6 +157,22 @@ namespace uml4net.HandleBars
                 return properties;
             });
 
+            handlebars.RegisterHelper("Class.QueryAllNonDerivedNonReadOnlyPropertiesInCanonicalOrder", (context, _) =>
+            {
+                if (!(context.Value is IClass @class))
+                {
+                    throw new ArgumentException("supposed to be IClass");
+                }
+
+                // the order of the properties in Canonical XMI (XMI 2.5.1 Annex B.5.2)
+                var properties = @class.QueryAllPropertiesInCanonicalOrder()
+                    .Where(x => !x.IsDerived)
+                    .Where(x => !x.IsDerivedUnion)
+                    .Where(x => !x.IsReadOnly);
+
+                return properties;
+            });
+
             handlebars.RegisterHelper("Class.QueryAllNonDerivedNonReadOnlyNonContainedReferenceEnumerableProperties", (context, _) =>
             {
                 if (!(context.Value is IClass @class))
