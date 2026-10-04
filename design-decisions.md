@@ -14,8 +14,9 @@ A composite property is generated as `IContainerList<T>` even when its upper bou
 writers and the reference closure all handle containment through this one type. A separate single-valued type would
 need a second ownership mechanism, and changing it now would break the API of 86 properties.
 
-The list does not yet enforce the multiplicity: a single-valued composite can hold more than one value. Enforcing the
-upper bound is tracked in #480.
+The list of a single-valued composite enforces the upper bound: adding a second value throws an
+`InvalidOperationException` that names the property. A document that repeats the value is reported by the reader, an
+`XmiReadException` in strict mode, an error log otherwise, and the first value is kept (#480).
 
 ### `UnlimitedNatural` is a `string`
 
