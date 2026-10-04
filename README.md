@@ -2,11 +2,11 @@
 
 # Introduction
 
-Uml4net is a suite of dotnet core libraries and tools that are used to deserialize (read) and serialize (write) a UML version 2.5.1 model in XMI form. Uml4net is typically used to support opinionated template based code-generation and is a part of `modeltopia`. Uml4net porivdes a number of libraries that are described in the following sections.
+Uml4net is a suite of dotnet core libraries and tools that are used to deserialize (read) and serialize (write) a UML version 2.5.1 model in XMI 2.5.1 form. Uml4net is typically used to support opinionated template based code-generation and is a part of `modeltopia`. Uml4net provides a number of libraries that are described in the following sections.
 
 ## uml4net
 
-The core library that contains all the class definitions as they appear in the UML 2.5.1 specification. Together with uml4net.xmi it provides the capability to to read and write UML models and make them available as an in-memory object graph.
+The core library that contains all the class definitions as they appear in the UML 2.5.1 specification. Together with uml4net.xmi it provides the capability to read and write UML models and make them available as an in-memory object graph. The derived properties of the metamodel are implemented, and the owner ends of composite associations are kept in sync with the containment.
 
 ## uml4net.Extensions
 
@@ -14,9 +14,12 @@ The **uml4net.Extensions** library provides extensions methods to the uml4net li
 
 ## uml4net.xmi
 
-The **uml4net.xmi** library provides an XMI reader implementation to read UML XMI model files and an XMI writer implementation to write UML models to XMI. The writer supports writing a selected `Package`, where references to elements outside the selected package are either written as `href` references to the original document or the containing root packages are included in the written document, resulting in a self-contained XMI file.
+The **uml4net.xmi** library provides an XMI reader implementation to read UML XMI model files and an XMI writer implementation to write UML models to XMI:
 
-> To learn more about how to read an UML model, read about it [here](https://github.com/STARIONGROUP/uml4net/wiki/uml4net.xmi.project)
+- **Reading**: references to other documents are resolved, also across documents found on disk or through path maps; stereotype applications are resolved against their profile and their tagged values are typed; content uml4net does not model, such as UML Diagram Interchange, is captured. In strict mode (the default) a document that is not valid XMI 2.5.1 is rejected with an exception that names the element, property and line position; otherwise the problem is logged and reading continues.
+- **Writing**: a model is written as it was read, including its documentation, MOF tags, stereotype applications and captured content, so that a document survives a read-write cycle. A selected `Package` can be written as well, where references to elements outside the selected package are either written as `href` references to the original document or the containing root packages are included in the written document, resulting in a self-contained XMI file. The writer can also write Canonical XMI (XMI 2.5.1 Annex B).
+
+> To learn more about how to read and write a UML model, read about it [here](https://github.com/STARIONGROUP/uml4net/wiki/uml4net.xmi.project)
 
 ## uml4net.xmi.Extensions.EnterpriseArchitect
 
@@ -49,7 +52,7 @@ The **uml4net.Tools** commandline application is used to generate reports on the
 
 # Installation
 
-The package are available on Nuget at:
+The packages are available on Nuget at:
 
   - [uml4net](https://www.nuget.org/packages/uml4net): ![NuGet Version](https://img.shields.io/nuget/v/uml4net)
   - [uml4net.Extensions](https://www.nuget.org/packages/uml4net.Extensions): ![NuGet Version](https://img.shields.io/nuget/v/uml4net.Extensions)
@@ -61,7 +64,7 @@ The package are available on Nuget at:
 
 # Reading a UML model
 
-Reading a UML model is straightforward and is done using the an `IXmiReader`. An instance of `IXmiReader` is created using the `XmiReaderBuilder`. Once the reader is available, point it to a UML model you want to read and you're of to the races:
+Reading a UML model is straightforward and is done using an `IXmiReader`. An instance of `IXmiReader` is created using the `XmiReaderBuilder`. Once the reader is available, point it to a UML model you want to read and you're off to the races:
 
 ```
 var reader = XmiReaderBuilder.Create()
@@ -76,6 +79,23 @@ var rootPackage = xmiReaderResult.QueryRoot("<xmi:id-of-the-root-package-you-are
 The `IXmiReader` can be configured with an `IXmiReaderSettings`, read more about reading an XMI document [here](https://github.com/STARIONGROUP/uml4net/wiki/uml4net.xmi.project)
 
 The `IXmiReader` is able to read and process **StereoTypes** as they are applied to UML model elements. Read more about that [here](https://github.com/STARIONGROUP/uml4net/wiki/ProfilesAndStereoTypes)
+
+# Writing a UML model
+
+A UML model is written using an `IXmiWriter`, which is created using the `XmiWriterBuilder`. Writing the top-level elements of the document that was read, together with its `XmiRoot`, writes the whole document back:
+
+```
+var writer = XmiWriterBuilder.Create()
+    .Build();
+
+writer.Write(xmiReaderResult.DocumentRootElements, "path-to-the-written-model", xmiReaderResult.XmiRoot);
+```
+
+The `IXmiWriter` can be configured with an `IXmiWriterSettings`, for example to write Canonical XMI; read more about writing an XMI document [here](https://github.com/STARIONGROUP/uml4net/wiki/uml4net.xmi.project)
+
+# Design Decisions
+
+Some choices in uml4net are deliberate and can look surprising at first, such as single-valued composite properties exposed as `IContainerList<T>`, `UnlimitedNatural` values as `string`, or the order in which the writer writes the properties. They are recorded, with their reasons, in [design-decisions.md](design-decisions.md).
 
 # Build Status
 
@@ -108,6 +128,6 @@ The uml4net libraries are provided to the community under the Apache License 2.0
 
 # Contributions
 
-Contributions to the code-base are welcome. However, before we can accept your contributions we ask any contributor to sign the Contributor License Agreement (CLA) and send this digitaly signed to s.gerene@stariongroup.eu. You can find the CLA's in the CLA folder.
+Contributions to the code-base are welcome. However, before we can accept your contributions we ask any contributor to sign the Contributor License Agreement (CLA) and send this digitally signed to s.gerene@stariongroup.eu. You can find the CLA's in the CLA folder.
 
 [Contribution guidelines for this project](.github/CONTRIBUTING.md)
