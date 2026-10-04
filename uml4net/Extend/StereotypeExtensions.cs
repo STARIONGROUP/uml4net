@@ -21,7 +21,6 @@
 namespace uml4net.Packages
 {
     using System;
-    using System.Data;
 
     /// <summary>
     /// The <see cref="StereotypeExtensions"/> class provides extensions methods for <see cref="IStereotype"/>
@@ -35,22 +34,24 @@ namespace uml4net.Packages
         /// The subject <see cref="IStereotype"/>
         /// </param>
         /// <returns>
-        /// The profile that directly or indirectly contains this stereotype.
+        /// The profile that directly or indirectly contains this stereotype; null when no owner of the stereotype is a
+        /// profile, for example a stereotype that is not (yet) owned (UML 2.5.1: containingProfile() is undefined)
         /// </returns>
         internal static IProfile QueryProfile(this IStereotype stereotype)
         {
-            var owner = stereotype.Owner;
-            while (owner is not IProfile)
+            if (stereotype == null)
             {
-                if (owner == null)
-                {
-                    throw new DataException($"The {nameof(stereotype)} does not seem to have a IProfile that is the container.");
-                }
+                throw new ArgumentNullException(nameof(stereotype));
+            }
 
+            var owner = stereotype.Owner;
+
+            while (owner != null && owner is not IProfile)
+            {
                 owner = owner.Owner;
             }
 
-            return (IProfile)owner;
+            return owner as IProfile;
         }
     }
 }
