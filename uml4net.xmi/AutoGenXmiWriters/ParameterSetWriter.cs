@@ -147,14 +147,9 @@ namespace uml4net.xmi.Writers
             }
 
 
-            foreach (var value in element.Parameter)
+            foreach (var value in element.Condition)
             {
-                this.XmiElementWriterFacade.WriteReferenceElement(xmlWriter, value, "parameter", writeContext);
-            }
-
-            foreach (var value in element.OwnedComment)
-            {
-                this.XmiElementWriterFacade.WriteContainedElement(xmlWriter, value, "ownedComment", writeContext);
+                this.XmiElementWriterFacade.WriteContainedElement(xmlWriter, value, "condition", writeContext);
             }
 
             foreach (var value in element.NameExpression)
@@ -162,9 +157,14 @@ namespace uml4net.xmi.Writers
                 this.XmiElementWriterFacade.WriteContainedElement(xmlWriter, value, "nameExpression", writeContext);
             }
 
-            foreach (var value in element.Condition)
+            foreach (var value in element.OwnedComment)
             {
-                this.XmiElementWriterFacade.WriteContainedElement(xmlWriter, value, "condition", writeContext);
+                this.XmiElementWriterFacade.WriteContainedElement(xmlWriter, value, "ownedComment", writeContext);
+            }
+
+            foreach (var value in element.Parameter)
+            {
+                this.XmiElementWriterFacade.WriteReferenceElement(xmlWriter, value, "parameter", writeContext);
             }
 
 
@@ -245,14 +245,9 @@ namespace uml4net.xmi.Writers
             }
 
 
-            foreach (var value in element.Parameter)
+            foreach (var value in element.Condition)
             {
-                await this.XmiElementWriterFacade.WriteReferenceElementAsync(xmlWriter, value, "parameter", writeContext);
-            }
-
-            foreach (var value in element.OwnedComment)
-            {
-                await this.XmiElementWriterFacade.WriteContainedElementAsync(xmlWriter, value, "ownedComment", writeContext);
+                await this.XmiElementWriterFacade.WriteContainedElementAsync(xmlWriter, value, "condition", writeContext);
             }
 
             foreach (var value in element.NameExpression)
@@ -260,9 +255,14 @@ namespace uml4net.xmi.Writers
                 await this.XmiElementWriterFacade.WriteContainedElementAsync(xmlWriter, value, "nameExpression", writeContext);
             }
 
-            foreach (var value in element.Condition)
+            foreach (var value in element.OwnedComment)
             {
-                await this.XmiElementWriterFacade.WriteContainedElementAsync(xmlWriter, value, "condition", writeContext);
+                await this.XmiElementWriterFacade.WriteContainedElementAsync(xmlWriter, value, "ownedComment", writeContext);
+            }
+
+            foreach (var value in element.Parameter)
+            {
+                await this.XmiElementWriterFacade.WriteReferenceElementAsync(xmlWriter, value, "parameter", writeContext);
             }
 
 

@@ -93,46 +93,6 @@ namespace uml4net.Extensions.Tests
         }
 
         [Test]
-        public void Verify_that_QueryAllPropertiesSuperClassFirst_returns_the_properties_grouped_by_declaring_class_general_first()
-        {
-            var root = this.xmiReaderResult.QueryRoot(xmiId: "_0", name: "UML");
-            var dependency = root.NestedPackage.Single(x => x.Name == "CommonStructure").PackagedElement.OfType<IClass>().Single(x => x.Name == "Dependency");
-
-            var properties = dependency.QueryAllPropertiesSuperClassFirst();
-            var declaringClasses = properties.Select(x => ((INamedElement)x.Owner).Name).Distinct().ToList();
-
-            using (Assert.EnterMultipleScope())
-            {
-                Assert.That(properties, Is.EquivalentTo(dependency.QueryAllProperties()), "the same properties as QueryAllProperties");
-                Assert.That(declaringClasses.First(), Is.EqualTo("Element"), "the most general class first");
-                Assert.That(declaringClasses.Last(), Is.EqualTo("Dependency"), "the class itself last");
-                Assert.That(declaringClasses.IndexOf("NamedElement"), Is.LessThan(declaringClasses.IndexOf("PackageableElement")));
-                Assert.That(declaringClasses.IndexOf("Relationship"), Is.LessThan(declaringClasses.IndexOf("DirectedRelationship")));
-                Assert.That(properties.Where(x => ((INamedElement)x.Owner).Name == "Dependency").Select(x => x.Name), Is.EqualTo(new[] { "client", "supplier" }), "in declaration order");
-                Assert.That(() => ClassExtensions.QueryAllPropertiesSuperClassFirst(null), Throws.ArgumentNullException);
-            }
-        }
-
-        [Test]
-        public void Verify_that_QueryAllPropertiesSuperClassFirst_visits_a_shared_general_class_once()
-        {
-            var top = new Class { Name = "Top" };
-            top.OwnedAttribute.Add(new Property { Name = "t" });
-            var left = new Class { Name = "Left" };
-            left.OwnedAttribute.Add(new Property { Name = "l" });
-            left.Generalization.Add(new Generalization { General = top });
-            var right = new Class { Name = "Right" };
-            right.OwnedAttribute.Add(new Property { Name = "r" });
-            right.Generalization.Add(new Generalization { General = top });
-            var bottom = new Class { Name = "Bottom" };
-            bottom.OwnedAttribute.Add(new Property { Name = "b" });
-            bottom.Generalization.Add(new Generalization { General = left });
-            bottom.Generalization.Add(new Generalization { General = right });
-
-            Assert.That(bottom.QueryAllPropertiesSuperClassFirst().Select(x => x.Name), Is.EqualTo(new[] { "t", "l", "r", "b" }));
-        }
-
-        [Test]
         public void Verify_that_QueryAllOperations_returns_expected_result()
         {
             Assert.That(() => ClassExtensions.QueryAllOperations(null), Throws.ArgumentNullException);

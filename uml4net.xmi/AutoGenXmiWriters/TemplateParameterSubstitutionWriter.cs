@@ -157,14 +157,14 @@ namespace uml4net.xmi.Writers
                 this.XmiElementWriterFacade.WriteReferenceElement(xmlWriter, element.Formal, "formal", writeContext);
             }
 
-            foreach (var value in element.OwnedComment)
-            {
-                this.XmiElementWriterFacade.WriteContainedElement(xmlWriter, value, "ownedComment", writeContext);
-            }
-
             foreach (var value in element.OwnedActual)
             {
                 this.XmiElementWriterFacade.WriteContainedElement(xmlWriter, value, "ownedActual", writeContext);
+            }
+
+            foreach (var value in element.OwnedComment)
+            {
+                this.XmiElementWriterFacade.WriteContainedElement(xmlWriter, value, "ownedComment", writeContext);
             }
 
 
@@ -255,14 +255,14 @@ namespace uml4net.xmi.Writers
                 await this.XmiElementWriterFacade.WriteReferenceElementAsync(xmlWriter, element.Formal, "formal", writeContext);
             }
 
-            foreach (var value in element.OwnedComment)
-            {
-                await this.XmiElementWriterFacade.WriteContainedElementAsync(xmlWriter, value, "ownedComment", writeContext);
-            }
-
             foreach (var value in element.OwnedActual)
             {
                 await this.XmiElementWriterFacade.WriteContainedElementAsync(xmlWriter, value, "ownedActual", writeContext);
+            }
+
+            foreach (var value in element.OwnedComment)
+            {
+                await this.XmiElementWriterFacade.WriteContainedElementAsync(xmlWriter, value, "ownedComment", writeContext);
             }
 
 

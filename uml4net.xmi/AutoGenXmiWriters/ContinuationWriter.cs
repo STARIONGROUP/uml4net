@@ -141,14 +141,14 @@ namespace uml4net.xmi.Writers
                 xmlWriter.WriteAttributeString("name", element.Name);
             }
 
-            if (element.Visibility.HasValue)
-            {
-                xmlWriter.WriteAttributeString("visibility", element.Visibility.Value.QueryXmiLiteral());
-            }
-
             if (!element.Setting)
             {
                 xmlWriter.WriteAttributeString("setting", XmlConvert.ToString(element.Setting));
+            }
+
+            if (element.Visibility.HasValue)
+            {
+                xmlWriter.WriteAttributeString("visibility", element.Visibility.Value.QueryXmiLiteral());
             }
 
 
@@ -157,9 +157,9 @@ namespace uml4net.xmi.Writers
                 this.XmiElementWriterFacade.WriteReferenceElement(xmlWriter, value, "covered", writeContext);
             }
 
-            foreach (var value in element.OwnedComment)
+            foreach (var value in element.GeneralOrdering)
             {
-                this.XmiElementWriterFacade.WriteContainedElement(xmlWriter, value, "ownedComment", writeContext);
+                this.XmiElementWriterFacade.WriteContainedElement(xmlWriter, value, "generalOrdering", writeContext);
             }
 
             foreach (var value in element.NameExpression)
@@ -167,9 +167,9 @@ namespace uml4net.xmi.Writers
                 this.XmiElementWriterFacade.WriteContainedElement(xmlWriter, value, "nameExpression", writeContext);
             }
 
-            foreach (var value in element.GeneralOrdering)
+            foreach (var value in element.OwnedComment)
             {
-                this.XmiElementWriterFacade.WriteContainedElement(xmlWriter, value, "generalOrdering", writeContext);
+                this.XmiElementWriterFacade.WriteContainedElement(xmlWriter, value, "ownedComment", writeContext);
             }
 
 
@@ -244,14 +244,14 @@ namespace uml4net.xmi.Writers
                 await xmlWriter.WriteAttributeStringAsync(null, "name", null, element.Name);
             }
 
-            if (element.Visibility.HasValue)
-            {
-                await xmlWriter.WriteAttributeStringAsync(null, "visibility", null, element.Visibility.Value.QueryXmiLiteral());
-            }
-
             if (!element.Setting)
             {
                 await xmlWriter.WriteAttributeStringAsync(null, "setting", null, XmlConvert.ToString(element.Setting));
+            }
+
+            if (element.Visibility.HasValue)
+            {
+                await xmlWriter.WriteAttributeStringAsync(null, "visibility", null, element.Visibility.Value.QueryXmiLiteral());
             }
 
 
@@ -260,9 +260,9 @@ namespace uml4net.xmi.Writers
                 await this.XmiElementWriterFacade.WriteReferenceElementAsync(xmlWriter, value, "covered", writeContext);
             }
 
-            foreach (var value in element.OwnedComment)
+            foreach (var value in element.GeneralOrdering)
             {
-                await this.XmiElementWriterFacade.WriteContainedElementAsync(xmlWriter, value, "ownedComment", writeContext);
+                await this.XmiElementWriterFacade.WriteContainedElementAsync(xmlWriter, value, "generalOrdering", writeContext);
             }
 
             foreach (var value in element.NameExpression)
@@ -270,9 +270,9 @@ namespace uml4net.xmi.Writers
                 await this.XmiElementWriterFacade.WriteContainedElementAsync(xmlWriter, value, "nameExpression", writeContext);
             }
 
-            foreach (var value in element.GeneralOrdering)
+            foreach (var value in element.OwnedComment)
             {
-                await this.XmiElementWriterFacade.WriteContainedElementAsync(xmlWriter, value, "generalOrdering", writeContext);
+                await this.XmiElementWriterFacade.WriteContainedElementAsync(xmlWriter, value, "ownedComment", writeContext);
             }
 
 

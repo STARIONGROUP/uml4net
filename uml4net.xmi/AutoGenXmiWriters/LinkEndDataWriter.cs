@@ -152,11 +152,6 @@ namespace uml4net.xmi.Writers
                 this.XmiElementWriterFacade.WriteReferenceElement(xmlWriter, element.End, "end", writeContext);
             }
 
-            if (element.Value != null && !writeContext.IsLocal(element.Value))
-            {
-                this.XmiElementWriterFacade.WriteReferenceElement(xmlWriter, element.Value, "value", writeContext);
-            }
-
             foreach (var value in element.OwnedComment)
             {
                 this.XmiElementWriterFacade.WriteContainedElement(xmlWriter, value, "ownedComment", writeContext);
@@ -165,6 +160,11 @@ namespace uml4net.xmi.Writers
             foreach (var value in element.Qualifier)
             {
                 this.XmiElementWriterFacade.WriteContainedElement(xmlWriter, value, "qualifier", writeContext);
+            }
+
+            if (element.Value != null && !writeContext.IsLocal(element.Value))
+            {
+                this.XmiElementWriterFacade.WriteReferenceElement(xmlWriter, element.Value, "value", writeContext);
             }
 
 
@@ -250,11 +250,6 @@ namespace uml4net.xmi.Writers
                 await this.XmiElementWriterFacade.WriteReferenceElementAsync(xmlWriter, element.End, "end", writeContext);
             }
 
-            if (element.Value != null && !writeContext.IsLocal(element.Value))
-            {
-                await this.XmiElementWriterFacade.WriteReferenceElementAsync(xmlWriter, element.Value, "value", writeContext);
-            }
-
             foreach (var value in element.OwnedComment)
             {
                 await this.XmiElementWriterFacade.WriteContainedElementAsync(xmlWriter, value, "ownedComment", writeContext);
@@ -263,6 +258,11 @@ namespace uml4net.xmi.Writers
             foreach (var value in element.Qualifier)
             {
                 await this.XmiElementWriterFacade.WriteContainedElementAsync(xmlWriter, value, "qualifier", writeContext);
+            }
+
+            if (element.Value != null && !writeContext.IsLocal(element.Value))
+            {
+                await this.XmiElementWriterFacade.WriteReferenceElementAsync(xmlWriter, element.Value, "value", writeContext);
             }
 
 

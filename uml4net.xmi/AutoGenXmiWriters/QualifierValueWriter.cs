@@ -147,6 +147,11 @@ namespace uml4net.xmi.Writers
             }
 
 
+            foreach (var value in element.OwnedComment)
+            {
+                this.XmiElementWriterFacade.WriteContainedElement(xmlWriter, value, "ownedComment", writeContext);
+            }
+
             if (element.Qualifier != null && !writeContext.IsLocal(element.Qualifier))
             {
                 this.XmiElementWriterFacade.WriteReferenceElement(xmlWriter, element.Qualifier, "qualifier", writeContext);
@@ -155,11 +160,6 @@ namespace uml4net.xmi.Writers
             if (element.Value != null && !writeContext.IsLocal(element.Value))
             {
                 this.XmiElementWriterFacade.WriteReferenceElement(xmlWriter, element.Value, "value", writeContext);
-            }
-
-            foreach (var value in element.OwnedComment)
-            {
-                this.XmiElementWriterFacade.WriteContainedElement(xmlWriter, value, "ownedComment", writeContext);
             }
 
 
@@ -240,6 +240,11 @@ namespace uml4net.xmi.Writers
             }
 
 
+            foreach (var value in element.OwnedComment)
+            {
+                await this.XmiElementWriterFacade.WriteContainedElementAsync(xmlWriter, value, "ownedComment", writeContext);
+            }
+
             if (element.Qualifier != null && !writeContext.IsLocal(element.Qualifier))
             {
                 await this.XmiElementWriterFacade.WriteReferenceElementAsync(xmlWriter, element.Qualifier, "qualifier", writeContext);
@@ -248,11 +253,6 @@ namespace uml4net.xmi.Writers
             if (element.Value != null && !writeContext.IsLocal(element.Value))
             {
                 await this.XmiElementWriterFacade.WriteReferenceElementAsync(xmlWriter, element.Value, "value", writeContext);
-            }
-
-            foreach (var value in element.OwnedComment)
-            {
-                await this.XmiElementWriterFacade.WriteContainedElementAsync(xmlWriter, value, "ownedComment", writeContext);
             }
 
 

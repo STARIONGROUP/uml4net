@@ -141,11 +141,6 @@ namespace uml4net.xmi.Writers
                 xmlWriter.WriteAttributeString("name", element.Name);
             }
 
-            if (element.Visibility.HasValue)
-            {
-                xmlWriter.WriteAttributeString("visibility", element.Visibility.Value.QueryXmiLiteral());
-            }
-
             if (element.RefersTo != null && writeContext.IsLocal(element.RefersTo))
             {
                 xmlWriter.WriteAttributeString("refersTo", element.RefersTo.XmiId);
@@ -156,36 +151,11 @@ namespace uml4net.xmi.Writers
                 xmlWriter.WriteAttributeString("returnValueRecipient", element.ReturnValueRecipient.XmiId);
             }
 
-
-            foreach (var value in element.Covered)
+            if (element.Visibility.HasValue)
             {
-                this.XmiElementWriterFacade.WriteReferenceElement(xmlWriter, value, "covered", writeContext);
+                xmlWriter.WriteAttributeString("visibility", element.Visibility.Value.QueryXmiLiteral());
             }
 
-            if (element.RefersTo != null && !writeContext.IsLocal(element.RefersTo))
-            {
-                this.XmiElementWriterFacade.WriteReferenceElement(xmlWriter, element.RefersTo, "refersTo", writeContext);
-            }
-
-            if (element.ReturnValueRecipient != null && !writeContext.IsLocal(element.ReturnValueRecipient))
-            {
-                this.XmiElementWriterFacade.WriteReferenceElement(xmlWriter, element.ReturnValueRecipient, "returnValueRecipient", writeContext);
-            }
-
-            foreach (var value in element.OwnedComment)
-            {
-                this.XmiElementWriterFacade.WriteContainedElement(xmlWriter, value, "ownedComment", writeContext);
-            }
-
-            foreach (var value in element.NameExpression)
-            {
-                this.XmiElementWriterFacade.WriteContainedElement(xmlWriter, value, "nameExpression", writeContext);
-            }
-
-            foreach (var value in element.GeneralOrdering)
-            {
-                this.XmiElementWriterFacade.WriteContainedElement(xmlWriter, value, "generalOrdering", writeContext);
-            }
 
             foreach (var value in element.ActualGate)
             {
@@ -197,9 +167,39 @@ namespace uml4net.xmi.Writers
                 this.XmiElementWriterFacade.WriteContainedElement(xmlWriter, value, "argument", writeContext);
             }
 
+            foreach (var value in element.Covered)
+            {
+                this.XmiElementWriterFacade.WriteReferenceElement(xmlWriter, value, "covered", writeContext);
+            }
+
+            foreach (var value in element.GeneralOrdering)
+            {
+                this.XmiElementWriterFacade.WriteContainedElement(xmlWriter, value, "generalOrdering", writeContext);
+            }
+
+            foreach (var value in element.NameExpression)
+            {
+                this.XmiElementWriterFacade.WriteContainedElement(xmlWriter, value, "nameExpression", writeContext);
+            }
+
+            foreach (var value in element.OwnedComment)
+            {
+                this.XmiElementWriterFacade.WriteContainedElement(xmlWriter, value, "ownedComment", writeContext);
+            }
+
+            if (element.RefersTo != null && !writeContext.IsLocal(element.RefersTo))
+            {
+                this.XmiElementWriterFacade.WriteReferenceElement(xmlWriter, element.RefersTo, "refersTo", writeContext);
+            }
+
             foreach (var value in element.ReturnValue)
             {
                 this.XmiElementWriterFacade.WriteContainedElement(xmlWriter, value, "returnValue", writeContext);
+            }
+
+            if (element.ReturnValueRecipient != null && !writeContext.IsLocal(element.ReturnValueRecipient))
+            {
+                this.XmiElementWriterFacade.WriteReferenceElement(xmlWriter, element.ReturnValueRecipient, "returnValueRecipient", writeContext);
             }
 
 
@@ -274,11 +274,6 @@ namespace uml4net.xmi.Writers
                 await xmlWriter.WriteAttributeStringAsync(null, "name", null, element.Name);
             }
 
-            if (element.Visibility.HasValue)
-            {
-                await xmlWriter.WriteAttributeStringAsync(null, "visibility", null, element.Visibility.Value.QueryXmiLiteral());
-            }
-
             if (element.RefersTo != null && writeContext.IsLocal(element.RefersTo))
             {
                 await xmlWriter.WriteAttributeStringAsync(null, "refersTo", null, element.RefersTo.XmiId);
@@ -289,36 +284,11 @@ namespace uml4net.xmi.Writers
                 await xmlWriter.WriteAttributeStringAsync(null, "returnValueRecipient", null, element.ReturnValueRecipient.XmiId);
             }
 
-
-            foreach (var value in element.Covered)
+            if (element.Visibility.HasValue)
             {
-                await this.XmiElementWriterFacade.WriteReferenceElementAsync(xmlWriter, value, "covered", writeContext);
+                await xmlWriter.WriteAttributeStringAsync(null, "visibility", null, element.Visibility.Value.QueryXmiLiteral());
             }
 
-            if (element.RefersTo != null && !writeContext.IsLocal(element.RefersTo))
-            {
-                await this.XmiElementWriterFacade.WriteReferenceElementAsync(xmlWriter, element.RefersTo, "refersTo", writeContext);
-            }
-
-            if (element.ReturnValueRecipient != null && !writeContext.IsLocal(element.ReturnValueRecipient))
-            {
-                await this.XmiElementWriterFacade.WriteReferenceElementAsync(xmlWriter, element.ReturnValueRecipient, "returnValueRecipient", writeContext);
-            }
-
-            foreach (var value in element.OwnedComment)
-            {
-                await this.XmiElementWriterFacade.WriteContainedElementAsync(xmlWriter, value, "ownedComment", writeContext);
-            }
-
-            foreach (var value in element.NameExpression)
-            {
-                await this.XmiElementWriterFacade.WriteContainedElementAsync(xmlWriter, value, "nameExpression", writeContext);
-            }
-
-            foreach (var value in element.GeneralOrdering)
-            {
-                await this.XmiElementWriterFacade.WriteContainedElementAsync(xmlWriter, value, "generalOrdering", writeContext);
-            }
 
             foreach (var value in element.ActualGate)
             {
@@ -330,9 +300,39 @@ namespace uml4net.xmi.Writers
                 await this.XmiElementWriterFacade.WriteContainedElementAsync(xmlWriter, value, "argument", writeContext);
             }
 
+            foreach (var value in element.Covered)
+            {
+                await this.XmiElementWriterFacade.WriteReferenceElementAsync(xmlWriter, value, "covered", writeContext);
+            }
+
+            foreach (var value in element.GeneralOrdering)
+            {
+                await this.XmiElementWriterFacade.WriteContainedElementAsync(xmlWriter, value, "generalOrdering", writeContext);
+            }
+
+            foreach (var value in element.NameExpression)
+            {
+                await this.XmiElementWriterFacade.WriteContainedElementAsync(xmlWriter, value, "nameExpression", writeContext);
+            }
+
+            foreach (var value in element.OwnedComment)
+            {
+                await this.XmiElementWriterFacade.WriteContainedElementAsync(xmlWriter, value, "ownedComment", writeContext);
+            }
+
+            if (element.RefersTo != null && !writeContext.IsLocal(element.RefersTo))
+            {
+                await this.XmiElementWriterFacade.WriteReferenceElementAsync(xmlWriter, element.RefersTo, "refersTo", writeContext);
+            }
+
             foreach (var value in element.ReturnValue)
             {
                 await this.XmiElementWriterFacade.WriteContainedElementAsync(xmlWriter, value, "returnValue", writeContext);
+            }
+
+            if (element.ReturnValueRecipient != null && !writeContext.IsLocal(element.ReturnValueRecipient))
+            {
+                await this.XmiElementWriterFacade.WriteReferenceElementAsync(xmlWriter, element.ReturnValueRecipient, "returnValueRecipient", writeContext);
             }
 
 

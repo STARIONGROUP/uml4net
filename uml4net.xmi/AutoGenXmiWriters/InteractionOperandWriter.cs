@@ -152,14 +152,14 @@ namespace uml4net.xmi.Writers
                 this.XmiElementWriterFacade.WriteReferenceElement(xmlWriter, value, "covered", writeContext);
             }
 
-            foreach (var value in element.OwnedComment)
+            foreach (var value in element.ElementImport)
             {
-                this.XmiElementWriterFacade.WriteContainedElement(xmlWriter, value, "ownedComment", writeContext);
+                this.XmiElementWriterFacade.WriteContainedElement(xmlWriter, value, "elementImport", writeContext);
             }
 
-            foreach (var value in element.NameExpression)
+            foreach (var value in element.Fragment)
             {
-                this.XmiElementWriterFacade.WriteContainedElement(xmlWriter, value, "nameExpression", writeContext);
+                this.XmiElementWriterFacade.WriteContainedElement(xmlWriter, value, "fragment", writeContext);
             }
 
             foreach (var value in element.GeneralOrdering)
@@ -167,9 +167,19 @@ namespace uml4net.xmi.Writers
                 this.XmiElementWriterFacade.WriteContainedElement(xmlWriter, value, "generalOrdering", writeContext);
             }
 
-            foreach (var value in element.ElementImport)
+            foreach (var value in element.Guard)
             {
-                this.XmiElementWriterFacade.WriteContainedElement(xmlWriter, value, "elementImport", writeContext);
+                this.XmiElementWriterFacade.WriteContainedElement(xmlWriter, value, "guard", writeContext);
+            }
+
+            foreach (var value in element.NameExpression)
+            {
+                this.XmiElementWriterFacade.WriteContainedElement(xmlWriter, value, "nameExpression", writeContext);
+            }
+
+            foreach (var value in element.OwnedComment)
+            {
+                this.XmiElementWriterFacade.WriteContainedElement(xmlWriter, value, "ownedComment", writeContext);
             }
 
             foreach (var value in element.OwnedRule)
@@ -180,16 +190,6 @@ namespace uml4net.xmi.Writers
             foreach (var value in element.PackageImport)
             {
                 this.XmiElementWriterFacade.WriteContainedElement(xmlWriter, value, "packageImport", writeContext);
-            }
-
-            foreach (var value in element.Fragment)
-            {
-                this.XmiElementWriterFacade.WriteContainedElement(xmlWriter, value, "fragment", writeContext);
-            }
-
-            foreach (var value in element.Guard)
-            {
-                this.XmiElementWriterFacade.WriteContainedElement(xmlWriter, value, "guard", writeContext);
             }
 
 
@@ -275,14 +275,14 @@ namespace uml4net.xmi.Writers
                 await this.XmiElementWriterFacade.WriteReferenceElementAsync(xmlWriter, value, "covered", writeContext);
             }
 
-            foreach (var value in element.OwnedComment)
+            foreach (var value in element.ElementImport)
             {
-                await this.XmiElementWriterFacade.WriteContainedElementAsync(xmlWriter, value, "ownedComment", writeContext);
+                await this.XmiElementWriterFacade.WriteContainedElementAsync(xmlWriter, value, "elementImport", writeContext);
             }
 
-            foreach (var value in element.NameExpression)
+            foreach (var value in element.Fragment)
             {
-                await this.XmiElementWriterFacade.WriteContainedElementAsync(xmlWriter, value, "nameExpression", writeContext);
+                await this.XmiElementWriterFacade.WriteContainedElementAsync(xmlWriter, value, "fragment", writeContext);
             }
 
             foreach (var value in element.GeneralOrdering)
@@ -290,9 +290,19 @@ namespace uml4net.xmi.Writers
                 await this.XmiElementWriterFacade.WriteContainedElementAsync(xmlWriter, value, "generalOrdering", writeContext);
             }
 
-            foreach (var value in element.ElementImport)
+            foreach (var value in element.Guard)
             {
-                await this.XmiElementWriterFacade.WriteContainedElementAsync(xmlWriter, value, "elementImport", writeContext);
+                await this.XmiElementWriterFacade.WriteContainedElementAsync(xmlWriter, value, "guard", writeContext);
+            }
+
+            foreach (var value in element.NameExpression)
+            {
+                await this.XmiElementWriterFacade.WriteContainedElementAsync(xmlWriter, value, "nameExpression", writeContext);
+            }
+
+            foreach (var value in element.OwnedComment)
+            {
+                await this.XmiElementWriterFacade.WriteContainedElementAsync(xmlWriter, value, "ownedComment", writeContext);
             }
 
             foreach (var value in element.OwnedRule)
@@ -303,16 +313,6 @@ namespace uml4net.xmi.Writers
             foreach (var value in element.PackageImport)
             {
                 await this.XmiElementWriterFacade.WriteContainedElementAsync(xmlWriter, value, "packageImport", writeContext);
-            }
-
-            foreach (var value in element.Fragment)
-            {
-                await this.XmiElementWriterFacade.WriteContainedElementAsync(xmlWriter, value, "fragment", writeContext);
-            }
-
-            foreach (var value in element.Guard)
-            {
-                await this.XmiElementWriterFacade.WriteContainedElementAsync(xmlWriter, value, "guard", writeContext);
             }
 
 

@@ -136,26 +136,6 @@ namespace uml4net.xmi.Writers
                 xmlWriter.WriteAttributeString("xmi", "uuid", this.XmiWriterSettings.XmiNamespaceUri, element.XmiGuid);
             }
 
-            if (!string.IsNullOrEmpty(element.Name))
-            {
-                xmlWriter.WriteAttributeString("name", element.Name);
-            }
-
-            if (element.Visibility.HasValue)
-            {
-                xmlWriter.WriteAttributeString("visibility", element.Visibility.Value.QueryXmiLiteral());
-            }
-
-            if (element.IsLeaf)
-            {
-                xmlWriter.WriteAttributeString("isLeaf", XmlConvert.ToString(element.IsLeaf));
-            }
-
-            if (element.IsStatic)
-            {
-                xmlWriter.WriteAttributeString("isStatic", XmlConvert.ToString(element.IsStatic));
-            }
-
             if (element.Concurrency != CallConcurrencyKind.Sequential)
             {
                 xmlWriter.WriteAttributeString("concurrency", element.Concurrency.QueryXmiLiteral());
@@ -166,9 +146,24 @@ namespace uml4net.xmi.Writers
                 xmlWriter.WriteAttributeString("isAbstract", XmlConvert.ToString(element.IsAbstract));
             }
 
+            if (element.IsLeaf)
+            {
+                xmlWriter.WriteAttributeString("isLeaf", XmlConvert.ToString(element.IsLeaf));
+            }
+
             if (element.IsQuery)
             {
                 xmlWriter.WriteAttributeString("isQuery", XmlConvert.ToString(element.IsQuery));
+            }
+
+            if (element.IsStatic)
+            {
+                xmlWriter.WriteAttributeString("isStatic", XmlConvert.ToString(element.IsStatic));
+            }
+
+            if (!string.IsNullOrEmpty(element.Name))
+            {
+                xmlWriter.WriteAttributeString("name", element.Name);
             }
 
             if (element.TemplateParameter != null && writeContext.IsLocal(element.TemplateParameter))
@@ -176,10 +171,70 @@ namespace uml4net.xmi.Writers
                 xmlWriter.WriteAttributeString("templateParameter", element.TemplateParameter.XmiId);
             }
 
+            if (element.Visibility.HasValue)
+            {
+                xmlWriter.WriteAttributeString("visibility", element.Visibility.Value.QueryXmiLiteral());
+            }
+
+
+            foreach (var value in element.BodyCondition)
+            {
+                this.XmiElementWriterFacade.WriteReferenceElement(xmlWriter, value, "bodyCondition", writeContext);
+            }
+
+            foreach (var value in element.ElementImport)
+            {
+                this.XmiElementWriterFacade.WriteContainedElement(xmlWriter, value, "elementImport", writeContext);
+            }
 
             foreach (var value in element.Method)
             {
                 this.XmiElementWriterFacade.WriteReferenceElement(xmlWriter, value, "method", writeContext);
+            }
+
+            foreach (var value in element.NameExpression)
+            {
+                this.XmiElementWriterFacade.WriteContainedElement(xmlWriter, value, "nameExpression", writeContext);
+            }
+
+            foreach (var value in element.OwnedComment)
+            {
+                this.XmiElementWriterFacade.WriteContainedElement(xmlWriter, value, "ownedComment", writeContext);
+            }
+
+            foreach (var value in element.OwnedParameter)
+            {
+                this.XmiElementWriterFacade.WriteContainedElement(xmlWriter, value, "ownedParameter", writeContext);
+            }
+
+            foreach (var value in element.OwnedParameterSet)
+            {
+                this.XmiElementWriterFacade.WriteContainedElement(xmlWriter, value, "ownedParameterSet", writeContext);
+            }
+
+            foreach (var value in element.OwnedRule)
+            {
+                this.XmiElementWriterFacade.WriteContainedElement(xmlWriter, value, "ownedRule", writeContext);
+            }
+
+            foreach (var value in element.OwnedTemplateSignature)
+            {
+                this.XmiElementWriterFacade.WriteContainedElement(xmlWriter, value, "ownedTemplateSignature", writeContext);
+            }
+
+            foreach (var value in element.PackageImport)
+            {
+                this.XmiElementWriterFacade.WriteContainedElement(xmlWriter, value, "packageImport", writeContext);
+            }
+
+            foreach (var value in element.Postcondition)
+            {
+                this.XmiElementWriterFacade.WriteReferenceElement(xmlWriter, value, "postcondition", writeContext);
+            }
+
+            foreach (var value in element.Precondition)
+            {
+                this.XmiElementWriterFacade.WriteReferenceElement(xmlWriter, value, "precondition", writeContext);
             }
 
             foreach (var value in element.RaisedException)
@@ -192,69 +247,14 @@ namespace uml4net.xmi.Writers
                 this.XmiElementWriterFacade.WriteReferenceElement(xmlWriter, value, "redefinedOperation", writeContext);
             }
 
-            if (element.TemplateParameter != null && !writeContext.IsLocal(element.TemplateParameter))
-            {
-                this.XmiElementWriterFacade.WriteReferenceElement(xmlWriter, element.TemplateParameter, "templateParameter", writeContext);
-            }
-
-            foreach (var value in element.OwnedComment)
-            {
-                this.XmiElementWriterFacade.WriteContainedElement(xmlWriter, value, "ownedComment", writeContext);
-            }
-
-            foreach (var value in element.OwnedTemplateSignature)
-            {
-                this.XmiElementWriterFacade.WriteContainedElement(xmlWriter, value, "ownedTemplateSignature", writeContext);
-            }
-
             foreach (var value in element.TemplateBinding)
             {
                 this.XmiElementWriterFacade.WriteContainedElement(xmlWriter, value, "templateBinding", writeContext);
             }
 
-            foreach (var value in element.NameExpression)
+            if (element.TemplateParameter != null && !writeContext.IsLocal(element.TemplateParameter))
             {
-                this.XmiElementWriterFacade.WriteContainedElement(xmlWriter, value, "nameExpression", writeContext);
-            }
-
-            foreach (var value in element.ElementImport)
-            {
-                this.XmiElementWriterFacade.WriteContainedElement(xmlWriter, value, "elementImport", writeContext);
-            }
-
-            foreach (var value in element.OwnedRule)
-            {
-                this.XmiElementWriterFacade.WriteContainedElement(xmlWriter, value, "ownedRule", writeContext);
-            }
-
-            foreach (var value in element.PackageImport)
-            {
-                this.XmiElementWriterFacade.WriteContainedElement(xmlWriter, value, "packageImport", writeContext);
-            }
-
-            foreach (var value in element.OwnedParameterSet)
-            {
-                this.XmiElementWriterFacade.WriteContainedElement(xmlWriter, value, "ownedParameterSet", writeContext);
-            }
-
-            foreach (var value in element.BodyCondition)
-            {
-                this.XmiElementWriterFacade.WriteReferenceElement(xmlWriter, value, "bodyCondition", writeContext);
-            }
-
-            foreach (var value in element.OwnedParameter)
-            {
-                this.XmiElementWriterFacade.WriteContainedElement(xmlWriter, value, "ownedParameter", writeContext);
-            }
-
-            foreach (var value in element.Postcondition)
-            {
-                this.XmiElementWriterFacade.WriteReferenceElement(xmlWriter, value, "postcondition", writeContext);
-            }
-
-            foreach (var value in element.Precondition)
-            {
-                this.XmiElementWriterFacade.WriteReferenceElement(xmlWriter, value, "precondition", writeContext);
+                this.XmiElementWriterFacade.WriteReferenceElement(xmlWriter, element.TemplateParameter, "templateParameter", writeContext);
             }
 
 
@@ -324,26 +324,6 @@ namespace uml4net.xmi.Writers
                 await xmlWriter.WriteAttributeStringAsync("xmi", "uuid", this.XmiWriterSettings.XmiNamespaceUri, element.XmiGuid);
             }
 
-            if (!string.IsNullOrEmpty(element.Name))
-            {
-                await xmlWriter.WriteAttributeStringAsync(null, "name", null, element.Name);
-            }
-
-            if (element.Visibility.HasValue)
-            {
-                await xmlWriter.WriteAttributeStringAsync(null, "visibility", null, element.Visibility.Value.QueryXmiLiteral());
-            }
-
-            if (element.IsLeaf)
-            {
-                await xmlWriter.WriteAttributeStringAsync(null, "isLeaf", null, XmlConvert.ToString(element.IsLeaf));
-            }
-
-            if (element.IsStatic)
-            {
-                await xmlWriter.WriteAttributeStringAsync(null, "isStatic", null, XmlConvert.ToString(element.IsStatic));
-            }
-
             if (element.Concurrency != CallConcurrencyKind.Sequential)
             {
                 await xmlWriter.WriteAttributeStringAsync(null, "concurrency", null, element.Concurrency.QueryXmiLiteral());
@@ -354,9 +334,24 @@ namespace uml4net.xmi.Writers
                 await xmlWriter.WriteAttributeStringAsync(null, "isAbstract", null, XmlConvert.ToString(element.IsAbstract));
             }
 
+            if (element.IsLeaf)
+            {
+                await xmlWriter.WriteAttributeStringAsync(null, "isLeaf", null, XmlConvert.ToString(element.IsLeaf));
+            }
+
             if (element.IsQuery)
             {
                 await xmlWriter.WriteAttributeStringAsync(null, "isQuery", null, XmlConvert.ToString(element.IsQuery));
+            }
+
+            if (element.IsStatic)
+            {
+                await xmlWriter.WriteAttributeStringAsync(null, "isStatic", null, XmlConvert.ToString(element.IsStatic));
+            }
+
+            if (!string.IsNullOrEmpty(element.Name))
+            {
+                await xmlWriter.WriteAttributeStringAsync(null, "name", null, element.Name);
             }
 
             if (element.TemplateParameter != null && writeContext.IsLocal(element.TemplateParameter))
@@ -364,10 +359,70 @@ namespace uml4net.xmi.Writers
                 await xmlWriter.WriteAttributeStringAsync(null, "templateParameter", null, element.TemplateParameter.XmiId);
             }
 
+            if (element.Visibility.HasValue)
+            {
+                await xmlWriter.WriteAttributeStringAsync(null, "visibility", null, element.Visibility.Value.QueryXmiLiteral());
+            }
+
+
+            foreach (var value in element.BodyCondition)
+            {
+                await this.XmiElementWriterFacade.WriteReferenceElementAsync(xmlWriter, value, "bodyCondition", writeContext);
+            }
+
+            foreach (var value in element.ElementImport)
+            {
+                await this.XmiElementWriterFacade.WriteContainedElementAsync(xmlWriter, value, "elementImport", writeContext);
+            }
 
             foreach (var value in element.Method)
             {
                 await this.XmiElementWriterFacade.WriteReferenceElementAsync(xmlWriter, value, "method", writeContext);
+            }
+
+            foreach (var value in element.NameExpression)
+            {
+                await this.XmiElementWriterFacade.WriteContainedElementAsync(xmlWriter, value, "nameExpression", writeContext);
+            }
+
+            foreach (var value in element.OwnedComment)
+            {
+                await this.XmiElementWriterFacade.WriteContainedElementAsync(xmlWriter, value, "ownedComment", writeContext);
+            }
+
+            foreach (var value in element.OwnedParameter)
+            {
+                await this.XmiElementWriterFacade.WriteContainedElementAsync(xmlWriter, value, "ownedParameter", writeContext);
+            }
+
+            foreach (var value in element.OwnedParameterSet)
+            {
+                await this.XmiElementWriterFacade.WriteContainedElementAsync(xmlWriter, value, "ownedParameterSet", writeContext);
+            }
+
+            foreach (var value in element.OwnedRule)
+            {
+                await this.XmiElementWriterFacade.WriteContainedElementAsync(xmlWriter, value, "ownedRule", writeContext);
+            }
+
+            foreach (var value in element.OwnedTemplateSignature)
+            {
+                await this.XmiElementWriterFacade.WriteContainedElementAsync(xmlWriter, value, "ownedTemplateSignature", writeContext);
+            }
+
+            foreach (var value in element.PackageImport)
+            {
+                await this.XmiElementWriterFacade.WriteContainedElementAsync(xmlWriter, value, "packageImport", writeContext);
+            }
+
+            foreach (var value in element.Postcondition)
+            {
+                await this.XmiElementWriterFacade.WriteReferenceElementAsync(xmlWriter, value, "postcondition", writeContext);
+            }
+
+            foreach (var value in element.Precondition)
+            {
+                await this.XmiElementWriterFacade.WriteReferenceElementAsync(xmlWriter, value, "precondition", writeContext);
             }
 
             foreach (var value in element.RaisedException)
@@ -380,69 +435,14 @@ namespace uml4net.xmi.Writers
                 await this.XmiElementWriterFacade.WriteReferenceElementAsync(xmlWriter, value, "redefinedOperation", writeContext);
             }
 
-            if (element.TemplateParameter != null && !writeContext.IsLocal(element.TemplateParameter))
-            {
-                await this.XmiElementWriterFacade.WriteReferenceElementAsync(xmlWriter, element.TemplateParameter, "templateParameter", writeContext);
-            }
-
-            foreach (var value in element.OwnedComment)
-            {
-                await this.XmiElementWriterFacade.WriteContainedElementAsync(xmlWriter, value, "ownedComment", writeContext);
-            }
-
-            foreach (var value in element.OwnedTemplateSignature)
-            {
-                await this.XmiElementWriterFacade.WriteContainedElementAsync(xmlWriter, value, "ownedTemplateSignature", writeContext);
-            }
-
             foreach (var value in element.TemplateBinding)
             {
                 await this.XmiElementWriterFacade.WriteContainedElementAsync(xmlWriter, value, "templateBinding", writeContext);
             }
 
-            foreach (var value in element.NameExpression)
+            if (element.TemplateParameter != null && !writeContext.IsLocal(element.TemplateParameter))
             {
-                await this.XmiElementWriterFacade.WriteContainedElementAsync(xmlWriter, value, "nameExpression", writeContext);
-            }
-
-            foreach (var value in element.ElementImport)
-            {
-                await this.XmiElementWriterFacade.WriteContainedElementAsync(xmlWriter, value, "elementImport", writeContext);
-            }
-
-            foreach (var value in element.OwnedRule)
-            {
-                await this.XmiElementWriterFacade.WriteContainedElementAsync(xmlWriter, value, "ownedRule", writeContext);
-            }
-
-            foreach (var value in element.PackageImport)
-            {
-                await this.XmiElementWriterFacade.WriteContainedElementAsync(xmlWriter, value, "packageImport", writeContext);
-            }
-
-            foreach (var value in element.OwnedParameterSet)
-            {
-                await this.XmiElementWriterFacade.WriteContainedElementAsync(xmlWriter, value, "ownedParameterSet", writeContext);
-            }
-
-            foreach (var value in element.BodyCondition)
-            {
-                await this.XmiElementWriterFacade.WriteReferenceElementAsync(xmlWriter, value, "bodyCondition", writeContext);
-            }
-
-            foreach (var value in element.OwnedParameter)
-            {
-                await this.XmiElementWriterFacade.WriteContainedElementAsync(xmlWriter, value, "ownedParameter", writeContext);
-            }
-
-            foreach (var value in element.Postcondition)
-            {
-                await this.XmiElementWriterFacade.WriteReferenceElementAsync(xmlWriter, value, "postcondition", writeContext);
-            }
-
-            foreach (var value in element.Precondition)
-            {
-                await this.XmiElementWriterFacade.WriteReferenceElementAsync(xmlWriter, value, "precondition", writeContext);
+                await this.XmiElementWriterFacade.WriteReferenceElementAsync(xmlWriter, element.TemplateParameter, "templateParameter", writeContext);
             }
 
 

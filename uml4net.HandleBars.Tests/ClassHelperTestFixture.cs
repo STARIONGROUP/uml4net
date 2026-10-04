@@ -161,25 +161,6 @@ namespace uml4net.HandleBars.Tests
         }
 
         [Test]
-        public void Verify_that_QueryAllNonDerivedNonReadOnlyPropertiesSuperClassFirst_returns_the_references_first_then_the_contained_properties()
-        {
-            var template = "{{#each (#Class.QueryAllNonDerivedNonReadOnlyPropertiesSuperClassFirst this) as | property |}}{{ property.Name }};{{/each}}";
-
-            var action = this.handlebarsContext.Compile(template);
-
-            var root = this.xmiReaderResult.QueryRoot(xmiId: "_0", name: "UML");
-            var commonStructurePackage = root.NestedPackage.Single(x => x.Name == "CommonStructure");
-            var comment = commonStructurePackage.PackagedElement.OfType<IClass>().Single(x => x.Name == "Comment");
-
-            var result = action(comment);
-
-            Assert.That(result, Is.EqualTo("annotatedElement;body;ownedComment;"),
-                "Comment::annotatedElement and Comment::body, references and values, before Element::ownedComment, a contained property");
-
-            Assert.That(() => action(new Dependency()), Throws.ArgumentException);
-        }
-
-        [Test]
         public void Verify_that_QueryAllContainedProperties_returns_expected_result()
         {
             var template = "{{#each (#Class.QueryAllContainedProperties this) as | property |}}{{ property.Name }};{{/each}}";

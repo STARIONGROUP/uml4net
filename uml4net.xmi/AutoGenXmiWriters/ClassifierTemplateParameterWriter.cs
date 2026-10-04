@@ -136,14 +136,14 @@ namespace uml4net.xmi.Writers
                 xmlWriter.WriteAttributeString("xmi", "uuid", this.XmiWriterSettings.XmiNamespaceUri, element.XmiGuid);
             }
 
-            if (element.Default != null && writeContext.IsLocal(element.Default))
-            {
-                xmlWriter.WriteAttributeString("default", element.Default.XmiId);
-            }
-
             if (!element.AllowSubstitutable)
             {
                 xmlWriter.WriteAttributeString("allowSubstitutable", XmlConvert.ToString(element.AllowSubstitutable));
+            }
+
+            if (element.Default != null && writeContext.IsLocal(element.Default))
+            {
+                xmlWriter.WriteAttributeString("default", element.Default.XmiId);
             }
 
             if (element.ParameteredElement != null && writeContext.IsLocal(element.ParameteredElement))
@@ -152,19 +152,14 @@ namespace uml4net.xmi.Writers
             }
 
 
-            if (element.Default != null && !writeContext.IsLocal(element.Default))
-            {
-                this.XmiElementWriterFacade.WriteReferenceElement(xmlWriter, element.Default, "default", writeContext);
-            }
-
             foreach (var value in element.ConstrainingClassifier)
             {
                 this.XmiElementWriterFacade.WriteReferenceElement(xmlWriter, value, "constrainingClassifier", writeContext);
             }
 
-            if (element.ParameteredElement != null && !writeContext.IsLocal(element.ParameteredElement))
+            if (element.Default != null && !writeContext.IsLocal(element.Default))
             {
-                this.XmiElementWriterFacade.WriteReferenceElement(xmlWriter, element.ParameteredElement, "parameteredElement", writeContext);
+                this.XmiElementWriterFacade.WriteReferenceElement(xmlWriter, element.Default, "default", writeContext);
             }
 
             foreach (var value in element.OwnedComment)
@@ -180,6 +175,11 @@ namespace uml4net.xmi.Writers
             foreach (var value in element.OwnedParameteredElement)
             {
                 this.XmiElementWriterFacade.WriteContainedElement(xmlWriter, value, "ownedParameteredElement", writeContext);
+            }
+
+            if (element.ParameteredElement != null && !writeContext.IsLocal(element.ParameteredElement))
+            {
+                this.XmiElementWriterFacade.WriteReferenceElement(xmlWriter, element.ParameteredElement, "parameteredElement", writeContext);
             }
 
 
@@ -249,14 +249,14 @@ namespace uml4net.xmi.Writers
                 await xmlWriter.WriteAttributeStringAsync("xmi", "uuid", this.XmiWriterSettings.XmiNamespaceUri, element.XmiGuid);
             }
 
-            if (element.Default != null && writeContext.IsLocal(element.Default))
-            {
-                await xmlWriter.WriteAttributeStringAsync(null, "default", null, element.Default.XmiId);
-            }
-
             if (!element.AllowSubstitutable)
             {
                 await xmlWriter.WriteAttributeStringAsync(null, "allowSubstitutable", null, XmlConvert.ToString(element.AllowSubstitutable));
+            }
+
+            if (element.Default != null && writeContext.IsLocal(element.Default))
+            {
+                await xmlWriter.WriteAttributeStringAsync(null, "default", null, element.Default.XmiId);
             }
 
             if (element.ParameteredElement != null && writeContext.IsLocal(element.ParameteredElement))
@@ -265,19 +265,14 @@ namespace uml4net.xmi.Writers
             }
 
 
-            if (element.Default != null && !writeContext.IsLocal(element.Default))
-            {
-                await this.XmiElementWriterFacade.WriteReferenceElementAsync(xmlWriter, element.Default, "default", writeContext);
-            }
-
             foreach (var value in element.ConstrainingClassifier)
             {
                 await this.XmiElementWriterFacade.WriteReferenceElementAsync(xmlWriter, value, "constrainingClassifier", writeContext);
             }
 
-            if (element.ParameteredElement != null && !writeContext.IsLocal(element.ParameteredElement))
+            if (element.Default != null && !writeContext.IsLocal(element.Default))
             {
-                await this.XmiElementWriterFacade.WriteReferenceElementAsync(xmlWriter, element.ParameteredElement, "parameteredElement", writeContext);
+                await this.XmiElementWriterFacade.WriteReferenceElementAsync(xmlWriter, element.Default, "default", writeContext);
             }
 
             foreach (var value in element.OwnedComment)
@@ -293,6 +288,11 @@ namespace uml4net.xmi.Writers
             foreach (var value in element.OwnedParameteredElement)
             {
                 await this.XmiElementWriterFacade.WriteContainedElementAsync(xmlWriter, value, "ownedParameteredElement", writeContext);
+            }
+
+            if (element.ParameteredElement != null && !writeContext.IsLocal(element.ParameteredElement))
+            {
+                await this.XmiElementWriterFacade.WriteReferenceElementAsync(xmlWriter, element.ParameteredElement, "parameteredElement", writeContext);
             }
 
 

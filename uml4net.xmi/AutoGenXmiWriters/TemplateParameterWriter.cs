@@ -152,11 +152,6 @@ namespace uml4net.xmi.Writers
                 this.XmiElementWriterFacade.WriteReferenceElement(xmlWriter, element.Default, "default", writeContext);
             }
 
-            if (element.ParameteredElement != null && !writeContext.IsLocal(element.ParameteredElement))
-            {
-                this.XmiElementWriterFacade.WriteReferenceElement(xmlWriter, element.ParameteredElement, "parameteredElement", writeContext);
-            }
-
             foreach (var value in element.OwnedComment)
             {
                 this.XmiElementWriterFacade.WriteContainedElement(xmlWriter, value, "ownedComment", writeContext);
@@ -170,6 +165,11 @@ namespace uml4net.xmi.Writers
             foreach (var value in element.OwnedParameteredElement)
             {
                 this.XmiElementWriterFacade.WriteContainedElement(xmlWriter, value, "ownedParameteredElement", writeContext);
+            }
+
+            if (element.ParameteredElement != null && !writeContext.IsLocal(element.ParameteredElement))
+            {
+                this.XmiElementWriterFacade.WriteReferenceElement(xmlWriter, element.ParameteredElement, "parameteredElement", writeContext);
             }
 
 
@@ -255,11 +255,6 @@ namespace uml4net.xmi.Writers
                 await this.XmiElementWriterFacade.WriteReferenceElementAsync(xmlWriter, element.Default, "default", writeContext);
             }
 
-            if (element.ParameteredElement != null && !writeContext.IsLocal(element.ParameteredElement))
-            {
-                await this.XmiElementWriterFacade.WriteReferenceElementAsync(xmlWriter, element.ParameteredElement, "parameteredElement", writeContext);
-            }
-
             foreach (var value in element.OwnedComment)
             {
                 await this.XmiElementWriterFacade.WriteContainedElementAsync(xmlWriter, value, "ownedComment", writeContext);
@@ -273,6 +268,11 @@ namespace uml4net.xmi.Writers
             foreach (var value in element.OwnedParameteredElement)
             {
                 await this.XmiElementWriterFacade.WriteContainedElementAsync(xmlWriter, value, "ownedParameteredElement", writeContext);
+            }
+
+            if (element.ParameteredElement != null && !writeContext.IsLocal(element.ParameteredElement))
+            {
+                await this.XmiElementWriterFacade.WriteReferenceElementAsync(xmlWriter, element.ParameteredElement, "parameteredElement", writeContext);
             }
 
 
