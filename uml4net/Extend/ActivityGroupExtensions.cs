@@ -60,7 +60,8 @@ namespace uml4net.Activities
         /// <summary>
         /// Queries the ActivityNodes immediately contained in the ActivityGroup. Per the UML 2.5.1 metamodel this
         /// is a derived union: <see cref="IActivityPartition.Node"/>, <see cref="IInterruptibleActivityRegion.Node"/>,
-        /// and <see cref="IStructuredActivityNode.Node"/> each subset it.
+        /// and <see cref="IStructuredActivityNode.Node"/> each subset it. <see cref="ISequenceNode.ExecutableNode"/>
+        /// redefines <see cref="IStructuredActivityNode.Node"/>, so it holds the contained nodes of a SequenceNode.
         /// </summary>
         /// <param name="activityGroup">
         /// The subject <see cref="IActivityGroup"/>
@@ -79,6 +80,7 @@ namespace uml4net.Activities
             {
                 IActivityPartition activityPartition => activityPartition.Node.ToList(),
                 IInterruptibleActivityRegion interruptibleActivityRegion => interruptibleActivityRegion.Node.ToList(),
+                ISequenceNode sequenceNode => sequenceNode.ExecutableNode.Cast<IActivityNode>().ToList(),
                 IStructuredActivityNode structuredActivityNode => structuredActivityNode.Node.ToList(),
                 _ => new List<IActivityNode>()
             };
