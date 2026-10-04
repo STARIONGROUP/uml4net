@@ -106,5 +106,25 @@ namespace uml4net.Tests.Extend
                 Assert.That(structuredActivityNode.SuperGroup, Is.Null);
             }
         }
+
+        [Test]
+        public void Verify_that_SequenceNode_contributes_its_executable_nodes_to_containedNode()
+        {
+            var sequenceNode = new SequenceNode { Name = "Sequence" };
+
+            Assert.That(sequenceNode.ContainedNode, Is.Empty);
+
+            var first = new OpaqueAction { Name = "First" };
+            var second = new CallBehaviorAction { Name = "Second" };
+            sequenceNode.ExecutableNode.Add(first);
+            sequenceNode.ExecutableNode.Add(second);
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(sequenceNode.ContainedNode, Is.EqualTo(new IActivityNode[] { first, second }), "executableNode redefines node, which subsets containedNode");
+                Assert.That(sequenceNode.Subgroup, Is.Empty);
+                Assert.That(sequenceNode.SuperGroup, Is.Null);
+            }
+        }
     }
 }
