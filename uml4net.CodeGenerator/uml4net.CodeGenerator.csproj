@@ -3,7 +3,7 @@
     <PropertyGroup>
         <TargetFramework>net10.0</TargetFramework>
         <LangVersion>14.0</LangVersion>
-        <Version>1.0.3</Version>
+        <Version>2.0.0</Version>
         <Description>A Library to generate UML code code.</Description>
         <PackageId>uml4net.CodeGenerator</PackageId>
         <ImplicitUsings>false</ImplicitUsings>

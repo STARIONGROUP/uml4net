@@ -2,7 +2,7 @@
 
     <PropertyGroup>
         <TargetFramework>netstandard2.0</TargetFramework>
-        <Version>8.5.1</Version>
+        <Version>9.0.0</Version>
         <LangVersion>12.0</LangVersion>
         <PackageId>uml4net.xmi</PackageId>
         <AssemblyTitle>uml4net.xmi</AssemblyTitle>
@@ -10,7 +10,41 @@
         <Description>An XMI implementation for the .NET implementation of the OMG UML v2.5.1 specification.</Description>
         <PackageTags>UML XMI modeltopia</PackageTags>
         <PackageReleaseNotes>
-            [Fix] read composite subsetting reference properties (e.g. Operation.BodyCondition) serialized as XML attributes; fixes #266
+            [Fix] bounds-check TryResolveContext split to avoid IndexOutOfRangeException; fixes #174
+            [Fix] map bare PrimitiveTypes.xmi/PrimitiveTypes keys to the PrimitiveTypes embedded resource instead of UML.xmi; fixes #176
+            [Feature] read any UML element as an XMI document root; part of #77
+            [Fix] write owned elements defined in another document as href proxies; fixes #332
+            [Feature] write documents whose root elements are not packages, or that have several root elements; fixes #330
+            [Feature] opt-in ThrowOnUnresolvedReferences reader setting; fixes #331
+            [Fix] read value and skipped elements in place so compact XMI is read completely; fixes #362
+            [Fix] resolve XMI and UML namespace prefixes instead of matching uml:/xmi: literally; fixes #363
+            [Fix] parse Boolean, Integer and Real values per XML Schema lexical forms; fixes #364
+            [Fix] cache elements without xmi:id under a unique key so their references are resolved; fixes #365
+            [Fix] skip unknown elements as a whole when strict reading is off; fixes #366
+            [Fix] write enumeration values with the literal names of the UML metamodel; fixes #376
+            [Fix] ignore serialized derived properties instead of throwing in strict mode; fixes #367
+            [Fix] read xsi:nil="true" as a null value for value, reference and contained elements; fixes #368
+            [Fix] report invalid enumeration literals, repeated single-valued references and duplicate xmi:id with element, property and position; fixes #371
+            [Fix] read and write the xmi:Extension elements inside xmi:Documentation; fixes #372
+            [Fix] keep the roots, tags and extensions of the document read apart from those of external documents; fixes #381
+            [Fix] resolve relative hrefs against the referencing document and map remote hrefs to local copies by their full URI; fixes #382
+            [Feat] support xlink:href simple links and XPointer xmi:uuid references; fixes #383
+            [Fix] set the owner end of a composite association on containment, and do not write it; fixes #432
+            [Breaking] optional [0..1] Boolean, Integer, Real and Enumeration properties are nullable; fixes #357, fixes #347
+            [Fix] the emulation of allInstances() covers every root and every document of a read; fixes #356
+            [Fix] MOF tags (mofext:Tag) are written; fixes #374
+            [Fix] the writer documentation points to DocumentRootElements to write a document back; fixes #457
+            [Fix] the writer always writes a mandatory value without a metamodel default; fixes #375
+            [Fix] StandardProfile stereotype applications and UMLDI content at document level are read; fixes #370
+            [Fix] a referenced root package without xmi:id is reported instead of written as href document#; fixes #378
+            [Fix] the OMG DD DI.xmi, DC.xmi and DG.xmi documents are embedded and mapped; fixes #373
+            [Fix] a referenced element that is not written and has no document name is reported instead of written as href #id; fixes #468
+            [Improvement] exporterID is documented as the Enterprise Architect extension of the Documentation that is kept for the round trip; fixes #379
+            [Feature] captured Diagram Interchange and unprocessed document-level content is written back through the XmiRoot writer overloads; fixes #466
+            [Fix] the writer uses xmi:documentation and xmi:extension with their xmi:type underneath xmi:XMI and in model elements; fixes #377
+            [Feature] stereotype applications are resolved, their tagged values typed, queryable per element and written back; fixes #465
+            [Feature] the writer can write Canonical XMI (XMI 2.5.1 Annex B) with the UseCanonicalXmi setting; fixes #385
+            [Improvement] single-valued composite properties enforce their upper bound; fixes #480
         </PackageReleaseNotes>
     </PropertyGroup>
 
