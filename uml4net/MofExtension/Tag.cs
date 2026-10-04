@@ -35,6 +35,11 @@ namespace uml4net.Mof.Extension
         public string XmiId { get; set; }
 
         /// <summary>
+        /// Gets or sets the persistent identity of the Tag, its <c>xmi:uuid</c>, if any
+        /// </summary>
+        public string XmiUuid { get; set; }
+
+        /// <summary>
         /// Gets or sets the name of the xmi type
         /// </summary>
         public string XmiType { get; set; }

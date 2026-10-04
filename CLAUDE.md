@@ -59,7 +59,7 @@ Generated files contain the marker: `THIS IS AN AUTOMATICALLY GENERATED FILE. AN
 ### Key Types & Patterns
 
 - **Entry point (reading)**: `XmiReaderBuilder.Create().Build()` returns an `IXmiReader`
-- **Entry point (writing)**: `XmiWriterBuilder.Create().Build()` returns an `IXmiWriter`; `IXmiWriterSettings.ExternalReferenceResolution` selects href vs include handling of external references
+- **Entry point (writing)**: `XmiWriterBuilder.Create().Build()` returns an `IXmiWriter`; `IXmiWriterSettings.ExternalReferenceResolution` selects href vs include handling of external references; `IXmiWriterSettings.UseCanonicalXmi` writes Canonical XMI (XMI 2.5.1 Annex B: element form, canonical order, B.6 ids derived from the model, two-pass write in `XmiWriter`), otherwise ids are written as read
 - **IElement** is the root interface for all UML elements
 - **IContainerList\<T\>** manages owned element collections
 - **IXmiElementCache** provides element lookup by XMI ID

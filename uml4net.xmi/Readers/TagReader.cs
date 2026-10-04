@@ -115,6 +115,8 @@ namespace uml4net.xmi.Readers
 
                 tag.XmiId = xmlReader.GetAttribute("id", this.nameSpaceResolver.XmiNameSpace);
 
+                tag.XmiUuid = xmlReader.GetAttribute("uuid", this.nameSpaceResolver.XmiNameSpace);
+
                 tag.Name = xmlReader.GetAttribute("name") ?? xmlReader.GetAttribute("name", namespaceUri);
                 tag.Value = xmlReader.GetAttribute("value") ?? xmlReader.GetAttribute("value", namespaceUri);
 
@@ -124,26 +126,46 @@ namespace uml4net.xmi.Readers
                     tag.Element.AddRange(elementAttributeValue.Split(' '));
                 }
 
-                while (xmlReader.Read())
+                // the properties may also be serialized as child elements, as Canonical XMI does (XMI 2.5.1 Annex B.2 rule 5);
+                // reading the content of name and value moves the reader past their end tag, hence the explicit loop
+                xmlReader.Read();
+
+                while (!xmlReader.EOF)
                 {
-                    if (xmlReader.NodeType == XmlNodeType.Element)
+                    if (xmlReader.NodeType != XmlNodeType.Element)
                     {
-                        var activeNamespaceUri = string.IsNullOrEmpty(xmlReader.NamespaceURI) ? namespaceUri : xmlReader.NamespaceURI;
+                        xmlReader.Read();
+                        continue;
+                    }
 
-                        var activePrefix = this.nameSpaceResolver.ResolvePrefix(activeNamespaceUri);
+                    var activeNamespaceUri = string.IsNullOrEmpty(xmlReader.NamespaceURI) ? namespaceUri : xmlReader.NamespaceURI;
 
-                        switch (activePrefix, xmlReader.LocalName)
-                        {
-                            case (KnowNamespacePrefixes.MofExt, "element"):
+                    var activePrefix = this.nameSpaceResolver.ResolvePrefix(activeNamespaceUri);
 
-                                elementAttributeValue = xmlReader.GetAttribute("idref") ?? xmlReader.GetAttribute("idref", this.nameSpaceResolver.XmiNameSpace);
+                    switch (activePrefix, xmlReader.LocalName)
+                    {
+                        case (KnowNamespacePrefixes.MofExt, "element"):
 
-                                if (!string.IsNullOrEmpty(elementAttributeValue))
-                                {
-                                    tag.Element.Add(elementAttributeValue);
-                                }
-                                break;
-                        }
+                            elementAttributeValue = xmlReader.GetAttribute("idref")
+                                                    ?? xmlReader.GetAttribute("idref", this.nameSpaceResolver.XmiNameSpace)
+                                                    ?? xmlReader.GetAttribute("href");
+
+                            if (!string.IsNullOrEmpty(elementAttributeValue))
+                            {
+                                tag.Element.Add(elementAttributeValue);
+                            }
+
+                            xmlReader.Read();
+                            break;
+                        case (KnowNamespacePrefixes.MofExt, "name"):
+                            tag.Name = xmlReader.ReadElementContentAsString();
+                            break;
+                        case (KnowNamespacePrefixes.MofExt, "value"):
+                            tag.Value = xmlReader.ReadElementContentAsString();
+                            break;
+                        default:
+                            xmlReader.Read();
+                            break;
                     }
                 }
             }

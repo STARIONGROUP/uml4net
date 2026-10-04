@@ -26,6 +26,7 @@ namespace uml4net.xmi.Writers
 {
     using System;
     using System.CodeDom.Compiler;
+    using System.Linq;
     using System.Threading.Tasks;
     using System.Xml;
 
@@ -117,6 +118,34 @@ namespace uml4net.xmi.Writers
                 throw new ArgumentNullException(nameof(writeContext));
             }
 
+            if (writeContext.IsCanonical)
+            {
+                this.WriteCanonical(xmlWriter, element, elementName, writeContext);
+            }
+            else
+            {
+                this.WriteDefault(xmlWriter, element, elementName, writeContext);
+            }
+        }
+
+        /// <summary>
+        /// Writes the <see cref="IInteraction"/> object as default, non-canonical, XMI: the identifiers as read, the
+        /// single values as XML attributes, the properties in alphabetical order, and the extensions
+        /// </summary>
+        /// <param name="xmlWriter">
+        /// an instance of <see cref="XmlWriter"/>
+        /// </param>
+        /// <param name="element">
+        /// The <see cref="IInteraction"/> that is to be written
+        /// </param>
+        /// <param name="elementName">
+        /// The name of the XML element that is written
+        /// </param>
+        /// <param name="writeContext">
+        /// The <see cref="IXmiWriteContext"/> that captures the state of the write operation
+        /// </param>
+        private void WriteDefault(XmlWriter xmlWriter, IInteraction element, string elementName, IXmiWriteContext writeContext)
+        {
             if (element.Extensions.Count > 0)
             {
                 this.logger.LogTrace("writing the {Count} Extension(s) of the Interaction with id [{Id}]", element.Extensions.Count, element.XmiId);
@@ -425,6 +454,37 @@ namespace uml4net.xmi.Writers
                 throw new ArgumentNullException(nameof(writeContext));
             }
 
+            if (writeContext.IsCanonical)
+            {
+                await this.WriteCanonicalAsync(xmlWriter, element, elementName, writeContext);
+            }
+            else
+            {
+                await this.WriteDefaultAsync(xmlWriter, element, elementName, writeContext);
+            }
+        }
+
+        /// <summary>
+        /// Asynchronously writes the <see cref="IInteraction"/> object as default, non-canonical, XMI: the identifiers
+        /// as read, the single values as XML attributes, the properties in alphabetical order, and the extensions
+        /// </summary>
+        /// <param name="xmlWriter">
+        /// an instance of <see cref="XmlWriter"/>
+        /// </param>
+        /// <param name="element">
+        /// The <see cref="IInteraction"/> that is to be written
+        /// </param>
+        /// <param name="elementName">
+        /// The name of the XML element that is written
+        /// </param>
+        /// <param name="writeContext">
+        /// The <see cref="IXmiWriteContext"/> that captures the state of the write operation
+        /// </param>
+        /// <returns>
+        /// an awaitable <see cref="Task"/>
+        /// </returns>
+        private async Task WriteDefaultAsync(XmlWriter xmlWriter, IInteraction element, string elementName, IXmiWriteContext writeContext)
+        {
             if (element.Extensions.Count > 0)
             {
                 this.logger.LogTrace("writing the {Count} Extension(s) of the Interaction with id [{Id}]", element.Extensions.Count, element.XmiId);
@@ -691,6 +751,505 @@ namespace uml4net.xmi.Writers
             await this.WriteExtensionsAsync(xmlWriter, element.Extensions);
 
             await xmlWriter.WriteEndElementAsync();
+        }
+
+        /// <summary>
+        /// Writes the <see cref="IInteraction"/> object as Canonical XMI (XMI 2.5.1 Annex B): xmi:id, xmi:uuid and
+        /// xmi:type, then every property as an XML element in the canonical order, without extensions
+        /// </summary>
+        /// <param name="xmlWriter">
+        /// an instance of <see cref="XmlWriter"/>
+        /// </param>
+        /// <param name="element">
+        /// The <see cref="IInteraction"/> that is to be written
+        /// </param>
+        /// <param name="elementName">
+        /// The name of the XML element that is written
+        /// </param>
+        /// <param name="writeContext">
+        /// The <see cref="IXmiWriteContext"/> that captures the state of the write operation
+        /// </param>
+        private void WriteCanonical(XmlWriter xmlWriter, IInteraction element, string elementName, IXmiWriteContext writeContext)
+        {
+            this.WriteCanonicalStartElement(xmlWriter, element, elementName, "uml:Interaction", writeContext);
+
+            foreach (var value in writeContext.QueryCanonicalOrder(element.OwnedComment, true))
+            {
+                this.XmiElementWriterFacade.WriteContainedElement(xmlWriter, value, "ownedComment", writeContext);
+            }
+
+            if (!string.IsNullOrEmpty(element.Name))
+            {
+                WriteValueElement(xmlWriter, "name", element.Name);
+            }
+
+            foreach (var value in writeContext.QueryCanonicalOrder(element.NameExpression, true))
+            {
+                this.XmiElementWriterFacade.WriteContainedElement(xmlWriter, value, "nameExpression", writeContext);
+            }
+
+            if (element.Visibility.HasValue && element.Visibility.Value != VisibilityKind.Public)
+            {
+                WriteValueElement(xmlWriter, "visibility", element.Visibility.Value.QueryXmiLiteral());
+            }
+
+            foreach (var value in writeContext.QueryCanonicalOrder(element.ElementImport, true))
+            {
+                this.XmiElementWriterFacade.WriteContainedElement(xmlWriter, value, "elementImport", writeContext);
+            }
+
+            foreach (var value in writeContext.QueryCanonicalOrder(element.OwnedRule, true))
+            {
+                this.XmiElementWriterFacade.WriteContainedElement(xmlWriter, value, "ownedRule", writeContext);
+            }
+
+            foreach (var value in writeContext.QueryCanonicalOrder(element.PackageImport, true))
+            {
+                this.XmiElementWriterFacade.WriteContainedElement(xmlWriter, value, "packageImport", writeContext);
+            }
+
+            if (element.IsLeaf)
+            {
+                WriteValueElement(xmlWriter, "isLeaf", XmlConvert.ToString(element.IsLeaf));
+            }
+
+            foreach (var value in writeContext.QueryCanonicalOrder(element.OwnedTemplateSignature, true))
+            {
+                this.XmiElementWriterFacade.WriteContainedElement(xmlWriter, value, "ownedTemplateSignature", writeContext);
+            }
+
+            foreach (var value in writeContext.QueryCanonicalOrder(element.TemplateBinding, true))
+            {
+                this.XmiElementWriterFacade.WriteContainedElement(xmlWriter, value, "templateBinding", writeContext);
+            }
+
+            if (element.TemplateParameter != null)
+            {
+                this.XmiElementWriterFacade.WriteReferenceElement(xmlWriter, element.TemplateParameter, "templateParameter", writeContext);
+            }
+
+            foreach (var value in writeContext.QueryCanonicalOrder(element.CollaborationUse, true))
+            {
+                this.XmiElementWriterFacade.WriteContainedElement(xmlWriter, value, "collaborationUse", writeContext);
+            }
+
+            foreach (var value in writeContext.QueryCanonicalOrder(element.Generalization, true))
+            {
+                this.XmiElementWriterFacade.WriteContainedElement(xmlWriter, value, "generalization", writeContext);
+            }
+
+            if (element.IsAbstract)
+            {
+                WriteValueElement(xmlWriter, "isAbstract", XmlConvert.ToString(element.IsAbstract));
+            }
+
+            if (element.IsFinalSpecialization)
+            {
+                WriteValueElement(xmlWriter, "isFinalSpecialization", XmlConvert.ToString(element.IsFinalSpecialization));
+            }
+
+            foreach (var value in writeContext.QueryCanonicalOrder(element.OwnedUseCase, true))
+            {
+                this.XmiElementWriterFacade.WriteContainedElement(xmlWriter, value, "ownedUseCase", writeContext);
+            }
+
+            foreach (var value in writeContext.QueryCanonicalOrder(element.PowertypeExtent, false))
+            {
+                this.XmiElementWriterFacade.WriteReferenceElement(xmlWriter, value, "powertypeExtent", writeContext);
+            }
+
+            foreach (var value in writeContext.QueryCanonicalOrder(element.RedefinedClassifier, false))
+            {
+                this.XmiElementWriterFacade.WriteReferenceElement(xmlWriter, value, "redefinedClassifier", writeContext);
+            }
+
+            if (element.Representation != null)
+            {
+                this.XmiElementWriterFacade.WriteReferenceElement(xmlWriter, element.Representation, "representation", writeContext);
+            }
+
+            foreach (var value in writeContext.QueryCanonicalOrder(element.Substitution, true))
+            {
+                this.XmiElementWriterFacade.WriteContainedElement(xmlWriter, value, "substitution", writeContext);
+            }
+
+            foreach (var value in writeContext.QueryCanonicalOrder(element.UseCases, false))
+            {
+                this.XmiElementWriterFacade.WriteReferenceElement(xmlWriter, value, "useCases", writeContext);
+            }
+
+            if (element.ClassifierBehavior != null)
+            {
+                this.XmiElementWriterFacade.WriteReferenceElement(xmlWriter, element.ClassifierBehavior, "classifierBehavior", writeContext);
+            }
+
+            foreach (var value in writeContext.QueryCanonicalOrder(element.InterfaceRealization, true))
+            {
+                this.XmiElementWriterFacade.WriteContainedElement(xmlWriter, value, "interfaceRealization", writeContext);
+            }
+
+            foreach (var value in writeContext.QueryCanonicalOrder(element.OwnedBehavior, true))
+            {
+                this.XmiElementWriterFacade.WriteContainedElement(xmlWriter, value, "ownedBehavior", writeContext);
+            }
+
+            foreach (var value in element.OwnedAttribute)
+            {
+                this.XmiElementWriterFacade.WriteContainedElement(xmlWriter, value, "ownedAttribute", writeContext);
+            }
+
+            foreach (var value in writeContext.QueryCanonicalOrder(element.OwnedConnector, true))
+            {
+                this.XmiElementWriterFacade.WriteContainedElement(xmlWriter, value, "ownedConnector", writeContext);
+            }
+
+            if (element.IsActive)
+            {
+                WriteValueElement(xmlWriter, "isActive", XmlConvert.ToString(element.IsActive));
+            }
+
+            foreach (var value in element.NestedClassifier)
+            {
+                this.XmiElementWriterFacade.WriteContainedElement(xmlWriter, value, "nestedClassifier", writeContext);
+            }
+
+            foreach (var value in element.OwnedOperation)
+            {
+                this.XmiElementWriterFacade.WriteContainedElement(xmlWriter, value, "ownedOperation", writeContext);
+            }
+
+            foreach (var value in writeContext.QueryCanonicalOrder(element.OwnedReception, true))
+            {
+                this.XmiElementWriterFacade.WriteContainedElement(xmlWriter, value, "ownedReception", writeContext);
+            }
+
+            if (!element.IsReentrant)
+            {
+                WriteValueElement(xmlWriter, "isReentrant", XmlConvert.ToString(element.IsReentrant));
+            }
+
+            foreach (var value in element.OwnedParameter)
+            {
+                this.XmiElementWriterFacade.WriteContainedElement(xmlWriter, value, "ownedParameter", writeContext);
+            }
+
+            foreach (var value in writeContext.QueryCanonicalOrder(element.OwnedParameterSet, true))
+            {
+                this.XmiElementWriterFacade.WriteContainedElement(xmlWriter, value, "ownedParameterSet", writeContext);
+            }
+
+            foreach (var value in writeContext.QueryCanonicalOrder(element.Postcondition, false))
+            {
+                this.XmiElementWriterFacade.WriteReferenceElement(xmlWriter, value, "postcondition", writeContext);
+            }
+
+            foreach (var value in writeContext.QueryCanonicalOrder(element.Precondition, false))
+            {
+                this.XmiElementWriterFacade.WriteReferenceElement(xmlWriter, value, "precondition", writeContext);
+            }
+
+            if (element.Specification != null)
+            {
+                this.XmiElementWriterFacade.WriteReferenceElement(xmlWriter, element.Specification, "specification", writeContext);
+            }
+
+            foreach (var value in writeContext.QueryCanonicalOrder(element.RedefinedBehavior, false))
+            {
+                this.XmiElementWriterFacade.WriteReferenceElement(xmlWriter, value, "redefinedBehavior", writeContext);
+            }
+
+            foreach (var value in writeContext.QueryCanonicalOrder(element.Covered, false))
+            {
+                this.XmiElementWriterFacade.WriteReferenceElement(xmlWriter, value, "covered", writeContext);
+            }
+
+            foreach (var value in writeContext.QueryCanonicalOrder(element.GeneralOrdering, true))
+            {
+                this.XmiElementWriterFacade.WriteContainedElement(xmlWriter, value, "generalOrdering", writeContext);
+            }
+
+            foreach (var value in writeContext.QueryCanonicalOrder(element.Action, true))
+            {
+                this.XmiElementWriterFacade.WriteContainedElement(xmlWriter, value, "action", writeContext);
+            }
+
+            foreach (var value in writeContext.QueryCanonicalOrder(element.FormalGate, true))
+            {
+                this.XmiElementWriterFacade.WriteContainedElement(xmlWriter, value, "formalGate", writeContext);
+            }
+
+            foreach (var value in element.Fragment)
+            {
+                this.XmiElementWriterFacade.WriteContainedElement(xmlWriter, value, "fragment", writeContext);
+            }
+
+            foreach (var value in writeContext.QueryCanonicalOrder(element.Lifeline, true))
+            {
+                this.XmiElementWriterFacade.WriteContainedElement(xmlWriter, value, "lifeline", writeContext);
+            }
+
+            foreach (var value in writeContext.QueryCanonicalOrder(element.Message, true))
+            {
+                this.XmiElementWriterFacade.WriteContainedElement(xmlWriter, value, "message", writeContext);
+            }
+
+
+            WriteUnresolvedReferences(xmlWriter, element.UnresolvedReferences);
+
+            xmlWriter.WriteFullEndElement();
+
+            writeContext.EndCanonicalObject();
+        }
+
+        /// <summary>
+        /// Asynchronously writes the <see cref="IInteraction"/> object as Canonical XMI (XMI 2.5.1 Annex B): xmi:id,
+        /// xmi:uuid and xmi:type, then every property as an XML element in the canonical order, without extensions
+        /// </summary>
+        /// <param name="xmlWriter">
+        /// an instance of <see cref="XmlWriter"/>
+        /// </param>
+        /// <param name="element">
+        /// The <see cref="IInteraction"/> that is to be written
+        /// </param>
+        /// <param name="elementName">
+        /// The name of the XML element that is written
+        /// </param>
+        /// <param name="writeContext">
+        /// The <see cref="IXmiWriteContext"/> that captures the state of the write operation
+        /// </param>
+        /// <returns>
+        /// an awaitable <see cref="Task"/>
+        /// </returns>
+        private async Task WriteCanonicalAsync(XmlWriter xmlWriter, IInteraction element, string elementName, IXmiWriteContext writeContext)
+        {
+            await this.WriteCanonicalStartElementAsync(xmlWriter, element, elementName, "uml:Interaction", writeContext);
+
+            foreach (var value in writeContext.QueryCanonicalOrder(element.OwnedComment, true))
+            {
+                await this.XmiElementWriterFacade.WriteContainedElementAsync(xmlWriter, value, "ownedComment", writeContext);
+            }
+
+            if (!string.IsNullOrEmpty(element.Name))
+            {
+                await WriteValueElementAsync(xmlWriter, "name", element.Name);
+            }
+
+            foreach (var value in writeContext.QueryCanonicalOrder(element.NameExpression, true))
+            {
+                await this.XmiElementWriterFacade.WriteContainedElementAsync(xmlWriter, value, "nameExpression", writeContext);
+            }
+
+            if (element.Visibility.HasValue && element.Visibility.Value != VisibilityKind.Public)
+            {
+                await WriteValueElementAsync(xmlWriter, "visibility", element.Visibility.Value.QueryXmiLiteral());
+            }
+
+            foreach (var value in writeContext.QueryCanonicalOrder(element.ElementImport, true))
+            {
+                await this.XmiElementWriterFacade.WriteContainedElementAsync(xmlWriter, value, "elementImport", writeContext);
+            }
+
+            foreach (var value in writeContext.QueryCanonicalOrder(element.OwnedRule, true))
+            {
+                await this.XmiElementWriterFacade.WriteContainedElementAsync(xmlWriter, value, "ownedRule", writeContext);
+            }
+
+            foreach (var value in writeContext.QueryCanonicalOrder(element.PackageImport, true))
+            {
+                await this.XmiElementWriterFacade.WriteContainedElementAsync(xmlWriter, value, "packageImport", writeContext);
+            }
+
+            if (element.IsLeaf)
+            {
+                await WriteValueElementAsync(xmlWriter, "isLeaf", XmlConvert.ToString(element.IsLeaf));
+            }
+
+            foreach (var value in writeContext.QueryCanonicalOrder(element.OwnedTemplateSignature, true))
+            {
+                await this.XmiElementWriterFacade.WriteContainedElementAsync(xmlWriter, value, "ownedTemplateSignature", writeContext);
+            }
+
+            foreach (var value in writeContext.QueryCanonicalOrder(element.TemplateBinding, true))
+            {
+                await this.XmiElementWriterFacade.WriteContainedElementAsync(xmlWriter, value, "templateBinding", writeContext);
+            }
+
+            if (element.TemplateParameter != null)
+            {
+                await this.XmiElementWriterFacade.WriteReferenceElementAsync(xmlWriter, element.TemplateParameter, "templateParameter", writeContext);
+            }
+
+            foreach (var value in writeContext.QueryCanonicalOrder(element.CollaborationUse, true))
+            {
+                await this.XmiElementWriterFacade.WriteContainedElementAsync(xmlWriter, value, "collaborationUse", writeContext);
+            }
+
+            foreach (var value in writeContext.QueryCanonicalOrder(element.Generalization, true))
+            {
+                await this.XmiElementWriterFacade.WriteContainedElementAsync(xmlWriter, value, "generalization", writeContext);
+            }
+
+            if (element.IsAbstract)
+            {
+                await WriteValueElementAsync(xmlWriter, "isAbstract", XmlConvert.ToString(element.IsAbstract));
+            }
+
+            if (element.IsFinalSpecialization)
+            {
+                await WriteValueElementAsync(xmlWriter, "isFinalSpecialization", XmlConvert.ToString(element.IsFinalSpecialization));
+            }
+
+            foreach (var value in writeContext.QueryCanonicalOrder(element.OwnedUseCase, true))
+            {
+                await this.XmiElementWriterFacade.WriteContainedElementAsync(xmlWriter, value, "ownedUseCase", writeContext);
+            }
+
+            foreach (var value in writeContext.QueryCanonicalOrder(element.PowertypeExtent, false))
+            {
+                await this.XmiElementWriterFacade.WriteReferenceElementAsync(xmlWriter, value, "powertypeExtent", writeContext);
+            }
+
+            foreach (var value in writeContext.QueryCanonicalOrder(element.RedefinedClassifier, false))
+            {
+                await this.XmiElementWriterFacade.WriteReferenceElementAsync(xmlWriter, value, "redefinedClassifier", writeContext);
+            }
+
+            if (element.Representation != null)
+            {
+                await this.XmiElementWriterFacade.WriteReferenceElementAsync(xmlWriter, element.Representation, "representation", writeContext);
+            }
+
+            foreach (var value in writeContext.QueryCanonicalOrder(element.Substitution, true))
+            {
+                await this.XmiElementWriterFacade.WriteContainedElementAsync(xmlWriter, value, "substitution", writeContext);
+            }
+
+            foreach (var value in writeContext.QueryCanonicalOrder(element.UseCases, false))
+            {
+                await this.XmiElementWriterFacade.WriteReferenceElementAsync(xmlWriter, value, "useCases", writeContext);
+            }
+
+            if (element.ClassifierBehavior != null)
+            {
+                await this.XmiElementWriterFacade.WriteReferenceElementAsync(xmlWriter, element.ClassifierBehavior, "classifierBehavior", writeContext);
+            }
+
+            foreach (var value in writeContext.QueryCanonicalOrder(element.InterfaceRealization, true))
+            {
+                await this.XmiElementWriterFacade.WriteContainedElementAsync(xmlWriter, value, "interfaceRealization", writeContext);
+            }
+
+            foreach (var value in writeContext.QueryCanonicalOrder(element.OwnedBehavior, true))
+            {
+                await this.XmiElementWriterFacade.WriteContainedElementAsync(xmlWriter, value, "ownedBehavior", writeContext);
+            }
+
+            foreach (var value in element.OwnedAttribute)
+            {
+                await this.XmiElementWriterFacade.WriteContainedElementAsync(xmlWriter, value, "ownedAttribute", writeContext);
+            }
+
+            foreach (var value in writeContext.QueryCanonicalOrder(element.OwnedConnector, true))
+            {
+                await this.XmiElementWriterFacade.WriteContainedElementAsync(xmlWriter, value, "ownedConnector", writeContext);
+            }
+
+            if (element.IsActive)
+            {
+                await WriteValueElementAsync(xmlWriter, "isActive", XmlConvert.ToString(element.IsActive));
+            }
+
+            foreach (var value in element.NestedClassifier)
+            {
+                await this.XmiElementWriterFacade.WriteContainedElementAsync(xmlWriter, value, "nestedClassifier", writeContext);
+            }
+
+            foreach (var value in element.OwnedOperation)
+            {
+                await this.XmiElementWriterFacade.WriteContainedElementAsync(xmlWriter, value, "ownedOperation", writeContext);
+            }
+
+            foreach (var value in writeContext.QueryCanonicalOrder(element.OwnedReception, true))
+            {
+                await this.XmiElementWriterFacade.WriteContainedElementAsync(xmlWriter, value, "ownedReception", writeContext);
+            }
+
+            if (!element.IsReentrant)
+            {
+                await WriteValueElementAsync(xmlWriter, "isReentrant", XmlConvert.ToString(element.IsReentrant));
+            }
+
+            foreach (var value in element.OwnedParameter)
+            {
+                await this.XmiElementWriterFacade.WriteContainedElementAsync(xmlWriter, value, "ownedParameter", writeContext);
+            }
+
+            foreach (var value in writeContext.QueryCanonicalOrder(element.OwnedParameterSet, true))
+            {
+                await this.XmiElementWriterFacade.WriteContainedElementAsync(xmlWriter, value, "ownedParameterSet", writeContext);
+            }
+
+            foreach (var value in writeContext.QueryCanonicalOrder(element.Postcondition, false))
+            {
+                await this.XmiElementWriterFacade.WriteReferenceElementAsync(xmlWriter, value, "postcondition", writeContext);
+            }
+
+            foreach (var value in writeContext.QueryCanonicalOrder(element.Precondition, false))
+            {
+                await this.XmiElementWriterFacade.WriteReferenceElementAsync(xmlWriter, value, "precondition", writeContext);
+            }
+
+            if (element.Specification != null)
+            {
+                await this.XmiElementWriterFacade.WriteReferenceElementAsync(xmlWriter, element.Specification, "specification", writeContext);
+            }
+
+            foreach (var value in writeContext.QueryCanonicalOrder(element.RedefinedBehavior, false))
+            {
+                await this.XmiElementWriterFacade.WriteReferenceElementAsync(xmlWriter, value, "redefinedBehavior", writeContext);
+            }
+
+            foreach (var value in writeContext.QueryCanonicalOrder(element.Covered, false))
+            {
+                await this.XmiElementWriterFacade.WriteReferenceElementAsync(xmlWriter, value, "covered", writeContext);
+            }
+
+            foreach (var value in writeContext.QueryCanonicalOrder(element.GeneralOrdering, true))
+            {
+                await this.XmiElementWriterFacade.WriteContainedElementAsync(xmlWriter, value, "generalOrdering", writeContext);
+            }
+
+            foreach (var value in writeContext.QueryCanonicalOrder(element.Action, true))
+            {
+                await this.XmiElementWriterFacade.WriteContainedElementAsync(xmlWriter, value, "action", writeContext);
+            }
+
+            foreach (var value in writeContext.QueryCanonicalOrder(element.FormalGate, true))
+            {
+                await this.XmiElementWriterFacade.WriteContainedElementAsync(xmlWriter, value, "formalGate", writeContext);
+            }
+
+            foreach (var value in element.Fragment)
+            {
+                await this.XmiElementWriterFacade.WriteContainedElementAsync(xmlWriter, value, "fragment", writeContext);
+            }
+
+            foreach (var value in writeContext.QueryCanonicalOrder(element.Lifeline, true))
+            {
+                await this.XmiElementWriterFacade.WriteContainedElementAsync(xmlWriter, value, "lifeline", writeContext);
+            }
+
+            foreach (var value in writeContext.QueryCanonicalOrder(element.Message, true))
+            {
+                await this.XmiElementWriterFacade.WriteContainedElementAsync(xmlWriter, value, "message", writeContext);
+            }
+
+
+            await WriteUnresolvedReferencesAsync(xmlWriter, element.UnresolvedReferences);
+
+            await xmlWriter.WriteFullEndElementAsync();
+
+            writeContext.EndCanonicalObject();
         }
     }
 }

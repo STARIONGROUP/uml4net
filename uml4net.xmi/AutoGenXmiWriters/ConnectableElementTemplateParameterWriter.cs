@@ -26,6 +26,7 @@ namespace uml4net.xmi.Writers
 {
     using System;
     using System.CodeDom.Compiler;
+    using System.Linq;
     using System.Threading.Tasks;
     using System.Xml;
 
@@ -117,6 +118,34 @@ namespace uml4net.xmi.Writers
                 throw new ArgumentNullException(nameof(writeContext));
             }
 
+            if (writeContext.IsCanonical)
+            {
+                this.WriteCanonical(xmlWriter, element, elementName, writeContext);
+            }
+            else
+            {
+                this.WriteDefault(xmlWriter, element, elementName, writeContext);
+            }
+        }
+
+        /// <summary>
+        /// Writes the <see cref="IConnectableElementTemplateParameter"/> object as default, non-canonical, XMI: the identifiers as read, the
+        /// single values as XML attributes, the properties in alphabetical order, and the extensions
+        /// </summary>
+        /// <param name="xmlWriter">
+        /// an instance of <see cref="XmlWriter"/>
+        /// </param>
+        /// <param name="element">
+        /// The <see cref="IConnectableElementTemplateParameter"/> that is to be written
+        /// </param>
+        /// <param name="elementName">
+        /// The name of the XML element that is written
+        /// </param>
+        /// <param name="writeContext">
+        /// The <see cref="IXmiWriteContext"/> that captures the state of the write operation
+        /// </param>
+        private void WriteDefault(XmlWriter xmlWriter, IConnectableElementTemplateParameter element, string elementName, IXmiWriteContext writeContext)
+        {
             if (element.Extensions.Count > 0)
             {
                 this.logger.LogTrace("writing the {Count} Extension(s) of the ConnectableElementTemplateParameter with id [{Id}]", element.Extensions.Count, element.XmiId);
@@ -220,6 +249,37 @@ namespace uml4net.xmi.Writers
                 throw new ArgumentNullException(nameof(writeContext));
             }
 
+            if (writeContext.IsCanonical)
+            {
+                await this.WriteCanonicalAsync(xmlWriter, element, elementName, writeContext);
+            }
+            else
+            {
+                await this.WriteDefaultAsync(xmlWriter, element, elementName, writeContext);
+            }
+        }
+
+        /// <summary>
+        /// Asynchronously writes the <see cref="IConnectableElementTemplateParameter"/> object as default, non-canonical, XMI: the identifiers
+        /// as read, the single values as XML attributes, the properties in alphabetical order, and the extensions
+        /// </summary>
+        /// <param name="xmlWriter">
+        /// an instance of <see cref="XmlWriter"/>
+        /// </param>
+        /// <param name="element">
+        /// The <see cref="IConnectableElementTemplateParameter"/> that is to be written
+        /// </param>
+        /// <param name="elementName">
+        /// The name of the XML element that is written
+        /// </param>
+        /// <param name="writeContext">
+        /// The <see cref="IXmiWriteContext"/> that captures the state of the write operation
+        /// </param>
+        /// <returns>
+        /// an awaitable <see cref="Task"/>
+        /// </returns>
+        private async Task WriteDefaultAsync(XmlWriter xmlWriter, IConnectableElementTemplateParameter element, string elementName, IXmiWriteContext writeContext)
+        {
             if (element.Extensions.Count > 0)
             {
                 this.logger.LogTrace("writing the {Count} Extension(s) of the ConnectableElementTemplateParameter with id [{Id}]", element.Extensions.Count, element.XmiId);
@@ -281,6 +341,115 @@ namespace uml4net.xmi.Writers
             await this.WriteExtensionsAsync(xmlWriter, element.Extensions);
 
             await xmlWriter.WriteEndElementAsync();
+        }
+
+        /// <summary>
+        /// Writes the <see cref="IConnectableElementTemplateParameter"/> object as Canonical XMI (XMI 2.5.1 Annex B): xmi:id, xmi:uuid and
+        /// xmi:type, then every property as an XML element in the canonical order, without extensions
+        /// </summary>
+        /// <param name="xmlWriter">
+        /// an instance of <see cref="XmlWriter"/>
+        /// </param>
+        /// <param name="element">
+        /// The <see cref="IConnectableElementTemplateParameter"/> that is to be written
+        /// </param>
+        /// <param name="elementName">
+        /// The name of the XML element that is written
+        /// </param>
+        /// <param name="writeContext">
+        /// The <see cref="IXmiWriteContext"/> that captures the state of the write operation
+        /// </param>
+        private void WriteCanonical(XmlWriter xmlWriter, IConnectableElementTemplateParameter element, string elementName, IXmiWriteContext writeContext)
+        {
+            this.WriteCanonicalStartElement(xmlWriter, element, elementName, "uml:ConnectableElementTemplateParameter", writeContext);
+
+            foreach (var value in writeContext.QueryCanonicalOrder(element.OwnedComment, true))
+            {
+                this.XmiElementWriterFacade.WriteContainedElement(xmlWriter, value, "ownedComment", writeContext);
+            }
+
+            if (element.Default != null)
+            {
+                this.XmiElementWriterFacade.WriteReferenceElement(xmlWriter, element.Default, "default", writeContext);
+            }
+
+            foreach (var value in writeContext.QueryCanonicalOrder(element.OwnedDefault, true))
+            {
+                this.XmiElementWriterFacade.WriteContainedElement(xmlWriter, value, "ownedDefault", writeContext);
+            }
+
+            foreach (var value in writeContext.QueryCanonicalOrder(element.OwnedParameteredElement, true))
+            {
+                this.XmiElementWriterFacade.WriteContainedElement(xmlWriter, value, "ownedParameteredElement", writeContext);
+            }
+
+            if (element.ParameteredElement != null)
+            {
+                this.XmiElementWriterFacade.WriteReferenceElement(xmlWriter, element.ParameteredElement, "parameteredElement", writeContext);
+            }
+
+
+            WriteUnresolvedReferences(xmlWriter, element.UnresolvedReferences);
+
+            xmlWriter.WriteFullEndElement();
+
+            writeContext.EndCanonicalObject();
+        }
+
+        /// <summary>
+        /// Asynchronously writes the <see cref="IConnectableElementTemplateParameter"/> object as Canonical XMI (XMI 2.5.1 Annex B): xmi:id,
+        /// xmi:uuid and xmi:type, then every property as an XML element in the canonical order, without extensions
+        /// </summary>
+        /// <param name="xmlWriter">
+        /// an instance of <see cref="XmlWriter"/>
+        /// </param>
+        /// <param name="element">
+        /// The <see cref="IConnectableElementTemplateParameter"/> that is to be written
+        /// </param>
+        /// <param name="elementName">
+        /// The name of the XML element that is written
+        /// </param>
+        /// <param name="writeContext">
+        /// The <see cref="IXmiWriteContext"/> that captures the state of the write operation
+        /// </param>
+        /// <returns>
+        /// an awaitable <see cref="Task"/>
+        /// </returns>
+        private async Task WriteCanonicalAsync(XmlWriter xmlWriter, IConnectableElementTemplateParameter element, string elementName, IXmiWriteContext writeContext)
+        {
+            await this.WriteCanonicalStartElementAsync(xmlWriter, element, elementName, "uml:ConnectableElementTemplateParameter", writeContext);
+
+            foreach (var value in writeContext.QueryCanonicalOrder(element.OwnedComment, true))
+            {
+                await this.XmiElementWriterFacade.WriteContainedElementAsync(xmlWriter, value, "ownedComment", writeContext);
+            }
+
+            if (element.Default != null)
+            {
+                await this.XmiElementWriterFacade.WriteReferenceElementAsync(xmlWriter, element.Default, "default", writeContext);
+            }
+
+            foreach (var value in writeContext.QueryCanonicalOrder(element.OwnedDefault, true))
+            {
+                await this.XmiElementWriterFacade.WriteContainedElementAsync(xmlWriter, value, "ownedDefault", writeContext);
+            }
+
+            foreach (var value in writeContext.QueryCanonicalOrder(element.OwnedParameteredElement, true))
+            {
+                await this.XmiElementWriterFacade.WriteContainedElementAsync(xmlWriter, value, "ownedParameteredElement", writeContext);
+            }
+
+            if (element.ParameteredElement != null)
+            {
+                await this.XmiElementWriterFacade.WriteReferenceElementAsync(xmlWriter, element.ParameteredElement, "parameteredElement", writeContext);
+            }
+
+
+            await WriteUnresolvedReferencesAsync(xmlWriter, element.UnresolvedReferences);
+
+            await xmlWriter.WriteFullEndElementAsync();
+
+            writeContext.EndCanonicalObject();
         }
     }
 }

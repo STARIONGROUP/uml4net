@@ -1224,119 +1224,12 @@ namespace uml4net.HandleBars
                     return;
                 }
 
-                if (property.QueryIsPrimitiveType())
+                string WriteAttribute(string valueExpression) => isAsync
+                    ? $"await xmlWriter.WriteAttributeStringAsync(null, \"{property.Name}\", null, {valueExpression});"
+                    : $"xmlWriter.WriteAttributeString(\"{property.Name}\", {valueExpression});";
+
+                if (TryWriteScalarValue(sb, property, pocoPropertyName, WriteAttribute))
                 {
-                    var cSharpTypeName = property.QueryCSharpTypeName();
-
-                    switch (cSharpTypeName)
-                    {
-                        case "bool" when property.QueryIsNullableValueType():
-                            // an optional value is written when it is set and differs from the metamodel default, if any
-                            sb.AppendLine(property.QueryIsDefaultValueDifferentThanDefault()
-                                ? $"if (element.{pocoPropertyName}.HasValue && element.{pocoPropertyName}.Value != {property.QueryDefaultValueAsString()})"
-                                : $"if (element.{pocoPropertyName}.HasValue)");
-                            sb.AppendLine("{");
-                            sb.AppendLine(isAsync
-                                ? $"await xmlWriter.WriteAttributeStringAsync(null, \"{property.Name}\", null, XmlConvert.ToString(element.{pocoPropertyName}.Value));"
-                                : $"xmlWriter.WriteAttributeString(\"{property.Name}\", XmlConvert.ToString(element.{pocoPropertyName}.Value));");
-                            sb.AppendLine("}");
-                            break;
-                        case "bool" when !property.QueryHasDefaultValue():
-                        case "double" when !property.QueryHasDefaultValue():
-                        case "int" when !property.QueryHasDefaultValue():
-                            // a mandatory value without a metamodel default is always written: the C# default of the
-                            // type is a value of the model, not the absence of a value (XMI 2.5.1 clause 7.8.4)
-                            sb.AppendLine(isAsync
-                                ? $"await xmlWriter.WriteAttributeStringAsync(null, \"{property.Name}\", null, XmlConvert.ToString(element.{pocoPropertyName}));"
-                                : $"xmlWriter.WriteAttributeString(\"{property.Name}\", XmlConvert.ToString(element.{pocoPropertyName}));");
-                            break;
-                        case "bool":
-                            var boolDefault = property.QueryIsDefaultValueDifferentThanDefault() ? property.QueryDefaultValueAsString() : "false";
-
-                            sb.AppendLine(boolDefault == "true" ? $"if (!element.{pocoPropertyName})" : $"if (element.{pocoPropertyName})");
-                            sb.AppendLine("{");
-                            sb.AppendLine(isAsync
-                                ? $"await xmlWriter.WriteAttributeStringAsync(null, \"{property.Name}\", null, XmlConvert.ToString(element.{pocoPropertyName}));"
-                                : $"xmlWriter.WriteAttributeString(\"{property.Name}\", XmlConvert.ToString(element.{pocoPropertyName}));");
-                            sb.AppendLine("}");
-                            break;
-                        case "double":
-                        case "int":
-                            var numericDefault = property.QueryIsDefaultValueDifferentThanDefault() ? property.QueryDefaultValueAsString() : "0";
-
-                            sb.AppendLine($"if (element.{pocoPropertyName} != {numericDefault})");
-                            sb.AppendLine("{");
-                            sb.AppendLine(isAsync
-                                ? $"await xmlWriter.WriteAttributeStringAsync(null, \"{property.Name}\", null, XmlConvert.ToString(element.{pocoPropertyName}));"
-                                : $"xmlWriter.WriteAttributeString(\"{property.Name}\", XmlConvert.ToString(element.{pocoPropertyName}));");
-                            sb.AppendLine("}");
-                            break;
-                        case "string":
-                            var condition = $"!string.IsNullOrEmpty(element.{pocoPropertyName})";
-
-                            if (property.QueryIsDefaultValueDifferentThanDefault())
-                            {
-                                condition += $" && element.{pocoPropertyName} != \"{property.QueryDefaultValueAsString()}\"";
-                            }
-
-                            sb.AppendLine($"if ({condition})");
-                            sb.AppendLine("{");
-                            sb.AppendLine(isAsync
-                                ? $"await xmlWriter.WriteAttributeStringAsync(null, \"{property.Name}\", null, element.{pocoPropertyName});"
-                                : $"xmlWriter.WriteAttributeString(\"{property.Name}\", element.{pocoPropertyName});");
-                            sb.AppendLine("}");
-                            break;
-                        default:
-                            throw new NotSupportedException($"{property.Name} has a Primitive Type that is not supported: {cSharpTypeName}");
-                    }
-
-                    writer.WriteSafeString(sb + Environment.NewLine);
-                    return;
-                }
-
-                if (property.QueryIsEnum())
-                {
-                    var typeName = property.QueryTypeName();
-
-                    var enumDefault = property.QueryIsDefaultValueDifferentThanDefault()
-                        ? $"{typeName}.{property.QueryDefaultValueAsString().CapitalizeFirstLetter()}"
-                        : $"default({typeName})";
-
-                    if (property.QueryIsNullableValueType())
-                    {
-                        // an optional value is written when it is set and differs from the metamodel default, if any
-                        sb.AppendLine(property.QueryIsDefaultValueDifferentThanDefault()
-                            ? $"if (element.{pocoPropertyName}.HasValue && element.{pocoPropertyName}.Value != {enumDefault})"
-                            : $"if (element.{pocoPropertyName}.HasValue)");
-                        sb.AppendLine("{");
-                        sb.AppendLine(isAsync
-                            ? $"await xmlWriter.WriteAttributeStringAsync(null, \"{property.Name}\", null, element.{pocoPropertyName}.Value.QueryXmiLiteral());"
-                            : $"xmlWriter.WriteAttributeString(\"{property.Name}\", element.{pocoPropertyName}.Value.QueryXmiLiteral());");
-                        sb.AppendLine("}");
-
-                        writer.WriteSafeString(sb + Environment.NewLine);
-                        return;
-                    }
-
-                    var writeEnumeration = isAsync
-                        ? $"await xmlWriter.WriteAttributeStringAsync(null, \"{property.Name}\", null, element.{pocoPropertyName}.QueryXmiLiteral());"
-                        : $"xmlWriter.WriteAttributeString(\"{property.Name}\", element.{pocoPropertyName}.QueryXmiLiteral());";
-
-                    if (!property.QueryHasDefaultValue())
-                    {
-                        // a mandatory value without a metamodel default is always written: the first literal of the
-                        // enumeration is a value of the model, not the absence of a value (XMI 2.5.1 clause 7.8.4)
-                        sb.AppendLine(writeEnumeration);
-
-                        writer.WriteSafeString(sb + Environment.NewLine);
-                        return;
-                    }
-
-                    sb.AppendLine($"if (element.{pocoPropertyName} != {enumDefault})");
-                    sb.AppendLine("{");
-                    sb.AppendLine(writeEnumeration);
-                    sb.AppendLine("}");
-
                     writer.WriteSafeString(sb + Environment.NewLine);
                     return;
                 }
@@ -1511,6 +1404,35 @@ namespace uml4net.HandleBars
                 throw new NotSupportedException($"{@class.Name}.{property.Name}");
             });
 
+            handlebars.RegisterHelper("Property.WriteCanonicalXmlElementForXmiWriter", (writer, context, parameters) =>
+            {
+                if (parameters.Length != 2 && parameters.Length != 3)
+                {
+                    throw new HandlebarsException("{{#Property.WriteCanonicalXmlElementForXmiWriter}} helper must have two or three arguments");
+                }
+
+                var property = parameters[0] as IProperty;
+                var @class = parameters[1] as IClass;
+
+                if (property == null || @class == null)
+                {
+                    throw new ArgumentException(ParametersNotConvertibleToPropertyAndClass);
+                }
+
+                var isAsync = parameters.Length == 3 && (parameters[2] is bool boolValue ? boolValue : bool.Parse(parameters[2].ToString()));
+
+                if (property.IsDerived || property.IsDerivedUnion || property.IsReadOnly || property.QueryIsOwnerEnd() || property.TryQueryRedefinedByProperty(@class, out _))
+                {
+                    return;
+                }
+
+                var sb = new StringBuilder();
+
+                WriteCanonicalPropertyValue(sb, property, @class, isAsync);
+
+                writer.WriteSafeString(sb + Environment.NewLine);
+            });
+
             // Deliberately generic, metamodel-agnostic helpers below - no knowledge of any specific
             // property (e.g. UML's Element.OwnedElement) belongs in this published library. Callers
             // (a project's own .hbs templates) are responsible for deciding *which* property, if any,
@@ -1584,6 +1506,246 @@ namespace uml4net.HandleBars
         /// The C# source text of the property's expression body, including the leading " =&gt;" and the
         /// trailing ";"
         /// </returns>
+        /// <summary>
+        /// Writes the code that writes the value of a single-valued property typed by a primitive type or an enumeration,
+        /// when it is to be written: a mandatory value without metamodel default always, any other value when it is set and
+        /// differs from the metamodel default
+        /// </summary>
+        /// <param name="sb">
+        /// The <see cref="StringBuilder"/> to which the code is appended
+        /// </param>
+        /// <param name="property">
+        /// The <see cref="IProperty"/> whose value is written
+        /// </param>
+        /// <param name="pocoPropertyName">
+        /// The name of the C# property that holds the value
+        /// </param>
+        /// <param name="writeValue">
+        /// Returns the statement that writes the value, given the C# expression of its XMI representation
+        /// </param>
+        /// <returns>
+        /// true when the property is a single-valued primitive or enumeration property and the code is written, false otherwise
+        /// </returns>
+        private static bool TryWriteScalarValue(StringBuilder sb, IProperty property, string pocoPropertyName, Func<string, string> writeValue)
+        {
+            if (property.QueryIsPrimitiveType())
+            {
+                var cSharpTypeName = property.QueryCSharpTypeName();
+
+                switch (cSharpTypeName)
+                {
+                    case "bool" when property.QueryIsNullableValueType():
+                        // an optional value is written when it is set and differs from the metamodel default, if any
+                        sb.AppendLine(property.QueryIsDefaultValueDifferentThanDefault()
+                            ? $"if (element.{pocoPropertyName}.HasValue && element.{pocoPropertyName}.Value != {property.QueryDefaultValueAsString()})"
+                            : $"if (element.{pocoPropertyName}.HasValue)");
+                        sb.AppendLine("{");
+                        sb.AppendLine(writeValue($"XmlConvert.ToString(element.{pocoPropertyName}.Value)"));
+                        sb.AppendLine("}");
+                        break;
+                    case "bool" when !property.QueryHasDefaultValue():
+                    case "double" when !property.QueryHasDefaultValue():
+                    case "int" when !property.QueryHasDefaultValue():
+                        // a mandatory value without a metamodel default is always written: the C# default of the
+                        // type is a value of the model, not the absence of a value (XMI 2.5.1 clause 7.8.4)
+                        sb.AppendLine(writeValue($"XmlConvert.ToString(element.{pocoPropertyName})"));
+                        break;
+                    case "bool":
+                        var boolDefault = property.QueryIsDefaultValueDifferentThanDefault() ? property.QueryDefaultValueAsString() : "false";
+
+                        sb.AppendLine(boolDefault == "true" ? $"if (!element.{pocoPropertyName})" : $"if (element.{pocoPropertyName})");
+                        sb.AppendLine("{");
+                        sb.AppendLine(writeValue($"XmlConvert.ToString(element.{pocoPropertyName})"));
+                        sb.AppendLine("}");
+                        break;
+                    case "double":
+                    case "int":
+                        var numericDefault = property.QueryIsDefaultValueDifferentThanDefault() ? property.QueryDefaultValueAsString() : "0";
+
+                        sb.AppendLine($"if (element.{pocoPropertyName} != {numericDefault})");
+                        sb.AppendLine("{");
+                        sb.AppendLine(writeValue($"XmlConvert.ToString(element.{pocoPropertyName})"));
+                        sb.AppendLine("}");
+                        break;
+                    case "string":
+                        var condition = $"!string.IsNullOrEmpty(element.{pocoPropertyName})";
+
+                        if (property.QueryIsDefaultValueDifferentThanDefault())
+                        {
+                            condition += $" && element.{pocoPropertyName} != \"{property.QueryDefaultValueAsString()}\"";
+                        }
+
+                        sb.AppendLine($"if ({condition})");
+                        sb.AppendLine("{");
+                        sb.AppendLine(writeValue($"element.{pocoPropertyName}"));
+                        sb.AppendLine("}");
+                        break;
+                    default:
+                        throw new NotSupportedException($"{property.Name} has a Primitive Type that is not supported: {cSharpTypeName}");
+                }
+
+                return true;
+            }
+
+            if (property.QueryIsEnum())
+            {
+                var typeName = property.QueryTypeName();
+
+                var enumDefault = property.QueryIsDefaultValueDifferentThanDefault()
+                    ? $"{typeName}.{property.QueryDefaultValueAsString().CapitalizeFirstLetter()}"
+                    : $"default({typeName})";
+
+                if (property.QueryIsNullableValueType())
+                {
+                    // an optional value is written when it is set and differs from the metamodel default, if any
+                    sb.AppendLine(property.QueryIsDefaultValueDifferentThanDefault()
+                        ? $"if (element.{pocoPropertyName}.HasValue && element.{pocoPropertyName}.Value != {enumDefault})"
+                        : $"if (element.{pocoPropertyName}.HasValue)");
+                    sb.AppendLine("{");
+                    sb.AppendLine(writeValue($"element.{pocoPropertyName}.Value.QueryXmiLiteral()"));
+                    sb.AppendLine("}");
+
+                    return true;
+                }
+
+                var writeEnumeration = writeValue($"element.{pocoPropertyName}.QueryXmiLiteral()");
+
+                if (!property.QueryHasDefaultValue())
+                {
+                    // a mandatory value without a metamodel default is always written: the first literal of the
+                    // enumeration is a value of the model, not the absence of a value (XMI 2.5.1 clause 7.8.4)
+                    sb.AppendLine(writeEnumeration);
+
+                    return true;
+                }
+
+                sb.AppendLine($"if (element.{pocoPropertyName} != {enumDefault})");
+                sb.AppendLine("{");
+                sb.AppendLine(writeEnumeration);
+                sb.AppendLine("}");
+
+                return true;
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Writes the code that writes the value of a property in Canonical XMI (XMI 2.5.1 Annex B): every value as an XML
+        /// element, the values of a property that is not ordered sorted as Annex B.5.3 and B.5.4 prescribe
+        /// </summary>
+        /// <param name="sb">
+        /// The <see cref="StringBuilder"/> to which the code is appended
+        /// </param>
+        /// <param name="property">
+        /// The <see cref="IProperty"/> whose value is written
+        /// </param>
+        /// <param name="class">
+        /// The <see cref="IClass"/> whose writer is generated
+        /// </param>
+        /// <param name="isAsync">
+        /// A value indicating whether asynchronous code is written
+        /// </param>
+        /// <exception cref="NotSupportedException">
+        /// thrown when the kind of the property is not supported
+        /// </exception>
+        private static void WriteCanonicalPropertyValue(StringBuilder sb, IProperty property, IClass @class, bool isAsync)
+        {
+            var pocoPropertyName = property.Name.CapitalizeFirstLetter();
+            var awaitPrefix = isAsync ? "await " : string.Empty;
+            var asyncSuffix = isAsync ? "Async" : string.Empty;
+
+            string WriteValueElement(string valueExpression) => $"{awaitPrefix}WriteValueElement{asyncSuffix}(xmlWriter, \"{property.Name}\", {valueExpression});";
+
+            string WriteFacade(string method, string valueExpression) => $"{awaitPrefix}this.XmiElementWriterFacade.{method}{asyncSuffix}(xmlWriter, {valueExpression}, \"{property.Name}\", writeContext);";
+
+            // Annex B.5.3: the values of a class-typed property that is not ordered are sorted, nested elements before links
+            string OrderedElements(bool isContainment) => property.IsOrdered
+                ? $"element.{pocoPropertyName}"
+                : $"writeContext.QueryCanonicalOrder(element.{pocoPropertyName}, {(isContainment ? "true" : "false")})";
+
+            // Annex B.5.4: the values of a data-typed property that is not ordered are sorted alphabetically by their value
+            string OrderedValues(string values) => property.IsOrdered ? values : $"{values}.OrderBy(x => x, StringComparer.Ordinal)";
+
+            void WriteForEach(string values, string statement)
+            {
+                sb.AppendLine($"foreach (var value in {values})");
+                sb.AppendLine("{");
+                sb.AppendLine(statement);
+                sb.AppendLine("}");
+            }
+
+            if (property.QueryIsContainment())
+            {
+                if (property.QueryIsPrimitiveType())
+                {
+                    WriteForEach(OrderedValues($"element.{pocoPropertyName}"), WriteValueElement("value"));
+                    return;
+                }
+
+                if (property.QueryIsEnum())
+                {
+                    throw new NotImplementedException("contained enumeration is not yet supported");
+                }
+
+                if (property.QueryIsReferenceType() && (property.SubsettedProperty.Count == 0 || property.SubsettedProperty.Any(x => x.IsDerived || x.IsDerivedUnion || x.IsReadOnly)))
+                {
+                    WriteForEach(OrderedElements(true), WriteFacade("WriteContainedElement", "value"));
+                    return;
+                }
+
+                if (property.QueryIsReferenceType())
+                {
+                    // the readers collect these composite properties as reference identifiers
+                    WriteForEach(OrderedElements(false), WriteFacade("WriteReferenceElement", "value"));
+                    return;
+                }
+
+                throw new NotSupportedException($"{@class.Name}.{property.Name}");
+            }
+
+            if (property.QueryIsReferenceType() && !property.QueryIsEnumerable())
+            {
+                sb.AppendLine($"if (element.{pocoPropertyName} != null)");
+                sb.AppendLine("{");
+                sb.AppendLine(WriteFacade("WriteReferenceElement", $"element.{pocoPropertyName}"));
+                sb.AppendLine("}");
+                return;
+            }
+
+            if (property.QueryIsReferenceType() && property.QueryIsEnumerable())
+            {
+                WriteForEach(OrderedElements(false), WriteFacade("WriteReferenceElement", "value"));
+                return;
+            }
+
+            if (property.QueryIsPrimitiveType() && property.QueryIsEnumerable())
+            {
+                var cSharpTypeName = property.QueryCSharpTypeName();
+
+                switch (cSharpTypeName)
+                {
+                    case "bool":
+                    case "double":
+                    case "int":
+                        WriteForEach(OrderedValues($"element.{pocoPropertyName}.Select(x => XmlConvert.ToString(x))"), WriteValueElement("value"));
+                        return;
+                    case "string":
+                        WriteForEach(OrderedValues($"element.{pocoPropertyName}"), WriteValueElement("value"));
+                        return;
+                    default:
+                        throw new NotSupportedException($"{property.Name} has a Primitive Type that is not supported: {cSharpTypeName}");
+                }
+            }
+
+            if (TryWriteScalarValue(sb, property, pocoPropertyName, WriteValueElement))
+            {
+                return;
+            }
+
+            throw new NotSupportedException($"{@class.Name}.{property.Name}");
+        }
+
         private static string WriteDerivedCompositeUnionBody(IClass @class, IProperty property)
         {
             var contributingProperties = @class.QueryAllProperties()

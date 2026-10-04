@@ -71,6 +71,11 @@ namespace uml4net.Profiling
         public Dictionary<string, string> Attributes = new();
 
         /// <summary>
+        /// Gets or sets the persistent identity of the stereotype application, its <c>xmi:uuid</c>, if any
+        /// </summary>
+        public string XmiUuid { get; set; }
+
+        /// <summary>
         /// Gets or sets the name of the document that contains the stereotype application
         /// </summary>
         public string DocumentName { get; set; }

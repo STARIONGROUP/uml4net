@@ -113,6 +113,45 @@ namespace uml4net.xmi.Tests.Writers
         }
 
         [Test]
+        public async Task Verify_that_the_xmi_uuid_of_a_Tag_is_written()
+        {
+            var tag = new Tag { XmiId = "_1", XmiUuid = "uuid-1", Name = "n" };
+
+            var written = this.Write(x => this.tagWriter.Write(x, tag));
+            var writtenAsync = await this.WriteAsync(x => this.tagWriter.WriteAsync(x, tag));
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(written, Does.Contain("xmi:id=\"_1\" xmi:uuid=\"uuid-1\" name=\"n\""));
+                Assert.That(writtenAsync, Is.EqualTo(written));
+            }
+        }
+
+        [Test]
+        public async Task Verify_that_a_Tag_is_written_as_Canonical_XMI()
+        {
+            var tag = CreateTag();
+            tag.Element.Add("other.xmi#External");
+
+            var writeContext = new XmiWriteContext("a.xmi", [], true);
+
+            var written = this.Write(x => this.tagWriter.WriteCanonical(x, tag, writeContext));
+            var writtenAsync = await this.WriteAsync(x => this.tagWriter.WriteCanonicalAsync(x, tag, writeContext));
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(written, Does.Contain(
+                    "<mofext:Tag xmi:id=\"_1\" xmi:uuid=\"a.xmi#_1\" xmi:type=\"mofext:Tag\"><name>org.omg.xmi.schemaType</name><value>http://www.w3.org/2001/XMLSchema#boolean</value>" +
+                    "<element xmi:idref=\"Boolean\" /><element xmi:idref=\"Integer\" /><element href=\"other.xmi#External\" /></mofext:Tag>"));
+                Assert.That(writtenAsync, Is.EqualTo(written));
+                Assert.That(() => this.tagWriter.WriteCanonical(null, tag, writeContext), Throws.ArgumentNullException);
+                Assert.That(() => this.tagWriter.WriteCanonical(XmlWriter.Create(new StringBuilder()), null, writeContext), Throws.ArgumentNullException);
+                Assert.That(() => this.tagWriter.WriteCanonical(XmlWriter.Create(new StringBuilder()), tag, null), Throws.ArgumentNullException);
+                Assert.That(async () => await this.tagWriter.WriteCanonicalAsync(null, tag, writeContext), Throws.ArgumentNullException);
+            }
+        }
+
+        [Test]
         public void Verify_that_the_arguments_are_checked()
         {
             using var xmlWriter = XmlWriter.Create(new MemoryStream(), new XmlWriterSettings { Async = true });
