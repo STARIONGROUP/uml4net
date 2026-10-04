@@ -87,7 +87,7 @@ namespace uml4net.CommonStructure
         [Implements(implementation: "ITemplateParameterSubstitution.OwnedActual")]
         public IContainerList<IParameterableElement> OwnedActual
         {
-            get => this.ownedActual ??= new ContainerList<IParameterableElement>(this);
+            get => this.ownedActual ??= new ContainerList<IParameterableElement>(this, "TemplateParameterSubstitution::ownedActual", 1);
             set => this.ownedActual = value;
         }
 

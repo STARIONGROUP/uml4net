@@ -89,7 +89,7 @@ namespace uml4net.StateMachines
         [Implements(implementation: "ITransition.Effect")]
         public IContainerList<IBehavior> Effect
         {
-            get => this.effect ??= new ContainerList<IBehavior>(this);
+            get => this.effect ??= new ContainerList<IBehavior>(this, "Transition::effect", 1);
             set => this.effect = value;
         }
 
@@ -129,7 +129,7 @@ namespace uml4net.StateMachines
         [Implements(implementation: "ITransition.Guard")]
         public IContainerList<IConstraint> Guard
         {
-            get => this.guard ??= new ContainerList<IConstraint>(this);
+            get => this.guard ??= new ContainerList<IConstraint>(this, "Transition::guard", 1);
             set => this.guard = value;
         }
 
@@ -185,7 +185,7 @@ namespace uml4net.StateMachines
         [Implements(implementation: "INamedElement.NameExpression")]
         public IContainerList<IStringExpression> NameExpression
         {
-            get => this.nameExpression ??= new ContainerList<IStringExpression>(this);
+            get => this.nameExpression ??= new ContainerList<IStringExpression>(this, "NamedElement::nameExpression", 1);
             set => this.nameExpression = value;
         }
 

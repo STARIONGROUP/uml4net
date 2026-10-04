@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- a single-valued composite property that is given more than once (XMI 2.5.1 clause 9.5.2, rule 2h) -->
+<xmi:XMI xmlns:xmi="http://www.omg.org/spec/XMI/20131001" xmlns:uml="http://www.omg.org/spec/UML/20131001">
+  <uml:Package xmi:id="p" name="P">
+    <ownedRule xmi:type="uml:Constraint" xmi:id="r" name="R">
+      <specification xmi:type="uml:LiteralString" xmi:id="v1" value="first"/>
+      <specification xmi:type="uml:LiteralString" xmi:id="v2" value="second"/>
+    </ownedRule>
+  </uml:Package>
+</xmi:XMI>

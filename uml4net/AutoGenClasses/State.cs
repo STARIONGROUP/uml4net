@@ -149,7 +149,7 @@ namespace uml4net.StateMachines
         [Implements(implementation: "IState.DoActivity")]
         public IContainerList<IBehavior> DoActivity
         {
-            get => this.doActivity ??= new ContainerList<IBehavior>(this);
+            get => this.doActivity ??= new ContainerList<IBehavior>(this, "State::doActivity", 1);
             set => this.doActivity = value;
         }
 
@@ -188,7 +188,7 @@ namespace uml4net.StateMachines
         [Implements(implementation: "IState.Entry")]
         public IContainerList<IBehavior> Entry
         {
-            get => this.entry ??= new ContainerList<IBehavior>(this);
+            get => this.entry ??= new ContainerList<IBehavior>(this, "State::entry", 1);
             set => this.entry = value;
         }
 
@@ -207,7 +207,7 @@ namespace uml4net.StateMachines
         [Implements(implementation: "IState.Exit")]
         public IContainerList<IBehavior> Exit
         {
-            get => this.exit ??= new ContainerList<IBehavior>(this);
+            get => this.exit ??= new ContainerList<IBehavior>(this, "State::exit", 1);
             set => this.exit = value;
         }
 
@@ -295,7 +295,7 @@ namespace uml4net.StateMachines
         [Implements(implementation: "INamedElement.NameExpression")]
         public IContainerList<IStringExpression> NameExpression
         {
-            get => this.nameExpression ??= new ContainerList<IStringExpression>(this);
+            get => this.nameExpression ??= new ContainerList<IStringExpression>(this, "NamedElement::nameExpression", 1);
             set => this.nameExpression = value;
         }
 
@@ -483,7 +483,7 @@ namespace uml4net.StateMachines
         [Implements(implementation: "IState.StateInvariant")]
         public IContainerList<IConstraint> StateInvariant
         {
-            get => this.stateInvariant ??= new ContainerList<IConstraint>(this);
+            get => this.stateInvariant ??= new ContainerList<IConstraint>(this, "State::stateInvariant", 1);
             set => this.stateInvariant = value;
         }
 

@@ -181,6 +181,7 @@ namespace uml4net
                     continue;
                 }
 
+                var upperBound = targetProperty.GetCustomAttribute<PropertyAttribute>()?.UpperValue ?? int.MaxValue;
                 var unresolvedCompositeReferences = new List<XmiCompositeReference>();
 
                 foreach (var compositeReference in property.Value.OrderBy(x => x.Position))
@@ -216,7 +217,18 @@ namespace uml4net
                         continue;
                     }
 
-                    var index = Math.Min(Math.Max(compositeReference.Position - unresolvedCompositeReferences.Count, 0), list.Count);
+                    if (list.Count >= upperBound)
+                    {
+                        this.logger.LogWarning("The proxy [{Reference}] for composite property [{Key}] on element type [{Element}] with id [{Id}] is ignored, the property holds at most {UpperBound} value(s).",
+                            compositeReference.Identifier, property.Key, element.XmiType, element.XmiId, upperBound);
+
+                        this.RecordResolutionFailure(element, property.Key, compositeReference.Identifier, XmiReferenceResolutionFailureKind.MultiplicityExceeded);
+
+                        unresolvedCompositeReferences.Add(compositeReference);
+                        continue;
+                    }
+
+                    var index =Math.Min(Math.Max(compositeReference.Position - unresolvedCompositeReferences.Count, 0), list.Count);
 
                     list.Insert(index, ownedElement);
                     ownedElement.Possessor = owner;

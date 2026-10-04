@@ -96,7 +96,7 @@ namespace uml4net.Classification
         [Implements(implementation: "ITemplateParameter.OwnedDefault")]
         public IContainerList<IParameterableElement> OwnedDefault
         {
-            get => this.ownedDefault ??= new ContainerList<IParameterableElement>(this);
+            get => this.ownedDefault ??= new ContainerList<IParameterableElement>(this, "TemplateParameter::ownedDefault", 1);
             set => this.ownedDefault = value;
         }
 
@@ -128,7 +128,7 @@ namespace uml4net.Classification
         [Implements(implementation: "ITemplateParameter.OwnedParameteredElement")]
         public IContainerList<IParameterableElement> OwnedParameteredElement
         {
-            get => this.ownedParameteredElement ??= new ContainerList<IParameterableElement>(this,
+            get => this.ownedParameteredElement ??= new ContainerList<IParameterableElement>(this, "TemplateParameter::ownedParameteredElement", 1,
                 containedElement => { containedElement.OwningTemplateParameter = this; },
                 containedElement => { if (ReferenceEquals(containedElement.OwningTemplateParameter, this)) { containedElement.OwningTemplateParameter = null; } });
             set => this.ownedParameteredElement = value;

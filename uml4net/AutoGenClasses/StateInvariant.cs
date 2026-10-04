@@ -134,7 +134,7 @@ namespace uml4net.Interactions
         [Implements(implementation: "IStateInvariant.Invariant")]
         public IContainerList<IConstraint> Invariant
         {
-            get => this.invariant ??= new ContainerList<IConstraint>(this);
+            get => this.invariant ??= new ContainerList<IConstraint>(this, "StateInvariant::invariant", 1);
             set => this.invariant = value;
         }
 
@@ -158,7 +158,7 @@ namespace uml4net.Interactions
         [Implements(implementation: "INamedElement.NameExpression")]
         public IContainerList<IStringExpression> NameExpression
         {
-            get => this.nameExpression ??= new ContainerList<IStringExpression>(this);
+            get => this.nameExpression ??= new ContainerList<IStringExpression>(this, "NamedElement::nameExpression", 1);
             set => this.nameExpression = value;
         }
 

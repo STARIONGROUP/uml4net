@@ -207,7 +207,15 @@ namespace uml4net.xmi.Readers
                                 if (!TryCollectCompositeReferencePropertyIdentifier(xmlReader, poco, "ownedActual", poco.OwnedActual.Count))
                                 {
                                     var ownedActualValue = (IParameterableElement)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.NameSpaceResolver, this.ExtenderReaderRegistry, this.LoggerFactory);
-                                    poco.OwnedActual.Add(ownedActualValue);
+
+                                    if (poco.OwnedActual.Count == 0)
+                                    {
+                                        poco.OwnedActual.Add(ownedActualValue);
+                                    }
+                                    else
+                                    {
+                                        this.ReportXmiError(xmlReader, poco, "ownedActual", $"The single-valued composite property is given more than once, [{poco.OwnedActual[0].XmiId}] is kept and [{ownedActualValue?.XmiId}] is ignored");
+                                    }
                                 }
                                 break;
                             case (KnowNamespacePrefixes.Uml, "ownedComment"):

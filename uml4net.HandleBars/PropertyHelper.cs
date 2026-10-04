@@ -651,7 +651,24 @@ namespace uml4net.HandleBars
                             // with the containment by the ContainerList
                             var ownerEndStatements = QueryOwnerEndStatements(property, @class);
 
-                            if (ownerEndStatements.Attach.Count > 0)
+                            // a single-valued composite property is an IContainerList<T> as well (see
+                            // design-decisions.md), the ContainerList enforces its upper bound
+                            if (!property.QueryIsEnumerable())
+                            {
+                                var qualifiedPropertyName = $"{(property.Owner as INamedElement)?.Name}::{property.Name}";
+
+                                if (ownerEndStatements.Attach.Count > 0)
+                                {
+                                    sb.AppendLine($"get => this.{propertyName} ??= new ContainerList<{property.QueryInterfaceTypeName()}>(this, \"{qualifiedPropertyName}\", {property.QueryUpperValue()},");
+                                    sb.AppendLine($"    containedElement => {{ {string.Join(" ", ownerEndStatements.Attach)} }},");
+                                    sb.AppendLine($"    containedElement => {{ {string.Join(" ", ownerEndStatements.Detach)} }});");
+                                }
+                                else
+                                {
+                                    sb.AppendLine($"get => this.{propertyName} ??= new ContainerList<{property.QueryInterfaceTypeName()}>(this, \"{qualifiedPropertyName}\", {property.QueryUpperValue()});");
+                                }
+                            }
+                            else if (ownerEndStatements.Attach.Count > 0)
                             {
                                 sb.AppendLine($"get => this.{propertyName} ??= new ContainerList<{property.QueryInterfaceTypeName()}>(this,");
                                 sb.AppendLine($"    containedElement => {{ {string.Join(" ", ownerEndStatements.Attach)} }},");
@@ -989,7 +1006,26 @@ namespace uml4net.HandleBars
                     sb.AppendLine($"if (!TryCollectCompositeReferencePropertyIdentifier(xmlReader, poco, \"{property.Name}\", poco.{property.Name.CapitalizeFirstLetter()}.Count))");
                     sb.AppendLine("{");
                     sb.AppendLine(queryXmiElement);
-                    sb.AppendLine(addContainedElement);
+
+                    if (property.QueryIsEnumerable())
+                    {
+                        sb.AppendLine(addContainedElement);
+                    }
+                    else
+                    {
+                        // a single-valued composite property given more than once (XMI 2.5.1 clause 9.5.2, rule 2h):
+                        // the first value is kept, as for a repeated single-valued reference
+                        sb.AppendLine();
+                        sb.AppendLine($"if (poco.{property.Name.CapitalizeFirstLetter()}.Count == 0)");
+                        sb.AppendLine("{");
+                        sb.AppendLine(addContainedElement);
+                        sb.AppendLine("}");
+                        sb.AppendLine("else");
+                        sb.AppendLine("{");
+                        sb.AppendLine($"this.ReportXmiError(xmlReader, poco, \"{property.Name}\", $\"The single-valued composite property is given more than once, [{{poco.{property.Name.CapitalizeFirstLetter()}[0].XmiId}}] is kept and [{{{property.Name}Value?.XmiId}}] is ignored\");");
+                        sb.AppendLine("}");
+                    }
+
                     sb.AppendLine("}");
                 }
 

@@ -87,7 +87,7 @@ namespace uml4net.Actions
         [Implements(implementation: "IReduceAction.Collection")]
         public IContainerList<IInputPin> Collection
         {
-            get => this.collection ??= new ContainerList<IInputPin>(this);
+            get => this.collection ??= new ContainerList<IInputPin>(this, "ReduceAction::collection", 1);
             set => this.collection = value;
         }
 
@@ -245,7 +245,7 @@ namespace uml4net.Actions
         [Implements(implementation: "INamedElement.NameExpression")]
         public IContainerList<IStringExpression> NameExpression
         {
-            get => this.nameExpression ??= new ContainerList<IStringExpression>(this);
+            get => this.nameExpression ??= new ContainerList<IStringExpression>(this, "NamedElement::nameExpression", 1);
             set => this.nameExpression = value;
         }
 
@@ -367,7 +367,7 @@ namespace uml4net.Actions
         [Implements(implementation: "IReduceAction.Result")]
         public IContainerList<IOutputPin> Result
         {
-            get => this.result ??= new ContainerList<IOutputPin>(this);
+            get => this.result ??= new ContainerList<IOutputPin>(this, "ReduceAction::result", 1);
             set => this.result = value;
         }
 

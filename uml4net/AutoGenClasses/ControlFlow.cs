@@ -88,7 +88,7 @@ namespace uml4net.Activities
         [Implements(implementation: "IActivityEdge.Guard")]
         public IContainerList<IValueSpecification> Guard
         {
-            get => this.guard ??= new ContainerList<IValueSpecification>(this);
+            get => this.guard ??= new ContainerList<IValueSpecification>(this, "ActivityEdge::guard", 1);
             set => this.guard = value;
         }
 
@@ -151,7 +151,7 @@ namespace uml4net.Activities
         [Implements(implementation: "INamedElement.NameExpression")]
         public IContainerList<IStringExpression> NameExpression
         {
-            get => this.nameExpression ??= new ContainerList<IStringExpression>(this);
+            get => this.nameExpression ??= new ContainerList<IStringExpression>(this, "NamedElement::nameExpression", 1);
             set => this.nameExpression = value;
         }
 
@@ -269,7 +269,7 @@ namespace uml4net.Activities
         [Implements(implementation: "IActivityEdge.Weight")]
         public IContainerList<IValueSpecification> Weight
         {
-            get => this.weight ??= new ContainerList<IValueSpecification>(this);
+            get => this.weight ??= new ContainerList<IValueSpecification>(this, "ActivityEdge::weight", 1);
             set => this.weight = value;
         }
 

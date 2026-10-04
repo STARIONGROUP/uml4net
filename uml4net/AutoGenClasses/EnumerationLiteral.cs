@@ -142,7 +142,7 @@ namespace uml4net.SimpleClassifiers
         [Implements(implementation: "INamedElement.NameExpression")]
         public IContainerList<IStringExpression> NameExpression
         {
-            get => this.nameExpression ??= new ContainerList<IStringExpression>(this);
+            get => this.nameExpression ??= new ContainerList<IStringExpression>(this, "NamedElement::nameExpression", 1);
             set => this.nameExpression = value;
         }
 
@@ -247,7 +247,7 @@ namespace uml4net.SimpleClassifiers
         [Implements(implementation: "IInstanceSpecification.Specification")]
         public IContainerList<IValueSpecification> Specification
         {
-            get => this.specification ??= new ContainerList<IValueSpecification>(this);
+            get => this.specification ??= new ContainerList<IValueSpecification>(this, "InstanceSpecification::specification", 1);
             set => this.specification = value;
         }
 

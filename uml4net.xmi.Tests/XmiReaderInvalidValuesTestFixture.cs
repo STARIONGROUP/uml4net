@@ -29,6 +29,7 @@ namespace uml4net.xmi.Tests
 
     using uml4net.CommonStructure;
     using uml4net.StructuredClassifiers;
+    using uml4net.Values;
     using uml4net.xmi.Readers;
 
     /// <summary>
@@ -155,6 +156,61 @@ namespace uml4net.xmi.Tests
             var property = classes.Single(x => x.XmiId == "d").OwnedAttribute.Single();
 
             Assert.That(property.Type, Is.SameAs(classes.Single(x => x.XmiId == "c")));
+        }
+
+        [Test]
+        public void Verify_that_a_repeated_single_valued_composite_property_is_rejected_in_strict_mode()
+        {
+            var exception = this.ReadStrictlyAndCatch("repeated-composite.xmi");
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(exception.Message, Does.StartWith("The single-valued composite property is given more than once, [v1] is kept and [v2] is ignored: uml:Constraint [r] property [specification]"));
+                Assert.That(exception.ElementType, Is.EqualTo("uml:Constraint"));
+                Assert.That(exception.PropertyName, Is.EqualTo("specification"));
+            }
+        }
+
+        [Test]
+        public void Verify_that_a_repeated_single_valued_composite_property_keeps_the_first_value_in_non_strict_mode()
+        {
+            var xmiReaderResult = this.CreateReader(useStrictReading: false).Read(Path.Combine(this.rootPath, "repeated-composite.xmi"));
+            var constraint = xmiReaderResult.QueryRoot("p").OwnedRule.Single();
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(constraint.Specification.Select(x => x.XmiId), Is.EqualTo(new[] { "v1" }));
+                Assert.That(((ILiteralString)constraint.Specification.Single()).Value, Is.EqualTo("first"));
+            }
+        }
+
+        [Test]
+        public void Verify_that_a_proxy_beyond_the_upper_bound_of_a_composite_property_is_not_resolved()
+        {
+            var reader = XmiReaderBuilder.Create()
+                .UsingSettings(x =>
+                {
+                    x.LocalReferenceBasePath = this.rootPath;
+                    x.ThrowOnUnresolvedReferences = true;
+                })
+                .WithLogger(NullLoggerFactory.Instance)
+                .Build();
+
+            var exception = Assert.Throws<UnresolvedReferencesException>(() => reader.Read(Path.Combine(this.rootPath, "repeated-composite-proxy.xmi")));
+            var failure = exception.Failures.Single();
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(failure.ElementXmiId, Is.EqualTo("r"));
+                Assert.That(failure.PropertyName, Is.EqualTo("specification"));
+                Assert.That(failure.Identifier, Is.EqualTo("v2"));
+                Assert.That(failure.Kind, Is.EqualTo(XmiReferenceResolutionFailureKind.MultiplicityExceeded));
+            }
+
+            var xmiReaderResult = this.CreateReader(useStrictReading: false).Read(Path.Combine(this.rootPath, "repeated-composite-proxy.xmi"));
+            var constraint = xmiReaderResult.QueryRoot("p").OwnedRule.Single();
+
+            Assert.That(constraint.Specification.Select(x => x.XmiId), Is.EqualTo(new[] { "v1" }));
         }
     }
 }

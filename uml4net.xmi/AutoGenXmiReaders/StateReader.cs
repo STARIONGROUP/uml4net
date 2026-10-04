@@ -256,7 +256,15 @@ namespace uml4net.xmi.Readers
                                 if (!TryCollectCompositeReferencePropertyIdentifier(xmlReader, poco, "doActivity", poco.DoActivity.Count))
                                 {
                                     var doActivityValue = (IBehavior)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.NameSpaceResolver, this.ExtenderReaderRegistry, this.LoggerFactory);
-                                    poco.DoActivity.Add(doActivityValue);
+
+                                    if (poco.DoActivity.Count == 0)
+                                    {
+                                        poco.DoActivity.Add(doActivityValue);
+                                    }
+                                    else
+                                    {
+                                        this.ReportXmiError(xmlReader, poco, "doActivity", $"The single-valued composite property is given more than once, [{poco.DoActivity[0].XmiId}] is kept and [{doActivityValue?.XmiId}] is ignored");
+                                    }
                                 }
                                 break;
                             case (KnowNamespacePrefixes.Uml, "elementImport"):
@@ -270,14 +278,30 @@ namespace uml4net.xmi.Readers
                                 if (!TryCollectCompositeReferencePropertyIdentifier(xmlReader, poco, "entry", poco.Entry.Count))
                                 {
                                     var entryValue = (IBehavior)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.NameSpaceResolver, this.ExtenderReaderRegistry, this.LoggerFactory);
-                                    poco.Entry.Add(entryValue);
+
+                                    if (poco.Entry.Count == 0)
+                                    {
+                                        poco.Entry.Add(entryValue);
+                                    }
+                                    else
+                                    {
+                                        this.ReportXmiError(xmlReader, poco, "entry", $"The single-valued composite property is given more than once, [{poco.Entry[0].XmiId}] is kept and [{entryValue?.XmiId}] is ignored");
+                                    }
                                 }
                                 break;
                             case (KnowNamespacePrefixes.Uml, "exit"):
                                 if (!TryCollectCompositeReferencePropertyIdentifier(xmlReader, poco, "exit", poco.Exit.Count))
                                 {
                                     var exitValue = (IBehavior)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.NameSpaceResolver, this.ExtenderReaderRegistry, this.LoggerFactory);
-                                    poco.Exit.Add(exitValue);
+
+                                    if (poco.Exit.Count == 0)
+                                    {
+                                        poco.Exit.Add(exitValue);
+                                    }
+                                    else
+                                    {
+                                        this.ReportXmiError(xmlReader, poco, "exit", $"The single-valued composite property is given more than once, [{poco.Exit[0].XmiId}] is kept and [{exitValue?.XmiId}] is ignored");
+                                    }
                                 }
                                 break;
                             case (KnowNamespacePrefixes.Uml, "isLeaf"):
@@ -296,7 +320,15 @@ namespace uml4net.xmi.Readers
                                 if (!TryCollectCompositeReferencePropertyIdentifier(xmlReader, poco, "nameExpression", poco.NameExpression.Count))
                                 {
                                     var nameExpressionValue = (IStringExpression)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.NameSpaceResolver, this.ExtenderReaderRegistry, this.LoggerFactory, "uml:StringExpression");
-                                    poco.NameExpression.Add(nameExpressionValue);
+
+                                    if (poco.NameExpression.Count == 0)
+                                    {
+                                        poco.NameExpression.Add(nameExpressionValue);
+                                    }
+                                    else
+                                    {
+                                        this.ReportXmiError(xmlReader, poco, "nameExpression", $"The single-valued composite property is given more than once, [{poco.NameExpression[0].XmiId}] is kept and [{nameExpressionValue?.XmiId}] is ignored");
+                                    }
                                 }
                                 break;
                             case (KnowNamespacePrefixes.Uml, "ownedComment"):
@@ -334,7 +366,15 @@ namespace uml4net.xmi.Readers
                                 if (!TryCollectCompositeReferencePropertyIdentifier(xmlReader, poco, "stateInvariant", poco.StateInvariant.Count))
                                 {
                                     var stateInvariantValue = (IConstraint)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.NameSpaceResolver, this.ExtenderReaderRegistry, this.LoggerFactory, "uml:Constraint");
-                                    poco.StateInvariant.Add(stateInvariantValue);
+
+                                    if (poco.StateInvariant.Count == 0)
+                                    {
+                                        poco.StateInvariant.Add(stateInvariantValue);
+                                    }
+                                    else
+                                    {
+                                        this.ReportXmiError(xmlReader, poco, "stateInvariant", $"The single-valued composite property is given more than once, [{poco.StateInvariant[0].XmiId}] is kept and [{stateInvariantValue?.XmiId}] is ignored");
+                                    }
                                 }
                                 break;
                             case (KnowNamespacePrefixes.Uml, "submachine"):

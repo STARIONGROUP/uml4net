@@ -122,7 +122,7 @@ namespace uml4net.Packages
         [Implements(implementation: "IProperty.DefaultValue")]
         public IContainerList<IValueSpecification> DefaultValue
         {
-            get => this.defaultValue ??= new ContainerList<IValueSpecification>(this);
+            get => this.defaultValue ??= new ContainerList<IValueSpecification>(this, "Property::defaultValue", 1);
             set => this.defaultValue = value;
         }
 
@@ -279,7 +279,7 @@ namespace uml4net.Packages
         [Implements(implementation: "IMultiplicityElement.LowerValue")]
         public IContainerList<IValueSpecification> LowerValue
         {
-            get => this.lowerValue ??= new ContainerList<IValueSpecification>(this);
+            get => this.lowerValue ??= new ContainerList<IValueSpecification>(this, "MultiplicityElement::lowerValue", 1);
             set => this.lowerValue = value;
         }
 
@@ -303,7 +303,7 @@ namespace uml4net.Packages
         [Implements(implementation: "INamedElement.NameExpression")]
         public IContainerList<IStringExpression> NameExpression
         {
-            get => this.nameExpression ??= new ContainerList<IStringExpression>(this);
+            get => this.nameExpression ??= new ContainerList<IStringExpression>(this, "NamedElement::nameExpression", 1);
             set => this.nameExpression = value;
         }
 
@@ -502,7 +502,7 @@ namespace uml4net.Packages
         [Implements(implementation: "IMultiplicityElement.UpperValue")]
         public IContainerList<IValueSpecification> UpperValue
         {
-            get => this.upperValue ??= new ContainerList<IValueSpecification>(this);
+            get => this.upperValue ??= new ContainerList<IValueSpecification>(this, "MultiplicityElement::upperValue", 1);
             set => this.upperValue = value;
         }
 

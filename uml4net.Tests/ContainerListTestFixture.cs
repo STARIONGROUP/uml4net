@@ -21,6 +21,7 @@
 namespace uml4net.Tests
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
 
     using NUnit.Framework;
@@ -29,6 +30,7 @@ namespace uml4net.Tests
     using uml4net.CommonStructure;
     using uml4net.Packages;
     using uml4net.StructuredClassifiers;
+    using uml4net.Values;
 
     [TestFixture]
     public class ContainerListTestFixture
@@ -338,6 +340,104 @@ namespace uml4net.Tests
             {
                 Assert.That(@class.Possessor, Is.SameAs(package));
                 Assert.That(@class.Package, Is.Null, "no owner end action was provided");
+            }
+        }
+
+        [Test]
+        public void Verify_that_a_bounded_ContainerList_rejects_an_upper_bound_below_1()
+        {
+            var package = new Package();
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(() => new ContainerList<IPackageableElement>(package, "Package::packagedElement", 0), Throws.InstanceOf<ArgumentOutOfRangeException>());
+                Assert.That(new ContainerList<IPackageableElement>(package).UpperBound, Is.EqualTo(int.MaxValue));
+                Assert.That(new ContainerList<IPackageableElement>(package, "Package::packagedElement", 2).UpperBound, Is.EqualTo(2));
+            }
+        }
+
+        [Test]
+        public void Verify_that_a_single_valued_composite_property_rejects_a_second_value()
+        {
+            var constraint = new Constraint();
+            var first = new LiteralString { XmiId = "first" };
+            var second = new LiteralString { XmiId = "second" };
+
+            constraint.Specification.Add(first);
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(() => constraint.Specification.Add(second),
+                    Throws.InvalidOperationException.With.Message.EqualTo("Constraint::specification holds at most 1 value(s); [second] cannot be added"));
+                Assert.That(() => constraint.Specification.Insert(0, second), Throws.InvalidOperationException);
+                Assert.That(() => constraint.Specification.AddRange([second]), Throws.InvalidOperationException);
+                Assert.That(() => ((IList<IValueSpecification>)constraint.Specification).Insert(0, second), Throws.InvalidOperationException);
+                Assert.That(constraint.Specification, Is.EqualTo(new[] { first }));
+                Assert.That(second.Possessor, Is.Null, "a rejected element is not owned");
+            }
+
+            constraint.Specification[0] = second;
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(constraint.Specification, Is.EqualTo(new[] { second }), "a value can be replaced");
+                Assert.That(second.Possessor, Is.SameAs(constraint));
+                Assert.That(first.Possessor, Is.Null);
+            }
+
+            constraint.Specification.Clear();
+            constraint.Specification.Add(first);
+
+            Assert.That(constraint.Specification, Is.EqualTo(new[] { first }), "a value can be added again once the property is empty");
+        }
+
+        [Test]
+        public void Verify_that_a_single_valued_composite_property_with_an_owner_end_rejects_a_second_value()
+        {
+            var @class = new Class();
+            var first = new RedefinableTemplateSignature { XmiId = "first" };
+            var second = new RedefinableTemplateSignature { XmiId = "second" };
+
+            @class.OwnedTemplateSignature.Add(first);
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(() => @class.OwnedTemplateSignature.Add(second), Throws.InvalidOperationException.With.Message.Contains("Classifier::ownedTemplateSignature"));
+                Assert.That(first.Classifier, Is.SameAs(@class));
+                Assert.That(second.Classifier, Is.Null);
+            }
+        }
+
+        [Test]
+        public void Verify_that_a_multi_valued_composite_property_is_not_bounded()
+        {
+            var package = new Package();
+
+            package.PackagedElement.AddRange([new Class(), new Class(), new Package()]);
+
+            Assert.That(package.PackagedElement, Has.Count.EqualTo(3));
+        }
+
+        [Test]
+        public void Verify_that_Insert_sets_the_possessor_and_the_owner_end()
+        {
+            var package = new Package();
+            var first = new Class();
+            var second = new Class();
+
+            package.PackagedElement.Add(first);
+            package.PackagedElement.Insert(0, second);
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(package.PackagedElement, Is.EqualTo(new IPackageableElement[] { second, first }));
+                Assert.That(second.Possessor, Is.SameAs(package));
+                Assert.That(second.Package, Is.SameAs(package));
+                Assert.That(() => package.PackagedElement.Insert(0, null), Throws.ArgumentNullException);
+                Assert.That(() => package.PackagedElement.Insert(0, package), Throws.InvalidOperationException);
+                Assert.That(() => package.PackagedElement.Insert(0, first), Throws.InvalidOperationException);
+                Assert.That(() => package.PackagedElement.Insert(-1, new Class()), Throws.InstanceOf<ArgumentOutOfRangeException>());
+                Assert.That(() => package.PackagedElement.Insert(3, new Class()), Throws.InstanceOf<ArgumentOutOfRangeException>());
             }
         }
     }

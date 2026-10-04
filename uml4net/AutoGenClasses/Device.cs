@@ -309,7 +309,7 @@ namespace uml4net.Deployments
         [Implements(implementation: "INamedElement.NameExpression")]
         public IContainerList<IStringExpression> NameExpression
         {
-            get => this.nameExpression ??= new ContainerList<IStringExpression>(this);
+            get => this.nameExpression ??= new ContainerList<IStringExpression>(this, "NamedElement::nameExpression", 1);
             set => this.nameExpression = value;
         }
 
@@ -565,7 +565,7 @@ namespace uml4net.Deployments
         [Implements(implementation: "IClassifier.OwnedTemplateSignature")]
         public IContainerList<IRedefinableTemplateSignature> OwnedTemplateSignature
         {
-            get => this.ownedTemplateSignature ??= new ContainerList<IRedefinableTemplateSignature>(this,
+            get => this.ownedTemplateSignature ??= new ContainerList<IRedefinableTemplateSignature>(this, "Classifier::ownedTemplateSignature", 1,
                 containedElement => { containedElement.Classifier = this; },
                 containedElement => { if (ReferenceEquals(containedElement.Classifier, this)) { containedElement.Classifier = null; } });
             set => this.ownedTemplateSignature = value;

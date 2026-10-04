@@ -238,14 +238,30 @@ namespace uml4net.xmi.Readers
                                 if (!TryCollectCompositeReferencePropertyIdentifier(xmlReader, poco, "ownedDefault", poco.OwnedDefault.Count))
                                 {
                                     var ownedDefaultValue = (IParameterableElement)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.NameSpaceResolver, this.ExtenderReaderRegistry, this.LoggerFactory);
-                                    poco.OwnedDefault.Add(ownedDefaultValue);
+
+                                    if (poco.OwnedDefault.Count == 0)
+                                    {
+                                        poco.OwnedDefault.Add(ownedDefaultValue);
+                                    }
+                                    else
+                                    {
+                                        this.ReportXmiError(xmlReader, poco, "ownedDefault", $"The single-valued composite property is given more than once, [{poco.OwnedDefault[0].XmiId}] is kept and [{ownedDefaultValue?.XmiId}] is ignored");
+                                    }
                                 }
                                 break;
                             case (KnowNamespacePrefixes.Uml, "ownedParameteredElement"):
                                 if (!TryCollectCompositeReferencePropertyIdentifier(xmlReader, poco, "ownedParameteredElement", poco.OwnedParameteredElement.Count))
                                 {
                                     var ownedParameteredElementValue = (IParameterableElement)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.NameSpaceResolver, this.ExtenderReaderRegistry, this.LoggerFactory);
-                                    poco.OwnedParameteredElement.Add(ownedParameteredElementValue);
+
+                                    if (poco.OwnedParameteredElement.Count == 0)
+                                    {
+                                        poco.OwnedParameteredElement.Add(ownedParameteredElementValue);
+                                    }
+                                    else
+                                    {
+                                        this.ReportXmiError(xmlReader, poco, "ownedParameteredElement", $"The single-valued composite property is given more than once, [{poco.OwnedParameteredElement[0].XmiId}] is kept and [{ownedParameteredElementValue?.XmiId}] is ignored");
+                                    }
                                 }
                                 break;
                             case (KnowNamespacePrefixes.Uml, "parameteredElement"):

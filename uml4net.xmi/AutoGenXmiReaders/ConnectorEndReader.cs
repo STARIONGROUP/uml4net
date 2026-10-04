@@ -226,7 +226,15 @@ namespace uml4net.xmi.Readers
                                 if (!TryCollectCompositeReferencePropertyIdentifier(xmlReader, poco, "lowerValue", poco.LowerValue.Count))
                                 {
                                     var lowerValueValue = (IValueSpecification)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.NameSpaceResolver, this.ExtenderReaderRegistry, this.LoggerFactory);
-                                    poco.LowerValue.Add(lowerValueValue);
+
+                                    if (poco.LowerValue.Count == 0)
+                                    {
+                                        poco.LowerValue.Add(lowerValueValue);
+                                    }
+                                    else
+                                    {
+                                        this.ReportXmiError(xmlReader, poco, "lowerValue", $"The single-valued composite property is given more than once, [{poco.LowerValue[0].XmiId}] is kept and [{lowerValueValue?.XmiId}] is ignored");
+                                    }
                                 }
                                 break;
                             case (KnowNamespacePrefixes.Uml, "ownedComment"):
@@ -246,7 +254,15 @@ namespace uml4net.xmi.Readers
                                 if (!TryCollectCompositeReferencePropertyIdentifier(xmlReader, poco, "upperValue", poco.UpperValue.Count))
                                 {
                                     var upperValueValue = (IValueSpecification)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.NameSpaceResolver, this.ExtenderReaderRegistry, this.LoggerFactory);
-                                    poco.UpperValue.Add(upperValueValue);
+
+                                    if (poco.UpperValue.Count == 0)
+                                    {
+                                        poco.UpperValue.Add(upperValueValue);
+                                    }
+                                    else
+                                    {
+                                        this.ReportXmiError(xmlReader, poco, "upperValue", $"The single-valued composite property is given more than once, [{poco.UpperValue[0].XmiId}] is kept and [{upperValueValue?.XmiId}] is ignored");
+                                    }
                                 }
                                 break;
                             case (KnowNamespacePrefixes.Uml, "definingEnd"):

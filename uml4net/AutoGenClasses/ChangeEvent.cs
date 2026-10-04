@@ -71,7 +71,7 @@ namespace uml4net.CommonBehavior
         [Implements(implementation: "IChangeEvent.ChangeExpression")]
         public IContainerList<IValueSpecification> ChangeExpression
         {
-            get => this.changeExpression ??= new ContainerList<IValueSpecification>(this);
+            get => this.changeExpression ??= new ContainerList<IValueSpecification>(this, "ChangeEvent::changeExpression", 1);
             set => this.changeExpression = value;
         }
 
@@ -103,7 +103,7 @@ namespace uml4net.CommonBehavior
         [Implements(implementation: "INamedElement.NameExpression")]
         public IContainerList<IStringExpression> NameExpression
         {
-            get => this.nameExpression ??= new ContainerList<IStringExpression>(this);
+            get => this.nameExpression ??= new ContainerList<IStringExpression>(this, "NamedElement::nameExpression", 1);
             set => this.nameExpression = value;
         }
 

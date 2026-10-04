@@ -87,7 +87,7 @@ namespace uml4net.Actions
         [Implements(implementation: "IActionInputPin.FromAction")]
         public IContainerList<IAction> FromAction
         {
-            get => this.fromAction ??= new ContainerList<IAction>(this);
+            get => this.fromAction ??= new ContainerList<IAction>(this, "ActionInputPin::fromAction", 1);
             set => this.fromAction = value;
         }
 
@@ -197,7 +197,7 @@ namespace uml4net.Actions
         [Implements(implementation: "IMultiplicityElement.LowerValue")]
         public IContainerList<IValueSpecification> LowerValue
         {
-            get => this.lowerValue ??= new ContainerList<IValueSpecification>(this);
+            get => this.lowerValue ??= new ContainerList<IValueSpecification>(this, "MultiplicityElement::lowerValue", 1);
             set => this.lowerValue = value;
         }
 
@@ -221,7 +221,7 @@ namespace uml4net.Actions
         [Implements(implementation: "INamedElement.NameExpression")]
         public IContainerList<IStringExpression> NameExpression
         {
-            get => this.nameExpression ??= new ContainerList<IStringExpression>(this);
+            get => this.nameExpression ??= new ContainerList<IStringExpression>(this, "NamedElement::nameExpression", 1);
             set => this.nameExpression = value;
         }
 
@@ -357,7 +357,7 @@ namespace uml4net.Actions
         [Implements(implementation: "IObjectNode.UpperBound")]
         public IContainerList<IValueSpecification> UpperBound
         {
-            get => this.upperBound ??= new ContainerList<IValueSpecification>(this);
+            get => this.upperBound ??= new ContainerList<IValueSpecification>(this, "ObjectNode::upperBound", 1);
             set => this.upperBound = value;
         }
 
@@ -374,7 +374,7 @@ namespace uml4net.Actions
         [Implements(implementation: "IMultiplicityElement.UpperValue")]
         public IContainerList<IValueSpecification> UpperValue
         {
-            get => this.upperValue ??= new ContainerList<IValueSpecification>(this);
+            get => this.upperValue ??= new ContainerList<IValueSpecification>(this, "MultiplicityElement::upperValue", 1);
             set => this.upperValue = value;
         }
 

@@ -82,6 +82,55 @@ namespace uml4net
         }
 
         /// <summary>
+        /// Initializes a new <see cref="ContainerList{T}"/> that holds the value of a composite property whose
+        /// multiplicity has a bounded upper value, for example <c>Constraint::specification [1..1]</c>: adding a value
+        /// beyond <paramref name="upperBound"/> throws an <see cref="InvalidOperationException"/>
+        /// </summary>
+        /// <param name="container">
+        /// The <see cref="IElement"/> that owns this <see cref="ContainerList{T}"/>
+        /// </param>
+        /// <param name="propertyName">
+        /// The qualified name of the composite property, for example <c>Constraint::specification</c>, used in the
+        /// message of the exception
+        /// </param>
+        /// <param name="upperBound">
+        /// The upper value of the multiplicity of the composite property
+        /// </param>
+        /// <param name="attachOwnerEnd">
+        /// The action that sets the owner end of an element that is added to the <paramref name="container"/>, if any
+        /// </param>
+        /// <param name="detachOwnerEnd">
+        /// The action that clears the owner end of an element that is removed from the <paramref name="container"/>, if any
+        /// </param>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// Thrown when <paramref name="upperBound"/> is less than 1
+        /// </exception>
+        public ContainerList(IElement container, string propertyName, int upperBound, Action<T> attachOwnerEnd = null, Action<T> detachOwnerEnd = null)
+        {
+            if (upperBound < 1)
+            {
+                throw new ArgumentOutOfRangeException(nameof(upperBound), $"the upper bound is {upperBound}, it shall be at least 1");
+            }
+
+            this.container = container;
+            this.propertyName = propertyName;
+            this.UpperBound = upperBound;
+            this.attachOwnerEnd = attachOwnerEnd;
+            this.detachOwnerEnd = detachOwnerEnd;
+        }
+
+        /// <summary>
+        /// The qualified name of the composite property that this <see cref="ContainerList{T}"/> is the value of, if known
+        /// </summary>
+        private readonly string propertyName;
+
+        /// <summary>
+        /// Gets the maximum number of elements that this <see cref="ContainerList{T}"/> holds, the upper value of the
+        /// multiplicity of its composite property; <see cref="int.MaxValue"/> when it is unbounded
+        /// </summary>
+        public int UpperBound { get; } = int.MaxValue;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="ContainerList{T}"/> class
         /// </summary>
         /// <param name="containerList">
@@ -130,8 +179,57 @@ namespace uml4net
         /// </remarks>
         /// <param name="element">The new <see cref="IElement"/> to add to the list.</param>
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="element"/> is <c>null</c>.</exception>
-        /// <exception cref="InvalidOperationException">Thrown if <paramref name="element"/> already exists in the list.</exception>
+        /// <exception cref="InvalidOperationException">
+        /// Thrown if <paramref name="element"/> already exists in the list, or if the list already holds
+        /// <see cref="UpperBound"/> elements.
+        /// </exception>
         public new void Add(T element)
+        {
+            this.VerifyAddition(element);
+
+            element.Possessor = this.container;
+            base.Add(element);
+            this.attachOwnerEnd?.Invoke(element);
+        }
+
+        /// <summary>
+        /// Inserts an <see cref="IElement"/> into the <see cref="List{T}"/> at the specified index and assigns its
+        /// <see cref="IElement.Possessor"/> property to this list's owner.
+        /// </summary>
+        /// <param name="index">The zero-based index at which <paramref name="element"/> is inserted.</param>
+        /// <param name="element">The <see cref="IElement"/> to insert.</param>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="element"/> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// Thrown when <paramref name="index"/> is less than 0 or greater than <see cref="List{T}.Count"/>.
+        /// </exception>
+        /// <exception cref="InvalidOperationException">
+        /// Thrown if <paramref name="element"/> already exists in the list, or if the list already holds
+        /// <see cref="UpperBound"/> elements.
+        /// </exception>
+        public new void Insert(int index, T element)
+        {
+            if (index < 0 || index > base.Count)
+            {
+                throw new ArgumentOutOfRangeException(nameof(index), $"index is {index}, valid range is 0 to {this.Count}");
+            }
+
+            this.VerifyAddition(element);
+
+            element.Possessor = this.container;
+            base.Insert(index, element);
+            this.attachOwnerEnd?.Invoke(element);
+        }
+
+        /// <summary>
+        /// Verifies that the <paramref name="element"/> can be added to this <see cref="ContainerList{T}"/>
+        /// </summary>
+        /// <param name="element">The <see cref="IElement"/> to add.</param>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="element"/> is <c>null</c>.</exception>
+        /// <exception cref="InvalidOperationException">
+        /// Thrown if <paramref name="element"/> is the container, already exists in the list, or if the list already
+        /// holds <see cref="UpperBound"/> elements.
+        /// </exception>
+        private void VerifyAddition(T element)
         {
             if (element == null)
             {
@@ -143,15 +241,15 @@ namespace uml4net
                 throw new InvalidOperationException("The container shall not be added as contained item to itself");
             }
 
-            element.Possessor = this.container;
-
             if (this.Contains(element))
             {
                 throw new InvalidOperationException($"The added item already exists {element.XmiId}.");
             }
 
-            base.Add(element);
-            this.attachOwnerEnd?.Invoke(element);
+            if (base.Count >= this.UpperBound)
+            {
+                throw new InvalidOperationException($"{this.propertyName} holds at most {this.UpperBound} value(s); [{element.XmiId}] cannot be added");
+            }
         }
 
         /// <summary>

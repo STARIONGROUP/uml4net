@@ -267,7 +267,15 @@ namespace uml4net.xmi.Readers
                                 if (!TryCollectCompositeReferencePropertyIdentifier(xmlReader, poco, "exception", poco.Exception.Count))
                                 {
                                     var exceptionValue = (IInputPin)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.NameSpaceResolver, this.ExtenderReaderRegistry, this.LoggerFactory, "uml:InputPin");
-                                    poco.Exception.Add(exceptionValue);
+
+                                    if (poco.Exception.Count == 0)
+                                    {
+                                        poco.Exception.Add(exceptionValue);
+                                    }
+                                    else
+                                    {
+                                        this.ReportXmiError(xmlReader, poco, "exception", $"The single-valued composite property is given more than once, [{poco.Exception[0].XmiId}] is kept and [{exceptionValue?.XmiId}] is ignored");
+                                    }
                                 }
                                 break;
                             case (KnowNamespacePrefixes.Uml, "handler"):
@@ -328,7 +336,15 @@ namespace uml4net.xmi.Readers
                                 if (!TryCollectCompositeReferencePropertyIdentifier(xmlReader, poco, "nameExpression", poco.NameExpression.Count))
                                 {
                                     var nameExpressionValue = (IStringExpression)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.NameSpaceResolver, this.ExtenderReaderRegistry, this.LoggerFactory, "uml:StringExpression");
-                                    poco.NameExpression.Add(nameExpressionValue);
+
+                                    if (poco.NameExpression.Count == 0)
+                                    {
+                                        poco.NameExpression.Add(nameExpressionValue);
+                                    }
+                                    else
+                                    {
+                                        this.ReportXmiError(xmlReader, poco, "nameExpression", $"The single-valued composite property is given more than once, [{poco.NameExpression[0].XmiId}] is kept and [{nameExpressionValue?.XmiId}] is ignored");
+                                    }
                                 }
                                 break;
                             case (KnowNamespacePrefixes.Uml, "outgoing"):

@@ -156,7 +156,7 @@ namespace uml4net.Activities
         [Implements(implementation: "INamedElement.NameExpression")]
         public IContainerList<IStringExpression> NameExpression
         {
-            get => this.nameExpression ??= new ContainerList<IStringExpression>(this);
+            get => this.nameExpression ??= new ContainerList<IStringExpression>(this, "NamedElement::nameExpression", 1);
             set => this.nameExpression = value;
         }
 
@@ -282,7 +282,7 @@ namespace uml4net.Activities
         [Implements(implementation: "IObjectNode.UpperBound")]
         public IContainerList<IValueSpecification> UpperBound
         {
-            get => this.upperBound ??= new ContainerList<IValueSpecification>(this);
+            get => this.upperBound ??= new ContainerList<IValueSpecification>(this, "ObjectNode::upperBound", 1);
             set => this.upperBound = value;
         }
 

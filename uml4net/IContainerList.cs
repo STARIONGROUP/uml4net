@@ -43,6 +43,13 @@ namespace uml4net
         void AddRange(IEnumerable<T> elements);
 
         /// <summary>
+        /// Inserts a new <see cref="IElement"/> in the <see cref="List{T}"/> at the specified index and sets its <see cref="Container"/> property
+        /// </summary>
+        /// <param name="index">the zero-based index at which the <paramref name="element"/> is inserted</param>
+        /// <param name="element">the new <see cref="IElement"/> to insert</param>
+        new void Insert(int index, T element);
+
+        /// <summary>
         /// Gets or sets the value of the <see cref="IElement"/> associated with the specified index.
         /// </summary>
         /// <param name="index">the index</param>

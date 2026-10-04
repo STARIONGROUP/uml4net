@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- a single-valued composite property that holds a value and a proxy (XMI 2.5.1 clause 7.10.1) of a second value -->
+<xmi:XMI xmlns:xmi="http://www.omg.org/spec/XMI/20131001" xmlns:uml="http://www.omg.org/spec/UML/20131001">
+  <uml:Package xmi:id="p" name="P">
+    <ownedRule xmi:type="uml:Constraint" xmi:id="r" name="R">
+      <specification xmi:type="uml:LiteralString" xmi:id="v1" value="first"/>
+      <specification xmi:idref="v2"/>
+    </ownedRule>
+  </uml:Package>
+  <uml:LiteralString xmi:id="v2" value="second"/>
+</xmi:XMI>

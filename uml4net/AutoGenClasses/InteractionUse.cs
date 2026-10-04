@@ -162,7 +162,7 @@ namespace uml4net.Interactions
         [Implements(implementation: "INamedElement.NameExpression")]
         public IContainerList<IStringExpression> NameExpression
         {
-            get => this.nameExpression ??= new ContainerList<IStringExpression>(this);
+            get => this.nameExpression ??= new ContainerList<IStringExpression>(this, "NamedElement::nameExpression", 1);
             set => this.nameExpression = value;
         }
 
@@ -244,7 +244,7 @@ namespace uml4net.Interactions
         [Implements(implementation: "IInteractionUse.ReturnValue")]
         public IContainerList<IValueSpecification> ReturnValue
         {
-            get => this.returnValue ??= new ContainerList<IValueSpecification>(this);
+            get => this.returnValue ??= new ContainerList<IValueSpecification>(this, "InteractionUse::returnValue", 1);
             set => this.returnValue = value;
         }
 

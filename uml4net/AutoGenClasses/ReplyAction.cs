@@ -221,7 +221,7 @@ namespace uml4net.Actions
         [Implements(implementation: "INamedElement.NameExpression")]
         public IContainerList<IStringExpression> NameExpression
         {
-            get => this.nameExpression ??= new ContainerList<IStringExpression>(this);
+            get => this.nameExpression ??= new ContainerList<IStringExpression>(this, "NamedElement::nameExpression", 1);
             set => this.nameExpression = value;
         }
 
@@ -360,7 +360,7 @@ namespace uml4net.Actions
         [Implements(implementation: "IReplyAction.ReturnInformation")]
         public IContainerList<IInputPin> ReturnInformation
         {
-            get => this.returnInformation ??= new ContainerList<IInputPin>(this);
+            get => this.returnInformation ??= new ContainerList<IInputPin>(this, "ReplyAction::returnInformation", 1);
             set => this.returnInformation = value;
         }
 

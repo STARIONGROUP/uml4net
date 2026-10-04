@@ -77,6 +77,32 @@ namespace uml4net.Tests
         }
 
         [Test]
+        public void Synchronize_ShouldNotInsertACompositeReferenceBeyondTheUpperBoundOfTheProperty()
+        {
+            var constraint = this.CreateConstraint("constraint");
+            var first = new LiteralString { XmiId = "first", DocumentName = this.documentName };
+            var second = new LiteralString { XmiId = "second", DocumentName = this.documentName };
+            constraint.Specification.Add(first);
+            this.AddCompositeReference(constraint, "specification", "second", 1);
+
+            foreach (var element in new IXmiElement[] { constraint, first, second })
+            {
+                Assert.That(this.cache.TryAdd(element), Is.True);
+            }
+
+            this.assembler.Synchronize();
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(constraint.Specification, Is.EqualTo(new[] { first }));
+                Assert.That(second.Possessor, Is.Null);
+                Assert.That(this.assembler.ResolutionFailures.Select(x => (x.ElementXmiId, x.PropertyName, x.Identifier, x.Kind)),
+                    Is.EqualTo(new[] { ("constraint", "specification", "second", XmiReferenceResolutionFailureKind.MultiplicityExceeded) }));
+                Assert.That(constraint.CompositeReferencePropertyIdentifiers["specification"].Single().Identifier, Is.EqualTo("second"), "the proxy is kept");
+            }
+        }
+
+        [Test]
         public void Synchronize_ShouldInsertCompositeReferencesAtTheirPositionAndSetThePossessor()
         {
             var operation = new Operation { XmiId = "op", DocumentName = this.documentName };

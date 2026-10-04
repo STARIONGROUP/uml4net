@@ -254,7 +254,7 @@ namespace uml4net.Actions
         [Implements(implementation: "INamedElement.NameExpression")]
         public IContainerList<IStringExpression> NameExpression
         {
-            get => this.nameExpression ??= new ContainerList<IStringExpression>(this);
+            get => this.nameExpression ??= new ContainerList<IStringExpression>(this, "NamedElement::nameExpression", 1);
             set => this.nameExpression = value;
         }
 
@@ -370,7 +370,7 @@ namespace uml4net.Actions
         [Implements(implementation: "IReadLinkAction.Result")]
         public IContainerList<IOutputPin> Result
         {
-            get => this.result ??= new ContainerList<IOutputPin>(this);
+            get => this.result ??= new ContainerList<IOutputPin>(this, "ReadLinkAction::result", 1);
             set => this.result = value;
         }
 

@@ -144,7 +144,7 @@ namespace uml4net.Activities
         [Implements(implementation: "IJoinNode.JoinSpec")]
         public IContainerList<IValueSpecification> JoinSpec
         {
-            get => this.joinSpec ??= new ContainerList<IValueSpecification>(this);
+            get => this.joinSpec ??= new ContainerList<IValueSpecification>(this, "JoinNode::joinSpec", 1);
             set => this.joinSpec = value;
         }
 
@@ -168,7 +168,7 @@ namespace uml4net.Activities
         [Implements(implementation: "INamedElement.NameExpression")]
         public IContainerList<IStringExpression> NameExpression
         {
-            get => this.nameExpression ??= new ContainerList<IStringExpression>(this);
+            get => this.nameExpression ??= new ContainerList<IStringExpression>(this, "NamedElement::nameExpression", 1);
             set => this.nameExpression = value;
         }
 

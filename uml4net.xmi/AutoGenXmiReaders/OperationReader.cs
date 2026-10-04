@@ -321,7 +321,15 @@ namespace uml4net.xmi.Readers
                                 if (!TryCollectCompositeReferencePropertyIdentifier(xmlReader, poco, "bodyCondition", poco.BodyCondition.Count))
                                 {
                                     var bodyConditionValue = (IConstraint)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.NameSpaceResolver, this.ExtenderReaderRegistry, this.LoggerFactory, "uml:Constraint");
-                                    poco.BodyCondition.Add(bodyConditionValue);
+
+                                    if (poco.BodyCondition.Count == 0)
+                                    {
+                                        poco.BodyCondition.Add(bodyConditionValue);
+                                    }
+                                    else
+                                    {
+                                        this.ReportXmiError(xmlReader, poco, "bodyCondition", $"The single-valued composite property is given more than once, [{poco.BodyCondition[0].XmiId}] is kept and [{bodyConditionValue?.XmiId}] is ignored");
+                                    }
                                 }
                                 break;
                             case (KnowNamespacePrefixes.Uml, "class"):
@@ -402,7 +410,15 @@ namespace uml4net.xmi.Readers
                                 if (!TryCollectCompositeReferencePropertyIdentifier(xmlReader, poco, "nameExpression", poco.NameExpression.Count))
                                 {
                                     var nameExpressionValue = (IStringExpression)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.NameSpaceResolver, this.ExtenderReaderRegistry, this.LoggerFactory, "uml:StringExpression");
-                                    poco.NameExpression.Add(nameExpressionValue);
+
+                                    if (poco.NameExpression.Count == 0)
+                                    {
+                                        poco.NameExpression.Add(nameExpressionValue);
+                                    }
+                                    else
+                                    {
+                                        this.ReportXmiError(xmlReader, poco, "nameExpression", $"The single-valued composite property is given more than once, [{poco.NameExpression[0].XmiId}] is kept and [{nameExpressionValue?.XmiId}] is ignored");
+                                    }
                                 }
                                 break;
                             case (KnowNamespacePrefixes.Uml, "ownedComment"):
@@ -437,7 +453,15 @@ namespace uml4net.xmi.Readers
                                 if (!TryCollectCompositeReferencePropertyIdentifier(xmlReader, poco, "ownedTemplateSignature", poco.OwnedTemplateSignature.Count))
                                 {
                                     var ownedTemplateSignatureValue = (ITemplateSignature)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.NameSpaceResolver, this.ExtenderReaderRegistry, this.LoggerFactory, "uml:TemplateSignature");
-                                    poco.OwnedTemplateSignature.Add(ownedTemplateSignatureValue);
+
+                                    if (poco.OwnedTemplateSignature.Count == 0)
+                                    {
+                                        poco.OwnedTemplateSignature.Add(ownedTemplateSignatureValue);
+                                    }
+                                    else
+                                    {
+                                        this.ReportXmiError(xmlReader, poco, "ownedTemplateSignature", $"The single-valued composite property is given more than once, [{poco.OwnedTemplateSignature[0].XmiId}] is kept and [{ownedTemplateSignatureValue?.XmiId}] is ignored");
+                                    }
                                 }
                                 break;
                             case (KnowNamespacePrefixes.Uml, "owningTemplateParameter"):

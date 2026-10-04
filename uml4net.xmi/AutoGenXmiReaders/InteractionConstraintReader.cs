@@ -231,14 +231,30 @@ namespace uml4net.xmi.Readers
                                 if (!TryCollectCompositeReferencePropertyIdentifier(xmlReader, poco, "maxint", poco.Maxint.Count))
                                 {
                                     var maxintValue = (IValueSpecification)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.NameSpaceResolver, this.ExtenderReaderRegistry, this.LoggerFactory);
-                                    poco.Maxint.Add(maxintValue);
+
+                                    if (poco.Maxint.Count == 0)
+                                    {
+                                        poco.Maxint.Add(maxintValue);
+                                    }
+                                    else
+                                    {
+                                        this.ReportXmiError(xmlReader, poco, "maxint", $"The single-valued composite property is given more than once, [{poco.Maxint[0].XmiId}] is kept and [{maxintValue?.XmiId}] is ignored");
+                                    }
                                 }
                                 break;
                             case (KnowNamespacePrefixes.Uml, "minint"):
                                 if (!TryCollectCompositeReferencePropertyIdentifier(xmlReader, poco, "minint", poco.Minint.Count))
                                 {
                                     var minintValue = (IValueSpecification)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.NameSpaceResolver, this.ExtenderReaderRegistry, this.LoggerFactory);
-                                    poco.Minint.Add(minintValue);
+
+                                    if (poco.Minint.Count == 0)
+                                    {
+                                        poco.Minint.Add(minintValue);
+                                    }
+                                    else
+                                    {
+                                        this.ReportXmiError(xmlReader, poco, "minint", $"The single-valued composite property is given more than once, [{poco.Minint[0].XmiId}] is kept and [{minintValue?.XmiId}] is ignored");
+                                    }
                                 }
                                 break;
                             case (KnowNamespacePrefixes.Uml, "name"):
@@ -248,7 +264,15 @@ namespace uml4net.xmi.Readers
                                 if (!TryCollectCompositeReferencePropertyIdentifier(xmlReader, poco, "nameExpression", poco.NameExpression.Count))
                                 {
                                     var nameExpressionValue = (IStringExpression)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.NameSpaceResolver, this.ExtenderReaderRegistry, this.LoggerFactory, "uml:StringExpression");
-                                    poco.NameExpression.Add(nameExpressionValue);
+
+                                    if (poco.NameExpression.Count == 0)
+                                    {
+                                        poco.NameExpression.Add(nameExpressionValue);
+                                    }
+                                    else
+                                    {
+                                        this.ReportXmiError(xmlReader, poco, "nameExpression", $"The single-valued composite property is given more than once, [{poco.NameExpression[0].XmiId}] is kept and [{nameExpressionValue?.XmiId}] is ignored");
+                                    }
                                 }
                                 break;
                             case (KnowNamespacePrefixes.Uml, "ownedComment"):
@@ -265,7 +289,15 @@ namespace uml4net.xmi.Readers
                                 if (!TryCollectCompositeReferencePropertyIdentifier(xmlReader, poco, "specification", poco.Specification.Count))
                                 {
                                     var specificationValue = (IValueSpecification)this.XmiElementReaderFacade.QueryXmiElement(xmlReader, documentName, namespaceUri, this.Cache, this.XmiReaderSettings, this.NameSpaceResolver, this.ExtenderReaderRegistry, this.LoggerFactory);
-                                    poco.Specification.Add(specificationValue);
+
+                                    if (poco.Specification.Count == 0)
+                                    {
+                                        poco.Specification.Add(specificationValue);
+                                    }
+                                    else
+                                    {
+                                        this.ReportXmiError(xmlReader, poco, "specification", $"The single-valued composite property is given more than once, [{poco.Specification[0].XmiId}] is kept and [{specificationValue?.XmiId}] is ignored");
+                                    }
                                 }
                                 break;
                             case (KnowNamespacePrefixes.Uml, "templateParameter"):
