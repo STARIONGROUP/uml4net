@@ -118,15 +118,37 @@ namespace uml4net.xmi.Writers
                 throw new ArgumentNullException(nameof(writeContext));
             }
 
-            if (element.Extensions.Count > 0)
-            {
-                this.logger.LogTrace("writing the {Count} Extension(s) of the UnmarshallAction with id [{Id}]", element.Extensions.Count, element.XmiId);
-            }
-
             if (writeContext.IsCanonical)
             {
                 this.WriteCanonical(xmlWriter, element, elementName, writeContext);
-                return;
+            }
+            else
+            {
+                this.WriteDefault(xmlWriter, element, elementName, writeContext);
+            }
+        }
+
+        /// <summary>
+        /// Writes the <see cref="IUnmarshallAction"/> object as default, non-canonical, XMI: the identifiers as read, the
+        /// single values as XML attributes, the properties in alphabetical order, and the extensions
+        /// </summary>
+        /// <param name="xmlWriter">
+        /// an instance of <see cref="XmlWriter"/>
+        /// </param>
+        /// <param name="element">
+        /// The <see cref="IUnmarshallAction"/> that is to be written
+        /// </param>
+        /// <param name="elementName">
+        /// The name of the XML element that is written
+        /// </param>
+        /// <param name="writeContext">
+        /// The <see cref="IXmiWriteContext"/> that captures the state of the write operation
+        /// </param>
+        private void WriteDefault(XmlWriter xmlWriter, IUnmarshallAction element, string elementName, IXmiWriteContext writeContext)
+        {
+            if (element.Extensions.Count > 0)
+            {
+                this.logger.LogTrace("writing the {Count} Extension(s) of the UnmarshallAction with id [{Id}]", element.Extensions.Count, element.XmiId);
             }
 
             this.WriteStartElement(xmlWriter, elementName);
@@ -282,15 +304,40 @@ namespace uml4net.xmi.Writers
                 throw new ArgumentNullException(nameof(writeContext));
             }
 
-            if (element.Extensions.Count > 0)
-            {
-                this.logger.LogTrace("writing the {Count} Extension(s) of the UnmarshallAction with id [{Id}]", element.Extensions.Count, element.XmiId);
-            }
-
             if (writeContext.IsCanonical)
             {
                 await this.WriteCanonicalAsync(xmlWriter, element, elementName, writeContext);
-                return;
+            }
+            else
+            {
+                await this.WriteDefaultAsync(xmlWriter, element, elementName, writeContext);
+            }
+        }
+
+        /// <summary>
+        /// Asynchronously writes the <see cref="IUnmarshallAction"/> object as default, non-canonical, XMI: the identifiers
+        /// as read, the single values as XML attributes, the properties in alphabetical order, and the extensions
+        /// </summary>
+        /// <param name="xmlWriter">
+        /// an instance of <see cref="XmlWriter"/>
+        /// </param>
+        /// <param name="element">
+        /// The <see cref="IUnmarshallAction"/> that is to be written
+        /// </param>
+        /// <param name="elementName">
+        /// The name of the XML element that is written
+        /// </param>
+        /// <param name="writeContext">
+        /// The <see cref="IXmiWriteContext"/> that captures the state of the write operation
+        /// </param>
+        /// <returns>
+        /// an awaitable <see cref="Task"/>
+        /// </returns>
+        private async Task WriteDefaultAsync(XmlWriter xmlWriter, IUnmarshallAction element, string elementName, IXmiWriteContext writeContext)
+        {
+            if (element.Extensions.Count > 0)
+            {
+                this.logger.LogTrace("writing the {Count} Extension(s) of the UnmarshallAction with id [{Id}]", element.Extensions.Count, element.XmiId);
             }
 
             await this.WriteStartElementAsync(xmlWriter, elementName);
