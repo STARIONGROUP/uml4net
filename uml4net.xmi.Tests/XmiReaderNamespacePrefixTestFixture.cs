@@ -109,5 +109,48 @@ namespace uml4net.xmi.Tests
                 Assert.That(classes.Single(x => x.Name == "C").Generalization.Single().General, Is.SameAs(classes.Single(x => x.Name == "Base")));
             }
         }
+
+        [Test]
+        public void Verify_that_a_document_binding_the_MOF_namespace_to_another_prefix_is_read()
+        {
+            var xmiReaderResult = this.Read("mof-prefix-tag.xmi");
+            var tag = xmiReaderResult.XmiRoot.Tags.Single();
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(xmiReaderResult.QueryRoot("p").Name, Is.EqualTo("P"));
+                Assert.That(tag.XmiId, Is.EqualTo("t"));
+                Assert.That(tag.XmiType, Is.EqualTo("mofext:Tag"));
+                Assert.That(tag.Name, Is.EqualTo("org.omg.xmi.nsPrefix"));
+                Assert.That(tag.Value, Is.EqualTo("sysml"));
+                Assert.That(tag.Element, Is.EqualTo(new[] { "p" }));
+            }
+        }
+
+        [Test]
+        public void Verify_that_the_OMG_SysML_v2_document_with_a_mof_prefixed_Tag_is_read()
+        {
+            var sysMLPath = Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData", "SySML2");
+
+            var reader = XmiReaderBuilder.Create()
+                .UsingSettings(x =>
+                {
+                    x.LocalReferenceBasePath = sysMLPath;
+                    x.UseStrictReading = true;
+                })
+                .WithLogger(NullLoggerFactory.Instance)
+                .Build();
+
+            var xmiReaderResult = reader.Read(Path.Combine(sysMLPath, "ad-23-02-11.xmi"));
+            var tag = xmiReaderResult.XmiRoot.Tags.Single();
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(xmiReaderResult.QueryRoot("_sysml").Name, Is.EqualTo("SysML"));
+                Assert.That(tag.XmiId, Is.EqualTo("SysML_mofTag"));
+                Assert.That(tag.Name, Is.EqualTo("org.omg.xmi.nsPrefix"));
+                Assert.That(tag.Element, Is.EqualTo(new[] { "SysML" }));
+            }
+        }
     }
 }

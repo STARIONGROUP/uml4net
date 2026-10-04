@@ -27,6 +27,7 @@ namespace uml4net.xmi.Readers
     using Microsoft.Extensions.Logging.Abstractions;
 
     using uml4net.Mof.Extension;
+    using uml4net.xmi.Settings;
 
     /// <summary>
     /// The purpose of the <see cref="TagReader"/> is to read an instance of <see cref="Tag"/>
@@ -39,6 +40,12 @@ namespace uml4net.xmi.Readers
         /// <see cref="KnowNamespacePrefixes"/> constants
         /// </summary>
         private readonly INameSpaceResolver nameSpaceResolver;
+
+        /// <summary>
+        /// The <see cref="IXmiReaderSettings"/> that specify whether an element that is not a Tag is rejected or
+        /// skipped; null when the element is to be rejected
+        /// </summary>
+        private readonly IXmiReaderSettings xmiReaderSettings;
 
         /// <summary>
         /// The (injected) logger
@@ -56,8 +63,28 @@ namespace uml4net.xmi.Readers
         /// The (injected) <see cref="ILoggerFactory"/> used to set up logging
         /// </param>
         public TagReader(INameSpaceResolver nameSpaceResolver, ILoggerFactory loggerFactory)
+            : this(nameSpaceResolver, null, loggerFactory)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TagReader"/> class.
+        /// </summary>
+        /// <param name="nameSpaceResolver">
+        /// The (injected) <see cref="INameSpaceResolver"/> used to resolve a namespace to one of the
+        /// <see cref="KnowNamespacePrefixes"/> constants
+        /// </param>
+        /// <param name="xmiReaderSettings">
+        /// The <see cref="IXmiReaderSettings"/> that specify whether an element that is not a Tag is rejected
+        /// (<see cref="IXmiReaderSettings.UseStrictReading"/>, the default when null) or skipped
+        /// </param>
+        /// <param name="loggerFactory">
+        /// The (injected) <see cref="ILoggerFactory"/> used to set up logging
+        /// </param>
+        public TagReader(INameSpaceResolver nameSpaceResolver, IXmiReaderSettings xmiReaderSettings, ILoggerFactory loggerFactory)
         {
             this.nameSpaceResolver = nameSpaceResolver;
+            this.xmiReaderSettings = xmiReaderSettings;
             this.logger = loggerFactory == null ? NullLogger<TagReader>.Instance : loggerFactory.CreateLogger<TagReader>();
         }
 
@@ -71,8 +98,12 @@ namespace uml4net.xmi.Readers
         /// the namespace that the <see cref="IXmiElement"/> belongs to
         /// </param>
         /// <returns>
-        /// an instance of <see cref="Tag"/>
+        /// an instance of <see cref="Tag"/>; null when the element is not a Tag and reading is not strict
         /// </returns>
+        /// <exception cref="XmiReadException">
+        /// thrown when the element is not a Tag and <see cref="IXmiReaderSettings.UseStrictReading"/> is set, or no
+        /// settings are available
+        /// </exception>
         public Tag Read(XmlReader xmlReader, string namespaceUri)
         {
             if (xmlReader == null)
@@ -93,16 +124,29 @@ namespace uml4net.xmi.Readers
             {
                 this.logger.LogTrace("reading Tag at line:position {LineNumber}:{LinePosition}", xmlLineInfo?.LineNumber, xmlLineInfo?.LinePosition);
 
-                var xmiType = xmlReader.GetAttribute("type", this.nameSpaceResolver.XmiNameSpace);
+                // the prefix of the xmi:type is chosen by the document, e.g. mof:Tag with mof bound to the MOF
+                // namespace, it is resolved to the prefix uml4net uses for that namespace (XMI 2.5.1 clause 9.5.2, rule 2g)
+                var documentXmiType = xmlReader.GetXmiAttribute("type");
+                var xmiType = xmlReader.ResolveQualifiedName(documentXmiType, this.nameSpaceResolver);
 
                 if (!string.IsNullOrEmpty(xmiType) && xmiType != "mofext:Tag")
                 {
-                    throw new XmlException($"The XmiType should be 'mofext:Tag' while it is {xmiType}");
+                    var message = $"The element is not a Tag, its xmi:type is [{documentXmiType}]";
+                    var xmiId = xmlReader.GetXmiAttribute("id");
+                    var lineNumber = xmlLineInfo?.LineNumber ?? 0;
+                    var linePosition = xmlLineInfo?.LinePosition ?? 0;
+
+                    if (this.xmiReaderSettings == null || this.xmiReaderSettings.UseStrictReading)
+                    {
+                        throw new XmiReadException(message, documentXmiType, xmiId, "type", lineNumber, linePosition);
+                    }
+
+                    this.logger.LogError("{Message}: [{XmiId}] at line:position {LineNumber}:{LinePosition}, the element is skipped", message, xmiId, lineNumber, linePosition);
+
+                    return null;
                 }
-                else
-                {
-                    xmiType = "mofext:Tag";
-                }
+
+                xmiType = "mofext:Tag";
 
                 if (!string.IsNullOrEmpty(xmlReader.NamespaceURI))
                 {
@@ -113,9 +157,9 @@ namespace uml4net.xmi.Readers
 
                 tag.XmiType = xmiType;
 
-                tag.XmiId = xmlReader.GetAttribute("id", this.nameSpaceResolver.XmiNameSpace);
+                tag.XmiId = xmlReader.GetXmiAttribute("id");
 
-                tag.XmiUuid = xmlReader.GetAttribute("uuid", this.nameSpaceResolver.XmiNameSpace);
+                tag.XmiUuid = xmlReader.GetXmiAttribute("uuid");
 
                 tag.Name = xmlReader.GetAttribute("name") ?? xmlReader.GetAttribute("name", namespaceUri);
                 tag.Value = xmlReader.GetAttribute("value") ?? xmlReader.GetAttribute("value", namespaceUri);
@@ -147,7 +191,7 @@ namespace uml4net.xmi.Readers
                         case (KnowNamespacePrefixes.MofExt, "element"):
 
                             elementAttributeValue = xmlReader.GetAttribute("idref")
-                                                    ?? xmlReader.GetAttribute("idref", this.nameSpaceResolver.XmiNameSpace)
+                                                    ?? xmlReader.GetXmiAttribute("idref")
                                                     ?? xmlReader.GetAttribute("href");
 
                             if (!string.IsNullOrEmpty(elementAttributeValue))
