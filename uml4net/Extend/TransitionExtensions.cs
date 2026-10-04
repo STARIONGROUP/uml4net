@@ -36,7 +36,9 @@ namespace uml4net.StateMachines
         /// The subject <see cref="ITransition"/>
         /// </param>
         /// <returns>
-        /// The Classifier in which context this element may be redefined.
+        /// The Classifier in which context this element may be redefined, the state machine that contains the
+        /// <see cref="ITransition.Container"/>; null when the transition has no container region, for example a
+        /// transition that is not (yet) owned (UML 2.5.1: container.containingStateMachine() is undefined)
         /// </returns>
         internal static IClassifier QueryRedefinitionContext(this ITransition transition)
         {
@@ -45,7 +47,7 @@ namespace uml4net.StateMachines
                 throw new ArgumentNullException(nameof(transition));
             }
 
-            return transition.Container.QueryContainingStateMachine();
+            return transition.Container?.QueryContainingStateMachine();
         }
     }
 }

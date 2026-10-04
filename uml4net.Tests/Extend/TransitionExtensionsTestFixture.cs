@@ -22,6 +22,7 @@ namespace uml4net.Tests.Extend
 {
     using NUnit.Framework;
 
+    using uml4net.Classification;
     using uml4net.StateMachines;
 
     [TestFixture]
@@ -47,6 +48,24 @@ namespace uml4net.Tests.Extend
             var transition = new Transition { Name = "T", Source = source, Target = target, Container = region };
 
             Assert.That(transition.RedefinitionContext, Is.SameAs(stateMachine));
+        }
+
+        [Test]
+        public void Verify_that_RedefinitionContext_is_null_when_the_transition_has_no_container_region()
+        {
+            var transition = new Transition { Name = "T" };
+            var protocolTransition = new ProtocolTransition { Name = "PT" };
+            var orphanRegion = new Region { Name = "R" };
+            var transitionInOrphanRegion = new Transition { Name = "T2", Container = orphanRegion };
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(transition.RedefinitionContext, Is.Null);
+                Assert.That(((IRedefinableElement)transition).RedefinitionContext, Is.Empty);
+                Assert.That(protocolTransition.RedefinitionContext, Is.Null);
+                Assert.That(((IRedefinableElement)protocolTransition).RedefinitionContext, Is.Empty);
+                Assert.That(transitionInOrphanRegion.RedefinitionContext, Is.Null, "a region that is not owned by a state machine or a state");
+            }
         }
     }
 }

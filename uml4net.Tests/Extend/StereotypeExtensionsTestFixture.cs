@@ -20,8 +20,6 @@
 
 namespace uml4net.Tests.Extend
 {
-    using System.Data;
-
     using NUnit.Framework;
 
     using uml4net.Packages;
@@ -51,16 +49,27 @@ namespace uml4net.Tests.Extend
         }
 
         [Test]
-        public void Verify_that_when_stereotype_not_contained_by_profile_an_exception_is_thrown()
+        public void Verify_that_Profile_is_null_when_the_stereotype_is_not_contained_by_a_profile()
         {
             var package_1 = new Package();
             var package_1_1 = new Package();
             var stereoType = new Stereotype();
 
-            package_1_1.PackagedElement.Add(stereoType);
-            package_1.PackagedElement.Add(package_1_1);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(stereoType.Profile, Is.Null, "a stereotype that is not owned");
 
-            Assert.That(() => stereoType.Profile, Throws.TypeOf<DataException>());
+                package_1_1.PackagedElement.Add(stereoType);
+                package_1.PackagedElement.Add(package_1_1);
+
+                Assert.That(stereoType.Profile, Is.Null, "a stereotype owned by packages that are not in a profile");
+            }
+        }
+
+        [Test]
+        public void Verify_that_QueryProfile_throws_when_the_stereotype_is_null()
+        {
+            Assert.That(() => StereotypeExtensions.QueryProfile(null), Throws.ArgumentNullException);
         }
     }
 }
