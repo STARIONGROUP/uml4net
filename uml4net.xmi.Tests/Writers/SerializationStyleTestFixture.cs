@@ -36,8 +36,8 @@ namespace uml4net.xmi.Tests.Writers
     using uml4net.xmi.Writers;
 
     /// <summary>
-    /// Verifies the serialization style of the writer: no owner back-references, href reference elements without
-    /// xmi:type, and the properties in alphabetical order
+    /// Verifies the serialization style of the writer: no owner back-references, href reference elements with their
+    /// xmi:type, and the properties in alphabetical order (#380)
     /// </summary>
     [TestFixture]
     public class SerializationStyleTestFixture
@@ -45,7 +45,7 @@ namespace uml4net.xmi.Tests.Writers
         private static readonly XNamespace XmiNamespace = "http://www.omg.org/spec/XMI/20131001";
 
         [Test]
-        public void Verify_that_owner_back_references_and_the_xmi_type_of_href_elements_are_not_written()
+        public void Verify_that_owner_back_references_are_not_written_and_href_elements_keep_their_xmi_type()
         {
             var package = new Package { XmiId = "package", Name = "package" };
             var @class = new Class { XmiId = "class", Name = "class" };
@@ -71,12 +71,16 @@ namespace uml4net.xmi.Tests.Writers
                 Assert.That(classElement.Elements().Select(x => x.Name.LocalName), Is.EqualTo(new[] { "generalization", "ownedAttribute", "ownedComment" }),
                     "the properties are written in alphabetical order");
 
+                // XMI 2.5.1 rule 9.5.2 2c leaves xmi:type out of a reference element, but Eclipse UML2, Enterprise Architect and
+                // several OMG documents (StandardProfile, UMLDI, DD) write it, and an EMF based tool needs it to create the
+                // proxy of a reference typed by an abstract metaclass; it is therefore written
                 var type = propertyElement.Element("type");
                 Assert.That(type.Attribute("href")?.Value, Is.EqualTo("types.xmi#String"));
-                Assert.That(type.Attribute(XmiNamespace + "type"), Is.Null, "XMI 2.5.1 rule 9.5.2 2c: a reference element has its link attribute only");
+                Assert.That(type.Attribute(XmiNamespace + "type")?.Value, Is.EqualTo("uml:PrimitiveType"));
 
                 var general = classElement.Element("generalization").Element("general");
-                Assert.That(general.Attributes().Select(x => x.Name.LocalName), Is.EqualTo(new[] { "href" }));
+                Assert.That(general.Attribute("href")?.Value, Is.EqualTo("other.xmi#general"));
+                Assert.That(general.Attribute(XmiNamespace + "type")?.Value, Is.EqualTo("uml:Class"));
             }
         }
     }

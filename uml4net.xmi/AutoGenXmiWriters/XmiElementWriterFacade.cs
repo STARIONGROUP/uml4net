@@ -2254,8 +2254,7 @@ namespace uml4net.xmi.Writers
         }
 
         /// <summary>
-        /// Writes an href reference element for the provided <see cref="IXmiElement"/> to the <see cref="XmlWriter"/>: an element
-        /// with the href only, without xmi:type (XMI 2.5.1 rule 9.5.2 2c, XMIReferenceElement), as in the normative UML.xmi
+        /// Writes an href reference element for the provided <see cref="IXmiElement"/> to the <see cref="XmlWriter"/>.
         /// </summary>
         /// <param name="xmlWriter">
         /// The <see cref="XmlWriter"/> to write to
@@ -2272,13 +2271,13 @@ namespace uml4net.xmi.Writers
         private void WriteHrefElement(XmlWriter xmlWriter, IXmiElement element, string elementName, IXmiWriteContext writeContext)
         {
             xmlWriter.WriteStartElement(elementName);
+            xmlWriter.WriteAttributeString("xmi", "type", this.xmiWriterSettings.XmiNamespaceUri, $"uml:{element.GetType().Name}");
             xmlWriter.WriteAttributeString("href", writeContext.QueryHref(element));
             xmlWriter.WriteEndElement();
         }
 
         /// <summary>
-        /// Asynchronously writes an href reference element for the provided <see cref="IXmiElement"/> to the <see cref="XmlWriter"/>:
-        /// an element with the href only, without xmi:type (XMI 2.5.1 rule 9.5.2 2c, XMIReferenceElement), as in the normative UML.xmi
+        /// Asynchronously writes an href reference element for the provided <see cref="IXmiElement"/> to the <see cref="XmlWriter"/>.
         /// </summary>
         /// <param name="xmlWriter">
         /// The <see cref="XmlWriter"/> to write to
@@ -2298,6 +2297,7 @@ namespace uml4net.xmi.Writers
         private async Task WriteHrefElementAsync(XmlWriter xmlWriter, IXmiElement element, string elementName, IXmiWriteContext writeContext)
         {
             await xmlWriter.WriteStartElementAsync(null, elementName, null);
+            await xmlWriter.WriteAttributeStringAsync("xmi", "type", this.xmiWriterSettings.XmiNamespaceUri, $"uml:{element.GetType().Name}");
             await xmlWriter.WriteAttributeStringAsync(null, "href", null, writeContext.QueryHref(element));
             await xmlWriter.WriteEndElementAsync();
         }
