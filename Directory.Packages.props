@@ -16,7 +16,7 @@
          raise only if a newer API is actually required. This pin is enforced in CI: the outdated-package
          check (.github/workflows/nuget-reference-check.yml) lists this package in IGNORE_PACKAGES so it
          never raises a "package outdated" issue. Keep both in sync. -->
-    <PackageVersion Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.12" />
+    <PackageVersion Include="Microsoft.Extensions.Logging.Abstractions" Version="6.0.0" />
     <PackageVersion Include="Microsoft.Extensions.Logging.Console" Version="10.0.12" />
     <PackageVersion Include="Microsoft.Extensions.Http" Version="10.0.12" />
     <PackageVersion Include="Microsoft.Extensions.Hosting" Version="10.0.12" />
