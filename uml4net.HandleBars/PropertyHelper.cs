@@ -590,6 +590,14 @@ namespace uml4net.HandleBars
                         {
                             sb.Append($" => this.{redefiningPropertyName};");
                         }
+                        else if (redefiningIsCollectionShaped && property.IsDerived && !property.IsDerivedUnion)
+                        {
+                            // a derived property with a derivation of its own that is redefined by a property with a
+                            // narrower element type, Classifier::general by Class::superClass: the redefining
+                            // derivation selects the values of that type (superClass = general()->select(oclIsKindOf(Class))),
+                            // forwarding to it would drop the others, so the own derivation is kept
+                            sb.Append($" => this.Query{property.Name.CapitalizeFirstLetter()}();");
+                        }
                         else if (redefiningIsCollectionShaped)
                         {
                             sb.Append($" => this.{redefiningPropertyName}.Cast<{property.QueryInterfaceTypeName()}>().ToList();");

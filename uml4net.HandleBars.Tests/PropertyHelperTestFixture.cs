@@ -446,6 +446,26 @@ namespace uml4net.HandleBars.Tests
         }
 
         [Test]
+        public void Verify_that_WriteForClass_keeps_the_own_derivation_of_a_derived_property_redefined_with_a_narrower_element_type()
+        {
+            // Class::superClass redefines Classifier::general and selects the Class parents only: forwarding
+            // IClassifier.General to it would drop the other parents (#494)
+            var handlebarsTemplate = this.handlebarsContext.Compile("{{ #Property.WriteForClass this.Property this.Class }}");
+
+            var @class = this.QueryClass("StructuredClassifiers", "Class");
+            var general = @class.QueryAllProperties().Single(x => x.XmiId == "Classifier-general");
+
+            var extensionEnd = this.QueryClass("Packages", "ExtensionEnd");
+            var lower = extensionEnd.QueryAllProperties().Single(x => x.XmiId == "MultiplicityElement-lower");
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(handlebarsTemplate(new { Property = general, Class = @class }), Does.Contain("IClassifier.General  => this.QueryGeneral();"));
+                Assert.That(handlebarsTemplate(new { Property = lower, Class = extensionEnd }), Does.Contain("IMultiplicityElement.Lower  => this.Lower;"), "a redefinition that does not narrow a collection still forwards");
+            }
+        }
+
+        [Test]
         public void Verify_that_WriteForClass_bounds_the_ContainerList_of_a_single_valued_composite_property()
         {
             var handlebarsTemplate = this.handlebarsContext.Compile("{{ #Property.WriteForClass this.Property this.Class }}");

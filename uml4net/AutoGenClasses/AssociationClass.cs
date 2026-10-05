@@ -160,7 +160,7 @@ namespace uml4net.StructuredClassifiers
         [Property(xmiId: "Classifier-general", aggregation: AggregationKind.None, lowerValue: 0, upperValue: int.MaxValue, isOrdered: false, isReadOnly: false, isDerived: true, isDerivedUnion: false, isUnique: true, defaultValue: null, isOwnerEnd: false)]
         [RedefinedByProperty("IClass.SuperClass")]
         [Implements(implementation: "IClassifier.General")]
-        IReadOnlyList<IClassifier> IClassifier.General => this.SuperClass.Cast<IClassifier>().ToList();
+        IReadOnlyList<IClassifier> IClassifier.General => this.QueryGeneral();
 
         /// <summary>
         /// The Generalization relationships for this Classifier. These Generalizations navigate to more general
