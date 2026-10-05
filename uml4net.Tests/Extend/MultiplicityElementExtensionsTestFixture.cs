@@ -127,5 +127,28 @@ namespace uml4net.Tests.Extend
 
             Assert.That(property.Upper, Is.EqualTo("*"));
         }
+
+        [Test]
+        public void Verify_that_upper_is_0_for_a_LiteralUnlimitedNatural_without_value()
+        {
+            // upperBound() = upperValue.unlimitedValue(), and LiteralUnlimitedNatural::value has default 0 (#493)
+            var property = new Property();
+            property.UpperValue.Add(new LiteralUnlimitedNatural());
+
+            var emptyValue = new Property();
+            emptyValue.UpperValue.Add(new LiteralUnlimitedNatural { Value = "" });
+
+            var operation = new Operation();
+            var returnParameter = new Parameter { Direction = ParameterDirectionKind.Return };
+            returnParameter.UpperValue.Add(new LiteralUnlimitedNatural());
+            operation.OwnedParameter.Add(returnParameter);
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(property.Upper, Is.EqualTo("0"));
+                Assert.That(emptyValue.Upper, Is.EqualTo("0"));
+                Assert.That(operation.Upper, Is.EqualTo("0"), "Operation::upper is the upper of its return parameter");
+            }
+        }
     }
 }

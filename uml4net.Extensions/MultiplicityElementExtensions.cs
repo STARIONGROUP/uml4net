@@ -46,7 +46,8 @@ namespace uml4net.Extensions
         /// Follows <c>MultiplicityElement::upperBound()</c>: <c>if (upperValue=null or upperValue.unlimitedValue()=null)
         /// then 1 else upperValue.unlimitedValue() endif</c>. As a tolerance for tool exports, an upper value written as
         /// a <see cref="ILiteralInteger"/> is accepted, and <c>-1</c> denotes an unlimited upper bound. Any other
-        /// ValueSpecification, such as an OpaqueExpression whose value cannot be computed, yields 1.
+        /// ValueSpecification, such as an OpaqueExpression whose value cannot be computed, yields 1. A
+        /// <see cref="ILiteralUnlimitedNatural"/> without value has the default of <c>LiteralUnlimitedNatural::value</c>, 0.
         /// </remarks>
         public static int QueryUpperValue(this IMultiplicityElement multiplicityElement)
         {
@@ -59,6 +60,9 @@ namespace uml4net.Extensions
             {
                 case ILiteralUnlimitedNatural { Value: "*" }:
                     return int.MaxValue;
+
+                case ILiteralUnlimitedNatural literalUnlimitedNatural when string.IsNullOrEmpty(literalUnlimitedNatural.Value):
+                    return 0;
 
                 case ILiteralUnlimitedNatural literalUnlimitedNatural when int.TryParse(literalUnlimitedNatural.Value, NumberStyles.AllowLeadingSign, CultureInfo.InvariantCulture, out var value):
                     return QueryUpperBound(value);

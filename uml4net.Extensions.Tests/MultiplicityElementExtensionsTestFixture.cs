@@ -81,8 +81,18 @@ namespace uml4net.Extensions.Tests
                 Assert.That(QueryUpperValueAndIsEnumerable(new LiteralBoolean()), Is.EqualTo((1, false)));
                 Assert.That(QueryUpperValueAndIsEnumerable(new OpaqueExpression { Body = { "n" } }), Is.EqualTo((1, false)));
                 Assert.That(QueryUpperValueAndIsEnumerable(new LiteralUnlimitedNatural { Value = "many" }), Is.EqualTo((1, false)));
-                Assert.That(QueryUpperValueAndIsEnumerable(new LiteralUnlimitedNatural()), Is.EqualTo((1, false)));
                 Assert.That(QueryUpperValueAndIsEnumerable(new LiteralInteger { Value = -2 }), Is.EqualTo((1, false)));
+            }
+        }
+
+        [Test]
+        public void Verify_that_Query_upper_is_0_for_a_LiteralUnlimitedNatural_without_value()
+        {
+            // LiteralUnlimitedNatural::value has default 0, XMI omits it (#493)
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(QueryUpperValueAndIsEnumerable(new LiteralUnlimitedNatural()), Is.EqualTo((0, false)));
+                Assert.That(QueryUpperValueAndIsEnumerable(new LiteralUnlimitedNatural { Value = "" }), Is.EqualTo((0, false)));
             }
         }
 

@@ -98,12 +98,17 @@ namespace uml4net.CommonStructure
         /// true for a <see cref="ILiteralUnlimitedNatural"/> and, as a tolerance for tool exports that
         /// write an upper bound as a LiteralInteger, for a non-negative <see cref="ILiteralInteger"/>; false otherwise
         /// </returns>
+        /// <remarks>
+        /// A <see cref="ILiteralUnlimitedNatural"/> without value has the default of <c>LiteralUnlimitedNatural::value</c>,
+        /// <c>0</c>: XMI omits a value that equals its default, as for the <c>[0..0]</c> property
+        /// <c>QUDV::PrefixedUnit::noQuantityKind</c> of SysML 1.7
+        /// </remarks>
         internal static bool TryQueryUnlimitedValue(IValueSpecification valueSpecification, out string value)
         {
             switch (valueSpecification)
             {
                 case ILiteralUnlimitedNatural literalUnlimitedNatural:
-                    value = literalUnlimitedNatural.Value;
+                    value = string.IsNullOrEmpty(literalUnlimitedNatural.Value) ? "0" : literalUnlimitedNatural.Value;
                     return true;
 
                 case ILiteralInteger literalInteger when literalInteger.Value >= 0:
