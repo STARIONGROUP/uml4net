@@ -52,6 +52,18 @@ default of an `ExtensionEnd`, in that case, so `Extension::isRequired` is `false
 redefines a `[1..1]` property, a nullable type would break the generated API (#357), and normal models use a
 `LiteralInteger` (#496).
 
+### A redefined property is read through the redefining property, except `Classifier::general`
+
+A generated class implements a redefined property explicitly on the interface of its owner, for example
+`IMultiplicityElement.Lower` on `ExtensionEnd`. A derived or read-only redefined property forwards to the redefining
+property, so `IMultiplicityElement.Lower` of an `ExtensionEnd` is `ExtensionEnd::lower` (#232). A settable list whose
+redefinition narrows the element type throws instead, because a converted copy would silently drop additions.
+
+`Class::superClass` redefines `Classifier::general` but selects the Class parents only (`general()->select(oclIsKindOf(Class))`).
+A derived property that is redefined by a property with a narrower element type keeps its own derivation, so
+`IClassifier.General` of a `Class` returns every parent, including an `Association` that an `AssociationClass`
+specializes, and `IClass.SuperClass` the Classes (#494). This is the only such redefinition in UML 2.5.1.
+
 ### `Classifier::useCase` is exposed as `UseCases`
 
 A C# member cannot have the name of its enclosing type (CS0542), and `UseCase` is itself a `Classifier`. When the name

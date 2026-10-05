@@ -69,8 +69,28 @@ namespace uml4net.Tests.Extend
             using (Assert.EnterMultipleScope())
             {
                 Assert.That(cat.SuperClass, Is.EqualTo(new List<IClass> { animal }), "two generalizations to the same general give one super class, one without a general gives none");
-                Assert.That(((IClassifier)cat).General, Is.EqualTo(new List<IClassifier> { animal }), "Class::superClass redefines Classifier::general");
+                Assert.That(((IClassifier)cat).General, Is.EqualTo(new List<IClassifier> { animal, named }), "IClassifier.General keeps every parent, superClass selects the Classes (#494)");
                 Assert.That(cat.QueryGeneral(), Is.EqualTo(new List<IClassifier> { animal, named }), "general() itself keeps the Interface; superClass selects the Classes");
+            }
+        }
+
+        [Test]
+        public void Verify_that_General_of_an_AssociationClass_contains_a_general_Association()
+        {
+            // an AssociationClass may specialize a plain Association (Classifier::maySpecializeType); general = parents()
+            // keeps it while superClass, which redefines general, selects the Classes only (#494)
+            var associationClass = new AssociationClass { Name = "AC" };
+            var association = new Association { Name = "A" };
+            var @class = new Class { Name = "C" };
+
+            associationClass.Generalization.Add(new Generalization { General = association });
+            associationClass.Generalization.Add(new Generalization { General = @class });
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(((IClassifier)associationClass).General, Is.EquivalentTo(new IClassifier[] { association, @class }));
+                Assert.That(((IAssociation)associationClass).General, Is.EquivalentTo(new IClassifier[] { association, @class }));
+                Assert.That(associationClass.SuperClass, Is.EquivalentTo(new IClass[] { @class }));
             }
         }
 
