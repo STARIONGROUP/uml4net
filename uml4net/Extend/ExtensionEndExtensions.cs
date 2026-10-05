@@ -43,6 +43,11 @@ namespace uml4net.Packages
         /// <returns>
         /// The lower bound of the <paramref name="extensionEnd"/>.
         /// </returns>
+        /// <remarks>
+        /// Deliberately deviates from the OCL for a lower value that is not a literal: <c>integerValue()</c> is null
+        /// there and so is <c>ExtensionEnd::lower [0..1]</c>, but <see cref="IExtensionEnd.Lower"/> is a non-nullable
+        /// <see cref="int"/> and 0 is returned, see design-decisions.md (#496).
+        /// </remarks>
         internal static int QueryLower(this IExtensionEnd extensionEnd)
         {
             if (extensionEnd == null)
