@@ -18,6 +18,19 @@ The list of a single-valued composite enforces the upper bound: adding a second 
 `InvalidOperationException` that names the property. A document that repeats the value is reported by the reader, an
 `XmiReadException` in strict mode, an error log otherwise, and the first value is kept (#480).
 
+### An element is owned by one container, and can be in several of its composite lists
+
+Adding an element to a composite list of another container moves it: it is removed from every composite list of its
+previous container, and the owner end of the list it leaves is cleared. This follows UML, where an element has at most
+one owner, and matches EMF (#492).
+
+A composite property can subset another one of the same owner, for example `Operation::precondition` subsets
+`Namespace::ownedRule` and `Activity::structuredNode` subsets `Activity::node`. The element is then in both lists, as a
+reader builds it. Removing it from one of them keeps it owned by the container; only when no list of the container
+holds it any more are its owner and owner end cleared.
+
+Every member of `ContainerList<T>` maintains the containment, including the non-generic `IList` members.
+
 ### `UnlimitedNatural` is a `string`
 
 Values of type `UnlimitedNatural`, such as `LiteralUnlimitedNatural::value` and `MultiplicityElement::upper`, are

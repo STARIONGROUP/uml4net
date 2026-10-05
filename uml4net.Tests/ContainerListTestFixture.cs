@@ -292,9 +292,219 @@ namespace uml4net.Tests
 
             oldOwner.Generalization.Add(generalization);
             newOwner.Generalization.Add(generalization);
-            oldOwner.Generalization.Remove(generalization);
 
-            Assert.That(generalization.Specific, Is.SameAs(newOwner));
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(oldOwner.Generalization, Is.Empty, "adding to another container moves the element (#492)");
+                Assert.That(oldOwner.Generalization.Remove(generalization), Is.False);
+                Assert.That(generalization.Specific, Is.SameAs(newOwner));
+                Assert.That(generalization.Possessor, Is.SameAs(newOwner));
+            }
+        }
+
+        [Test]
+        public void Verify_that_removing_an_element_from_a_subsetting_composite_list_keeps_it_owned_by_the_container()
+        {
+            // Operation::precondition subsets Namespace::ownedRule (#492)
+            var operation = new Operation { Name = "op" };
+            var constraint = new Constraint { Name = "pre" };
+
+            operation.OwnedRule.Add(constraint);
+            operation.Precondition.Add(constraint);
+            operation.Precondition.Remove(constraint);
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(operation.OwnedRule, Is.EquivalentTo(new[] { constraint }));
+                Assert.That(constraint.Owner, Is.SameAs(operation));
+                Assert.That(constraint.Context, Is.SameAs(operation));
+                Assert.That(operation.OwnedElement, Is.EquivalentTo(new IElement[] { constraint }));
+            }
+
+            operation.OwnedRule.Remove(constraint);
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(constraint.Owner, Is.Null);
+                Assert.That(constraint.Context, Is.Null);
+                Assert.That(operation.OwnedElement, Is.Empty);
+            }
+        }
+
+        [Test]
+        public void Verify_that_RemoveAt_Clear_and_the_indexer_keep_an_element_owned_while_another_list_of_the_container_holds_it()
+        {
+            var operation = new Operation { Name = "op" };
+            var first = new Constraint { Name = "first" };
+            var second = new Constraint { Name = "second" };
+            var third = new Constraint { Name = "third" };
+            var replacement = new Constraint { Name = "replacement" };
+
+            operation.OwnedRule.AddRange([first, second, third]);
+            operation.Precondition.AddRange([first, second, third]);
+
+            operation.Precondition.RemoveAt(0);
+            operation.Precondition[0] = replacement;
+            operation.Precondition.Clear();
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(first.Owner, Is.SameAs(operation), "RemoveAt");
+                Assert.That(second.Owner, Is.SameAs(operation), "indexer");
+                Assert.That(third.Owner, Is.SameAs(operation), "Clear");
+                Assert.That(replacement.Owner, Is.Null, "the replacement was only held by the cleared list");
+            }
+        }
+
+        [Test]
+        public void Verify_that_adding_an_element_to_another_container_moves_it()
+        {
+            var oldOwner = new Class { Name = "Old" };
+            var newOwner = new Class { Name = "New" };
+            var property = new Property { Name = "p" };
+
+            oldOwner.OwnedAttribute.Add(property);
+            newOwner.OwnedAttribute.Add(property);
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(oldOwner.OwnedAttribute, Is.Empty);
+                Assert.That(oldOwner.OwnedElement, Is.Empty);
+                Assert.That(newOwner.OwnedAttribute, Is.EquivalentTo(new[] { property }));
+                Assert.That(property.Owner, Is.SameAs(newOwner));
+                Assert.That(property.Class, Is.SameAs(newOwner));
+            }
+        }
+
+        [Test]
+        public void Verify_that_moving_an_element_clears_the_owner_end_of_the_list_it_leaves()
+        {
+            // Class::ownedAttribute has owner end Property::class, Association::ownedEnd has Property::owningAssociation
+            var @class = new Class { Name = "C" };
+            var association = new Association { Name = "A" };
+            var property = new Property { Name = "p" };
+
+            @class.OwnedAttribute.Add(property);
+            association.OwnedEnd.Add(property);
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(@class.OwnedAttribute, Is.Empty);
+                Assert.That(property.Class, Is.Null);
+                Assert.That(property.OwningAssociation, Is.SameAs(association));
+                Assert.That(property.Owner, Is.SameAs(association));
+            }
+        }
+
+        [Test]
+        public void Verify_that_moving_an_element_removes_it_from_every_list_of_the_previous_container()
+        {
+            var oldOperation = new Operation { Name = "old" };
+            var newOperation = new Operation { Name = "new" };
+            var constraint = new Constraint { Name = "pre" };
+
+            oldOperation.OwnedRule.Add(constraint);
+            oldOperation.Precondition.Add(constraint);
+            newOperation.OwnedRule.Add(constraint);
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(oldOperation.OwnedRule, Is.Empty);
+                Assert.That(oldOperation.Precondition, Is.Empty);
+                Assert.That(constraint.Owner, Is.SameAs(newOperation));
+                Assert.That(constraint.Context, Is.SameAs(newOperation));
+            }
+        }
+
+        [Test]
+        public void Verify_that_a_failed_addition_does_not_move_the_element()
+        {
+            var oldOwner = new Constraint { Name = "old" };
+            var newOwner = new Constraint { Name = "new" };
+            var specification = new LiteralString { Value = "a" };
+            var other = new LiteralString { Value = "b" };
+
+            oldOwner.Specification.Add(specification);
+            newOwner.Specification.Add(other);
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(() => newOwner.Specification.Add(specification), Throws.InvalidOperationException, "Constraint::specification is [1..1]");
+                Assert.That(oldOwner.Specification, Is.EquivalentTo(new[] { specification }));
+                Assert.That(specification.Owner, Is.SameAs(oldOwner));
+            }
+        }
+
+        [Test]
+        public void Verify_that_the_indexer_moves_an_element_from_another_container()
+        {
+            var oldOwner = new Class { Name = "Old" };
+            var newOwner = new Class { Name = "New" };
+            var moved = new Property { Name = "moved" };
+            var replaced = new Property { Name = "replaced" };
+
+            oldOwner.OwnedAttribute.Add(moved);
+            newOwner.OwnedAttribute.Add(replaced);
+
+            ((ContainerList<IProperty>)newOwner.OwnedAttribute)[0] = moved;
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(oldOwner.OwnedAttribute, Is.Empty);
+                Assert.That(newOwner.OwnedAttribute, Is.EquivalentTo(new[] { moved }));
+                Assert.That(moved.Owner, Is.SameAs(newOwner));
+                Assert.That(replaced.Owner, Is.Null);
+                Assert.That(replaced.Class, Is.Null);
+            }
+        }
+
+        [Test]
+        public void Verify_that_the_non_generic_IList_members_maintain_the_containment()
+        {
+            var @class = new Class { Name = "C" };
+            var list = (System.Collections.IList)@class.Generalization;
+            var first = new Generalization();
+            var second = new Generalization();
+            var third = new Generalization();
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(list.Add(first), Is.EqualTo(0));
+                Assert.That(first.Specific, Is.SameAs(@class), "IList.Add sets the owner end");
+                Assert.That(first.Possessor, Is.SameAs(@class));
+            }
+
+            list.Insert(0, second);
+            Assert.That(second.Specific, Is.SameAs(@class), "IList.Insert");
+
+            list[0] = third;
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(list[0], Is.SameAs(third));
+                Assert.That(third.Specific, Is.SameAs(@class), "IList indexer sets the new element");
+                Assert.That(second.Specific, Is.Null, "IList indexer clears the replaced element");
+                Assert.That(second.Possessor, Is.Null);
+            }
+
+            list.Remove(third);
+            list.Remove("not a generalization");
+            Assert.That(third.Possessor, Is.Null, "IList.Remove");
+
+            list.Add(second);
+            list.RemoveAt(0);
+            Assert.That(first.Possessor, Is.Null, "IList.RemoveAt");
+
+            list.Clear();
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(second.Possessor, Is.Null, "IList.Clear");
+                Assert.That(@class.Generalization, Is.Empty);
+                Assert.That(() => list.Add(new Class()), Throws.ArgumentException);
+                Assert.That(() => list.Insert(0, "not a generalization"), Throws.ArgumentException);
+                Assert.That(() => list.Add(null), Throws.ArgumentNullException);
+            }
         }
 
         [Test]
