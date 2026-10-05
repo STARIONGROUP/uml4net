@@ -121,5 +121,51 @@ namespace uml4net.Tests.Extend
                 Assert.That(property_c.Opposite, Is.Null);
             }
         }
+
+        [Test]
+        public void Verify_that_Opposite_is_null_instead_of_throwing_when_the_property_is_not_a_member_end_of_its_association()
+        {
+            // an inconsistent model: the association of the property lists two other member ends (#495)
+            var property = new Property { Name = "p" };
+            var association = new Association();
+            property.Association = association;
+            association.MemberEnd.AddRange([new Property { Name = "a" }, new Property { Name = "b" }]);
+
+            Assert.That(() => property.Opposite, Throws.Nothing);
+            Assert.That(property.Opposite, Is.Null);
+        }
+
+        [Test]
+        public void Verify_that_Opposite_is_null_when_the_property_is_listed_twice_as_member_end()
+        {
+            var property = new Property { Name = "p" };
+            var association = new Association();
+            property.Association = association;
+            association.MemberEnd.AddRange([property, property]);
+
+            Assert.That(property.Opposite, Is.Null);
+        }
+
+        [Test]
+        public void Verify_that_Opposite_uses_the_owning_association_when_the_association_is_not_set()
+        {
+            // Property::owningAssociation subsets Property::association (#495)
+            var @class = new Class { Name = "C" };
+            var association = new Association { Name = "A" };
+            var ownedEnd = new Property { Name = "ownedEnd" };
+            var navigableEnd = new Property { Name = "navigableEnd", Association = association };
+
+            association.OwnedEnd.Add(ownedEnd);
+            @class.OwnedAttribute.Add(navigableEnd);
+            association.MemberEnd.AddRange([ownedEnd, navigableEnd]);
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(ownedEnd.Association, Is.Null);
+                Assert.That(ownedEnd.OwningAssociation, Is.SameAs(association));
+                Assert.That(ownedEnd.Opposite, Is.SameAs(navigableEnd));
+                Assert.That(navigableEnd.Opposite, Is.SameAs(ownedEnd));
+            }
+        }
     }
 }

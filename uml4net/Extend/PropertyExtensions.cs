@@ -66,6 +66,10 @@ namespace uml4net.Classification
         /// BINARY association (<c>association.memberEnd->size() = 2</c>) - for any other association
         /// (no association at all, or a genuinely n-ary one with more than 2 member ends), there is no
         /// single well-defined opposite end, so this returns <c>null</c> rather than throwing.
+        /// <c>Property::owningAssociation</c> subsets <c>Property::association</c>, so the owning association is used
+        /// when the association is not set, as for an owned end that is serialized without its <c>association</c>.
+        /// A property that is not one of the two member ends of its association, which only occurs in an inconsistent
+        /// model, has no opposite either: the OCL <c>memberEnd->any(e | e &lt;&gt; self)</c> would pick either end.
         /// </remarks>
         internal static IProperty QueryOpposite(this IProperty property)
         {
@@ -74,12 +78,16 @@ namespace uml4net.Classification
                 throw new ArgumentNullException(nameof(property));
             }
 
-            if (property.Association == null || property.Association.MemberEnd.Count != 2)
+            var association = property.Association ?? property.OwningAssociation;
+
+            if (association == null || association.MemberEnd.Count != 2 || !association.MemberEnd.Any(x => ReferenceEquals(x, property)))
             {
                 return null;
             }
 
-            return property.Association.MemberEnd.Except([property]).Single();
+            var otherEnds = association.MemberEnd.Where(x => !ReferenceEquals(x, property)).ToList();
+
+            return otherEnds.Count == 1 ? otherEnds[0] : null;
         }
     }
 }
