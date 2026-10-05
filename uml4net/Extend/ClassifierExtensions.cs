@@ -406,7 +406,7 @@ namespace uml4net.Classification
         }
 
         /// <summary>
-        /// Queries the Interfaces that this Classifier uses directly, via its own supplier Dependencies.
+        /// Queries the Interfaces that this Classifier uses directly, via its own client Usages.
         /// </summary>
         /// <param name="element">
         /// The subject <see cref="IClassifier"/>
@@ -414,6 +414,15 @@ namespace uml4net.Classification
         /// <returns>
         /// the Interfaces used directly by this Classifier.
         /// </returns>
+        /// <remarks>
+        /// Deliberately deviates from the metamodel's OCL, <c>supplierDependency->select(oclIsKindOf(Usage) and
+        /// client->forAll(oclIsKindOf(Interface)))->collect(client.oclAsType(Interface))->asSet()</c>, which selects the
+        /// Usages of which this Classifier is the supplier and the Interfaces are the clients. The specification text
+        /// describes a required Interface as "the Usage dependency from a Classifier to an Interface" (UML 2.5.1 clause
+        /// 10.4.4): the Classifier is the client and the Interface the supplier, as every modeling tool draws it. This
+        /// implementation follows the text, mirroring <see cref="QueryDirectlyRealizedInterfaces"/>; the literal OCL
+        /// would leave the required Interfaces of Components and Ports empty for such models (#497).
+        /// </remarks>
         internal static List<IInterface> QueryDirectlyUsedInterfaces(this IClassifier element)
         {
             if (element == null)
@@ -421,10 +430,10 @@ namespace uml4net.Classification
                 throw new ArgumentNullException(nameof(element));
             }
 
-            return element.QuerySupplierDependency()
+            return element.QueryClientDependency()
                 .OfType<IUsage>()
-                .Where(usage => usage.Client.All(client => client is IInterface))
-                .SelectMany(usage => usage.Client.Cast<IInterface>())
+                .Where(usage => usage.Supplier.All(supplier => supplier is IInterface))
+                .SelectMany(usage => usage.Supplier.Cast<IInterface>())
                 .Distinct()
                 .ToList();
         }

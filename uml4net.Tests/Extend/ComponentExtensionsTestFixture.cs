@@ -70,8 +70,8 @@ namespace uml4net.Tests.Extend
             package.PackagedElement.Add(requiredInterface);
 
             var usage = new Usage { Name = "Usage" };
-            usage.Client.Add(requiredInterface);
-            usage.Supplier.Add(component);
+            usage.Client.Add(component);
+            usage.Supplier.Add(requiredInterface);
             package.PackagedElement.Add(usage);
 
             Assert.That(component.QueryRequired(), Is.EquivalentTo(new[] { requiredInterface }));
@@ -116,8 +116,8 @@ namespace uml4net.Tests.Extend
             component.Realization.Add(componentRealization);
 
             var usage = new Usage { Name = "Usage" };
-            usage.Client.Add(requiredInterface);
-            usage.Supplier.Add(realizingClassifier);
+            usage.Client.Add(realizingClassifier);
+            usage.Supplier.Add(requiredInterface);
             package.PackagedElement.Add(usage);
 
             Assert.That(component.QueryRequired(), Is.EquivalentTo(new[] { requiredInterface }));

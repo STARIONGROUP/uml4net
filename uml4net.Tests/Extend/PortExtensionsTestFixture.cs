@@ -89,8 +89,8 @@ namespace uml4net.Tests.Extend
             package.PackagedElement.Add(requiredInterface);
 
             var usage = new Usage { Name = "Usage" };
-            usage.Client.Add(requiredInterface);
-            usage.Supplier.Add(type);
+            usage.Client.Add(type);
+            usage.Supplier.Add(requiredInterface);
             package.PackagedElement.Add(usage);
 
             var port = new Port { Name = "MyPort", Type = type, IsConjugated = false };
@@ -115,8 +115,8 @@ namespace uml4net.Tests.Extend
             package.PackagedElement.Add(realization);
 
             var usage = new Usage { Name = "Usage" };
-            usage.Client.Add(usedInterface);
-            usage.Supplier.Add(type);
+            usage.Client.Add(type);
+            usage.Supplier.Add(usedInterface);
             package.PackagedElement.Add(usage);
 
             var conjugatedPort = new Port { Name = "ConjugatedPort", Type = type, IsConjugated = true };
