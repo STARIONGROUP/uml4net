@@ -43,6 +43,15 @@ for `*`.
 The typed tagged values of a stereotype application follow that convention: an `UnlimitedNatural` tagged value is an
 `int`, with `int.MaxValue` for `*` (#465).
 
+### `ExtensionEnd::lower` is an `int`, not an `int?`
+
+`ExtensionEnd::lower` is `Integer [0..1]` and redefines `MultiplicityElement::lower`. Its OCL is
+`if lowerValue = null then 0 else lowerValue.integerValue() endif`, which is null for a lower value that is not a
+literal, such as an `OpaqueExpression`. uml4net keeps `IExtensionEnd.Lower` a non-nullable `int` and returns `0`, the
+default of an `ExtensionEnd`, in that case, so `Extension::isRequired` is `false` instead of null. The property
+redefines a `[1..1]` property, a nullable type would break the generated API (#357), and normal models use a
+`LiteralInteger` (#496).
+
 ### `Classifier::useCase` is exposed as `UseCases`
 
 A C# member cannot have the name of its enclosing type (CS0542), and `UseCase` is itself a `Classifier`. When the name
