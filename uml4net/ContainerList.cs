@@ -21,16 +21,25 @@
 namespace uml4net
 {
     using System;
+    using System.Collections;
     using System.Collections.Generic;
     using System.ComponentModel;
+    using System.Linq;
 
     using uml4net.CommonStructure;
-    
+
     /// <summary>
     /// List Type used for the 10-25 model for classes which are part of a composition relationship
     /// </summary>
     /// <typeparam name="T">the type of <see cref="IElement"/> that this List contains</typeparam>
-    public class ContainerList<T> : List<T>, IContainerList<T> where T : class, IElement
+    /// <remarks>
+    /// An element is owned by one container: adding an element that is held by the composite list of another container
+    /// moves it, it is removed from the lists of that other container. An element can be held by several composite lists
+    /// of the same container, when a composite property subsets another one (for example <c>Operation::precondition</c>
+    /// subsets <c>Namespace::ownedRule</c>); removing it from one of them keeps it owned by the container.
+    /// Every way of changing the list, including the non-generic <see cref="IList"/> members, maintains the containment.
+    /// </remarks>
+    public class ContainerList<T> : List<T>, IContainerList<T>, IList, IContainerListMembership where T : class, IElement
     {
         /// <summary>
         /// Backing field for the container of this <see cref="ContainerList{T}"/>
@@ -165,17 +174,25 @@ namespace uml4net
             foreach (var item in containerList)
             {
                 item.Possessor = this.container;
+                ContainerListMembership.Register(item, this);
             }
         }
+
+        /// <summary>
+        /// Gets the <see cref="IElement"/> that owns this list
+        /// </summary>
+        IElement IContainerListMembership.Container => this.container;
 
         /// <summary>
         /// Adds a new <see cref="IElement"/> to the <see cref="List{T}"/> and assigns its <see cref="Container"/> property
         /// to this list's owner. 
         /// </summary>
         /// <remarks>
-        /// The <paramref name="element"/> cannot be <c>null</c> because the <see cref="Container"/> property 
+        /// The <paramref name="element"/> cannot be <c>null</c> because the <see cref="Container"/> property
         /// requires a non-null owner to be set. Attempting to add <c>null</c> will result in an <see cref="ArgumentNullException"/>.
         /// Additionally, if the <paramref name="element"/> already exists in the list, an <see cref="InvalidOperationException"/> is thrown.
+        /// An <paramref name="element"/> held by the composite list of another container is moved: it is removed from
+        /// the lists of that other container.
         /// </remarks>
         /// <param name="element">The new <see cref="IElement"/> to add to the list.</param>
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="element"/> is <c>null</c>.</exception>
@@ -187,9 +204,9 @@ namespace uml4net
         {
             this.VerifyAddition(element);
 
-            element.Possessor = this.container;
+            this.Contain(element);
             base.Add(element);
-            this.attachOwnerEnd?.Invoke(element);
+            this.Attach(element);
         }
 
         /// <summary>
@@ -215,9 +232,86 @@ namespace uml4net
 
             this.VerifyAddition(element);
 
-            element.Possessor = this.container;
+            this.Contain(element);
             base.Insert(index, element);
+            this.Attach(element);
+        }
+
+        /// <summary>
+        /// Makes the container of this list the <see cref="IElement.Possessor"/> of the <paramref name="element"/>, and
+        /// removes the <paramref name="element"/> from the composite lists of any other container
+        /// </summary>
+        /// <param name="element">The <see cref="IElement"/> that is added to this list</param>
+        private void Contain(T element)
+        {
+            foreach (var list in ContainerListMembership.QueryLists(element).Where(x => !ReferenceEquals(x.Container, this.container)))
+            {
+                list.DetachMovingElement(element);
+            }
+
+            element.Possessor = this.container;
+        }
+
+        /// <summary>
+        /// Records that this list holds the <paramref name="element"/> and sets its owner end
+        /// </summary>
+        /// <param name="element">The <see cref="IElement"/> that was added to this list</param>
+        private void Attach(T element)
+        {
+            ContainerListMembership.Register(element, this);
             this.attachOwnerEnd?.Invoke(element);
+        }
+
+        /// <summary>
+        /// Releases an <paramref name="element"/> that was removed from this list: when no other composite list of the
+        /// container holds it, its <see cref="IElement.Possessor"/> and owner end are cleared, otherwise the owner ends
+        /// of the lists that still hold it are set again
+        /// </summary>
+        /// <param name="element">The <see cref="IElement"/> that was removed from this list</param>
+        private void Release(T element)
+        {
+            ContainerListMembership.Unregister(element, this);
+            this.detachOwnerEnd?.Invoke(element);
+
+            var remainingLists = ContainerListMembership.QueryLists(element).Where(x => ReferenceEquals(x.Container, this.container)).ToList();
+
+            if (remainingLists.Count > 0)
+            {
+                foreach (var list in remainingLists)
+                {
+                    list.ReattachOwnerEnd(element);
+                }
+
+                return;
+            }
+
+            if (ReferenceEquals(element.Possessor, this.container))
+            {
+                element.Possessor = null;
+            }
+        }
+
+        /// <summary>
+        /// Removes an element that moves to another container from this list and clears its owner end, without
+        /// changing its <see cref="IElement.Possessor"/>
+        /// </summary>
+        /// <param name="element">The <see cref="IElement"/> that moves to another container</param>
+        void IContainerListMembership.DetachMovingElement(IElement element)
+        {
+            var item = (T)element;
+
+            base.Remove(item);
+            ContainerListMembership.Unregister(item, this);
+            this.detachOwnerEnd?.Invoke(item);
+        }
+
+        /// <summary>
+        /// Sets the owner end of an element that this list still holds to the container
+        /// </summary>
+        /// <param name="element">The <see cref="IElement"/> held by this list</param>
+        void IContainerListMembership.ReattachOwnerEnd(IElement element)
+        {
+            this.attachOwnerEnd?.Invoke((T)element);
         }
 
         /// <summary>
@@ -330,16 +424,16 @@ namespace uml4net
 
                 var replaced = base[index];
 
-                value.Possessor = this.container;
-                base[index] = value;
-
-                if (!ReferenceEquals(replaced, value))
+                if (ReferenceEquals(replaced, value))
                 {
-                    replaced.Possessor = null;
-                    this.detachOwnerEnd?.Invoke(replaced);
+                    this.attachOwnerEnd?.Invoke(value);
+                    return;
                 }
 
-                this.attachOwnerEnd?.Invoke(value);
+                this.Contain(value);
+                base[index] = value;
+                this.Release(replaced);
+                this.Attach(value);
             }
         }
 
@@ -365,8 +459,7 @@ namespace uml4net
                 return false;
             }
 
-            item.Possessor = null;
-            this.detachOwnerEnd?.Invoke(item);
+            this.Release(item);
 
             return true;
         }
@@ -387,8 +480,7 @@ namespace uml4net
 
             var element = base[index];
             base.RemoveAt(index);
-            element.Possessor = null;
-            this.detachOwnerEnd?.Invoke(element);
+            this.Release(element);
         }
 
         /// <summary>
@@ -396,13 +488,100 @@ namespace uml4net
         /// </summary>
         public new void Clear()
         {
-            foreach (var element in this)
-            {
-                element.Possessor = null;
-                this.detachOwnerEnd?.Invoke(element);
-            }
+            var elements = this.ToList();
 
             base.Clear();
+
+            foreach (var element in elements)
+            {
+                this.Release(element);
+            }
+        }
+
+        /// <summary>
+        /// Adds an item to the list through the non-generic <see cref="IList"/> interface, maintaining the containment
+        /// as <see cref="Add(T)"/> does
+        /// </summary>
+        /// <param name="value">The item to add, a <typeparamref name="T"/></param>
+        /// <returns>The index at which the item was added</returns>
+        /// <exception cref="ArgumentException">Thrown when <paramref name="value"/> is not a <typeparamref name="T"/></exception>
+        int IList.Add(object value)
+        {
+            this.Add(CastToElement(value));
+
+            return this.Count - 1;
+        }
+
+        /// <summary>
+        /// Inserts an item through the non-generic <see cref="IList"/> interface, maintaining the containment as
+        /// <see cref="Insert(int, T)"/> does
+        /// </summary>
+        /// <param name="index">The zero-based index at which the item is inserted</param>
+        /// <param name="value">The item to insert, a <typeparamref name="T"/></param>
+        /// <exception cref="ArgumentException">Thrown when <paramref name="value"/> is not a <typeparamref name="T"/></exception>
+        void IList.Insert(int index, object value)
+        {
+            this.Insert(index, CastToElement(value));
+        }
+
+        /// <summary>
+        /// Removes an item through the non-generic <see cref="IList"/> interface, maintaining the containment as
+        /// <see cref="Remove(T)"/> does; an item that is not a <typeparamref name="T"/> is ignored
+        /// </summary>
+        /// <param name="value">The item to remove</param>
+        void IList.Remove(object value)
+        {
+            if (value is T element)
+            {
+                this.Remove(element);
+            }
+        }
+
+        /// <summary>
+        /// Removes the item at the specified index through the non-generic <see cref="IList"/> interface, maintaining
+        /// the containment as <see cref="RemoveAt(int)"/> does
+        /// </summary>
+        /// <param name="index">The zero-based index of the item to remove</param>
+        void IList.RemoveAt(int index)
+        {
+            this.RemoveAt(index);
+        }
+
+        /// <summary>
+        /// Removes all items through the non-generic <see cref="IList"/> interface, maintaining the containment as
+        /// <see cref="Clear()"/> does
+        /// </summary>
+        void IList.Clear()
+        {
+            this.Clear();
+        }
+
+        /// <summary>
+        /// Gets or sets the item at the specified index through the non-generic <see cref="IList"/> interface,
+        /// maintaining the containment as the typed indexer does
+        /// </summary>
+        /// <param name="index">The zero-based index of the item</param>
+        /// <exception cref="ArgumentException">Thrown when the value set is not a <typeparamref name="T"/></exception>
+        object IList.this[int index]
+        {
+            get => this[index];
+            set => this[index] = CastToElement(value);
+        }
+
+        /// <summary>
+        /// Casts an item passed through the non-generic <see cref="IList"/> interface to a <typeparamref name="T"/>
+        /// </summary>
+        /// <param name="value">The item</param>
+        /// <returns>The item as a <typeparamref name="T"/>, or null when it is null</returns>
+        /// <exception cref="ArgumentException">Thrown when <paramref name="value"/> is not a <typeparamref name="T"/></exception>
+        private static T CastToElement(object value)
+        {
+            if (value == null || value is T)
+            {
+                return (T)value;
+            }
+
+            throw new ArgumentException($"The value is a {value.GetType().Name}, it shall be a {typeof(T).Name}", nameof(value));
         }
     }
 }
