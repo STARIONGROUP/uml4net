@@ -213,6 +213,7 @@ namespace uml4net.Actions
 
             if (action is IReplyAction replyAction)
             {
+                result.AddRange(replyAction.ReplyValue);
                 result.AddRange(replyAction.ReturnInformation);
             }
 
