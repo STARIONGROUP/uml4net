@@ -216,6 +216,26 @@ namespace uml4net.Tests.Extend
         }
 
         [Test]
+        public void Verify_that_Input_of_a_ReplyAction_contains_the_replyValue_and_returnInformation_pins()
+        {
+            // ReplyAction::replyValue and ReplyAction::returnInformation both subset Action::input (#491)
+            var firstReplyValue = new InputPin { Name = "firstReplyValue" };
+            var secondReplyValue = new InputPin { Name = "secondReplyValue" };
+            var returnInformation = new InputPin { Name = "returnInformation" };
+
+            var replyAction = new ReplyAction();
+            replyAction.ReplyValue.Add(firstReplyValue);
+            replyAction.ReplyValue.Add(secondReplyValue);
+            replyAction.ReturnInformation.Add(returnInformation);
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(replyAction.Input, Is.EquivalentTo(new[] { firstReplyValue, secondReplyValue, returnInformation }));
+                Assert.That(replyAction.Output, Is.Empty);
+            }
+        }
+
+        [Test]
         public void Verify_that_Input_and_Output_union_every_subsetting_property_of_an_action_with_several()
         {
             var first = new InputPin { Name = "first" };
