@@ -2,7 +2,7 @@
 
     <PropertyGroup>
         <TargetFramework>netstandard2.0</TargetFramework>
-        <Version>9.0.0</Version>
+        <Version>9.1.0</Version>
         <LangVersion>12.0</LangVersion>
         <PackageId>uml4net.xmi.Extensions.EnterpriseArchitect</PackageId>
         <AssemblyTitle>uml4net.xmi.Extensions.EnterpriseArchitect</AssemblyTitle>
@@ -10,10 +10,7 @@
         <Description>A specific XMI Reader extension to support Enterprise Architect XMI reading</Description>
         <PackageTags>UML XMI modeltopia</PackageTags>
         <PackageReleaseNotes>
-            [Fix] resolve XMI and UML namespace prefixes instead of matching uml:/xmi: literally; fixes #363
-            [Fix] parse Boolean, Integer and Real values per XML Schema lexical forms; fixes #364
-            [Fix] skip unknown elements as a whole when strict reading is off; fixes #366
-            [Fix] a referenced root package without xmi:id is reported instead of written as href document#; fixes #378
+            [Update] dependencies
         </PackageReleaseNotes>
     </PropertyGroup>
 

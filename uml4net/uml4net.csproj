@@ -2,7 +2,7 @@
 
   <PropertyGroup>
       <TargetFramework>netstandard2.0</TargetFramework>
-      <Version>5.0.0</Version>
+      <Version>5.1.0</Version>
       <LangVersion>12.0</LangVersion>
       <PackageId>uml4net</PackageId>
       <AssemblyTitle>uml4net</AssemblyTitle>
@@ -10,72 +10,12 @@
       <Description>A .NET implementation of the OMG UML v2.5.1 specification.</Description>
       <PackageTags>UML modeltopia</PackageTags>
       <PackageReleaseNotes>
-          [Fix] implement EncapsulatedClassifier.OwnedPort derived property; fixes #245
-          [Fix] implement OpaqueExpression.Result derived property; fixes #252
-          [Fix] implement Extension.IsRequired and Extension.Metaclass derived properties; fixes #247
-          [Fix] redefine ExtensionEnd.Lower's default to 0 per its MultiplicityElement::lowerBound() redefinition; fixes #270
-          [Fix] implement Vertex.Incoming/Outgoing/RedefinitionContext derived properties; fixes #256
-          [Fix] implement Region.RedefinitionContext derived property; fixes #254
-          [Fix] implement Transition.RedefinitionContext derived property; fixes #255
-          [Fix] implement ActivityGroup.ContainedEdge/ContainedNode/Subgroup/SuperGroup derived properties; fixes #237
-          [Fix] implement ActivityEdge.InGroup derived property; fixes #236
-          [Fix] forward redefined properties to their redefining property instead of throwing; fixes #232
-          [Fix] implement ActivityNode.InGroup derived property; fixes #238
-          [Fix] implement ConnectorEnd.DefiningEnd derived property; fixes #242
-          [Fix] implement DeploymentTarget.DeployedElement derived property; fixes #244
-          [Fix] implement ProtocolTransition.Referred derived property; fixes #258
-          [Fix] implement RedefinableTemplateSignature.InheritedParameter derived property; fixes #253
-          [Fix] generate derived composite properties as List instead of IContainerList; fixes #286
-          [Fix] implement Element.OwnedElement derived property; fixes #288
-          [Fix] implement ConnectableElement.End derived property; fixes #241
-          [Fix] implement NamedElement.ClientDependency derived property; fixes #294
-          [Fix] implement Port.Provided/Required derived properties; fixes #249
-          [Fix] implement Component.Provided/Required derived properties; fixes #240
-          [Fix] implement Namespace.OwnedMember derived union; fixes #302
-          [Fix] implement NamedElement.IsDistinguishableFrom and Namespace.GetNamesOfMember; fixes #301
-          [Fix] implement Package.MakesVisible and VisibleMembers; fixes #304
-          [Fix] implement Namespace.ExcludeCollisions and ImportMembers; fixes #303
-          [Fix] implement Namespace.ImportedMember; fixes #250
-          [Fix] implement Namespace.Member derived union; fixes #305
-          [Fix] implement Classifier.Feature derived union; fixes #306
-          [Fix] implement Feature.FeaturingClassifier; fixes #248
-          [Fix] implement RedefinableElement.RedefinedElement derived union; fixes #315
-          [Fix] implement Classifier.InheritedMember; fixes #318
-          [Fix] implement StructuredClassifier.Part and Role; fixes #317
-          [Fix] implement RedefinableElement.RedefinitionContext; fixes #316
-          [Improvement] return IReadOnlyList for derived/read-only collection properties; fixes #291
-          [Improvement] track additional ModelInspector variation dimensions; part of #300
-          [Feature] opt-in ThrowOnUnresolvedReferences reader setting; fixes #331
-          [Fix] implement Relationship::relatedElement and DirectedRelationship::source/target derived unions; fixes #337 and #342
-          [Fix] write enumeration values with the literal names of the UML metamodel; fixes #376
-          [Fix] report invalid enumeration literals, repeated single-valued references and duplicate xmi:id with element, property and position; fixes #371
-          [Feat] support xlink:href simple links and XPointer xmi:uuid references; fixes #383
-          [Fix] Namespace::member includes inheritedMember, feature, role and memberEnd; fixes #338
-          [Fix] NamedElement::namespace is the owning Namespace only when the element is one of its ownedMembers; fixes #339
-          [Fix] NamedElement::qualifiedName follows the OCL: null unless the element and all its namespaces are named; fixes #340
-          [Fix] Package::makesVisible makes an owned member visible only when its visibility is public; fixes #341
-          [Fix] Classifier::feature reads Extension::ownedEnd instead of the redefined Association::ownedEnd; fixes #343
-          [Fix] Class::extension includes the allParents branch of the derivation; fixes #344
-          [Fix] Property::isComposite is aggregation = composite only; the Enterprise Architect accommodation moves to QueryIsContainment; fixes #345
-          [Fix] MultiplicityElement lower/upper and ExtensionEnd::lower return the default for non-literal bounds instead of throwing; fixes #346
-          [Fix] RedefinableElement::redefinedElement includes redefinedInterface, redefinedBehavior, extendedStateMachine and redefinedPort; fixes #348
-          [Fix] Action::input/output include the pins of redefining properties; the reflection is replaced by an explicit dispatch; fixes #349
-          [Fix] Action::context follows the OCL: the containing Behavior when it has no context, and Actions owned by an Interaction; fixes #350
-          [Fix] ActivityNode::inGroup includes inInterruptibleRegion; inStructuredNode falls back to the owner; fixes #351
-          [Fix] set the owner end of a composite association on containment, and do not write it; fixes #432
-          [Fix] Vertex::incoming/outgoing are resolved for entry and exit points owned by a State, and through the owner; fixes #352
-          [Fix] Namespace::ownedMember includes the constraints of the properties that subset ownedRule; fixes #353
-          [Breaking] optional [0..1] Boolean, Integer, Real and Enumeration properties are nullable; fixes #357 and 347
-          [Fix] RedefinableElement::redefinitionContext is the owner only through the properties that subset redefinableElement; fixes #354
-          [Fix] Classifier::general and Class::superClass contain no duplicates and no null; fixes #355
-          [Breaking] derived composite properties are exposed as IReadOnlyList; fixes #358
-          [Fix] the emulation of allInstances() covers every root and every document of a read; fixes #356
-          [Fix] QueryHasDefaultValue is true only when the property has a default value; fixes #389
-          [Fix] QueryRootPackage walks the whole owner chain to the outermost Package; fixes #388
-          [Fix] documentation uses every owned comment and keeps the words of adjacent lines apart; fixes #396
-          [Fix] a referenced root package without xmi:id is reported instead of written as href document#; fixes #378
-          [Feature] stereotype applications are resolved, their tagged values typed, queryable per element and written back; fixes #465
-          [Improvement] single-valued composite properties enforce their upper bound; fixes #480
+          [Fix] Namespace::importedMember and getNamesOfMember stop at PackageImport cycles instead of overflowing the stack; fixes #490
+          [Fix] ReplyAction::input contains the replyValue pins; fixes #491
+          [Fix] ContainerList keeps an element owned while another list of its container holds it, moves it between containers and maintains containment through IList; fixes #492
+          [Fix] Property::opposite is null instead of throwing for a property that is not a member end of its association, and uses the owning association; fixes #495
+          [Fix] Classifier::directlyUsedInterfaces follows the specification text: Usages from the Classifier to Interfaces; fixes #497
+          [Fix] IClassifier.General of Class and its subtypes returns every parent instead of forwarding to superClass; fixes #494
       </PackageReleaseNotes>
   </PropertyGroup>
 

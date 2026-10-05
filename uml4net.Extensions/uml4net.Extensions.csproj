@@ -2,7 +2,7 @@
 
     <PropertyGroup>
         <TargetFramework>netstandard2.0</TargetFramework>
-        <Version>9.0.0</Version>
+        <Version>9.1.0</Version>
         <LangVersion>12.0</LangVersion>
         <PackageId>uml4net.Extensions</PackageId>
         <AssemblyTitle>uml4net.Extensions</AssemblyTitle>
@@ -10,24 +10,7 @@
         <Description>Extension methods for the .NET implementation of the OMG UML v2.5.1 specification.</Description>
         <PackageTags>UML modeltopia</PackageTags>
         <PackageReleaseNotes>
-            [Fix] generate derived composite properties as List instead of IContainerList; fixes #286
-            [Fix] implement Element.OwnedElement derived property; fixes #288
-            [Improvement] return IReadOnlyList for derived/read-only collection properties; fixes #291
-            [Fix] Property::isComposite is aggregation = composite only; fixes #345
-            [Fix] set the owner end of a composite association on containment, and do not write it; fixes #432
-            [Breaking] optional [0..1] Boolean, Integer, Real and Enumeration properties are nullable; fixes #357, fixes #347
-            [Breaking] derived composite properties are exposed as IReadOnlyList; fixes #358
-            [Fix] QueryHasDefaultValue is true only when the property has a default value; fixes #389
-            [Fix] QueryRootPackage walks the whole owner chain to the outermost Package; fixes #388
-            [Fix] default values and upper bounds of any ValueSpecification no longer throw; fixes #390, fixes #391
-            [Fix] QueryIsTypeAbstract returns isAbstract of any Classifier; fixes #392
-            [Fix] untyped elements produce valid C# type names; fixes #395
-            [Fix] QueryAllSpecializations and QueryContainers find classifiers that are not packaged elements; fixes #393
-            [Fix] QueryAllOperations includes the realized interfaces like QueryAllProperties; fixes #394
-            [Fix] type classification helpers require a PrimitiveType and an exact name; fixes #387
-            [Fix] documentation uses every owned comment and keeps the words of adjacent lines apart; fixes #396
-            [Fix] QueryStructuralFeatureNameEqualsEnclosingType compares names independently of the culture; fixes #452
-            [Fix] QueryAllConstraints includes the preconditions and postconditions of a Behavior; fixes #453
+            [Fix] MultiplicityElement::upper is 0 for a LiteralUnlimitedNatural without value; fixes #493
         </PackageReleaseNotes>
     </PropertyGroup>
 
