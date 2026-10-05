@@ -62,8 +62,9 @@ namespace uml4net.CommonStructure
         /// </returns>
         /// <remarks>
         /// Backs the reverse navigation of <see cref="IDependency.Supplier"/>, exposed in the OMG UML
-        /// 2.5.1 metamodel as the implicit association end <c>A_supplier_supplierDependency-supplierDependency</c>,
-        /// used by e.g. <c>Classifier::directlyUsedInterfaces()</c>.
+        /// 2.5.1 metamodel as the implicit association end <c>A_supplier_supplierDependency-supplierDependency</c>.
+        /// The metamodel's OCL of <c>Classifier::directlyUsedInterfaces()</c> navigates it, but uml4net follows the
+        /// specification text there and uses the client Dependencies instead (#497).
         /// </remarks>
         internal static List<IDependency> QuerySupplierDependency(this INamedElement namedElement)
         {

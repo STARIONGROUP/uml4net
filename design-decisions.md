@@ -58,6 +58,15 @@ Keeping the ends in sync is tracked in #479.
 
 Owner ends, the opposites of composite properties, are different: they are set on containment (#432).
 
+### Required interfaces follow the specification text, not the OCL
+
+The metamodel's OCL of `Classifier::directlyUsedInterfaces()` selects the Usages of which the Classifier is the
+*supplier* and the Interfaces are the *clients*. The specification text describes a required Interface as "the Usage
+dependency from a Classifier to an Interface" (clause 10.4.4), and every modeling tool draws it that way. uml4net
+follows the text: the used Interfaces are the suppliers of the Usages of which the Classifier is the client, mirroring
+`directlyRealizedInterfaces()`. Following the OCL literally would leave `Component::required`, `Port::required` and the
+`provided` Interfaces of a conjugated Port empty for such models (#497).
+
 ## Writing XMI (`uml4net.xmi`)
 
 ### Write as read

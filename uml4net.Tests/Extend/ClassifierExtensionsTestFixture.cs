@@ -214,7 +214,7 @@ namespace uml4net.Tests.Extend
         }
 
         [Test]
-        public void Verify_that_QueryDirectlyUsedInterfaces_returns_the_interfaces_used_via_supplier_dependency()
+        public void Verify_that_QueryDirectlyUsedInterfaces_returns_the_suppliers_of_the_client_Usages()
         {
             var package = new Package { Name = "root" };
             var @class = new Class { Name = "MyClass" };
@@ -223,11 +223,44 @@ namespace uml4net.Tests.Extend
             package.PackagedElement.Add(@interface);
 
             var usage = new Usage { Name = "Usage" };
-            usage.Client.Add(@interface);
-            usage.Supplier.Add(@class);
+            usage.Client.Add(@class);
+            usage.Supplier.Add(@interface);
             package.PackagedElement.Add(usage);
 
             Assert.That(@class.QueryDirectlyUsedInterfaces(), Is.EquivalentTo(new[] { @interface }));
+        }
+
+        [Test]
+        public void Verify_that_QueryDirectlyUsedInterfaces_ignores_inverted_Usages_and_Usages_of_non_Interfaces()
+        {
+            // a required Interface is a Usage from the Classifier to the Interface (UML 2.5.1 clause 10.4.4), not the
+            // inverted direction of the metamodel's OCL (#497)
+            var package = new Package { Name = "root" };
+            var @class = new Class { Name = "MyClass" };
+            var usedInterface = new Interface { Name = "Used" };
+            var otherInterface = new Interface { Name = "Other" };
+            var otherClass = new Class { Name = "OtherClass" };
+            package.PackagedElement.AddRange([@class, usedInterface, otherInterface, otherClass]);
+
+            var inverted = new Usage { Name = "Inverted" };
+            inverted.Client.Add(otherInterface);
+            inverted.Supplier.Add(@class);
+
+            var mixed = new Usage { Name = "Mixed" };
+            mixed.Client.Add(@class);
+            mixed.Supplier.AddRange([usedInterface, otherClass]);
+
+            var realization = new Realization { Name = "Realization" };
+            realization.Client.Add(@class);
+            realization.Supplier.Add(otherInterface);
+
+            package.PackagedElement.AddRange([inverted, mixed, realization]);
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(@class.QueryDirectlyUsedInterfaces(), Is.Empty, "inverted, mixed and non-Usage dependencies do not count");
+                Assert.That(otherInterface.QueryDirectlyUsedInterfaces(), Is.Empty, "the client of an inverted Usage is an Interface, it does not use itself");
+            }
         }
 
         [Test]
@@ -270,8 +303,8 @@ namespace uml4net.Tests.Extend
             child.Generalization.Add(new Generalization { General = parent });
 
             var usage = new Usage { Name = "Usage" };
-            usage.Client.Add(@interface);
-            usage.Supplier.Add(parent);
+            usage.Client.Add(parent);
+            usage.Supplier.Add(@interface);
             package.PackagedElement.Add(usage);
 
             using (Assert.EnterMultipleScope())
