@@ -230,6 +230,99 @@ namespace uml4net.Tests.Extend
         }
 
         [Test]
+        public void Verify_that_mutual_PackageImports_do_not_recurse_without_end()
+        {
+            // A imports B and B imports A (#490)
+            var packageA = new Package { Name = "A" };
+            var packageB = new Package { Name = "B" };
+            var ownedByA = new Class { Name = "X" };
+            var ownedByB = new Class { Name = "Y" };
+            packageA.PackagedElement.Add(ownedByA);
+            packageB.PackagedElement.Add(ownedByB);
+
+            packageA.PackageImport.Add(new PackageImport { Visibility = VisibilityKind.Public, ImportedPackage = packageB });
+            packageB.PackageImport.Add(new PackageImport { Visibility = VisibilityKind.Public, ImportedPackage = packageA });
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(packageA.ImportedMember, Is.EquivalentTo(new IPackageableElement[] { ownedByB }));
+                Assert.That(packageB.ImportedMember, Is.EquivalentTo(new IPackageableElement[] { ownedByA }));
+                Assert.That(packageA.Member, Is.EquivalentTo(new INamedElement[] { ownedByA, ownedByB }));
+                Assert.That(packageA.QueryVisibleMembers(), Is.EquivalentTo(new IPackageableElement[] { ownedByA, ownedByB }));
+                Assert.That(packageA.QueryGetNamesOfMember(ownedByB), Is.EquivalentTo(new[] { "Y" }));
+            }
+        }
+
+        [Test]
+        public void Verify_that_a_cycle_of_three_PackageImports_does_not_recurse_without_end()
+        {
+            // A imports B, B imports C and C imports A (#490)
+            var packageA = new Package { Name = "A" };
+            var packageB = new Package { Name = "B" };
+            var packageC = new Package { Name = "C" };
+            var ownedByA = new Class { Name = "X" };
+            var ownedByB = new Class { Name = "Y" };
+            var ownedByC = new Class { Name = "Z" };
+            packageA.PackagedElement.Add(ownedByA);
+            packageB.PackagedElement.Add(ownedByB);
+            packageC.PackagedElement.Add(ownedByC);
+
+            packageA.PackageImport.Add(new PackageImport { Visibility = VisibilityKind.Public, ImportedPackage = packageB });
+            packageB.PackageImport.Add(new PackageImport { Visibility = VisibilityKind.Public, ImportedPackage = packageC });
+            packageC.PackageImport.Add(new PackageImport { Visibility = VisibilityKind.Public, ImportedPackage = packageA });
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(packageA.ImportedMember, Is.EquivalentTo(new IPackageableElement[] { ownedByB, ownedByC }));
+                Assert.That(packageB.ImportedMember, Is.EquivalentTo(new IPackageableElement[] { ownedByC, ownedByA }));
+                Assert.That(packageC.ImportedMember, Is.EquivalentTo(new IPackageableElement[] { ownedByA, ownedByB }));
+                Assert.That(packageA.QueryGetNamesOfMember(ownedByC), Is.EquivalentTo(new[] { "Z" }));
+            }
+        }
+
+        [Test]
+        public void Verify_that_a_Package_importing_itself_does_not_recurse_without_end()
+        {
+            var package = new Package { Name = "A" };
+            var owned = new Class { Name = "X" };
+            package.PackagedElement.Add(owned);
+
+            package.PackageImport.Add(new PackageImport { Visibility = VisibilityKind.Public, ImportedPackage = package });
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(package.ImportedMember, Is.Empty, "an owned member is not distinguishable from itself, so it is not imported");
+                Assert.That(package.Member, Is.EquivalentTo(new INamedElement[] { owned }));
+            }
+        }
+
+        [Test]
+        public void Verify_that_members_imported_outside_a_cycle_are_found_through_the_cycle()
+        {
+            // A imports B and C, B imports A; C is not part of the cycle (#490)
+            var packageA = new Package { Name = "A" };
+            var packageB = new Package { Name = "B" };
+            var packageC = new Package { Name = "C" };
+            var ownedByA = new Class { Name = "X" };
+            var ownedByB = new Class { Name = "Y" };
+            var ownedByC = new Class { Name = "Z" };
+            packageA.PackagedElement.Add(ownedByA);
+            packageB.PackagedElement.Add(ownedByB);
+            packageC.PackagedElement.Add(ownedByC);
+
+            packageA.PackageImport.Add(new PackageImport { Visibility = VisibilityKind.Public, ImportedPackage = packageB });
+            packageA.PackageImport.Add(new PackageImport { Visibility = VisibilityKind.Public, ImportedPackage = packageC });
+            packageB.PackageImport.Add(new PackageImport { Visibility = VisibilityKind.Public, ImportedPackage = packageA });
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(packageA.ImportedMember, Is.EquivalentTo(new IPackageableElement[] { ownedByB, ownedByC }));
+                Assert.That(packageB.ImportedMember, Is.EquivalentTo(new IPackageableElement[] { ownedByA, ownedByC }));
+                Assert.That(packageB.QueryGetNamesOfMember(ownedByC), Is.EquivalentTo(new[] { "Z" }));
+            }
+        }
+
+        [Test]
         public void Verify_that_an_absent_visibility_is_made_visible()
         {
             // "Elements with no visibility and elements with public visibility are made visible" (UML 2.5.1 clause 12.4.5)

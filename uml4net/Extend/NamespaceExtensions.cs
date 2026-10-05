@@ -42,6 +42,20 @@ namespace uml4net.CommonStructure
     internal static class NamespaceExtensions
     {
         /// <summary>
+        /// The Namespaces whose <see cref="INamespace.ImportedMember"/> is being computed on the current thread, used to
+        /// stop the recursion through PackageImports that form a cycle
+        /// </summary>
+        [ThreadStatic]
+        private static List<INamespace> namespacesComputingImportedMember;
+
+        /// <summary>
+        /// The Namespaces whose <see cref="QueryGetNamesOfMember"/> is being computed on the current thread, used to
+        /// stop the recursion through PackageImports that form a cycle
+        /// </summary>
+        [ThreadStatic]
+        private static List<INamespace> namespacesComputingNamesOfMember;
+
+        /// <summary>
         /// Queries a collection of NamedElements identifiable within the Namespace, either by being
         /// owned or by being introduced by importing or inheritance (UML 2.5.1 clause 7.8.10).
         /// </summary>
@@ -103,6 +117,14 @@ namespace uml4net.CommonStructure
         /// the PackageableElements that are members of this Namespace as a result of either
         /// PackageImports or ElementImports.
         /// </returns>
+        /// <remarks>
+        /// PackageImports may form a cycle (Package A imports B and B imports A), in which case the OCL
+        /// (<c>packageImport.importedPackage->collect(p | p.visibleMembers())</c>, where <c>visibleMembers</c> reads the
+        /// imported package's <c>member</c>, which includes its <c>importedMember</c>) recurses without end. When this
+        /// query is re-entered for a Namespace whose imported members are already being computed on the current thread,
+        /// that inner evaluation contributes no imported members: the elements it would contribute are the visible members
+        /// of the Namespace's own imported packages, which the outer evaluation collects itself.
+        /// </remarks>
         internal static List<IPackageableElement> QueryImportedMember(this INamespace @namespace)
         {
             if (@namespace == null)
@@ -110,13 +132,29 @@ namespace uml4net.CommonStructure
                 throw new ArgumentNullException(nameof(@namespace));
             }
 
-            var candidates = @namespace.ElementImport
-                .Select(elementImport => elementImport.ImportedElement)
-                .Concat(@namespace.PackageImport.SelectMany(packageImport => packageImport.ImportedPackage.QueryVisibleMembers()))
-                .Distinct()
-                .ToList();
+            namespacesComputingImportedMember ??= new List<INamespace>();
 
-            return @namespace.QueryImportMembers(candidates);
+            if (namespacesComputingImportedMember.Any(x => ReferenceEquals(x, @namespace)))
+            {
+                return new List<IPackageableElement>();
+            }
+
+            namespacesComputingImportedMember.Add(@namespace);
+
+            try
+            {
+                var candidates = @namespace.ElementImport
+                    .Select(elementImport => elementImport.ImportedElement)
+                    .Concat(@namespace.PackageImport.SelectMany(packageImport => packageImport.ImportedPackage.QueryVisibleMembers()))
+                    .Distinct()
+                    .ToList();
+
+                return @namespace.QueryImportMembers(candidates);
+            }
+            finally
+            {
+                namespacesComputingImportedMember.RemoveAt(namespacesComputingImportedMember.Count - 1);
+            }
         }
 
         /// <summary>
@@ -133,6 +171,11 @@ namespace uml4net.CommonStructure
         /// <returns>
         /// the names, if any, under which <paramref name="element"/> is known in this Namespace.
         /// </returns>
+        /// <remarks>
+        /// As for <see cref="QueryImportedMember"/>, PackageImports that form a cycle would make the OCL recurse without
+        /// end; a Namespace that is re-entered on the current thread contributes no names to the inner evaluation, the
+        /// names it knows the element by are collected by the outer evaluation.
+        /// </remarks>
         internal static List<string> QueryGetNamesOfMember(this INamespace @namespace, INamedElement element)
         {
             if (@namespace == null)
@@ -157,11 +200,27 @@ namespace uml4net.CommonStructure
                 return elementImports.Select(elementImport => elementImport.QueryGetName()).Distinct().ToList();
             }
 
-            return @namespace.PackageImport
-                .Where(packageImport => packageImport.ImportedPackage.QueryVisibleMembers().Any(member => Equals(member, element)))
-                .SelectMany(packageImport => packageImport.ImportedPackage.QueryGetNamesOfMember(element))
-                .Distinct()
-                .ToList();
+            namespacesComputingNamesOfMember ??= new List<INamespace>();
+
+            if (namespacesComputingNamesOfMember.Any(x => ReferenceEquals(x, @namespace)))
+            {
+                return new List<string>();
+            }
+
+            namespacesComputingNamesOfMember.Add(@namespace);
+
+            try
+            {
+                return @namespace.PackageImport
+                    .Where(packageImport => packageImport.ImportedPackage.QueryVisibleMembers().Any(member => Equals(member, element)))
+                    .SelectMany(packageImport => packageImport.ImportedPackage.QueryGetNamesOfMember(element))
+                    .Distinct()
+                    .ToList();
+            }
+            finally
+            {
+                namespacesComputingNamesOfMember.RemoveAt(namespacesComputingNamesOfMember.Count - 1);
+            }
         }
 
         /// <summary>
