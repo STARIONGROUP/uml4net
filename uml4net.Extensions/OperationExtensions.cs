@@ -63,5 +63,29 @@ namespace uml4net.Extensions
 
             return redefinedByOperation != null;
         }
+
+        /// <summary>
+        /// Queries the textual body of the <c>bodyCondition</c> of the <paramref name="operation"/>
+        /// </summary>
+        /// <param name="operation">
+        /// the subject <see cref="IOperation"/>
+        /// </param>
+        /// <returns>
+        /// the result of <see cref="ConstraintExtensions.QueryConstraintBody"/> for the body condition;
+        /// <see cref="string.Empty"/> when the <paramref name="operation"/> has no body condition
+        /// </returns>
+        /// <remarks>
+        /// <c>Operation::bodyCondition</c> is a [0..1] composite that subsets <c>Namespace::ownedRule</c> of the
+        /// operation itself in UML 2.5.1; it is never one of the rules owned by the owning classifier.
+        /// </remarks>
+        public static string QueryBodyConditionText(this IOperation operation)
+        {
+            if (operation == null)
+            {
+                throw new ArgumentNullException(nameof(operation));
+            }
+
+            return operation.BodyCondition.FirstOrDefault()?.QueryConstraintBody() ?? string.Empty;
+        }
     }
 }
