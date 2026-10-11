@@ -60,22 +60,6 @@ namespace uml4net.HandleBars
                 writer.WriteSafeString(classAttribute);
             });
 
-            handlebars.RegisterHelper("Decorator.WriteImplementsAttribute", (writer, context, _) =>
-            {
-                if (!(context.Value is IProperty property))
-                {
-                    throw new ArgumentException("context is supposed to be an IProperty");
-                }
-
-                var owner = property.Owner;
-
-                var ownerName = (owner as INamedElement)?.Name ?? string.Empty;
-
-                var implementsAttribute = $"[Implements(implementation: \"I{ownerName}.{property.Name.CapitalizeFirstLetter()}\")]";
-
-                writer.WriteSafeString(implementsAttribute);
-            });
-
             handlebars.RegisterHelper("Decorator.WritePropertyAttribute", (writer, context, _) =>
             {
                 if (!(context.Value is IProperty property))

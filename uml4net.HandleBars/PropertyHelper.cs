@@ -129,7 +129,7 @@ namespace uml4net.HandleBars
                     throw new HandlebarsException("{{#Property.QueryStructuralFeatureNameEqualsEnclosingType}} helper must have exactly two arguments");
                 }
 
-                var property = arguments.Single() as IProperty;
+                var property = arguments[0] as IProperty;
                 var @class = arguments[1] as IClass;
 
                 return property.QueryStructuralFeatureNameEqualsEnclosingType(@class);
@@ -137,12 +137,12 @@ namespace uml4net.HandleBars
 
             handlebars.RegisterHelper("Property.NameEqualsEnclosingType", (output, options, context, arguments) =>
             {
-                if (arguments.Length != 1)
+                if (arguments.Length != 2)
                 {
                     throw new HandlebarsException("{{#Property.NameEqualsEnclosingType}} helper must have exactly two arguments");
                 }
 
-                var property = arguments.Single() as IProperty;
+                var property = arguments[0] as IProperty;
                 var @class = arguments[1] as IClass;
 
                 var nameEqualsEnclosingType = property.QueryStructuralFeatureNameEqualsEnclosingType(@class);
@@ -322,7 +322,7 @@ namespace uml4net.HandleBars
                     throw new ArgumentException("{{#Property.QueryIsSubsetted}} - supposed to be IProperty");
                 }
 
-                return property.QueryIsSubsetted;
+                return property.QueryIsSubsetted();
             });
 
             // Queries whether the Property is Derived, DerivedUnion or ReadOnly

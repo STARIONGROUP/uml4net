@@ -567,6 +567,56 @@ namespace uml4net.HandleBars.Tests
             }
         }
 
+        [Test]
+        public void Verify_that_QueryIsSubsetted_helper_returns_whether_the_property_is_subsetted()
+        {
+            var template = this.handlebarsContext.Compile("{{#if (#Property.QueryIsSubsetted this)}}subsetted{{else}}not subsetted{{/if}}");
+
+            var @namespace = this.QueryClass("CommonStructure", "Namespace");
+
+            var elementImport = @namespace.OwnedAttribute.Single(x => x.Name == "elementImport");
+            var member = @namespace.OwnedAttribute.Single(x => x.Name == "member");
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(template(elementImport), Is.EqualTo("subsetted"));
+                Assert.That(template(member), Is.EqualTo("not subsetted"));
+                Assert.That(() => template(@namespace), Throws.TypeOf<ArgumentException>());
+            }
+        }
+
+        [Test]
+        public void Verify_that_QueryStructuralFeatureNameEqualsEnclosingType_helper_returns_expected_result()
+        {
+            var template = this.handlebarsContext.Compile("{{#if (#Property.QueryStructuralFeatureNameEqualsEnclosingType this.Property this.Class)}}equal{{else}}different{{/if}}");
+            var templateWithOneArgument = this.handlebarsContext.Compile("{{#if (#Property.QueryStructuralFeatureNameEqualsEnclosingType this.Property)}}equal{{else}}different{{/if}}");
+
+            var @class = new Class { Name = "Class" };
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(template(new { Property = new Property { Name = "class" }, Class = @class }), Is.EqualTo("equal"));
+                Assert.That(template(new { Property = new Property { Name = "owner" }, Class = @class }), Is.EqualTo("different"));
+                Assert.That(() => templateWithOneArgument(new { Property = new Property { Name = "class" }, Class = @class }), Throws.TypeOf<HandlebarsException>());
+            }
+        }
+
+        [Test]
+        public void Verify_that_NameEqualsEnclosingType_helper_only_writes_the_block_when_the_names_are_equal()
+        {
+            var template = this.handlebarsContext.Compile("{{#Property.NameEqualsEnclosingType this.Property this.Class}}equal{{/Property.NameEqualsEnclosingType}}");
+            var templateWithOneArgument = this.handlebarsContext.Compile("{{#Property.NameEqualsEnclosingType this.Property}}equal{{/Property.NameEqualsEnclosingType}}");
+
+            var @class = new Class { Name = "Class" };
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(template(new { Property = new Property { Name = "class" }, Class = @class }), Is.EqualTo("equal"));
+                Assert.That(template(new { Property = new Property { Name = "owner" }, Class = @class }), Is.Empty);
+                Assert.That(() => templateWithOneArgument(new { Property = new Property { Name = "class" }, Class = @class }), Throws.TypeOf<HandlebarsException>());
+            }
+        }
+
         /// </returns>
         private IClass QueryClass(string packageName, string className)
         {
