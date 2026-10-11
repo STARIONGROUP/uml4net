@@ -60,22 +60,6 @@ namespace uml4net.HandleBars
                 writer.WriteSafeString(classAttribute);
             });
 
-            handlebars.RegisterHelper("Decorator.WriteImplementsAttribute", (writer, context, _) =>
-            {
-                if (!(context.Value is IProperty property))
-                {
-                    throw new ArgumentException("context is supposed to be an IProperty");
-                }
-
-                var owner = property.Owner;
-
-                var ownerName = (owner as INamedElement)?.Name ?? string.Empty;
-
-                var implementsAttribute = $"[Implements(implementation: \"I{ownerName}.{property.Name.CapitalizeFirstLetter()}\")]";
-
-                writer.WriteSafeString(implementsAttribute);
-            });
-
             handlebars.RegisterHelper("Decorator.WritePropertyAttribute", (writer, context, _) =>
             {
                 if (!(context.Value is IProperty property))
@@ -172,9 +156,9 @@ namespace uml4net.HandleBars
                     throw new ArgumentException("context is supposed to be an IProperty");
                 }
 
-                var @class = property.Owner as IClass;
+                var ownerName = (property.Owner as INamedElement)?.Name ?? string.Empty;
 
-                writer.WriteSafeString($"[Implements(implementation: \"I{@class.Name}.{property.Name.CapitalizeFirstLetter()}\")]" + Environment.NewLine);
+                writer.WriteSafeString($"[Implements(implementation: \"I{ownerName}.{property.Name.CapitalizeFirstLetter()}\")]" + Environment.NewLine);
             });
         }
 

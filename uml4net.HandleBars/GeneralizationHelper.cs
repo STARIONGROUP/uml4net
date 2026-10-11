@@ -86,13 +86,13 @@ namespace uml4net.HandleBars
                     throw new ArgumentException("The context shall be a IClass");
                 }
 
-                if (@class.Generalization.Any())
+                if (@class.General.Any())
                 {
-                    writer.WriteSafeString($": I{@class.Name}");
+                    writer.WriteSafeString($": {@class.General[0].Name}, I{@class.Name}");
                     return;
                 }
 
-                writer.WriteSafeString($": {@class.General[0].Name}, I{@class.Name}");
+                writer.WriteSafeString($": I{@class.Name}");
             });
         }
     }

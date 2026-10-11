@@ -35,6 +35,7 @@ namespace uml4net.HandleBars.Tests
 
     using uml4net.Classification;
     using uml4net.Extensions;
+    using uml4net.SimpleClassifiers;
     using uml4net.StructuredClassifiers;
     using uml4net.Values;
     using uml4net.xmi;
@@ -121,6 +122,21 @@ namespace uml4net.HandleBars.Tests
 
             Assert.That(navigableOwnedEndAttribute,
                 Is.EqualTo("[Implements(implementation: \"IAssociation.NavigableOwnedEnd\")]" + Environment.NewLine));
+        }
+
+        [Test]
+        public void Verify_that_Decorator_ImplementsAttribute_returns_expected_result_for_a_property_that_is_not_owned_by_a_class()
+        {
+            var template = "{{ #Decorator.WriteImplementsAttribute this }}";
+
+            var handlebarsTemplate = this.handlebarsContext.Compile(template);
+
+            var @interface = new Interface { Name = "Shape" };
+            var area = new Property { Name = "area" };
+            @interface.OwnedAttribute.Add(area);
+
+            Assert.That(handlebarsTemplate(area),
+                Is.EqualTo("[Implements(implementation: \"IShape.Area\")]" + Environment.NewLine));
         }
 
         [Test]

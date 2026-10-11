@@ -157,7 +157,27 @@ namespace uml4net.HandleBars.Tests
 
             var classes = handlebarsTemplate(project);
 
-            Assert.That(classes, Is.EqualTo(": IProject"));
+            Assert.That(classes, Is.EqualTo(": Record, IProject"));
+        }
+
+        [Test]
+        public void Verify_that_expected_class_implementation_is_written_as_expected_for_a_class_without_generalization()
+        {
+            var template = "{{ #Generalization.Classes this }}";
+
+            var handlebarsTemplate = this.handlebarsContext.Compile(template);
+
+            var root = this.xmiReaderResult.QueryRoot(xmiId: "_19_0_4_3fa0198_1689000259946_865221_0", name: "Systems Modeling API and Services PIM");
+
+            var apiModelPackage = root.NestedPackage.Single(x => x.Name == "API_Model");
+
+            var record = apiModelPackage.PackagedElement.OfType<IClass>().Single(x => x.Name == "Record");
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(record.General, Is.Empty);
+                Assert.That(handlebarsTemplate(record), Is.EqualTo(": IRecord"));
+            }
         }
 
         [Test]
