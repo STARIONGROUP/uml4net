@@ -22,6 +22,7 @@ namespace uml4net.HandleBars.Tests
 {
     using System;
     using System.Globalization;
+    using System.Linq;
 
     using HandlebarsDotNet;
 
@@ -207,6 +208,25 @@ namespace uml4net.HandleBars.Tests
             var action = this.handlebarsContext.Compile(template);
 
             Assert.That(() => action(new { operation = 5, owner = new Class() }), Throws.TypeOf<ArgumentException>());
+        }
+
+        [Test]
+        public void Verify_that_a_parameter_that_is_named_as_a_keyword_is_escaped()
+        {
+            var owner = new Class { Name = "MyClass" };
+            var operation = CreateOperation(owner, "doSomething");
+            operation.OwnedParameter.Single(x => x.Name == "count").Name = "In";
+
+            var interfaceAction = this.handlebarsContext.Compile("{{ #Operation.WriteForPOCOInterface this }}");
+            var extendAction = this.handlebarsContext.Compile("{{ #Operation.WriteForPOCOExtend this }}");
+            var classAction = this.handlebarsContext.Compile("{{ #Operation.WriteForPOCOClass this.Operation this.Class }}");
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(interfaceAction(operation), Does.Match(@"DoSomething\(int\s+@in\)"));
+                Assert.That(extendAction(operation), Does.Match(@", int\s+@in\)"));
+                Assert.That(classAction(new { Operation = operation, Class = owner }), Does.Match(@"DoSomething\(int\s+@in\) => this\.ComputeDoSomethingOperation\(@in\);"));
+            }
         }
     }
 }

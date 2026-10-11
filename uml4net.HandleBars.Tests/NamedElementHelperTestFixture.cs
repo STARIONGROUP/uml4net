@@ -71,5 +71,29 @@ namespace uml4net.HandleBars.Tests
 
             Assert.That(() => action(5), Throws.TypeOf<ArgumentException>());
         }
+
+        [Test]
+        public void Verify_that_WriteCSharpIdentifier_writes_the_name_with_the_requested_casing()
+        {
+            var asModelled = this.handlebarsContext.Compile("{{ #NamedElement.WriteCSharpIdentifier this }}");
+            var upperCase = this.handlebarsContext.Compile("{{ #NamedElement.WriteCSharpIdentifier this \"UpperCaseFirstLetter\" }}");
+            var lowerCase = this.handlebarsContext.Compile("{{ #NamedElement.WriteCSharpIdentifier this \"lowercasefirstletter\" }}");
+
+            var @class = new Class { Name = "class" };
+            var @event = new Class { Name = "Event" };
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(asModelled(@class), Is.EqualTo("@class"));
+                Assert.That(upperCase(@class), Is.EqualTo("Class"));
+                Assert.That(asModelled(@event), Is.EqualTo("Event"));
+                Assert.That(lowerCase(@event), Is.EqualTo("@event"), "the casing argument is not case-sensitive");
+
+                Assert.That(() => asModelled("not an element"), Throws.TypeOf<ArgumentException>());
+                Assert.That(() => asModelled(new Class()), Throws.InvalidOperationException, "an element without a name");
+                Assert.That(() => this.handlebarsContext.Compile("{{ #NamedElement.WriteCSharpIdentifier this \"Shouting\" }}")(@class), Throws.TypeOf<ArgumentException>());
+                Assert.That(() => this.handlebarsContext.Compile("{{ #NamedElement.WriteCSharpIdentifier }}")(@class), Throws.TypeOf<HandlebarsException>());
+            }
+        }
     }
 }

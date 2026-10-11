@@ -21,6 +21,7 @@
 namespace uml4net.Extensions.Tests
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
 
     using NUnit.Framework;
@@ -85,6 +86,40 @@ namespace uml4net.Extensions.Tests
             {
                 Assert.That(() => StringExtensions.LowerCaseFirstLetter(null), Throws.TypeOf<ArgumentException>());
                 Assert.That(() => string.Empty.LowerCaseFirstLetter(), Throws.TypeOf<ArgumentException>());
+            }
+        }
+
+        [Test]
+        public void Verify_that_QueryIsCSharpKeyword_recognizes_the_reserved_keywords()
+        {
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That("class".QueryIsCSharpKeyword(), Is.True);
+                Assert.That("in".QueryIsCSharpKeyword(), Is.True);
+                Assert.That("true".QueryIsCSharpKeyword(), Is.True);
+                Assert.That("Class".QueryIsCSharpKeyword(), Is.False, "the comparison is case-sensitive");
+                Assert.That("var".QueryIsCSharpKeyword(), Is.False, "a contextual keyword is a legal identifier");
+                Assert.That("type".QueryIsCSharpKeyword(), Is.False);
+                Assert.That(string.Empty.QueryIsCSharpKeyword(), Is.False);
+                Assert.That(() => StringExtensions.QueryIsCSharpKeyword(null), Throws.ArgumentNullException);
+
+                Assert.That(StringExtensions.QueryCSharpKeywords(), Has.Count.EqualTo(77));
+                Assert.That(StringExtensions.QueryCSharpKeywords(), Is.Ordered.Using((IComparer<string>)StringComparer.Ordinal));
+                Assert.That(StringExtensions.QueryCSharpKeywords().All(x => x.QueryIsCSharpKeyword()), Is.True);
+            }
+        }
+
+        [Test]
+        public void Verify_that_EscapeCSharpKeyword_prefixes_a_reserved_keyword()
+        {
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That("class".EscapeCSharpKeyword(), Is.EqualTo("@class"));
+                Assert.That("event".EscapeCSharpKeyword(), Is.EqualTo("@event"));
+                Assert.That("Class".EscapeCSharpKeyword(), Is.EqualTo("Class"));
+                Assert.That("ownedComment".EscapeCSharpKeyword(), Is.EqualTo("ownedComment"));
+                Assert.That("var".EscapeCSharpKeyword(), Is.EqualTo("var"));
+                Assert.That(() => StringExtensions.EscapeCSharpKeyword(null), Throws.ArgumentNullException);
             }
         }
     }

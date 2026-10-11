@@ -75,5 +75,19 @@ namespace uml4net.HandleBars.Tests
 
             Assert.That(length, Is.EqualTo("7"));
         }
+
+        [Test]
+        public void Verify_that_EscapeCSharpKeyword_returns_Expected_result()
+        {
+            var action = this.handlebarsContext.Compile("{{ #String.EscapeCSharpKeyword this }}");
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(action("class"), Is.EqualTo("@class"));
+                Assert.That(action("ownedComment"), Is.EqualTo("ownedComment"));
+                Assert.That(() => action(5), Throws.TypeOf<HandlebarsException>());
+                Assert.That(() => this.handlebarsContext.Compile("{{ #String.EscapeCSharpKeyword this this }}")("class"), Throws.TypeOf<HandlebarsException>());
+            }
+        }
     }
 }

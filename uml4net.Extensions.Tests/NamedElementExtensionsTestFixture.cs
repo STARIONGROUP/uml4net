@@ -85,5 +85,38 @@ namespace uml4net.Extensions.Tests
                 Assert.That(connector.QueryNamespace(), Is.EqualTo("UML.StructuredClassifiers.Connector"));
             }
         }
+
+        [Test]
+        public void Verify_that_QueryCSharpIdentifier_applies_the_casing_and_escapes_a_keyword()
+        {
+            var @class = new Property { Name = "class" };
+            var ownedComment = new Property { Name = "ownedComment" };
+            var upperCase = new Class { Name = "Event" };
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(@class.QueryCSharpIdentifier(), Is.EqualTo("@class"), "as modelled, a keyword");
+                Assert.That(@class.QueryCSharpIdentifier(CSharpIdentifierCasing.LowerCaseFirstLetter), Is.EqualTo("@class"));
+                Assert.That(@class.QueryCSharpIdentifier(CSharpIdentifierCasing.UpperCaseFirstLetter), Is.EqualTo("Class"), "not a keyword after the casing is applied");
+
+                Assert.That(ownedComment.QueryCSharpIdentifier(), Is.EqualTo("ownedComment"));
+                Assert.That(ownedComment.QueryCSharpIdentifier(CSharpIdentifierCasing.UpperCaseFirstLetter), Is.EqualTo("OwnedComment"));
+
+                Assert.That(upperCase.QueryCSharpIdentifier(), Is.EqualTo("Event"));
+                Assert.That(upperCase.QueryCSharpIdentifier(CSharpIdentifierCasing.LowerCaseFirstLetter), Is.EqualTo("@event"), "a keyword after the casing is applied");
+            }
+        }
+
+        [Test]
+        public void Verify_that_QueryCSharpIdentifier_throws_for_an_element_without_a_name()
+        {
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(() => new Property { XmiId = "id-1" }.QueryCSharpIdentifier(),
+                    Throws.InvalidOperationException.With.Message.Contains("id-1").And.Message.Contains("Property"));
+                Assert.That(() => new Property { Name = " " }.QueryCSharpIdentifier(), Throws.InvalidOperationException);
+                Assert.That(() => NamedElementExtensions.QueryCSharpIdentifier(null), Throws.ArgumentNullException);
+            }
+        }
     }
 }

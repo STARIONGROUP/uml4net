@@ -72,6 +72,22 @@ namespace uml4net.HandleBars
 
                 writer.WriteSafeString(value.Length);
             });
+
+            // Writes the string, prefixed with @ when it is a reserved keyword of C#
+            handlebars.RegisterHelper("String.EscapeCSharpKeyword", (writer, _, parameters) =>
+            {
+                if (parameters.Length != 1)
+                {
+                    throw new HandlebarsException("{{#String.EscapeCSharpKeyword}} helper must have exactly one argument");
+                }
+
+                if (!(parameters[0] is string value))
+                {
+                    throw new HandlebarsException("{{#String.EscapeCSharpKeyword}} helper argument must be a string");
+                }
+
+                writer.WriteSafeString(value.EscapeCSharpKeyword());
+            });
         }
     }
 }

@@ -125,5 +125,71 @@ namespace uml4net.Extensions
 
             return string.Concat(input[0].ToString(CultureInfo.InvariantCulture).ToLower(CultureInfo.InvariantCulture), input.Substring(1));
         }
+
+        /// <summary>
+        /// The reserved keywords of C#. A reserved keyword cannot be used as an identifier unless it is prefixed
+        /// with <c>@</c>.
+        /// </summary>
+        /// <remarks>
+        /// The contextual keywords of C#, such as <c>var</c>, <c>value</c> and <c>record</c>, are not part of this
+        /// set: they only have a meaning in a specific context and are legal identifiers.
+        /// </remarks>
+        private static readonly HashSet<string> ReservedCSharpKeywords = new HashSet<string>(StringComparer.Ordinal)
+        {
+            "abstract", "as", "base", "bool", "break", "byte", "case", "catch", "char", "checked", "class", "const",
+            "continue", "decimal", "default", "delegate", "do", "double", "else", "enum", "event", "explicit", "extern",
+            "false", "finally", "fixed", "float", "for", "foreach", "goto", "if", "implicit", "in", "int", "interface",
+            "internal", "is", "lock", "long", "namespace", "new", "null", "object", "operator", "out", "override",
+            "params", "private", "protected", "public", "readonly", "ref", "return", "sbyte", "sealed", "short",
+            "sizeof", "stackalloc", "static", "string", "struct", "switch", "this", "throw", "true", "try", "typeof",
+            "uint", "ulong", "unchecked", "unsafe", "ushort", "using", "virtual", "void", "volatile", "while"
+        };
+
+        /// <summary>
+        /// Queries the reserved keywords of C#
+        /// </summary>
+        /// <returns>
+        /// The reserved keywords of C#, in alphabetical order. The contextual keywords are not included.
+        /// </returns>
+        public static IReadOnlyList<string> QueryCSharpKeywords()
+        {
+            return ReservedCSharpKeywords.OrderBy(x => x, StringComparer.Ordinal).ToList().AsReadOnly();
+        }
+
+        /// <summary>
+        /// Queries whether the string is a reserved keyword of C#
+        /// </summary>
+        /// <param name="input">
+        /// The subject input string
+        /// </param>
+        /// <returns>
+        /// true when the <paramref name="input"/> is a reserved keyword of C#, false otherwise. The comparison is
+        /// case-sensitive: <c>class</c> is a keyword, <c>Class</c> is not. A contextual keyword such as <c>var</c>
+        /// is not a reserved keyword.
+        /// </returns>
+        public static bool QueryIsCSharpKeyword(this string input)
+        {
+            if (input == null)
+            {
+                throw new ArgumentNullException(nameof(input));
+            }
+
+            return ReservedCSharpKeywords.Contains(input);
+        }
+
+        /// <summary>
+        /// Escapes the string when it is a reserved keyword of C#, so that it can be used as an identifier
+        /// </summary>
+        /// <param name="input">
+        /// The subject input string
+        /// </param>
+        /// <returns>
+        /// The <paramref name="input"/> prefixed with <c>@</c> when it is a reserved keyword of C#
+        /// (see <see cref="QueryIsCSharpKeyword"/>), the unchanged <paramref name="input"/> otherwise
+        /// </returns>
+        public static string EscapeCSharpKeyword(this string input)
+        {
+            return input.QueryIsCSharpKeyword() ? $"@{input}" : input;
+        }
     }
 }
