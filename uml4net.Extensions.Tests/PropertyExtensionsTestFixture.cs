@@ -885,5 +885,25 @@ namespace uml4net.Extensions.Tests
                 Assert.That(() => PropertyExtensions.QueryConstraints(null), Throws.ArgumentNullException);
             }
         }
+
+        [Test]
+        public void Verify_that_QueryRequiresInitializer_returns_expected_result()
+        {
+            var root = this.xmiReaderResult.QueryRoot(xmiId: "_0", name: "UML");
+
+            IProperty QueryProperty(string packageName, string className, string propertyName) =>
+                root.NestedPackage.Single(x => x.Name == packageName).PackagedElement.OfType<IClass>().Single(x => x.Name == className)
+                    .OwnedAttribute.Single(x => x.Name == propertyName);
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(QueryProperty("CommonStructure", "PackageableElement", "visibility").QueryRequiresInitializer(), Is.True, "an enumeration with a literal as default");
+                Assert.That(QueryProperty("CommonStructure", "NamedElement", "visibility").QueryRequiresInitializer(), Is.False, "an enumeration without default");
+                Assert.That(QueryProperty("Classification", "Generalization", "isSubstitutable").QueryRequiresInitializer(), Is.True, "a boolean with default true");
+                Assert.That(QueryProperty("StructuredClassifiers", "Class", "isAbstract").QueryRequiresInitializer(), Is.False, "a boolean with default false, the default of the type");
+                Assert.That(QueryProperty("CommonStructure", "NamedElement", "name").QueryRequiresInitializer(), Is.False, "no default value");
+                Assert.That(() => PropertyExtensions.QueryRequiresInitializer(null), Throws.ArgumentNullException);
+            }
+        }
     }
 }

@@ -676,5 +676,33 @@ namespace uml4net.Extensions
                 .ToList()
                 .AsReadOnly();
         }
+
+        /// <summary>
+        /// Queries whether the <see cref="IProperty"/> requires an initializer in generated code: whether it has a
+        /// default value that differs from the value that the property has without one
+        /// </summary>
+        /// <param name="property">
+        /// The subject <see cref="IProperty"/>
+        /// </param>
+        /// <returns>
+        /// For a <paramref name="property"/> that is typed by an enumeration: the result of
+        /// <see cref="QueryIsEnumPropertyWithDefaultValue"/>. For any other <paramref name="property"/>: true when it
+        /// has a default value (<see cref="QueryHasDefaultValue"/>) that is different from the default of its type
+        /// (<see cref="QueryIsDefaultValueDifferentThanDefault"/>), false otherwise.
+        /// </returns>
+        public static bool QueryRequiresInitializer(this IProperty property)
+        {
+            if (property == null)
+            {
+                throw new ArgumentNullException(nameof(property));
+            }
+
+            if (property.QueryIsEnum())
+            {
+                return property.QueryIsEnumPropertyWithDefaultValue();
+            }
+
+            return property.QueryHasDefaultValue() && property.QueryIsDefaultValueDifferentThanDefault();
+        }
     }
 }

@@ -35,6 +35,7 @@ namespace uml4net.HandleBars.Tests
     using uml4net.Activities;
     using uml4net.Classification;
     using uml4net.Extensions;
+    using uml4net.SimpleClassifiers;
     using uml4net.StructuredClassifiers;
     using uml4net.Values;
     using uml4net.xmi;
@@ -669,6 +670,75 @@ namespace uml4net.HandleBars.Tests
                 Assert.That(template(volume), Is.EqualTo("volumeIsPositive;"));
                 Assert.That(() => template(@class), Throws.TypeOf<ArgumentException>());
                 Assert.That(() => this.handlebarsContext.Compile("{{#each (#Property.QueryConstraints this this)}}x{{/each}}")(volume), Throws.TypeOf<HandlebarsException>());
+            }
+        }
+
+        [Test]
+        public void Verify_that_QueryIsTypeAbstract_helper_returns_expected_result()
+        {
+            var template = this.handlebarsContext.Compile("{{#if (#Property.QueryIsTypeAbstract this)}}abstract{{else}}concrete{{/if}}");
+
+            var @namespace = this.QueryClass("CommonStructure", "Namespace");
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(template(@namespace.QueryAllProperties().Single(x => x.Name == "ownedMember")), Is.EqualTo("abstract"), "typed by NamedElement");
+                Assert.That(template(@namespace.QueryAllProperties().Single(x => x.Name == "ownedComment")), Is.EqualTo("concrete"), "typed by Comment");
+                Assert.That(() => template(@namespace), Throws.TypeOf<ArgumentException>());
+                Assert.That(() => this.handlebarsContext.Compile("{{#if (#Property.QueryIsTypeAbstract this this)}}x{{/if}}")(@namespace), Throws.TypeOf<HandlebarsException>());
+            }
+        }
+
+        [Test]
+        public void Verify_that_QueryRequiresInitializer_helper_returns_expected_result()
+        {
+            var template = this.handlebarsContext.Compile("{{#if (#Property.QueryRequiresInitializer this)}}initializer{{else}}none{{/if}}");
+
+            var isSubstitutable = this.QueryClass("Classification", "Generalization").OwnedAttribute.Single(x => x.Name == "isSubstitutable");
+            var name = this.QueryClass("CommonStructure", "NamedElement").OwnedAttribute.Single(x => x.Name == "name");
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(template(isSubstitutable), Is.EqualTo("initializer"));
+                Assert.That(template(name), Is.EqualTo("none"));
+                Assert.That(() => template("not a property"), Throws.TypeOf<ArgumentException>());
+            }
+        }
+
+        [Test]
+        public void Verify_that_QueryIsCSharpString_and_QueryIsByte_helpers_return_expected_result()
+        {
+            var stringTemplate = this.handlebarsContext.Compile("{{#if (#Property.QueryIsCSharpString this)}}string{{else}}other{{/if}}");
+            var byteTemplate = this.handlebarsContext.Compile("{{#if (#Property.QueryIsByte this)}}byte{{else}}other{{/if}}");
+
+            var stringProperty = new Property { Type = new PrimitiveType { Name = "string" } };
+            var byteProperty = new Property { Type = new PrimitiveType { Name = "byte" } };
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(stringTemplate(stringProperty), Is.EqualTo("string"));
+                Assert.That(stringTemplate(byteProperty), Is.EqualTo("other"));
+                Assert.That(byteTemplate(byteProperty), Is.EqualTo("byte"));
+                Assert.That(byteTemplate(stringProperty), Is.EqualTo("other"));
+                Assert.That(() => stringTemplate("not a property"), Throws.TypeOf<ArgumentException>());
+                Assert.That(() => byteTemplate("not a property"), Throws.TypeOf<ArgumentException>());
+            }
+        }
+
+        [Test]
+        public void Verify_that_WithClassContext_renders_the_block_with_the_property_and_the_class()
+        {
+            var template = this.handlebarsContext.Compile("{{#Property.WithClassContext this.Property this.Class}}{{ property.Name }} in {{ classContext.Name }}{{/Property.WithClassContext}}");
+
+            var @class = this.QueryClass("StructuredClassifiers", "Class");
+            var name = this.QueryClass("CommonStructure", "NamedElement").OwnedAttribute.Single(x => x.Name == "name");
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(template(new { Property = name, Class = @class }), Is.EqualTo("name in Class"));
+                Assert.That(() => template(new { Property = @class, Class = @class }), Throws.TypeOf<ArgumentException>());
+                Assert.That(() => template(new { Property = name, Class = name }), Throws.TypeOf<ArgumentException>());
+                Assert.That(() => this.handlebarsContext.Compile("{{#Property.WithClassContext this}}x{{/Property.WithClassContext}}")(name), Throws.TypeOf<HandlebarsException>());
             }
         }
 
