@@ -29,6 +29,7 @@ namespace uml4net.Extensions.Tests
 
     using Serilog;
 
+    using uml4net.CommonStructure;
     using uml4net.Packages;
     using uml4net.SimpleClassifiers;
     using uml4net.StructuredClassifiers;
@@ -797,6 +798,92 @@ namespace uml4net.Extensions.Tests
             result = endType.QueryHasBeenRedefined(allClasses);
 
             Assert.That(result, Is.False);
+        }
+
+        [Test]
+        public void Verify_that_QueryIsEnumPropertyWithDefaultValue_returns_expected_result()
+        {
+            var root = this.xmiReaderResult.QueryRoot(xmiId: "_0", name: "UML");
+
+            var commonStructurePackage = root.NestedPackage.Single(x => x.Name == "CommonStructure");
+
+            var packageableElement = commonStructurePackage.PackagedElement.OfType<IClass>().Single(x => x.Name == "PackageableElement");
+            var namedElement = commonStructurePackage.PackagedElement.OfType<IClass>().Single(x => x.Name == "NamedElement");
+
+            var visibilityWithDefault = packageableElement.OwnedAttribute.Single(x => x.Name == "visibility");
+            var visibilityWithoutDefault = namedElement.OwnedAttribute.Single(x => x.Name == "visibility");
+            var name = namedElement.OwnedAttribute.Single(x => x.Name == "name");
+
+            var enumeration = new Enumeration { Name = "Colour" };
+            var withLiteralStringAsDefault = new Property { Name = "colour", Type = enumeration };
+            withLiteralStringAsDefault.DefaultValue.Add(new LiteralString { Value = "red" });
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(visibilityWithDefault.QueryIsEnumPropertyWithDefaultValue(), Is.True, "the default is the literal public");
+                Assert.That(visibilityWithoutDefault.QueryIsEnumPropertyWithDefaultValue(), Is.False, "an enumeration without default");
+                Assert.That(name.QueryIsEnumPropertyWithDefaultValue(), Is.False, "not typed by an enumeration");
+                Assert.That(withLiteralStringAsDefault.QueryIsEnumPropertyWithDefaultValue(), Is.False, "the default is not an InstanceValue");
+                Assert.That(() => PropertyExtensions.QueryIsEnumPropertyWithDefaultValue(null), Throws.ArgumentNullException);
+            }
+        }
+
+        [Test]
+        public void Verify_that_QueryIsPartOfNonDerivedCompositeAggregation_returns_expected_result()
+        {
+            var root = this.xmiReaderResult.QueryRoot(xmiId: "_0", name: "UML");
+
+            var commonStructurePackage = root.NestedPackage.Single(x => x.Name == "CommonStructure");
+            var activitiesPackage = root.NestedPackage.Single(x => x.Name == "Activities");
+
+            var element = commonStructurePackage.PackagedElement.OfType<IClass>().Single(x => x.Name == "Element");
+            var comment = commonStructurePackage.PackagedElement.OfType<IClass>().Single(x => x.Name == "Comment");
+            var activity = activitiesPackage.PackagedElement.OfType<IClass>().Single(x => x.Name == "Activity");
+            var activityNode = activitiesPackage.PackagedElement.OfType<IClass>().Single(x => x.Name == "ActivityNode");
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(element.OwnedAttribute.Single(x => x.Name == "ownedComment").QueryIsPartOfNonDerivedCompositeAggregation(), Is.True, "composite and not derived");
+                Assert.That(element.OwnedAttribute.Single(x => x.Name == "ownedElement").QueryIsPartOfNonDerivedCompositeAggregation(), Is.False, "composite and derived");
+                Assert.That(activity.OwnedAttribute.Single(x => x.Name == "node").QueryIsPartOfNonDerivedCompositeAggregation(), Is.True, "the end that refers to the contained elements");
+                Assert.That(activityNode.OwnedAttribute.Single(x => x.Name == "activity").QueryIsPartOfNonDerivedCompositeAggregation(), Is.True, "the end that refers to the container");
+                Assert.That(comment.OwnedAttribute.Single(x => x.Name == "annotatedElement").QueryIsPartOfNonDerivedCompositeAggregation(), Is.False, "a reference that is not part of a composition");
+                Assert.That(comment.OwnedAttribute.Single(x => x.Name == "body").QueryIsPartOfNonDerivedCompositeAggregation(), Is.False);
+                Assert.That(() => PropertyExtensions.QueryIsPartOfNonDerivedCompositeAggregation(null), Throws.ArgumentNullException);
+            }
+        }
+
+        [Test]
+        public void Verify_that_QueryConstraints_returns_the_rules_of_the_owner_that_constrain_the_property()
+        {
+            var @class = new Class { Name = "Tank" };
+
+            var volume = new Property { Name = "volume" };
+            var mass = new Property { Name = "mass" };
+            @class.OwnedAttribute.Add(volume);
+            @class.OwnedAttribute.Add(mass);
+
+            var volumeIsPositive = new Constraint { Name = "volumeIsPositive" };
+            volumeIsPositive.ConstrainedElement.Add(volume);
+
+            var volumeAndMass = new Constraint { Name = "volumeAndMass" };
+            volumeAndMass.ConstrainedElement.Add(mass);
+            volumeAndMass.ConstrainedElement.Add(volume);
+
+            var classRule = new Constraint { Name = "classRule" };
+            classRule.ConstrainedElement.Add(@class);
+
+            @class.OwnedRule.Add(volumeIsPositive);
+            @class.OwnedRule.Add(classRule);
+            @class.OwnedRule.Add(volumeAndMass);
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(volume.QueryConstraints(), Is.EqualTo(new[] { volumeIsPositive, volumeAndMass }), "in the order of the owned rules");
+                Assert.That(mass.QueryConstraints(), Is.EqualTo(new[] { volumeAndMass }));
+                Assert.That(new Property { Name = "detached" }.QueryConstraints(), Is.Empty, "a property without owner");
+                Assert.That(() => PropertyExtensions.QueryConstraints(null), Throws.ArgumentNullException);
+            }
         }
     }
 }

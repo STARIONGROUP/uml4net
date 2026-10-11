@@ -617,6 +617,61 @@ namespace uml4net.HandleBars.Tests
             }
         }
 
+        [Test]
+        public void Verify_that_QueryIsEnumPropertyWithDefaultValue_helper_returns_expected_result()
+        {
+            var template = this.handlebarsContext.Compile("{{#if (#Property.QueryIsEnumPropertyWithDefaultValue this)}}enum with default{{else}}other{{/if}}");
+
+            var visibilityWithDefault = this.QueryClass("CommonStructure", "PackageableElement").OwnedAttribute.Single(x => x.Name == "visibility");
+            var visibilityWithoutDefault = this.QueryClass("CommonStructure", "NamedElement").OwnedAttribute.Single(x => x.Name == "visibility");
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(template(visibilityWithDefault), Is.EqualTo("enum with default"));
+                Assert.That(template(visibilityWithoutDefault), Is.EqualTo("other"));
+                Assert.That(() => template(this.QueryClass("CommonStructure", "NamedElement")), Throws.TypeOf<ArgumentException>());
+                Assert.That(() => this.handlebarsContext.Compile("{{#if (#Property.QueryIsEnumPropertyWithDefaultValue this this)}}x{{/if}}")(visibilityWithDefault), Throws.TypeOf<HandlebarsException>());
+            }
+        }
+
+        [Test]
+        public void Verify_that_QueryIsPartOfNonDerivedCompositeAggregation_helper_returns_expected_result()
+        {
+            var template = this.handlebarsContext.Compile("{{#if (#Property.QueryIsPartOfNonDerivedCompositeAggregation this)}}composition{{else}}other{{/if}}");
+
+            var element = this.QueryClass("CommonStructure", "Element");
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(template(element.OwnedAttribute.Single(x => x.Name == "ownedComment")), Is.EqualTo("composition"));
+                Assert.That(template(element.OwnedAttribute.Single(x => x.Name == "ownedElement")), Is.EqualTo("other"));
+                Assert.That(() => template(element), Throws.TypeOf<ArgumentException>());
+                Assert.That(() => this.handlebarsContext.Compile("{{#if (#Property.QueryIsPartOfNonDerivedCompositeAggregation this this)}}x{{/if}}")(element), Throws.TypeOf<HandlebarsException>());
+            }
+        }
+
+        [Test]
+        public void Verify_that_QueryConstraints_helper_returns_expected_result()
+        {
+            var template = this.handlebarsContext.Compile("{{#each (#Property.QueryConstraints this) as | constraint |}}{{ constraint.Name }};{{/each}}");
+
+            var @class = new Class { Name = "Tank" };
+            var volume = new Property { Name = "volume" };
+            @class.OwnedAttribute.Add(volume);
+
+            var volumeIsPositive = new Constraint { Name = "volumeIsPositive" };
+            volumeIsPositive.ConstrainedElement.Add(volume);
+            @class.OwnedRule.Add(volumeIsPositive);
+            @class.OwnedRule.Add(new Constraint { Name = "classRule" });
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(template(volume), Is.EqualTo("volumeIsPositive;"));
+                Assert.That(() => template(@class), Throws.TypeOf<ArgumentException>());
+                Assert.That(() => this.handlebarsContext.Compile("{{#each (#Property.QueryConstraints this this)}}x{{/each}}")(volume), Throws.TypeOf<HandlebarsException>());
+            }
+        }
+
         /// </returns>
         private IClass QueryClass(string packageName, string className)
         {
