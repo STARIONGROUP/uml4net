@@ -22,6 +22,7 @@ namespace uml4net.Extensions
 {
     using System;
     using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     using System.Linq;
     using uml4net.Classification;
     using uml4net.CommonStructure;
@@ -571,6 +572,109 @@ namespace uml4net.Extensions
             }
 
             return false;
+        }
+
+        /// <summary>
+        /// Queries whether the <see cref="IProperty"/> is typed by an <see cref="IEnumeration"/> and has one of the
+        /// literals of an enumeration as default value
+        /// </summary>
+        /// <param name="property">
+        /// The subject <see cref="IProperty"/>
+        /// </param>
+        /// <returns>
+        /// true when the type of the <paramref name="property"/> is an <see cref="IEnumeration"/> and its default
+        /// value is an <see cref="IInstanceValue"/> that refers to an <see cref="IEnumerationLiteral"/>, false
+        /// otherwise
+        /// </returns>
+        /// <remarks>
+        /// UML 2.5.1 specifies the default value of a property that is typed by an enumeration as an InstanceValue
+        /// that refers to the EnumerationLiteral. A default value of another kind, such as a LiteralString that
+        /// holds the name of the literal, is not taken into account.
+        /// </remarks>
+        public static bool QueryIsEnumPropertyWithDefaultValue(this IProperty property)
+        {
+            if (property == null)
+            {
+                throw new ArgumentNullException(nameof(property));
+            }
+
+            if (!property.QueryIsEnum())
+            {
+                return false;
+            }
+
+            return property.DefaultValue.FirstOrDefault() is IInstanceValue instanceValue
+                   && instanceValue.Instance is IEnumerationLiteral;
+        }
+
+        /// <summary>
+        /// Queries whether the <see cref="IProperty"/> is one of the two ends of a composite aggregation that is not
+        /// derived
+        /// </summary>
+        /// <param name="property">
+        /// The subject <see cref="IProperty"/>
+        /// </param>
+        /// <returns>
+        /// true when the <paramref name="property"/> is composite and not derived (the end that refers to the
+        /// contained elements), or when its <see cref="IProperty.Opposite"/> is composite and not derived (the end
+        /// that refers to the container); false otherwise
+        /// </returns>
+        /// <remarks>
+        /// <see cref="IProperty.Opposite"/> only has a value when both ends of the association are owned by the
+        /// classifiers at its ends. The end that refers to the container is therefore not recognized when the
+        /// composite end, or that end itself, is owned by the association.
+        /// </remarks>
+        public static bool QueryIsPartOfNonDerivedCompositeAggregation(this IProperty property)
+        {
+            if (property == null)
+            {
+                throw new ArgumentNullException(nameof(property));
+            }
+
+            if (property.IsComposite && !property.IsDerived)
+            {
+                return true;
+            }
+
+            var opposite = property.Opposite;
+
+            return opposite != null && opposite.IsComposite && !opposite.IsDerived;
+        }
+
+        /// <summary>
+        /// Queries the constraints that constrain the <see cref="IProperty"/>: the rules that are owned by the
+        /// namespace that owns the <see cref="IProperty"/> and that have the <see cref="IProperty"/> as one of
+        /// their constrained elements
+        /// </summary>
+        /// <param name="property">
+        /// The subject <see cref="IProperty"/>
+        /// </param>
+        /// <returns>
+        /// The <see cref="IConstraint"/>s of <c>Namespace::ownedRule</c> of the owner of the
+        /// <paramref name="property"/> for which <c>Constraint::constrainedElement</c> holds the
+        /// <paramref name="property"/>, in the order of the owned rules. An empty collection when the owner of the
+        /// <paramref name="property"/> is not an <see cref="INamespace"/>.
+        /// </returns>
+        /// <remarks>
+        /// A constraint that concerns the <paramref name="property"/> but has another element, such as the owning
+        /// class, as constrained element is not returned.
+        /// </remarks>
+        public static ReadOnlyCollection<IConstraint> QueryConstraints(this IProperty property)
+        {
+            if (property == null)
+            {
+                throw new ArgumentNullException(nameof(property));
+            }
+
+            if (!(property.Owner is INamespace owner))
+            {
+                return new List<IConstraint>().AsReadOnly();
+            }
+
+            return owner.OwnedRule
+                .Where(x => x.ConstrainedElement.Contains(property))
+                .ToList()
+                .AsReadOnly();
         }
     }
 }

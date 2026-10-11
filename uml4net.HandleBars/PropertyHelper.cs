@@ -325,6 +325,54 @@ namespace uml4net.HandleBars
                 return property.QueryIsSubsetted();
             });
 
+            // Queries whether the Property is typed by an Enumeration and has an EnumerationLiteral as default value
+            handlebars.RegisterHelper("Property.QueryIsEnumPropertyWithDefaultValue", (_, arguments) =>
+            {
+                if (arguments.Length != 1)
+                {
+                    throw new HandlebarsException("{{#Property.QueryIsEnumPropertyWithDefaultValue}} helper must have exactly one argument");
+                }
+
+                if (!(arguments[0] is IProperty property))
+                {
+                    throw new ArgumentException("{{#Property.QueryIsEnumPropertyWithDefaultValue}} - supposed to be IProperty");
+                }
+
+                return property.QueryIsEnumPropertyWithDefaultValue();
+            });
+
+            // Queries whether the Property is one of the two ends of a composite aggregation that is not derived
+            handlebars.RegisterHelper("Property.QueryIsPartOfNonDerivedCompositeAggregation", (_, arguments) =>
+            {
+                if (arguments.Length != 1)
+                {
+                    throw new HandlebarsException("{{#Property.QueryIsPartOfNonDerivedCompositeAggregation}} helper must have exactly one argument");
+                }
+
+                if (!(arguments[0] is IProperty property))
+                {
+                    throw new ArgumentException("{{#Property.QueryIsPartOfNonDerivedCompositeAggregation}} - supposed to be IProperty");
+                }
+
+                return property.QueryIsPartOfNonDerivedCompositeAggregation();
+            });
+
+            // Queries the constraints of the owner of the Property that have the Property as constrained element
+            handlebars.RegisterHelper("Property.QueryConstraints", (_, arguments) =>
+            {
+                if (arguments.Length != 1)
+                {
+                    throw new HandlebarsException("{{#Property.QueryConstraints}} helper must have exactly one argument");
+                }
+
+                if (!(arguments[0] is IProperty property))
+                {
+                    throw new ArgumentException("{{#Property.QueryConstraints}} - supposed to be IProperty");
+                }
+
+                return property.QueryConstraints();
+            });
+
             // Queries whether the Property is Derived, DerivedUnion or ReadOnly
             handlebars.RegisterHelper("Property.QueryIsDerivedOrDerivedUnionOrReadOnly", (_, arguments) =>
             {
