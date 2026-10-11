@@ -126,5 +126,39 @@ namespace uml4net.Extensions.Tests
         {
             Assert.That(() => ClassifierExtensions.QueryContainers(null), Throws.ArgumentNullException);
         }
+
+        [Test]
+        public void Verify_that_QueryConformsTo_returns_expected_result()
+        {
+            var root = this.xmiReaderResult.QueryRoot(xmiId: "_0", name: "UML");
+
+            var commonStructurePackage = root.NestedPackage.Single(x => x.Name == "CommonStructure");
+
+            var dependency = commonStructurePackage.PackagedElement.OfType<IClass>().Single(x => x.Name == "Dependency");
+            var packageableElement = commonStructurePackage.PackagedElement.OfType<IClass>().Single(x => x.Name == "PackageableElement");
+            var element = commonStructurePackage.PackagedElement.OfType<IClass>().Single(x => x.Name == "Element");
+            var comment = commonStructurePackage.PackagedElement.OfType<IClass>().Single(x => x.Name == "Comment");
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(dependency.QueryConformsTo(dependency), Is.True, "a classifier conforms to itself");
+                Assert.That(dependency.QueryConformsTo(packageableElement), Is.True, "a direct general classifier");
+                Assert.That(dependency.QueryConformsTo(element), Is.True, "an indirect general classifier");
+                Assert.That(dependency.QueryConformsTo(comment), Is.False);
+                Assert.That(element.QueryConformsTo(dependency), Is.False);
+            }
+        }
+
+        [Test]
+        public void Verify_that_QueryConformsTo_throws_for_missing_arguments()
+        {
+            var classifier = new Class { Name = "Classifier" };
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(() => ClassifierExtensions.QueryConformsTo(null, classifier), Throws.ArgumentNullException);
+                Assert.That(() => classifier.QueryConformsTo(null), Throws.ArgumentNullException);
+            }
+        }
     }
 }
