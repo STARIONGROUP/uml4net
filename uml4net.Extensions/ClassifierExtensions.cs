@@ -26,6 +26,7 @@ namespace uml4net.Extensions
     using System.Linq;
 
     using uml4net.Classification;
+    using uml4net.CommonStructure;
 
     /// <summary>
     /// The <see cref="ClassifierExtensions"/> class provides extensions methods for the <see cref="IClassifier"/>
@@ -123,6 +124,36 @@ namespace uml4net.Extensions
                 .OrderBy(x => x.Name)
                 .ToList()
                 .AsReadOnly();
+        }
+
+        /// <summary>
+        /// Queries whether the <see cref="IClassifier"/> conforms to the <paramref name="other"/> <see cref="IType"/>,
+        /// as specified by the operation <c>Classifier::conformsTo</c> of UML 2.5.1
+        /// </summary>
+        /// <param name="classifier">
+        /// The subject <see cref="IClassifier"/>
+        /// </param>
+        /// <param name="other">
+        /// The <see cref="IType"/> to which the <paramref name="classifier"/> is expected to conform
+        /// </param>
+        /// <returns>
+        /// true when the <paramref name="other"/> is the <paramref name="classifier"/> itself or one of its direct or
+        /// indirect general classifiers; false otherwise, and when the <paramref name="other"/> is not an
+        /// <see cref="IClassifier"/>
+        /// </returns>
+        public static bool QueryConformsTo(this IClassifier classifier, IType other)
+        {
+            if (classifier == null)
+            {
+                throw new ArgumentNullException(nameof(classifier));
+            }
+
+            if (other == null)
+            {
+                throw new ArgumentNullException(nameof(other));
+            }
+
+            return other is IClassifier otherClassifier && classifier.QueryAllGeneralClassifiers().Contains(otherClassifier);
         }
     }
 }

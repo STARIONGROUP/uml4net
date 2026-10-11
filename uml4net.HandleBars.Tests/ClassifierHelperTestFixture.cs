@@ -106,5 +106,30 @@ namespace uml4net.HandleBars.Tests
 
             Assert.That(() => action(5), Throws.ArgumentException);
         }
+
+        [Test]
+        public void Verify_that_QueryConformsTo_returns_expected_result()
+        {
+            var template = "{{#if (#Classifier.QueryConformsTo this.Classifier this.Other)}}conforms{{else}}does not conform{{/if}}";
+
+            var action = this.handlebarsContext.Compile(template);
+
+            var root = this.xmiReaderResult.QueryRoot(xmiId: "_0", name: "UML");
+
+            var commonStructurePackage = root.NestedPackage.Single(x => x.Name == "CommonStructure");
+            var dependency = commonStructurePackage.PackagedElement.OfType<IClass>().Single(x => x.Name == "Dependency");
+            var element = commonStructurePackage.PackagedElement.OfType<IClass>().Single(x => x.Name == "Element");
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(action(new { Classifier = dependency, Other = element }), Is.EqualTo("conforms"));
+                Assert.That(action(new { Classifier = dependency, Other = dependency }), Is.EqualTo("conforms"));
+                Assert.That(action(new { Classifier = element, Other = dependency }), Is.EqualTo("does not conform"));
+
+                Assert.That(() => action(new { Classifier = 5, Other = element }), Throws.ArgumentException);
+                Assert.That(() => action(new { Classifier = dependency, Other = "Element" }), Throws.ArgumentException);
+                Assert.That(() => this.handlebarsContext.Compile("{{#if (#Classifier.QueryConformsTo this)}}conforms{{/if}}")(dependency), Throws.TypeOf<HandlebarsException>());
+            }
+        }
     }
 }

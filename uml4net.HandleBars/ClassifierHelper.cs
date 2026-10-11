@@ -25,6 +25,7 @@ namespace uml4net.HandleBars
     using Classification;
     using HandlebarsDotNet;
 
+    using uml4net.CommonStructure;
     using uml4net.Extensions;
     using uml4net.StructuredClassifiers;
 
@@ -52,6 +53,28 @@ namespace uml4net.HandleBars
                     .ToList();
 
                 return containers;
+            });
+
+            // Queries whether the classifier conforms to the type that is provided as second argument: whether that
+            // type is the classifier itself or one of its direct or indirect general classifiers
+            handlebars.RegisterHelper("Classifier.QueryConformsTo", (_, arguments) =>
+            {
+                if (arguments.Length != 2)
+                {
+                    throw new HandlebarsException("{{#Classifier.QueryConformsTo}} helper must have exactly two arguments");
+                }
+
+                if (!(arguments[0] is IClassifier classifier))
+                {
+                    throw new ArgumentException("{{#Classifier.QueryConformsTo}} - the first argument is supposed to be an IClassifier");
+                }
+
+                if (!(arguments[1] is IType other))
+                {
+                    throw new ArgumentException("{{#Classifier.QueryConformsTo}} - the second argument is supposed to be an IType");
+                }
+
+                return classifier.QueryConformsTo(other);
             });
         }
     }

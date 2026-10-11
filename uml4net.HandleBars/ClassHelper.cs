@@ -134,11 +134,72 @@ namespace uml4net.HandleBars
                     throw new ArgumentException("supposed to be IClass");
                 }
 
-                var properties = @class.QueryAllProperties()
-                    .Where(x => !x.IsDerived)
+                var properties = @class.QueryAllNonDerivedProperties()
                     .OrderBy(x => x.Name);
 
                 return properties;
+            });
+
+            // Queries all the properties of the class, including the inherited ones, that are not derived and that are
+            // not redefined in the context of the class
+            handlebars.RegisterHelper("Class.QueryAllNonDerivedNonRedefinedProperties", (context, _) =>
+            {
+                if (!(context.Value is IClass @class))
+                {
+                    throw new ArgumentException("supposed to be IClass");
+                }
+
+                var properties = @class.QueryAllNonDerivedNonRedefinedProperties()
+                    .OrderBy(x => x.Name);
+
+                return properties;
+            });
+
+            // Queries whether the class is a direct or indirect subclass of the class, or of the class with the name,
+            // that is provided as second argument
+            handlebars.RegisterHelper("Class.QueryIsSubclassOf", (_, arguments) =>
+            {
+                if (arguments.Length != 2)
+                {
+                    throw new HandlebarsException("{{#Class.QueryIsSubclassOf}} helper must have exactly two arguments");
+                }
+
+                if (!(arguments[0] is IClass @class))
+                {
+                    throw new ArgumentException("{{#Class.QueryIsSubclassOf}} - the first argument is supposed to be an IClass");
+                }
+
+                switch (arguments[1])
+                {
+                    case IClass superClass:
+                        return @class.QueryIsSubclassOf(superClass);
+                    case string superClassName:
+                        return @class.QueryIsSubclassOf(superClassName);
+                    default:
+                        throw new ArgumentException("{{#Class.QueryIsSubclassOf}} - the second argument is supposed to be an IClass or the name of a class");
+                }
+            });
+
+            // Queries the properties in the model that have the class as type
+            handlebars.RegisterHelper("Class.QueryReferencingProperties", (context, _) =>
+            {
+                if (!(context.Value is IClass @class))
+                {
+                    throw new ArgumentException("supposed to be IClass");
+                }
+
+                return @class.QueryReferencingProperties();
+            });
+
+            // Queries the owned attributes of the class that take part in a many-to-many relationship
+            handlebars.RegisterHelper("Class.QueryOwnedManyToManyProperties", (context, _) =>
+            {
+                if (!(context.Value is IClass @class))
+                {
+                    throw new ArgumentException("supposed to be IClass");
+                }
+
+                return @class.QueryOwnedManyToManyProperties();
             });
 
             handlebars.RegisterHelper("Class.QueryAllNonDerivedNonReadOnlyProperties", (context, _) =>

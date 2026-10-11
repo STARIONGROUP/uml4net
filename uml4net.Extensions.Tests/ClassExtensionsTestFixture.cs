@@ -584,5 +584,135 @@ namespace uml4net.Extensions.Tests
                 Assert.That(descendants.Any(x => x.Name == "Activity"), Is.True);
             }
         }
+
+        [Test]
+        public void Verify_that_QueryAllNonDerivedProperties_returns_the_properties_that_are_not_derived()
+        {
+            var dependency = this.QueryClass("CommonStructure", "Dependency");
+
+            var properties = dependency.QueryAllNonDerivedProperties();
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(properties, Is.Not.Empty);
+                Assert.That(properties.Any(x => x.IsDerived), Is.False);
+                Assert.That(properties, Is.EqualTo(dependency.QueryAllProperties().Where(x => !x.IsDerived)));
+                Assert.That(properties.Select(x => x.XmiId), Does.Contain("Dependency-client"));
+                Assert.That(properties.Select(x => x.XmiId), Does.Not.Contain("Element-ownedElement"), "ownedElement is a derived union");
+                Assert.That(() => ClassExtensions.QueryAllNonDerivedProperties(null), Throws.ArgumentNullException);
+            }
+        }
+
+        [Test]
+        public void Verify_that_QueryAllNonDerivedNonRedefinedProperties_leaves_out_the_properties_that_are_redefined_in_the_class()
+        {
+            var @class = this.QueryClass("StructuredClassifiers", "Class");
+
+            var nonDerived = @class.QueryAllNonDerivedProperties().Select(x => x.XmiId).ToList();
+            var nonDerivedNonRedefined = @class.QueryAllNonDerivedNonRedefinedProperties().Select(x => x.XmiId).ToList();
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(nonDerived, Does.Contain("NamedElement-visibility"));
+                Assert.That(nonDerivedNonRedefined, Does.Not.Contain("NamedElement-visibility"), "redefined by PackageableElement::visibility");
+                Assert.That(nonDerivedNonRedefined, Does.Contain("PackageableElement-visibility"));
+                Assert.That(nonDerivedNonRedefined, Is.SubsetOf(nonDerived));
+                Assert.That(() => ClassExtensions.QueryAllNonDerivedNonRedefinedProperties(null), Throws.ArgumentNullException);
+            }
+        }
+
+        [Test]
+        public void Verify_that_QueryIsSubclassOf_returns_expected_result()
+        {
+            var dependency = this.QueryClass("CommonStructure", "Dependency");
+            var packageableElement = this.QueryClass("CommonStructure", "PackageableElement");
+            var element = this.QueryClass("CommonStructure", "Element");
+            var comment = this.QueryClass("CommonStructure", "Comment");
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(dependency.QueryIsSubclassOf(packageableElement), Is.True, "a direct general class");
+                Assert.That(dependency.QueryIsSubclassOf(element), Is.True, "an indirect general class");
+                Assert.That(dependency.QueryIsSubclassOf(dependency), Is.False, "a class is not a subclass of itself");
+                Assert.That(dependency.QueryIsSubclassOf(comment), Is.False);
+                Assert.That(element.QueryIsSubclassOf(dependency), Is.False);
+
+                Assert.That(dependency.QueryIsSubclassOf("PackageableElement"), Is.True);
+                Assert.That(dependency.QueryIsSubclassOf("Element"), Is.True);
+                Assert.That(dependency.QueryIsSubclassOf("Dependency"), Is.False, "a class is not a subclass of itself");
+                Assert.That(dependency.QueryIsSubclassOf("Comment"), Is.False);
+                Assert.That(dependency.QueryIsSubclassOf("element"), Is.False, "the name is case-sensitive");
+            }
+        }
+
+        [Test]
+        public void Verify_that_QueryIsSubclassOf_throws_for_missing_arguments()
+        {
+            var dependency = new Class { Name = "Dependency" };
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(() => ClassExtensions.QueryIsSubclassOf(null, dependency), Throws.ArgumentNullException);
+                Assert.That(() => dependency.QueryIsSubclassOf((IClass)null), Throws.ArgumentNullException);
+                Assert.That(() => ClassExtensions.QueryIsSubclassOf(null, "Element"), Throws.ArgumentNullException);
+                Assert.That(() => dependency.QueryIsSubclassOf((string)null), Throws.ArgumentException);
+                Assert.That(() => dependency.QueryIsSubclassOf(" "), Throws.ArgumentException);
+            }
+        }
+
+        [Test]
+        public void Verify_that_QueryReferencingProperties_returns_the_properties_that_are_typed_by_the_class()
+        {
+            var comment = this.QueryClass("CommonStructure", "Comment");
+
+            var referencingProperties = comment.QueryReferencingProperties();
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(referencingProperties, Is.Not.Empty);
+                Assert.That(referencingProperties.Select(x => x.Type), Is.All.SameAs(comment));
+                Assert.That(referencingProperties.Select(x => x.XmiId), Does.Contain("Element-ownedComment"));
+                Assert.That(referencingProperties, Is.Unique);
+
+                Assert.That(new Class { Name = "Detached" }.QueryReferencingProperties(), Is.Empty, "a class without a root package");
+                Assert.That(() => ClassExtensions.QueryReferencingProperties(null), Throws.ArgumentNullException);
+            }
+        }
+
+        [Test]
+        public void Verify_that_QueryOwnedManyToManyProperties_returns_expected_result()
+        {
+            var dependency = this.QueryClass("CommonStructure", "Dependency");
+            var comment = this.QueryClass("CommonStructure", "Comment");
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(dependency.QueryOwnedManyToManyProperties().Select(x => x.Name), Is.EqualTo(new[] { "client", "supplier" }));
+                Assert.That(comment.QueryOwnedManyToManyProperties().Select(x => x.Name), Is.EqualTo(new[] { "annotatedElement" }), "body is not a reference property");
+                Assert.That(dependency.QueryOwnedManyToManyProperties().All(x => x.QueryIsMemberOfManyToMany()), Is.True);
+                Assert.That(() => ClassExtensions.QueryOwnedManyToManyProperties(null), Throws.ArgumentNullException);
+            }
+        }
+
+        /// <summary>
+        /// Queries the <see cref="IClass"/> with the specified name from the specified package of the UML metamodel
+        /// </summary>
+        /// <param name="packageName">
+        /// The name of the package that contains the class
+        /// </param>
+        /// <param name="className">
+        /// The name of the class
+        /// </param>
+        /// <returns>
+        /// The <see cref="IClass"/>
+        /// </returns>
+        private IClass QueryClass(string packageName, string className)
+        {
+            var root = this.xmiReaderResult.QueryRoot(xmiId: "_0", name: "UML");
+
+            var package = root.NestedPackage.Single(x => x.Name == packageName);
+
+            return package.PackagedElement.OfType<IClass>().Single(x => x.Name == className);
+        }
     }
 }

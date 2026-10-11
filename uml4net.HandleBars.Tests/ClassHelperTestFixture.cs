@@ -345,5 +345,93 @@ namespace uml4net.HandleBars.Tests
 
             Assert.That(() => actionWithoutArguments(new Class()), Throws.InstanceOf<HandlebarsException>());
         }
+
+        [Test]
+        public void Verify_that_QueryAllNonDerivedNonRedefinedProperties_returns_expected_result()
+        {
+            var template = "{{#each (#Class.QueryAllNonDerivedNonRedefinedProperties this) as | property |}}{{ property.XmiId }};{{/each}}";
+
+            var action = this.handlebarsContext.Compile(template);
+
+            var root = this.xmiReaderResult.QueryRoot(xmiId: "_0", name: "UML");
+
+            var @class = root.NestedPackage.Single(x => x.Name == "StructuredClassifiers").PackagedElement.OfType<IClass>().Single(x => x.Name == "Class");
+
+            var result = action(@class);
+
+            var names = @class.QueryAllNonDerivedNonRedefinedProperties().OrderBy(x => x.Name).Select(x => x.XmiId);
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(result, Is.EqualTo(string.Concat(names.Select(x => $"{x};"))), "ordered by name");
+                Assert.That(result, Does.Contain("PackageableElement-visibility;"));
+                Assert.That(result, Does.Not.Contain("NamedElement-visibility;"));
+                Assert.That(() => action(new Dependency()), Throws.ArgumentException);
+            }
+        }
+
+        [Test]
+        public void Verify_that_QueryIsSubclassOf_returns_expected_result()
+        {
+            var template = "{{#if (#Class.QueryIsSubclassOf this.Class this.SuperClass)}}subclass{{else}}not a subclass{{/if}}";
+
+            var action = this.handlebarsContext.Compile(template);
+
+            var root = this.xmiReaderResult.QueryRoot(xmiId: "_0", name: "UML");
+
+            var commonStructurePackage = root.NestedPackage.Single(x => x.Name == "CommonStructure");
+            var dependency = commonStructurePackage.PackagedElement.OfType<IClass>().Single(x => x.Name == "Dependency");
+            var element = commonStructurePackage.PackagedElement.OfType<IClass>().Single(x => x.Name == "Element");
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(action(new { Class = dependency, SuperClass = element }), Is.EqualTo("subclass"));
+                Assert.That(action(new { Class = element, SuperClass = dependency }), Is.EqualTo("not a subclass"));
+                Assert.That(action(new { Class = dependency, SuperClass = dependency }), Is.EqualTo("not a subclass"));
+                Assert.That(action(new { Class = dependency, SuperClass = "Element" }), Is.EqualTo("subclass"));
+                Assert.That(action(new { Class = dependency, SuperClass = "Comment" }), Is.EqualTo("not a subclass"));
+
+                Assert.That(() => action(new { Class = "Dependency", SuperClass = element }), Throws.ArgumentException);
+                Assert.That(() => action(new { Class = dependency, SuperClass = 1 }), Throws.ArgumentException);
+                Assert.That(() => this.handlebarsContext.Compile("{{#if (#Class.QueryIsSubclassOf this)}}subclass{{/if}}")(dependency), Throws.TypeOf<HandlebarsException>());
+            }
+        }
+
+        [Test]
+        public void Verify_that_QueryReferencingProperties_returns_expected_result()
+        {
+            var template = "{{#each (#Class.QueryReferencingProperties this) as | property |}}{{ property.XmiId }};{{/each}}";
+
+            var action = this.handlebarsContext.Compile(template);
+
+            var root = this.xmiReaderResult.QueryRoot(xmiId: "_0", name: "UML");
+
+            var comment = root.NestedPackage.Single(x => x.Name == "CommonStructure").PackagedElement.OfType<IClass>().Single(x => x.Name == "Comment");
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(action(comment), Does.Contain("Element-ownedComment;"));
+                Assert.That(action(new Class { Name = "Detached" }), Is.Empty);
+                Assert.That(() => action(new Dependency()), Throws.ArgumentException);
+            }
+        }
+
+        [Test]
+        public void Verify_that_QueryOwnedManyToManyProperties_returns_expected_result()
+        {
+            var template = "{{#each (#Class.QueryOwnedManyToManyProperties this) as | property |}}{{ property.Name }};{{/each}}";
+
+            var action = this.handlebarsContext.Compile(template);
+
+            var root = this.xmiReaderResult.QueryRoot(xmiId: "_0", name: "UML");
+
+            var dependency = root.NestedPackage.Single(x => x.Name == "CommonStructure").PackagedElement.OfType<IClass>().Single(x => x.Name == "Dependency");
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(action(dependency), Is.EqualTo("client;supplier;"));
+                Assert.That(() => action(new Dependency()), Throws.ArgumentException);
+            }
+        }
     }
 }

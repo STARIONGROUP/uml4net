@@ -366,5 +366,184 @@ namespace uml4net.Extensions
 
             return result.Distinct().OrderBy(x => x.Name).ToList().AsReadOnly();
         }
+
+        /// <summary>
+        /// Queries all the properties of the <see cref="IClass"/>, including the inherited ones, that are not derived
+        /// </summary>
+        /// <param name="class">
+        /// The <see cref="IClass"/> from which to query the properties
+        /// </param>
+        /// <returns>
+        /// The properties of <see cref="QueryAllProperties"/> for which <c>Property::isDerived</c> is false, in the
+        /// same order
+        /// </returns>
+        public static ReadOnlyCollection<IProperty> QueryAllNonDerivedProperties(this IClass @class)
+        {
+            if (@class == null)
+            {
+                throw new ArgumentNullException(nameof(@class));
+            }
+
+            return @class.QueryAllProperties()
+                .Where(x => !x.IsDerived)
+                .ToList()
+                .AsReadOnly();
+        }
+
+        /// <summary>
+        /// Queries all the properties of the <see cref="IClass"/>, including the inherited ones, that are not derived
+        /// and that are not redefined in the context of the <see cref="IClass"/>
+        /// </summary>
+        /// <param name="class">
+        /// The <see cref="IClass"/> from which to query the properties
+        /// </param>
+        /// <returns>
+        /// The properties of <see cref="QueryAllNonDerivedProperties"/> for which
+        /// <see cref="PropertyExtensions.TryQueryRedefinedByProperty"/> finds no redefining property in the
+        /// <paramref name="class"/>, in the same order
+        /// </returns>
+        public static ReadOnlyCollection<IProperty> QueryAllNonDerivedNonRedefinedProperties(this IClass @class)
+        {
+            if (@class == null)
+            {
+                throw new ArgumentNullException(nameof(@class));
+            }
+
+            return @class.QueryAllNonDerivedProperties()
+                .Where(x => !x.TryQueryRedefinedByProperty(@class, out _))
+                .ToList()
+                .AsReadOnly();
+        }
+
+        /// <summary>
+        /// Queries whether the <see cref="IClass"/> is a direct or indirect subclass of the <paramref name="superClass"/>
+        /// </summary>
+        /// <param name="class">
+        /// The subject <see cref="IClass"/>
+        /// </param>
+        /// <param name="superClass">
+        /// The <see cref="IClass"/> that is expected to be a direct or indirect general class
+        /// </param>
+        /// <returns>
+        /// true when the <paramref name="superClass"/> is one of the direct or indirect general classifiers of the
+        /// <paramref name="class"/>, false otherwise. A class is not a subclass of itself; use
+        /// <see cref="ClassifierExtensions.QueryConformsTo"/> for the test that includes the class itself.
+        /// </returns>
+        public static bool QueryIsSubclassOf(this IClass @class, IClass superClass)
+        {
+            if (@class == null)
+            {
+                throw new ArgumentNullException(nameof(@class));
+            }
+
+            if (superClass == null)
+            {
+                throw new ArgumentNullException(nameof(superClass));
+            }
+
+            return !ReferenceEquals(@class, superClass) && @class.QueryAllGeneralClassifiers().Contains(superClass);
+        }
+
+        /// <summary>
+        /// Queries whether the <see cref="IClass"/> is a direct or indirect subclass of a class with the specified name
+        /// </summary>
+        /// <param name="class">
+        /// The subject <see cref="IClass"/>
+        /// </param>
+        /// <param name="superClassName">
+        /// The name of the <see cref="IClass"/> that is expected to be a direct or indirect general class
+        /// </param>
+        /// <returns>
+        /// true when one of the direct or indirect general classes of the <paramref name="class"/> has the
+        /// <paramref name="superClassName"/> as name, false otherwise. The <paramref name="class"/> itself is not
+        /// taken into account.
+        /// </returns>
+        /// <remarks>
+        /// The comparison is on the name only, it is case-sensitive and does not take the package into account. Two
+        /// classes that have the same name in different packages are not told apart; use the overload that takes an
+        /// <see cref="IClass"/> when that matters.
+        /// </remarks>
+        public static bool QueryIsSubclassOf(this IClass @class, string superClassName)
+        {
+            if (@class == null)
+            {
+                throw new ArgumentNullException(nameof(@class));
+            }
+
+            if (string.IsNullOrWhiteSpace(superClassName))
+            {
+                throw new ArgumentException("The name of the super class may not be null or empty", nameof(superClassName));
+            }
+
+            return @class.QueryAllGeneralClassifiers()
+                .OfType<IClass>()
+                .Any(x => !ReferenceEquals(x, @class) && x.Name == superClassName);
+        }
+
+        /// <summary>
+        /// Queries the properties in the model that refer to the <see cref="IClass"/>: the properties that have the
+        /// <see cref="IClass"/> as type
+        /// </summary>
+        /// <param name="class">
+        /// The subject <see cref="IClass"/>
+        /// </param>
+        /// <returns>
+        /// The owned attributes that are typed by the <paramref name="class"/>, of the classes that are packaged
+        /// elements of the root package of the <paramref name="class"/>, of its nested packages and of the packages
+        /// that these import (see <see cref="PackageExtensions.QueryAllNestedAndImportedPackages"/>). An empty
+        /// collection when the <paramref name="class"/> has no root package.
+        /// </returns>
+        /// <remarks>
+        /// Only the owned attributes of classes that are directly contained by a package are searched. An association
+        /// end that is owned by the association, and an attribute of a nested class, an interface or a data type, are
+        /// not returned.
+        /// </remarks>
+        public static ReadOnlyCollection<IProperty> QueryReferencingProperties(this IClass @class)
+        {
+            if (@class == null)
+            {
+                throw new ArgumentNullException(nameof(@class));
+            }
+
+            var rootPackage = @class.QueryRootPackage();
+
+            if (rootPackage == null)
+            {
+                return new List<IProperty>().AsReadOnly();
+            }
+
+            return rootPackage.QueryAllNestedAndImportedPackages()
+                .SelectMany(x => x.PackagedElement.OfType<IClass>())
+                .SelectMany(x => x.OwnedAttribute)
+                .Where(x => ReferenceEquals(x.Type, @class))
+                .Distinct()
+                .ToList()
+                .AsReadOnly();
+        }
+
+        /// <summary>
+        /// Queries the owned attributes of the <see cref="IClass"/> that take part in a many-to-many relationship
+        /// </summary>
+        /// <param name="class">
+        /// The subject <see cref="IClass"/>
+        /// </param>
+        /// <returns>
+        /// The owned attributes for which <see cref="PropertyExtensions.QueryIsMemberOfManyToMany"/> is true, ordered
+        /// by name
+        /// </returns>
+        public static ReadOnlyCollection<IProperty> QueryOwnedManyToManyProperties(this IClass @class)
+        {
+            if (@class == null)
+            {
+                throw new ArgumentNullException(nameof(@class));
+            }
+
+            return @class.OwnedAttribute
+                .Where(x => x.QueryIsMemberOfManyToMany())
+                .OrderBy(x => x.Name, StringComparer.Ordinal)
+                .Distinct()
+                .ToList()
+                .AsReadOnly();
+        }
     }
 }
