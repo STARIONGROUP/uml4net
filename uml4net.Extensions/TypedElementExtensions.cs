@@ -196,6 +196,53 @@ namespace uml4net.Extensions
         }
 
         /// <summary>
+        /// Queries whether the C# type of the <see cref="ITypedElement"/> is <c>string</c>
+        /// </summary>
+        /// <param name="typedElement">
+        /// The subject <see cref="ITypedElement"/>
+        /// </param>
+        /// <returns>
+        /// true when <see cref="QueryCSharpTypeName(ITypedElement)"/> is <c>string</c>, false otherwise
+        /// </returns>
+        /// <remarks>
+        /// The comparison is on the C# type name after the C# type mapping has been applied, whatever the kind of
+        /// the type. A data type that is mapped to <c>string</c> is recognized, where <see cref="QueryIsString"/>
+        /// requires a primitive type that is named string.
+        /// </remarks>
+        public static bool QueryIsCSharpString(this ITypedElement typedElement)
+        {
+            if (typedElement == null)
+            {
+                throw new ArgumentNullException(nameof(typedElement));
+            }
+
+            return typedElement.QueryCSharpTypeName() == "string";
+        }
+
+        /// <summary>
+        /// Queries whether the C# type of the <see cref="ITypedElement"/> is <c>byte</c>
+        /// </summary>
+        /// <param name="typedElement">
+        /// The subject <see cref="ITypedElement"/>
+        /// </param>
+        /// <returns>
+        /// true when <see cref="QueryCSharpTypeName(ITypedElement)"/> is <c>byte</c>, false otherwise
+        /// </returns>
+        /// <remarks>
+        /// The comparison is on the C# type name after the C# type mapping has been applied, whatever the kind of
+        /// the type.
+        /// </remarks>
+        public static bool QueryIsByte(this ITypedElement typedElement)
+        {
+            if (typedElement == null)
+            {
+                throw new ArgumentNullException(nameof(typedElement));
+            }
+
+            return typedElement.QueryCSharpTypeName() == "byte";
+        }
+
+        /// <summary>
         /// Queries whether the type of the <see cref="ITypedElement"/> is an <see cref="IPrimitiveType"/>
         /// </summary>
         /// <param name="typedElement">

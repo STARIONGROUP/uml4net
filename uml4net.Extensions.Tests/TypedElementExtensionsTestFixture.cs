@@ -272,5 +272,36 @@ namespace uml4net.Extensions.Tests
 
             Assert.That(ownedComment.QueryIsValueType(), Is.False);
         }
+
+        [Test]
+        public void Verify_that_QueryIsCSharpString_and_QueryIsByte_compare_the_mapped_CSharp_type_name()
+        {
+            try
+            {
+                TypedElementExtensions.AddOrOverwriteCSharpTypeMappings(("Text", "string"), ("Octet", "byte"));
+
+                using (Assert.EnterMultipleScope())
+                {
+                    Assert.That(new Property { Type = new PrimitiveType { Name = "string" } }.QueryIsCSharpString(), Is.True);
+                    Assert.That(new Property { Type = new DataType { Name = "Text" } }.QueryIsCSharpString(), Is.True, "a data type that is mapped to string");
+                    Assert.That(new Property { Type = new DataType { Name = "Text" } }.QueryIsString(), Is.False, "QueryIsString requires a primitive type");
+                    Assert.That(new Property { Type = new PrimitiveType { Name = "Octet" } }.QueryIsCSharpString(), Is.False);
+                    Assert.That(new Property { Type = new Class { Name = "Text" } }.QueryIsCSharpString(), Is.True, "the kind of the type is not taken into account");
+                    Assert.That(new Property().QueryIsCSharpString(), Is.False, "an untyped element is an object");
+
+                    Assert.That(new Property { Type = new PrimitiveType { Name = "byte" } }.QueryIsByte(), Is.True);
+                    Assert.That(new Property { Type = new PrimitiveType { Name = "Octet" } }.QueryIsByte(), Is.True, "a type that is mapped to byte");
+                    Assert.That(new Property { Type = new PrimitiveType { Name = "Text" } }.QueryIsByte(), Is.False);
+                    Assert.That(new Property().QueryIsByte(), Is.False, "an untyped element is an object");
+
+                    Assert.That(() => TypedElementExtensions.QueryIsCSharpString(null), Throws.ArgumentNullException);
+                    Assert.That(() => TypedElementExtensions.QueryIsByte(null), Throws.ArgumentNullException);
+                }
+            }
+            finally
+            {
+                TypedElementExtensions.ResetCSharpTypeMappingsToDefault();
+            }
+        }
     }
 }

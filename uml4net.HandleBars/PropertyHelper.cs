@@ -373,6 +373,53 @@ namespace uml4net.HandleBars
                 return property.QueryConstraints();
             });
 
+            // Queries whether the type of the Property is abstract
+            handlebars.RegisterHelper("Property.QueryIsTypeAbstract", (_, arguments) =>
+            {
+                return QuerySingleProperty("Property.QueryIsTypeAbstract", arguments).QueryIsTypeAbstract();
+            });
+
+            // Queries whether the Property requires an initializer: whether it has a default value that differs from
+            // the default of its type
+            handlebars.RegisterHelper("Property.QueryRequiresInitializer", (_, arguments) =>
+            {
+                return QuerySingleProperty("Property.QueryRequiresInitializer", arguments).QueryRequiresInitializer();
+            });
+
+            // Queries whether the C# type of the Property is string
+            handlebars.RegisterHelper("Property.QueryIsCSharpString", (_, arguments) =>
+            {
+                return QuerySingleProperty("Property.QueryIsCSharpString", arguments).QueryIsCSharpString();
+            });
+
+            // Queries whether the C# type of the Property is byte
+            handlebars.RegisterHelper("Property.QueryIsByte", (_, arguments) =>
+            {
+                return QuerySingleProperty("Property.QueryIsByte", arguments).QueryIsByte();
+            });
+
+            // Renders the block with a context that holds the Property (as property) and the Class in the context of
+            // which it is used (as classContext)
+            handlebars.RegisterHelper("Property.WithClassContext", (output, options, _, arguments) =>
+            {
+                if (arguments.Length != 2)
+                {
+                    throw new HandlebarsException("{{#Property.WithClassContext}} helper must have exactly two arguments");
+                }
+
+                if (!(arguments[0] is IProperty property))
+                {
+                    throw new ArgumentException("{{#Property.WithClassContext}} - the first argument is supposed to be an IProperty");
+                }
+
+                if (!(arguments[1] is IClass classContext))
+                {
+                    throw new ArgumentException("{{#Property.WithClassContext}} - the second argument is supposed to be an IClass");
+                }
+
+                options.Template(output, new { property, classContext });
+            });
+
             // Queries whether the Property is Derived, DerivedUnion or ReadOnly
             handlebars.RegisterHelper("Property.QueryIsDerivedOrDerivedUnionOrReadOnly", (_, arguments) =>
             {
@@ -1957,6 +2004,39 @@ namespace uml4net.HandleBars
             }
 
             return (attach, detach);
+        }
+
+        /// <summary>
+        /// Queries the <see cref="IProperty"/> that is the one argument of a helper
+        /// </summary>
+        /// <param name="helperName">
+        /// The name of the helper, used in the message of the exceptions
+        /// </param>
+        /// <param name="arguments">
+        /// The <see cref="Arguments"/> of the helper
+        /// </param>
+        /// <returns>
+        /// The <see cref="IProperty"/>
+        /// </returns>
+        /// <exception cref="HandlebarsException">
+        /// Thrown when the helper does not have exactly one argument
+        /// </exception>
+        /// <exception cref="ArgumentException">
+        /// Thrown when the argument is not an <see cref="IProperty"/>
+        /// </exception>
+        private static IProperty QuerySingleProperty(string helperName, Arguments arguments)
+        {
+            if (arguments.Length != 1)
+            {
+                throw new HandlebarsException($"{{{{#{helperName}}}}} helper must have exactly one argument");
+            }
+
+            if (!(arguments[0] is IProperty property))
+            {
+                throw new ArgumentException($"{{{{#{helperName}}}}} - supposed to be IProperty");
+            }
+
+            return property;
         }
     }
 }

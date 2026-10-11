@@ -22,8 +22,11 @@ namespace uml4net.HandleBars
 {
     using System;
     using System.Globalization;
+    using System.Linq;
 
     using HandlebarsDotNet;
+
+    using uml4net.SimpleClassifiers;
 
     /// <summary>
     /// A enum helper
@@ -75,6 +78,29 @@ namespace uml4net.HandleBars
                 {
                     throw new HandlebarsException("{{Enum.ToString}} helper argument must be an Enum");
                 }
+            });
+
+            // Writes the number of characters of the longest literal name of an Enumeration, 0 for an Enumeration
+            // without named literals
+            handlebars.RegisterHelper("Enumeration.WriteLengthLongestLiteral", (writer, _, parameters) =>
+            {
+                if (parameters.Length != 1)
+                {
+                    throw new HandlebarsException("{{#Enumeration.WriteLengthLongestLiteral}} helper must have exactly one argument");
+                }
+
+                if (!(parameters[0] is IEnumeration enumeration))
+                {
+                    throw new HandlebarsException("{{#Enumeration.WriteLengthLongestLiteral}} helper argument must be an Enumeration");
+                }
+
+                var length = enumeration.OwnedLiteral
+                    .Where(x => !string.IsNullOrEmpty(x.Name))
+                    .Select(x => x.Name.Length)
+                    .DefaultIfEmpty(0)
+                    .Max();
+
+                writer.WriteSafeString(length.ToString(CultureInfo.InvariantCulture));
             });
         }
     }

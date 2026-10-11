@@ -28,6 +28,7 @@ namespace uml4net.HandleBars.Tests
     using NUnit.Framework;
 
     using uml4net.HandleBars;
+    using uml4net.SimpleClassifiers;
 
     /// <summary>
     /// Suite of tests for the <see cref="EnumHelper"/> class.
@@ -78,6 +79,25 @@ namespace uml4net.HandleBars.Tests
             var action = this.handlebarsContext.Compile(template);
 
             Assert.That(() => action(DayOfWeek.Tuesday), Throws.TypeOf<HandlebarsException>());
+        }
+
+        [Test]
+        public void Verify_that_WriteLengthLongestLiteral_writes_the_length_of_the_longest_literal_name()
+        {
+            var action = this.handlebarsContext.Compile("{{ #Enumeration.WriteLengthLongestLiteral this }}");
+
+            var enumeration = new Enumeration { Name = "VisibilityKind" };
+            enumeration.OwnedLiteral.Add(new EnumerationLiteral { Name = "public" });
+            enumeration.OwnedLiteral.Add(new EnumerationLiteral { Name = "protected" });
+            enumeration.OwnedLiteral.Add(new EnumerationLiteral());
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(action(enumeration), Is.EqualTo("9"));
+                Assert.That(action(new Enumeration()), Is.EqualTo("0"), "an enumeration without literals");
+                Assert.That(() => action(5), Throws.TypeOf<HandlebarsException>());
+                Assert.That(() => this.handlebarsContext.Compile("{{ #Enumeration.WriteLengthLongestLiteral this this }}")(enumeration), Throws.TypeOf<HandlebarsException>());
+            }
         }
     }
 }
