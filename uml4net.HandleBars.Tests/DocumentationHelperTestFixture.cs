@@ -29,6 +29,7 @@ namespace uml4net.HandleBars.Tests
 
     using uml4net.Classification;
     using uml4net.CommonStructure;
+    using uml4net.Packages;
     using uml4net.SimpleClassifiers;
     using uml4net.StructuredClassifiers;
 
@@ -164,6 +165,49 @@ namespace uml4net.HandleBars.Tests
             var action = this.handlebarsContext.Compile(template);
 
             Assert.That(() => action(5), Throws.TypeOf<ArgumentException>());
+        }
+
+        [Test]
+        public void Verify_that_DocumentationSummary_writes_the_first_sentence()
+        {
+            var @class = new Class();
+            @class.OwnedComment.Add(new Comment { Body = "A tank holds a fluid. It has a volume." });
+
+            var template = this.handlebarsContext.Compile("{{ #DocumentationSummary this }}");
+            var templateWithMaxLength = this.handlebarsContext.Compile("{{ #DocumentationSummary this 12 }}");
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(template(@class), Is.EqualTo("A tank holds a fluid."));
+                Assert.That(templateWithMaxLength(@class), Is.EqualTo("A tank holds…"));
+                Assert.That(template(new Class()), Is.Empty);
+                Assert.That(() => template("not an element"), Throws.ArgumentException);
+                Assert.That(() => this.handlebarsContext.Compile("{{ #DocumentationSummary this 12 13 }}")(@class), Throws.TypeOf<HandlebarsException>());
+            }
+        }
+
+        [Test]
+        public void Verify_that_QueryAnnotatingComments_returns_the_comments_that_annotate_the_element()
+        {
+            var package = new Package { Name = "package" };
+            var @class = new Class { Name = "Tank" };
+            package.PackagedElement.Add(@class);
+
+            @class.OwnedComment.Add(new Comment { Body = "owned" });
+
+            var packageComment = new Comment { Body = "annotating" };
+            packageComment.AnnotatedElement.Add(@class);
+            package.OwnedComment.Add(packageComment);
+
+            var template = this.handlebarsContext.Compile("{{#each (#Element.QueryAnnotatingComments this) as | comment |}}{{ comment.Body }};{{/each}}");
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(template(@class), Is.EqualTo("owned;annotating;"));
+                Assert.That(template(package), Is.EqualTo("annotating;"), "the comment that the package owns");
+                Assert.That(() => template("not an element"), Throws.ArgumentException);
+                Assert.That(() => this.handlebarsContext.Compile("{{#each (#Element.QueryAnnotatingComments this this)}}x{{/each}}")(@class), Throws.TypeOf<HandlebarsException>());
+            }
         }
     }
 }
