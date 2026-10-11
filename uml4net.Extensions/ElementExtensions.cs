@@ -84,6 +84,95 @@ namespace uml4net.Extensions
         }
 
         /// <summary>
+        /// Queries the comments that annotate the <paramref name="element"/>: its owned comments, and the comments
+        /// that are owned by one of its direct or indirect owners and that have the <paramref name="element"/> as
+        /// annotated element
+        /// </summary>
+        /// <param name="element">
+        /// The subject <see cref="IElement"/>
+        /// </param>
+        /// <returns>
+        /// The owned comments of the <paramref name="element"/> (<c>Element::ownedComment</c>), followed by the
+        /// comments of each owner on the <see cref="IElement.Owner"/> chain, nearest owner first, for which
+        /// <c>Comment::annotatedElement</c> holds the <paramref name="element"/>. Each comment is returned once.
+        /// </returns>
+        /// <remarks>
+        /// A modelling tool can store the comment of an element in the package that contains the element, with the
+        /// element as annotated element. <see cref="QueryDocumentation"/> and <see cref="QueryRawDocumentation"/>
+        /// only read the owned comments and do not return such a comment. A comment that annotates the
+        /// <paramref name="element"/> and that is owned by an element that is not one of its owners is not returned.
+        /// </remarks>
+        public static IReadOnlyList<IComment> QueryAnnotatingComments(this IElement element)
+        {
+            if (element == null)
+            {
+                throw new ArgumentNullException(nameof(element));
+            }
+
+            var result = new List<IComment>(element.OwnedComment);
+
+            var visited = new HashSet<IElement> { element };
+
+            var owner = element.Owner;
+
+            while (owner != null && visited.Add(owner))
+            {
+                result.AddRange(owner.OwnedComment.Where(x => x.AnnotatedElement != null && x.AnnotatedElement.Contains(element)));
+
+                owner = owner.Owner;
+            }
+
+            return result.Distinct().ToList().AsReadOnly();
+        }
+
+        /// <summary>
+        /// Queries a summary of the documentation of the <paramref name="element"/>: the first sentence of
+        /// <see cref="QueryRawDocumentation"/>, shortened to the <paramref name="maxLength"/>
+        /// </summary>
+        /// <param name="element">
+        /// The subject <see cref="IElement"/>
+        /// </param>
+        /// <param name="maxLength">
+        /// The maximum number of characters of the summary, the ellipsis that marks a shortened summary not included
+        /// </param>
+        /// <returns>
+        /// The documentation up to and including the first full stop that is followed by a space, or the complete
+        /// documentation when it holds no such full stop. When that text is longer than the
+        /// <paramref name="maxLength"/> it is cut at that length and an ellipsis (…) is added. An empty string when
+        /// the <paramref name="element"/> has no documentation.
+        /// </returns>
+        public static string QuerySummary(this IElement element, int maxLength = 160)
+        {
+            if (element == null)
+            {
+                throw new ArgumentNullException(nameof(element));
+            }
+
+            if (maxLength < 1)
+            {
+                throw new ArgumentOutOfRangeException(nameof(maxLength), "The maximum length must be at least 1");
+            }
+
+            var text = element.QueryRawDocumentation();
+
+            if (string.IsNullOrEmpty(text))
+            {
+                return string.Empty;
+            }
+
+            var sentenceEnd = text.IndexOf(". ", StringComparison.Ordinal);
+
+            var sentence = sentenceEnd >= 0 ? text.Substring(0, sentenceEnd + 1) : text;
+
+            if (sentence.Length > maxLength)
+            {
+                sentence = sentence.Substring(0, maxLength).TrimEnd() + "…";
+            }
+
+            return sentence;
+        }
+
+        /// <summary>
         /// Queries the text of every owned comment of the <paramref name="element"/> that has a body, in order,
         /// stripped from unwanted HTML tags and on a single line
         /// </summary>

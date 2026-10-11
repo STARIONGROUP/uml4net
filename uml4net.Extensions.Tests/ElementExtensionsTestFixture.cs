@@ -20,6 +20,7 @@
 
 namespace uml4net.Extensions.Tests
 {
+    using System;
     using System.Linq;
 
     using NUnit.Framework;
@@ -161,6 +162,73 @@ namespace uml4net.Extensions.Tests
                 Assert.That(classWithoutPackage.QueryContainers(), Is.Empty);
                 Assert.That(classWithoutPackage.QueryAllSpecializations(), Is.Empty);
                 Assert.That(classWithoutPackage.QueryInterfaces(), Is.Empty);
+            }
+        }
+
+        [Test]
+        public void Verify_that_QueryAnnotatingComments_returns_the_owned_comments_and_the_comments_of_the_owners_that_annotate_the_element()
+        {
+            var rootPackage = new Package { Name = "root" };
+            var package = new Package { Name = "package" };
+            var @class = new Class { Name = "Tank" };
+            var otherClass = new Class { Name = "Pump" };
+            var property = new Property { Name = "volume" };
+
+            rootPackage.PackagedElement.Add(package);
+            package.PackagedElement.Add(@class);
+            package.PackagedElement.Add(otherClass);
+            @class.OwnedAttribute.Add(property);
+
+            var ownedComment = new Comment { Body = "owned by the class" };
+            @class.OwnedComment.Add(ownedComment);
+
+            var packageComment = new Comment { Body = "owned by the package, annotates the class" };
+            packageComment.AnnotatedElement.Add(@class);
+            package.OwnedComment.Add(packageComment);
+
+            var rootPackageComment = new Comment { Body = "owned by the root package, annotates the class" };
+            rootPackageComment.AnnotatedElement.Add(@class);
+            rootPackage.OwnedComment.Add(rootPackageComment);
+
+            var commentOnOtherClass = new Comment { Body = "owned by the package, annotates another class" };
+            commentOnOtherClass.AnnotatedElement.Add(otherClass);
+            package.OwnedComment.Add(commentOnOtherClass);
+
+            var commentOnProperty = new Comment { Body = "owned by the class, annotates the property" };
+            commentOnProperty.AnnotatedElement.Add(property);
+            @class.OwnedComment.Add(commentOnProperty);
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(@class.QueryAnnotatingComments(), Is.EqualTo(new[] { ownedComment, commentOnProperty, packageComment, rootPackageComment }), "owned comments first, then nearest owner first");
+                Assert.That(property.QueryAnnotatingComments(), Is.EqualTo(new[] { commentOnProperty }));
+                Assert.That(otherClass.QueryAnnotatingComments(), Is.EqualTo(new[] { commentOnOtherClass }));
+                Assert.That(new Class().QueryAnnotatingComments(), Is.Empty);
+                Assert.That(@class.QueryRawDocumentation(), Does.Not.Contain("owned by the package"), "the documentation only reads the owned comments");
+                Assert.That(() => ElementExtensions.QueryAnnotatingComments(null), Throws.ArgumentNullException);
+            }
+        }
+
+        [Test]
+        public void Verify_that_QuerySummary_returns_the_first_sentence_shortened_to_the_maximum_length()
+        {
+            var twoSentences = new Class();
+            twoSentences.OwnedComment.Add(new Comment { Body = "A tank holds a fluid. It has a volume." });
+
+            var oneSentence = new Class();
+            oneSentence.OwnedComment.Add(new Comment { Body = "A tank holds a fluid" });
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(twoSentences.QuerySummary(), Is.EqualTo("A tank holds a fluid."));
+                Assert.That(oneSentence.QuerySummary(), Is.EqualTo("A tank holds a fluid"), "no full stop that is followed by a space");
+                Assert.That(twoSentences.QuerySummary(21), Is.EqualTo("A tank holds a fluid."), "exactly the maximum length");
+                Assert.That(twoSentences.QuerySummary(12), Is.EqualTo("A tank holds…"));
+                Assert.That(twoSentences.QuerySummary(7), Is.EqualTo("A tank…"), "the space before the ellipsis is removed");
+                Assert.That(new Class().QuerySummary(), Is.Empty);
+
+                Assert.That(() => ElementExtensions.QuerySummary(null), Throws.ArgumentNullException);
+                Assert.That(() => twoSentences.QuerySummary(0), Throws.TypeOf<ArgumentOutOfRangeException>());
             }
         }
     }

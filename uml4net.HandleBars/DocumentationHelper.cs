@@ -21,6 +21,7 @@
 namespace uml4net.HandleBars
 {
     using System;
+    using System.Globalization;
     using System.Linq;
     using System.Text;
 
@@ -73,6 +74,44 @@ namespace uml4net.HandleBars
                 }
 
                 writer.WriteSafeString(rawDocumentation);
+            });
+
+            // Writes the summary of the documentation of an element: its first sentence, shortened to the maximum
+            // length that can be provided as second argument
+            handlebars.RegisterHelper("DocumentationSummary", (writer, _, arguments) =>
+            {
+                if (arguments.Length != 1 && arguments.Length != 2)
+                {
+                    throw new HandlebarsException("{{#DocumentationSummary}} helper must have one or two arguments");
+                }
+
+                if (!(arguments[0] is IElement element))
+                {
+                    throw new ArgumentException("{{#DocumentationSummary}} - the first argument is supposed to be an IElement");
+                }
+
+                var summary = arguments.Length == 2
+                    ? element.QuerySummary(Convert.ToInt32(arguments[1], CultureInfo.InvariantCulture))
+                    : element.QuerySummary();
+
+                writer.WriteSafeString(summary);
+            });
+
+            // Queries the comments that annotate an element: its owned comments and the comments of its owners that
+            // have the element as annotated element
+            handlebars.RegisterHelper("Element.QueryAnnotatingComments", (_, arguments) =>
+            {
+                if (arguments.Length != 1)
+                {
+                    throw new HandlebarsException("{{#Element.QueryAnnotatingComments}} helper must have exactly one argument");
+                }
+
+                if (!(arguments[0] is IElement element))
+                {
+                    throw new ArgumentException("{{#Element.QueryAnnotatingComments}} - supposed to be IElement");
+                }
+
+                return element.QueryAnnotatingComments();
             });
             
             handlebars.RegisterHelper("ParameterDocumentation", (writer, _, arguments) =>
