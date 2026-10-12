@@ -122,5 +122,64 @@ namespace uml4net.Extensions.Tests
                 Assert.That(() => StringExtensions.EscapeCSharpKeyword(null), Throws.ArgumentNullException);
             }
         }
+
+        [Test]
+        public void Verify_that_RegisterAdditionalCSharpKeywords_extends_the_reserved_keywords()
+        {
+            try
+            {
+                StringExtensions.RegisterAdditionalCSharpKeywords("var", "value");
+                StringExtensions.RegisterAdditionalCSharpKeywords("value", "class", "record");
+
+                using (Assert.EnterMultipleScope())
+                {
+                    Assert.That("var".QueryIsCSharpKeyword(), Is.True);
+                    Assert.That("value".QueryIsCSharpKeyword(), Is.True);
+                    Assert.That("Var".QueryIsCSharpKeyword(), Is.False, "the comparison is case-sensitive");
+                    Assert.That("class".QueryIsCSharpKeyword(), Is.True);
+
+                    Assert.That("var".EscapeCSharpKeyword(), Is.EqualTo("@var"));
+                    Assert.That("value".EscapeCSharpKeyword(), Is.EqualTo("@value"));
+                    Assert.That("Value".EscapeCSharpKeyword(), Is.EqualTo("Value"));
+
+                    Assert.That(StringExtensions.QueryAdditionalCSharpKeywords(), Is.EqualTo(new[] { "record", "value", "var" }),
+                        "a reserved keyword of C# and a word that is registered twice are ignored");
+                    Assert.That(StringExtensions.QueryCSharpKeywords(), Has.Count.EqualTo(77));
+                }
+            }
+            finally
+            {
+                StringExtensions.ClearAdditionalCSharpKeywords();
+            }
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(StringExtensions.QueryAdditionalCSharpKeywords(), Is.Empty);
+                Assert.That("var".QueryIsCSharpKeyword(), Is.False);
+                Assert.That("value".EscapeCSharpKeyword(), Is.EqualTo("value"));
+            }
+        }
+
+        [Test]
+        public void Verify_that_RegisterAdditionalCSharpKeywords_rejects_invalid_keywords()
+        {
+            try
+            {
+                using (Assert.EnterMultipleScope())
+                {
+                    Assert.That(() => StringExtensions.RegisterAdditionalCSharpKeywords(null), Throws.ArgumentNullException);
+                    Assert.That(() => StringExtensions.RegisterAdditionalCSharpKeywords("var", null), Throws.ArgumentException);
+                    Assert.That(() => StringExtensions.RegisterAdditionalCSharpKeywords("var", string.Empty), Throws.ArgumentException);
+                    Assert.That(() => StringExtensions.RegisterAdditionalCSharpKeywords("var", " "), Throws.ArgumentException);
+
+                    Assert.That(StringExtensions.QueryAdditionalCSharpKeywords(), Is.Empty, "nothing is registered when one of the keywords is invalid");
+                    Assert.That(() => StringExtensions.RegisterAdditionalCSharpKeywords(), Throws.Nothing);
+                }
+            }
+            finally
+            {
+                StringExtensions.ClearAdditionalCSharpKeywords();
+            }
+        }
     }
 }

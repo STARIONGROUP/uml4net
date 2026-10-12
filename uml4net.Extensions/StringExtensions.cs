@@ -24,6 +24,7 @@ namespace uml4net.Extensions
     using System.Collections.Generic;
     using System.Globalization;
     using System.Linq;
+    using System.Threading;
 
     /// <summary>
     /// Extension methods for <see cref="string"/> 
@@ -132,7 +133,8 @@ namespace uml4net.Extensions
         /// </summary>
         /// <remarks>
         /// The contextual keywords of C#, such as <c>var</c>, <c>value</c> and <c>record</c>, are not part of this
-        /// set: they only have a meaning in a specific context and are legal identifiers.
+        /// set: they only have a meaning in a specific context and are legal identifiers. A project that wants to
+        /// escape them as well registers them with <see cref="RegisterAdditionalCSharpKeywords"/>.
         /// </remarks>
         private static readonly HashSet<string> ReservedCSharpKeywords = new HashSet<string>(StringComparer.Ordinal)
         {
@@ -146,10 +148,23 @@ namespace uml4net.Extensions
         };
 
         /// <summary>
+        /// The words that a project has registered in addition to the reserved keywords of C#
+        /// (see <see cref="RegisterAdditionalCSharpKeywords"/>). The set is replaced, never changed, so that it can
+        /// be read without a lock.
+        /// </summary>
+        private static HashSet<string> additionalCSharpKeywords = new HashSet<string>(StringComparer.Ordinal);
+
+        /// <summary>
+        /// The lock that serializes the replacement of the <see cref="additionalCSharpKeywords"/>
+        /// </summary>
+        private static readonly object AdditionalCSharpKeywordsLock = new object();
+
+        /// <summary>
         /// Queries the reserved keywords of C#
         /// </summary>
         /// <returns>
-        /// The reserved keywords of C#, in alphabetical order. The contextual keywords are not included.
+        /// The reserved keywords of C#, in alphabetical order. The contextual keywords are not included, and neither
+        /// are the words that have been registered with <see cref="RegisterAdditionalCSharpKeywords"/>.
         /// </returns>
         public static IReadOnlyList<string> QueryCSharpKeywords()
         {
@@ -157,15 +172,84 @@ namespace uml4net.Extensions
         }
 
         /// <summary>
-        /// Queries whether the string is a reserved keyword of C#
+        /// Registers words that are to be treated as a reserved keyword of C# in addition to the reserved keywords
+        /// of the language, for example the contextual keywords <c>var</c> and <c>value</c>
+        /// </summary>
+        /// <param name="keywords">
+        /// The words to register. The comparison is case-sensitive. A word that is a reserved keyword of C# or that
+        /// has already been registered is ignored.
+        /// </param>
+        /// <remarks>
+        /// The registration applies to the whole application domain: <see cref="QueryIsCSharpKeyword"/>,
+        /// <see cref="EscapeCSharpKeyword"/> and every extension method and Handlebars helper that is based on them
+        /// take the registered words into account. A code generator registers its words once, before it generates.
+        /// </remarks>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown when <paramref name="keywords"/> is null
+        /// </exception>
+        /// <exception cref="ArgumentException">
+        /// Thrown when one of the <paramref name="keywords"/> is null, empty or white space. Nothing is registered
+        /// in that case.
+        /// </exception>
+        public static void RegisterAdditionalCSharpKeywords(params string[] keywords)
+        {
+            if (keywords == null)
+            {
+                throw new ArgumentNullException(nameof(keywords));
+            }
+
+            if (keywords.Any(string.IsNullOrWhiteSpace))
+            {
+                throw new ArgumentException("a keyword can't be null, empty or white space", nameof(keywords));
+            }
+
+            lock (AdditionalCSharpKeywordsLock)
+            {
+                var updated = new HashSet<string>(additionalCSharpKeywords, StringComparer.Ordinal);
+
+                foreach (var keyword in keywords.Where(x => !ReservedCSharpKeywords.Contains(x)))
+                {
+                    updated.Add(keyword);
+                }
+
+                Volatile.Write(ref additionalCSharpKeywords, updated);
+            }
+        }
+
+        /// <summary>
+        /// Queries the words that have been registered with <see cref="RegisterAdditionalCSharpKeywords"/>
+        /// </summary>
+        /// <returns>
+        /// The registered words, in alphabetical order. The reserved keywords of C# are not included.
+        /// </returns>
+        public static IReadOnlyList<string> QueryAdditionalCSharpKeywords()
+        {
+            return Volatile.Read(ref additionalCSharpKeywords).OrderBy(x => x, StringComparer.Ordinal).ToList().AsReadOnly();
+        }
+
+        /// <summary>
+        /// Removes the words that have been registered with <see cref="RegisterAdditionalCSharpKeywords"/>, so that
+        /// only the reserved keywords of C# remain
+        /// </summary>
+        public static void ClearAdditionalCSharpKeywords()
+        {
+            lock (AdditionalCSharpKeywordsLock)
+            {
+                Volatile.Write(ref additionalCSharpKeywords, new HashSet<string>(StringComparer.Ordinal));
+            }
+        }
+
+        /// <summary>
+        /// Queries whether the string is a reserved keyword of C#, or a word that has been registered with
+        /// <see cref="RegisterAdditionalCSharpKeywords"/>
         /// </summary>
         /// <param name="input">
         /// The subject input string
         /// </param>
         /// <returns>
-        /// true when the <paramref name="input"/> is a reserved keyword of C#, false otherwise. The comparison is
-        /// case-sensitive: <c>class</c> is a keyword, <c>Class</c> is not. A contextual keyword such as <c>var</c>
-        /// is not a reserved keyword.
+        /// true when the <paramref name="input"/> is a reserved keyword of C# or a registered word, false otherwise.
+        /// The comparison is case-sensitive: <c>class</c> is a keyword, <c>Class</c> is not. A contextual keyword
+        /// such as <c>var</c> is not a reserved keyword, unless it has been registered.
         /// </returns>
         public static bool QueryIsCSharpKeyword(this string input)
         {
@@ -174,18 +258,19 @@ namespace uml4net.Extensions
                 throw new ArgumentNullException(nameof(input));
             }
 
-            return ReservedCSharpKeywords.Contains(input);
+            return ReservedCSharpKeywords.Contains(input) || Volatile.Read(ref additionalCSharpKeywords).Contains(input);
         }
 
         /// <summary>
-        /// Escapes the string when it is a reserved keyword of C#, so that it can be used as an identifier
+        /// Escapes the string when it is a reserved keyword of C# or a word that has been registered with
+        /// <see cref="RegisterAdditionalCSharpKeywords"/>, so that it can be used as an identifier
         /// </summary>
         /// <param name="input">
         /// The subject input string
         /// </param>
         /// <returns>
-        /// The <paramref name="input"/> prefixed with <c>@</c> when it is a reserved keyword of C#
-        /// (see <see cref="QueryIsCSharpKeyword"/>), the unchanged <paramref name="input"/> otherwise
+        /// The <paramref name="input"/> prefixed with <c>@</c> when it is a reserved keyword of C# or a registered
+        /// word (see <see cref="QueryIsCSharpKeyword"/>), the unchanged <paramref name="input"/> otherwise
         /// </returns>
         public static string EscapeCSharpKeyword(this string input)
         {

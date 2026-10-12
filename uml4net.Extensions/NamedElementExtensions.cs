@@ -65,7 +65,8 @@ namespace uml4net.Extensions
 
         /// <summary>
         /// Queries the C# identifier for the <see cref="INamedElement"/>: its name, with the requested casing of the
-        /// first letter, escaped when the result is a reserved keyword of C#
+        /// first letter, escaped when the result is a reserved keyword of C# or a word that has been registered with
+        /// <see cref="StringExtensions.RegisterAdditionalCSharpKeywords"/>
         /// </summary>
         /// <param name="namedElement">
         /// The subject <see cref="INamedElement"/>

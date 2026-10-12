@@ -118,5 +118,30 @@ namespace uml4net.Extensions.Tests
                 Assert.That(() => NamedElementExtensions.QueryCSharpIdentifier(null), Throws.ArgumentNullException);
             }
         }
+
+        [Test]
+        public void Verify_that_QueryCSharpIdentifier_escapes_a_registered_keyword()
+        {
+            var value = new Property { Name = "value" };
+            var upperCase = new Property { Name = "Var" };
+
+            try
+            {
+                StringExtensions.RegisterAdditionalCSharpKeywords("var", "value");
+
+                using (Assert.EnterMultipleScope())
+                {
+                    Assert.That(value.QueryCSharpIdentifier(), Is.EqualTo("@value"));
+                    Assert.That(value.QueryCSharpIdentifier(CSharpIdentifierCasing.UpperCaseFirstLetter), Is.EqualTo("Value"));
+                    Assert.That(upperCase.QueryCSharpIdentifier(CSharpIdentifierCasing.LowerCaseFirstLetter), Is.EqualTo("@var"));
+                }
+            }
+            finally
+            {
+                StringExtensions.ClearAdditionalCSharpKeywords();
+            }
+
+            Assert.That(value.QueryCSharpIdentifier(), Is.EqualTo("value"));
+        }
     }
 }
