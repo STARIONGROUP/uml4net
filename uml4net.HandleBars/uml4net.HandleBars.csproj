@@ -2,7 +2,7 @@
 
     <PropertyGroup>
         <TargetFramework>netstandard2.0</TargetFramework>
-        <Version>9.1.0</Version>
+        <Version>9.2.0</Version>
         <LangVersion>12.0</LangVersion>
         <PackageId>uml4net.HandleBars</PackageId>
         <AssemblyTitle>uml4net.HandleBars</AssemblyTitle>
@@ -10,7 +10,12 @@
         <Description>HandleBars Helpers for use in combination with the uml4net library to support HandleBarHelpers based code generation</Description>
         <PackageTags>UML HandleBars modeltopia</PackageTags>
         <PackageReleaseNotes>
-            [Fix] IClassifier.General of Class and its subtypes returns every parent instead of forwarding to superClass; fixes #494
+            [Fix] Faulty Handlebars helpers in uml4net.HandleBars; fixes #508
+            [Add] Class and Classifier Handlebars helpers; fixes #511
+            [Add] Property Handlebars helpers; fixes #511
+            [Add] Element Handlebars helpers for annotating comments and a documentation summary; fixes #511
+            [Add] Handlebars helpers that SysML2.NET, EORSADB and mycelium share; fixes #512
+            [Add] C# identifier naming with escaping of reserved keywords; fixes #513
         </PackageReleaseNotes>
     </PropertyGroup>
 

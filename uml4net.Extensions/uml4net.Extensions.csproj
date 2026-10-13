@@ -2,7 +2,7 @@
 
     <PropertyGroup>
         <TargetFramework>netstandard2.0</TargetFramework>
-        <Version>9.1.0</Version>
+        <Version>9.2.0</Version>
         <LangVersion>12.0</LangVersion>
         <PackageId>uml4net.Extensions</PackageId>
         <AssemblyTitle>uml4net.Extensions</AssemblyTitle>
@@ -10,7 +10,14 @@
         <Description>Extension methods for the .NET implementation of the OMG UML v2.5.1 specification.</Description>
         <PackageTags>UML modeltopia</PackageTags>
         <PackageReleaseNotes>
-            [Fix] MultiplicityElement::upper is 0 for a LiteralUnlimitedNatural without value; fixes #493
+            [Update] dependencies
+            [Add] QueryConstraintBody and QueryBodyConditionText extension methods; fixes #506
+            [Add] Class and Classifier query extension methods; fixes #511
+            [Add] Property query extension methods; fixes #511
+            [Add] Element query extension methods for annotating comments and a documentation summary; fixes #511
+            [Add] Handlebars helpers that SysML2.NET and mycelium share, with the extension methods behind them; fixes #512
+            [Add] C# identifier naming with escaping of reserved keywords; fixes #513
+            [Add] RegisterAdditionalCSharpKeywords: a project registers extra words, such as var and value, that are escaped like a reserved keyword; fixes #513
         </PackageReleaseNotes>
     </PropertyGroup>
 
