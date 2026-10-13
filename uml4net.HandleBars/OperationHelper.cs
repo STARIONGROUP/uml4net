@@ -66,7 +66,7 @@ namespace uml4net.HandleBars
                 writer.WriteSafeString($" {operation.Name.CapitalizeFirstLetter()}("); 
                 var inputParameters = operation.OwnedParameter.Where(x => x.Direction != ParameterDirectionKind.Return).ToList();
 
-                writer.WriteSafeString(string.Join(", ", inputParameters.Select(x => $"{x.QueryCSharpFullTypeName()} {x.Name.LowerCaseFirstLetter()}")));
+                writer.WriteSafeString(string.Join(", ", inputParameters.Select(x => $"{x.QueryCSharpFullTypeName()} {x.Name.LowerCaseFirstLetter().EscapeCSharpKeyword()}")));
                 writer.WriteSafeString($");{Environment.NewLine}");
             });
             
@@ -96,7 +96,7 @@ namespace uml4net.HandleBars
 
                 if (inputParameters.Count > 0)
                 {
-                    var parametersDefinition = string.Join(", ", inputParameters.Select(x => $"{x.QueryCSharpFullTypeName()} {x.Name.LowerCaseFirstLetter()}"));
+                    var parametersDefinition = string.Join(", ", inputParameters.Select(x => $"{x.QueryCSharpFullTypeName()} {x.Name.LowerCaseFirstLetter().EscapeCSharpKeyword()}"));
                     writer.WriteSafeString($", {parametersDefinition}");
                 }
                 
@@ -146,9 +146,9 @@ namespace uml4net.HandleBars
                 writer.WriteSafeString($"{operation.Name.CapitalizeFirstLetter()}("); 
                 var inputParameters = operation.OwnedParameter.Where(x => x.Direction != ParameterDirectionKind.Return).ToList();
 
-                writer.WriteSafeString(string.Join(", ", inputParameters.Select(x => $"{x.QueryCSharpFullTypeName()} {x.Name.LowerCaseFirstLetter()}")));
+                writer.WriteSafeString(string.Join(", ", inputParameters.Select(x => $"{x.QueryCSharpFullTypeName()} {x.Name.LowerCaseFirstLetter().EscapeCSharpKeyword()}")));
                 writer.WriteSafeString($") => this.{methodName}(");
-                writer.WriteSafeString(string.Join(", ", inputParameters.Select(x => $"{x.Name.LowerCaseFirstLetter()}")));
+                writer.WriteSafeString(string.Join(", ", inputParameters.Select(x => $"{x.Name.LowerCaseFirstLetter().EscapeCSharpKeyword()}")));
                 writer.WriteSafeString($");{Environment.NewLine}");
             });
         }

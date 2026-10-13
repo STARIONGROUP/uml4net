@@ -726,6 +726,56 @@ namespace uml4net.HandleBars.Tests
         }
 
         [Test]
+        [NonParallelizable]
+        public void Verify_that_WriteForClass_escapes_the_backing_field_of_a_composite_property_that_is_named_as_a_keyword()
+        {
+            var handlebarsTemplate = this.handlebarsContext.Compile("{{ #Property.WriteForClass this.Property this.Class }}");
+
+            var @class = this.QueryClass("StructuredClassifiers", "Class");
+            var ownedComment = @class.QueryAllProperties().Single(x => x.XmiId == "Element-ownedComment");
+
+            ownedComment.Name = "event";
+            var generatedEvent = handlebarsTemplate(new { Property = ownedComment, Class = @class });
+
+            ownedComment.Name = "class";
+            var generatedClass = handlebarsTemplate(new { Property = ownedComment, Class = @class });
+
+            ownedComment.Name = "type";
+            var generatedType = handlebarsTemplate(new { Property = ownedComment, Class = @class });
+
+            ownedComment.Name = "value";
+            var generatedValue = handlebarsTemplate(new { Property = ownedComment, Class = @class });
+
+            string generatedRegisteredValue;
+
+            try
+            {
+                StringExtensions.RegisterAdditionalCSharpKeywords("value");
+                generatedRegisteredValue = handlebarsTemplate(new { Property = ownedComment, Class = @class });
+            }
+            finally
+            {
+                StringExtensions.ClearAdditionalCSharpKeywords();
+            }
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(generatedEvent, Does.Contain("get => this.@event ??= new ContainerList<IComment>(this);"), "a keyword that was not escaped before");
+                Assert.That(generatedEvent, Does.Contain("set => this.@event = value;"));
+                Assert.That(generatedEvent, Does.Contain("private IContainerList<IComment> @event;"));
+                Assert.That(generatedEvent, Does.Contain("<see cref=\"Event\"/>"), "the name of the property itself is not a keyword");
+
+                Assert.That(generatedClass, Does.Contain("private IContainerList<IComment> @class;"));
+
+                Assert.That(generatedType, Does.Contain("get => this.type ??= new ContainerList<IComment>(this);"));
+                Assert.That(generatedType, Does.Not.Contain("@type"), "type is not a keyword of C#");
+
+                Assert.That(generatedValue, Does.Not.Contain("@value"), "a contextual keyword is not escaped");
+                Assert.That(generatedRegisteredValue, Does.Contain("private IContainerList<IComment> @value;"), "unless it has been registered");
+            }
+        }
+
+        [Test]
         public void Verify_that_WithClassContext_renders_the_block_with_the_property_and_the_class()
         {
             var template = this.handlebarsContext.Compile("{{#Property.WithClassContext this.Property this.Class}}{{ property.Name }} in {{ classContext.Name }}{{/Property.WithClassContext}}");

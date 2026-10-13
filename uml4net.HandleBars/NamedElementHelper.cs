@@ -61,6 +61,38 @@ namespace uml4net.HandleBars
 
                 writer.WriteSafeString(nameSpace);
             });
+
+            // Writes the C# identifier for a NamedElement: its name, escaped when it is a reserved keyword of C#. The
+            // optional second argument is the casing of the first letter: AsModelled (the default),
+            // UpperCaseFirstLetter or LowerCaseFirstLetter
+            handlebars.RegisterHelper("NamedElement.WriteCSharpIdentifier", (writer, _, arguments) =>
+            {
+                if (arguments.Length != 1 && arguments.Length != 2)
+                {
+                    throw new HandlebarsException("{{#NamedElement.WriteCSharpIdentifier}} helper must have one or two arguments");
+                }
+
+                if (!(arguments[0] is INamedElement namedElement))
+                {
+                    throw new ArgumentException("{{#NamedElement.WriteCSharpIdentifier}} - the first argument is supposed to be an INamedElement");
+                }
+
+                var casing = CSharpIdentifierCasing.AsModelled;
+
+                if (arguments.Length == 2)
+                {
+                    var casingName = arguments[1] as string;
+
+                    // Enum.TryParse also accepts a number and a comma separated list, only the names are accepted here
+                    if (!Enum.GetNames(typeof(CSharpIdentifierCasing)).Contains(casingName, StringComparer.OrdinalIgnoreCase)
+                        || !Enum.TryParse(casingName, true, out casing))
+                    {
+                        throw new ArgumentException("{{#NamedElement.WriteCSharpIdentifier}} - the second argument is supposed to be AsModelled, UpperCaseFirstLetter or LowerCaseFirstLetter");
+                    }
+                }
+
+                writer.WriteSafeString(namedElement.QueryCSharpIdentifier(casing));
+            });
         }
     }
 }

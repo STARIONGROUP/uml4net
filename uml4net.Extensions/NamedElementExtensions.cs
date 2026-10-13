@@ -62,5 +62,64 @@ namespace uml4net.Extensions
 
             return sb.ToString();
         }
+
+        /// <summary>
+        /// Queries the C# identifier for the <see cref="INamedElement"/>: its name, with the requested casing of the
+        /// first letter, escaped when the result is a reserved keyword of C# or a word that has been registered with
+        /// <see cref="StringExtensions.RegisterAdditionalCSharpKeywords"/>
+        /// </summary>
+        /// <param name="namedElement">
+        /// The subject <see cref="INamedElement"/>
+        /// </param>
+        /// <param name="casing">
+        /// The <see cref="CSharpIdentifierCasing"/> of the first letter of the identifier
+        /// </param>
+        /// <returns>
+        /// The name of the <paramref name="namedElement"/> with the requested <paramref name="casing"/>, prefixed
+        /// with <c>@</c> when that is a reserved keyword of C# (see <see cref="StringExtensions.EscapeCSharpKeyword"/>)
+        /// </returns>
+        /// <exception cref="InvalidOperationException">
+        /// Thrown when the <paramref name="namedElement"/> has no name. <c>NamedElement::name</c> is optional in UML,
+        /// but an identifier cannot be derived from an element without a name.
+        /// </exception>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// Thrown when the <paramref name="casing"/> is not a value of the <see cref="CSharpIdentifierCasing"/>
+        /// enumeration
+        /// </exception>
+        /// <remarks>
+        /// Only the first letter is changed and only keywords are escaped. A name that holds characters that are not
+        /// allowed in a C# identifier, such as a space or an operator symbol, is returned with those characters.
+        /// </remarks>
+        public static string QueryCSharpIdentifier(this INamedElement namedElement, CSharpIdentifierCasing casing = CSharpIdentifierCasing.AsModelled)
+        {
+            if (namedElement == null)
+            {
+                throw new ArgumentNullException(nameof(namedElement));
+            }
+
+            if (string.IsNullOrWhiteSpace(namedElement.Name))
+            {
+                throw new InvalidOperationException($"The {namedElement.GetType().Name} with xmi:id '{namedElement.XmiId}' has no name, a C# identifier cannot be derived from it");
+            }
+
+            string identifier;
+
+            switch (casing)
+            {
+                case CSharpIdentifierCasing.UpperCaseFirstLetter:
+                    identifier = namedElement.Name.CapitalizeFirstLetter();
+                    break;
+                case CSharpIdentifierCasing.LowerCaseFirstLetter:
+                    identifier = namedElement.Name.LowerCaseFirstLetter();
+                    break;
+                case CSharpIdentifierCasing.AsModelled:
+                    identifier = namedElement.Name;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(casing), casing, "The casing is not a value of the CSharpIdentifierCasing enumeration");
+            }
+
+            return identifier.EscapeCSharpKeyword();
+        }
     }
 }

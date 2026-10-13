@@ -20,6 +20,7 @@
 
 namespace uml4net.Extensions.Tests
 {
+    using System;
     using System.IO;
     using System.Linq;
     using Classification;
@@ -84,6 +85,67 @@ namespace uml4net.Extensions.Tests
                 Assert.That(structuredClassifiersPackage.QueryNamespace(), Is.EqualTo("UML.StructuredClassifiers"));
                 Assert.That(connector.QueryNamespace(), Is.EqualTo("UML.StructuredClassifiers.Connector"));
             }
+        }
+
+        [Test]
+        public void Verify_that_QueryCSharpIdentifier_applies_the_casing_and_escapes_a_keyword()
+        {
+            var @class = new Property { Name = "class" };
+            var ownedComment = new Property { Name = "ownedComment" };
+            var upperCase = new Class { Name = "Event" };
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(@class.QueryCSharpIdentifier(), Is.EqualTo("@class"), "as modelled, a keyword");
+                Assert.That(@class.QueryCSharpIdentifier(CSharpIdentifierCasing.LowerCaseFirstLetter), Is.EqualTo("@class"));
+                Assert.That(@class.QueryCSharpIdentifier(CSharpIdentifierCasing.UpperCaseFirstLetter), Is.EqualTo("Class"), "not a keyword after the casing is applied");
+
+                Assert.That(ownedComment.QueryCSharpIdentifier(), Is.EqualTo("ownedComment"));
+                Assert.That(ownedComment.QueryCSharpIdentifier(CSharpIdentifierCasing.UpperCaseFirstLetter), Is.EqualTo("OwnedComment"));
+
+                Assert.That(upperCase.QueryCSharpIdentifier(), Is.EqualTo("Event"));
+                Assert.That(upperCase.QueryCSharpIdentifier(CSharpIdentifierCasing.LowerCaseFirstLetter), Is.EqualTo("@event"), "a keyword after the casing is applied");
+            }
+        }
+
+        [Test]
+        public void Verify_that_QueryCSharpIdentifier_throws_for_an_element_without_a_name()
+        {
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(() => new Property { XmiId = "id-1" }.QueryCSharpIdentifier(),
+                    Throws.InvalidOperationException.With.Message.Contains("id-1").And.Message.Contains("Property"));
+                Assert.That(() => new Property { Name = " " }.QueryCSharpIdentifier(), Throws.InvalidOperationException);
+                Assert.That(() => NamedElementExtensions.QueryCSharpIdentifier(null), Throws.ArgumentNullException);
+                Assert.That(() => new Property().QueryCSharpIdentifier(), Throws.InvalidOperationException.With.Message.Contains("xmi:id ''"), "an element without a name and without an xmi:id");
+                Assert.That(() => new Property { Name = "class" }.QueryCSharpIdentifier((CSharpIdentifierCasing)99), Throws.TypeOf<ArgumentOutOfRangeException>());
+            }
+        }
+
+        [Test]
+        [NonParallelizable]
+        public void Verify_that_QueryCSharpIdentifier_escapes_a_registered_keyword()
+        {
+            var value = new Property { Name = "value" };
+            var upperCase = new Property { Name = "Var" };
+
+            try
+            {
+                StringExtensions.RegisterAdditionalCSharpKeywords("var", "value");
+
+                using (Assert.EnterMultipleScope())
+                {
+                    Assert.That(value.QueryCSharpIdentifier(), Is.EqualTo("@value"));
+                    Assert.That(value.QueryCSharpIdentifier(CSharpIdentifierCasing.UpperCaseFirstLetter), Is.EqualTo("Value"));
+                    Assert.That(upperCase.QueryCSharpIdentifier(CSharpIdentifierCasing.LowerCaseFirstLetter), Is.EqualTo("@var"));
+                }
+            }
+            finally
+            {
+                StringExtensions.ClearAdditionalCSharpKeywords();
+            }
+
+            Assert.That(value.QueryCSharpIdentifier(), Is.EqualTo("value"));
         }
     }
 }

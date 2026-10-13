@@ -730,22 +730,7 @@ namespace uml4net.HandleBars
                         }
                         else if (property.QueryIsContainment())
                         {
-                            propertyName = property.Name;
-
-                            switch (propertyName)
-                            {
-                                case "class":
-                                case "interface":
-                                case "namespace":
-                                case "object":
-                                case "type":
-                                case "using":
-                                    propertyName = $"@{propertyName}";
-                                    break;
-                                default:
-                                    // nothing to do here
-                                    break;
-                            }
+                            propertyName = property.Name.EscapeCSharpKeyword();
 
                             sb.AppendLine("{");
 

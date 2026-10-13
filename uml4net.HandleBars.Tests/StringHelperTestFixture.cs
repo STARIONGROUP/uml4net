@@ -26,6 +26,8 @@ namespace uml4net.HandleBars.Tests
 
     using NUnit.Framework;
 
+    using uml4net.Extensions;
+
     [TestFixture]
     public class StringHelperTestFixture
     {
@@ -74,6 +76,41 @@ namespace uml4net.HandleBars.Tests
             var length = action("Starion");
 
             Assert.That(length, Is.EqualTo("7"));
+        }
+
+        [Test]
+        public void Verify_that_EscapeCSharpKeyword_returns_Expected_result()
+        {
+            var action = this.handlebarsContext.Compile("{{ #String.EscapeCSharpKeyword this }}");
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(action("class"), Is.EqualTo("@class"));
+                Assert.That(action("ownedComment"), Is.EqualTo("ownedComment"));
+                Assert.That(() => action(5), Throws.TypeOf<HandlebarsException>());
+                Assert.That(() => this.handlebarsContext.Compile("{{ #String.EscapeCSharpKeyword this this }}")("class"), Throws.TypeOf<HandlebarsException>());
+                Assert.That(() => this.handlebarsContext.Compile("{{ #String.EscapeCSharpKeyword }}")("class"), Throws.TypeOf<HandlebarsException>());
+            }
+        }
+
+        [Test]
+        [NonParallelizable]
+        public void Verify_that_EscapeCSharpKeyword_escapes_a_registered_keyword()
+        {
+            var action = this.handlebarsContext.Compile("{{ #String.EscapeCSharpKeyword this }}");
+
+            try
+            {
+                StringExtensions.RegisterAdditionalCSharpKeywords("var");
+
+                Assert.That(action("var"), Is.EqualTo("@var"));
+            }
+            finally
+            {
+                StringExtensions.ClearAdditionalCSharpKeywords();
+            }
+
+            Assert.That(action("var"), Is.EqualTo("var"));
         }
     }
 }
