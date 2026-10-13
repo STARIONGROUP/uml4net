@@ -188,8 +188,8 @@ namespace uml4net.Extensions
         /// Thrown when <paramref name="keywords"/> is null
         /// </exception>
         /// <exception cref="ArgumentException">
-        /// Thrown when one of the <paramref name="keywords"/> is null, empty or white space. Nothing is registered
-        /// in that case.
+        /// Thrown when one of the <paramref name="keywords"/> is null, empty or white space, starts or ends with
+        /// white space, or starts with <c>@</c>. Nothing is registered in that case.
         /// </exception>
         public static void RegisterAdditionalCSharpKeywords(params string[] keywords)
         {
@@ -201,6 +201,11 @@ namespace uml4net.Extensions
             if (keywords.Any(string.IsNullOrWhiteSpace))
             {
                 throw new ArgumentException("a keyword can't be null, empty or white space", nameof(keywords));
+            }
+
+            if (keywords.Any(x => char.IsWhiteSpace(x[0]) || char.IsWhiteSpace(x[x.Length - 1]) || x[0] == '@'))
+            {
+                throw new ArgumentException("a keyword can't start or end with white space and can't start with @, such a word never equals a name", nameof(keywords));
             }
 
             lock (AdditionalCSharpKeywordsLock)

@@ -29,6 +29,7 @@ namespace uml4net.HandleBars.Tests
     using NUnit.Framework;
 
     using uml4net.Classification;
+    using uml4net.Extensions;
     using uml4net.SimpleClassifiers;
     using uml4net.StructuredClassifiers;
 
@@ -226,6 +227,46 @@ namespace uml4net.HandleBars.Tests
                 Assert.That(interfaceAction(operation), Does.Match(@"DoSomething\(int\s+@in\)"));
                 Assert.That(extendAction(operation), Does.Match(@", int\s+@in\)"));
                 Assert.That(classAction(new { Operation = operation, Class = owner }), Does.Match(@"DoSomething\(int\s+@in\) => this\.ComputeDoSomethingOperation\(@in\);"));
+            }
+        }
+
+        [Test]
+        [NonParallelizable]
+        public void Verify_that_only_the_parameters_that_are_named_as_a_keyword_are_escaped()
+        {
+            var owner = new Class { Name = "MyClass" };
+            var operation = CreateOperation(owner, "doSomething");
+
+            operation.OwnedParameter.Add(new Parameter { Name = "Ref", Direction = ParameterDirectionKind.In, Type = new PrimitiveType { Name = "Integer", XmiId = "Integer" } });
+            operation.OwnedParameter.Add(new Parameter { Name = "value", Direction = ParameterDirectionKind.In, Type = new PrimitiveType { Name = "Integer", XmiId = "Integer" } });
+
+            var interfaceAction = this.handlebarsContext.Compile("{{ #Operation.WriteForPOCOInterface this }}");
+            var extendAction = this.handlebarsContext.Compile("{{ #Operation.WriteForPOCOExtend this }}");
+            var classAction = this.handlebarsContext.Compile("{{ #Operation.WriteForPOCOClass this.Operation this.Class }}");
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(interfaceAction(operation), Does.Match(@"DoSomething\(int\s+count, int\s+@ref, int\s+value\)"));
+                Assert.That(extendAction(operation), Does.Match(@", int\s+count, int\s+@ref, int\s+value\)"));
+                Assert.That(classAction(new { Operation = operation, Class = owner }),
+                    Does.Match(@"DoSomething\(int\s+count, int\s+@ref, int\s+value\) => this\.ComputeDoSomethingOperation\(count, @ref, value\);"));
+            }
+
+            try
+            {
+                StringExtensions.RegisterAdditionalCSharpKeywords("value");
+
+                using (Assert.EnterMultipleScope())
+                {
+                    Assert.That(interfaceAction(operation), Does.Match(@"DoSomething\(int\s+count, int\s+@ref, int\s+@value\)"));
+                    Assert.That(extendAction(operation), Does.Match(@", int\s+count, int\s+@ref, int\s+@value\)"));
+                    Assert.That(classAction(new { Operation = operation, Class = owner }),
+                        Does.Match(@"DoSomething\(int\s+count, int\s+@ref, int\s+@value\) => this\.ComputeDoSomethingOperation\(count, @ref, @value\);"));
+                }
+            }
+            finally
+            {
+                StringExtensions.ClearAdditionalCSharpKeywords();
             }
         }
     }

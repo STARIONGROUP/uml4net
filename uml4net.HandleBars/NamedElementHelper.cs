@@ -79,9 +79,16 @@ namespace uml4net.HandleBars
 
                 var casing = CSharpIdentifierCasing.AsModelled;
 
-                if (arguments.Length == 2 && !Enum.TryParse(arguments[1] as string, true, out casing))
+                if (arguments.Length == 2)
                 {
-                    throw new ArgumentException("{{#NamedElement.WriteCSharpIdentifier}} - the second argument is supposed to be AsModelled, UpperCaseFirstLetter or LowerCaseFirstLetter");
+                    var casingName = arguments[1] as string;
+
+                    // Enum.TryParse also accepts a number and a comma separated list, only the names are accepted here
+                    if (!Enum.GetNames(typeof(CSharpIdentifierCasing)).Contains(casingName, StringComparer.OrdinalIgnoreCase)
+                        || !Enum.TryParse(casingName, true, out casing))
+                    {
+                        throw new ArgumentException("{{#NamedElement.WriteCSharpIdentifier}} - the second argument is supposed to be AsModelled, UpperCaseFirstLetter or LowerCaseFirstLetter");
+                    }
                 }
 
                 writer.WriteSafeString(namedElement.QueryCSharpIdentifier(casing));

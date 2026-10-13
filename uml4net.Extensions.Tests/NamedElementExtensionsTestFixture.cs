@@ -20,6 +20,7 @@
 
 namespace uml4net.Extensions.Tests
 {
+    using System;
     using System.IO;
     using System.Linq;
     using Classification;
@@ -116,10 +117,13 @@ namespace uml4net.Extensions.Tests
                     Throws.InvalidOperationException.With.Message.Contains("id-1").And.Message.Contains("Property"));
                 Assert.That(() => new Property { Name = " " }.QueryCSharpIdentifier(), Throws.InvalidOperationException);
                 Assert.That(() => NamedElementExtensions.QueryCSharpIdentifier(null), Throws.ArgumentNullException);
+                Assert.That(() => new Property().QueryCSharpIdentifier(), Throws.InvalidOperationException.With.Message.Contains("xmi:id ''"), "an element without a name and without an xmi:id");
+                Assert.That(() => new Property { Name = "class" }.QueryCSharpIdentifier((CSharpIdentifierCasing)99), Throws.TypeOf<ArgumentOutOfRangeException>());
             }
         }
 
         [Test]
+        [NonParallelizable]
         public void Verify_that_QueryCSharpIdentifier_escapes_a_registered_keyword()
         {
             var value = new Property { Name = "value" };

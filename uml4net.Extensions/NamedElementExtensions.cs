@@ -82,6 +82,10 @@ namespace uml4net.Extensions
         /// Thrown when the <paramref name="namedElement"/> has no name. <c>NamedElement::name</c> is optional in UML,
         /// but an identifier cannot be derived from an element without a name.
         /// </exception>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// Thrown when the <paramref name="casing"/> is not a value of the <see cref="CSharpIdentifierCasing"/>
+        /// enumeration
+        /// </exception>
         /// <remarks>
         /// Only the first letter is changed and only keywords are escaped. A name that holds characters that are not
         /// allowed in a C# identifier, such as a space or an operator symbol, is returned with those characters.
@@ -108,9 +112,11 @@ namespace uml4net.Extensions
                 case CSharpIdentifierCasing.LowerCaseFirstLetter:
                     identifier = namedElement.Name.LowerCaseFirstLetter();
                     break;
-                default:
+                case CSharpIdentifierCasing.AsModelled:
                     identifier = namedElement.Name;
                     break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(casing), casing, "The casing is not a value of the CSharpIdentifierCasing enumeration");
             }
 
             return identifier.EscapeCSharpKeyword();
