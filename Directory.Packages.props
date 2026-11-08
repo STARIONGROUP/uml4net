@@ -24,6 +24,10 @@
     <PackageVersion Include="Autofac.Extensions.DependencyInjection" Version="11.0.2" />
     <PackageVersion Include="HtmlAgilityPack" Version="1.13.1" />
     <PackageVersion Include="Handlebars.Net.Helpers" Version="2.5.5" />
+    <!-- Transitive dependencies of Handlebars.Net.Helpers, referenced directly in uml4net.HandleBars.csproj
+         only to lift them above the versions Handlebars.Net.Helpers was built against. -->
+    <PackageVersion Include="Handlebars.Net" Version="2.4.3" />
+    <PackageVersion Include="Stef.Validation" Version="0.3.0" />
     <PackageVersion Include="ClosedXML" Version="0.105.1" />
     <PackageVersion Include="Microsoft.Msagl" Version="1.1.6" />
     <PackageVersion Include="Svg" Version="3.4.8" />
