@@ -16,6 +16,7 @@
             [Add] Element Handlebars helpers for annotating comments and a documentation summary; fixes #511
             [Add] Handlebars helpers that SysML2.NET, EORSADB and mycelium share; fixes #512
             [Add] C# identifier naming with escaping of reserved keywords; fixes #513
+            [Update] Handlebars.Net to 2.4.3 and Stef.Validation to 0.3.0
         </PackageReleaseNotes>
     </PropertyGroup>
 
@@ -25,6 +26,15 @@
 
     <ItemGroup>
         <PackageReference Include="Handlebars.Net.Helpers" />
+    </ItemGroup>
+
+    <!-- Lifts transitive dependencies of Handlebars.Net.Helpers above the versions it was built against
+         (Handlebars.Net 2.1.6, Stef.Validation 0.1.1). Transitive pinning is disabled solution-wide, so a
+         direct reference is the only way to raise them. Remove once Handlebars.Net.Helpers ships against
+         these versions or newer. -->
+    <ItemGroup Label="lift transitive Handlebars dependencies">
+        <PackageReference Include="Handlebars.Net" />
+        <PackageReference Include="Stef.Validation" />
     </ItemGroup>
 
     <!-- Deliberate security override, NOT a normal dependency: forces the transitively-referenced
