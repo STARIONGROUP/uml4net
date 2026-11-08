@@ -2,6 +2,7 @@ name: Build & Test & SonarQube
 
 on:
   push:
+    branches: [development, master]
   pull_request:
     types: [opened, synchronize, reopened]
     
