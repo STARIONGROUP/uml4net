@@ -27,7 +27,7 @@ dotnet build --no-restore /p:ContinuousIntegrationBuild=true
 dotnet test uml4net.sln --no-restore --no-build --verbosity normal /p:CollectCoverage=true /p:CoverletOutput="../CoverageResults/" /p:MergeWith="../CoverageResults/coverage.json" /p:CoverletOutputFormat=\"opencover,json\"
 ```
 
-**Test framework**: NUnit 4.x. Target: .NET 9.0. Libraries target .NET Standard 2.0.
+**Test framework**: NUnit 5.x (central package management in `Directory.Packages.props`). Target: .NET 10.0 for test and tool projects; libraries target .NET Standard 2.0. CI uses the .NET 10 SDK.
 
 ## Architecture
 
