@@ -37,6 +37,8 @@ The **uml4net.Reporting** library contains reporting generators. This library is
 
 The **uml4net.Tools** commandline application is used to generate reports on the content of the UML model. Find the documentation [here](https://github.com/STARIONGROUP/uml4net/wiki/uml4net.Tools).
 
+It is available as a dotnet tool on NuGet and as a self-contained Windows executable (`uml4net.Tools.exe`) attached to each [GitHub release](https://github.com/STARIONGROUP/uml4net/releases). The executable comes with a signed build provenance attestation, see [Build Provenance](#build-provenance-artifact-attestation).
+
 # Code Quality
 
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=STARIONGROUP_uml4net&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=STARIONGROUP_uml4net)
@@ -121,6 +123,20 @@ As part of our commitment to security and transparency, this project includes a 
 - **Compliance**: SBOMs help ensure compliance with licensing requirements and make it easier to audit the project's dependencies.
 
 You can find the SBOM in the NuGet package itself, which is automatically generated and embedded during the build process.
+
+# Build Provenance (Artifact Attestation)
+
+Starting with release 9.3.0, the self-contained `uml4net.Tools.exe` attached to each [GitHub release](https://github.com/STARIONGROUP/uml4net/releases) comes with a signed [SLSA build provenance](https://slsa.dev/spec/v1.0/provenance) attestation. The attestation proves that the executable you downloaded was built by the [release workflow](https://github.com/STARIONGROUP/uml4net/actions/workflows/nuget-release.yml) of this repository from the tagged commit, and that it hasn't been modified since. It is signed through [Sigstore](https://www.sigstore.dev/) and stored with this repository's [attestations](https://github.com/STARIONGROUP/uml4net/attestations).
+
+Verify a downloaded executable with the [GitHub CLI](https://cli.github.com/):
+
+```
+gh attestation verify uml4net.Tools.exe --repo STARIONGROUP/uml4net
+```
+
+The command fails if the file doesn't match an attestation created by this repository. The SHA256 of the executable is also listed in the release notes.
+
+The NuGet packages are not attested: nuget.org adds its own repository signature to every package it receives, which changes the file. Their integrity is covered by that NuGet signature, and they are built deterministically with [Source Link](https://github.com/dotnet/sourcelink), so the sources in the debug symbols map to the exact commit on GitHub.
 
 # License
 
