@@ -10,7 +10,8 @@ on:
 
 permissions:
   contents: write
-  id-token: write # GitHub OIDC token for NuGet trusted publishing (NuGet/login)
+  id-token: write # GitHub OIDC token for NuGet trusted publishing (NuGet/login) and Sigstore signing (actions/attest)
+  attestations: write # persist the build provenance attestation of uml4net.Tools.exe
 
 jobs:
   release:
@@ -143,6 +144,13 @@ jobs:
             -r win-x64 --self-contained true -p:PublishSingleFile=true \
             -o ReleaseBuilds
 
+      # Signed SLSA build provenance for the exe attached to the GitHub release. Verify with:
+      #   gh attestation verify uml4net.Tools.exe --repo STARIONGROUP/uml4net
+      - name: Attest build provenance of uml4net.Tools.exe
+        uses: actions/attest@1e69f48acb82d1966a394da916b4c1698aa569d6 # v4.2.2
+        with:
+          subject-path: ReleaseBuilds/uml4net.Tools.exe
+
       - name: Generate THIRD-PARTY-NOTICES.txt for the bundled exe
         run: |
           set -euo pipefail
@@ -188,6 +196,8 @@ jobs:
             HASH=$(sha256sum "$BIN" | awk '{print $1}')
             echo "" >> RELEASE_NOTES.md
             echo "\`uml4net.Tools.exe\` - SHA256: $HASH" >> RELEASE_NOTES.md
+            echo "" >> RELEASE_NOTES.md
+            echo "Verify the build provenance of \`uml4net.Tools.exe\` with the GitHub CLI: \`gh attestation verify uml4net.Tools.exe --repo STARIONGROUP/uml4net\`" >> RELEASE_NOTES.md
             echo "Computed SHA256: $HASH"
           else
             echo "Binary $BIN not found." >&2
