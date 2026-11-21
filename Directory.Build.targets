@@ -31,11 +31,6 @@
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
 
-  <ItemGroup Label="SourceLink (packable libraries, excludes the packed tool)"
-             Condition="'$(IsPackable)' != 'false' and '$(PackAsTool)' != 'true' and !$(MSBuildProjectName.EndsWith('.Tests'))">
-    <PackageReference Include="Microsoft.SourceLink.GitHub" PrivateAssets="all" />
-  </ItemGroup>
-
   <ItemGroup Label="InternalsVisibleTo the matching test project (non-test projects)"
              Condition="!$(MSBuildProjectName.EndsWith('.Tests'))">
     <InternalsVisibleTo Include="$(MSBuildProjectName).Tests" />

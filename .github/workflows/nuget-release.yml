@@ -121,7 +121,7 @@ jobs:
           cat RELEASE_NOTES.md
 
       - name: Pack
-        run: dotnet pack -c Release -o ReleaseBuilds uml4net.sln
+        run: dotnet pack -c Release -o ReleaseBuilds uml4net.sln /p:ContinuousIntegrationBuild=true
 
       # Trusted publishing: exchange the GitHub OIDC token for a short-lived (1 hour) nuget.org API key.
       # Requires a Trusted Publishing policy on nuget.org for STARIONGROUP/uml4net, workflow file
