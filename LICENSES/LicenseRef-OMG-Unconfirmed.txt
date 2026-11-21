@@ -1,0 +1,12 @@
+Copyright (c) Object Management Group, Inc. (OMG)
+
+The files labelled with this license reference are machine-readable files (metamodels,
+profiles and schemas) published by the Object Management Group with its specifications.
+
+They are NOT licensed under the Apache License 2.0 that covers uml4net, and they are not
+the work of Starion Group S.A.
+
+The files carry no license notice of their own, and the terms under which they may be
+redistributed have not yet been confirmed. All rights remain with their copyright holder.
+
+See https://github.com/STARIONGROUP/uml4net/issues/530 and https://www.omg.org/legal/
