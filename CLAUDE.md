@@ -87,18 +87,21 @@ Generated files contain the marker: `THIS IS AN AUTOMATICALLY GENERATED FILE. AN
 
 ### File Header
 
-Every `.cs` file must have the Apache 2.0 copyright header:
+Every `.cs` file must have the SPDX copyright header (the repository is [REUSE](https://reuse.software) compliant; `LICENSES/Apache-2.0.txt` holds the license text):
+<!-- REUSE-IgnoreStart -->
 ```csharp
 // -------------------------------------------------------------------------------------------------
 // <copyright file="FileName.cs" company="Starion Group S.A.">
 //
-//   Copyright (C) 2019-2026 Starion Group S.A.
+//   SPDX-FileCopyrightText: 2019-2026 Starion Group S.A.
+//   SPDX-License-Identifier: Apache-2.0
 //
-//   Licensed under the Apache License, Version 2.0 (the "License");
-//   ...
 // </copyright>
 // ------------------------------------------------------------------------------------------------
 ```
+<!-- REUSE-IgnoreEnd -->
+
+Files that can't carry a header (test data, images, project and solution files) are covered by `REUSE.toml`. Third-party files (OMG metamodels in `resources/` and `uml4net.xmi/Resources/UML.xmi`, MagicDraw and Enterprise Architect files) must be listed there with their own copyright holder, never as Starion/Apache-2.0. Check with `reuse lint`.
 
 ## Git Workflow
 

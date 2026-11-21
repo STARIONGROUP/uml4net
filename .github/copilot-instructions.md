@@ -61,19 +61,21 @@ Rules from `CLAUDE.md` and `.github/CONTRIBUTING.md`:
 - `using` directives go inside the namespace, `System.*` first, then alphabetical.
 - No `#region` directives.
 - All public members need `///` XML documentation.
-- Every `.cs` file starts with this Apache 2.0 header:
+- Every `.cs` file starts with this SPDX header (the repository is REUSE compliant; see `REUSE.toml` for files that can't carry one):
 
+<!-- REUSE-IgnoreStart -->
 ```csharp
 // -------------------------------------------------------------------------------------------------
 // <copyright file="FileName.cs" company="Starion Group S.A.">
 //
-//   Copyright (C) 2019-2026 Starion Group S.A.
+//   SPDX-FileCopyrightText: 2019-2026 Starion Group S.A.
+//   SPDX-License-Identifier: Apache-2.0
 //
-//   Licensed under the Apache License, Version 2.0 (the "License");
-//   ...
 // </copyright>
 // ------------------------------------------------------------------------------------------------
 ```
+<!-- REUSE-IgnoreEnd -->
+- Third-party files (OMG metamodels, MagicDraw and Enterprise Architect files) must be listed in `REUSE.toml` with their own copyright holder, never as Starion/Apache-2.0.
 - Add or update NUnit tests for new code.
 
 Git: the default branch is `development`. Never commit to `master` or `development` directly. Branch from `development`, rebase before opening a PR, and use `.github/PULL_REQUEST_TEMPLATE.md`.
