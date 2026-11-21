@@ -10,6 +10,7 @@ on:
 
 permissions:
   contents: write
+  id-token: write # GitHub OIDC token for NuGet trusted publishing (NuGet/login)
 
 jobs:
   release:
@@ -122,9 +123,18 @@ jobs:
       - name: Pack
         run: dotnet pack -c Release -o ReleaseBuilds uml4net.sln
 
+      # Trusted publishing: exchange the GitHub OIDC token for a short-lived (1 hour) nuget.org API key.
+      # Requires a Trusted Publishing policy on nuget.org for STARIONGROUP/uml4net, workflow file
+      # nuget-release.yml, and the NUGET_USER secret holding the nuget.org profile name (not the email).
+      - name: NuGet login (OIDC -> temporary API key)
+        id: nuget-login
+        uses: NuGet/login@8d196754b4036150537f80ac539e15c2f1028841 # v1.2.0
+        with:
+          user: ${{ secrets.NUGET_USER }}
+
       - name: Push to NuGet
         env:
-          NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
+          NUGET_API_KEY: ${{ steps.nuget-login.outputs.NUGET_API_KEY }}
         run: dotnet nuget push ReleaseBuilds/*.nupkg -k "$NUGET_API_KEY" -s https://api.nuget.org/v3/index.json --skip-duplicate
 
       - name: Publish uml4net.Tools (win-x64 single-file, self-contained)
