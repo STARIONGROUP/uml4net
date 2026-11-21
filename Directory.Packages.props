@@ -47,7 +47,6 @@
   </ItemGroup>
   <ItemGroup Label="Build / packaging (PrivateAssets set on the reference in Directory.Build.targets)">
     <PackageVersion Include="Microsoft.Sbom.Targets" Version="4.1.13" />
-    <PackageVersion Include="Microsoft.SourceLink.GitHub" Version="10.0.403" />
   </ItemGroup>
   <ItemGroup Label="Test">
     <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="18.11.0" />

@@ -120,7 +120,7 @@ jobs:
           cat RELEASE_NOTES.md
 
       - name: Pack
-        run: dotnet pack -c Release -o ReleaseBuilds uml4net.sln
+        run: dotnet pack -c Release -o ReleaseBuilds uml4net.sln /p:ContinuousIntegrationBuild=true
 
       - name: Push to NuGet
         env:
