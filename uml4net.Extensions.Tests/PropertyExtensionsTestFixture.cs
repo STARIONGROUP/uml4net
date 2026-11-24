@@ -620,6 +620,73 @@ namespace uml4net.Extensions.Tests
         }
 
         [Test]
+        public void Verify_that_QueryRedefinitionChainEnd_follows_the_redefinitions_in_the_context()
+        {
+            var constraintClass = this.QueryClass("CommonStructure", "Constraint");
+            var intervalConstraintClass = this.QueryClass("Values", "IntervalConstraint");
+            var durationConstraintClass = this.QueryClass("Values", "DurationConstraint");
+
+            var constraintSpecification = constraintClass.OwnedAttribute.Single(x => x.Name == "specification");
+            var intervalConstraintSpecification = intervalConstraintClass.OwnedAttribute.Single(x => x.Name == "specification");
+            var durationConstraintSpecification = durationConstraintClass.OwnedAttribute.Single(x => x.Name == "specification");
+
+            var selfRedefining = new Property { XmiId = "selfRedefining", Name = "selfRedefining" };
+            selfRedefining.RedefinedProperty.Add(selfRedefining);
+            var cyclicClass = new Class();
+            cyclicClass.OwnedAttribute.Add(selfRedefining);
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(constraintSpecification.QueryRedefinitionChainEnd(durationConstraintClass), Is.SameAs(durationConstraintSpecification));
+                Assert.That(constraintSpecification.QueryRedefinitionChainEnd(intervalConstraintClass), Is.SameAs(intervalConstraintSpecification));
+                Assert.That(constraintSpecification.QueryRedefinitionChainEnd(constraintClass), Is.SameAs(constraintSpecification));
+                Assert.That(selfRedefining.QueryRedefinitionChainEnd(cyclicClass), Is.SameAs(selfRedefining));
+                Assert.That(() => PropertyExtensions.QueryRedefinitionChainEnd(null, constraintClass), Throws.ArgumentNullException);
+                Assert.That(() => constraintSpecification.QueryRedefinitionChainEnd(null), Throws.ArgumentNullException);
+            }
+        }
+
+        [Test]
+        public void Verify_that_QueryIsDerivedByRedefinition_returns_expected_result()
+        {
+            var instanceSpecificationClass = this.QueryClass("Classification", "InstanceSpecification");
+            var enumerationLiteralClass = this.QueryClass("SimpleClassifiers", "EnumerationLiteral");
+            var constraintClass = this.QueryClass("CommonStructure", "Constraint");
+            var durationConstraintClass = this.QueryClass("Values", "DurationConstraint");
+            var classClass = this.QueryClass("StructuredClassifiers", "Class");
+
+            var classifier = instanceSpecificationClass.OwnedAttribute.Single(x => x.Name == "classifier");
+            var specification = constraintClass.OwnedAttribute.Single(x => x.Name == "specification");
+            var superClass = classClass.OwnedAttribute.Single(x => x.Name == "superClass");
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(classifier.QueryIsDerivedByRedefinition(enumerationLiteralClass), Is.True, "redefined by the derived EnumerationLiteral::classifier");
+                Assert.That(classifier.QueryIsDerivedByRedefinition(instanceSpecificationClass), Is.False, "not redefined");
+                Assert.That(specification.QueryIsDerivedByRedefinition(durationConstraintClass), Is.False, "redefined by non-derived properties only");
+                Assert.That(superClass.QueryIsDerivedByRedefinition(classClass), Is.False, "derived, but not redefined");
+                Assert.That(() => PropertyExtensions.QueryIsDerivedByRedefinition(null, classClass), Throws.ArgumentNullException);
+                Assert.That(() => classifier.QueryIsDerivedByRedefinition(null), Throws.ArgumentNullException);
+            }
+        }
+
+        [Test]
+        public void Verify_that_QueryIsSameNameRedefinition_returns_expected_result()
+        {
+            var namedElementVisibility = this.QueryClass("CommonStructure", "NamedElement").OwnedAttribute.Single(x => x.Name == "visibility");
+            var packageableElementVisibility = this.QueryClass("CommonStructure", "PackageableElement").OwnedAttribute.Single(x => x.Name == "visibility");
+            var superClass = this.QueryClass("StructuredClassifiers", "Class").OwnedAttribute.Single(x => x.Name == "superClass");
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(packageableElementVisibility.QueryIsSameNameRedefinition(), Is.True);
+                Assert.That(superClass.QueryIsSameNameRedefinition(), Is.False, "redefines Classifier::general");
+                Assert.That(namedElementVisibility.QueryIsSameNameRedefinition(), Is.False, "redefines nothing");
+                Assert.That(() => PropertyExtensions.QueryIsSameNameRedefinition(null), Throws.ArgumentNullException);
+            }
+        }
+
+        [Test]
         public void Verify_that_QueryTypeName_returns_expected_Result()
         {
             var root = this.xmiReaderResult.QueryRoot(xmiId: "_0", name: "UML");
@@ -893,6 +960,15 @@ namespace uml4net.Extensions.Tests
                 Assert.That(QueryProperty("CommonStructure", "NamedElement", "name").QueryRequiresInitializer(), Is.False, "no default value");
                 Assert.That(() => PropertyExtensions.QueryRequiresInitializer(null), Throws.ArgumentNullException);
             }
+        }
+
+        private IClass QueryClass(string packageName, string className)
+        {
+            var root = this.xmiReaderResult.QueryRoot(xmiId: "_0", name: "UML");
+
+            var package = root.NestedPackage.Single(x => x.Name == packageName);
+
+            return package.PackagedElement.OfType<IClass>().Single(x => x.Name == className);
         }
     }
 }
