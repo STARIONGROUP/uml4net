@@ -2,7 +2,7 @@
 
     <PropertyGroup>
         <TargetFramework>netstandard2.0</TargetFramework>
-        <Version>9.2.1</Version>
+        <Version>9.4.0</Version>
         <LangVersion>12.0</LangVersion>
         <PackageId>uml4net.Reporting</PackageId>
         <AssemblyTitle>uml4net.Reporting</AssemblyTitle>
@@ -10,7 +10,7 @@
         <Description>UML Reporting use in combination with the uml4net library to generate reports</Description>
         <PackageTags>Uml modeltopia</PackageTags>
         <PackageReleaseNotes>
-            [Update] uml4net.HandleBars to 9.3.0
+            [Update] uml4net.Extensions to 9.4.0
         </PackageReleaseNotes>
     </PropertyGroup>
 
