@@ -271,6 +271,99 @@ namespace uml4net.Extensions
         }
 
         /// <summary>
+        /// Queries the property that ends the chain of redefinitions of the <paramref name="property"/> in the context
+        /// of the provided <see cref="IClass"/>
+        /// </summary>
+        /// <param name="property">
+        /// the subject <see cref="IProperty"/>
+        /// </param>
+        /// <param name="context">
+        /// The <see cref="IClass"/> in whose context the redefinitions are followed
+        /// </param>
+        /// <returns>
+        /// the last redefining <see cref="IProperty"/>, or the <paramref name="property"/> itself when it is not
+        /// redefined in the <paramref name="context"/>
+        /// </returns>
+        public static IProperty QueryRedefinitionChainEnd(this IProperty property, IClass context)
+        {
+            if (property == null)
+            {
+                throw new ArgumentNullException(nameof(property));
+            }
+
+            if (context == null)
+            {
+                throw new ArgumentNullException(nameof(context));
+            }
+
+            var chainEnd = property;
+            var visited = new HashSet<IProperty> { property };
+
+            while (chainEnd.TryQueryRedefinedByProperty(context, out var redefinedByProperty) && visited.Add(redefinedByProperty))
+            {
+                chainEnd = redefinedByProperty;
+            }
+
+            return chainEnd;
+        }
+
+        /// <summary>
+        /// Queries whether the <paramref name="property"/> is redefined in the context of the provided
+        /// <see cref="IClass"/> by a chain of redefinitions that ends on a derived property
+        /// </summary>
+        /// <param name="property">
+        /// the subject <see cref="IProperty"/>
+        /// </param>
+        /// <param name="context">
+        /// The <see cref="IClass"/> in whose context the redefinitions are followed
+        /// </param>
+        /// <returns>
+        /// true when <see cref="QueryRedefinitionChainEnd"/> is derived or a derived union, false when it is not or when
+        /// the <paramref name="property"/> is not redefined in the <paramref name="context"/>
+        /// </returns>
+        /// <remarks>
+        /// UML 2.5.1 §9.5.3 allows a derived property to redefine one that is not derived, whose value is then derived
+        /// in that context.
+        /// </remarks>
+        public static bool QueryIsDerivedByRedefinition(this IProperty property, IClass context)
+        {
+            if (property == null)
+            {
+                throw new ArgumentNullException(nameof(property));
+            }
+
+            if (context == null)
+            {
+                throw new ArgumentNullException(nameof(context));
+            }
+
+            var chainEnd = property.QueryRedefinitionChainEnd(context);
+
+            return !ReferenceEquals(chainEnd, property) && (chainEnd.IsDerived || chainEnd.IsDerivedUnion);
+        }
+
+        /// <summary>
+        /// Queries whether the property redefines a property of the same name, which redeclares an inherited property
+        /// without introducing a new one
+        /// </summary>
+        /// <param name="property">
+        /// the subject <see cref="IProperty"/>
+        /// </param>
+        /// <returns>
+        /// true when one of the <see cref="IProperty.RedefinedProperty"/> has the name of the <paramref name="property"/>,
+        /// false if not
+        /// </returns>
+        public static bool QueryIsSameNameRedefinition(this IProperty property)
+        {
+            if (property == null)
+            {
+                throw new ArgumentNullException(nameof(property));
+            }
+
+            return property.RedefinedProperty.Any(x => x.Name == property.Name);
+        }
+
+        /// <summary>
         /// Queries whether the property is a redefined property. A redefined property redefines another property
         /// </summary>
         /// <param name="property">

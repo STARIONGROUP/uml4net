@@ -611,6 +611,21 @@ namespace uml4net.Extensions.Tests
         }
 
         [Test]
+        public void Verify_that_QueryIntroducedNonDerivedProperties_leaves_out_inherited_derived_and_same_name_redefining_properties()
+        {
+            var @class = this.QueryClass("StructuredClassifiers", "Class");
+            var packageableElement = this.QueryClass("CommonStructure", "PackageableElement");
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(@class.QueryIntroducedNonDerivedProperties().Select(x => x.Name), Is.EquivalentTo(new[] { "isActive", "nestedClassifier", "ownedOperation", "ownedReception" }),
+                    "extension and superClass are derived, isAbstract and ownedAttribute redefine a property of the same name");
+                Assert.That(packageableElement.QueryIntroducedNonDerivedProperties(), Is.Empty, "visibility redefines NamedElement::visibility");
+                Assert.That(() => ClassExtensions.QueryIntroducedNonDerivedProperties(null), Throws.ArgumentNullException);
+            }
+        }
+
+        [Test]
         public void Verify_that_QueryIsSubclassOf_returns_expected_result()
         {
             var dependency = this.QueryClass("CommonStructure", "Dependency");

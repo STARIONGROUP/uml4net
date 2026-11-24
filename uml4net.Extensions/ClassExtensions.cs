@@ -405,6 +405,36 @@ namespace uml4net.Extensions
         }
 
         /// <summary>
+        /// Queries the properties that the <see cref="IClass"/> introduces: the properties that it does not inherit,
+        /// that are not derived and that do not redefine a property of the same name
+        /// </summary>
+        /// <param name="class">
+        /// The <see cref="IClass"/> from which to query the properties
+        /// </param>
+        /// <returns>
+        /// The properties of <see cref="QueryAllProperties"/> that no general class has, for which neither
+        /// <c>Property::isDerived</c> nor <c>Property::isDerivedUnion</c> holds and for which
+        /// <see cref="PropertyExtensions.QueryIsSameNameRedefinition"/> is false, in the same order
+        /// </returns>
+        public static ReadOnlyCollection<IProperty> QueryIntroducedNonDerivedProperties(this IClass @class)
+        {
+            if (@class == null)
+            {
+                throw new ArgumentNullException(nameof(@class));
+            }
+
+            var inheritedProperties = new HashSet<IProperty>(@class.Generalization
+                .Select(x => x.General)
+                .OfType<IClass>()
+                .SelectMany(x => x.QueryAllProperties()));
+
+            return @class.QueryAllProperties()
+                .Where(x => !inheritedProperties.Contains(x) && !x.IsDerived && !x.IsDerivedUnion && !x.QueryIsSameNameRedefinition())
+                .ToList()
+                .AsReadOnly();
+        }
+
+        /// <summary>
         /// Queries whether the <see cref="IClass"/> is a direct or indirect subclass of the <paramref name="superClass"/>
         /// </summary>
         /// <param name="class">
