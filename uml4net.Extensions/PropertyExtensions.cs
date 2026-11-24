@@ -337,14 +337,9 @@ namespace uml4net.Extensions
                 throw new ArgumentNullException(nameof(context));
             }
 
-            if (!property.TryQueryRedefinedByProperty(context, out _))
-            {
-                return false;
-            }
-
             var chainEnd = property.QueryRedefinitionChainEnd(context);
 
-            return chainEnd.IsDerived || chainEnd.IsDerivedUnion;
+            return !ReferenceEquals(chainEnd, property) && (chainEnd.IsDerived || chainEnd.IsDerivedUnion);
         }
 
         /// <summary>
